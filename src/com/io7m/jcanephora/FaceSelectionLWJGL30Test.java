@@ -13,4 +13,9 @@ public class FaceSelectionLWJGL30Test
         .faceSelectionFromGL(GLInterfaceLWJGL30.faceSelectionToGL(f)), f);
     }
   }
+
+  @Test(expected = AssertionError.class) public void testNonsense()
+  {
+    GLInterfaceLWJGL30.faceSelectionFromGL(-1);
+  }
 }

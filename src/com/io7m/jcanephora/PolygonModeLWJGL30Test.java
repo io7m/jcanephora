@@ -13,4 +13,9 @@ public class PolygonModeLWJGL30Test
         .polygonModeFromGL(GLInterfaceLWJGL30.polygonModeToGL(p)), p);
     }
   }
+
+  @Test(expected = AssertionError.class) public void testNonsense()
+  {
+    GLInterfaceLWJGL30.polygonModeFromGL(-1);
+  }
 }

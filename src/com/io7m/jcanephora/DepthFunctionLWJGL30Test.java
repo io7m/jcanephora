@@ -12,4 +12,9 @@ public class DepthFunctionLWJGL30Test
         .depthFunctionFromGL(GLInterfaceLWJGL30.depthFunctionToGL(f)), f);
     }
   }
+
+  @Test(expected = AssertionError.class) public void testNonsense()
+  {
+    GLInterfaceLWJGL30.depthFunctionFromGL(-1);
+  }
 }
