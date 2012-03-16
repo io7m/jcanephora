@@ -231,6 +231,90 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throw new AssertionError("unreachable code: report this bug!");
   }
 
+  static LogicOperation logicOpFromGL(
+    final int op)
+  {
+    switch (op) {
+      case GL11.GL_XOR:
+        return LogicOperation.LOGIC_XOR;
+      case GL11.GL_SET:
+        return LogicOperation.LOGIC_SET;
+      case GL11.GL_OR_REVERSE:
+        return LogicOperation.LOGIC_OR_REVERSE;
+      case GL11.GL_OR_INVERTED:
+        return LogicOperation.LOGIC_OR_INVERTED;
+      case GL11.GL_OR:
+        return LogicOperation.LOGIC_OR;
+      case GL11.GL_NOOP:
+        return LogicOperation.LOGIC_NO_OP;
+      case GL11.GL_NOR:
+        return LogicOperation.LOGIC_NOR;
+      case GL11.GL_NAND:
+        return LogicOperation.LOGIC_NAND;
+      case GL11.GL_INVERT:
+        return LogicOperation.LOGIC_INVERT;
+      case GL11.GL_EQUIV:
+        return LogicOperation.LOGIC_EQUIV;
+      case GL11.GL_COPY_INVERTED:
+        return LogicOperation.LOGIC_COPY_INVERTED;
+      case GL11.GL_COPY:
+        return LogicOperation.LOGIC_COPY;
+      case GL11.GL_CLEAR:
+        return LogicOperation.LOGIC_CLEAR;
+      case GL11.GL_AND_REVERSE:
+        return LogicOperation.LOGIC_AND_REVERSE;
+      case GL11.GL_AND_INVERTED:
+        return LogicOperation.LOGIC_AND_INVERTED;
+      case GL11.GL_AND:
+        return LogicOperation.LOGIC_AND;
+    }
+
+    /* UNREACHABLE */
+    throw new AssertionError("unreachable code: report this bug!");
+  }
+
+  static int logicOpToGL(
+    final @Nonnull LogicOperation op)
+  {
+    switch (op) {
+      case LOGIC_AND:
+        return GL11.GL_AND;
+      case LOGIC_AND_INVERTED:
+        return GL11.GL_AND_INVERTED;
+      case LOGIC_AND_REVERSE:
+        return GL11.GL_AND_REVERSE;
+      case LOGIC_CLEAR:
+        return GL11.GL_CLEAR;
+      case LOGIC_COPY:
+        return GL11.GL_COPY;
+      case LOGIC_COPY_INVERTED:
+        return GL11.GL_COPY_INVERTED;
+      case LOGIC_EQUIV:
+        return GL11.GL_EQUIV;
+      case LOGIC_INVERT:
+        return GL11.GL_INVERT;
+      case LOGIC_NAND:
+        return GL11.GL_NAND;
+      case LOGIC_NOR:
+        return GL11.GL_NOR;
+      case LOGIC_NO_OP:
+        return GL11.GL_NOOP;
+      case LOGIC_OR:
+        return GL11.GL_OR;
+      case LOGIC_OR_INVERTED:
+        return GL11.GL_OR_INVERTED;
+      case LOGIC_OR_REVERSE:
+        return GL11.GL_OR_REVERSE;
+      case LOGIC_SET:
+        return GL11.GL_SET;
+      case LOGIC_XOR:
+        return GL11.GL_XOR;
+    }
+
+    /* UNREACHABLE */
+    throw new AssertionError("unreachable code: report this bug!");
+  }
+
   static PolygonMode polygonModeFromGL(
     final int g)
   {
@@ -1032,6 +1116,13 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
   }
 
+  @Override public void disableLogicOperations()
+    throws GLException
+  {
+    GL11.glDisable(GL11.GL_LOGIC_OP);
+    GLError.check(this);
+  }
+
   @Override public void disablePolygonSmoothing()
     throws GLException
   {
@@ -1138,6 +1229,16 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws GLException
   {
     GL11.glEnable(GL11.GL_LINE_SMOOTH);
+    GLError.check(this);
+  }
+
+  @Override public void enableLogicOperations(
+    final LogicOperation operation)
+    throws ConstraintError,
+      GLException
+  {
+    GL11.glEnable(GL11.GL_LOGIC_OP);
+    GL11.glLogicOp(GLInterfaceLWJGL30.logicOpToGL(operation));
     GLError.check(this);
   }
 

@@ -6,11 +6,6 @@ import org.lwjgl.opengl.DisplayMode;
 
 public final class LWJGL30
 {
-  private LWJGL30()
-  {
-    // Empty.
-  }
-
   public static void createDisplay(
     final String name,
     final int width,
@@ -44,5 +39,10 @@ public final class LWJGL30
   public static void destroyDisplay()
   {
     Display.destroy();
+  }
+
+  private LWJGL30()
+  {
+    // Empty.
   }
 }
