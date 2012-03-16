@@ -2,6 +2,10 @@ package com.io7m.jcanephora;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 
+/**
+ * Seekable cursor type.
+ */
+
 public interface Cursor
 {
   /**
