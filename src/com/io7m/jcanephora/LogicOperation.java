@@ -1,5 +1,9 @@
 package com.io7m.jcanephora;
 
+/**
+ * OpenGL pixel logic operations.
+ */
+
 public enum LogicOperation
 {
   LOGIC_CLEAR,

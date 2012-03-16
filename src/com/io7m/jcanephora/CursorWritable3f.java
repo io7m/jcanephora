@@ -1,5 +1,9 @@
 package com.io7m.jcanephora;
 
+/**
+ * Typed, writable cursor addressing elements of type Vector3F.
+ */
+
 public interface CursorWritable3f extends Cursor
 {
   /**

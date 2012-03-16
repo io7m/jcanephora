@@ -7,6 +7,10 @@ import javax.annotation.Nonnull;
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 
+/**
+ * An array buffer, mapped in writable mode.
+ */
+
 public final class ArrayBufferWritableMap
 {
   private final @Nonnull ArrayBuffer buffer;
