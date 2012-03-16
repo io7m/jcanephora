@@ -33,6 +33,10 @@ public final class GLCompileException extends Exception
     this.file = file;
   }
 
+  /**
+   * Retrieve the name of the file in which the error occurred.
+   */
+
   public @Nonnull String getFile()
   {
     return this.file;
