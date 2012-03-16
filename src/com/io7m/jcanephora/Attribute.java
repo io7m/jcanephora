@@ -46,20 +46,37 @@ import com.io7m.jaux.Constraints.ConstraintError;
     this.name = Constraints.constrainNotNull(name, "Attribute name");
   }
 
+  /**
+   * Retrieve the raw OpenGL 'location' of the attribute.
+   */
+
   public int getLocation()
   {
     return this.location;
   }
+
+  /**
+   * Retrieve the name of the attribute. This is the name of the attribute as
+   * declared in the respective shading program.
+   */
 
   public @CheckForNull String getName()
   {
     return this.name;
   }
 
+  /**
+   * Retrieve a reference to the program that owns the attribute.
+   */
+
   public @Nonnull ProgramReference getProgram()
   {
     return this.program;
   }
+
+  /**
+   * Retrieve the OpenGL type of the attribute.
+   */
 
   public @Nonnull GLType.Type getType()
   {
