@@ -48,10 +48,18 @@ import com.io7m.jaux.Constraints.ConstraintError;
     gl.deleteIndexBuffer(this);
   }
 
+  /**
+   * Retrieve the number of elements in the buffer.
+   */
+
   @Override public long getElements()
   {
     return this.elements;
   }
+
+  /**
+   * Retrieve the size in bytes of each element.
+   */
 
   @Override public long getElementSizeBytes()
   {
@@ -67,15 +75,27 @@ import com.io7m.jaux.Constraints.ConstraintError;
     throw new AssertionError();
   }
 
+  /**
+   * Retrieve the raw OpenGL 'location' of the buffer.
+   */
+
   @Override public int getLocation()
   {
     return this.value;
   }
 
+  /**
+   * Retrieve the total size in bytes of the allocated buffer.
+   */
+
   @Override public long getSizeBytes()
   {
     return this.getElementSizeBytes() * this.elements;
   }
+
+  /**
+   * Retrieve the type of the elements in the buffer.
+   */
 
   public @Nonnull GLUnsignedType getType()
   {
