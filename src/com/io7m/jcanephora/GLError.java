@@ -8,6 +8,17 @@ import org.lwjgl.opengl.GL11;
 
 public final class GLError
 {
+  /**
+   * Raise <code>GLException</code> iff the current OpenGL error state is not
+   * <code>GL_NO_ERROR</code>.
+   * 
+   * @param gl
+   *          The current OpenGL interface.
+   * @throws GLException
+   *           Iff the current OpenGL error state is not
+   *           <code>GL_NO_ERROR</code>.
+   */
+
   public static void check(
     final GLInterface gl)
     throws GLException
