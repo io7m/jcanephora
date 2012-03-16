@@ -177,25 +177,6 @@ public final class VBOExample implements Runnable
     }
   }
 
-  @Override public void run()
-  {
-    try {
-      while (Display.isCloseRequested() == false) {
-        this.render();
-        Display.update();
-        Display.sync(60);
-      }
-    } catch (final GLException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (final ConstraintError e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } finally {
-      Display.destroy();
-    }
-  }
-
   private void render()
     throws GLException,
       ConstraintError
@@ -234,5 +215,24 @@ public final class VBOExample implements Runnable
     GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
     GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
     GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
+  }
+
+  @Override public void run()
+  {
+    try {
+      while (Display.isCloseRequested() == false) {
+        this.render();
+        Display.update();
+        Display.sync(60);
+      }
+    } catch (final GLException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (final ConstraintError e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } finally {
+      Display.destroy();
+    }
   }
 }
