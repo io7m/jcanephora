@@ -868,7 +868,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
-      GL20.glIsProgram(program.getID()),
+      GL20.glIsProgram(program.getLocation()),
       "ID corresponds to valid program");
     Constraints.constrainNotNull(shader, "Fragment shader ID");
     Constraints.constrainArbitrary(
@@ -877,7 +877,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("attach fragment shader " + program + " " + shader);
 
-    GL20.glAttachShader(program.getID(), shader.getID());
+    GL20.glAttachShader(program.getLocation(), shader.getID());
     GLError.check(this);
   }
 
@@ -890,7 +890,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
-      GL20.glIsProgram(program.getID()),
+      GL20.glIsProgram(program.getLocation()),
       "ID corresponds to valid program");
     Constraints.constrainNotNull(shader, "Vertex shader ID");
     Constraints.constrainArbitrary(
@@ -899,7 +899,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("attach vertex shader " + program + " " + shader);
 
-    GL20.glAttachShader(program.getID(), shader.getID());
+    GL20.glAttachShader(program.getLocation(), shader.getID());
     GLError.check(this);
   }
 
@@ -1092,7 +1092,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("delete shading program " + program);
 
-    GL20.glDeleteProgram(program.getID());
+    GL20.glDeleteProgram(program.getLocation());
     GLError.check(this);
   }
 
@@ -1383,11 +1383,11 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
-      GL20.glIsProgram(program.getID()),
+      GL20.glIsProgram(program.getLocation()),
       "ID corresponds to valid program");
     Constraints.constrainNotNull(out, "Output map");
 
-    final int id = program.getID();
+    final int id = program.getLocation();
     final int max = GL20.glGetProgram(id, GL20.GL_ACTIVE_ATTRIBUTES);
     final int len =
       GL20.glGetProgram(id, GL20.GL_ACTIVE_ATTRIBUTE_MAX_LENGTH);
@@ -1475,11 +1475,11 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
-      GL20.glIsProgram(program.getID()),
+      GL20.glIsProgram(program.getLocation()),
       "ID corresponds to valid program");
     Constraints.constrainNotNull(out, "Output map");
 
-    final int id = program.getID();
+    final int id = program.getLocation();
     final int max = GL20.glGetProgram(id, GL20.GL_ACTIVE_UNIFORMS);
     final int len = GL20.glGetProgram(id, GL20.GL_ACTIVE_UNIFORM_MAX_LENGTH);
     GLError.check(this);
@@ -1525,7 +1525,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       buffer_name.get(temp_buffer);
       final String name = new String(temp_buffer);
 
-      final int location = GL20.glGetUniformLocation(program.getID(), name);
+      final int location = GL20.glGetUniformLocation(program.getLocation(), name);
       GLError.check(this);
 
       assert (out.containsKey(name) == false);
@@ -1557,18 +1557,18 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
-      GL20.glIsProgram(program.getID()),
+      GL20.glIsProgram(program.getLocation()),
       "ID corresponds to valid program");
 
     this.log.debug("link program " + program);
 
-    GL20.glLinkProgram(program.getID());
+    GL20.glLinkProgram(program.getLocation());
     final int status =
-      GL20.glGetProgram(program.getID(), GL20.GL_LINK_STATUS);
+      GL20.glGetProgram(program.getLocation(), GL20.GL_LINK_STATUS);
     if (status == 0) {
       throw new GLCompileException(
         program.getName(),
-        GL20.glGetProgramInfoLog(program.getID(), 8192));
+        GL20.glGetProgramInfoLog(program.getLocation(), 8192));
     }
 
     GLError.check(this);
@@ -1727,12 +1727,12 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
-      GL20.glIsProgram(program.getID()),
+      GL20.glIsProgram(program.getLocation()),
       "ID corresponds to valid program");
 
     final int active = GL11.glGetInteger(GL20.GL_CURRENT_PROGRAM);
     GLError.check(this);
-    return active == program.getID();
+    return active == program.getLocation();
   }
 
   @Override public void putUniformFloat(
@@ -2003,10 +2003,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
-      GL20.glIsProgram(program.getID()),
+      GL20.glIsProgram(program.getLocation()),
       "ID corresponds to valid program");
 
-    GL20.glUseProgram(program.getID());
+    GL20.glUseProgram(program.getLocation());
     GLError.check(this);
   }
 }

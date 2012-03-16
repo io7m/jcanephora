@@ -34,7 +34,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
     gl.deleteProgram(this);
   }
 
-  public int getID()
+  /**
+   * Retrieve the raw OpenGL 'location' of the program.
+   */
+
+  public int getLocation()
   {
     return this.id;
   }
