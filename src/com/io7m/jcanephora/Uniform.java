@@ -42,20 +42,37 @@ public final class Uniform
     this.name = Constraints.constrainNotNull(name, "Uniform name");
   }
 
+  /**
+   * Retrieve the raw OpenGL 'location' of the uniform value.
+   */
+
   public int getLocation()
   {
     return this.location;
   }
+
+  /**
+   * Retrieve the name of the uniform. This is the name of the uniform as
+   * declared in the respective shading program.
+   */
 
   public @CheckForNull String getName()
   {
     return this.name;
   }
 
+  /**
+   * Retrieve a reference to the program to which the uniform belongs.
+   */
+
   public @Nonnull ProgramReference getProgram()
   {
     return this.program;
   }
+
+  /**
+   * Retrieve the OpenGL type of the uniform.
+   */
 
   public @Nonnull GLType.Type getType()
   {
