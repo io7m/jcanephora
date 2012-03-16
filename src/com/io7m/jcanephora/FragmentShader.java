@@ -43,6 +43,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
     return this.id;
   }
 
+  /**
+   * Retrieve the name of the vertex shader.
+   */
+
   public @Nonnull String getName()
   {
     return this.name;
