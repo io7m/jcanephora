@@ -144,25 +144,45 @@ import com.io7m.jaux.Constraints.ConstraintError;
     gl.deleteTexture2DRGBA(this);
   }
 
+  /**
+   * Retrieve the pixel unpack buffer that backs the given texture.
+   */
+
   public @Nonnull PixelUnpackBuffer getBuffer()
   {
     return this.buffer;
   }
+
+  /**
+   * Return the height in pixels of the texture.
+   */
 
   public int getHeight()
   {
     return this.height;
   }
 
+  /**
+   * Retrieve the raw OpenGL 'location' of the texture.
+   */
+
   public int getLocation()
   {
     return this.texture;
   }
 
+  /**
+   * Retrieve the name of the texture.
+   */
+
   public @Nonnull String getName()
   {
     return this.name;
   }
+
+  /**
+   * Retrieve the width in pixels of the texture.
+   */
 
   public int getWidth()
   {
