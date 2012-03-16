@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class BlendFunctionLWJGL30Test
+public class BlendEquationLWJGL30Test
 {
   @Before public void setUp()
     throws Exception
@@ -21,14 +21,14 @@ public class BlendFunctionLWJGL30Test
 
   @Test public void testBijection()
   {
-    for (final BlendFunction f : BlendFunction.values()) {
+    for (final BlendEquation f : BlendEquation.values()) {
       Assert.assertEquals(GLInterfaceLWJGL30
-        .blendFunctionFromGL(GLInterfaceLWJGL30.blendFunctionToGL(f)), f);
+        .blendEquationFromGL(GLInterfaceLWJGL30.blendEquationToGL(f)), f);
     }
   }
 
   @Test(expected = AssertionError.class) public void testNonsense()
   {
-    GLInterfaceLWJGL30.blendFunctionFromGL(-1);
+    GLInterfaceLWJGL30.blendEquationFromGL(-1);
   }
 }

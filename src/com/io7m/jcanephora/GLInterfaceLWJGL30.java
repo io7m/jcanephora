@@ -39,6 +39,46 @@ import com.io7m.jtensors.VectorReadable4F;
 
 public final class GLInterfaceLWJGL30 implements GLInterface
 {
+  static @Nonnull BlendEquation blendEquationFromGL(
+    final int e)
+  {
+    switch (e) {
+      case GL14.GL_FUNC_ADD:
+        return BlendEquation.BLEND_EQUATION_ADD;
+      case GL14.GL_MAX:
+        return BlendEquation.BLEND_EQUATION_MAXIMUM;
+      case GL14.GL_MIN:
+        return BlendEquation.BLEND_EQUATION_MINIMUM;
+      case GL14.GL_FUNC_REVERSE_SUBTRACT:
+        return BlendEquation.BLEND_EQUATION_REVERSE_SUBTRACT;
+      case GL14.GL_FUNC_SUBTRACT:
+        return BlendEquation.BLEND_EQUATION_SUBTRACT;
+    }
+
+    /* UNREACHABLE */
+    throw new AssertionError("unreachable code: report this bug!");
+  }
+
+  static int blendEquationToGL(
+    final @Nonnull BlendEquation e)
+  {
+    switch (e) {
+      case BLEND_EQUATION_ADD:
+        return GL14.GL_FUNC_ADD;
+      case BLEND_EQUATION_MAXIMUM:
+        return GL14.GL_MAX;
+      case BLEND_EQUATION_MINIMUM:
+        return GL14.GL_MIN;
+      case BLEND_EQUATION_REVERSE_SUBTRACT:
+        return GL14.GL_FUNC_REVERSE_SUBTRACT;
+      case BLEND_EQUATION_SUBTRACT:
+        return GL14.GL_FUNC_SUBTRACT;
+    }
+
+    /* UNREACHABLE */
+    throw new AssertionError("unreachable code: report this bug!");
+  }
+
   static @Nonnull BlendFunction blendFunctionFromGL(
     final int type)
   {
@@ -1158,13 +1198,68 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    this.enableBlendingSeparateWithEquationSeparate(
+      source_rgb_factor,
+      source_alpha_factor,
+      destination_rgb_factor,
+      destination_alpha_factor,
+      BlendEquation.BLEND_EQUATION_ADD,
+      BlendEquation.BLEND_EQUATION_ADD);
+  }
+
+  @Override public void enableBlendingSeparateWithEquationSeparate(
+    final @Nonnull BlendFunction source_rgb_factor,
+    final @Nonnull BlendFunction source_alpha_factor,
+    final @Nonnull BlendFunction destination_rgb_factor,
+    final @Nonnull BlendFunction destination_alpha_factor,
+    final @Nonnull BlendEquation equation_rgb,
+    final @Nonnull BlendEquation equation_alpha)
+    throws ConstraintError,
+      GLException
+  {
     GL11.glEnable(GL11.GL_BLEND);
+    GL20.glBlendEquationSeparate(
+      GLInterfaceLWJGL30.blendEquationToGL(equation_rgb),
+      GLInterfaceLWJGL30.blendEquationToGL(equation_alpha));
     GL14.glBlendFuncSeparate(
       GLInterfaceLWJGL30.blendFunctionToGL(source_rgb_factor),
       GLInterfaceLWJGL30.blendFunctionToGL(destination_rgb_factor),
       GLInterfaceLWJGL30.blendFunctionToGL(source_alpha_factor),
       GLInterfaceLWJGL30.blendFunctionToGL(destination_alpha_factor));
     GLError.check(this);
+  }
+
+  @Override public void enableBlendingWithEquation(
+    final @Nonnull BlendFunction source_factor,
+    final @Nonnull BlendFunction destination_factor,
+    final @Nonnull BlendEquation equation)
+    throws ConstraintError,
+      GLException
+  {
+    this.enableBlendingSeparateWithEquationSeparate(
+      source_factor,
+      source_factor,
+      destination_factor,
+      destination_factor,
+      BlendEquation.BLEND_EQUATION_ADD,
+      BlendEquation.BLEND_EQUATION_ADD);
+  }
+
+  @Override public void enableBlendingWithEquationSeparate(
+    final @Nonnull BlendFunction source_factor,
+    final @Nonnull BlendFunction destination_factor,
+    final @Nonnull BlendEquation equation_rgb,
+    final @Nonnull BlendEquation equation_alpha)
+    throws ConstraintError,
+      GLException
+  {
+    this.enableBlendingSeparateWithEquationSeparate(
+      source_factor,
+      source_factor,
+      destination_factor,
+      destination_factor,
+      equation_rgb,
+      equation_alpha);
   }
 
   @Override public void enableCulling(
