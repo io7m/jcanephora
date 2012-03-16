@@ -872,12 +872,12 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       "ID corresponds to valid program");
     Constraints.constrainNotNull(shader, "Fragment shader ID");
     Constraints.constrainArbitrary(
-      GL20.glIsShader(shader.getID()),
+      GL20.glIsShader(shader.getLocation()),
       "ID corresponds to valid fragment shader");
 
     this.log.debug("attach fragment shader " + program + " " + shader);
 
-    GL20.glAttachShader(program.getLocation(), shader.getID());
+    GL20.glAttachShader(program.getLocation(), shader.getLocation());
     GLError.check(this);
   }
 
@@ -894,12 +894,12 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       "ID corresponds to valid program");
     Constraints.constrainNotNull(shader, "Vertex shader ID");
     Constraints.constrainArbitrary(
-      GL20.glIsShader(shader.getID()),
+      GL20.glIsShader(shader.getLocation()),
       "ID corresponds to valid vertex shader");
 
     this.log.debug("attach vertex shader " + program + " " + shader);
 
-    GL20.glAttachShader(program.getLocation(), shader.getID());
+    GL20.glAttachShader(program.getLocation(), shader.getLocation());
     GLError.check(this);
   }
 
@@ -1038,12 +1038,12 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainNotNull(id, "Shader ID");
     Constraints.constrainArbitrary(
-      GL20.glIsShader(id.getID()),
+      GL20.glIsShader(id.getLocation()),
       "ID corresponds to valid shader");
 
     this.log.debug("delete fragment shader " + id);
 
-    GL20.glDeleteShader(id.getID());
+    GL20.glDeleteShader(id.getLocation());
     GLError.check(this);
   }
 
@@ -1119,12 +1119,12 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainNotNull(id, "Shader ID");
     Constraints.constrainArbitrary(
-      GL20.glIsShader(id.getID()),
+      GL20.glIsShader(id.getLocation()),
       "ID corresponds to valid shader");
 
     this.log.debug("delete vertex shader " + id);
 
-    GL20.glDeleteShader(id.getID());
+    GL20.glDeleteShader(id.getLocation());
     GLError.check(this);
   }
 
