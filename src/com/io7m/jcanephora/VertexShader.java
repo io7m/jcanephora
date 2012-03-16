@@ -1,15 +1,16 @@
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * A reference to a vertex shader.
+ * An immutable reference to a vertex shader.
  */
 
-public final class VertexShader implements GLResource
+@Immutable public final class VertexShader implements GLResource
 {
   private final int             id;
   private final @Nonnull String name;
