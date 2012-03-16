@@ -4,7 +4,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-public class GLLogicLWJGL30Test
+public class LogicOperationLWJGL30Test
 {
   @Test public void testLogicBijection()
   {
