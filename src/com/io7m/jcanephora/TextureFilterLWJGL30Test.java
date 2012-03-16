@@ -12,4 +12,9 @@ public class TextureFilterLWJGL30Test
         .textureFilterFromGL(GLInterfaceLWJGL30.textureFilterToGL(f)));
     }
   }
+
+  @Test(expected = AssertionError.class) public void testNonsense()
+  {
+    GLInterfaceLWJGL30.textureFilterFromGL(-1);
+  }
 }

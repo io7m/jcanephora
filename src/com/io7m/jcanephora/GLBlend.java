@@ -67,53 +67,6 @@ public interface GLBlend
       GLException;
 
   /**
-   * Enable blending with the given blending functions and equation. The
-   * function is equivalent to: <code>
-   * {@link GLBlend#enableBlendingSeparateWithEquationSeparate}(
-   *   source_factor,
-   *   source_factor,
-   *   destination_factor,
-   *   destination_factor,
-   *   equation,
-   *   equation);
-   * </code>
-   * 
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  void enableBlendingWithEquation(
-    final @Nonnull BlendFunction source_factor,
-    final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquation equation)
-    throws ConstraintError,
-      GLException;
-
-  /**
-   * Enable blending with the given blending functions and equation. The
-   * function is equivalent to: <code>
-   * {@link GLBlend#enableBlendingSeparateWithEquationSeparate}(
-   *   source_factor,
-   *   source_factor,
-   *   destination_factor,
-   *   destination_factor,
-   *   equation_rgb,
-   *   equation_alpha);
-   * </code>
-   * 
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  void enableBlendingWithEquationSeparate(
-    final @Nonnull BlendFunction source_factor,
-    final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquation equation_rgb,
-    final @Nonnull BlendEquation equation_alpha)
-    throws ConstraintError,
-      GLException;
-
-  /**
    * <p>
    * Enable blending with the blending functions
    * <code>source_rgb_factor</code>, <code>source_alpha_factor</code>,
@@ -168,6 +121,53 @@ public interface GLBlend
     final @Nonnull BlendFunction source_alpha_factor,
     final @Nonnull BlendFunction destination_rgb_factor,
     final @Nonnull BlendFunction destination_alpha_factor,
+    final @Nonnull BlendEquation equation_rgb,
+    final @Nonnull BlendEquation equation_alpha)
+    throws ConstraintError,
+      GLException;
+
+  /**
+   * Enable blending with the given blending functions and equation. The
+   * function is equivalent to: <code>
+   * {@link GLBlend#enableBlendingSeparateWithEquationSeparate}(
+   *   source_factor,
+   *   source_factor,
+   *   destination_factor,
+   *   destination_factor,
+   *   equation,
+   *   equation);
+   * </code>
+   * 
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void enableBlendingWithEquation(
+    final @Nonnull BlendFunction source_factor,
+    final @Nonnull BlendFunction destination_factor,
+    final @Nonnull BlendEquation equation)
+    throws ConstraintError,
+      GLException;
+
+  /**
+   * Enable blending with the given blending functions and equation. The
+   * function is equivalent to: <code>
+   * {@link GLBlend#enableBlendingSeparateWithEquationSeparate}(
+   *   source_factor,
+   *   source_factor,
+   *   destination_factor,
+   *   destination_factor,
+   *   equation_rgb,
+   *   equation_alpha);
+   * </code>
+   * 
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void enableBlendingWithEquationSeparate(
+    final @Nonnull BlendFunction source_factor,
+    final @Nonnull BlendFunction destination_factor,
     final @Nonnull BlendEquation equation_rgb,
     final @Nonnull BlendEquation equation_alpha)
     throws ConstraintError,
