@@ -53,20 +53,36 @@ import com.io7m.jaux.Constraints.ConstraintError;
     gl.deletePixelUnpackBuffer(this);
   }
 
+  /**
+   * Retrieve the number of elements allocated in the buffer.
+   */
+
   @Override public long getElements()
   {
     return this.elements;
   }
+
+  /**
+   * Retrieve the size in bytes of a single element in the buffer.
+   */
 
   @Override public long getElementSizeBytes()
   {
     return this.element_size;
   }
 
+  /**
+   * Return the raw OpenGL 'location' of the buffer.
+   */
+
   @Override public int getLocation()
   {
     return this.value;
   }
+
+  /**
+   * Return the total size in bytes of the allocated buffer.
+   */
 
   @Override public long getSizeBytes()
   {

@@ -19,7 +19,7 @@ public interface Buffer
   long getElementSizeBytes();
 
   /**
-   * Return the location of the buffer.
+   * Return the raw OpenGL 'location' of the buffer.
    */
 
   int getLocation();
