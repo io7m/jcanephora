@@ -39,6 +39,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
     return this.id;
   }
 
+  /**
+   * Retrieve the name of the program.
+   */
+
   public @Nonnull String getName()
   {
     return this.name;
