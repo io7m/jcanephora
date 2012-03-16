@@ -1143,10 +1143,27 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    this.enableBlendingSeparate(
+      source_factor,
+      source_factor,
+      destination_factor,
+      destination_factor);
+  }
+
+  @Override public void enableBlendingSeparate(
+    final @Nonnull BlendFunction source_rgb_factor,
+    final @Nonnull BlendFunction source_alpha_factor,
+    final @Nonnull BlendFunction destination_rgb_factor,
+    final @Nonnull BlendFunction destination_alpha_factor)
+    throws ConstraintError,
+      GLException
+  {
     GL11.glEnable(GL11.GL_BLEND);
-    GL11.glBlendFunc(
-      GLInterfaceLWJGL30.blendFunctionToGL(source_factor),
-      GLInterfaceLWJGL30.blendFunctionToGL(destination_factor));
+    GL14.glBlendFuncSeparate(
+      GLInterfaceLWJGL30.blendFunctionToGL(source_rgb_factor),
+      GLInterfaceLWJGL30.blendFunctionToGL(destination_rgb_factor),
+      GLInterfaceLWJGL30.blendFunctionToGL(source_alpha_factor),
+      GLInterfaceLWJGL30.blendFunctionToGL(destination_alpha_factor));
     GLError.check(this);
   }
 
