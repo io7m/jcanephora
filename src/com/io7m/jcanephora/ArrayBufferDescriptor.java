@@ -3,6 +3,7 @@ package com.io7m.jcanephora;
 import java.util.HashMap;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -14,7 +15,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * the type of the record.
  */
 
-public final class ArrayBufferDescriptor
+@Immutable public final class ArrayBufferDescriptor
 {
   private final ArrayBufferAttribute     attributes[];
   private final int                      offsets[];

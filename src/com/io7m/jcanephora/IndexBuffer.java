@@ -1,15 +1,16 @@
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * A reference to an allocated index buffer.
+ * An immutable reference to an allocated index buffer.
  */
 
-public final class IndexBuffer implements Buffer, GLResource
+@Immutable public final class IndexBuffer implements Buffer, GLResource
 {
   private final int            value;
   private final long           elements;

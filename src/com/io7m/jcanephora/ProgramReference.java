@@ -1,15 +1,16 @@
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * A reference to an OpenGL shading program.
+ * An immutable reference to an OpenGL shading program.
  */
 
-public final class ProgramReference implements GLResource
+@Immutable public final class ProgramReference implements GLResource
 {
   private final int             id;
   private final @Nonnull String name;

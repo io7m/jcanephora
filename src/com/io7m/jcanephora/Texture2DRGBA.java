@@ -7,6 +7,7 @@ import java.awt.image.WritableRaster;
 import java.nio.ByteBuffer;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -18,7 +19,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * texture updates.
  */
 
-public final class Texture2DRGBA implements GLResource
+@Immutable public final class Texture2DRGBA implements GLResource
 {
   private static final @Nonnull BufferedImage convertImageToABGR(
     final @Nonnull BufferedImage image)
@@ -116,9 +117,7 @@ public final class Texture2DRGBA implements GLResource
   private final @Nonnull PixelUnpackBuffer buffer;
   private final int                        texture;
   private final @Nonnull String            name;
-
   private final int                        width;
-
   private final int                        height;
 
   Texture2DRGBA(

@@ -1,15 +1,16 @@
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * A reference to an allocated pixel buffer.
+ * An immutable reference to an allocated pixel buffer.
  */
 
-public final class PixelUnpackBuffer implements Buffer, GLResource
+@Immutable public final class PixelUnpackBuffer implements Buffer, GLResource
 {
   private final int  value;
   private final long elements;
