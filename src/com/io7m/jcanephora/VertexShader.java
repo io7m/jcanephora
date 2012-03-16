@@ -34,7 +34,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
     gl.deleteVertexShader(this);
   }
 
-  public int getID()
+  /**
+   * Retrieve the raw OpenGL 'location' of the vertex shader.
+   */
+
+  public int getLocation()
   {
     return this.id;
   }
@@ -48,7 +52,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
   {
     final StringBuilder builder = new StringBuilder();
     builder.append("[VertexShaderID ");
-    builder.append(this.getID());
+    builder.append(this.getLocation());
     builder.append(" \"");
     builder.append(this.getName());
     builder.append("\"]");
