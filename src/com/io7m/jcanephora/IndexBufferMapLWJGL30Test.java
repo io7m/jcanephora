@@ -61,6 +61,8 @@ public class IndexBufferMapLWJGL30Test
 
     {
       final IndexBufferWritableMap map = gl.mapIndexBufferWrite(ib);
+      Assert.assertEquals(ib, map.getIndexBuffer());
+
       for (int index = 0; index < ib.getElements(); ++index) {
         map.put(index, index);
       }
@@ -70,6 +72,7 @@ public class IndexBufferMapLWJGL30Test
 
     {
       final IndexBufferReadableMap map = gl.mapIndexBufferRead(ib);
+
       for (int index = 0; index < ib.getElements(); ++index) {
         final int value = map.get(index);
         Assert.assertEquals(index, value);
