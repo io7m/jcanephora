@@ -127,6 +127,34 @@ public class ArrayBufferLWJGL30Test
     gl.deleteArrayBuffer(null);
   }
 
+  @Test(expected = ConstraintError.class) public
+    void
+    testArrayBufferElementOffset()
+      throws IOException,
+        ConstraintError
+  {
+    final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
+    final ArrayBufferDescriptor d =
+      new ArrayBufferDescriptor(new ArrayBufferAttribute[] {
+        new ArrayBufferAttribute("position", GLScalarType.TYPE_SHORT, 3),
+        new ArrayBufferAttribute("normal", GLScalarType.TYPE_SHORT, 3),
+        new ArrayBufferAttribute("color", GLScalarType.TYPE_SHORT, 3), });
+    ArrayBuffer a = null;
+
+    try {
+      a = gl.allocateArrayBuffer(3, d);
+      gl.mapArrayBufferWrite(a);
+      Assert.assertEquals(0, a.getElementOffset(0));
+      Assert.assertEquals(18, a.getElementOffset(1));
+      Assert.assertEquals(36, a.getElementOffset(2));
+    } catch (final Exception e) {
+      Assert.fail(e.getMessage());
+    }
+
+    assert a != null;
+    a.getElementOffset(3);
+  }
+
   /**
    * Mapping a buffer works.
    */
@@ -362,33 +390,5 @@ public class ArrayBufferLWJGL30Test
         a.delete(gl);
       }
     }
-  }
-
-  @Test(expected = ConstraintError.class) public
-    void
-    testArrayBufferElementOffset()
-      throws IOException,
-        ConstraintError
-  {
-    final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(new ArrayBufferAttribute[] {
-        new ArrayBufferAttribute("position", GLScalarType.TYPE_SHORT, 3),
-        new ArrayBufferAttribute("normal", GLScalarType.TYPE_SHORT, 3),
-        new ArrayBufferAttribute("color", GLScalarType.TYPE_SHORT, 3), });
-    ArrayBuffer a = null;
-
-    try {
-      a = gl.allocateArrayBuffer(3, d);
-      gl.mapArrayBufferWrite(a);
-      Assert.assertEquals(0, a.getElementOffset(0));
-      Assert.assertEquals(18, a.getElementOffset(1));
-      Assert.assertEquals(36, a.getElementOffset(2));
-    } catch (final Exception e) {
-      Assert.fail(e.getMessage());
-    }
-
-    assert a != null;
-    a.getElementOffset(3);
   }
 }
