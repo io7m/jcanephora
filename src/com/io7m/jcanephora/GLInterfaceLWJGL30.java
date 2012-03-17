@@ -760,20 +760,24 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
   @Override public @Nonnull PixelUnpackBuffer allocatePixelUnpackBuffer(
     final long elements,
-    final long element_size)
+    final GLScalarType type,
+    final long element_values)
     throws GLException,
       ConstraintError
   {
     Constraints.constrainRange(elements, 1, Long.MAX_VALUE);
-    Constraints.constrainRange(element_size, 1, Long.MAX_VALUE);
+    Constraints.constrainRange(element_values, 1, Long.MAX_VALUE);
 
-    final long bytes = element_size * elements;
+    final long bytes =
+      (element_values * GLScalarTypeMeta.getSizeBytes(type)) * elements;
 
     this.log.debug("allocate pixel unpack buffer ("
       + elements
-      + " elements, "
-      + element_size
-      + " bytes per element, "
+      + " elements of type ("
+      + type
+      + ", "
+      + element_values
+      + "), "
       + bytes
       + " bytes)");
 
@@ -787,7 +791,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
 
     this.log.debug("allocated pixel unpack buffer " + id);
-    return new PixelUnpackBuffer(id, elements, element_size);
+    return new PixelUnpackBuffer(id, elements, type, element_values);
   }
 
   @Override public @Nonnull Texture2DRGBA allocateTextureRGBA(
@@ -818,7 +822,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     final int texture_id = GL11.glGenTextures();
     final @Nonnull PixelUnpackBuffer buffer =
-      this.allocatePixelUnpackBuffer(width * height, 4);
+      this.allocatePixelUnpackBuffer(
+        width * height,
+        GLScalarType.TYPE_UNSIGNED_BYTE,
+        4);
 
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture_id);
     GL11.glTexParameteri(
@@ -1741,7 +1748,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL15.glMapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, GL15.GL_WRITE_ONLY, null);
     GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
     GLError.check(this);
-    return new PixelUnpackBufferWritableMap(GLScalarType.TYPE_BYTE, 1, b);
+    return new PixelUnpackBufferWritableMap(id, b);
   }
 
   @Override public void noProgram()
