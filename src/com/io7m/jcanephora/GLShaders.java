@@ -400,6 +400,33 @@ public interface GLShaders
       GLException;
 
   /**
+   * Upload the texture unit index <code>unit</code> to the uniform
+   * <code>uniform</code> .
+   * 
+   * @param uniform
+   *          The uniform variable.
+   * @param unit
+   *          The texture unit.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>uniform == null</code>.</li>
+   *           <li><code>unit == null</code>.</li>
+   *           <li><code>uniform.getType() != TYPE_SAMPLER_2D</code>.</li>
+   *           <li>The program that <code>uniform</code> belongs to is not
+   *           active.</li>
+   *           </ul>
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void putUniformTextureUnit(
+    final @Nonnull Uniform uniform,
+    final @Nonnull TextureUnit unit)
+    throws ConstraintError,
+      GLException;
+
+  /**
    * Upload the vector <code>vector</code> to the uniform <code>uniform</code>
    * .
    * 
@@ -450,33 +477,6 @@ public interface GLShaders
   void putUniformVector4f(
     final @Nonnull Uniform uniform,
     final @Nonnull VectorReadable4F vector)
-    throws ConstraintError,
-      GLException;
-
-  /**
-   * Upload the texture unit index <code>unit</code> to the uniform
-   * <code>uniform</code> .
-   * 
-   * @param uniform
-   *          The uniform variable.
-   * @param unit
-   *          The texture unit.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>uniform == null</code>.</li>
-   *           <li><code>unit == null</code>.</li>
-   *           <li><code>uniform.getType() != TYPE_SAMPLER_2D</code>.</li>
-   *           <li>The program that <code>uniform</code> belongs to is not
-   *           active.</li>
-   *           </ul>
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  void putUniformTextureUnit(
-    final @Nonnull Uniform uniform,
-    final @Nonnull TextureUnit unit)
     throws ConstraintError,
       GLException;
 

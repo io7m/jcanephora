@@ -14,6 +14,17 @@ public final class TextureUnit
     this.index = index;
   }
 
+  /**
+   * Retrieve the index of the texture unit. This value will be between 0 and
+   * some implementation-defined exclusive upper limit (usually 16 or 32 in
+   * current implementations).
+   */
+
+  public int getIndex()
+  {
+    return this.index;
+  }
+
   /*
    * (non-Javadoc)
    * 
@@ -26,16 +37,5 @@ public final class TextureUnit
     builder.append(this.index);
     builder.append("]");
     return builder.toString();
-  }
-
-  /**
-   * Retrieve the index of the texture unit. This value will be between 0 and
-   * some implementation-defined exclusive upper limit (usually 16 or 32 in
-   * current implementations).
-   */
-
-  public int getIndex()
-  {
-    return this.index;
   }
 }
