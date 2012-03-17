@@ -92,7 +92,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
           wrap_t,
           min_filter,
           mag_filter);
-      map = gl.mapPixelUnpackBufferWrite(t.getBuffer());
+      map = gl.mapPixelUnpackBufferWrite(t.getBuffer()).getByteBuffer();
 
       final WritableRaster raster = converted.getRaster();
       final DataBufferByte data = (DataBufferByte) raster.getDataBuffer();

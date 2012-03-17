@@ -178,7 +178,9 @@ public final class TextureExample implements Runnable, GLResource
       ConstraintError
   {
     final ByteBuffer map =
-      this.gl.mapPixelUnpackBufferWrite(this.texture.getBuffer());
+      this.gl
+        .mapPixelUnpackBufferWrite(this.texture.getBuffer())
+        .getByteBuffer();
 
     try {
       map.rewind();

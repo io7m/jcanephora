@@ -134,7 +134,7 @@ public class PixelUnpackBufferLWJGL30Test
 
     try {
       try {
-        final ByteBuffer b = gl.mapPixelUnpackBufferWrite(a);
+        final ByteBuffer b = gl.mapPixelUnpackBufferWrite(a).getByteBuffer();
         final ShortBuffer s = b.asShortBuffer();
         for (int index = 0; index < 10; ++index) {
           s.put(index, (short) index);
@@ -252,7 +252,7 @@ public class PixelUnpackBufferLWJGL30Test
 
     try {
       try {
-        final ByteBuffer b = gl.mapPixelUnpackBufferWrite(a);
+        final ByteBuffer b = gl.mapPixelUnpackBufferWrite(a).getByteBuffer();
         b.put(20, (byte) 0xff);
       } finally {
         gl.unmapPixelUnpackBuffer(a);
