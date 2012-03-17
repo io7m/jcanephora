@@ -818,7 +818,7 @@ public final class TextureExampleSimple
         [<s:link-external target="texture-usage.c">texture-usage.c</s:link-external>]
         demonstrates the creation and usage of textures. It loads a TIFF
         image using <s:link-external target="http://libtiff.org">libTIFF</s:link-external>,
-        binds it to the first texture unit and displays it on a textured
+        binds it to the first texture unit, and displays it on a textured
         quad.
       </s:paragraph>
       <s:formal-item kind="example">
