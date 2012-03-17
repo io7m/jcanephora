@@ -61,9 +61,8 @@ public final class ArrayBufferWritableMap
    *           Iff any of the following hold:
    *           <ul>
    *           <li><code>name == null</code>.</li>
-   *           <li><code>0 <= index < size == false</code>, where
-   *           <code>size</code> is the number of elements in the mapped
-   *           buffer.</li>
+   *           <li><code>getAttribute(name).getElements() != 2</code></li>
+   *           <li><code>getAttribute(name).getType() != TYPE_FLOAT</code></li>
    *           </ul>
    */
 
@@ -100,9 +99,8 @@ public final class ArrayBufferWritableMap
    *           Iff any of the following hold:
    *           <ul>
    *           <li><code>name == null</code>.</li>
-   *           <li><code>0 <= index < size == false</code>, where
-   *           <code>size</code> is the number of elements in the mapped
-   *           buffer.</li>
+   *           <li><code>getAttribute(name).getElements() != 3</code></li>
+   *           <li><code>getAttribute(name).getType() != TYPE_FLOAT</code></li>
    *           </ul>
    */
 
