@@ -903,6 +903,20 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
   }
 
+  @Override public void bindTexture2DRGBA(
+    final @Nonnull TextureUnit unit,
+    final @Nonnull Texture2DRGBA texture)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(unit, "Texture unit");
+    Constraints.constrainNotNull(texture, "Texture");
+
+    GL13.glActiveTexture(GL13.GL_TEXTURE0 + unit.getIndex());
+    GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getLocation());
+    GLError.check(this);
+  }
+
   @Override public void clearColorBuffer(
     final @Nonnull VectorReadable4F color)
     throws ConstraintError,
@@ -1467,6 +1481,22 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     return x;
   }
 
+  @Override public TextureUnit[] getTextureUnits()
+    throws GLException
+  {
+    final int max = GL11.glGetInteger(GL20.GL_MAX_TEXTURE_IMAGE_UNITS);
+    GLError.check(this);
+
+    this.log.debug("implementation supports " + max + " texture units");
+
+    final TextureUnit[] u = new TextureUnit[max];
+    for (int index = 0; index < max; ++index) {
+      u[index] = new TextureUnit(index);
+    }
+
+    return u;
+  }
+
   @Override public void getUniforms(
     final @Nonnull ProgramReference program,
     final @Nonnull Map<String, Uniform> out)
@@ -1525,7 +1555,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       buffer_name.get(temp_buffer);
       final String name = new String(temp_buffer);
 
-      final int location = GL20.glGetUniformLocation(program.getLocation(), name);
+      final int location =
+        GL20.glGetUniformLocation(program.getLocation(), name);
       GLError.check(this);
 
       assert (out.containsKey(name) == false);
@@ -1794,6 +1825,24 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       uniform.getLocation(),
       false,
       MatrixM4x4F.floatBuffer(matrix));
+    GLError.check(this);
+  }
+
+  @Override public void putUniformTextureUnit(
+    final @Nonnull Uniform uniform,
+    final @Nonnull TextureUnit unit)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(uniform, "Uniform");
+    Constraints.constrainArbitrary(
+      uniform.getType() == Type.TYPE_SAMPLER_2D,
+      "Uniform type is sampler_2d");
+    Constraints.constrainArbitrary(
+      this.programIsActive(uniform.getProgram()),
+      "Program for uniform is active");
+
+    GL20.glUniform1i(uniform.getLocation(), unit.getIndex());
     GLError.check(this);
   }
 

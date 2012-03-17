@@ -68,6 +68,26 @@ public interface GLTextures
       GLException;
 
   /**
+   * Bind the texture <code>texture</code> to the texture unit
+   * <code>unit</code>.
+   * 
+   * @param unit
+   *          The texture unit.
+   * @param texture
+   *          The texture.
+   * @throws ConstraintError
+   *           Iff <code>unit == null || texture == null</code>.
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void bindTexture2DRGBA(
+    final @Nonnull TextureUnit unit,
+    final @Nonnull Texture2DRGBA texture)
+    throws ConstraintError,
+      GLException;
+
+  /**
    * Deletes the texture referenced by <code>texture</code>.
    * 
    * @param texture
@@ -87,6 +107,16 @@ public interface GLTextures
     final @Nonnull Texture2DRGBA texture)
     throws ConstraintError,
       GLException;
+
+  /**
+   * Retrieve all available texture units for the current implementation.
+   * 
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  @Nonnull TextureUnit[] getTextureUnits()
+    throws GLException;
 
   /**
    * Copy new data into the texture from the pixel unpack buffer used by the
