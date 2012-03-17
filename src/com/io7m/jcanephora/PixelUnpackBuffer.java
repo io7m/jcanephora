@@ -8,34 +8,49 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
  * An immutable reference to an allocated pixel buffer.
+ * 
+ * <p>
+ * A pixel buffer is conceptually an array of elements. Each element has a
+ * fixed number of values. Therefore:
+ * </p>
+ * <p>
+ * <code>PixelUnpackBuffer(x, 10, GLScalarType.TYPE_BYTE, 4);</code>
+ * </p>
+ * <p>
+ * The above defines a pixel buffer containing 10, four-byte elements (the
+ * typical representation for RGBA pixel data).
+ * </p>
  */
 
 @Immutable public final class PixelUnpackBuffer implements Buffer, GLResource
 {
-  private final int  value;
-  private final long elements;
-  private final long element_size;
+  private final int                   location;
+  private final long                  elements;
+  private final @Nonnull GLScalarType type;
+  private final long                  type_elements;
 
   PixelUnpackBuffer(
-    final int value,
+    final int location,
     final long elements,
-    final long element_size)
+    final @Nonnull GLScalarType type,
+    final long type_elements)
     throws ConstraintError
   {
-    this.value =
+    this.location =
       Constraints.constrainRange(
-        value,
+        location,
         0,
         Integer.MAX_VALUE,
-        "buffer ID value");
+        "Buffer OpenGL location");
     this.elements =
-      Constraints.constrainRange(elements, 1, Integer.MAX_VALUE, "elements");
-    this.element_size =
+      Constraints.constrainRange(elements, 1, Integer.MAX_VALUE, "Elements");
+    this.type = Constraints.constrainNotNull(type, "Element type");
+    this.type_elements =
       Constraints.constrainRange(
-        element_size,
+        type_elements,
         1,
         Integer.MAX_VALUE,
-        "element size");
+        "Element value count");
   }
 
   /*
@@ -68,7 +83,25 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
   @Override public long getElementSizeBytes()
   {
-    return this.element_size;
+    return GLScalarTypeMeta.getSizeBytes(this.type) * this.type_elements;
+  }
+
+  /**
+   * Retrieve the type of the values in each element.
+   */
+
+  public @Nonnull GLScalarType getElementType()
+  {
+    return this.type;
+  }
+
+  /**
+   * Returns the number of values in a given element.
+   */
+
+  public long getElementValues()
+  {
+    return this.type_elements;
   }
 
   /**
@@ -77,7 +110,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
   @Override public int getLocation()
   {
-    return this.value;
+    return this.location;
   }
 
   /**
@@ -86,19 +119,21 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
   @Override public long getSizeBytes()
   {
-    return this.element_size * this.elements;
+    return this.getElementSizeBytes() * this.elements;
   }
 
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
     builder.append("[PixelUnpackBuffer ");
-    builder.append(this.value);
+    builder.append(this.location);
     builder.append(" ");
     builder.append(this.elements);
-    builder.append(" ");
-    builder.append(this.element_size);
-    builder.append("]");
+    builder.append(" (");
+    builder.append(this.type);
+    builder.append(", ");
+    builder.append(this.type_elements);
+    builder.append(")]");
 
     return builder.toString();
   }

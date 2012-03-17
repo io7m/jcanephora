@@ -28,7 +28,8 @@ public class PixelUnpackBufferLWJGL30Test
   }
 
   /**
-   * An allocated buffer has the correct number of elements and element size.
+   * An allocated buffer has the correct number of elements, element type,
+   * element size, and element value count.
    */
 
   @Test public void testPixelUnpackBufferAllocate()
@@ -40,10 +41,14 @@ public class PixelUnpackBufferLWJGL30Test
     PixelUnpackBuffer a = null;
 
     try {
-      a = gl.allocatePixelUnpackBuffer(10, 2);
+      a =
+        gl.allocatePixelUnpackBuffer(10, GLScalarType.TYPE_UNSIGNED_BYTE, 2);
       Assert.assertEquals(2, a.getElementSizeBytes());
       Assert.assertEquals(10, a.getElements());
       Assert.assertEquals(20, a.getSizeBytes());
+      Assert.assertEquals(2, a.getElementValues());
+      Assert
+        .assertEquals(GLScalarType.TYPE_UNSIGNED_BYTE, a.getElementType());
     } finally {
       if (a != null) {
         a.delete(gl);
@@ -63,7 +68,7 @@ public class PixelUnpackBufferLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    gl.allocatePixelUnpackBuffer(0, 2);
+    gl.allocatePixelUnpackBuffer(0, GLScalarType.TYPE_UNSIGNED_BYTE, 2);
   }
 
   /**
@@ -78,7 +83,7 @@ public class PixelUnpackBufferLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    gl.allocatePixelUnpackBuffer(10, 0);
+    gl.allocatePixelUnpackBuffer(10, GLScalarType.TYPE_UNSIGNED_BYTE, 0);
   }
 
   /**
@@ -96,7 +101,8 @@ public class PixelUnpackBufferLWJGL30Test
     PixelUnpackBuffer a = null;
 
     try {
-      a = gl.allocatePixelUnpackBuffer(10, 2);
+      a =
+        gl.allocatePixelUnpackBuffer(10, GLScalarType.TYPE_UNSIGNED_BYTE, 2);
       gl.deletePixelUnpackBuffer(a);
     } catch (final Exception e) {
       Assert.fail(e.getMessage());
@@ -130,11 +136,16 @@ public class PixelUnpackBufferLWJGL30Test
       GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    final PixelUnpackBuffer a = gl.allocatePixelUnpackBuffer(10, 2);
+    final PixelUnpackBuffer a =
+      gl.allocatePixelUnpackBuffer(10, GLScalarType.TYPE_UNSIGNED_BYTE, 2);
 
     try {
       try {
-        final ByteBuffer b = gl.mapPixelUnpackBufferWrite(a).getByteBuffer();
+        final PixelUnpackBufferWritableMap m =
+          gl.mapPixelUnpackBufferWrite(a);
+        Assert.assertEquals(a, m.getPixelUnpackBuffer());
+
+        final ByteBuffer b = m.getByteBuffer();
         final ShortBuffer s = b.asShortBuffer();
         for (int index = 0; index < 10; ++index) {
           s.put(index, (short) index);
@@ -145,6 +156,7 @@ public class PixelUnpackBufferLWJGL30Test
 
       try {
         final ByteBuffer b = gl.mapPixelUnpackBufferRead(a);
+
         final ShortBuffer s = b.asShortBuffer();
         for (int index = 0; index < 10; ++index) {
           Assert.assertEquals(index, s.get(index));
@@ -171,7 +183,8 @@ public class PixelUnpackBufferLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    final PixelUnpackBuffer a = gl.allocatePixelUnpackBuffer(10, 2);
+    final PixelUnpackBuffer a =
+      gl.allocatePixelUnpackBuffer(10, GLScalarType.TYPE_UNSIGNED_BYTE, 2);
 
     try {
       try {
@@ -202,7 +215,8 @@ public class PixelUnpackBufferLWJGL30Test
     PixelUnpackBuffer a = null;
 
     try {
-      a = gl.allocatePixelUnpackBuffer(10, 2);
+      a =
+        gl.allocatePixelUnpackBuffer(10, GLScalarType.TYPE_UNSIGNED_BYTE, 2);
     } catch (final GLException e) {
       Assert.fail(e.getMessage());
     }
@@ -232,7 +246,7 @@ public class PixelUnpackBufferLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    gl.allocatePixelUnpackBuffer(10, 1);
+    gl.allocatePixelUnpackBuffer(10, GLScalarType.TYPE_UNSIGNED_BYTE, 1);
     gl.mapPixelUnpackBufferRead(null);
   }
 
@@ -248,7 +262,8 @@ public class PixelUnpackBufferLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    final PixelUnpackBuffer a = gl.allocatePixelUnpackBuffer(10, 2);
+    final PixelUnpackBuffer a =
+      gl.allocatePixelUnpackBuffer(10, GLScalarType.TYPE_UNSIGNED_BYTE, 2);
 
     try {
       try {
@@ -276,7 +291,7 @@ public class PixelUnpackBufferLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    gl.allocatePixelUnpackBuffer(10, 1);
+    gl.allocatePixelUnpackBuffer(10, GLScalarType.TYPE_UNSIGNED_BYTE, 1);
     gl.mapPixelUnpackBufferWrite(null);
   }
 
@@ -295,7 +310,8 @@ public class PixelUnpackBufferLWJGL30Test
     PixelUnpackBuffer a = null;
 
     try {
-      a = gl.allocatePixelUnpackBuffer(10, 2);
+      a =
+        gl.allocatePixelUnpackBuffer(10, GLScalarType.TYPE_UNSIGNED_BYTE, 2);
       gl.mapPixelUnpackBufferWrite(a);
     } catch (final GLException e) {
       Assert.fail(e.getMessage());

@@ -13,13 +13,16 @@ import com.io7m.jaux.Constraints.ConstraintError;
 public interface GLPixelUnpackBuffers
 {
   /**
-   * Allocate a buffer of <code>elements</code> elements of size
-   * <code>element_size</code>.
+   * Allocate a buffer of <code>elements</code> elements, each element
+   * consisting of <code>type_elements</code> values of type <code>type</code>
+   * .
    * 
    * @param elements
    *          The number of elements in the buffer.
-   * @param element_size
-   *          The size of each element in bytes.
+   * @param type_elements
+   *          The number of values in a given element.
+   * @param type
+   *          The type of values in an element.
    * @return A reference to the allocated buffer.
    * @throws GLException
    *           Iff an OpenGL error occurs.
@@ -27,13 +30,15 @@ public interface GLPixelUnpackBuffers
    *           Iff any of the following hold:
    *           <ul>
    *           <li><code>0 < elements <= Long.MAX_VALUE == false</code>.</li>
-   *           <li><code>0 < element_size <= Long.MAX_VALUE == false</code>.</li>
+   *           <li><code>type == null</code>.</li>
+   *           <li><code>0 < type_elements <= Long.MAX_VALUE == false</code>.</li>
    *           </ul>
    */
 
   @Nonnull PixelUnpackBuffer allocatePixelUnpackBuffer(
     final long elements,
-    final long element_size)
+    final @Nonnull GLScalarType type,
+    final long type_elements)
     throws GLException,
       ConstraintError;
 
