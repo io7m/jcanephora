@@ -51,6 +51,7 @@ public class ArrayBufferLWJGL30Test
       Assert.assertEquals(12, a.getElementSizeBytes());
       Assert.assertEquals(10, a.getElements());
       Assert.assertEquals(120, a.getSizeBytes());
+      Assert.assertEquals(d, a.getDescriptor());
     } finally {
       if (a != null) {
         a.delete(gl);
@@ -363,4 +364,31 @@ public class ArrayBufferLWJGL30Test
     }
   }
 
+  @Test(expected = ConstraintError.class) public
+    void
+    testArrayBufferElementOffset()
+      throws IOException,
+        ConstraintError
+  {
+    final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
+    final ArrayBufferDescriptor d =
+      new ArrayBufferDescriptor(new ArrayBufferAttribute[] {
+        new ArrayBufferAttribute("position", GLScalarType.TYPE_SHORT, 3),
+        new ArrayBufferAttribute("normal", GLScalarType.TYPE_SHORT, 3),
+        new ArrayBufferAttribute("color", GLScalarType.TYPE_SHORT, 3), });
+    ArrayBuffer a = null;
+
+    try {
+      a = gl.allocateArrayBuffer(3, d);
+      gl.mapArrayBufferWrite(a);
+      Assert.assertEquals(0, a.getElementOffset(0));
+      Assert.assertEquals(18, a.getElementOffset(1));
+      Assert.assertEquals(36, a.getElementOffset(2));
+    } catch (final Exception e) {
+      Assert.fail(e.getMessage());
+    }
+
+    assert a != null;
+    a.getElementOffset(3);
+  }
 }
