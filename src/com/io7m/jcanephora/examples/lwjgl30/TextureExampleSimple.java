@@ -1,35 +1,40 @@
 package com.io7m.jcanephora.examples.lwjgl30;
 
+import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Properties;
 
 import javax.annotation.Nonnull;
+import javax.imageio.ImageIO;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface;
 import com.io7m.jcanephora.GLInterfaceLWJGL30;
 import com.io7m.jcanephora.LWJGL30;
-import com.io7m.jcanephora.PixelUnpackBufferCursorWritable4b;
-import com.io7m.jcanephora.PixelUnpackBufferWritableMap;
 import com.io7m.jcanephora.Texture2DRGBA;
 import com.io7m.jcanephora.TextureFilter;
+import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureWrap;
 import com.io7m.jlog.Log;
+import com.io7m.jtensors.VectorI4F;
 
-public final class TextureExampleSimple
+public final class TextureExampleSimple implements Runnable
 {
-  private static int SCREEN_WIDTH   = 640;
-  private static int SCREEN_HEIGHT  = 480;
-  private static int TEXTURE_WIDTH  = 4;
-  private static int TEXTURE_HEIGHT = 4;
+  private static int SCREEN_WIDTH  = 640;
+  private static int SCREEN_HEIGHT = 480;
 
-  @SuppressWarnings("unused") public static void main(
+  public static void main(
     final String args[])
     throws ConstraintError,
-      Error,
-      GLException
+      GLException,
+      FileNotFoundException,
+      IOException
   {
     LWJGL30.createDisplay(
       "TextureExample",
@@ -40,7 +45,8 @@ public final class TextureExampleSimple
     final GLInterface gl = new GLInterfaceLWJGL30(log);
 
     try {
-      new TextureExampleSimple(gl);
+      final TextureExampleSimple t = new TextureExampleSimple(gl);
+      t.run();
     } finally {
       Display.destroy();
     }
@@ -48,60 +54,86 @@ public final class TextureExampleSimple
 
   private final @Nonnull GLInterface gl;
   private final Texture2DRGBA        texture;
+  private final VectorI4F            background;
+  private final TextureUnit[]        units;
 
   public TextureExampleSimple(
     final GLInterface gl)
     throws ConstraintError,
-      GLException
+      GLException,
+      FileNotFoundException,
+      IOException
   {
     this.gl = gl;
+    this.background = new VectorI4F(0.2f, 0.2f, 0.2f, 1.0f);
 
     /*
-     * Allocate an RGBA texture with the given filter and map modes.
+     * Obtain the available texture units. The number of units is an
+     * implementation-defined value but is currently usually 16 or 32.
      */
 
+    this.units = this.gl.getTextureUnits();
+    assert this.units.length > 0;
+
+    /*
+     * Read an RGBA image directly from a file.
+     */
+
+    final FileInputStream stream = new FileInputStream("doc/32.png");
+    final BufferedImage image = ImageIO.read(stream);
     this.texture =
-      this.gl.allocateTextureRGBA(
-        "Texture",
-        TextureExampleSimple.TEXTURE_WIDTH,
-        TextureExampleSimple.TEXTURE_HEIGHT,
+      Texture2DRGBA.loadImage(
+        "32.tiff",
+        image,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        gl);
+  }
+
+  private void render()
+    throws GLException,
+      ConstraintError
+  {
+    this.gl.clearColorBuffer(this.background);
+
+    GL11.glEnable(GL11.GL_TEXTURE_2D);
 
     /*
-     * Textures are automatically backed by a pixel unpack buffer. This buffer
-     * is mapped into the program's address space in order to be populated
-     * with bitmap data. A cursor is obtained in order to safely insert four
-     * values of type 'byte' for each element.
+     * Bind the texture to the first texture unit.
      */
 
+    this.gl.bindTexture2DRGBA(this.units[0], this.texture);
+
+    GL11.glBegin(GL11.GL_QUADS);
     {
-      final PixelUnpackBufferWritableMap map =
-        this.gl.mapPixelUnpackBufferWrite(this.texture.getBuffer());
-      final PixelUnpackBufferCursorWritable4b c = map.getCursor4b();
-
-      for (int y = 0; y < 4; ++y) {
-        final double fy = y;
-        for (int x = 0; x < 4; ++x) {
-          final double fx = x;
-          c.put4b(
-            (byte) (256.0 * (fx / 4.0)),
-            (byte) (256.0 * (fy / 4.0)),
-            (byte) 0xff,
-            (byte) 0xff);
-        }
-      }
-
-      assert c.hasNext() == false;
-      this.gl.unmapPixelUnpackBuffer(this.texture.getBuffer());
+      GL11.glTexCoord2d(0.0, 1.0);
+      GL11.glVertex3d(-0.5, 0.5, 0.0);
+      GL11.glTexCoord2d(0.0, 0.0);
+      GL11.glVertex3d(-0.5, -0.5, 0.0);
+      GL11.glTexCoord2d(1.0, 0.0);
+      GL11.glVertex3d(0.5, -0.5, 0.0);
+      GL11.glTexCoord2d(1.0, 1.0);
+      GL11.glVertex3d(0.5, 0.5, 0.0);
     }
+    GL11.glEnd();
+  }
 
-    /*
-     * Copy data from the pixel buffer into the texture.
-     */
-
-    this.gl.updateTexture2DRGBA(this.texture);
+  @Override public void run()
+  {
+    try {
+      while (Display.isCloseRequested() == false) {
+        this.render();
+        Display.update();
+        Display.sync(60);
+      }
+    } catch (final GLException e) {
+      e.printStackTrace();
+    } catch (final ConstraintError e) {
+      e.printStackTrace();
+    } finally {
+      Display.destroy();
+    }
   }
 }

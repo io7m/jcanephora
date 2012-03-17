@@ -33,7 +33,6 @@ public final class TextureExample implements Runnable, GLResource
   public static void main(
     final String args[])
     throws ConstraintError,
-      Error,
       GLException
   {
     LWJGL30.createDisplay("TextureExample", 640, 480);

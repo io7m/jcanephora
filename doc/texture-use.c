@@ -54,13 +54,6 @@ init_data()
 }
 
 static void
-reshape(int width, int height)
-{
-  assert (width > 0);
-  assert (height > 0);
-}
-
-static void
 display(void)
 {
   glClearColor(0.2, 0.2, 0.2, 1.0);
@@ -95,11 +88,8 @@ main (int argc, char **argv)
   glutCreateWindow("Textures");
 
   init_data();
-
   glutDisplayFunc(display);
-  glutReshapeFunc(reshape);
   glutIdleFunc(glutPostRedisplay);
-
   glutMainLoop();
   return 0;
 }
