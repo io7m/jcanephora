@@ -2,14 +2,17 @@ CC=cc
 CFLAGS=-g -W -Wall -Werror -pedantic -std=c90
 LDFLAGS=-lglut -lGL -ltiff
 
-all: vbo texture-use
+all: vbo vbo2 texture-use
 
 vbo: vbo.c
 	${CC} ${CFLAGS} -o vbo vbo.c ${LDFLAGS}
+
+vbo2: vbo2.c
+	${CC} ${CFLAGS} -o vbo2 vbo2.c ${LDFLAGS}
 
 texture-use: texture-use.c
 	${CC} ${CFLAGS} -o texture-use texture-use.c ${LDFLAGS}
 
 clean:
-	rm -f vbo texture-use
+	rm -f vbo vbo2 texture-use
 
