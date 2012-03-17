@@ -20,10 +20,7 @@ import com.io7m.jcanephora.GLUnsignedType;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableMap;
 import com.io7m.jcanephora.LWJGL30;
-import com.io7m.jcanephora.ProjectionMatrix;
 import com.io7m.jlog.Log;
-import com.io7m.jtensors.MatrixM4x4F;
-import com.io7m.jtensors.VectorI3F;
 import com.io7m.jtensors.VectorI4F;
 
 public final class VBOExample implements Runnable
@@ -46,13 +43,11 @@ public final class VBOExample implements Runnable
     }
   }
 
-  final ArrayBuffer           buffer;
-  final ArrayBufferDescriptor buffer_type;
-  final IndexBuffer           triangles[];
-  private final GLInterface   gl;
-  private final MatrixM4x4F   projection;
-  private final MatrixM4x4F   modelview;
-  private final VectorI4F     background;
+  private final ArrayBuffer           buffer;
+  private final ArrayBufferDescriptor buffer_type;
+  private final IndexBuffer           triangles[];
+  private final GLInterface           gl;
+  private final VectorI4F             background;
 
   private VBOExample(
     final GLInterface gl)
@@ -61,19 +56,6 @@ public final class VBOExample implements Runnable
   {
     this.gl = gl;
     this.background = new VectorI4F(0.2f, 0.2f, 0.2f, 1.0f);
-
-    this.modelview = new MatrixM4x4F();
-    this.projection = new MatrixM4x4F();
-
-    /*
-     * Set up an orthographic projection and a simple modelview matrix.
-     */
-
-    ProjectionMatrix.makeOrthographic(this.projection, 0, 1, 0, 1, 1, 100);
-    MatrixM4x4F.translateByVector3InPlace(this.modelview, new VectorI3F(
-      0.0f,
-      0.0f,
-      -1.0f));
 
     /*
      * An array buffer is an array of records. First, create the description
@@ -112,10 +94,10 @@ public final class VBOExample implements Runnable
        * could be interleaved without changing the semantics of the program.
        */
 
-      position.put3f(0.0f, 1.0f, 0.0f);
-      position.put3f(0.0f, 0.0f, 0.0f);
-      position.put3f(1.0f, 0.0f, 0.0f);
-      position.put3f(1.0f, 1.0f, 0.0f);
+      position.put3f(-0.5f, 0.5f, 0.0f);
+      position.put3f(-0.5f, -0.5f, 0.0f);
+      position.put3f(0.5f, 0.5f, 0.0f);
+      position.put3f(0.5f, 0.5f, 0.0f);
       color.put3f(1.0f, 0.0f, 0.0f);
       color.put3f(1.0f, 1.0f, 0.0f);
       color.put3f(0.0f, 1.0f, 0.0f);
@@ -183,11 +165,6 @@ public final class VBOExample implements Runnable
   {
     this.gl.clearColorBuffer(this.background);
 
-    GL11.glMatrixMode(GL11.GL_PROJECTION);
-    GL11.glLoadMatrix(MatrixM4x4F.floatBuffer(this.projection));
-    GL11.glMatrixMode(GL11.GL_MODELVIEW);
-    GL11.glLoadMatrix(MatrixM4x4F.floatBuffer(this.modelview));
-
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, this.buffer.getLocation());
     GL15.glBindBuffer(
       GL15.GL_ELEMENT_ARRAY_BUFFER,
@@ -226,10 +203,8 @@ public final class VBOExample implements Runnable
         Display.sync(60);
       }
     } catch (final GLException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (final ConstraintError e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     } finally {
       Display.destroy();
