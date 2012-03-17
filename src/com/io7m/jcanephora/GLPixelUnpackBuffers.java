@@ -106,7 +106,7 @@ public interface GLPixelUnpackBuffers
    *           </ul>
    */
 
-  @Nonnull ByteBuffer mapPixelUnpackBufferWrite(
+  @Nonnull PixelUnpackBufferWritableMap mapPixelUnpackBufferWrite(
     final @Nonnull PixelUnpackBuffer id)
     throws GLException,
       ConstraintError;

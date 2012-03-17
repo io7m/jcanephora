@@ -77,7 +77,9 @@ public final class TextureExampleSimple
 
     {
       final ByteBuffer map =
-        this.gl.mapPixelUnpackBufferWrite(this.texture.getBuffer());
+        this.gl
+          .mapPixelUnpackBufferWrite(this.texture.getBuffer())
+          .getByteBuffer();
 
       assert (map.remaining() == (TextureExampleSimple.TEXTURE_WIDTH
         * TextureExampleSimple.TEXTURE_HEIGHT * 4));

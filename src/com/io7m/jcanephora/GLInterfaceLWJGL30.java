@@ -1719,7 +1719,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     return b;
   }
 
-  @Override public ByteBuffer mapPixelUnpackBufferWrite(
+  @Override public PixelUnpackBufferWritableMap mapPixelUnpackBufferWrite(
     final PixelUnpackBuffer id)
     throws GLException,
       ConstraintError
@@ -1741,7 +1741,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL15.glMapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, GL15.GL_WRITE_ONLY, null);
     GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
     GLError.check(this);
-    return b;
+    return new PixelUnpackBufferWritableMap(GLScalarType.TYPE_BYTE, 1, b);
   }
 
   @Override public void noProgram()
