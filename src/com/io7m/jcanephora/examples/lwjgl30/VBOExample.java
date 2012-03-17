@@ -96,7 +96,7 @@ public final class VBOExample implements Runnable
 
       position.put3f(-0.5f, 0.5f, 0.0f);
       position.put3f(-0.5f, -0.5f, 0.0f);
-      position.put3f(0.5f, 0.5f, 0.0f);
+      position.put3f(0.5f, -0.5f, 0.0f);
       position.put3f(0.5f, 0.5f, 0.0f);
       color.put3f(1.0f, 0.0f, 0.0f);
       color.put3f(1.0f, 1.0f, 0.0f);
@@ -166,10 +166,6 @@ public final class VBOExample implements Runnable
     this.gl.clearColorBuffer(this.background);
 
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, this.buffer.getLocation());
-    GL15.glBindBuffer(
-      GL15.GL_ELEMENT_ARRAY_BUFFER,
-      this.triangles[0].getLocation());
-
     GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
     GL11.glVertexPointer(
       3,
@@ -182,9 +178,22 @@ public final class VBOExample implements Runnable
       GL11.GL_FLOAT,
       (int) this.buffer.getElementSizeBytes(),
       this.buffer.getDescriptor().getAttributeOffset("color"));
+
+    GL15.glBindBuffer(
+      GL15.GL_ELEMENT_ARRAY_BUFFER,
+      this.triangles[0].getLocation());
     GL11.glDrawElements(
       GL11.GL_TRIANGLES,
       (int) this.triangles[0].getElements(),
+      GL11.GL_UNSIGNED_BYTE,
+      0L);
+
+    GL15.glBindBuffer(
+      GL15.GL_ELEMENT_ARRAY_BUFFER,
+      this.triangles[1].getLocation());
+    GL11.glDrawElements(
+      GL11.GL_TRIANGLES,
+      (int) this.triangles[1].getElements(),
       GL11.GL_UNSIGNED_BYTE,
       0L);
 
