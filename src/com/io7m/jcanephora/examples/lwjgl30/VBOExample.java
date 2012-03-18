@@ -2,6 +2,8 @@ package com.io7m.jcanephora.examples.lwjgl30;
 
 import java.util.Properties;
 
+import javax.annotation.Nonnull;
+
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
@@ -43,11 +45,11 @@ public final class VBOExample implements Runnable
     }
   }
 
-  private final ArrayBuffer           buffer;
-  private final ArrayBufferDescriptor buffer_type;
-  private final IndexBuffer           triangles[];
-  private final GLInterface           gl;
-  private final VectorI4F             background;
+  private final @Nonnull ArrayBuffer           buffer;
+  private final @Nonnull ArrayBufferDescriptor buffer_type;
+  private final @Nonnull IndexBuffer           triangles[];
+  private final @Nonnull GLInterface           gl;
+  private final @Nonnull VectorI4F             background;
 
   private VBOExample(
     final GLInterface gl)
