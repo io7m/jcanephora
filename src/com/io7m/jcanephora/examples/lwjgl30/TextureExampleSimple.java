@@ -52,10 +52,10 @@ public final class TextureExampleSimple implements Runnable
     }
   }
 
-  private final @Nonnull GLInterface gl;
-  private final Texture2DRGBA        texture;
-  private final VectorI4F            background;
-  private final TextureUnit[]        units;
+  private final @Nonnull GLInterface   gl;
+  private final @Nonnull Texture2DRGBA texture;
+  private final @Nonnull VectorI4F     background;
+  private final @Nonnull TextureUnit[] units;
 
   public TextureExampleSimple(
     final GLInterface gl)
