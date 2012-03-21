@@ -236,7 +236,7 @@ public interface GLShaders
 
   void getAttributes(
     final @Nonnull ProgramReference program,
-    final @Nonnull Map<String, Attribute> out)
+    final @Nonnull Map<String, ProgramAttribute> out)
     throws ConstraintError,
       GLException;
 
@@ -273,7 +273,7 @@ public interface GLShaders
 
   void getUniforms(
     final @Nonnull ProgramReference program,
-    final @Nonnull Map<String, Uniform> out)
+    final @Nonnull Map<String, ProgramUniform> out)
     throws ConstraintError,
       GLException;
 
@@ -351,7 +351,7 @@ public interface GLShaders
    */
 
   void putUniformFloat(
-    final @Nonnull Uniform uniform,
+    final @Nonnull ProgramUniform uniform,
     final float value)
     throws ConstraintError,
       GLException;
@@ -378,7 +378,7 @@ public interface GLShaders
    */
 
   void putUniformMatrix3x3f(
-    final @Nonnull Uniform uniform,
+    final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixM3x3F matrix)
     throws ConstraintError,
       GLException;
@@ -405,7 +405,7 @@ public interface GLShaders
    */
 
   void putUniformMatrix4x4f(
-    final @Nonnull Uniform uniform,
+    final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixM4x4F matrix)
     throws ConstraintError,
       GLException;
@@ -432,7 +432,7 @@ public interface GLShaders
    */
 
   void putUniformTextureUnit(
-    final @Nonnull Uniform uniform,
+    final @Nonnull ProgramUniform uniform,
     final @Nonnull TextureUnit unit)
     throws ConstraintError,
       GLException;
@@ -459,7 +459,7 @@ public interface GLShaders
    */
 
   void putUniformVector3f(
-    final @Nonnull Uniform uniform,
+    final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable3F vector)
     throws ConstraintError,
       GLException;
@@ -486,7 +486,7 @@ public interface GLShaders
    */
 
   void putUniformVector4f(
-    final @Nonnull Uniform uniform,
+    final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4F vector)
     throws ConstraintError,
       GLException;

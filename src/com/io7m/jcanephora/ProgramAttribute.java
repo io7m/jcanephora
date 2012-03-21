@@ -2,17 +2,18 @@ package com.io7m.jcanephora;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * A reference to an active uniform variable for a program.
+ * A immutable reference to an active attribute variable for a program.
  * 
- * A uniform variable has a name, a location, and a type.
+ * An attribute has a name, a location, and a type.
  */
 
-public final class Uniform
+@Immutable public final class ProgramAttribute
 {
   private final int                       index;
   private final int                       location;
@@ -20,7 +21,7 @@ public final class Uniform
   private final @Nonnull String           name;
   private final @Nonnull ProgramReference program;
 
-  Uniform(
+  ProgramAttribute(
     final @Nonnull ProgramReference program,
     final int index,
     final int location,
@@ -30,20 +31,23 @@ public final class Uniform
   {
     this.program = Constraints.constrainNotNull(program, "Program");
     this.index =
-      Constraints
-        .constrainRange(index, 0, Integer.MAX_VALUE, "Uniform index");
+      Constraints.constrainRange(
+        index,
+        0,
+        Integer.MAX_VALUE,
+        "Attribute index");
     this.location =
       Constraints.constrainRange(
         location,
         0,
         Integer.MAX_VALUE,
-        "Uniform location");
-    this.type = Constraints.constrainNotNull(type, "Uniform type");
-    this.name = Constraints.constrainNotNull(name, "Uniform name");
+        "Attribute location");
+    this.type = Constraints.constrainNotNull(type, "Attribute type");
+    this.name = Constraints.constrainNotNull(name, "Attribute name");
   }
 
   /**
-   * Retrieve the raw OpenGL 'location' of the uniform value.
+   * Retrieve the raw OpenGL 'location' of the attribute.
    */
 
   public int getLocation()
@@ -52,7 +56,7 @@ public final class Uniform
   }
 
   /**
-   * Retrieve the name of the uniform. This is the name of the uniform as
+   * Retrieve the name of the attribute. This is the name of the attribute as
    * declared in the respective shading program.
    */
 
@@ -62,7 +66,7 @@ public final class Uniform
   }
 
   /**
-   * Retrieve a reference to the program to which the uniform belongs.
+   * Retrieve a reference to the program that owns the attribute.
    */
 
   public @Nonnull ProgramReference getProgram()
@@ -71,7 +75,7 @@ public final class Uniform
   }
 
   /**
-   * Retrieve the OpenGL type of the uniform.
+   * Retrieve the OpenGL type of the attribute.
    */
 
   public @Nonnull GLType.Type getType()
@@ -82,7 +86,7 @@ public final class Uniform
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("[Uniform ");
+    builder.append("[AttributeID ");
     builder.append(this.getLocation());
     builder.append(" ");
     builder.append(this.index);

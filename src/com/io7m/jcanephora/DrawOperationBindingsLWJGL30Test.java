@@ -192,13 +192,13 @@ public class DrawOperationBindingsLWJGL30Test
     GLInterface gl = null;
     DrawOperationBindings b = null;
     ProgramReference p = null;
-    Attribute pa = null;
+    ProgramAttribute pa = null;
 
     try {
       gl = GLInterfaceLWJGL30Util.getGL();
       b = new DrawOperationBindings(gl);
       p = DrawOperationBindingsLWJGL30Test.make4AttribProgram(gl);
-      final Map<String, Attribute> out = new HashMap<String, Attribute>();
+      final Map<String, ProgramAttribute> out = new HashMap<String, ProgramAttribute>();
       gl.getAttributes(p, out);
       pa = out.get("attr0");
     } catch (final Throwable e) {
@@ -223,14 +223,14 @@ public class DrawOperationBindingsLWJGL30Test
     GLInterface gl = null;
     DrawOperationBindings b = null;
     ProgramReference p = null;
-    Attribute pa = null;
+    ProgramAttribute pa = null;
     ArrayBuffer a = null;
 
     try {
       gl = GLInterfaceLWJGL30Util.getGL();
       b = new DrawOperationBindings(gl);
       p = DrawOperationBindingsLWJGL30Test.make4AttribProgram(gl);
-      final Map<String, Attribute> out = new HashMap<String, Attribute>();
+      final Map<String, ProgramAttribute> out = new HashMap<String, ProgramAttribute>();
       gl.getAttributes(p, out);
       pa = out.get("attr0");
       a = DrawOperationBindingsLWJGL30Test.makeBuffer(gl);
@@ -252,7 +252,7 @@ public class DrawOperationBindingsLWJGL30Test
     GLInterface gl = null;
     DrawOperationBindings b = null;
     ProgramReference p = null;
-    Attribute pa = null;
+    ProgramAttribute pa = null;
     ArrayBuffer a = null;
     ArrayBufferAttribute aa = null;
 
@@ -260,7 +260,7 @@ public class DrawOperationBindingsLWJGL30Test
       gl = GLInterfaceLWJGL30Util.getGL();
       b = new DrawOperationBindings(gl);
       p = DrawOperationBindingsLWJGL30Test.make4AttribProgram(gl);
-      final Map<String, Attribute> out = new HashMap<String, Attribute>();
+      final Map<String, ProgramAttribute> out = new HashMap<String, ProgramAttribute>();
       gl.getAttributes(p, out);
       pa = out.get("attr0");
       a = DrawOperationBindingsLWJGL30Test.makeBuffer(gl);
@@ -286,7 +286,7 @@ public class DrawOperationBindingsLWJGL30Test
     DrawOperationBindings b = null;
     ProgramReference p0 = null;
     ProgramReference p1 = null;
-    Attribute pa = null;
+    ProgramAttribute pa = null;
     ArrayBuffer a = null;
     ArrayBufferAttribute aa = null;
 
@@ -295,7 +295,7 @@ public class DrawOperationBindingsLWJGL30Test
       b = new DrawOperationBindings(gl);
       p0 = DrawOperationBindingsLWJGL30Test.make4AttribProgram(gl);
       p1 = DrawOperationBindingsLWJGL30Test.make4AttribProgram(gl);
-      final Map<String, Attribute> attrs = new HashMap<String, Attribute>();
+      final Map<String, ProgramAttribute> attrs = new HashMap<String, ProgramAttribute>();
       gl.getAttributes(p1, attrs);
       pa = attrs.get("attr0");
       a = DrawOperationBindingsLWJGL30Test.makeBuffer(gl);
@@ -320,7 +320,7 @@ public class DrawOperationBindingsLWJGL30Test
     GLInterface gl = null;
     DrawOperationBindings b = null;
     ProgramReference p = null;
-    Attribute pa = null;
+    ProgramAttribute pa = null;
     ArrayBuffer a0 = null;
     ArrayBuffer a1 = null;
     ArrayBufferAttribute aa = null;
@@ -329,7 +329,7 @@ public class DrawOperationBindingsLWJGL30Test
       gl = GLInterfaceLWJGL30Util.getGL();
       b = new DrawOperationBindings(gl);
       p = DrawOperationBindingsLWJGL30Test.make4AttribProgram(gl);
-      final Map<String, Attribute> out = new HashMap<String, Attribute>();
+      final Map<String, ProgramAttribute> out = new HashMap<String, ProgramAttribute>();
       gl.getAttributes(p, out);
       pa = out.get("attr0");
       a0 = DrawOperationBindingsLWJGL30Test.makeBuffer(gl);
@@ -355,8 +355,8 @@ public class DrawOperationBindingsLWJGL30Test
     GLInterface gl = null;
     DrawOperationBindings b = null;
     ProgramReference p = null;
-    Attribute pa0 = null;
-    Attribute pa1 = null;
+    ProgramAttribute pa0 = null;
+    ProgramAttribute pa1 = null;
     ArrayBuffer a0 = null;
     ArrayBufferAttribute aa0 = null;
 
@@ -364,7 +364,7 @@ public class DrawOperationBindingsLWJGL30Test
       gl = GLInterfaceLWJGL30Util.getGL();
       b = new DrawOperationBindings(gl);
       p = DrawOperationBindingsLWJGL30Test.make4AttribProgram(gl);
-      final Map<String, Attribute> out = new HashMap<String, Attribute>();
+      final Map<String, ProgramAttribute> out = new HashMap<String, ProgramAttribute>();
       gl.getAttributes(p, out);
       pa0 = out.get("attr0");
       pa1 = out.get("attr1");
@@ -391,7 +391,7 @@ public class DrawOperationBindingsLWJGL30Test
     GLInterface gl = null;
     DrawOperationBindings b = null;
     ProgramReference p = null;
-    Attribute pa0 = null;
+    ProgramAttribute pa0 = null;
     ArrayBuffer a0 = null;
     ArrayBufferAttribute aa0 = null;
     ArrayBufferAttribute aa1 = null;
@@ -400,7 +400,7 @@ public class DrawOperationBindingsLWJGL30Test
       gl = GLInterfaceLWJGL30Util.getGL();
       b = new DrawOperationBindings(gl);
       p = DrawOperationBindingsLWJGL30Test.make4AttribProgram(gl);
-      final Map<String, Attribute> out = new HashMap<String, Attribute>();
+      final Map<String, ProgramAttribute> out = new HashMap<String, ProgramAttribute>();
       gl.getAttributes(p, out);
       pa0 = out.get("attr0");
       a0 = DrawOperationBindingsLWJGL30Test.makeBuffer(gl);
@@ -425,8 +425,8 @@ public class DrawOperationBindingsLWJGL30Test
     GLInterface gl = null;
     DrawOperationBindings b = null;
     ProgramReference p = null;
-    Attribute pa0 = null;
-    Attribute pa1 = null;
+    ProgramAttribute pa0 = null;
+    ProgramAttribute pa1 = null;
     ArrayBuffer a0 = null;
     ArrayBufferAttribute aa0 = null;
     ArrayBufferAttribute aa1 = null;
@@ -435,7 +435,7 @@ public class DrawOperationBindingsLWJGL30Test
       gl = GLInterfaceLWJGL30Util.getGL();
       b = new DrawOperationBindings(gl);
       p = DrawOperationBindingsLWJGL30Test.make4AttribProgram(gl);
-      final Map<String, Attribute> out = new HashMap<String, Attribute>();
+      final Map<String, ProgramAttribute> out = new HashMap<String, ProgramAttribute>();
       gl.getAttributes(p, out);
       pa0 = out.get("attr0");
       pa1 = out.get("attr1");
@@ -461,8 +461,8 @@ public class DrawOperationBindingsLWJGL30Test
     GLInterface gl = null;
     DrawOperationBindings b = null;
     ProgramReference p = null;
-    Attribute pa0 = null;
-    Attribute pa1 = null;
+    ProgramAttribute pa0 = null;
+    ProgramAttribute pa1 = null;
     ArrayBuffer a0 = null;
     ArrayBuffer a1 = null;
     ArrayBufferAttribute aa0 = null;
@@ -472,7 +472,7 @@ public class DrawOperationBindingsLWJGL30Test
       gl = GLInterfaceLWJGL30Util.getGL();
       b = new DrawOperationBindings(gl);
       p = DrawOperationBindingsLWJGL30Test.make4AttribProgram(gl);
-      final Map<String, Attribute> out = new HashMap<String, Attribute>();
+      final Map<String, ProgramAttribute> out = new HashMap<String, ProgramAttribute>();
       gl.getAttributes(p, out);
       pa0 = out.get("attr0");
       pa1 = out.get("attr1");
@@ -495,7 +495,7 @@ public class DrawOperationBindingsLWJGL30Test
       Assert.assertTrue(xs.contains(a1));
 
       {
-        final List<Pair<ArrayBufferAttribute, Attribute>> ys =
+        final List<Pair<ArrayBufferAttribute, ProgramAttribute>> ys =
           b.getBindings(a0);
         Assert.assertEquals(1, ys.size());
         Assert.assertSame(aa0, ys.get(0).first);
@@ -503,7 +503,7 @@ public class DrawOperationBindingsLWJGL30Test
       }
 
       {
-        final List<Pair<ArrayBufferAttribute, Attribute>> ys =
+        final List<Pair<ArrayBufferAttribute, ProgramAttribute>> ys =
           b.getBindings(a1);
         Assert.assertEquals(1, ys.size());
         Assert.assertSame(aa1, ys.get(0).first);
@@ -524,7 +524,7 @@ public class DrawOperationBindingsLWJGL30Test
     GLInterface gl = null;
     DrawOperationBindings b = null;
     ProgramReference p = null;
-    Attribute pa0 = null;
+    ProgramAttribute pa0 = null;
     ArrayBuffer a0 = null;
     ArrayBufferAttribute aa0 = null;
 
@@ -532,7 +532,7 @@ public class DrawOperationBindingsLWJGL30Test
       gl = GLInterfaceLWJGL30Util.getGL();
       b = new DrawOperationBindings(gl);
       p = DrawOperationBindingsLWJGL30Test.make4AttribProgram(gl);
-      final Map<String, Attribute> out = new HashMap<String, Attribute>();
+      final Map<String, ProgramAttribute> out = new HashMap<String, ProgramAttribute>();
       gl.getAttributes(p, out);
       pa0 = out.get("attr0");
       a0 = DrawOperationBindingsLWJGL30Test.makeBuffer(gl);

@@ -218,7 +218,7 @@ public class ProgramLWJGL30Test
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
 
-    final Attribute a = p.getAttribute("vertex");
+    final ProgramAttribute a = p.getAttribute("vertex");
     Assert.assertTrue(a != null);
     assert a != null;
     Assert.assertEquals(p.getID(), a.getProgram());
@@ -498,7 +498,7 @@ public class ProgramLWJGL30Test
       ConstraintError
   {
     final Program p = new Program("program", ProgramLWJGL30Test.getLog());
-    final Attribute a = p.getAttribute("something");
+    final ProgramAttribute a = p.getAttribute("something");
     Assert.assertEquals(null, a);
   }
 
@@ -524,7 +524,7 @@ public class ProgramLWJGL30Test
       ConstraintError
   {
     final Program p = new Program("program", ProgramLWJGL30Test.getLog());
-    final Uniform u = p.getUniform("something");
+    final ProgramUniform u = p.getUniform("something");
     Assert.assertEquals(null, u);
   }
 
@@ -627,7 +627,7 @@ public class ProgramLWJGL30Test
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
 
-    final Uniform u = p.getUniform("alpha");
+    final ProgramUniform u = p.getUniform("alpha");
     Assert.assertTrue(u != null);
     assert u != null;
     Assert.assertEquals(p.getID(), u.getProgram());
