@@ -387,6 +387,42 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throw new AssertionError("unreachable code: report this bug!");
   }
 
+  static @Nonnull Primitives primitiveFromGL(
+    final int code)
+  {
+    switch (code) {
+      case GL11.GL_LINES:
+        return Primitives.PRIMITIVE_LINES;
+      case GL11.GL_LINE_LOOP:
+        return Primitives.PRIMITIVE_LINE_LOOP;
+      case GL11.GL_TRIANGLES:
+        return Primitives.PRIMITIVE_TRIANGLES;
+      case GL11.GL_TRIANGLE_STRIP:
+        return Primitives.PRIMITIVE_TRIANGLE_STRIP;
+    }
+
+    /* UNREACHABLE */
+    throw new AssertionError("unreachable code: report this bug!");
+  }
+
+  static int primitiveToGL(
+    final Primitives p)
+  {
+    switch (p) {
+      case PRIMITIVE_LINES:
+        return GL11.GL_LINES;
+      case PRIMITIVE_LINE_LOOP:
+        return GL11.GL_LINE_LOOP;
+      case PRIMITIVE_TRIANGLES:
+        return GL11.GL_TRIANGLES;
+      case PRIMITIVE_TRIANGLE_STRIP:
+        return GL11.GL_TRIANGLE_STRIP;
+    }
+
+    /* UNREACHABLE */
+    throw new AssertionError("unreachable code: report this bug!");
+  }
+
   static @Nonnull GLScalarType scalarTypeFromGL(
     final int type)
   {
@@ -910,6 +946,20 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
   }
 
+  @Override public void bindArrayBuffer(
+    final @Nonnull ArrayBuffer buffer)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(buffer, "Array buffer");
+    Constraints.constrainArbitrary(
+      GL15.glIsBuffer(buffer.getLocation()),
+      "Buffer corresponds to a valid OpenGL buffer");
+
+    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, buffer.getLocation());
+    GLError.check(this);
+  }
+
   @Override public void bindTexture2DRGBA(
     final @Nonnull TextureUnit unit,
     final @Nonnull Texture2DRGBA texture)
@@ -921,6 +971,42 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     GL13.glActiveTexture(GL13.GL_TEXTURE0 + unit.getIndex());
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getLocation());
+    GLError.check(this);
+  }
+
+  @Override public void bindVertexAttributeArrayForBuffer(
+    final @Nonnull ArrayBuffer buffer,
+    final @Nonnull ArrayBufferAttribute buffer_attribute,
+    final @Nonnull Attribute program_attribute)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(buffer, "Array buffer");
+    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
+    Constraints.constrainNotNull(program_attribute, "Program attribute");
+
+    final ArrayBufferDescriptor d = buffer.getDescriptor();
+
+    Constraints.constrainArbitrary(
+      d.getAttribute(buffer_attribute.getName()) == buffer_attribute,
+      "Buffer attribute belongs to the array buffer");
+
+    final int program_attrib_id = program_attribute.getLocation();
+    final int count = buffer_attribute.getElements();
+    final int type =
+      GLInterfaceLWJGL30.scalarTypeToGL(buffer_attribute.getType());
+    final boolean normalized = false;
+    final int stride = (int) buffer.getElementSizeBytes();
+    final int offset = d.getAttributeOffset(buffer_attribute.getName());
+
+    GL20.glEnableVertexAttribArray(program_attrib_id);
+    GL20.glVertexAttribPointer(
+      program_attrib_id,
+      count,
+      type,
+      normalized,
+      stride,
+      offset);
     GLError.check(this);
   }
 
@@ -1195,6 +1281,28 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws GLException
   {
     GL11.glDisable(GL11.GL_SCISSOR_TEST);
+    GLError.check(this);
+  }
+
+  @Override public void drawElements(
+    final @Nonnull Primitives mode,
+    final @Nonnull IndexBuffer indices)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(mode, "Drawing mode");
+    Constraints.constrainNotNull(indices, "Index ID");
+    Constraints.constrainArbitrary(
+      GL15.glIsBuffer(indices.getLocation()),
+      "ID corresponds to OpenGL buffer");
+
+    final int index_id = indices.getLocation();
+    final int index_count = (int) indices.getElements();
+    final int mode_gl = GLInterfaceLWJGL30.primitiveToGL(mode);
+    final int type = GLInterfaceLWJGL30.unsignedTypeToGL(indices.getType());
+
+    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, index_id);
+    GL11.glDrawElements(mode_gl, index_count, type, 0L);
     GLError.check(this);
   }
 
@@ -1478,6 +1586,16 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   @Override public int getError()
   {
     return GL11.glGetError();
+  }
+
+  @Override public int getMaximumActiveAttributes()
+    throws GLException
+  {
+    final int max = GL11.glGetInteger(GL20.GL_MAX_VERTEX_ATTRIBS);
+    GLError.check(this);
+
+    this.log.debug("implementation supports " + max + " active attributes");
+    return max;
   }
 
   @Override public @Nonnull String getRenderer()
@@ -1962,6 +2080,35 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       position.getY(),
       dimensions.getX(),
       dimensions.getY());
+    GLError.check(this);
+  }
+
+  @Override public void unbindArrayBuffer()
+    throws GLException,
+      ConstraintError
+  {
+    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+    GLError.check(this);
+  }
+
+  @Override public void unbindVertexAttributeArrayForBuffer(
+    final @Nonnull ArrayBuffer buffer,
+    final @Nonnull ArrayBufferAttribute buffer_attribute,
+    final @Nonnull Attribute program_attribute)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(buffer, "Array buffer");
+    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
+    Constraints.constrainNotNull(program_attribute, "Program attribute");
+
+    final ArrayBufferDescriptor d = buffer.getDescriptor();
+
+    Constraints.constrainArbitrary(
+      d.getAttribute(buffer_attribute.getName()) == buffer_attribute,
+      "Buffer attribute belongs to the array buffer");
+
+    GL20.glEnableVertexAttribArray(program_attribute.getLocation());
     GLError.check(this);
   }
 
