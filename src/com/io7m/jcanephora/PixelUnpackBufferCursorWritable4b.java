@@ -58,18 +58,6 @@ public final class PixelUnpackBufferCursorWritable4b implements
   }
 
   /**
-   * Seek to the given element.
-   */
-
-  @Override public void seekTo(
-    final long to)
-    throws ConstraintError
-  {
-    this.index = Constraints.constrainRange(to, 0, this.index_max);
-    this.index_byte_current = this.index * 4;
-  }
-
-  /**
    * Put the values <code>s, t, u, v</code> at the current cursor location and
    * seek the cursor to the next element iff there is one.
    */
@@ -94,6 +82,18 @@ public final class PixelUnpackBufferCursorWritable4b implements
       /* UNREACHABLE */
       throw new AssertionError("unreachable code: report this bug!");
     }
+  }
+
+  /**
+   * Seek to the given element.
+   */
+
+  @Override public void seekTo(
+    final long to)
+    throws ConstraintError
+  {
+    this.index = Constraints.constrainRange(to, 0, this.index_max);
+    this.index_byte_current = this.index * 4;
   }
 
 }
