@@ -241,6 +241,17 @@ public interface GLShaders
       GLException;
 
   /**
+   * Return the implementation-specific maximum for the number of active
+   * attributes.
+   * 
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  int getMaximumActiveAttributes()
+    throws GLException;
+
+  /**
    * Return all active attributes for the program <code>program</code> in
    * <code>out</code>.
    * 
