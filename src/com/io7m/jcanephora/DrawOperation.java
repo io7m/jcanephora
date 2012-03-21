@@ -34,7 +34,7 @@ import com.io7m.jaux.functional.Pair;
 
     for (final ArrayBuffer buffer : this.bindings.getBuffers()) {
       gl.bindArrayBuffer(buffer);
-      for (final Pair<ArrayBufferAttribute, Attribute> p : this.bindings
+      for (final Pair<ArrayBufferAttribute, ProgramAttribute> p : this.bindings
         .getBindings(buffer)) {
         gl.bindVertexAttributeArrayForBuffer(buffer, p.first, p.second);
       }
@@ -43,7 +43,7 @@ import com.io7m.jaux.functional.Pair;
     gl.drawElements(mode, indices);
 
     for (final ArrayBuffer buffer : this.bindings.getBuffers()) {
-      for (final Pair<ArrayBufferAttribute, Attribute> p : this.bindings
+      for (final Pair<ArrayBufferAttribute, ProgramAttribute> p : this.bindings
         .getBindings(buffer)) {
         gl.unbindVertexAttributeArrayForBuffer(buffer, p.first, p.second);
       }

@@ -49,8 +49,8 @@ public final class Program
   private final @Nonnull String                                    name;
   private final @Nonnull HashMap<PathVirtual, VertexShaderEntry>   vertex_shaders;
   private final @Nonnull HashMap<PathVirtual, FragmentShaderEntry> fragment_shaders;
-  private final @Nonnull TreeMap<String, Uniform>                  uniforms;
-  private final @Nonnull TreeMap<String, Attribute>                attributes;
+  private final @Nonnull TreeMap<String, ProgramUniform>                  uniforms;
+  private final @Nonnull TreeMap<String, ProgramAttribute>                attributes;
   private final @Nonnull Log                                       log;
   private boolean                                                  changed;
 
@@ -65,8 +65,8 @@ public final class Program
     this.name = Constraints.constrainNotNull(name, "Program name");
     this.vertex_shaders = new HashMap<PathVirtual, VertexShaderEntry>();
     this.fragment_shaders = new HashMap<PathVirtual, FragmentShaderEntry>();
-    this.uniforms = new TreeMap<String, Uniform>();
-    this.attributes = new TreeMap<String, Attribute>();
+    this.uniforms = new TreeMap<String, ProgramUniform>();
+    this.attributes = new TreeMap<String, ProgramAttribute>();
     this.changed = false;
   }
 
@@ -269,10 +269,10 @@ public final class Program
       gl.getAttributes(this.program, this.attributes);
       this.changed = false;
 
-      for (final Entry<String, Uniform> e : this.uniforms.entrySet()) {
+      for (final Entry<String, ProgramUniform> e : this.uniforms.entrySet()) {
         this.debug("uniform " + e.getValue());
       }
-      for (final Entry<String, Attribute> e : this.attributes.entrySet()) {
+      for (final Entry<String, ProgramAttribute> e : this.attributes.entrySet()) {
         this.debug("attribute " + e.getValue());
       }
 
@@ -379,7 +379,7 @@ public final class Program
    *           Iff <code>attribute_name == null</code>.
    */
 
-  public @CheckForNull Attribute getAttribute(
+  public @CheckForNull ProgramAttribute getAttribute(
     final @Nonnull String attribute_name)
     throws ConstraintError
   {
@@ -412,7 +412,7 @@ public final class Program
    *           Iff <code>uniform_name == null</code>.
    */
 
-  public @CheckForNull Uniform getUniform(
+  public @CheckForNull ProgramUniform getUniform(
     final @Nonnull String uniform_name)
     throws ConstraintError
   {

@@ -977,7 +977,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   @Override public void bindVertexAttributeArrayForBuffer(
     final @Nonnull ArrayBuffer buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
-    final @Nonnull Attribute program_attribute)
+    final @Nonnull ProgramAttribute program_attribute)
     throws GLException,
       ConstraintError
   {
@@ -1506,7 +1506,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
   @Override public void getAttributes(
     final @Nonnull ProgramReference program,
-    final @Nonnull Map<String, Attribute> out)
+    final @Nonnull Map<String, ProgramAttribute> out)
     throws ConstraintError,
       GLException
   {
@@ -1579,7 +1579,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       }
 
       assert out.containsKey(name) == false;
-      out.put(name, new Attribute(program, index, location, name, type));
+      out.put(name, new ProgramAttribute(program, index, location, name, type));
     }
   }
 
@@ -1624,7 +1624,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
   @Override public void getUniforms(
     final @Nonnull ProgramReference program,
-    final @Nonnull Map<String, Uniform> out)
+    final @Nonnull Map<String, ProgramUniform> out)
     throws ConstraintError,
       GLException
   {
@@ -1685,7 +1685,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GLError.check(this);
 
       assert (out.containsKey(name) == false);
-      out.put(name, new Uniform(program, index, location, name, type));
+      out.put(name, new ProgramUniform(program, index, location, name, type));
     }
   }
 
@@ -1892,7 +1892,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   }
 
   @Override public void putUniformFloat(
-    final @Nonnull Uniform uniform,
+    final @Nonnull ProgramUniform uniform,
     final float value)
     throws ConstraintError,
       GLException
@@ -1910,7 +1910,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   }
 
   @Override public void putUniformMatrix3x3f(
-    final @Nonnull Uniform uniform,
+    final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixM3x3F matrix)
     throws ConstraintError,
       GLException
@@ -1932,7 +1932,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   }
 
   @Override public void putUniformMatrix4x4f(
-    final @Nonnull Uniform uniform,
+    final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixM4x4F matrix)
     throws ConstraintError,
       GLException
@@ -1954,7 +1954,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   }
 
   @Override public void putUniformTextureUnit(
-    final @Nonnull Uniform uniform,
+    final @Nonnull ProgramUniform uniform,
     final @Nonnull TextureUnit unit)
     throws ConstraintError,
       GLException
@@ -1972,7 +1972,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   }
 
   @Override public void putUniformVector3f(
-    final @Nonnull Uniform uniform,
+    final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable3F vector)
     throws ConstraintError,
       GLException
@@ -1995,7 +1995,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   }
 
   @Override public void putUniformVector4f(
-    final @Nonnull Uniform uniform,
+    final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4F vector)
     throws ConstraintError,
       GLException
@@ -2094,7 +2094,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   @Override public void unbindVertexAttributeArrayForBuffer(
     final @Nonnull ArrayBuffer buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
-    final @Nonnull Attribute program_attribute)
+    final @Nonnull ProgramAttribute program_attribute)
     throws GLException,
       ConstraintError
   {

@@ -14,7 +14,7 @@ import com.io7m.jaux.functional.Pair;
 
 public final class DrawOperationBindings
 {
-  private final @Nonnull HashMap<ArrayBuffer, LinkedList<Pair<ArrayBufferAttribute, Attribute>>> bindings;
+  private final @Nonnull HashMap<ArrayBuffer, LinkedList<Pair<ArrayBufferAttribute, ProgramAttribute>>> bindings;
   private final int                                                                              max_attributes;
   private int                                                                                    used_attributes;
 
@@ -26,7 +26,7 @@ public final class DrawOperationBindings
     Constraints.constrainNotNull(gl, "GL interface");
 
     this.bindings =
-      new HashMap<ArrayBuffer, LinkedList<Pair<ArrayBufferAttribute, Attribute>>>();
+      new HashMap<ArrayBuffer, LinkedList<Pair<ArrayBufferAttribute, ProgramAttribute>>>();
     this.max_attributes = gl.getMaximumActiveAttributes();
     this.used_attributes = 0;
   }
@@ -68,7 +68,7 @@ public final class DrawOperationBindings
   public void addBinding(
     final @Nonnull GLInterface gl,
     final @Nonnull ProgramReference program,
-    final @Nonnull Attribute program_attribute,
+    final @Nonnull ProgramAttribute program_attribute,
     final @Nonnull ArrayBuffer buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute)
     throws ConstraintError
@@ -114,13 +114,13 @@ public final class DrawOperationBindings
      * Insert binding, checking for duplicates.
      */
 
-    LinkedList<Pair<ArrayBufferAttribute, Attribute>> buffer_binds;
+    LinkedList<Pair<ArrayBufferAttribute, ProgramAttribute>> buffer_binds;
 
     if (this.bindings.containsKey(buffer)) {
-      final LinkedList<Pair<ArrayBufferAttribute, Attribute>> pairs =
+      final LinkedList<Pair<ArrayBufferAttribute, ProgramAttribute>> pairs =
         this.bindings.get(buffer);
 
-      for (final Pair<ArrayBufferAttribute, Attribute> pair : pairs) {
+      for (final Pair<ArrayBufferAttribute, ProgramAttribute> pair : pairs) {
         Constraints.constrainArbitrary(
           pair.first != buffer_attribute,
           "Array buffer attribute not already added");
@@ -131,12 +131,12 @@ public final class DrawOperationBindings
 
       buffer_binds = pairs;
     } else {
-      buffer_binds = new LinkedList<Pair<ArrayBufferAttribute, Attribute>>();
+      buffer_binds = new LinkedList<Pair<ArrayBufferAttribute, ProgramAttribute>>();
       this.bindings.put(buffer, buffer_binds);
     }
 
     assert (buffer_binds != null);
-    buffer_binds.add(new Pair<ArrayBufferAttribute, Attribute>(
+    buffer_binds.add(new Pair<ArrayBufferAttribute, ProgramAttribute>(
       buffer_attribute,
       program_attribute));
 
@@ -144,7 +144,7 @@ public final class DrawOperationBindings
   }
 
   @SuppressWarnings("boxing") public
-    List<Pair<ArrayBufferAttribute, Attribute>>
+    List<Pair<ArrayBufferAttribute, ProgramAttribute>>
     getBindings(
       final @Nonnull ArrayBuffer buffer)
       throws ConstraintError

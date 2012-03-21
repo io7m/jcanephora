@@ -39,7 +39,7 @@ public interface GLArrayBuffers
 
   /**
    * Bind the array buffer <code>buffer</code> for subsequent calls to
-   * {@link GLArrayBuffers#bindVertexAttributeArrayForBuffer(ArrayBuffer, ArrayBufferAttribute, Attribute)}
+   * {@link GLArrayBuffers#bindVertexAttributeArrayForBuffer(ArrayBuffer, ArrayBufferAttribute, ProgramAttribute)}
    * .
    * 
    * @param buffer
@@ -85,7 +85,7 @@ public interface GLArrayBuffers
   void bindVertexAttributeArrayForBuffer(
     final @Nonnull ArrayBuffer buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
-    final @Nonnull Attribute program_attribute)
+    final @Nonnull ProgramAttribute program_attribute)
     throws GLException,
       ConstraintError;
 
@@ -197,7 +197,7 @@ public interface GLArrayBuffers
   void unbindVertexAttributeArrayForBuffer(
     final @Nonnull ArrayBuffer buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
-    final @Nonnull Attribute program_attribute)
+    final @Nonnull ProgramAttribute program_attribute)
     throws GLException,
       ConstraintError;
 
