@@ -3,7 +3,7 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jtensors.VectorM2I;
+import com.io7m.jtensors.VectorReadable2I;
 
 /**
  * Simplified interface to the scissor test.
@@ -44,8 +44,8 @@ public interface GLScissor
    */
 
   void enableScissor(
-    final @Nonnull VectorM2I position,
-    final @Nonnull VectorM2I dimensions)
+    final @Nonnull VectorReadable2I position,
+    final @Nonnull VectorReadable2I dimensions)
     throws ConstraintError,
       GLException;
 }

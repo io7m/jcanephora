@@ -24,7 +24,6 @@ import com.io7m.jcanephora.GLType.Type;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixM3x3F;
 import com.io7m.jtensors.MatrixM4x4F;
-import com.io7m.jtensors.VectorM2I;
 import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jtensors.VectorReadable3F;
 import com.io7m.jtensors.VectorReadable4F;
@@ -1491,8 +1490,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   }
 
   @Override public void enableScissor(
-    final @Nonnull VectorM2I position,
-    final @Nonnull VectorM2I dimensions)
+    final @Nonnull VectorReadable2I position,
+    final @Nonnull VectorReadable2I dimensions)
     throws ConstraintError,
       GLException
   {
@@ -1500,7 +1499,11 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     Constraints.constrainNotNull(dimensions, "Scissor region dimensions");
 
     GL11.glEnable(GL11.GL_SCISSOR_TEST);
-    GL11.glScissor(position.x, position.y, dimensions.x, dimensions.y);
+    GL11.glScissor(
+      position.getX(),
+      position.getY(),
+      dimensions.getX(),
+      dimensions.getY());
     GLError.check(this);
   }
 
@@ -1579,7 +1582,9 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       }
 
       assert out.containsKey(name) == false;
-      out.put(name, new ProgramAttribute(program, index, location, name, type));
+      out.put(
+        name,
+        new ProgramAttribute(program, index, location, name, type));
     }
   }
 
