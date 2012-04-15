@@ -1603,6 +1603,14 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     return max;
   }
 
+  @Override public int getMaximumTextureSize()
+    throws GLException
+  {
+    final int size = GL11.glGetInteger(GL11.GL_MAX_TEXTURE_SIZE);
+    GLError.check(this);
+    return size;
+  }
+
   @Override public @Nonnull String getRenderer()
     throws GLException
   {
