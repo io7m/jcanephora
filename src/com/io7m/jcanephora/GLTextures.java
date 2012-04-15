@@ -56,7 +56,7 @@ public interface GLTextures
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull Texture2DRGBA allocateTextureRGBA(
+  public @Nonnull Texture2DRGBAStatic allocateTextureRGBAStatic(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -81,9 +81,9 @@ public interface GLTextures
    *           Iff an OpenGL error occurs.
    */
 
-  void bindTexture2DRGBA(
+  void bindTexture2DRGBAStatic(
     final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DRGBA texture)
+    final @Nonnull Texture2DRGBAStatic texture)
     throws ConstraintError,
       GLException;
 
@@ -103,8 +103,8 @@ public interface GLTextures
    *           Iff an OpenGL error occurs.
    */
 
-  void deleteTexture2DRGBA(
-    final @Nonnull Texture2DRGBA texture)
+  void deleteTexture2DRGBAStatic(
+    final @Nonnull Texture2DRGBAStatic texture)
     throws ConstraintError,
       GLException;
 
@@ -148,8 +148,8 @@ public interface GLTextures
    *           Iff an OpenGL error occurs.
    */
 
-  void updateTexture2DRGBA(
-    final @Nonnull Texture2DRGBA texture)
+  void replaceTexture2DRGBAStatic(
+    final @Nonnull Texture2DRGBAStatic texture)
     throws ConstraintError,
       GLException;
 }

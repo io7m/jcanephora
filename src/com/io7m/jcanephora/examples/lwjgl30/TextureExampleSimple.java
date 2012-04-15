@@ -17,7 +17,7 @@ import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface;
 import com.io7m.jcanephora.GLInterfaceLWJGL30;
 import com.io7m.jcanephora.LWJGL30;
-import com.io7m.jcanephora.Texture2DRGBA;
+import com.io7m.jcanephora.Texture2DRGBAStatic;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureWrap;
@@ -53,7 +53,7 @@ public final class TextureExampleSimple implements Runnable
   }
 
   private final @Nonnull GLInterface   gl;
-  private final @Nonnull Texture2DRGBA texture;
+  private final @Nonnull Texture2DRGBAStatic texture;
   private final @Nonnull VectorI4F     background;
   private final @Nonnull TextureUnit[] units;
 
@@ -82,7 +82,7 @@ public final class TextureExampleSimple implements Runnable
     final FileInputStream stream = new FileInputStream("doc/32.png");
     final BufferedImage image = ImageIO.read(stream);
     this.texture =
-      Texture2DRGBA.loadImage(
+      Texture2DRGBAStatic.loadImage(
         "32.tiff",
         image,
         TextureWrap.TEXTURE_WRAP_REPEAT,
@@ -104,7 +104,7 @@ public final class TextureExampleSimple implements Runnable
      * Bind the texture to the first texture unit.
      */
 
-    this.gl.bindTexture2DRGBA(this.units[0], this.texture);
+    this.gl.bindTexture2DRGBAStatic(this.units[0], this.texture);
 
     GL11.glBegin(GL11.GL_QUADS);
     {
