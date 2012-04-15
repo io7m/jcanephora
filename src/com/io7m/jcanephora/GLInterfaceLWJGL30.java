@@ -829,7 +829,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     return new PixelUnpackBuffer(id, elements, type, element_values);
   }
 
-  @Override public @Nonnull Texture2DRGBA allocateTextureRGBA(
+  @Override public @Nonnull Texture2DRGBAStatic allocateTextureRGBAStatic(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -896,8 +896,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 
-    final Texture2DRGBA t =
-      new Texture2DRGBA(name, texture_id, buffer, width, height);
+    final Texture2DRGBAStatic t =
+      new Texture2DRGBAStatic(name, texture_id, buffer, width, height);
     this.log.debug("allocated texture " + t);
     return t;
   }
@@ -959,9 +959,9 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
   }
 
-  @Override public void bindTexture2DRGBA(
+  @Override public void bindTexture2DRGBAStatic(
     final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DRGBA texture)
+    final @Nonnull Texture2DRGBAStatic texture)
     throws ConstraintError,
       GLException
   {
@@ -1202,8 +1202,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
   }
 
-  @Override public void deleteTexture2DRGBA(
-    final @Nonnull Texture2DRGBA texture)
+  @Override public void deleteTexture2DRGBAStatic(
+    final @Nonnull Texture2DRGBAStatic texture)
     throws ConstraintError,
       GLException
   {
@@ -2031,6 +2031,39 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
   }
 
+  @Override public void replaceTexture2DRGBAStatic(
+    final @Nonnull Texture2DRGBAStatic texture)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      GL11.glIsTexture(texture.getLocation()),
+      "Texture ID is a valid texture");
+    Constraints.constrainArbitrary(
+      GL15.glIsBuffer(texture.getBuffer().getLocation()),
+      "Pixel buffer is valid");
+
+    this.log.debug("update 2D RGBA texture " + texture);
+
+    GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getLocation());
+    GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, texture
+      .getBuffer()
+      .getLocation());
+    GL11.glTexSubImage2D(
+      GL11.GL_TEXTURE_2D,
+      0,
+      0,
+      0,
+      texture.getWidth(),
+      texture.getHeight(),
+      GL11.GL_RGBA,
+      GL11.GL_UNSIGNED_BYTE,
+      0L);
+    GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
+    GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+  }
+
   @Override public void setLineWidth(
     final float width)
     throws GLException
@@ -2177,39 +2210,6 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GL15.glUnmapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER);
     GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
     GLError.check(this);
-  }
-
-  @Override public void updateTexture2DRGBA(
-    final @Nonnull Texture2DRGBA texture)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(texture, "Texture");
-    Constraints.constrainArbitrary(
-      GL11.glIsTexture(texture.getLocation()),
-      "Texture ID is a valid texture");
-    Constraints.constrainArbitrary(
-      GL15.glIsBuffer(texture.getBuffer().getLocation()),
-      "Pixel buffer is valid");
-
-    this.log.debug("update 2D RGBA texture " + texture);
-
-    GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getLocation());
-    GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, texture
-      .getBuffer()
-      .getLocation());
-    GL11.glTexSubImage2D(
-      GL11.GL_TEXTURE_2D,
-      0,
-      0,
-      0,
-      texture.getWidth(),
-      texture.getHeight(),
-      GL11.GL_RGBA,
-      GL11.GL_UNSIGNED_BYTE,
-      0L);
-    GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
-    GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
   }
 
   @Override public void useProgram(

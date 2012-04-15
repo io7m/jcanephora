@@ -15,11 +15,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
 /**
  * 2D, 32-bit RGBA textures (8 bits per channel).
  * 
- * Textures are backed by a pixel unpack buffer, allowing for streaming
- * texture updates.
+ * Textures are backed by a single pixel unpack buffer, allowing for
+ * whole-texture updates/replacements without pipeline stalls.
  */
 
-@Immutable public final class Texture2DRGBA implements GLResource
+@Immutable public final class Texture2DRGBAStatic implements GLResource
 {
   private static final @Nonnull BufferedImage convertImageToABGR(
     final @Nonnull BufferedImage image)
@@ -59,7 +59,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     }
   }
 
-  public static Texture2DRGBA loadImage(
+  public static Texture2DRGBAStatic loadImage(
     final @Nonnull String name,
     final @Nonnull BufferedImage image,
     final @Nonnull TextureWrap wrap_s,
@@ -78,13 +78,13 @@ import com.io7m.jaux.Constraints.ConstraintError;
     Constraints.constrainNotNull(mag_filter, "Magnification filter");
     Constraints.constrainNotNull(min_filter, "Minification filter");
 
-    final BufferedImage converted = Texture2DRGBA.convertImageToABGR(image);
-    Texture2DRGBA t = null;
+    final BufferedImage converted = Texture2DRGBAStatic.convertImageToABGR(image);
+    Texture2DRGBAStatic t = null;
     ByteBuffer map = null;
 
     try {
       t =
-        gl.allocateTextureRGBA(
+        gl.allocateTextureRGBAStatic(
           name,
           image.getWidth(),
           image.getHeight(),
@@ -110,7 +110,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
       }
     }
 
-    gl.updateTexture2DRGBA(t);
+    gl.replaceTexture2DRGBAStatic(t);
     return t;
   }
 
@@ -120,7 +120,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
   private final int                        width;
   private final int                        height;
 
-  Texture2DRGBA(
+  Texture2DRGBAStatic(
     final @Nonnull String name,
     final int texture_id,
     final @Nonnull PixelUnpackBuffer buffer,
@@ -141,7 +141,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     throws ConstraintError,
       GLException
   {
-    gl.deleteTexture2DRGBA(this);
+    gl.deleteTexture2DRGBAStatic(this);
   }
 
   /**

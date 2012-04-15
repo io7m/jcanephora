@@ -16,7 +16,7 @@ import com.io7m.jcanephora.GLInterfaceLWJGL30;
 import com.io7m.jcanephora.GLResource;
 import com.io7m.jcanephora.LWJGL30;
 import com.io7m.jcanephora.ProjectionMatrix;
-import com.io7m.jcanephora.Texture2DRGBA;
+import com.io7m.jcanephora.Texture2DRGBAStatic;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureWrap;
 import com.io7m.jlog.Log;
@@ -51,7 +51,7 @@ public final class TextureExample implements Runnable, GLResource
   private final @Nonnull GLInterface   gl;
   private final @Nonnull MatrixM4x4F   modelview;
   private final @Nonnull MatrixM4x4F   projection;
-  private final @Nonnull Texture2DRGBA texture;
+  private final @Nonnull Texture2DRGBAStatic texture;
   private final @Nonnull VectorI4F     color;
   private long                         current_frame = 0;
 
@@ -89,7 +89,7 @@ public final class TextureExample implements Runnable, GLResource
      */
 
     this.texture =
-      this.gl.allocateTextureRGBA(
+      this.gl.allocateTextureRGBAStatic(
         "Texture",
         TextureExample.TEXTURE_WIDTH,
         TextureExample.TEXTURE_HEIGHT,
@@ -209,6 +209,6 @@ public final class TextureExample implements Runnable, GLResource
       this.gl.unmapPixelUnpackBuffer(this.texture.getBuffer());
     }
 
-    this.gl.updateTexture2DRGBA(this.texture);
+    this.gl.replaceTexture2DRGBAStatic(this.texture);
   }
 }
