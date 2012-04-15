@@ -15,8 +15,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
 /**
  * 2D, 32-bit RGBA textures (8 bits per channel).
  * 
- * Textures are backed by a single pixel unpack buffer, allowing for
- * whole-texture updates/replacements without pipeline stalls.
+ * Textures are backed by a single pixel unpack buffer which can be mapped and
+ * replaced, allowing for complete texture replacements without pipeline
+ * stalls. Programs wishing to stream partial texture updates should not use
+ * this texture type.
  */
 
 @Immutable public final class Texture2DRGBAStatic implements GLResource
@@ -78,7 +80,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
     Constraints.constrainNotNull(mag_filter, "Magnification filter");
     Constraints.constrainNotNull(min_filter, "Minification filter");
 
-    final BufferedImage converted = Texture2DRGBAStatic.convertImageToABGR(image);
+    final BufferedImage converted =
+      Texture2DRGBAStatic.convertImageToABGR(image);
     Texture2DRGBAStatic t = null;
     ByteBuffer map = null;
 
