@@ -23,6 +23,8 @@ public interface GLPixelUnpackBuffers
    *          The number of values in a given element.
    * @param type
    *          The type of values in an element.
+   * @param hint
+   *          A hint to the implementation as to how the buffer will be used.
    * @return A reference to the allocated buffer.
    * @throws GLException
    *           Iff an OpenGL error occurs.
@@ -38,7 +40,8 @@ public interface GLPixelUnpackBuffers
   @Nonnull PixelUnpackBuffer allocatePixelUnpackBuffer(
     final long elements,
     final @Nonnull GLScalarType type,
-    final long type_elements)
+    final long type_elements,
+    final @Nonnull UsageHint hint)
     throws GLException,
       ConstraintError;
 

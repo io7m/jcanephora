@@ -30,7 +30,12 @@ public class PixelUnpackBufferMapLWJGL30Test
 
     try {
       gl = GLInterfaceLWJGL30Util.getGL();
-      pb = gl.allocatePixelUnpackBuffer(10, GLScalarType.TYPE_BYTE, 4);
+      pb =
+        gl.allocatePixelUnpackBuffer(
+          10,
+          GLScalarType.TYPE_BYTE,
+          4,
+          UsageHint.USAGE_STATIC_DRAW);
       pm = gl.mapPixelUnpackBufferWrite(pb);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
@@ -50,7 +55,11 @@ public class PixelUnpackBufferMapLWJGL30Test
     try {
       gl = GLInterfaceLWJGL30Util.getGL();
       pb =
-        gl.allocatePixelUnpackBuffer(10, GLScalarType.TYPE_UNSIGNED_BYTE, 4);
+        gl.allocatePixelUnpackBuffer(
+          10,
+          GLScalarType.TYPE_UNSIGNED_BYTE,
+          4,
+          UsageHint.USAGE_STATIC_DRAW);
       pm = gl.mapPixelUnpackBufferWrite(pb);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
@@ -71,7 +80,11 @@ public class PixelUnpackBufferMapLWJGL30Test
     try {
       gl = GLInterfaceLWJGL30Util.getGL();
       pb =
-        gl.allocatePixelUnpackBuffer(3, GLScalarType.TYPE_UNSIGNED_BYTE, 4);
+        gl.allocatePixelUnpackBuffer(
+          3,
+          GLScalarType.TYPE_UNSIGNED_BYTE,
+          4,
+          UsageHint.USAGE_STATIC_DRAW);
       pm = gl.mapPixelUnpackBufferWrite(pb);
       mc = pm.getCursor4b();
     } catch (final Throwable e) {
@@ -110,7 +123,11 @@ public class PixelUnpackBufferMapLWJGL30Test
     try {
       gl = GLInterfaceLWJGL30Util.getGL();
       pb =
-        gl.allocatePixelUnpackBuffer(10, GLScalarType.TYPE_UNSIGNED_BYTE, 4);
+        gl.allocatePixelUnpackBuffer(
+          10,
+          GLScalarType.TYPE_UNSIGNED_BYTE,
+          4,
+          UsageHint.USAGE_STATIC_DRAW);
       pm = gl.mapPixelUnpackBufferWrite(pb);
       mc = pm.getCursor4b();
     } catch (final Throwable e) {
@@ -134,7 +151,11 @@ public class PixelUnpackBufferMapLWJGL30Test
     try {
       gl = GLInterfaceLWJGL30Util.getGL();
       pb =
-        gl.allocatePixelUnpackBuffer(10, GLScalarType.TYPE_UNSIGNED_BYTE, 4);
+        gl.allocatePixelUnpackBuffer(
+          10,
+          GLScalarType.TYPE_UNSIGNED_BYTE,
+          4,
+          UsageHint.USAGE_STATIC_DRAW);
       pm = gl.mapPixelUnpackBufferWrite(pb);
       mc = pm.getCursor4b();
     } catch (final Throwable e) {
@@ -156,7 +177,12 @@ public class PixelUnpackBufferMapLWJGL30Test
 
     try {
       gl = GLInterfaceLWJGL30Util.getGL();
-      pb = gl.allocatePixelUnpackBuffer(10, GLScalarType.TYPE_BYTE, 3);
+      pb =
+        gl.allocatePixelUnpackBuffer(
+          10,
+          GLScalarType.TYPE_BYTE,
+          3,
+          UsageHint.USAGE_STATIC_DRAW);
       pm = gl.mapPixelUnpackBufferWrite(pb);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
@@ -177,7 +203,12 @@ public class PixelUnpackBufferMapLWJGL30Test
 
     try {
       gl = GLInterfaceLWJGL30Util.getGL();
-      pb = gl.allocatePixelUnpackBuffer(10, GLScalarType.TYPE_INT, 4);
+      pb =
+        gl.allocatePixelUnpackBuffer(
+          10,
+          GLScalarType.TYPE_INT,
+          4,
+          UsageHint.USAGE_STATIC_DRAW);
       pm = gl.mapPixelUnpackBufferWrite(pb);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());

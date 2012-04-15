@@ -706,6 +706,60 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throw new AssertionError();
   }
 
+  static UsageHint usageHintFromGL(
+    final int hint)
+  {
+    switch (hint) {
+      case GL15.GL_DYNAMIC_COPY:
+        return UsageHint.USAGE_DYNAMIC_COPY;
+      case GL15.GL_DYNAMIC_DRAW:
+        return UsageHint.USAGE_DYNAMIC_DRAW;
+      case GL15.GL_DYNAMIC_READ:
+        return UsageHint.USAGE_DYNAMIC_READ;
+      case GL15.GL_STATIC_COPY:
+        return UsageHint.USAGE_STATIC_COPY;
+      case GL15.GL_STATIC_DRAW:
+        return UsageHint.USAGE_STATIC_DRAW;
+      case GL15.GL_STATIC_READ:
+        return UsageHint.USAGE_STATIC_READ;
+      case GL15.GL_STREAM_COPY:
+        return UsageHint.USAGE_STREAM_COPY;
+      case GL15.GL_STREAM_DRAW:
+        return UsageHint.USAGE_STREAM_DRAW;
+      case GL15.GL_STREAM_READ:
+        return UsageHint.USAGE_STREAM_READ;
+    }
+
+    throw new AssertionError();
+  }
+
+  static int usageHintToGL(
+    final UsageHint hint)
+  {
+    switch (hint) {
+      case USAGE_DYNAMIC_COPY:
+        return GL15.GL_DYNAMIC_COPY;
+      case USAGE_DYNAMIC_DRAW:
+        return GL15.GL_DYNAMIC_DRAW;
+      case USAGE_DYNAMIC_READ:
+        return GL15.GL_DYNAMIC_READ;
+      case USAGE_STATIC_COPY:
+        return GL15.GL_STATIC_COPY;
+      case USAGE_STATIC_DRAW:
+        return GL15.GL_STATIC_DRAW;
+      case USAGE_STATIC_READ:
+        return GL15.GL_STATIC_READ;
+      case USAGE_STREAM_COPY:
+        return GL15.GL_STREAM_COPY;
+      case USAGE_STREAM_DRAW:
+        return GL15.GL_STREAM_DRAW;
+      case USAGE_STREAM_READ:
+        return GL15.GL_STREAM_READ;
+    }
+
+    throw new AssertionError();
+  }
+
   private final @Nonnull Log log;
 
   public GLInterfaceLWJGL30(
@@ -796,12 +850,19 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   @Override public @Nonnull PixelUnpackBuffer allocatePixelUnpackBuffer(
     final long elements,
     final GLScalarType type,
-    final long element_values)
+    final long element_values,
+    final UsageHint hint)
     throws GLException,
       ConstraintError
   {
-    Constraints.constrainRange(elements, 1, Long.MAX_VALUE);
-    Constraints.constrainRange(element_values, 1, Long.MAX_VALUE);
+    Constraints.constrainRange(elements, 1, Long.MAX_VALUE, "Element count");
+    Constraints.constrainRange(
+      element_values,
+      1,
+      Long.MAX_VALUE,
+      "Element values");
+    Constraints.constrainNotNull(hint, "Usage hint");
+    Constraints.constrainNotNull(type, "Element type");
 
     final long bytes =
       (element_values * GLScalarTypeMeta.getSizeBytes(type)) * elements;
@@ -819,8 +880,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     final int id = GL15.glGenBuffers();
     GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, id);
     GLError.check(this);
-    GL15
-      .glBufferData(GL21.GL_PIXEL_UNPACK_BUFFER, bytes, GL15.GL_STREAM_DRAW);
+    GL15.glBufferData(
+      GL21.GL_PIXEL_UNPACK_BUFFER,
+      bytes,
+      GLInterfaceLWJGL30.usageHintToGL(hint));
     GLError.check(this);
     GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
     GLError.check(this);
@@ -860,7 +923,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       this.allocatePixelUnpackBuffer(
         width * height,
         GLScalarType.TYPE_UNSIGNED_BYTE,
-        4);
+        4,
+        UsageHint.USAGE_STATIC_DRAW);
 
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture_id);
     GL11.glTexParameteri(
