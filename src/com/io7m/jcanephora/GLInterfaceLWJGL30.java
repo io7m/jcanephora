@@ -2268,7 +2268,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL15.glIsBuffer(id.getLocation()),
       "ID corresponds to OpenGL buffer");
 
-    this.log.debug("unmap array buffer " + id);
+    this.log.debug("unmap pixel unpack buffer " + id);
 
     GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, id.getLocation());
     GL15.glUnmapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER);
