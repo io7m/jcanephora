@@ -7,11 +7,6 @@ import javax.annotation.Nonnull;
 
 final class TextureUtils
 {
-  private TextureUtils()
-  {
-    // Unused.
-  }
-
   static final @Nonnull BufferedImage convertImageToABGR(
     final @Nonnull BufferedImage image)
   {
@@ -48,5 +43,10 @@ final class TextureUtils
         return converted;
       }
     }
+  }
+
+  private TextureUtils()
+  {
+    // Unused.
   }
 }
