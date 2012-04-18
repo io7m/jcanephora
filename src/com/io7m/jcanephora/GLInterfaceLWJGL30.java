@@ -17,9 +17,12 @@ import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL21;
+import org.lwjgl.opengl.GL30;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.FramebufferAttachment.FramebufferColorAttachment;
+import com.io7m.jcanephora.FramebufferAttachment.FramebufferDepthAttachment;
 import com.io7m.jcanephora.GLType.Type;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixM3x3F;
@@ -803,6 +806,16 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     return new ArrayBuffer(id, elements, descriptor);
   }
 
+  @Override public @Nonnull Framebuffer allocateFramebuffer()
+    throws ConstraintError,
+      GLException
+  {
+    final int id = GL30.glGenFramebuffers();
+    GLError.check(this);
+    this.log.debug("allocated framebuffer " + id);
+    return new Framebuffer(id);
+  }
+
   @Override public @Nonnull IndexBuffer allocateIndexBuffer(
     final @Nonnull Buffer buffer,
     final int indices)
@@ -890,6 +903,34 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("allocated pixel unpack buffer " + id);
     return new PixelUnpackBuffer(id, elements, type, element_values);
+  }
+
+  @Override public RenderbufferDepth allocateRenderbufferDepth(
+    final int width,
+    final int height)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainRange(width, 1, Integer.MAX_VALUE);
+    Constraints.constrainRange(height, 1, Integer.MAX_VALUE);
+
+    final int id = GL30.glGenRenderbuffers();
+    GLError.check(this);
+
+    GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, id);
+    GLError.check(this);
+    GL30.glRenderbufferStorage(
+      GL30.GL_RENDERBUFFER,
+      GL11.GL_DEPTH_COMPONENT,
+      width,
+      height);
+    GLError.check(this);
+    GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, 0);
+    GLError.check(this);
+
+    final RenderbufferDepth r = new RenderbufferDepth(id, width, height);
+    this.log.debug("allocated depth renderbuffer " + r);
+    return r;
   }
 
   @Override public @Nonnull Texture2DRGBAStatic allocateTextureRGBAStatic(
@@ -987,6 +1028,114 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
   }
 
+  @Override public void attachFramebufferStorage(
+    final @Nonnull Framebuffer buffer,
+    final @Nonnull FramebufferAttachment[] attachments)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(buffer, "Framebuffer");
+    Constraints.constrainNotNull(attachments, "Framebuffer attachments");
+
+    GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, buffer.getLocation());
+    GLError.check(this);
+
+    /**
+     * Attach all framebuffer storage.
+     */
+
+    try {
+      boolean have_depth = false;
+      final int max_color = GL11.glGetInteger(GL30.GL_MAX_COLOR_ATTACHMENTS);
+      GLError.check(this);
+
+      for (final FramebufferAttachment attachment : attachments) {
+        switch (attachment.type) {
+          case ATTACHMENT_COLOR:
+          {
+            final FramebufferColorAttachment color =
+              (FramebufferColorAttachment) attachment;
+            final int index = color.getIndex();
+            Constraints.constrainRange(
+              index,
+              0,
+              max_color - 1,
+              "Color buffer attachment index in range");
+
+            GL30.glFramebufferTexture2D(
+              GL30.GL_FRAMEBUFFER,
+              GL30.GL_COLOR_ATTACHMENT0 + index,
+              GL11.GL_TEXTURE_2D,
+              color.getTexture().getLocation(),
+              0);
+            GLError.check(this);
+
+            this.log.debug("attach color " + buffer + " " + color);
+            break;
+          }
+          case ATTACHMENT_DEPTH:
+          {
+            Constraints.constrainArbitrary(
+              have_depth == false,
+              "Only one depth buffer provided");
+            have_depth = true;
+
+            final FramebufferDepthAttachment depth =
+              (FramebufferDepthAttachment) attachment;
+            GL30.glFramebufferRenderbuffer(
+              GL30.GL_FRAMEBUFFER,
+              GL30.GL_DEPTH_ATTACHMENT,
+              GL30.GL_RENDERBUFFER,
+              depth.getRenderbuffer().getLocation());
+            GLError.check(this);
+
+            this.log.debug("attach depth " + buffer + " " + depth);
+            break;
+          }
+          default:
+            throw new AssertionError("unreachable code");
+        }
+      }
+
+      /**
+       * Check framebuffer status.
+       */
+
+      final int status = GL30.glCheckFramebufferStatus(GL30.GL_FRAMEBUFFER);
+      GLError.check(this);
+
+      switch (status) {
+        case GL30.GL_FRAMEBUFFER_COMPLETE:
+          break;
+        case GL30.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+          throw new GLException(
+            GL30.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT,
+            "Framebuffer is incomplete");
+        case GL30.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+          throw new GLException(
+            GL30.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT,
+            "Framebuffer is incomplete - missing image attachment");
+        case GL30.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
+          throw new GLException(
+            GL30.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER,
+            "Framebuffer is incomplete - missing draw buffer");
+        case GL30.GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
+          throw new GLException(
+            GL30.GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER,
+            "Framebuffer is incomplete - missing read buffer");
+        case GL30.GL_FRAMEBUFFER_UNSUPPORTED:
+          throw new GLException(
+            GL30.GL_FRAMEBUFFER_UNSUPPORTED,
+            "Framebuffer configuration unsupported");
+        default:
+          throw new GLException(status, "Unknown framebuffer error");
+      }
+    } finally {
+      GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
+      GLError.check(this);
+    }
+  }
+
   @Override public void attachVertexShader(
     final @Nonnull ProgramReference program,
     final @Nonnull VertexShader shader)
@@ -1020,6 +1169,16 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       "Buffer corresponds to a valid OpenGL buffer");
 
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, buffer.getLocation());
+    GLError.check(this);
+  }
+
+  @Override public void bindFramebuffer(
+    final @Nonnull Framebuffer buffer)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(buffer, "Framebuffer");
+    GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, buffer.getLocation());
     GLError.check(this);
   }
 
@@ -1217,6 +1376,17 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
   }
 
+  @Override public void deleteFramebuffer(
+    final @Nonnull Framebuffer buffer)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(buffer, "Framebuffer");
+    GL30.glDeleteFramebuffers(buffer.getLocation());
+    GLError.check(this);
+    this.log.debug("deleted framebuffer " + buffer);
+  }
+
   @Override public void deleteIndexBuffer(
     final @Nonnull IndexBuffer id)
     throws ConstraintError,
@@ -1264,6 +1434,17 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     GL20.glDeleteProgram(program.getLocation());
     GLError.check(this);
+  }
+
+  @Override public void deleteRenderbufferDepth(
+    final @Nonnull RenderbufferDepth buffer)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(buffer, "Renderbuffer");
+    GL30.glDeleteRenderbuffers(buffer.getLocation());
+    GLError.check(this);
+    this.log.debug("deleted depth renderbuffer " + buffer);
   }
 
   @Override public void deleteTexture2DRGBAStatic(
@@ -2198,6 +2379,13 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       ConstraintError
   {
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+    GLError.check(this);
+  }
+
+  @Override public void unbindFramebuffer()
+    throws GLException
+  {
+    GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
     GLError.check(this);
   }
 

@@ -11,6 +11,7 @@ public interface GLInterface extends
   GLColorBuffer,
   GLDepthBuffer,
   GLDraw,
+  GLFramebuffers,
   GLIndexBuffers,
   GLLogic,
   GLMeta,
