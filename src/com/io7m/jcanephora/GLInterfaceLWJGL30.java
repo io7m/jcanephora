@@ -1050,6 +1050,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GLError.check(this);
 
       for (final FramebufferAttachment attachment : attachments) {
+        Constraints.constrainNotNull(attachment, "Attachment");
+
         switch (attachment.type) {
           case ATTACHMENT_COLOR:
           {
