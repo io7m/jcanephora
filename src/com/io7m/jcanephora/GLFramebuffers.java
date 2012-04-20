@@ -49,7 +49,6 @@ public interface GLFramebuffers
    * <code>attachments</code> specifies the type of buffer (color, depth,
    * etc), and possibly the attachment location (for color buffers).
    * 
-   * @return A freshly allocated renderbuffer.
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
