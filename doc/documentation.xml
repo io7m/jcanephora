@@ -37,7 +37,9 @@
           with the intention of providing an API that enforces program
           correctness statically. The OpenGL API is extremely error prone, but
           thankfully most of the problems can be alleviated with the simple
-          application of static types.
+          application of static types. Where the Java type system is too weak
+          to give static guarantees, dynamic checks are used to prevent silent
+          failure.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
@@ -121,19 +123,19 @@
                 <s:table-cell><s:link-external target="http://findbugs.sourceforge.net">findbugs</s:link-external></s:table-cell>
               </s:table-row>
               <s:table-row>
-                <s:table-cell><s:term type="file">io7m-jvvfs-0.3.1.jar</s:term></s:table-cell>
+                <s:table-cell><s:term type="file">io7m-jvvfs-1.1.0.jar</s:term></s:table-cell>
                 <s:table-cell><s:link-external target="http://io7m.com/software/jvvfs/index.xhtml">jvvfs</s:link-external></s:table-cell>
               </s:table-row>
               <s:table-row>
-                <s:table-cell><s:term type="file">io7m-jaux-0.5.0.jar</s:term></s:table-cell>
+                <s:table-cell><s:term type="file">io7m-jaux-1.0.0.jar</s:term></s:table-cell>
                 <s:table-cell><s:link-external target="http://io7m.com/software/jaux/index.xhtml">jaux</s:link-external></s:table-cell>
               </s:table-row>
               <s:table-row>
-                <s:table-cell><s:term type="file">io7m-jlog-0.2.0.jar</s:term></s:table-cell>
+                <s:table-cell><s:term type="file">io7m-jlog-1.0.0.jar</s:term></s:table-cell>
                 <s:table-cell><s:link-external target="http://io7m.com/software/jlog/index.xhtml">jlog</s:link-external></s:table-cell>
               </s:table-row>
               <s:table-row>
-                <s:table-cell><s:term type="file">io7m-jtensors-0.6.0.jar</s:term></s:table-cell>
+                <s:table-cell><s:term type="file">io7m-jtensors-1.0.1.jar</s:term></s:table-cell>
                 <s:table-cell><s:link-external target="http://io7m.com/software/jtensors/index.xhtml">jtensors</s:link-external></s:table-cell>
               </s:table-row>
               <s:table-row>
