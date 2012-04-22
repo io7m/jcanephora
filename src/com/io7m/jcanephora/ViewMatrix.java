@@ -57,9 +57,9 @@ public final class ViewMatrix
     Constraints.constrainNotNull(up, "Up vector");
 
     final VectorM3F forward = new VectorM3F();
-    forward.x = target.getX() - camera.getX();
-    forward.y = target.getY() - camera.getY();
-    forward.z = target.getZ() - camera.getZ();
+    forward.x = target.getXF() - camera.getXF();
+    forward.y = target.getYF() - camera.getYF();
+    forward.z = target.getZF() - camera.getZF();
     VectorM3F.normalizeInPlace(forward);
 
     final VectorM3F side = new VectorM3F();
@@ -81,12 +81,12 @@ public final class ViewMatrix
     rotation.set(2, 2, -forward.z);
 
     final VectorM3F camera_inv = new VectorM3F();
-    camera_inv.x = -camera.getX();
-    camera_inv.y = -camera.getY();
-    camera_inv.z = -camera.getZ();
+    camera_inv.x = -camera.getXF();
+    camera_inv.y = -camera.getYF();
+    camera_inv.z = -camera.getZF();
 
     final MatrixM4x4F translation = new MatrixM4x4F();
-    MatrixM4x4F.translateByVector3InPlace(translation, camera_inv);
+    MatrixM4x4F.translateByVector3FInPlace(translation, camera_inv);
     MatrixM4x4F.multiply(rotation, translation, matrix);
   }
 }
