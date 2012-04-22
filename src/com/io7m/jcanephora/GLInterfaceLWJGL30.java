@@ -1870,6 +1870,29 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     return x;
   }
 
+  @Override public @Nonnull ByteBuffer getTexture2DRGBAStaticImage(
+    final @Nonnull Texture2DRGBAStatic texture)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      GL11.glIsTexture(texture.getLocation()),
+      "Texture is valid");
+
+    final ByteBuffer buffer =
+      ByteBuffer.allocateDirect(texture.getWidth() * texture.getHeight() * 4);
+
+    GL11.glGetTexImage(
+      GL11.GL_TEXTURE_2D,
+      0,
+      GL11.GL_RGBA,
+      GL11.GL_UNSIGNED_BYTE,
+      buffer);
+    GLError.check(this);
+    return buffer;
+  }
+
   @Override public TextureUnit[] getTextureUnits()
     throws GLException
   {
