@@ -1,7 +1,12 @@
 package com.io7m.jcanephora;
 
+import java.awt.Transparency;
+import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
+import java.awt.image.ComponentColorModel;
+import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
+import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 import java.nio.ByteBuffer;
 
@@ -78,6 +83,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
   }
 
   private final @Nonnull PixelUnpackBuffer buffer;
+
   private final int                        texture;
   private final @Nonnull String            name;
   private final int                        width;
@@ -141,6 +147,51 @@ import com.io7m.jaux.Constraints.ConstraintError;
   public @Nonnull String getName()
   {
     return this.name;
+  }
+
+  /**
+   * Retrieve the contents of the current texture as an RGBA image.
+   * 
+   * @param gl
+   *          The OpenGL interface.
+   * @return An RGBA image.
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   * @throws ConstraintError
+   *           Iff <code>gl == null</code>.
+   */
+
+  public @Nonnull BufferedImage getTextureImage(
+    final GLInterface gl)
+    throws GLException,
+      ConstraintError
+  {
+    final ByteBuffer map = gl.getTexture2DRGBAStaticImage(this);
+
+    final int offsets[] = { 0, 1, 2, 3 };
+    final ComponentColorModel color_model =
+      new ComponentColorModel(
+        ColorSpace.getInstance(ColorSpace.CS_sRGB),
+        new int[] { 8, 8, 8, 8 },
+        true,
+        false,
+        Transparency.TRANSLUCENT,
+        DataBuffer.TYPE_BYTE);
+
+    final byte[] bytes = new byte[map.capacity()];
+    map.get(bytes);
+
+    final WritableRaster raster =
+      Raster.createInterleavedRaster(
+        new DataBufferByte(bytes, bytes.length),
+        this.width,
+        this.height,
+        this.width * 4,
+        4,
+        offsets,
+        null);
+
+    return new BufferedImage(color_model, raster, false, null);
   }
 
   /**

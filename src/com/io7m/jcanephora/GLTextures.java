@@ -1,5 +1,7 @@
 package com.io7m.jcanephora;
 
+import java.nio.ByteBuffer;
+
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -120,6 +122,22 @@ public interface GLTextures
 
   int getMaximumTextureSize()
     throws GLException;
+
+  /**
+   * Retrieve the texture data for the given texture.
+   * 
+   * @param texture
+   * @return A ByteBuffer containing 32-bit RGBA data.
+   * @throws ConstraintError
+   *           Iff <code>unit == null || texture == null</code>.
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  @Nonnull ByteBuffer getTexture2DRGBAStaticImage(
+    final @Nonnull Texture2DRGBAStatic texture)
+    throws ConstraintError,
+      GLException;
 
   /**
    * Retrieve all available texture units for the current implementation.
