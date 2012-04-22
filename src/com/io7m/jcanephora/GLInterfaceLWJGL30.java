@@ -1240,7 +1240,11 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GLException
   {
     Constraints.constrainNotNull(color, "Color");
-    GL11.glClearColor(color.getX(), color.getY(), color.getZ(), color.getW());
+    GL11.glClearColor(
+      color.getXF(),
+      color.getYF(),
+      color.getZF(),
+      color.getWF());
     GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
   }
 
@@ -1747,10 +1751,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     GL11.glEnable(GL11.GL_SCISSOR_TEST);
     GL11.glScissor(
-      position.getX(),
-      position.getY(),
-      dimensions.getX(),
-      dimensions.getY());
+      position.getXI(),
+      position.getYI(),
+      dimensions.getXI(),
+      dimensions.getYI());
     GLError.check(this);
   }
 
@@ -2248,9 +2252,9 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     GL20.glUniform3f(
       uniform.getLocation(),
-      vector.getX(),
-      vector.getY(),
-      vector.getZ());
+      vector.getXF(),
+      vector.getYF(),
+      vector.getZF());
     GLError.check(this);
   }
 
@@ -2271,10 +2275,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     GL20.glUniform4f(
       uniform.getLocation(),
-      vector.getX(),
-      vector.getY(),
-      vector.getZ(),
-      vector.getW());
+      vector.getXF(),
+      vector.getYF(),
+      vector.getZF(),
+      vector.getWF());
     GLError.check(this);
   }
 
@@ -2369,10 +2373,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     Constraints.constrainNotNull(dimensions, "Viewport dimensions");
 
     GL11.glViewport(
-      position.getX(),
-      position.getY(),
-      dimensions.getX(),
-      dimensions.getY());
+      position.getXI(),
+      position.getYI(),
+      dimensions.getXI(),
+      dimensions.getYI());
     GLError.check(this);
   }
 
