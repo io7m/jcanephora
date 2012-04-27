@@ -48,8 +48,8 @@ public class ArrayBufferWritableMapTest
             GLScalarType.TYPE_FLOAT,
             3) });
 
-      a = gl.allocateArrayBuffer(10, d);
-      m = gl.mapArrayBufferWrite(a);
+      a = gl.arrayBufferAllocate(10, d);
+      m = gl.arrayBufferMapWrite(a);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
     }
@@ -75,8 +75,8 @@ public class ArrayBufferWritableMapTest
           new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 3),
           new ArrayBufferAttribute("shape", GLScalarType.TYPE_INT, 1) });
 
-      a = gl.allocateArrayBuffer(10, d);
-      m = gl.mapArrayBufferWrite(a);
+      a = gl.arrayBufferAllocate(10, d);
+      m = gl.arrayBufferMapWrite(a);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
     }
@@ -105,8 +105,8 @@ public class ArrayBufferWritableMapTest
           new ArrayBufferAttribute("normal", GLScalarType.TYPE_FLOAT, 3),
           new ArrayBufferAttribute("uv", GLScalarType.TYPE_FLOAT, 2) });
 
-      a = gl.allocateArrayBuffer(3, d);
-      wm = gl.mapArrayBufferWrite(a);
+      a = gl.arrayBufferAllocate(3, d);
+      wm = gl.arrayBufferMapWrite(a);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
     }
@@ -133,9 +133,9 @@ public class ArrayBufferWritableMapTest
     pu.seekTo(1);
     pu.put2f(9.0f, 9.0f);
 
-    gl.unmapArrayBuffer(a);
+    gl.arrayBufferUnmap(a);
 
-    final ByteBuffer b = gl.mapArrayBufferRead(a);
+    final ByteBuffer b = gl.arrayBufferMapRead(a);
     final FloatBuffer fb = b.asFloatBuffer();
 
     Assert.assertEquals(1.0f, fb.get(0));
@@ -185,8 +185,8 @@ public class ArrayBufferWritableMapTest
           new ArrayBufferAttribute("normal", GLScalarType.TYPE_FLOAT, 3),
           new ArrayBufferAttribute("uv", GLScalarType.TYPE_FLOAT, 2) });
 
-      a = gl.allocateArrayBuffer(3, d);
-      wm = gl.mapArrayBufferWrite(a);
+      a = gl.arrayBufferAllocate(3, d);
+      wm = gl.arrayBufferMapWrite(a);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
     }
@@ -210,9 +210,9 @@ public class ArrayBufferWritableMapTest
     pu.put2f(1.0f, 0.0f);
     pu.put2f(1.0f, 1.0f);
 
-    gl.unmapArrayBuffer(a);
+    gl.arrayBufferUnmap(a);
 
-    final ByteBuffer b = gl.mapArrayBufferRead(a);
+    final ByteBuffer b = gl.arrayBufferMapRead(a);
     final FloatBuffer fb = b.asFloatBuffer();
 
     Assert.assertEquals(1.0f, fb.get(0));
@@ -260,8 +260,8 @@ public class ArrayBufferWritableMapTest
           new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 3),
           new ArrayBufferAttribute("shape", GLScalarType.TYPE_INT, 1) });
 
-      a = gl.allocateArrayBuffer(10, d);
-      m = gl.mapArrayBufferWrite(a);
+      a = gl.arrayBufferAllocate(10, d);
+      m = gl.arrayBufferMapWrite(a);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
     }
@@ -293,8 +293,8 @@ public class ArrayBufferWritableMapTest
             GLScalarType.TYPE_FLOAT,
             3) });
 
-      a = gl.allocateArrayBuffer(10, d);
-      m = gl.mapArrayBufferWrite(a);
+      a = gl.arrayBufferAllocate(10, d);
+      m = gl.arrayBufferMapWrite(a);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
     }
@@ -320,8 +320,8 @@ public class ArrayBufferWritableMapTest
           new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 3),
           new ArrayBufferAttribute("shape", GLScalarType.TYPE_INT, 1) });
 
-      a = gl.allocateArrayBuffer(10, d);
-      m = gl.mapArrayBufferWrite(a);
+      a = gl.arrayBufferAllocate(10, d);
+      m = gl.arrayBufferMapWrite(a);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
     }
@@ -349,8 +349,8 @@ public class ArrayBufferWritableMapTest
           new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 3),
           new ArrayBufferAttribute("normal", GLScalarType.TYPE_FLOAT, 3) });
 
-      a = gl.allocateArrayBuffer(3, d);
-      wm = gl.mapArrayBufferWrite(a);
+      a = gl.arrayBufferAllocate(3, d);
+      wm = gl.arrayBufferMapWrite(a);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
     }
@@ -369,9 +369,9 @@ public class ArrayBufferWritableMapTest
     pn.put3f(40.0f, 50.0f, 60.0f);
     pn.put3f(70.0f, 80.0f, 90.0f);
 
-    gl.unmapArrayBuffer(a);
+    gl.arrayBufferUnmap(a);
 
-    final ByteBuffer b = gl.mapArrayBufferRead(a);
+    final ByteBuffer b = gl.arrayBufferMapRead(a);
     final FloatBuffer fb = b.asFloatBuffer();
 
     Assert.assertEquals(1.0f, fb.get(0));
@@ -417,8 +417,8 @@ public class ArrayBufferWritableMapTest
           new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 3),
           new ArrayBufferAttribute("normal", GLScalarType.TYPE_FLOAT, 3) });
 
-      a = gl.allocateArrayBuffer(3, d);
-      wm = gl.mapArrayBufferWrite(a);
+      a = gl.arrayBufferAllocate(3, d);
+      wm = gl.arrayBufferMapWrite(a);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
     }
@@ -440,9 +440,9 @@ public class ArrayBufferWritableMapTest
     pn.put3f(0.0f, 0.0f, 0.0f);
     pn.put3f(0.0f, 0.0f, 0.0f);
 
-    gl.unmapArrayBuffer(a);
+    gl.arrayBufferUnmap(a);
 
-    final ByteBuffer b = gl.mapArrayBufferRead(a);
+    final ByteBuffer b = gl.arrayBufferMapRead(a);
     final FloatBuffer fb = b.asFloatBuffer();
 
     Assert.assertEquals(0.0f, fb.get(0));
@@ -487,8 +487,8 @@ public class ArrayBufferWritableMapTest
           new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 3),
           new ArrayBufferAttribute("shape", GLScalarType.TYPE_INT, 1) });
 
-      a = gl.allocateArrayBuffer(10, d);
-      m = gl.mapArrayBufferWrite(a);
+      a = gl.arrayBufferAllocate(10, d);
+      m = gl.arrayBufferMapWrite(a);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
     }

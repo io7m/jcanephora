@@ -77,7 +77,7 @@ public final class Program
    *          An OpenGL interface.
    * @throws ConstraintError
    *           Iff <code>gl == null</code> or one of the constraints for
-   *           {@link GLInterface#useProgram(ProgramReference)} does not hold.
+   *           {@link GLInterface#programActivate(ProgramReference)} does not hold.
    * @throws GLException
    *           Iff an OpenGL error occurs.
    */
@@ -89,7 +89,7 @@ public final class Program
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
 
-    gl.useProgram(this.program);
+    gl.programActivate(this.program);
   }
 
   /**
@@ -197,7 +197,7 @@ public final class Program
 
       this.debug("program component(s) modified - recompiling");
       final ProgramReference old_program = this.program;
-      final ProgramReference new_program = gl.createProgram(this.name);
+      final ProgramReference new_program = gl.programCreate(this.name);
 
       /*
        * Recompile vertex shaders if necessary.
@@ -212,17 +212,17 @@ public final class Program
         if (time != shader.last_modified) {
           final InputStream stream = fs.openFile(path);
           final VertexShader new_shader =
-            gl.compileVertexShader(path.toString(), stream);
+            gl.vertexShaderCompile(path.toString(), stream);
 
           if (shader.shader != null) {
-            gl.deleteVertexShader(shader.shader);
+            gl.vertexShaderDelete(shader.shader);
           }
           shader.last_modified = time;
           shader.shader = new_shader;
-          gl.attachVertexShader(new_program, new_shader);
+          gl.vertexShaderAttach(new_program, new_shader);
         } else {
           assert shader.shader != null;
-          gl.attachVertexShader(new_program, shader.shader);
+          gl.vertexShaderAttach(new_program, shader.shader);
         }
       }
 
@@ -239,34 +239,34 @@ public final class Program
         if (time != shader.last_modified) {
           final InputStream stream = fs.openFile(path);
           final FragmentShader new_shader =
-            gl.compileFragmentShader(path.toString(), stream);
+            gl.fragmentShaderCompile(path.toString(), stream);
 
           if (shader.shader != null) {
-            gl.deleteFragmentShader(shader.shader);
+            gl.fragmentShaderDelete(shader.shader);
           }
           shader.last_modified = time;
           shader.shader = new_shader;
-          gl.attachFragmentShader(new_program, new_shader);
+          gl.fragmentShaderAttach(new_program, new_shader);
         } else {
           assert shader.shader != null;
-          gl.attachFragmentShader(new_program, shader.shader);
+          gl.fragmentShaderAttach(new_program, shader.shader);
         }
       }
 
-      gl.linkProgram(new_program);
+      gl.programLink(new_program);
       GLError.check(gl);
 
       this.program = new_program;
       if (old_program != null) {
-        gl.deleteProgram(old_program);
+        gl.programDelete(old_program);
       }
 
-      gl.useProgram(new_program);
+      gl.programActivate(new_program);
 
       this.uniforms.clear();
-      gl.getUniforms(this.program, this.uniforms);
+      gl.programGetUniforms(this.program, this.uniforms);
       this.attributes.clear();
-      gl.getAttributes(this.program, this.attributes);
+      gl.programGetAttributes(this.program, this.attributes);
       this.changed = false;
 
       for (final Entry<String, ProgramUniform> e : this.uniforms.entrySet()) {
@@ -276,7 +276,7 @@ public final class Program
         this.debug("attribute " + e.getValue());
       }
 
-      gl.noProgram();
+      gl.programDeactivate();
 
     } catch (final FilesystemError e) {
       throw new GLCompileException(this.name, e.getMessage());
@@ -305,7 +305,7 @@ public final class Program
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
 
-    gl.noProgram();
+    gl.programDeactivate();
   }
 
   private void debug(
@@ -337,7 +337,7 @@ public final class Program
       try {
         final VertexShaderEntry v = e.getValue();
         if (v.shader != null) {
-          v.shader.delete(gl);
+          v.shader.resourceDelete(gl);
         }
       } catch (final GLException x) {
         error = x;
@@ -349,7 +349,7 @@ public final class Program
       try {
         final FragmentShaderEntry f = e.getValue();
         if (f.shader != null) {
-          f.shader.delete(gl);
+          f.shader.resourceDelete(gl);
         }
       } catch (final GLException x) {
         error = x;
@@ -358,7 +358,7 @@ public final class Program
 
     try {
       if (this.program != null) {
-        this.program.delete(gl);
+        this.program.resourceDelete(gl);
       }
     } catch (final GLException x) {
       error = x;
@@ -475,7 +475,7 @@ public final class Program
     }
     final FragmentShaderEntry f = this.fragment_shaders.get(path);
     if (f.shader != null) {
-      gl.deleteFragmentShader(f.shader);
+      gl.fragmentShaderDelete(f.shader);
     }
     this.fragment_shaders.remove(path);
     this.changed = true;
@@ -512,7 +512,7 @@ public final class Program
     }
     final VertexShaderEntry v = this.vertex_shaders.get(path);
     if (v.shader != null) {
-      gl.deleteVertexShader(v.shader);
+      gl.vertexShaderDelete(v.shader);
     }
     this.vertex_shaders.remove(path);
     this.changed = true;

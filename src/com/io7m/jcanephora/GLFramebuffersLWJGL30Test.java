@@ -24,45 +24,6 @@ public class GLFramebuffersLWJGL30Test
     LWJGL30.destroyDisplay();
   }
 
-  @Test(expected = ConstraintError.class) public void testDepthEnableNone()
-    throws GLException,
-      ConstraintError
-  {
-    GLInterface g = null;
-    Framebuffer fb = null;
-
-    try {
-      g = GLInterfaceLWJGL30Util.getGL();
-      fb = g.allocateFramebuffer();
-      final Texture2DRGBAStatic cb =
-        g.allocateTextureRGBAStatic(
-          "framebuffer",
-          128,
-          128,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST);
-
-      g
-        .attachFramebufferStorage(
-          fb,
-          new FramebufferAttachment[] { new FramebufferAttachment.FramebufferColorAttachment(
-            cb,
-            0) });
-      g.bindFramebuffer(fb);
-    } catch (final IOException e) {
-      Assert.fail(e.getMessage());
-    } catch (final ConstraintError e) {
-      Assert.fail(e.getMessage());
-    } catch (final GLException e) {
-      Assert.fail(e.getMessage());
-    }
-
-    assert g != null;
-    g.enableDepthTest(DepthFunction.DEPTH_LESS_THAN_OR_EQUAL);
-  }
-
   @Test(expected = ConstraintError.class) public
     void
     testAttachDepthMultiple()
@@ -76,10 +37,10 @@ public class GLFramebuffersLWJGL30Test
 
     try {
       g = GLInterfaceLWJGL30Util.getGL();
-      fb = g.allocateFramebuffer();
-      rb = g.allocateRenderbufferDepth(128, 128);
+      fb = g.framebufferAllocate();
+      rb = g.renderbufferDepthAllocate(128, 128);
       cb =
-        g.allocateTextureRGBAStatic(
+        g.texture2DRGBAStaticAllocate(
           "framebuffer",
           128,
           128,
@@ -97,7 +58,7 @@ public class GLFramebuffersLWJGL30Test
 
     assert g != null;
 
-    g.attachFramebufferStorage(fb, new FramebufferAttachment[] {
+    g.framebufferAttachStorage(fb, new FramebufferAttachment[] {
       new FramebufferAttachment.FramebufferColorAttachment(cb, 0),
       new FramebufferAttachment.FramebufferDepthAttachment(rb),
       new FramebufferAttachment.FramebufferDepthAttachment(rb) });
@@ -113,10 +74,10 @@ public class GLFramebuffersLWJGL30Test
 
     try {
       g = GLInterfaceLWJGL30Util.getGL();
-      fb = g.allocateFramebuffer();
-      rb = g.allocateRenderbufferDepth(128, 128);
+      fb = g.framebufferAllocate();
+      rb = g.renderbufferDepthAllocate(128, 128);
       cb =
-        g.allocateTextureRGBAStatic(
+        g.texture2DRGBAStaticAllocate(
           "framebuffer",
           128,
           128,
@@ -124,7 +85,7 @@ public class GLFramebuffersLWJGL30Test
           TextureWrap.TEXTURE_WRAP_REPEAT,
           TextureFilter.TEXTURE_FILTER_NEAREST,
           TextureFilter.TEXTURE_FILTER_NEAREST);
-      g.attachFramebufferStorage(fb, new FramebufferAttachment[] {
+      g.framebufferAttachStorage(fb, new FramebufferAttachment[] {
         new FramebufferAttachment.FramebufferColorAttachment(cb, 0),
         new FramebufferAttachment.FramebufferDepthAttachment(rb) });
     } catch (final IOException e) {
@@ -136,6 +97,45 @@ public class GLFramebuffersLWJGL30Test
     }
 
     assert g != null;
-    Assert.assertTrue(g.getDepthBits() >= 1);
+    Assert.assertTrue(g.depthBufferGetBits() >= 1);
+  }
+
+  @Test(expected = ConstraintError.class) public void testDepthEnableNone()
+    throws GLException,
+      ConstraintError
+  {
+    GLInterface g = null;
+    Framebuffer fb = null;
+
+    try {
+      g = GLInterfaceLWJGL30Util.getGL();
+      fb = g.framebufferAllocate();
+      final Texture2DRGBAStatic cb =
+        g.texture2DRGBAStaticAllocate(
+          "framebuffer",
+          128,
+          128,
+          TextureWrap.TEXTURE_WRAP_REPEAT,
+          TextureWrap.TEXTURE_WRAP_REPEAT,
+          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureFilter.TEXTURE_FILTER_NEAREST);
+
+      g
+        .framebufferAttachStorage(
+          fb,
+          new FramebufferAttachment[] { new FramebufferAttachment.FramebufferColorAttachment(
+            cb,
+            0) });
+      g.framebufferBind(fb);
+    } catch (final IOException e) {
+      Assert.fail(e.getMessage());
+    } catch (final ConstraintError e) {
+      Assert.fail(e.getMessage());
+    } catch (final GLException e) {
+      Assert.fail(e.getMessage());
+    }
+
+    assert g != null;
+    g.depthBufferEnable(DepthFunction.DEPTH_LESS_THAN_OR_EQUAL);
   }
 }

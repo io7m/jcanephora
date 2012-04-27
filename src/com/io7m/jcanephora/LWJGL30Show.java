@@ -35,9 +35,9 @@ public final class LWJGL30Show
       final Log log = new Log(properties, "com.io7m", "example");
       final GLInterface gl = new GLInterfaceLWJGL30(log);
 
-      System.out.println("GL-Vendor:   " + gl.getVendor());
-      System.out.println("GL-Version:  " + gl.getVersion());
-      System.out.println("GL-Renderer: " + gl.getRenderer());
+      System.out.println("GL-Vendor:   " + gl.metaGetVendor());
+      System.out.println("GL-Version:  " + gl.metaGetVersion());
+      System.out.println("GL-Renderer: " + gl.metaGetRenderer());
     } finally {
       Display.destroy();
     }

@@ -46,15 +46,15 @@ public class IndexBufferLWJGL30Test
     ArrayBuffer a = null;
 
     try {
-      a = gl.allocateArrayBuffer(255, d);
-      i = gl.allocateIndexBuffer(a, 4);
+      a = gl.arrayBufferAllocate(255, d);
+      i = gl.indexBufferAllocate(a, 4);
       Assert.assertEquals(GLUnsignedType.TYPE_UNSIGNED_BYTE, i.getType());
       Assert.assertEquals(1, i.getElementSizeBytes());
       Assert.assertEquals(4, i.getElements());
       Assert.assertEquals(4, i.getSizeBytes());
     } finally {
       if (i != null) {
-        i.delete(gl);
+        i.resourceDelete(gl);
       }
     }
   }
@@ -80,15 +80,15 @@ public class IndexBufferLWJGL30Test
     ArrayBuffer a = null;
 
     try {
-      a = gl.allocateArrayBuffer(65536, d);
-      i = gl.allocateIndexBuffer(a, 2);
+      a = gl.arrayBufferAllocate(65536, d);
+      i = gl.indexBufferAllocate(a, 2);
       Assert.assertEquals(GLUnsignedType.TYPE_UNSIGNED_INT, i.getType());
       Assert.assertEquals(4, i.getElementSizeBytes());
       Assert.assertEquals(2, i.getElements());
       Assert.assertEquals(8, i.getSizeBytes());
     } finally {
       if (i != null) {
-        i.delete(gl);
+        i.resourceDelete(gl);
       }
     }
   }
@@ -105,7 +105,7 @@ public class IndexBufferLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    gl.allocateIndexBuffer(null, 1);
+    gl.indexBufferAllocate(null, 1);
   }
 
   /**
@@ -129,15 +129,15 @@ public class IndexBufferLWJGL30Test
     ArrayBuffer a = null;
 
     try {
-      a = gl.allocateArrayBuffer(256, d);
-      i = gl.allocateIndexBuffer(a, 4);
+      a = gl.arrayBufferAllocate(256, d);
+      i = gl.indexBufferAllocate(a, 4);
       Assert.assertEquals(GLUnsignedType.TYPE_UNSIGNED_SHORT, i.getType());
       Assert.assertEquals(2, i.getElementSizeBytes());
       Assert.assertEquals(4, i.getElements());
       Assert.assertEquals(8, i.getSizeBytes());
     } finally {
       if (i != null) {
-        i.delete(gl);
+        i.resourceDelete(gl);
       }
     }
   }
@@ -160,8 +160,8 @@ public class IndexBufferLWJGL30Test
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.allocateArrayBuffer(1, d);
-    gl.allocateIndexBuffer(a, 0);
+    final ArrayBuffer a = gl.arrayBufferAllocate(1, d);
+    gl.indexBufferAllocate(a, 0);
   }
 
   /**
@@ -186,14 +186,14 @@ public class IndexBufferLWJGL30Test
     ArrayBuffer a = null;
 
     try {
-      a = gl.allocateArrayBuffer(4, d);
-      i = gl.allocateIndexBuffer(a, 10);
-      gl.deleteIndexBuffer(i);
+      a = gl.arrayBufferAllocate(4, d);
+      i = gl.indexBufferAllocate(a, 10);
+      gl.indexBufferDelete(i);
     } catch (final Exception e) {
       Assert.fail(e.getMessage());
     }
 
-    gl.deleteIndexBuffer(i);
+    gl.indexBufferDelete(i);
   }
 
   /**
@@ -208,7 +208,7 @@ public class IndexBufferLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    gl.deleteIndexBuffer(null);
+    gl.indexBufferDelete(null);
   }
 
   /**
@@ -227,30 +227,30 @@ public class IndexBufferLWJGL30Test
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.allocateArrayBuffer(4, d);
-    final IndexBuffer i = gl.allocateIndexBuffer(a, 10);
+    final ArrayBuffer a = gl.arrayBufferAllocate(4, d);
+    final IndexBuffer i = gl.indexBufferAllocate(a, 10);
 
     try {
       try {
-        final IndexBufferWritableMap b = gl.mapIndexBufferWrite(i);
+        final IndexBufferWritableMap b = gl.indexBufferMapWrite(i);
         for (int index = 0; index < 10; ++index) {
           b.put(index, index);
         }
       } finally {
-        gl.unmapIndexBuffer(i);
+        gl.indexBufferUnmap(i);
       }
 
       try {
-        final IndexBufferReadableMap b = gl.mapIndexBufferRead(i);
+        final IndexBufferReadableMap b = gl.indexBufferMapRead(i);
         for (int index = 0; index < 10; ++index) {
           Assert.assertEquals(index, b.get(index));
         }
       } finally {
-        gl.unmapIndexBuffer(i);
+        gl.indexBufferUnmap(i);
       }
     } finally {
       if (i != null) {
-        i.delete(gl);
+        i.resourceDelete(gl);
       }
     }
   }
@@ -273,19 +273,19 @@ public class IndexBufferLWJGL30Test
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.allocateArrayBuffer(4, d);
-    final IndexBuffer i = gl.allocateIndexBuffer(a, 10);
+    final ArrayBuffer a = gl.arrayBufferAllocate(4, d);
+    final IndexBuffer i = gl.indexBufferAllocate(a, 10);
 
     try {
       try {
-        final IndexBufferReadableMap b = gl.mapIndexBufferRead(i);
+        final IndexBufferReadableMap b = gl.indexBufferMapRead(i);
         b.get(10);
       } finally {
-        gl.unmapIndexBuffer(i);
+        gl.indexBufferUnmap(i);
       }
     } finally {
       if (i != null) {
-        i.delete(gl);
+        i.resourceDelete(gl);
       }
     }
   }
@@ -308,19 +308,19 @@ public class IndexBufferLWJGL30Test
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.allocateArrayBuffer(4, d);
-    final IndexBuffer i = gl.allocateIndexBuffer(a, 65536);
+    final ArrayBuffer a = gl.arrayBufferAllocate(4, d);
+    final IndexBuffer i = gl.indexBufferAllocate(a, 65536);
 
     try {
       try {
-        final IndexBufferReadableMap b = gl.mapIndexBufferRead(i);
+        final IndexBufferReadableMap b = gl.indexBufferMapRead(i);
         b.get(65536);
       } finally {
-        gl.unmapIndexBuffer(i);
+        gl.indexBufferUnmap(i);
       }
     } finally {
       if (i != null) {
-        i.delete(gl);
+        i.resourceDelete(gl);
       }
     }
   }
@@ -343,19 +343,19 @@ public class IndexBufferLWJGL30Test
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.allocateArrayBuffer(4, d);
-    final IndexBuffer i = gl.allocateIndexBuffer(a, 256);
+    final ArrayBuffer a = gl.arrayBufferAllocate(4, d);
+    final IndexBuffer i = gl.indexBufferAllocate(a, 256);
 
     try {
       try {
-        final IndexBufferReadableMap b = gl.mapIndexBufferRead(i);
+        final IndexBufferReadableMap b = gl.indexBufferMapRead(i);
         b.get(256);
       } finally {
-        gl.unmapIndexBuffer(i);
+        gl.indexBufferUnmap(i);
       }
     } finally {
       if (i != null) {
-        i.delete(gl);
+        i.resourceDelete(gl);
       }
     }
   }
@@ -382,21 +382,21 @@ public class IndexBufferLWJGL30Test
     IndexBuffer i = null;
 
     try {
-      a = gl.allocateArrayBuffer(4, d);
-      i = gl.allocateIndexBuffer(a, 10);
+      a = gl.arrayBufferAllocate(4, d);
+      i = gl.indexBufferAllocate(a, 10);
     } catch (final GLException e) {
       Assert.fail(e.getMessage());
     }
 
     try {
-      gl.mapIndexBufferRead(i);
-      gl.mapIndexBufferRead(i);
+      gl.indexBufferMapRead(i);
+      gl.indexBufferMapRead(i);
     } catch (final GLException e) {
       Assert.assertEquals(GL11.GL_INVALID_OPERATION, e.getCode());
       throw e;
     } finally {
       if (i != null) {
-        i.delete(gl);
+        i.resourceDelete(gl);
       }
     }
   }
@@ -413,7 +413,7 @@ public class IndexBufferLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    gl.mapIndexBufferRead(null);
+    gl.indexBufferMapRead(null);
   }
 
   /**
@@ -434,19 +434,19 @@ public class IndexBufferLWJGL30Test
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.allocateArrayBuffer(4, d);
-    final IndexBuffer i = gl.allocateIndexBuffer(a, 10);
+    final ArrayBuffer a = gl.arrayBufferAllocate(4, d);
+    final IndexBuffer i = gl.indexBufferAllocate(a, 10);
 
     try {
       try {
-        final IndexBufferWritableMap b = gl.mapIndexBufferWrite(i);
+        final IndexBufferWritableMap b = gl.indexBufferMapWrite(i);
         b.put(10, 0xff);
       } finally {
-        gl.unmapIndexBuffer(i);
+        gl.indexBufferUnmap(i);
       }
     } finally {
       if (i != null) {
-        i.delete(gl);
+        i.resourceDelete(gl);
       }
     }
   }
@@ -469,19 +469,19 @@ public class IndexBufferLWJGL30Test
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.allocateArrayBuffer(4, d);
-    final IndexBuffer i = gl.allocateIndexBuffer(a, 65536);
+    final ArrayBuffer a = gl.arrayBufferAllocate(4, d);
+    final IndexBuffer i = gl.indexBufferAllocate(a, 65536);
 
     try {
       try {
-        final IndexBufferWritableMap b = gl.mapIndexBufferWrite(i);
+        final IndexBufferWritableMap b = gl.indexBufferMapWrite(i);
         b.put(65536, 0xffffffff);
       } finally {
-        gl.unmapIndexBuffer(i);
+        gl.indexBufferUnmap(i);
       }
     } finally {
       if (i != null) {
-        i.delete(gl);
+        i.resourceDelete(gl);
       }
     }
   }
@@ -504,19 +504,19 @@ public class IndexBufferLWJGL30Test
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.allocateArrayBuffer(4, d);
-    final IndexBuffer i = gl.allocateIndexBuffer(a, 256);
+    final ArrayBuffer a = gl.arrayBufferAllocate(4, d);
+    final IndexBuffer i = gl.indexBufferAllocate(a, 256);
 
     try {
       try {
-        final IndexBufferWritableMap b = gl.mapIndexBufferWrite(i);
+        final IndexBufferWritableMap b = gl.indexBufferMapWrite(i);
         b.put(256, 0xffff);
       } finally {
-        gl.unmapIndexBuffer(i);
+        gl.indexBufferUnmap(i);
       }
     } finally {
       if (i != null) {
-        i.delete(gl);
+        i.resourceDelete(gl);
       }
     }
   }
@@ -533,7 +533,7 @@ public class IndexBufferLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    gl.mapIndexBufferWrite(null);
+    gl.indexBufferMapWrite(null);
   }
 
   /**
@@ -558,22 +558,22 @@ public class IndexBufferLWJGL30Test
     IndexBuffer i = null;
 
     try {
-      a = gl.allocateArrayBuffer(4, d);
-      i = gl.allocateIndexBuffer(a, 10);
-      gl.mapIndexBufferWrite(i);
+      a = gl.arrayBufferAllocate(4, d);
+      i = gl.indexBufferAllocate(a, 10);
+      gl.indexBufferMapWrite(i);
     } catch (final GLException e) {
       Assert.fail(e.getMessage());
     }
 
     try {
-      gl.unmapIndexBuffer(i);
-      gl.unmapIndexBuffer(i);
+      gl.indexBufferUnmap(i);
+      gl.indexBufferUnmap(i);
     } catch (final GLException e) {
       Assert.assertEquals(GL11.GL_INVALID_OPERATION, e.getCode());
       throw e;
     } finally {
       if (i != null) {
-        i.delete(gl);
+        i.resourceDelete(gl);
       }
     }
   }

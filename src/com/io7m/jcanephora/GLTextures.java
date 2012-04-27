@@ -58,7 +58,7 @@ public interface GLTextures
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull Texture2DRGBAStatic allocateTextureRGBAStatic(
+  public @Nonnull Texture2DRGBAStatic texture2DRGBAStaticAllocate(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -83,7 +83,7 @@ public interface GLTextures
    *           Iff an OpenGL error occurs.
    */
 
-  void bindTexture2DRGBAStatic(
+  void texture2DRGBAStaticBind(
     final @Nonnull TextureUnit unit,
     final @Nonnull Texture2DRGBAStatic texture)
     throws ConstraintError,
@@ -105,23 +105,10 @@ public interface GLTextures
    *           Iff an OpenGL error occurs.
    */
 
-  void deleteTexture2DRGBAStatic(
+  void texture2DRGBAStaticDelete(
     final @Nonnull Texture2DRGBAStatic texture)
     throws ConstraintError,
       GLException;
-
-  /**
-   * Return the maximum texture size supported by the current implementation.
-   * 'Size' refers to the length of a side, so if the implementation returns
-   * <code>8192</code>, the largest texture that can be created is
-   * <code>8192 * 8192</code>.
-   * 
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  int getMaximumTextureSize()
-    throws GLException;
 
   /**
    * Retrieve the texture data for the given texture.
@@ -134,20 +121,10 @@ public interface GLTextures
    *           Iff an OpenGL error occurs.
    */
 
-  @Nonnull ByteBuffer getTexture2DRGBAStaticImage(
+  @Nonnull ByteBuffer texture2DRGBAStaticGetImage(
     final @Nonnull Texture2DRGBAStatic texture)
     throws ConstraintError,
       GLException;
-
-  /**
-   * Retrieve all available texture units for the current implementation.
-   * 
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  @Nonnull TextureUnit[] getTextureUnits()
-    throws GLException;
 
   /**
    * Copy new data into the texture from the pixel unpack buffer used by the
@@ -166,8 +143,31 @@ public interface GLTextures
    *           Iff an OpenGL error occurs.
    */
 
-  void replaceTexture2DRGBAStatic(
+  void texture2DRGBAStaticReplace(
     final @Nonnull Texture2DRGBAStatic texture)
     throws ConstraintError,
       GLException;
+
+  /**
+   * Return the maximum texture size supported by the current implementation.
+   * 'Size' refers to the length of a side, so if the implementation returns
+   * <code>8192</code>, the largest texture that can be created is
+   * <code>8192 * 8192</code>.
+   * 
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  int textureGetMaximumSize()
+    throws GLException;
+
+  /**
+   * Retrieve all available texture units for the current implementation.
+   * 
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  @Nonnull TextureUnit[] textureGetUnits()
+    throws GLException;
 }

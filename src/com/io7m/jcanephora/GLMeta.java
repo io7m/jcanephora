@@ -14,7 +14,7 @@ public interface GLMeta
    * @return The current OpenGL error code.
    */
 
-  int getError();
+  int metaGetError();
 
   /**
    * Return the name of the OpenGL renderer.
@@ -23,7 +23,7 @@ public interface GLMeta
    *           Iff an OpenGL error occurs.
    */
 
-  @Nonnull String getRenderer()
+  @Nonnull String metaGetRenderer()
     throws GLException;
 
   /**
@@ -33,7 +33,7 @@ public interface GLMeta
    *           Iff an OpenGL error occurs.
    */
 
-  @Nonnull String getVendor()
+  @Nonnull String metaGetVendor()
     throws GLException;
 
   /**
@@ -43,6 +43,6 @@ public interface GLMeta
    *           Iff an OpenGL error occurs.
    */
 
-  @Nonnull String getVersion()
+  @Nonnull String metaGetVersion()
     throws GLException;
 }

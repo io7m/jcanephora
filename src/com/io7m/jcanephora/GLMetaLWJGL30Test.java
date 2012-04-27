@@ -31,9 +31,9 @@ public class GLMetaLWJGL30Test
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
 
-    final String vn = gl.getVendor();
-    final String vr = gl.getVersion();
-    final String r = gl.getRenderer();
+    final String vn = gl.metaGetVendor();
+    final String vr = gl.metaGetVersion();
+    final String r = gl.metaGetRenderer();
 
     Assert.assertNotNull(vn);
     Assert.assertNotNull(vr);

@@ -42,7 +42,7 @@ public class PixelUnpackBufferLWJGL30Test
 
     try {
       a =
-        gl.allocatePixelUnpackBuffer(
+        gl.pixelUnpackBufferAllocate(
           10,
           GLScalarType.TYPE_UNSIGNED_BYTE,
           2,
@@ -55,7 +55,7 @@ public class PixelUnpackBufferLWJGL30Test
         .assertEquals(GLScalarType.TYPE_UNSIGNED_BYTE, a.getElementType());
     } finally {
       if (a != null) {
-        a.delete(gl);
+        a.resourceDelete(gl);
       }
     }
   }
@@ -72,7 +72,7 @@ public class PixelUnpackBufferLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    gl.allocatePixelUnpackBuffer(
+    gl.pixelUnpackBufferAllocate(
       0,
       GLScalarType.TYPE_UNSIGNED_BYTE,
       2,
@@ -91,7 +91,7 @@ public class PixelUnpackBufferLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    gl.allocatePixelUnpackBuffer(
+    gl.pixelUnpackBufferAllocate(
       10,
       GLScalarType.TYPE_UNSIGNED_BYTE,
       0,
@@ -114,17 +114,17 @@ public class PixelUnpackBufferLWJGL30Test
 
     try {
       a =
-        gl.allocatePixelUnpackBuffer(
+        gl.pixelUnpackBufferAllocate(
           10,
           GLScalarType.TYPE_UNSIGNED_BYTE,
           2,
           UsageHint.USAGE_STATIC_DRAW);
-      gl.deletePixelUnpackBuffer(a);
+      gl.pixelUnpackBufferDelete(a);
     } catch (final Exception e) {
       Assert.fail(e.getMessage());
     }
 
-    gl.deletePixelUnpackBuffer(a);
+    gl.pixelUnpackBufferDelete(a);
   }
 
   /**
@@ -139,7 +139,7 @@ public class PixelUnpackBufferLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    gl.deletePixelUnpackBuffer(null);
+    gl.pixelUnpackBufferDelete(null);
   }
 
   /**
@@ -153,7 +153,7 @@ public class PixelUnpackBufferLWJGL30Test
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
     final PixelUnpackBuffer a =
-      gl.allocatePixelUnpackBuffer(
+      gl.pixelUnpackBufferAllocate(
         10,
         GLScalarType.TYPE_UNSIGNED_BYTE,
         2,
@@ -162,7 +162,7 @@ public class PixelUnpackBufferLWJGL30Test
     try {
       try {
         final PixelUnpackBufferWritableMap m =
-          gl.mapPixelUnpackBufferWrite(a);
+          gl.pixelUnpackBufferMapWrite(a);
         Assert.assertEquals(a, m.getPixelUnpackBuffer());
 
         final ByteBuffer b = m.getByteBuffer();
@@ -171,22 +171,22 @@ public class PixelUnpackBufferLWJGL30Test
           s.put(index, (short) index);
         }
       } finally {
-        gl.unmapPixelUnpackBuffer(a);
+        gl.pixelUnpackBufferUnmap(a);
       }
 
       try {
-        final ByteBuffer b = gl.mapPixelUnpackBufferRead(a);
+        final ByteBuffer b = gl.pixelUnpackBufferMapRead(a);
 
         final ShortBuffer s = b.asShortBuffer();
         for (int index = 0; index < 10; ++index) {
           Assert.assertEquals(index, s.get(index));
         }
       } finally {
-        gl.unmapPixelUnpackBuffer(a);
+        gl.pixelUnpackBufferUnmap(a);
       }
     } finally {
       if (a != null) {
-        a.delete(gl);
+        a.resourceDelete(gl);
       }
     }
   }
@@ -204,7 +204,7 @@ public class PixelUnpackBufferLWJGL30Test
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
     final PixelUnpackBuffer a =
-      gl.allocatePixelUnpackBuffer(
+      gl.pixelUnpackBufferAllocate(
         10,
         GLScalarType.TYPE_UNSIGNED_BYTE,
         2,
@@ -212,14 +212,14 @@ public class PixelUnpackBufferLWJGL30Test
 
     try {
       try {
-        final ByteBuffer b = gl.mapPixelUnpackBufferRead(a);
+        final ByteBuffer b = gl.pixelUnpackBufferMapRead(a);
         b.get(20);
       } finally {
-        gl.unmapPixelUnpackBuffer(a);
+        gl.pixelUnpackBufferUnmap(a);
       }
     } finally {
       if (a != null) {
-        a.delete(gl);
+        a.resourceDelete(gl);
       }
     }
   }
@@ -240,7 +240,7 @@ public class PixelUnpackBufferLWJGL30Test
 
     try {
       a =
-        gl.allocatePixelUnpackBuffer(
+        gl.pixelUnpackBufferAllocate(
           10,
           GLScalarType.TYPE_UNSIGNED_BYTE,
           2,
@@ -250,14 +250,14 @@ public class PixelUnpackBufferLWJGL30Test
     }
 
     try {
-      gl.mapPixelUnpackBufferRead(a);
-      gl.mapPixelUnpackBufferRead(a);
+      gl.pixelUnpackBufferMapRead(a);
+      gl.pixelUnpackBufferMapRead(a);
     } catch (final GLException e) {
       Assert.assertEquals(GL11.GL_INVALID_OPERATION, e.getCode());
       throw e;
     } finally {
       if (a != null) {
-        a.delete(gl);
+        a.resourceDelete(gl);
       }
     }
   }
@@ -274,12 +274,12 @@ public class PixelUnpackBufferLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    gl.allocatePixelUnpackBuffer(
+    gl.pixelUnpackBufferAllocate(
       10,
       GLScalarType.TYPE_UNSIGNED_BYTE,
       1,
       UsageHint.USAGE_STATIC_DRAW);
-    gl.mapPixelUnpackBufferRead(null);
+    gl.pixelUnpackBufferMapRead(null);
   }
 
   /**
@@ -295,7 +295,7 @@ public class PixelUnpackBufferLWJGL30Test
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
     final PixelUnpackBuffer a =
-      gl.allocatePixelUnpackBuffer(
+      gl.pixelUnpackBufferAllocate(
         10,
         GLScalarType.TYPE_UNSIGNED_BYTE,
         2,
@@ -303,14 +303,14 @@ public class PixelUnpackBufferLWJGL30Test
 
     try {
       try {
-        final ByteBuffer b = gl.mapPixelUnpackBufferWrite(a).getByteBuffer();
+        final ByteBuffer b = gl.pixelUnpackBufferMapWrite(a).getByteBuffer();
         b.put(20, (byte) 0xff);
       } finally {
-        gl.unmapPixelUnpackBuffer(a);
+        gl.pixelUnpackBufferUnmap(a);
       }
     } finally {
       if (a != null) {
-        a.delete(gl);
+        a.resourceDelete(gl);
       }
     }
   }
@@ -327,12 +327,12 @@ public class PixelUnpackBufferLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    gl.allocatePixelUnpackBuffer(
+    gl.pixelUnpackBufferAllocate(
       10,
       GLScalarType.TYPE_UNSIGNED_BYTE,
       1,
       UsageHint.USAGE_STATIC_DRAW);
-    gl.mapPixelUnpackBufferWrite(null);
+    gl.pixelUnpackBufferMapWrite(null);
   }
 
   /**
@@ -351,25 +351,25 @@ public class PixelUnpackBufferLWJGL30Test
 
     try {
       a =
-        gl.allocatePixelUnpackBuffer(
+        gl.pixelUnpackBufferAllocate(
           10,
           GLScalarType.TYPE_UNSIGNED_BYTE,
           2,
           UsageHint.USAGE_STATIC_DRAW);
-      gl.mapPixelUnpackBufferWrite(a);
+      gl.pixelUnpackBufferMapWrite(a);
     } catch (final GLException e) {
       Assert.fail(e.getMessage());
     }
 
     try {
-      gl.unmapPixelUnpackBuffer(a);
-      gl.unmapPixelUnpackBuffer(a);
+      gl.pixelUnpackBufferUnmap(a);
+      gl.pixelUnpackBufferUnmap(a);
     } catch (final GLException e) {
       Assert.assertEquals(GL11.GL_INVALID_OPERATION, e.getCode());
       throw e;
     } finally {
       if (a != null) {
-        a.delete(gl);
+        a.resourceDelete(gl);
       }
     }
   }

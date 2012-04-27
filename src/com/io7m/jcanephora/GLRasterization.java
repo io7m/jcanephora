@@ -11,42 +11,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
 public interface GLRasterization
 {
   /**
-   * Disable smooth rasterization of lines.
-   * 
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-  void disableLineSmoothing()
-    throws GLException;
-
-  /**
-   * Disable smooth rasterization of polygons.
-   * 
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-  void disablePolygonSmoothing()
-    throws GLException;
-
-  /**
-   * Enable smooth rasterization of lines.
-   * 
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-  void enableLineSmoothing()
-    throws GLException;
-
-  /**
-   * Enable smooth rasterization of polygons.
-   * 
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-  void enablePolygonSmoothing()
-    throws GLException;
-
-  /**
    * Set the width in pixels of rasterized lines.
    * 
    * @param width
@@ -55,8 +19,28 @@ public interface GLRasterization
    *           Iff an OpenGL error occurs.
    */
 
-  void setLineWidth(
+  void lineSetWidth(
     final float width)
+    throws GLException;
+
+  /**
+   * Disable smooth rasterization of lines.
+   * 
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void lineSmoothingDisable()
+    throws GLException;
+
+  /**
+   * Enable smooth rasterization of lines.
+   * 
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void lineSmoothingEnable()
     throws GLException;
 
   /**
@@ -74,9 +58,29 @@ public interface GLRasterization
    *           Iff an OpenGL error occurs.
    */
 
-  void setPolygonMode(
+  void polygonSetMode(
     final @Nonnull FaceSelection faces,
     final @Nonnull PolygonMode mode)
     throws ConstraintError,
       GLException;
+
+  /**
+   * Disable smooth rasterization of polygons.
+   * 
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void polygonSmoothingDisable()
+    throws GLException;
+
+  /**
+   * Enable smooth rasterization of polygons.
+   * 
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void polygonSmoothingEnable()
+    throws GLException;
 }

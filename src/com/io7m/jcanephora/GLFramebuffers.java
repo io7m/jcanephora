@@ -20,27 +20,7 @@ public interface GLFramebuffers
    *           Iff an OpenGL exception occurs.
    */
 
-  @Nonnull Framebuffer allocateFramebuffer()
-    throws ConstraintError,
-      GLException;
-
-  /**
-   * Allocate a renderbuffer that will be used as storage for a depth buffer.
-   * 
-   * @return A freshly allocated renderbuffer.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>1 <= width <= Integer.MAX_VALUE == false</code></li>
-   *           <li><code>1 <= height <= Integer.MAX_VALUE == false</code></li>
-   *           </ul>
-   * @throws GLException
-   *           Iff an OpenGL exception occurs.
-   */
-
-  @Nonnull RenderbufferDepth allocateRenderbufferDepth(
-    final int width,
-    final int height)
+  @Nonnull Framebuffer framebufferAllocate()
     throws ConstraintError,
       GLException;
 
@@ -63,7 +43,7 @@ public interface GLFramebuffers
    *           Iff an OpenGL exception occurs.
    */
 
-  void attachFramebufferStorage(
+  void framebufferAttachStorage(
     final @Nonnull Framebuffer buffer,
     final @Nonnull FramebufferAttachment[] attachments)
     throws ConstraintError,
@@ -80,7 +60,7 @@ public interface GLFramebuffers
    *           Iff an OpenGL error occurs.
    */
 
-  void bindFramebuffer(
+  void framebufferBind(
     final @Nonnull Framebuffer buffer)
     throws ConstraintError,
       GLException;
@@ -96,8 +76,38 @@ public interface GLFramebuffers
    *           Iff an OpenGL error occurs.
    */
 
-  void deleteFramebuffer(
+  void framebufferDelete(
     final @Nonnull Framebuffer buffer)
+    throws ConstraintError,
+      GLException;
+
+  /**
+   * Unbind the current framebuffer (if any).
+   * 
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void framebufferUnbind()
+    throws GLException;
+
+  /**
+   * Allocate a renderbuffer that will be used as storage for a depth buffer.
+   * 
+   * @return A freshly allocated renderbuffer.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>1 <= width <= Integer.MAX_VALUE == false</code></li>
+   *           <li><code>1 <= height <= Integer.MAX_VALUE == false</code></li>
+   *           </ul>
+   * @throws GLException
+   *           Iff an OpenGL exception occurs.
+   */
+
+  @Nonnull RenderbufferDepth renderbufferDepthAllocate(
+    final int width,
+    final int height)
     throws ConstraintError,
       GLException;
 
@@ -112,18 +122,8 @@ public interface GLFramebuffers
    *           Iff an OpenGL error occurs.
    */
 
-  void deleteRenderbufferDepth(
+  void renderbufferDepthDelete(
     final @Nonnull RenderbufferDepth buffer)
     throws ConstraintError,
       GLException;
-
-  /**
-   * Unbind the current framebuffer (if any).
-   * 
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  void unbindFramebuffer()
-    throws GLException;
 }

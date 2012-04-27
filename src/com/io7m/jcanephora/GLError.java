@@ -23,7 +23,7 @@ public final class GLError
     final GLInterface gl)
     throws GLException
   {
-    final int code = gl.getError();
+    final int code = gl.metaGetError();
 
     if (code != GL11.GL_NO_ERROR) {
       throw new GLException(code, "OpenGL error: code " + code);

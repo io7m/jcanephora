@@ -68,15 +68,15 @@ public final class FBOExample implements Runnable
     this.gl = gl;
     this.background = new VectorI4F(0.2f, 0.2f, 0.2f, 1.0f);
     this.texture_background = new VectorI4F(0.0f, 0.0f, 1.0f, 1.0f);
-    this.units = this.gl.getTextureUnits();
+    this.units = this.gl.textureGetUnits();
 
     this.depth_buffer =
-      this.gl.allocateRenderbufferDepth(
+      this.gl.renderbufferDepthAllocate(
         FBOExample.SCREEN_WIDTH,
         FBOExample.SCREEN_HEIGHT);
 
     this.texture =
-      this.gl.allocateTextureRGBAStatic(
+      this.gl.texture2DRGBAStaticAllocate(
         "color_buffer",
         FBOExample.SCREEN_WIDTH,
         FBOExample.SCREEN_HEIGHT,
@@ -85,8 +85,8 @@ public final class FBOExample implements Runnable
         TextureFilter.TEXTURE_FILTER_LINEAR,
         TextureFilter.TEXTURE_FILTER_LINEAR);
 
-    this.framebuffer = this.gl.allocateFramebuffer();
-    this.gl.attachFramebufferStorage(
+    this.framebuffer = this.gl.framebufferAllocate();
+    this.gl.framebufferAttachStorage(
       this.framebuffer,
       new FramebufferAttachment[] {
         new FramebufferColorAttachment(this.texture, 0),
@@ -111,10 +111,10 @@ public final class FBOExample implements Runnable
 
     GL11.glDisable(GL11.GL_TEXTURE_2D);
 
-    this.gl.bindFramebuffer(this.framebuffer);
+    this.gl.framebufferBind(this.framebuffer);
     {
-      this.gl.clearColorBuffer(this.texture_background);
-      this.gl.clearDepthBuffer(1.0f);
+      this.gl.colorBufferClear(this.texture_background);
+      this.gl.depthBufferClear(1.0f);
 
       this.angle = this.angle + 1;
       this.angle = this.angle % 360.0;
@@ -129,7 +129,7 @@ public final class FBOExample implements Runnable
       }
       GL11.glEnd();
     }
-    this.gl.unbindFramebuffer();
+    this.gl.framebufferUnbind();
 
     /*
      * Render quad with framebuffer texture.
@@ -139,10 +139,10 @@ public final class FBOExample implements Runnable
     GL11.glTranslated(0, 0, -2);
     GL11.glRotated(this.angle, 0, 1, 0);
 
-    this.gl.clearColorBuffer(this.background);
+    this.gl.colorBufferClear(this.background);
 
     GL11.glEnable(GL11.GL_TEXTURE_2D);
-    this.gl.bindTexture2DRGBAStatic(this.units[0], this.texture);
+    this.gl.texture2DRGBAStaticBind(this.units[0], this.texture);
 
     GL11.glBegin(GL11.GL_QUADS);
     {

@@ -32,7 +32,7 @@ public interface GLIndexBuffers
    *           </ul>
    */
 
-  @Nonnull IndexBuffer allocateIndexBuffer(
+  @Nonnull IndexBuffer indexBufferAllocate(
     final @Nonnull Buffer buffer,
     final int indices)
     throws GLException,
@@ -54,7 +54,7 @@ public interface GLIndexBuffers
    *           Iff an OpenGL error occurs.
    */
 
-  void deleteIndexBuffer(
+  void indexBufferDelete(
     final @Nonnull IndexBuffer id)
     throws ConstraintError,
       GLException;
@@ -62,7 +62,7 @@ public interface GLIndexBuffers
   /**
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped read-only. The buffer should be unmapped
-   * after use with {@link GLInterface#unmapIndexBuffer(IndexBuffer)}. Note
+   * after use with {@link GLInterface#indexBufferUnmap(IndexBuffer)}. Note
    * that the type of indices in the buffer is given by
    * <code>id.getType()</code>.
    * 
@@ -80,7 +80,7 @@ public interface GLIndexBuffers
    *           </ul>
    */
 
-  @Nonnull IndexBufferReadableMap mapIndexBufferRead(
+  @Nonnull IndexBufferReadableMap indexBufferMapRead(
     final @Nonnull IndexBuffer id)
     throws GLException,
       ConstraintError;
@@ -88,7 +88,7 @@ public interface GLIndexBuffers
   /**
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped write-only. The buffer should be unmapped
-   * after use with {@link GLInterface#unmapIndexBuffer(IndexBuffer)}. Note
+   * after use with {@link GLInterface#indexBufferUnmap(IndexBuffer)}. Note
    * that the type of indices in the buffer is given by
    * <code>id.getType()</code>. The previous contents of the buffer are
    * discarded to prevent pipeline stalls.
@@ -107,7 +107,7 @@ public interface GLIndexBuffers
    *           </ul>
    */
 
-  @Nonnull IndexBufferWritableMap mapIndexBufferWrite(
+  @Nonnull IndexBufferWritableMap indexBufferMapWrite(
     final @Nonnull IndexBuffer id)
     throws GLException,
       ConstraintError;
@@ -128,7 +128,7 @@ public interface GLIndexBuffers
    *           Iff an OpenGL error occurs.
    */
 
-  void unmapIndexBuffer(
+  void indexBufferUnmap(
     final @Nonnull IndexBuffer id)
     throws ConstraintError,
       GLException;

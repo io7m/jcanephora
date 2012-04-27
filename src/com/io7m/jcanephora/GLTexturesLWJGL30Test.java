@@ -29,7 +29,7 @@ public class GLTexturesLWJGL30Test
       GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    final TextureUnit[] u = gl.getTextureUnits();
+    final TextureUnit[] u = gl.textureGetUnits();
     Assert.assertTrue(u.length > 0);
   }
 }

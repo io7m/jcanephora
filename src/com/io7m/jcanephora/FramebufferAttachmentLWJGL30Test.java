@@ -31,7 +31,7 @@ public class FramebufferAttachmentLWJGL30Test
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
     final Texture2DRGBAStatic t =
-      gl.allocateTextureRGBAStatic(
+      gl.texture2DRGBAStaticAllocate(
         "buffer",
         128,
         128,
@@ -41,8 +41,8 @@ public class FramebufferAttachmentLWJGL30Test
         TextureFilter.TEXTURE_FILTER_NEAREST);
     final FramebufferColorAttachment fbc =
       new FramebufferColorAttachment(t, 0);
-    final Framebuffer fb = gl.allocateFramebuffer();
-    gl.attachFramebufferStorage(fb, new FramebufferAttachment[] { fbc });
+    final Framebuffer fb = gl.framebufferAllocate();
+    gl.framebufferAttachStorage(fb, new FramebufferAttachment[] { fbc });
   }
 
   @Test public void testFramebufferAttachDepthOK()
@@ -51,11 +51,11 @@ public class FramebufferAttachmentLWJGL30Test
       GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    final RenderbufferDepth depth = gl.allocateRenderbufferDepth(128, 128);
+    final RenderbufferDepth depth = gl.renderbufferDepthAllocate(128, 128);
     final FramebufferDepthAttachment fda =
       new FramebufferDepthAttachment(depth);
-    final Framebuffer fb = gl.allocateFramebuffer();
-    gl.attachFramebufferStorage(fb, new FramebufferAttachment[] { fda });
+    final Framebuffer fb = gl.framebufferAllocate();
+    gl.framebufferAttachStorage(fb, new FramebufferAttachment[] { fda });
   }
 
   @Test(expected = ConstraintError.class) public
@@ -66,11 +66,11 @@ public class FramebufferAttachmentLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    final RenderbufferDepth depth = gl.allocateRenderbufferDepth(128, 128);
+    final RenderbufferDepth depth = gl.renderbufferDepthAllocate(128, 128);
     final FramebufferDepthAttachment fda =
       new FramebufferDepthAttachment(depth);
-    final Framebuffer fb = gl.allocateFramebuffer();
-    gl.attachFramebufferStorage(fb, new FramebufferAttachment[] { fda, fda });
+    final Framebuffer fb = gl.framebufferAllocate();
+    gl.framebufferAttachStorage(fb, new FramebufferAttachment[] { fda, fda });
   }
 
   @Test(expected = ConstraintError.class) public
@@ -81,8 +81,8 @@ public class FramebufferAttachmentLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    final Framebuffer fb = gl.allocateFramebuffer();
-    gl.attachFramebufferStorage(fb, null);
+    final Framebuffer fb = gl.framebufferAllocate();
+    gl.framebufferAttachStorage(fb, null);
   }
 
   @Test(expected = ConstraintError.class) public
@@ -93,8 +93,8 @@ public class FramebufferAttachmentLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    final Framebuffer fb = gl.allocateFramebuffer();
-    gl.attachFramebufferStorage(fb, new FramebufferAttachment[] { null });
+    final Framebuffer fb = gl.framebufferAllocate();
+    gl.framebufferAttachStorage(fb, new FramebufferAttachment[] { null });
   }
 
   @Test(expected = ConstraintError.class) public
@@ -105,6 +105,6 @@ public class FramebufferAttachmentLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    gl.attachFramebufferStorage(null, null);
+    gl.framebufferAttachStorage(null, null);
   }
 }

@@ -89,7 +89,7 @@ public final class TextureExample implements Runnable, GLResource
      */
 
     this.texture =
-      this.gl.allocateTextureRGBAStatic(
+      this.gl.texture2DRGBAStaticAllocate(
         "Texture",
         TextureExample.TEXTURE_WIDTH,
         TextureExample.TEXTURE_HEIGHT,
@@ -98,14 +98,6 @@ public final class TextureExample implements Runnable, GLResource
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
     this.updateTexture();
-  }
-
-  @Override public void delete(
-    final @Nonnull GLInterface g)
-    throws ConstraintError,
-      GLException
-  {
-    this.texture.delete(g);
   }
 
   private void render()
@@ -118,8 +110,8 @@ public final class TextureExample implements Runnable, GLResource
       this.updateTexture();
     }
 
-    this.gl.clearColorBuffer(this.color);
-    this.gl.clearDepthBuffer(1.0f);
+    this.gl.colorBufferClear(this.color);
+    this.gl.depthBufferClear(1.0f);
 
     GL11.glEnable(GL11.GL_TEXTURE_2D);
     GL13.glActiveTexture(GL13.GL_TEXTURE0);
@@ -145,6 +137,14 @@ public final class TextureExample implements Runnable, GLResource
     GL11.glDisable(GL11.GL_TEXTURE_2D);
   }
 
+  @Override public void resourceDelete(
+    final @Nonnull GLInterface g)
+    throws ConstraintError,
+      GLException
+  {
+    this.texture.resourceDelete(g);
+  }
+
   @Override public void run()
   {
     try {
@@ -161,7 +161,7 @@ public final class TextureExample implements Runnable, GLResource
       System.exit(1);
     } finally {
       try {
-        this.delete(this.gl);
+        this.resourceDelete(this.gl);
       } catch (final GLException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
@@ -178,7 +178,7 @@ public final class TextureExample implements Runnable, GLResource
   {
     final ByteBuffer map =
       this.gl
-        .mapPixelUnpackBufferWrite(this.texture.getBuffer())
+        .pixelUnpackBufferMapWrite(this.texture.getBuffer())
         .getByteBuffer();
 
     try {
@@ -206,9 +206,9 @@ public final class TextureExample implements Runnable, GLResource
 
       assert map.remaining() == 0;
     } finally {
-      this.gl.unmapPixelUnpackBuffer(this.texture.getBuffer());
+      this.gl.pixelUnpackBufferUnmap(this.texture.getBuffer());
     }
 
-    this.gl.replaceTexture2DRGBAStatic(this.texture);
+    this.gl.texture2DRGBAStaticReplace(this.texture);
   }
 }

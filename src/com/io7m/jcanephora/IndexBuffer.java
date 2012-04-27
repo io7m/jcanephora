@@ -39,15 +39,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * @see java.lang.Object#toString()
    */
 
-  @Override public void delete(
-    final @Nonnull GLInterface gl)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(gl, "OpenGL interface");
-    gl.deleteIndexBuffer(this);
-  }
-
   /**
    * Retrieve the number of elements in the buffer.
    */
@@ -100,6 +91,15 @@ import com.io7m.jaux.Constraints.ConstraintError;
   public @Nonnull GLUnsignedType getType()
   {
     return this.type;
+  }
+
+  @Override public void resourceDelete(
+    final @Nonnull GLInterface gl)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    gl.indexBufferDelete(this);
   }
 
   @Override public String toString()

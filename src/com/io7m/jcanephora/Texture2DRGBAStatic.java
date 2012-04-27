@@ -52,7 +52,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
     try {
       t =
-        gl.allocateTextureRGBAStatic(
+        gl.texture2DRGBAStaticAllocate(
           name,
           image.getWidth(),
           image.getHeight(),
@@ -60,7 +60,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
           wrap_t,
           min_filter,
           mag_filter);
-      map = gl.mapPixelUnpackBufferWrite(t.getBuffer()).getByteBuffer();
+      map = gl.pixelUnpackBufferMapWrite(t.getBuffer()).getByteBuffer();
 
       final WritableRaster raster = converted.getRaster();
       final DataBufferByte data = (DataBufferByte) raster.getDataBuffer();
@@ -74,11 +74,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
     } finally {
       if (map != null) {
         assert t != null;
-        gl.unmapPixelUnpackBuffer(t.getBuffer());
+        gl.pixelUnpackBufferUnmap(t.getBuffer());
       }
     }
 
-    gl.replaceTexture2DRGBAStatic(t);
+    gl.texture2DRGBAStaticReplace(t);
     return t;
   }
 
@@ -103,14 +103,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
     this.buffer = Constraints.constrainNotNull(buffer, "Pixel unpack buffer");
     this.width = width;
     this.height = height;
-  }
-
-  @Override public void delete(
-    final @Nonnull GLInterface gl)
-    throws ConstraintError,
-      GLException
-  {
-    gl.deleteTexture2DRGBAStatic(this);
   }
 
   /**
@@ -166,7 +158,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     throws GLException,
       ConstraintError
   {
-    final ByteBuffer map = gl.getTexture2DRGBAStaticImage(this);
+    final ByteBuffer map = gl.texture2DRGBAStaticGetImage(this);
 
     final int offsets[] = { 0, 1, 2, 3 };
     final ComponentColorModel color_model =
@@ -201,6 +193,14 @@ import com.io7m.jaux.Constraints.ConstraintError;
   public int getWidth()
   {
     return this.width;
+  }
+
+  @Override public void resourceDelete(
+    final @Nonnull GLInterface gl)
+    throws ConstraintError,
+      GLException
+  {
+    gl.texture2DRGBAStaticDelete(this);
   }
 
   /*
