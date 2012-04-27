@@ -2519,4 +2519,12 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GL20.glUseProgram(program.getLocation());
     GLError.check(this);
   }
+
+  @Override public int getDepthBits()
+    throws GLException
+  {
+    final int bits = GL11.glGetInteger(GL11.GL_DEPTH_BITS);
+    GLError.check(this);
+    return bits;
+  }
 }

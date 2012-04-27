@@ -47,4 +47,15 @@ public interface GLDepthBuffer
     final DepthFunction function)
     throws ConstraintError,
       GLException;
+
+  /**
+   * Retrieve the number of bits available in the depth buffer for the current
+   * framebuffer configuration.
+   * 
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  int getDepthBits()
+    throws GLException;
 }
