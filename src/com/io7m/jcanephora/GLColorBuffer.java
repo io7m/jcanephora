@@ -24,4 +24,20 @@ public interface GLColorBuffer
     final VectorReadable4F color)
     throws ConstraintError,
       GLException;
+
+  /**
+   * Clear the color buffer with the color specified by <code>(r,g,b,a)</code>
+   * .
+   * 
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void colorBufferClear4f(
+    final float r,
+    final float g,
+    final float b,
+    final float a)
+    throws ConstraintError,
+      GLException;
 }

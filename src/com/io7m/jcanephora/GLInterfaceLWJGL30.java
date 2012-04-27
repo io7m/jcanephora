@@ -1079,6 +1079,19 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
   }
 
+  @Override public void colorBufferClear4f(
+    final float r,
+    final float g,
+    final float b,
+    final float a)
+    throws ConstraintError,
+      GLException
+  {
+    GL11.glClearColor(r, g, b, a);
+    GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+    GLError.check(this);
+  }
+
   @Override public void cullingDisable()
     throws GLException
   {
