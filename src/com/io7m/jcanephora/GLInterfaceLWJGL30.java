@@ -447,7 +447,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GLScalarType.TYPE_DOUBLE;
     }
 
-    throw new AssertionError();
+    /* UNREACHABLE */
+    throw new AssertionError("unreachable code: report this bug!");
   }
 
   static int scalarTypeToGL(
@@ -472,7 +473,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GL11.GL_UNSIGNED_SHORT;
     }
 
-    throw new AssertionError();
+    /* UNREACHABLE */
+    throw new AssertionError("unreachable code: report this bug!");
   }
 
   static @Nonnull TextureFilter textureFilterFromGL(
@@ -613,7 +615,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return Type.TYPE_SAMPLER_CUBE;
     }
 
-    throw new AssertionError();
+    /* UNREACHABLE */
+    throw new AssertionError("unreachable code: report this bug!");
   }
 
   static int typeToGL(
@@ -676,7 +679,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GL20.GL_SAMPLER_CUBE;
     }
 
-    throw new AssertionError();
+    /* UNREACHABLE */
+    throw new AssertionError("unreachable code: report this bug!");
   }
 
   static @Nonnull GLUnsignedType unsignedTypeFromGL(
@@ -691,7 +695,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GLUnsignedType.TYPE_UNSIGNED_INT;
     }
 
-    throw new AssertionError();
+    /* UNREACHABLE */
+    throw new AssertionError("unreachable code: report this bug!");
   }
 
   static int unsignedTypeToGL(
@@ -706,7 +711,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GL11.GL_UNSIGNED_INT;
     }
 
-    throw new AssertionError();
+    /* UNREACHABLE */
+    throw new AssertionError("unreachable code: report this bug!");
   }
 
   static UsageHint usageHintFromGL(
@@ -733,7 +739,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return UsageHint.USAGE_STREAM_READ;
     }
 
-    throw new AssertionError();
+    /* UNREACHABLE */
+    throw new AssertionError("unreachable code: report this bug!");
   }
 
   static int usageHintToGL(
@@ -760,7 +767,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GL15.GL_STREAM_READ;
     }
 
-    throw new AssertionError();
+    /* UNREACHABLE */
+    throw new AssertionError("unreachable code: report this bug!");
   }
 
   private final @Nonnull Log log;
@@ -786,7 +794,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     final long size = descriptor.getSize();
     final long bytes = elements * size;
 
-    this.log.debug("allocate vertex buffer ("
+    this.log.debug("vertex-buffer: allocate ("
       + elements
       + " elements, "
       + size
@@ -802,7 +810,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     GLError.check(this);
 
-    this.log.debug("allocated vertex buffer " + id);
+    this.log.debug("vertex-buffer: allocated " + id);
     return new ArrayBuffer(id, elements, descriptor);
   }
 
@@ -812,7 +820,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     final int id = GL30.glGenFramebuffers();
     GLError.check(this);
-    this.log.debug("allocated framebuffer " + id);
+    this.log.debug("framebuffer: allocated " + id);
     return new Framebuffer(id);
   }
 
@@ -839,7 +847,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     final long bytes = indices * size;
 
-    this.log.debug("allocate index buffer ("
+    this.log.debug("index-buffer: allocate ("
       + indices
       + " elements, "
       + GLUnsignedTypeMeta.getSizeBytes(type)
@@ -856,7 +864,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
     GLError.check(this);
 
-    this.log.debug("allocated index buffer " + id);
+    this.log.debug("index-buffer: allocated " + id);
     return new IndexBuffer(id, indices, type);
   }
 
@@ -880,7 +888,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     final long bytes =
       (element_values * GLScalarTypeMeta.getSizeBytes(type)) * elements;
 
-    this.log.debug("allocate pixel unpack buffer ("
+    this.log.debug("pixel-unpack-buffer: allocate ("
       + elements
       + " elements of type ("
       + type
@@ -901,7 +909,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
     GLError.check(this);
 
-    this.log.debug("allocated pixel unpack buffer " + id);
+    this.log.debug("pixel-unpack-buffer: allocated " + id);
     return new PixelUnpackBuffer(id, elements, type, element_values);
   }
 
@@ -913,6 +921,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainRange(width, 1, Integer.MAX_VALUE);
     Constraints.constrainRange(height, 1, Integer.MAX_VALUE);
+
+    this.log.debug("renderbuffer-depth: allocate " + width + "x" + height);
 
     final int id = GL30.glGenRenderbuffers();
     GLError.check(this);
@@ -929,7 +939,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
 
     final RenderbufferDepth r = new RenderbufferDepth(id, width, height);
-    this.log.debug("allocated depth renderbuffer " + r);
+    this.log.debug("renderbuffer-depth: allocated " + r);
     return r;
   }
 
@@ -952,7 +962,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     Constraints.constrainNotNull(mag_filter, "Magnification filter");
     Constraints.constrainNotNull(min_filter, "Minification filter");
 
-    this.log.debug("allocate 2D RGBA texture \""
+    this.log.debug("texture-2DRGBA: allocate \""
       + name
       + "\" "
       + width
@@ -1003,7 +1013,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     final Texture2DRGBAStatic t =
       new Texture2DRGBAStatic(name, texture_id, buffer, width, height);
-    this.log.debug("allocated texture " + t);
+    this.log.debug("texture-2DRGBA: allocated " + t);
     return t;
   }
 
@@ -1022,7 +1032,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL20.glIsShader(shader.getLocation()),
       "ID corresponds to valid fragment shader");
 
-    this.log.debug("attach fragment shader " + program + " " + shader);
+    this.log.debug("fragment-shader: attach " + program + " " + shader);
 
     GL20.glAttachShader(program.getLocation(), shader.getLocation());
     GLError.check(this);
@@ -1072,7 +1082,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
               0);
             GLError.check(this);
 
-            this.log.debug("attach color " + buffer + " " + color);
+            this.log.debug("framebuffer: attach color "
+              + buffer
+              + " "
+              + color);
             break;
           }
           case ATTACHMENT_DEPTH:
@@ -1091,7 +1104,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
               depth.getRenderbuffer().getLocation());
             GLError.check(this);
 
-            this.log.debug("attach depth " + buffer + " " + depth);
+            this.log.debug("framebuffer: attach depth "
+              + buffer
+              + " "
+              + depth);
             break;
           }
           default:
@@ -1154,7 +1170,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL20.glIsShader(shader.getLocation()),
       "ID corresponds to valid vertex shader");
 
-    this.log.debug("attach vertex shader " + program + " " + shader);
+    this.log.debug("vertex-shader: attach " + program + " " + shader);
 
     GL20.glAttachShader(program.getLocation(), shader.getLocation());
     GLError.check(this);
@@ -1267,7 +1283,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     Constraints.constrainNotNull(name, "Shader name");
     Constraints.constrainNotNull(stream, "Input stream");
 
-    this.log.debug("compile fragment shader \"" + name + "\"");
+    this.log.debug("fragment-shader: compile \"" + name + "\"");
 
     final int id = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
     GLError.check(this);
@@ -1306,7 +1322,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     Constraints.constrainNotNull(name, "Shader name");
     Constraints.constrainNotNull(stream, "input stream");
 
-    this.log.debug("compile vertex shader \"" + name + "\"");
+    this.log.debug("vertex-shader: compile \"" + name + "\"");
 
     final int id = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);
     GLError.check(this);
@@ -1341,7 +1357,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainNotNull(name, "Program name");
 
-    this.log.debug("create program \"" + name + "\"");
+    this.log.debug("program: create \"" + name + "\"");
 
     final int id = GL20.glCreateProgram();
     GLError.check(this);
@@ -1358,12 +1374,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL15.glIsBuffer(id.getLocation()),
       "ID corresponds to OpenGL buffer");
 
-    this.log.debug("delete vertex buffer " + id);
+    this.log.debug("vertex-buffer: delete " + id);
 
     GL15.glDeleteBuffers(id.getLocation());
     GLError.check(this);
-
-    this.log.debug("deleted vertex buffer " + id);
   }
 
   @Override public void deleteFragmentShader(
@@ -1376,7 +1390,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL20.glIsShader(id.getLocation()),
       "ID corresponds to valid shader");
 
-    this.log.debug("delete fragment shader " + id);
+    this.log.debug("fragment-shader: delete " + id);
 
     GL20.glDeleteShader(id.getLocation());
     GLError.check(this);
@@ -1390,7 +1404,6 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     Constraints.constrainNotNull(buffer, "Framebuffer");
     GL30.glDeleteFramebuffers(buffer.getLocation());
     GLError.check(this);
-    this.log.debug("deleted framebuffer " + buffer);
   }
 
   @Override public void deleteIndexBuffer(
@@ -1398,7 +1411,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
-    this.log.debug("delete index buffer " + id);
+    this.log.debug("index-buffer: delete " + id);
 
     Constraints.constrainNotNull(id, "id");
     Constraints.constrainArbitrary(
@@ -1407,8 +1420,6 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     GL15.glDeleteBuffers(id.getLocation());
     GLError.check(this);
-
-    this.log.debug("deleted index buffer " + id);
   }
 
   @Override public void deletePixelUnpackBuffer(
@@ -1421,12 +1432,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL15.glIsBuffer(id.getLocation()),
       "ID corresponds to OpenGL buffer");
 
-    this.log.debug("delete pixel unpack buffer " + id);
+    this.log.debug("pixel-unpack-buffer: delete " + id);
 
     GL15.glDeleteBuffers(id.getLocation());
     GLError.check(this);
-
-    this.log.debug("deleted pixel unpack buffer " + id);
   }
 
   @Override public void deleteProgram(
@@ -1436,7 +1445,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainNotNull(program, "Program");
 
-    this.log.debug("delete shading program " + program);
+    this.log.debug("program: delete " + program);
 
     GL20.glDeleteProgram(program.getLocation());
     GLError.check(this);
@@ -1450,7 +1459,6 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     Constraints.constrainNotNull(buffer, "Renderbuffer");
     GL30.glDeleteRenderbuffers(buffer.getLocation());
     GLError.check(this);
-    this.log.debug("deleted depth renderbuffer " + buffer);
   }
 
   @Override public void deleteTexture2DRGBAStatic(
@@ -1463,7 +1471,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL11.glIsTexture(texture.getLocation()),
       "Texture is valid");
 
-    this.log.debug("delete 2D RGBA texture " + texture);
+    this.log.debug("texture-2DRGBA: delete " + texture);
 
     GL11.glDeleteTextures(texture.getLocation());
     this.deletePixelUnpackBuffer(texture.getBuffer());
@@ -1479,7 +1487,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL20.glIsShader(id.getLocation()),
       "ID corresponds to valid shader");
 
-    this.log.debug("delete vertex shader " + id);
+    this.log.debug("vertex-shader: delete " + id);
 
     GL20.glDeleteShader(id.getLocation());
     GLError.check(this);
@@ -2003,7 +2011,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL20.glIsProgram(program.getLocation()),
       "ID corresponds to valid program");
 
-    this.log.debug("link program " + program);
+    this.log.debug("program: link " + program);
 
     GL20.glLinkProgram(program.getLocation());
     final int status =
@@ -2027,7 +2035,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL15.glIsBuffer(id.getLocation()),
       "ID corresponds to OpenGL buffer");
 
-    this.log.debug("map array buffer " + id);
+    this.log.debug("vertex-buffer: map " + id);
 
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id.getLocation());
     final ByteBuffer b =
@@ -2047,7 +2055,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL15.glIsBuffer(id.getLocation()),
       "ID corresponds to OpenGL buffer");
 
-    this.log.debug("map array buffer " + id);
+    this.log.debug("vertex-buffer: map " + id);
 
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id.getLocation());
     GL15.glBufferData(
@@ -2073,7 +2081,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL15.glIsBuffer(id.getLocation()),
       "ID corresponds to OpenGL buffer");
 
-    this.log.debug("map index buffer " + id);
+    this.log.debug("index-buffer: map " + id);
 
     GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, id.getLocation());
     final ByteBuffer b =
@@ -2094,7 +2102,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL15.glIsBuffer(id.getLocation()),
       "ID corresponds to OpenGL buffer");
 
-    this.log.debug("map index buffer " + id);
+    this.log.debug("index-buffer: map " + id);
 
     GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, id.getLocation());
     GL15.glBufferData(
@@ -2121,7 +2129,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL15.glIsBuffer(id.getLocation()),
       "ID corresponds to OpenGL buffer");
 
-    this.log.debug("map pixel unpack buffer " + id);
+    this.log.debug("pixel-unpack-buffer: map " + id);
 
     GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, id.getLocation());
     final ByteBuffer b =
@@ -2141,7 +2149,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL15.glIsBuffer(id.getLocation()),
       "ID corresponds to OpenGL buffer");
 
-    this.log.debug("map pixel unpack buffer " + id);
+    this.log.debug("pixel-unpack-buffer: map " + id);
 
     GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, id.getLocation());
     GL15.glBufferData(
@@ -2318,7 +2326,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL15.glIsBuffer(texture.getBuffer().getLocation()),
       "Pixel buffer is valid");
 
-    this.log.debug("update 2D RGBA texture " + texture);
+    this.log.debug("texture-2DRGBA: update " + texture);
 
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getLocation());
     GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, texture
@@ -2449,7 +2457,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL15.glIsBuffer(id.getLocation()),
       "ID corresponds to OpenGL buffer");
 
-    this.log.debug("unmap array buffer " + id);
+    this.log.debug("vertex-buffer: unmap " + id);
 
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id.getLocation());
     GL15.glUnmapBuffer(GL15.GL_ARRAY_BUFFER);
@@ -2467,7 +2475,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL15.glIsBuffer(id.getLocation()),
       "ID corresponds to OpenGL buffer");
 
-    this.log.debug("unmap index buffer " + id);
+    this.log.debug("index-buffer: unmap " + id);
 
     GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, id.getLocation());
     GL15.glUnmapBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER);
@@ -2485,7 +2493,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL15.glIsBuffer(id.getLocation()),
       "ID corresponds to OpenGL buffer");
 
-    this.log.debug("unmap pixel unpack buffer " + id);
+    this.log.debug("pixel-unpack-buffer: unmap " + id);
 
     GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, id.getLocation());
     GL15.glUnmapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER);
