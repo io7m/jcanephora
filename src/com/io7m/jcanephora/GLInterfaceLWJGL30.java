@@ -1687,6 +1687,11 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GLException
   {
     Constraints.constrainNotNull(function, "Depth function");
+    Constraints.constrainRange(
+      GL11.glGetInteger(GL11.GL_DEPTH_BITS),
+      1,
+      Integer.MAX_VALUE,
+      "Depth buffer bits");
 
     int d;
     switch (function) {
