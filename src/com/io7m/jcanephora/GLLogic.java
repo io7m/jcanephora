@@ -17,7 +17,7 @@ public interface GLLogic
    *           Iff an OpenGL error occurs.
    */
 
-  void disableLogicOperations()
+  void logicOperationsDisable()
     throws GLException;
 
   /**
@@ -33,7 +33,7 @@ public interface GLLogic
    *           Iff an OpenGL error occurs.
    */
 
-  void enableLogicOperations(
+  void logicOperationsEnable(
     final @Nonnull LogicOperation operation)
     throws ConstraintError,
       GLException;

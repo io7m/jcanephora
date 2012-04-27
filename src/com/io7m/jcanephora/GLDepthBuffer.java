@@ -17,7 +17,7 @@ public interface GLDepthBuffer
    *           Iff an OpenGL error occurs.
    */
 
-  void clearDepthBuffer(
+  void depthBufferClear(
     final float depth)
     throws GLException;
 
@@ -28,7 +28,7 @@ public interface GLDepthBuffer
    *           Iff an OpenGL error occurs.
    */
 
-  void disableDepthTest()
+  void depthBufferDisable()
     throws GLException;
 
   /**
@@ -43,7 +43,7 @@ public interface GLDepthBuffer
    *           Iff an OpenGL error occurs.
    */
 
-  void enableDepthTest(
+  void depthBufferEnable(
     final DepthFunction function)
     throws ConstraintError,
       GLException;
@@ -56,6 +56,6 @@ public interface GLDepthBuffer
    *           Iff an OpenGL error occurs.
    */
 
-  int getDepthBits()
+  int depthBufferGetBits()
     throws GLException;
 }

@@ -20,7 +20,7 @@ public interface GLColorBuffer
    *           Iff an OpenGL error occurs.
    */
 
-  void clearColorBuffer(
+  void colorBufferClear(
     final VectorReadable4F color)
     throws ConstraintError,
       GLException;

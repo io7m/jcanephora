@@ -72,7 +72,7 @@ public final class TextureExampleSimple implements Runnable
      * implementation-defined value but is currently usually 16 or 32.
      */
 
-    this.units = this.gl.getTextureUnits();
+    this.units = this.gl.textureGetUnits();
     assert this.units.length > 0;
 
     /*
@@ -96,7 +96,7 @@ public final class TextureExampleSimple implements Runnable
     throws GLException,
       ConstraintError
   {
-    this.gl.clearColorBuffer(this.background);
+    this.gl.colorBufferClear(this.background);
 
     GL11.glEnable(GL11.GL_TEXTURE_2D);
 
@@ -104,7 +104,7 @@ public final class TextureExampleSimple implements Runnable
      * Bind the texture to the first texture unit.
      */
 
-    this.gl.bindTexture2DRGBAStatic(this.units[0], this.texture);
+    this.gl.texture2DRGBAStaticBind(this.units[0], this.texture);
 
     GL11.glBegin(GL11.GL_QUADS);
     {

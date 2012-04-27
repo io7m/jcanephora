@@ -69,10 +69,10 @@ public final class VBOExample2 implements Runnable
     pca[0] = new ArrayBufferAttribute("color", GLScalarType.TYPE_FLOAT, 3);
     this.buffer_rgb_type = new ArrayBufferDescriptor(pca);
 
-    this.buffer_rgb = gl.allocateArrayBuffer(4, this.buffer_rgb_type);
+    this.buffer_rgb = gl.arrayBufferAllocate(4, this.buffer_rgb_type);
     {
       final ArrayBufferWritableMap map =
-        gl.mapArrayBufferWrite(this.buffer_rgb);
+        gl.arrayBufferMapWrite(this.buffer_rgb);
       final ArrayBufferCursorWritable3f color = map.getCursor3f("color");
 
       color.put3f(1.0f, 0.0f, 0.0f);
@@ -80,13 +80,13 @@ public final class VBOExample2 implements Runnable
       color.put3f(0.0f, 1.0f, 0.0f);
       color.put3f(0.0f, 1.0f, 1.0f);
 
-      gl.unmapArrayBuffer(this.buffer_rgb);
+      gl.arrayBufferUnmap(this.buffer_rgb);
     }
 
-    this.buffer_pos = gl.allocateArrayBuffer(4, this.buffer_pos_type);
+    this.buffer_pos = gl.arrayBufferAllocate(4, this.buffer_pos_type);
     {
       final ArrayBufferWritableMap map =
-        gl.mapArrayBufferWrite(this.buffer_pos);
+        gl.arrayBufferMapWrite(this.buffer_pos);
       final ArrayBufferCursorWritable3f position =
         map.getCursor3f("position");
 
@@ -95,35 +95,35 @@ public final class VBOExample2 implements Runnable
       position.put3f(0.5f, -0.5f, 0.0f);
       position.put3f(0.5f, 0.5f, 0.0f);
 
-      gl.unmapArrayBuffer(this.buffer_pos);
+      gl.arrayBufferUnmap(this.buffer_pos);
     }
 
     this.triangles = new IndexBuffer[2];
-    this.triangles[0] = gl.allocateIndexBuffer(this.buffer_pos, 3);
-    this.triangles[1] = gl.allocateIndexBuffer(this.buffer_pos, 3);
+    this.triangles[0] = gl.indexBufferAllocate(this.buffer_pos, 3);
+    this.triangles[1] = gl.indexBufferAllocate(this.buffer_pos, 3);
     assert this.triangles[0].getType() == GLUnsignedType.TYPE_UNSIGNED_BYTE;
     assert this.triangles[1].getType() == GLUnsignedType.TYPE_UNSIGNED_BYTE;
 
     {
       final IndexBufferWritableMap map =
-        gl.mapIndexBufferWrite(this.triangles[0]);
+        gl.indexBufferMapWrite(this.triangles[0]);
 
       map.put(0, 0);
       map.put(1, 1);
       map.put(2, 2);
 
-      gl.unmapIndexBuffer(this.triangles[0]);
+      gl.indexBufferUnmap(this.triangles[0]);
     }
 
     {
       final IndexBufferWritableMap map =
-        gl.mapIndexBufferWrite(this.triangles[1]);
+        gl.indexBufferMapWrite(this.triangles[1]);
 
       map.put(0, 0);
       map.put(1, 2);
       map.put(2, 3);
 
-      gl.unmapIndexBuffer(this.triangles[1]);
+      gl.indexBufferUnmap(this.triangles[1]);
     }
   }
 
@@ -131,7 +131,7 @@ public final class VBOExample2 implements Runnable
     throws GLException,
       ConstraintError
   {
-    this.gl.clearColorBuffer(this.background);
+    this.gl.colorBufferClear(this.background);
 
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, this.buffer_pos.getLocation());
     GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);

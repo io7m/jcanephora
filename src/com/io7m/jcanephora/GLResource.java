@@ -21,7 +21,7 @@ public interface GLResource
    *           Iff an OpenGL error occurs.
    */
 
-  void delete(
+  void resourceDelete(
     final @Nonnull GLInterface gl)
     throws ConstraintError,
       GLException;

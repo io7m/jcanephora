@@ -32,7 +32,7 @@ public interface GLViewport
    *           Iff an OpenGL error occurred.
    */
 
-  void setViewport(
+  void viewportSet(
     final @Nonnull VectorReadable2I position,
     final @Nonnull VectorReadable2I dimensions)
     throws ConstraintError,

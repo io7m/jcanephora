@@ -37,7 +37,7 @@ public interface GLPixelUnpackBuffers
    *           </ul>
    */
 
-  @Nonnull PixelUnpackBuffer allocatePixelUnpackBuffer(
+  @Nonnull PixelUnpackBuffer pixelUnpackBufferAllocate(
     final long elements,
     final @Nonnull GLScalarType type,
     final long type_elements,
@@ -62,7 +62,7 @@ public interface GLPixelUnpackBuffers
    *           Iff an OpenGL error occurs.
    */
 
-  void deletePixelUnpackBuffer(
+  void pixelUnpackBufferDelete(
     final @Nonnull PixelUnpackBuffer id)
     throws GLException,
       ConstraintError;
@@ -71,7 +71,7 @@ public interface GLPixelUnpackBuffers
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped read-only. The buffer should be unmapped
    * after use with
-   * {@link GLInterface#unmapPixelUnpackBuffer(PixelUnpackBuffer)}.
+   * {@link GLInterface#pixelUnpackBufferUnmap(PixelUnpackBuffer)}.
    * 
    * @param id
    *          The buffer.
@@ -87,7 +87,7 @@ public interface GLPixelUnpackBuffers
    *           </ul>
    */
 
-  @Nonnull ByteBuffer mapPixelUnpackBufferRead(
+  @Nonnull ByteBuffer pixelUnpackBufferMapRead(
     final @Nonnull PixelUnpackBuffer id)
     throws GLException,
       ConstraintError;
@@ -96,7 +96,7 @@ public interface GLPixelUnpackBuffers
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped write-only. The buffer should be unmapped
    * after use with
-   * {@link GLInterface#unmapPixelUnpackBuffer(PixelUnpackBuffer)}. The
+   * {@link GLInterface#pixelUnpackBufferUnmap(PixelUnpackBuffer)}. The
    * previous contents of the buffer are discarded before mapping, to prevent
    * pipeline stalls.
    * 
@@ -114,7 +114,7 @@ public interface GLPixelUnpackBuffers
    *           </ul>
    */
 
-  @Nonnull PixelUnpackBufferWritableMap mapPixelUnpackBufferWrite(
+  @Nonnull PixelUnpackBufferWritableMap pixelUnpackBufferMapWrite(
     final @Nonnull PixelUnpackBuffer id)
     throws GLException,
       ConstraintError;
@@ -135,7 +135,7 @@ public interface GLPixelUnpackBuffers
    *           Iff an OpenGL error occurs.
    */
 
-  void unmapPixelUnpackBuffer(
+  void pixelUnpackBufferUnmap(
     final @Nonnull PixelUnpackBuffer id)
     throws ConstraintError,
       GLException;

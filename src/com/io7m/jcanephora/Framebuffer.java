@@ -32,14 +32,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * @see java.lang.Object#toString()
    */
 
-  @Override public void delete(
-    final @Nonnull GLInterface gl)
-    throws ConstraintError,
-      GLException
-  {
-    gl.deleteFramebuffer(this);
-  }
-
   /**
    * Return the raw OpenGL 'location' of the buffer.
    */
@@ -47,6 +39,14 @@ import com.io7m.jaux.Constraints.ConstraintError;
   public int getLocation()
   {
     return this.value;
+  }
+
+  @Override public void resourceDelete(
+    final @Nonnull GLInterface gl)
+    throws ConstraintError,
+      GLException
+  {
+    gl.framebufferDelete(this);
   }
 
   @Override public String toString()

@@ -36,39 +36,10 @@ public interface GLShaders
    *           Iff an OpenGL error occurs.
    */
 
-  void attachFragmentShader(
+  void fragmentShaderAttach(
     final @Nonnull ProgramReference program,
     final @Nonnull FragmentShader shader)
     throws ConstraintError,
-      GLException;
-
-  /**
-   * Attach the vertex shader <code>shader</code> to the program referenced by
-   * <code>program</code>.
-   * 
-   * @param program
-   *          The target program.
-   * @param shader
-   *          The vertex shader.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>program == null</code></li>
-   *           <li><code>program</code> does not refer to a valid program
-   *           (possibly because the referenced program has been deleted).</li>
-   *           <li><code>shader == null</code></li>
-   *           <li><code>shader</code> does not refer to a valid shader
-   *           (possibly because the referenced shader has been deleted).</li>
-   *           </ul>
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  void attachVertexShader(
-    final @Nonnull ProgramReference program,
-    final @Nonnull VertexShader shader)
-    throws ConstraintError,
-      GLCompileException,
       GLException;
 
   /**
@@ -95,61 +66,12 @@ public interface GLShaders
    *           Iff an OpenGL error occurs.
    */
 
-  @Nonnull FragmentShader compileFragmentShader(
+  @Nonnull FragmentShader fragmentShaderCompile(
     final @Nonnull String name,
     final @Nonnull InputStream stream)
     throws ConstraintError,
       GLCompileException,
       IOException,
-      GLException;
-
-  /**
-   * Read a GLSL vertex shader from the stream referenced by
-   * <code>stream</code>. The program will be named <code>name</code> in any
-   * error messages.
-   * 
-   * @param name
-   *          The name of the program.
-   * @param stream
-   *          A readable stream containing a GLSL vertex shader.
-   * @return A reference to the compiled vertex shader.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>stream == null</code></li>
-   *           </ul>
-   * @throws GLCompileException
-   *           Iff a compilation error occurs.
-   * @throws IOException
-   *           Iff an i/o error occurs whilst reading the stream.
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  @Nonnull VertexShader compileVertexShader(
-    final @Nonnull String name,
-    final @Nonnull InputStream stream)
-    throws ConstraintError,
-      GLCompileException,
-      IOException,
-      GLException;
-
-  /**
-   * Create a new empty program named <code>name</code>.
-   * 
-   * @param name
-   *          The name of the program.
-   * @return A reference to the created program.
-   * @throws ConstraintError
-   *           Iff <code>name == null</code>.
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  @Nonnull ProgramReference createProgram(
-    final @Nonnull String name)
-    throws ConstraintError,
       GLException;
 
   /**
@@ -168,10 +90,58 @@ public interface GLShaders
    *           Iff an OpenGL error occurs.
    */
 
-  void deleteFragmentShader(
+  void fragmentShaderDelete(
     final @Nonnull FragmentShader id)
     throws ConstraintError,
       GLException;
+
+  /**
+   * Make the program referenced by <code>program</code> active.
+   * 
+   * @param program
+   *          The program.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>program == null</code>.</li>
+   *           <li><code>program</code> does not refer to a valid program
+   *           (possible if the program has already been deleted).</li>
+   *           </ul>
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void programActivate(
+    final @Nonnull ProgramReference program)
+    throws ConstraintError,
+      GLException;
+
+  /**
+   * Create a new empty program named <code>name</code>.
+   * 
+   * @param name
+   *          The name of the program.
+   * @return A reference to the created program.
+   * @throws ConstraintError
+   *           Iff <code>name == null</code>.
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  @Nonnull ProgramReference programCreate(
+    final @Nonnull String name)
+    throws ConstraintError,
+      GLException;
+
+  /**
+   * Disable the current shading program.
+   * 
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void programDeactivate()
+    throws GLException;
 
   /**
    * Deletes the shading program referenced by <code>program</code>.
@@ -189,29 +159,8 @@ public interface GLShaders
    *           Iff an OpenGL error occurs.
    */
 
-  void deleteProgram(
+  void programDelete(
     final @Nonnull ProgramReference program)
-    throws ConstraintError,
-      GLException;
-
-  /**
-   * Deletes the vertex shader referenced by <code>id</code>.
-   * 
-   * @param id
-   *          The vertex shader.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>id == null</code>.</li>
-   *           <li><code>id</code> does not refer to a valid shader (possible
-   *           if the shader has already been deleted).</li>
-   *           </ul>
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  void deleteVertexShader(
-    final @Nonnull VertexShader id)
     throws ConstraintError,
       GLException;
 
@@ -234,7 +183,7 @@ public interface GLShaders
    *           Iff an OpenGL error occurs.
    */
 
-  void getAttributes(
+  void programGetAttributes(
     final @Nonnull ProgramReference program,
     final @Nonnull Map<String, ProgramAttribute> out)
     throws ConstraintError,
@@ -248,7 +197,7 @@ public interface GLShaders
    *           Iff an OpenGL error occurs.
    */
 
-  int getMaximumActiveAttributes()
+  int programGetMaximimActiveAttributes()
     throws GLException;
 
   /**
@@ -271,43 +220,11 @@ public interface GLShaders
    *           Iff an OpenGL error occurs.
    */
 
-  void getUniforms(
+  void programGetUniforms(
     final @Nonnull ProgramReference program,
     final @Nonnull Map<String, ProgramUniform> out)
     throws ConstraintError,
       GLException;
-
-  /**
-   * Link the program referenced by <code>program</code>.
-   * 
-   * @param program
-   *          The program.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>program == null</code>.</li>
-   *           <li><code>program</code> does not refer to a valid program
-   *           (possible if the program has already been deleted).</li>
-   *           </ul>
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  void linkProgram(
-    final @Nonnull ProgramReference program)
-    throws ConstraintError,
-      GLCompileException,
-      GLException;
-
-  /**
-   * Disable the current shading program.
-   * 
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  void noProgram()
-    throws GLException;
 
   /**
    * Return <code>true</code> iff the program referenced by
@@ -332,6 +249,28 @@ public interface GLShaders
       GLException;
 
   /**
+   * Link the program referenced by <code>program</code>.
+   * 
+   * @param program
+   *          The program.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>program == null</code>.</li>
+   *           <li><code>program</code> does not refer to a valid program
+   *           (possible if the program has already been deleted).</li>
+   *           </ul>
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void programLink(
+    final @Nonnull ProgramReference program)
+    throws ConstraintError,
+      GLCompileException,
+      GLException;
+
+  /**
    * Upload the value <code>value</code> to the uniform <code>uniform</code>.
    * 
    * @param uniform
@@ -350,7 +289,7 @@ public interface GLShaders
    *           Iff an OpenGL error occurs.
    */
 
-  void putUniformFloat(
+  void programPutUniformFloat(
     final @Nonnull ProgramUniform uniform,
     final float value)
     throws ConstraintError,
@@ -377,7 +316,7 @@ public interface GLShaders
    *           Iff an OpenGL error occurs.
    */
 
-  void putUniformMatrix3x3f(
+  void programPutUniformMatrix3x3f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixM3x3F matrix)
     throws ConstraintError,
@@ -404,7 +343,7 @@ public interface GLShaders
    *           Iff an OpenGL error occurs.
    */
 
-  void putUniformMatrix4x4f(
+  void programPutUniformMatrix4x4f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixM4x4F matrix)
     throws ConstraintError,
@@ -431,7 +370,7 @@ public interface GLShaders
    *           Iff an OpenGL error occurs.
    */
 
-  void putUniformTextureUnit(
+  void programPutUniformTextureUnit(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull TextureUnit unit)
     throws ConstraintError,
@@ -458,7 +397,7 @@ public interface GLShaders
    *           Iff an OpenGL error occurs.
    */
 
-  void putUniformVector3f(
+  void programPutUniformVector3f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable3F vector)
     throws ConstraintError,
@@ -485,30 +424,91 @@ public interface GLShaders
    *           Iff an OpenGL error occurs.
    */
 
-  void putUniformVector4f(
+  void programPutUniformVector4f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4F vector)
     throws ConstraintError,
       GLException;
 
   /**
-   * Make the program referenced by <code>program</code> active.
+   * Attach the vertex shader <code>shader</code> to the program referenced by
+   * <code>program</code>.
    * 
    * @param program
-   *          The program.
+   *          The target program.
+   * @param shader
+   *          The vertex shader.
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
-   *           <li><code>program == null</code>.</li>
+   *           <li><code>program == null</code></li>
    *           <li><code>program</code> does not refer to a valid program
-   *           (possible if the program has already been deleted).</li>
+   *           (possibly because the referenced program has been deleted).</li>
+   *           <li><code>shader == null</code></li>
+   *           <li><code>shader</code> does not refer to a valid shader
+   *           (possibly because the referenced shader has been deleted).</li>
    *           </ul>
    * @throws GLException
    *           Iff an OpenGL error occurs.
    */
 
-  void useProgram(
-    final @Nonnull ProgramReference program)
+  void vertexShaderAttach(
+    final @Nonnull ProgramReference program,
+    final @Nonnull VertexShader shader)
+    throws ConstraintError,
+      GLCompileException,
+      GLException;
+
+  /**
+   * Read a GLSL vertex shader from the stream referenced by
+   * <code>stream</code>. The program will be named <code>name</code> in any
+   * error messages.
+   * 
+   * @param name
+   *          The name of the program.
+   * @param stream
+   *          A readable stream containing a GLSL vertex shader.
+   * @return A reference to the compiled vertex shader.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>name == null</code></li>
+   *           <li><code>stream == null</code></li>
+   *           </ul>
+   * @throws GLCompileException
+   *           Iff a compilation error occurs.
+   * @throws IOException
+   *           Iff an i/o error occurs whilst reading the stream.
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  @Nonnull VertexShader vertexShaderCompile(
+    final @Nonnull String name,
+    final @Nonnull InputStream stream)
+    throws ConstraintError,
+      GLCompileException,
+      IOException,
+      GLException;
+
+  /**
+   * Deletes the vertex shader referenced by <code>id</code>.
+   * 
+   * @param id
+   *          The vertex shader.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>id == null</code>.</li>
+   *           <li><code>id</code> does not refer to a valid shader (possible
+   *           if the shader has already been deleted).</li>
+   *           </ul>
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void vertexShaderDelete(
+    final @Nonnull VertexShader id)
     throws ConstraintError,
       GLException;
 }

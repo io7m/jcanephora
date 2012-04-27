@@ -59,15 +59,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * @see java.lang.Object#toString()
    */
 
-  @Override public void delete(
-    final @Nonnull GLInterface gl)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(gl, "OpenGL interface");
-    gl.deletePixelUnpackBuffer(this);
-  }
-
   /**
    * Retrieve the number of elements allocated in the buffer.
    */
@@ -120,6 +111,15 @@ import com.io7m.jaux.Constraints.ConstraintError;
   @Override public long getSizeBytes()
   {
     return this.getElementSizeBytes() * this.elements;
+  }
+
+  @Override public void resourceDelete(
+    final @Nonnull GLInterface gl)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    gl.pixelUnpackBufferDelete(this);
   }
 
   @Override public String toString()

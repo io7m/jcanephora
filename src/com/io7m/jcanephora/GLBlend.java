@@ -17,13 +17,13 @@ public interface GLBlend
    *           Iff an OpenGL error occurs.
    */
 
-  void disableBlending()
+  void blendingDisable()
     throws GLException;
 
   /**
    * Enable blending with the given blending functions. The function is
    * equivalent to: <code>
-   * {@link GLBlend#enableBlendingSeparateWithEquationSeparate}(
+   * {@link GLBlend#blendingEnableSeparateWithEquationSeparate}(
    *   source_factor,
    *   source_factor,
    *   destination_factor,
@@ -36,7 +36,7 @@ public interface GLBlend
    *           Iff an OpenGL error occurs.
    */
 
-  void enableBlending(
+  void blendingEnable(
     final @Nonnull BlendFunction source_factor,
     final @Nonnull BlendFunction destination_factor)
     throws ConstraintError,
@@ -45,7 +45,7 @@ public interface GLBlend
   /**
    * Enable blending with the given blending functions. The function is
    * equivalent to: <code>
-   * {@link GLBlend#enableBlendingSeparateWithEquationSeparate}(
+   * {@link GLBlend#blendingEnableSeparateWithEquationSeparate}(
    *   source_rgb_factor,
    *   source_alpha_factor,
    *   destination_rgb_factor,
@@ -58,7 +58,7 @@ public interface GLBlend
    *           Iff an OpenGL error occurs.
    */
 
-  void enableBlendingSeparate(
+  void blendingEnableSeparate(
     final @Nonnull BlendFunction source_rgb_factor,
     final @Nonnull BlendFunction source_alpha_factor,
     final @Nonnull BlendFunction destination_rgb_factor,
@@ -80,7 +80,7 @@ public interface GLBlend
    * <p>
    * The given blend functions are applied to the RGB and alpha elements of
    * the colors in question separately (as opposed to
-   * {@link GLBlend#enableBlending}, which applies the given functions to the
+   * {@link GLBlend#blendingEnable}, which applies the given functions to the
    * RGB and alpha components simultaneously).
    * </p>
    * <p>
@@ -116,7 +116,7 @@ public interface GLBlend
    *           Iff an OpenGL error occurs.
    */
 
-  void enableBlendingSeparateWithEquationSeparate(
+  void blendingEnableSeparateWithEquationSeparate(
     final @Nonnull BlendFunction source_rgb_factor,
     final @Nonnull BlendFunction source_alpha_factor,
     final @Nonnull BlendFunction destination_rgb_factor,
@@ -129,7 +129,7 @@ public interface GLBlend
   /**
    * Enable blending with the given blending functions and equation. The
    * function is equivalent to: <code>
-   * {@link GLBlend#enableBlendingSeparateWithEquationSeparate}(
+   * {@link GLBlend#blendingEnableSeparateWithEquationSeparate}(
    *   source_factor,
    *   source_factor,
    *   destination_factor,
@@ -142,7 +142,7 @@ public interface GLBlend
    *           Iff an OpenGL error occurs.
    */
 
-  void enableBlendingWithEquation(
+  void blendingEnableWithEquation(
     final @Nonnull BlendFunction source_factor,
     final @Nonnull BlendFunction destination_factor,
     final @Nonnull BlendEquation equation)
@@ -152,7 +152,7 @@ public interface GLBlend
   /**
    * Enable blending with the given blending functions and equation. The
    * function is equivalent to: <code>
-   * {@link GLBlend#enableBlendingSeparateWithEquationSeparate}(
+   * {@link GLBlend#blendingEnableSeparateWithEquationSeparate}(
    *   source_factor,
    *   source_factor,
    *   destination_factor,
@@ -165,7 +165,7 @@ public interface GLBlend
    *           Iff an OpenGL error occurs.
    */
 
-  void enableBlendingWithEquationSeparate(
+  void blendingEnableWithEquationSeparate(
     final @Nonnull BlendFunction source_factor,
     final @Nonnull BlendFunction destination_factor,
     final @Nonnull BlendEquation equation_rgb,

@@ -397,7 +397,7 @@ public class ProgramLWJGL30Test
       GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    gl.createProgram(null);
+    gl.programCreate(null);
   }
 
   /**
@@ -444,7 +444,7 @@ public class ProgramLWJGL30Test
       GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    gl.deleteProgram(null);
+    gl.programDelete(null);
   }
 
   /**
@@ -541,11 +541,11 @@ public class ProgramLWJGL30Test
     ProgramReference p = null;
 
     try {
-      p = gl.createProgram("program");
+      p = gl.programCreate("program");
       Assert.assertEquals("program", p.getName());
     } finally {
       if (p != null) {
-        p.delete(gl);
+        p.resourceDelete(gl);
       }
     }
   }

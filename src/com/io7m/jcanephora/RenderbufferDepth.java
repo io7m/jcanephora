@@ -32,24 +32,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
     this.height = height;
   }
 
-  @Override public void delete(
-    final @Nonnull GLInterface gl)
-    throws ConstraintError,
-      GLException
-  {
-    gl.deleteRenderbufferDepth(this);
-  }
-
   public int getHeight()
   {
     return this.height;
   }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#toString()
-   */
 
   /**
    * Return the raw OpenGL 'location' of the buffer.
@@ -60,9 +46,23 @@ import com.io7m.jaux.Constraints.ConstraintError;
     return this.value;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#toString()
+   */
+
   public int getWidth()
   {
     return this.width;
+  }
+
+  @Override public void resourceDelete(
+    final @Nonnull GLInterface gl)
+    throws ConstraintError,
+      GLException
+  {
+    gl.renderbufferDepthDelete(this);
   }
 
   @Override public String toString()

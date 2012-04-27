@@ -25,15 +25,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
     this.name = Constraints.constrainNotNull(name, "Program name");
   }
 
-  @Override public void delete(
-    final @Nonnull GLInterface gl)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(gl, "OpenGL interface");
-    gl.deleteProgram(this);
-  }
-
   /**
    * Retrieve the raw OpenGL 'location' of the program.
    */
@@ -50,6 +41,15 @@ import com.io7m.jaux.Constraints.ConstraintError;
   public @Nonnull String getName()
   {
     return this.name;
+  }
+
+  @Override public void resourceDelete(
+    final @Nonnull GLInterface gl)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    gl.programDelete(this);
   }
 
   @Override public String toString()

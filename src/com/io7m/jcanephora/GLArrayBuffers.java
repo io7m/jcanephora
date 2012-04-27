@@ -31,7 +31,7 @@ public interface GLArrayBuffers
    *           </ul>
    */
 
-  @Nonnull ArrayBuffer allocateArrayBuffer(
+  @Nonnull ArrayBuffer arrayBufferAllocate(
     final long elements,
     final ArrayBufferDescriptor descriptor)
     throws GLException,
@@ -39,7 +39,7 @@ public interface GLArrayBuffers
 
   /**
    * Bind the array buffer <code>buffer</code> for subsequent calls to
-   * {@link GLArrayBuffers#bindVertexAttributeArrayForBuffer(ArrayBuffer, ArrayBufferAttribute, ProgramAttribute)}
+   * {@link GLArrayBuffers#arrayBufferBindVertexAttribute(ArrayBuffer, ArrayBufferAttribute, ProgramAttribute)}
    * .
    * 
    * @param buffer
@@ -55,7 +55,7 @@ public interface GLArrayBuffers
    *           </ul>
    */
 
-  void bindArrayBuffer(
+  void arrayBufferBind(
     final @Nonnull ArrayBuffer buffer)
     throws GLException,
       ConstraintError;
@@ -82,7 +82,7 @@ public interface GLArrayBuffers
    *           Iff an OpenGL error occurs.
    */
 
-  void bindVertexAttributeArrayForBuffer(
+  void arrayBufferBindVertexAttribute(
     final @Nonnull ArrayBuffer buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
@@ -106,7 +106,7 @@ public interface GLArrayBuffers
    *           Iff an OpenGL error occurs.
    */
 
-  void deleteArrayBuffer(
+  void arrayBufferDelete(
     final @Nonnull ArrayBuffer id)
     throws ConstraintError,
       GLException;
@@ -114,7 +114,7 @@ public interface GLArrayBuffers
   /**
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped read-only. The buffer should be unmapped
-   * after use with {@link GLInterface#unmapArrayBuffer(ArrayBuffer)}.
+   * after use with {@link GLInterface#arrayBufferUnmap(ArrayBuffer)}.
    * 
    * @param id
    *          The buffer.
@@ -130,7 +130,7 @@ public interface GLArrayBuffers
    *           </ul>
    */
 
-  @Nonnull ByteBuffer mapArrayBufferRead(
+  @Nonnull ByteBuffer arrayBufferMapRead(
     final @Nonnull ArrayBuffer id)
     throws GLException,
       ConstraintError;
@@ -138,7 +138,7 @@ public interface GLArrayBuffers
   /**
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped write-only. The buffer should be unmapped
-   * after use with {@link GLInterface#unmapArrayBuffer(ArrayBuffer)}. The
+   * after use with {@link GLInterface#arrayBufferUnmap(ArrayBuffer)}. The
    * previous contents of the buffer are discarded before mapping, to prevent
    * pipeline stalls.
    * 
@@ -156,7 +156,7 @@ public interface GLArrayBuffers
    *           </ul>
    */
 
-  @Nonnull ArrayBufferWritableMap mapArrayBufferWrite(
+  @Nonnull ArrayBufferWritableMap arrayBufferMapWrite(
     final @Nonnull ArrayBuffer id)
     throws GLException,
       ConstraintError;
@@ -168,7 +168,7 @@ public interface GLArrayBuffers
    *           Iff an OpenGL error occurs.
    */
 
-  void unbindArrayBuffer()
+  void arrayBufferUnbind()
     throws GLException,
       ConstraintError;
 
@@ -194,7 +194,7 @@ public interface GLArrayBuffers
    *           Iff an OpenGL error occurs.
    */
 
-  void unbindVertexAttributeArrayForBuffer(
+  void arrayBufferUnbindVertexAttribute(
     final @Nonnull ArrayBuffer buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
@@ -217,7 +217,7 @@ public interface GLArrayBuffers
    *           Iff an OpenGL error occurs.
    */
 
-  void unmapArrayBuffer(
+  void arrayBufferUnmap(
     final @Nonnull ArrayBuffer id)
     throws ConstraintError,
       GLException;

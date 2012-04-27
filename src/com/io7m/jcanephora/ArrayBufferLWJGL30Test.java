@@ -47,14 +47,14 @@ public class ArrayBufferLWJGL30Test
             GLScalarType.TYPE_FLOAT,
             3) });
 
-      a = gl.allocateArrayBuffer(10, d);
+      a = gl.arrayBufferAllocate(10, d);
       Assert.assertEquals(12, a.getElementSizeBytes());
       Assert.assertEquals(10, a.getElements());
       Assert.assertEquals(120, a.getSizeBytes());
       Assert.assertEquals(d, a.getDescriptor());
     } finally {
       if (a != null) {
-        a.delete(gl);
+        a.resourceDelete(gl);
       }
     }
   }
@@ -78,7 +78,7 @@ public class ArrayBufferLWJGL30Test
           GLScalarType.TYPE_FLOAT,
           3) });
 
-    gl.allocateArrayBuffer(0, d);
+    gl.arrayBufferAllocate(0, d);
   }
 
   /**
@@ -103,13 +103,13 @@ public class ArrayBufferLWJGL30Test
             GLScalarType.TYPE_FLOAT,
             3) });
 
-      a = gl.allocateArrayBuffer(10, d);
-      gl.deleteArrayBuffer(a);
+      a = gl.arrayBufferAllocate(10, d);
+      gl.arrayBufferDelete(a);
     } catch (final Exception e) {
       Assert.fail(e.getMessage());
     }
 
-    gl.deleteArrayBuffer(a);
+    gl.arrayBufferDelete(a);
   }
 
   /**
@@ -124,7 +124,7 @@ public class ArrayBufferLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    gl.deleteArrayBuffer(null);
+    gl.arrayBufferDelete(null);
   }
 
   @Test(expected = ConstraintError.class) public
@@ -142,8 +142,8 @@ public class ArrayBufferLWJGL30Test
     ArrayBuffer a = null;
 
     try {
-      a = gl.allocateArrayBuffer(3, d);
-      gl.mapArrayBufferWrite(a);
+      a = gl.arrayBufferAllocate(3, d);
+      gl.arrayBufferMapWrite(a);
       Assert.assertEquals(0, a.getElementOffset(0));
       Assert.assertEquals(18, a.getElementOffset(1));
       Assert.assertEquals(36, a.getElementOffset(2));
@@ -171,31 +171,31 @@ public class ArrayBufferLWJGL30Test
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.allocateArrayBuffer(10, d);
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
 
     try {
       try {
-        final ArrayBufferWritableMap b = gl.mapArrayBufferWrite(a);
+        final ArrayBufferWritableMap b = gl.arrayBufferMapWrite(a);
         final ShortBuffer s = b.getByteBuffer().asShortBuffer();
         for (int index = 0; index < 10; ++index) {
           s.put(index, (short) index);
         }
       } finally {
-        gl.unmapArrayBuffer(a);
+        gl.arrayBufferUnmap(a);
       }
 
       try {
-        final ByteBuffer b = gl.mapArrayBufferRead(a);
+        final ByteBuffer b = gl.arrayBufferMapRead(a);
         final ShortBuffer s = b.asShortBuffer();
         for (int index = 0; index < 10; ++index) {
           Assert.assertEquals(index, s.get(index));
         }
       } finally {
-        gl.unmapArrayBuffer(a);
+        gl.arrayBufferUnmap(a);
       }
     } finally {
       if (a != null) {
-        a.delete(gl);
+        a.resourceDelete(gl);
       }
     }
   }
@@ -218,18 +218,18 @@ public class ArrayBufferLWJGL30Test
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.allocateArrayBuffer(10, d);
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
 
     try {
       try {
-        final ByteBuffer b = gl.mapArrayBufferRead(a);
+        final ByteBuffer b = gl.arrayBufferMapRead(a);
         b.get(20);
       } finally {
-        gl.unmapArrayBuffer(a);
+        gl.arrayBufferUnmap(a);
       }
     } finally {
       if (a != null) {
-        a.delete(gl);
+        a.resourceDelete(gl);
       }
     }
   }
@@ -255,20 +255,20 @@ public class ArrayBufferLWJGL30Test
     ArrayBuffer a = null;
 
     try {
-      a = gl.allocateArrayBuffer(10, d);
+      a = gl.arrayBufferAllocate(10, d);
     } catch (final GLException e) {
       Assert.fail(e.getMessage());
     }
 
     try {
-      gl.mapArrayBufferRead(a);
-      gl.mapArrayBufferRead(a);
+      gl.arrayBufferMapRead(a);
+      gl.arrayBufferMapRead(a);
     } catch (final GLException e) {
       Assert.assertEquals(GL11.GL_INVALID_OPERATION, e.getCode());
       throw e;
     } finally {
       if (a != null) {
-        a.delete(gl);
+        a.resourceDelete(gl);
       }
     }
   }
@@ -291,8 +291,8 @@ public class ArrayBufferLWJGL30Test
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    gl.allocateArrayBuffer(10, d);
-    gl.mapArrayBufferRead(null);
+    gl.arrayBufferAllocate(10, d);
+    gl.arrayBufferMapRead(null);
   }
 
   /**
@@ -313,19 +313,19 @@ public class ArrayBufferLWJGL30Test
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.allocateArrayBuffer(10, d);
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
 
     try {
       try {
-        final ArrayBufferWritableMap map = gl.mapArrayBufferWrite(a);
+        final ArrayBufferWritableMap map = gl.arrayBufferMapWrite(a);
         final ByteBuffer b = map.getByteBuffer();
         b.put(20, (byte) 0xff);
       } finally {
-        gl.unmapArrayBuffer(a);
+        gl.arrayBufferUnmap(a);
       }
     } finally {
       if (a != null) {
-        a.delete(gl);
+        a.resourceDelete(gl);
       }
     }
   }
@@ -348,8 +348,8 @@ public class ArrayBufferLWJGL30Test
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    gl.allocateArrayBuffer(10, d);
-    gl.mapArrayBufferWrite(null);
+    gl.arrayBufferAllocate(10, d);
+    gl.arrayBufferMapWrite(null);
   }
 
   /**
@@ -373,21 +373,21 @@ public class ArrayBufferLWJGL30Test
     ArrayBuffer a = null;
 
     try {
-      a = gl.allocateArrayBuffer(10, d);
-      gl.mapArrayBufferWrite(a);
+      a = gl.arrayBufferAllocate(10, d);
+      gl.arrayBufferMapWrite(a);
     } catch (final GLException e) {
       Assert.fail(e.getMessage());
     }
 
     try {
-      gl.unmapArrayBuffer(a);
-      gl.unmapArrayBuffer(a);
+      gl.arrayBufferUnmap(a);
+      gl.arrayBufferUnmap(a);
     } catch (final GLException e) {
       Assert.assertEquals(GL11.GL_INVALID_OPERATION, e.getCode());
       throw e;
     } finally {
       if (a != null) {
-        a.delete(gl);
+        a.resourceDelete(gl);
       }
     }
   }

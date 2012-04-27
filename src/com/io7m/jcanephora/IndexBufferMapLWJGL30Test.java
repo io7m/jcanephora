@@ -54,13 +54,13 @@ public class IndexBufferMapLWJGL30Test
           "position",
           GLScalarType.TYPE_BYTE,
           1) });
-    final ArrayBuffer a = gl.allocateArrayBuffer(255, d);
-    final IndexBuffer ib = gl.allocateIndexBuffer(a, 1);
+    final ArrayBuffer a = gl.arrayBufferAllocate(255, d);
+    final IndexBuffer ib = gl.indexBufferAllocate(a, 1);
 
     Assert.assertTrue(ib.getType() == GLUnsignedType.TYPE_UNSIGNED_BYTE);
 
     {
-      final IndexBufferWritableMap map = gl.mapIndexBufferWrite(ib);
+      final IndexBufferWritableMap map = gl.indexBufferMapWrite(ib);
       Assert.assertEquals(ib, map.getIndexBuffer());
 
       for (int index = 0; index < ib.getElements(); ++index) {
@@ -68,10 +68,10 @@ public class IndexBufferMapLWJGL30Test
       }
     }
 
-    gl.unmapIndexBuffer(ib);
+    gl.indexBufferUnmap(ib);
 
     {
-      final IndexBufferReadableMap map = gl.mapIndexBufferRead(ib);
+      final IndexBufferReadableMap map = gl.indexBufferMapRead(ib);
 
       for (int index = 0; index < ib.getElements(); ++index) {
         final int value = map.get(index);
@@ -97,22 +97,22 @@ public class IndexBufferMapLWJGL30Test
           "position",
           GLScalarType.TYPE_BYTE,
           1) });
-    final ArrayBuffer a = gl.allocateArrayBuffer(70000, d);
-    final IndexBuffer ib = gl.allocateIndexBuffer(a, 1);
+    final ArrayBuffer a = gl.arrayBufferAllocate(70000, d);
+    final IndexBuffer ib = gl.indexBufferAllocate(a, 1);
 
     Assert.assertTrue(ib.getType() == GLUnsignedType.TYPE_UNSIGNED_INT);
 
     {
-      final IndexBufferWritableMap map = gl.mapIndexBufferWrite(ib);
+      final IndexBufferWritableMap map = gl.indexBufferMapWrite(ib);
       for (int index = 0; index < ib.getElements(); ++index) {
         map.put(index, index);
       }
     }
 
-    gl.unmapIndexBuffer(ib);
+    gl.indexBufferUnmap(ib);
 
     {
-      final IndexBufferReadableMap map = gl.mapIndexBufferRead(ib);
+      final IndexBufferReadableMap map = gl.indexBufferMapRead(ib);
       for (int index = 0; index < ib.getElements(); ++index) {
         final int value = map.get(index);
         Assert.assertEquals(index, value);
@@ -137,22 +137,22 @@ public class IndexBufferMapLWJGL30Test
           "position",
           GLScalarType.TYPE_BYTE,
           1) });
-    final ArrayBuffer a = gl.allocateArrayBuffer(65535, d);
-    final IndexBuffer ib = gl.allocateIndexBuffer(a, 1);
+    final ArrayBuffer a = gl.arrayBufferAllocate(65535, d);
+    final IndexBuffer ib = gl.indexBufferAllocate(a, 1);
 
     Assert.assertTrue(ib.getType() == GLUnsignedType.TYPE_UNSIGNED_SHORT);
 
     {
-      final IndexBufferWritableMap map = gl.mapIndexBufferWrite(ib);
+      final IndexBufferWritableMap map = gl.indexBufferMapWrite(ib);
       for (int index = 0; index < ib.getElements(); ++index) {
         map.put(index, index);
       }
     }
 
-    gl.unmapIndexBuffer(ib);
+    gl.indexBufferUnmap(ib);
 
     {
-      final IndexBufferReadableMap map = gl.mapIndexBufferRead(ib);
+      final IndexBufferReadableMap map = gl.indexBufferMapRead(ib);
       for (int index = 0; index < ib.getElements(); ++index) {
         final int value = map.get(index);
         Assert.assertEquals(index, value);

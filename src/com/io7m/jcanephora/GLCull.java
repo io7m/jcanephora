@@ -17,7 +17,7 @@ public interface GLCull
    *           Iff an OpenGL error occurs.
    */
 
-  void disableCulling()
+  void cullingDisable()
     throws GLException;
 
   /**
@@ -37,7 +37,7 @@ public interface GLCull
    *           Iff an OpenGL error occurs.
    */
 
-  void enableCulling(
+  void cullingEnable(
     final @Nonnull FaceSelection faces,
     final @Nonnull FaceWindingOrder order)
     throws ConstraintError,

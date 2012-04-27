@@ -19,7 +19,7 @@ public interface GLScissor
    *           Iff an OpenGL error occurs.
    */
 
-  void disableScissor()
+  void scissorDisable()
     throws GLException;
 
   /**
@@ -43,7 +43,7 @@ public interface GLScissor
    *           Iff an OpenGL error occurred.
    */
 
-  void enableScissor(
+  void scissorEnable(
     final @Nonnull VectorReadable2I position,
     final @Nonnull VectorReadable2I dimensions)
     throws ConstraintError,
