@@ -17,13 +17,12 @@ public class FramebufferAttachment
    * index <code>index</code>.
    */
 
-  public static final class FramebufferColorAttachment extends
-    FramebufferAttachment
+  public static final class ColorAttachment extends FramebufferAttachment
   {
     private final @Nonnull Texture2DRGBAStatic texture;
     private final int                          index;
 
-    @SuppressWarnings("synthetic-access") public FramebufferColorAttachment(
+    @SuppressWarnings("synthetic-access") public ColorAttachment(
       final @Nonnull Texture2DRGBAStatic texture,
       final int index)
       throws ConstraintError
@@ -61,24 +60,25 @@ public class FramebufferAttachment
   }
 
   /**
-   * Framebuffer depth buffer attachment. When passed to the framebuffer API,
-   * this attachment will attach <code>buffer</code> as the depth buffer.
+   * Framebuffer depth and stencil buffer attachment. When passed to the
+   * framebuffer API, this attachment will attach <code>buffer</code> as the
+   * combined depth/stencil buffer.
    */
 
-  public static final class FramebufferDepthAttachment extends
+  public static final class RenderbufferD24S8Attachment extends
     FramebufferAttachment
   {
-    private final @Nonnull RenderbufferDepth buffer;
+    private final @Nonnull RenderbufferD24S8 buffer;
 
-    @SuppressWarnings("synthetic-access") public FramebufferDepthAttachment(
-      final @Nonnull RenderbufferDepth buffer)
+    @SuppressWarnings("synthetic-access") public RenderbufferD24S8Attachment(
+      final @Nonnull RenderbufferD24S8 buffer)
       throws ConstraintError
     {
-      super(Type.ATTACHMENT_DEPTH);
+      super(Type.ATTACHMENT_D24S8);
       this.buffer = Constraints.constrainNotNull(buffer, "Renderbuffer");
     }
 
-    public @Nonnull RenderbufferDepth getRenderbuffer()
+    public @Nonnull RenderbufferD24S8 getRenderbuffer()
     {
       return this.buffer;
     }
@@ -86,7 +86,7 @@ public class FramebufferAttachment
     @Override public String toString()
     {
       final StringBuilder builder = new StringBuilder();
-      builder.append("[FramebufferDepthAttachment ");
+      builder.append("[RenderbufferD24S8Attachment ");
       builder.append(this.buffer);
       builder.append("]");
       return builder.toString();
@@ -96,7 +96,7 @@ public class FramebufferAttachment
   static enum Type
   {
     ATTACHMENT_COLOR,
-    ATTACHMENT_DEPTH
+    ATTACHMENT_D24S8
   }
 
   public final @Nonnull Type type;

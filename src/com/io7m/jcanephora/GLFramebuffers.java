@@ -92,7 +92,8 @@ public interface GLFramebuffers
     throws GLException;
 
   /**
-   * Allocate a renderbuffer that will be used as storage for a depth buffer.
+   * Allocate a renderbuffer that will be used as storage for a combined depth
+   * and stencil buffer.
    * 
    * @return A freshly allocated renderbuffer.
    * @throws ConstraintError
@@ -105,7 +106,7 @@ public interface GLFramebuffers
    *           Iff an OpenGL exception occurs.
    */
 
-  @Nonnull RenderbufferDepth renderbufferDepthAllocate(
+  @Nonnull RenderbufferD24S8 renderbufferD24S8Allocate(
     final int width,
     final int height)
     throws ConstraintError,
@@ -122,8 +123,8 @@ public interface GLFramebuffers
    *           Iff an OpenGL error occurs.
    */
 
-  void renderbufferDepthDelete(
-    final @Nonnull RenderbufferDepth buffer)
+  void renderbufferD24S8Delete(
+    final @Nonnull RenderbufferD24S8 buffer)
     throws ConstraintError,
       GLException;
 }

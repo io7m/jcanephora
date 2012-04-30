@@ -10,13 +10,13 @@ import org.lwjgl.opengl.GL11;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.Framebuffer;
 import com.io7m.jcanephora.FramebufferAttachment;
-import com.io7m.jcanephora.FramebufferAttachment.FramebufferColorAttachment;
-import com.io7m.jcanephora.FramebufferAttachment.FramebufferDepthAttachment;
+import com.io7m.jcanephora.FramebufferAttachment.ColorAttachment;
+import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface;
 import com.io7m.jcanephora.GLInterfaceLWJGL30;
 import com.io7m.jcanephora.LWJGL30;
-import com.io7m.jcanephora.RenderbufferDepth;
+import com.io7m.jcanephora.RenderbufferD24S8;
 import com.io7m.jcanephora.Texture2DRGBAStatic;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureUnit;
@@ -56,7 +56,7 @@ public final class FBOExample implements Runnable
   private final @Nonnull VectorI4F           texture_background;
   private final @Nonnull TextureUnit[]       units;
   private final @Nonnull Framebuffer         framebuffer;
-  private final @Nonnull RenderbufferDepth   depth_buffer;
+  private final @Nonnull RenderbufferD24S8        depth_buffer;
 
   double                                     angle = 0;
 
@@ -71,7 +71,7 @@ public final class FBOExample implements Runnable
     this.units = this.gl.textureGetUnits();
 
     this.depth_buffer =
-      this.gl.renderbufferDepthAllocate(
+      this.gl.renderbufferD24S8Allocate(
         FBOExample.SCREEN_WIDTH,
         FBOExample.SCREEN_HEIGHT);
 
@@ -89,8 +89,8 @@ public final class FBOExample implements Runnable
     this.gl.framebufferAttachStorage(
       this.framebuffer,
       new FramebufferAttachment[] {
-        new FramebufferColorAttachment(this.texture, 0),
-        new FramebufferDepthAttachment(this.depth_buffer) });
+        new ColorAttachment(this.texture, 0),
+        new RenderbufferD24S8Attachment(this.depth_buffer) });
   }
 
   private void render()

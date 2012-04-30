@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.FramebufferAttachment.ColorAttachment;
+import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
 
 public class GLFramebuffersLWJGL30Test
 {
@@ -32,13 +34,13 @@ public class GLFramebuffersLWJGL30Test
   {
     GLInterface g = null;
     Framebuffer fb = null;
-    RenderbufferDepth rb = null;
+    RenderbufferD24S8 rb = null;
     Texture2DRGBAStatic cb = null;
 
     try {
       g = GLInterfaceLWJGL30Util.getGL();
       fb = g.framebufferAllocate();
-      rb = g.renderbufferDepthAllocate(128, 128);
+      rb = g.renderbufferD24S8Allocate(128, 128);
       cb =
         g.texture2DRGBAStaticAllocate(
           "framebuffer",
@@ -59,9 +61,9 @@ public class GLFramebuffersLWJGL30Test
     assert g != null;
 
     g.framebufferAttachStorage(fb, new FramebufferAttachment[] {
-      new FramebufferAttachment.FramebufferColorAttachment(cb, 0),
-      new FramebufferAttachment.FramebufferDepthAttachment(rb),
-      new FramebufferAttachment.FramebufferDepthAttachment(rb) });
+      new ColorAttachment(cb, 0),
+      new RenderbufferD24S8Attachment(rb),
+      new RenderbufferD24S8Attachment(rb) });
   }
 
   @Test public void testCheckDepthBits()
@@ -69,13 +71,13 @@ public class GLFramebuffersLWJGL30Test
   {
     GLInterface g = null;
     Framebuffer fb = null;
-    RenderbufferDepth rb = null;
+    RenderbufferD24S8 rb = null;
     Texture2DRGBAStatic cb = null;
 
     try {
       g = GLInterfaceLWJGL30Util.getGL();
       fb = g.framebufferAllocate();
-      rb = g.renderbufferDepthAllocate(128, 128);
+      rb = g.renderbufferD24S8Allocate(128, 128);
       cb =
         g.texture2DRGBAStaticAllocate(
           "framebuffer",
@@ -86,8 +88,8 @@ public class GLFramebuffersLWJGL30Test
           TextureFilter.TEXTURE_FILTER_NEAREST,
           TextureFilter.TEXTURE_FILTER_NEAREST);
       g.framebufferAttachStorage(fb, new FramebufferAttachment[] {
-        new FramebufferAttachment.FramebufferColorAttachment(cb, 0),
-        new FramebufferAttachment.FramebufferDepthAttachment(rb) });
+        new ColorAttachment(cb, 0),
+        new RenderbufferD24S8Attachment(rb) });
     } catch (final IOException e) {
       Assert.fail(e.getMessage());
     } catch (final ConstraintError e) {
@@ -97,7 +99,8 @@ public class GLFramebuffersLWJGL30Test
     }
 
     assert g != null;
-    Assert.assertTrue(g.depthBufferGetBits() >= 1);
+    Assert.assertTrue(g.depthBufferGetBits() == 24);
+    Assert.assertTrue(g.stencilBufferGetBits() == 8);
   }
 
   @Test(expected = ConstraintError.class) public void testDepthEnableNone()
@@ -123,7 +126,7 @@ public class GLFramebuffersLWJGL30Test
       g
         .framebufferAttachStorage(
           fb,
-          new FramebufferAttachment[] { new FramebufferAttachment.FramebufferColorAttachment(
+          new FramebufferAttachment[] { new FramebufferAttachment.ColorAttachment(
             cb,
             0) });
       g.framebufferBind(fb);

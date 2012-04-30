@@ -7,8 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.FramebufferAttachment.FramebufferColorAttachment;
-import com.io7m.jcanephora.FramebufferAttachment.FramebufferDepthAttachment;
+import com.io7m.jcanephora.FramebufferAttachment.ColorAttachment;
+import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
 
 public class FramebufferAttachmentLWJGL30Test
 {
@@ -39,8 +39,8 @@ public class FramebufferAttachmentLWJGL30Test
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
-    final FramebufferColorAttachment fbc =
-      new FramebufferColorAttachment(t, 0);
+    final ColorAttachment fbc =
+      new ColorAttachment(t, 0);
     final Framebuffer fb = gl.framebufferAllocate();
     gl.framebufferAttachStorage(fb, new FramebufferAttachment[] { fbc });
   }
@@ -51,9 +51,9 @@ public class FramebufferAttachmentLWJGL30Test
       GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    final RenderbufferDepth depth = gl.renderbufferDepthAllocate(128, 128);
-    final FramebufferDepthAttachment fda =
-      new FramebufferDepthAttachment(depth);
+    final RenderbufferD24S8 depth = gl.renderbufferD24S8Allocate(128, 128);
+    final RenderbufferD24S8Attachment fda =
+      new RenderbufferD24S8Attachment(depth);
     final Framebuffer fb = gl.framebufferAllocate();
     gl.framebufferAttachStorage(fb, new FramebufferAttachment[] { fda });
   }
@@ -66,9 +66,9 @@ public class FramebufferAttachmentLWJGL30Test
         GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    final RenderbufferDepth depth = gl.renderbufferDepthAllocate(128, 128);
-    final FramebufferDepthAttachment fda =
-      new FramebufferDepthAttachment(depth);
+    final RenderbufferD24S8 depth = gl.renderbufferD24S8Allocate(128, 128);
+    final RenderbufferD24S8Attachment fda =
+      new RenderbufferD24S8Attachment(depth);
     final Framebuffer fb = gl.framebufferAllocate();
     gl.framebufferAttachStorage(fb, new FramebufferAttachment[] { fda, fda });
   }

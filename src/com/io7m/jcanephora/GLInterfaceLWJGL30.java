@@ -21,8 +21,8 @@ import org.lwjgl.opengl.GL30;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.FramebufferAttachment.FramebufferColorAttachment;
-import com.io7m.jcanephora.FramebufferAttachment.FramebufferDepthAttachment;
+import com.io7m.jcanephora.FramebufferAttachment.ColorAttachment;
+import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
 import com.io7m.jcanephora.GLType.Type;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixM3x3F;
@@ -1338,8 +1338,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         switch (attachment.type) {
           case ATTACHMENT_COLOR:
           {
-            final FramebufferColorAttachment color =
-              (FramebufferColorAttachment) attachment;
+            final ColorAttachment color =
+              (ColorAttachment) attachment;
             final int index = color.getIndex();
             Constraints.constrainRange(
               index,
@@ -1361,23 +1361,23 @@ public final class GLInterfaceLWJGL30 implements GLInterface
               + color);
             break;
           }
-          case ATTACHMENT_DEPTH:
+          case ATTACHMENT_D24S8:
           {
             Constraints.constrainArbitrary(
               have_depth == false,
-              "Only one depth buffer provided");
+              "Only one depth+stencil buffer provided");
             have_depth = true;
 
-            final FramebufferDepthAttachment depth =
-              (FramebufferDepthAttachment) attachment;
+            final RenderbufferD24S8Attachment depth =
+              (RenderbufferD24S8Attachment) attachment;
             GL30.glFramebufferRenderbuffer(
               GL30.GL_FRAMEBUFFER,
-              GL30.GL_DEPTH_ATTACHMENT,
+              GL30.GL_DEPTH_STENCIL_ATTACHMENT,
               GL30.GL_RENDERBUFFER,
               depth.getRenderbuffer().getLocation());
             GLError.check(this);
 
-            this.log.debug("framebuffer: attach depth "
+            this.log.debug("framebuffer: attach depth+stencil "
               + buffer
               + " "
               + depth);
@@ -2152,25 +2152,6 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
   }
 
-  @Override public void programPutUniformVector2i(
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable2I vector)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(vector, "Vatrix");
-    Constraints.constrainNotNull(uniform, "Uniform");
-    Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_INTEGER_VECTOR_2,
-      "Uniform type is vec2");
-    Constraints.constrainArbitrary(
-      this.programIsActive(uniform.getProgram()),
-      "Program for uniform is active");
-
-    GL20.glUniform2i(uniform.getLocation(), vector.getXI(), vector.getYI());
-    GLError.check(this);
-  }
-
   @Override public void programPutUniformVector2f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable2F vector)
@@ -2187,6 +2168,25 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       "Program for uniform is active");
 
     GL20.glUniform2f(uniform.getLocation(), vector.getXF(), vector.getYF());
+    GLError.check(this);
+  }
+
+  @Override public void programPutUniformVector2i(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable2I vector)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(vector, "Vatrix");
+    Constraints.constrainNotNull(uniform, "Uniform");
+    Constraints.constrainArbitrary(
+      uniform.getType() == Type.TYPE_INTEGER_VECTOR_2,
+      "Uniform type is vec2");
+    Constraints.constrainArbitrary(
+      this.programIsActive(uniform.getProgram()),
+      "Program for uniform is active");
+
+    GL20.glUniform2i(uniform.getLocation(), vector.getXI(), vector.getYI());
     GLError.check(this);
   }
 
@@ -2237,7 +2237,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
   }
 
-  @Override public RenderbufferDepth renderbufferDepthAllocate(
+  @Override public RenderbufferD24S8 renderbufferD24S8Allocate(
     final int width,
     final int height)
     throws ConstraintError,
@@ -2255,20 +2255,20 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
     GL30.glRenderbufferStorage(
       GL30.GL_RENDERBUFFER,
-      GL11.GL_DEPTH_COMPONENT,
+      GL30.GL_DEPTH24_STENCIL8,
       width,
       height);
     GLError.check(this);
     GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, 0);
     GLError.check(this);
 
-    final RenderbufferDepth r = new RenderbufferDepth(id, width, height);
-    this.log.debug("renderbuffer-depth: allocated " + r);
+    final RenderbufferD24S8 r = new RenderbufferD24S8(id, width, height);
+    this.log.debug("renderbuffer: allocated " + r);
     return r;
   }
 
-  @Override public void renderbufferDepthDelete(
-    final @Nonnull RenderbufferDepth buffer)
+  @Override public void renderbufferD24S8Delete(
+    final @Nonnull RenderbufferD24S8 buffer)
     throws ConstraintError,
       GLException
   {
@@ -2300,6 +2300,14 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       dimensions.getXI(),
       dimensions.getYI());
     GLError.check(this);
+  }
+
+  @Override public int stencilBufferGetBits()
+    throws GLException
+  {
+    final int bits = GL11.glGetInteger(GL11.GL_STENCIL_BITS);
+    GLError.check(this);
+    return bits;
   }
 
   @Override public @Nonnull Texture2DRGBAStatic texture2DRGBAStaticAllocate(
