@@ -7,16 +7,18 @@ import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * A immutable reference to an allocated depth renderbuffer.
+ * A immutable reference to an allocated depth/stencil renderbuffer. The
+ * buffer has 24 bits of precision for the depth buffer and 8 bits of
+ * precision for the stencil.
  */
 
-@Immutable public final class RenderbufferDepth implements GLResource
+@Immutable public final class RenderbufferD24S8 implements GLResource
 {
   private final int value;
   private final int width;
   private final int height;
 
-  RenderbufferDepth(
+  RenderbufferD24S8(
     final int value,
     final int width,
     final int height)
@@ -62,13 +64,13 @@ import com.io7m.jaux.Constraints.ConstraintError;
     throws ConstraintError,
       GLException
   {
-    gl.renderbufferDepthDelete(this);
+    gl.renderbufferD24S8Delete(this);
   }
 
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("[RenderbufferDepth ");
+    builder.append("[RenderbufferD24S8 ");
     builder.append(this.getLocation());
     builder.append("]");
     return builder.toString();

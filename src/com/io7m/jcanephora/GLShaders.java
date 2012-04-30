@@ -391,7 +391,7 @@ public interface GLShaders
    *           <ul>
    *           <li><code>uniform == null</code>.</li>
    *           <li><code>vector == null</code>.</li>
-   *           <li><code>uniform.getType() != TYPE_INT_VECTOR_2</code>.</li>
+   *           <li><code>uniform.getType() != TYPE_FLOAT_VECTOR_2</code>.</li>
    *           <li>The program that <code>uniform</code> belongs to is not
    *           active.</li>
    *           </ul>
@@ -399,9 +399,9 @@ public interface GLShaders
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformVector2i(
+  void programPutUniformVector2f(
     final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable2I vector)
+    final @Nonnull VectorReadable2F vector)
     throws ConstraintError,
       GLException;
 
@@ -418,7 +418,7 @@ public interface GLShaders
    *           <ul>
    *           <li><code>uniform == null</code>.</li>
    *           <li><code>vector == null</code>.</li>
-   *           <li><code>uniform.getType() != TYPE_FLOAT_VECTOR_2</code>.</li>
+   *           <li><code>uniform.getType() != TYPE_INT_VECTOR_2</code>.</li>
    *           <li>The program that <code>uniform</code> belongs to is not
    *           active.</li>
    *           </ul>
@@ -426,9 +426,9 @@ public interface GLShaders
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformVector2f(
+  void programPutUniformVector2i(
     final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable2F vector)
+    final @Nonnull VectorReadable2I vector)
     throws ConstraintError,
       GLException;
 

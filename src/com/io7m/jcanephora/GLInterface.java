@@ -7,8 +7,8 @@ package com.io7m.jcanephora;
 public interface GLInterface extends
   GLArrayBuffers,
   GLBlend,
-  GLCull,
   GLColorBuffer,
+  GLCull,
   GLDepthBuffer,
   GLDraw,
   GLFramebuffers,
@@ -17,8 +17,9 @@ public interface GLInterface extends
   GLMeta,
   GLPixelUnpackBuffers,
   GLRasterization,
-  GLShaders,
   GLScissor,
+  GLShaders,
+  GLStencilBuffer,
   GLTextures,
   GLViewport
 {
