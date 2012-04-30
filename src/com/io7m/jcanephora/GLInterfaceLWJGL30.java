@@ -27,6 +27,7 @@ import com.io7m.jcanephora.GLType.Type;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixM3x3F;
 import com.io7m.jtensors.MatrixM4x4F;
+import com.io7m.jtensors.VectorReadable2F;
 import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jtensors.VectorReadable3F;
 import com.io7m.jtensors.VectorReadable4F;
@@ -2148,6 +2149,44 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       "Program for uniform is active");
 
     GL20.glUniform1i(uniform.getLocation(), unit.getIndex());
+    GLError.check(this);
+  }
+
+  @Override public void programPutUniformVector2i(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable2I vector)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(vector, "Vatrix");
+    Constraints.constrainNotNull(uniform, "Uniform");
+    Constraints.constrainArbitrary(
+      uniform.getType() == Type.TYPE_INTEGER_VECTOR_2,
+      "Uniform type is vec2");
+    Constraints.constrainArbitrary(
+      this.programIsActive(uniform.getProgram()),
+      "Program for uniform is active");
+
+    GL20.glUniform2i(uniform.getLocation(), vector.getXI(), vector.getYI());
+    GLError.check(this);
+  }
+
+  @Override public void programPutUniformVector2f(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable2F vector)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(vector, "Vatrix");
+    Constraints.constrainNotNull(uniform, "Uniform");
+    Constraints.constrainArbitrary(
+      uniform.getType() == Type.TYPE_FLOAT_VECTOR_2,
+      "Uniform type is vec2");
+    Constraints.constrainArbitrary(
+      this.programIsActive(uniform.getProgram()),
+      "Program for uniform is active");
+
+    GL20.glUniform2f(uniform.getLocation(), vector.getXF(), vector.getYF());
     GLError.check(this);
   }
 

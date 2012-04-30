@@ -9,6 +9,8 @@ import javax.annotation.Nonnull;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jtensors.MatrixM3x3F;
 import com.io7m.jtensors.MatrixM4x4F;
+import com.io7m.jtensors.VectorReadable2F;
+import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jtensors.VectorReadable3F;
 import com.io7m.jtensors.VectorReadable4F;
 
@@ -373,6 +375,60 @@ public interface GLShaders
   void programPutUniformTextureUnit(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull TextureUnit unit)
+    throws ConstraintError,
+      GLException;
+
+  /**
+   * Upload the vector <code>vector</code> to the uniform <code>uniform</code>
+   * .
+   * 
+   * @param uniform
+   *          The uniform variable.
+   * @param vector
+   *          The vector.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>uniform == null</code>.</li>
+   *           <li><code>vector == null</code>.</li>
+   *           <li><code>uniform.getType() != TYPE_INT_VECTOR_2</code>.</li>
+   *           <li>The program that <code>uniform</code> belongs to is not
+   *           active.</li>
+   *           </ul>
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void programPutUniformVector2i(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable2I vector)
+    throws ConstraintError,
+      GLException;
+
+  /**
+   * Upload the vector <code>vector</code> to the uniform <code>uniform</code>
+   * .
+   * 
+   * @param uniform
+   *          The uniform variable.
+   * @param vector
+   *          The vector.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>uniform == null</code>.</li>
+   *           <li><code>vector == null</code>.</li>
+   *           <li><code>uniform.getType() != TYPE_FLOAT_VECTOR_2</code>.</li>
+   *           <li>The program that <code>uniform</code> belongs to is not
+   *           active.</li>
+   *           </ul>
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void programPutUniformVector2f(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable2F vector)
     throws ConstraintError,
       GLException;
 
