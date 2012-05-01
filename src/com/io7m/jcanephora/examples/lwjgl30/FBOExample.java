@@ -56,7 +56,7 @@ public final class FBOExample implements Runnable
   private final @Nonnull VectorI4F           texture_background;
   private final @Nonnull TextureUnit[]       units;
   private final @Nonnull Framebuffer         framebuffer;
-  private final @Nonnull RenderbufferD24S8        depth_buffer;
+  private final @Nonnull RenderbufferD24S8   depth_buffer;
 
   double                                     angle = 0;
 

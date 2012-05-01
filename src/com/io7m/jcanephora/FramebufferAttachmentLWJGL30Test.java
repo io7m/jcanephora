@@ -39,8 +39,7 @@ public class FramebufferAttachmentLWJGL30Test
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
-    final ColorAttachment fbc =
-      new ColorAttachment(t, 0);
+    final ColorAttachment fbc = new ColorAttachment(t, 0);
     final Framebuffer fb = gl.framebufferAllocate();
     gl.framebufferAttachStorage(fb, new FramebufferAttachment[] { fbc });
   }
