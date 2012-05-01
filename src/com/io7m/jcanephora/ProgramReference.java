@@ -25,6 +25,25 @@ import com.io7m.jaux.Constraints.ConstraintError;
     this.name = Constraints.constrainNotNull(name, "Program name");
   }
 
+  @Override public boolean equals(
+    final Object obj)
+  {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (this.getClass() != obj.getClass()) {
+      return false;
+    }
+    final ProgramReference other = (ProgramReference) obj;
+    if (this.id != other.id) {
+      return false;
+    }
+    return true;
+  }
+
   /**
    * Retrieve the raw OpenGL 'location' of the program.
    */
@@ -43,6 +62,14 @@ import com.io7m.jaux.Constraints.ConstraintError;
     return this.name;
   }
 
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + this.id;
+    return result;
+  }
+
   @Override public void resourceDelete(
     final @Nonnull GLInterface gl)
     throws ConstraintError,
@@ -55,7 +82,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("[Program ");
+    builder.append("[ProgramReference ");
     builder.append(this.id);
     builder.append(" \"");
     builder.append(this.name);
