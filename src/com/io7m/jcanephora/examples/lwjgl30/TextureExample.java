@@ -48,12 +48,12 @@ public final class TextureExample implements Runnable, GLResource
     }
   }
 
-  private final @Nonnull GLInterface   gl;
-  private final @Nonnull MatrixM4x4F   modelview;
-  private final @Nonnull MatrixM4x4F   projection;
+  private final @Nonnull GLInterface         gl;
+  private final @Nonnull MatrixM4x4F         modelview;
+  private final @Nonnull MatrixM4x4F         projection;
   private final @Nonnull Texture2DRGBAStatic texture;
-  private final @Nonnull VectorI4F     color;
-  private long                         current_frame = 0;
+  private final @Nonnull VectorI4F           color;
+  private long                               current_frame = 0;
 
   public TextureExample(
     final GLInterface gl)

@@ -1338,8 +1338,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         switch (attachment.type) {
           case ATTACHMENT_COLOR:
           {
-            final ColorAttachment color =
-              (ColorAttachment) attachment;
+            final ColorAttachment color = (ColorAttachment) attachment;
             final int index = color.getIndex();
             Constraints.constrainRange(
               index,
