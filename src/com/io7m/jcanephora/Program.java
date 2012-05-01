@@ -49,8 +49,8 @@ public final class Program
   private final @Nonnull String                                    name;
   private final @Nonnull HashMap<PathVirtual, VertexShaderEntry>   vertex_shaders;
   private final @Nonnull HashMap<PathVirtual, FragmentShaderEntry> fragment_shaders;
-  private final @Nonnull TreeMap<String, ProgramUniform>                  uniforms;
-  private final @Nonnull TreeMap<String, ProgramAttribute>                attributes;
+  private final @Nonnull TreeMap<String, ProgramUniform>           uniforms;
+  private final @Nonnull TreeMap<String, ProgramAttribute>         attributes;
   private final @Nonnull Log                                       log;
   private boolean                                                  changed;
 
@@ -77,7 +77,8 @@ public final class Program
    *          An OpenGL interface.
    * @throws ConstraintError
    *           Iff <code>gl == null</code> or one of the constraints for
-   *           {@link GLInterface#programActivate(ProgramReference)} does not hold.
+   *           {@link GLInterface#programActivate(ProgramReference)} does not
+   *           hold.
    * @throws GLException
    *           Iff an OpenGL error occurs.
    */
@@ -272,7 +273,8 @@ public final class Program
       for (final Entry<String, ProgramUniform> e : this.uniforms.entrySet()) {
         this.debug("uniform " + e.getValue());
       }
-      for (final Entry<String, ProgramAttribute> e : this.attributes.entrySet()) {
+      for (final Entry<String, ProgramAttribute> e : this.attributes
+        .entrySet()) {
         this.debug("attribute " + e.getValue());
       }
 
@@ -369,6 +371,29 @@ public final class Program
     }
   }
 
+  @Override public boolean equals(
+    final Object obj)
+  {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (this.getClass() != obj.getClass()) {
+      return false;
+    }
+    final Program other = (Program) obj;
+    if (this.program == null) {
+      if (other.program != null) {
+        return false;
+      }
+    } else if (!this.program.equals(other.program)) {
+      return false;
+    }
+    return true;
+  }
+
   /**
    * Retrieve a reference to the attribute variable named
    * <code>attribute_name</code> in the program.
@@ -419,6 +444,16 @@ public final class Program
     return this.uniforms.get(Constraints.constrainNotNull(
       uniform_name,
       "Uniform name"));
+  }
+
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result =
+      (prime * result)
+        + ((this.program == null) ? 0 : this.program.hashCode());
+    return result;
   }
 
   /**
@@ -576,5 +611,16 @@ public final class Program
     }
 
     return false;
+  }
+
+  @Override public String toString()
+  {
+    final StringBuilder builder = new StringBuilder();
+    builder.append("[Program ");
+    builder.append(this.program);
+    builder.append(" ");
+    builder.append(this.name);
+    builder.append("]");
+    return builder.toString();
   }
 }
