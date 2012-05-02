@@ -398,6 +398,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return Primitives.PRIMITIVE_LINES;
       case GL11.GL_LINE_LOOP:
         return Primitives.PRIMITIVE_LINE_LOOP;
+      case GL11.GL_POINTS:
+        return Primitives.PRIMITIVE_POINTS;
       case GL11.GL_TRIANGLES:
         return Primitives.PRIMITIVE_TRIANGLES;
       case GL11.GL_TRIANGLE_STRIP:
@@ -420,6 +422,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GL11.GL_TRIANGLES;
       case PRIMITIVE_TRIANGLE_STRIP:
         return GL11.GL_TRIANGLE_STRIP;
+      case PRIMITIVE_POINTS:
+        return GL11.GL_POINTS;
     }
 
     /* UNREACHABLE */
