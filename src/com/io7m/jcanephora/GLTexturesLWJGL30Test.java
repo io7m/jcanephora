@@ -30,6 +30,6 @@ public class GLTexturesLWJGL30Test
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
     final TextureUnit[] u = gl.textureGetUnits();
-    Assert.assertTrue(u.length > 0);
+    Assert.assertTrue(u.length >= 2);
   }
 }
