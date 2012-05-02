@@ -782,6 +782,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   private final int          line_smooth_max_width;
   private final int          line_smooth_min_width;
   private boolean            line_smoothing;
+  private int                point_min_width;
+  private int                point_max_width;
 
   public GLInterfaceLWJGL30(
     final @Nonnull Log log)
@@ -812,6 +814,15 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         GL11.glGetInteger(GL12.GL_SMOOTH_LINE_WIDTH_RANGE, i);
         this.line_smooth_min_width = i.get();
         this.line_smooth_max_width = i.get();
+        GLError.check(this);
+      }
+
+      {
+        buffer.rewind();
+        final IntBuffer i = buffer.asIntBuffer();
+        GL11.glGetInteger(GL11.GL_POINT_SIZE_RANGE, i);
+        this.point_min_width = i.get();
+        this.point_max_width = i.get();
         GLError.check(this);
       }
     }
@@ -1879,6 +1890,16 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     GL11.glEnable(GL20.GL_VERTEX_PROGRAM_POINT_SIZE);
     GLError.check(this);
+  }
+
+  @Override public int pointGetMaximumWidth()
+  {
+    return this.point_max_width;
+  }
+
+  @Override public int pointGetMinimumWidth()
+  {
+    return this.point_min_width;
   }
 
   @Override public void polygonSetMode(
