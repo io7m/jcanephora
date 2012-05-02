@@ -11,17 +11,56 @@ import com.io7m.jaux.Constraints.ConstraintError;
 public interface GLRasterization
 {
   /**
+   * Return the maximum width of aliased lines supported by the
+   * implementation.
+   */
+
+  int lineAliasedGetMaximumWidth();
+
+  /**
+   * Return the minimum width of aliased lines supported by the
+   * implementation.
+   */
+
+  int lineAliasedGetMinimumWidth();
+
+  /**
    * Set the width in pixels of rasterized lines.
    * 
    * @param width
    *          The width in pixels.
    * @throws GLException
    *           Iff an OpenGL error occurs.
+   * @throws ConstraintError
+   *           Iff any of the following conditions hold:
+   *           <ul>
+   *           <li>Line smoothing is enabled and
+   *           <code>lineSmoothGetMinimumWidth() <= width <= lineSmoothGetMaximumWidth() == false</code>
+   *           </li>
+   *           <li>Line smoothing is disabled and
+   *           <code>lineAliasedGetMinimumWidth() <= width <= lineAliasedGetMaximumWidth() == false</code>
+   *           </li>
+   *           </ul>
    */
 
   void lineSetWidth(
     final float width)
-    throws GLException;
+    throws GLException,
+      ConstraintError;
+
+  /**
+   * Return the maximum width of antialiased lines supported by the
+   * implementation.
+   */
+
+  int lineSmoothGetMaximumWidth();
+
+  /**
+   * Return the minimum width of antialiased lines supported by the
+   * implementation.
+   */
+
+  int lineSmoothGetMinimumWidth();
 
   /**
    * Disable smooth rasterization of lines.
@@ -41,6 +80,30 @@ public interface GLRasterization
    */
 
   void lineSmoothingEnable()
+    throws GLException;
+
+  /**
+   * Disable control of the size of rasterized points by shading programs.
+   * 
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   * @see GLRasterization#pointEnableProgramSizeControl()
+   */
+
+  void pointDisableProgramSizeControl()
+    throws GLException;
+
+  /**
+   * Enable control of the size of rasterized points by shading programs.
+   * 
+   * Shading programs should write the desired size to the built-in GLSL
+   * variable <code>gl_PointSize</code>.
+   * 
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void pointEnableProgramSizeControl()
     throws GLException;
 
   /**
