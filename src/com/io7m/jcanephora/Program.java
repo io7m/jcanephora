@@ -21,7 +21,7 @@ import com.io7m.jvvfs.PathVirtual;
  * recompilation and graceful handling of compilation errors.
  */
 
-public final class Program
+public final class Program implements CompilableProgram, UsableProgram
 {
   private static class FragmentShaderEntry
   {
@@ -83,7 +83,7 @@ public final class Program
    *           Iff an OpenGL error occurs.
    */
 
-  public void activate(
+  @Override public void activate(
     final @Nonnull GLInterface gl)
     throws ConstraintError,
       GLException
@@ -102,7 +102,7 @@ public final class Program
    *           Iff <code>path == null</code>.
    */
 
-  public void addFragmentShader(
+  @Override public void addFragmentShader(
     final @Nonnull PathVirtual path)
     throws ConstraintError
   {
@@ -124,7 +124,7 @@ public final class Program
    *           Iff <code>path == null</code>.
    */
 
-  public void addVertexShader(
+  @Override public void addVertexShader(
     final @Nonnull PathVirtual path)
     throws ConstraintError
   {
@@ -176,7 +176,7 @@ public final class Program
    *           Iff a compilation error occurs.
    */
 
-  public void compile(
+  @Override public void compile(
     final @Nonnull FilesystemAPI fs,
     final @Nonnull GLInterface gl)
     throws ConstraintError,
@@ -300,7 +300,7 @@ public final class Program
    *           Iff an OpenGL error occurs.
    */
 
-  @SuppressWarnings("static-method") public void deactivate(
+  @Override public void deactivate(
     final @Nonnull GLInterface gl)
     throws ConstraintError,
       GLException
@@ -497,7 +497,7 @@ public final class Program
    *           Iff an OpenGL error occurs.
    */
 
-  public void removeFragmentShader(
+  @Override public void removeFragmentShader(
     final @Nonnull PathVirtual path,
     final @Nonnull GLInterface gl)
     throws ConstraintError,
@@ -534,7 +534,7 @@ public final class Program
    *           Iff an OpenGL error occurs.
    */
 
-  public void removeVertexShader(
+  @Override public void removeVertexShader(
     final @Nonnull PathVirtual path,
     final @Nonnull GLInterface gl)
     throws ConstraintError,
@@ -571,7 +571,7 @@ public final class Program
    *           </ul>
    */
 
-  public boolean requiresCompilation(
+  @Override public boolean requiresCompilation(
     final @Nonnull FilesystemAPI fs,
     final @Nonnull GLInterface gl)
     throws FilesystemError,
