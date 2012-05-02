@@ -776,14 +776,15 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throw new AssertionError("unreachable code: report this bug!");
   }
 
-  private final @Nonnull Log log;
-  private final int          line_aliased_min_width;
-  private final int          line_aliased_max_width;
-  private final int          line_smooth_max_width;
-  private final int          line_smooth_min_width;
-  private boolean            line_smoothing;
-  private int                point_min_width;
-  private int                point_max_width;
+  private final @Nonnull Log  log;
+  private final int           line_aliased_min_width;
+  private final int           line_aliased_max_width;
+  private final int           line_smooth_max_width;
+  private final int           line_smooth_min_width;
+  private boolean             line_smoothing;
+  private final int           point_min_width;
+  private final int           point_max_width;
+  private final TextureUnit[] texture_units;
 
   public GLInterfaceLWJGL30(
     final @Nonnull Log log)
@@ -793,6 +794,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     this.log =
       new Log(Constraints.constrainNotNull(log, "log output"), "gl30");
 
+    this.texture_units = this.textureGetUnitsCache();
     this.line_smoothing = false;
 
     {
@@ -2609,6 +2611,12 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   }
 
   @Override public TextureUnit[] textureGetUnits()
+    throws GLException
+  {
+    return this.texture_units;
+  }
+
+  private TextureUnit[] textureGetUnitsCache()
     throws GLException
   {
     final int max = GL11.glGetInteger(GL20.GL_MAX_TEXTURE_IMAGE_UNITS);
