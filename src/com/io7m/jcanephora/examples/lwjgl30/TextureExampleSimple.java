@@ -96,7 +96,7 @@ public final class TextureExampleSimple implements Runnable
     throws GLException,
       ConstraintError
   {
-    this.gl.colorBufferClear(this.background);
+    this.gl.colorBufferClearV4f(this.background);
 
     GL11.glEnable(GL11.GL_TEXTURE_2D);
 

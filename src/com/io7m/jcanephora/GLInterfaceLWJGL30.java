@@ -1066,18 +1066,16 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       equation_alpha);
   }
 
-  @Override public void colorBufferClear(
-    final @Nonnull VectorReadable4F color)
+  @Override public void colorBufferClear3f(
+    final float r,
+    final float g,
+    final float b)
     throws ConstraintError,
       GLException
   {
-    Constraints.constrainNotNull(color, "Color");
-    GL11.glClearColor(
-      color.getXF(),
-      color.getYF(),
-      color.getZF(),
-      color.getWF());
+    GL11.glClearColor(r, g, b, 1.0f);
     GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+    GLError.check(this);
   }
 
   @Override public void colorBufferClear4f(
@@ -1089,6 +1087,32 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GLException
   {
     GL11.glClearColor(r, g, b, a);
+    GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+    GLError.check(this);
+  }
+
+  @Override public void colorBufferClearV3f(
+    final @Nonnull VectorReadable3F color)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(color, "Color");
+    GL11.glClearColor(color.getXF(), color.getYF(), color.getZF(), 1.0f);
+    GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+    GLError.check(this);
+  }
+
+  @Override public void colorBufferClearV4f(
+    final @Nonnull VectorReadable4F color)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(color, "Color");
+    GL11.glClearColor(
+      color.getXF(),
+      color.getYF(),
+      color.getZF(),
+      color.getWF());
     GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
     GLError.check(this);
   }

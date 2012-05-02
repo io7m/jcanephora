@@ -113,7 +113,7 @@ public final class FBOExample implements Runnable
 
     this.gl.framebufferBind(this.framebuffer);
     {
-      this.gl.colorBufferClear(this.texture_background);
+      this.gl.colorBufferClearV4f(this.texture_background);
       this.gl.depthBufferClear(1.0f);
 
       this.angle = this.angle + 1;
@@ -139,7 +139,7 @@ public final class FBOExample implements Runnable
     GL11.glTranslated(0, 0, -2);
     GL11.glRotated(this.angle, 0, 1, 0);
 
-    this.gl.colorBufferClear(this.background);
+    this.gl.colorBufferClearV4f(this.background);
 
     GL11.glEnable(GL11.GL_TEXTURE_2D);
     this.gl.texture2DRGBAStaticBind(this.units[0], this.texture);
