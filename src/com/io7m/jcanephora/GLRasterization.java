@@ -107,6 +107,20 @@ public interface GLRasterization
     throws GLException;
 
   /**
+   * Return the maximum width of rasterized points supported by the
+   * implementation.
+   */
+
+  int pointGetMaximumWidth();
+
+  /**
+   * Return the minimum width of rasterized points supported by the
+   * implementation.
+   */
+
+  int pointGetMinimumWidth();
+
+  /**
    * Set the polygon rasterization mode for the polygons specified by
    * <code>faces</code> to <code>mode</code>. The OpenGL default is
    * <code>POLYGON_FILL</code> for both front and back faces.
