@@ -110,7 +110,7 @@ public final class TextureExample implements Runnable, GLResource
       this.updateTexture();
     }
 
-    this.gl.colorBufferClear(this.color);
+    this.gl.colorBufferClearV4f(this.color);
     this.gl.depthBufferClear(1.0f);
 
     GL11.glEnable(GL11.GL_TEXTURE_2D);

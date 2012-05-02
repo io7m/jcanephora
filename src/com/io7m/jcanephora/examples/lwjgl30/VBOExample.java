@@ -165,7 +165,7 @@ public final class VBOExample implements Runnable
     throws GLException,
       ConstraintError
   {
-    this.gl.colorBufferClear(this.background);
+    this.gl.colorBufferClearV4f(this.background);
 
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, this.buffer.getLocation());
     GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
