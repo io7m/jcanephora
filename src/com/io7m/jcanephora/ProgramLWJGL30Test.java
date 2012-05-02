@@ -30,7 +30,8 @@ public class ProgramLWJGL30Test
 
   private static GLInterface getGL()
     throws IOException,
-      ConstraintError
+      ConstraintError,
+      GLException
   {
     return new GLInterfaceLWJGL30(ProgramLWJGL30Test.getLog());
   }
@@ -70,6 +71,8 @@ public class ProgramLWJGL30Test
 
   /**
    * Adding a shader causes the program to require compilation.
+   * 
+   * @throws GLException
    */
 
   @Test public
@@ -77,7 +80,8 @@ public class ProgramLWJGL30Test
     testProgramAddFragmentShaderPreservesCompilationRequirement()
       throws IOException,
         ConstraintError,
-        FilesystemError
+        FilesystemError,
+        GLException
   {
     final Program p = new Program("program", ProgramLWJGL30Test.getLog());
     {
@@ -101,7 +105,8 @@ public class ProgramLWJGL30Test
     throws FilesystemError,
       IOException,
       ConstraintError,
-      GLCompileException
+      GLCompileException,
+      GLException
   {
     final GLInterface gl = ProgramLWJGL30Test.getGL();
     final Filesystem fs = ProgramLWJGL30Test.getFS();
@@ -144,6 +149,8 @@ public class ProgramLWJGL30Test
   /**
    * Adding a shader to an uncompiled program preserves the compilation
    * requirement.
+   * 
+   * @throws GLException
    */
 
   @Test public
@@ -151,7 +158,8 @@ public class ProgramLWJGL30Test
     testProgramAddVertexShaderPreservesCompilationRequirement()
       throws IOException,
         ConstraintError,
-        FilesystemError
+        FilesystemError,
+        GLException
   {
     final Program p = new Program("program", ProgramLWJGL30Test.getLog());
     {
@@ -175,7 +183,8 @@ public class ProgramLWJGL30Test
     throws FilesystemError,
       IOException,
       ConstraintError,
-      GLCompileException
+      GLCompileException,
+      GLException
   {
     final GLInterface gl = ProgramLWJGL30Test.getGL();
     final Filesystem fs = ProgramLWJGL30Test.getFS();
@@ -207,7 +216,8 @@ public class ProgramLWJGL30Test
     throws FilesystemError,
       IOException,
       ConstraintError,
-      GLCompileException
+      GLCompileException,
+      GLException
   {
     final GLInterface gl = ProgramLWJGL30Test.getGL();
     final Filesystem fs = ProgramLWJGL30Test.getFS();
@@ -246,6 +256,8 @@ public class ProgramLWJGL30Test
 
   /**
    * A nonexistent shader causes a compilation error.
+   * 
+   * @throws GLException
    */
 
   @Test(expected = GLCompileException.class) public
@@ -254,7 +266,8 @@ public class ProgramLWJGL30Test
       throws IOException,
         ConstraintError,
         GLCompileException,
-        FilesystemError
+        FilesystemError,
+        GLException
   {
     final Program p = new Program("program", ProgramLWJGL30Test.getLog());
     p.addFragmentShader(new PathVirtual("/nonexistent"));
@@ -270,6 +283,8 @@ public class ProgramLWJGL30Test
   /**
    * Compiling an empty program is illegal (some implementations don't accept
    * empty shading programs, notably the Mesa "software" implementation).
+   * 
+   * @throws GLException
    */
 
   @Test(expected = GLCompileException.class) public
@@ -278,7 +293,8 @@ public class ProgramLWJGL30Test
       throws IOException,
         ConstraintError,
         FilesystemError,
-        GLCompileException
+        GLCompileException,
+        GLException
   {
     final Filesystem fs = ProgramLWJGL30Test.getFS();
     fs.mount("test_lwjgl30.zip", "/");
@@ -298,7 +314,8 @@ public class ProgramLWJGL30Test
     throws FilesystemError,
       IOException,
       ConstraintError,
-      GLCompileException
+      GLCompileException,
+      GLException
   {
     final GLInterface gl = ProgramLWJGL30Test.getGL();
     final Filesystem fs = ProgramLWJGL30Test.getFS();
@@ -333,6 +350,8 @@ public class ProgramLWJGL30Test
 
   /**
    * A nonexistent shader causes a compilation error.
+   * 
+   * @throws GLException
    */
 
   @Test(expected = GLCompileException.class) public
@@ -341,7 +360,8 @@ public class ProgramLWJGL30Test
       throws IOException,
         ConstraintError,
         GLCompileException,
-        FilesystemError
+        FilesystemError,
+        GLException
   {
     final Program p = new Program("program", ProgramLWJGL30Test.getLog());
     p.addVertexShader(new PathVirtual("/nonexistent"));
@@ -372,12 +392,15 @@ public class ProgramLWJGL30Test
 
   /**
    * New program requires compilation.
+   * 
+   * @throws GLException
    */
 
   @Test public void testProgramCreatedRequiresCompilation()
     throws IOException,
       ConstraintError,
-      FilesystemError
+      FilesystemError,
+      GLException
   {
     final Program p = new Program("program", ProgramLWJGL30Test.getLog());
     final boolean r =
@@ -450,13 +473,16 @@ public class ProgramLWJGL30Test
   /**
    * A change in modification time for a fragment shader requires
    * recompilation.
+   * 
+   * @throws GLException
    */
 
   @Test public void testProgramFragmentShaderTimeRequiresCompilation()
     throws FilesystemError,
       IOException,
       ConstraintError,
-      GLCompileException
+      GLCompileException,
+      GLException
   {
     final GLInterface gl = ProgramLWJGL30Test.getGL();
     final Filesystem fs = ProgramLWJGL30Test.getFS();
@@ -616,7 +642,8 @@ public class ProgramLWJGL30Test
     throws FilesystemError,
       IOException,
       ConstraintError,
-      GLCompileException
+      GLCompileException,
+      GLException
   {
     final GLInterface gl = ProgramLWJGL30Test.getGL();
     final Filesystem fs = ProgramLWJGL30Test.getFS();
@@ -638,13 +665,16 @@ public class ProgramLWJGL30Test
 
   /**
    * A change in modification time for a vertex shader requires recompilation.
+   * 
+   * @throws GLException
    */
 
   @Test public void testProgramVertexShaderTimeRequiresCompilation()
     throws FilesystemError,
       IOException,
       ConstraintError,
-      GLCompileException
+      GLCompileException,
+      GLException
   {
     final GLInterface gl = ProgramLWJGL30Test.getGL();
     final Filesystem fs = ProgramLWJGL30Test.getFS();

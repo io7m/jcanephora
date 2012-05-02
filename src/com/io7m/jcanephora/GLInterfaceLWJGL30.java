@@ -777,13 +777,44 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   }
 
   private final @Nonnull Log log;
+  private final int          line_aliased_min_width;
+  private final int          line_aliased_max_width;
+  private final int          line_smooth_max_width;
+  private final int          line_smooth_min_width;
+  private boolean            line_smoothing;
 
   public GLInterfaceLWJGL30(
     final @Nonnull Log log)
-    throws ConstraintError
+    throws ConstraintError,
+      GLException
   {
     this.log =
       new Log(Constraints.constrainNotNull(log, "log output"), "gl30");
+
+    this.line_smoothing = false;
+
+    {
+      final ByteBuffer buffer = ByteBuffer.allocateDirect(128);
+      buffer.order(ByteOrder.nativeOrder());
+
+      {
+        buffer.rewind();
+        final IntBuffer i = buffer.asIntBuffer();
+        GL11.glGetInteger(GL12.GL_ALIASED_LINE_WIDTH_RANGE, i);
+        this.line_aliased_min_width = i.get();
+        this.line_aliased_max_width = i.get();
+        GLError.check(this);
+      }
+
+      {
+        buffer.rewind();
+        final IntBuffer i = buffer.asIntBuffer();
+        GL11.glGetInteger(GL12.GL_SMOOTH_LINE_WIDTH_RANGE, i);
+        this.line_smooth_min_width = i.get();
+        this.line_smooth_max_width = i.get();
+        GLError.check(this);
+      }
+    }
   }
 
   @Override public @Nonnull ArrayBuffer arrayBufferAllocate(
@@ -1607,12 +1638,47 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
   }
 
+  @Override public int lineAliasedGetMaximumWidth()
+  {
+    return this.line_aliased_max_width;
+  }
+
+  @Override public int lineAliasedGetMinimumWidth()
+  {
+    return this.line_aliased_min_width;
+  }
+
   @Override public void lineSetWidth(
     final float width)
-    throws GLException
+    throws GLException,
+      ConstraintError
   {
+    if (this.line_smoothing) {
+      Constraints.constrainRange(
+        width,
+        this.line_smooth_min_width,
+        this.line_smooth_max_width,
+        "Smooth line width");
+    } else {
+      Constraints.constrainRange(
+        width,
+        this.line_aliased_min_width,
+        this.line_aliased_max_width,
+        "Aliased line width");
+    }
+
     GL11.glLineWidth(width);
     GLError.check(this);
+  }
+
+  @Override public int lineSmoothGetMaximumWidth()
+  {
+    return this.line_smooth_max_width;
+  }
+
+  @Override public int lineSmoothGetMinimumWidth()
+  {
+    return this.line_smooth_min_width;
   }
 
   @Override public void lineSmoothingDisable()
@@ -1620,6 +1686,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     GL11.glDisable(GL11.GL_LINE_SMOOTH);
     GLError.check(this);
+    this.line_smoothing = false;
   }
 
   @Override public void lineSmoothingEnable()
@@ -1627,6 +1694,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     GL11.glEnable(GL11.GL_LINE_SMOOTH);
     GLError.check(this);
+    this.line_smoothing = true;
   }
 
   @Override public void logicOperationsDisable()
@@ -1796,6 +1864,20 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, id.getLocation());
     GL15.glUnmapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER);
     GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
+    GLError.check(this);
+  }
+
+  @Override public void pointDisableProgramSizeControl()
+    throws GLException
+  {
+    GL11.glDisable(GL20.GL_VERTEX_PROGRAM_POINT_SIZE);
+    GLError.check(this);
+  }
+
+  @Override public void pointEnableProgramSizeControl()
+    throws GLException
+  {
+    GL11.glEnable(GL20.GL_VERTEX_PROGRAM_POINT_SIZE);
     GLError.check(this);
   }
 

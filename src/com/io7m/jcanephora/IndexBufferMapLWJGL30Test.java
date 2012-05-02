@@ -17,7 +17,8 @@ public class IndexBufferMapLWJGL30Test
 {
   private static GLInterface getGL()
     throws IOException,
-      ConstraintError
+      ConstraintError,
+      GLException
   {
     final Properties properties =
       PropertyUtils.loadFromFile("tests.properties");

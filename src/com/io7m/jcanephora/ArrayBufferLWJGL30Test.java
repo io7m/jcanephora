@@ -131,7 +131,8 @@ public class ArrayBufferLWJGL30Test
     void
     testArrayBufferElementOffset()
       throws IOException,
-        ConstraintError
+        ConstraintError,
+        GLException
   {
     final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
     final ArrayBufferDescriptor d =
