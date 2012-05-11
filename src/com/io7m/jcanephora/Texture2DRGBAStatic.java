@@ -25,7 +25,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * this texture type.
  */
 
-@Immutable public final class Texture2DRGBAStatic implements GLResource
+@Immutable public final class Texture2DRGBAStatic extends Deletable implements
+  GLResource
 {
   public static Texture2DRGBAStatic loadImage(
     final @Nonnull String name,
@@ -89,6 +90,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
   private final int                        width;
   private final int                        height;
 
+  private boolean                          deleted;
+
   Texture2DRGBAStatic(
     final @Nonnull String name,
     final int texture_id,
@@ -103,6 +106,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     this.buffer = Constraints.constrainNotNull(buffer, "Pixel unpack buffer");
     this.width = width;
     this.height = height;
+    this.deleted = false;
   }
 
   /**
@@ -201,6 +205,16 @@ import com.io7m.jaux.Constraints.ConstraintError;
       GLException
   {
     gl.texture2DRGBAStaticDelete(this);
+  }
+
+  @Override public boolean resourceIsDeleted()
+  {
+    return this.deleted;
+  }
+
+  @Override void setDeleted()
+  {
+    this.deleted = true;
   }
 
   /*

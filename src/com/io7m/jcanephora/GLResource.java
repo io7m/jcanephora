@@ -25,4 +25,10 @@ public interface GLResource
     final @Nonnull GLInterface gl)
     throws ConstraintError,
       GLException;
+
+  /**
+   * Return <code>true</code> iff the given resource has been deleted.
+   */
+
+  boolean resourceIsDeleted();
 }

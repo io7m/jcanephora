@@ -10,11 +10,14 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * An immutable reference to an allocated index buffer.
  */
 
-@Immutable public final class IndexBuffer implements Buffer, GLResource
+@Immutable public final class IndexBuffer extends Deletable implements
+  Buffer,
+  GLResource
 {
   private final int            value;
   private final long           elements;
   private final GLUnsignedType type;
+  private boolean              deleted;
 
   IndexBuffer(
     final int value,
@@ -31,6 +34,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     this.elements =
       Constraints.constrainRange(elements, 1, Integer.MAX_VALUE, "elements");
     this.type = Constraints.constrainNotNull(type, "GL type");
+    this.deleted = false;
   }
 
   /*
@@ -100,6 +104,16 @@ import com.io7m.jaux.Constraints.ConstraintError;
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     gl.indexBufferDelete(this);
+  }
+
+  @Override public boolean resourceIsDeleted()
+  {
+    return this.deleted;
+  }
+
+  @Override void setDeleted()
+  {
+    this.deleted = true;
   }
 
   @Override public String toString()

@@ -33,7 +33,7 @@ public interface GLIndexBuffers
    */
 
   @Nonnull IndexBuffer indexBufferAllocate(
-    final @Nonnull Buffer buffer,
+    final @Nonnull ArrayBuffer buffer,
     final int indices)
     throws GLException,
       ConstraintError;
