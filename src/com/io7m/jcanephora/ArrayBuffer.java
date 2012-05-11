@@ -10,11 +10,14 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * A immutable reference to an allocated array buffer.
  */
 
-@Immutable public final class ArrayBuffer implements Buffer, GLResource
+@Immutable public final class ArrayBuffer extends Deletable implements
+  Buffer,
+  GLResource
 {
   private final int                            value;
   private final long                           elements;
   private final @Nonnull ArrayBufferDescriptor descriptor;
+  private boolean                              deleted;
 
   ArrayBuffer(
     final int value,
@@ -36,6 +39,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
         "Buffer elements");
     this.descriptor =
       Constraints.constrainNotNull(descriptor, "Buffer descriptor");
+    this.deleted = false;
   }
 
   /*
@@ -109,6 +113,16 @@ import com.io7m.jaux.Constraints.ConstraintError;
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     gl.arrayBufferDelete(this);
+  }
+
+  @Override public boolean resourceIsDeleted()
+  {
+    return this.deleted;
+  }
+
+  @Override void setDeleted()
+  {
+    this.deleted = true;
   }
 
   @Override public String toString()

@@ -12,11 +12,13 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * precision for the stencil.
  */
 
-@Immutable public final class RenderbufferD24S8 implements GLResource
+@Immutable public final class RenderbufferD24S8 extends Deletable implements
+  GLResource
 {
   private final int value;
   private final int width;
   private final int height;
+  private boolean   deleted;
 
   RenderbufferD24S8(
     final int value,
@@ -32,6 +34,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
         "Buffer ID value");
     this.width = width;
     this.height = height;
+    this.deleted = false;
   }
 
   public int getHeight()
@@ -65,6 +68,16 @@ import com.io7m.jaux.Constraints.ConstraintError;
       GLException
   {
     gl.renderbufferD24S8Delete(this);
+  }
+
+  @Override public boolean resourceIsDeleted()
+  {
+    return this.deleted;
+  }
+
+  @Override void setDeleted()
+  {
+    this.deleted = true;
   }
 
   @Override public String toString()

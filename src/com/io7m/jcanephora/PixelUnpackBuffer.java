@@ -22,12 +22,15 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * </p>
  */
 
-@Immutable public final class PixelUnpackBuffer implements Buffer, GLResource
+@Immutable public final class PixelUnpackBuffer extends Deletable implements
+  Buffer,
+  GLResource
 {
   private final int                   location;
   private final long                  elements;
   private final @Nonnull GLScalarType type;
   private final long                  type_elements;
+  private boolean                     deleted;
 
   PixelUnpackBuffer(
     final int location,
@@ -51,6 +54,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
         1,
         Integer.MAX_VALUE,
         "Element value count");
+    this.deleted = false;
   }
 
   /*
@@ -120,6 +124,16 @@ import com.io7m.jaux.Constraints.ConstraintError;
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     gl.pixelUnpackBufferDelete(this);
+  }
+
+  @Override public boolean resourceIsDeleted()
+  {
+    return this.deleted;
+  }
+
+  @Override void setDeleted()
+  {
+    this.deleted = true;
   }
 
   @Override public String toString()

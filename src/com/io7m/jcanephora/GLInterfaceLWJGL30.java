@@ -870,8 +870,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainNotNull(buffer, "Array buffer");
     Constraints.constrainArbitrary(
-      GL15.glIsBuffer(buffer.getLocation()),
-      "Buffer corresponds to a valid OpenGL buffer");
+      buffer.resourceIsDeleted() == false,
+      "Array buffer not deleted");
 
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, buffer.getLocation());
     GLError.check(this);
@@ -885,6 +885,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       ConstraintError
   {
     Constraints.constrainNotNull(buffer, "Array buffer");
+    Constraints.constrainArbitrary(
+      buffer.resourceIsDeleted() == false,
+      "Array buffer not deleted");
+
     Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
     Constraints.constrainNotNull(program_attribute, "Program attribute");
 
@@ -918,14 +922,15 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
-    Constraints.constrainNotNull(id, "id");
+    Constraints.constrainNotNull(id, "Array buffer");
     Constraints.constrainArbitrary(
-      GL15.glIsBuffer(id.getLocation()),
-      "ID corresponds to OpenGL buffer");
+      id.resourceIsDeleted() == false,
+      "Array buffer not deleted");
 
     this.log.debug("vertex-buffer: delete " + id);
 
     GL15.glDeleteBuffers(id.getLocation());
+    id.setDeleted();
     GLError.check(this);
   }
 
@@ -934,10 +939,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws GLException,
       ConstraintError
   {
-    Constraints.constrainNotNull(id, "Array ID");
+    Constraints.constrainNotNull(id, "Array buffer");
     Constraints.constrainArbitrary(
-      GL15.glIsBuffer(id.getLocation()),
-      "ID corresponds to OpenGL buffer");
+      id.resourceIsDeleted() == false,
+      "Array buffer not deleted");
 
     this.log.debug("vertex-buffer: map " + id);
 
@@ -954,10 +959,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws GLException,
       ConstraintError
   {
-    Constraints.constrainNotNull(id, "Array ID");
+    Constraints.constrainNotNull(id, "Array buffer");
     Constraints.constrainArbitrary(
-      GL15.glIsBuffer(id.getLocation()),
-      "ID corresponds to OpenGL buffer");
+      id.resourceIsDeleted() == false,
+      "Array buffer not deleted");
 
     this.log.debug("vertex-buffer: map " + id);
 
@@ -991,6 +996,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       ConstraintError
   {
     Constraints.constrainNotNull(buffer, "Array buffer");
+    Constraints.constrainArbitrary(
+      buffer.resourceIsDeleted() == false,
+      "Array buffer not deleted");
+
     Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
     Constraints.constrainNotNull(program_attribute, "Program attribute");
 
@@ -1009,10 +1018,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
-    Constraints.constrainNotNull(id, "Array ID");
+    Constraints.constrainNotNull(id, "Array buffer");
     Constraints.constrainArbitrary(
-      GL15.glIsBuffer(id.getLocation()),
-      "ID corresponds to OpenGL buffer");
+      id.resourceIsDeleted() == false,
+      "Array buffer not deleted");
 
     this.log.debug("vertex-buffer: unmap " + id);
 
@@ -1282,10 +1291,11 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GLException
   {
     Constraints.constrainNotNull(mode, "Drawing mode");
-    Constraints.constrainNotNull(indices, "Index ID");
+
+    Constraints.constrainNotNull(indices, "Index buffer");
     Constraints.constrainArbitrary(
-      GL15.glIsBuffer(indices.getLocation()),
-      "ID corresponds to OpenGL buffer");
+      indices.resourceIsDeleted() == false,
+      "Index buffer not deleted");
 
     final int index_id = indices.getLocation();
     final int index_count = (int) indices.getElements();
@@ -1303,14 +1313,15 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
-    Constraints.constrainNotNull(program, "Program ID");
+    Constraints.constrainNotNull(program, "Program");
     Constraints.constrainArbitrary(
-      GL20.glIsProgram(program.getLocation()),
-      "ID corresponds to valid program");
-    Constraints.constrainNotNull(shader, "Fragment shader ID");
+      program.resourceIsDeleted() == false,
+      "Program not deleted");
+
+    Constraints.constrainNotNull(shader, "Fragment shader");
     Constraints.constrainArbitrary(
-      GL20.glIsShader(shader.getLocation()),
-      "ID corresponds to valid fragment shader");
+      shader.resourceIsDeleted() == false,
+      "Fragment shader not deleted");
 
     this.log.debug("fragment-shader: attach " + program + " " + shader);
 
@@ -1362,14 +1373,15 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
-    Constraints.constrainNotNull(id, "Shader ID");
+    Constraints.constrainNotNull(id, "Fragment shader");
     Constraints.constrainArbitrary(
-      GL20.glIsShader(id.getLocation()),
-      "ID corresponds to valid shader");
+      id.resourceIsDeleted() == false,
+      "Fragment shader not deleted");
 
     this.log.debug("fragment-shader: delete " + id);
 
     GL20.glDeleteShader(id.getLocation());
+    id.setDeleted();
     GLError.check(this);
   }
 
@@ -1390,6 +1402,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GLException
   {
     Constraints.constrainNotNull(buffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      buffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+
     Constraints.constrainNotNull(attachments, "Framebuffer attachments");
 
     GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, buffer.getLocation());
@@ -1504,6 +1520,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GLException
   {
     Constraints.constrainNotNull(buffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      buffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+
     GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, buffer.getLocation());
     GLError.check(this);
   }
@@ -1514,6 +1534,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GLException
   {
     Constraints.constrainNotNull(buffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      buffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+
     GL30.glDeleteFramebuffers(buffer.getLocation());
     GLError.check(this);
   }
@@ -1526,12 +1550,16 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   }
 
   @Override public @Nonnull IndexBuffer indexBufferAllocate(
-    final @Nonnull Buffer buffer,
+    final @Nonnull ArrayBuffer buffer,
     final int indices)
     throws GLException,
       ConstraintError
   {
-    Constraints.constrainNotNull(buffer, "Buffer");
+    Constraints.constrainNotNull(buffer, "Array buffer");
+    Constraints.constrainArbitrary(
+      buffer.resourceIsDeleted() == false,
+      "Array buffer not deleted");
+
     Constraints.constrainRange(indices, 1, Integer.MAX_VALUE);
 
     GLUnsignedType type = GLUnsignedType.TYPE_UNSIGNED_BYTE;
@@ -1574,14 +1602,15 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    Constraints.constrainNotNull(id, "Index buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Index buffer not deleted");
+
     this.log.debug("index-buffer: delete " + id);
 
-    Constraints.constrainNotNull(id, "id");
-    Constraints.constrainArbitrary(
-      GL15.glIsBuffer(id.getLocation()),
-      "ID corresponds to OpenGL buffer");
-
     GL15.glDeleteBuffers(id.getLocation());
+    id.setDeleted();
     GLError.check(this);
   }
 
@@ -1590,10 +1619,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws GLException,
       ConstraintError
   {
-    Constraints.constrainNotNull(id, "Index ID");
+    Constraints.constrainNotNull(id, "Index buffer");
     Constraints.constrainArbitrary(
-      GL15.glIsBuffer(id.getLocation()),
-      "ID corresponds to OpenGL buffer");
+      id.resourceIsDeleted() == false,
+      "Index buffer not deleted");
 
     this.log.debug("index-buffer: map " + id);
 
@@ -1611,10 +1640,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws GLException,
       ConstraintError
   {
-    Constraints.constrainNotNull(id, "Index ID");
+    Constraints.constrainNotNull(id, "Index buffer");
     Constraints.constrainArbitrary(
-      GL15.glIsBuffer(id.getLocation()),
-      "ID corresponds to OpenGL buffer");
+      id.resourceIsDeleted() == false,
+      "Index buffer not deleted");
 
     this.log.debug("index-buffer: map " + id);
 
@@ -1638,10 +1667,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
-    Constraints.constrainNotNull(id, "Array ID");
+    Constraints.constrainNotNull(id, "Index buffer");
     Constraints.constrainArbitrary(
-      GL15.glIsBuffer(id.getLocation()),
-      "ID corresponds to OpenGL buffer");
+      id.resourceIsDeleted() == false,
+      "Index buffer not deleted");
 
     this.log.debug("index-buffer: unmap " + id);
 
@@ -1806,14 +1835,15 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws GLException,
       ConstraintError
   {
-    Constraints.constrainNotNull(id, "id");
+    Constraints.constrainNotNull(id, "Pixel unpack buffer");
     Constraints.constrainArbitrary(
-      GL15.glIsBuffer(id.getLocation()),
-      "ID corresponds to OpenGL buffer");
+      id.resourceIsDeleted() == false,
+      "Pixel unpack buffer not deleted");
 
     this.log.debug("pixel-unpack-buffer: delete " + id);
 
     GL15.glDeleteBuffers(id.getLocation());
+    id.setDeleted();
     GLError.check(this);
   }
 
@@ -1822,10 +1852,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws GLException,
       ConstraintError
   {
-    Constraints.constrainNotNull(id, "Pixel unpack buffer ID");
+    Constraints.constrainNotNull(id, "Pixel unpack buffer");
     Constraints.constrainArbitrary(
-      GL15.glIsBuffer(id.getLocation()),
-      "ID corresponds to OpenGL buffer");
+      id.resourceIsDeleted() == false,
+      "Pixel unpack buffer not deleted");
 
     this.log.debug("pixel-unpack-buffer: map " + id);
 
@@ -1842,10 +1872,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws GLException,
       ConstraintError
   {
-    Constraints.constrainNotNull(id, "Pixel unpack buffer ID");
+    Constraints.constrainNotNull(id, "Pixel unpack buffer");
     Constraints.constrainArbitrary(
-      GL15.glIsBuffer(id.getLocation()),
-      "ID corresponds to OpenGL buffer");
+      id.resourceIsDeleted() == false,
+      "Pixel unpack buffer not deleted");
 
     this.log.debug("pixel-unpack-buffer: map " + id);
 
@@ -1867,10 +1897,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
-    Constraints.constrainNotNull(id, "Pixel unpack buffer ID");
+    Constraints.constrainNotNull(id, "Pixel unpack buffer");
     Constraints.constrainArbitrary(
-      GL15.glIsBuffer(id.getLocation()),
-      "ID corresponds to OpenGL buffer");
+      id.resourceIsDeleted() == false,
+      "Pixel unpack buffer not deleted");
 
     this.log.debug("pixel-unpack-buffer: unmap " + id);
 
@@ -1999,10 +2029,14 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GLException
   {
     Constraints.constrainNotNull(program, "Program");
+    Constraints.constrainArbitrary(
+      program.resourceIsDeleted() == false,
+      "Program not deleted");
 
     this.log.debug("program: delete " + program);
 
     GL20.glDeleteProgram(program.getLocation());
+    program.setDeleted();
     GLError.check(this);
   }
 
@@ -2405,7 +2439,12 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GLException
   {
     Constraints.constrainNotNull(buffer, "Renderbuffer");
+    Constraints.constrainArbitrary(
+      buffer.resourceIsDeleted() == false,
+      "Renderbuffer not deleted");
+
     GL30.glDeleteRenderbuffers(buffer.getLocation());
+    buffer.setDeleted();
     GLError.check(this);
   }
 
@@ -2524,6 +2563,9 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainNotNull(unit, "Texture unit");
     Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
 
     GL13.glActiveTexture(GL13.GL_TEXTURE0 + unit.getIndex());
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getLocation());
@@ -2537,12 +2579,13 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainNotNull(texture, "Texture");
     Constraints.constrainArbitrary(
-      GL11.glIsTexture(texture.getLocation()),
-      "Texture is valid");
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
 
     this.log.debug("texture-2DRGBA: delete " + texture);
 
     GL11.glDeleteTextures(texture.getLocation());
+    texture.setDeleted();
     this.pixelUnpackBufferDelete(texture.getBuffer());
   }
 
@@ -2553,8 +2596,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainNotNull(texture, "Texture");
     Constraints.constrainArbitrary(
-      GL11.glIsTexture(texture.getLocation()),
-      "Texture is valid");
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
 
     final ByteBuffer buffer =
       ByteBuffer.allocateDirect(texture.getWidth() * texture.getHeight() * 4);
@@ -2576,11 +2619,11 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainNotNull(texture, "Texture");
     Constraints.constrainArbitrary(
-      GL11.glIsTexture(texture.getLocation()),
-      "Texture ID is a valid texture");
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
     Constraints.constrainArbitrary(
-      GL15.glIsBuffer(texture.getBuffer().getLocation()),
-      "Pixel buffer is valid");
+      texture.getBuffer().resourceIsDeleted() == false,
+      "Pixel unpack buffer not deleted");
 
     this.log.debug("texture-2DRGBA: update " + texture);
 
@@ -2641,12 +2684,13 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
-      GL20.glIsProgram(program.getLocation()),
-      "ID corresponds to valid program");
-    Constraints.constrainNotNull(shader, "Vertex shader ID");
+      program.resourceIsDeleted() == false,
+      "Program not deleted");
+
+    Constraints.constrainNotNull(shader, "Vertex shader");
     Constraints.constrainArbitrary(
-      GL20.glIsShader(shader.getLocation()),
-      "ID corresponds to valid vertex shader");
+      shader.resourceIsDeleted() == false,
+      "Vertex shader not deleted");
 
     this.log.debug("vertex-shader: attach " + program + " " + shader);
 
@@ -2698,14 +2742,15 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
-    Constraints.constrainNotNull(id, "Shader ID");
+    Constraints.constrainNotNull(id, "Vertex shader");
     Constraints.constrainArbitrary(
-      GL20.glIsShader(id.getLocation()),
-      "ID corresponds to valid shader");
+      id.resourceIsDeleted() == false,
+      "Vertex shader not deleted");
 
     this.log.debug("vertex-shader: delete " + id);
 
     GL20.glDeleteShader(id.getLocation());
+    id.setDeleted();
     GLError.check(this);
   }
 

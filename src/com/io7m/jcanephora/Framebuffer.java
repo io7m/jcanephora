@@ -10,9 +10,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * A immutable reference to an allocated framebuffer.
  */
 
-@Immutable public final class Framebuffer implements GLResource
+@Immutable public final class Framebuffer extends Deletable implements
+  GLResource
 {
   private final int value;
+  private boolean   deleted;
 
   Framebuffer(
     final int value)
@@ -24,6 +26,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
         0,
         Integer.MAX_VALUE,
         "Buffer ID value");
+    this.deleted = false;
   }
 
   /*
@@ -47,6 +50,16 @@ import com.io7m.jaux.Constraints.ConstraintError;
       GLException
   {
     gl.framebufferDelete(this);
+  }
+
+  @Override public boolean resourceIsDeleted()
+  {
+    return this.deleted;
+  }
+
+  @Override void setDeleted()
+  {
+    this.deleted = true;
   }
 
   @Override public String toString()

@@ -54,6 +54,7 @@ public final class TextureExample implements Runnable, GLResource
   private final @Nonnull Texture2DRGBAStatic texture;
   private final @Nonnull VectorI4F           color;
   private long                               current_frame = 0;
+  private final boolean                      deleted;
 
   public TextureExample(
     final GLInterface gl)
@@ -98,6 +99,8 @@ public final class TextureExample implements Runnable, GLResource
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
     this.updateTexture();
+
+    this.deleted = false;
   }
 
   private void render()
@@ -143,6 +146,11 @@ public final class TextureExample implements Runnable, GLResource
       GLException
   {
     this.texture.resourceDelete(g);
+  }
+
+  @Override public boolean resourceIsDeleted()
+  {
+    return this.deleted;
   }
 
   @Override public void run()

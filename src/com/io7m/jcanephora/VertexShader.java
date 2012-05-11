@@ -10,10 +10,12 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * An immutable reference to a vertex shader.
  */
 
-@Immutable public final class VertexShader implements GLResource
+@Immutable public final class VertexShader extends Deletable implements
+  GLResource
 {
   private final int             id;
   private final @Nonnull String name;
+  private boolean               deleted;
 
   VertexShader(
     final int id,
@@ -23,6 +25,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     this.id =
       Constraints.constrainRange(id, 1, Integer.MAX_VALUE, "shader ID");
     this.name = Constraints.constrainNotNull(name, "shader file");
+    this.deleted = false;
   }
 
   /**
@@ -50,6 +53,16 @@ import com.io7m.jaux.Constraints.ConstraintError;
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     gl.vertexShaderDelete(this);
+  }
+
+  @Override public boolean resourceIsDeleted()
+  {
+    return this.deleted;
+  }
+
+  @Override void setDeleted()
+  {
+    this.deleted = true;
   }
 
   @Override public String toString()
