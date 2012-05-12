@@ -4,8 +4,8 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import com.io7m.jaux.ApproximatelyEqualFloat;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jtensors.ApproximatelyEqualFloat;
 import com.io7m.jtensors.MatrixM4x4F;
 
 public class ProjectionMatrixTest
