@@ -1538,6 +1538,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       buffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
 
+    this.log.debug("framebuffer: delete " + buffer);
+
     GL30.glDeleteFramebuffers(buffer.getLocation());
     GLError.check(this);
   }
@@ -2442,6 +2444,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
       "Renderbuffer not deleted");
+
+    this.log.debug("renderbuffer: delete " + buffer);
 
     GL30.glDeleteRenderbuffers(buffer.getLocation());
     buffer.setDeleted();
