@@ -2467,6 +2467,16 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainNotNull(position, "Scissor region position");
     Constraints.constrainNotNull(dimensions, "Scissor region dimensions");
+    Constraints.constrainRange(
+      dimensions.getXI(),
+      0,
+      Integer.MAX_VALUE,
+      "Scissor width");
+    Constraints.constrainRange(
+      dimensions.getYI(),
+      0,
+      Integer.MAX_VALUE,
+      "Scissor height");
 
     GL11.glEnable(GL11.GL_SCISSOR_TEST);
     GL11.glScissor(
