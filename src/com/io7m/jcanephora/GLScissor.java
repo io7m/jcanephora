@@ -36,8 +36,10 @@ public interface GLScissor
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
-   *           <li><code>position == null</code>.</li>
-   *           <li><code>dimensions == null</code>.</li>
+   *           <li><code>position == null</code></li>
+   *           <li><code>dimensions == null</code></li>
+   *           <li><code>dimensions.getXI() &lt; 0</code></li>
+   *           <li><code>dimensions.getYI() &lt; 0</code></li>
    *           </ul>
    * @throws GLException
    *           Iff an OpenGL error occurred.
