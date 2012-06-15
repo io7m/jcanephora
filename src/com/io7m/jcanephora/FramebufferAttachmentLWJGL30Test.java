@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.lwjgl.opengl.Pbuffer;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.FramebufferAttachment.ColorAttachment;
@@ -12,16 +13,18 @@ import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
 
 public class FramebufferAttachmentLWJGL30Test
 {
+  private Pbuffer buffer;
+
   @Before public void setUp()
     throws Exception
   {
-    LWJGL30.createDisplay("FramebufferAttachment", 1, 1);
+    this.buffer = LWJGL30.createOffscreenDisplay(640, 480);
   }
 
   @After public void tearDown()
     throws Exception
   {
-    LWJGL30.destroyDisplay();
+    LWJGL30.destroyOffscreenDisplay(this.buffer);
   }
 
   @Test public void testFramebufferAttachColorOK()

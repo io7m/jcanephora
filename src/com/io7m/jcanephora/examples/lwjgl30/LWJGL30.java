@@ -1,4 +1,4 @@
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.examples.lwjgl30;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -38,7 +38,7 @@ final class LWJGL30
     }
   }
 
-  static Pbuffer createOffscreenDisplay(
+  static void createOffscreenDisplay(
     final int height,
     final int width)
   {
@@ -46,24 +46,15 @@ final class LWJGL30
       final PixelFormat pixel_format = new PixelFormat(8, 24, 8);
       final Pbuffer pbuffer = new Pbuffer(width, height, pixel_format, null);
       pbuffer.makeCurrent();
-      return pbuffer;
     } catch (final LWJGLException e) {
       e.printStackTrace();
       System.exit(1);
     }
-
-    throw new AssertionError("unreachable code!");
   }
 
   static void destroyDisplay()
   {
     Display.destroy();
-  }
-
-  static void destroyOffscreenDisplay(
-    final Pbuffer buffer)
-  {
-    buffer.destroy();
   }
 
   private LWJGL30()

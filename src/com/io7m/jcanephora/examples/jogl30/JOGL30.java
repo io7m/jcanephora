@@ -1,4 +1,4 @@
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.examples.jogl30;
 
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLContext;
@@ -8,9 +8,9 @@ import javax.media.opengl.GLProfile;
 
 import com.jogamp.newt.opengl.GLWindow;
 
-final class JOGL30
+public final class JOGL30
 {
-  static GLWindow createDisplay(
+  public static GLWindow createDisplay(
     final String name,
     final int width,
     final int height)
@@ -26,7 +26,7 @@ final class JOGL30
     return window;
   }
 
-  static GLContext createOffscreenDisplay(
+  public static GLContext createOffscreenDisplay(
     final int width,
     final int height)
   {
@@ -40,7 +40,7 @@ final class JOGL30
     return pb.createContext(null);
   }
 
-  static void destroyDisplay(
+  public static void destroyDisplay(
     final GLContext context)
   {
     context.destroy();

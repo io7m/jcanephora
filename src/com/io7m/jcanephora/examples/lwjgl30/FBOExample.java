@@ -15,7 +15,6 @@ import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface;
 import com.io7m.jcanephora.GLInterfaceLWJGL30;
-import com.io7m.jcanephora.LWJGL30;
 import com.io7m.jcanephora.RenderbufferD24S8;
 import com.io7m.jcanephora.Texture2DRGBAStatic;
 import com.io7m.jcanephora.TextureFilter;
