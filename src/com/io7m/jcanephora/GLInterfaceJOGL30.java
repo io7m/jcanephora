@@ -1,23 +1,21 @@
 package com.io7m.jcanephora;
 
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-import org.lwjgl.opengl.GL13;
-import org.lwjgl.opengl.GL14;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL21;
-import org.lwjgl.opengl.GL30;
+import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
+import javax.media.opengl.GL2ES2;
+import javax.media.opengl.GL2GL3;
+import javax.media.opengl.GL3;
+import javax.media.opengl.GLContext;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -31,30 +29,33 @@ import com.io7m.jtensors.VectorReadable2F;
 import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jtensors.VectorReadable3F;
 import com.io7m.jtensors.VectorReadable4F;
+import com.jogamp.common.nio.Buffers;
 
 /**
  * A class implementing GLInterface that uses only non-deprecated features of
- * OpenGL 3.0, using LWJGL as the backend.
+ * OpenGL 3.0, using JOGL as the backend. A
+ * {@link javax.media.opengl.GLContext} is used to construct the interface,
+ * and all methods in the interface make this context "current" upon calling.
  * 
  * As OpenGL 3.0 is essentially a subset of 2.1, this class works on OpenGL
  * 2.1 implementations.
  */
 
-public final class GLInterfaceLWJGL30 implements GLInterface
+public final class GLInterfaceJOGL30 implements GLInterface
 {
   static @Nonnull BlendEquation blendEquationFromGL(
     final int e)
   {
     switch (e) {
-      case GL14.GL_FUNC_ADD:
+      case GL.GL_FUNC_ADD:
         return BlendEquation.BLEND_EQUATION_ADD;
-      case GL14.GL_MAX:
+      case GL2GL3.GL_MAX:
         return BlendEquation.BLEND_EQUATION_MAXIMUM;
-      case GL14.GL_MIN:
+      case GL2GL3.GL_MIN:
         return BlendEquation.BLEND_EQUATION_MINIMUM;
-      case GL14.GL_FUNC_REVERSE_SUBTRACT:
+      case GL.GL_FUNC_REVERSE_SUBTRACT:
         return BlendEquation.BLEND_EQUATION_REVERSE_SUBTRACT;
-      case GL14.GL_FUNC_SUBTRACT:
+      case GL.GL_FUNC_SUBTRACT:
         return BlendEquation.BLEND_EQUATION_SUBTRACT;
     }
 
@@ -67,15 +68,15 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     switch (e) {
       case BLEND_EQUATION_ADD:
-        return GL14.GL_FUNC_ADD;
+        return GL.GL_FUNC_ADD;
       case BLEND_EQUATION_MAXIMUM:
-        return GL14.GL_MAX;
+        return GL2GL3.GL_MAX;
       case BLEND_EQUATION_MINIMUM:
-        return GL14.GL_MIN;
+        return GL2GL3.GL_MIN;
       case BLEND_EQUATION_REVERSE_SUBTRACT:
-        return GL14.GL_FUNC_REVERSE_SUBTRACT;
+        return GL.GL_FUNC_REVERSE_SUBTRACT;
       case BLEND_EQUATION_SUBTRACT:
-        return GL14.GL_FUNC_SUBTRACT;
+        return GL.GL_FUNC_SUBTRACT;
     }
 
     /* UNREACHABLE */
@@ -86,35 +87,35 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     final int type)
   {
     switch (type) {
-      case GL11.GL_CONSTANT_ALPHA:
+      case GL2ES2.GL_CONSTANT_ALPHA:
         return BlendFunction.BLEND_CONSTANT_ALPHA;
-      case GL11.GL_CONSTANT_COLOR:
+      case GL2ES2.GL_CONSTANT_COLOR:
         return BlendFunction.BLEND_CONSTANT_COLOR;
-      case GL11.GL_DST_ALPHA:
+      case GL.GL_DST_ALPHA:
         return BlendFunction.BLEND_DESTINATION_ALPHA;
-      case GL11.GL_DST_COLOR:
+      case GL.GL_DST_COLOR:
         return BlendFunction.BLEND_DESTINATION_COLOR;
-      case GL11.GL_ONE:
+      case GL.GL_ONE:
         return BlendFunction.BLEND_ONE;
-      case GL11.GL_ONE_MINUS_CONSTANT_ALPHA:
+      case GL2ES2.GL_ONE_MINUS_CONSTANT_ALPHA:
         return BlendFunction.BLEND_ONE_MINUS_CONSTANT_ALPHA;
-      case GL11.GL_ONE_MINUS_CONSTANT_COLOR:
+      case GL2ES2.GL_ONE_MINUS_CONSTANT_COLOR:
         return BlendFunction.BLEND_ONE_MINUS_CONSTANT_COLOR;
-      case GL11.GL_ONE_MINUS_DST_ALPHA:
+      case GL.GL_ONE_MINUS_DST_ALPHA:
         return BlendFunction.BLEND_ONE_MINUS_DESTINATION_ALPHA;
-      case GL11.GL_ONE_MINUS_DST_COLOR:
+      case GL.GL_ONE_MINUS_DST_COLOR:
         return BlendFunction.BLEND_ONE_MINUS_DESTINATION_COLOR;
-      case GL11.GL_ONE_MINUS_SRC_ALPHA:
+      case GL.GL_ONE_MINUS_SRC_ALPHA:
         return BlendFunction.BLEND_ONE_MINUS_SOURCE_ALPHA;
-      case GL11.GL_ONE_MINUS_SRC_COLOR:
+      case GL.GL_ONE_MINUS_SRC_COLOR:
         return BlendFunction.BLEND_ONE_MINUS_SOURCE_COLOR;
-      case GL11.GL_SRC_ALPHA:
+      case GL.GL_SRC_ALPHA:
         return BlendFunction.BLEND_SOURCE_ALPHA;
-      case GL11.GL_SRC_COLOR:
+      case GL.GL_SRC_COLOR:
         return BlendFunction.BLEND_SOURCE_COLOR;
-      case GL11.GL_SRC_ALPHA_SATURATE:
+      case GL.GL_SRC_ALPHA_SATURATE:
         return BlendFunction.BLEND_SOURCE_ALPHA_SATURATE;
-      case GL11.GL_ZERO:
+      case GL.GL_ZERO:
         return BlendFunction.BLEND_ZERO;
     }
 
@@ -127,35 +128,35 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     switch (function) {
       case BLEND_CONSTANT_ALPHA:
-        return GL11.GL_CONSTANT_ALPHA;
+        return GL2ES2.GL_CONSTANT_ALPHA;
       case BLEND_CONSTANT_COLOR:
-        return GL11.GL_CONSTANT_COLOR;
+        return GL2ES2.GL_CONSTANT_COLOR;
       case BLEND_DESTINATION_ALPHA:
-        return GL11.GL_DST_ALPHA;
+        return GL.GL_DST_ALPHA;
       case BLEND_DESTINATION_COLOR:
-        return GL11.GL_DST_COLOR;
+        return GL.GL_DST_COLOR;
       case BLEND_ONE:
-        return GL11.GL_ONE;
+        return GL.GL_ONE;
       case BLEND_ONE_MINUS_CONSTANT_ALPHA:
-        return GL11.GL_ONE_MINUS_CONSTANT_ALPHA;
+        return GL2ES2.GL_ONE_MINUS_CONSTANT_ALPHA;
       case BLEND_ONE_MINUS_CONSTANT_COLOR:
-        return GL11.GL_ONE_MINUS_CONSTANT_COLOR;
+        return GL2ES2.GL_ONE_MINUS_CONSTANT_COLOR;
       case BLEND_ONE_MINUS_DESTINATION_ALPHA:
-        return GL11.GL_ONE_MINUS_DST_ALPHA;
+        return GL.GL_ONE_MINUS_DST_ALPHA;
       case BLEND_ONE_MINUS_DESTINATION_COLOR:
-        return GL11.GL_ONE_MINUS_DST_COLOR;
+        return GL.GL_ONE_MINUS_DST_COLOR;
       case BLEND_ONE_MINUS_SOURCE_ALPHA:
-        return GL11.GL_ONE_MINUS_SRC_ALPHA;
+        return GL.GL_ONE_MINUS_SRC_ALPHA;
       case BLEND_ONE_MINUS_SOURCE_COLOR:
-        return GL11.GL_ONE_MINUS_SRC_COLOR;
+        return GL.GL_ONE_MINUS_SRC_COLOR;
       case BLEND_SOURCE_ALPHA:
-        return GL11.GL_SRC_ALPHA;
+        return GL.GL_SRC_ALPHA;
       case BLEND_SOURCE_ALPHA_SATURATE:
-        return GL11.GL_SRC_ALPHA_SATURATE;
+        return GL.GL_SRC_ALPHA_SATURATE;
       case BLEND_SOURCE_COLOR:
-        return GL11.GL_SRC_COLOR;
+        return GL.GL_SRC_COLOR;
       case BLEND_ZERO:
-        return GL11.GL_ZERO;
+        return GL.GL_ZERO;
     }
 
     /* UNREACHABLE */
@@ -166,21 +167,21 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     final int d)
   {
     switch (d) {
-      case GL11.GL_ALWAYS:
+      case GL.GL_ALWAYS:
         return DepthFunction.DEPTH_ALWAYS;
-      case GL11.GL_EQUAL:
+      case GL.GL_EQUAL:
         return DepthFunction.DEPTH_EQUAL;
-      case GL11.GL_GREATER:
+      case GL.GL_GREATER:
         return DepthFunction.DEPTH_GREATER_THAN;
-      case GL11.GL_GEQUAL:
+      case GL.GL_GEQUAL:
         return DepthFunction.DEPTH_GREATER_THAN_OR_EQUAL;
-      case GL11.GL_LESS:
+      case GL.GL_LESS:
         return DepthFunction.DEPTH_LESS_THAN;
-      case GL11.GL_LEQUAL:
+      case GL.GL_LEQUAL:
         return DepthFunction.DEPTH_LESS_THAN_OR_EQUAL;
-      case GL11.GL_NEVER:
+      case GL.GL_NEVER:
         return DepthFunction.DEPTH_NEVER;
-      case GL11.GL_NOTEQUAL:
+      case GL.GL_NOTEQUAL:
         return DepthFunction.DEPTH_NOT_EQUAL;
     }
 
@@ -193,21 +194,21 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     switch (d) {
       case DEPTH_ALWAYS:
-        return GL11.GL_ALWAYS;
+        return GL.GL_ALWAYS;
       case DEPTH_EQUAL:
-        return GL11.GL_EQUAL;
+        return GL.GL_EQUAL;
       case DEPTH_GREATER_THAN:
-        return GL11.GL_GREATER;
+        return GL.GL_GREATER;
       case DEPTH_GREATER_THAN_OR_EQUAL:
-        return GL11.GL_GEQUAL;
+        return GL.GL_GEQUAL;
       case DEPTH_LESS_THAN:
-        return GL11.GL_LESS;
+        return GL.GL_LESS;
       case DEPTH_LESS_THAN_OR_EQUAL:
-        return GL11.GL_LEQUAL;
+        return GL.GL_LEQUAL;
       case DEPTH_NEVER:
-        return GL11.GL_NEVER;
+        return GL.GL_NEVER;
       case DEPTH_NOT_EQUAL:
-        return GL11.GL_NOTEQUAL;
+        return GL.GL_NOTEQUAL;
     }
 
     /* UNREACHABLE */
@@ -218,11 +219,11 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     final int faces)
   {
     switch (faces) {
-      case GL11.GL_BACK:
+      case GL.GL_BACK:
         return FaceSelection.FACE_BACK;
-      case GL11.GL_FRONT:
+      case GL.GL_FRONT:
         return FaceSelection.FACE_FRONT;
-      case GL11.GL_FRONT_AND_BACK:
+      case GL.GL_FRONT_AND_BACK:
         return FaceSelection.FACE_FRONT_AND_BACK;
     }
 
@@ -235,11 +236,11 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     switch (faces) {
       case FACE_BACK:
-        return GL11.GL_BACK;
+        return GL.GL_BACK;
       case FACE_FRONT:
-        return GL11.GL_FRONT;
+        return GL.GL_FRONT;
       case FACE_FRONT_AND_BACK:
-        return GL11.GL_FRONT_AND_BACK;
+        return GL.GL_FRONT_AND_BACK;
     }
 
     /* UNREACHABLE */
@@ -250,9 +251,9 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     final int f)
   {
     switch (f) {
-      case GL11.GL_CW:
+      case GL.GL_CW:
         return FaceWindingOrder.FRONT_FACE_CLOCKWISE;
-      case GL11.GL_CCW:
+      case GL.GL_CCW:
         return FaceWindingOrder.FRONT_FACE_COUNTER_CLOCKWISE;
     }
 
@@ -265,9 +266,9 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     switch (f) {
       case FRONT_FACE_CLOCKWISE:
-        return GL11.GL_CW;
+        return GL.GL_CW;
       case FRONT_FACE_COUNTER_CLOCKWISE:
-        return GL11.GL_CCW;
+        return GL.GL_CCW;
     }
 
     /* UNREACHABLE */
@@ -278,37 +279,37 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     final int op)
   {
     switch (op) {
-      case GL11.GL_XOR:
+      case GL.GL_XOR:
         return LogicOperation.LOGIC_XOR;
-      case GL11.GL_SET:
+      case GL.GL_SET:
         return LogicOperation.LOGIC_SET;
-      case GL11.GL_OR_REVERSE:
+      case GL.GL_OR_REVERSE:
         return LogicOperation.LOGIC_OR_REVERSE;
-      case GL11.GL_OR_INVERTED:
+      case GL.GL_OR_INVERTED:
         return LogicOperation.LOGIC_OR_INVERTED;
-      case GL11.GL_OR:
+      case GL.GL_OR:
         return LogicOperation.LOGIC_OR;
-      case GL11.GL_NOOP:
+      case GL.GL_NOOP:
         return LogicOperation.LOGIC_NO_OP;
-      case GL11.GL_NOR:
+      case GL.GL_NOR:
         return LogicOperation.LOGIC_NOR;
-      case GL11.GL_NAND:
+      case GL.GL_NAND:
         return LogicOperation.LOGIC_NAND;
-      case GL11.GL_INVERT:
+      case GL.GL_INVERT:
         return LogicOperation.LOGIC_INVERT;
-      case GL11.GL_EQUIV:
+      case GL.GL_EQUIV:
         return LogicOperation.LOGIC_EQUIV;
-      case GL11.GL_COPY_INVERTED:
+      case GL.GL_COPY_INVERTED:
         return LogicOperation.LOGIC_COPY_INVERTED;
-      case GL11.GL_COPY:
+      case GL.GL_COPY:
         return LogicOperation.LOGIC_COPY;
-      case GL11.GL_CLEAR:
+      case GL.GL_CLEAR:
         return LogicOperation.LOGIC_CLEAR;
-      case GL11.GL_AND_REVERSE:
+      case GL.GL_AND_REVERSE:
         return LogicOperation.LOGIC_AND_REVERSE;
-      case GL11.GL_AND_INVERTED:
+      case GL.GL_AND_INVERTED:
         return LogicOperation.LOGIC_AND_INVERTED;
-      case GL11.GL_AND:
+      case GL.GL_AND:
         return LogicOperation.LOGIC_AND;
     }
 
@@ -321,37 +322,37 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     switch (op) {
       case LOGIC_AND:
-        return GL11.GL_AND;
+        return GL.GL_AND;
       case LOGIC_AND_INVERTED:
-        return GL11.GL_AND_INVERTED;
+        return GL.GL_AND_INVERTED;
       case LOGIC_AND_REVERSE:
-        return GL11.GL_AND_REVERSE;
+        return GL.GL_AND_REVERSE;
       case LOGIC_CLEAR:
-        return GL11.GL_CLEAR;
+        return GL.GL_CLEAR;
       case LOGIC_COPY:
-        return GL11.GL_COPY;
+        return GL.GL_COPY;
       case LOGIC_COPY_INVERTED:
-        return GL11.GL_COPY_INVERTED;
+        return GL.GL_COPY_INVERTED;
       case LOGIC_EQUIV:
-        return GL11.GL_EQUIV;
+        return GL.GL_EQUIV;
       case LOGIC_INVERT:
-        return GL11.GL_INVERT;
+        return GL.GL_INVERT;
       case LOGIC_NAND:
-        return GL11.GL_NAND;
+        return GL.GL_NAND;
       case LOGIC_NOR:
-        return GL11.GL_NOR;
+        return GL.GL_NOR;
       case LOGIC_NO_OP:
-        return GL11.GL_NOOP;
+        return GL.GL_NOOP;
       case LOGIC_OR:
-        return GL11.GL_OR;
+        return GL.GL_OR;
       case LOGIC_OR_INVERTED:
-        return GL11.GL_OR_INVERTED;
+        return GL.GL_OR_INVERTED;
       case LOGIC_OR_REVERSE:
-        return GL11.GL_OR_REVERSE;
+        return GL.GL_OR_REVERSE;
       case LOGIC_SET:
-        return GL11.GL_SET;
+        return GL.GL_SET;
       case LOGIC_XOR:
-        return GL11.GL_XOR;
+        return GL.GL_XOR;
     }
 
     /* UNREACHABLE */
@@ -362,11 +363,11 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     final int g)
   {
     switch (g) {
-      case GL11.GL_FILL:
+      case GL2GL3.GL_FILL:
         return PolygonMode.POLYGON_FILL;
-      case GL11.GL_LINE:
+      case GL2GL3.GL_LINE:
         return PolygonMode.POLYGON_LINES;
-      case GL11.GL_POINT:
+      case GL2GL3.GL_POINT:
         return PolygonMode.POLYGON_POINTS;
     }
 
@@ -379,11 +380,11 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     switch (g) {
       case POLYGON_FILL:
-        return GL11.GL_FILL;
+        return GL2GL3.GL_FILL;
       case POLYGON_LINES:
-        return GL11.GL_LINE;
+        return GL2GL3.GL_LINE;
       case POLYGON_POINTS:
-        return GL11.GL_POINT;
+        return GL2GL3.GL_POINT;
     }
 
     /* UNREACHABLE */
@@ -394,15 +395,15 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     final int code)
   {
     switch (code) {
-      case GL11.GL_LINES:
+      case GL.GL_LINES:
         return Primitives.PRIMITIVE_LINES;
-      case GL11.GL_LINE_LOOP:
+      case GL.GL_LINE_LOOP:
         return Primitives.PRIMITIVE_LINE_LOOP;
-      case GL11.GL_POINTS:
+      case GL.GL_POINTS:
         return Primitives.PRIMITIVE_POINTS;
-      case GL11.GL_TRIANGLES:
+      case GL.GL_TRIANGLES:
         return Primitives.PRIMITIVE_TRIANGLES;
-      case GL11.GL_TRIANGLE_STRIP:
+      case GL.GL_TRIANGLE_STRIP:
         return Primitives.PRIMITIVE_TRIANGLE_STRIP;
     }
 
@@ -415,15 +416,15 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     switch (p) {
       case PRIMITIVE_LINES:
-        return GL11.GL_LINES;
+        return GL.GL_LINES;
       case PRIMITIVE_LINE_LOOP:
-        return GL11.GL_LINE_LOOP;
+        return GL.GL_LINE_LOOP;
       case PRIMITIVE_TRIANGLES:
-        return GL11.GL_TRIANGLES;
+        return GL.GL_TRIANGLES;
       case PRIMITIVE_TRIANGLE_STRIP:
-        return GL11.GL_TRIANGLE_STRIP;
+        return GL.GL_TRIANGLE_STRIP;
       case PRIMITIVE_POINTS:
-        return GL11.GL_POINTS;
+        return GL.GL_POINTS;
     }
 
     /* UNREACHABLE */
@@ -434,21 +435,21 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     final int type)
   {
     switch (type) {
-      case GL11.GL_BYTE:
+      case GL.GL_BYTE:
         return GLScalarType.TYPE_BYTE;
-      case GL11.GL_UNSIGNED_BYTE:
+      case GL.GL_UNSIGNED_BYTE:
         return GLScalarType.TYPE_UNSIGNED_BYTE;
-      case GL11.GL_SHORT:
+      case GL.GL_SHORT:
         return GLScalarType.TYPE_SHORT;
-      case GL11.GL_UNSIGNED_SHORT:
+      case GL.GL_UNSIGNED_SHORT:
         return GLScalarType.TYPE_UNSIGNED_SHORT;
-      case GL11.GL_INT:
+      case GL2ES2.GL_INT:
         return GLScalarType.TYPE_INT;
-      case GL11.GL_UNSIGNED_INT:
+      case GL.GL_UNSIGNED_INT:
         return GLScalarType.TYPE_UNSIGNED_INT;
-      case GL11.GL_FLOAT:
+      case GL.GL_FLOAT:
         return GLScalarType.TYPE_FLOAT;
-      case GL11.GL_DOUBLE:
+      case GL2GL3.GL_DOUBLE:
         return GLScalarType.TYPE_DOUBLE;
     }
 
@@ -461,34 +462,56 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     switch (type) {
       case TYPE_BYTE:
-        return GL11.GL_BYTE;
+        return GL.GL_BYTE;
       case TYPE_DOUBLE:
-        return GL11.GL_DOUBLE;
+        return GL2GL3.GL_DOUBLE;
       case TYPE_FLOAT:
-        return GL11.GL_FLOAT;
+        return GL.GL_FLOAT;
       case TYPE_INT:
-        return GL11.GL_INT;
+        return GL2ES2.GL_INT;
       case TYPE_SHORT:
-        return GL11.GL_SHORT;
+        return GL.GL_SHORT;
       case TYPE_UNSIGNED_BYTE:
-        return GL11.GL_UNSIGNED_BYTE;
+        return GL.GL_UNSIGNED_BYTE;
       case TYPE_UNSIGNED_INT:
-        return GL11.GL_UNSIGNED_INT;
+        return GL.GL_UNSIGNED_INT;
       case TYPE_UNSIGNED_SHORT:
-        return GL11.GL_UNSIGNED_SHORT;
+        return GL.GL_UNSIGNED_SHORT;
     }
 
     /* UNREACHABLE */
     throw new AssertionError("unreachable code: report this bug!");
   }
 
+  private static void shaderReadSource(
+    final @Nonnull InputStream stream,
+    final @Nonnull ArrayList<String> lines,
+    final @Nonnull ArrayList<Integer> lengths)
+    throws IOException
+  {
+
+    final BufferedReader reader =
+      new BufferedReader(new InputStreamReader(stream));
+
+    for (;;) {
+      final String line = reader.readLine();
+      if (line == null) {
+        break;
+      }
+      lines.add(line + "\n");
+      lengths.add(Integer.valueOf(line.length() + 1));
+    }
+
+    assert (lines.size() == lengths.size());
+  }
+
   static @Nonnull TextureFilter textureFilterFromGL(
     final int mag_filter)
   {
     switch (mag_filter) {
-      case GL11.GL_LINEAR:
+      case GL.GL_LINEAR:
         return TextureFilter.TEXTURE_FILTER_LINEAR;
-      case GL11.GL_NEAREST:
+      case GL.GL_NEAREST:
         return TextureFilter.TEXTURE_FILTER_NEAREST;
     }
 
@@ -501,9 +524,9 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     switch (mag_filter) {
       case TEXTURE_FILTER_LINEAR:
-        return GL11.GL_LINEAR;
+        return GL.GL_LINEAR;
       case TEXTURE_FILTER_NEAREST:
-        return GL11.GL_NEAREST;
+        return GL.GL_NEAREST;
     }
 
     /* UNREACHABLE */
@@ -515,9 +538,9 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     switch (mag_filter) {
       case TEXTURE_FILTER_LINEAR:
-        return GL11.GL_LINEAR;
+        return GL.GL_LINEAR;
       case TEXTURE_FILTER_NEAREST:
-        return GL11.GL_NEAREST;
+        return GL.GL_NEAREST;
     }
 
     /* UNREACHABLE */
@@ -528,13 +551,13 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     final int wrap)
   {
     switch (wrap) {
-      case GL13.GL_CLAMP_TO_BORDER:
+      case GL2GL3.GL_CLAMP_TO_BORDER:
         return TextureWrap.TEXTURE_WRAP_CLAMP_TO_BORDER;
-      case GL12.GL_CLAMP_TO_EDGE:
+      case GL.GL_CLAMP_TO_EDGE:
         return TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE;
-      case GL11.GL_REPEAT:
+      case GL.GL_REPEAT:
         return TextureWrap.TEXTURE_WRAP_REPEAT;
-      case GL14.GL_MIRRORED_REPEAT:
+      case GL.GL_MIRRORED_REPEAT:
         return TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED;
     }
 
@@ -547,13 +570,13 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     switch (wrap) {
       case TEXTURE_WRAP_CLAMP_TO_BORDER:
-        return GL13.GL_CLAMP_TO_BORDER;
+        return GL2GL3.GL_CLAMP_TO_BORDER;
       case TEXTURE_WRAP_CLAMP_TO_EDGE:
-        return GL12.GL_CLAMP_TO_EDGE;
+        return GL.GL_CLAMP_TO_EDGE;
       case TEXTURE_WRAP_REPEAT:
-        return GL11.GL_REPEAT;
+        return GL.GL_REPEAT;
       case TEXTURE_WRAP_REPEAT_MIRRORED:
-        return GL14.GL_MIRRORED_REPEAT;
+        return GL.GL_MIRRORED_REPEAT;
     }
 
     /* UNREACHABLE */
@@ -564,59 +587,59 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     final int type)
   {
     switch (type) {
-      case GL20.GL_BOOL:
+      case GL2ES2.GL_BOOL:
         return Type.TYPE_BOOLEAN;
-      case GL20.GL_BOOL_VEC2:
+      case GL2ES2.GL_BOOL_VEC2:
         return Type.TYPE_BOOLEAN_VECTOR_2;
-      case GL20.GL_BOOL_VEC3:
+      case GL2ES2.GL_BOOL_VEC3:
         return Type.TYPE_BOOLEAN_VECTOR_3;
-      case GL20.GL_BOOL_VEC4:
+      case GL2ES2.GL_BOOL_VEC4:
         return Type.TYPE_BOOLEAN_VECTOR_4;
-      case GL11.GL_FLOAT:
+      case GL.GL_FLOAT:
         return Type.TYPE_FLOAT;
-      case GL20.GL_FLOAT_MAT2:
+      case GL2ES2.GL_FLOAT_MAT2:
         return Type.TYPE_FLOAT_MATRIX_2;
-      case GL21.GL_FLOAT_MAT2x3:
+      case GL2GL3.GL_FLOAT_MAT2x3:
         return Type.TYPE_FLOAT_MATRIX_2x3;
-      case GL21.GL_FLOAT_MAT2x4:
+      case GL2GL3.GL_FLOAT_MAT2x4:
         return Type.TYPE_FLOAT_MATRIX_2x4;
-      case GL20.GL_FLOAT_MAT3:
+      case GL2ES2.GL_FLOAT_MAT3:
         return Type.TYPE_FLOAT_MATRIX_3;
-      case GL21.GL_FLOAT_MAT3x2:
+      case GL2GL3.GL_FLOAT_MAT3x2:
         return Type.TYPE_FLOAT_MATRIX_3x2;
-      case GL21.GL_FLOAT_MAT3x4:
+      case GL2GL3.GL_FLOAT_MAT3x4:
         return Type.TYPE_FLOAT_MATRIX_3x4;
-      case GL20.GL_FLOAT_MAT4:
+      case GL2ES2.GL_FLOAT_MAT4:
         return Type.TYPE_FLOAT_MATRIX_4;
-      case GL21.GL_FLOAT_MAT4x2:
+      case GL2GL3.GL_FLOAT_MAT4x2:
         return Type.TYPE_FLOAT_MATRIX_4x2;
-      case GL21.GL_FLOAT_MAT4x3:
+      case GL2GL3.GL_FLOAT_MAT4x3:
         return Type.TYPE_FLOAT_MATRIX_4x3;
-      case GL20.GL_FLOAT_VEC2:
+      case GL2ES2.GL_FLOAT_VEC2:
         return Type.TYPE_FLOAT_VECTOR_2;
-      case GL20.GL_FLOAT_VEC3:
+      case GL2ES2.GL_FLOAT_VEC3:
         return Type.TYPE_FLOAT_VECTOR_3;
-      case GL20.GL_FLOAT_VEC4:
+      case GL2ES2.GL_FLOAT_VEC4:
         return Type.TYPE_FLOAT_VECTOR_4;
-      case GL11.GL_INT:
+      case GL2ES2.GL_INT:
         return Type.TYPE_INTEGER;
-      case GL20.GL_INT_VEC2:
+      case GL2ES2.GL_INT_VEC2:
         return Type.TYPE_INTEGER_VECTOR_2;
-      case GL20.GL_INT_VEC3:
+      case GL2ES2.GL_INT_VEC3:
         return Type.TYPE_INTEGER_VECTOR_3;
-      case GL20.GL_INT_VEC4:
+      case GL2ES2.GL_INT_VEC4:
         return Type.TYPE_INTEGER_VECTOR_4;
-      case GL20.GL_SAMPLER_1D:
+      case GL2GL3.GL_SAMPLER_1D:
         return Type.TYPE_SAMPLER_1D;
-      case GL20.GL_SAMPLER_1D_SHADOW:
+      case GL2GL3.GL_SAMPLER_1D_SHADOW:
         return Type.TYPE_SAMPLER_1D_SHADOW;
-      case GL20.GL_SAMPLER_2D:
+      case GL2ES2.GL_SAMPLER_2D:
         return Type.TYPE_SAMPLER_2D;
-      case GL20.GL_SAMPLER_2D_SHADOW:
+      case GL2ES2.GL_SAMPLER_2D_SHADOW:
         return Type.TYPE_SAMPLER_2D_SHADOW;
-      case GL20.GL_SAMPLER_3D:
+      case GL2ES2.GL_SAMPLER_3D:
         return Type.TYPE_SAMPLER_3D;
-      case GL20.GL_SAMPLER_CUBE:
+      case GL2ES2.GL_SAMPLER_CUBE:
         return Type.TYPE_SAMPLER_CUBE;
     }
 
@@ -629,59 +652,59 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     switch (type) {
       case TYPE_BOOLEAN:
-        return GL20.GL_BOOL;
+        return GL2ES2.GL_BOOL;
       case TYPE_BOOLEAN_VECTOR_2:
-        return GL20.GL_BOOL_VEC2;
+        return GL2ES2.GL_BOOL_VEC2;
       case TYPE_BOOLEAN_VECTOR_3:
-        return GL20.GL_BOOL_VEC3;
+        return GL2ES2.GL_BOOL_VEC3;
       case TYPE_BOOLEAN_VECTOR_4:
-        return GL20.GL_BOOL_VEC4;
+        return GL2ES2.GL_BOOL_VEC4;
       case TYPE_FLOAT:
-        return GL11.GL_FLOAT;
+        return GL.GL_FLOAT;
       case TYPE_FLOAT_MATRIX_2:
-        return GL20.GL_FLOAT_MAT2;
+        return GL2ES2.GL_FLOAT_MAT2;
       case TYPE_FLOAT_MATRIX_2x3:
-        return GL21.GL_FLOAT_MAT2x3;
+        return GL2GL3.GL_FLOAT_MAT2x3;
       case TYPE_FLOAT_MATRIX_2x4:
-        return GL21.GL_FLOAT_MAT2x4;
+        return GL2GL3.GL_FLOAT_MAT2x4;
       case TYPE_FLOAT_MATRIX_3:
-        return GL20.GL_FLOAT_MAT3;
+        return GL2ES2.GL_FLOAT_MAT3;
       case TYPE_FLOAT_MATRIX_3x2:
-        return GL21.GL_FLOAT_MAT3x2;
+        return GL2GL3.GL_FLOAT_MAT3x2;
       case TYPE_FLOAT_MATRIX_3x4:
-        return GL21.GL_FLOAT_MAT3x4;
+        return GL2GL3.GL_FLOAT_MAT3x4;
       case TYPE_FLOAT_MATRIX_4:
-        return GL20.GL_FLOAT_MAT4;
+        return GL2ES2.GL_FLOAT_MAT4;
       case TYPE_FLOAT_MATRIX_4x2:
-        return GL21.GL_FLOAT_MAT4x2;
+        return GL2GL3.GL_FLOAT_MAT4x2;
       case TYPE_FLOAT_MATRIX_4x3:
-        return GL21.GL_FLOAT_MAT4x3;
+        return GL2GL3.GL_FLOAT_MAT4x3;
       case TYPE_FLOAT_VECTOR_2:
-        return GL20.GL_FLOAT_VEC2;
+        return GL2ES2.GL_FLOAT_VEC2;
       case TYPE_FLOAT_VECTOR_3:
-        return GL20.GL_FLOAT_VEC3;
+        return GL2ES2.GL_FLOAT_VEC3;
       case TYPE_FLOAT_VECTOR_4:
-        return GL20.GL_FLOAT_VEC4;
+        return GL2ES2.GL_FLOAT_VEC4;
       case TYPE_INTEGER:
-        return GL11.GL_INT;
+        return GL2ES2.GL_INT;
       case TYPE_INTEGER_VECTOR_2:
-        return GL20.GL_INT_VEC2;
+        return GL2ES2.GL_INT_VEC2;
       case TYPE_INTEGER_VECTOR_3:
-        return GL20.GL_INT_VEC3;
+        return GL2ES2.GL_INT_VEC3;
       case TYPE_INTEGER_VECTOR_4:
-        return GL20.GL_INT_VEC4;
+        return GL2ES2.GL_INT_VEC4;
       case TYPE_SAMPLER_1D:
-        return GL20.GL_SAMPLER_1D;
+        return GL2GL3.GL_SAMPLER_1D;
       case TYPE_SAMPLER_1D_SHADOW:
-        return GL20.GL_SAMPLER_1D_SHADOW;
+        return GL2GL3.GL_SAMPLER_1D_SHADOW;
       case TYPE_SAMPLER_2D:
-        return GL20.GL_SAMPLER_2D;
+        return GL2ES2.GL_SAMPLER_2D;
       case TYPE_SAMPLER_2D_SHADOW:
-        return GL20.GL_SAMPLER_2D_SHADOW;
+        return GL2ES2.GL_SAMPLER_2D_SHADOW;
       case TYPE_SAMPLER_3D:
-        return GL20.GL_SAMPLER_3D;
+        return GL2ES2.GL_SAMPLER_3D;
       case TYPE_SAMPLER_CUBE:
-        return GL20.GL_SAMPLER_CUBE;
+        return GL2ES2.GL_SAMPLER_CUBE;
     }
 
     /* UNREACHABLE */
@@ -692,11 +715,11 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     final int type)
   {
     switch (type) {
-      case GL11.GL_UNSIGNED_BYTE:
+      case GL.GL_UNSIGNED_BYTE:
         return GLUnsignedType.TYPE_UNSIGNED_BYTE;
-      case GL11.GL_UNSIGNED_SHORT:
+      case GL.GL_UNSIGNED_SHORT:
         return GLUnsignedType.TYPE_UNSIGNED_SHORT;
-      case GL11.GL_UNSIGNED_INT:
+      case GL.GL_UNSIGNED_INT:
         return GLUnsignedType.TYPE_UNSIGNED_INT;
     }
 
@@ -709,11 +732,11 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     switch (type) {
       case TYPE_UNSIGNED_BYTE:
-        return GL11.GL_UNSIGNED_BYTE;
+        return GL.GL_UNSIGNED_BYTE;
       case TYPE_UNSIGNED_SHORT:
-        return GL11.GL_UNSIGNED_SHORT;
+        return GL.GL_UNSIGNED_SHORT;
       case TYPE_UNSIGNED_INT:
-        return GL11.GL_UNSIGNED_INT;
+        return GL.GL_UNSIGNED_INT;
     }
 
     /* UNREACHABLE */
@@ -724,23 +747,23 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     final int hint)
   {
     switch (hint) {
-      case GL15.GL_DYNAMIC_COPY:
+      case GL2GL3.GL_DYNAMIC_COPY:
         return UsageHint.USAGE_DYNAMIC_COPY;
-      case GL15.GL_DYNAMIC_DRAW:
+      case GL.GL_DYNAMIC_DRAW:
         return UsageHint.USAGE_DYNAMIC_DRAW;
-      case GL15.GL_DYNAMIC_READ:
+      case GL2GL3.GL_DYNAMIC_READ:
         return UsageHint.USAGE_DYNAMIC_READ;
-      case GL15.GL_STATIC_COPY:
+      case GL2GL3.GL_STATIC_COPY:
         return UsageHint.USAGE_STATIC_COPY;
-      case GL15.GL_STATIC_DRAW:
+      case GL.GL_STATIC_DRAW:
         return UsageHint.USAGE_STATIC_DRAW;
-      case GL15.GL_STATIC_READ:
+      case GL2GL3.GL_STATIC_READ:
         return UsageHint.USAGE_STATIC_READ;
-      case GL15.GL_STREAM_COPY:
+      case GL2GL3.GL_STREAM_COPY:
         return UsageHint.USAGE_STREAM_COPY;
-      case GL15.GL_STREAM_DRAW:
+      case GL2ES2.GL_STREAM_DRAW:
         return UsageHint.USAGE_STREAM_DRAW;
-      case GL15.GL_STREAM_READ:
+      case GL2GL3.GL_STREAM_READ:
         return UsageHint.USAGE_STREAM_READ;
     }
 
@@ -753,89 +776,93 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     switch (hint) {
       case USAGE_DYNAMIC_COPY:
-        return GL15.GL_DYNAMIC_COPY;
+        return GL2GL3.GL_DYNAMIC_COPY;
       case USAGE_DYNAMIC_DRAW:
-        return GL15.GL_DYNAMIC_DRAW;
+        return GL.GL_DYNAMIC_DRAW;
       case USAGE_DYNAMIC_READ:
-        return GL15.GL_DYNAMIC_READ;
+        return GL2GL3.GL_DYNAMIC_READ;
       case USAGE_STATIC_COPY:
-        return GL15.GL_STATIC_COPY;
+        return GL2GL3.GL_STATIC_COPY;
       case USAGE_STATIC_DRAW:
-        return GL15.GL_STATIC_DRAW;
+        return GL.GL_STATIC_DRAW;
       case USAGE_STATIC_READ:
-        return GL15.GL_STATIC_READ;
+        return GL2GL3.GL_STATIC_READ;
       case USAGE_STREAM_COPY:
-        return GL15.GL_STREAM_COPY;
+        return GL2GL3.GL_STREAM_COPY;
       case USAGE_STREAM_DRAW:
-        return GL15.GL_STREAM_DRAW;
+        return GL2ES2.GL_STREAM_DRAW;
       case USAGE_STREAM_READ:
-        return GL15.GL_STREAM_READ;
+        return GL2GL3.GL_STREAM_READ;
     }
 
     /* UNREACHABLE */
     throw new AssertionError("unreachable code: report this bug!");
   }
 
-  private final @Nonnull Log  log;
-  private final int           line_aliased_min_width;
-  private final int           line_aliased_max_width;
-  private final int           line_smooth_max_width;
-  private final int           line_smooth_min_width;
-  private boolean             line_smoothing;
-  private final int           point_min_width;
-  private final int           point_max_width;
-  private final TextureUnit[] texture_units;
+  private final @Nonnull GLContext     context;
+  private final @Nonnull Log           log;
+  private final @Nonnull TextureUnit[] texture_units;
+  private boolean                      line_smoothing;
+  private int                          line_aliased_min_width;
+  private int                          line_aliased_max_width;
+  private int                          line_smooth_min_width;
+  private int                          line_smooth_max_width;
+  private int                          point_min_width;
 
-  public GLInterfaceLWJGL30(
+  private int                          point_max_width;
+
+  public GLInterfaceJOGL30(
+    final @Nonnull GLContext context,
     final @Nonnull Log log)
     throws ConstraintError,
       GLException
   {
     this.log =
-      new Log(Constraints.constrainNotNull(log, "log output"), "lwjgl30");
+      new Log(Constraints.constrainNotNull(log, "log output"), "jogl30");
+
+    this.context = Constraints.constrainNotNull(context, "GL context");
+    final GL g = this.contextMakeCurrentIfNecessary();
 
     this.texture_units = this.textureGetUnitsCache();
     this.line_smoothing = false;
 
     {
-      final ByteBuffer buffer = ByteBuffer.allocateDirect(128);
-      buffer.order(ByteOrder.nativeOrder());
+      final IntBuffer buffer = Buffers.newDirectIntBuffer(2);
 
       {
         buffer.rewind();
-        final IntBuffer i = buffer.asIntBuffer();
-        GL11.glGetInteger(GL12.GL_ALIASED_LINE_WIDTH_RANGE, i);
-        this.line_aliased_min_width = i.get();
-        this.line_aliased_max_width = i.get();
+        g.glGetIntegerv(GL.GL_ALIASED_LINE_WIDTH_RANGE, buffer);
+        this.line_aliased_min_width = buffer.get();
+        this.line_aliased_max_width = buffer.get();
         GLError.check(this);
       }
 
       {
         buffer.rewind();
-        final IntBuffer i = buffer.asIntBuffer();
-        GL11.glGetInteger(GL12.GL_SMOOTH_LINE_WIDTH_RANGE, i);
-        this.line_smooth_min_width = i.get();
-        this.line_smooth_max_width = i.get();
+        g.glGetIntegerv(GL.GL_SMOOTH_LINE_WIDTH_RANGE, buffer);
+        this.line_smooth_min_width = buffer.get();
+        this.line_smooth_max_width = buffer.get();
         GLError.check(this);
       }
 
       {
         buffer.rewind();
-        final IntBuffer i = buffer.asIntBuffer();
-        GL11.glGetInteger(GL11.GL_POINT_SIZE_RANGE, i);
-        this.point_min_width = i.get();
-        this.point_max_width = i.get();
+        g.glGetIntegerv(GL2GL3.GL_POINT_SIZE_RANGE, buffer);
+        this.point_min_width = buffer.get();
+        this.point_max_width = buffer.get();
         GLError.check(this);
       }
     }
   }
 
-  @Override public @Nonnull ArrayBuffer arrayBufferAllocate(
+  @Override public ArrayBuffer arrayBufferAllocate(
     final long elements,
     final @Nonnull ArrayBufferDescriptor descriptor)
     throws GLException,
       ConstraintError
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints
       .constrainRange(elements, 1, Long.MAX_VALUE, "Buffer elements");
     Constraints.constrainNotNull(descriptor, "Buffer descriptor");
@@ -851,12 +878,14 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       + bytes
       + " bytes)");
 
-    final int id = GL15.glGenBuffers();
-    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id);
+    final IntBuffer buffer = Buffers.newDirectIntBuffer(1);
+    gl.glGenBuffers(1, buffer);
     GLError.check(this);
-    GL15.glBufferData(GL15.GL_ARRAY_BUFFER, bytes, GL15.GL_STREAM_DRAW);
+
+    final int id = buffer.get(0);
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, id);
     GLError.check(this);
-    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+    gl.glBufferData(GL.GL_ARRAY_BUFFER, bytes, null, GL2ES2.GL_STREAM_DRAW);
     GLError.check(this);
 
     this.log.debug("vertex-buffer: allocated " + id);
@@ -868,12 +897,14 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws GLException,
       ConstraintError
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(buffer, "Array buffer");
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
       "Array buffer not deleted");
 
-    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, buffer.getLocation());
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, buffer.getLocation());
     GLError.check(this);
   }
 
@@ -884,6 +915,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws GLException,
       ConstraintError
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(buffer, "Array buffer");
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
@@ -901,13 +934,14 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     final int program_attrib_id = program_attribute.getLocation();
     final int count = buffer_attribute.getElements();
     final int type =
-      GLInterfaceLWJGL30.scalarTypeToGL(buffer_attribute.getType());
+      GLInterfaceJOGL30.scalarTypeToGL(buffer_attribute.getType());
     final boolean normalized = false;
     final int stride = (int) buffer.getElementSizeBytes();
     final int offset = d.getAttributeOffset(buffer_attribute.getName());
 
-    GL20.glEnableVertexAttribArray(program_attrib_id);
-    GL20.glVertexAttribPointer(
+    gl.glEnableVertexAttribArray(program_attrib_id);
+    GLError.check(this);
+    gl.glVertexAttribPointer(
       program_attrib_id,
       count,
       type,
@@ -922,6 +956,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(id, "Array buffer");
     Constraints.constrainArbitrary(
       id.resourceIsDeleted() == false,
@@ -929,16 +965,20 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("vertex-buffer: delete " + id);
 
-    GL15.glDeleteBuffers(id.getLocation());
+    gl.glDeleteBuffers(
+      1,
+      Buffers.newDirectIntBuffer(new int[] { id.getLocation() }));
     id.setDeleted();
     GLError.check(this);
   }
 
-  @Override public @Nonnull ByteBuffer arrayBufferMapRead(
+  @Override public ByteBuffer arrayBufferMapRead(
     final @Nonnull ArrayBuffer id)
     throws GLException,
       ConstraintError
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(id, "Array buffer");
     Constraints.constrainArbitrary(
       id.resourceIsDeleted() == false,
@@ -946,19 +986,24 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("vertex-buffer: map " + id);
 
-    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id.getLocation());
-    final ByteBuffer b =
-      GL15.glMapBuffer(GL15.GL_ARRAY_BUFFER, GL15.GL_READ_ONLY, null);
-    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, id.getLocation());
     GLError.check(this);
+    final ByteBuffer b =
+      gl.glMapBuffer(GL.GL_ARRAY_BUFFER, GL2GL3.GL_READ_ONLY);
+    GLError.check(this);
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
+    GLError.check(this);
+
     return b;
   }
 
-  @Override public @Nonnull ArrayBufferWritableMap arrayBufferMapWrite(
+  @Override public ArrayBufferWritableMap arrayBufferMapWrite(
     final @Nonnull ArrayBuffer id)
     throws GLException,
       ConstraintError
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(id, "Array buffer");
     Constraints.constrainArbitrary(
       id.resourceIsDeleted() == false,
@@ -966,15 +1011,18 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("vertex-buffer: map " + id);
 
-    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id.getLocation());
-    GL15.glBufferData(
-      GL15.GL_ARRAY_BUFFER,
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, id.getLocation());
+    GLError.check(this);
+    gl.glBufferData(
+      GL.GL_ARRAY_BUFFER,
       id.getSizeBytes(),
-      GL15.GL_STREAM_DRAW);
+      null,
+      GL2ES2.GL_STREAM_DRAW);
+    GLError.check(this);
 
-    final ByteBuffer b =
-      GL15.glMapBuffer(GL15.GL_ARRAY_BUFFER, GL15.GL_WRITE_ONLY, null);
-    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+    final ByteBuffer b = gl.glMapBuffer(GL.GL_ARRAY_BUFFER, GL.GL_WRITE_ONLY);
+    GLError.check(this);
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
     GLError.check(this);
 
     return new ArrayBufferWritableMap(id, b);
@@ -984,7 +1032,9 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws GLException,
       ConstraintError
   {
-    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
     GLError.check(this);
   }
 
@@ -995,6 +1045,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws GLException,
       ConstraintError
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(buffer, "Array buffer");
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
@@ -1009,7 +1061,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       d.getAttribute(buffer_attribute.getName()) == buffer_attribute,
       "Buffer attribute belongs to the array buffer");
 
-    GL20.glEnableVertexAttribArray(program_attribute.getLocation());
+    gl.glEnableVertexAttribArray(program_attribute.getLocation());
     GLError.check(this);
   }
 
@@ -1018,6 +1070,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(id, "Array buffer");
     Constraints.constrainArbitrary(
       id.resourceIsDeleted() == false,
@@ -1025,16 +1079,17 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("vertex-buffer: unmap " + id);
 
-    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id.getLocation());
-    GL15.glUnmapBuffer(GL15.GL_ARRAY_BUFFER);
-    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, id.getLocation());
+    gl.glUnmapBuffer(GL.GL_ARRAY_BUFFER);
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
     GLError.check(this);
   }
 
   @Override public void blendingDisable()
     throws GLException
   {
-    GL11.glDisable(GL11.GL_BLEND);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    gl.glDisable(GL.GL_BLEND);
     GLError.check(this);
   }
 
@@ -1078,6 +1133,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(source_rgb_factor, "Source RGB factor");
     Constraints.constrainNotNull(source_alpha_factor, "Source alpha factor");
     Constraints.constrainNotNull(
@@ -1089,15 +1146,15 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     Constraints.constrainNotNull(equation_rgb, "Equation RGB");
     Constraints.constrainNotNull(equation_alpha, "Equation alpha");
 
-    GL11.glEnable(GL11.GL_BLEND);
-    GL20.glBlendEquationSeparate(
-      GLInterfaceLWJGL30.blendEquationToGL(equation_rgb),
-      GLInterfaceLWJGL30.blendEquationToGL(equation_alpha));
-    GL14.glBlendFuncSeparate(
-      GLInterfaceLWJGL30.blendFunctionToGL(source_rgb_factor),
-      GLInterfaceLWJGL30.blendFunctionToGL(destination_rgb_factor),
-      GLInterfaceLWJGL30.blendFunctionToGL(source_alpha_factor),
-      GLInterfaceLWJGL30.blendFunctionToGL(destination_alpha_factor));
+    gl.glEnable(GL.GL_BLEND);
+    gl.glBlendEquationSeparate(
+      GLInterfaceJOGL30.blendEquationToGL(equation_rgb),
+      GLInterfaceJOGL30.blendEquationToGL(equation_alpha));
+    gl.glBlendFuncSeparate(
+      GLInterfaceJOGL30.blendFunctionToGL(source_rgb_factor),
+      GLInterfaceJOGL30.blendFunctionToGL(destination_rgb_factor),
+      GLInterfaceJOGL30.blendFunctionToGL(source_alpha_factor),
+      GLInterfaceJOGL30.blendFunctionToGL(destination_alpha_factor));
     GLError.check(this);
   }
 
@@ -1141,8 +1198,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
-    GL11.glClearColor(r, g, b, 1.0f);
-    GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
+    gl.glClearColor(r, g, b, 1.0f);
+    gl.glClear(GL.GL_COLOR_BUFFER_BIT);
     GLError.check(this);
   }
 
@@ -1154,8 +1213,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
-    GL11.glClearColor(r, g, b, a);
-    GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
+    gl.glClearColor(r, g, b, a);
+    gl.glClear(GL.GL_COLOR_BUFFER_BIT);
     GLError.check(this);
   }
 
@@ -1165,7 +1226,6 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GLException
   {
     Constraints.constrainNotNull(color, "Color vector");
-
     this.colorBufferClear3f(color.getXF(), color.getYF(), color.getZF());
   }
 
@@ -1175,7 +1235,6 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GLException
   {
     Constraints.constrainNotNull(color, "Color vector");
-
     this.colorBufferClear4f(
       color.getXF(),
       color.getYF(),
@@ -1183,10 +1242,60 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       color.getWF());
   }
 
+  private int contextGetInteger(
+    final GL2GL3 g,
+    final int name)
+    throws GLException
+  {
+    final IntBuffer buffer = Buffers.newDirectIntBuffer(1);
+    g.glGetIntegerv(name, buffer);
+    GLError.check(this);
+    return buffer.get(0);
+  }
+
+  private int contextGetProgramInteger(
+    final GL2GL3 g,
+    final int program,
+    final int name)
+    throws GLException
+  {
+    final IntBuffer buffer = Buffers.newDirectIntBuffer(1);
+    g.glGetProgramiv(program, name, buffer);
+    GLError.check(this);
+    return buffer.get(0);
+  }
+
+  private int contextGetShaderInteger(
+    final GL2GL3 g,
+    final int program,
+    final int name)
+    throws GLException
+  {
+    final IntBuffer buffer = Buffers.newDirectIntBuffer(1);
+    g.glGetShaderiv(program, name, buffer);
+    GLError.check(this);
+    return buffer.get(0);
+  }
+
+  private GL2GL3 contextMakeCurrentIfNecessary()
+    throws GLException
+  {
+    if (this.context.isCurrent() == false) {
+      final int r = this.context.makeCurrent();
+      if (r == GLContext.CONTEXT_NOT_CURRENT) {
+        throw new GLException(0, "GL context could not be made current");
+      }
+    }
+
+    return this.context.getGL().getGL2GL3();
+  }
+
   @Override public void cullingDisable()
     throws GLException
   {
-    GL11.glDisable(GL11.GL_CULL_FACE);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
+    gl.glDisable(GL.GL_CULL_FACE);
     GLError.check(this);
   }
 
@@ -1196,15 +1305,17 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(faces, "Face selection");
     Constraints.constrainNotNull(order, "Face winding order");
 
-    final int fi = GLInterfaceLWJGL30.faceSelectionToGL(faces);
-    final int oi = GLInterfaceLWJGL30.faceWindingOrderToGL(order);
+    final int fi = GLInterfaceJOGL30.faceSelectionToGL(faces);
+    final int oi = GLInterfaceJOGL30.faceWindingOrderToGL(order);
 
-    GL11.glEnable(GL11.GL_CULL_FACE);
-    GL11.glCullFace(fi);
-    GL11.glFrontFace(oi);
+    gl.glEnable(GL.GL_CULL_FACE);
+    gl.glCullFace(fi);
+    gl.glFrontFace(oi);
     GLError.check(this);
   }
 
@@ -1212,14 +1323,17 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     final float depth)
     throws GLException
   {
-    GL11.glClearDepth(depth);
-    GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    gl.glClearDepth(depth);
+    gl.glClear(GL.GL_DEPTH_BUFFER_BIT);
+    GLError.check(this);
   }
 
   @Override public void depthBufferDisable()
     throws GLException
   {
-    GL11.glDisable(GL11.GL_DEPTH_TEST);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    gl.glDisable(GL.GL_DEPTH_TEST);
     GLError.check(this);
   }
 
@@ -1228,25 +1342,25 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
     Constraints.constrainNotNull(function, "Depth function");
     Constraints.constrainRange(
-      GL11.glGetInteger(GL11.GL_DEPTH_BITS),
+      this.contextGetInteger(gl, GL.GL_DEPTH_BITS),
       1,
       Integer.MAX_VALUE,
       "Depth buffer bits");
 
-    final int d = GLInterfaceLWJGL30.depthFunctionToGL(function);
-    GL11.glEnable(GL11.GL_DEPTH_TEST);
-    GL11.glDepthFunc(d);
+    final int d = GLInterfaceJOGL30.depthFunctionToGL(function);
+    gl.glEnable(GL.GL_DEPTH_TEST);
+    gl.glDepthFunc(d);
     GLError.check(this);
   }
 
   @Override public int depthBufferGetBits()
     throws GLException
   {
-    final int bits = GL11.glGetInteger(GL11.GL_DEPTH_BITS);
-    GLError.check(this);
-    return bits;
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    return this.contextGetInteger(gl, GL.GL_DEPTH_BITS);
   }
 
   @Override public void drawElements(
@@ -1255,6 +1369,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(mode, "Drawing mode");
     Constraints.constrainNotNull(indices, "Index buffer");
     Constraints.constrainArbitrary(
@@ -1263,11 +1379,11 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     final int index_id = indices.getLocation();
     final int index_count = (int) indices.getElements();
-    final int mode_gl = GLInterfaceLWJGL30.primitiveToGL(mode);
-    final int type = GLInterfaceLWJGL30.unsignedTypeToGL(indices.getType());
+    final int mode_gl = GLInterfaceJOGL30.primitiveToGL(mode);
+    final int type = GLInterfaceJOGL30.unsignedTypeToGL(indices.getType());
 
-    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, index_id);
-    GL11.glDrawElements(mode_gl, index_count, type, 0L);
+    g.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, index_id);
+    g.glDrawElements(mode_gl, index_count, type, 0L);
     GLError.check(this);
   }
 
@@ -1277,7 +1393,9 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
-    Constraints.constrainNotNull(program, "Program");
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+
+    Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
       program.resourceIsDeleted() == false,
       "Program not deleted");
@@ -1289,7 +1407,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("fragment-shader: attach " + program + " " + shader);
 
-    GL20.glAttachShader(program.getLocation(), shader.getLocation());
+    g.glAttachShader(program.getLocation(), shader.getLocation());
     GLError.check(this);
   }
 
@@ -1301,34 +1419,48 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       IOException,
       GLException
   {
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(name, "Shader name");
-    Constraints.constrainNotNull(stream, "Input stream");
+    Constraints.constrainNotNull(stream, "input stream");
 
     this.log.debug("fragment-shader: compile \"" + name + "\"");
 
-    final int id = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
+    final int id = g.glCreateShader(GL2ES2.GL_FRAGMENT_SHADER);
     GLError.check(this);
 
-    final ByteArrayOutputStream array = new ByteArrayOutputStream();
-    final byte buffer[] = new byte[1024];
+    final ArrayList<Integer> lengths = new ArrayList<Integer>();
+    final ArrayList<String> lines = new ArrayList<String>();
+    GLInterfaceJOGL30.shaderReadSource(stream, lines, lengths);
+    final String[] line_array = new String[lines.size()];
+    final IntBuffer line_lengths = Buffers.newDirectIntBuffer(lines.size());
 
-    for (;;) {
-      final int read = stream.read(buffer);
-      if (read == -1) {
-        break;
-      }
-      array.write(buffer, 0, read);
+    for (int index = 0; index < lines.size(); ++index) {
+      line_array[index] = lines.get(index);
+      final int len = line_array[index].length();
+      line_lengths.put(index, len);
     }
 
-    GL20.glShaderSource(id, array.toString());
-    GL20.glCompileShader(id);
+    g.glShaderSource(id, line_array.length, line_array, line_lengths);
+    GLError.check(this);
+    g.glCompileShader(id);
+    GLError.check(this);
+    final int status =
+      this.contextGetShaderInteger(g, id, GL2ES2.GL_COMPILE_STATUS);
+    GLError.check(this);
 
-    final int status = GL20.glGetShader(id, GL20.GL_COMPILE_STATUS);
     if (status == 0) {
-      throw new GLCompileException(name, GL20.glGetShaderInfoLog(id, 8192));
+      final ByteBuffer log_buffer = Buffers.newDirectByteBuffer(8192);
+      final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
+      g.glGetShaderInfoLog(id, 8192, buffer_length, log_buffer);
+      GLError.check(this);
+
+      final byte raw[] = new byte[log_buffer.remaining()];
+      log_buffer.get(raw);
+      final String text = new String(raw);
+      throw new GLCompileException(name, text);
     }
 
-    GLError.check(this);
     return new FragmentShader(id, name);
   }
 
@@ -1337,6 +1469,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(id, "Fragment shader");
     Constraints.constrainArbitrary(
       id.resourceIsDeleted() == false,
@@ -1344,17 +1478,20 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("fragment-shader: delete " + id);
 
-    GL20.glDeleteShader(id.getLocation());
+    g.glDeleteShader(id.getLocation());
     id.setDeleted();
     GLError.check(this);
   }
 
-  @Override public @Nonnull Framebuffer framebufferAllocate()
+  @Override public Framebuffer framebufferAllocate()
     throws ConstraintError,
       GLException
   {
-    final int id = GL30.glGenFramebuffers();
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final IntBuffer buffer = Buffers.newDirectIntBuffer(1);
+    gl.glGenFramebuffers(1, buffer);
     GLError.check(this);
+    final int id = buffer.get(0);
     this.log.debug("framebuffer: allocated " + id);
     return new Framebuffer(id);
   }
@@ -1365,6 +1502,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(buffer, "Framebuffer");
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
@@ -1372,7 +1511,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     Constraints.constrainNotNull(attachments, "Framebuffer attachments");
 
-    GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, buffer.getLocation());
+    gl.glBindFramebuffer(GL.GL_FRAMEBUFFER, buffer.getLocation());
     GLError.check(this);
 
     /**
@@ -1381,8 +1520,9 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     try {
       boolean have_depth = false;
-      final int max_color = GL11.glGetInteger(GL30.GL_MAX_COLOR_ATTACHMENTS);
-      GLError.check(this);
+
+      final int max_color =
+        this.contextGetInteger(gl, GL2ES2.GL_MAX_COLOR_ATTACHMENTS);
 
       for (final FramebufferAttachment attachment : attachments) {
         Constraints.constrainNotNull(attachment, "Attachment");
@@ -1398,10 +1538,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
               max_color - 1,
               "Color buffer attachment index in range");
 
-            GL30.glFramebufferTexture2D(
-              GL30.GL_FRAMEBUFFER,
-              GL30.GL_COLOR_ATTACHMENT0 + index,
-              GL11.GL_TEXTURE_2D,
+            gl.glFramebufferTexture2D(
+              GL.GL_FRAMEBUFFER,
+              GL.GL_COLOR_ATTACHMENT0 + index,
+              GL.GL_TEXTURE_2D,
               color.getTexture().getLocation(),
               0);
             GLError.check(this);
@@ -1421,10 +1561,11 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
             final RenderbufferD24S8Attachment depth =
               (RenderbufferD24S8Attachment) attachment;
-            GL30.glFramebufferRenderbuffer(
-              GL30.GL_FRAMEBUFFER,
-              GL30.GL_DEPTH_STENCIL_ATTACHMENT,
-              GL30.GL_RENDERBUFFER,
+
+            gl.glFramebufferRenderbuffer(
+              GL.GL_FRAMEBUFFER,
+              GL2GL3.GL_DEPTH_STENCIL_ATTACHMENT,
+              GL.GL_RENDERBUFFER,
               depth.getRenderbuffer().getLocation());
             GLError.check(this);
 
@@ -1443,37 +1584,37 @@ public final class GLInterfaceLWJGL30 implements GLInterface
        * Check framebuffer status.
        */
 
-      final int status = GL30.glCheckFramebufferStatus(GL30.GL_FRAMEBUFFER);
+      final int status = gl.glCheckFramebufferStatus(GL.GL_FRAMEBUFFER);
       GLError.check(this);
 
       switch (status) {
-        case GL30.GL_FRAMEBUFFER_COMPLETE:
+        case GL.GL_FRAMEBUFFER_COMPLETE:
           break;
-        case GL30.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+        case GL.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
           throw new GLException(
-            GL30.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT,
+            GL.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT,
             "Framebuffer is incomplete");
-        case GL30.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+        case GL.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
           throw new GLException(
-            GL30.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT,
+            GL.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT,
             "Framebuffer is incomplete - missing image attachment");
-        case GL30.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
+        case GL2GL3.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
           throw new GLException(
-            GL30.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER,
+            GL2GL3.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER,
             "Framebuffer is incomplete - missing draw buffer");
-        case GL30.GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
+        case GL2GL3.GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
           throw new GLException(
-            GL30.GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER,
+            GL2GL3.GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER,
             "Framebuffer is incomplete - missing read buffer");
-        case GL30.GL_FRAMEBUFFER_UNSUPPORTED:
+        case GL.GL_FRAMEBUFFER_UNSUPPORTED:
           throw new GLException(
-            GL30.GL_FRAMEBUFFER_UNSUPPORTED,
+            GL.GL_FRAMEBUFFER_UNSUPPORTED,
             "Framebuffer configuration unsupported");
         default:
           throw new GLException(status, "Unknown framebuffer error");
       }
     } finally {
-      GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
+      gl.glBindFramebuffer(GL.GL_FRAMEBUFFER, 0);
       GLError.check(this);
     }
   }
@@ -1483,12 +1624,14 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(buffer, "Framebuffer");
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
 
-    GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, buffer.getLocation());
+    gl.glBindFramebuffer(GL.GL_FRAMEBUFFER, buffer.getLocation());
     GLError.check(this);
   }
 
@@ -1497,6 +1640,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(buffer, "Framebuffer");
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
@@ -1504,28 +1649,33 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("framebuffer: delete " + buffer);
 
-    GL30.glDeleteFramebuffers(buffer.getLocation());
+    final IntBuffer b =
+      Buffers.newDirectIntBuffer(new int[] { buffer.getLocation() });
+    gl.glDeleteFramebuffers(1, b);
     GLError.check(this);
   }
 
   @Override public void framebufferUnbind()
     throws GLException
   {
-    GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
+    gl.glBindFramebuffer(GL.GL_FRAMEBUFFER, 0);
     GLError.check(this);
   }
 
-  @Override public @Nonnull IndexBuffer indexBufferAllocate(
+  @Override public IndexBuffer indexBufferAllocate(
     final @Nonnull ArrayBuffer buffer,
     final int indices)
     throws GLException,
       ConstraintError
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(buffer, "Array buffer");
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
       "Array buffer not deleted");
-
     Constraints.constrainRange(indices, 1, Integer.MAX_VALUE);
 
     GLUnsignedType type = GLUnsignedType.TYPE_UNSIGNED_BYTE;
@@ -1550,13 +1700,18 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       + bytes
       + " bytes)");
 
-    final int id = GL15.glGenBuffers();
-    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, id);
-    GL15.glBufferData(
-      GL15.GL_ELEMENT_ARRAY_BUFFER,
+    final IntBuffer ib = Buffers.newDirectIntBuffer(1);
+    gl.glGenBuffers(1, ib);
+    GLError.check(this);
+
+    final int id = ib.get(0);
+    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id);
+    GLError.check(this);
+    gl.glBufferData(
+      GL.GL_ELEMENT_ARRAY_BUFFER,
       bytes,
-      GL15.GL_STREAM_DRAW);
-    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+      null,
+      GL2ES2.GL_STREAM_DRAW);
     GLError.check(this);
 
     this.log.debug("index-buffer: allocated " + id);
@@ -1568,6 +1723,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(id, "Index buffer");
     Constraints.constrainArbitrary(
       id.resourceIsDeleted() == false,
@@ -1575,16 +1732,20 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("index-buffer: delete " + id);
 
-    GL15.glDeleteBuffers(id.getLocation());
+    gl.glDeleteBuffers(
+      1,
+      Buffers.newDirectIntBuffer(new int[] { id.getLocation() }));
     id.setDeleted();
     GLError.check(this);
   }
 
-  @Override public @Nonnull IndexBufferReadableMap indexBufferMapRead(
+  @Override public IndexBufferReadableMap indexBufferMapRead(
     final @Nonnull IndexBuffer id)
     throws GLException,
       ConstraintError
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(id, "Index buffer");
     Constraints.constrainArbitrary(
       id.resourceIsDeleted() == false,
@@ -1592,20 +1753,24 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("index-buffer: map " + id);
 
-    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, id.getLocation());
+    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getLocation());
+    GLError.check(this);
     final ByteBuffer b =
-      GL15.glMapBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, GL15.GL_READ_ONLY, null);
-    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+      gl.glMapBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, GL2GL3.GL_READ_ONLY);
+    GLError.check(this);
+    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
     GLError.check(this);
 
     return new IndexBufferReadableMap(id, b);
   }
 
-  @Override public @Nonnull IndexBufferWritableMap indexBufferMapWrite(
+  @Override public IndexBufferWritableMap indexBufferMapWrite(
     final @Nonnull IndexBuffer id)
     throws GLException,
       ConstraintError
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(id, "Index buffer");
     Constraints.constrainArbitrary(
       id.resourceIsDeleted() == false,
@@ -1613,16 +1778,19 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("index-buffer: map " + id);
 
-    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, id.getLocation());
-    GL15.glBufferData(
-      GL15.GL_ELEMENT_ARRAY_BUFFER,
+    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getLocation());
+    GLError.check(this);
+    gl.glBufferData(
+      GL.GL_ELEMENT_ARRAY_BUFFER,
       id.getSizeBytes(),
-      GL15.GL_STREAM_DRAW);
+      null,
+      GL2ES2.GL_STREAM_DRAW);
+    GLError.check(this);
 
     final ByteBuffer b =
-      GL15
-        .glMapBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, GL15.GL_WRITE_ONLY, null);
-    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+      gl.glMapBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, GL.GL_WRITE_ONLY);
+    GLError.check(this);
+    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
     GLError.check(this);
 
     return new IndexBufferWritableMap(id, b);
@@ -1633,6 +1801,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(id, "Index buffer");
     Constraints.constrainArbitrary(
       id.resourceIsDeleted() == false,
@@ -1640,9 +1810,9 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("index-buffer: unmap " + id);
 
-    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, id.getLocation());
-    GL15.glUnmapBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER);
-    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getLocation());
+    gl.glUnmapBuffer(GL.GL_ELEMENT_ARRAY_BUFFER);
+    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
     GLError.check(this);
   }
 
@@ -1661,6 +1831,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws GLException,
       ConstraintError
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     if (this.line_smoothing) {
       Constraints.constrainRange(
         width,
@@ -1675,7 +1847,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         "Aliased line width");
     }
 
-    GL11.glLineWidth(width);
+    gl.glLineWidth(width);
     GLError.check(this);
   }
 
@@ -1692,7 +1864,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   @Override public void lineSmoothingDisable()
     throws GLException
   {
-    GL11.glDisable(GL11.GL_LINE_SMOOTH);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    gl.glDisable(GL.GL_LINE_SMOOTH);
     GLError.check(this);
     this.line_smoothing = false;
   }
@@ -1700,7 +1873,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   @Override public void lineSmoothingEnable()
     throws GLException
   {
-    GL11.glEnable(GL11.GL_LINE_SMOOTH);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    gl.glEnable(GL.GL_LINE_SMOOTH);
     GLError.check(this);
     this.line_smoothing = true;
   }
@@ -1708,58 +1882,68 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   @Override public void logicOperationsDisable()
     throws GLException
   {
-    GL11.glDisable(GL11.GL_LOGIC_OP);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    gl.glDisable(GL2.GL_LOGIC_OP);
     GLError.check(this);
   }
 
   @Override public void logicOperationsEnable(
-    final LogicOperation operation)
+    final @Nonnull LogicOperation operation)
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(operation, "Logic operation");
-    GL11.glEnable(GL11.GL_LOGIC_OP);
-    GL11.glLogicOp(GLInterfaceLWJGL30.logicOpToGL(operation));
+    gl.glEnable(GL2.GL_LOGIC_OP);
+    gl.glLogicOp(GLInterfaceJOGL30.logicOpToGL(operation));
     GLError.check(this);
   }
 
   @Override public int metaGetError()
-  {
-    return GL11.glGetError();
-  }
-
-  @Override public @Nonnull String metaGetRenderer()
     throws GLException
   {
-    final String x = GL11.glGetString(GL11.GL_RENDERER);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    return gl.glGetError();
+  }
+
+  @Override public String metaGetRenderer()
+    throws GLException
+  {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final String x = gl.glGetString(GL.GL_RENDERER);
     GLError.check(this);
     return x;
   }
 
-  @Override public @Nonnull String metaGetVendor()
+  @Override public String metaGetVendor()
     throws GLException
   {
-    final String x = GL11.glGetString(GL11.GL_VENDOR);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final String x = gl.glGetString(GL.GL_VENDOR);
     GLError.check(this);
     return x;
   }
 
-  @Override public @Nonnull String metaGetVersion()
+  @Override public String metaGetVersion()
     throws GLException
   {
-    final String x = GL11.glGetString(GL11.GL_VERSION);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final String x = gl.glGetString(GL.GL_VERSION);
     GLError.check(this);
     return x;
   }
 
-  @Override public @Nonnull PixelUnpackBuffer pixelUnpackBufferAllocate(
+  @Override public PixelUnpackBuffer pixelUnpackBufferAllocate(
     final long elements,
-    final GLScalarType type,
+    final @Nonnull GLScalarType type,
     final long element_values,
-    final UsageHint hint)
+    final @Nonnull UsageHint hint)
     throws GLException,
       ConstraintError
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainRange(elements, 1, Long.MAX_VALUE, "Element count");
     Constraints.constrainRange(
       element_values,
@@ -1782,15 +1966,18 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       + bytes
       + " bytes)");
 
-    final int id = GL15.glGenBuffers();
-    GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, id);
+    final IntBuffer buffer = Buffers.newDirectIntBuffer(1);
+    gl.glGenBuffers(1, buffer);
     GLError.check(this);
-    GL15.glBufferData(
-      GL21.GL_PIXEL_UNPACK_BUFFER,
+
+    final int id = buffer.get(0);
+    gl.glBindBuffer(GL2GL3.GL_PIXEL_UNPACK_BUFFER, id);
+    GLError.check(this);
+    gl.glBufferData(
+      GL2GL3.GL_PIXEL_UNPACK_BUFFER,
       bytes,
-      GLInterfaceLWJGL30.usageHintToGL(hint));
-    GLError.check(this);
-    GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
+      null,
+      GL2ES2.GL_STREAM_DRAW);
     GLError.check(this);
 
     this.log.debug("pixel-unpack-buffer: allocated " + id);
@@ -1798,10 +1985,12 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   }
 
   @Override public void pixelUnpackBufferDelete(
-    final PixelUnpackBuffer id)
+    final @Nonnull PixelUnpackBuffer id)
     throws GLException,
       ConstraintError
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(id, "Pixel unpack buffer");
     Constraints.constrainArbitrary(
       id.resourceIsDeleted() == false,
@@ -1809,16 +1998,20 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("pixel-unpack-buffer: delete " + id);
 
-    GL15.glDeleteBuffers(id.getLocation());
+    gl.glDeleteBuffers(
+      1,
+      Buffers.newDirectIntBuffer(new int[] { id.getLocation() }));
     id.setDeleted();
     GLError.check(this);
   }
 
   @Override public ByteBuffer pixelUnpackBufferMapRead(
-    final PixelUnpackBuffer id)
+    final @Nonnull PixelUnpackBuffer id)
     throws GLException,
       ConstraintError
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(id, "Pixel unpack buffer");
     Constraints.constrainArbitrary(
       id.resourceIsDeleted() == false,
@@ -1826,19 +2019,24 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("pixel-unpack-buffer: map " + id);
 
-    GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, id.getLocation());
-    final ByteBuffer b =
-      GL15.glMapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, GL15.GL_READ_ONLY, null);
-    GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
+    gl.glBindBuffer(GL2GL3.GL_PIXEL_UNPACK_BUFFER, id.getLocation());
     GLError.check(this);
+    final ByteBuffer b =
+      gl.glMapBuffer(GL2GL3.GL_PIXEL_UNPACK_BUFFER, GL2GL3.GL_READ_ONLY);
+    GLError.check(this);
+    gl.glBindBuffer(GL2GL3.GL_PIXEL_UNPACK_BUFFER, 0);
+    GLError.check(this);
+
     return b;
   }
 
   @Override public PixelUnpackBufferWritableMap pixelUnpackBufferMapWrite(
-    final PixelUnpackBuffer id)
+    final @Nonnull PixelUnpackBuffer id)
     throws GLException,
       ConstraintError
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(id, "Pixel unpack buffer");
     Constraints.constrainArbitrary(
       id.resourceIsDeleted() == false,
@@ -1846,16 +2044,21 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("pixel-unpack-buffer: map " + id);
 
-    GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, id.getLocation());
-    GL15.glBufferData(
-      GL21.GL_PIXEL_UNPACK_BUFFER,
+    gl.glBindBuffer(GL2GL3.GL_PIXEL_UNPACK_BUFFER, id.getLocation());
+    GLError.check(this);
+    gl.glBufferData(
+      GL2GL3.GL_PIXEL_UNPACK_BUFFER,
       id.getSizeBytes(),
-      GL15.GL_STREAM_DRAW);
+      null,
+      GL2ES2.GL_STREAM_DRAW);
+    GLError.check(this);
 
     final ByteBuffer b =
-      GL15.glMapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, GL15.GL_WRITE_ONLY, null);
-    GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
+      gl.glMapBuffer(GL2GL3.GL_PIXEL_UNPACK_BUFFER, GL.GL_WRITE_ONLY);
     GLError.check(this);
+    gl.glBindBuffer(GL2GL3.GL_PIXEL_UNPACK_BUFFER, 0);
+    GLError.check(this);
+
     return new PixelUnpackBufferWritableMap(id, b);
   }
 
@@ -1864,6 +2067,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(id, "Pixel unpack buffer");
     Constraints.constrainArbitrary(
       id.resourceIsDeleted() == false,
@@ -1871,23 +2076,25 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("pixel-unpack-buffer: unmap " + id);
 
-    GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, id.getLocation());
-    GL15.glUnmapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER);
-    GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
+    gl.glBindBuffer(GL2GL3.GL_PIXEL_UNPACK_BUFFER, id.getLocation());
+    gl.glUnmapBuffer(GL2GL3.GL_PIXEL_UNPACK_BUFFER);
+    gl.glBindBuffer(GL2GL3.GL_PIXEL_UNPACK_BUFFER, 0);
     GLError.check(this);
   }
 
   @Override public void pointDisableProgramSizeControl()
     throws GLException
   {
-    GL11.glDisable(GL20.GL_VERTEX_PROGRAM_POINT_SIZE);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    gl.glDisable(GL3.GL_PROGRAM_POINT_SIZE);
     GLError.check(this);
   }
 
   @Override public void pointEnableProgramSizeControl()
     throws GLException
   {
-    GL11.glEnable(GL20.GL_VERTEX_PROGRAM_POINT_SIZE);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    gl.glEnable(GL3.GL_PROGRAM_POINT_SIZE);
     GLError.check(this);
   }
 
@@ -1907,26 +2114,30 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(faces, "Face selection");
     Constraints.constrainNotNull(mode, "Polygon mode");
 
-    final int im = GLInterfaceLWJGL30.polygonModeToGL(mode);
-    final int fm = GLInterfaceLWJGL30.faceSelectionToGL(faces);
-    GL11.glPolygonMode(fm, im);
+    final int im = GLInterfaceJOGL30.polygonModeToGL(mode);
+    final int fm = GLInterfaceJOGL30.faceSelectionToGL(faces);
+    gl.glPolygonMode(fm, im);
     GLError.check(this);
   }
 
   @Override public void polygonSmoothingDisable()
     throws GLException
   {
-    GL11.glDisable(GL11.GL_POLYGON_SMOOTH);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    gl.glDisable(GL2GL3.GL_POLYGON_SMOOTH);
     GLError.check(this);
   }
 
   @Override public void polygonSmoothingEnable()
     throws GLException
   {
-    GL11.glEnable(GL11.GL_POLYGON_SMOOTH);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    gl.glEnable(GL2GL3.GL_POLYGON_SMOOTH);
     GLError.check(this);
   }
 
@@ -1935,12 +2146,14 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
-      GL20.glIsProgram(program.getLocation()),
+      gl.glIsProgram(program.getLocation()),
       "ID corresponds to valid program");
 
-    GL20.glUseProgram(program.getLocation());
+    gl.glUseProgram(program.getLocation());
     GLError.check(this);
   }
 
@@ -1949,11 +2162,13 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(name, "Program name");
 
     this.log.debug("program: create \"" + name + "\"");
 
-    final int id = GL20.glCreateProgram();
+    final int id = gl.glCreateProgram();
     GLError.check(this);
     return new ProgramReference(id, name);
   }
@@ -1961,7 +2176,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   @Override public void programDeactivate()
     throws GLException
   {
-    GL20.glUseProgram(0);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    gl.glUseProgram(0);
     GLError.check(this);
   }
 
@@ -1970,6 +2186,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(program, "Program");
     Constraints.constrainArbitrary(
       program.resourceIsDeleted() == false,
@@ -1977,7 +2195,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("program: delete " + program);
 
-    GL20.glDeleteProgram(program.getLocation());
+    gl.glDeleteProgram(program.getLocation());
     program.setDeleted();
     GLError.check(this);
   }
@@ -1988,35 +2206,30 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
-      GL20.glIsProgram(program.getLocation()),
+      gl.glIsProgram(program.getLocation()),
       "ID corresponds to valid program");
     Constraints.constrainNotNull(out, "Output map");
 
     final int id = program.getLocation();
-    final int max = GL20.glGetProgram(id, GL20.GL_ACTIVE_ATTRIBUTES);
-    final int len =
-      GL20.glGetProgram(id, GL20.GL_ACTIVE_ATTRIBUTE_MAX_LENGTH);
-    GLError.check(this);
+    final int max =
+      this.contextGetProgramInteger(
+        gl,
+        program.getLocation(),
+        GL2ES2.GL_ACTIVE_ATTRIBUTES);
+    final int length =
+      this.contextGetProgramInteger(
+        gl,
+        program.getLocation(),
+        GL2ES2.GL_ACTIVE_ATTRIBUTE_MAX_LENGTH);
 
-    final ByteBuffer buffer_name =
-      ByteBuffer.allocateDirect(len).order(ByteOrder.nativeOrder());
-    final IntBuffer buffer_length =
-      ByteBuffer
-        .allocateDirect(4)
-        .order(ByteOrder.nativeOrder())
-        .asIntBuffer();
-    final IntBuffer buffer_size =
-      ByteBuffer
-        .allocateDirect(4)
-        .order(ByteOrder.nativeOrder())
-        .asIntBuffer();
-    final IntBuffer buffer_type =
-      ByteBuffer
-        .allocateDirect(4)
-        .order(ByteOrder.nativeOrder())
-        .asIntBuffer();
+    final ByteBuffer buffer_name = Buffers.newDirectByteBuffer(length);
+    final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
+    final IntBuffer buffer_size = Buffers.newDirectIntBuffer(1);
+    final IntBuffer buffer_type = Buffers.newDirectIntBuffer(1);
 
     /*
      * Note: some drivers will return built-in attributes here (such as
@@ -2029,9 +2242,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       buffer_type.rewind();
       buffer_name.rewind();
 
-      GL20.glGetActiveAttrib(
+      gl.glGetActiveAttrib(
         id,
         index,
+        length,
         buffer_length,
         buffer_size,
         buffer_type,
@@ -2039,14 +2253,14 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GLError.check(this);
 
       final int type_raw = buffer_type.get(0);
-      final GLType.Type type = GLInterfaceLWJGL30.typeFromGL(type_raw);
+      final GLType.Type type = GLInterfaceJOGL30.typeFromGL(type_raw);
 
       final int name_length = buffer_length.get(0);
       final byte temp_buffer[] = new byte[name_length];
       buffer_name.get(temp_buffer);
       final String name = new String(temp_buffer);
 
-      final int location = GL20.glGetAttribLocation(id, name);
+      final int location = gl.glGetAttribLocation(id, name);
       GLError.check(this);
 
       if (location == -1) {
@@ -2066,9 +2280,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   @Override public int programGetMaximimActiveAttributes()
     throws GLException
   {
-    final int max = GL11.glGetInteger(GL20.GL_MAX_VERTEX_ATTRIBS);
-    GLError.check(this);
-
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final int max = this.contextGetInteger(gl, GL2ES2.GL_MAX_VERTEX_ATTRIBS);
     this.log.debug("implementation supports " + max + " active attributes");
     return max;
   }
@@ -2079,34 +2292,27 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
-      GL20.glIsProgram(program.getLocation()),
+      gl.glIsProgram(program.getLocation()),
       "ID corresponds to valid program");
     Constraints.constrainNotNull(out, "Output map");
 
     final int id = program.getLocation();
-    final int max = GL20.glGetProgram(id, GL20.GL_ACTIVE_UNIFORMS);
-    final int len = GL20.glGetProgram(id, GL20.GL_ACTIVE_UNIFORM_MAX_LENGTH);
+    final int max =
+      this.contextGetProgramInteger(gl, id, GL2ES2.GL_ACTIVE_UNIFORMS);
+    final int length =
+      this.contextGetProgramInteger(
+        gl,
+        id,
+        GL2ES2.GL_ACTIVE_UNIFORM_MAX_LENGTH);
     GLError.check(this);
 
-    final ByteBuffer buffer_name =
-      ByteBuffer.allocateDirect(len).order(ByteOrder.nativeOrder());
-    final IntBuffer buffer_length =
-      ByteBuffer
-        .allocateDirect(4)
-        .order(ByteOrder.nativeOrder())
-        .asIntBuffer();
-    final IntBuffer buffer_size =
-      ByteBuffer
-        .allocateDirect(4)
-        .order(ByteOrder.nativeOrder())
-        .asIntBuffer();
-    final IntBuffer buffer_type =
-      ByteBuffer
-        .allocateDirect(4)
-        .order(ByteOrder.nativeOrder())
-        .asIntBuffer();
+    final ByteBuffer buffer_name = Buffers.newDirectByteBuffer(length);
+    final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
+    final IntBuffer buffer_size = Buffers.newDirectIntBuffer(1);
+    final IntBuffer buffer_type = Buffers.newDirectIntBuffer(1);
 
     for (int index = 0; index < max; ++index) {
       buffer_length.rewind();
@@ -2114,9 +2320,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       buffer_type.rewind();
       buffer_name.rewind();
 
-      GL20.glGetActiveUniform(
+      gl.glGetActiveUniform(
         id,
         index,
+        length,
         buffer_length,
         buffer_size,
         buffer_type,
@@ -2124,15 +2331,14 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GLError.check(this);
 
       final int type_raw = buffer_type.get(0);
-      final GLType.Type type = GLInterfaceLWJGL30.typeFromGL(type_raw);
+      final GLType.Type type = GLInterfaceJOGL30.typeFromGL(type_raw);
 
       final int name_length = buffer_length.get(0);
       final byte temp_buffer[] = new byte[name_length];
       buffer_name.get(temp_buffer);
       final String name = new String(temp_buffer);
 
-      final int location =
-        GL20.glGetUniformLocation(program.getLocation(), name);
+      final int location = gl.glGetUniformLocation(id, name);
       GLError.check(this);
 
       assert (out.containsKey(name) == false);
@@ -2145,12 +2351,14 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
-      GL20.glIsProgram(program.getLocation()),
+      gl.glIsProgram(program.getLocation()),
       "ID corresponds to valid program");
 
-    final int active = GL11.glGetInteger(GL20.GL_CURRENT_PROGRAM);
+    final int active = this.contextGetInteger(gl, GL2ES2.GL_CURRENT_PROGRAM);
     GLError.check(this);
     return active == program.getLocation();
   }
@@ -2161,20 +2369,38 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GLCompileException,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
-      GL20.glIsProgram(program.getLocation()),
+      gl.glIsProgram(program.getLocation()),
       "ID corresponds to valid program");
 
     this.log.debug("program: link " + program);
 
-    GL20.glLinkProgram(program.getLocation());
+    gl.glLinkProgram(program.getLocation());
+    GLError.check(this);
+
     final int status =
-      GL20.glGetProgram(program.getLocation(), GL20.GL_LINK_STATUS);
+      this.contextGetProgramInteger(
+        gl,
+        program.getLocation(),
+        GL2ES2.GL_LINK_STATUS);
+
     if (status == 0) {
-      throw new GLCompileException(
-        program.getName(),
-        GL20.glGetProgramInfoLog(program.getLocation(), 8192));
+      final ByteBuffer buffer = Buffers.newDirectByteBuffer(8192);
+      final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
+      gl.glGetProgramInfoLog(
+        program.getLocation(),
+        8192,
+        buffer_length,
+        buffer);
+      GLError.check(this);
+
+      final byte raw[] = new byte[buffer.remaining()];
+      buffer.get(raw);
+      final String text = new String(raw);
+      throw new GLCompileException(program.getName(), text);
     }
 
     GLError.check(this);
@@ -2186,6 +2412,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
       uniform.getType() == Type.TYPE_FLOAT,
@@ -2194,7 +2422,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       this.programIsActive(uniform.getProgram()),
       "Program for uniform is active");
 
-    GL20.glUniform1f(uniform.getLocation(), value);
+    gl.glUniform1f(uniform.getLocation(), value);
     GLError.check(this);
   }
 
@@ -2204,6 +2432,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(matrix, "Matrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
@@ -2213,8 +2443,9 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       this.programIsActive(uniform.getProgram()),
       "Program for uniform is active");
 
-    GL20.glUniformMatrix3(
+    gl.glUniformMatrix3fv(
       uniform.getLocation(),
+      9,
       false,
       MatrixM3x3F.floatBuffer(matrix));
     GLError.check(this);
@@ -2226,6 +2457,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(matrix, "Matrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
@@ -2235,8 +2468,9 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       this.programIsActive(uniform.getProgram()),
       "Program for uniform is active");
 
-    GL20.glUniformMatrix4(
+    gl.glUniformMatrix4fv(
       uniform.getLocation(),
+      16,
       false,
       MatrixM4x4F.floatBuffer(matrix));
     GLError.check(this);
@@ -2248,6 +2482,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
       uniform.getType() == Type.TYPE_SAMPLER_2D,
@@ -2256,7 +2492,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       this.programIsActive(uniform.getProgram()),
       "Program for uniform is active");
 
-    GL20.glUniform1i(uniform.getLocation(), unit.getIndex());
+    gl.glUniform1i(uniform.getLocation(), unit.getIndex());
     GLError.check(this);
   }
 
@@ -2266,6 +2502,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
@@ -2275,7 +2513,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       this.programIsActive(uniform.getProgram()),
       "Program for uniform is active");
 
-    GL20.glUniform2f(uniform.getLocation(), vector.getXF(), vector.getYF());
+    gl.glUniform2f(uniform.getLocation(), vector.getXF(), vector.getYF());
     GLError.check(this);
   }
 
@@ -2285,6 +2523,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
@@ -2294,7 +2534,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       this.programIsActive(uniform.getProgram()),
       "Program for uniform is active");
 
-    GL20.glUniform2i(uniform.getLocation(), vector.getXI(), vector.getYI());
+    gl.glUniform2i(uniform.getLocation(), vector.getXI(), vector.getYI());
     GLError.check(this);
   }
 
@@ -2304,6 +2544,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
@@ -2313,7 +2555,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       this.programIsActive(uniform.getProgram()),
       "Program for uniform is active");
 
-    GL20.glUniform3f(
+    gl.glUniform3f(
       uniform.getLocation(),
       vector.getXF(),
       vector.getYF(),
@@ -2327,6 +2569,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
@@ -2336,7 +2580,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       this.programIsActive(uniform.getProgram()),
       "Program for uniform is active");
 
-    GL20.glUniform4f(
+    gl.glUniform4f(
       uniform.getLocation(),
       vector.getXF(),
       vector.getYF(),
@@ -2351,23 +2595,27 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainRange(width, 1, Integer.MAX_VALUE);
     Constraints.constrainRange(height, 1, Integer.MAX_VALUE);
 
     this.log.debug("renderbuffer-d24s8: allocate " + width + "x" + height);
 
-    final int id = GL30.glGenRenderbuffers();
+    final IntBuffer buffer = Buffers.newDirectIntBuffer(1);
+    gl.glGenRenderbuffers(1, buffer);
     GLError.check(this);
+    final int id = buffer.get(0);
 
-    GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, id);
+    gl.glBindRenderbuffer(GL.GL_RENDERBUFFER, id);
     GLError.check(this);
-    GL30.glRenderbufferStorage(
-      GL30.GL_RENDERBUFFER,
-      GL30.GL_DEPTH24_STENCIL8,
+    gl.glRenderbufferStorage(
+      GL.GL_RENDERBUFFER,
+      GL.GL_DEPTH24_STENCIL8,
       width,
       height);
     GLError.check(this);
-    GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, 0);
+    gl.glBindRenderbuffer(GL.GL_RENDERBUFFER, 0);
     GLError.check(this);
 
     final RenderbufferD24S8 r = new RenderbufferD24S8(id, width, height);
@@ -2380,6 +2628,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(buffer, "Renderbuffer");
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
@@ -2387,7 +2637,9 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("renderbuffer-d24s8: delete " + buffer);
 
-    GL30.glDeleteRenderbuffers(buffer.getLocation());
+    gl.glDeleteRenderbuffers(
+      1,
+      Buffers.newDirectIntBuffer(new int[] { buffer.getLocation() }));
     buffer.setDeleted();
     GLError.check(this);
   }
@@ -2395,7 +2647,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   @Override public void scissorDisable()
     throws GLException
   {
-    GL11.glDisable(GL11.GL_SCISSOR_TEST);
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    gl.glDisable(GL.GL_SCISSOR_TEST);
     GLError.check(this);
   }
 
@@ -2405,6 +2658,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(position, "Scissor region position");
     Constraints.constrainNotNull(dimensions, "Scissor region dimensions");
     Constraints.constrainRange(
@@ -2418,8 +2673,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       Integer.MAX_VALUE,
       "Scissor height");
 
-    GL11.glEnable(GL11.GL_SCISSOR_TEST);
-    GL11.glScissor(
+    gl.glEnable(GL.GL_SCISSOR_TEST);
+    gl.glScissor(
       position.getXI(),
       position.getYI(),
       dimensions.getXI(),
@@ -2430,22 +2685,23 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   @Override public int stencilBufferGetBits()
     throws GLException
   {
-    final int bits = GL11.glGetInteger(GL11.GL_STENCIL_BITS);
-    GLError.check(this);
-    return bits;
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    return this.contextGetInteger(gl, GL.GL_STENCIL_BITS);
   }
 
-  @Override public @Nonnull Texture2DRGBAStatic texture2DRGBAStaticAllocate(
+  @Override public Texture2DRGBAStatic texture2DRGBAStaticAllocate(
     final @Nonnull String name,
     final int width,
     final int height,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureFilter min_filter)
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(name, "Name");
     Constraints.constrainRange(width, 2, Integer.MAX_VALUE, "Width");
     Constraints.constrainRange(height, 2, Integer.MAX_VALUE, "Height");
@@ -2461,7 +2717,11 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       + "x"
       + height);
 
-    final int texture_id = GL11.glGenTextures();
+    final IntBuffer ib = Buffers.newDirectIntBuffer(1);
+    gl.glGenTextures(1, ib);
+    GLError.check(this);
+    final int texture_id = ib.get(0);
+
     final @Nonnull PixelUnpackBuffer buffer =
       this.pixelUnpackBufferAllocate(
         width * height,
@@ -2469,39 +2729,38 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         4,
         UsageHint.USAGE_STATIC_DRAW);
 
-    GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture_id);
-    GL11.glTexParameteri(
-      GL11.GL_TEXTURE_2D,
-      GL11.GL_TEXTURE_WRAP_S,
-      GLInterfaceLWJGL30.textureWrapToGL(wrap_s));
-    GL11.glTexParameteri(
-      GL11.GL_TEXTURE_2D,
-      GL11.GL_TEXTURE_WRAP_T,
-      GLInterfaceLWJGL30.textureWrapToGL(wrap_t));
-    GL11.glTexParameteri(
-      GL11.GL_TEXTURE_2D,
-      GL11.GL_TEXTURE_MAG_FILTER,
-      GLInterfaceLWJGL30.textureFilterToGL(mag_filter));
-    GL11.glTexParameteri(
-      GL11.GL_TEXTURE_2D,
-      GL11.GL_TEXTURE_MIN_FILTER,
-      GLInterfaceLWJGL30.textureFilterToGL(min_filter));
+    gl.glBindTexture(GL.GL_TEXTURE_2D, texture_id);
+    gl.glTexParameteri(
+      GL.GL_TEXTURE_2D,
+      GL.GL_TEXTURE_WRAP_S,
+      GLInterfaceJOGL30.textureWrapToGL(wrap_s));
+    gl.glTexParameteri(
+      GL.GL_TEXTURE_2D,
+      GL.GL_TEXTURE_WRAP_T,
+      GLInterfaceJOGL30.textureWrapToGL(wrap_t));
+    gl.glTexParameteri(
+      GL.GL_TEXTURE_2D,
+      GL.GL_TEXTURE_MAG_FILTER,
+      GLInterfaceJOGL30.textureFilterToGL(mag_filter));
+    gl.glTexParameteri(
+      GL.GL_TEXTURE_2D,
+      GL.GL_TEXTURE_MIN_FILTER,
+      GLInterfaceJOGL30.textureFilterToGL(min_filter));
 
-    GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, buffer.getLocation());
-
-    GL11.glTexImage2D(
-      GL11.GL_TEXTURE_2D,
+    gl.glBindBuffer(GL2GL3.GL_PIXEL_UNPACK_BUFFER, buffer.getLocation());
+    gl.glTexImage2D(
+      GL.GL_TEXTURE_2D,
       0,
-      GL11.GL_RGBA8,
+      GL.GL_RGBA8,
       width,
       height,
       0,
-      GL11.GL_RGBA,
-      GL11.GL_UNSIGNED_BYTE,
+      GL.GL_RGBA,
+      GL.GL_UNSIGNED_BYTE,
       0L);
 
-    GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
-    GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+    gl.glBindBuffer(GL2GL3.GL_PIXEL_UNPACK_BUFFER, 0);
+    gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
 
     final Texture2DRGBAStatic t =
       new Texture2DRGBAStatic(name, texture_id, buffer, width, height);
@@ -2515,14 +2774,16 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(unit, "Texture unit");
     Constraints.constrainNotNull(texture, "Texture");
     Constraints.constrainArbitrary(
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
 
-    GL13.glActiveTexture(GL13.GL_TEXTURE0 + unit.getIndex());
-    GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getLocation());
+    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
+    gl.glBindTexture(GL.GL_TEXTURE_2D, texture.getLocation());
     GLError.check(this);
   }
 
@@ -2531,6 +2792,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(texture, "Texture");
     Constraints.constrainArbitrary(
       texture.resourceIsDeleted() == false,
@@ -2538,16 +2801,20 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("texture-2DRGBA: delete " + texture);
 
-    GL11.glDeleteTextures(texture.getLocation());
+    gl.glDeleteTextures(
+      1,
+      Buffers.newDirectIntBuffer(new int[] { texture.getLocation() }));
     texture.setDeleted();
     this.pixelUnpackBufferDelete(texture.getBuffer());
   }
 
-  @Override public @Nonnull ByteBuffer texture2DRGBAStaticGetImage(
+  @Override public ByteBuffer texture2DRGBAStaticGetImage(
     final @Nonnull Texture2DRGBAStatic texture)
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(texture, "Texture");
     Constraints.constrainArbitrary(
       texture.resourceIsDeleted() == false,
@@ -2556,11 +2823,12 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     final ByteBuffer buffer =
       ByteBuffer.allocateDirect(texture.getWidth() * texture.getHeight() * 4);
 
-    GL11.glGetTexImage(
-      GL11.GL_TEXTURE_2D,
+    final GL2 gl2 = gl.getGL2();
+    gl2.glGetTexImage(
+      GL.GL_TEXTURE_2D,
       0,
-      GL11.GL_RGBA,
-      GL11.GL_UNSIGNED_BYTE,
+      GL.GL_RGBA,
+      GL.GL_UNSIGNED_BYTE,
       buffer);
     GLError.check(this);
     return buffer;
@@ -2571,6 +2839,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(texture, "Texture");
     Constraints.constrainArbitrary(
       texture.resourceIsDeleted() == false,
@@ -2581,30 +2851,34 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("texture-2DRGBA: update " + texture);
 
-    GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getLocation());
-    GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, texture
+    gl.glBindTexture(GL.GL_TEXTURE_2D, texture.getLocation());
+    GLError.check(this);
+    gl.glBindBuffer(GL2GL3.GL_PIXEL_UNPACK_BUFFER, texture
       .getBuffer()
       .getLocation());
-    GL11.glTexSubImage2D(
-      GL11.GL_TEXTURE_2D,
+    GLError.check(this);
+    gl.glTexSubImage2D(
+      GL.GL_TEXTURE_2D,
       0,
       0,
       0,
       texture.getWidth(),
       texture.getHeight(),
-      GL11.GL_RGBA,
-      GL11.GL_UNSIGNED_BYTE,
+      GL.GL_RGBA,
+      GL.GL_UNSIGNED_BYTE,
       0L);
-    GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
-    GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+    GLError.check(this);
+    gl.glBindBuffer(GL2GL3.GL_PIXEL_UNPACK_BUFFER, 0);
+    GLError.check(this);
+    gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
+    GLError.check(this);
   }
 
   @Override public int textureGetMaximumSize()
     throws GLException
   {
-    final int size = GL11.glGetInteger(GL11.GL_MAX_TEXTURE_SIZE);
-    GLError.check(this);
-    return size;
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    return this.contextGetInteger(gl, GL.GL_MAX_TEXTURE_SIZE);
   }
 
   @Override public TextureUnit[] textureGetUnits()
@@ -2616,9 +2890,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   private TextureUnit[] textureGetUnitsCache()
     throws GLException
   {
-    final int max = GL11.glGetInteger(GL20.GL_MAX_TEXTURE_IMAGE_UNITS);
-    GLError.check(this);
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
 
+    final int max =
+      this.contextGetInteger(g, GL2ES2.GL_MAX_TEXTURE_IMAGE_UNITS);
     this.log.debug("implementation supports " + max + " texture units");
 
     final TextureUnit[] u = new TextureUnit[max];
@@ -2636,6 +2911,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GLCompileException,
       GLException
   {
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
       program.resourceIsDeleted() == false,
@@ -2648,11 +2925,11 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("vertex-shader: attach " + program + " " + shader);
 
-    GL20.glAttachShader(program.getLocation(), shader.getLocation());
+    g.glAttachShader(program.getLocation(), shader.getLocation());
     GLError.check(this);
   }
 
-  @Override public @Nonnull VertexShader vertexShaderCompile(
+  @Override public VertexShader vertexShaderCompile(
     final @Nonnull String name,
     final @Nonnull InputStream stream)
     throws ConstraintError,
@@ -2660,33 +2937,46 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       IOException,
       GLException
   {
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(name, "Shader name");
     Constraints.constrainNotNull(stream, "input stream");
 
     this.log.debug("vertex-shader: compile \"" + name + "\"");
 
-    final int id = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);
+    final int id = g.glCreateShader(GL2ES2.GL_VERTEX_SHADER);
     GLError.check(this);
 
-    final ByteArrayOutputStream array = new ByteArrayOutputStream();
-    final byte buffer[] = new byte[1024];
+    final ArrayList<Integer> lengths = new ArrayList<Integer>();
+    final ArrayList<String> lines = new ArrayList<String>();
+    GLInterfaceJOGL30.shaderReadSource(stream, lines, lengths);
+    final String[] line_array = new String[lines.size()];
+    final IntBuffer line_lengths = Buffers.newDirectIntBuffer(lines.size());
 
-    for (;;) {
-      final int read = stream.read(buffer);
-      if (read == -1) {
-        break;
-      }
-      array.write(buffer, 0, read);
+    for (int index = 0; index < lines.size(); ++index) {
+      line_array[index] = lines.get(index);
+      final int len = line_array[index].length();
+      line_lengths.put(index, len);
     }
 
-    GL20.glShaderSource(id, array.toString());
+    g.glShaderSource(id, line_array.length, line_array, line_lengths);
     GLError.check(this);
-    GL20.glCompileShader(id);
+    g.glCompileShader(id);
     GLError.check(this);
-    final int status = GL20.glGetShader(id, GL20.GL_COMPILE_STATUS);
+    final int status =
+      this.contextGetShaderInteger(g, id, GL2ES2.GL_COMPILE_STATUS);
     GLError.check(this);
+
     if (status == 0) {
-      throw new GLCompileException(name, GL20.glGetShaderInfoLog(id, 8192));
+      final ByteBuffer log_buffer = Buffers.newDirectByteBuffer(8192);
+      final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
+      g.glGetShaderInfoLog(id, 8192, buffer_length, log_buffer);
+      GLError.check(this);
+
+      final byte raw[] = new byte[log_buffer.remaining()];
+      log_buffer.get(raw);
+      final String text = new String(raw);
+      throw new GLCompileException(name, text);
     }
 
     return new VertexShader(id, name);
@@ -2697,6 +2987,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(id, "Vertex shader");
     Constraints.constrainArbitrary(
       id.resourceIsDeleted() == false,
@@ -2704,7 +2996,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     this.log.debug("vertex-shader: delete " + id);
 
-    GL20.glDeleteShader(id.getLocation());
+    g.glDeleteShader(id.getLocation());
     id.setDeleted();
     GLError.check(this);
   }
@@ -2715,10 +3007,12 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     throws ConstraintError,
       GLException
   {
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+
     Constraints.constrainNotNull(position, "Viewport position");
     Constraints.constrainNotNull(dimensions, "Viewport dimensions");
 
-    GL11.glViewport(
+    g.glViewport(
       position.getXI(),
       position.getYI(),
       dimensions.getXI(),

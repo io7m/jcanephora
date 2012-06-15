@@ -255,7 +255,6 @@ public final class Program implements CompilableProgram, UsableProgram
       }
 
       gl.programLink(new_program);
-      GLError.check(gl);
 
       this.program = new_program;
       if (old_program != null) {

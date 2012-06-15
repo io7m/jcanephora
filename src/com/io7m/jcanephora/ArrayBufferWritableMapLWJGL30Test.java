@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 
-public class ArrayBufferWritableMapTest
+public class ArrayBufferWritableMapLWJGL30Test
 {
   @Before public void setUp()
     throws Exception
