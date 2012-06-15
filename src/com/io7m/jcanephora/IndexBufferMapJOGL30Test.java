@@ -2,6 +2,8 @@ package com.io7m.jcanephora;
 
 import java.io.IOException;
 
+import javax.media.opengl.GLContext;
+
 import junit.framework.Assert;
 
 import org.junit.After;
@@ -10,18 +12,20 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 
-public class IndexBufferMapLWJGL30Test
+public class IndexBufferMapJOGL30Test
 {
+  private GLContext context;
+
   @Before public void setUp()
     throws Exception
   {
-    LWJGL30.createDisplay("IndexBufferMapLWJGL30Test", 1, 1);
+    this.context = JOGL30.createOffscreenDisplay(640, 480);
   }
 
   @After public void tearDown()
     throws Exception
   {
-    LWJGL30.destroyDisplay();
+    JOGL30.destroyDisplay(this.context);
   }
 
   /**
@@ -34,7 +38,7 @@ public class IndexBufferMapLWJGL30Test
       ConstraintError,
       IOException
   {
-    final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
+    final GLInterface gl = GLInterfaceJOGL30Util.getGL(this.context);
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -77,7 +81,7 @@ public class IndexBufferMapLWJGL30Test
       ConstraintError,
       IOException
   {
-    final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
+    final GLInterface gl = GLInterfaceJOGL30Util.getGL(this.context);
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -117,7 +121,7 @@ public class IndexBufferMapLWJGL30Test
       ConstraintError,
       IOException
   {
-    final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
+    final GLInterface gl = GLInterfaceJOGL30Util.getGL(this.context);
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(

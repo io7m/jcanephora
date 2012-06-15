@@ -14,7 +14,8 @@ public interface GLMeta
    * @return The current OpenGL error code.
    */
 
-  int metaGetError();
+  int metaGetError()
+    throws GLException;
 
   /**
    * Return the name of the OpenGL renderer.
