@@ -14,7 +14,6 @@ import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface;
 import com.io7m.jcanephora.GLInterfaceLWJGL30;
 import com.io7m.jcanephora.GLResource;
-import com.io7m.jcanephora.LWJGL30;
 import com.io7m.jcanephora.ProjectionMatrix;
 import com.io7m.jcanephora.Texture2DRGBAStatic;
 import com.io7m.jcanephora.TextureFilter;

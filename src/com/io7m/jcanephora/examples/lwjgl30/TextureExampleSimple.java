@@ -16,7 +16,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface;
 import com.io7m.jcanephora.GLInterfaceLWJGL30;
-import com.io7m.jcanephora.LWJGL30;
 import com.io7m.jcanephora.Texture2DRGBAStatic;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureUnit;
