@@ -1,7 +1,5 @@
 package com.io7m.jcanephora;
 
-import org.lwjgl.opengl.GL11;
-
 /**
  * A simple class for checking if an OpenGL error has occurred.
  */
@@ -25,7 +23,7 @@ public final class GLError
   {
     final int code = gl.metaGetError();
 
-    if (code != GL11.GL_NO_ERROR) {
+    if (code != 0) {
       throw new GLException(code, "OpenGL error: code " + code);
     }
   }

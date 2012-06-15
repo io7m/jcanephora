@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 
+import javax.media.opengl.GL;
 import javax.media.opengl.GLContext;
 
 import junit.framework.Assert;
@@ -11,7 +12,6 @@ import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.lwjgl.opengl.GL11;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 
@@ -269,7 +269,7 @@ public class ArrayBufferJOGL30Test
       gl.arrayBufferMapRead(a);
       gl.arrayBufferMapRead(a);
     } catch (final GLException e) {
-      Assert.assertEquals(GL11.GL_INVALID_OPERATION, e.getCode());
+      Assert.assertEquals(GL.GL_INVALID_OPERATION, e.getCode());
       throw e;
     } finally {
       if (a != null) {
@@ -388,7 +388,7 @@ public class ArrayBufferJOGL30Test
       gl.arrayBufferUnmap(a);
       gl.arrayBufferUnmap(a);
     } catch (final GLException e) {
-      Assert.assertEquals(GL11.GL_INVALID_OPERATION, e.getCode());
+      Assert.assertEquals(GL.GL_INVALID_OPERATION, e.getCode());
       throw e;
     } finally {
       if (a != null) {
