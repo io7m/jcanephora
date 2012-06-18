@@ -3,4 +3,8 @@ build
 doc-out
 ext
 javadoc
+module-core/target
+module-jogl/target
+module-lwjgl/target
+target
 tmp
