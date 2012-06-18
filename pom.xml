@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.io7m.jcanephora</groupId>
+  <artifactId>io7m-jcanephora</artifactId>
+  <version>1.0.0</version>
+  <name>io7m-jcanephora</name>
+  <description>OpenGL plus static safety</description>
+  <url>http://io7m.com/software/jcanephora/</url>
+  <packaging>pom</packaging>
+
+  <issueManagement>
+    <url>http://fossil.io7m.com/repo.cgi/io7m-jcanephora</url>
+    <system>Fossil</system>
+  </issueManagement>
+
+  <scm>
+    <url>http://fossil.io7m.com/repo.cgi/io7m-jcanephora</url>
+    <connection>scm:http://fossil.io7m.com/repo.cgi/io7m-jcanephora</connection>
+    <developerConnection>scm:http://fossil.io7m.com/repo.cgi/io7m-jcanephora</developerConnection>
+  </scm>
+
+  <licenses>
+    <license>
+      <name>ISC License</name>
+      <url>http://www.opensource.org/licenses/isc-license.txt</url>
+    </license>
+  </licenses>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+
+  <modules>
+    <module>io7m-jcanephora-core</module>
+    <module>io7m-jcanephora-lwjgl</module>
+    <module>io7m-jcanephora-jogl</module>
+  </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Specification-Title>${project.name}</Specification-Title>
+              <Specification-Version>${project.version}</Specification-Version>
+              <Specification-Vendor>io7m.com</Specification-Vendor>
+              <Implementation-Title>${project.name}</Implementation-Title>
+              <Implementation-Version>${project.version}</Implementation-Version>
+              <Implementation-Vendor>io7m.com</Implementation-Vendor>
+              <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
+              <Built-By>io7m</Built-By>
+            </manifestEntries>
+            <manifestSection>
+              <name>com/io7m/jlog</name>
+              <manifestEntries>
+                <Sealed>true</Sealed>
+              </manifestEntries>
+            </manifestSection>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.4</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
