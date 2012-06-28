@@ -27,7 +27,7 @@ public class ProgramJOGL30Test
       ConstraintError
   {
     return new Filesystem(ProgramJOGL30Test.getLog(), new PathReal(
-      "test-archives"));
+      "../test-archives"));
   }
 
   private static Log getLog()

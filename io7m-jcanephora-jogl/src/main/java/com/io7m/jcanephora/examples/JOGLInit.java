@@ -1,4 +1,4 @@
-package com.io7m.jcanephora.examples.jogl30;
+package com.io7m.jcanephora.examples;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
