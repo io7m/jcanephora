@@ -26,7 +26,7 @@ public class ProgramLWJGL30Test
       ConstraintError
   {
     return new Filesystem(ProgramLWJGL30Test.getLog(), new PathReal(
-      "test-archives"));
+      "../test-archives"));
   }
 
   private static GLInterface getGL()
