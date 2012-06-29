@@ -20,7 +20,7 @@ rm -rf doc-out ||
 xmllint \
   --noout \
   --xinclude \
-  --schema ext/structural-0.1.0/structural-01.xsd \
+  --schema ext/structural-1.0.0/structural-1_0_0.xsd \
   doc/documentation.xml ||
   fatal "could not validate document"
 
@@ -31,14 +31,13 @@ cd doc-out ||
 
 saxon \
   -xi:on \
-  -xsl:../ext/structural-0.1.0/structural-01-standalone-x20.xsl \
+  -xsl:../ext/structural-1.0.0/structural-1_0_0-standalone-x20.xsl \
   -s:../doc/documentation.xml ||
   fatal "could not generate documentation"
 
-cp ../ext/structural-0.1.0/*.css . || fatal "could not copy CSS"
-cp ../doc/*.css .                  || fatal "could not copy CSS"
-cp ../doc/*.c .                    || fatal "could not copy C"
-mv ../javadoc .                    || fatal "coult not insert javadoc"
+cp ../ext/structural-1.0.0/*.css .    || fatal "could not copy CSS"
+cp ../doc/*.css .                     || fatal "could not copy CSS"
+cp -r ../target/site/apidocs/ javadoc || fatal "coult not insert javadoc"
 
 cd "${CURRENT_DIR}" ||
   fatal "could not restore directory"
@@ -48,4 +47,7 @@ VERSION=`head -n 1 README-VERSION.txt | sed 's/ /-doc-/g'` ||
 
 mv doc-out "${VERSION}" ||
   fatal "could not rename output directory"
+
+zip -r -9 "${VERSION}.zip" "${VERSION}" ||
+  fatal "could not package documentation"
 
