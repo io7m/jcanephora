@@ -15,7 +15,7 @@ class GLInterfaceLWJGL30Util
       GLException
   {
     final Properties properties =
-      PropertyUtils.loadFromFile("tests.properties");
+      PropertyUtils.loadFromFile("src/main/resources/tests.properties");
     final Log log = new Log(properties, "com.io7m", "example");
     return new GLInterfaceLWJGL30(log);
   }
