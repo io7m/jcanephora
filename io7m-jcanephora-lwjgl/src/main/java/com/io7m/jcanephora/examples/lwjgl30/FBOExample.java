@@ -67,12 +67,27 @@ public final class FBOExample implements Runnable
     this.gl = gl;
     this.background = new VectorI4F(0.2f, 0.2f, 0.2f, 1.0f);
     this.texture_background = new VectorI4F(0.0f, 0.0f, 1.0f, 1.0f);
+
+    /**
+     * This program uses texturing, so retrieve a list of the available GPU
+     * texture units.
+     */
+
     this.units = this.gl.textureGetUnits();
+
+    /**
+     * Allocate a combined depth and stencil buffer, the same size as the
+     * screen.
+     */
 
     this.depth_buffer =
       this.gl.renderbufferD24S8Allocate(
         FBOExample.SCREEN_WIDTH,
         FBOExample.SCREEN_HEIGHT);
+
+    /**
+     * Allocate a texture to act as the color buffer for the framebuffer.
+     */
 
     this.texture =
       this.gl.texture2DRGBAStaticAllocate(
@@ -84,7 +99,16 @@ public final class FBOExample implements Runnable
         TextureFilter.TEXTURE_FILTER_LINEAR,
         TextureFilter.TEXTURE_FILTER_LINEAR);
 
+    /**
+     * Allocate a framebuffer.
+     */
+
     this.framebuffer = this.gl.framebufferAllocate();
+
+    /**
+     * Attach the color buffer (texture) and depth/stencil buffer.
+     */
+
     this.gl.framebufferAttachStorage(
       this.framebuffer,
       new FramebufferAttachment[] {
@@ -104,8 +128,8 @@ public final class FBOExample implements Runnable
     GL11.glLoadIdentity();
     GL11.glTranslated(0, 0, -1);
 
-    /*
-     * Render to texture.
+    /**
+     * Bind the framebuffer, and render a simple scene.
      */
 
     GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -130,8 +154,9 @@ public final class FBOExample implements Runnable
     }
     this.gl.framebufferUnbind();
 
-    /*
-     * Render quad with framebuffer texture.
+    /**
+     * After unbinding the framebuffer, draw a rectangle textured with the
+     * framebuffer texture.
      */
 
     GL11.glLoadIdentity();
@@ -139,6 +164,10 @@ public final class FBOExample implements Runnable
     GL11.glRotated(this.angle, 0, 1, 0);
 
     this.gl.colorBufferClearV4f(this.background);
+
+    /**
+     * Bind the framebuffer texture to texture unit 0.
+     */
 
     GL11.glEnable(GL11.GL_TEXTURE_2D);
     this.gl.texture2DRGBAStaticBind(this.units[0], this.texture);
