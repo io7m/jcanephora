@@ -37,6 +37,8 @@ saxon \
 
 cp ../ext/structural-1.0.0/*.css .    || fatal "could not copy CSS"
 cp ../doc/*.css .                     || fatal "could not copy CSS"
+cp ../doc/*.c .                       || fatal "could not copy C"
+cp ../doc/*.png .                     || fatal "could not copy images"
 cp -r ../target/site/apidocs/ javadoc || fatal "coult not insert javadoc"
 
 cd "${CURRENT_DIR}" ||
