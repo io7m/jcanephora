@@ -42,7 +42,7 @@ public class ProgramLWJGL30Test
       ConstraintError
   {
     final Properties properties =
-      PropertyUtils.loadFromFile("tests.properties");
+      PropertyUtils.loadFromFile("src/main/resources/tests.properties");
     return new Log(properties, "com.io7m", "example");
   }
 
