@@ -70,7 +70,6 @@ public class GLFramebuffersLWJGL30Test
   }
 
   @Test public void testCheckDepthBits()
-    throws GLException
   {
     GLInterface g = null;
     Framebuffer fb = null;
@@ -93,6 +92,10 @@ public class GLFramebuffersLWJGL30Test
       g.framebufferAttachStorage(fb, new FramebufferAttachment[] {
         new ColorAttachment(cb, 0),
         new RenderbufferD24S8Attachment(rb) });
+      g.framebufferBind(fb);
+      Assert.assertTrue(g.depthBufferGetBits() == 24);
+      Assert.assertTrue(g.stencilBufferGetBits() == 8);
+      g.framebufferUnbind();
     } catch (final IOException e) {
       Assert.fail(e.getMessage());
     } catch (final ConstraintError e) {
@@ -100,10 +103,6 @@ public class GLFramebuffersLWJGL30Test
     } catch (final GLException e) {
       Assert.fail(e.getMessage());
     }
-
-    assert g != null;
-    Assert.assertTrue(g.depthBufferGetBits() == 24);
-    Assert.assertTrue(g.stencilBufferGetBits() == 8);
   }
 
   @Test(expected = ConstraintError.class) public void testDepthEnableNone()
