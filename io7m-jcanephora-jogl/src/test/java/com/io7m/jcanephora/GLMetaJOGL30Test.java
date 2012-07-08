@@ -42,5 +42,9 @@ public class GLMetaJOGL30Test
     Assert.assertNotNull(vn);
     Assert.assertNotNull(vr);
     Assert.assertNotNull(r);
+    
+    System.out.println("Vendor   : " + vn);
+    System.out.println("Version  : " + vr);
+    System.out.println("Renderer : " + r);
   }
 }
