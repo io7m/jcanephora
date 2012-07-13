@@ -117,4 +117,12 @@
     </profile>
   </profiles>
 
+  <distributionManagement>
+    <site>
+      <id>io7m</id>
+      <name>io7m.com</name>
+      <url>http://mvn.io7m.com/jcanephora/</url>
+    </site>
+  </distributionManagement>
+
 </project>
