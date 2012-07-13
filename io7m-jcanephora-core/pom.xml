@@ -6,6 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.io7m.jcanephora.core</groupId>
   <artifactId>io7m-jcanephora-core</artifactId>
+  <name>jcanephora-core</name>
   <packaging>jar</packaging>
 
   <parent>
@@ -64,7 +65,7 @@
     </dependency>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
-      <artifactId>findbugs</artifactId>
+      <artifactId>jsr305</artifactId>
       <version>2.0.0</version>
     </dependency>
     <dependency>
