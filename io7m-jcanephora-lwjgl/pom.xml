@@ -6,7 +6,8 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.io7m.jcanephora.lwjgl</groupId>
   <artifactId>io7m-jcanephora-lwjgl</artifactId>
-  <name>jcanephora-lwjgl</name>
+  <name>io7m-jcanephora-lwjgl</name>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
 
   <licenses>
@@ -27,6 +28,14 @@
     <system>Fossil</system>
   </issueManagement>
 
+  <distributionManagement>
+    <site>
+      <id>io7m</id>
+      <name>io7m.com</name>
+      <url>http://io7m.com/software/jcanephora/</url>
+    </site>
+  </distributionManagement>
+
   <developers>
     <developer>
       <id>io7m</id>
@@ -35,12 +44,6 @@
       <url>http://io7m.com</url>
     </developer>
   </developers>
-
-  <parent>
-    <groupId>com.io7m.jcanephora</groupId>
-    <artifactId>io7m-jcanephora</artifactId>
-    <version>1.0.0</version>
-  </parent>
 
   <dependencies>
     <dependency>
@@ -80,6 +83,21 @@
       <version>4.10</version>
     </dependency>
   </dependencies>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.4</version>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.maven.plugin</groupId>
+        <artifactId>emma-maven-plugin</artifactId>
+        <version>1.2</version>
+      </plugin>
+    </plugins>
+  </reporting>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
