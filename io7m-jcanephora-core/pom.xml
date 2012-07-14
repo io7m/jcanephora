@@ -7,6 +7,7 @@
   <groupId>com.io7m.jcanephora.core</groupId>
   <artifactId>io7m-jcanephora-core</artifactId>
   <name>io7m-jcanephora-core</name>
+  <description>Common API code</description>
   <version>1.0.0</version>
   <url>http://mvn.io7m.com/jcanephora-core</url>
   <packaging>jar</packaging>

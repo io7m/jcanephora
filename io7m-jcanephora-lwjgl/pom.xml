@@ -7,6 +7,7 @@
   <groupId>com.io7m.jcanephora.lwjgl</groupId>
   <artifactId>io7m-jcanephora-lwjgl</artifactId>
   <name>io7m-jcanephora-lwjgl</name>
+  <description>API implementation using LWJGL</description>
   <version>1.0.0</version>
   <url>http://mvn.io7m.com/jcanephora-lwjgl</url>
   <packaging>jar</packaging>
