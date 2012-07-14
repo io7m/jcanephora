@@ -6,14 +6,9 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.io7m.jcanephora.jogl</groupId>
   <artifactId>io7m-jcanephora-jogl</artifactId>
-  <name>jcanephora-jogl</name>
+  <name>io7m-jcanephora-jogl</name>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
-
-  <parent>
-    <groupId>com.io7m.jcanephora</groupId>
-    <artifactId>io7m-jcanephora</artifactId>
-    <version>1.0.0</version>
-  </parent>
 
   <licenses>
     <license>
@@ -32,6 +27,14 @@
     <url>http://fossil.io7m.com/repo.cgi/io7m-jcanephora</url>
     <system>Fossil</system>
   </issueManagement>
+
+  <distributionManagement>
+    <site>
+      <id>io7m</id>
+      <name>io7m.com</name>
+      <url>http://io7m.com/software/jcanephora/</url>
+    </site>
+  </distributionManagement>
 
   <developers>
     <developer>
@@ -85,6 +88,21 @@
       <version>2.0-rc9</version>
     </dependency>
   </dependencies>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.4</version>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.maven.plugin</groupId>
+        <artifactId>emma-maven-plugin</artifactId>
+        <version>1.2</version>
+      </plugin>
+    </plugins>
+  </reporting>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
