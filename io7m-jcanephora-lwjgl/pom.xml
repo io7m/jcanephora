@@ -8,6 +8,7 @@
   <artifactId>io7m-jcanephora-lwjgl</artifactId>
   <name>io7m-jcanephora-lwjgl</name>
   <version>1.0.0</version>
+  <url>http://mvn.io7m.com/jcanephora-lwjgl</url>
   <packaging>jar</packaging>
 
   <licenses>
@@ -32,7 +33,7 @@
     <site>
       <id>io7m</id>
       <name>io7m.com</name>
-      <url>http://io7m.com/software/jcanephora/</url>
+      <url>http://mvn.io7m.com/jcanephora-lwjgl</url>
     </site>
   </distributionManagement>
 
