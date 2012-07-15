@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document
+  xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>io7m-jcanephora</title>
+  </properties>
+
+  <body>
+    <subsection name="jcanephora">
+      The <var>jcanephora</var> package implements a set of abstractions over
+      <a href="http://opengl.org">OpenGL</a> with the intention of providing an API
+      that enforces program correctness statically.
+    </subsection>
+    <subsection name="features">
+      <ul>
+        <li>Orthographic and perspective projection matrix creation.</li>
+        <li>Simple "look at" implementation for writing 3D cameras.</li>
+        <li>Typed cursor implementation for easy and safe vertex buffer object initialization/modification.</li>
+        <li>Shader compilation management, including on-demand shader recompilation.</li>
+        <li>Convenient and safe interface to query the names and types of shader parameters.</li>
+        <li>Transparent and "secure" shader loading from the filesystem or archives.</li>
+        <li>Interface enforces static type safety: It's no longer possible to accidentally mix up the various "indices" that the OpenGL API uses (programs, vertex shaders, fragment shaders, vertex buffer objects, index buffer objects...).</li>
+        <li>Interface enforces consistent semantics across OpenGL implementations.</li>
+        <li>Interface enforces a "fail early and fail loudly" style of programming: reducing the "silent failure" model of OpenGL programming is a priority.</li>
+        <li>Fully documented (Javadoc).</li>
+        <li>85% automated unit test coverage.</li>
+        <li>ISC license.</li>
+        <li>Portable (tested on Linux, Mac OS X, Solaris, Windows XP). Platforms currently limited to those supported by <a href="http://lwjgl.org">LWJGL</a> and/or <a href="http://jogamp.org">JOGL</a>.</li>
+      </ul>
+    </subsection>
+  </body>
+
+</document>
