@@ -226,8 +226,9 @@ public final class Program implements CompilableProgram, UsableProgram
             shader.shader = new_shader;
             gl.vertexShaderAttach(new_program, new_shader);
 
-            stream.close();
+            final InputStream alt = stream;
             stream = null;
+            alt.close();
           } finally {
             if (stream != null) {
               stream.close();
@@ -265,8 +266,9 @@ public final class Program implements CompilableProgram, UsableProgram
             shader.shader = new_shader;
             gl.fragmentShaderAttach(new_program, new_shader);
 
-            stream.close();
+            final InputStream alt = stream;
             stream = null;
+            alt.close();
           } finally {
             if (stream != null) {
               stream.close();
