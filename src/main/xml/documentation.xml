@@ -59,6 +59,10 @@
           chance of confusing the two at compile-time. The package takes a similar
           approach to static safety throughout.
         </s:paragraph>
+        <s:paragraph>
+          All implementations of the <s:term type="package">jcanephora</s:term> API are
+          run through a large battery of tests to ensure consistent semantics.
+        </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Convenience</s:subsection-title>
@@ -97,7 +101,16 @@
           The <s:term type="package">jcanephora</s:term> package has backends
           for both <s:link-external target="http://www.jogamp.org">JOGL</s:link-external>
           and <s:link-external target="http://www.lwjgl.org">LWJGL</s:link-external>
-          and presents a common API, with consistent semantics, for both.
+          and presents a common API, with consistent semantics, for both. At the
+          time of writing, the most widely supported version of OpenGL is 2.1. The
+          version that followed, 3.0, was the first version to actually deprecate/remove
+          obsolete features such as the fixed-function pipeline. The
+          <s:term type="package">jcanephora</s:term> API and implementation therefore
+          only uses those features of 3.0 that are also present in 2.1, and does not
+          use any deprecated and/or obsolete features. This allows programs using
+          <s:term type="package">jcanephora</s:term> to run unmodified on just about
+          any desktop/workstation graphics hardware produced in the last ten years or
+          so.
         </s:paragraph>
       </s:subsection>
     </s:section>
