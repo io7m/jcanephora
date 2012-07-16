@@ -210,7 +210,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
       </s:paragraph>
       <s:formal-item kind="example">
         <s:formal-item-title>Vertex buffers (C)</s:formal-item-title>
-        <s:verbatim><xi:include href="vbo.c" parse="text"/></s:verbatim>
+        <s:verbatim><xi:include href="../c/vbo.c" parse="text"/></s:verbatim>
       </s:formal-item>
       <s:paragraph>
         Where the <s:link-external target="vbo.c">C version</s:link-external>
@@ -227,7 +227,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
       </s:paragraph>
       <s:formal-item kind="example">
         <s:formal-item-title>Vertex buffers (Java)</s:formal-item-title>
-        <s:verbatim><xi:include href="../io7m-jcanephora-lwjgl/src/main/java/com/io7m/jcanephora/examples/lwjgl30/VBOExample.java" parse="text"/></s:verbatim>
+        <s:verbatim><xi:include href="../../../io7m-jcanephora-lwjgl/src/main/java/com/io7m/jcanephora/examples/lwjgl30/VBOExample.java" parse="text"/></s:verbatim>
       </s:formal-item>
     </s:section>
     <s:section>
@@ -243,7 +243,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
       </s:paragraph>
       <s:formal-item kind="example">
         <s:formal-item-title>Textures (C)</s:formal-item-title>
-        <s:verbatim><xi:include href="texture-use.c" parse="text"/></s:verbatim>
+        <s:verbatim><xi:include href="../c/texture-use.c" parse="text"/></s:verbatim>
       </s:formal-item>
       <s:paragraph>
         The <s:term type="package">jcanephora</s:term> version reads an RGBA
@@ -265,7 +265,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
       </s:paragraph>
       <s:formal-item kind="example">
         <s:formal-item-title>Textures (Java)</s:formal-item-title>
-<s:verbatim><xi:include href="../io7m-jcanephora-lwjgl/src/main/java/com/io7m/jcanephora/examples/lwjgl30/TextureExampleSimple.java" parse="text"/></s:verbatim>
+<s:verbatim><xi:include href="../../../io7m-jcanephora-lwjgl/src/main/java/com/io7m/jcanephora/examples/lwjgl30/TextureExampleSimple.java" parse="text"/></s:verbatim>
       </s:formal-item>
     </s:section>
     <s:section>
@@ -282,7 +282,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
       </s:paragraph>
       <s:formal-item kind="example">
         <s:formal-item-title>Shaders (Java)</s:formal-item-title>
-<s:verbatim><xi:include href="../io7m-jcanephora-lwjgl/src/main/java/com/io7m/jcanephora/examples/lwjgl30/ShaderSimple.java" parse="text"/></s:verbatim>
+<s:verbatim><xi:include href="../../../io7m-jcanephora-lwjgl/src/main/java/com/io7m/jcanephora/examples/lwjgl30/ShaderSimple.java" parse="text"/></s:verbatim>
       </s:formal-item>
       <s:paragraph>
         Note that the APIs used above include quite a wide range of checks:
@@ -317,7 +317,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
       </s:paragraph>
       <s:formal-item kind="example">
         <s:formal-item-title>Framebuffers (Java)</s:formal-item-title>
-<s:verbatim><xi:include href="../io7m-jcanephora-lwjgl/src/main/java/com/io7m/jcanephora/examples/lwjgl30/FBOExample.java" parse="text"/></s:verbatim>
+<s:verbatim><xi:include href="../../../io7m-jcanephora-lwjgl/src/main/java/com/io7m/jcanephora/examples/lwjgl30/FBOExample.java" parse="text"/></s:verbatim>
       </s:formal-item>
       <s:paragraph>
         Again, the API enforces consistent semantics across implementations:
