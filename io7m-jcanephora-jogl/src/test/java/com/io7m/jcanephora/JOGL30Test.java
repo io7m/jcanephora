@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import com.jogamp.newt.opengl.GLWindow;
 
-public class JOGL30Test
+public final class JOGL30Test
 {
   @SuppressWarnings("static-method") @Test public void testNormalDisplay()
   {

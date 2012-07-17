@@ -3,8 +3,12 @@ package com.io7m.jcanephora;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class TextureFilterJOGL30Test
+public class JOGL30TextureFilterTest
 {
+  /**
+   * ∀f. textureFilterFromGL(textureFilterToGL(f)) == f.
+   */
+
   @SuppressWarnings("static-method") @Test public void testFilterBijection()
   {
     for (final TextureFilter f : TextureFilter.values()) {

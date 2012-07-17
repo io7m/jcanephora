@@ -3,8 +3,12 @@ package com.io7m.jcanephora;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class DepthFunctionJOGL30Test
+public final class JOGL30DepthFunctionTest
 {
+  /**
+   * ∀f. depthFunctionFromGL(depthFunctionToGL(f)) = f.
+   */
+
   @SuppressWarnings("static-method") @Test public void testDepthBijection()
   {
     for (final DepthFunction f : DepthFunction.values()) {
@@ -13,7 +17,9 @@ public class DepthFunctionJOGL30Test
     }
   }
 
-  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public void testNonsense()
+  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public
+    void
+    testNonsense()
   {
     GLInterfaceJOGL30.depthFunctionFromGL(-1);
   }

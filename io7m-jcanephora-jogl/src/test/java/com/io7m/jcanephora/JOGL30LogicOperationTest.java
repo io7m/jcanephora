@@ -4,8 +4,12 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-public class LogicOperationJOGL30Test
+public final class JOGL30LogicOperationTest
 {
+  /**
+   * ∀o. logicOpFromGL(logicOpToGL(o)) == o.
+   */
+
   @SuppressWarnings("static-method") @Test public void testLogicBijection()
   {
     for (final LogicOperation o : LogicOperation.values()) {

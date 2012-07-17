@@ -4,8 +4,12 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-public class PolygonModeJOGL30Test
+public final class JOGL30PolygonModeTest
 {
+  /**
+   * ∀m. polygonModeFromGL(polygonModeToGL(m)) == m.
+   */
+
   @SuppressWarnings("static-method") @Test public void testModeBijection()
   {
     for (final PolygonMode p : PolygonMode.values()) {

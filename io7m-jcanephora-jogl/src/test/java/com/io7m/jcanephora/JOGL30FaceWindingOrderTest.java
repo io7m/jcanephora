@@ -4,12 +4,18 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-public class FaceWindingOrderJOGL30Test
+public final class JOGL30FaceWindingOrderTest
 {
-  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public void testNonsense()
+  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public
+    void
+    testNonsense()
   {
     GLInterfaceJOGL30.faceWindingOrderFromGL(-1);
   }
+
+  /**
+   * ∀f. faceWindingOrderFromGL(faceWindingOrderToGL(f)) = f.
+   */
 
   @SuppressWarnings("static-method") @Test public void testOrderBijection()
   {
