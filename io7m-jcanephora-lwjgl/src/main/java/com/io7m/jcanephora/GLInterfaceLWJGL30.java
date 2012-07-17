@@ -1235,8 +1235,15 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
   @Override public void depthBufferClear(
     final float depth)
-    throws GLException
+    throws GLException,
+      ConstraintError
   {
+    Constraints.constrainRange(
+      GL11.glGetInteger(GL11.GL_DEPTH_BITS),
+      1,
+      Integer.MAX_VALUE,
+      "Depth buffer bits available");
+
     GL11.glClearDepth(depth);
     GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
   }
@@ -1258,7 +1265,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       GL11.glGetInteger(GL11.GL_DEPTH_BITS),
       1,
       Integer.MAX_VALUE,
-      "Depth buffer bits");
+      "Depth buffer bits available");
 
     final int d = GLInterfaceLWJGL30.depthFunctionToGL(function);
     GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -2759,5 +2766,13 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       dimensions.getXI(),
       dimensions.getYI());
     GLError.check(this);
+  }
+
+  @Override public boolean depthBufferIsEnabled()
+    throws GLException
+  {
+    final boolean e = GL11.glIsEnabled(GL11.GL_DEPTH_TEST);
+    GLError.check(this);
+    return e;
   }
 }
