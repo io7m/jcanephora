@@ -22,6 +22,31 @@ public abstract class ProgramContract implements
   FilesystemTestContract
 {
   /**
+   * Activating/deactivating a program works.
+   */
+
+  @Test public final void testProgramActivation()
+    throws ConstraintError,
+      GLException,
+      GLCompileException,
+      FilesystemError
+  {
+    final FilesystemAPI fs = this.getFS();
+    fs.mount("test_lwjgl30.zip", "/");
+
+    final GLInterface gl = this.getGL();
+    final Program p = new Program("program", this.getLog());
+    p.addVertexShader(new PathVirtual("/shaders/simple.v"));
+    p.compile(fs, gl);
+
+    Assert.assertFalse(p.isActive(gl));
+    p.activate(gl);
+    Assert.assertTrue(p.isActive(gl));
+    p.deactivate(gl);
+    Assert.assertFalse(p.isActive(gl));
+  }
+
+  /**
    * Adding a nonexistent shader does not fail.
    */
 
