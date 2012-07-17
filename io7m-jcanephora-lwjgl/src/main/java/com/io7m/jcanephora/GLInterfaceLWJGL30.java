@@ -1225,6 +1225,14 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
   }
 
+  @Override public boolean cullingIsEnabled()
+    throws GLException
+  {
+    final boolean e = GL11.glIsEnabled(GL11.GL_CULL_FACE);
+    GLError.check(this);
+    return e;
+  }
+
   @Override public void depthBufferClear(
     final float depth)
     throws GLException
