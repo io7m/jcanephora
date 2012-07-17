@@ -6,8 +6,12 @@ import org.junit.Test;
 
 import com.io7m.jcanephora.GLType.Type;
 
-public class GLTypeJOGL30Test
+public final class JOGL30TypeTest
 {
+  /**
+   * ∀t. typeFromGL(typeToGL(t)) = t.
+   */
+
   @SuppressWarnings("static-method") @Test public void testTypeBijection()
   {
     for (final Type u : GLType.Type.values()) {
@@ -17,7 +21,9 @@ public class GLTypeJOGL30Test
     }
   }
 
-  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public void testTypeFailure()
+  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public
+    void
+    testTypeFailure()
   {
     GLInterfaceJOGL30.typeFromGL(-1);
   }

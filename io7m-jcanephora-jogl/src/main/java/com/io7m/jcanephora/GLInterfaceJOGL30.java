@@ -1516,6 +1516,11 @@ public final class GLInterfaceJOGL30 implements GLInterface
       "Framebuffer not deleted");
 
     Constraints.constrainNotNull(attachments, "Framebuffer attachments");
+    Constraints.constrainRange(
+      attachments.length,
+      1,
+      Long.MAX_VALUE,
+      "Framebuffer attachments length");
 
     gl.glBindFramebuffer(GL.GL_FRAMEBUFFER, buffer.getLocation());
     GLError.check(this);

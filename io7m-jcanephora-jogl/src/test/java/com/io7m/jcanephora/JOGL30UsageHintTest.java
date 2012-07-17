@@ -3,7 +3,7 @@ package com.io7m.jcanephora;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class UsageHintJOGL30Test
+public class JOGL30UsageHintTest
 {
   @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public
     void
@@ -11,6 +11,10 @@ public class UsageHintJOGL30Test
   {
     GLInterfaceJOGL30.usageHintFromGL(-1);
   }
+
+  /**
+   * ∀h. usageHintFromGL(usageHintToGL(h)) == h.
+   */
 
   @SuppressWarnings("static-method") @Test public void testWrapBijection()
   {
