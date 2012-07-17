@@ -972,6 +972,23 @@ public final class GLInterfaceJOGL30 implements GLInterface
     GLError.check(this);
   }
 
+  @Override public boolean arrayBufferIsBound(
+    final @Nonnull ArrayBuffer id)
+    throws ConstraintError,
+      GLException
+  {
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+
+    Constraints.constrainNotNull(id, "Array buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Array buffer not deleted");
+
+    final int b = g.glGetBoundBuffer(GL.GL_ARRAY_BUFFER);
+    GLError.check(this);
+    return b == id.getLocation();
+  }
+
   @Override public ByteBuffer arrayBufferMapRead(
     final @Nonnull ArrayBuffer id)
     throws GLException,
