@@ -1510,31 +1510,14 @@ public final class GLInterfaceJOGL30 implements GLInterface
     GLError.check(this);
   }
 
-  @Override public Framebuffer framebufferAllocate()
-    throws ConstraintError,
-      GLException
-  {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
-    final IntBuffer buffer = Buffers.newDirectIntBuffer(1);
-    gl.glGenFramebuffers(1, buffer);
-    GLError.check(this);
-    final int id = buffer.get(0);
-    this.log.debug("framebuffer: allocated " + id);
-    return new Framebuffer(id);
-  }
-
-  @Override public void framebufferAttachStorage(
-    final @Nonnull Framebuffer buffer,
+  @Override public Framebuffer framebufferAllocate(
     final @Nonnull FramebufferAttachment[] attachments)
     throws ConstraintError,
       GLException
   {
     final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
 
-    Constraints.constrainNotNull(buffer, "Framebuffer");
-    Constraints.constrainArbitrary(
-      buffer.resourceIsDeleted() == false,
-      "Framebuffer not deleted");
+    final Framebuffer buffer = this.framebufferMake();
 
     Constraints.constrainNotNull(attachments, "Framebuffer attachments");
     Constraints.constrainRange(
@@ -1645,6 +1628,7 @@ public final class GLInterfaceJOGL30 implements GLInterface
         default:
           throw new GLException(status, "Unknown framebuffer error");
       }
+      return buffer;
     } finally {
       gl.glBindFramebuffer(GL.GL_FRAMEBUFFER, 0);
       GLError.check(this);
@@ -1685,6 +1669,20 @@ public final class GLInterfaceJOGL30 implements GLInterface
       Buffers.newDirectIntBuffer(new int[] { buffer.getLocation() });
     gl.glDeleteFramebuffers(1, b);
     GLError.check(this);
+    buffer.setDeleted();
+  }
+
+  private Framebuffer framebufferMake()
+    throws ConstraintError,
+      GLException
+  {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final IntBuffer buffer = Buffers.newDirectIntBuffer(1);
+    gl.glGenFramebuffers(1, buffer);
+    GLError.check(this);
+    final int id = buffer.get(0);
+    this.log.debug("framebuffer: allocated " + id);
+    return new Framebuffer(id);
   }
 
   @Override public void framebufferUnbind()

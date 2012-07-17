@@ -1372,26 +1372,12 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
   }
 
-  @Override public @Nonnull Framebuffer framebufferAllocate()
-    throws ConstraintError,
-      GLException
-  {
-    final int id = GL30.glGenFramebuffers();
-    GLError.check(this);
-    this.log.debug("framebuffer: allocated " + id);
-    return new Framebuffer(id);
-  }
-
-  @Override public void framebufferAttachStorage(
-    final @Nonnull Framebuffer buffer,
+  @Override public @Nonnull Framebuffer framebufferAllocate(
     final @Nonnull FramebufferAttachment[] attachments)
     throws ConstraintError,
       GLException
   {
-    Constraints.constrainNotNull(buffer, "Framebuffer");
-    Constraints.constrainArbitrary(
-      buffer.resourceIsDeleted() == false,
-      "Framebuffer not deleted");
+    final Framebuffer buffer = this.framebufferMake();
 
     Constraints.constrainNotNull(attachments, "Framebuffer attachments");
     Constraints.constrainRange(
@@ -1500,6 +1486,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         default:
           throw new GLException(status, "Unknown framebuffer error");
       }
+
+      return buffer;
     } finally {
       GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
       GLError.check(this);
@@ -1534,6 +1522,17 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     GL30.glDeleteFramebuffers(buffer.getLocation());
     GLError.check(this);
+    buffer.setDeleted();
+  }
+
+  private @Nonnull Framebuffer framebufferMake()
+    throws ConstraintError,
+      GLException
+  {
+    final int id = GL30.glGenFramebuffers();
+    GLError.check(this);
+    this.log.debug("framebuffer: allocated " + id);
+    return new Framebuffer(id);
   }
 
   @Override public void framebufferUnbind()
