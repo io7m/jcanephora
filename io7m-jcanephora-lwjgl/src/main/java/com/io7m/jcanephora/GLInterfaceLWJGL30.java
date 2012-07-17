@@ -1935,20 +1935,6 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
   }
 
-  @Override public void pointDisableProgramSizeControl()
-    throws GLException
-  {
-    GL11.glDisable(GL20.GL_VERTEX_PROGRAM_POINT_SIZE);
-    GLError.check(this);
-  }
-
-  @Override public void pointEnableProgramSizeControl()
-    throws GLException
-  {
-    GL11.glEnable(GL20.GL_VERTEX_PROGRAM_POINT_SIZE);
-    GLError.check(this);
-  }
-
   @Override public int pointGetMaximumWidth()
   {
     return this.point_max_width;
@@ -1957,6 +1943,28 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   @Override public int pointGetMinimumWidth()
   {
     return this.point_min_width;
+  }
+
+  @Override public void pointProgramSizeControlDisable()
+    throws GLException
+  {
+    GL11.glDisable(GL20.GL_VERTEX_PROGRAM_POINT_SIZE);
+    GLError.check(this);
+  }
+
+  @Override public void pointProgramSizeControlEnable()
+    throws GLException
+  {
+    GL11.glEnable(GL20.GL_VERTEX_PROGRAM_POINT_SIZE);
+    GLError.check(this);
+  }
+
+  @Override public boolean pointProgramSizeControlIsEnabled()
+    throws GLException
+  {
+    final boolean e = GL11.glIsEnabled(GL20.GL_VERTEX_PROGRAM_POINT_SIZE);
+    GLError.check(this);
+    return e;
   }
 
   @Override public void polygonSetMode(
