@@ -1149,6 +1149,13 @@ public final class GLInterfaceJOGL30 implements GLInterface
     Constraints.constrainNotNull(equation_rgb, "Equation RGB");
     Constraints.constrainNotNull(equation_alpha, "Equation alpha");
 
+    Constraints.constrainArbitrary(
+      destination_rgb_factor != BlendFunction.BLEND_SOURCE_ALPHA_SATURATE,
+      "Destination RGB factor not SOURCE_ALPHA_SATURATE");
+    Constraints.constrainArbitrary(
+      destination_alpha_factor != BlendFunction.BLEND_SOURCE_ALPHA_SATURATE,
+      "Destination alpha factor not SOURCE_ALPHA_SATURATE");
+
     gl.glEnable(GL.GL_BLEND);
     gl.glBlendEquationSeparate(
       GLInterfaceJOGL30.blendEquationToGL(equation_rgb),
@@ -1192,6 +1199,17 @@ public final class GLInterfaceJOGL30 implements GLInterface
       destination_factor,
       equation_rgb,
       equation_alpha);
+  }
+
+  @Override public boolean blendingIsEnabled()
+    throws ConstraintError,
+      GLException
+  {
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final IntBuffer buffer = Buffers.newDirectIntBuffer(1);
+    g.glGetIntegerv(GL.GL_BLEND, buffer);
+    GLError.check(this);
+    return buffer.get(0) == GL.GL_TRUE;
   }
 
   @Override public void colorBufferClear3f(
