@@ -1281,6 +1281,14 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     return bits;
   }
 
+  @Override public boolean depthBufferIsEnabled()
+    throws GLException
+  {
+    final boolean e = GL11.glIsEnabled(GL11.GL_DEPTH_TEST);
+    GLError.check(this);
+    return e;
+  }
+
   @Override public void drawElements(
     final @Nonnull Primitives mode,
     final @Nonnull IndexBuffer indices)
@@ -1763,6 +1771,14 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GL11.glEnable(GL11.GL_LOGIC_OP);
     GL11.glLogicOp(GLInterfaceLWJGL30.logicOpToGL(operation));
     GLError.check(this);
+  }
+
+  @Override public boolean logicOperationsEnabled()
+    throws GLException
+  {
+    final boolean e = GL11.glIsEnabled(GL11.GL_LOGIC_OP);
+    GLError.check(this);
+    return e;
   }
 
   @Override public int metaGetError()
@@ -2766,13 +2782,5 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       dimensions.getXI(),
       dimensions.getYI());
     GLError.check(this);
-  }
-
-  @Override public boolean depthBufferIsEnabled()
-    throws GLException
-  {
-    final boolean e = GL11.glIsEnabled(GL11.GL_DEPTH_TEST);
-    GLError.check(this);
-    return e;
   }
 }

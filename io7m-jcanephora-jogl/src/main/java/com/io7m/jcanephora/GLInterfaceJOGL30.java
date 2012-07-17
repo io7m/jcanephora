@@ -1956,6 +1956,15 @@ public final class GLInterfaceJOGL30 implements GLInterface
     GLError.check(this);
   }
 
+  @Override public boolean logicOperationsEnabled()
+    throws GLException
+  {
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final boolean e = g.glIsEnabled(GL2.GL_LOGIC_OP);
+    GLError.check(this);
+    return e;
+  }
+
   @Override public int metaGetError()
     throws GLException
   {
