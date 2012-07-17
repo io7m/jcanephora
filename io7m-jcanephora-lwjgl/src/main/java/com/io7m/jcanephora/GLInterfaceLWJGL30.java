@@ -1996,6 +1996,14 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
   }
 
+  @Override public boolean polygonSmoothingIsEnabled()
+    throws GLException
+  {
+    final boolean e = GL11.glIsEnabled(GL11.GL_POLYGON_SMOOTH);
+    GLError.check(this);
+    return e;
+  }
+
   @Override public void programActivate(
     final @Nonnull ProgramReference program)
     throws ConstraintError,
