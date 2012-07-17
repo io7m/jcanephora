@@ -920,6 +920,21 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
   }
 
+  @Override public boolean arrayBufferIsBound(
+    final @Nonnull ArrayBuffer id)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(id, "Array buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Array buffer not deleted");
+
+    final int b = GL11.glGetInteger(GL15.GL_ARRAY_BUFFER_BINDING);
+    GLError.check(this);
+    return b == id.getLocation();
+  }
+
   @Override public @Nonnull ByteBuffer arrayBufferMapRead(
     final @Nonnull ArrayBuffer id)
     throws GLException,
