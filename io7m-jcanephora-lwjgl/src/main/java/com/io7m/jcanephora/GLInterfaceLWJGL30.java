@@ -1090,6 +1090,13 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     Constraints.constrainNotNull(equation_rgb, "Equation RGB");
     Constraints.constrainNotNull(equation_alpha, "Equation alpha");
 
+    Constraints.constrainArbitrary(
+      destination_rgb_factor != BlendFunction.BLEND_SOURCE_ALPHA_SATURATE,
+      "Destination RGB factor not SOURCE_ALPHA_SATURATE");
+    Constraints.constrainArbitrary(
+      destination_alpha_factor != BlendFunction.BLEND_SOURCE_ALPHA_SATURATE,
+      "Destination alpha factor not SOURCE_ALPHA_SATURATE");
+
     GL11.glEnable(GL11.GL_BLEND);
     GL20.glBlendEquationSeparate(
       GLInterfaceLWJGL30.blendEquationToGL(equation_rgb),
@@ -1133,6 +1140,15 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       destination_factor,
       equation_rgb,
       equation_alpha);
+  }
+
+  @Override public boolean blendingIsEnabled()
+    throws ConstraintError,
+      GLException
+  {
+    final boolean e = GL11.glGetBoolean(GL11.GL_BLEND);
+    GLError.check(this);
+    return e;
   }
 
   @Override public void colorBufferClear3f(
