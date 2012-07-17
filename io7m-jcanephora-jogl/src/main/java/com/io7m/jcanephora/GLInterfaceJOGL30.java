@@ -1351,9 +1351,17 @@ public final class GLInterfaceJOGL30 implements GLInterface
 
   @Override public void depthBufferClear(
     final float depth)
-    throws GLException
+    throws GLException,
+      ConstraintError
   {
     final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
+    Constraints.constrainRange(
+      this.contextGetInteger(gl, GL.GL_DEPTH_BITS),
+      1,
+      Integer.MAX_VALUE,
+      "Depth buffer bits available");
+
     gl.glClearDepth(depth);
     gl.glClear(GL.GL_DEPTH_BUFFER_BIT);
     GLError.check(this);
@@ -1378,7 +1386,7 @@ public final class GLInterfaceJOGL30 implements GLInterface
       this.contextGetInteger(gl, GL.GL_DEPTH_BITS),
       1,
       Integer.MAX_VALUE,
-      "Depth buffer bits");
+      "Depth buffer bits available");
 
     final int d = GLInterfaceJOGL30.depthFunctionToGL(function);
     gl.glEnable(GL.GL_DEPTH_TEST);
@@ -1391,6 +1399,15 @@ public final class GLInterfaceJOGL30 implements GLInterface
   {
     final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
     return this.contextGetInteger(gl, GL.GL_DEPTH_BITS);
+  }
+
+  @Override public boolean depthBufferIsEnabled()
+    throws GLException
+  {
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final boolean e = g.glIsEnabled(GL.GL_DEPTH_TEST);
+    GLError.check(this);
+    return e;
   }
 
   @Override public void drawElements(
