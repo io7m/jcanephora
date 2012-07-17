@@ -6,10 +6,10 @@ import org.junit.After;
 import org.junit.Before;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts.FramebuffersContract;
+import com.io7m.jcanephora.contracts.RenderbuffersContract;
 import com.io7m.jlog.Log;
 
-public final class JOGL30RenderbuffersTest extends FramebuffersContract
+public final class JOGL30RenderbuffersTest extends RenderbuffersContract
 {
   private GLContext context;
 
