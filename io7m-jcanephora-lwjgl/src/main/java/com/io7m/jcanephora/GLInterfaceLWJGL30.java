@@ -2501,6 +2501,14 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
   }
 
+  @Override public boolean scissorIsEnabled()
+    throws GLException
+  {
+    final boolean e = GL11.glIsEnabled(GL11.GL_SCISSOR_TEST);
+    GLError.check(this);
+    return e;
+  }
+
   @Override public int stencilBufferGetBits()
     throws GLException
   {
