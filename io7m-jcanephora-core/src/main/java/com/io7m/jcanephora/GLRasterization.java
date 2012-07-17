@@ -171,4 +171,14 @@ public interface GLRasterization
 
   void polygonSmoothingEnable()
     throws GLException;
+
+  /**
+   * Return <code>true</code> iff smooth rasterization of polygons is enabled.
+   * 
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  boolean polygonSmoothingIsEnabled()
+    throws GLException;
 }

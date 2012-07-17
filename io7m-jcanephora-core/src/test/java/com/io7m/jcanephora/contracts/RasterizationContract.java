@@ -165,6 +165,25 @@ public abstract class RasterizationContract implements GLTestContract
   }
 
   /**
+   * Enabling/disabling polygon smoothing works.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   */
+
+  @Test public final void testPolygonSmoothing()
+    throws GLException,
+      ConstraintError
+  {
+    final GLInterface gl = this.getGL();
+
+    gl.polygonSmoothingDisable();
+    Assert.assertFalse(gl.polygonSmoothingIsEnabled());
+    gl.polygonSmoothingEnable();
+    Assert.assertTrue(gl.polygonSmoothingIsEnabled());
+  }
+
+  /**
    * Enabling program point size control works.
    */
 
