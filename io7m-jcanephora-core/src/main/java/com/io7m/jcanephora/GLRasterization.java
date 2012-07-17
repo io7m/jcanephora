@@ -132,6 +132,22 @@ public interface GLRasterization
     throws GLException;
 
   /**
+   * Return the <code>PolygonMode</code> used for back-facing polygons.
+   */
+
+  @Nonnull PolygonMode polygonGetModeBack()
+    throws ConstraintError,
+      GLException;
+
+  /**
+   * Return the <code>PolygonMode</code> used for front-facing polygons.
+   */
+
+  @Nonnull PolygonMode polygonGetModeFront()
+    throws ConstraintError,
+      GLException;
+
+  /**
    * Set the polygon rasterization mode for the polygons specified by
    * <code>faces</code> to <code>mode</code>. The OpenGL default is
    * <code>POLYGON_FILL</code> for both front and back faces.

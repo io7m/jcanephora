@@ -10,14 +10,16 @@ import com.io7m.jtensors.VectorI2I;
 
 public abstract class ScissorContract implements GLTestContract
 {
-  @Test(expected = ConstraintError.class) public
-    void
-    testScissorNullPosition()
-      throws GLException,
-        ConstraintError
+  @Test public void testScissorEnableWorks()
+    throws GLException,
+      ConstraintError
   {
     final GLInterface gl = this.getGL();
-    gl.scissorEnable(null, new VectorI2I(8, 8));
+
+    gl.scissorDisable();
+    Assert.assertFalse(gl.scissorIsEnabled());
+    gl.scissorEnable(new VectorI2I(8, 8), new VectorI2I(8, 8));
+    Assert.assertTrue(gl.scissorIsEnabled());
   }
 
   @Test(expected = ConstraintError.class) public
@@ -30,15 +32,13 @@ public abstract class ScissorContract implements GLTestContract
     gl.scissorEnable(new VectorI2I(8, 8), null);
   }
 
-  @Test public void testScissorEnableWorks()
-    throws GLException,
-      ConstraintError
+  @Test(expected = ConstraintError.class) public
+    void
+    testScissorNullPosition()
+      throws GLException,
+        ConstraintError
   {
     final GLInterface gl = this.getGL();
-
-    gl.scissorDisable();
-    Assert.assertFalse(gl.scissorIsEnabled());
-    gl.scissorEnable(new VectorI2I(8, 8), new VectorI2I(8, 8));
-    Assert.assertTrue(gl.scissorIsEnabled());
+    gl.scissorEnable(null, new VectorI2I(8, 8));
   }
 }
