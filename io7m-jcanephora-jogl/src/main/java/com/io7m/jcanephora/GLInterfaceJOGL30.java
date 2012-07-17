@@ -14,7 +14,6 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GL2GL3;
-import javax.media.opengl.GL3;
 import javax.media.opengl.GLContext;
 
 import com.io7m.jaux.Constraints;
@@ -2147,22 +2146,6 @@ public final class GLInterfaceJOGL30 implements GLInterface
     GLError.check(this);
   }
 
-  @Override public void pointDisableProgramSizeControl()
-    throws GLException
-  {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
-    gl.glDisable(GL3.GL_PROGRAM_POINT_SIZE);
-    GLError.check(this);
-  }
-
-  @Override public void pointEnableProgramSizeControl()
-    throws GLException
-  {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
-    gl.glEnable(GL3.GL_PROGRAM_POINT_SIZE);
-    GLError.check(this);
-  }
-
   @Override public int pointGetMaximumWidth()
   {
     return this.point_max_width;
@@ -2171,6 +2154,31 @@ public final class GLInterfaceJOGL30 implements GLInterface
   @Override public int pointGetMinimumWidth()
   {
     return this.point_min_width;
+  }
+
+  @Override public void pointProgramSizeControlDisable()
+    throws GLException
+  {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    gl.glDisable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
+    GLError.check(this);
+  }
+
+  @Override public void pointProgramSizeControlEnable()
+    throws GLException
+  {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    gl.glEnable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
+    GLError.check(this);
+  }
+
+  @Override public boolean pointProgramSizeControlIsEnabled()
+    throws GLException
+  {
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final boolean e = g.glIsEnabled(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
+    GLError.check(this);
+    return e;
   }
 
   @Override public void polygonSetMode(
