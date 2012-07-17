@@ -2764,6 +2764,15 @@ public final class GLInterfaceJOGL30 implements GLInterface
     GLError.check(this);
   }
 
+  @Override public boolean scissorIsEnabled()
+    throws GLException
+  {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final boolean e = gl.glIsEnabled(GL.GL_SCISSOR_TEST);
+    GLError.check(this);
+    return e;
+  }
+
   @Override public int stencilBufferGetBits()
     throws GLException
   {
