@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.Pbuffer;
 
-public class LWJGL30Test
+public final class LWJGL30Test
 {
   @SuppressWarnings("static-method") @Test public void testNormalDisplay()
   {

@@ -1,18 +1,28 @@
 package com.io7m.jcanephora;
 
-import java.io.IOException;
-
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 import org.lwjgl.opengl.Pbuffer;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.contracts.FramebuffersContract;
+import com.io7m.jlog.Log;
 
-public class GLTexturesLWJGL30Test
+public final class LWJGL30FramebuffersTest extends FramebuffersContract
 {
   private Pbuffer buffer;
+
+  @Override public GLInterface getGL()
+    throws GLException,
+      ConstraintError
+  {
+    return new GLInterfaceLWJGL30(this.getLog());
+  }
+
+  @Override public Log getLog()
+  {
+    return LWJGL30TestLog.getLog();
+  }
 
   @Before public void setUp()
     throws Exception
@@ -24,15 +34,5 @@ public class GLTexturesLWJGL30Test
     throws Exception
   {
     LWJGL30.destroyOffscreenDisplay(this.buffer);
-  }
-
-  @SuppressWarnings("static-method") @Test public void testGetUnits()
-    throws IOException,
-      ConstraintError,
-      GLException
-  {
-    final GLInterface gl = GLInterfaceLWJGL30Util.getGL();
-    final TextureUnit[] u = gl.textureGetUnits();
-    Assert.assertTrue(u.length >= 2);
   }
 }

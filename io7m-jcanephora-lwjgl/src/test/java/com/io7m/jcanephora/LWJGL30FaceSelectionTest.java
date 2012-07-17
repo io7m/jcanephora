@@ -4,8 +4,12 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-public class FaceSelectionLWJGL30Test
+public final class LWJGL30FaceSelectionTest
 {
+  /**
+   * ∀f. faceSelectionFromGL(faceSelectionToGL(f)) = f.
+   */
+
   @SuppressWarnings("static-method") @Test public void testFaceBijection()
   {
     for (final FaceSelection f : FaceSelection.values()) {
@@ -14,7 +18,9 @@ public class FaceSelectionLWJGL30Test
     }
   }
 
-  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public void testNonsense()
+  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public
+    void
+    testNonsense()
   {
     GLInterfaceLWJGL30.faceSelectionFromGL(-1);
   }

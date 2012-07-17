@@ -4,8 +4,12 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-public class PrimitivesLWJGL30Test
+public final class LWJGL30PrimitivesTest
 {
+  /**
+   * ∀m. primitiveFromGL(primitiveToGL(p)) == p.
+   */
+
   @SuppressWarnings("static-method") @Test public void testModeBijection()
   {
     for (final Primitives p : Primitives.values()) {
@@ -14,7 +18,9 @@ public class PrimitivesLWJGL30Test
     }
   }
 
-  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public void testNonsense()
+  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public
+    void
+    testNonsense()
   {
     GLInterfaceLWJGL30.polygonModeFromGL(-1);
   }

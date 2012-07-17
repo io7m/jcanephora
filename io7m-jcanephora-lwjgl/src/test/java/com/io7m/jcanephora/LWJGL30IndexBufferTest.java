@@ -5,18 +5,12 @@ import org.junit.Before;
 import org.lwjgl.opengl.Pbuffer;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts.ProgramContract;
+import com.io7m.jcanephora.contracts.IndexBufferContract;
 import com.io7m.jlog.Log;
-import com.io7m.jvvfs.FilesystemAPI;
 
-public final class ProgramLWJGL30Test extends ProgramContract
+public final class LWJGL30IndexBufferTest extends IndexBufferContract
 {
   private Pbuffer buffer;
-
-  @Override public FilesystemAPI getFS()
-  {
-    return LWJGL30TestFilesystem.getFS();
-  }
 
   @Override public GLInterface getGL()
     throws GLException,

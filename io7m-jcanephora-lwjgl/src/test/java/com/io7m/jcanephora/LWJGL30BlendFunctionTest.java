@@ -3,8 +3,12 @@ package com.io7m.jcanephora;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class BlendFunctionLWJGL30Test
+public final class LWJGL30BlendFunctionTest
 {
+  /**
+   * ∀f. blendFunctionFromGL(blendFunctionToGL(f)) = f.
+   */
+
   @SuppressWarnings("static-method") @Test public void testBijection()
   {
     for (final BlendFunction f : BlendFunction.values()) {
@@ -13,7 +17,9 @@ public class BlendFunctionLWJGL30Test
     }
   }
 
-  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public void testNonsense()
+  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public
+    void
+    testNonsense()
   {
     GLInterfaceLWJGL30.blendFunctionFromGL(-1);
   }
