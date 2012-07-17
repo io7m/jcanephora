@@ -3,8 +3,12 @@ package com.io7m.jcanephora;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class TextureFilterLWJGL30Test
+public class LWJGL30TextureFilterTest
 {
+  /**
+   * ∀f. textureFilterFromGL(textureFilterToGL(f)) == f.
+   */
+
   @SuppressWarnings("static-method") @Test public void testFilterBijection()
   {
     for (final TextureFilter f : TextureFilter.values()) {
@@ -13,7 +17,9 @@ public class TextureFilterLWJGL30Test
     }
   }
 
-  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public void testNonsense()
+  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public
+    void
+    testNonsense()
   {
     GLInterfaceLWJGL30.textureFilterFromGL(-1);
   }

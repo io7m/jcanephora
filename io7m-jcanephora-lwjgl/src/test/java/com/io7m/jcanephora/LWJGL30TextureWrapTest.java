@@ -3,12 +3,18 @@ package com.io7m.jcanephora;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class TextureWrapLWJGL30Test
+public class LWJGL30TextureWrapTest
 {
-  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public void testNonsense()
+  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public
+    void
+    testNonsense()
   {
     GLInterfaceLWJGL30.textureWrapFromGL(-1);
   }
+
+  /**
+   * ∀w. textureWrapFromGL(textureWrapToGL(w)) == w.
+   */
 
   @SuppressWarnings("static-method") @Test public void testWrapBijection()
   {

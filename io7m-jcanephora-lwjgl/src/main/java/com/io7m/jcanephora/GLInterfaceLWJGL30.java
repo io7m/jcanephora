@@ -1377,6 +1377,11 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       "Framebuffer not deleted");
 
     Constraints.constrainNotNull(attachments, "Framebuffer attachments");
+    Constraints.constrainRange(
+      attachments.length,
+      1,
+      Long.MAX_VALUE,
+      "Framebuffer attachments length");
 
     GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, buffer.getLocation());
     GLError.check(this);

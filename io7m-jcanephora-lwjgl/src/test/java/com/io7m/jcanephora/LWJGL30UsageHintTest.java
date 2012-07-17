@@ -3,12 +3,18 @@ package com.io7m.jcanephora;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class UsageHintLWJGL30Test
+public class LWJGL30UsageHintTest
 {
-  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public void testNonsense()
+  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public
+    void
+    testNonsense()
   {
     GLInterfaceLWJGL30.usageHintFromGL(-1);
   }
+
+  /**
+   * ∀h. usageHintFromGL(usageHintToGL(h)) == h.
+   */
 
   @SuppressWarnings("static-method") @Test public void testWrapBijection()
   {

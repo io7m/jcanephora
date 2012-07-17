@@ -4,8 +4,12 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-public class PolygonModeLWJGL30Test
+public final class LWJGL30PolygonModeTest
 {
+  /**
+   * ∀m. polygonModeFromGL(polygonModeToGL(m)) == m.
+   */
+
   @SuppressWarnings("static-method") @Test public void testModeBijection()
   {
     for (final PolygonMode p : PolygonMode.values()) {
@@ -14,7 +18,9 @@ public class PolygonModeLWJGL30Test
     }
   }
 
-  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public void testNonsense()
+  @SuppressWarnings("static-method") @Test(expected = AssertionError.class) public
+    void
+    testNonsense()
   {
     GLInterfaceLWJGL30.polygonModeFromGL(-1);
   }
