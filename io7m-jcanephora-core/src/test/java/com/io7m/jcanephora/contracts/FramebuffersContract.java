@@ -16,6 +16,8 @@ import com.io7m.jcanephora.RenderbufferD24S8;
 import com.io7m.jcanephora.Texture2DRGBAStatic;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureWrap;
+import com.io7m.jtensors.VectorI3F;
+import com.io7m.jtensors.VectorI4F;
 
 public abstract class FramebuffersContract implements GLTestContract
 {
@@ -292,5 +294,62 @@ public abstract class FramebuffersContract implements GLTestContract
       gl.framebufferAllocate(new FramebufferAttachment[] { fbc });
     fb.resourceDelete(gl);
     fb.resourceDelete(gl);
+  }
+
+  /**
+   * Clearing the color buffer works.
+   */
+
+  @Test public void testFramebufferClearColor()
+    throws ConstraintError,
+      GLException
+  {
+    final GLInterface gl = this.getGL();
+    final Texture2DRGBAStatic t =
+      gl.texture2DRGBAStaticAllocate(
+        "buffer",
+        128,
+        128,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+    final ColorAttachment fbc = new ColorAttachment(t, 0);
+    final Framebuffer fb =
+      gl.framebufferAllocate(new FramebufferAttachment[] { fbc });
+    gl.framebufferBind(fb);
+    gl.colorBufferClear4f(1.0f, 0.0f, 0.0f, 1.0f);
+    gl.colorBufferClear3f(1.0f, 0.0f, 0.0f);
+    gl.colorBufferClearV3f(new VectorI3F(1.0f, 0.0f, 1.0f));
+    gl.colorBufferClearV4f(new VectorI4F(1.0f, 0.0f, 1.0f, 1.0f));
+    gl.framebufferUnbind();
+  }
+
+  /**
+   * Passing a null clear color fails.
+   */
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testFramebufferClearColorNull3()
+      throws ConstraintError,
+        GLException
+  {
+    final GLInterface gl = this.getGL();
+    gl.colorBufferClearV3f(null);
+  }
+
+  /**
+   * Passing a null clear color fails.
+   */
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testFramebufferClearColorNull4()
+      throws ConstraintError,
+        GLException
+  {
+    final GLInterface gl = this.getGL();
+    gl.colorBufferClearV4f(null);
   }
 }

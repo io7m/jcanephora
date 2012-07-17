@@ -2181,6 +2181,30 @@ public final class GLInterfaceJOGL30 implements GLInterface
     return e;
   }
 
+  @Override public @Nonnull PolygonMode polygonGetModeBack()
+    throws ConstraintError,
+      GLException
+  {
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+
+    final IntBuffer ib = Buffers.newDirectIntBuffer(2);
+    g.glGetIntegerv(GL2.GL_POLYGON_MODE, ib);
+    GLError.check(this);
+    return GLInterfaceJOGL30.polygonModeFromGL(ib.get(1));
+  }
+
+  @Override public @Nonnull PolygonMode polygonGetModeFront()
+    throws ConstraintError,
+      GLException
+  {
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+
+    final IntBuffer ib = Buffers.newDirectIntBuffer(2);
+    g.glGetIntegerv(GL2.GL_POLYGON_MODE, ib);
+    GLError.check(this);
+    return GLInterfaceJOGL30.polygonModeFromGL(ib.get(0));
+  }
+
   @Override public void polygonSetMode(
     final @Nonnull FaceSelection faces,
     final @Nonnull PolygonMode mode)

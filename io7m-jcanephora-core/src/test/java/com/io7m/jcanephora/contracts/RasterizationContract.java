@@ -5,8 +5,10 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.FaceSelection;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface;
+import com.io7m.jcanephora.PolygonMode;
 
 public abstract class RasterizationContract implements GLTestContract
 {
@@ -162,6 +164,49 @@ public abstract class RasterizationContract implements GLTestContract
 
     assert gl != null;
     gl.lineSetWidth(min - 1);
+  }
+
+  /**
+   * Setting polygon rasterization modes works.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   */
+
+  @Test public final void testPolygonMode()
+    throws GLException,
+      ConstraintError
+  {
+    final GLInterface gl = this.getGL();
+
+    for (final FaceSelection select : FaceSelection.values()) {
+      for (final PolygonMode mode : PolygonMode.values()) {
+        gl.polygonSetMode(select, mode);
+
+        switch (select) {
+          case FACE_BACK:
+          {
+            final PolygonMode back = gl.polygonGetModeBack();
+            Assert.assertEquals(mode, back);
+            break;
+          }
+          case FACE_FRONT:
+          {
+            final PolygonMode front = gl.polygonGetModeFront();
+            Assert.assertEquals(mode, front);
+            break;
+          }
+          case FACE_FRONT_AND_BACK:
+          {
+            final PolygonMode front = gl.polygonGetModeFront();
+            final PolygonMode back = gl.polygonGetModeBack();
+            Assert.assertEquals(mode, front);
+            Assert.assertEquals(mode, back);
+            break;
+          }
+        }
+      }
+    }
   }
 
   /**

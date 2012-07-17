@@ -1967,6 +1967,34 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     return e;
   }
 
+  @Override public @Nonnull PolygonMode polygonGetModeBack()
+    throws ConstraintError,
+      GLException
+  {
+    final IntBuffer ib =
+      ByteBuffer
+        .allocateDirect(16 * 4)
+        .order(ByteOrder.nativeOrder())
+        .asIntBuffer();
+    GL11.glGetInteger(GL11.GL_POLYGON_MODE, ib);
+    GLError.check(this);
+    return GLInterfaceLWJGL30.polygonModeFromGL(ib.get(1));
+  }
+
+  @Override public @Nonnull PolygonMode polygonGetModeFront()
+    throws ConstraintError,
+      GLException
+  {
+    final IntBuffer ib =
+      ByteBuffer
+        .allocateDirect(16 * 4)
+        .order(ByteOrder.nativeOrder())
+        .asIntBuffer();
+    GL11.glGetInteger(GL11.GL_POLYGON_MODE, ib);
+    GLError.check(this);
+    return GLInterfaceLWJGL30.polygonModeFromGL(ib.get(0));
+  }
+
   @Override public void polygonSetMode(
     final @Nonnull FaceSelection faces,
     final @Nonnull PolygonMode mode)
