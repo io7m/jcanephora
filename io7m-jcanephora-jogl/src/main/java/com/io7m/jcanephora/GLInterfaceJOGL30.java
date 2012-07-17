@@ -519,20 +519,6 @@ public final class GLInterfaceJOGL30 implements GLInterface
     throw new AssertionError("unreachable code: report this bug!");
   }
 
-  static int textureFilterFromGL(
-    final @Nonnull TextureFilter mag_filter)
-  {
-    switch (mag_filter) {
-      case TEXTURE_FILTER_LINEAR:
-        return GL.GL_LINEAR;
-      case TEXTURE_FILTER_NEAREST:
-        return GL.GL_NEAREST;
-    }
-
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
-  }
-
   static int textureFilterToGL(
     final @Nonnull TextureFilter mag_filter)
   {
