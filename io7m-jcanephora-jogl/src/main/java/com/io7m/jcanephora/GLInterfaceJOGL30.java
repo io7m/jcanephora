@@ -2551,7 +2551,7 @@ public final class GLInterfaceJOGL30 implements GLInterface
 
     gl.glUniformMatrix3fv(
       uniform.getLocation(),
-      9,
+      1,
       false,
       MatrixM3x3F.floatBuffer(matrix));
     GLError.check(this);
@@ -2576,7 +2576,7 @@ public final class GLInterfaceJOGL30 implements GLInterface
 
     gl.glUniformMatrix4fv(
       uniform.getLocation(),
-      16,
+      1,
       false,
       MatrixM4x4F.floatBuffer(matrix));
     GLError.check(this);

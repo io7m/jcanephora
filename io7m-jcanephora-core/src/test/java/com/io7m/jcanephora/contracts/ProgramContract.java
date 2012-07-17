@@ -9,10 +9,18 @@ import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface;
 import com.io7m.jcanephora.GLType;
+import com.io7m.jcanephora.GLType.Type;
 import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramReference;
 import com.io7m.jcanephora.ProgramUniform;
+import com.io7m.jcanephora.TextureUnit;
+import com.io7m.jtensors.MatrixM3x3F;
+import com.io7m.jtensors.MatrixM4x4F;
+import com.io7m.jtensors.VectorI2F;
+import com.io7m.jtensors.VectorI2I;
+import com.io7m.jtensors.VectorI3F;
+import com.io7m.jtensors.VectorI4F;
 import com.io7m.jvvfs.FilesystemAPI;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
@@ -671,5 +679,183 @@ public abstract class ProgramContract implements
     fs.unmount("/");
     fs.mount("test_lwjgl30_newer.zip", "/");
     Assert.assertTrue(p.requiresCompilation(fs, gl));
+  }
+
+  /**
+   * Program uniforms work.
+   * 
+   * @throws ConstraintError
+   * @throws GLException
+   * @throws FilesystemError
+   * @throws GLCompileException
+   */
+
+  @Test public final void testProgramUniforms()
+    throws GLException,
+      ConstraintError,
+      FilesystemError,
+      GLCompileException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    fs.mount("test_lwjgl30.zip", "/");
+
+    final Program p = new Program("program", this.getLog());
+    p.addVertexShader(new PathVirtual("/shaders/large.v"));
+    p.addFragmentShader(new PathVirtual("/shaders/texture.f"));
+    p.compile(fs, gl);
+    p.activate(gl);
+
+    {
+      final ProgramUniform u = p.getUniform("float_0");
+      Assert.assertEquals(Type.TYPE_FLOAT, u.getType());
+      gl.programPutUniformFloat(u, 1.0f);
+    }
+
+    {
+      final ProgramUniform u = p.getUniform("mat3_0");
+      Assert.assertEquals(Type.TYPE_FLOAT_MATRIX_3, u.getType());
+      final MatrixM3x3F m = new MatrixM3x3F();
+      gl.programPutUniformMatrix3x3f(u, m);
+    }
+
+    {
+      final ProgramUniform u = p.getUniform("mat4_0");
+      Assert.assertEquals(Type.TYPE_FLOAT_MATRIX_4, u.getType());
+      final MatrixM4x4F m = new MatrixM4x4F();
+      gl.programPutUniformMatrix4x4f(u, m);
+    }
+
+    {
+      final ProgramUniform u = p.getUniform("vec2_0");
+      Assert.assertEquals(Type.TYPE_FLOAT_VECTOR_2, u.getType());
+      final VectorI2F v = new VectorI2F(1.0f, 2.0f);
+      gl.programPutUniformVector2f(u, v);
+    }
+
+    {
+      final ProgramUniform u = p.getUniform("vec2_1");
+      Assert.assertEquals(Type.TYPE_INTEGER_VECTOR_2, u.getType());
+      final VectorI2I v = new VectorI2I(1, 2);
+      gl.programPutUniformVector2i(u, v);
+    }
+
+    {
+      final ProgramUniform u = p.getUniform("vec3_0");
+      Assert.assertEquals(Type.TYPE_FLOAT_VECTOR_3, u.getType());
+      final VectorI3F v = new VectorI3F(1.0f, 2.0f, 3.0f);
+      gl.programPutUniformVector3f(u, v);
+    }
+
+    {
+      final ProgramUniform u = p.getUniform("vec4_0");
+      Assert.assertEquals(Type.TYPE_FLOAT_VECTOR_4, u.getType());
+      final VectorI4F v = new VectorI4F(1.0f, 2.0f, 3.0f, 4.0f);
+      gl.programPutUniformVector4f(u, v);
+    }
+
+    {
+      final TextureUnit[] units = gl.textureGetUnits();
+      final ProgramUniform u = p.getUniform("sampler");
+      Assert.assertEquals(Type.TYPE_SAMPLER_2D, u.getType());
+      gl.programPutUniformTextureUnit(u, units[0]);
+    }
+  }
+
+  /**
+   * Null program uniforms fail.
+   * 
+   * @throws ConstraintError
+   * @throws GLException
+   * @throws FilesystemError
+   * @throws GLCompileException
+   */
+
+  @Test public final void testProgramUniformsNullFails()
+    throws GLException,
+      ConstraintError,
+      FilesystemError,
+      GLCompileException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    fs.mount("test_lwjgl30.zip", "/");
+
+    final Program p = new Program("program", this.getLog());
+    p.addVertexShader(new PathVirtual("/shaders/large.v"));
+    p.addFragmentShader(new PathVirtual("/shaders/texture.f"));
+    p.compile(fs, gl);
+    p.activate(gl);
+
+    try {
+      gl.programPutUniformFloat(null, 1.0f);
+    } catch (final ConstraintError e) {
+      // Ok.
+    } catch (final Exception e) {
+      Assert.fail(e.getMessage());
+    }
+
+    try {
+      final MatrixM3x3F m = new MatrixM3x3F();
+      gl.programPutUniformMatrix3x3f(null, m);
+    } catch (final ConstraintError e) {
+      // Ok.
+    } catch (final Exception e) {
+      Assert.fail(e.getMessage());
+    }
+
+    try {
+      final MatrixM4x4F m = new MatrixM4x4F();
+      gl.programPutUniformMatrix4x4f(null, m);
+    } catch (final ConstraintError e) {
+      // Ok.
+    } catch (final Exception e) {
+      Assert.fail(e.getMessage());
+    }
+
+    try {
+      final VectorI2F v = new VectorI2F(1.0f, 2.0f);
+      gl.programPutUniformVector2f(null, v);
+    } catch (final ConstraintError e) {
+      // Ok.
+    } catch (final Exception e) {
+      Assert.fail(e.getMessage());
+    }
+
+    try {
+      final VectorI2I v = new VectorI2I(1, 2);
+      gl.programPutUniformVector2i(null, v);
+    } catch (final ConstraintError e) {
+      // Ok.
+    } catch (final Exception e) {
+      Assert.fail(e.getMessage());
+    }
+
+    try {
+      final VectorI3F v = new VectorI3F(1.0f, 2.0f, 3.0f);
+      gl.programPutUniformVector3f(null, v);
+    } catch (final ConstraintError e) {
+      // Ok.
+    } catch (final Exception e) {
+      Assert.fail(e.getMessage());
+    }
+
+    try {
+      final VectorI4F v = new VectorI4F(1.0f, 2.0f, 3.0f, 4.0f);
+      gl.programPutUniformVector4f(null, v);
+    } catch (final ConstraintError e) {
+      // Ok.
+    } catch (final Exception e) {
+      Assert.fail(e.getMessage());
+    }
+
+    try {
+      final TextureUnit[] units = gl.textureGetUnits();
+      gl.programPutUniformTextureUnit(null, units[0]);
+    } catch (final ConstraintError e) {
+      // Ok.
+    } catch (final Exception e) {
+      Assert.fail(e.getMessage());
+    }
   }
 }
