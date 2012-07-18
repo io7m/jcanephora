@@ -656,32 +656,6 @@ public abstract class ProgramContract implements
   }
 
   /**
-   * A change in modification time for a vertex shader requires recompilation.
-   * 
-   * @throws GLException
-   */
-
-  @Test public final void testProgramVertexShaderTimeRequiresCompilation()
-    throws FilesystemError,
-      ConstraintError,
-      GLCompileException,
-      GLException
-  {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
-    fs.mount("test_lwjgl30.zip", "/");
-
-    final Program p = new Program("program", this.getLog());
-    p.addVertexShader(new PathVirtual("/shaders/simple.v"));
-    p.compile(fs, gl);
-    Assert.assertFalse(p.requiresCompilation(fs, gl));
-
-    fs.unmount("/");
-    fs.mount("test_lwjgl30_newer.zip", "/");
-    Assert.assertTrue(p.requiresCompilation(fs, gl));
-  }
-
-  /**
    * Program uniforms work.
    * 
    * @throws ConstraintError
@@ -857,5 +831,31 @@ public abstract class ProgramContract implements
     } catch (final Exception e) {
       Assert.fail(e.getMessage());
     }
+  }
+
+  /**
+   * A change in modification time for a vertex shader requires recompilation.
+   * 
+   * @throws GLException
+   */
+
+  @Test public final void testProgramVertexShaderTimeRequiresCompilation()
+    throws FilesystemError,
+      ConstraintError,
+      GLCompileException,
+      GLException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    fs.mount("test_lwjgl30.zip", "/");
+
+    final Program p = new Program("program", this.getLog());
+    p.addVertexShader(new PathVirtual("/shaders/simple.v"));
+    p.compile(fs, gl);
+    Assert.assertFalse(p.requiresCompilation(fs, gl));
+
+    fs.unmount("/");
+    fs.mount("test_lwjgl30_newer.zip", "/");
+    Assert.assertTrue(p.requiresCompilation(fs, gl));
   }
 }

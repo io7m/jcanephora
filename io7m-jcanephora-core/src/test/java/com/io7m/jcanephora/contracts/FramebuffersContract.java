@@ -244,59 +244,6 @@ public abstract class FramebuffersContract implements GLTestContract
   }
 
   /**
-   * Deleting a framebuffer works.
-   */
-
-  @Test public void testFramebufferDeleteOK()
-    throws ConstraintError,
-      GLException
-  {
-    final GLInterface gl = this.getGL();
-    final Texture2DRGBAStatic t =
-      gl.texture2DRGBAStaticAllocate(
-        "buffer",
-        128,
-        128,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-    final ColorAttachment fbc = new ColorAttachment(t, 0);
-    final Framebuffer fb =
-      gl.framebufferAllocate(new FramebufferAttachment[] { fbc });
-    fb.resourceDelete(gl);
-
-    Assert.assertTrue(fb.resourceIsDeleted());
-  }
-
-  /**
-   * Deleting a deleted framebuffer fails.
-   */
-
-  @Test(expected = ConstraintError.class) public
-    void
-    testFramebufferDeleteTwice()
-      throws ConstraintError,
-        GLException
-  {
-    final GLInterface gl = this.getGL();
-    final Texture2DRGBAStatic t =
-      gl.texture2DRGBAStaticAllocate(
-        "buffer",
-        128,
-        128,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-    final ColorAttachment fbc = new ColorAttachment(t, 0);
-    final Framebuffer fb =
-      gl.framebufferAllocate(new FramebufferAttachment[] { fbc });
-    fb.resourceDelete(gl);
-    fb.resourceDelete(gl);
-  }
-
-  /**
    * Clearing the color buffer works.
    */
 
@@ -351,5 +298,58 @@ public abstract class FramebuffersContract implements GLTestContract
   {
     final GLInterface gl = this.getGL();
     gl.colorBufferClearV4f(null);
+  }
+
+  /**
+   * Deleting a framebuffer works.
+   */
+
+  @Test public void testFramebufferDeleteOK()
+    throws ConstraintError,
+      GLException
+  {
+    final GLInterface gl = this.getGL();
+    final Texture2DRGBAStatic t =
+      gl.texture2DRGBAStaticAllocate(
+        "buffer",
+        128,
+        128,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+    final ColorAttachment fbc = new ColorAttachment(t, 0);
+    final Framebuffer fb =
+      gl.framebufferAllocate(new FramebufferAttachment[] { fbc });
+    fb.resourceDelete(gl);
+
+    Assert.assertTrue(fb.resourceIsDeleted());
+  }
+
+  /**
+   * Deleting a deleted framebuffer fails.
+   */
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testFramebufferDeleteTwice()
+      throws ConstraintError,
+        GLException
+  {
+    final GLInterface gl = this.getGL();
+    final Texture2DRGBAStatic t =
+      gl.texture2DRGBAStaticAllocate(
+        "buffer",
+        128,
+        128,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+    final ColorAttachment fbc = new ColorAttachment(t, 0);
+    final Framebuffer fb =
+      gl.framebufferAllocate(new FramebufferAttachment[] { fbc });
+    fb.resourceDelete(gl);
+    fb.resourceDelete(gl);
   }
 }
