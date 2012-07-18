@@ -121,6 +121,72 @@ public abstract class ArrayBufferContract implements GLTestContract
   }
 
   /**
+   * Attempting to bind a vertex attribute with a null array fails.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferBindVertexAttributeNullArray()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterface gl = this.getGL();
+    gl.arrayBufferBindVertexAttribute(null, null, null);
+  }
+
+  /**
+   * Attempting to bind a vertex attribute with a null attribute fails.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferBindVertexAttributeNullAttribute()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterface gl = this.getGL();
+    final ArrayBufferDescriptor d =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_SHORT,
+          1) });
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    gl.arrayBufferBindVertexAttribute(a, null, null);
+  }
+
+  /**
+   * Attempting to bind a vertex attribute with a null program attribute
+   * fails.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferBindVertexAttributeNullProgramAttribute()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterface gl = this.getGL();
+    final ArrayBufferDescriptor d =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_SHORT,
+          1) });
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    gl.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), null);
+  }
+
+  /**
    * Checking if a deleted buffer is bound fails.
    */
 
