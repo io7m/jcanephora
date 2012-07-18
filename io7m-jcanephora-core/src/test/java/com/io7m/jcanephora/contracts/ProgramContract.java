@@ -24,6 +24,9 @@ import com.io7m.jtensors.VectorI2F;
 import com.io7m.jtensors.VectorI2I;
 import com.io7m.jtensors.VectorI3F;
 import com.io7m.jtensors.VectorI4F;
+import com.io7m.jtensors.VectorReadable2F;
+import com.io7m.jtensors.VectorReadable3F;
+import com.io7m.jtensors.VectorReadable4F;
 import com.io7m.jvvfs.FilesystemAPI;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
@@ -32,6 +35,52 @@ public abstract class ProgramContract implements
   GLTestContract,
   FilesystemTestContract
 {
+  private final Program makeLargeShader(
+    final GLInterface gl,
+    final FilesystemAPI fs)
+    throws ConstraintError,
+      FilesystemError,
+      GLCompileException
+  {
+    fs.mount("test_lwjgl30.zip", "/");
+
+    final Program p = new Program("program", this.getLog());
+    p.addVertexShader(new PathVirtual("/shaders/large.v"));
+    p.addFragmentShader(new PathVirtual("/shaders/texture.f"));
+    p.compile(fs, gl);
+
+    return p;
+  }
+
+  /**
+   * Deleting a fragment shader twice fails.
+   * 
+   * @throws GLException
+   * @throws FilesystemError
+   * @throws IOException
+   * @throws GLCompileException
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testFragmentShaderDeleteTwice()
+      throws ConstraintError,
+        GLException,
+        FilesystemError,
+        GLCompileException,
+        IOException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    fs.mount("test_lwjgl30.zip", "/");
+
+    final FragmentShader fr =
+      gl.fragmentShaderCompile("frag", fs.openFile("/shaders/simple.f"));
+
+    fr.resourceDelete(gl);
+    fr.resourceDelete(gl);
+  }
+
   /**
    * Activating/deactivating a program works.
    */
@@ -66,95 +115,6 @@ public abstract class ProgramContract implements
   {
     final Program p = new Program("program", this.getLog());
     p.addFragmentShader(new PathVirtual("/nonexistent"));
-  }
-
-  /**
-   * Adding a deleted fragment shader fails.
-   * 
-   * @throws GLException
-   * @throws FilesystemError
-   * @throws IOException
-   * @throws GLCompileException
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testProgramReferenceAddFragmentShaderDeleted()
-      throws ConstraintError,
-        GLException,
-        FilesystemError,
-        GLCompileException,
-        IOException
-  {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
-    fs.mount("test_lwjgl30.zip", "/");
-
-    final ProgramReference pr = gl.programCreate("program");
-    final FragmentShader fr =
-      gl.fragmentShaderCompile("frag", fs.openFile("/shaders/simple.f"));
-
-    fr.resourceDelete(gl);
-    gl.fragmentShaderAttach(pr, fr);
-  }
-
-  /**
-   * Adding a fragment shader to a deleted program fails.
-   * 
-   * @throws GLException
-   * @throws FilesystemError
-   * @throws IOException
-   * @throws GLCompileException
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testProgramReferenceAddFragmentShaderDeletedProgram()
-      throws ConstraintError,
-        GLException,
-        FilesystemError,
-        GLCompileException,
-        IOException
-  {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
-    fs.mount("test_lwjgl30.zip", "/");
-
-    final ProgramReference pr = gl.programCreate("program");
-    final FragmentShader fr =
-      gl.fragmentShaderCompile("frag", fs.openFile("/shaders/simple.f"));
-
-    pr.resourceDelete(gl);
-    gl.fragmentShaderAttach(pr, fr);
-  }
-
-  /**
-   * Deleting a fragment shader twice fails.
-   * 
-   * @throws GLException
-   * @throws FilesystemError
-   * @throws IOException
-   * @throws GLCompileException
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testFragmentShaderDeleteTwice()
-      throws ConstraintError,
-        GLException,
-        FilesystemError,
-        GLCompileException,
-        IOException
-  {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
-    fs.mount("test_lwjgl30.zip", "/");
-
-    final FragmentShader fr =
-      gl.fragmentShaderCompile("frag", fs.openFile("/shaders/simple.f"));
-
-    fr.resourceDelete(gl);
-    fr.resourceDelete(gl);
   }
 
   /**
@@ -560,6 +520,22 @@ public abstract class ProgramContract implements
   }
 
   /**
+   * Deleting a deleted program fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramDeleteDeleted()
+      throws ConstraintError,
+        GLException
+  {
+    final GLInterface gl = this.getGL();
+    final ProgramReference p = gl.programCreate("program");
+    p.resourceDelete(gl);
+    p.resourceDelete(gl);
+  }
+
+  /**
    * Deleting a null program fails.
    */
 
@@ -650,6 +626,66 @@ public abstract class ProgramContract implements
     final Program p = new Program("program", this.getLog());
     final ProgramUniform u = p.getUniform("something");
     Assert.assertEquals(null, u);
+  }
+
+  /**
+   * Adding a deleted fragment shader fails.
+   * 
+   * @throws GLException
+   * @throws FilesystemError
+   * @throws IOException
+   * @throws GLCompileException
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramReferenceAddFragmentShaderDeleted()
+      throws ConstraintError,
+        GLException,
+        FilesystemError,
+        GLCompileException,
+        IOException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    fs.mount("test_lwjgl30.zip", "/");
+
+    final ProgramReference pr = gl.programCreate("program");
+    final FragmentShader fr =
+      gl.fragmentShaderCompile("frag", fs.openFile("/shaders/simple.f"));
+
+    fr.resourceDelete(gl);
+    gl.fragmentShaderAttach(pr, fr);
+  }
+
+  /**
+   * Adding a fragment shader to a deleted program fails.
+   * 
+   * @throws GLException
+   * @throws FilesystemError
+   * @throws IOException
+   * @throws GLCompileException
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramReferenceAddFragmentShaderDeletedProgram()
+      throws ConstraintError,
+        GLException,
+        FilesystemError,
+        GLCompileException,
+        IOException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    fs.mount("test_lwjgl30.zip", "/");
+
+    final ProgramReference pr = gl.programCreate("program");
+    final FragmentShader fr =
+      gl.fragmentShaderCompile("frag", fs.openFile("/shaders/simple.f"));
+
+    pr.resourceDelete(gl);
+    gl.fragmentShaderAttach(pr, fr);
   }
 
   /**
@@ -764,12 +800,7 @@ public abstract class ProgramContract implements
   {
     final GLInterface gl = this.getGL();
     final FilesystemAPI fs = this.getFS();
-    fs.mount("test_lwjgl30.zip", "/");
-
-    final Program p = new Program("program", this.getLog());
-    p.addVertexShader(new PathVirtual("/shaders/large.v"));
-    p.addFragmentShader(new PathVirtual("/shaders/texture.f"));
-    p.compile(fs, gl);
+    final Program p = this.makeLargeShader(gl, fs);
     p.activate(gl);
 
     {
@@ -845,12 +876,7 @@ public abstract class ProgramContract implements
   {
     final GLInterface gl = this.getGL();
     final FilesystemAPI fs = this.getFS();
-    fs.mount("test_lwjgl30.zip", "/");
-
-    final Program p = new Program("program", this.getLog());
-    p.addVertexShader(new PathVirtual("/shaders/large.v"));
-    p.addFragmentShader(new PathVirtual("/shaders/texture.f"));
-    p.compile(fs, gl);
+    final Program p = this.makeLargeShader(gl, fs);
     p.activate(gl);
 
     try {
@@ -922,6 +948,174 @@ public abstract class ProgramContract implements
       // Ok.
     } catch (final Exception e) {
       Assert.fail(e.getMessage());
+    }
+  }
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramUniformTypeWrongFloat()
+      throws GLException,
+        ConstraintError,
+        FilesystemError,
+        GLCompileException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    final Program p = this.makeLargeShader(gl, fs);
+    p.activate(gl);
+
+    {
+      final ProgramUniform u = p.getUniform("float_0");
+      Assert.assertEquals(Type.TYPE_FLOAT, u.getType());
+      final VectorI2F v = new VectorI2F(1.0f, 2.0f);
+      gl.programPutUniformVector2f(u, v);
+    }
+  }
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramUniformTypeWrongMatrix3x3()
+      throws GLException,
+        ConstraintError,
+        FilesystemError,
+        GLCompileException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    final Program p = this.makeLargeShader(gl, fs);
+    p.activate(gl);
+
+    {
+      final ProgramUniform u = p.getUniform("float_0");
+      Assert.assertEquals(Type.TYPE_FLOAT, u.getType());
+      final MatrixM3x3F m = new MatrixM3x3F();
+      gl.programPutUniformMatrix3x3f(u, m);
+    }
+  }
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramUniformTypeWrongMatrix4x4()
+      throws GLException,
+        ConstraintError,
+        FilesystemError,
+        GLCompileException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    final Program p = this.makeLargeShader(gl, fs);
+    p.activate(gl);
+
+    {
+      final ProgramUniform u = p.getUniform("float_0");
+      Assert.assertEquals(Type.TYPE_FLOAT, u.getType());
+      final MatrixM4x4F m = new MatrixM4x4F();
+      gl.programPutUniformMatrix4x4f(u, m);
+    }
+  }
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramUniformTypeWrongTextureUnit()
+      throws GLException,
+        ConstraintError,
+        FilesystemError,
+        GLCompileException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    final Program p = this.makeLargeShader(gl, fs);
+    p.activate(gl);
+
+    {
+      final ProgramUniform u = p.getUniform("float_0");
+      Assert.assertEquals(Type.TYPE_FLOAT, u.getType());
+      final TextureUnit[] units = gl.textureGetUnits();
+      gl.programPutUniformTextureUnit(u, units[0]);
+    }
+  }
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramUniformTypeWrongVector2f()
+      throws GLException,
+        ConstraintError,
+        FilesystemError,
+        GLCompileException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    final Program p = this.makeLargeShader(gl, fs);
+    p.activate(gl);
+
+    {
+      final ProgramUniform u = p.getUniform("float_0");
+      Assert.assertEquals(Type.TYPE_FLOAT, u.getType());
+      final VectorReadable2F v = new VectorI2F(1.0f, 1.0f);
+      gl.programPutUniformVector2f(u, v);
+    }
+  }
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramUniformTypeWrongVector2i()
+      throws GLException,
+        ConstraintError,
+        FilesystemError,
+        GLCompileException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    final Program p = this.makeLargeShader(gl, fs);
+    p.activate(gl);
+
+    {
+      final ProgramUniform u = p.getUniform("float_0");
+      Assert.assertEquals(Type.TYPE_FLOAT, u.getType());
+      final VectorI2I v = new VectorI2I(1, 2);
+      gl.programPutUniformVector2i(u, v);
+    }
+  }
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramUniformTypeWrongVector3f()
+      throws GLException,
+        ConstraintError,
+        FilesystemError,
+        GLCompileException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    final Program p = this.makeLargeShader(gl, fs);
+    p.activate(gl);
+
+    {
+      final ProgramUniform u = p.getUniform("float_0");
+      Assert.assertEquals(Type.TYPE_FLOAT, u.getType());
+      final VectorReadable3F v = new VectorI3F(1.0f, 1.0f, 1.0f);
+      gl.programPutUniformVector3f(u, v);
+    }
+  }
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramUniformTypeWrongVector4f()
+      throws GLException,
+        ConstraintError,
+        FilesystemError,
+        GLCompileException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    final Program p = this.makeLargeShader(gl, fs);
+    p.activate(gl);
+
+    {
+      final ProgramUniform u = p.getUniform("float_0");
+      Assert.assertEquals(Type.TYPE_FLOAT, u.getType());
+      final VectorReadable4F v = new VectorI4F(1.0f, 1.0f, 1.0f, 1.0f);
+      gl.programPutUniformVector4f(u, v);
     }
   }
 
