@@ -229,9 +229,8 @@ public abstract class TexturesContract implements GLTestContract
         null,
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
-    final ByteBuffer b = gl.texture2DRGBAStaticGetImage(t);
-
-    Assert.assertEquals((64 * 4) * 64, b.capacity());
+    t.resourceDelete(gl);
+    gl.texture2DRGBAStaticGetImage(t);
   }
 
   /**
@@ -422,14 +421,12 @@ public abstract class TexturesContract implements GLTestContract
   }
 
   /**
-   * Replacing a deleted texture doesn't fail.
+   * Replacing a texture doesn't fail.
    */
 
-  @Test(expected = ConstraintError.class) public final
-    void
-    testTextureReplace()
-      throws GLException,
-        ConstraintError
+  @Test public final void testTextureReplace()
+    throws GLException,
+      ConstraintError
   {
     final GLInterface gl = this.getGL();
 
@@ -439,10 +436,21 @@ public abstract class TexturesContract implements GLTestContract
         64,
         64,
         TextureWrap.TEXTURE_WRAP_REPEAT,
-        null,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
+
+    {
+      final ByteBuffer b = gl.texture2DRGBAStaticGetImage(t);
+      Assert.assertEquals((64 * 4) * 64, b.capacity());
+    }
+
     gl.texture2DRGBAStaticReplace(t);
+
+    {
+      final ByteBuffer b = gl.texture2DRGBAStaticGetImage(t);
+      Assert.assertEquals((64 * 4) * 64, b.capacity());
+    }
   }
 
   /**
@@ -467,7 +475,7 @@ public abstract class TexturesContract implements GLTestContract
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
     t.resourceDelete(gl);
-    gl.texture2DRGBAStaticReplace(null);
+    gl.texture2DRGBAStaticReplace(t);
   }
 
   /**
