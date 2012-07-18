@@ -2958,6 +2958,30 @@ public final class GLInterfaceJOGL30 implements GLInterface
     return buffer;
   }
 
+  @Override public boolean texture2DRGBAStaticIsBound(
+    final @Nonnull TextureUnit unit,
+    final @Nonnull Texture2DRGBAStatic texture)
+    throws ConstraintError,
+      GLException
+  {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
+    Constraints.constrainNotNull(unit, "Texture unit");
+    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+
+    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
+
+    final IntBuffer ib = Buffers.newDirectIntBuffer(1);
+    gl.glGetIntegerv(GL.GL_TEXTURE_BINDING_2D, ib);
+    final int e = ib.get(0);
+    GLError.check(this);
+
+    return e == texture.getLocation();
+  }
+
   @Override public void texture2DRGBAStaticReplace(
     final @Nonnull Texture2DRGBAStatic texture)
     throws ConstraintError,
@@ -2994,6 +3018,20 @@ public final class GLInterfaceJOGL30 implements GLInterface
     GLError.check(this);
     gl.glBindBuffer(GL2GL3.GL_PIXEL_UNPACK_BUFFER, 0);
     GLError.check(this);
+    gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
+    GLError.check(this);
+  }
+
+  @Override public void texture2DRGBAStaticUnbind(
+    final @Nonnull TextureUnit unit)
+    throws ConstraintError,
+      GLException
+  {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
+    Constraints.constrainNotNull(unit, "Texture unit");
+
+    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
     gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
     GLError.check(this);
   }
