@@ -272,14 +272,15 @@ public abstract class ProgramContract implements
       FilesystemError,
       GLException
   {
+    final GLInterface gl = this.getGL();
     final FilesystemAPI fs = this.getFS();
     fs.mount("test_lwjgl30.zip", "/");
 
     final Program p = new Program("program", this.getLog());
     p.addFragmentShader(new PathVirtual("/shaders/simple.f"));
-    p.compile(fs, this.getGL());
-    Assert.assertFalse(p.requiresCompilation(fs, this.getGL()));
-    p.delete(this.getGL());
+    p.compile(fs, gl);
+    Assert.assertFalse(p.requiresCompilation(fs, gl));
+    p.delete(gl);
   }
 
   /**
@@ -409,14 +410,15 @@ public abstract class ProgramContract implements
       FilesystemError,
       GLException
   {
+    final GLInterface gl = this.getGL();
     final FilesystemAPI fs = this.getFS();
     fs.mount("test_lwjgl30.zip", "/");
 
     final Program p = new Program("program", this.getLog());
     p.addVertexShader(new PathVirtual("/shaders/simple.v"));
-    p.compile(fs, this.getGL());
-    Assert.assertFalse(p.requiresCompilation(fs, this.getGL()));
-    p.delete(this.getGL());
+    p.compile(fs, gl);
+    Assert.assertFalse(p.requiresCompilation(fs, gl));
+    p.delete(gl);
   }
 
   /**

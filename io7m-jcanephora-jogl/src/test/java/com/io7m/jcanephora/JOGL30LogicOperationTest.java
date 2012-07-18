@@ -14,7 +14,7 @@ public final class JOGL30LogicOperationTest extends LogicOpContract
     throws GLException,
       ConstraintError
   {
-    return JOGL30ContextCache.getGL();
+    return JOGL30TestDisplay.makeFreshGL();
   }
 
   @Override public Log getLog()

@@ -7,20 +7,20 @@ import com.io7m.jvvfs.FilesystemAPI;
 
 public final class LWJGL30ProgramTest extends ProgramContract
 {
+  @Override public FilesystemAPI getFS()
+  {
+    return LWJGL30TestFilesystem.getFS();
+  }
+
   @Override public GLInterface getGL()
     throws GLException,
       ConstraintError
   {
-    return LWJGL30ContextCache.getGL();
+    return LWJGL30TestDisplay.getGL();
   }
 
   @Override public Log getLog()
   {
     return LWJGL30TestLog.getLog();
-  }
-
-  @Override public FilesystemAPI getFS()
-  {
-    return LWJGL30TestFilesystem.getFS();
   }
 }

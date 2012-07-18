@@ -10,7 +10,7 @@ public final class JOGL30TexturesTest extends TexturesContract
     throws GLException,
       ConstraintError
   {
-    return JOGL30ContextCache.getGL();
+    return JOGL30TestDisplay.makeFreshGL();
   }
 
   @Override public Log getLog()
