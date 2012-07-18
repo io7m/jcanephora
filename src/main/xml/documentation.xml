@@ -338,8 +338,9 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
         attachments, so only one is currently permitted. Most implementations
         cannot handle separate depth and stencil attachments, so the API
         only provides a single combined buffer. "Completeness" checks are
-        made automatically on storage attachment, so it's not possible to
-        draw to a framebuffer configuration that OpenGL considers invalid.
+        made automatically on storage attachment (upon allocation of the
+        framebuffer), so it's not possible to draw to a framebuffer
+        configuration that OpenGL considers invalid.
       </s:paragraph>
     </s:section>
   </s:part>
