@@ -19,6 +19,28 @@ import com.io7m.jcanephora.IndexBufferWritableMap;
 public abstract class IndexBufferContract implements GLTestContract
 {
   /**
+   * Allocating an index buffer from a deleted array buffer fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testIndexBufferAllocateArrayDeleted()
+      throws ConstraintError,
+        GLException
+  {
+    final GLInterface gl = this.getGL();
+    final ArrayBufferDescriptor d =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_SHORT,
+          1) });
+    final ArrayBuffer a = gl.arrayBufferAllocate(1, d);
+    a.resourceDelete(gl);
+    gl.indexBufferAllocate(a, 0);
+  }
+
+  /**
    * An allocated index buffer has the correct number of indices and index
    * type.
    */
@@ -132,6 +154,34 @@ public abstract class IndexBufferContract implements GLTestContract
   }
 
   /**
+   * Allocating with a null type fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testIndexBufferAllocateTypeNull()
+      throws ConstraintError,
+        GLException
+  {
+    final GLInterface gl = this.getGL();
+    gl.indexBufferAllocateType(null, 1);
+  }
+
+  /**
+   * Allocating zero elements fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testIndexBufferAllocateTypeZeroElements()
+      throws ConstraintError,
+        GLException
+  {
+    final GLInterface gl = this.getGL();
+    gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 0);
+  }
+
+  /**
    * Allocating zero elements fails.
    */
 
@@ -150,34 +200,6 @@ public abstract class IndexBufferContract implements GLTestContract
           1) });
     final ArrayBuffer a = gl.arrayBufferAllocate(1, d);
     gl.indexBufferAllocate(a, 0);
-  }
-
-  /**
-   * Allocating zero elements fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testIndexBufferAllocateTypeZeroElements()
-      throws ConstraintError,
-        GLException
-  {
-    final GLInterface gl = this.getGL();
-    gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 0);
-  }
-
-  /**
-   * Allocating with a null type fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testIndexBufferAllocateTypeNull()
-      throws ConstraintError,
-        GLException
-  {
-    final GLInterface gl = this.getGL();
-    gl.indexBufferAllocateType(null, 1);
   }
 
   /**
@@ -579,27 +601,5 @@ public abstract class IndexBufferContract implements GLTestContract
         i.resourceDelete(gl);
       }
     }
-  }
-
-  /**
-   * Allocating an index buffer from a deleted array buffer fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testIndexBufferAllocateArrayDeleted()
-      throws ConstraintError,
-        GLException
-  {
-    final GLInterface gl = this.getGL();
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
-          "position",
-          GLScalarType.TYPE_SHORT,
-          1) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(1, d);
-    a.resourceDelete(gl);
-    gl.indexBufferAllocate(a, 0);
   }
 }

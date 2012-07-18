@@ -18,6 +18,34 @@ import com.io7m.jcanephora.IndexBufferWritableMap;
 
 public abstract class IndexBufferMapContract implements GLTestContract
 {
+  @Test(expected = ConstraintError.class) public final
+    void
+    testMapReadDeleted()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterface gl = this.getGL();
+    final IndexBuffer ib =
+      gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 25);
+
+    ib.resourceDelete(gl);
+    gl.indexBufferMapRead(ib);
+  }
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testMapWriteDeleted()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterface gl = this.getGL();
+    final IndexBuffer ib =
+      gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 25);
+
+    ib.resourceDelete(gl);
+    gl.indexBufferMapWrite(ib);
+  }
+
   /**
    * An index buffer of less than 256 elements has type 'unsigned byte' and
    * reading/writing is correct.
@@ -136,33 +164,5 @@ public abstract class IndexBufferMapContract implements GLTestContract
         Assert.assertEquals(index, value);
       }
     }
-  }
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testMapReadDeleted()
-      throws GLException,
-        ConstraintError
-  {
-    final GLInterface gl = this.getGL();
-    final IndexBuffer ib =
-      gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 25);
-
-    ib.resourceDelete(gl);
-    gl.indexBufferMapRead(ib);
-  }
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testMapWriteDeleted()
-      throws GLException,
-        ConstraintError
-  {
-    final GLInterface gl = this.getGL();
-    final IndexBuffer ib =
-      gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 25);
-
-    ib.resourceDelete(gl);
-    gl.indexBufferMapWrite(ib);
   }
 }
