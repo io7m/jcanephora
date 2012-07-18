@@ -3135,6 +3135,16 @@ public final class GLInterfaceJOGL30 implements GLInterface
 
     Constraints.constrainNotNull(position, "Viewport position");
     Constraints.constrainNotNull(dimensions, "Viewport dimensions");
+    Constraints.constrainRange(
+      dimensions.getXI(),
+      0,
+      Integer.MAX_VALUE,
+      "Viewport width");
+    Constraints.constrainRange(
+      dimensions.getYI(),
+      0,
+      Integer.MAX_VALUE,
+      "Viewport height");
 
     g.glViewport(
       position.getXI(),
