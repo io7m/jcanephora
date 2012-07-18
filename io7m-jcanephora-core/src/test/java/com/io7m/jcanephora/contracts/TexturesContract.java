@@ -149,6 +149,37 @@ public abstract class TexturesContract implements GLTestContract
   }
 
   /**
+   * Deleting a texture twice fails.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   */
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testTextureDeleteDeleted()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterface gl = this.getGL();
+
+    final Texture2DRGBAStatic t =
+      gl.texture2DRGBAStaticAllocate(
+        "texture",
+        64,
+        64,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+
+    Assert.assertFalse(t.resourceIsDeleted());
+    gl.texture2DRGBAStaticDelete(t);
+    Assert.assertTrue(t.resourceIsDeleted());
+    gl.texture2DRGBAStaticDelete(t);
+  }
+
+  /**
    * Deleting a null texture fails.
    * 
    * @throws GLException
