@@ -1,10 +1,10 @@
 package com.io7m.jcanephora;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts.RenderbuffersContract;
+import com.io7m.jcanephora.contracts.IndexBufferContract;
 import com.io7m.jlog.Log;
 
-public final class JOGL30RenderbuffersTest extends RenderbuffersContract
+public final class JOGL30IndexBufferTest extends IndexBufferContract
 {
   @Override public GLInterface getGL()
     throws GLException,
