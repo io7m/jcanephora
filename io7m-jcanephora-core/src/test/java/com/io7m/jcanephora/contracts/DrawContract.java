@@ -5,27 +5,34 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface;
-import com.io7m.jtensors.VectorI2I;
+import com.io7m.jcanephora.GLUnsignedType;
+import com.io7m.jcanephora.IndexBuffer;
+import com.io7m.jcanephora.Primitives;
 
-public abstract class ViewportContract implements GLTestContract
+public abstract class DrawContract implements GLTestContract
 {
   /**
-   * Setting a viewport works.
+   * Drawing primitives works.
    * 
    * @throws GLException
    * @throws ConstraintError
    */
 
-  @Test public final void testViewport()
+  @Test public final void testDraw()
     throws GLException,
       ConstraintError
   {
     final GLInterface gl = this.getGL();
-    gl.viewportSet(new VectorI2I(0, 0), new VectorI2I(64, 64));
+    final IndexBuffer ib =
+      gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 100);
+
+    for (final Primitives p : Primitives.values()) {
+      gl.drawElements(p, ib);
+    }
   }
 
   /**
-   * Setting a viewport with a negative X dimension fails.
+   * Drawing primitives with a deleted index buffer fails.
    * 
    * @throws GLException
    * @throws ConstraintError
@@ -33,16 +40,20 @@ public abstract class ViewportContract implements GLTestContract
 
   @Test(expected = ConstraintError.class) public final
     void
-    testViewportDimensionNegativeX()
+    testDrawIndexDeleted()
       throws GLException,
         ConstraintError
   {
     final GLInterface gl = this.getGL();
-    gl.viewportSet(new VectorI2I(0, 0), new VectorI2I(-1, 32));
+    final IndexBuffer ib =
+      gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 100);
+
+    ib.resourceDelete(gl);
+    gl.drawElements(Primitives.PRIMITIVE_TRIANGLES, ib);
   }
 
   /**
-   * Setting a viewport with a negative Y dimension fails.
+   * Drawing primitives with a null index buffer fails.
    * 
    * @throws GLException
    * @throws ConstraintError
@@ -50,16 +61,16 @@ public abstract class ViewportContract implements GLTestContract
 
   @Test(expected = ConstraintError.class) public final
     void
-    testViewportDimensionNegativeY()
+    testDrawNullIndex()
       throws GLException,
         ConstraintError
   {
     final GLInterface gl = this.getGL();
-    gl.viewportSet(new VectorI2I(0, 0), new VectorI2I(32, -1));
+    gl.drawElements(Primitives.PRIMITIVE_TRIANGLES, null);
   }
 
   /**
-   * Setting a viewport with a null dimension fails.
+   * Drawing null primitives fails.
    * 
    * @throws GLException
    * @throws ConstraintError
@@ -67,28 +78,14 @@ public abstract class ViewportContract implements GLTestContract
 
   @Test(expected = ConstraintError.class) public final
     void
-    testViewportDimensionNull()
+    testDrawNullPrimitive()
       throws GLException,
         ConstraintError
   {
     final GLInterface gl = this.getGL();
-    gl.viewportSet(new VectorI2I(0, 0), null);
-  }
+    final IndexBuffer ib =
+      gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 100);
 
-  /**
-   * Setting a viewport with a null position fails.
-   * 
-   * @throws GLException
-   * @throws ConstraintError
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testViewportPositionNull()
-      throws GLException,
-        ConstraintError
-  {
-    final GLInterface gl = this.getGL();
-    gl.viewportSet(null, new VectorI2I(64, 64));
+    gl.drawElements(null, ib);
   }
 }
