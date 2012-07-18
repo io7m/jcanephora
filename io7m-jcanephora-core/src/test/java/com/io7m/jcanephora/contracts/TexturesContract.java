@@ -1,5 +1,7 @@
 package com.io7m.jcanephora.contracts;
 
+import java.nio.ByteBuffer;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -19,7 +21,7 @@ public abstract class TexturesContract implements GLTestContract
    * Note: this number is picked based on older OpenGL ES limits.
    */
 
-  @Test public void testGetUnits()
+  @Test public final void testGetUnits()
     throws ConstraintError,
       GLException
   {
@@ -35,7 +37,7 @@ public abstract class TexturesContract implements GLTestContract
    * @throws ConstraintError
    */
 
-  @Test public void testTextureBind()
+  @Test public final void testTextureBind()
     throws GLException,
       ConstraintError
   {
@@ -53,6 +55,9 @@ public abstract class TexturesContract implements GLTestContract
         TextureFilter.TEXTURE_FILTER_NEAREST);
 
     gl.texture2DRGBAStaticBind(units[0], t);
+    Assert.assertTrue(gl.texture2DRGBAStaticIsBound(units[0], t));
+    gl.texture2DRGBAStaticUnbind(units[0]);
+    Assert.assertFalse(gl.texture2DRGBAStaticIsBound(units[0], t));
     gl.texture2DRGBAStaticDelete(t);
   }
 
@@ -93,9 +98,11 @@ public abstract class TexturesContract implements GLTestContract
    * @throws GLException
    */
 
-  @Test(expected = ConstraintError.class) public void testTextureBindNull()
-    throws GLException,
-      ConstraintError
+  @Test(expected = ConstraintError.class) public final
+    void
+    testTextureBindNull()
+      throws GLException,
+        ConstraintError
   {
     final GLInterface gl = this.getGL();
     final TextureUnit[] units = gl.textureGetUnits();
@@ -127,7 +134,7 @@ public abstract class TexturesContract implements GLTestContract
    * @throws ConstraintError
    */
 
-  @Test public void testTextureDelete()
+  @Test public final void testTextureDelete()
     throws GLException,
       ConstraintError
   {
@@ -180,15 +187,110 @@ public abstract class TexturesContract implements GLTestContract
   }
 
   /**
+   * Retrieving the image of a texture doesn't fail.
+   */
+
+  @Test public final void testTextureGetImage()
+    throws GLException,
+      ConstraintError
+  {
+    final GLInterface gl = this.getGL();
+    final Texture2DRGBAStatic t =
+      gl.texture2DRGBAStaticAllocate(
+        "texture",
+        64,
+        64,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+    final ByteBuffer b = gl.texture2DRGBAStaticGetImage(t);
+
+    Assert.assertEquals((64 * 4) * 64, b.capacity());
+  }
+
+  /**
+   * Retrieving the image of a deleted texture fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testTextureGetImageDeleted()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterface gl = this.getGL();
+    final Texture2DRGBAStatic t =
+      gl.texture2DRGBAStaticAllocate(
+        "texture",
+        64,
+        64,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        null,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+    final ByteBuffer b = gl.texture2DRGBAStaticGetImage(t);
+
+    Assert.assertEquals((64 * 4) * 64, b.capacity());
+  }
+
+  /**
+   * Retrieving the image of a null texture fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testTextureGetImageNull()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterface gl = this.getGL();
+    gl.texture2DRGBAStaticGetImage(null);
+  }
+
+  /**
+   * Checking if a deleted texture is bound fails.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   */
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testTextureIsBoundDeleted()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterface gl = this.getGL();
+
+    final TextureUnit[] units = gl.textureGetUnits();
+    final Texture2DRGBAStatic t =
+      gl.texture2DRGBAStaticAllocate(
+        "texture",
+        64,
+        64,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+
+    gl.texture2DRGBAStaticBind(units[0], t);
+    gl.texture2DRGBAStaticDelete(t);
+    gl.texture2DRGBAStaticIsBound(units[0], t);
+  }
+
+  /**
    * Deleting a null texture fails.
    * 
    * @throws GLException
    * @throws ConstraintError
    */
 
-  @Test(expected = ConstraintError.class) public void testTextureNullDelete()
-    throws GLException,
-      ConstraintError
+  @Test(expected = ConstraintError.class) public final
+    void
+    testTextureNullDelete()
+      throws GLException,
+        ConstraintError
   {
     final GLInterface gl = this.getGL();
     gl.texture2DRGBAStaticDelete(null);
@@ -251,9 +353,11 @@ public abstract class TexturesContract implements GLTestContract
    * @throws ConstraintError
    */
 
-  @Test(expected = ConstraintError.class) public void testTextureNullName()
-    throws GLException,
-      ConstraintError
+  @Test(expected = ConstraintError.class) public final
+    void
+    testTextureNullName()
+      throws GLException,
+        ConstraintError
   {
     final GLInterface gl = this.getGL();
 
@@ -274,9 +378,11 @@ public abstract class TexturesContract implements GLTestContract
    * @throws ConstraintError
    */
 
-  @Test(expected = ConstraintError.class) public void testTextureNullWrapS()
-    throws GLException,
-      ConstraintError
+  @Test(expected = ConstraintError.class) public final
+    void
+    testTextureNullWrapS()
+      throws GLException,
+        ConstraintError
   {
     final GLInterface gl = this.getGL();
 
@@ -297,9 +403,11 @@ public abstract class TexturesContract implements GLTestContract
    * @throws ConstraintError
    */
 
-  @Test(expected = ConstraintError.class) public void testTextureNullWrapT()
-    throws GLException,
-      ConstraintError
+  @Test(expected = ConstraintError.class) public final
+    void
+    testTextureNullWrapT()
+      throws GLException,
+        ConstraintError
   {
     final GLInterface gl = this.getGL();
 
@@ -311,5 +419,68 @@ public abstract class TexturesContract implements GLTestContract
       null,
       TextureFilter.TEXTURE_FILTER_NEAREST,
       TextureFilter.TEXTURE_FILTER_NEAREST);
+  }
+
+  /**
+   * Replacing a deleted texture doesn't fail.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testTextureReplace()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterface gl = this.getGL();
+
+    final Texture2DRGBAStatic t =
+      gl.texture2DRGBAStaticAllocate(
+        "texture",
+        64,
+        64,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        null,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+    gl.texture2DRGBAStaticReplace(t);
+  }
+
+  /**
+   * Replacing a deleted texture fails.
+   */
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testTextureReplaceDeleted()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterface gl = this.getGL();
+
+    final Texture2DRGBAStatic t =
+      gl.texture2DRGBAStaticAllocate(
+        "texture",
+        64,
+        64,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        null,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+    t.resourceDelete(gl);
+    gl.texture2DRGBAStaticReplace(null);
+  }
+
+  /**
+   * Replacing a null texture fails.
+   */
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testTextureReplaceNull()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterface gl = this.getGL();
+    gl.texture2DRGBAStaticReplace(null);
   }
 }

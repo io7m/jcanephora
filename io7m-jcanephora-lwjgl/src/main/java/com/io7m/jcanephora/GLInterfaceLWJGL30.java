@@ -2684,6 +2684,26 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     return buffer;
   }
 
+  @Override public boolean texture2DRGBAStaticIsBound(
+    final @Nonnull TextureUnit unit,
+    final @Nonnull Texture2DRGBAStatic texture)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(unit, "Texture unit");
+    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+
+    GL13.glActiveTexture(GL13.GL_TEXTURE0 + unit.getIndex());
+
+    final int e = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);
+    GLError.check(this);
+
+    return e == texture.getLocation();
+  }
+
   @Override public void texture2DRGBAStaticReplace(
     final @Nonnull Texture2DRGBAStatic texture)
     throws ConstraintError,
@@ -2715,6 +2735,18 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       0L);
     GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+  }
+
+  @Override public void texture2DRGBAStaticUnbind(
+    final @Nonnull TextureUnit unit)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(unit, "Texture unit");
+
+    GL13.glActiveTexture(GL13.GL_TEXTURE0 + unit.getIndex());
+    GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+    GLError.check(this);
   }
 
   @Override public int textureGetMaximumSize()
