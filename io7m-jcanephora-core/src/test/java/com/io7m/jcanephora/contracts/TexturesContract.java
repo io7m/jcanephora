@@ -8,6 +8,7 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface;
+import com.io7m.jcanephora.PixelUnpackBuffer;
 import com.io7m.jcanephora.Texture2DRGBAStatic;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureUnit;
@@ -226,7 +227,7 @@ public abstract class TexturesContract implements GLTestContract
         64,
         64,
         TextureWrap.TEXTURE_WRAP_REPEAT,
-        null,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
     t.resourceDelete(gl);
@@ -471,7 +472,7 @@ public abstract class TexturesContract implements GLTestContract
         64,
         64,
         TextureWrap.TEXTURE_WRAP_REPEAT,
-        null,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
     t.resourceDelete(gl);
@@ -490,5 +491,33 @@ public abstract class TexturesContract implements GLTestContract
   {
     final GLInterface gl = this.getGL();
     gl.texture2DRGBAStaticReplace(null);
+  }
+
+  /**
+   * Replacing a texture with a deleted unpack buffer fails.
+   */
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testTextureReplaceUnpackBufferDeleted()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterface gl = this.getGL();
+
+    final Texture2DRGBAStatic t =
+      gl.texture2DRGBAStaticAllocate(
+        "texture",
+        64,
+        64,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+
+    final PixelUnpackBuffer b = t.getBuffer();
+    b.resourceDelete(gl);
+
+    gl.texture2DRGBAStaticReplace(t);
   }
 }
