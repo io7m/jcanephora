@@ -18,6 +18,7 @@ import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramReference;
 import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.TextureUnit;
+import com.io7m.jcanephora.VertexShader;
 import com.io7m.jtensors.MatrixM3x3F;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorI2F;
@@ -689,6 +690,66 @@ public abstract class ProgramContract implements
   }
 
   /**
+   * Adding a deleted vertex shader fails.
+   * 
+   * @throws GLException
+   * @throws FilesystemError
+   * @throws IOException
+   * @throws GLCompileException
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramReferenceAddVertexShaderDeleted()
+      throws ConstraintError,
+        GLException,
+        FilesystemError,
+        GLCompileException,
+        IOException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    fs.mount("test_lwjgl30.zip", "/");
+
+    final ProgramReference pr = gl.programCreate("program");
+    final VertexShader vr =
+      gl.vertexShaderCompile("vertex", fs.openFile("/shaders/simple.v"));
+
+    vr.resourceDelete(gl);
+    gl.vertexShaderAttach(pr, vr);
+  }
+
+  /**
+   * Adding a vertex shader to a deleted program fails.
+   * 
+   * @throws GLException
+   * @throws FilesystemError
+   * @throws IOException
+   * @throws GLCompileException
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramReferenceAddVertexShaderDeletedProgram()
+      throws ConstraintError,
+        GLException,
+        FilesystemError,
+        GLCompileException,
+        IOException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    fs.mount("test_lwjgl30.zip", "/");
+
+    final ProgramReference pr = gl.programCreate("program");
+    final VertexShader vr =
+      gl.vertexShaderCompile("vertex", fs.openFile("/shaders/simple.v"));
+
+    pr.resourceDelete(gl);
+    gl.vertexShaderAttach(pr, vr);
+  }
+
+  /**
    * Creating a program works.
    */
 
@@ -974,6 +1035,26 @@ public abstract class ProgramContract implements
 
   @Test(expected = ConstraintError.class) public final
     void
+    testProgramUniformTypeWrongFloatNot()
+      throws GLException,
+        ConstraintError,
+        FilesystemError,
+        GLCompileException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    final Program p = this.makeLargeShader(gl, fs);
+    p.activate(gl);
+
+    {
+      final ProgramUniform u = p.getUniform("vec2_0");
+      Assert.assertEquals(Type.TYPE_FLOAT_VECTOR_2, u.getType());
+      gl.programPutUniformFloat(u, 1.0f);
+    }
+  }
+
+  @Test(expected = ConstraintError.class) public final
+    void
     testProgramUniformTypeWrongMatrix3x3()
       throws GLException,
         ConstraintError,
@@ -1143,5 +1224,34 @@ public abstract class ProgramContract implements
     fs.unmount("/");
     fs.mount("test_lwjgl30_newer.zip", "/");
     Assert.assertTrue(p.requiresCompilation(fs, gl));
+  }
+
+  /**
+   * Deleting a vertex shader twice fails.
+   * 
+   * @throws GLException
+   * @throws FilesystemError
+   * @throws IOException
+   * @throws GLCompileException
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testVertexShaderDeleteTwice()
+      throws ConstraintError,
+        GLException,
+        FilesystemError,
+        GLCompileException,
+        IOException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    fs.mount("test_lwjgl30.zip", "/");
+
+    final VertexShader vr =
+      gl.vertexShaderCompile("vertex", fs.openFile("/shaders/simple.v"));
+
+    vr.resourceDelete(gl);
+    vr.resourceDelete(gl);
   }
 }
