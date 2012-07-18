@@ -71,6 +71,33 @@ public abstract class ArrayBufferContract implements GLTestContract
   }
 
   /**
+   * Binding a deleted buffer fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferBindDeleted()
+      throws ConstraintError,
+        GLException
+  {
+    final GLInterface gl = this.getGL();
+    final ArrayBufferDescriptor d =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_SHORT,
+          1) });
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+
+    gl.arrayBufferBind(a);
+    Assert.assertTrue(gl.arrayBufferIsBound(a));
+    gl.arrayBufferUnbind();
+    Assert.assertFalse(gl.arrayBufferIsBound(a));
+    a.resourceDelete(gl);
+    gl.arrayBufferBind(a);
+  }
+
+  /**
    * Buffer binding/unbinding works.
    */
 
@@ -265,6 +292,29 @@ public abstract class ArrayBufferContract implements GLTestContract
   }
 
   /**
+   * Mapping a deleted buffer read-only fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferMapReadDeleted()
+      throws ConstraintError,
+        GLException
+  {
+    final GLInterface gl = this.getGL();
+    final ArrayBufferDescriptor d =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_SHORT,
+          1) });
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+
+    a.resourceDelete(gl);
+    gl.arrayBufferMapRead(a);
+  }
+
+  /**
    * Mapping a buffer twice fails.
    */
 
@@ -358,6 +408,29 @@ public abstract class ArrayBufferContract implements GLTestContract
   }
 
   /**
+   * Mapping a deleted buffer write-only fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferMapWriteDeleted()
+      throws ConstraintError,
+        GLException
+  {
+    final GLInterface gl = this.getGL();
+    final ArrayBufferDescriptor d =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_SHORT,
+          1) });
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+
+    a.resourceDelete(gl);
+    gl.arrayBufferMapWrite(a);
+  }
+
+  /**
    * Mapping a null buffer fails.
    */
 
@@ -390,6 +463,30 @@ public abstract class ArrayBufferContract implements GLTestContract
   {
     final GLInterface gl = this.getGL();
     gl.arrayBufferIsBound(null);
+  }
+
+  /**
+   * Unmapping a deleted buffer fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferUnmapDeleted()
+      throws ConstraintError,
+        GLException
+  {
+    final GLInterface gl = this.getGL();
+    final ArrayBufferDescriptor d =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_SHORT,
+          1) });
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+
+    gl.arrayBufferMapWrite(a);
+    a.resourceDelete(gl);
+    gl.arrayBufferUnmap(a);
   }
 
   /**
