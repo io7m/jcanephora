@@ -10,7 +10,7 @@ public final class LWJGL30ViewportTest extends ViewportContract
     throws GLException,
       ConstraintError
   {
-    return LWJGL30ContextCache.getGL();
+    return LWJGL30TestDisplay.getGL();
   }
 
   @Override public Log getLog()
