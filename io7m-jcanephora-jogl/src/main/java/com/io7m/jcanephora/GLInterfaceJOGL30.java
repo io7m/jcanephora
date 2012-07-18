@@ -1725,8 +1725,6 @@ public final class GLInterfaceJOGL30 implements GLInterface
     throws GLException,
       ConstraintError
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
-
     Constraints.constrainNotNull(buffer, "Array buffer");
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
@@ -1734,23 +1732,34 @@ public final class GLInterfaceJOGL30 implements GLInterface
     Constraints.constrainRange(indices, 1, Integer.MAX_VALUE);
 
     GLUnsignedType type = GLUnsignedType.TYPE_UNSIGNED_BYTE;
-
-    long size = 1;
     if (buffer.getElements() > 0xff) {
       type = GLUnsignedType.TYPE_UNSIGNED_SHORT;
-      size = 2;
     }
     if (buffer.getElements() > 0xffff) {
       type = GLUnsignedType.TYPE_UNSIGNED_INT;
-      size = 4;
     }
 
+    return this.indexBufferAllocateType(type, indices);
+  }
+
+  @Override public @Nonnull IndexBuffer indexBufferAllocateType(
+    final @Nonnull GLUnsignedType type,
+    final int indices)
+    throws GLException,
+      ConstraintError
+  {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
+    Constraints.constrainNotNull(type, "Index type");
+    Constraints.constrainRange(indices, 1, Integer.MAX_VALUE);
+
+    final long size = GLUnsignedTypeMeta.getSizeBytes(type);
     final long bytes = indices * size;
 
     this.log.debug("index-buffer: allocate ("
       + indices
       + " elements, "
-      + GLUnsignedTypeMeta.getSizeBytes(type)
+      + size
       + " bytes per element, "
       + bytes
       + " bytes)");
