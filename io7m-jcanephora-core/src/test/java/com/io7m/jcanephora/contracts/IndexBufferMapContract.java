@@ -18,6 +18,13 @@ import com.io7m.jcanephora.IndexBufferWritableMap;
 
 public abstract class IndexBufferMapContract implements GLTestContract
 {
+  /**
+   * Mapping a deleted buffer read-only fails.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   */
+
   @Test(expected = ConstraintError.class) public final
     void
     testMapReadDeleted()
@@ -31,6 +38,13 @@ public abstract class IndexBufferMapContract implements GLTestContract
     ib.resourceDelete(gl);
     gl.indexBufferMapRead(ib);
   }
+
+  /**
+   * Mapping a deleted buffer write-only fails.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   */
 
   @Test(expected = ConstraintError.class) public final
     void
@@ -164,5 +178,27 @@ public abstract class IndexBufferMapContract implements GLTestContract
         Assert.assertEquals(index, value);
       }
     }
+  }
+
+  /**
+   * Unmapping a deleted buffer fails.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testUnmapDeleted()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterface gl = this.getGL();
+    final IndexBuffer ib =
+      gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 25);
+
+    gl.indexBufferMapRead(ib);
+    ib.resourceDelete(gl);
+    gl.indexBufferUnmap(ib);
   }
 }
