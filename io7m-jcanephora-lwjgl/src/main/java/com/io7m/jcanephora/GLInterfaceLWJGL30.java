@@ -1565,7 +1565,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     GLError.check(this);
   }
 
-  @Override public @Nonnull IndexBuffer indexBufferAllocate(
+  @Override public IndexBuffer indexBufferAllocate(
     final @Nonnull ArrayBuffer buffer,
     final int indices)
     throws GLException,
@@ -1575,27 +1575,35 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
       "Array buffer not deleted");
-
     Constraints.constrainRange(indices, 1, Integer.MAX_VALUE);
 
     GLUnsignedType type = GLUnsignedType.TYPE_UNSIGNED_BYTE;
-
-    long size = 1;
     if (buffer.getElements() > 0xff) {
       type = GLUnsignedType.TYPE_UNSIGNED_SHORT;
-      size = 2;
     }
     if (buffer.getElements() > 0xffff) {
       type = GLUnsignedType.TYPE_UNSIGNED_INT;
-      size = 4;
     }
 
+    return this.indexBufferAllocateType(type, indices);
+  }
+
+  @Override public @Nonnull IndexBuffer indexBufferAllocateType(
+    final @Nonnull GLUnsignedType type,
+    final int indices)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(type, "Index type");
+    Constraints.constrainRange(indices, 1, Integer.MAX_VALUE);
+
+    final long size = GLUnsignedTypeMeta.getSizeBytes(type);
     final long bytes = indices * size;
 
     this.log.debug("index-buffer: allocate ("
       + indices
       + " elements, "
-      + GLUnsignedTypeMeta.getSizeBytes(type)
+      + size
       + " bytes per element, "
       + bytes
       + " bytes)");
