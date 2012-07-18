@@ -578,6 +578,44 @@ public abstract class ProgramContract implements
   }
 
   /**
+   * Linking a program with inconsistent varying parameters fails.
+   * 
+   * @throws GLException
+   * @throws IOException
+   */
+
+  @Test(expected = GLCompileException.class) public final
+    void
+    testProgramLinkInconsistentVarying()
+      throws ConstraintError,
+        FilesystemError,
+        GLCompileException,
+        GLException,
+        IOException
+  {
+    final FilesystemAPI fs = this.getFS();
+    fs.mount("test_lwjgl30.zip", "/");
+
+    final GLInterface gl = this.getGL();
+
+    ProgramReference pr = null;
+
+    try {
+      pr = gl.programCreate("program");
+      final VertexShader v =
+        gl.vertexShaderCompile("vertex", fs.openFile("/shaders/varying0.v"));
+      final FragmentShader f =
+        gl.fragmentShaderCompile("frag", fs.openFile("/shaders/varying1.f"));
+      gl.fragmentShaderAttach(pr, f);
+      gl.vertexShaderAttach(pr, v);
+    } catch (final Exception e) {
+      Assert.fail(e.getMessage());
+    }
+
+    gl.programLink(pr);
+  }
+
+  /**
    * Activating a program that's not yet compiled raises a ConstraintError.
    */
 
@@ -1253,43 +1291,5 @@ public abstract class ProgramContract implements
 
     vr.resourceDelete(gl);
     vr.resourceDelete(gl);
-  }
-
-  /**
-   * Linking a program with inconsistent varying parameters fails.
-   * 
-   * @throws GLException
-   * @throws IOException
-   */
-
-  @Test(expected = GLCompileException.class) public final
-    void
-    testProgramLinkInconsistentVarying()
-      throws ConstraintError,
-        FilesystemError,
-        GLCompileException,
-        GLException,
-        IOException
-  {
-    final FilesystemAPI fs = this.getFS();
-    fs.mount("test_lwjgl30.zip", "/");
-
-    final GLInterface gl = this.getGL();
-
-    ProgramReference pr = null;
-
-    try {
-      pr = gl.programCreate("program");
-      final VertexShader v =
-        gl.vertexShaderCompile("vertex", fs.openFile("/shaders/varying0.v"));
-      final FragmentShader f =
-        gl.fragmentShaderCompile("frag", fs.openFile("/shaders/varying1.f"));
-      gl.fragmentShaderAttach(pr, f);
-      gl.vertexShaderAttach(pr, v);
-    } catch (final Exception e) {
-      Assert.fail(e.getMessage());
-    }
-
-    gl.programLink(pr);
   }
 }
