@@ -1,10 +1,13 @@
 package com.io7m.jcanephora.contracts;
 
+import java.io.IOException;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface;
@@ -63,6 +66,95 @@ public abstract class ProgramContract implements
   {
     final Program p = new Program("program", this.getLog());
     p.addFragmentShader(new PathVirtual("/nonexistent"));
+  }
+
+  /**
+   * Adding a deleted fragment shader fails.
+   * 
+   * @throws GLException
+   * @throws FilesystemError
+   * @throws IOException
+   * @throws GLCompileException
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramReferenceAddFragmentShaderDeleted()
+      throws ConstraintError,
+        GLException,
+        FilesystemError,
+        GLCompileException,
+        IOException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    fs.mount("test_lwjgl30.zip", "/");
+
+    final ProgramReference pr = gl.programCreate("program");
+    final FragmentShader fr =
+      gl.fragmentShaderCompile("frag", fs.openFile("/shaders/simple.f"));
+
+    fr.resourceDelete(gl);
+    gl.fragmentShaderAttach(pr, fr);
+  }
+
+  /**
+   * Adding a fragment shader to a deleted program fails.
+   * 
+   * @throws GLException
+   * @throws FilesystemError
+   * @throws IOException
+   * @throws GLCompileException
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramReferenceAddFragmentShaderDeletedProgram()
+      throws ConstraintError,
+        GLException,
+        FilesystemError,
+        GLCompileException,
+        IOException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    fs.mount("test_lwjgl30.zip", "/");
+
+    final ProgramReference pr = gl.programCreate("program");
+    final FragmentShader fr =
+      gl.fragmentShaderCompile("frag", fs.openFile("/shaders/simple.f"));
+
+    pr.resourceDelete(gl);
+    gl.fragmentShaderAttach(pr, fr);
+  }
+
+  /**
+   * Deleting a fragment shader twice fails.
+   * 
+   * @throws GLException
+   * @throws FilesystemError
+   * @throws IOException
+   * @throws GLCompileException
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testFragmentShaderDeleteTwice()
+      throws ConstraintError,
+        GLException,
+        FilesystemError,
+        GLCompileException,
+        IOException
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    fs.mount("test_lwjgl30.zip", "/");
+
+    final FragmentShader fr =
+      gl.fragmentShaderCompile("frag", fs.openFile("/shaders/simple.f"));
+
+    fr.resourceDelete(gl);
+    fr.resourceDelete(gl);
   }
 
   /**
