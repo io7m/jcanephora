@@ -878,11 +878,26 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
     Constraints.constrainNotNull(program_attribute, "Program attribute");
 
-    final ArrayBufferDescriptor d = buffer.getDescriptor();
+    final boolean bound = this.arrayBufferIsBound(buffer);
+    Constraints.constrainArbitrary(bound, "Buffer is bound");
 
+    final ArrayBufferDescriptor d = buffer.getDescriptor();
+    final ArrayBufferAttribute dba =
+      d.getAttribute(buffer_attribute.getName());
+
+    final boolean same_array = dba == buffer_attribute;
     Constraints.constrainArbitrary(
-      d.getAttribute(buffer_attribute.getName()) == buffer_attribute,
+      same_array,
       "Buffer attribute belongs to the array buffer");
+
+    final boolean same_type =
+      GLScalarTypeMeta.shaderTypeConvertible(
+        dba.getType(),
+        dba.getElements(),
+        program_attribute.getType());
+    Constraints.constrainArbitrary(
+      same_type,
+      "Buffer attribute is of the same type as the program attribute");
 
     final int program_attrib_id = program_attribute.getLocation();
     final int count = buffer_attribute.getElements();

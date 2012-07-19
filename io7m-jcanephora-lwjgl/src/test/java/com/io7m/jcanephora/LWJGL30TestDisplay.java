@@ -7,7 +7,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 public final class LWJGL30TestDisplay
 {
-  private static Pbuffer buffer;
+  private static Pbuffer buffer = null;
 
   public static GLInterface getGL()
     throws GLException,
@@ -20,6 +20,7 @@ public final class LWJGL30TestDisplay
   private static Pbuffer openContext()
   {
     if (LWJGL30TestDisplay.buffer != null) {
+      LWJGL30TestDisplay.buffer.destroy();
       Display.destroy();
     }
 
