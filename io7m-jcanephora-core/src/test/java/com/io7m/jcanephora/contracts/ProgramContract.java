@@ -270,6 +270,21 @@ public abstract class ProgramContract implements
     Assert.assertEquals("vertex", a.getName());
   }
 
+  /**
+   * Check that the number of available vertex attributes is sane.
+   * 
+   * @throws ConstraintError
+   * @throws GLException
+   */
+
+  @Test public final void testProgramAttributes()
+    throws GLException,
+      ConstraintError
+  {
+    final GLInterface gl = this.makeNewGL();
+    Assert.assertTrue(gl.programGetMaximimActiveAttributes() >= 8);
+  }
+
   @Test public final void testProgramCompileFragmentRemovesRequirement()
     throws ConstraintError,
       GLCompileException,
