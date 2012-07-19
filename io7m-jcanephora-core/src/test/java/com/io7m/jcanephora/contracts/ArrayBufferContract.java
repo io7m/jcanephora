@@ -254,7 +254,98 @@ public abstract class ArrayBufferContract implements
           3) });
     final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
 
+    gl.arrayBufferBind(a);
     gl.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), pa);
+  }
+
+  /**
+   * Binding a vertex attribute that doesn't belong to the given array buffer
+   * fails.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   * @throws FilesystemError
+   * @throws IOException
+   * @throws GLCompileException
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferBindVertexAttributeWrongArray()
+      throws GLException,
+        ConstraintError,
+        GLCompileException,
+        IOException,
+        FilesystemError
+  {
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
+    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+
+    final Program pr = new Program("program", this.getLog());
+    pr.addVertexShader(new PathVirtual("/shaders/position.v"));
+    pr.compile(fs, gl);
+
+    final ProgramAttribute pa = pr.getAttribute("position");
+    final ArrayBufferDescriptor d0 =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_FLOAT,
+          3) });
+    final ArrayBufferDescriptor d1 =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_FLOAT,
+          3) });
+
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d1);
+
+    gl.arrayBufferBind(a);
+    gl.arrayBufferBindVertexAttribute(a, d0.getAttribute("position"), pa);
+  }
+
+  /**
+   * Binding a vertex attribute that doesn't have the same type as the program
+   * attribute fails.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   * @throws FilesystemError
+   * @throws IOException
+   * @throws GLCompileException
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferBindVertexAttributeWrongType()
+      throws GLException,
+        ConstraintError,
+        GLCompileException,
+        IOException,
+        FilesystemError
+  {
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
+    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+
+    final Program pr = new Program("program", this.getLog());
+    pr.addVertexShader(new PathVirtual("/shaders/position.v"));
+    pr.compile(fs, gl);
+
+    final ProgramAttribute pa = pr.getAttribute("position");
+    final ArrayBufferDescriptor d0 =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_INT,
+          3) });
+
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d0);
+
+    gl.arrayBufferBind(a);
+    gl.arrayBufferBindVertexAttribute(a, d0.getAttribute("position"), pa);
   }
 
   /**
