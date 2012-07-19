@@ -1,5 +1,6 @@
 package com.io7m.jcanephora.contracts;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 
@@ -12,11 +13,19 @@ import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferDescriptor;
 import com.io7m.jcanephora.ArrayBufferWritableMap;
+import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface;
 import com.io7m.jcanephora.GLScalarType;
+import com.io7m.jcanephora.Program;
+import com.io7m.jcanephora.ProgramAttribute;
+import com.io7m.jvvfs.FilesystemAPI;
+import com.io7m.jvvfs.FilesystemError;
+import com.io7m.jvvfs.PathVirtual;
 
-public abstract class ArrayBufferContract implements GLTestContract
+public abstract class ArrayBufferContract implements
+  GLTestContract,
+  FilesystemTestContract
 {
   /**
    * An allocated buffer has the correct number of elements and element size.
@@ -162,6 +171,31 @@ public abstract class ArrayBufferContract implements GLTestContract
   }
 
   /**
+   * Attempting to bind a vertex attribute with a deleted array fails.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferBindVertexAttributeDeletedArray()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterface gl = this.getGL();
+    final ArrayBufferDescriptor d =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_SHORT,
+          1) });
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    gl.arrayBufferDelete(a);
+    gl.arrayBufferBindVertexAttribute(a, null, null);
+  }
+
+  /**
    * Attempting to bind a vertex attribute with a null program attribute
    * fails.
    * 
@@ -184,6 +218,43 @@ public abstract class ArrayBufferContract implements GLTestContract
           1) });
     final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
     gl.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), null);
+  }
+
+  /**
+   * Binding a vertex attribute works.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   * @throws FilesystemError
+   * @throws IOException
+   * @throws GLCompileException
+   */
+
+  @Test public final void testArrayBufferBindVertexAttributeOK()
+    throws GLException,
+      ConstraintError,
+      GLCompileException,
+      IOException,
+      FilesystemError
+  {
+    final GLInterface gl = this.getGL();
+    final FilesystemAPI fs = this.getFS();
+    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+
+    final Program pr = new Program("program", this.getLog());
+    pr.addVertexShader(new PathVirtual("/shaders/position.v"));
+    pr.compile(fs, gl);
+
+    final ProgramAttribute pa = pr.getAttribute("position");
+    final ArrayBufferDescriptor d =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_FLOAT,
+          3) });
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+
+    gl.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), pa);
   }
 
   /**
