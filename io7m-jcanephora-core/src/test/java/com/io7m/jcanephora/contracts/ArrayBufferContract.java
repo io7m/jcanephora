@@ -694,6 +694,292 @@ public abstract class ArrayBufferContract implements
   }
 
   /**
+   * Unbinding a vertex attribute for a deleted array fails.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   * @throws GLCompileException
+   * @throws IOException
+   * @throws FilesystemError
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferUnbindVertexAttributeDeleted()
+      throws GLException,
+        ConstraintError,
+        GLCompileException,
+        IOException,
+        FilesystemError
+  {
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
+    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+
+    final Program pr = new Program("program", this.getLog());
+    pr.addVertexShader(new PathVirtual("/shaders/position.v"));
+    pr.compile(fs, gl);
+
+    final ProgramAttribute pa = pr.getAttribute("position");
+    final ArrayBufferDescriptor d0 =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_FLOAT,
+          3) });
+
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d0);
+
+    gl.arrayBufferBind(a);
+    gl.arrayBufferBindVertexAttribute(a, d0.getAttribute("position"), pa);
+    a.resourceDelete(gl);
+    gl.arrayBufferUnbindVertexAttribute(a, d0.getAttribute("position"), pa);
+  }
+
+  /**
+   * Unbinding a vertex attribute with a null attribute fails.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   * @throws FilesystemError
+   * @throws GLCompileException
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferUnbindVertexAttributeNull()
+      throws GLException,
+        ConstraintError,
+        FilesystemError,
+        GLCompileException
+  {
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
+    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+
+    final Program pr = new Program("program", this.getLog());
+    pr.addVertexShader(new PathVirtual("/shaders/position.v"));
+    pr.compile(fs, gl);
+
+    final ProgramAttribute pa = pr.getAttribute("position");
+    final ArrayBufferDescriptor d =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_FLOAT,
+          3) });
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+
+    gl.arrayBufferBind(a);
+    gl.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), pa);
+    gl.arrayBufferUnbindVertexAttribute(a, null, pa);
+  }
+
+  /**
+   * Unbinding a vertex attribute with a null array fails.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   * @throws FilesystemError
+   * @throws GLCompileException
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferUnbindVertexAttributeNullArray()
+      throws GLException,
+        ConstraintError,
+        FilesystemError,
+        GLCompileException
+  {
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
+    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+
+    final Program pr = new Program("program", this.getLog());
+    pr.addVertexShader(new PathVirtual("/shaders/position.v"));
+    pr.compile(fs, gl);
+
+    final ProgramAttribute pa = pr.getAttribute("position");
+    final ArrayBufferDescriptor d =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_FLOAT,
+          3) });
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+
+    gl.arrayBufferBind(a);
+    gl.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), pa);
+    gl.arrayBufferUnbindVertexAttribute(null, d.getAttribute("position"), pa);
+  }
+
+  /**
+   * Unbinding a vertex attribute with a null program attribute fails.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   * @throws FilesystemError
+   * @throws GLCompileException
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferUnbindVertexAttributeNullProgram()
+      throws GLException,
+        ConstraintError,
+        FilesystemError,
+        GLCompileException
+  {
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
+    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+
+    final Program pr = new Program("program", this.getLog());
+    pr.addVertexShader(new PathVirtual("/shaders/position.v"));
+    pr.compile(fs, gl);
+
+    final ProgramAttribute pa = pr.getAttribute("position");
+    final ArrayBufferDescriptor d =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_FLOAT,
+          3) });
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+
+    gl.arrayBufferBind(a);
+    gl.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), pa);
+    gl.arrayBufferUnbindVertexAttribute(a, d.getAttribute("position"), null);
+  }
+
+  /**
+   * Unbinding a bound vertex attribute works.
+   * 
+   * @throws ConstraintError
+   * @throws GLException
+   * @throws FilesystemError
+   * @throws GLCompileException
+   */
+
+  @Test public final void testArrayBufferUnbindVertexAttributeOK()
+    throws GLException,
+      ConstraintError,
+      FilesystemError,
+      GLCompileException
+  {
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
+    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+
+    final Program pr = new Program("program", this.getLog());
+    pr.addVertexShader(new PathVirtual("/shaders/position.v"));
+    pr.compile(fs, gl);
+
+    final ProgramAttribute pa = pr.getAttribute("position");
+    final ArrayBufferDescriptor d =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_FLOAT,
+          3) });
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+
+    gl.arrayBufferBind(a);
+    gl.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), pa);
+    gl.arrayBufferUnbindVertexAttribute(a, d.getAttribute("position"), pa);
+  }
+
+  /**
+   * Unbinding a vertex attribute with an unbound array fails.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   * @throws FilesystemError
+   * @throws GLCompileException
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferUnbindVertexAttributeUnbound()
+      throws GLException,
+        ConstraintError,
+        FilesystemError,
+        GLCompileException
+  {
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
+    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+
+    final Program pr = new Program("program", this.getLog());
+    pr.addVertexShader(new PathVirtual("/shaders/position.v"));
+    pr.compile(fs, gl);
+
+    final ProgramAttribute pa = pr.getAttribute("position");
+    final ArrayBufferDescriptor d =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_FLOAT,
+          3) });
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+
+    gl.arrayBufferBind(a);
+    gl.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), pa);
+    gl.arrayBufferUnbind();
+    gl.arrayBufferUnbindVertexAttribute(a, d.getAttribute("position"), pa);
+  }
+
+  /**
+   * Unbinding a vertex attribute that does not belong to the given array
+   * fails.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   * @throws GLCompileException
+   * @throws IOException
+   * @throws FilesystemError
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferUnbindVertexAttributeWrongArray()
+      throws GLException,
+        ConstraintError,
+        GLCompileException,
+        IOException,
+        FilesystemError
+  {
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
+    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+
+    final Program pr = new Program("program", this.getLog());
+    pr.addVertexShader(new PathVirtual("/shaders/position.v"));
+    pr.compile(fs, gl);
+
+    final ProgramAttribute pa = pr.getAttribute("position");
+    final ArrayBufferDescriptor d0 =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_FLOAT,
+          3) });
+    final ArrayBufferDescriptor d1 =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_FLOAT,
+          3) });
+
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d0);
+
+    gl.arrayBufferBind(a);
+    gl.arrayBufferBindVertexAttribute(a, d0.getAttribute("position"), pa);
+    gl.arrayBufferUnbindVertexAttribute(a, d1.getAttribute("position"), pa);
+  }
+
+  /**
    * Unmapping a deleted buffer fails.
    */
 

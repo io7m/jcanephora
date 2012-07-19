@@ -1069,6 +1069,9 @@ public final class GLInterfaceJOGL30 implements GLInterface
       buffer.resourceIsDeleted() == false,
       "Array buffer not deleted");
 
+    final boolean bound = this.arrayBufferIsBound(buffer);
+    Constraints.constrainArbitrary(bound, "Buffer is bound");
+
     Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
     Constraints.constrainNotNull(program_attribute, "Program attribute");
 
