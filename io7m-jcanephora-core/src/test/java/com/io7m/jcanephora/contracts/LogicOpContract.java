@@ -21,7 +21,7 @@ public abstract class LogicOpContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     for (final LogicOperation op : LogicOperation.values()) {
       gl.logicOperationsDisable();
@@ -42,7 +42,7 @@ public abstract class LogicOpContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.logicOperationsEnable(null);
   }
 }

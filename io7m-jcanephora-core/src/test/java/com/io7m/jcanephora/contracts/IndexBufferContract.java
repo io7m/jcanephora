@@ -28,7 +28,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -49,7 +49,7 @@ public abstract class IndexBufferContract implements GLTestContract
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -82,7 +82,7 @@ public abstract class IndexBufferContract implements GLTestContract
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -116,7 +116,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.indexBufferAllocate(null, 1);
   }
 
@@ -129,7 +129,7 @@ public abstract class IndexBufferContract implements GLTestContract
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -163,7 +163,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.indexBufferAllocateType(null, 1);
   }
 
@@ -177,7 +177,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 0);
   }
 
@@ -191,7 +191,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -212,7 +212,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -243,7 +243,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.indexBufferDelete(null);
   }
 
@@ -255,7 +255,7 @@ public abstract class IndexBufferContract implements GLTestContract
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -300,7 +300,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -334,7 +334,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -368,7 +368,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -402,7 +402,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -442,7 +442,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.indexBufferMapRead(null);
   }
 
@@ -456,7 +456,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -490,7 +490,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -524,7 +524,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -558,7 +558,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.indexBufferMapWrite(null);
   }
 
@@ -572,7 +572,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(

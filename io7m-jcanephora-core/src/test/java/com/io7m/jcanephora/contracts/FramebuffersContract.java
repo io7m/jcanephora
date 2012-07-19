@@ -31,7 +31,7 @@ public abstract class FramebuffersContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface g = this.getGL();
+    final GLInterface g = this.makeNewGL();
     final RenderbufferD24S8 rb = g.renderbufferD24S8Allocate(128, 128);
     final Texture2DRGBAStatic cb =
       g.texture2DRGBAStaticAllocate(
@@ -58,7 +58,7 @@ public abstract class FramebuffersContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface g = this.getGL();
+    final GLInterface g = this.makeNewGL();
 
     final RenderbufferD24S8 rb = g.renderbufferD24S8Allocate(128, 128);
     final Texture2DRGBAStatic cb =
@@ -90,7 +90,7 @@ public abstract class FramebuffersContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface g = this.getGL();
+    final GLInterface g = this.makeNewGL();
 
     try {
       final Texture2DRGBAStatic cb =
@@ -128,7 +128,7 @@ public abstract class FramebuffersContract implements GLTestContract
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final Texture2DRGBAStatic t =
       gl.texture2DRGBAStaticAllocate(
         "buffer",
@@ -150,7 +150,7 @@ public abstract class FramebuffersContract implements GLTestContract
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final RenderbufferD24S8 depth = gl.renderbufferD24S8Allocate(128, 128);
     final RenderbufferD24S8Attachment fda =
       new RenderbufferD24S8Attachment(depth);
@@ -167,7 +167,7 @@ public abstract class FramebuffersContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final RenderbufferD24S8 depth = gl.renderbufferD24S8Allocate(128, 128);
     final RenderbufferD24S8Attachment fda =
       new RenderbufferD24S8Attachment(depth);
@@ -184,7 +184,7 @@ public abstract class FramebuffersContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.framebufferAllocate(new FramebufferAttachment[] {});
   }
 
@@ -198,7 +198,7 @@ public abstract class FramebuffersContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.framebufferAllocate(new FramebufferAttachment[] { null });
   }
 
@@ -212,7 +212,7 @@ public abstract class FramebuffersContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.framebufferAllocate(null);
   }
 
@@ -226,7 +226,7 @@ public abstract class FramebuffersContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final Texture2DRGBAStatic t =
       gl.texture2DRGBAStaticAllocate(
         "buffer",
@@ -251,7 +251,7 @@ public abstract class FramebuffersContract implements GLTestContract
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final Texture2DRGBAStatic t =
       gl.texture2DRGBAStaticAllocate(
         "buffer",
@@ -282,7 +282,7 @@ public abstract class FramebuffersContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.colorBufferClearV3f(null);
   }
 
@@ -296,7 +296,7 @@ public abstract class FramebuffersContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.colorBufferClearV4f(null);
   }
 
@@ -308,7 +308,7 @@ public abstract class FramebuffersContract implements GLTestContract
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final Texture2DRGBAStatic t =
       gl.texture2DRGBAStaticAllocate(
         "buffer",
@@ -336,7 +336,7 @@ public abstract class FramebuffersContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final Texture2DRGBAStatic t =
       gl.texture2DRGBAStaticAllocate(
         "buffer",

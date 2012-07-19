@@ -21,7 +21,7 @@ public abstract class RenderbuffersContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     final RenderbufferD24S8 rb = gl.renderbufferD24S8Allocate(128, 128);
     Assert.assertFalse(rb.resourceIsDeleted());
@@ -42,7 +42,7 @@ public abstract class RenderbuffersContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     final RenderbufferD24S8 rb = gl.renderbufferD24S8Allocate(128, 128);
     Assert.assertFalse(rb.resourceIsDeleted());

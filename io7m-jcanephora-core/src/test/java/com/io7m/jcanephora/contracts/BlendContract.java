@@ -19,7 +19,7 @@ public abstract class BlendContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.blendingDisable();
     Assert.assertFalse(gl.blendingIsEnabled());
   }
@@ -30,7 +30,7 @@ public abstract class BlendContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.blendingEnableWithEquationSeparate(
       BlendFunction.BLEND_ONE,
       BlendFunction.BLEND_SOURCE_ALPHA_SATURATE,
@@ -46,7 +46,7 @@ public abstract class BlendContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     // final Log log = this.getLog();
 
     for (final BlendFunction source : BlendFunction.values()) {
@@ -75,7 +75,7 @@ public abstract class BlendContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     for (final BlendFunction source : BlendFunction.values()) {
       for (final BlendFunction target : BlendFunction.values()) {
@@ -101,7 +101,7 @@ public abstract class BlendContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     for (final BlendFunction source : BlendFunction.values()) {
       for (final BlendFunction target : BlendFunction.values()) {
@@ -133,7 +133,7 @@ public abstract class BlendContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     // final Log log = this.getLog();
 
     for (final BlendFunction rgb_source : BlendFunction.values()) {
@@ -181,7 +181,7 @@ public abstract class BlendContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.blendingEnable(
       BlendFunction.BLEND_ONE,
       BlendFunction.BLEND_SOURCE_ALPHA_SATURATE);
@@ -193,7 +193,7 @@ public abstract class BlendContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.blendingEnableWithEquation(
       BlendFunction.BLEND_ONE,
       BlendFunction.BLEND_SOURCE_ALPHA_SATURATE,
@@ -207,7 +207,7 @@ public abstract class BlendContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.blendingEnableSeparateWithEquationSeparate(
       BlendFunction.BLEND_ONE,
       BlendFunction.BLEND_ONE,
@@ -223,7 +223,7 @@ public abstract class BlendContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.blendingEnableSeparateWithEquationSeparate(
       BlendFunction.BLEND_ONE,
       BlendFunction.BLEND_ONE,

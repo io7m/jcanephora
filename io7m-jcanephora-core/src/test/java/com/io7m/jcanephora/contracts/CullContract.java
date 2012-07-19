@@ -19,7 +19,7 @@ public abstract class CullContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     for (final FaceSelection select : FaceSelection.values()) {
       for (final FaceWindingOrder order : FaceWindingOrder.values()) {
@@ -39,7 +39,7 @@ public abstract class CullContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.cullingEnable(null, FaceWindingOrder.FRONT_FACE_CLOCKWISE);
   }
 
@@ -51,7 +51,7 @@ public abstract class CullContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.cullingEnable(FaceSelection.FACE_BACK, null);
   }
 }

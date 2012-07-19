@@ -26,7 +26,7 @@ public abstract class TexturesContract implements GLTestContract
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final TextureUnit[] u = gl.textureGetUnits();
     Assert.assertTrue(u.length >= 2);
   }
@@ -42,7 +42,7 @@ public abstract class TexturesContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     final TextureUnit[] units = gl.textureGetUnits();
     final Texture2DRGBAStatic t =
@@ -75,7 +75,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     final TextureUnit[] units = gl.textureGetUnits();
     final Texture2DRGBAStatic t =
@@ -105,7 +105,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final TextureUnit[] units = gl.textureGetUnits();
 
     gl.texture2DRGBAStaticBind(units[0], null);
@@ -124,7 +124,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.texture2DRGBAStaticBind(null, null);
   }
 
@@ -139,7 +139,7 @@ public abstract class TexturesContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     final Texture2DRGBAStatic t =
       gl.texture2DRGBAStaticAllocate(
@@ -169,7 +169,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     final Texture2DRGBAStatic t =
       gl.texture2DRGBAStaticAllocate(
@@ -195,7 +195,7 @@ public abstract class TexturesContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final Texture2DRGBAStatic t =
       gl.texture2DRGBAStaticAllocate(
         "texture",
@@ -220,7 +220,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final Texture2DRGBAStatic t =
       gl.texture2DRGBAStaticAllocate(
         "texture",
@@ -244,7 +244,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.texture2DRGBAStaticGetImage(null);
   }
 
@@ -261,7 +261,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     final TextureUnit[] units = gl.textureGetUnits();
     final Texture2DRGBAStatic t =
@@ -292,7 +292,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.texture2DRGBAStaticDelete(null);
   }
 
@@ -309,7 +309,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     gl.texture2DRGBAStaticAllocate(
       "texture",
@@ -334,7 +334,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     gl.texture2DRGBAStaticAllocate(
       "texture",
@@ -359,7 +359,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     gl.texture2DRGBAStaticAllocate(
       null,
@@ -384,7 +384,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     gl.texture2DRGBAStaticAllocate(
       "texture",
@@ -409,7 +409,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     gl.texture2DRGBAStaticAllocate(
       "texture",
@@ -429,7 +429,7 @@ public abstract class TexturesContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     final Texture2DRGBAStatic t =
       gl.texture2DRGBAStaticAllocate(
@@ -464,7 +464,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     final Texture2DRGBAStatic t =
       gl.texture2DRGBAStaticAllocate(
@@ -489,7 +489,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.texture2DRGBAStaticReplace(null);
   }
 
@@ -503,7 +503,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     final Texture2DRGBAStatic t =
       gl.texture2DRGBAStaticAllocate(

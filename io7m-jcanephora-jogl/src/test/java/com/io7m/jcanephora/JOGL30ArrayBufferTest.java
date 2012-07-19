@@ -7,20 +7,20 @@ import com.io7m.jvvfs.FilesystemAPI;
 
 public final class JOGL30ArrayBufferTest extends ArrayBufferContract
 {
-  @Override public FilesystemAPI getFS()
+  @Override public Log getLog()
+  {
+    return JOGL30TestLog.getLog();
+  }
+
+  @Override public FilesystemAPI makeNewFS()
   {
     return JOGL30TestFilesystem.getFS();
   }
 
-  @Override public GLInterface getGL()
+  @Override public GLInterface makeNewGL()
     throws GLException,
       ConstraintError
   {
     return JOGL30TestDisplay.makeFreshGL();
-  }
-
-  @Override public Log getLog()
-  {
-    return JOGL30TestLog.getLog();
   }
 }
