@@ -235,6 +235,13 @@
           way to raise the limit on the number of clients without changing
           the X11 protocol.
         </s:paragraph>
+        <s:paragraph>
+          It is possible (but strongly discouraged) to disable execution of
+          the unit tests when compiling with:
+        </s:paragraph>
+        <s:paragraph>
+          <s:verbatim type="example"><![CDATA[$ mvn -C -Dmaven.test.skip.exec clean install]]></s:verbatim>
+        </s:paragraph>
       </s:subsection>
     </s:section>
 
