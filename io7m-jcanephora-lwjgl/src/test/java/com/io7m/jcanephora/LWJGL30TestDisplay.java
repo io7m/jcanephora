@@ -22,6 +22,14 @@ public final class LWJGL30TestDisplay
     if (LWJGL30TestDisplay.buffer != null) {
       LWJGL30TestDisplay.buffer.destroy();
       Display.destroy();
+
+      /**
+       * XXX: Tell the JVM to attempt garbage collection. This seems to
+       * partially mitigate an X11-specific bug where new contexts cannot be
+       * created ("Maximum number of clients reached").
+       */
+
+      System.gc();
     }
 
     LWJGL30TestDisplay.buffer = LWJGL30.createOffscreenDisplay(640, 480);
