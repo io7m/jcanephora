@@ -1073,12 +1073,15 @@ public final class GLInterfaceJOGL30 implements GLInterface
     Constraints.constrainNotNull(program_attribute, "Program attribute");
 
     final ArrayBufferDescriptor d = buffer.getDescriptor();
+    final ArrayBufferAttribute ba =
+      d.getAttribute(buffer_attribute.getName());
 
+    final boolean same_array = ba == buffer_attribute;
     Constraints.constrainArbitrary(
-      d.getAttribute(buffer_attribute.getName()) == buffer_attribute,
+      same_array,
       "Buffer attribute belongs to the array buffer");
 
-    gl.glEnableVertexAttribArray(program_attribute.getLocation());
+    gl.glDisableVertexAttribArray(program_attribute.getLocation());
     GLError.check(this);
   }
 
