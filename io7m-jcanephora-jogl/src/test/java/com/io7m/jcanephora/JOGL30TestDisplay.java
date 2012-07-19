@@ -1,28 +1,44 @@
 package com.io7m.jcanephora;
 
+import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLContext;
+import javax.media.opengl.GLDrawableFactory;
+import javax.media.opengl.GLPbuffer;
+import javax.media.opengl.GLProfile;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 
 public final class JOGL30TestDisplay
 {
-  private static GLContext context = null;
+  private static GLPbuffer createOffscreenDisplay(
+    final int width,
+    final int height)
+  {
+    final GLProfile pro = GLProfile.get(GLProfile.GL2GL3);
+    final GLCapabilities cap = new GLCapabilities(pro);
+
+    final GLDrawableFactory f = GLDrawableFactory.getFactory(pro);
+    final GLPbuffer pb =
+      f.createGLPbuffer(null, cap, null, width, height, null);
+
+    return pb;
+  }
+
+  private static GLContext context;
+  private static GLPbuffer buffer;
 
   private static GLContext getContext()
   {
-    if (JOGL30TestDisplay.context != null) {
+    if (JOGL30TestDisplay.buffer != null) {
+      JOGL30TestDisplay.context.release();
       JOGL30TestDisplay.context.destroy();
-
-      /**
-       * XXX: Tell the JVM to attempt garbage collection. This seems to
-       * partially mitigate an X11-specific bug where new contexts cannot be
-       * created ("Maximum number of clients reached").
-       */
-
-      System.gc();
+      JOGL30TestDisplay.buffer.destroy();
     }
 
-    JOGL30TestDisplay.context = JOGL30.createOffscreenDisplay(640, 480);
+    JOGL30TestDisplay.buffer =
+      JOGL30TestDisplay.createOffscreenDisplay(640, 480);
+    JOGL30TestDisplay.context = JOGL30TestDisplay.buffer.createContext(null);
+
     return JOGL30TestDisplay.context;
   }
 
