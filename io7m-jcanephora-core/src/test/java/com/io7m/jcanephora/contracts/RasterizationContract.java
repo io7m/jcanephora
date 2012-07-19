@@ -167,6 +167,22 @@ public abstract class RasterizationContract implements GLTestContract
   }
 
   /**
+   * Test point size limits are sane.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   */
+
+  @Test public final void testPointSize()
+    throws GLException,
+      ConstraintError
+  {
+    final GLInterface gl = this.makeNewGL();
+    Assert.assertTrue(gl.pointGetMinimumWidth() >= 0);
+    Assert.assertTrue(gl.pointGetMaximumWidth() >= 1);
+  }
+
+  /**
    * Setting polygon rasterization modes works.
    * 
    * @throws GLException
