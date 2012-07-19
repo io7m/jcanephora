@@ -14,7 +14,7 @@ public abstract class ScissorContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     gl.scissorDisable();
     Assert.assertFalse(gl.scissorIsEnabled());
@@ -28,7 +28,7 @@ public abstract class ScissorContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.scissorEnable(new VectorI2I(8, 8), null);
   }
 
@@ -38,7 +38,7 @@ public abstract class ScissorContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.scissorEnable(null, new VectorI2I(8, 8));
   }
 }

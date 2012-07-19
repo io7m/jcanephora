@@ -35,7 +35,7 @@ public abstract class ArrayBufferContract implements
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     ArrayBuffer a = null;
 
     try {
@@ -68,7 +68,7 @@ public abstract class ArrayBufferContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -89,7 +89,7 @@ public abstract class ArrayBufferContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -114,7 +114,7 @@ public abstract class ArrayBufferContract implements
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -130,6 +130,31 @@ public abstract class ArrayBufferContract implements
   }
 
   /**
+   * Attempting to bind a vertex attribute with a deleted array fails.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferBindVertexAttributeDeletedArray()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterface gl = this.makeNewGL();
+    final ArrayBufferDescriptor d =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_SHORT,
+          1) });
+    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    gl.arrayBufferDelete(a);
+    gl.arrayBufferBindVertexAttribute(a, null, null);
+  }
+
+  /**
    * Attempting to bind a vertex attribute with a null array fails.
    * 
    * @throws GLException
@@ -142,7 +167,7 @@ public abstract class ArrayBufferContract implements
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.arrayBufferBindVertexAttribute(null, null, null);
   }
 
@@ -159,7 +184,7 @@ public abstract class ArrayBufferContract implements
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -167,31 +192,6 @@ public abstract class ArrayBufferContract implements
           GLScalarType.TYPE_SHORT,
           1) });
     final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
-    gl.arrayBufferBindVertexAttribute(a, null, null);
-  }
-
-  /**
-   * Attempting to bind a vertex attribute with a deleted array fails.
-   * 
-   * @throws GLException
-   * @throws ConstraintError
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testArrayBufferBindVertexAttributeDeletedArray()
-      throws GLException,
-        ConstraintError
-  {
-    final GLInterface gl = this.getGL();
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
-          "position",
-          GLScalarType.TYPE_SHORT,
-          1) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
-    gl.arrayBufferDelete(a);
     gl.arrayBufferBindVertexAttribute(a, null, null);
   }
 
@@ -209,7 +209,7 @@ public abstract class ArrayBufferContract implements
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -237,8 +237,8 @@ public abstract class ArrayBufferContract implements
       IOException,
       FilesystemError
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
 
     final Program pr = new Program("program", this.getLog());
@@ -267,7 +267,7 @@ public abstract class ArrayBufferContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -289,7 +289,7 @@ public abstract class ArrayBufferContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     ArrayBuffer a = null;
 
     try {
@@ -319,7 +319,7 @@ public abstract class ArrayBufferContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.arrayBufferDelete(null);
   }
 
@@ -329,7 +329,7 @@ public abstract class ArrayBufferContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(new ArrayBufferAttribute[] {
         new ArrayBufferAttribute("position", GLScalarType.TYPE_SHORT, 3),
@@ -359,7 +359,7 @@ public abstract class ArrayBufferContract implements
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -405,7 +405,7 @@ public abstract class ArrayBufferContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -438,7 +438,7 @@ public abstract class ArrayBufferContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -461,7 +461,7 @@ public abstract class ArrayBufferContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -499,7 +499,7 @@ public abstract class ArrayBufferContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -520,7 +520,7 @@ public abstract class ArrayBufferContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -554,7 +554,7 @@ public abstract class ArrayBufferContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -577,7 +577,7 @@ public abstract class ArrayBufferContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -598,7 +598,7 @@ public abstract class ArrayBufferContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.arrayBufferIsBound(null);
   }
 
@@ -612,7 +612,7 @@ public abstract class ArrayBufferContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -636,7 +636,7 @@ public abstract class ArrayBufferContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(

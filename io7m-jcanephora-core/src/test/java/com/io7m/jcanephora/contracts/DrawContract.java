@@ -22,7 +22,7 @@ public abstract class DrawContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 100);
 
@@ -44,7 +44,7 @@ public abstract class DrawContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 100);
 
@@ -65,7 +65,7 @@ public abstract class DrawContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.drawElements(Primitives.PRIMITIVE_TRIANGLES, null);
   }
 
@@ -82,7 +82,7 @@ public abstract class DrawContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 100);
 

@@ -31,7 +31,7 @@ public abstract class IndexBufferMapContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 25);
 
@@ -52,7 +52,7 @@ public abstract class IndexBufferMapContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 25);
 
@@ -69,7 +69,7 @@ public abstract class IndexBufferMapContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -111,7 +111,7 @@ public abstract class IndexBufferMapContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -150,7 +150,7 @@ public abstract class IndexBufferMapContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -193,7 +193,7 @@ public abstract class IndexBufferMapContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 25);
 

@@ -25,7 +25,7 @@ public abstract class RasterizationContract implements GLTestContract
     int max = 0;
 
     try {
-      gl = this.getGL();
+      gl = this.makeNewGL();
       gl.lineSmoothingDisable();
       min = gl.lineAliasedGetMinimumWidth();
       max = gl.lineAliasedGetMaximumWidth();
@@ -53,7 +53,7 @@ public abstract class RasterizationContract implements GLTestContract
     int max = 99999;
 
     try {
-      gl = this.getGL();
+      gl = this.makeNewGL();
       gl.lineSmoothingDisable();
       max = gl.lineAliasedGetMaximumWidth();
     } catch (final GLException e) {
@@ -78,7 +78,7 @@ public abstract class RasterizationContract implements GLTestContract
     int min = 0;
 
     try {
-      gl = this.getGL();
+      gl = this.makeNewGL();
       gl.lineSmoothingDisable();
       min = gl.lineAliasedGetMinimumWidth();
     } catch (final GLException e) {
@@ -102,7 +102,7 @@ public abstract class RasterizationContract implements GLTestContract
     int max = 0;
 
     try {
-      gl = this.getGL();
+      gl = this.makeNewGL();
       gl.lineSmoothingEnable();
       min = gl.lineSmoothGetMinimumWidth();
       max = gl.lineSmoothGetMaximumWidth();
@@ -130,7 +130,7 @@ public abstract class RasterizationContract implements GLTestContract
     int max = 99999;
 
     try {
-      gl = this.getGL();
+      gl = this.makeNewGL();
       gl.lineSmoothingEnable();
       max = gl.lineSmoothGetMaximumWidth();
     } catch (final GLException e) {
@@ -155,7 +155,7 @@ public abstract class RasterizationContract implements GLTestContract
     int min = 0;
 
     try {
-      gl = this.getGL();
+      gl = this.makeNewGL();
       gl.lineSmoothingEnable();
       min = gl.lineSmoothGetMinimumWidth();
     } catch (final GLException e) {
@@ -177,7 +177,7 @@ public abstract class RasterizationContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     for (final FaceSelection select : FaceSelection.values()) {
       for (final PolygonMode mode : PolygonMode.values()) {
@@ -220,7 +220,7 @@ public abstract class RasterizationContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     gl.polygonSmoothingDisable();
     Assert.assertFalse(gl.polygonSmoothingIsEnabled());
@@ -236,7 +236,7 @@ public abstract class RasterizationContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     gl.pointProgramSizeControlDisable();
     Assert.assertFalse(gl.pointProgramSizeControlIsEnabled());

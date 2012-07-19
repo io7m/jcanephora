@@ -26,7 +26,7 @@ public abstract class PixelUnpackBufferContract implements GLTestContract
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     PixelUnpackBuffer a = null;
 
     try {
@@ -59,7 +59,7 @@ public abstract class PixelUnpackBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.pixelUnpackBufferAllocate(
       0,
       GLScalarType.TYPE_UNSIGNED_BYTE,
@@ -77,7 +77,7 @@ public abstract class PixelUnpackBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.pixelUnpackBufferAllocate(
       10,
       GLScalarType.TYPE_UNSIGNED_BYTE,
@@ -95,7 +95,7 @@ public abstract class PixelUnpackBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     PixelUnpackBuffer a = null;
 
     try {
@@ -123,7 +123,7 @@ public abstract class PixelUnpackBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.pixelUnpackBufferDelete(null);
   }
 
@@ -135,7 +135,7 @@ public abstract class PixelUnpackBufferContract implements GLTestContract
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final PixelUnpackBuffer a =
       gl.pixelUnpackBufferAllocate(
         10,
@@ -185,7 +185,7 @@ public abstract class PixelUnpackBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final PixelUnpackBuffer a =
       gl.pixelUnpackBufferAllocate(
         10,
@@ -217,7 +217,7 @@ public abstract class PixelUnpackBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final PixelUnpackBuffer id =
       gl.pixelUnpackBufferAllocate(
         10,
@@ -238,7 +238,7 @@ public abstract class PixelUnpackBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     PixelUnpackBuffer a = null;
 
     try {
@@ -275,7 +275,7 @@ public abstract class PixelUnpackBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.pixelUnpackBufferAllocate(
       10,
       GLScalarType.TYPE_UNSIGNED_BYTE,
@@ -294,7 +294,7 @@ public abstract class PixelUnpackBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final PixelUnpackBuffer a =
       gl.pixelUnpackBufferAllocate(
         10,
@@ -326,7 +326,7 @@ public abstract class PixelUnpackBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final PixelUnpackBuffer id =
       gl.pixelUnpackBufferAllocate(
         10,
@@ -347,7 +347,7 @@ public abstract class PixelUnpackBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.pixelUnpackBufferAllocate(
       10,
       GLScalarType.TYPE_UNSIGNED_BYTE,
@@ -366,7 +366,7 @@ public abstract class PixelUnpackBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final PixelUnpackBuffer id =
       gl.pixelUnpackBufferAllocate(
         10,
@@ -388,7 +388,7 @@ public abstract class PixelUnpackBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     PixelUnpackBuffer a = null;
 
     try {

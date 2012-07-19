@@ -6,15 +6,15 @@ import com.io7m.jlog.Log;
 
 public final class LWJGL30CullTest extends CullContract
 {
-  @Override public GLInterface getGL()
+  @Override public Log getLog()
+  {
+    return LWJGL30TestLog.getLog();
+  }
+
+  @Override public GLInterface makeNewGL()
     throws GLException,
       ConstraintError
   {
     return LWJGL30TestDisplay.getGL();
-  }
-
-  @Override public Log getLog()
-  {
-    return LWJGL30TestLog.getLog();
   }
 }

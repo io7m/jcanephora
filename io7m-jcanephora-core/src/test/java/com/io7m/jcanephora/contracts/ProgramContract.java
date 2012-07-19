@@ -71,8 +71,8 @@ public abstract class ProgramContract implements
         GLCompileException,
         IOException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
 
     final FragmentShader fr =
@@ -92,10 +92,10 @@ public abstract class ProgramContract implements
       GLCompileException,
       FilesystemError
   {
-    final FilesystemAPI fs = this.getFS();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
 
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final Program p = new Program("program", this.getLog());
     p.addVertexShader(new PathVirtual("/shaders/simple.v"));
     p.compile(fs, gl);
@@ -133,12 +133,14 @@ public abstract class ProgramContract implements
   {
     final Program p = new Program("program", this.getLog());
     {
-      final boolean r = p.requiresCompilation(this.getFS(), this.getGL());
+      final boolean r =
+        p.requiresCompilation(this.makeNewFS(), this.makeNewGL());
       Assert.assertEquals(true, r);
     }
     p.addFragmentShader(new PathVirtual("/nonexistent"));
     {
-      final boolean r = p.requiresCompilation(this.getFS(), this.getGL());
+      final boolean r =
+        p.requiresCompilation(this.makeNewFS(), this.makeNewGL());
       Assert.assertEquals(true, r);
     }
   }
@@ -149,8 +151,8 @@ public abstract class ProgramContract implements
       GLCompileException,
       GLException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
 
     final Program p = new Program("program", this.getLog());
@@ -201,12 +203,14 @@ public abstract class ProgramContract implements
   {
     final Program p = new Program("program", this.getLog());
     {
-      final boolean r = p.requiresCompilation(this.getFS(), this.getGL());
+      final boolean r =
+        p.requiresCompilation(this.makeNewFS(), this.makeNewGL());
       Assert.assertEquals(true, r);
     }
     p.addVertexShader(new PathVirtual("/nonexistent"));
     {
-      final boolean r = p.requiresCompilation(this.getFS(), this.getGL());
+      final boolean r =
+        p.requiresCompilation(this.makeNewFS(), this.makeNewGL());
       Assert.assertEquals(true, r);
     }
   }
@@ -217,8 +221,8 @@ public abstract class ProgramContract implements
       GLCompileException,
       GLException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
 
     final Program p = new Program("program", this.getLog());
@@ -248,8 +252,8 @@ public abstract class ProgramContract implements
       GLCompileException,
       GLException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
 
     final Program p = new Program("program", this.getLog());
@@ -272,8 +276,8 @@ public abstract class ProgramContract implements
       FilesystemError,
       GLException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
 
     final Program p = new Program("program", this.getLog());
@@ -299,7 +303,7 @@ public abstract class ProgramContract implements
     final Program p = new Program("program", this.getLog());
     p.addFragmentShader(new PathVirtual("/nonexistent"));
     try {
-      p.compile(this.getFS(), this.getGL());
+      p.compile(this.makeNewFS(), this.makeNewGL());
     } catch (final GLCompileException e) {
       Assert.assertTrue(e.getMessage().endsWith(
         "file not found '/nonexistent'"));
@@ -323,8 +327,8 @@ public abstract class ProgramContract implements
         FilesystemError,
         GLCompileException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
     final Program p = new Program("program", this.getLog());
     p.addFragmentShader(new PathVirtual("/shaders/invalid.f"));
@@ -347,8 +351,8 @@ public abstract class ProgramContract implements
         FilesystemError,
         GLCompileException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
     final Program p = new Program("program", this.getLog());
     p.addVertexShader(new PathVirtual("/shaders/invalid.v"));
@@ -370,10 +374,10 @@ public abstract class ProgramContract implements
         GLCompileException,
         GLException
   {
-    final FilesystemAPI fs = this.getFS();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
 
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final Program p = new Program("program", this.getLog());
 
     try {
@@ -390,8 +394,8 @@ public abstract class ProgramContract implements
       GLCompileException,
       GLException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
 
     final Program p = new Program("program", this.getLog());
@@ -410,8 +414,8 @@ public abstract class ProgramContract implements
       FilesystemError,
       GLException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
 
     final Program p = new Program("program", this.getLog());
@@ -437,7 +441,7 @@ public abstract class ProgramContract implements
     final Program p = new Program("program", this.getLog());
     p.addVertexShader(new PathVirtual("/nonexistent"));
     try {
-      p.compile(this.getFS(), this.getGL());
+      p.compile(this.makeNewFS(), this.makeNewGL());
     } catch (final GLCompileException e) {
       Assert.assertTrue(e.getMessage().endsWith(
         "file not found '/nonexistent'"));
@@ -453,11 +457,11 @@ public abstract class ProgramContract implements
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final Program p = new Program("program", this.getLog());
     Assert.assertEquals("program", p.getName());
     Assert.assertEquals(false, p.isActive(gl));
-    p.delete(this.getGL());
+    p.delete(this.makeNewGL());
   }
 
   /**
@@ -472,7 +476,8 @@ public abstract class ProgramContract implements
       GLException
   {
     final Program p = new Program("program", this.getLog());
-    final boolean r = p.requiresCompilation(this.getFS(), this.getGL());
+    final boolean r =
+      p.requiresCompilation(this.makeNewFS(), this.makeNewGL());
     Assert.assertEquals(true, r);
   }
 
@@ -486,7 +491,7 @@ public abstract class ProgramContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.programCreate(null);
   }
 
@@ -500,10 +505,10 @@ public abstract class ProgramContract implements
       GLCompileException,
       FilesystemError
   {
-    final FilesystemAPI fs = this.getFS();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
 
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final Program p = new Program("program", this.getLog());
     p.addVertexShader(new PathVirtual("/shaders/simple.v"));
     p.compile(fs, gl);
@@ -519,7 +524,7 @@ public abstract class ProgramContract implements
       GLException
   {
     final Program p = new Program("program", this.getLog());
-    p.deactivate(this.getGL());
+    p.deactivate(this.makeNewGL());
   }
 
   /**
@@ -532,7 +537,7 @@ public abstract class ProgramContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final ProgramReference p = gl.programCreate("program");
     p.resourceDelete(gl);
     p.resourceDelete(gl);
@@ -548,7 +553,7 @@ public abstract class ProgramContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.programDelete(null);
   }
 
@@ -565,8 +570,8 @@ public abstract class ProgramContract implements
       GLCompileException,
       GLException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
 
     final Program p = new Program("program", this.getLog());
@@ -595,10 +600,10 @@ public abstract class ProgramContract implements
         GLException,
         IOException
   {
-    final FilesystemAPI fs = this.getFS();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
 
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
 
     ProgramReference pr = null;
 
@@ -627,7 +632,7 @@ public abstract class ProgramContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final Program p = new Program("program", this.getLog());
     p.activate(gl);
   }
@@ -687,8 +692,8 @@ public abstract class ProgramContract implements
         GLCompileException,
         IOException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
 
     final ProgramReference pr = gl.programCreate("program");
@@ -717,8 +722,8 @@ public abstract class ProgramContract implements
         GLCompileException,
         IOException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
 
     final ProgramReference pr = gl.programCreate("program");
@@ -747,8 +752,8 @@ public abstract class ProgramContract implements
         GLCompileException,
         IOException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
 
     final ProgramReference pr = gl.programCreate("program");
@@ -777,8 +782,8 @@ public abstract class ProgramContract implements
         GLCompileException,
         IOException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
 
     final ProgramReference pr = gl.programCreate("program");
@@ -797,7 +802,7 @@ public abstract class ProgramContract implements
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     ProgramReference p = null;
 
     try {
@@ -819,7 +824,7 @@ public abstract class ProgramContract implements
       GLException
   {
     final Program p = new Program("program", this.getLog());
-    p.removeFragmentShader(new PathVirtual("/nonexistent"), this.getGL());
+    p.removeFragmentShader(new PathVirtual("/nonexistent"), this.makeNewGL());
   }
 
   /**
@@ -832,7 +837,7 @@ public abstract class ProgramContract implements
   {
     final Program p = new Program("program", this.getLog());
     p.addFragmentShader(new PathVirtual("/nonexistent"));
-    p.removeFragmentShader(new PathVirtual("/nonexistent"), this.getGL());
+    p.removeFragmentShader(new PathVirtual("/nonexistent"), this.makeNewGL());
   }
 
   /**
@@ -844,7 +849,7 @@ public abstract class ProgramContract implements
       GLException
   {
     final Program p = new Program("program", this.getLog());
-    p.removeVertexShader(new PathVirtual("/nonexistent"), this.getGL());
+    p.removeVertexShader(new PathVirtual("/nonexistent"), this.makeNewGL());
   }
 
   /**
@@ -857,7 +862,7 @@ public abstract class ProgramContract implements
   {
     final Program p = new Program("program", this.getLog());
     p.addVertexShader(new PathVirtual("/nonexistent"));
-    p.removeVertexShader(new PathVirtual("/nonexistent"), this.getGL());
+    p.removeVertexShader(new PathVirtual("/nonexistent"), this.makeNewGL());
   }
 
   @Test public final void testProgramUniformFloat()
@@ -866,8 +871,8 @@ public abstract class ProgramContract implements
       GLCompileException,
       GLException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
 
     final Program p = new Program("program", this.getLog());
@@ -899,8 +904,8 @@ public abstract class ProgramContract implements
       FilesystemError,
       GLCompileException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     final Program p = this.makeLargeShader(gl, fs);
     p.activate(gl);
 
@@ -975,8 +980,8 @@ public abstract class ProgramContract implements
       FilesystemError,
       GLCompileException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     final Program p = this.makeLargeShader(gl, fs);
     p.activate(gl);
 
@@ -1060,8 +1065,8 @@ public abstract class ProgramContract implements
         FilesystemError,
         GLCompileException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     final Program p = this.makeLargeShader(gl, fs);
     p.activate(gl);
 
@@ -1081,8 +1086,8 @@ public abstract class ProgramContract implements
         FilesystemError,
         GLCompileException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     final Program p = this.makeLargeShader(gl, fs);
     p.activate(gl);
 
@@ -1101,8 +1106,8 @@ public abstract class ProgramContract implements
         FilesystemError,
         GLCompileException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     final Program p = this.makeLargeShader(gl, fs);
     p.activate(gl);
 
@@ -1122,8 +1127,8 @@ public abstract class ProgramContract implements
         FilesystemError,
         GLCompileException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     final Program p = this.makeLargeShader(gl, fs);
     p.activate(gl);
 
@@ -1143,8 +1148,8 @@ public abstract class ProgramContract implements
         FilesystemError,
         GLCompileException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     final Program p = this.makeLargeShader(gl, fs);
     p.activate(gl);
 
@@ -1164,8 +1169,8 @@ public abstract class ProgramContract implements
         FilesystemError,
         GLCompileException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     final Program p = this.makeLargeShader(gl, fs);
     p.activate(gl);
 
@@ -1185,8 +1190,8 @@ public abstract class ProgramContract implements
         FilesystemError,
         GLCompileException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     final Program p = this.makeLargeShader(gl, fs);
     p.activate(gl);
 
@@ -1206,8 +1211,8 @@ public abstract class ProgramContract implements
         FilesystemError,
         GLCompileException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     final Program p = this.makeLargeShader(gl, fs);
     p.activate(gl);
 
@@ -1227,8 +1232,8 @@ public abstract class ProgramContract implements
         FilesystemError,
         GLCompileException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     final Program p = this.makeLargeShader(gl, fs);
     p.activate(gl);
 
@@ -1252,8 +1257,8 @@ public abstract class ProgramContract implements
       GLCompileException,
       GLException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
 
     final Program p = new Program("program", this.getLog());
@@ -1284,8 +1289,8 @@ public abstract class ProgramContract implements
         GLCompileException,
         IOException
   {
-    final GLInterface gl = this.getGL();
-    final FilesystemAPI fs = this.getFS();
+    final GLInterface gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
     fs.mount("test_lwjgl30.zip", "/");
 
     final VertexShader vr =

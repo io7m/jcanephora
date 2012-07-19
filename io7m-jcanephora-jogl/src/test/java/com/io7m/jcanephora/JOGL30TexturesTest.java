@@ -6,15 +6,15 @@ import com.io7m.jlog.Log;
 
 public final class JOGL30TexturesTest extends TexturesContract
 {
-  @Override public GLInterface getGL()
+  @Override public Log getLog()
+  {
+    return JOGL30TestLog.getLog();
+  }
+
+  @Override public GLInterface makeNewGL()
     throws GLException,
       ConstraintError
   {
     return JOGL30TestDisplay.makeFreshGL();
-  }
-
-  @Override public Log getLog()
-  {
-    return JOGL30TestLog.getLog();
   }
 }

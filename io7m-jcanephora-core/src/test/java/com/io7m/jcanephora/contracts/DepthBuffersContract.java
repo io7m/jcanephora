@@ -69,7 +69,7 @@ public abstract class DepthBuffersContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final Framebuffer fb = DepthBuffersContract.makeFramebuffer(gl);
     gl.framebufferBind(fb);
     gl.depthBufferClear(1.0f);
@@ -79,7 +79,7 @@ public abstract class DepthBuffersContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final Framebuffer fb = DepthBuffersContract.makeFramebuffer(gl);
     gl.framebufferBind(fb);
 
@@ -97,7 +97,7 @@ public abstract class DepthBuffersContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final Framebuffer fb = DepthBuffersContract.makeFramebufferNoDepth(gl);
     gl.framebufferBind(fb);
     gl.depthBufferClear(1.0f);
@@ -109,7 +109,7 @@ public abstract class DepthBuffersContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final Framebuffer fb = DepthBuffersContract.makeFramebufferNoDepth(gl);
     gl.framebufferBind(fb);
     gl.depthBufferEnable(DepthFunction.DEPTH_EQUAL);
@@ -119,7 +119,7 @@ public abstract class DepthBuffersContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     final Framebuffer fb = DepthBuffersContract.makeFramebufferNoDepth(gl);
     gl.framebufferBind(fb);
     Assert.assertEquals(0, gl.depthBufferGetBits());

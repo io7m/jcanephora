@@ -20,7 +20,7 @@ public abstract class ViewportContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.viewportSet(new VectorI2I(0, 0), new VectorI2I(64, 64));
   }
 
@@ -37,7 +37,7 @@ public abstract class ViewportContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.viewportSet(new VectorI2I(0, 0), new VectorI2I(-1, 32));
   }
 
@@ -54,7 +54,7 @@ public abstract class ViewportContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.viewportSet(new VectorI2I(0, 0), new VectorI2I(32, -1));
   }
 
@@ -71,7 +71,7 @@ public abstract class ViewportContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.viewportSet(new VectorI2I(0, 0), null);
   }
 
@@ -88,7 +88,7 @@ public abstract class ViewportContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.getGL();
+    final GLInterface gl = this.makeNewGL();
     gl.viewportSet(null, new VectorI2I(64, 64));
   }
 }
