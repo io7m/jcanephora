@@ -208,41 +208,9 @@
 
     <s:section>
       <s:section-title>Platform Specific Issues</s:section-title>
-      <s:subsection>
-        <s:subsection-title>X11 (Xorg)</s:subsection-title>
-        <s:paragraph>
-          When compiling the package from source, the included unit
-          tests occasionally (rarely) trigger a bug in
-          <s:term type="package">Xorg</s:term>. The bug manifests as
-          a "Maximum number of clients reached" message, which usually
-          causes one or more of the test cases to fail. The problem seems
-          to be related to the number of tests: The maximum number of clients
-          allowed to connect to the X server is 256, and at the time of
-          writing, there are ~250 unit tests per package.
-        </s:paragraph>
-        <s:paragraph>
-          Unfortunately, the problem seems to be extremely dependent on the
-          state of the host system at the time of compilation. As can be seen
-          from the test code, the tests take care to destroy any existing
-          display context before creating a new one (so even if a test fails,
-          the display context it opened is still destroyed correctly upon
-          execution of the next test). The display handling code in the tests
-          also instructs the JVM to collect garbage after every test, which
-          seems to reduce the likelihood of the problem occuring.
-        </s:paragraph>
-        <s:paragraph>
-          There are no known workarounds to the problem. There is also no
-          way to raise the limit on the number of clients without changing
-          the X11 protocol.
-        </s:paragraph>
-        <s:paragraph>
-          It is possible (but strongly discouraged) to disable execution of
-          the unit tests when compiling with:
-        </s:paragraph>
-        <s:paragraph>
-          <s:verbatim type="example"><![CDATA[$ mvn -C -Dmaven.test.skip.exec clean install]]></s:verbatim>
-        </s:paragraph>
-      </s:subsection>
+      <s:paragraph>
+        There are currently no known platform-specific issues.
+      </s:paragraph>
     </s:section>
 
     <s:section>

@@ -793,7 +793,6 @@ public final class GLInterfaceJOGL30 implements GLInterface
   private int                          line_smooth_min_width;
   private int                          line_smooth_max_width;
   private int                          point_min_width;
-
   private int                          point_max_width;
 
   public GLInterfaceJOGL30(
