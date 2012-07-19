@@ -520,4 +520,19 @@ public abstract class TexturesContract implements GLTestContract
 
     gl.texture2DRGBAStaticReplace(t);
   }
+
+  /**
+   * Maximum texture size is sane.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   */
+
+  @Test public final void testTextureSizeSane()
+    throws GLException,
+      ConstraintError
+  {
+    final GLInterface gl = this.makeNewGL();
+    Assert.assertTrue(gl.textureGetMaximumSize() >= 128);
+  }
 }
