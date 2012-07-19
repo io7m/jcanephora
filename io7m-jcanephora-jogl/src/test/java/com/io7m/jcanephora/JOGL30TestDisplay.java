@@ -12,6 +12,14 @@ public final class JOGL30TestDisplay
   {
     if (JOGL30TestDisplay.context != null) {
       JOGL30TestDisplay.context.destroy();
+
+      /**
+       * XXX: Tell the JVM to attempt garbage collection. This seems to
+       * partially mitigate an X11-specific bug where new contexts cannot be
+       * created ("Maximum number of clients reached").
+       */
+
+      System.gc();
     }
 
     JOGL30TestDisplay.context = JOGL30.createOffscreenDisplay(640, 480);
