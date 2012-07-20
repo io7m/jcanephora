@@ -45,3 +45,8 @@
   font-family:   monospace;
 }
 
+.feature_mapping td
+{
+  padding-right: 2em;
+}
+
