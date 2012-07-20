@@ -250,6 +250,46 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
         written in C and then shows the <s:term type="package">jcanephora</s:term>
         equivalent.
       </s:paragraph>
+      <s:paragraph>
+        Every <s:term type="package">jcanephora</s:term> program begins
+        by creating or retrieving an implementation of the
+        <s:link-external target="javadoc/com/io7m/jcanephora/GLInterface.html">GLInterface</s:link-external>
+        type. At the time of writing, there are implementations based on
+        <s:link-external target="http://lwjgl.org">LWJGL</s:link-external>
+        and
+        <s:link-external target="http://jogamp.org">JOGL</s:link-external>.
+        Programs are insulated from the platform/implementation specific
+        details of the OpenGL interface via the
+        <s:term type="function">GLInterface</s:term> type - all operations
+        occur via values of this type and client programs do
+        not know anything about the underlying OpenGL implementation.
+      </s:paragraph>
+      <s:paragraph>
+        The programmer is expected to know how to initialize either of
+        <s:link-external target="http://lwjgl.org">LWJGL</s:link-external>
+        or
+        <s:link-external target="http://jogamp.org">JOGL</s:link-external>:
+        the details are obviously outside of the scope of this
+        documentation. Once initialized, the programmer can then use
+        the constructors of any of the implementations of
+        <s:term type="function">GLInterface</s:term>
+        to get access to the <s:term type="package">jcanephora</s:term>
+        APIs.
+      </s:paragraph>
+      <s:paragraph>
+        Beyond the API exposed by <s:term type="function">GLInterface</s:term>,
+        the <s:term type="package">jcanephora</s:term> package also provides
+        various higher level abstractions that work through this interface,
+        such as on-demand shader compilation with
+        <s:link-external target="javadoc/com/io7m/jcanephora/Program.html">Program</s:link-external>,
+        matrix manipulation with
+        <s:link-external target="javadoc/com/io7m/jcanephora/ProjectionMatrix.html">ProjectionMatrix</s:link-external>,
+        streaming textures with
+        <s:link-external target="javadoc/com/io7m/jcanephora/Texture2DRGBAStatic.html">Texture2DRGBAStatic</s:link-external>,
+        and more. See the
+        <s:link-external target="javadoc/index.html">Javadoc</s:link-external>
+        for details.
+      </s:paragraph>
     </s:section>
     <s:section>
       <s:section-title>Vertex Buffer Objects</s:section-title>
@@ -381,6 +421,77 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
         framebuffer), so it's not possible to draw to a framebuffer
         configuration that OpenGL considers invalid.
       </s:paragraph>
+    </s:section>
+    <s:section>
+      <s:section-title>Everything Else</s:section-title>
+      <s:paragraph>
+        Modern OpenGL programming consists of little more than vertex buffer
+        objects, shaders, and framebuffer objects, and the
+        <s:term type="package">jcanephora</s:term> API reflects this.
+      </s:paragraph>
+      <s:paragraph>
+        The rest of the <s:term type="package">jcanephora</s:term>
+        API is concerned with adding type safety to the functions that
+        work on the other parts of the OpenGL pipeline. The following
+        table lists the <s:term type="package">jcanephora</s:term>
+        equivalents of OpenGL features.
+      </s:paragraph>
+      <s:formal-item kind="feature_mapping" type="feature_mapping">
+        <s:formal-item-title>Features</s:formal-item-title>
+        <s:table>
+          <s:table-summary>OpenGL/jcanephora feature mapping</s:table-summary>
+          <s:table-head>
+            <s:table-column-name>OpenGL</s:table-column-name>
+            <s:table-column-name>jcanephora</s:table-column-name>
+          </s:table-head>
+          <s:table-body>
+            <s:table-row>
+              <s:table-cell><s:term type="function">glBlendFunc</s:term></s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLBlend.html">GLBlend</s:link-external></s:table-cell>
+            </s:table-row>
+            <s:table-row>
+              <s:table-cell><s:term type="function">glClear</s:term></s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLColorBuffer.html">GLColorBuffer</s:link-external></s:table-cell>
+            </s:table-row>
+            <s:table-row>
+              <s:table-cell><s:term type="function">glCullFace</s:term></s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLCull.html">GLCull</s:link-external></s:table-cell>
+            </s:table-row>
+            <s:table-row>
+              <s:table-cell><s:term type="function">glDepthFunc</s:term></s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLDepthBuffer.html">GLDepthBuffer</s:link-external></s:table-cell>
+            </s:table-row>
+            <s:table-row>
+              <s:table-cell><s:term type="function">glDrawElements</s:term></s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLDraw.html">GLDraw</s:link-external></s:table-cell>
+            </s:table-row>
+            <s:table-row>
+              <s:table-cell><s:term type="function">glGetError</s:term></s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLMeta.html">GLMeta</s:link-external></s:table-cell>
+            </s:table-row>
+            <s:table-row>
+              <s:table-cell><s:term type="function">glLogicOp</s:term></s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLLogic.html">GLLogic</s:link-external></s:table-cell>
+            </s:table-row>
+            <s:table-row>
+              <s:table-cell><s:term type="function">glLineWidth</s:term>, <s:term type="function">glPolygonMode</s:term>, etc</s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLRasterization.html">GLRasterization</s:link-external></s:table-cell>
+            </s:table-row>
+            <s:table-row>
+              <s:table-cell><s:term type="function">glScissor</s:term>, <s:term type="function">glScissor</s:term></s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLScissor.html">GLScissor</s:link-external></s:table-cell>
+            </s:table-row>
+            <s:table-row>
+              <s:table-cell><s:term type="function">glTexImage</s:term></s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLTextures.html">GLTextures</s:link-external></s:table-cell>
+            </s:table-row>
+            <s:table-row>
+              <s:table-cell><s:term type="function">glViewport</s:term></s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLViewport.html">GLViewport</s:link-external></s:table-cell>
+            </s:table-row>
+          </s:table-body>
+        </s:table>
+      </s:formal-item>
     </s:section>
   </s:part>
 
