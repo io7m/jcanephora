@@ -149,20 +149,18 @@
           </execution>
         </executions>
         <configuration>
-          <transformations>
-            <transformation>
-              <stylesheetFile>src/main/xsl/structural-1_0_0-standalone-x20.xsl</stylesheetFile>
-              <documentFile>src/main/xml/documentation.xml</documentFile>
-              <outputDirectory>${project.build.directory}/xhtml</outputDirectory>
-              <outputFile>out.txt</outputFile>
-              <stylesheetParameters>
-                <property>
-                  <name>io7m.structural-1_0_0.output_directory</name>
-                  <value>${project.build.directory}/xhtml</value>
-                </property>
-              </stylesheetParameters>
-            </transformation>
-          </transformations>
+          <transformation>
+            <stylesheetFile>src/main/xsl/structural-1_0_0-standalone-x20.xsl</stylesheetFile>
+            <documentFile>src/main/xml/documentation.xml</documentFile>
+            <outputDirectory>${project.build.directory}/xhtml</outputDirectory>
+            <outputFile>out.txt</outputFile>
+            <stylesheetParameters>
+              <property>
+                <name>io7m.structural-1_0_0.output_directory</name>
+                <value>${project.build.directory}/xhtml</value>
+              </property>
+            </stylesheetParameters>
+          </transformation>
         </configuration>
       </plugin>
 
