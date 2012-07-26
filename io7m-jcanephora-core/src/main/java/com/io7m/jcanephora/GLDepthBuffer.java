@@ -41,7 +41,12 @@ public interface GLDepthBuffer
    * @param function
    *          The depth function.
    * @throws ConstraintError
-   *           Iff <code>function == null</code>.
+   *           Iff any of the following conditions hold:
+   *           <ul>
+   *           <li>No depth buffer is available (
+   *           <code>depthBufferGetBits() == 0</code>).</li>
+   *           <li><code>function == null</code>.</li>
+   *           </ul>
    * @throws GLException
    *           Iff an OpenGL error occurs.
    */
