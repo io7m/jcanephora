@@ -2476,6 +2476,13 @@ public final class GLInterfaceJOGL30 implements GLInterface
       final int location = gl.glGetUniformLocation(id, name);
       GLError.check(this);
 
+      if (location == -1) {
+        this.log.debug("driver returned active uniform '"
+          + name
+          + "' with location -1, ignoring");
+        continue;
+      }
+
       assert (out.containsKey(name) == false);
       out.put(name, new ProgramUniform(program, index, location, name, type));
     }

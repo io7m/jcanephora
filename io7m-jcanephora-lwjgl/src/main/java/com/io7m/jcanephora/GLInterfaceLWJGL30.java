@@ -2266,6 +2266,13 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         GL20.glGetUniformLocation(program.getLocation(), name);
       GLError.check(this);
 
+      if (location == -1) {
+        this.log.debug("driver returned active uniform '"
+          + name
+          + "' with location -1, ignoring");
+        continue;
+      }
+
       assert (out.containsKey(name) == false);
       out.put(name, new ProgramUniform(program, index, location, name, type));
     }
