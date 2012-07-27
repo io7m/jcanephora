@@ -121,6 +121,89 @@ public abstract class FramebuffersContract implements GLTestContract
   }
 
   /**
+   * Attaching a set of depth/stencil/color buffers to a framebuffer works.
+   */
+
+  @Test public void testFramebufferAttachColorDepthOK()
+    throws ConstraintError,
+      GLException
+  {
+    final GLInterface gl = this.makeNewGL();
+    final Texture2DRGBAStatic t =
+      gl.texture2DRGBAStaticAllocate(
+        "buffer",
+        128,
+        128,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+    final ColorAttachment fbc = new ColorAttachment(t, 0);
+    final RenderbufferD24S8 depth = gl.renderbufferD24S8Allocate(128, 128);
+    final RenderbufferD24S8Attachment fda =
+      new RenderbufferD24S8Attachment(depth);
+    gl.framebufferAllocate(new FramebufferAttachment[] { fda, fbc });
+  }
+
+  /**
+   * Attaching a set of depth/stencil/color buffers in a different order makes
+   * no difference.
+   */
+
+  @Test public void testFramebufferAttachColorDepthOKOrderIrrelevant()
+    throws ConstraintError,
+      GLException
+  {
+    final GLInterface gl = this.makeNewGL();
+    final Texture2DRGBAStatic t =
+      gl.texture2DRGBAStaticAllocate(
+        "buffer",
+        128,
+        128,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+    final ColorAttachment fbc = new ColorAttachment(t, 0);
+    final RenderbufferD24S8 depth = gl.renderbufferD24S8Allocate(128, 128);
+    final RenderbufferD24S8Attachment fda =
+      new RenderbufferD24S8Attachment(depth);
+    gl.framebufferAllocate(new FramebufferAttachment[] { fbc, fda });
+  }
+
+  /**
+   * Attaching a multiple color buffers to a framebuffer works.
+   */
+
+  @Test public void testFramebufferAttachColorMultipleOK()
+    throws ConstraintError,
+      GLException
+  {
+    final GLInterface gl = this.makeNewGL();
+    final Texture2DRGBAStatic t0 =
+      gl.texture2DRGBAStaticAllocate(
+        "buffer",
+        128,
+        128,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+    final ColorAttachment fbc0 = new ColorAttachment(t0, 0);
+    final Texture2DRGBAStatic t1 =
+      gl.texture2DRGBAStaticAllocate(
+        "buffer",
+        128,
+        128,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+    final ColorAttachment fbc1 = new ColorAttachment(t1, 1);
+    gl.framebufferAllocate(new FramebufferAttachment[] { fbc0, fbc1 });
+  }
+
+  /**
    * Attaching a single color buffer to a framebuffer works.
    */
 
@@ -140,21 +223,6 @@ public abstract class FramebuffersContract implements GLTestContract
         TextureFilter.TEXTURE_FILTER_NEAREST);
     final ColorAttachment fbc = new ColorAttachment(t, 0);
     gl.framebufferAllocate(new FramebufferAttachment[] { fbc });
-  }
-
-  /**
-   * Attaching a single depth/stencil buffer to a framebuffer works.
-   */
-
-  @Test public void testFramebufferAttachDepthOK()
-    throws ConstraintError,
-      GLException
-  {
-    final GLInterface gl = this.makeNewGL();
-    final RenderbufferD24S8 depth = gl.renderbufferD24S8Allocate(128, 128);
-    final RenderbufferD24S8Attachment fda =
-      new RenderbufferD24S8Attachment(depth);
-    gl.framebufferAllocate(new FramebufferAttachment[] { fda });
   }
 
   /**

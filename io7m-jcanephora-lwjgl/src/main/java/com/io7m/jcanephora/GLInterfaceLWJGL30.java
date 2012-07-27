@@ -1439,6 +1439,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
     try {
       boolean have_depth = false;
+      boolean have_color = false;
+
       final int max_color = GL11.glGetInteger(GL30.GL_MAX_COLOR_ATTACHMENTS);
       GLError.check(this);
 
@@ -1455,6 +1457,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
               0,
               max_color - 1,
               "Color buffer attachment index in range");
+            have_color = true;
 
             GL30.glFramebufferTexture2D(
               GL30.GL_FRAMEBUFFER,
@@ -1496,6 +1499,10 @@ public final class GLInterfaceLWJGL30 implements GLInterface
             throw new AssertionError("unreachable code");
         }
       }
+
+      Constraints.constrainArbitrary(
+        have_color,
+        "Framebuffer has at least one color buffer");
 
       /**
        * Check framebuffer status.
