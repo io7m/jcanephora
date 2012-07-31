@@ -91,6 +91,14 @@ public abstract class DepthBuffersContract implements GLTestContract
     }
   }
 
+  @Test public void testDepthBufferWithoutBoundFramebufferWorks()
+    throws GLException,
+      ConstraintError
+  {
+    final GLInterface gl = this.makeNewGL();
+    Assert.assertTrue(gl.depthBufferGetBits() >= 0);
+  }
+
   @Test(expected = ConstraintError.class) public
     void
     testDepthBufferWithoutDepthClearFails()
