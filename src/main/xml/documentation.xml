@@ -191,7 +191,7 @@
 <s:table-row>
   <s:table-cell>Linux</s:table-cell>
   <s:table-cell>3.4.4-2-ARCH</s:table-cell>
-  <s:table-cell>amd64</s:table-cell>
+  <s:table-cell>x86_64</s:table-cell>
   <s:table-cell>Sun Microsystems Inc.</s:table-cell>
   <s:table-cell>1.6.0_24</s:table-cell>
   <s:table-cell>OpenJDK 64-Bit Server VM</s:table-cell>
@@ -200,6 +200,19 @@
   <s:table-cell>Tungsten Graphics, Inc</s:table-cell>
   <s:table-cell>Mesa DRI Intel(R) Sandybridge Mobile </s:table-cell>
   <s:table-cell>3.0 Mesa 8.0.3</s:table-cell>
+</s:table-row>
+<s:table-row>
+  <s:table-cell>Mac OS X</s:table-cell>
+  <s:table-cell>10.6.8</s:table-cell>
+  <s:table-cell>x86_64</s:table-cell>
+  <s:table-cell>Apple Inc.</s:table-cell>
+  <s:table-cell>1.6.0_33</s:table-cell>
+  <s:table-cell>Java HotSpot(TM) 64-Bit Server VM</s:table-cell>
+  <s:table-cell>Apple Inc.</s:table-cell>
+  <s:table-cell>20.8-b03-424</s:table-cell>
+  <s:table-cell>ATI Technologies Inc.</s:table-cell>
+  <s:table-cell>ATI Radeon HD 5670 OpenGL Engine</s:table-cell>
+  <s:table-cell>2.1 ATI-1.6.36</s:table-cell>
 </s:table-row>
           </s:table-body>
         </s:table>
