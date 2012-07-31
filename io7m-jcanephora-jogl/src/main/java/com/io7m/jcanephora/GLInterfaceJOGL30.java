@@ -8,6 +8,8 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.annotation.Nonnull;
 import javax.media.opengl.GL;
@@ -1621,6 +1623,7 @@ public final class GLInterfaceJOGL30 implements GLInterface
     try {
       boolean have_depth = false;
       boolean have_color = false;
+      final Set<Integer> color_indices = new TreeSet<Integer>();
 
       final int max_color =
         this.contextGetInteger(gl, GL2ES2.GL_MAX_COLOR_ATTACHMENTS);
@@ -1633,11 +1636,18 @@ public final class GLInterfaceJOGL30 implements GLInterface
           {
             final ColorAttachment color = (ColorAttachment) attachment;
             final int index = color.getIndex();
+
             Constraints.constrainRange(
               index,
               0,
               max_color - 1,
               "Color buffer attachment index in range");
+
+            Constraints.constrainArbitrary(
+              color_indices.contains(Integer.valueOf(index)) == false,
+              "Color buffer not already present at this index");
+
+            color_indices.add(Integer.valueOf(index));
             have_color = true;
 
             gl.glFramebufferTexture2D(

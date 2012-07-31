@@ -204,6 +204,41 @@ public abstract class FramebuffersContract implements GLTestContract
   }
 
   /**
+   * Attaching a multiple color buffers to the same index in a framebuffer
+   * fails.
+   */
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testFramebufferAttachColorMultipleSameIndexFails()
+      throws ConstraintError,
+        GLException
+  {
+    final GLInterface gl = this.makeNewGL();
+    final Texture2DRGBAStatic t0 =
+      gl.texture2DRGBAStaticAllocate(
+        "buffer",
+        128,
+        128,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+    final ColorAttachment fbc0 = new ColorAttachment(t0, 0);
+    final Texture2DRGBAStatic t1 =
+      gl.texture2DRGBAStaticAllocate(
+        "buffer",
+        128,
+        128,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+    final ColorAttachment fbc1 = new ColorAttachment(t1, 0);
+    gl.framebufferAllocate(new FramebufferAttachment[] { fbc0, fbc1 });
+  }
+
+  /**
    * Attaching a single color buffer to a framebuffer works.
    */
 
