@@ -1376,7 +1376,7 @@ public final class GLInterfaceJOGL30 implements GLInterface
     final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
 
     Constraints.constrainRange(
-      this.contextGetInteger(gl, GL.GL_DEPTH_BITS),
+      this.depthBufferGetBits(),
       1,
       Integer.MAX_VALUE,
       "Depth buffer bits available");
@@ -1402,7 +1402,7 @@ public final class GLInterfaceJOGL30 implements GLInterface
     final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
     Constraints.constrainNotNull(function, "Depth function");
     Constraints.constrainRange(
-      this.contextGetInteger(gl, GL.GL_DEPTH_BITS),
+      this.depthBufferGetBits(),
       1,
       Integer.MAX_VALUE,
       "Depth buffer bits available");
@@ -1417,7 +1417,47 @@ public final class GLInterfaceJOGL30 implements GLInterface
     throws GLException
   {
     final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
-    return this.contextGetInteger(gl, GL.GL_DEPTH_BITS);
+
+    final int framebuffer =
+      this.contextGetInteger(gl, GL.GL_FRAMEBUFFER_BINDING);
+    GLError.check(this);
+
+    /**
+     * If no framebuffer is bound, use the default glGet query.
+     */
+
+    if (framebuffer == 0) {
+      final int bits = this.contextGetInteger(gl, GL.GL_DEPTH_BITS);
+      GLError.check(this);
+      return bits;
+    }
+
+    /**
+     * If a framebuffer is bound, check to see if there's a depth attachment.
+     */
+
+    final IntBuffer b = Buffers.newDirectIntBuffer(1);
+    gl.glGetFramebufferAttachmentParameteriv(
+      GL.GL_FRAMEBUFFER,
+      GL.GL_DEPTH_ATTACHMENT,
+      GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
+      b);
+    GLError.check(this);
+    if (b.get(0) == GL.GL_NONE) {
+      return 0;
+    }
+
+    /**
+     * If there's a depth attachment, check the size of it.
+     */
+
+    gl.glGetFramebufferAttachmentParameteriv(
+      GL.GL_FRAMEBUFFER,
+      GL.GL_DEPTH_ATTACHMENT,
+      GL2GL3.GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE,
+      b);
+    GLError.check(this);
+    return b.get(0);
   }
 
   @Override public boolean depthBufferIsEnabled()

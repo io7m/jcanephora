@@ -1260,7 +1260,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       ConstraintError
   {
     Constraints.constrainRange(
-      GL11.glGetInteger(GL11.GL_DEPTH_BITS),
+      this.depthBufferGetBits(),
       1,
       Integer.MAX_VALUE,
       "Depth buffer bits available");
@@ -1283,7 +1283,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   {
     Constraints.constrainNotNull(function, "Depth function");
     Constraints.constrainRange(
-      GL11.glGetInteger(GL11.GL_DEPTH_BITS),
+      this.depthBufferGetBits(),
       1,
       Integer.MAX_VALUE,
       "Depth buffer bits available");
@@ -1297,7 +1297,42 @@ public final class GLInterfaceLWJGL30 implements GLInterface
   @Override public int depthBufferGetBits()
     throws GLException
   {
-    final int bits = GL11.glGetInteger(GL11.GL_DEPTH_BITS);
+    final int framebuffer = GL11.glGetInteger(GL30.GL_FRAMEBUFFER_BINDING);
+    GLError.check(this);
+
+    /**
+     * If no framebuffer is bound, use the default glGet query.
+     */
+
+    if (framebuffer == 0) {
+      final int bits = GL11.glGetInteger(GL11.GL_DEPTH_BITS);
+      GLError.check(this);
+      return bits;
+    }
+
+    /**
+     * If a framebuffer is bound, check to see if there's a depth attachment.
+     */
+
+    final int type =
+      GL30.glGetFramebufferAttachmentParameter(
+        GL30.GL_FRAMEBUFFER,
+        GL30.GL_DEPTH_ATTACHMENT,
+        GL30.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE);
+    GLError.check(this);
+    if (type == GL11.GL_NONE) {
+      return 0;
+    }
+
+    /**
+     * If there's a depth attachment, check the size of it.
+     */
+
+    final int bits =
+      GL30.glGetFramebufferAttachmentParameter(
+        GL30.GL_FRAMEBUFFER,
+        GL30.GL_DEPTH_ATTACHMENT,
+        GL30.GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE);
     GLError.check(this);
     return bits;
   }
