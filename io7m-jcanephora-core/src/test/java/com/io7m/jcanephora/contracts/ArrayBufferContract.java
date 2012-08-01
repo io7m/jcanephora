@@ -239,7 +239,7 @@ public abstract class ArrayBufferContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+    fs.mount("jcanephora.zip", new PathVirtual("/"));
 
     final Program pr = new Program("program", this.getLog());
     pr.addVertexShader(new PathVirtual("/shaders/position.v"));
@@ -280,7 +280,7 @@ public abstract class ArrayBufferContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+    fs.mount("jcanephora.zip", new PathVirtual("/"));
 
     final Program pr = new Program("program", this.getLog());
     pr.addVertexShader(new PathVirtual("/shaders/position.v"));
@@ -328,7 +328,7 @@ public abstract class ArrayBufferContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+    fs.mount("jcanephora.zip", new PathVirtual("/"));
 
     final Program pr = new Program("program", this.getLog());
     pr.addVertexShader(new PathVirtual("/shaders/position.v"));
@@ -714,7 +714,7 @@ public abstract class ArrayBufferContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+    fs.mount("jcanephora.zip", new PathVirtual("/"));
 
     final Program pr = new Program("program", this.getLog());
     pr.addVertexShader(new PathVirtual("/shaders/position.v"));
@@ -755,7 +755,7 @@ public abstract class ArrayBufferContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+    fs.mount("jcanephora.zip", new PathVirtual("/"));
 
     final Program pr = new Program("program", this.getLog());
     pr.addVertexShader(new PathVirtual("/shaders/position.v"));
@@ -794,7 +794,7 @@ public abstract class ArrayBufferContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+    fs.mount("jcanephora.zip", new PathVirtual("/"));
 
     final Program pr = new Program("program", this.getLog());
     pr.addVertexShader(new PathVirtual("/shaders/position.v"));
@@ -833,7 +833,7 @@ public abstract class ArrayBufferContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+    fs.mount("jcanephora.zip", new PathVirtual("/"));
 
     final Program pr = new Program("program", this.getLog());
     pr.addVertexShader(new PathVirtual("/shaders/position.v"));
@@ -870,7 +870,7 @@ public abstract class ArrayBufferContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+    fs.mount("jcanephora.zip", new PathVirtual("/"));
 
     final Program pr = new Program("program", this.getLog());
     pr.addVertexShader(new PathVirtual("/shaders/position.v"));
@@ -909,7 +909,7 @@ public abstract class ArrayBufferContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+    fs.mount("jcanephora.zip", new PathVirtual("/"));
 
     final Program pr = new Program("program", this.getLog());
     pr.addVertexShader(new PathVirtual("/shaders/position.v"));
@@ -952,7 +952,7 @@ public abstract class ArrayBufferContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", new PathVirtual("/"));
+    fs.mount("jcanephora.zip", new PathVirtual("/"));
 
     final Program pr = new Program("program", this.getLog());
     pr.addVertexShader(new PathVirtual("/shaders/position.v"));
