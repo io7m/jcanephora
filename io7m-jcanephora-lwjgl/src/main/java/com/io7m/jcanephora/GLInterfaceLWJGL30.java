@@ -1322,6 +1322,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         GL30.GL_DEPTH_ATTACHMENT,
         GL30.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE);
     GLError.check(this);
+
     if (type == GL11.GL_NONE) {
       return 0;
     }
@@ -1527,11 +1528,21 @@ public final class GLInterfaceLWJGL30 implements GLInterface
 
             final RenderbufferD24S8Attachment depth =
               (RenderbufferD24S8Attachment) attachment;
+
+            final int id = depth.getRenderbuffer().getLocation();
+
             GL30.glFramebufferRenderbuffer(
               GL30.GL_FRAMEBUFFER,
-              GL30.GL_DEPTH_STENCIL_ATTACHMENT,
+              GL30.GL_DEPTH_ATTACHMENT,
               GL30.GL_RENDERBUFFER,
-              depth.getRenderbuffer().getLocation());
+              id);
+            GLError.check(this);
+
+            GL30.glFramebufferRenderbuffer(
+              GL30.GL_FRAMEBUFFER,
+              GL30.GL_STENCIL_ATTACHMENT,
+              GL30.GL_RENDERBUFFER,
+              id);
             GLError.check(this);
 
             this.log.debug("framebuffer: attach depth+stencil "
