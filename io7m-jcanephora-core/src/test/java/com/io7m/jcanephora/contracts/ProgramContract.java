@@ -43,7 +43,7 @@ public abstract class ProgramContract implements
       FilesystemError,
       GLCompileException
   {
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
     p.addVertexShader(new PathVirtual("/shaders/large.v"));
@@ -73,7 +73,7 @@ public abstract class ProgramContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final FragmentShader fr =
       gl.fragmentShaderCompile("frag", fs.openFile("/shaders/simple.f"));
@@ -93,7 +93,7 @@ public abstract class ProgramContract implements
       FilesystemError
   {
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final GLInterface gl = this.makeNewGL();
     final Program p = new Program("program", this.getLog());
@@ -153,7 +153,7 @@ public abstract class ProgramContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
     p.addVertexShader(new PathVirtual("/shaders/attribute0.v"));
@@ -223,7 +223,7 @@ public abstract class ProgramContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
     p.addFragmentShader(new PathVirtual("/shaders/simple.f"));
@@ -254,7 +254,7 @@ public abstract class ProgramContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
     p.addVertexShader(new PathVirtual("/shaders/attribute0.v"));
@@ -293,7 +293,7 @@ public abstract class ProgramContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
     p.addFragmentShader(new PathVirtual("/shaders/simple.f"));
@@ -344,7 +344,7 @@ public abstract class ProgramContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
     final Program p = new Program("program", this.getLog());
     p.addFragmentShader(new PathVirtual("/shaders/invalid.f"));
     p.compile(fs, gl);
@@ -368,7 +368,7 @@ public abstract class ProgramContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
     final Program p = new Program("program", this.getLog());
     p.addVertexShader(new PathVirtual("/shaders/invalid.v"));
     p.compile(fs, gl);
@@ -390,7 +390,7 @@ public abstract class ProgramContract implements
         GLException
   {
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final GLInterface gl = this.makeNewGL();
     final Program p = new Program("program", this.getLog());
@@ -411,7 +411,7 @@ public abstract class ProgramContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
     p.addVertexShader(new PathVirtual("/shaders/simple.v"));
@@ -431,7 +431,7 @@ public abstract class ProgramContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
     p.addVertexShader(new PathVirtual("/shaders/simple.v"));
@@ -521,7 +521,7 @@ public abstract class ProgramContract implements
       FilesystemError
   {
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final GLInterface gl = this.makeNewGL();
     final Program p = new Program("program", this.getLog());
@@ -587,7 +587,7 @@ public abstract class ProgramContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
     p.addFragmentShader(new PathVirtual("/shaders/simple.f"));
@@ -595,7 +595,7 @@ public abstract class ProgramContract implements
     Assert.assertFalse(p.requiresCompilation(fs, gl));
 
     fs.unmount("/");
-    fs.mount("test_lwjgl30_newer.zip", "/");
+    fs.mount("jcanephora-newer.zip", "/");
     Assert.assertTrue(p.requiresCompilation(fs, gl));
   }
 
@@ -616,7 +616,7 @@ public abstract class ProgramContract implements
         IOException
   {
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final GLInterface gl = this.makeNewGL();
 
@@ -709,7 +709,7 @@ public abstract class ProgramContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final ProgramReference pr = gl.programCreate("program");
     final FragmentShader fr =
@@ -739,7 +739,7 @@ public abstract class ProgramContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final ProgramReference pr = gl.programCreate("program");
     final FragmentShader fr =
@@ -769,7 +769,7 @@ public abstract class ProgramContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final ProgramReference pr = gl.programCreate("program");
     final VertexShader vr =
@@ -799,7 +799,7 @@ public abstract class ProgramContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final ProgramReference pr = gl.programCreate("program");
     final VertexShader vr =
@@ -888,7 +888,7 @@ public abstract class ProgramContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
     p.addFragmentShader(new PathVirtual("/shaders/uniform0.f"));
@@ -1274,7 +1274,7 @@ public abstract class ProgramContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
     p.addVertexShader(new PathVirtual("/shaders/simple.v"));
@@ -1282,7 +1282,7 @@ public abstract class ProgramContract implements
     Assert.assertFalse(p.requiresCompilation(fs, gl));
 
     fs.unmount("/");
-    fs.mount("test_lwjgl30_newer.zip", "/");
+    fs.mount("jcanephora-newer.zip", "/");
     Assert.assertTrue(p.requiresCompilation(fs, gl));
   }
 
@@ -1306,7 +1306,7 @@ public abstract class ProgramContract implements
   {
     final GLInterface gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("test_lwjgl30.zip", "/");
+    fs.mount("jcanephora.zip", "/");
 
     final VertexShader vr =
       gl.vertexShaderCompile("vertex", fs.openFile("/shaders/simple.v"));
