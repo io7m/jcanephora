@@ -2893,7 +2893,48 @@ public final class GLInterfaceJOGL30 implements GLInterface
     throws GLException
   {
     final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
-    return this.contextGetInteger(gl, GL.GL_STENCIL_BITS);
+
+    final int framebuffer =
+      this.contextGetInteger(gl, GL.GL_FRAMEBUFFER_BINDING);
+    GLError.check(this);
+
+    /**
+     * If no framebuffer is bound, use the default glGet query.
+     */
+
+    if (framebuffer == 0) {
+      final int bits = this.contextGetInteger(gl, GL.GL_STENCIL_BITS);
+      GLError.check(this);
+      return bits;
+    }
+
+    /**
+     * If a framebuffer is bound, check to see if there's a stencil
+     * attachment.
+     */
+
+    final IntBuffer b = Buffers.newDirectIntBuffer(1);
+    gl.glGetFramebufferAttachmentParameteriv(
+      GL.GL_FRAMEBUFFER,
+      GL.GL_STENCIL_ATTACHMENT,
+      GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
+      b);
+    GLError.check(this);
+    if (b.get(0) == GL.GL_NONE) {
+      return 0;
+    }
+
+    /**
+     * If there's a stencil attachment, check the size of it.
+     */
+
+    gl.glGetFramebufferAttachmentParameteriv(
+      GL.GL_FRAMEBUFFER,
+      GL.GL_STENCIL_ATTACHMENT,
+      GL2GL3.GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE,
+      b);
+    GLError.check(this);
+    return b.get(0);
   }
 
   @Override public Texture2DRGBAStatic texture2DRGBAStaticAllocate(
