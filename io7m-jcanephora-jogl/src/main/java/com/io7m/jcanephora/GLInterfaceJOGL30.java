@@ -2931,7 +2931,7 @@ public final class GLInterfaceJOGL30 implements GLInterface
     gl.glGetFramebufferAttachmentParameteriv(
       GL.GL_FRAMEBUFFER,
       GL.GL_STENCIL_ATTACHMENT,
-      GL2GL3.GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE,
+      GL2GL3.GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE,
       b);
     GLError.check(this);
     return b.get(0);
