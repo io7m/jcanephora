@@ -203,6 +203,19 @@
 </s:table-row>
 <s:table-row>
   <s:table-cell>Linux</s:table-cell>
+  <s:table-cell>3.4.7-1-ARCH</s:table-cell>
+  <s:table-cell>x86_64</s:table-cell>
+  <s:table-cell>Sun Microsystems Inc.</s:table-cell>
+  <s:table-cell>1.6.0_24</s:table-cell>
+  <s:table-cell>OpenJDK 64-Bit Server VM</s:table-cell>
+  <s:table-cell>Sun Microsystems Inc.</s:table-cell>
+  <s:table-cell>20.0-b12</s:table-cell>
+  <s:table-cell>X.Org</s:table-cell>
+  <s:table-cell>Gallium 0.4 on AMD RV730</s:table-cell>
+  <s:table-cell>2.1 Mesa 8.0.4</s:table-cell>
+</s:table-row>
+<s:table-row>
+  <s:table-cell>Linux</s:table-cell>
   <s:table-cell>3.4.6-1-ARCH</s:table-cell>
   <s:table-cell>x86_64</s:table-cell>
   <s:table-cell>Oracle Corporation</s:table-cell>
