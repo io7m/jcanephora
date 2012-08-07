@@ -126,9 +126,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
     final @Nonnull String name)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(name, "Attribute name");
     Constraints.constrainArbitrary(
-      this.indices.containsKey(name),
+      this.hasAttribute(name),
       "Attribute name exists");
 
     final Integer index = this.indices.get(name);
