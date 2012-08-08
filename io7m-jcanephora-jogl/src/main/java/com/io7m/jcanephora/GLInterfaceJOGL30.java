@@ -24,8 +24,8 @@ import com.io7m.jcanephora.FramebufferAttachment.ColorAttachment;
 import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
 import com.io7m.jcanephora.GLType.Type;
 import com.io7m.jlog.Log;
-import com.io7m.jtensors.MatrixM3x3F;
-import com.io7m.jtensors.MatrixM4x4F;
+import com.io7m.jtensors.MatrixReadable3x3F;
+import com.io7m.jtensors.MatrixReadable4x4F;
 import com.io7m.jtensors.VectorReadable2F;
 import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jtensors.VectorReadable3F;
@@ -2635,7 +2635,7 @@ public final class GLInterfaceJOGL30 implements GLInterface
 
   @Override public void programPutUniformMatrix3x3f(
     final @Nonnull ProgramUniform uniform,
-    final @Nonnull MatrixM3x3F matrix)
+    final @Nonnull MatrixReadable3x3F matrix)
     throws ConstraintError,
       GLException
   {
@@ -2654,13 +2654,13 @@ public final class GLInterfaceJOGL30 implements GLInterface
       uniform.getLocation(),
       1,
       false,
-      MatrixM3x3F.floatBuffer(matrix));
+      matrix.getFloatBuffer());
     GLError.check(this);
   }
 
   @Override public void programPutUniformMatrix4x4f(
     final @Nonnull ProgramUniform uniform,
-    final @Nonnull MatrixM4x4F matrix)
+    final @Nonnull MatrixReadable4x4F matrix)
     throws ConstraintError,
       GLException
   {
@@ -2679,7 +2679,7 @@ public final class GLInterfaceJOGL30 implements GLInterface
       uniform.getLocation(),
       1,
       false,
-      MatrixM4x4F.floatBuffer(matrix));
+      matrix.getFloatBuffer());
     GLError.check(this);
   }
 
