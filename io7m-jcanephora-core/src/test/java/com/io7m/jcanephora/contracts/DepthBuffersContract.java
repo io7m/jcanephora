@@ -132,4 +132,42 @@ public abstract class DepthBuffersContract implements GLTestContract
     gl.framebufferBind(fb);
     Assert.assertEquals(0, gl.depthBufferGetBits());
   }
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testDepthBufferWriteDisableWithoutDepthFails()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterface gl = this.makeNewGL();
+    final Framebuffer fb = DepthBuffersContract.makeFramebufferNoDepth(gl);
+    gl.framebufferBind(fb);
+    gl.depthBufferWriteDisable();
+  }
+
+  @Test public void testDepthBufferWriteEnableDisableWorks()
+    throws GLException,
+      ConstraintError
+  {
+    final GLInterface gl = this.makeNewGL();
+    final Framebuffer fb = DepthBuffersContract.makeFramebuffer(gl);
+    gl.framebufferBind(fb);
+
+    gl.depthBufferWriteEnable();
+    Assert.assertTrue(gl.depthBufferWriteIsEnabled());
+    gl.depthBufferWriteDisable();
+    Assert.assertFalse(gl.depthBufferWriteIsEnabled());
+  }
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testDepthBufferWriteEnableWithoutDepthFails()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterface gl = this.makeNewGL();
+    final Framebuffer fb = DepthBuffersContract.makeFramebufferNoDepth(gl);
+    gl.framebufferBind(fb);
+    gl.depthBufferWriteEnable();
+  }
 }
