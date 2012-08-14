@@ -1348,6 +1348,42 @@ public final class GLInterfaceLWJGL30 implements GLInterface
     return e;
   }
 
+  @Override public void depthBufferWriteDisable()
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainRange(
+      this.depthBufferGetBits(),
+      1,
+      Integer.MAX_VALUE,
+      "Depth buffer bits available");
+
+    GL11.glDepthMask(false);
+    GLError.check(this);
+  }
+
+  @Override public void depthBufferWriteEnable()
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainRange(
+      this.depthBufferGetBits(),
+      1,
+      Integer.MAX_VALUE,
+      "Depth buffer bits available");
+
+    GL11.glDepthMask(true);
+    GLError.check(this);
+  }
+
+  @Override public boolean depthBufferWriteIsEnabled()
+    throws GLException
+  {
+    final boolean b = GL11.glGetBoolean(GL11.GL_DEPTH_WRITEMASK);
+    GLError.check(this);
+    return b;
+  }
+
   @Override public void drawElements(
     final @Nonnull Primitives mode,
     final @Nonnull IndexBuffer indices)

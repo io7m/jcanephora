@@ -1471,6 +1471,51 @@ public final class GLInterfaceJOGL30 implements GLInterface
     return e;
   }
 
+  @Override public void depthBufferWriteDisable()
+    throws ConstraintError,
+      GLException
+  {
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+
+    Constraints.constrainRange(
+      this.depthBufferGetBits(),
+      1,
+      Integer.MAX_VALUE,
+      "Depth buffer bits available");
+
+    g.glDepthMask(false);
+    GLError.check(this);
+  }
+
+  @Override public void depthBufferWriteEnable()
+    throws ConstraintError,
+      GLException
+  {
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+
+    Constraints.constrainRange(
+      this.depthBufferGetBits(),
+      1,
+      Integer.MAX_VALUE,
+      "Depth buffer bits available");
+
+    g.glDepthMask(true);
+    GLError.check(this);
+  }
+
+  @Override public boolean depthBufferWriteIsEnabled()
+    throws GLException
+  {
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+
+    final ByteBuffer buffer = Buffers.newDirectByteBuffer(4);
+    g.glGetBooleanv(GL.GL_DEPTH_WRITEMASK, buffer);
+    GLError.check(this);
+
+    final IntBuffer bi = buffer.asIntBuffer();
+    return bi.get(0) == 1;
+  }
+
   @Override public void drawElements(
     final @Nonnull Primitives mode,
     final @Nonnull IndexBuffer indices)

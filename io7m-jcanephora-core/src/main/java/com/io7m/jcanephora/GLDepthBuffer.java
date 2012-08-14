@@ -73,4 +73,39 @@ public interface GLDepthBuffer
 
   boolean depthBufferIsEnabled()
     throws GLException;
+
+  /**
+   * Disable writing to the depth buffer.
+   * 
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void depthBufferWriteDisable()
+    throws ConstraintError,
+      GLException;
+
+  /**
+   * Enable writing to the depth buffer.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the following conditions hold:
+   *           <ul>
+   *           <li>No depth buffer is available (
+   *           <code>depthBufferGetBits() == 0</code>).</li>
+   *           </ul>
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void depthBufferWriteEnable()
+    throws ConstraintError,
+      GLException;
+
+  /**
+   * Return <code>true</code> iff depth writing is enabled.
+   */
+
+  boolean depthBufferWriteIsEnabled()
+    throws GLException;
 }
