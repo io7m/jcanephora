@@ -1284,6 +1284,58 @@ public final class GLInterfaceJOGL30 implements GLInterface
       color.getWF());
   }
 
+  @Override public void colorBufferMask(
+    final boolean r,
+    final boolean g,
+    final boolean b,
+    final boolean a)
+    throws ConstraintError,
+      GLException
+  {
+    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+
+    gl.glColorMask(r, g, b, a);
+    GLError.check(this);
+  }
+
+  private ByteBuffer colorBufferMaskStatus()
+    throws GLException
+  {
+    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final ByteBuffer b = Buffers.newDirectByteBuffer(4 * 4);
+    g.glGetBooleanv(GL.GL_COLOR_WRITEMASK, b);
+    GLError.check(this);
+    return b;
+  }
+
+  @Override public boolean colorBufferMaskStatusAlpha()
+    throws GLException
+  {
+    final int a = this.colorBufferMaskStatus().get(3);
+    return a != 0;
+  }
+
+  @Override public boolean colorBufferMaskStatusBlue()
+    throws GLException
+  {
+    final int b = this.colorBufferMaskStatus().get(2);
+    return b != 0;
+  }
+
+  @Override public boolean colorBufferMaskStatusGreen()
+    throws GLException
+  {
+    final int g = this.colorBufferMaskStatus().get(1);
+    return g != 0;
+  }
+
+  @Override public boolean colorBufferMaskStatusRed()
+    throws GLException
+  {
+    final int r = this.colorBufferMaskStatus().get(0);
+    return r != 0;
+  }
+
   private int contextGetInteger(
     final GL2GL3 g,
     final int name)

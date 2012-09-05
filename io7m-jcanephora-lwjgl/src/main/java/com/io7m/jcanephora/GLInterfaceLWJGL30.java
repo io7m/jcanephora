@@ -1223,6 +1223,52 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       color.getWF());
   }
 
+  @Override public void colorBufferMask(
+    final boolean r,
+    final boolean g,
+    final boolean b,
+    final boolean a)
+    throws ConstraintError,
+      GLException
+  {
+    GL11.glColorMask(r, g, b, a);
+    GLError.check(this);
+  }
+
+  private ByteBuffer colorBufferMaskStatus()
+    throws GLException
+  {
+    final ByteBuffer b =
+      ByteBuffer.allocateDirect(4 * 4).order(ByteOrder.nativeOrder());
+    GL11.glGetBoolean(GL11.GL_COLOR_WRITEMASK, b);
+    GLError.check(this);
+    return b;
+  }
+
+  @Override public boolean colorBufferMaskStatusAlpha()
+    throws GLException
+  {
+    return this.colorBufferMaskStatus().get(3) == GL11.GL_TRUE;
+  }
+
+  @Override public boolean colorBufferMaskStatusBlue()
+    throws GLException
+  {
+    return this.colorBufferMaskStatus().get(2) == GL11.GL_TRUE;
+  }
+
+  @Override public boolean colorBufferMaskStatusGreen()
+    throws GLException
+  {
+    return this.colorBufferMaskStatus().get(1) == GL11.GL_TRUE;
+  }
+
+  @Override public boolean colorBufferMaskStatusRed()
+    throws GLException
+  {
+    return this.colorBufferMaskStatus().get(0) == GL11.GL_TRUE;
+  }
+
   @Override public void cullingDisable()
     throws GLException
   {
