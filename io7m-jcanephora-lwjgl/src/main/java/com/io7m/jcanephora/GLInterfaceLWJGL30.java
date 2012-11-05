@@ -1144,8 +1144,8 @@ public final class GLInterfaceLWJGL30 implements GLInterface
       source_factor,
       destination_factor,
       destination_factor,
-      BlendEquation.BLEND_EQUATION_ADD,
-      BlendEquation.BLEND_EQUATION_ADD);
+      equation,
+      equation);
   }
 
   @Override public void blendingEnableWithEquationSeparate(
