@@ -11,7 +11,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
 public final class JOGL30TestDisplay
 {
   private static GLContext context;
-
   private static GLPbuffer buffer;
 
   private static GLPbuffer createOffscreenDisplay(
