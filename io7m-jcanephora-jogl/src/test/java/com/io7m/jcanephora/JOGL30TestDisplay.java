@@ -3,28 +3,29 @@ package com.io7m.jcanephora;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLContext;
 import javax.media.opengl.GLDrawableFactory;
-import javax.media.opengl.GLPbuffer;
+import javax.media.opengl.GLOffscreenAutoDrawable;
 import javax.media.opengl.GLProfile;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 
 public final class JOGL30TestDisplay
 {
-  private static GLContext context;
-  private static GLPbuffer buffer;
+  private static GLContext               context;
+  private static GLOffscreenAutoDrawable buffer;
 
-  private static GLPbuffer createOffscreenDisplay(
+  private static GLOffscreenAutoDrawable createOffscreenDisplay(
     final int width,
     final int height)
   {
     final GLProfile pro = GLProfile.get(GLProfile.GL2GL3);
     final GLCapabilities cap = new GLCapabilities(pro);
+    cap.setFBO(true);
 
     final GLDrawableFactory f = GLDrawableFactory.getFactory(pro);
-    final GLPbuffer pb =
-      f.createGLPbuffer(null, cap, null, width, height, null);
+    final GLOffscreenAutoDrawable k =
+      f.createOffscreenAutoDrawable(null, cap, null, width, height, null);
 
-    return pb;
+    return k;
   }
 
   private static GLContext getContext()
