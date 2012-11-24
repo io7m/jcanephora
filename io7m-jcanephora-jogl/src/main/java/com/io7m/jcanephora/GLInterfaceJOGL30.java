@@ -2447,8 +2447,8 @@ public final class GLInterfaceJOGL30 implements GLInterface
 
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
-      gl.glIsProgram(program.getLocation()),
-      "ID corresponds to valid program");
+      program.resourceIsDeleted() == false,
+      "Program not deleted");
 
     gl.glUseProgram(program.getLocation());
     GLError.check(this);
@@ -2507,8 +2507,8 @@ public final class GLInterfaceJOGL30 implements GLInterface
 
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
-      gl.glIsProgram(program.getLocation()),
-      "ID corresponds to valid program");
+      program.resourceIsDeleted() == false,
+      "Program not deleted");
     Constraints.constrainNotNull(out, "Output map");
 
     final int id = program.getLocation();
@@ -2592,8 +2592,8 @@ public final class GLInterfaceJOGL30 implements GLInterface
     final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
-      gl.glIsProgram(program.getLocation()),
-      "ID corresponds to valid program");
+      program.resourceIsDeleted() == false,
+      "Program not deleted");
     Constraints.constrainNotNull(out, "Output map");
 
     final int id = program.getLocation();
@@ -2659,8 +2659,8 @@ public final class GLInterfaceJOGL30 implements GLInterface
 
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
-      gl.glIsProgram(program.getLocation()),
-      "ID corresponds to valid program");
+      program.resourceIsDeleted() == false,
+      "Program not deleted");
 
     final int active = this.contextGetInteger(gl, GL2ES2.GL_CURRENT_PROGRAM);
     GLError.check(this);
@@ -2677,8 +2677,8 @@ public final class GLInterfaceJOGL30 implements GLInterface
 
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
-      gl.glIsProgram(program.getLocation()),
-      "ID corresponds to valid program");
+      program.resourceIsDeleted() == false,
+      "Program not deleted");
 
     this.log.debug("program: link " + program);
 
