@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.NotThreadSafe;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GL2ES2;
@@ -42,8 +44,14 @@ import com.jogamp.common.nio.Buffers;
  * 2.1 implementations.
  */
 
-public final class GLInterfaceJOGL30 implements GLInterface
+@NotThreadSafe public final class GLInterfaceJOGL30 implements GLInterface
 {
+  /**
+   * The size of the integer cache, in bytes.
+   */
+
+  private static final int INTEGER_CACHE_SIZE = 8 * 4;
+
   static @Nonnull BlendEquation blendEquationFromGL(
     final int e)
   {
@@ -490,7 +498,6 @@ public final class GLInterfaceJOGL30 implements GLInterface
     final @Nonnull ArrayList<Integer> lengths)
     throws IOException
   {
-
     final BufferedReader reader =
       new BufferedReader(new InputStreamReader(stream));
 
@@ -790,12 +797,14 @@ public final class GLInterfaceJOGL30 implements GLInterface
   private final @Nonnull Log           log;
   private final @Nonnull TextureUnit[] texture_units;
   private boolean                      line_smoothing;
-  private int                          line_aliased_min_width;
-  private int                          line_aliased_max_width;
-  private int                          line_smooth_min_width;
-  private int                          line_smooth_max_width;
-  private int                          point_min_width;
-  private int                          point_max_width;
+  private final int                    line_aliased_min_width;
+  private final int                    line_aliased_max_width;
+  private final int                    line_smooth_min_width;
+  private final int                    line_smooth_max_width;
+  private final int                    point_min_width;
+  private final int                    point_max_width;
+  private final @Nonnull ByteBuffer    integer_cache_buffer;
+  private final @Nonnull IntBuffer     integer_cache;
 
   public GLInterfaceJOGL30(
     final @Nonnull GLContext context,
@@ -805,40 +814,35 @@ public final class GLInterfaceJOGL30 implements GLInterface
   {
     this.log =
       new Log(Constraints.constrainNotNull(log, "log output"), "jogl30");
-
     this.context = Constraints.constrainNotNull(context, "GL context");
+
     final GL g = this.contextMakeCurrentIfNecessary();
+
+    this.integer_cache_buffer =
+      ByteBuffer.allocateDirect(GLInterfaceJOGL30.INTEGER_CACHE_SIZE).order(
+        ByteOrder.nativeOrder());
+    this.integer_cache = this.integer_cache_buffer.asIntBuffer();
 
     this.texture_units = this.textureGetUnitsCache();
     this.line_smoothing = false;
 
-    {
-      final IntBuffer buffer = Buffers.newDirectIntBuffer(2);
+    this.integer_cache.rewind();
+    g.glGetIntegerv(GL.GL_ALIASED_LINE_WIDTH_RANGE, this.integer_cache);
+    this.line_aliased_min_width = this.integer_cache.get();
+    this.line_aliased_max_width = this.integer_cache.get();
+    GLError.check(this);
 
-      {
-        buffer.rewind();
-        g.glGetIntegerv(GL.GL_ALIASED_LINE_WIDTH_RANGE, buffer);
-        this.line_aliased_min_width = buffer.get();
-        this.line_aliased_max_width = buffer.get();
-        GLError.check(this);
-      }
+    this.integer_cache.rewind();
+    g.glGetIntegerv(GL.GL_SMOOTH_LINE_WIDTH_RANGE, this.integer_cache);
+    this.line_smooth_min_width = this.integer_cache.get();
+    this.line_smooth_max_width = this.integer_cache.get();
+    GLError.check(this);
 
-      {
-        buffer.rewind();
-        g.glGetIntegerv(GL.GL_SMOOTH_LINE_WIDTH_RANGE, buffer);
-        this.line_smooth_min_width = buffer.get();
-        this.line_smooth_max_width = buffer.get();
-        GLError.check(this);
-      }
-
-      {
-        buffer.rewind();
-        g.glGetIntegerv(GL2GL3.GL_POINT_SIZE_RANGE, buffer);
-        this.point_min_width = buffer.get();
-        this.point_max_width = buffer.get();
-        GLError.check(this);
-      }
-    }
+    this.integer_cache.rewind();
+    g.glGetIntegerv(GL2GL3.GL_POINT_SIZE_RANGE, this.integer_cache);
+    this.point_min_width = this.integer_cache.get();
+    this.point_max_width = this.integer_cache.get();
+    GLError.check(this);
   }
 
   @Override public ArrayBuffer arrayBufferAllocate(
@@ -864,11 +868,11 @@ public final class GLInterfaceJOGL30 implements GLInterface
       + bytes
       + " bytes)");
 
-    final IntBuffer buffer = Buffers.newDirectIntBuffer(1);
-    gl.glGenBuffers(1, buffer);
+    this.integer_cache.rewind();
+    gl.glGenBuffers(1, this.integer_cache);
     GLError.check(this);
 
-    final int id = buffer.get(0);
+    final int id = this.integer_cache.get(0);
     gl.glBindBuffer(GL.GL_ARRAY_BUFFER, id);
     GLError.check(this);
     gl.glBufferData(GL.GL_ARRAY_BUFFER, bytes, null, GL2ES2.GL_STREAM_DRAW);
@@ -966,9 +970,10 @@ public final class GLInterfaceJOGL30 implements GLInterface
 
     this.log.debug("vertex-buffer: delete " + id);
 
-    gl.glDeleteBuffers(
-      1,
-      Buffers.newDirectIntBuffer(new int[] { id.getLocation() }));
+    this.integer_cache.rewind();
+    this.integer_cache.put(0, id.getLocation());
+
+    gl.glDeleteBuffers(1, this.integer_cache);
     id.setDeleted();
     GLError.check(this);
   }
@@ -1227,10 +1232,11 @@ public final class GLInterfaceJOGL30 implements GLInterface
       GLException
   {
     final GL2GL3 g = this.contextMakeCurrentIfNecessary();
-    final IntBuffer buffer = Buffers.newDirectIntBuffer(1);
-    g.glGetIntegerv(GL.GL_BLEND, buffer);
+
+    this.integer_cache.rewind();
+    g.glGetIntegerv(GL.GL_BLEND, this.integer_cache);
     GLError.check(this);
-    return buffer.get(0) == GL.GL_TRUE;
+    return this.integer_cache.get(0) == GL.GL_TRUE;
   }
 
   @Override public void colorBufferClear3f(
@@ -1341,10 +1347,10 @@ public final class GLInterfaceJOGL30 implements GLInterface
     final int name)
     throws GLException
   {
-    final IntBuffer buffer = Buffers.newDirectIntBuffer(1);
-    g.glGetIntegerv(name, buffer);
+    this.integer_cache.rewind();
+    g.glGetIntegerv(name, this.integer_cache);
     GLError.check(this);
-    return buffer.get(0);
+    return this.integer_cache.get(0);
   }
 
   private int contextGetProgramInteger(
@@ -1353,10 +1359,10 @@ public final class GLInterfaceJOGL30 implements GLInterface
     final int name)
     throws GLException
   {
-    final IntBuffer buffer = Buffers.newDirectIntBuffer(1);
-    g.glGetProgramiv(program, name, buffer);
+    this.integer_cache.rewind();
+    g.glGetProgramiv(program, name, this.integer_cache);
     GLError.check(this);
-    return buffer.get(0);
+    return this.integer_cache.get(0);
   }
 
   private int contextGetShaderInteger(
@@ -1365,10 +1371,10 @@ public final class GLInterfaceJOGL30 implements GLInterface
     final int name)
     throws GLException
   {
-    final IntBuffer buffer = Buffers.newDirectIntBuffer(1);
-    g.glGetShaderiv(program, name, buffer);
+    this.integer_cache.rewind();
+    g.glGetShaderiv(program, name, this.integer_cache);
     GLError.check(this);
-    return buffer.get(0);
+    return this.integer_cache.get(0);
   }
 
   private GL2GL3 contextMakeCurrentIfNecessary()
@@ -1490,14 +1496,14 @@ public final class GLInterfaceJOGL30 implements GLInterface
      * If a framebuffer is bound, check to see if there's a depth attachment.
      */
 
-    final IntBuffer b = Buffers.newDirectIntBuffer(1);
+    this.integer_cache.rewind();
     gl.glGetFramebufferAttachmentParameteriv(
       GL.GL_FRAMEBUFFER,
       GL.GL_DEPTH_ATTACHMENT,
       GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
-      b);
+      this.integer_cache);
     GLError.check(this);
-    if (b.get(0) == GL.GL_NONE) {
+    if (this.integer_cache.get(0) == GL.GL_NONE) {
       return 0;
     }
 
@@ -1505,13 +1511,14 @@ public final class GLInterfaceJOGL30 implements GLInterface
      * If there's a depth attachment, check the size of it.
      */
 
+    this.integer_cache.rewind();
     gl.glGetFramebufferAttachmentParameteriv(
       GL.GL_FRAMEBUFFER,
       GL.GL_DEPTH_ATTACHMENT,
       GL2GL3.GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE,
-      b);
+      this.integer_cache);
     GLError.check(this);
-    return b.get(0);
+    return this.integer_cache.get(0);
   }
 
   @Override public boolean depthBufferIsEnabled()
@@ -1872,9 +1879,9 @@ public final class GLInterfaceJOGL30 implements GLInterface
 
     this.log.debug("framebuffer: delete " + buffer);
 
-    final IntBuffer b =
-      Buffers.newDirectIntBuffer(new int[] { buffer.getLocation() });
-    gl.glDeleteFramebuffers(1, b);
+    this.integer_cache.rewind();
+    this.integer_cache.put(0, buffer.getLocation());
+    gl.glDeleteFramebuffers(1, this.integer_cache);
     GLError.check(this);
     buffer.setDeleted();
   }
@@ -1884,10 +1891,10 @@ public final class GLInterfaceJOGL30 implements GLInterface
       GLException
   {
     final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
-    final IntBuffer buffer = Buffers.newDirectIntBuffer(1);
-    gl.glGenFramebuffers(1, buffer);
+    this.integer_cache.rewind();
+    gl.glGenFramebuffers(1, this.integer_cache);
     GLError.check(this);
-    final int id = buffer.get(0);
+    final int id = this.integer_cache.get(0);
     this.log.debug("framebuffer: allocated " + id);
     return new Framebuffer(id);
   }
@@ -1946,11 +1953,11 @@ public final class GLInterfaceJOGL30 implements GLInterface
       + bytes
       + " bytes)");
 
-    final IntBuffer ib = Buffers.newDirectIntBuffer(1);
-    gl.glGenBuffers(1, ib);
+    this.integer_cache.rewind();
+    gl.glGenBuffers(1, this.integer_cache);
     GLError.check(this);
 
-    final int id = ib.get(0);
+    final int id = this.integer_cache.get(0);
     gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id);
     GLError.check(this);
     gl.glBufferData(
@@ -1978,9 +1985,9 @@ public final class GLInterfaceJOGL30 implements GLInterface
 
     this.log.debug("index-buffer: delete " + id);
 
-    gl.glDeleteBuffers(
-      1,
-      Buffers.newDirectIntBuffer(new int[] { id.getLocation() }));
+    this.integer_cache.rewind();
+    this.integer_cache.put(0, id.getLocation());
+    gl.glDeleteBuffers(1, this.integer_cache);
     id.setDeleted();
     GLError.check(this);
   }
@@ -2221,11 +2228,11 @@ public final class GLInterfaceJOGL30 implements GLInterface
       + bytes
       + " bytes)");
 
-    final IntBuffer buffer = Buffers.newDirectIntBuffer(1);
-    gl.glGenBuffers(1, buffer);
+    this.integer_cache.rewind();
+    gl.glGenBuffers(1, this.integer_cache);
     GLError.check(this);
 
-    final int id = buffer.get(0);
+    final int id = this.integer_cache.get(0);
     gl.glBindBuffer(GL2GL3.GL_PIXEL_UNPACK_BUFFER, id);
     GLError.check(this);
     gl.glBufferData(
@@ -2253,9 +2260,9 @@ public final class GLInterfaceJOGL30 implements GLInterface
 
     this.log.debug("pixel-unpack-buffer: delete " + id);
 
-    gl.glDeleteBuffers(
-      1,
-      Buffers.newDirectIntBuffer(new int[] { id.getLocation() }));
+    this.integer_cache.rewind();
+    this.integer_cache.put(0, id.getLocation());
+    gl.glDeleteBuffers(1, this.integer_cache);
     id.setDeleted();
     GLError.check(this);
   }
@@ -2378,10 +2385,10 @@ public final class GLInterfaceJOGL30 implements GLInterface
   {
     final GL2GL3 g = this.contextMakeCurrentIfNecessary();
 
-    final IntBuffer ib = Buffers.newDirectIntBuffer(2);
-    g.glGetIntegerv(GL2.GL_POLYGON_MODE, ib);
+    this.integer_cache.rewind();
+    g.glGetIntegerv(GL2.GL_POLYGON_MODE, this.integer_cache);
     GLError.check(this);
-    return GLInterfaceJOGL30.polygonModeFromGL(ib.get(1));
+    return GLInterfaceJOGL30.polygonModeFromGL(this.integer_cache.get(1));
   }
 
   @Override public @Nonnull PolygonMode polygonGetModeFront()
@@ -2390,10 +2397,10 @@ public final class GLInterfaceJOGL30 implements GLInterface
   {
     final GL2GL3 g = this.contextMakeCurrentIfNecessary();
 
-    final IntBuffer ib = Buffers.newDirectIntBuffer(2);
-    g.glGetIntegerv(GL2.GL_POLYGON_MODE, ib);
+    this.integer_cache.rewind();
+    g.glGetIntegerv(GL2.GL_POLYGON_MODE, this.integer_cache);
     GLError.check(this);
-    return GLInterfaceJOGL30.polygonModeFromGL(ib.get(0));
+    return GLInterfaceJOGL30.polygonModeFromGL(this.integer_cache.get(0));
   }
 
   @Override public void polygonSetMode(
@@ -2906,10 +2913,10 @@ public final class GLInterfaceJOGL30 implements GLInterface
 
     this.log.debug("renderbuffer-d24s8: allocate " + width + "x" + height);
 
-    final IntBuffer buffer = Buffers.newDirectIntBuffer(1);
-    gl.glGenRenderbuffers(1, buffer);
+    this.integer_cache.rewind();
+    gl.glGenRenderbuffers(1, this.integer_cache);
     GLError.check(this);
-    final int id = buffer.get(0);
+    final int id = this.integer_cache.get(0);
 
     gl.glBindRenderbuffer(GL.GL_RENDERBUFFER, id);
     GLError.check(this);
@@ -2941,9 +2948,9 @@ public final class GLInterfaceJOGL30 implements GLInterface
 
     this.log.debug("renderbuffer-d24s8: delete " + buffer);
 
-    gl.glDeleteRenderbuffers(
-      1,
-      Buffers.newDirectIntBuffer(new int[] { buffer.getLocation() }));
+    this.integer_cache.rewind();
+    this.integer_cache.put(0, buffer.getLocation());
+    gl.glDeleteRenderbuffers(1, this.integer_cache);
     buffer.setDeleted();
     GLError.check(this);
   }
@@ -3019,15 +3026,15 @@ public final class GLInterfaceJOGL30 implements GLInterface
      * attachment.
      */
 
-    final IntBuffer b = Buffers.newDirectIntBuffer(1);
+    this.integer_cache.rewind();
     gl.glGetFramebufferAttachmentParameteriv(
       GL.GL_FRAMEBUFFER,
       GL.GL_STENCIL_ATTACHMENT,
       GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
-      b);
+      this.integer_cache);
     GLError.check(this);
 
-    final int type = b.get(0);
+    final int type = this.integer_cache.get(0);
     if (type == GL.GL_NONE) {
       return 0;
     }
@@ -3036,13 +3043,14 @@ public final class GLInterfaceJOGL30 implements GLInterface
      * If there's a stencil attachment, check the size of it.
      */
 
+    this.integer_cache.rewind();
     gl.glGetFramebufferAttachmentParameteriv(
       GL.GL_FRAMEBUFFER,
       GL.GL_STENCIL_ATTACHMENT,
       GL2GL3.GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE,
-      b);
+      this.integer_cache);
     GLError.check(this);
-    return b.get(0);
+    return this.integer_cache.get(0);
   }
 
   @Override public Texture2DRGBAStatic texture2DRGBAStaticAllocate(
@@ -3073,10 +3081,10 @@ public final class GLInterfaceJOGL30 implements GLInterface
       + "x"
       + height);
 
-    final IntBuffer ib = Buffers.newDirectIntBuffer(1);
-    gl.glGenTextures(1, ib);
+    this.integer_cache.rewind();
+    gl.glGenTextures(1, this.integer_cache);
     GLError.check(this);
-    final int texture_id = ib.get(0);
+    final int texture_id = this.integer_cache.get(0);
 
     final @Nonnull PixelUnpackBuffer buffer =
       this.pixelUnpackBufferAllocate(
@@ -3157,9 +3165,9 @@ public final class GLInterfaceJOGL30 implements GLInterface
 
     this.log.debug("texture-2DRGBA: delete " + texture);
 
-    gl.glDeleteTextures(
-      1,
-      Buffers.newDirectIntBuffer(new int[] { texture.getLocation() }));
+    this.integer_cache.rewind();
+    this.integer_cache.put(0, texture.getLocation());
+    gl.glDeleteTextures(1, this.integer_cache);
     texture.setDeleted();
     this.pixelUnpackBufferDelete(texture.getBuffer());
   }
@@ -3206,9 +3214,9 @@ public final class GLInterfaceJOGL30 implements GLInterface
 
     gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
 
-    final IntBuffer ib = Buffers.newDirectIntBuffer(1);
-    gl.glGetIntegerv(GL.GL_TEXTURE_BINDING_2D, ib);
-    final int e = ib.get(0);
+    this.integer_cache.rewind();
+    gl.glGetIntegerv(GL.GL_TEXTURE_BINDING_2D, this.integer_cache);
+    final int e = this.integer_cache.get(0);
     GLError.check(this);
 
     return e == texture.getLocation();
