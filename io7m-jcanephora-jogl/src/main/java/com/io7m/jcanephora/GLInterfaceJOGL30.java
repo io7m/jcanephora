@@ -37,9 +37,20 @@ import com.jogamp.common.nio.Buffers;
 
 /**
  * A class implementing GLInterface that uses only non-deprecated features of
- * OpenGL 3.0, using JOGL as the backend. A
- * {@link javax.media.opengl.GLContext} is used to construct the interface,
- * and all methods in the interface make this context "current" upon calling.
+ * OpenGL 3.0, using JOGL as the backend.
+ * 
+ * A {@link javax.media.opengl.GLContext} is used to construct the interface,
+ * and therefore the <code>GLInterfaceJOGL30</code> interface has the same
+ * thread safe/unsafe behaviour.
+ * 
+ * The <code>GLInterfaceJOGL30</code> implementation does not call
+ * {@link javax.media.opengl.GLContext#makeCurrent()} or
+ * {@link javax.media.opengl.GLContext#release()}, so these calls must be made
+ * by the programmer when necessary (typically, programs call
+ * {@link javax.media.opengl.GLContext#makeCurrent()}, perform all rendering,
+ * and then call {@link javax.media.opengl.GLContext#release()} at the end of
+ * the frame). The JOGL library can also optionally manage this via the
+ * {@link javax.media.opengl.GLAutoDrawable} interface.
  * 
  * As OpenGL 3.0 is essentially a subset of 2.1, this class works on OpenGL
  * 2.1 implementations.
@@ -790,7 +801,7 @@ import com.jogamp.common.nio.Buffers;
       new Log(Constraints.constrainNotNull(log, "log output"), "jogl30");
     this.context = Constraints.constrainNotNull(context, "GL context");
 
-    final GL g = this.contextMakeCurrentIfNecessary();
+    final GL g = this.contextGetGL();
 
     this.color_buffer_mask_cache =
       ByteBuffer.allocateDirect(4 * 4).order(ByteOrder.nativeOrder());
@@ -828,7 +839,7 @@ import com.jogamp.common.nio.Buffers;
     throws GLException,
       ConstraintError
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints
       .constrainRange(elements, 1, Long.MAX_VALUE, "Buffer elements");
@@ -864,7 +875,7 @@ import com.jogamp.common.nio.Buffers;
     throws GLException,
       ConstraintError
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(buffer, "Array buffer");
     Constraints.constrainArbitrary(
@@ -882,7 +893,7 @@ import com.jogamp.common.nio.Buffers;
     throws GLException,
       ConstraintError
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(buffer, "Array buffer");
     Constraints.constrainArbitrary(
@@ -938,7 +949,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(id, "Array buffer");
     Constraints.constrainArbitrary(
@@ -960,7 +971,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
 
     Constraints.constrainNotNull(id, "Array buffer");
     Constraints.constrainArbitrary(
@@ -977,7 +988,7 @@ import com.jogamp.common.nio.Buffers;
     throws GLException,
       ConstraintError
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(id, "Array buffer");
     Constraints.constrainArbitrary(
@@ -1002,7 +1013,7 @@ import com.jogamp.common.nio.Buffers;
     throws GLException,
       ConstraintError
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(id, "Array buffer");
     Constraints.constrainArbitrary(
@@ -1032,7 +1043,7 @@ import com.jogamp.common.nio.Buffers;
     throws GLException,
       ConstraintError
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
     GLError.check(this);
@@ -1045,7 +1056,7 @@ import com.jogamp.common.nio.Buffers;
     throws GLException,
       ConstraintError
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(buffer, "Array buffer");
     Constraints.constrainArbitrary(
@@ -1076,7 +1087,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(id, "Array buffer");
     Constraints.constrainArbitrary(
@@ -1094,7 +1105,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public void blendingDisable()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     gl.glDisable(GL.GL_BLEND);
     GLError.check(this);
   }
@@ -1139,7 +1150,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(source_rgb_factor, "Source RGB factor");
     Constraints.constrainNotNull(source_alpha_factor, "Source alpha factor");
@@ -1208,7 +1219,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
 
     this.integer_cache.rewind();
     g.glGetIntegerv(GL.GL_BLEND, this.integer_cache);
@@ -1223,7 +1234,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     gl.glClearColor(r, g, b, 1.0f);
     gl.glClear(GL.GL_COLOR_BUFFER_BIT);
@@ -1238,7 +1249,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     gl.glClearColor(r, g, b, a);
     gl.glClear(GL.GL_COLOR_BUFFER_BIT);
@@ -1275,7 +1286,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     gl.glColorMask(r, g, b, a);
     GLError.check(this);
@@ -1285,7 +1296,7 @@ import com.jogamp.common.nio.Buffers;
     throws GLException
   {
     this.color_buffer_mask_cache.rewind();
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
     g.glGetBooleanv(GL.GL_COLOR_WRITEMASK, this.color_buffer_mask_cache);
     GLError.check(this);
     return this.color_buffer_mask_cache;
@@ -1354,23 +1365,15 @@ import com.jogamp.common.nio.Buffers;
     return this.integer_cache.get(0);
   }
 
-  private GL2GL3 contextMakeCurrentIfNecessary()
-    throws GLException
+  private GL2GL3 contextGetGL()
   {
-    if (this.context.isCurrent() == false) {
-      final int r = this.context.makeCurrent();
-      if (r == GLContext.CONTEXT_NOT_CURRENT) {
-        throw new GLException(0, "GL context could not be made current");
-      }
-    }
-
     return this.context.getGL().getGL2GL3();
   }
 
   @Override public void cullingDisable()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     gl.glDisable(GL.GL_CULL_FACE);
     GLError.check(this);
@@ -1382,7 +1385,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(faces, "Face selection");
     Constraints.constrainNotNull(order, "Face winding order");
@@ -1399,7 +1402,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public boolean cullingIsEnabled()
     throws GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
     final boolean e = g.glIsEnabled(GL.GL_CULL_FACE);
     GLError.check(this);
     return e;
@@ -1410,7 +1413,7 @@ import com.jogamp.common.nio.Buffers;
     throws GLException,
       ConstraintError
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainRange(
       this.depthBufferGetBits(),
@@ -1426,7 +1429,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public void depthBufferDisable()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     gl.glDisable(GL.GL_DEPTH_TEST);
     GLError.check(this);
   }
@@ -1436,7 +1439,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     Constraints.constrainNotNull(function, "Depth function");
     Constraints.constrainRange(
       this.depthBufferGetBits(),
@@ -1453,7 +1456,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public int depthBufferGetBits()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     final int framebuffer =
       this.contextGetInteger(gl, GL.GL_FRAMEBUFFER_BINDING);
@@ -1501,7 +1504,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public boolean depthBufferIsEnabled()
     throws GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
     final boolean e = g.glIsEnabled(GL.GL_DEPTH_TEST);
     GLError.check(this);
     return e;
@@ -1511,7 +1514,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
 
     Constraints.constrainRange(
       this.depthBufferGetBits(),
@@ -1527,7 +1530,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
 
     Constraints.constrainRange(
       this.depthBufferGetBits(),
@@ -1542,7 +1545,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public boolean depthBufferWriteIsEnabled()
     throws GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
 
     final ByteBuffer buffer = Buffers.newDirectByteBuffer(4);
     g.glGetBooleanv(GL.GL_DEPTH_WRITEMASK, buffer);
@@ -1558,7 +1561,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
 
     Constraints.constrainNotNull(mode, "Drawing mode");
     Constraints.constrainNotNull(indices, "Index buffer");
@@ -1588,7 +1591,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
 
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
@@ -1614,7 +1617,7 @@ import com.jogamp.common.nio.Buffers;
       IOException,
       GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
 
     Constraints.constrainNotNull(name, "Shader name");
     Constraints.constrainNotNull(stream, "input stream");
@@ -1664,7 +1667,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
 
     Constraints.constrainNotNull(id, "Fragment shader");
     Constraints.constrainArbitrary(
@@ -1683,7 +1686,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     final Framebuffer buffer = this.framebufferMake();
 
@@ -1831,7 +1834,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(buffer, "Framebuffer");
     Constraints.constrainArbitrary(
@@ -1847,7 +1850,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(buffer, "Framebuffer");
     Constraints.constrainArbitrary(
@@ -1867,7 +1870,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     this.integer_cache.rewind();
     gl.glGenFramebuffers(1, this.integer_cache);
     GLError.check(this);
@@ -1879,7 +1882,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public void framebufferUnbind()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     gl.glBindFramebuffer(GL.GL_FRAMEBUFFER, 0);
     GLError.check(this);
@@ -1914,7 +1917,7 @@ import com.jogamp.common.nio.Buffers;
     throws GLException,
       ConstraintError
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(type, "Index type");
     Constraints.constrainRange(indices, 1, Integer.MAX_VALUE);
@@ -1953,7 +1956,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(id, "Index buffer");
     Constraints.constrainArbitrary(
@@ -1974,7 +1977,7 @@ import com.jogamp.common.nio.Buffers;
     throws GLException,
       ConstraintError
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(id, "Index buffer");
     Constraints.constrainArbitrary(
@@ -1999,7 +2002,7 @@ import com.jogamp.common.nio.Buffers;
     throws GLException,
       ConstraintError
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(id, "Index buffer");
     Constraints.constrainArbitrary(
@@ -2031,7 +2034,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(id, "Index buffer");
     Constraints.constrainArbitrary(
@@ -2061,7 +2064,7 @@ import com.jogamp.common.nio.Buffers;
     throws GLException,
       ConstraintError
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     if (this.line_smoothing) {
       Constraints.constrainRange(
@@ -2094,7 +2097,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public void lineSmoothingDisable()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     gl.glDisable(GL.GL_LINE_SMOOTH);
     GLError.check(this);
     this.line_smoothing = false;
@@ -2103,7 +2106,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public void lineSmoothingEnable()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     gl.glEnable(GL.GL_LINE_SMOOTH);
     GLError.check(this);
     this.line_smoothing = true;
@@ -2112,7 +2115,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public void logicOperationsDisable()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     gl.glDisable(GL2.GL_LOGIC_OP);
     GLError.check(this);
   }
@@ -2122,7 +2125,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(operation, "Logic operation");
     gl.glEnable(GL2.GL_LOGIC_OP);
@@ -2133,7 +2136,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public boolean logicOperationsEnabled()
     throws GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
     final boolean e = g.glIsEnabled(GL2.GL_LOGIC_OP);
     GLError.check(this);
     return e;
@@ -2142,14 +2145,14 @@ import com.jogamp.common.nio.Buffers;
   @Override public int metaGetError()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     return gl.glGetError();
   }
 
   @Override public String metaGetRenderer()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     final String x = gl.glGetString(GL.GL_RENDERER);
     GLError.check(this);
     return x;
@@ -2158,7 +2161,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public String metaGetVendor()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     final String x = gl.glGetString(GL.GL_VENDOR);
     GLError.check(this);
     return x;
@@ -2167,7 +2170,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public String metaGetVersion()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     final String x = gl.glGetString(GL.GL_VERSION);
     GLError.check(this);
     return x;
@@ -2181,7 +2184,7 @@ import com.jogamp.common.nio.Buffers;
     throws GLException,
       ConstraintError
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainRange(elements, 1, Long.MAX_VALUE, "Element count");
     Constraints.constrainRange(
@@ -2228,7 +2231,7 @@ import com.jogamp.common.nio.Buffers;
     throws GLException,
       ConstraintError
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(id, "Pixel unpack buffer");
     Constraints.constrainArbitrary(
@@ -2249,7 +2252,7 @@ import com.jogamp.common.nio.Buffers;
     throws GLException,
       ConstraintError
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(id, "Pixel unpack buffer");
     Constraints.constrainArbitrary(
@@ -2274,7 +2277,7 @@ import com.jogamp.common.nio.Buffers;
     throws GLException,
       ConstraintError
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(id, "Pixel unpack buffer");
     Constraints.constrainArbitrary(
@@ -2306,7 +2309,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(id, "Pixel unpack buffer");
     Constraints.constrainArbitrary(
@@ -2334,7 +2337,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public void pointProgramSizeControlDisable()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     gl.glDisable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
     GLError.check(this);
   }
@@ -2342,7 +2345,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public void pointProgramSizeControlEnable()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     gl.glEnable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
     GLError.check(this);
   }
@@ -2350,7 +2353,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public boolean pointProgramSizeControlIsEnabled()
     throws GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
     final boolean e = g.glIsEnabled(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
     GLError.check(this);
     return e;
@@ -2360,7 +2363,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
 
     this.integer_cache.rewind();
     g.glGetIntegerv(GL2.GL_POLYGON_MODE, this.integer_cache);
@@ -2372,7 +2375,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
 
     this.integer_cache.rewind();
     g.glGetIntegerv(GL2.GL_POLYGON_MODE, this.integer_cache);
@@ -2386,7 +2389,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(faces, "Face selection");
     Constraints.constrainNotNull(mode, "Polygon mode");
@@ -2400,7 +2403,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public void polygonSmoothingDisable()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     gl.glDisable(GL2GL3.GL_POLYGON_SMOOTH);
     GLError.check(this);
   }
@@ -2408,7 +2411,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public void polygonSmoothingEnable()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     gl.glEnable(GL2GL3.GL_POLYGON_SMOOTH);
     GLError.check(this);
   }
@@ -2416,7 +2419,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public boolean polygonSmoothingIsEnabled()
     throws GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
     final boolean e = g.glIsEnabled(GL2GL3.GL_POLYGON_SMOOTH);
     GLError.check(this);
     return e;
@@ -2427,7 +2430,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
@@ -2443,7 +2446,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(name, "Program name");
 
@@ -2457,7 +2460,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public void programDeactivate()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     gl.glUseProgram(0);
     GLError.check(this);
   }
@@ -2467,7 +2470,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(program, "Program");
     Constraints.constrainArbitrary(
@@ -2487,7 +2490,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
@@ -2561,7 +2564,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public int programGetMaximimActiveAttributes()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     final int max = this.contextGetInteger(gl, GL2ES2.GL_MAX_VERTEX_ATTRIBS);
     this.log.debug("implementation supports " + max + " active attributes");
     return max;
@@ -2573,7 +2576,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
       program.resourceIsDeleted() == false,
@@ -2639,7 +2642,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
@@ -2657,7 +2660,7 @@ import com.jogamp.common.nio.Buffers;
       GLCompileException,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
@@ -2700,7 +2703,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
@@ -2720,7 +2723,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(matrix, "Matrix");
     Constraints.constrainNotNull(uniform, "Uniform");
@@ -2745,7 +2748,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(matrix, "Matrix");
     Constraints.constrainNotNull(uniform, "Uniform");
@@ -2770,7 +2773,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
@@ -2790,7 +2793,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
@@ -2811,7 +2814,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
@@ -2832,7 +2835,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
@@ -2857,7 +2860,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
@@ -2883,7 +2886,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainRange(width, 1, Integer.MAX_VALUE);
     Constraints.constrainRange(height, 1, Integer.MAX_VALUE);
@@ -2916,7 +2919,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(buffer, "Renderbuffer");
     Constraints.constrainArbitrary(
@@ -2935,7 +2938,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public void scissorDisable()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     gl.glDisable(GL.GL_SCISSOR_TEST);
     GLError.check(this);
   }
@@ -2946,7 +2949,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(position, "Scissor region position");
     Constraints.constrainNotNull(dimensions, "Scissor region dimensions");
@@ -2973,7 +2976,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public boolean scissorIsEnabled()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     final boolean e = gl.glIsEnabled(GL.GL_SCISSOR_TEST);
     GLError.check(this);
     return e;
@@ -2982,7 +2985,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public int stencilBufferGetBits()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     final int framebuffer =
       this.contextGetInteger(gl, GL.GL_FRAMEBUFFER_BINDING);
@@ -3041,7 +3044,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(name, "Name");
     Constraints.constrainRange(width, 2, Integer.MAX_VALUE, "Width");
@@ -3115,7 +3118,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(unit, "Texture unit");
     Constraints.constrainNotNull(texture, "Texture");
@@ -3133,7 +3136,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(texture, "Texture");
     Constraints.constrainArbitrary(
@@ -3154,7 +3157,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(texture, "Texture");
     Constraints.constrainArbitrary(
@@ -3181,7 +3184,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(unit, "Texture unit");
     Constraints.constrainNotNull(texture, "Texture");
@@ -3204,7 +3207,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(texture, "Texture");
     Constraints.constrainArbitrary(
@@ -3244,7 +3247,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
 
     Constraints.constrainNotNull(unit, "Texture unit");
 
@@ -3256,7 +3259,7 @@ import com.jogamp.common.nio.Buffers;
   @Override public int textureGetMaximumSize()
     throws GLException
   {
-    final GL2GL3 gl = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 gl = this.contextGetGL();
     return this.contextGetInteger(gl, GL.GL_MAX_TEXTURE_SIZE);
   }
 
@@ -3269,7 +3272,7 @@ import com.jogamp.common.nio.Buffers;
   private TextureUnit[] textureGetUnitsCache()
     throws GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
 
     final int max =
       this.contextGetInteger(g, GL2ES2.GL_MAX_TEXTURE_IMAGE_UNITS);
@@ -3290,7 +3293,7 @@ import com.jogamp.common.nio.Buffers;
       GLCompileException,
       GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
 
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
@@ -3316,7 +3319,7 @@ import com.jogamp.common.nio.Buffers;
       IOException,
       GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
 
     Constraints.constrainNotNull(name, "Shader name");
     Constraints.constrainNotNull(stream, "input stream");
@@ -3366,7 +3369,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
 
     Constraints.constrainNotNull(id, "Vertex shader");
     Constraints.constrainArbitrary(
@@ -3386,7 +3389,7 @@ import com.jogamp.common.nio.Buffers;
     throws ConstraintError,
       GLException
   {
-    final GL2GL3 g = this.contextMakeCurrentIfNecessary();
+    final GL2GL3 g = this.contextGetGL();
 
     Constraints.constrainNotNull(position, "Viewport position");
     Constraints.constrainNotNull(dimensions, "Viewport dimensions");

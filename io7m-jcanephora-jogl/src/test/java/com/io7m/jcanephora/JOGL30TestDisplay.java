@@ -7,6 +7,7 @@ import javax.media.opengl.GLOffscreenAutoDrawable;
 import javax.media.opengl.GLProfile;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jlog.Log;
 
 public final class JOGL30TestDisplay
 {
@@ -47,9 +48,11 @@ public final class JOGL30TestDisplay
     throws GLException,
       ConstraintError
   {
-    return new GLInterfaceJOGL30(
-      JOGL30TestDisplay.getContext(),
-      JOGL30TestLog.getLog());
+    final GLContext ctx = JOGL30TestDisplay.getContext();
+    final Log log = JOGL30TestLog.getLog();
+
+    ctx.makeCurrent();
+    return new GLInterfaceJOGL30(ctx, log);
   }
 
   private JOGL30TestDisplay()
