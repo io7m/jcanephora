@@ -91,11 +91,17 @@ public abstract class DepthBuffersContract implements GLTestContract
     }
   }
 
+  /**
+   * Attempting to query an unbound framebuffer still works (the default
+   * framebuffer is queried instead).
+   */
+
   @Test public void testDepthBufferWithoutBoundFramebufferWorks()
     throws GLException,
       ConstraintError
   {
     final GLInterface gl = this.makeNewGL();
+    gl.framebufferUnbind();
     Assert.assertTrue(gl.depthBufferGetBits() >= 0);
   }
 
