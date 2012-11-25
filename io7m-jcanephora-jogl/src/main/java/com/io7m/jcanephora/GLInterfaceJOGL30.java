@@ -778,6 +778,7 @@ import com.jogamp.common.nio.Buffers;
   private final int                    point_max_width;
   private final @Nonnull ByteBuffer    integer_cache_buffer;
   private final @Nonnull IntBuffer     integer_cache;
+  private final @Nonnull ByteBuffer    color_buffer_mask_cache;
 
   public GLInterfaceJOGL30(
     final @Nonnull GLContext context,
@@ -790,6 +791,9 @@ import com.jogamp.common.nio.Buffers;
     this.context = Constraints.constrainNotNull(context, "GL context");
 
     final GL g = this.contextMakeCurrentIfNecessary();
+
+    this.color_buffer_mask_cache =
+      ByteBuffer.allocateDirect(4 * 4).order(ByteOrder.nativeOrder());
 
     this.integer_cache_buffer =
       ByteBuffer.allocateDirect(GLInterfaceJOGL30.INTEGER_CACHE_SIZE).order(
@@ -1280,11 +1284,11 @@ import com.jogamp.common.nio.Buffers;
   private ByteBuffer colorBufferMaskStatus()
     throws GLException
   {
+    this.color_buffer_mask_cache.rewind();
     final GL2GL3 g = this.contextMakeCurrentIfNecessary();
-    final ByteBuffer b = Buffers.newDirectByteBuffer(4 * 4);
-    g.glGetBooleanv(GL.GL_COLOR_WRITEMASK, b);
+    g.glGetBooleanv(GL.GL_COLOR_WRITEMASK, this.color_buffer_mask_cache);
     GLError.check(this);
-    return b;
+    return this.color_buffer_mask_cache;
   }
 
   @Override public boolean colorBufferMaskStatusAlpha()
