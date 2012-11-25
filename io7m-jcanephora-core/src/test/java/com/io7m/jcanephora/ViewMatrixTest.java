@@ -5,6 +5,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.ViewMatrix.Context;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorM3F;
 
@@ -89,5 +90,76 @@ public class ViewMatrixTest
     final VectorM3F vt = new VectorM3F();
 
     ViewMatrix.lookAt(m, vc, vt, null);
+  }
+
+  @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
+    void
+    testLookAtNull4()
+      throws ConstraintError
+  {
+    final MatrixM4x4F m = new MatrixM4x4F();
+    final VectorM3F vc = new VectorM3F();
+    final VectorM3F vt = new VectorM3F();
+    final VectorM3F vu = new VectorM3F();
+
+    ViewMatrix.lookAtWithContext(null, m, vc, vt, vu);
+  }
+
+  @SuppressWarnings({ "boxing", "static-method" }) @Test public
+    void
+    testLookAtWithContext()
+      throws ConstraintError
+  {
+    final MatrixM4x4F m = new MatrixM4x4F();
+    final VectorM3F vc = new VectorM3F(10.0f, 10.0f, -10.0f);
+    final VectorM3F vt = new VectorM3F(10.0f, 10.0f, 0.0f);
+    final VectorM3F vu = new VectorM3F(0.0f, 1.0f, 0.0f);
+    final Context context = new Context();
+
+    ViewMatrix.lookAtWithContext(context, m, vc, vt, vu);
+
+    Assert.assertEquals(-1.0f, m.get(0, 0));
+    Assert.assertEquals(0.0f, m.get(0, 1));
+    Assert.assertEquals(0.0f, m.get(0, 2));
+    Assert.assertEquals(10.0f, m.get(0, 3));
+
+    Assert.assertEquals(0.0f, m.get(1, 0));
+    Assert.assertEquals(1.0f, m.get(1, 1));
+    Assert.assertEquals(0.0f, m.get(1, 2));
+    Assert.assertEquals(-10.0f, m.get(1, 3));
+
+    Assert.assertEquals(0.0f, m.get(2, 0));
+    Assert.assertEquals(0.0f, m.get(2, 1));
+    Assert.assertEquals(-1.0f, m.get(2, 2));
+    Assert.assertEquals(-10.0f, m.get(2, 3));
+
+    Assert.assertEquals(0.0f, m.get(3, 0));
+    Assert.assertEquals(0.0f, m.get(3, 1));
+    Assert.assertEquals(0.0f, m.get(3, 2));
+    Assert.assertEquals(1.0f, m.get(3, 3));
+
+    MatrixM4x4F.setIdentity(m);
+
+    ViewMatrix.lookAtWithContext(context, m, vc, vt, vu);
+
+    Assert.assertEquals(-1.0f, m.get(0, 0));
+    Assert.assertEquals(0.0f, m.get(0, 1));
+    Assert.assertEquals(0.0f, m.get(0, 2));
+    Assert.assertEquals(10.0f, m.get(0, 3));
+
+    Assert.assertEquals(0.0f, m.get(1, 0));
+    Assert.assertEquals(1.0f, m.get(1, 1));
+    Assert.assertEquals(0.0f, m.get(1, 2));
+    Assert.assertEquals(-10.0f, m.get(1, 3));
+
+    Assert.assertEquals(0.0f, m.get(2, 0));
+    Assert.assertEquals(0.0f, m.get(2, 1));
+    Assert.assertEquals(-1.0f, m.get(2, 2));
+    Assert.assertEquals(-10.0f, m.get(2, 3));
+
+    Assert.assertEquals(0.0f, m.get(3, 0));
+    Assert.assertEquals(0.0f, m.get(3, 1));
+    Assert.assertEquals(0.0f, m.get(3, 2));
+    Assert.assertEquals(1.0f, m.get(3, 3));
   }
 }
