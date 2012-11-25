@@ -23,6 +23,7 @@ import org.lwjgl.opengl.GL30;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.FramebufferAttachment.ColorAttachment;
 import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
 import com.io7m.jcanephora.GLType.Type;
@@ -60,8 +61,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return BlendEquation.BLEND_EQUATION_SUBTRACT;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int blendEquationToGL(
@@ -80,8 +80,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GL14.GL_FUNC_SUBTRACT;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static @Nonnull BlendFunction blendFunctionFromGL(
@@ -120,8 +119,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return BlendFunction.BLEND_ZERO;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int blendFunctionToGL(
@@ -160,8 +158,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GL11.GL_ZERO;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static DepthFunction depthFunctionFromGL(
@@ -186,8 +183,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return DepthFunction.DEPTH_NOT_EQUAL;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int depthFunctionToGL(
@@ -212,8 +208,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GL11.GL_NOTEQUAL;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static @Nonnull FaceSelection faceSelectionFromGL(
@@ -228,8 +223,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return FaceSelection.FACE_FRONT_AND_BACK;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int faceSelectionToGL(
@@ -244,8 +238,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GL11.GL_FRONT_AND_BACK;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static FaceWindingOrder faceWindingOrderFromGL(
@@ -258,8 +251,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return FaceWindingOrder.FRONT_FACE_COUNTER_CLOCKWISE;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int faceWindingOrderToGL(
@@ -272,8 +264,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GL11.GL_CCW;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static LogicOperation logicOpFromGL(
@@ -314,8 +305,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return LogicOperation.LOGIC_AND;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int logicOpToGL(
@@ -356,8 +346,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GL11.GL_XOR;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static PolygonMode polygonModeFromGL(
@@ -372,8 +361,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return PolygonMode.POLYGON_POINTS;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int polygonModeToGL(
@@ -388,8 +376,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GL11.GL_POINT;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static @Nonnull Primitives primitiveFromGL(
@@ -408,8 +395,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return Primitives.PRIMITIVE_TRIANGLE_STRIP;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int primitiveToGL(
@@ -428,8 +414,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GL11.GL_POINTS;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static @Nonnull GLScalarType scalarTypeFromGL(
@@ -454,8 +439,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GLScalarType.TYPE_DOUBLE;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int scalarTypeToGL(
@@ -480,8 +464,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GL11.GL_UNSIGNED_SHORT;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static @Nonnull TextureFilter textureFilterFromGL(
@@ -494,8 +477,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return TextureFilter.TEXTURE_FILTER_NEAREST;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int textureFilterToGL(
@@ -508,8 +490,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GL11.GL_NEAREST;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static @Nonnull TextureWrap textureWrapFromGL(
@@ -526,8 +507,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int textureWrapToGL(
@@ -544,8 +524,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GL14.GL_MIRRORED_REPEAT;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static @Nonnull Type typeFromGL(
@@ -608,8 +587,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return Type.TYPE_SAMPLER_CUBE;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int typeToGL(
@@ -672,8 +650,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GL20.GL_SAMPLER_CUBE;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static @Nonnull GLUnsignedType unsignedTypeFromGL(
@@ -688,8 +665,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GLUnsignedType.TYPE_UNSIGNED_INT;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int unsignedTypeToGL(
@@ -704,8 +680,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GL11.GL_UNSIGNED_INT;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static UsageHint usageHintFromGL(
@@ -732,8 +707,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return UsageHint.USAGE_STREAM_READ;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int usageHintToGL(
@@ -760,8 +734,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
         return GL15.GL_STREAM_READ;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   private final @Nonnull Log  log;
@@ -1634,7 +1607,7 @@ public final class GLInterfaceLWJGL30 implements GLInterface
             break;
           }
           default:
-            throw new AssertionError("unreachable code");
+            throw new UnreachableCodeException();
         }
       }
 

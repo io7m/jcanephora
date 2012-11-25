@@ -2,6 +2,8 @@ package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
 
+import com.io7m.jaux.UnreachableCodeException;
+
 /**
  * Information about scalar OpenGL types.
  */
@@ -34,8 +36,7 @@ public final class GLScalarTypeMeta
         return 2;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   /**

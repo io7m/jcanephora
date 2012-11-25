@@ -22,6 +22,7 @@ import javax.media.opengl.GLContext;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.FramebufferAttachment.ColorAttachment;
 import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
 import com.io7m.jcanephora.GLType.Type;
@@ -68,8 +69,7 @@ import com.jogamp.common.nio.Buffers;
         return BlendEquation.BLEND_EQUATION_SUBTRACT;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int blendEquationToGL(
@@ -88,8 +88,7 @@ import com.jogamp.common.nio.Buffers;
         return GL.GL_FUNC_SUBTRACT;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static @Nonnull BlendFunction blendFunctionFromGL(
@@ -128,8 +127,7 @@ import com.jogamp.common.nio.Buffers;
         return BlendFunction.BLEND_ZERO;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int blendFunctionToGL(
@@ -168,8 +166,7 @@ import com.jogamp.common.nio.Buffers;
         return GL.GL_ZERO;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static DepthFunction depthFunctionFromGL(
@@ -194,8 +191,7 @@ import com.jogamp.common.nio.Buffers;
         return DepthFunction.DEPTH_NOT_EQUAL;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int depthFunctionToGL(
@@ -220,8 +216,7 @@ import com.jogamp.common.nio.Buffers;
         return GL.GL_NOTEQUAL;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static @Nonnull FaceSelection faceSelectionFromGL(
@@ -236,8 +231,7 @@ import com.jogamp.common.nio.Buffers;
         return FaceSelection.FACE_FRONT_AND_BACK;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int faceSelectionToGL(
@@ -252,8 +246,7 @@ import com.jogamp.common.nio.Buffers;
         return GL.GL_FRONT_AND_BACK;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static FaceWindingOrder faceWindingOrderFromGL(
@@ -266,8 +259,7 @@ import com.jogamp.common.nio.Buffers;
         return FaceWindingOrder.FRONT_FACE_COUNTER_CLOCKWISE;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int faceWindingOrderToGL(
@@ -280,8 +272,7 @@ import com.jogamp.common.nio.Buffers;
         return GL.GL_CCW;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static LogicOperation logicOpFromGL(
@@ -322,8 +313,7 @@ import com.jogamp.common.nio.Buffers;
         return LogicOperation.LOGIC_AND;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int logicOpToGL(
@@ -364,8 +354,7 @@ import com.jogamp.common.nio.Buffers;
         return GL.GL_XOR;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static PolygonMode polygonModeFromGL(
@@ -380,8 +369,7 @@ import com.jogamp.common.nio.Buffers;
         return PolygonMode.POLYGON_POINTS;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int polygonModeToGL(
@@ -396,8 +384,7 @@ import com.jogamp.common.nio.Buffers;
         return GL2GL3.GL_POINT;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static @Nonnull Primitives primitiveFromGL(
@@ -416,8 +403,7 @@ import com.jogamp.common.nio.Buffers;
         return Primitives.PRIMITIVE_TRIANGLE_STRIP;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int primitiveToGL(
@@ -436,8 +422,7 @@ import com.jogamp.common.nio.Buffers;
         return GL.GL_POINTS;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static @Nonnull GLScalarType scalarTypeFromGL(
@@ -462,8 +447,7 @@ import com.jogamp.common.nio.Buffers;
         return GLScalarType.TYPE_DOUBLE;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int scalarTypeToGL(
@@ -488,8 +472,7 @@ import com.jogamp.common.nio.Buffers;
         return GL.GL_UNSIGNED_SHORT;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   private static void shaderReadSource(
@@ -523,8 +506,7 @@ import com.jogamp.common.nio.Buffers;
         return TextureFilter.TEXTURE_FILTER_NEAREST;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int textureFilterToGL(
@@ -537,8 +519,7 @@ import com.jogamp.common.nio.Buffers;
         return GL.GL_NEAREST;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static @Nonnull TextureWrap textureWrapFromGL(
@@ -555,8 +536,7 @@ import com.jogamp.common.nio.Buffers;
         return TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int textureWrapToGL(
@@ -573,8 +553,7 @@ import com.jogamp.common.nio.Buffers;
         return GL.GL_MIRRORED_REPEAT;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static @Nonnull Type typeFromGL(
@@ -637,8 +616,7 @@ import com.jogamp.common.nio.Buffers;
         return Type.TYPE_SAMPLER_CUBE;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int typeToGL(
@@ -701,8 +679,7 @@ import com.jogamp.common.nio.Buffers;
         return GL2ES2.GL_SAMPLER_CUBE;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static @Nonnull GLUnsignedType unsignedTypeFromGL(
@@ -717,8 +694,7 @@ import com.jogamp.common.nio.Buffers;
         return GLUnsignedType.TYPE_UNSIGNED_INT;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int unsignedTypeToGL(
@@ -733,8 +709,7 @@ import com.jogamp.common.nio.Buffers;
         return GL.GL_UNSIGNED_INT;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static UsageHint usageHintFromGL(
@@ -761,8 +736,7 @@ import com.jogamp.common.nio.Buffers;
         return UsageHint.USAGE_STREAM_READ;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   static int usageHintToGL(
@@ -789,8 +763,7 @@ import com.jogamp.common.nio.Buffers;
         return GL2GL3.GL_STREAM_READ;
     }
 
-    /* UNREACHABLE */
-    throw new AssertionError("unreachable code: report this bug!");
+    throw new UnreachableCodeException();
   }
 
   private final @Nonnull GLContext     context;
@@ -1801,7 +1774,7 @@ import com.jogamp.common.nio.Buffers;
             break;
           }
           default:
-            throw new AssertionError("unreachable code");
+            throw new UnreachableCodeException();
         }
       }
 
