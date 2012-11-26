@@ -99,7 +99,7 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   @Override public void resourceDelete(
-    final @Nonnull GLInterface gl)
+    final @Nonnull GLInterfaceEmbedded gl)
     throws ConstraintError,
       GLException
   {

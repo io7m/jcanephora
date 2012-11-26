@@ -80,7 +80,7 @@ public interface CompilableProgram
 
   void compile(
     final @Nonnull FilesystemAPI fs,
-    final @Nonnull GLInterface gl)
+    final @Nonnull GLInterfaceEmbedded gl)
     throws ConstraintError,
       GLCompileException;
 
@@ -104,7 +104,7 @@ public interface CompilableProgram
 
   void removeFragmentShader(
     final @Nonnull PathVirtual path,
-    final @Nonnull GLInterface gl)
+    final @Nonnull GLInterfaceEmbedded gl)
     throws ConstraintError,
       GLException;
 
@@ -128,7 +128,7 @@ public interface CompilableProgram
 
   void removeVertexShader(
     final @Nonnull PathVirtual path,
-    final @Nonnull GLInterface gl)
+    final @Nonnull GLInterfaceEmbedded gl)
     throws ConstraintError,
       GLException;
 
@@ -152,7 +152,7 @@ public interface CompilableProgram
 
   boolean requiresCompilation(
     final @Nonnull FilesystemAPI fs,
-    final @Nonnull GLInterface gl)
+    final @Nonnull GLInterfaceEmbedded gl)
     throws FilesystemError,
       ConstraintError;
 }
