@@ -52,7 +52,7 @@ public final class JOGL30TestDisplay
     final Log log = JOGL30TestLog.getLog();
 
     ctx.makeCurrent();
-    return new GLInterfaceJOGL30(ctx, log);
+    return new GLInterface_JOGL30(ctx, log);
   }
 
   private JOGL30TestDisplay()

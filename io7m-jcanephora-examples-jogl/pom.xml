@@ -70,6 +70,11 @@
       <version>1.0.0</version>
     </dependency>
     <dependency>
+      <groupId>com.io7m.jcanephora.examples</groupId>
+      <artifactId>io7m-jcanephora-examples</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <dependency>
       <groupId>com.io7m.jtensors</groupId>
       <artifactId>io7m-jtensors</artifactId>
       <version>4.1.0</version>

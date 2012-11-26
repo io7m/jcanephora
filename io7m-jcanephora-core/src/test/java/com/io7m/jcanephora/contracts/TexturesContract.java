@@ -1,14 +1,11 @@
 package com.io7m.jcanephora.contracts;
 
-import java.nio.ByteBuffer;
-
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface;
-import com.io7m.jcanephora.PixelUnpackBuffer;
 import com.io7m.jcanephora.Texture2DRGBAStatic;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureUnit;
@@ -57,7 +54,7 @@ public abstract class TexturesContract implements GLTestContract
 
     gl.texture2DRGBAStaticBind(units[0], t);
     Assert.assertTrue(gl.texture2DRGBAStaticIsBound(units[0], t));
-    gl.texture2DRGBAStaticUnbind(units[0]);
+    gl.textureUnitUnbind(units[0]);
     Assert.assertFalse(gl.texture2DRGBAStaticIsBound(units[0], t));
     gl.texture2DRGBAStaticDelete(t);
   }
@@ -185,67 +182,6 @@ public abstract class TexturesContract implements GLTestContract
     gl.texture2DRGBAStaticDelete(t);
     Assert.assertTrue(t.resourceIsDeleted());
     gl.texture2DRGBAStaticDelete(t);
-  }
-
-  /**
-   * Retrieving the image of a texture doesn't fail.
-   */
-
-  @Test public final void testTextureGetImage()
-    throws GLException,
-      ConstraintError
-  {
-    final GLInterface gl = this.makeNewGL();
-    final Texture2DRGBAStatic t =
-      gl.texture2DRGBAStaticAllocate(
-        "texture",
-        64,
-        64,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-    final ByteBuffer b = gl.texture2DRGBAStaticGetImage(t);
-
-    Assert.assertEquals((64 * 4) * 64, b.capacity());
-  }
-
-  /**
-   * Retrieving the image of a deleted texture fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testTextureGetImageDeleted()
-      throws GLException,
-        ConstraintError
-  {
-    final GLInterface gl = this.makeNewGL();
-    final Texture2DRGBAStatic t =
-      gl.texture2DRGBAStaticAllocate(
-        "texture",
-        64,
-        64,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-    t.resourceDelete(gl);
-    gl.texture2DRGBAStaticGetImage(t);
-  }
-
-  /**
-   * Retrieving the image of a null texture fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testTextureGetImageNull()
-      throws GLException,
-        ConstraintError
-  {
-    final GLInterface gl = this.makeNewGL();
-    gl.texture2DRGBAStaticGetImage(null);
   }
 
   /**
@@ -419,106 +355,6 @@ public abstract class TexturesContract implements GLTestContract
       null,
       TextureFilter.TEXTURE_FILTER_NEAREST,
       TextureFilter.TEXTURE_FILTER_NEAREST);
-  }
-
-  /**
-   * Replacing a texture doesn't fail.
-   */
-
-  @Test public final void testTextureReplace()
-    throws GLException,
-      ConstraintError
-  {
-    final GLInterface gl = this.makeNewGL();
-
-    final Texture2DRGBAStatic t =
-      gl.texture2DRGBAStaticAllocate(
-        "texture",
-        64,
-        64,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-
-    {
-      final ByteBuffer b = gl.texture2DRGBAStaticGetImage(t);
-      Assert.assertEquals((64 * 4) * 64, b.capacity());
-    }
-
-    gl.texture2DRGBAStaticReplace(t);
-
-    {
-      final ByteBuffer b = gl.texture2DRGBAStaticGetImage(t);
-      Assert.assertEquals((64 * 4) * 64, b.capacity());
-    }
-  }
-
-  /**
-   * Replacing a deleted texture fails.
-   */
-
-  @Test(expected = ConstraintError.class) public
-    void
-    testTextureReplaceDeleted()
-      throws GLException,
-        ConstraintError
-  {
-    final GLInterface gl = this.makeNewGL();
-
-    final Texture2DRGBAStatic t =
-      gl.texture2DRGBAStaticAllocate(
-        "texture",
-        64,
-        64,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-    t.resourceDelete(gl);
-    gl.texture2DRGBAStaticReplace(t);
-  }
-
-  /**
-   * Replacing a null texture fails.
-   */
-
-  @Test(expected = ConstraintError.class) public
-    void
-    testTextureReplaceNull()
-      throws GLException,
-        ConstraintError
-  {
-    final GLInterface gl = this.makeNewGL();
-    gl.texture2DRGBAStaticReplace(null);
-  }
-
-  /**
-   * Replacing a texture with a deleted unpack buffer fails.
-   */
-
-  @Test(expected = ConstraintError.class) public
-    void
-    testTextureReplaceUnpackBufferDeleted()
-      throws GLException,
-        ConstraintError
-  {
-    final GLInterface gl = this.makeNewGL();
-
-    final Texture2DRGBAStatic t =
-      gl.texture2DRGBAStaticAllocate(
-        "texture",
-        64,
-        64,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-
-    final PixelUnpackBuffer b = t.getBuffer();
-    b.resourceDelete(gl);
-
-    gl.texture2DRGBAStaticReplace(t);
   }
 
   /**

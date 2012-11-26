@@ -14,14 +14,15 @@ public final class LWJGL30DepthFunctionTest
   @SuppressWarnings("static-method") @Test public void testDepthBijection()
   {
     for (final DepthFunction f : DepthFunction.values()) {
-      Assert.assertEquals(GLInterfaceLWJGL30
-        .depthFunctionFromGL(GLInterfaceLWJGL30.depthFunctionToGL(f)), f);
+      Assert.assertEquals(GLInterfaceEmbedded_LWJGL_ES2_Actual
+        .depthFunctionFromGL(GLInterfaceEmbedded_LWJGL_ES2_Actual
+          .depthFunctionToGL(f)), f);
     }
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLInterfaceLWJGL30.depthFunctionFromGL(-1);
+    GLInterfaceEmbedded_LWJGL_ES2_Actual.depthFunctionFromGL(-1);
   }
 }

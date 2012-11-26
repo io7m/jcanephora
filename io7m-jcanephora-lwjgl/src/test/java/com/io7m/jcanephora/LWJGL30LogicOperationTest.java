@@ -31,7 +31,7 @@ public final class LWJGL30LogicOperationTest extends LogicOpContract
   {
     for (final LogicOperation o : LogicOperation.values()) {
       Assert.assertEquals(
-        GLInterfaceLWJGL30.logicOpFromGL(GLInterfaceLWJGL30.logicOpToGL(o)),
+        GLInterface_LWJGL30.logicOpFromGL(GLInterface_LWJGL30.logicOpToGL(o)),
         o);
     }
   }
@@ -39,6 +39,6 @@ public final class LWJGL30LogicOperationTest extends LogicOpContract
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testLogicFailure()
   {
-    GLInterfaceLWJGL30.logicOpFromGL(-1);
+    GLInterface_LWJGL30.logicOpFromGL(-1);
   }
 }

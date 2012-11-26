@@ -10,7 +10,7 @@ public class LWJGL30TextureWrapTest
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLInterfaceLWJGL30.textureWrapFromGL(-1);
+    GLInterfaceEmbedded_LWJGL_ES2_Actual.textureWrapFromGL(-1);
   }
 
   /**
@@ -20,8 +20,9 @@ public class LWJGL30TextureWrapTest
   @SuppressWarnings("static-method") @Test public void testWrapBijection()
   {
     for (final TextureWrap w : TextureWrap.values()) {
-      Assert.assertEquals(w, GLInterfaceLWJGL30
-        .textureWrapFromGL(GLInterfaceLWJGL30.textureWrapToGL(w)));
+      Assert.assertEquals(w, GLInterfaceEmbedded_LWJGL_ES2_Actual
+        .textureWrapFromGL(GLInterfaceEmbedded_LWJGL_ES2_Actual
+          .textureWrapToGL(w)));
     }
   }
 }

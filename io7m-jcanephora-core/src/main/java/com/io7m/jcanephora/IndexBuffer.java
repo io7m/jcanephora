@@ -75,7 +75,7 @@ import com.io7m.jaux.UnreachableCodeException;
    * Retrieve the raw OpenGL 'location' of the buffer.
    */
 
-  @Override public int getLocation()
+  @Override public int getGLName()
   {
     return this.value;
   }

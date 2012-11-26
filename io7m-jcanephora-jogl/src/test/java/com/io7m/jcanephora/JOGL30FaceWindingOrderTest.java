@@ -11,7 +11,7 @@ public final class JOGL30FaceWindingOrderTest
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLInterfaceJOGL30.faceWindingOrderFromGL(-1);
+    GLInterfaceEmbedded_JOGL_ES2_Actual.faceWindingOrderFromGL(-1);
   }
 
   /**
@@ -21,11 +21,9 @@ public final class JOGL30FaceWindingOrderTest
   @SuppressWarnings("static-method") @Test public void testOrderBijection()
   {
     for (final FaceWindingOrder f : FaceWindingOrder.values()) {
-      Assert
-        .assertEquals(
-          GLInterfaceJOGL30.faceWindingOrderFromGL(GLInterfaceJOGL30
-            .faceWindingOrderToGL(f)),
-          f);
+      Assert.assertEquals(GLInterfaceEmbedded_JOGL_ES2_Actual
+        .faceWindingOrderFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual
+          .faceWindingOrderToGL(f)), f);
     }
   }
 }

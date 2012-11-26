@@ -14,14 +14,17 @@ public final class JOGL30BlendFunctionTest
   @SuppressWarnings("static-method") @Test public void testBijection()
   {
     for (final BlendFunction f : BlendFunction.values()) {
-      Assert.assertEquals(GLInterfaceJOGL30
-        .blendFunctionFromGL(GLInterfaceJOGL30.blendFunctionToGL(f)), f);
+      Assert
+        .assertEquals(
+          GLInterfaceEmbedded_JOGL_ES2_Actual.blendFunctionFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual
+            .blendFunctionToGL(f)),
+          f);
     }
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLInterfaceJOGL30.blendFunctionFromGL(-1);
+    GLInterfaceEmbedded_JOGL_ES2_Actual.blendFunctionFromGL(-1);
   }
 }
