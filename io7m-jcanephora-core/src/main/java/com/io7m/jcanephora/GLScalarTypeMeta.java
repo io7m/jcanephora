@@ -20,8 +20,6 @@ public final class GLScalarTypeMeta
     switch (type) {
       case TYPE_BYTE:
         return 1;
-      case TYPE_DOUBLE:
-        return 8;
       case TYPE_FLOAT:
         return 4;
       case TYPE_INT:

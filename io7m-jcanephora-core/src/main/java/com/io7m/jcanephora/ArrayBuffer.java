@@ -92,7 +92,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * Return the raw OpenGL 'location' of the buffer.
    */
 
-  @Override public int getLocation()
+  @Override public int getGLName()
   {
     return this.value;
   }
@@ -129,7 +129,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
   {
     final StringBuilder builder = new StringBuilder();
     builder.append("[ArrayBufferID ");
-    builder.append(this.getLocation());
+    builder.append(this.getGLName());
     builder.append(" ");
     builder.append(this.getElements());
     builder.append(" ");

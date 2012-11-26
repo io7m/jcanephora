@@ -13,7 +13,7 @@ public final class LWJGL30TestDisplay
       ConstraintError
   {
     LWJGL30TestDisplay.openContext();
-    return new GLInterfaceLWJGL30(LWJGL30TestLog.getLog());
+    return new GLInterface_LWJGL30(LWJGL30TestLog.getLog());
   }
 
   private static Pbuffer openContext()
