@@ -17,14 +17,14 @@ public interface UsableProgram
    *          An OpenGL interface.
    * @throws ConstraintError
    *           Iff <code>gl == null</code> or one of the constraints for
-   *           {@link GLInterface#programActivate(ProgramReference)} does not
-   *           hold.
+   *           {@link GLInterfaceEmbedded#programActivate(ProgramReference)}
+   *           does not hold.
    * @throws GLException
    *           Iff an OpenGL error occurs.
    */
 
   void activate(
-    final @Nonnull GLInterface gl)
+    final @Nonnull GLInterfaceEmbedded gl)
     throws ConstraintError,
       GLException;
 
@@ -40,7 +40,7 @@ public interface UsableProgram
    */
 
   void deactivate(
-    final @Nonnull GLInterface gl)
+    final @Nonnull GLInterfaceEmbedded gl)
     throws ConstraintError,
       GLException;
 }
