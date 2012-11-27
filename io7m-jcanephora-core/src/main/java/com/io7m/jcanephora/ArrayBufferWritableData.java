@@ -7,54 +7,9 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.UnreachableCodeException;
 
 public final class ArrayBufferWritableData
 {
-  private final class ABWDCursorWritable4f extends BufferCursor implements
-    CursorWritable4f
-  {
-    protected ABWDCursorWritable4f(
-      final long attribute_offset,
-      final long element_first,
-      final long element_last,
-      final long element_size)
-    {
-      super(attribute_offset, element_first, element_last, element_size);
-    }
-
-    /**
-     * Put the values <code>x, y, z, w</code> at the current cursor location
-     * and seek the cursor to the next element iff there is one.
-     */
-
-    @Override public void put4f(
-      final float x,
-      final float y,
-      final float z,
-      final float w)
-    {
-      final long byte_current = this.getByteOffset();
-      final long x_off = byte_current;
-      final long y_off = byte_current + 4;
-      final long z_off = byte_current + 4 + 4;
-      final long w_off = byte_current + 4 + 4 + 4;
-
-      ArrayBufferWritableData.this.target_data.putFloat((int) x_off, x);
-      ArrayBufferWritableData.this.target_data.putFloat((int) y_off, y);
-      ArrayBufferWritableData.this.target_data.putFloat((int) z_off, z);
-      ArrayBufferWritableData.this.target_data.putFloat((int) w_off, w);
-
-      try {
-        if (this.hasNext()) {
-          this.next();
-        }
-      } catch (final ConstraintError e) {
-        throw new UnreachableCodeException();
-      }
-    }
-  }
-
   protected final @Nonnull ArrayBuffer buffer;
   protected final long                 element_start;
   protected final long                 element_count;
@@ -107,6 +62,7 @@ public final class ArrayBufferWritableData
    *           Iff any of the following conditions hold:
    *           <ul>
    *           <li><code>buffer == null</code></li>
+   *           <li><code>element_count < 1</code></li>
    *           <li>
    *           <code>0 <= element_start < buffer.getElements() == false</code>
    *           </li>
@@ -126,10 +82,10 @@ public final class ArrayBufferWritableData
     this.element_start =
       Constraints.constrainRange(element_start, 0, buffer.getElements() - 1);
     this.element_count =
-      Constraints.constrainRange(element_count, 0, buffer.getElements() - 1);
+      Constraints.constrainRange(element_count, 1, buffer.getElements() - 1);
     this.checkElementRange();
 
-    this.target_data_size = element_count * buffer.getSizeBytes();
+    this.target_data_size = element_count * buffer.getElementSizeBytes();
     this.target_data_offset = element_start * buffer.getElementSizeBytes();
     this.target_data =
       ByteBuffer.allocateDirect((int) this.target_data_size).order(
@@ -176,10 +132,11 @@ public final class ArrayBufferWritableData
       a.getType() == GLScalarType.TYPE_FLOAT,
       "Attribute elements are of type float");
 
-    return new ABWDCursorWritable4f(
+    return new ByteBufferCursorWritable4f(
+      this.target_data,
       d.getAttributeOffset(attribute_name),
-      this.element_start,
-      (this.element_start + this.element_count) - 1,
+      0,
+      this.element_count - 1,
       d.getSize());
   }
 

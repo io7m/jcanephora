@@ -14,9 +14,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * 
  * The cursor can address elements from the inclusive range
  * <code>[element_first .. element_last]</code>.
- * 
- * As this class is not visible outside of the <code>jcanephora</code>
- * package, the class assumes that sane values are given to the constructor.
  */
 
 class BufferCursor implements Cursor
@@ -35,6 +32,29 @@ class BufferCursor implements Cursor
     final long element_last,
     final long element_size)
   {
+    /**
+     * These are not constraint errors because this class is not visible
+     * outside of the jcanephora package: it is the responsibility of subtypes
+     * to respect these preconditions.
+     */
+
+    if (0 > element_first) {
+      throw new IllegalArgumentException("element_first is negative");
+    }
+    if (0 > element_size) {
+      throw new IllegalArgumentException("element_size is negative");
+    }
+    if (element_last < element_first) {
+      throw new IllegalArgumentException("element_last < element_first");
+    }
+
+    if (attribute_offset < 0) {
+      throw new IllegalArgumentException("attribute_offset is negative");
+    }
+    if (attribute_offset >= element_size) {
+      throw new IllegalArgumentException("attribute_offset >= element_size");
+    }
+
     this.attribute_offset = attribute_offset;
     this.element_first = element_first;
     this.element_last = element_last;
@@ -44,21 +64,37 @@ class BufferCursor implements Cursor
     this.byte_current = (element_first * element_size) + attribute_offset;
   }
 
+  @Override public boolean canWrite()
+  {
+    return (this.element_first <= this.element_current)
+      && (this.element_current <= this.element_last);
+  }
+
   /**
    * Return the current byte offset of the cursor.
+   * 
+   * @throws ConstraintError
+   *           Iff the cursor is out of range
    */
 
   protected final long getByteOffset()
+    throws ConstraintError
   {
+    Constraints.constrainArbitrary(this.canWrite(), "Cursor is in range");
     return this.byte_current;
   }
 
   /**
    * Return the current element of the cursor.
+   * 
+   * @throws ConstraintError
+   *           Iff the cursor is out of range
    */
 
   protected final long getElement()
+    throws ConstraintError
   {
+    Constraints.constrainArbitrary(this.canWrite(), "Cursor is in range");
     return this.element_current;
   }
 
@@ -73,15 +109,10 @@ class BufferCursor implements Cursor
 
   /**
    * Point the cursor at the next available element of the cursor's attribute.
-   * 
-   * @throws ConstraintError
-   *           Iff there are no more elements in the map.
    */
 
   @Override public void next()
-    throws ConstraintError
   {
-    Constraints.constrainArbitrary(this.hasNext(), "Next element exists");
     this.uncheckedSeek(this.element_current + 1);
   }
 
@@ -91,10 +122,7 @@ class BufferCursor implements Cursor
 
   @Override public final void seekTo(
     final long element)
-    throws ConstraintError
   {
-    Constraints
-      .constrainRange(element, this.element_first, this.element_last);
     this.uncheckedSeek(element);
   }
 

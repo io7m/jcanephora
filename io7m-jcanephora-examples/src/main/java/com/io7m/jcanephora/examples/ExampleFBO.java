@@ -78,7 +78,7 @@ public final class ExampleFBO implements Example
       ConstraintError,
       GLCompileException
   {
-    // Nothing
+    this.gl.viewportSet(position, size);
   }
 
   @Override public void shutdown()

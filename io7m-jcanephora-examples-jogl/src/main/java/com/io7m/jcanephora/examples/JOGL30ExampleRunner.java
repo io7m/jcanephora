@@ -131,7 +131,7 @@ final class JOGL30ExampleRunner implements GLEventListener
   }
 
   @Override public void init(
-    @SuppressWarnings("unused") final GLAutoDrawable drawable)
+    final GLAutoDrawable drawable)
   {
     try {
       this.gl =
