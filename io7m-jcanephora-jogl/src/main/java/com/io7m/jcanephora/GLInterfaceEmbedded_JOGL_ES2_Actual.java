@@ -614,23 +614,29 @@ import com.jogamp.common.nio.Buffers;
     this.texture_units = this.textureGetUnitsCache();
     this.line_smoothing = false;
 
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     g.glGetIntegerv(GL.GL_ALIASED_LINE_WIDTH_RANGE, this.integer_cache);
     this.line_aliased_min_width = this.integer_cache.get();
     this.line_aliased_max_width = this.integer_cache.get();
     GLError.check(this);
 
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     g.glGetIntegerv(GL.GL_SMOOTH_LINE_WIDTH_RANGE, this.integer_cache);
     this.line_smooth_min_width = this.integer_cache.get();
     this.line_smooth_max_width = this.integer_cache.get();
     GLError.check(this);
 
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     g.glGetIntegerv(GL.GL_ALIASED_POINT_SIZE_RANGE, this.integer_cache);
     this.point_min_width = this.integer_cache.get();
     this.point_max_width = this.integer_cache.get();
     GLError.check(this);
+  }
+
+  private void integerCacheReset()
+  {
+    this.integer_cache.rewind();
+    this.integer_cache_buffer.rewind();
   }
 
   @Override public final ArrayBuffer arrayBufferAllocate(
@@ -656,7 +662,7 @@ import com.jogamp.common.nio.Buffers;
       + bytes
       + " bytes)");
 
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     gl.glGenBuffers(1, this.integer_cache);
     GLError.check(this);
 
@@ -759,7 +765,7 @@ import com.jogamp.common.nio.Buffers;
 
     this.log.debug("vertex-buffer: delete " + id);
 
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     this.integer_cache.put(0, id.getGLName());
 
     gl.glDeleteBuffers(1, this.integer_cache);
@@ -980,7 +986,7 @@ import com.jogamp.common.nio.Buffers;
   {
     final GL2ES2 g = this.contextGetGL2ES2();
 
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     g.glGetIntegerv(GL.GL_BLEND, this.integer_cache);
     GLError.check(this);
     return this.integer_cache.get(0) == GL.GL_TRUE;
@@ -1104,7 +1110,7 @@ import com.jogamp.common.nio.Buffers;
     final int name)
     throws GLException
   {
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     g.glGetIntegerv(name, this.integer_cache);
     GLError.check(this);
     return this.integer_cache.get(0);
@@ -1116,7 +1122,7 @@ import com.jogamp.common.nio.Buffers;
     final int name)
     throws GLException
   {
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     g.glGetProgramiv(program, name, this.integer_cache);
     GLError.check(this);
     return this.integer_cache.get(0);
@@ -1128,7 +1134,7 @@ import com.jogamp.common.nio.Buffers;
     final int name)
     throws GLException
   {
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     g.glGetShaderiv(program, name, this.integer_cache);
     GLError.check(this);
     return this.integer_cache.get(0);
@@ -1271,7 +1277,7 @@ import com.jogamp.common.nio.Buffers;
      * If a framebuffer is bound, check to see if there's a depth attachment.
      */
 
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     gl.glGetFramebufferAttachmentParameteriv(
       GL.GL_FRAMEBUFFER,
       GL.GL_DEPTH_ATTACHMENT,
@@ -1286,7 +1292,7 @@ import com.jogamp.common.nio.Buffers;
      * If there's a depth attachment, check the size of it.
      */
 
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     gl.glGetFramebufferAttachmentParameteriv(
       GL.GL_FRAMEBUFFER,
       GL.GL_DEPTH_ATTACHMENT,
@@ -1659,7 +1665,7 @@ import com.jogamp.common.nio.Buffers;
 
     this.log.debug("framebuffer: delete " + buffer);
 
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     this.integer_cache.put(0, buffer.getLocation());
     gl.glDeleteFramebuffers(1, this.integer_cache);
     GLError.check(this);
@@ -1671,7 +1677,7 @@ import com.jogamp.common.nio.Buffers;
       GLException
   {
     final GL2ES2 gl = this.contextGetGL2ES2();
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     gl.glGenFramebuffers(1, this.integer_cache);
     GLError.check(this);
     final int id = this.integer_cache.get(0);
@@ -1733,7 +1739,7 @@ import com.jogamp.common.nio.Buffers;
       + bytes
       + " bytes)");
 
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     gl.glGenBuffers(1, this.integer_cache);
     GLError.check(this);
 
@@ -1765,7 +1771,7 @@ import com.jogamp.common.nio.Buffers;
 
     this.log.debug("index-buffer: delete " + id);
 
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     this.integer_cache.put(0, id.getGLName());
     gl.glDeleteBuffers(1, this.integer_cache);
     id.setDeleted();
@@ -2351,7 +2357,7 @@ import com.jogamp.common.nio.Buffers;
 
     this.log.debug("renderbuffer-d24s8: allocate " + width + "x" + height);
 
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     gl.glGenRenderbuffers(1, this.integer_cache);
     GLError.check(this);
     final int id = this.integer_cache.get(0);
@@ -2386,7 +2392,7 @@ import com.jogamp.common.nio.Buffers;
 
     this.log.debug("renderbuffer-d24s8: delete " + buffer);
 
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     this.integer_cache.put(0, buffer.getLocation());
     gl.glDeleteRenderbuffers(1, this.integer_cache);
     buffer.setDeleted();
@@ -2487,7 +2493,7 @@ import com.jogamp.common.nio.Buffers;
      * attachment.
      */
 
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     gl.glGetFramebufferAttachmentParameteriv(
       GL.GL_FRAMEBUFFER,
       GL.GL_STENCIL_ATTACHMENT,
@@ -2504,7 +2510,7 @@ import com.jogamp.common.nio.Buffers;
      * If there's a stencil attachment, check the size of it.
      */
 
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     gl.glGetFramebufferAttachmentParameteriv(
       GL.GL_FRAMEBUFFER,
       GL.GL_STENCIL_ATTACHMENT,
@@ -2734,7 +2740,7 @@ import com.jogamp.common.nio.Buffers;
       + "x"
       + height);
 
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     gl.glGenTextures(1, this.integer_cache);
     GLError.check(this);
     final int texture_id = this.integer_cache.get(0);
@@ -2756,6 +2762,16 @@ import com.jogamp.common.nio.Buffers;
       GL.GL_TEXTURE_2D,
       GL.GL_TEXTURE_MIN_FILTER,
       GLInterfaceEmbedded_JOGL_ES2_Actual.textureFilterToGL(min_filter));
+    gl.glTexImage2D(
+      GL.GL_TEXTURE_2D,
+      0,
+      GL.GL_RGBA8,
+      width,
+      height,
+      0,
+      GL.GL_RGBA,
+      GL.GL_UNSIGNED_BYTE,
+      null);
     gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
 
     final Texture2DRGBAStatic t =
@@ -2797,7 +2813,7 @@ import com.jogamp.common.nio.Buffers;
 
     this.log.debug("texture-2DRGBA-static: delete " + texture);
 
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     this.integer_cache.put(0, texture.getGLName());
     gl.glDeleteTextures(1, this.integer_cache);
     texture.setDeleted();
@@ -2819,7 +2835,7 @@ import com.jogamp.common.nio.Buffers;
 
     gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
 
-    this.integer_cache.rewind();
+    this.integerCacheReset();
     gl.glGetIntegerv(GL.GL_TEXTURE_BINDING_2D, this.integer_cache);
     final int e = this.integer_cache.get(0);
     GLError.check(this);
