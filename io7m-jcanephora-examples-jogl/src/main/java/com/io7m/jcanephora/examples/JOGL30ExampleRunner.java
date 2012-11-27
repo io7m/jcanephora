@@ -11,13 +11,11 @@ import javax.media.opengl.GLProfile;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.PartialFunction;
 import com.io7m.jcanephora.GLCompileException;
-import com.io7m.jcanephora.GLInterfaceEmbedded_JOGL_ES2;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterfaceEmbedded;
+import com.io7m.jcanephora.GLInterfaceEmbedded_JOGL_ES2;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.VectorM2I;
 import com.io7m.jvvfs.Filesystem;
-import com.io7m.jvvfs.FilesystemAPI;
 import com.io7m.jvvfs.PathVirtual;
 import com.jogamp.newt.event.WindowAdapter;
 import com.jogamp.newt.event.WindowEvent;
@@ -26,26 +24,32 @@ import com.jogamp.opengl.util.FPSAnimator;
 
 final class JOGL30ExampleRunner implements GLEventListener
 {
-  private final HashMap<String, PartialFunction<Parameters, Example, Throwable>> examples;
-  private final Log                                                              log;
-  private final GLWindow                                                         window;
-  private final FPSAnimator                                                      animator;
-  private final Example                                                          current_example;
-  private final GLInterfaceEmbedded_JOGL_ES2                                                gl;
-  private final Filesystem                                                       filesystem;
-  private final Parameters                                                       parameters;
-  private final VectorM2I                                                        window_position;
-  private final VectorM2I                                                        window_size;
+  private final HashMap<String, PartialFunction<ExampleConfig, Example, Throwable>> examples;
+  private final Log                                                                 log;
+  private final GLWindow                                                            window;
+  private final FPSAnimator                                                         animator;
+  private Example                                                                   current_example;
+  private GLInterfaceEmbedded_JOGL_ES2                                              gl;
+  private final Filesystem                                                          filesystem;
+  private final VectorM2I                                                           window_position;
+  private final VectorM2I                                                           window_size;
+  private ExampleConfig                                                             config;
 
   JOGL30ExampleRunner()
     throws Throwable
   {
     this.examples =
-      new HashMap<String, PartialFunction<Parameters, Example, Throwable>>();
+      new HashMap<String, PartialFunction<ExampleConfig, Example, Throwable>>();
     this.examplesInitialize();
 
-    final Properties properties = new Properties();
-    this.log = new Log(properties, "com.io7m.jcanephora.examples", "main");
+    this.window_position = new VectorM2I(0, 0);
+    this.window_size = new VectorM2I(640, 480);
+
+    final Properties p = new Properties();
+    p.setProperty(
+      "com.io7m.jcanephora.examples.logs.main.filesystem",
+      "false");
+    this.log = new Log(p, "com.io7m.jcanephora.examples", "main");
 
     this.filesystem = new Filesystem(this.log);
     this.filesystem.mountUnsafeClasspathItem(Example.class, new PathVirtual(
@@ -55,10 +59,9 @@ final class JOGL30ExampleRunner implements GLEventListener
     final GLCapabilities caps = new GLCapabilities(pro);
 
     this.window = GLWindow.create(caps);
-    this.window.setSize(640, 480);
+    this.window.setSize(this.window_size.x, this.window_size.y);
     this.window.setVisible(true);
     this.window.setTitle(this.getClass().getName());
-
     this.window.addWindowListener(new WindowAdapter() {
       @Override public void windowDestroyNotify(
         @SuppressWarnings("unused") final WindowEvent e)
@@ -67,47 +70,35 @@ final class JOGL30ExampleRunner implements GLEventListener
       }
     });
 
-    this.gl = new GLInterfaceEmbedded_JOGL_ES2(this.window.getContext(), this.log);
-    this.parameters = new Parameters();
-    this.parameters.log = this.log;
-    this.parameters.gl = this.gl;
-    this.parameters.filesystem = this.filesystem;
+    this.window.addGLEventListener(this);
 
     this.animator = new FPSAnimator(60);
     this.animator.setUpdateFPSFrames(60, System.err);
     this.animator.add(this.window);
     this.animator.start();
-
-    this.current_example =
-      this.examples.get("ArrayBuffer").call(this.parameters);
-    this.window.addGLEventListener(this);
-
-    this.window_position = new VectorM2I();
-    this.window_size = new VectorM2I();
-  }
-
-  private static final class Parameters
-  {
-    Parameters()
-    {
-
-    }
-
-    protected GLInterfaceEmbedded gl;
-    protected Log                 log;
-    protected FilesystemAPI       filesystem;
   }
 
   private void examplesInitialize()
   {
     this.examples.put(
       "ArrayBuffer",
-      new PartialFunction<Parameters, Example, Throwable>() {
+      new PartialFunction<ExampleConfig, Example, Throwable>() {
         @Override public Example call(
-          final Parameters p)
+          final ExampleConfig c)
           throws Throwable
         {
-          return new ExampleArrayBuffer(p.gl, p.filesystem, p.log);
+          return new ExampleArrayBuffer(c);
+        }
+      });
+
+    this.examples.put(
+      "FBO",
+      new PartialFunction<ExampleConfig, Example, Throwable>() {
+        @Override public Example call(
+          final ExampleConfig c)
+          throws Throwable
+        {
+          return new ExampleFBO(c);
         }
       });
   }
@@ -142,7 +133,28 @@ final class JOGL30ExampleRunner implements GLEventListener
   @Override public void init(
     @SuppressWarnings("unused") final GLAutoDrawable drawable)
   {
-    // Nothing.
+    try {
+      this.gl =
+        new GLInterfaceEmbedded_JOGL_ES2(drawable.getContext(), this.log);
+
+      this.config =
+        new ExampleConfig(
+          this.gl,
+          this.log,
+          this.filesystem,
+          this.window_position,
+          this.window_size);
+
+      this.current_example =
+        this.examples.get("ArrayBuffer").call(this.config);
+
+    } catch (final GLException e) {
+      JOGL30ExampleRunner.fatal(e);
+    } catch (final ConstraintError e) {
+      JOGL30ExampleRunner.fatal(e);
+    } catch (final Throwable e) {
+      JOGL30ExampleRunner.fatal(e);
+    }
   }
 
   @Override public void reshape(

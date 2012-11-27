@@ -2284,6 +2284,16 @@ import com.io7m.jtensors.VectorReadable4F;
       GL11.GL_TEXTURE_2D,
       GL11.GL_TEXTURE_MIN_FILTER,
       GLInterfaceEmbedded_LWJGL_ES2_Actual.textureFilterToGL(min_filter));
+    GL11.glTexImage2D(
+      GL11.GL_TEXTURE_2D,
+      0,
+      GL11.GL_RGBA8,
+      width,
+      height,
+      0,
+      GL11.GL_RGBA,
+      GL11.GL_UNSIGNED_BYTE,
+      (ByteBuffer) null);
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 
     final Texture2DRGBAStatic t =

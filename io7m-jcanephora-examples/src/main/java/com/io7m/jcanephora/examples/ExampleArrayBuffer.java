@@ -20,10 +20,9 @@ import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.ProjectionMatrix;
-import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixM4x4F;
+import com.io7m.jtensors.VectorI3F;
 import com.io7m.jtensors.VectorReadable2I;
-import com.io7m.jvvfs.FilesystemAPI;
 import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleArrayBuffer implements Example
@@ -39,14 +38,12 @@ public final class ExampleArrayBuffer implements Example
   private final IndexBufferWritableData indices_data;
 
   public ExampleArrayBuffer(
-    final @Nonnull GLInterfaceEmbedded gl,
-    final @Nonnull FilesystemAPI filesystem,
-    final @Nonnull Log log)
+    final @Nonnull ExampleConfig config)
     throws ConstraintError,
       GLException,
       GLCompileException
   {
-    this.gl = gl;
+    this.gl = config.getGL();
 
     {
       this.array_type =
@@ -87,12 +84,12 @@ public final class ExampleArrayBuffer implements Example
       this.gl.indexBufferUpdate(this.indices, this.indices_data);
     }
 
-    this.program = new Program("simple", log);
+    this.program = new Program("simple", config.getLog());
     this.program.addVertexShader(new PathVirtual(
       "/com/io7m/jcanephora/examples/simple.v"));
     this.program.addFragmentShader(new PathVirtual(
       "/com/io7m/jcanephora/examples/simple.f"));
-    this.program.compile(filesystem, gl);
+    this.program.compile(config.getFilesystem(), this.gl);
 
     this.matrix_modelview = new MatrixM4x4F();
     this.matrix_projection = new MatrixM4x4F();
@@ -116,6 +113,9 @@ public final class ExampleArrayBuffer implements Example
       100);
 
     MatrixM4x4F.setIdentity(this.matrix_modelview);
+    MatrixM4x4F.translateByVector3FInPlace(
+      this.matrix_modelview,
+      new VectorI3F(0.0f, 0.0f, -10.0f));
 
     this.program.activate(this.gl);
     {

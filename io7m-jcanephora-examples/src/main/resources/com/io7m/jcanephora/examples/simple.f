@@ -1,6 +1,8 @@
-varying fragment_color;
+#version 110
 
-void main()
+varying vec4 fragment_color;
+
+void main (void)
 {
   gl_FragColor = fragment_color;
 }
