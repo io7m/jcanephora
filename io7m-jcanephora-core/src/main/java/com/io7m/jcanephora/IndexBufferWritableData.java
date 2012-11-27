@@ -2,60 +2,14 @@ package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
 
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.UnreachableCodeException;
 
 public final class IndexBufferWritableData
 {
-  private final class IBWDCursorWritable extends BufferCursor implements
-    IndexBufferCursorWritable
-  {
-    IBWDCursorWritable(
-      final long element_first,
-      final long element_last,
-      final long element_size)
-    {
-      super(0, element_first, element_last, element_size);
-    }
-
-    @Override public void putIndex(
-      final int value)
-    {
-      final int index = (int) this.getElement();
-
-      switch (IndexBufferWritableData.this.buffer.getType()) {
-        case TYPE_UNSIGNED_BYTE:
-        {
-          final byte b = (byte) value;
-          IndexBufferWritableData.this.target_data.put(index, b);
-          return;
-        }
-        case TYPE_UNSIGNED_INT:
-        {
-          final IntBuffer ib =
-            IndexBufferWritableData.this.target_data.asIntBuffer();
-          ib.put(index, value);
-          return;
-        }
-        case TYPE_UNSIGNED_SHORT:
-        {
-          final ShortBuffer sb =
-            IndexBufferWritableData.this.target_data.asShortBuffer();
-          sb.put(index, (short) value);
-          return;
-        }
-      }
-
-      throw new UnreachableCodeException();
-    }
-  }
-
   protected final @Nonnull IndexBuffer buffer;
   protected final long                 element_start;
   protected final long                 element_count;
@@ -151,12 +105,13 @@ public final class IndexBufferWritableData
    * the number of checks performed for each access.
    */
 
-  public IndexBufferCursorWritable getCursor()
+  public CursorWritableIndex getCursor()
   {
-    return new IBWDCursorWritable(
-      this.element_start,
-      (this.element_start + this.element_count) - 1,
-      this.buffer.getElementSizeBytes());
+    return new ByteBufferCursorWritableIndex(
+      this.target_data,
+      0,
+      this.element_count,
+      this.buffer.getType());
   }
 
   /**

@@ -10,10 +10,10 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
-import com.io7m.jcanephora.ArrayBufferCursorWritable2f;
-import com.io7m.jcanephora.ArrayBufferCursorWritable3f;
 import com.io7m.jcanephora.ArrayBufferDescriptor;
 import com.io7m.jcanephora.ArrayBufferWritableMap;
+import com.io7m.jcanephora.CursorWritable2f;
+import com.io7m.jcanephora.CursorWritable3f;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface;
 import com.io7m.jcanephora.GLScalarType;
@@ -78,7 +78,7 @@ public abstract class ArrayBufferWritableMapContract implements
     }
 
     assert m != null;
-    final ArrayBufferCursorWritable2f c = m.getCursor2f("position");
+    final CursorWritable2f c = m.getCursor2f("position");
     c.seekTo(10);
   }
 
@@ -110,9 +110,9 @@ public abstract class ArrayBufferWritableMapContract implements
     assert gl != null;
     assert wm != null;
 
-    final ArrayBufferCursorWritable3f pp = wm.getCursor3f("position");
-    final ArrayBufferCursorWritable3f pn = wm.getCursor3f("normal");
-    final ArrayBufferCursorWritable2f pu = wm.getCursor2f("uv");
+    final CursorWritable3f pp = wm.getCursor3f("position");
+    final CursorWritable3f pn = wm.getCursor3f("normal");
+    final CursorWritable2f pu = wm.getCursor2f("uv");
 
     pp.put3f(1.0f, 1.0f, 1.0f);
     pp.put3f(1.0f, 1.0f, 1.0f);
@@ -190,9 +190,9 @@ public abstract class ArrayBufferWritableMapContract implements
     assert gl != null;
     assert wm != null;
 
-    final ArrayBufferCursorWritable3f pp = wm.getCursor3f("position");
-    final ArrayBufferCursorWritable3f pn = wm.getCursor3f("normal");
-    final ArrayBufferCursorWritable2f pu = wm.getCursor2f("uv");
+    final CursorWritable3f pp = wm.getCursor3f("position");
+    final CursorWritable3f pn = wm.getCursor3f("normal");
+    final CursorWritable2f pu = wm.getCursor2f("uv");
 
     pp.put3f(1.0f, 2.0f, 3.0f);
     pp.put3f(4.0f, 5.0f, 6.0f);
@@ -299,34 +299,6 @@ public abstract class ArrayBufferWritableMapContract implements
     m.getCursor3f(null);
   }
 
-  @Test(expected = ConstraintError.class) public final
-    void
-    testArrayBufferMapCursor3fOutOfRange()
-      throws ConstraintError
-  {
-    GLInterface gl = null;
-    ArrayBuffer a = null;
-    ArrayBufferWritableMap m = null;
-
-    try {
-      gl = this.makeNewGL();
-
-      final ArrayBufferDescriptor d =
-        new ArrayBufferDescriptor(new ArrayBufferAttribute[] {
-          new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 3),
-          new ArrayBufferAttribute("shape", GLScalarType.TYPE_INT, 1) });
-
-      a = gl.arrayBufferAllocate(10, d);
-      m = gl.arrayBufferMapWrite(a);
-    } catch (final Throwable e) {
-      Assert.fail(e.getMessage());
-    }
-
-    assert m != null;
-    final ArrayBufferCursorWritable3f c = m.getCursor3f("position");
-    c.seekTo(10);
-  }
-
   @SuppressWarnings("boxing") @Test public final
     void
     testArrayBufferMapCursor3fWriteCorrect()
@@ -354,8 +326,8 @@ public abstract class ArrayBufferWritableMapContract implements
     assert gl != null;
     assert wm != null;
 
-    final ArrayBufferCursorWritable3f pp = wm.getCursor3f("position");
-    final ArrayBufferCursorWritable3f pn = wm.getCursor3f("normal");
+    final CursorWritable3f pp = wm.getCursor3f("position");
+    final CursorWritable3f pn = wm.getCursor3f("normal");
 
     pp.put3f(1.0f, 2.0f, 3.0f);
     pp.put3f(4.0f, 5.0f, 6.0f);
@@ -422,8 +394,8 @@ public abstract class ArrayBufferWritableMapContract implements
     assert gl != null;
     assert wm != null;
 
-    final ArrayBufferCursorWritable3f pp = wm.getCursor3f("position");
-    final ArrayBufferCursorWritable3f pn = wm.getCursor3f("normal");
+    final CursorWritable3f pp = wm.getCursor3f("position");
+    final CursorWritable3f pn = wm.getCursor3f("normal");
 
     pp.put3f(0.0f, 0.0f, 0.0f);
     pp.put3f(0.0f, 0.0f, 0.0f);
