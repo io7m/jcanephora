@@ -5,7 +5,7 @@ import javax.annotation.concurrent.Immutable;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jaux.RangeInclusive;
 
 /**
  * An immutable reference to an allocated index buffer.
@@ -16,13 +16,13 @@ import com.io7m.jaux.UnreachableCodeException;
   GLResource
 {
   private final int            value;
-  private final long           elements;
   private final GLUnsignedType type;
   private boolean              deleted;
+  private final RangeInclusive range;
 
   IndexBuffer(
     final int value,
-    final long elements,
+    final @Nonnull RangeInclusive range,
     final GLUnsignedType type)
     throws ConstraintError
   {
@@ -32,25 +32,9 @@ import com.io7m.jaux.UnreachableCodeException;
         0,
         Integer.MAX_VALUE,
         "buffer ID value");
-    this.elements =
-      Constraints.constrainRange(elements, 1, Integer.MAX_VALUE, "elements");
+    this.range = range;
     this.type = Constraints.constrainNotNull(type, "GL type");
     this.deleted = false;
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#toString()
-   */
-
-  /**
-   * Retrieve the number of elements in the buffer.
-   */
-
-  @Override public long getElements()
-  {
-    return this.elements;
   }
 
   /**
@@ -59,16 +43,7 @@ import com.io7m.jaux.UnreachableCodeException;
 
   @Override public long getElementSizeBytes()
   {
-    switch (this.type) {
-      case TYPE_UNSIGNED_BYTE:
-        return 1;
-      case TYPE_UNSIGNED_INT:
-        return 4;
-      case TYPE_UNSIGNED_SHORT:
-        return 2;
-    }
-
-    throw new UnreachableCodeException();
+    return GLUnsignedTypeMeta.getSizeBytes(this.type);
   }
 
   /**
@@ -80,13 +55,18 @@ import com.io7m.jaux.UnreachableCodeException;
     return this.value;
   }
 
+  @Override public @Nonnull RangeInclusive getRange()
+  {
+    return this.range;
+  }
+
   /**
    * Retrieve the total size in bytes of the allocated buffer.
    */
 
   @Override public long getSizeBytes()
   {
-    return this.getElementSizeBytes() * this.elements;
+    return this.getElementSizeBytes() * this.range.getInterval();
   }
 
   /**
@@ -123,7 +103,7 @@ import com.io7m.jaux.UnreachableCodeException;
     builder.append("[ArrayBufferID ");
     builder.append(this.value);
     builder.append(" ");
-    builder.append(this.elements);
+    builder.append(this.range);
     builder.append(" ");
     builder.append(this.getElementSizeBytes());
     builder.append("]");

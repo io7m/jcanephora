@@ -23,6 +23,7 @@ import org.lwjgl.opengl.GL30;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.FramebufferAttachment.ColorAttachment;
 import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
@@ -1198,7 +1199,7 @@ import com.io7m.jtensors.VectorReadable4F;
       "Index buffer not deleted");
 
     final int index_id = indices.getGLName();
-    final int index_count = (int) indices.getElements();
+    final int index_count = (int) indices.getRange().getInterval();
     final int mode_gl =
       GLInterfaceEmbedded_LWJGL_ES2_Actual.primitiveToGL(mode);
     final int type =
@@ -1502,10 +1503,10 @@ import com.io7m.jtensors.VectorReadable4F;
     Constraints.constrainRange(indices, 1, Integer.MAX_VALUE);
 
     GLUnsignedType type = GLUnsignedType.TYPE_UNSIGNED_BYTE;
-    if (buffer.getElements() > 0xff) {
+    if (buffer.getRange().getInterval() > 0xff) {
       type = GLUnsignedType.TYPE_UNSIGNED_SHORT;
     }
-    if (buffer.getElements() > 0xffff) {
+    if (buffer.getRange().getInterval() > 0xffff) {
       type = GLUnsignedType.TYPE_UNSIGNED_INT;
     }
 
@@ -1542,7 +1543,7 @@ import com.io7m.jtensors.VectorReadable4F;
     GLError.check(this);
 
     this.log.debug("index-buffer: allocated " + id);
-    return new IndexBuffer(id, indices, type);
+    return new IndexBuffer(id, new RangeInclusive(0, indices - 1), type);
   }
 
   @Override public void indexBufferDelete(

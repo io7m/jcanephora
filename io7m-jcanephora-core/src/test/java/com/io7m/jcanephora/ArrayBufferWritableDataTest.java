@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 
 public class ArrayBufferWritableDataTest
 {
@@ -120,7 +121,7 @@ public class ArrayBufferWritableDataTest
   {
     final ArrayBuffer array = ArrayBufferWritableDataTest.makeArray4Color4();
     final ArrayBufferWritableData data =
-      new ArrayBufferWritableData(array, 1, 2);
+      new ArrayBufferWritableData(array, new RangeInclusive(1, 2));
     final CursorWritable4f cursor = data.getCursor4f("color");
     final FloatBuffer fb = data.target_data.asFloatBuffer();
 
@@ -169,7 +170,7 @@ public class ArrayBufferWritableDataTest
   {
     final ArrayBuffer array = ArrayBufferWritableDataTest.makeArray4Color4();
     @SuppressWarnings("unused") final ArrayBufferWritableData data =
-      new ArrayBufferWritableData(array, 0, 5);
+      new ArrayBufferWritableData(array, new RangeInclusive(0, 5));
   }
 
   /**
@@ -183,35 +184,7 @@ public class ArrayBufferWritableDataTest
   {
     final ArrayBuffer array = ArrayBufferWritableDataTest.makeArray4Color4();
     @SuppressWarnings("unused") final ArrayBufferWritableData data =
-      new ArrayBufferWritableData(array, -1, 4);
-  }
-
-  /**
-   * A zero element count fails.
-   */
-
-  @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
-    void
-    testArrayDataPartialIllegalCase2()
-      throws ConstraintError
-  {
-    final ArrayBuffer array = ArrayBufferWritableDataTest.makeArray4Color4();
-    @SuppressWarnings("unused") final ArrayBufferWritableData data =
-      new ArrayBufferWritableData(array, 0, 0);
-  }
-
-  /**
-   * An invalid range for the ArrayWritableData constructor fails.
-   */
-
-  @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
-    void
-    testArrayDataPartialIllegalCase3()
-      throws ConstraintError
-  {
-    final ArrayBuffer array = ArrayBufferWritableDataTest.makeArray4Color4();
-    @SuppressWarnings("unused") final ArrayBufferWritableData data =
-      new ArrayBufferWritableData(array, 4, 1);
+      new ArrayBufferWritableData(array, new RangeInclusive(-1, 3));
   }
 
   /**

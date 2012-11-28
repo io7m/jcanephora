@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 
 public class ByteBufferCursorWritable3fTest
 {
@@ -22,12 +23,9 @@ public class ByteBufferCursorWritable3fTest
       ByteBuffer.allocate(element_count * element_size).order(
         ByteOrder.nativeOrder());
     final ByteBufferCursorWritable3f c =
-      new ByteBufferCursorWritable3f(
-        data,
-        attribute_offset,
+      new ByteBufferCursorWritable3f(data, new RangeInclusive(
         0,
-        element_count - 1,
-        element_size);
+        element_count - 1), attribute_offset, element_size);
 
     c.put3f(1.0f, 2.0f, 3.0f);
     c.put3f(4.0f, 5.0f, 6.0f);
@@ -79,19 +77,13 @@ public class ByteBufferCursorWritable3fTest
       ByteBuffer.allocate(element_count * element_size).order(
         ByteOrder.nativeOrder());
     final ByteBufferCursorWritable3f c0 =
-      new ByteBufferCursorWritable3f(
-        data,
-        attribute_offset,
+      new ByteBufferCursorWritable3f(data, new RangeInclusive(
         0,
-        element_count - 1,
-        element_size);
+        element_count - 1), attribute_offset, element_size);
     final ByteBufferCursorWritable3f c1 =
-      new ByteBufferCursorWritable3f(
-        data,
+      new ByteBufferCursorWritable3f(data, new RangeInclusive(
         0,
-        0,
-        element_count - 1,
-        element_size);
+        element_count - 1), 0, element_size);
 
     c0.put3f(1.0f, 2.0f, 3.0f);
     c0.put3f(4.0f, 5.0f, 6.0f);

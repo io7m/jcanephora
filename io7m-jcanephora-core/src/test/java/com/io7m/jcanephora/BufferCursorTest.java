@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 
 public class BufferCursorTest
 {
@@ -11,54 +12,15 @@ public class BufferCursorTest
     expected = IllegalArgumentException.class) public
     void
     testPrecondition0()
+      throws ConstraintError
   {
-    new BufferCursor(0, -1, 3, 4);
-  }
-
-  @SuppressWarnings({ "static-method", "unused" }) @Test(
-    expected = IllegalArgumentException.class) public
-    void
-    testPrecondition1()
-  {
-    new BufferCursor(0, 0, -1, 4);
-  }
-
-  @SuppressWarnings({ "static-method", "unused" }) @Test(
-    expected = IllegalArgumentException.class) public
-    void
-    testPrecondition2()
-  {
-    new BufferCursor(0, 1, 0, 4);
-  }
-
-  @SuppressWarnings({ "static-method", "unused" }) @Test(
-    expected = IllegalArgumentException.class) public
-    void
-    testPrecondition3()
-  {
-    new BufferCursor(-1, 0, 3, 4);
-  }
-
-  @SuppressWarnings({ "static-method", "unused" }) @Test(
-    expected = IllegalArgumentException.class) public
-    void
-    testPrecondition4()
-  {
-    new BufferCursor(0, 0, 3, -1);
-  }
-
-  @SuppressWarnings({ "static-method", "unused" }) @Test(
-    expected = IllegalArgumentException.class) public
-    void
-    testPrecondition5()
-  {
-    new BufferCursor(4, 0, 3, 4);
+    new BufferCursor(new RangeInclusive(-1, 0), 0, 4);
   }
 
   @SuppressWarnings("static-method") @Test public void testCanWrite()
     throws ConstraintError
   {
-    final BufferCursor c = new BufferCursor(0, 0, 3, 4);
+    final BufferCursor c = new BufferCursor(new RangeInclusive(0, 3), 0, 4);
 
     Assert.assertEquals(0, c.getByteOffset());
     Assert.assertTrue(c.canWrite());
@@ -80,7 +42,7 @@ public class BufferCursorTest
   @SuppressWarnings("static-method") @Test public void testCanWritePre()
     throws ConstraintError
   {
-    final BufferCursor c = new BufferCursor(0, 2, 3, 4);
+    final BufferCursor c = new BufferCursor(new RangeInclusive(2, 3), 0, 4);
 
     Assert.assertEquals(8, c.getByteOffset());
     Assert.assertTrue(c.canWrite());
@@ -108,15 +70,16 @@ public class BufferCursorTest
   }
 
   @SuppressWarnings("static-method") @Test public void testHasNextBeyond()
+    throws ConstraintError
   {
-    final BufferCursor c = new BufferCursor(0, 0, 0, 4);
+    final BufferCursor c = new BufferCursor(new RangeInclusive(0, 0), 0, 4);
     Assert.assertFalse(c.hasNext());
   }
 
   @SuppressWarnings("static-method") @Test public void testInit0()
     throws ConstraintError
   {
-    final BufferCursor c = new BufferCursor(0, 0, 7, 4);
+    final BufferCursor c = new BufferCursor(new RangeInclusive(0, 7), 0, 4);
 
     Assert.assertEquals(0, c.getByteOffset());
     Assert.assertEquals(0, c.getElement());
@@ -127,7 +90,7 @@ public class BufferCursorTest
   @SuppressWarnings("static-method") @Test public void testInit1()
     throws ConstraintError
   {
-    final BufferCursor c = new BufferCursor(0, 1, 7, 4);
+    final BufferCursor c = new BufferCursor(new RangeInclusive(1, 7), 0, 4);
 
     Assert.assertEquals(4, c.getByteOffset());
     Assert.assertEquals(1, c.getElement());
@@ -136,8 +99,9 @@ public class BufferCursorTest
   }
 
   @SuppressWarnings("static-method") @Test public void testNext()
+    throws ConstraintError
   {
-    final BufferCursor c = new BufferCursor(0, 0, 7, 4);
+    final BufferCursor c = new BufferCursor(new RangeInclusive(0, 7), 0, 4);
 
     for (int index = 0; index < 7; ++index) {
       Assert.assertTrue(c.hasNext());
@@ -148,7 +112,7 @@ public class BufferCursorTest
   @SuppressWarnings("static-method") @Test public void testNextOffsets()
     throws ConstraintError
   {
-    final BufferCursor c = new BufferCursor(0, 0, 3, 4);
+    final BufferCursor c = new BufferCursor(new RangeInclusive(0, 3), 0, 4);
 
     Assert.assertEquals(0, c.getByteOffset());
     c.next();
@@ -164,7 +128,7 @@ public class BufferCursorTest
   @SuppressWarnings("static-method") @Test public void testSeekOffsets()
     throws ConstraintError
   {
-    final BufferCursor c = new BufferCursor(0, 0, 3, 4);
+    final BufferCursor c = new BufferCursor(new RangeInclusive(0, 3), 0, 4);
 
     c.seekTo(3);
     Assert.assertEquals(12, c.getByteOffset());

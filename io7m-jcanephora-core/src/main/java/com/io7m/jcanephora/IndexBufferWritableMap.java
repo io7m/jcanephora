@@ -6,22 +6,17 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 
 /**
  * Abstraction over mapped index buffers.
- * 
- * Because the type of elements in index buffers are dependent on the range of
- * indices in the buffer, it is difficult to write code that works with index
- * buffers generically. The IndexBufferWritableMap class provides a simple
- * checked "put" API that allows code to avoid knowing about the specific
- * types of the elements but also asserts that index values placed in the
- * buffer are representable by the types of the elements.
  */
 
 public final class IndexBufferWritableMap
 {
-  private final @Nonnull IndexBuffer buffer;
-  private final @Nonnull ByteBuffer  map;
+  private final @Nonnull IndexBuffer    buffer;
+  private final @Nonnull ByteBuffer     map;
+  private final @Nonnull RangeInclusive target_range;
 
   IndexBufferWritableMap(
     final @Nonnull IndexBuffer id,
@@ -30,6 +25,8 @@ public final class IndexBufferWritableMap
   {
     this.map = Constraints.constrainNotNull(map, "Index buffer map");
     this.buffer = Constraints.constrainNotNull(id, "Index buffer");
+    this.target_range =
+      new RangeInclusive(0, this.buffer.getRange().getInterval() - 1);
   }
 
   /**
@@ -55,8 +52,7 @@ public final class IndexBufferWritableMap
   {
     return new ByteBufferCursorWritableIndex(
       this.map,
-      0,
-      this.buffer.getElements() - 1,
+      this.target_range,
       this.buffer.getType());
   }
 }

@@ -1,7 +1,10 @@
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 
 /**
  * Basic cursor implementation for seeking through a buffer.
@@ -12,24 +15,22 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * The cursor is assumed to be pointing to attributes that are
  * <code>attribute_offset</code> bytes from the start of each element.
  * 
- * The cursor can address elements from the inclusive range
- * <code>[element_first .. element_last]</code>.
+ * The cursor can address elements from the given inclusive range and will
+ * reject attempts to write outside of this range.
  */
 
 class BufferCursor implements Cursor
 {
-  private final long attribute_offset;
-  private final long element_first;
-  private final long element_last;
-  private final long element_size;
+  private final long                    attribute_offset;
+  private final @Nonnull RangeInclusive range;
+  private final long                    element_size;
 
-  private long       element_current;
-  private long       byte_current;
+  private long                          element_current;
+  private long                          byte_current;
 
   BufferCursor(
+    final @Nonnull RangeInclusive range,
     final long attribute_offset,
-    final long element_first,
-    final long element_last,
     final long element_size)
   {
     /**
@@ -38,14 +39,11 @@ class BufferCursor implements Cursor
      * to respect these preconditions.
      */
 
-    if (0 > element_first) {
-      throw new IllegalArgumentException("element_first is negative");
+    if (0 > range.getLower()) {
+      throw new IllegalArgumentException("lower bound is negative");
     }
     if (0 > element_size) {
       throw new IllegalArgumentException("element_size is negative");
-    }
-    if (element_last < element_first) {
-      throw new IllegalArgumentException("element_last < element_first");
     }
 
     if (attribute_offset < 0) {
@@ -56,18 +54,17 @@ class BufferCursor implements Cursor
     }
 
     this.attribute_offset = attribute_offset;
-    this.element_first = element_first;
-    this.element_last = element_last;
+    this.range = range;
     this.element_size = element_size;
 
-    this.element_current = element_first;
-    this.byte_current = (element_first * element_size) + attribute_offset;
+    this.element_current = range.getLower();
+    this.byte_current = (range.getLower() * element_size) + attribute_offset;
   }
 
   @Override public boolean canWrite()
   {
-    return (this.element_first <= this.element_current)
-      && (this.element_current <= this.element_last);
+    return (this.range.getLower() <= this.element_current)
+      && (this.element_current <= this.range.getUpper());
   }
 
   /**
@@ -104,7 +101,7 @@ class BufferCursor implements Cursor
 
   @Override public boolean hasNext()
   {
-    return (this.element_current + 1) <= this.element_last;
+    return (this.element_current + 1) <= this.range.getUpper();
   }
 
   /**

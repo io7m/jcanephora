@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 import com.io7m.jaux.UnreachableCodeException;
 
 /**
@@ -21,12 +22,10 @@ final class ByteBufferCursorWritableIndex extends BufferCursor implements
 
   ByteBufferCursorWritableIndex(
     final @Nonnull ByteBuffer target_data,
-    final long element_first,
-    final long element_last,
+    final @Nonnull RangeInclusive range,
     final @Nonnull GLUnsignedType type)
   {
-    super(0, element_first, element_last, GLUnsignedTypeMeta
-      .getSizeBytes(type));
+    super(range, 0, GLUnsignedTypeMeta.getSizeBytes(type));
     this.target_data = target_data;
     this.type = type;
   }
@@ -42,6 +41,7 @@ final class ByteBufferCursorWritableIndex extends BufferCursor implements
     switch (this.type) {
       case TYPE_UNSIGNED_BYTE:
       {
+        Constraints.constrainRange(value, 0, 0xff);
         this.target_data.put(offset, (byte) value);
         this.next();
         return;
@@ -54,6 +54,7 @@ final class ByteBufferCursorWritableIndex extends BufferCursor implements
       }
       case TYPE_UNSIGNED_SHORT:
       {
+        Constraints.constrainRange(value, 0, 0xffff);
         this.target_data.putShort(offset, (short) value);
         this.next();
         return;

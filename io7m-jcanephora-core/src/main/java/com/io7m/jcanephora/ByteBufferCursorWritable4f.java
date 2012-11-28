@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 
 /**
  * Generic byte buffer cursor pointing to elements containing four floats.
@@ -18,12 +19,11 @@ final class ByteBufferCursorWritable4f extends BufferCursor implements
 
   ByteBufferCursorWritable4f(
     final @Nonnull ByteBuffer target_data,
+    final @Nonnull RangeInclusive range,
     final long attribute_offset,
-    final long element_first,
-    final long element_last,
     final long element_size)
   {
-    super(attribute_offset, element_first, element_last, element_size);
+    super(range, attribute_offset, element_size);
     this.target_data = target_data;
   }
 
