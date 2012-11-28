@@ -1,14 +1,11 @@
 package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
 
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.UnreachableCodeException;
 
 /**
  * Abstraction over mapped index buffers.
@@ -54,38 +51,12 @@ public final class IndexBufferWritableMap
     return this.buffer;
   }
 
-  /**
-   * Write the value <code>value</code> at index <code>index</code>.
-   * 
-   * The value will be silently truncated to fit into the type of elements in
-   * the index buffer.
-   */
-
-  public void put(
-    final int index,
-    final int value)
+  public @Nonnull CursorWritableIndex getCursor()
   {
-    switch (this.buffer.getType()) {
-      case TYPE_UNSIGNED_BYTE:
-      {
-        final byte b = (byte) value;
-        this.map.put(index, b);
-        return;
-      }
-      case TYPE_UNSIGNED_INT:
-      {
-        final IntBuffer ib = this.map.asIntBuffer();
-        ib.put(index, value);
-        return;
-      }
-      case TYPE_UNSIGNED_SHORT:
-      {
-        final ShortBuffer sb = this.map.asShortBuffer();
-        sb.put(index, (short) value);
-        return;
-      }
-    }
-
-    throw new UnreachableCodeException();
+    return new ByteBufferCursorWritableIndex(
+      this.map,
+      0,
+      this.buffer.getElements() - 1,
+      this.buffer.getType());
   }
 }
