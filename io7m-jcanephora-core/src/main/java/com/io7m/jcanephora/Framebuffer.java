@@ -11,7 +11,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
  */
 
 @Immutable public final class Framebuffer extends Deletable implements
-  GLResource
+  GLResource,
+  GLName
 {
   private final int value;
   private boolean   deleted;
@@ -29,19 +30,36 @@ import com.io7m.jaux.Constraints.ConstraintError;
     this.deleted = false;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#toString()
-   */
+  @Override public boolean equals(
+    final Object obj)
+  {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (this.getClass() != obj.getClass()) {
+      return false;
+    }
+    final Framebuffer other = (Framebuffer) obj;
+    if (this.value != other.value) {
+      return false;
+    }
+    return true;
+  }
 
-  /**
-   * Return the raw OpenGL 'location' of the buffer.
-   */
-
-  public int getLocation()
+  @Override public int getGLName()
   {
     return this.value;
+  }
+
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + this.value;
+    return result;
   }
 
   @Override public void resourceDelete(
@@ -66,7 +84,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
   {
     final StringBuilder builder = new StringBuilder();
     builder.append("[Framebuffer ");
-    builder.append(this.getLocation());
+    builder.append(this.getGLName());
     builder.append("]");
     return builder.toString();
   }
