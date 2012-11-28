@@ -66,6 +66,37 @@ public class FramebufferAttachment
       builder.append("]");
       return builder.toString();
     }
+
+    @Override public int hashCode()
+    {
+      final int prime = 31;
+      int result = 1;
+      result = (prime * result) + this.index;
+      result = (prime * result) + this.texture.hashCode();
+      return result;
+    }
+
+    @Override public boolean equals(
+      final Object obj)
+    {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null) {
+        return false;
+      }
+      if (this.getClass() != obj.getClass()) {
+        return false;
+      }
+      final ColorAttachment other = (ColorAttachment) obj;
+      if (this.index != other.index) {
+        return false;
+      }
+      if (!this.texture.equals(other.texture)) {
+        return false;
+      }
+      return true;
+    }
   }
 
   /**
@@ -85,6 +116,34 @@ public class FramebufferAttachment
     {
       super(Type.ATTACHMENT_D24S8);
       this.buffer = Constraints.constrainNotNull(buffer, "Renderbuffer");
+    }
+
+    @Override public int hashCode()
+    {
+      final int prime = 31;
+      int result = 1;
+      result = (prime * result) + this.buffer.hashCode();
+      return result;
+    }
+
+    @Override public boolean equals(
+      final Object obj)
+    {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null) {
+        return false;
+      }
+      if (this.getClass() != obj.getClass()) {
+        return false;
+      }
+      final RenderbufferD24S8Attachment other =
+        (RenderbufferD24S8Attachment) obj;
+      if (!this.buffer.equals(other.buffer)) {
+        return false;
+      }
+      return true;
     }
 
     /**
@@ -119,14 +178,5 @@ public class FramebufferAttachment
     throws ConstraintError
   {
     this.type = Constraints.constrainNotNull(type, "Attachment type");
-  }
-
-  @Override public String toString()
-  {
-    final StringBuilder builder = new StringBuilder();
-    builder.append("[FramebufferAttachment ");
-    builder.append(this.type);
-    builder.append("]");
-    return builder.toString();
   }
 }
