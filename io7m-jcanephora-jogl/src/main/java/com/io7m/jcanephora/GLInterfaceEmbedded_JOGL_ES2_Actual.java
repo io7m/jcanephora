@@ -1409,7 +1409,7 @@ import com.jogamp.common.nio.Buffers;
 
     this.log.debug("fragment-shader: attach " + program + " " + shader);
 
-    g.glAttachShader(program.getLocation(), shader.getLocation());
+    g.glAttachShader(program.getGLName(), shader.getGLName());
     GLError.check(this);
   }
 
@@ -1483,7 +1483,7 @@ import com.jogamp.common.nio.Buffers;
 
     this.log.debug("fragment-shader: delete " + id);
 
-    g.glDeleteShader(id.getLocation());
+    g.glDeleteShader(id.getGLName());
     id.setDeleted();
     GLError.check(this);
   }
@@ -1538,6 +1538,11 @@ import com.jogamp.common.nio.Buffers;
               color_indices.contains(Integer.valueOf(index)) == false,
               "Color buffer not already present at this index");
 
+            final Texture2DRGBAStatic texture = color.getTexture();
+            Constraints.constrainArbitrary(
+              texture.resourceIsDeleted() == false,
+              "Texture is not deleted");
+
             color_indices.add(Integer.valueOf(index));
             have_color = true;
 
@@ -1545,7 +1550,7 @@ import com.jogamp.common.nio.Buffers;
               GL.GL_FRAMEBUFFER,
               GL.GL_COLOR_ATTACHMENT0 + index,
               GL.GL_TEXTURE_2D,
-              color.getTexture().getGLName(),
+              texture.getGLName(),
               0);
             GLError.check(this);
 
@@ -1565,7 +1570,13 @@ import com.jogamp.common.nio.Buffers;
             final RenderbufferD24S8Attachment depth =
               (RenderbufferD24S8Attachment) attachment;
 
-            final int id = depth.getRenderbuffer().getLocation();
+            final RenderbufferD24S8 depth_buffer = depth.getRenderbuffer();
+
+            Constraints.constrainArbitrary(
+              depth_buffer.resourceIsDeleted() == false,
+              "Depth+Stencil buffer is not deleted");
+
+            final int id = depth_buffer.getLocation();
 
             gl.glFramebufferRenderbuffer(
               GL.GL_FRAMEBUFFER,
@@ -1898,7 +1909,7 @@ import com.jogamp.common.nio.Buffers;
       program.resourceIsDeleted() == false,
       "Program not deleted");
 
-    gl.glUseProgram(program.getLocation());
+    gl.glUseProgram(program.getGLName());
     GLError.check(this);
   }
 
@@ -1942,7 +1953,7 @@ import com.jogamp.common.nio.Buffers;
 
     this.log.debug("program: delete " + program);
 
-    gl.glDeleteProgram(program.getLocation());
+    gl.glDeleteProgram(program.getGLName());
     program.setDeleted();
     GLError.check(this);
   }
@@ -1961,16 +1972,16 @@ import com.jogamp.common.nio.Buffers;
       "Program not deleted");
     Constraints.constrainNotNull(out, "Output map");
 
-    final int id = program.getLocation();
+    final int id = program.getGLName();
     final int max =
       this.contextGetProgramInteger(
         gl,
-        program.getLocation(),
+        program.getGLName(),
         GL2ES2.GL_ACTIVE_ATTRIBUTES);
     final int length =
       this.contextGetProgramInteger(
         gl,
-        program.getLocation(),
+        program.getGLName(),
         GL2ES2.GL_ACTIVE_ATTRIBUTE_MAX_LENGTH);
 
     final ByteBuffer buffer_name = Buffers.newDirectByteBuffer(length);
@@ -2047,7 +2058,7 @@ import com.jogamp.common.nio.Buffers;
       "Program not deleted");
     Constraints.constrainNotNull(out, "Output map");
 
-    final int id = program.getLocation();
+    final int id = program.getGLName();
     final int max =
       this.contextGetProgramInteger(gl, id, GL2ES2.GL_ACTIVE_UNIFORMS);
     final int length =
@@ -2116,7 +2127,7 @@ import com.jogamp.common.nio.Buffers;
 
     final int active = this.contextGetInteger(gl, GL2ES2.GL_CURRENT_PROGRAM);
     GLError.check(this);
-    return active == program.getLocation();
+    return active == program.getGLName();
   }
 
   @Override public final void programLink(
@@ -2134,20 +2145,20 @@ import com.jogamp.common.nio.Buffers;
 
     this.log.debug("program: link " + program);
 
-    gl.glLinkProgram(program.getLocation());
+    gl.glLinkProgram(program.getGLName());
     GLError.check(this);
 
     final int status =
       this.contextGetProgramInteger(
         gl,
-        program.getLocation(),
+        program.getGLName(),
         GL2ES2.GL_LINK_STATUS);
 
     if (status == 0) {
       final ByteBuffer buffer = Buffers.newDirectByteBuffer(8192);
       final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
       gl.glGetProgramInfoLog(
-        program.getLocation(),
+        program.getGLName(),
         8192,
         buffer_length,
         buffer);
@@ -2581,7 +2592,7 @@ import com.jogamp.common.nio.Buffers;
 
     this.log.debug("vertex-shader: attach " + program + " " + shader);
 
-    g.glAttachShader(program.getLocation(), shader.getLocation());
+    g.glAttachShader(program.getGLName(), shader.getGLName());
     GLError.check(this);
   }
 
@@ -2655,7 +2666,7 @@ import com.jogamp.common.nio.Buffers;
 
     this.log.debug("vertex-shader: delete " + id);
 
-    g.glDeleteShader(id.getLocation());
+    g.glDeleteShader(id.getGLName());
     id.setDeleted();
     GLError.check(this);
   }

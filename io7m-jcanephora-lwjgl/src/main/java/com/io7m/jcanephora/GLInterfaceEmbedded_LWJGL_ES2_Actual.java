@@ -1235,7 +1235,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
     this.log.debug("fragment-shader: attach " + program + " " + shader);
 
-    GL20.glAttachShader(program.getLocation(), shader.getLocation());
+    GL20.glAttachShader(program.getGLName(), shader.getGLName());
     GLError.check(this);
   }
 
@@ -1290,7 +1290,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
     this.log.debug("fragment-shader: delete " + id);
 
-    GL20.glDeleteShader(id.getLocation());
+    GL20.glDeleteShader(id.getGLName());
     id.setDeleted();
     GLError.check(this);
   }
@@ -1343,6 +1343,11 @@ import com.io7m.jtensors.VectorReadable4F;
               color_indices.contains(Integer.valueOf(index)) == false,
               "Color buffer not already present at this index");
 
+            final Texture2DRGBAStatic texture = color.getTexture();
+            Constraints.constrainArbitrary(
+              texture.resourceIsDeleted() == false,
+              "Texture is not deleted");
+
             color_indices.add(Integer.valueOf(index));
             have_color = true;
 
@@ -1370,7 +1375,13 @@ import com.io7m.jtensors.VectorReadable4F;
             final RenderbufferD24S8Attachment depth =
               (RenderbufferD24S8Attachment) attachment;
 
-            final int id = depth.getRenderbuffer().getLocation();
+            final RenderbufferD24S8 depth_buffer = depth.getRenderbuffer();
+
+            Constraints.constrainArbitrary(
+              depth_buffer.resourceIsDeleted() == false,
+              "Depth+Stencil buffer is not deleted");
+
+            final int id = depth_buffer.getLocation();
 
             GL30.glFramebufferRenderbuffer(
               GL30.GL_FRAMEBUFFER,
@@ -1692,7 +1703,7 @@ import com.io7m.jtensors.VectorReadable4F;
       program.resourceIsDeleted() == false,
       "Program not deleted");
 
-    GL20.glUseProgram(program.getLocation());
+    GL20.glUseProgram(program.getGLName());
     GLError.check(this);
   }
 
@@ -1729,7 +1740,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
     this.log.debug("program: delete " + program);
 
-    GL20.glDeleteProgram(program.getLocation());
+    GL20.glDeleteProgram(program.getGLName());
     program.setDeleted();
     GLError.check(this);
   }
@@ -1746,7 +1757,7 @@ import com.io7m.jtensors.VectorReadable4F;
       "Program not deleted");
     Constraints.constrainNotNull(out, "Output map");
 
-    final int id = program.getLocation();
+    final int id = program.getGLName();
     final int max = GL20.glGetProgram(id, GL20.GL_ACTIVE_ATTRIBUTES);
     final int len =
       GL20.glGetProgram(id, GL20.GL_ACTIVE_ATTRIBUTE_MAX_LENGTH);
@@ -1838,7 +1849,7 @@ import com.io7m.jtensors.VectorReadable4F;
       "Program not deleted");
     Constraints.constrainNotNull(out, "Output map");
 
-    final int id = program.getLocation();
+    final int id = program.getGLName();
     final int max = GL20.glGetProgram(id, GL20.GL_ACTIVE_UNIFORMS);
     final int len = GL20.glGetProgram(id, GL20.GL_ACTIVE_UNIFORM_MAX_LENGTH);
     GLError.check(this);
@@ -1886,7 +1897,7 @@ import com.io7m.jtensors.VectorReadable4F;
       final String name = new String(temp_buffer);
 
       final int location =
-        GL20.glGetUniformLocation(program.getLocation(), name);
+        GL20.glGetUniformLocation(program.getGLName(), name);
       GLError.check(this);
 
       if (location == -1) {
@@ -1913,7 +1924,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
     final int active = GL11.glGetInteger(GL20.GL_CURRENT_PROGRAM);
     GLError.check(this);
-    return active == program.getLocation();
+    return active == program.getGLName();
   }
 
   @Override public void programLink(
@@ -1929,13 +1940,13 @@ import com.io7m.jtensors.VectorReadable4F;
 
     this.log.debug("program: link " + program);
 
-    GL20.glLinkProgram(program.getLocation());
+    GL20.glLinkProgram(program.getGLName());
     final int status =
-      GL20.glGetProgram(program.getLocation(), GL20.GL_LINK_STATUS);
+      GL20.glGetProgram(program.getGLName(), GL20.GL_LINK_STATUS);
     if (status == 0) {
       throw new GLCompileException(
         program.getName(),
-        GL20.glGetProgramInfoLog(program.getLocation(), 8192));
+        GL20.glGetProgramInfoLog(program.getGLName(), 8192));
     }
 
     GLError.check(this);
@@ -2417,7 +2428,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
     this.log.debug("vertex-shader: attach " + program + " " + shader);
 
-    GL20.glAttachShader(program.getLocation(), shader.getLocation());
+    GL20.glAttachShader(program.getGLName(), shader.getGLName());
     GLError.check(this);
   }
 
@@ -2473,7 +2484,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
     this.log.debug("vertex-shader: delete " + id);
 
-    GL20.glDeleteShader(id.getLocation());
+    GL20.glDeleteShader(id.getGLName());
     id.setDeleted();
     GLError.check(this);
   }

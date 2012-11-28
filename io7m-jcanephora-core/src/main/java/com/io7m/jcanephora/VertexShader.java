@@ -11,6 +11,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  */
 
 @Immutable public final class VertexShader extends Deletable implements
+  GLName,
   GLResource
 {
   private final int             id;
@@ -28,11 +29,30 @@ import com.io7m.jaux.Constraints.ConstraintError;
     this.deleted = false;
   }
 
+  @Override public boolean equals(
+    final Object obj)
+  {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (this.getClass() != obj.getClass()) {
+      return false;
+    }
+    final VertexShader other = (VertexShader) obj;
+    if (this.id != other.id) {
+      return false;
+    }
+    return this.name.equals(other.name);
+  }
+
   /**
    * Retrieve the raw OpenGL 'location' of the vertex shader.
    */
 
-  public int getLocation()
+  @Override public int getGLName()
   {
     return this.id;
   }
@@ -44,6 +64,15 @@ import com.io7m.jaux.Constraints.ConstraintError;
   public @Nonnull String getName()
   {
     return this.name;
+  }
+
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + this.id;
+    result = (prime * result) + this.name.hashCode();
+    return result;
   }
 
   @Override public void resourceDelete(
@@ -68,8 +97,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("[VertexShaderID ");
-    builder.append(this.getLocation());
+    builder.append("[VertexShader ");
+    builder.append(this.getGLName());
     builder.append(" \"");
     builder.append(this.getName());
     builder.append("\"]");
