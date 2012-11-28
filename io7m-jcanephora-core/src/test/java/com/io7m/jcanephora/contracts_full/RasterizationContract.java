@@ -1,4 +1,4 @@
-package com.io7m.jcanephora.contracts;
+package com.io7m.jcanephora.contracts_full;
 
 import junit.framework.Assert;
 

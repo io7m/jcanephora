@@ -1,4 +1,4 @@
-package com.io7m.jcanephora.contracts;
+package com.io7m.jcanephora.contracts_embedded;
 
 import junit.framework.Assert;
 
@@ -10,16 +10,17 @@ import com.io7m.jcanephora.FramebufferAttachment;
 import com.io7m.jcanephora.FramebufferAttachment.ColorAttachment;
 import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterface;
+import com.io7m.jcanephora.GLInterfaceEmbedded;
 import com.io7m.jcanephora.RenderbufferD24S8;
 import com.io7m.jcanephora.Texture2DRGBAStatic;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureWrap;
 
-public abstract class StencilBuffersContract implements GLTestContract
+public abstract class StencilBuffersContract implements
+  GLEmbeddedTestContract
 {
   private static Framebuffer makeFramebuffer(
-    final GLInterface g)
+    final GLInterfaceEmbedded g)
     throws GLException,
       ConstraintError
   {
@@ -42,7 +43,7 @@ public abstract class StencilBuffersContract implements GLTestContract
   }
 
   private static Framebuffer makeFramebufferNoStencil(
-    final GLInterface g)
+    final GLInterfaceEmbedded g)
     throws GLException,
       ConstraintError
   {
@@ -68,7 +69,7 @@ public abstract class StencilBuffersContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     Assert.assertTrue(gl.stencilBufferGetBits() >= 0);
   }
 
@@ -76,7 +77,7 @@ public abstract class StencilBuffersContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     final Framebuffer fb =
       StencilBuffersContract.makeFramebufferNoStencil(gl);
     gl.framebufferBind(fb);
@@ -87,7 +88,7 @@ public abstract class StencilBuffersContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     final Framebuffer fb = StencilBuffersContract.makeFramebuffer(gl);
     gl.framebufferBind(fb);
     Assert.assertEquals(8, gl.stencilBufferGetBits());

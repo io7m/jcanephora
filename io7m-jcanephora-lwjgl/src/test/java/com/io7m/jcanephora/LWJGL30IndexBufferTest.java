@@ -1,7 +1,7 @@
 package com.io7m.jcanephora;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts.IndexBufferContract;
+import com.io7m.jcanephora.contracts_embedded.IndexBufferContract;
 import com.io7m.jlog.Log;
 
 public final class LWJGL30IndexBufferTest extends IndexBufferContract

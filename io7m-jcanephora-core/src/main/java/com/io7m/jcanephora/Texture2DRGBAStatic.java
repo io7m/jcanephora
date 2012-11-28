@@ -13,14 +13,14 @@ public final class Texture2DRGBAStatic extends Deletable implements
   GLResource,
   GLName
 {
-  private boolean      deleted = false;
-  private final int    id;
-  private final int    width;
-  private final int    height;
-  private final String name;
+  private boolean               deleted = false;
+  private final int             id;
+  private final int             width;
+  private final int             height;
+  private final @Nonnull String name;
 
   Texture2DRGBAStatic(
-    final String name,
+    final @Nonnull String name,
     final int id,
     final int width,
     final int height)
@@ -33,6 +33,25 @@ public final class Texture2DRGBAStatic extends Deletable implements
     this.width = width;
     this.height = height;
     this.deleted = false;
+  }
+
+  @Override public boolean equals(
+    final Object obj)
+  {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (this.getClass() != obj.getClass()) {
+      return false;
+    }
+    final Texture2DRGBAStatic other = (Texture2DRGBAStatic) obj;
+    if (this.id != other.id) {
+      return false;
+    }
+    return true;
   }
 
   @Override public int getGLName()
@@ -65,6 +84,14 @@ public final class Texture2DRGBAStatic extends Deletable implements
   public int getWidth()
   {
     return this.width;
+  }
+
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + this.id;
+    return result;
   }
 
   @Override public <G extends GLInterfaceEmbedded> void resourceDelete(

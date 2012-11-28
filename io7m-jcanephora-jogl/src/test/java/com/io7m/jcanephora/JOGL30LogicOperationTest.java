@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jcanephora.contracts.LogicOpContract;
+import com.io7m.jcanephora.contracts_full.LogicOpContract;
 import com.io7m.jlog.Log;
 
 public final class JOGL30LogicOperationTest extends LogicOpContract

@@ -1,4 +1,4 @@
-package com.io7m.jcanephora.contracts;
+package com.io7m.jcanephora.contracts_embedded;
 
 import junit.framework.Assert;
 
@@ -9,12 +9,12 @@ import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferDescriptor;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterface;
+import com.io7m.jcanephora.GLInterfaceEmbedded;
 import com.io7m.jcanephora.GLScalarType;
 import com.io7m.jcanephora.GLUnsignedType;
 import com.io7m.jcanephora.IndexBuffer;
 
-public abstract class IndexBufferContract implements GLTestContract
+public abstract class IndexBufferContract implements GLEmbeddedTestContract
 {
   /**
    * Allocating an index buffer from a deleted array buffer fails.
@@ -26,7 +26,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -47,7 +47,7 @@ public abstract class IndexBufferContract implements GLTestContract
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -80,7 +80,7 @@ public abstract class IndexBufferContract implements GLTestContract
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -114,7 +114,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     gl.indexBufferAllocate(null, 1);
   }
 
@@ -127,7 +127,7 @@ public abstract class IndexBufferContract implements GLTestContract
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -161,7 +161,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     gl.indexBufferAllocateType(null, 1);
   }
 
@@ -175,7 +175,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 0);
   }
 
@@ -189,7 +189,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -210,7 +210,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -241,7 +241,7 @@ public abstract class IndexBufferContract implements GLTestContract
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     gl.indexBufferDelete(null);
   }
 }

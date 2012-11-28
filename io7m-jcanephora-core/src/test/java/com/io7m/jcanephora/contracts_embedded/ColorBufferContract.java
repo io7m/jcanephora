@@ -1,4 +1,4 @@
-package com.io7m.jcanephora.contracts;
+package com.io7m.jcanephora.contracts_embedded;
 
 import junit.framework.Assert;
 
@@ -6,9 +6,9 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterface;
+import com.io7m.jcanephora.GLInterfaceEmbedded;
 
-public abstract class ColorBufferContract implements GLTestContract
+public abstract class ColorBufferContract implements GLEmbeddedTestContract
 {
   /**
    * Color masking works.
@@ -18,7 +18,7 @@ public abstract class ColorBufferContract implements GLTestContract
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
 
     {
       final boolean r = gl.colorBufferMaskStatusRed();

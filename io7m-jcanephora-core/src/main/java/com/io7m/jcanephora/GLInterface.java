@@ -16,6 +16,7 @@ public interface GLInterface extends
   GLArrayBuffersMapped,
   GLBlending,
   GLInterfaceEmbedded,
+  GLIndexBuffersMapped,
   GLLogic,
   GLPolygonModes,
   GLPolygonSmoothing,
