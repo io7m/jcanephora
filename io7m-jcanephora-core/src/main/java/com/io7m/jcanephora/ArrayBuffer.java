@@ -45,10 +45,27 @@ import com.io7m.jaux.RangeInclusive;
     this.deleted = false;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#toString()
+  @Override public boolean equals(
+    final Object obj)
+  {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (this.getClass() != obj.getClass()) {
+      return false;
+    }
+    final ArrayBuffer other = (ArrayBuffer) obj;
+    if (this.value != other.value) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Retrieve the descriptor that describes the types of values in the array.
    */
 
   public @Nonnull ArrayBufferDescriptor getDescriptor()
@@ -83,10 +100,6 @@ import com.io7m.jaux.RangeInclusive;
     return this.descriptor.getSize();
   }
 
-  /**
-   * Return the raw OpenGL 'location' of the buffer.
-   */
-
   @Override public int getGLName()
   {
     return this.value;
@@ -104,6 +117,14 @@ import com.io7m.jaux.RangeInclusive;
   @Override public long getSizeBytes()
   {
     return this.descriptor.getSize() * this.range.getInterval();
+  }
+
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + this.value;
+    return result;
   }
 
   @Override public void resourceDelete(
