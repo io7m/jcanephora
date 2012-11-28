@@ -1504,7 +1504,7 @@ import com.jogamp.common.nio.Buffers;
       Long.MAX_VALUE,
       "Framebuffer attachments length");
 
-    gl.glBindFramebuffer(GL.GL_FRAMEBUFFER, buffer.getLocation());
+    gl.glBindFramebuffer(GL.GL_FRAMEBUFFER, buffer.getGLName());
     GLError.check(this);
 
     /**
@@ -1659,7 +1659,7 @@ import com.jogamp.common.nio.Buffers;
       buffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
 
-    gl.glBindFramebuffer(GL.GL_FRAMEBUFFER, buffer.getLocation());
+    gl.glBindFramebuffer(GL.GL_FRAMEBUFFER, buffer.getGLName());
     GLError.check(this);
   }
 
@@ -1678,7 +1678,7 @@ import com.jogamp.common.nio.Buffers;
     this.log.debug("framebuffer: delete " + buffer);
 
     this.integerCacheReset();
-    this.integer_cache.put(0, buffer.getLocation());
+    this.integer_cache.put(0, buffer.getGLName());
     gl.glDeleteFramebuffers(1, this.integer_cache);
     GLError.check(this);
     buffer.setDeleted();

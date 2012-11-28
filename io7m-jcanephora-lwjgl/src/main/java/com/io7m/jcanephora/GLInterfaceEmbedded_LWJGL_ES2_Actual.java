@@ -1309,7 +1309,7 @@ import com.io7m.jtensors.VectorReadable4F;
       Long.MAX_VALUE,
       "Framebuffer attachments length");
 
-    GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, buffer.getLocation());
+    GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, buffer.getGLName());
     GLError.check(this);
 
     /**
@@ -1463,7 +1463,7 @@ import com.io7m.jtensors.VectorReadable4F;
       buffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
 
-    GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, buffer.getLocation());
+    GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, buffer.getGLName());
     GLError.check(this);
   }
 
@@ -1479,7 +1479,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
     this.log.debug("framebuffer: delete " + buffer);
 
-    GL30.glDeleteFramebuffers(buffer.getLocation());
+    GL30.glDeleteFramebuffers(buffer.getGLName());
     GLError.check(this);
     buffer.setDeleted();
   }
