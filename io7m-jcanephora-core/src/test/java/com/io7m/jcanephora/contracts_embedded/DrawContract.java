@@ -1,15 +1,15 @@
-package com.io7m.jcanephora.contracts;
+package com.io7m.jcanephora.contracts_embedded;
 
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterface;
+import com.io7m.jcanephora.GLInterfaceEmbedded;
 import com.io7m.jcanephora.GLUnsignedType;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.Primitives;
 
-public abstract class DrawContract implements GLTestContract
+public abstract class DrawContract implements GLEmbeddedTestContract
 {
   /**
    * Drawing primitives works.
@@ -22,7 +22,7 @@ public abstract class DrawContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 100);
 
@@ -44,7 +44,7 @@ public abstract class DrawContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 100);
 
@@ -65,7 +65,7 @@ public abstract class DrawContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     gl.drawElements(Primitives.PRIMITIVE_TRIANGLES, null);
   }
 
@@ -82,7 +82,7 @@ public abstract class DrawContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 100);
 

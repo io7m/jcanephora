@@ -1,4 +1,4 @@
-package com.io7m.jcanephora.contracts;
+package com.io7m.jcanephora.contracts_embedded;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -7,9 +7,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.BlendEquationEmbedded;
 import com.io7m.jcanephora.BlendFunction;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterface;
+import com.io7m.jcanephora.GLInterfaceEmbedded;
 
-public abstract class BlendingEmbeddedContract implements GLTestContract
+public abstract class BlendingEmbeddedContract implements
+  GLEmbeddedTestContract
 {
   /**
    * Disabling blending works.
@@ -19,7 +20,7 @@ public abstract class BlendingEmbeddedContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     gl.blendingDisable();
     Assert.assertFalse(gl.blendingIsEnabled());
   }
@@ -30,7 +31,7 @@ public abstract class BlendingEmbeddedContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     gl.blendingEnableWithEquationSeparateEmbedded(
       BlendFunction.BLEND_ONE,
       BlendFunction.BLEND_SOURCE_ALPHA_SATURATE,
@@ -46,7 +47,7 @@ public abstract class BlendingEmbeddedContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     // final Log log = this.getLog();
 
     for (final BlendFunction source : BlendFunction.values()) {
@@ -75,7 +76,7 @@ public abstract class BlendingEmbeddedContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
 
     for (final BlendFunction source : BlendFunction.values()) {
       for (final BlendFunction target : BlendFunction.values()) {
@@ -101,7 +102,7 @@ public abstract class BlendingEmbeddedContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
 
     for (final BlendFunction source : BlendFunction.values()) {
       for (final BlendFunction target : BlendFunction.values()) {
@@ -135,7 +136,7 @@ public abstract class BlendingEmbeddedContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     // final Log log = this.getLog();
 
     for (final BlendFunction rgb_source : BlendFunction.values()) {
@@ -185,7 +186,7 @@ public abstract class BlendingEmbeddedContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     gl.blendingEnable(
       BlendFunction.BLEND_ONE,
       BlendFunction.BLEND_SOURCE_ALPHA_SATURATE);
@@ -197,7 +198,7 @@ public abstract class BlendingEmbeddedContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     gl.blendingEnableWithEquationEmbedded(
       BlendFunction.BLEND_ONE,
       BlendFunction.BLEND_SOURCE_ALPHA_SATURATE,
@@ -211,7 +212,7 @@ public abstract class BlendingEmbeddedContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     gl.blendingEnableSeparateWithEquationSeparateEmbedded(
       BlendFunction.BLEND_ONE,
       BlendFunction.BLEND_ONE,
@@ -227,7 +228,7 @@ public abstract class BlendingEmbeddedContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     gl.blendingEnableSeparateWithEquationSeparateEmbedded(
       BlendFunction.BLEND_ONE,
       BlendFunction.BLEND_ONE,

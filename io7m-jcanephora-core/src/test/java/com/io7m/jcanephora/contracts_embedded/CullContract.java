@@ -1,4 +1,4 @@
-package com.io7m.jcanephora.contracts;
+package com.io7m.jcanephora.contracts_embedded;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -7,9 +7,9 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.FaceSelection;
 import com.io7m.jcanephora.FaceWindingOrder;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterface;
+import com.io7m.jcanephora.GLInterfaceEmbedded;
 
-public abstract class CullContract implements GLTestContract
+public abstract class CullContract implements GLEmbeddedTestContract
 {
   /**
    * Enabling culling works.
@@ -19,7 +19,7 @@ public abstract class CullContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
 
     for (final FaceSelection select : FaceSelection.values()) {
       for (final FaceWindingOrder order : FaceWindingOrder.values()) {
@@ -39,7 +39,7 @@ public abstract class CullContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     gl.cullingEnable(null, FaceWindingOrder.FRONT_FACE_CLOCKWISE);
   }
 
@@ -51,7 +51,7 @@ public abstract class CullContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceEmbedded gl = this.makeNewGL();
     gl.cullingEnable(FaceSelection.FACE_BACK, null);
   }
 }

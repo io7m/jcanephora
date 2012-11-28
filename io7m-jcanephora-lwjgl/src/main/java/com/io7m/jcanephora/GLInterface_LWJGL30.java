@@ -493,4 +493,70 @@ public final class GLInterface_LWJGL30 extends
         .blendFunctionToGL(destination_alpha_factor));
     GLError.check(this);
   }
+
+  @Override public @Nonnull IndexBufferReadableMap indexBufferMapRead(
+    final @Nonnull IndexBuffer id)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(id, "Index buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Index buffer not deleted");
+
+    this.log.debug("index-buffer: map " + id);
+
+    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
+    final ByteBuffer b =
+      GL15.glMapBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, GL15.GL_READ_ONLY, null);
+    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+    GLError.check(this);
+
+    return new IndexBufferReadableMap(id, b);
+  }
+
+  @Override public @Nonnull IndexBufferWritableMap indexBufferMapWrite(
+    final @Nonnull IndexBuffer id)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(id, "Index buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Index buffer not deleted");
+
+    this.log.debug("index-buffer: map " + id);
+
+    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
+    GL15.glBufferData(
+      GL15.GL_ELEMENT_ARRAY_BUFFER,
+      id.getSizeBytes(),
+      GL15.GL_STREAM_DRAW);
+
+    final ByteBuffer b =
+      GL15
+        .glMapBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, GL15.GL_WRITE_ONLY, null);
+    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+    GLError.check(this);
+
+    return new IndexBufferWritableMap(id, b);
+  }
+
+  @Override public void indexBufferUnmap(
+    final @Nonnull IndexBuffer id)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(id, "Index buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Index buffer not deleted");
+
+    this.log.debug("index-buffer: unmap " + id);
+
+    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
+    GL15.glUnmapBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER);
+    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+    GLError.check(this);
+  }
 }
