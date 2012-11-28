@@ -5,6 +5,7 @@ import javax.annotation.concurrent.Immutable;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 
 /**
  * A immutable reference to an allocated array buffer.
@@ -15,9 +16,9 @@ import com.io7m.jaux.Constraints.ConstraintError;
   GLResource
 {
   private final int                            value;
-  private final long                           elements;
   private final @Nonnull ArrayBufferDescriptor descriptor;
   private boolean                              deleted;
+  private final RangeInclusive                 range;
 
   ArrayBuffer(
     final int value,
@@ -31,12 +32,14 @@ import com.io7m.jaux.Constraints.ConstraintError;
         0,
         Integer.MAX_VALUE,
         "Buffer ID value");
-    this.elements =
-      Constraints.constrainRange(
+
+    this.range =
+      new RangeInclusive(0, Constraints.constrainRange(
         elements,
         1,
         Integer.MAX_VALUE,
-        "Buffer elements");
+        "Buffer elements") - 1);
+
     this.descriptor =
       Constraints.constrainNotNull(descriptor, "Buffer descriptor");
     this.deleted = false;
@@ -59,24 +62,16 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * @param index
    *          The index.
    * @throws ConstraintError
-   *           Iff <code>0 <= index < this.getElements() == false</code>
+   *           Iff
+   *           <code>0 <= index < this.getRange().getUpper() == false</code>
    */
 
   public long getElementOffset(
     final int index)
     throws ConstraintError
   {
-    return Constraints.constrainRange(index, 0, this.elements - 1)
+    return Constraints.constrainRange(index, 0, this.range.getUpper())
       * this.getElementSizeBytes();
-  }
-
-  /**
-   * Retrieve the number of elements allocated in the buffer.
-   */
-
-  @Override public long getElements()
-  {
-    return this.elements;
   }
 
   /**
@@ -103,7 +98,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
   @Override public long getSizeBytes()
   {
-    return this.descriptor.getSize() * this.elements;
+    return this.descriptor.getSize() * this.range.getInterval();
   }
 
   @Override public void resourceDelete(
@@ -131,11 +126,16 @@ import com.io7m.jaux.Constraints.ConstraintError;
     builder.append("[ArrayBufferID ");
     builder.append(this.getGLName());
     builder.append(" ");
-    builder.append(this.getElements());
+    builder.append(this.range);
     builder.append(" ");
     builder.append(this.getSizeBytes());
     builder.append("]");
 
     return builder.toString();
+  }
+
+  @Override public @Nonnull RangeInclusive getRange()
+  {
+    return this.range;
   }
 }

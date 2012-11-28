@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 
 /**
  * An array buffer, mapped in writable mode.
@@ -13,8 +14,9 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 public final class ArrayBufferWritableMap
 {
-  private final @Nonnull ArrayBuffer buffer;
-  private final @Nonnull ByteBuffer  map;
+  private final @Nonnull ArrayBuffer    buffer;
+  private final @Nonnull ByteBuffer     map;
+  private final @Nonnull RangeInclusive target_range;
 
   ArrayBufferWritableMap(
     final @Nonnull ArrayBuffer buffer,
@@ -23,6 +25,8 @@ public final class ArrayBufferWritableMap
   {
     this.buffer = Constraints.constrainNotNull(buffer, "Buffer");
     this.map = Constraints.constrainNotNull(map, "Map");
+    this.target_range =
+      new RangeInclusive(0, this.buffer.getRange().getInterval() - 1);
   }
 
   /**
@@ -82,10 +86,9 @@ public final class ArrayBufferWritableMap
 
     return new ByteBufferCursorWritable2f(
       this.map,
+      this.target_range,
       d.getAttributeOffset(name),
-      0,
-      this.buffer.getElements() - 1,
-      this.buffer.getElementSizeBytes());
+      d.getSize());
   }
 
   /**
@@ -122,9 +125,8 @@ public final class ArrayBufferWritableMap
 
     return new ByteBufferCursorWritable3f(
       this.map,
+      this.target_range,
       d.getAttributeOffset(name),
-      0,
-      this.buffer.getElements() - 1,
-      this.buffer.getElementSizeBytes());
+      d.getSize());
   }
 }

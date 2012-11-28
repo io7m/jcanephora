@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 
 public class ByteBufferCursorWritableIndexTest
 {
@@ -24,7 +25,9 @@ public class ByteBufferCursorWritableIndexTest
         ByteOrder.nativeOrder());
 
     final ByteBufferCursorWritableIndex c =
-      new ByteBufferCursorWritableIndex(data, 0, element_count - 1, type);
+      new ByteBufferCursorWritableIndex(data, new RangeInclusive(
+        0,
+        element_count - 1), type);
 
     c.putIndex(5);
     c.putIndex(7);
@@ -49,7 +52,9 @@ public class ByteBufferCursorWritableIndexTest
         ByteOrder.nativeOrder());
 
     final ByteBufferCursorWritableIndex c =
-      new ByteBufferCursorWritableIndex(data, 0, element_count - 1, type);
+      new ByteBufferCursorWritableIndex(data, new RangeInclusive(
+        0,
+        element_count - 1), type);
 
     c.putIndex(5);
     c.putIndex(7);
@@ -75,7 +80,9 @@ public class ByteBufferCursorWritableIndexTest
         ByteOrder.nativeOrder());
 
     final ByteBufferCursorWritableIndex c =
-      new ByteBufferCursorWritableIndex(data, 0, element_count - 1, type);
+      new ByteBufferCursorWritableIndex(data, new RangeInclusive(
+        0,
+        element_count - 1), type);
 
     c.putIndex(5);
     c.putIndex(7);

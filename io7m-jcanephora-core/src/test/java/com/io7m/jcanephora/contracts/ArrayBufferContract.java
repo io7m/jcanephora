@@ -48,7 +48,7 @@ public abstract class ArrayBufferContract implements
 
       a = gl.arrayBufferAllocate(10, d);
       Assert.assertEquals(12, a.getElementSizeBytes());
-      Assert.assertEquals(10, a.getElements());
+      Assert.assertEquals(10, a.getRange().getInterval());
       Assert.assertEquals(120, a.getSizeBytes());
       Assert.assertEquals(d, a.getDescriptor());
     } finally {

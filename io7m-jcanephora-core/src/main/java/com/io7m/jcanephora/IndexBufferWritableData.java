@@ -7,16 +7,16 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 
 public final class IndexBufferWritableData
 {
-  protected final @Nonnull IndexBuffer buffer;
-  protected final long                 element_start;
-  protected final long                 element_count;
-
-  protected final @Nonnull ByteBuffer  target_data;
-  protected final long                 target_data_size;
-  protected final long                 target_data_offset;
+  protected final @Nonnull IndexBuffer  buffer;
+  protected final @Nonnull ByteBuffer   target_data;
+  protected final long                  target_data_size;
+  protected final long                  target_data_offset;
+  private final @Nonnull RangeInclusive range;
+  private final RangeInclusive          target_range;
 
   /**
    * Construct a buffer of data that will be used to replace the entirety of
@@ -35,16 +35,7 @@ public final class IndexBufferWritableData
     final @Nonnull IndexBuffer buffer)
     throws ConstraintError
   {
-    this.buffer = Constraints.constrainNotNull(buffer, "Array buffer");
-    this.element_start = 0;
-    this.element_count = buffer.getElements();
-    this.checkElementRange();
-
-    this.target_data_size = buffer.getSizeBytes();
-    this.target_data_offset = 0;
-    this.target_data =
-      ByteBuffer.allocateDirect((int) this.target_data_size).order(
-        ByteOrder.nativeOrder());
+    this(buffer, buffer.getRange());
   }
 
   /**
@@ -73,30 +64,23 @@ public final class IndexBufferWritableData
 
   public IndexBufferWritableData(
     final @Nonnull IndexBuffer buffer,
-    final long element_start,
-    final long element_count)
+    final @Nonnull RangeInclusive range)
     throws ConstraintError
   {
     this.buffer = Constraints.constrainNotNull(buffer, "Array buffer");
-    this.element_start =
-      Constraints.constrainRange(element_start, 0, buffer.getElements() - 1);
-    this.element_count =
-      Constraints.constrainRange(element_count, 0, buffer.getElements() - 1);
-    this.checkElementRange();
+    this.range = range;
 
-    this.target_data_size = element_count * buffer.getSizeBytes();
-    this.target_data_offset = element_start * buffer.getElementSizeBytes();
+    Constraints.constrainArbitrary(
+      range.isIncludedIn(buffer.getRange()),
+      "Given range is in for the given buffer");
+
+    this.target_range = new RangeInclusive(0, range.getInterval() - 1);
+    this.target_data_size =
+      range.getInterval() * buffer.getElementSizeBytes();
+    this.target_data_offset = range.getLower() * buffer.getElementSizeBytes();
     this.target_data =
       ByteBuffer.allocateDirect((int) this.target_data_size).order(
         ByteOrder.nativeOrder());
-  }
-
-  private void checkElementRange()
-    throws ConstraintError
-  {
-    Constraints.constrainArbitrary(
-      (this.element_start + this.element_count) <= this.buffer.getElements(),
-      "Element start + count");
   }
 
   /**
@@ -109,8 +93,7 @@ public final class IndexBufferWritableData
   {
     return new ByteBufferCursorWritableIndex(
       this.target_data,
-      0,
-      this.element_count - 1,
+      this.target_range,
       this.buffer.getType());
   }
 

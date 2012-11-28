@@ -62,7 +62,7 @@ public abstract class IndexBufferContract implements GLTestContract
       i = gl.indexBufferAllocate(a, 4);
       Assert.assertEquals(GLUnsignedType.TYPE_UNSIGNED_BYTE, i.getType());
       Assert.assertEquals(1, i.getElementSizeBytes());
-      Assert.assertEquals(4, i.getElements());
+      Assert.assertEquals(4, i.getRange().getInterval());
       Assert.assertEquals(4, i.getSizeBytes());
     } finally {
       if (i != null) {
@@ -95,7 +95,7 @@ public abstract class IndexBufferContract implements GLTestContract
       i = gl.indexBufferAllocate(a, 2);
       Assert.assertEquals(GLUnsignedType.TYPE_UNSIGNED_INT, i.getType());
       Assert.assertEquals(4, i.getElementSizeBytes());
-      Assert.assertEquals(2, i.getElements());
+      Assert.assertEquals(2, i.getRange().getInterval());
       Assert.assertEquals(8, i.getSizeBytes());
     } finally {
       if (i != null) {
@@ -142,7 +142,7 @@ public abstract class IndexBufferContract implements GLTestContract
       i = gl.indexBufferAllocate(a, 4);
       Assert.assertEquals(GLUnsignedType.TYPE_UNSIGNED_SHORT, i.getType());
       Assert.assertEquals(2, i.getElementSizeBytes());
-      Assert.assertEquals(4, i.getElements());
+      Assert.assertEquals(4, i.getRange().getInterval());
       Assert.assertEquals(8, i.getSizeBytes());
     } finally {
       if (i != null) {
