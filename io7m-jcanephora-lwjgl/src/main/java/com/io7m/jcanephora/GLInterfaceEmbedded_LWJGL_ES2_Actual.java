@@ -1381,7 +1381,7 @@ import com.io7m.jtensors.VectorReadable4F;
               depth_buffer.resourceIsDeleted() == false,
               "Depth+Stencil buffer is not deleted");
 
-            final int id = depth_buffer.getLocation();
+            final int id = depth_buffer.getGLName();
 
             GL30.glFramebufferRenderbuffer(
               GL30.GL_FRAMEBUFFER,
@@ -2159,7 +2159,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
     this.log.debug("renderbuffer-d24s8: delete " + buffer);
 
-    GL30.glDeleteRenderbuffers(buffer.getLocation());
+    GL30.glDeleteRenderbuffers(buffer.getGLName());
     buffer.setDeleted();
     GLError.check(this);
   }
