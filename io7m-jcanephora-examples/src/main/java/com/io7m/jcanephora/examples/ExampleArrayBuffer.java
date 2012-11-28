@@ -44,9 +44,19 @@ public final class ExampleArrayBuffer implements Example
       GLCompileException
   {
     this.gl = config.getGL();
-
     this.matrix_modelview = new MatrixM4x4F();
     this.matrix_projection = new MatrixM4x4F();
+
+    /**
+     * Initialize shaders.
+     */
+
+    this.program = new Program("simple", config.getLog());
+    this.program.addVertexShader(new PathVirtual(
+      "/com/io7m/jcanephora/examples/simple.v"));
+    this.program.addFragmentShader(new PathVirtual(
+      "/com/io7m/jcanephora/examples/simple.f"));
+    this.program.compile(config.getFilesystem(), this.gl);
 
     /**
      * Index and allocate array buffer.
@@ -94,17 +104,6 @@ public final class ExampleArrayBuffer implements Example
     }
 
     this.gl.indexBufferUpdate(this.indices, this.indices_data);
-
-    /**
-     * Initialize shaders.
-     */
-
-    this.program = new Program("simple", config.getLog());
-    this.program.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/examples/simple.v"));
-    this.program.addFragmentShader(new PathVirtual(
-      "/com/io7m/jcanephora/examples/simple.f"));
-    this.program.compile(config.getFilesystem(), this.gl);
   }
 
   @Override public void display()
@@ -128,6 +127,11 @@ public final class ExampleArrayBuffer implements Example
     MatrixM4x4F.translateByVector2FInPlace(
       this.matrix_modelview,
       new VectorI2F(10.0f, 10.0f));
+
+    /**
+     * Activate shading program, and associate parts of the array buffer with
+     * inputs to the shader.
+     */
 
     this.program.activate(this.gl);
     {
