@@ -110,7 +110,7 @@ public final class IndexBufferWritableData
     return new ByteBufferCursorWritableIndex(
       this.target_data,
       0,
-      this.element_count,
+      this.element_count - 1,
       this.buffer.getType());
   }
 

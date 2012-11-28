@@ -84,7 +84,7 @@ public final class ArrayBufferWritableMap
       this.map,
       d.getAttributeOffset(name),
       0,
-      this.buffer.getElements(),
+      this.buffer.getElements() - 1,
       this.buffer.getElementSizeBytes());
   }
 
@@ -124,8 +124,7 @@ public final class ArrayBufferWritableMap
       this.map,
       d.getAttributeOffset(name),
       0,
-      this.buffer.getElements(),
+      this.buffer.getElements() - 1,
       this.buffer.getElementSizeBytes());
   }
-
 }
