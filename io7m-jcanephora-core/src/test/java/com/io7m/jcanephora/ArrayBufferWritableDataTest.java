@@ -123,7 +123,7 @@ public class ArrayBufferWritableDataTest
     final ArrayBufferWritableData data =
       new ArrayBufferWritableData(array, new RangeInclusive(1, 2));
     final CursorWritable4f cursor = data.getCursor4f("color");
-    final FloatBuffer fb = data.target_data.asFloatBuffer();
+    final FloatBuffer fb = data.getTargetData().asFloatBuffer();
 
     Assert.assertEquals(4 * 4 * 4, array.getSizeBytes());
     Assert.assertEquals(2 * 4 * 4, data.getTargetDataSize());
@@ -132,7 +132,7 @@ public class ArrayBufferWritableDataTest
     cursor.put4f(4, 5, 6, 7);
     cursor.put4f(8, 9, 10, 11);
 
-    Assert.assertEquals(0, data.target_data.position());
+    Assert.assertEquals(0, data.getTargetData().position());
 
     {
       final float x = fb.get(0);
@@ -156,7 +156,7 @@ public class ArrayBufferWritableDataTest
       Assert.assertTrue(w == 11.0f);
     }
 
-    Assert.assertEquals(0, data.target_data.position());
+    Assert.assertEquals(0, data.getTargetData().position());
   }
 
   /**
@@ -197,7 +197,7 @@ public class ArrayBufferWritableDataTest
     final ArrayBuffer array = ArrayBufferWritableDataTest.makeArray4Color4();
     final ArrayBufferWritableData data = new ArrayBufferWritableData(array);
     final CursorWritable4f cursor = data.getCursor4f("color");
-    final FloatBuffer fb = data.target_data.asFloatBuffer();
+    final FloatBuffer fb = data.getTargetData().asFloatBuffer();
 
     Assert.assertEquals(4 * 4 * 4, array.getSizeBytes());
     Assert.assertEquals(4 * 4 * 4, data.getTargetDataSize());
@@ -208,7 +208,7 @@ public class ArrayBufferWritableDataTest
     cursor.put4f(8, 9, 10, 11);
     cursor.put4f(12, 13, 14, 15);
 
-    Assert.assertEquals(0, data.target_data.position());
+    Assert.assertEquals(0, data.getTargetData().position());
 
     {
       final float x = fb.get(0);
@@ -254,6 +254,6 @@ public class ArrayBufferWritableDataTest
       Assert.assertTrue(w == 15.0f);
     }
 
-    Assert.assertEquals(0, data.target_data.position());
+    Assert.assertEquals(0, data.getTargetData().position());
   }
 }
