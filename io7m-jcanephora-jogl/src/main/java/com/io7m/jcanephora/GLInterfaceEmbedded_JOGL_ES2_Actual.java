@@ -1576,7 +1576,7 @@ import com.jogamp.common.nio.Buffers;
               depth_buffer.resourceIsDeleted() == false,
               "Depth+Stencil buffer is not deleted");
 
-            final int id = depth_buffer.getLocation();
+            final int id = depth_buffer.getGLName();
 
             gl.glFramebufferRenderbuffer(
               GL.GL_FRAMEBUFFER,
@@ -2157,11 +2157,8 @@ import com.jogamp.common.nio.Buffers;
     if (status == 0) {
       final ByteBuffer buffer = Buffers.newDirectByteBuffer(8192);
       final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
-      gl.glGetProgramInfoLog(
-        program.getGLName(),
-        8192,
-        buffer_length,
-        buffer);
+      gl
+        .glGetProgramInfoLog(program.getGLName(), 8192, buffer_length, buffer);
       GLError.check(this);
 
       final byte raw[] = new byte[buffer.remaining()];
@@ -2405,7 +2402,7 @@ import com.jogamp.common.nio.Buffers;
     this.log.debug("renderbuffer-d24s8: delete " + buffer);
 
     this.integerCacheReset();
-    this.integer_cache.put(0, buffer.getLocation());
+    this.integer_cache.put(0, buffer.getGLName());
     gl.glDeleteRenderbuffers(1, this.integer_cache);
     buffer.setDeleted();
     GLError.check(this);
