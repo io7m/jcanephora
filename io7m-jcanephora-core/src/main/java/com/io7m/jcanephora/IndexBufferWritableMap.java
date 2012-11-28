@@ -39,6 +39,14 @@ public final class IndexBufferWritableMap
     return this.map;
   }
 
+  public @Nonnull CursorWritableIndex getCursor()
+  {
+    return new ByteBufferCursorWritableIndex(
+      this.map,
+      this.target_range,
+      this.buffer.getType());
+  }
+
   /**
    * Retrieve the mapped IndexBuffer.
    */
@@ -46,13 +54,5 @@ public final class IndexBufferWritableMap
   public @Nonnull IndexBuffer getIndexBuffer()
   {
     return this.buffer;
-  }
-
-  public @Nonnull CursorWritableIndex getCursor()
-  {
-    return new ByteBufferCursorWritableIndex(
-      this.map,
-      this.target_range,
-      this.buffer.getType());
   }
 }

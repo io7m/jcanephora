@@ -92,6 +92,11 @@ import com.io7m.jaux.RangeInclusive;
     return this.value;
   }
 
+  @Override public @Nonnull RangeInclusive getRange()
+  {
+    return this.range;
+  }
+
   /**
    * Return the total size in bytes of the allocated buffer.
    */
@@ -132,10 +137,5 @@ import com.io7m.jaux.RangeInclusive;
     builder.append("]");
 
     return builder.toString();
-  }
-
-  @Override public @Nonnull RangeInclusive getRange()
-  {
-    return this.range;
   }
 }

@@ -404,6 +404,78 @@ public abstract class FramebuffersContract implements GLTestContract
   }
 
   /**
+   * Trying to create a framebuffer with a deleted color texture fails.
+   */
+
+  @SuppressWarnings("unused") @Test(expected = ConstraintError.class) public
+    void
+    testFramebufferColorDeleted()
+      throws GLException,
+        ConstraintError
+  {
+    GLInterface gl = null;
+    ColorAttachment fbc = null;
+
+    try {
+      gl = this.makeNewGL();
+      final Texture2DRGBAStatic t =
+        gl.texture2DRGBAStaticAllocate(
+          "buffer",
+          128,
+          128,
+          TextureWrap.TEXTURE_WRAP_REPEAT,
+          TextureWrap.TEXTURE_WRAP_REPEAT,
+          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureFilter.TEXTURE_FILTER_NEAREST);
+      t.resourceDelete(gl);
+
+      fbc = new ColorAttachment(t, 0);
+    } catch (final ConstraintError e) {
+      Assert.fail(e.getMessage());
+    } catch (final GLException e) {
+      Assert.fail(e.getMessage());
+    }
+
+    assert gl != null;
+    assert fbc != null;
+
+    final Framebuffer fb =
+      gl.framebufferAllocate(new FramebufferAttachment[] { fbc });
+  }
+
+  /**
+   * Trying to create a framebuffer with a deleted depth/stencil texture
+   * fails.
+   */
+
+  @SuppressWarnings("unused") @Test(expected = ConstraintError.class) public
+    void
+    testFramebufferD24S8Deleted()
+      throws GLException,
+        ConstraintError
+  {
+    GLInterface gl = null;
+    RenderbufferD24S8Attachment fda = null;
+
+    try {
+      gl = this.makeNewGL();
+      final RenderbufferD24S8 depth = gl.renderbufferD24S8Allocate(128, 128);
+      fda = new RenderbufferD24S8Attachment(depth);
+      depth.resourceDelete(gl);
+    } catch (final ConstraintError e) {
+      Assert.fail(e.getMessage());
+    } catch (final GLException e) {
+      Assert.fail(e.getMessage());
+    }
+
+    assert gl != null;
+    assert fda != null;
+
+    final Framebuffer fb =
+      gl.framebufferAllocate(new FramebufferAttachment[] { fda });
+  }
+
+  /**
    * Deleting a framebuffer works.
    */
 

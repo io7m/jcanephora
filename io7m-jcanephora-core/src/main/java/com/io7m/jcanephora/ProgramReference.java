@@ -11,7 +11,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
  */
 
 @Immutable public final class ProgramReference extends Deletable implements
-  GLResource
+  GLResource,
+  GLName
 {
   private final int             id;
   private final @Nonnull String name;
@@ -47,11 +48,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     return true;
   }
 
-  /**
-   * Retrieve the raw OpenGL 'location' of the program.
-   */
-
-  public int getLocation()
+  @Override public int getGLName()
   {
     return this.id;
   }
@@ -70,6 +67,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     final int prime = 31;
     int result = 1;
     result = (prime * result) + this.id;
+    result = (prime * result) + this.name.hashCode();
     return result;
   }
 

@@ -8,15 +8,6 @@ import com.io7m.jaux.RangeInclusive;
 
 public class BufferCursorTest
 {
-  @SuppressWarnings({ "static-method", "unused" }) @Test(
-    expected = IllegalArgumentException.class) public
-    void
-    testPrecondition0()
-      throws ConstraintError
-  {
-    new BufferCursor(new RangeInclusive(-1, 0), 0, 4);
-  }
-
   @SuppressWarnings("static-method") @Test public void testCanWrite()
     throws ConstraintError
   {
@@ -123,6 +114,15 @@ public class BufferCursorTest
     Assert.assertEquals(12, c.getByteOffset());
 
     Assert.assertFalse(c.hasNext());
+  }
+
+  @SuppressWarnings({ "static-method", "unused" }) @Test(
+    expected = IllegalArgumentException.class) public
+    void
+    testPrecondition0()
+      throws ConstraintError
+  {
+    new BufferCursor(new RangeInclusive(-1, 0), 0, 4);
   }
 
   @SuppressWarnings("static-method") @Test public void testSeekOffsets()

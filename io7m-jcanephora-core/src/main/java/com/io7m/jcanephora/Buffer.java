@@ -11,17 +11,17 @@ import com.io7m.jaux.RangeInclusive;
 public interface Buffer extends GLName
 {
   /**
+   * Return the size in bytes of individual elements in the array.
+   */
+
+  long getElementSizeBytes();
+
+  /**
    * Return the range of elements in the buffer. The lower bound will always
    * be <code>0</code>.
    */
 
   @Nonnull RangeInclusive getRange();
-
-  /**
-   * Return the size in bytes of individual elements in the array.
-   */
-
-  long getElementSizeBytes();
 
   /**
    * Get the total size in bytes of the given buffer.
