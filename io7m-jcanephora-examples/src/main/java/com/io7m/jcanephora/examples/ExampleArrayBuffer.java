@@ -59,18 +59,35 @@ public final class ExampleArrayBuffer implements Example
     this.program.compile(config.getFilesystem(), this.gl);
 
     /**
-     * Index and allocate array buffer.
+     * Allocate an array buffer.
+     * 
+     * Set up a type descriptor that describes the types of elements within
+     * the array. In this case, each element of the array is a series of four
+     * floats representing the position of a vertex, followed by a series of
+     * four floats representing the color of a vertex.
+     * 
+     * Then, use this descriptor to allocate an array.
      */
 
     final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[2];
     ab[0] = new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 4);
     ab[1] = new ArrayBufferAttribute("color", GLScalarType.TYPE_FLOAT, 4);
-
     this.array_type = new ArrayBufferDescriptor(ab);
     this.array = this.gl.arrayBufferAllocate(3, this.array_type);
+
+    /**
+     * Then, allocate a buffer of data that will be populated and uploaded.
+     */
+
     this.array_data = new ArrayBufferWritableData(this.array);
 
     {
+      /**
+       * Obtain typed cursors to the parts of the array to be populated. Note
+       * that writes to the two cursors can be interleaved. Each cursor can
+       * only point to the parts of the array relevant to their attribute.
+       */
+
       final CursorWritable4f pos_cursor =
         this.array_data.getCursor4f("position");
       final CursorWritable4f col_cursor =
@@ -86,11 +103,15 @@ public final class ExampleArrayBuffer implements Example
       col_cursor.put4f(0.0f, 0.0f, 1.0f, 1.0f);
     }
 
+    /**
+     * Upload the array data.
+     */
+
     this.gl.arrayBufferBind(this.array);
     this.gl.arrayBufferUpdate(this.array, this.array_data);
 
     /**
-     * Allocate and initialize index buffer.
+     * Allocate and initialize an index buffer.
      */
 
     this.indices = this.gl.indexBufferAllocate(this.array, 3);
@@ -113,6 +134,10 @@ public final class ExampleArrayBuffer implements Example
   {
     this.gl.colorBufferClear3f(0.15f, 0.2f, 0.15f);
 
+    /**
+     * Initialize the projection matrix to an orthographic projection.
+     */
+
     MatrixM4x4F.setIdentity(this.matrix_projection);
     ProjectionMatrix.makeOrthographic(
       this.matrix_projection,
@@ -122,6 +147,10 @@ public final class ExampleArrayBuffer implements Example
       480,
       1,
       100);
+
+    /**
+     * Initialize the modelview matrix, and translate.
+     */
 
     MatrixM4x4F.setIdentity(this.matrix_modelview);
     MatrixM4x4F.translateByVector2FInPlace(
@@ -135,27 +164,53 @@ public final class ExampleArrayBuffer implements Example
 
     this.program.activate(this.gl);
     {
+      /**
+       * Get references to the program's uniform variable inputs.
+       */
+
       final ProgramUniform u_proj =
         this.program.getUniform("matrix_projection");
       final ProgramUniform u_model =
         this.program.getUniform("matrix_modelview");
 
+      /**
+       * Upload the matrices to the uniform variable inputs.
+       */
+
       this.gl.programPutUniformMatrix4x4f(u_proj, this.matrix_projection);
       this.gl.programPutUniformMatrix4x4f(u_model, this.matrix_modelview);
+
+      /**
+       * Get references to the program's vertex attribute inputs.
+       */
 
       final ProgramAttribute p_pos =
         this.program.getAttribute("vertex_position");
       final ProgramAttribute p_col =
         this.program.getAttribute("vertex_color");
 
+      /**
+       * Get references to the array buffer's vertex attributes.
+       */
+
       final ArrayBufferAttribute b_pos =
         this.array_type.getAttribute("position");
       final ArrayBufferAttribute b_col =
         this.array_type.getAttribute("color");
 
+      /**
+       * Bind the array buffer, and associate program vertex attribute inputs
+       * with array vertex attributes.
+       */
+
       this.gl.arrayBufferBind(this.array);
       this.gl.arrayBufferBindVertexAttribute(this.array, b_pos, p_pos);
       this.gl.arrayBufferBindVertexAttribute(this.array, b_col, p_col);
+
+      /**
+       * Draw primitives, using the array buffer and the given index buffer.
+       */
+
       this.gl.drawElements(Primitives.PRIMITIVE_TRIANGLES, this.indices);
       this.gl.arrayBufferUnbind();
     }
