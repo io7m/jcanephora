@@ -39,26 +39,20 @@ public final class ArrayBufferWritableData
   }
 
   /**
-   * Construct a buffer of data that will be used to replace
-   * <code>element_count</code> elements of the data in <code>buffer</code> on
-   * the GPU, starting at element <code>element_start</code>.
+   * Construct a buffer of data that will be used to replace elements in the
+   * range <code>range</code> of the data in <code>buffer</code> on the GPU.
    * 
    * @param buffer
    *          The array buffer.
-   * @param element_start
-   *          The first element to replace.
-   * @param element_count
-   *          The number of elements to replace.
+   * @param range
+   *          The inclusive range defining the area of the array buffer that
+   *          will be modified.
    * @throws ConstraintError
    *           Iff any of the following conditions hold:
    *           <ul>
    *           <li><code>buffer == null</code></li>
-   *           <li><code>element_count < 1</code></li>
-   *           <li>
-   *           <code>0 <= element_start < buffer.getElements() == false</code>
-   *           </li>
-   *           <li>
-   *           <code>element_start + element_count <= buffer.getElements() == false</code>
+   *           <li><code>range == null/code></li>
+   *           <li><code>range.isIncludedIn(buffer.getRange()) == false</code>
    *           </li>
    *           </ul>
    */
@@ -87,19 +81,22 @@ public final class ArrayBufferWritableData
 
   /**
    * Retrieve a cursor that may only point to elements of the attribute
-   * <code>name</code> in the array data. The cursor interface allows constant
-   * time access to any element and also minimizes the number of checks
-   * performed for each access (attribute existence and types are checked once
-   * on cursor creation).
+   * <code>attribute_name</code> in the array data. The cursor interface
+   * allows constant time access to any element and also minimizes the number
+   * of checks performed for each access (attribute existence and types are
+   * checked once on cursor creation).
    * 
-   * @param name
+   * @param attribute_name
    *          The name of the attribute.
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
-   *           <li><code>name == null</code>.</li>
-   *           <li><code>getAttribute(name).getElements() != 4</code></li>
-   *           <li><code>getAttribute(name).getType() != TYPE_FLOAT</code></li>
+   *           <li><code>attribute_name == null</code>.</li>
+   *           <li>
+   *           <code>getAttribute(attribute_name).getElements() != 4</code></li>
+   *           <li>
+   *           <code>getAttribute(attribute_name).getType() != TYPE_FLOAT</code>
+   *           </li>
    *           </ul>
    */
 

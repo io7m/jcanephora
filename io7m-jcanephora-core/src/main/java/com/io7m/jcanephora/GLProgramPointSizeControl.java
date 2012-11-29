@@ -12,7 +12,7 @@ public interface GLProgramPointSizeControl
    * 
    * @throws GLException
    *           Iff an OpenGL error occurs.
-   * @see GLRasterization#pointProgramSizeControlEnable()
+   * @see GLProgramPointSizeControl#pointProgramSizeControlEnable()
    */
 
   void pointProgramSizeControlDisable()

@@ -88,7 +88,7 @@ public final class ProjectionMatrix
    * function produces an "infinite projection matrix", suitable for use in
    * code that deals with shadow volumes.
    * 
-   * @see http://http.developer.nvidia.com/GPUGems/gpugems_ch09.html
+   * @link http://http.developer.nvidia.com/GPUGems/gpugems_ch09.html
    * 
    * @param z_near
    *          The near clipping plane coordinate.

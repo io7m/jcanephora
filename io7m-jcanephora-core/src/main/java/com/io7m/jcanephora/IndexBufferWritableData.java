@@ -39,26 +39,20 @@ public final class IndexBufferWritableData
   }
 
   /**
-   * Construct a buffer of data that will be used to replace
-   * <code>element_count</code> elements of the data in <code>buffer</code> on
-   * the GPU, starting at element <code>element_start</code>.
+   * Construct a buffer of data that will be used to replace the range of
+   * elements given by <code>range</code> in <code>buffer</code> on the GPU.
    * 
    * @param buffer
    *          The array buffer.
-   * @param element_start
-   *          The first element to replace.
-   * @param element_count
-   *          The number of elements to replace.
+   * @param range
+   *          The range of elements to replace.
    * @throws ConstraintError
    *           Iff any of the following conditions hold:
    *           <ul>
    *           <li><code>buffer == null</code></li>
+   *           <li><code>range == null</code></li>
    *           <li>
-   *           <code>0 <= element_start < buffer.getElements() == false</code>
-   *           </li>
-   *           <li>
-   *           <code>element_start + element_count <= buffer.getElements() == false</code>
-   *           </li>
+   *           <code>range.isIncludedIn(buffer.getRange()) == false</code></li>
    *           </ul>
    */
 
