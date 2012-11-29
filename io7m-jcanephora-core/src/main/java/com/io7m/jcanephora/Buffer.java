@@ -25,9 +25,6 @@ public interface Buffer extends GLName
 
   /**
    * Get the total size in bytes of the given buffer.
-   * 
-   * Should always be equal to {@link Buffer#getElements() *
-   * Buffer#getElementSizeBytes()}.
    */
 
   long getSizeBytes();

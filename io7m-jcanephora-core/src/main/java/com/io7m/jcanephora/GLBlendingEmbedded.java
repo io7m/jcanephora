@@ -24,7 +24,7 @@ public interface GLBlendingEmbedded
   /**
    * Enable blending with the given blending functions. The function is
    * equivalent to: <code>
-   * {@link GLBlendingEmbedded#blendingEnableSeparateWithEquationSeparate}(
+   * {@link GLBlendingEmbedded#blendingEnableSeparateWithEquationSeparateEmbedded}(
    *   source_factor,
    *   source_factor,
    *   destination_factor,
@@ -46,7 +46,7 @@ public interface GLBlendingEmbedded
   /**
    * Enable blending with the given blending functions. The function is
    * equivalent to: <code>
-   * {@link GLBlendingEmbedded#blendingEnableSeparateWithEquationSeparate}(
+   * {@link GLBlendingEmbedded#blendingEnableSeparateWithEquationSeparateEmbedded}(
    *   source_rgb_factor,
    *   source_alpha_factor,
    *   destination_rgb_factor,
@@ -130,7 +130,7 @@ public interface GLBlendingEmbedded
   /**
    * Enable blending with the given blending functions and equation. The
    * function is equivalent to: <code>
-   * {@link GLBlendingEmbedded#blendingEnableSeparateWithEquationSeparate}(
+   * {@link GLBlendingEmbedded#blendingEnableSeparateWithEquationSeparateEmbedded}(
    *   source_factor,
    *   source_factor,
    *   destination_factor,
@@ -153,7 +153,7 @@ public interface GLBlendingEmbedded
   /**
    * Enable blending with the given blending functions and equation. The
    * function is equivalent to: <code>
-   * {@link GLBlendingEmbedded#blendingEnableSeparateWithEquationSeparate}(
+   * {@link GLBlendingEmbedded#blendingEnableSeparateWithEquationSeparateEmbedded}(
    *   source_factor,
    *   source_factor,
    *   destination_factor,
