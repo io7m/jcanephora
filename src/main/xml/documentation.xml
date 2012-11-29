@@ -125,9 +125,10 @@
           <s:link-external target="javadoc/com/io7m/jcanephora/GLInterface.html">GLInterface</s:link-external>
           interface can be assumed to run unmodified on any OpenGL 2.1+ or 3.0+
           implementation
-         <s:footnote>
+          <s:footnote>
             Again, barring any incompatibilities in shading language programs.
-        </s:paragraph>.
+          </s:footnote>.
+        </s:paragraph>
       </s:subsection>
     </s:section>
 
