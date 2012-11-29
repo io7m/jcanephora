@@ -274,7 +274,7 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
     }
   }
 
-  @Override public void keyPressed(
+  @SuppressWarnings("unused") @Override public void keyPressed(
     final KeyEvent e)
   {
     // Nothing
@@ -320,7 +320,7 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
     }
   }
 
-  @Override public void keyTyped(
+  @SuppressWarnings("unused") @Override public void keyTyped(
     final KeyEvent e)
   {
     // Nothing
