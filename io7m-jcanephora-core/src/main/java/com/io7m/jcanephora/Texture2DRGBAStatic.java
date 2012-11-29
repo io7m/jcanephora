@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 
 /**
  * 2D, 32-bit RGBA textures (8 bits per channel).
@@ -13,11 +14,12 @@ public final class Texture2DRGBAStatic extends Deletable implements
   GLResource,
   GLName
 {
-  private boolean               deleted = false;
-  private final int             id;
-  private final int             width;
-  private final int             height;
-  private final @Nonnull String name;
+  private boolean                       deleted = false;
+  private final int                     id;
+  private final @Nonnull RangeInclusive range_x;
+  private final @Nonnull RangeInclusive range_y;
+  private final @Nonnull String         name;
+  private final @Nonnull AreaInclusive  area;
 
   Texture2DRGBAStatic(
     final @Nonnull String name,
@@ -30,8 +32,9 @@ public final class Texture2DRGBAStatic extends Deletable implements
       Constraints
         .constrainRange(id, 0, Integer.MAX_VALUE, "Texture ID value");
     this.name = name;
-    this.width = width;
-    this.height = height;
+    this.range_x = new RangeInclusive(0, width - 1);
+    this.range_y = new RangeInclusive(0, height - 1);
+    this.area = new AreaInclusive(this.range_x, this.range_y);
     this.deleted = false;
   }
 
@@ -65,7 +68,7 @@ public final class Texture2DRGBAStatic extends Deletable implements
 
   public int getHeight()
   {
-    return this.height;
+    return (int) this.range_y.getInterval();
   }
 
   /**
@@ -78,12 +81,39 @@ public final class Texture2DRGBAStatic extends Deletable implements
   }
 
   /**
+   * Return the range of valid indices on the X axis.
+   */
+
+  public @Nonnull RangeInclusive getRangeX()
+  {
+    return this.range_x;
+  }
+
+  /**
+   * Return the range of valid indices on the Y axis.
+   */
+
+  public @Nonnull RangeInclusive getRangeY()
+  {
+    return this.range_y;
+  }
+
+  /**
    * Retrieve the width in pixels of the texture.
    */
 
   public int getWidth()
   {
-    return this.width;
+    return (int) this.range_x.getInterval();
+  }
+
+  /**
+   * Retrieve the inclusive area of this texture.
+   */
+
+  public @Nonnull AreaInclusive getArea()
+  {
+    return this.area;
   }
 
   @Override public int hashCode()
@@ -120,9 +150,9 @@ public final class Texture2DRGBAStatic extends Deletable implements
     builder.append(" ");
     builder.append(this.id);
     builder.append(" ");
-    builder.append(this.width);
+    builder.append(this.getWidth());
     builder.append("x");
-    builder.append(this.height);
+    builder.append(this.getHeight());
     builder.append("]");
     return builder.toString();
   }
