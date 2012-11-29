@@ -22,6 +22,7 @@ public final class ExampleFBO implements Example
   private final RenderbufferD24S8   depth_buffer;
   private final Texture2DRGBAStatic texture;
   private final Framebuffer         framebuffer;
+  private boolean                   has_shut_down;
 
   public ExampleFBO(
     final @Nonnull ExampleConfig config)
@@ -60,7 +61,6 @@ public final class ExampleFBO implements Example
       this.gl.framebufferAllocate(new FramebufferAttachment[] {
         new ColorAttachment(this.texture, 0),
         new RenderbufferD24S8Attachment(this.depth_buffer) });
-
   }
 
   @Override public void display()
@@ -68,7 +68,7 @@ public final class ExampleFBO implements Example
       GLCompileException,
       ConstraintError
   {
-    this.gl.colorBufferClear3f(0.15f, 0.2f, 0.15f);
+    this.gl.colorBufferClear3f(0.15f, 0.15f, 0.2f);
   }
 
   @Override public void reshape(
@@ -86,8 +86,14 @@ public final class ExampleFBO implements Example
       ConstraintError,
       GLCompileException
   {
+    this.has_shut_down = true;
     this.framebuffer.resourceDelete(this.gl);
     this.depth_buffer.resourceDelete(this.gl);
     this.texture.resourceDelete(this.gl);
+  }
+
+  @Override public boolean hasShutDown()
+  {
+    return this.has_shut_down;
   }
 }

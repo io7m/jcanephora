@@ -2,6 +2,8 @@ package com.io7m.jcanephora.examples;
 
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.TreeSet;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
@@ -17,13 +19,17 @@ import com.io7m.jlog.Log;
 import com.io7m.jtensors.VectorM2I;
 import com.io7m.jvvfs.Filesystem;
 import com.io7m.jvvfs.PathVirtual;
+import com.jogamp.newt.event.KeyEvent;
+import com.jogamp.newt.event.KeyListener;
 import com.jogamp.newt.event.WindowAdapter;
 import com.jogamp.newt.event.WindowEvent;
 import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.util.FPSAnimator;
 
-final class JOGL30ExampleRunner implements GLEventListener
+final class JOGL30ExampleRunner implements GLEventListener, KeyListener
 {
+  private static final int FRAMES_PER_SECOND = 60;
+
   static void fatal(
     final Throwable e)
   {
@@ -41,20 +47,27 @@ final class JOGL30ExampleRunner implements GLEventListener
     }
   }
 
-  private final HashMap<String, PartialFunction<ExampleConfig, Example, Throwable>> examples;
   private final Log                                                                 log;
   protected final GLWindow                                                          window;
   private final FPSAnimator                                                         animator;
-  private Example                                                                   current_example;
   private GLInterfaceEmbedded_JOGL_ES2                                              gl;
   private final Filesystem                                                          filesystem;
   private final VectorM2I                                                           window_position;
   private final VectorM2I                                                           window_size;
   private ExampleConfig                                                             config;
 
+  private final HashMap<String, PartialFunction<ExampleConfig, Example, Throwable>> examples;
+  private final TreeSet<String>                                                     examples_names_sorted;
+  private String                                                                    example_name_current;
+  private Example                                                                   example_current;
+
   JOGL30ExampleRunner()
     throws Throwable
   {
+    this.command_queue =
+      new ConcurrentLinkedQueue<JOGL30ExampleRunner.Command>();
+
+    this.examples_names_sorted = new TreeSet<String>();
     this.examples =
       new HashMap<String, PartialFunction<ExampleConfig, Example, Throwable>>();
     this.examplesInitialize();
@@ -88,9 +101,12 @@ final class JOGL30ExampleRunner implements GLEventListener
     });
 
     this.window.addGLEventListener(this);
+    this.window.addKeyListener(this);
 
-    this.animator = new FPSAnimator(60);
-    this.animator.setUpdateFPSFrames(60, System.err);
+    this.animator = new FPSAnimator(JOGL30ExampleRunner.FRAMES_PER_SECOND);
+    this.animator.setUpdateFPSFrames(
+      JOGL30ExampleRunner.FRAMES_PER_SECOND,
+      System.err);
     this.animator.add(this.window);
     this.animator.start();
   }
@@ -99,7 +115,31 @@ final class JOGL30ExampleRunner implements GLEventListener
     @SuppressWarnings("unused") final GLAutoDrawable drawable)
   {
     try {
-      this.current_example.display();
+      while (this.command_queue.peek() != null) {
+        switch (this.command_queue.poll()) {
+          case COMMAND_NEXT:
+          {
+            if (this.exampleHasNext()) {
+              this.exampleNext();
+            } else {
+              this.exampleShutdown();
+              this.exampleFirst();
+            }
+            break;
+          }
+          case COMMAND_PREVIOUS:
+          {
+            if (this.exampleHasPrevious()) {
+              this.examplePrevious();
+            }
+            break;
+          }
+        }
+      }
+
+      if (this.example_current.hasShutDown() == false) {
+        this.example_current.display();
+      }
     } catch (final GLException e) {
       JOGL30ExampleRunner.fatal(e);
     } catch (final GLCompileException e) {
@@ -113,6 +153,56 @@ final class JOGL30ExampleRunner implements GLEventListener
     @SuppressWarnings("unused") final GLAutoDrawable drawable)
   {
     // Nothing.
+  }
+
+  private void exampleFirst()
+  {
+    try {
+      this.example_name_current = this.examples_names_sorted.first();
+      this.log.debug("First: " + this.example_name_current);
+      this.example_current =
+        this.examples.get(this.example_name_current).call(this.config);
+    } catch (final Throwable x) {
+      JOGL30ExampleRunner.fatal(x);
+    }
+  }
+
+  private boolean exampleHasNext()
+  {
+    return this.examples_names_sorted.higher(this.example_name_current) != null;
+  }
+
+  private boolean exampleHasPrevious()
+  {
+    return this.examples_names_sorted.lower(this.example_name_current) != null;
+  }
+
+  private void exampleNext()
+  {
+    try {
+      this.exampleShutdown();
+      this.example_name_current =
+        this.examples_names_sorted.higher(this.example_name_current);
+      this.log.debug("Example: " + this.example_name_current);
+      this.example_current =
+        this.examples.get(this.example_name_current).call(this.config);
+    } catch (final Throwable x) {
+      JOGL30ExampleRunner.fatal(x);
+    }
+  }
+
+  private void examplePrevious()
+  {
+    try {
+      this.exampleShutdown();
+      this.example_name_current =
+        this.examples_names_sorted.lower(this.example_name_current);
+      this.log.debug("Example: " + this.example_name_current);
+      this.example_current =
+        this.examples.get(this.example_name_current).call(this.config);
+    } catch (final Throwable x) {
+      JOGL30ExampleRunner.fatal(x);
+    }
   }
 
   private void examplesInitialize()
@@ -130,6 +220,18 @@ final class JOGL30ExampleRunner implements GLEventListener
       });
 
     this.examples.put(
+      "Textured quad",
+      new PartialFunction<ExampleConfig, Example, Throwable>() {
+        @Override public Example call(
+          final ExampleConfig c)
+          throws Throwable
+        {
+          JOGL30ExampleRunner.this.window.setTitle("Textured quad");
+          return new ExampleTexturedQuad(c);
+        }
+      });
+
+    this.examples.put(
       "FBO Triangle",
       new PartialFunction<ExampleConfig, Example, Throwable>() {
         @Override public Example call(
@@ -140,6 +242,10 @@ final class JOGL30ExampleRunner implements GLEventListener
           return new ExampleFBO(c);
         }
       });
+
+    for (final String name : this.examples.keySet()) {
+      this.examples_names_sorted.add(name);
+    }
   }
 
   @Override public void init(
@@ -157,7 +263,7 @@ final class JOGL30ExampleRunner implements GLEventListener
           this.window_position,
           this.window_size);
 
-      this.current_example = this.examples.get("Triangle").call(this.config);
+      this.exampleFirst();
 
     } catch (final GLException e) {
       JOGL30ExampleRunner.fatal(e);
@@ -166,6 +272,58 @@ final class JOGL30ExampleRunner implements GLEventListener
     } catch (final Throwable e) {
       JOGL30ExampleRunner.fatal(e);
     }
+  }
+
+  @Override public void keyPressed(
+    final KeyEvent e)
+  {
+    // Nothing
+  }
+
+  private enum Command
+  {
+    COMMAND_NEXT,
+    COMMAND_PREVIOUS
+  }
+
+  private final ConcurrentLinkedQueue<Command> command_queue;
+
+  @Override public void keyReleased(
+    final KeyEvent e)
+  {
+    try {
+      switch (e.getKeyChar()) {
+        case 'n':
+        {
+          this.command_queue.add(Command.COMMAND_NEXT);
+          break;
+        }
+        case 'p':
+        {
+          this.command_queue.add(Command.COMMAND_PREVIOUS);
+          break;
+        }
+      }
+
+    } catch (final Throwable x) {
+      JOGL30ExampleRunner.fatal(x);
+    }
+  }
+
+  private void exampleShutdown()
+  {
+    try {
+      this.log.debug("Stopping: " + this.example_name_current);
+      this.example_current.shutdown();
+    } catch (final Throwable x) {
+      JOGL30ExampleRunner.fatal(x);
+    }
+  }
+
+  @Override public void keyTyped(
+    final KeyEvent e)
+  {
+    // Nothing
   }
 
   @Override public void reshape(
@@ -181,7 +339,7 @@ final class JOGL30ExampleRunner implements GLEventListener
     this.window_size.y = h;
 
     try {
-      this.current_example.reshape(this.window_position, this.window_size);
+      this.example_current.reshape(this.window_position, this.window_size);
     } catch (final GLException e) {
       JOGL30ExampleRunner.fatal(e);
     } catch (final GLCompileException e) {
