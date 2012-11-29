@@ -25,7 +25,7 @@ import com.io7m.jtensors.VectorI2F;
 import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jvvfs.PathVirtual;
 
-public final class ExampleArrayBuffer implements Example
+public final class ExampleTriangle implements Example
 {
   private final GLInterfaceEmbedded     gl;
   private final ArrayBufferDescriptor   array_type;
@@ -36,13 +36,15 @@ public final class ExampleArrayBuffer implements Example
   private final MatrixM4x4F             matrix_modelview;
   private final IndexBuffer             indices;
   private final IndexBufferWritableData indices_data;
+  private final ExampleConfig           config;
 
-  public ExampleArrayBuffer(
+  public ExampleTriangle(
     final @Nonnull ExampleConfig config)
     throws ConstraintError,
       GLException,
       GLCompileException
   {
+    this.config = config;
     this.gl = config.getGL();
     this.matrix_modelview = new MatrixM4x4F();
     this.matrix_projection = new MatrixM4x4F();
@@ -155,7 +157,9 @@ public final class ExampleArrayBuffer implements Example
     MatrixM4x4F.setIdentity(this.matrix_modelview);
     MatrixM4x4F.translateByVector2FInPlace(
       this.matrix_modelview,
-      new VectorI2F(10.0f, 10.0f));
+      new VectorI2F(this.config.getWindowSize().getXI() / 2, this.config
+        .getWindowSize()
+        .getYI() / 2));
 
     /**
      * Activate shading program, and associate parts of the array buffer with
