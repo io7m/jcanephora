@@ -42,6 +42,11 @@ public final class JOGL30TestDisplay
       JOGL30TestDisplay.createOffscreenDisplay(640, 480);
     JOGL30TestDisplay.context = JOGL30TestDisplay.buffer.createContext(null);
 
+    final int r = JOGL30TestDisplay.context.makeCurrent();
+    if (r == GLContext.CONTEXT_NOT_CURRENT) {
+      throw new AssertionError("Could not make context current");
+    }
+
     return JOGL30TestDisplay.context;
   }
 
@@ -51,8 +56,6 @@ public final class JOGL30TestDisplay
   {
     final GLContext ctx = JOGL30TestDisplay.getContext();
     final Log log = JOGL30TestLog.getLog();
-
-    ctx.makeCurrent();
     return new GLInterfaceEmbedded_JOGL_ES2(ctx, log);
   }
 
@@ -64,7 +67,6 @@ public final class JOGL30TestDisplay
     final Log log = JOGL30TestLog.getLog();
 
     if (ctx.isGL2GL3()) {
-      ctx.makeCurrent();
       return new Option.Some<GLInterface>(new GLInterface_JOGL30(ctx, log));
     }
 
