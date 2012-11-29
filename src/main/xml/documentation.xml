@@ -130,6 +130,19 @@
           </s:footnote>.
         </s:paragraph>
       </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Performance</s:subsection-title>
+        <s:paragraph>
+          OpenGL programs often have high performance requirements.
+          The <s:term type="package">jcanephora</s:term> API abstractions
+          attempt to be as cheap as possible. Operations that allocate memory or perform
+          potentially expensive operations are clearly marked. Emphasis is placed on
+          writing code paths that generate little in the way of garbage to be collected,
+          reducing GC pressure and improving realtime performance. Many potentially expensive
+          queries (such as the available number of texture units) are requested eagerly and
+          cached, in order to reduce the number of OpenGL calls required at "render time".
+        </s:paragraph>
+      </s:subsection>
     </s:section>
 
     <s:section>
@@ -330,21 +343,26 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
         section of the documentation attempts to describe how to use the API
         for those already familiar with OpenGL. It presents small programs
         written in C and then shows the <s:term type="package">jcanephora</s:term>
-        equivalent.
+        equivalent. For the sake of brevity, the C programs often use the
+        obsolete fixed-function pipeline (otherwise each example would have
+        to implement a lot of tedious matrix math and shading program
+        management).
       </s:paragraph>
       <s:paragraph>
         Every <s:term type="package">jcanephora</s:term> program begins
         by creating or retrieving an implementation of the
         <s:link-external target="javadoc/com/io7m/jcanephora/GLInterface.html">GLInterface</s:link-external>
+        or
+        <s:link-external target="javadoc/com/io7m/jcanephora/GLInterfaceEmbedded.html">GLInterfaceEmbedded</s:link-external>
         type. At the time of writing, there are implementations based on
         <s:link-external target="http://lwjgl.org">LWJGL</s:link-external>
         and
         <s:link-external target="http://jogamp.org">JOGL</s:link-external>.
         Programs are insulated from the platform/implementation specific
         details of the OpenGL interface via the
-        <s:term type="function">GLInterface</s:term> type - all operations
-        occur via values of this type and client programs do
-        not know anything about the underlying OpenGL implementation.
+        interface types - all operations occur via values of these types and
+        client programs do not know anything about the underlying OpenGL
+        implementation.
       </s:paragraph>
       <s:paragraph>
         The programmer is expected to know how to initialize either of
@@ -366,10 +384,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
         <s:link-external target="javadoc/com/io7m/jcanephora/Program.html">Program</s:link-external>,
         matrix manipulation with
         <s:link-external target="javadoc/com/io7m/jcanephora/ProjectionMatrix.html">ProjectionMatrix</s:link-external>,
-        streaming textures with
-        <s:link-external target="javadoc/com/io7m/jcanephora/Texture2DRGBAStatic.html">Texture2DRGBAStatic</s:link-external>,
-        and more. See the
-        <s:link-external target="javadoc/index.html">Javadoc</s:link-external>
+        static and streaming textures, and more.
+        See the <s:link-external target="javadoc/index.html">Javadoc</s:link-external>
         for details.
       </s:paragraph>
     </s:section>
@@ -384,26 +400,63 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
       </s:paragraph>
       <s:formal-item kind="example">
         <s:formal-item-title>Vertex buffers (C)</s:formal-item-title>
-        <s:verbatim><xi:include href="../c/vbo.c" parse="text"/></s:verbatim>
+        <s:verbatim><xi:include href="../c/two-triangles.c" parse="text"/></s:verbatim>
       </s:formal-item>
       <s:paragraph>
-        Where the <s:link-external target="vbo.c">C version</s:link-external>
-        creates essentially untyped memory, the <s:term type="package">jcanephora</s:term>
-        version requires programmers to use explicit type descriptors for
-        buffers. In order to write to the map, the programmer has to obtain
-        access via typed cursors. Intuitively, if the array buffer is thought
-        of as an array of records of a given type, the cursors can only point
-        to specific fields in the records as they seek through the array. Note
-        that in order to avoid introducing too much of the API at once and
-        for direct comparison with the C version, the
-        example code drops down to the fixed-function pipeline (via LWJGL)
-        for rendering.
+        The <s:term type="package">jcanephora</s:term> demonstrates many of the
+        package's convenience and safety features:
       </s:paragraph>
       <s:formal-item kind="example">
         <s:formal-item-title>Vertex buffers (Java)</s:formal-item-title>
-        <s:verbatim><xi:include href="../../../io7m-jcanephora-lwjgl/src/main/java/com/io7m/jcanephora/examples/lwjgl30/VBOExample.java" parse="text"/></s:verbatim>
+        <s:verbatim><xi:include href="../../../io7m-jcanephora-examples/src/main/java/com/io7m/jcanephora/examples/ExampleTriangle.java" parse="text"/></s:verbatim>
       </s:formal-item>
+      <s:paragraph>
+        The program creates a new shading language program with the
+        <s:link-external target="javadoc/com/io7m/jcanephora/Program.html">Program</s:link-external>
+        interface. This interface gives easy and type-safe access to the uniform and
+        attribute variables present in the program.
+      </s:paragraph>
+      <s:paragraph>
+        The program allocates an array buffer by creating an explicit description
+        of the type of its elements, and then allocating a given number of them.
+      </s:paragraph>
+      <s:paragraph>
+        Using the type information given when the array buffer was created, the program
+        obtains access to the elements of the array by using typed cursors. The cursors
+        can only point to the specific attributes for which they are intended and refuse
+        attempts to write to memory outside of the array data. The cursors also check the
+        types of their intended attributes on creation and loudly refuse attempts to write
+        to attributes that do not have the expected type. These features eliminate large
+        classes of bugs usually associated with doing this kind of low-level memory
+        management in C.
+      </s:paragraph>
+      <s:paragraph>
+        The program allocates an index buffer by using the array buffer as a hint. This
+        allows the <s:term type="package">jcanephora</s:term> package to pick the most
+        efficient type for individual indices: If an array buffer has fewer than 256 vertices,
+        for example, then there is no reason for the index buffer to use two or four-byte
+        indices. This gives significant GPU memory savings whilst presenting a uniform
+        interface to the programmer. It is also possible for the programmer to specify
+        index buffer types directly, but that is not shown here.
+      </s:paragraph>
+      <s:paragraph>
+        The program passes uniform values to the program over a simple and typed-check
+        analogue to the <s:term type="function">glUniform*</s:term> interface. Attempting
+        to pass a value of the wrong type is prevented at run-time.
+      </s:paragraph>
+      <s:paragraph>
+        The program associates array buffer attributes with program attributes using
+        a type-safe interface.
+      </s:paragraph>
+      <s:paragraph>
+        In all cases, the API also tracks whether or not objects have been deleted
+        (using a simple flag on the client side), and loudly signals when OpenGL resources
+        that have been deleted are passed to various API functions. It would be an error,
+        for example, to call the <s:term type="function">drawElements</s:term> function
+        pictured when the array or index buffer had been deleted.
+      </s:paragraph>
     </s:section>
+<!--
     <s:section>
       <s:section-title>Textures</s:section-title>
       <s:paragraph>
@@ -506,6 +559,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
         configuration that OpenGL considers invalid.
       </s:paragraph>
     </s:section>
+-->
     <s:section>
       <s:section-title>Everything Else</s:section-title>
       <s:paragraph>
