@@ -9,12 +9,16 @@ import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
 
+/**
+ * An allocated region of data, to replace or update an array buffer.
+ */
+
 public final class ArrayBufferWritableData
 {
-  protected final @Nonnull ArrayBuffer  buffer;
-  protected final @Nonnull ByteBuffer   target_data;
-  protected final long                  target_data_size;
-  protected final long                  target_data_offset;
+  private final @Nonnull ArrayBuffer    buffer;
+  private final @Nonnull ByteBuffer     target_data;
+  private final long                    target_data_size;
+  private final long                    target_data_offset;
   private final @Nonnull RangeInclusive target_range;
   private final @Nonnull RangeInclusive range;
 
