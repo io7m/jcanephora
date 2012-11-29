@@ -1954,6 +1954,9 @@ import com.jogamp.common.nio.Buffers;
     this.log.debug("program: create \"" + name + "\"");
 
     final int id = gl.glCreateProgram();
+    if (id == 0) {
+      throw new GLException(0, "glCreateProgram failed");
+    }
     GLError.check(this);
 
     this.log.debug("program: created " + id);

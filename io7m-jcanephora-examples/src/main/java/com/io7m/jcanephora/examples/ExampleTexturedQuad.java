@@ -7,6 +7,7 @@ import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferDescriptor;
 import com.io7m.jcanephora.ArrayBufferWritableData;
+import com.io7m.jcanephora.CursorWritable2f;
 import com.io7m.jcanephora.CursorWritable4f;
 import com.io7m.jcanephora.CursorWritableIndex;
 import com.io7m.jcanephora.GLCompileException;
@@ -26,11 +27,11 @@ import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jvvfs.PathVirtual;
 
 /**
- * Example program that draws a blended triangle to the screen, with an
+ * Example program that draws a textured quad to the screen, with an
  * orthographic projection.
  */
 
-public final class ExampleTriangle implements Example
+public final class ExampleTexturedQuad implements Example
 {
   private final GLInterfaceEmbedded     gl;
   private final ArrayBufferDescriptor   array_type;
@@ -44,7 +45,7 @@ public final class ExampleTriangle implements Example
   private final ExampleConfig           config;
   private boolean                       has_shut_down;
 
-  public ExampleTriangle(
+  public ExampleTexturedQuad(
     final @Nonnull ExampleConfig config)
     throws ConstraintError,
       GLException,
@@ -59,11 +60,11 @@ public final class ExampleTriangle implements Example
      * Initialize shaders.
      */
 
-    this.program = new Program("color", config.getLog());
+    this.program = new Program("uv", config.getLog());
     this.program.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/examples/color.v"));
+      "/com/io7m/jcanephora/examples/uv.v"));
     this.program.addFragmentShader(new PathVirtual(
-      "/com/io7m/jcanephora/examples/color.f"));
+      "/com/io7m/jcanephora/examples/uv.f"));
     this.program.compile(config.getFilesystem(), this.gl);
 
     /**
@@ -72,16 +73,16 @@ public final class ExampleTriangle implements Example
      * Set up a type descriptor that describes the types of elements within
      * the array. In this case, each element of the array is a series of four
      * floats representing the position of a vertex, followed by a series of
-     * four floats representing the color of a vertex.
+     * two floats representing the texture coordinates of a vertex.
      * 
      * Then, use this descriptor to allocate an array.
      */
 
     final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[2];
     ab[0] = new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 4);
-    ab[1] = new ArrayBufferAttribute("color", GLScalarType.TYPE_FLOAT, 4);
+    ab[1] = new ArrayBufferAttribute("uv", GLScalarType.TYPE_FLOAT, 2);
     this.array_type = new ArrayBufferDescriptor(ab);
-    this.array = this.gl.arrayBufferAllocate(3, this.array_type);
+    this.array = this.gl.arrayBufferAllocate(4, this.array_type);
 
     /**
      * Then, allocate a buffer of data that will be populated and uploaded.
@@ -98,17 +99,17 @@ public final class ExampleTriangle implements Example
 
       final CursorWritable4f pos_cursor =
         this.array_data.getCursor4f("position");
-      final CursorWritable4f col_cursor =
-        this.array_data.getCursor4f("color");
+      final CursorWritable2f uv_cursor = this.array_data.getCursor2f("uv");
 
       pos_cursor.put4f(0.0f, 100.0f, -1.0f, 1.0f);
-      col_cursor.put4f(1.0f, 0.0f, 0.0f, 1.0f);
-
       pos_cursor.put4f(0.0f, 0.0f, -1.0f, 1.0f);
-      col_cursor.put4f(0.0f, 1.0f, 0.0f, 1.0f);
-
       pos_cursor.put4f(100.0f, 0.0f, -1.0f, 1.0f);
-      col_cursor.put4f(0.0f, 0.0f, 1.0f, 1.0f);
+      pos_cursor.put4f(100.0f, 100.0f, -1.0f, 1.0f);
+
+      uv_cursor.put2f(1.0f, 0.0f);
+      uv_cursor.put2f(1.0f, 0.0f);
+      uv_cursor.put2f(1.0f, 0.0f);
+      uv_cursor.put2f(1.0f, 0.0f);
     }
 
     /**
@@ -119,10 +120,10 @@ public final class ExampleTriangle implements Example
     this.gl.arrayBufferUpdate(this.array, this.array_data);
 
     /**
-     * Allocate and initialize an index buffer.
+     * Allocate and initialize an index buffer sufficient for two triangles.
      */
 
-    this.indices = this.gl.indexBufferAllocate(this.array, 3);
+    this.indices = this.gl.indexBufferAllocate(this.array, 6);
     this.indices_data = new IndexBufferWritableData(this.indices);
 
     {
@@ -130,6 +131,10 @@ public final class ExampleTriangle implements Example
       ind_cursor.putIndex(0);
       ind_cursor.putIndex(1);
       ind_cursor.putIndex(2);
+
+      ind_cursor.putIndex(0);
+      ind_cursor.putIndex(2);
+      ind_cursor.putIndex(3);
     }
 
     this.gl.indexBufferUpdate(this.indices, this.indices_data);
@@ -140,7 +145,7 @@ public final class ExampleTriangle implements Example
       GLCompileException,
       ConstraintError
   {
-    this.gl.colorBufferClear3f(0.15f, 0.2f, 0.15f);
+    this.gl.colorBufferClear3f(0.2f, 0.15f, 0.15f);
 
     /**
      * Initialize the projection matrix to an orthographic projection.
@@ -196,8 +201,7 @@ public final class ExampleTriangle implements Example
 
       final ProgramAttribute p_pos =
         this.program.getAttribute("vertex_position");
-      final ProgramAttribute p_col =
-        this.program.getAttribute("vertex_color");
+      final ProgramAttribute p_uv = this.program.getAttribute("vertex_uv");
 
       /**
        * Get references to the array buffer's vertex attributes.
@@ -205,8 +209,7 @@ public final class ExampleTriangle implements Example
 
       final ArrayBufferAttribute b_pos =
         this.array_type.getAttribute("position");
-      final ArrayBufferAttribute b_col =
-        this.array_type.getAttribute("color");
+      final ArrayBufferAttribute b_uv = this.array_type.getAttribute("uv");
 
       /**
        * Bind the array buffer, and associate program vertex attribute inputs
@@ -215,7 +218,7 @@ public final class ExampleTriangle implements Example
 
       this.gl.arrayBufferBind(this.array);
       this.gl.arrayBufferBindVertexAttribute(this.array, b_pos, p_pos);
-      this.gl.arrayBufferBindVertexAttribute(this.array, b_col, p_col);
+      this.gl.arrayBufferBindVertexAttribute(this.array, b_uv, p_uv);
 
       /**
        * Draw primitives, using the array buffer and the given index buffer.

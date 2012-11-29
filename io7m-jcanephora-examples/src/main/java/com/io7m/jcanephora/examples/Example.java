@@ -21,6 +21,8 @@ public interface Example
       ConstraintError,
       GLCompileException;
 
+  boolean hasShutDown();
+
   void shutdown()
     throws GLException,
       ConstraintError,
