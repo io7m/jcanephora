@@ -11,10 +11,10 @@ public final class LWJGL30ViewportTest extends ViewportContract
     return LWJGL30TestLog.getLog();
   }
 
-  @Override public GLInterface makeNewGL()
+  @Override public GLInterfaceEmbedded makeNewGL()
     throws GLException,
       ConstraintError
   {
-    return LWJGL30TestDisplay.getGL();
+    return LWJGL30TestDisplay.makeFreshGLEmbedded();
   }
 }

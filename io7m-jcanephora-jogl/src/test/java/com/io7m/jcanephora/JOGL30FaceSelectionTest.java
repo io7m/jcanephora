@@ -15,11 +15,9 @@ public final class JOGL30FaceSelectionTest
   @SuppressWarnings("static-method") @Test public void testFaceBijection()
   {
     for (final FaceSelection f : FaceSelection.values()) {
-      Assert
-        .assertEquals(
-          GLInterfaceEmbedded_JOGL_ES2_Actual.faceSelectionFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual
-            .faceSelectionToGL(f)),
-          f);
+      Assert.assertEquals(GLInterfaceEmbedded_JOGL_ES2_Actual
+        .faceSelectionFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual
+          .faceSelectionToGL(f)), f);
     }
   }
 

@@ -49,6 +49,36 @@ import com.io7m.jtensors.VectorReadable4F;
 
   private static final int INTEGER_CACHE_SIZE = 16 * 4;
 
+  static @Nonnull BlendEquationEmbedded blendEquationEmbeddedFromGL(
+    final int e)
+  {
+    switch (e) {
+      case GL14.GL_FUNC_ADD:
+        return BlendEquationEmbedded.BLEND_EQUATION_ADD;
+      case GL14.GL_FUNC_REVERSE_SUBTRACT:
+        return BlendEquationEmbedded.BLEND_EQUATION_REVERSE_SUBTRACT;
+      case GL14.GL_FUNC_SUBTRACT:
+        return BlendEquationEmbedded.BLEND_EQUATION_SUBTRACT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  static int blendEquationEmbeddedToGL(
+    final @Nonnull BlendEquationEmbedded e)
+  {
+    switch (e) {
+      case BLEND_EQUATION_ADD:
+        return GL14.GL_FUNC_ADD;
+      case BLEND_EQUATION_REVERSE_SUBTRACT:
+        return GL14.GL_FUNC_REVERSE_SUBTRACT;
+      case BLEND_EQUATION_SUBTRACT:
+        return GL14.GL_FUNC_SUBTRACT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
   static final @Nonnull BlendFunction blendFunctionFromGL(
     final int type)
   {
@@ -122,36 +152,6 @@ import com.io7m.jtensors.VectorReadable4F;
         return GL11.GL_SRC_COLOR;
       case BLEND_ZERO:
         return GL11.GL_ZERO;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  static @Nonnull BlendEquationEmbedded blendEquationEmbeddedFromGL(
-    final int e)
-  {
-    switch (e) {
-      case GL14.GL_FUNC_ADD:
-        return BlendEquationEmbedded.BLEND_EQUATION_ADD;
-      case GL14.GL_FUNC_REVERSE_SUBTRACT:
-        return BlendEquationEmbedded.BLEND_EQUATION_REVERSE_SUBTRACT;
-      case GL14.GL_FUNC_SUBTRACT:
-        return BlendEquationEmbedded.BLEND_EQUATION_SUBTRACT;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  static int blendEquationEmbeddedToGL(
-    final @Nonnull BlendEquationEmbedded e)
-  {
-    switch (e) {
-      case BLEND_EQUATION_ADD:
-        return GL14.GL_FUNC_ADD;
-      case BLEND_EQUATION_REVERSE_SUBTRACT:
-        return GL14.GL_FUNC_REVERSE_SUBTRACT;
-      case BLEND_EQUATION_SUBTRACT:
-        return GL14.GL_FUNC_SUBTRACT;
     }
 
     throw new UnreachableCodeException();

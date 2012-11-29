@@ -21,6 +21,6 @@ public final class JOGL30ArrayBufferTest extends ArrayBufferContract
     throws GLException,
       ConstraintError
   {
-    return JOGL30TestDisplay.makeFreshGL();
+    return JOGL30TestDisplay.makeFreshGLEmbedded();
   }
 }

@@ -8,6 +8,8 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option;
+import com.io7m.jaux.functional.Option.Type;
 import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferDescriptor;
@@ -28,15 +30,19 @@ public abstract class ArrayBufferWritableMapContract implements
   @Test(expected = ConstraintError.class) public final
     void
     testArrayBufferMapCursor2fNull()
-      throws ConstraintError
+      throws ConstraintError,
+        GLException
   {
-    GLInterface gl = null;
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new ConstraintError("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
+
     ArrayBuffer a = null;
     ArrayBufferWritableMap m = null;
 
     try {
-      gl = this.makeNewGL();
-
       final ArrayBufferDescriptor d =
         new ArrayBufferDescriptor(
           new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -57,15 +63,18 @@ public abstract class ArrayBufferWritableMapContract implements
   @Test(expected = ConstraintError.class) public final
     void
     testArrayBufferMapCursor2fOutOfRange()
-      throws ConstraintError
+      throws ConstraintError,
+        GLException
   {
-    GLInterface gl = null;
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new ConstraintError("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     ArrayBuffer a = null;
     ArrayBufferWritableMap m = null;
 
     try {
-      gl = this.makeNewGL();
-
       final ArrayBufferDescriptor d =
         new ArrayBufferDescriptor(new ArrayBufferAttribute[] {
           new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 3),
@@ -88,13 +97,15 @@ public abstract class ArrayBufferWritableMapContract implements
       throws ConstraintError,
         GLException
   {
-    GLInterface gl = null;
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      return;
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     ArrayBuffer a = null;
     ArrayBufferWritableMap wm = null;
 
     try {
-      gl = this.makeNewGL();
-
       final ArrayBufferDescriptor d =
         new ArrayBufferDescriptor(new ArrayBufferAttribute[] {
           new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 3),
@@ -168,13 +179,15 @@ public abstract class ArrayBufferWritableMapContract implements
       throws ConstraintError,
         GLException
   {
-    GLInterface gl = null;
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      return;
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     ArrayBuffer a = null;
     ArrayBufferWritableMap wm = null;
 
     try {
-      gl = this.makeNewGL();
-
       final ArrayBufferDescriptor d =
         new ArrayBufferDescriptor(new ArrayBufferAttribute[] {
           new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 3),
@@ -242,15 +255,18 @@ public abstract class ArrayBufferWritableMapContract implements
   @Test(expected = ConstraintError.class) public final
     void
     testArrayBufferMapCursor2fWrongType()
-      throws ConstraintError
+      throws ConstraintError,
+        GLException
   {
-    GLInterface gl = null;
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new ConstraintError("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     ArrayBuffer a = null;
     ArrayBufferWritableMap m = null;
 
     try {
-      gl = this.makeNewGL();
-
       final ArrayBufferDescriptor d =
         new ArrayBufferDescriptor(new ArrayBufferAttribute[] {
           new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 3),
@@ -273,15 +289,18 @@ public abstract class ArrayBufferWritableMapContract implements
   @Test(expected = ConstraintError.class) public final
     void
     testArrayBufferMapCursor3fNull()
-      throws ConstraintError
+      throws ConstraintError,
+        GLException
   {
-    GLInterface gl = null;
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new ConstraintError("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     ArrayBuffer a = null;
     ArrayBufferWritableMap m = null;
 
     try {
-      gl = this.makeNewGL();
-
       final ArrayBufferDescriptor d =
         new ArrayBufferDescriptor(
           new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -305,13 +324,15 @@ public abstract class ArrayBufferWritableMapContract implements
       throws ConstraintError,
         GLException
   {
-    GLInterface gl = null;
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      return;
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     ArrayBuffer a = null;
     ArrayBufferWritableMap wm = null;
 
     try {
-      gl = this.makeNewGL();
-
       final ArrayBufferDescriptor d =
         new ArrayBufferDescriptor(new ArrayBufferAttribute[] {
           new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 3),
@@ -373,13 +394,15 @@ public abstract class ArrayBufferWritableMapContract implements
       throws ConstraintError,
         GLException
   {
-    GLInterface gl = null;
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      return;
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     ArrayBuffer a = null;
     ArrayBufferWritableMap wm = null;
 
     try {
-      gl = this.makeNewGL();
-
       final ArrayBufferDescriptor d =
         new ArrayBufferDescriptor(new ArrayBufferAttribute[] {
           new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 3),
@@ -441,15 +464,18 @@ public abstract class ArrayBufferWritableMapContract implements
   @Test(expected = ConstraintError.class) public final
     void
     testArrayBufferMapCursor3fWrongType()
-      throws ConstraintError
+      throws ConstraintError,
+        GLException
   {
-    GLInterface gl = null;
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new ConstraintError("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     ArrayBuffer a = null;
     ArrayBufferWritableMap m = null;
 
     try {
-      gl = this.makeNewGL();
-
       final ArrayBufferDescriptor d =
         new ArrayBufferDescriptor(new ArrayBufferAttribute[] {
           new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 3),

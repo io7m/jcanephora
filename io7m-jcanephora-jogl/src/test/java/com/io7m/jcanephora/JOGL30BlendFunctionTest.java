@@ -14,11 +14,9 @@ public final class JOGL30BlendFunctionTest
   @SuppressWarnings("static-method") @Test public void testBijection()
   {
     for (final BlendFunction f : BlendFunction.values()) {
-      Assert
-        .assertEquals(
-          GLInterfaceEmbedded_JOGL_ES2_Actual.blendFunctionFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual
-            .blendFunctionToGL(f)),
-          f);
+      Assert.assertEquals(GLInterfaceEmbedded_JOGL_ES2_Actual
+        .blendFunctionFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual
+          .blendFunctionToGL(f)), f);
     }
   }
 

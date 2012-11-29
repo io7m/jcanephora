@@ -21,7 +21,8 @@ public class JOGL30UsageHintEmbeddedTest
   {
     for (final UsageHintEmbedded h : UsageHintEmbedded.values()) {
       Assert.assertEquals(h, GLInterfaceEmbedded_JOGL_ES2_Actual
-        .usageHintEmbeddedFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual.usageHintEmbeddedToGL(h)));
+        .usageHintEmbeddedFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual
+          .usageHintEmbeddedToGL(h)));
     }
   }
 }

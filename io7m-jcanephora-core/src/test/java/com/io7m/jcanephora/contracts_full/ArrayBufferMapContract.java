@@ -8,6 +8,8 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option;
+import com.io7m.jaux.functional.Option.Type;
 import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferDescriptor;
@@ -21,7 +23,6 @@ public abstract class ArrayBufferMapContract implements
   GLTestContract,
   FilesystemTestContract
 {
-
   /**
    * Mapping a buffer works.
    */
@@ -30,7 +31,12 @@ public abstract class ArrayBufferMapContract implements
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      return;
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -76,7 +82,12 @@ public abstract class ArrayBufferMapContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new IndexOutOfBoundsException("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -109,7 +120,12 @@ public abstract class ArrayBufferMapContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new ConstraintError("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -132,7 +148,12 @@ public abstract class ArrayBufferMapContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new GLException(0, "Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -170,7 +191,12 @@ public abstract class ArrayBufferMapContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new ConstraintError("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -191,7 +217,12 @@ public abstract class ArrayBufferMapContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new IndexOutOfBoundsException("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -225,7 +256,12 @@ public abstract class ArrayBufferMapContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new ConstraintError("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -248,7 +284,12 @@ public abstract class ArrayBufferMapContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new ConstraintError("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -269,7 +310,12 @@ public abstract class ArrayBufferMapContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new ConstraintError("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -293,7 +339,12 @@ public abstract class ArrayBufferMapContract implements
       throws ConstraintError,
         GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new GLException(0, "Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(

@@ -18,7 +18,8 @@ public final class JOGL30UnsignedTypeTest
   {
     for (final GLUnsignedType u : GLUnsignedType.values()) {
       Assert.assertEquals(GLInterfaceEmbedded_JOGL_ES2_Actual
-        .unsignedTypeFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual.unsignedTypeToGL(u)), u);
+        .unsignedTypeFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual
+          .unsignedTypeToGL(u)), u);
     }
   }
 

@@ -28,6 +28,11 @@ final class ExampleConfig
     this.window_size = window_size;
   }
 
+  FilesystemAPI getFilesystem()
+  {
+    return this.filesystem;
+  }
+
   GLInterfaceEmbedded getGL()
   {
     return this.gl;
@@ -38,18 +43,13 @@ final class ExampleConfig
     return this.log;
   }
 
-  FilesystemAPI getFilesystem()
+  VectorReadable2I getWindowPize()
   {
-    return this.filesystem;
+    return this.window_size;
   }
 
   VectorReadable2I getWindowPosition()
   {
     return this.window_position;
-  }
-
-  VectorReadable2I getWindowPize()
-  {
-    return this.window_size;
   }
 }

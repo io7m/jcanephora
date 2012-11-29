@@ -27,68 +27,6 @@ import com.io7m.jlog.Log;
 public final class GLInterface_LWJGL30 extends
   GLInterfaceEmbedded_LWJGL_ES2_Actual implements GLInterface
 {
-  public GLInterface_LWJGL30(
-    final @Nonnull Log log)
-    throws ConstraintError,
-      GLException
-  {
-    super(log);
-  }
-
-  static UsageHint usageHintFromGL(
-    final int hint)
-  {
-    switch (hint) {
-      case GL15.GL_DYNAMIC_COPY:
-        return UsageHint.USAGE_DYNAMIC_COPY;
-      case GL15.GL_DYNAMIC_DRAW:
-        return UsageHint.USAGE_DYNAMIC_DRAW;
-      case GL15.GL_DYNAMIC_READ:
-        return UsageHint.USAGE_DYNAMIC_READ;
-      case GL15.GL_STATIC_COPY:
-        return UsageHint.USAGE_STATIC_COPY;
-      case GL15.GL_STATIC_DRAW:
-        return UsageHint.USAGE_STATIC_DRAW;
-      case GL15.GL_STATIC_READ:
-        return UsageHint.USAGE_STATIC_READ;
-      case GL15.GL_STREAM_COPY:
-        return UsageHint.USAGE_STREAM_COPY;
-      case GL15.GL_STREAM_DRAW:
-        return UsageHint.USAGE_STREAM_DRAW;
-      case GL15.GL_STREAM_READ:
-        return UsageHint.USAGE_STREAM_READ;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  static int usageHintToGL(
-    final UsageHint hint)
-  {
-    switch (hint) {
-      case USAGE_DYNAMIC_COPY:
-        return GL15.GL_DYNAMIC_COPY;
-      case USAGE_DYNAMIC_DRAW:
-        return GL15.GL_DYNAMIC_DRAW;
-      case USAGE_DYNAMIC_READ:
-        return GL15.GL_DYNAMIC_READ;
-      case USAGE_STATIC_COPY:
-        return GL15.GL_STATIC_COPY;
-      case USAGE_STATIC_DRAW:
-        return GL15.GL_STATIC_DRAW;
-      case USAGE_STATIC_READ:
-        return GL15.GL_STATIC_READ;
-      case USAGE_STREAM_COPY:
-        return GL15.GL_STREAM_COPY;
-      case USAGE_STREAM_DRAW:
-        return GL15.GL_STREAM_DRAW;
-      case USAGE_STREAM_READ:
-        return GL15.GL_STREAM_READ;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
   static @Nonnull BlendEquation blendEquationFromGL(
     final int e)
   {
@@ -125,70 +63,6 @@ public final class GLInterface_LWJGL30 extends
     }
 
     throw new UnreachableCodeException();
-  }
-
-  @Override public @Nonnull ByteBuffer arrayBufferMapRead(
-    final @Nonnull ArrayBuffer id)
-    throws GLException,
-      ConstraintError
-  {
-    Constraints.constrainNotNull(id, "Array buffer");
-    Constraints.constrainArbitrary(
-      id.resourceIsDeleted() == false,
-      "Array buffer not deleted");
-
-    this.log.debug("vertex-buffer: map " + id);
-
-    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id.getGLName());
-    final ByteBuffer b =
-      GL15.glMapBuffer(GL15.GL_ARRAY_BUFFER, GL15.GL_READ_ONLY, null);
-    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-    GLError.check(this);
-    return b;
-  }
-
-  @Override public @Nonnull ArrayBufferWritableMap arrayBufferMapWrite(
-    final @Nonnull ArrayBuffer id)
-    throws GLException,
-      ConstraintError
-  {
-    Constraints.constrainNotNull(id, "Array buffer");
-    Constraints.constrainArbitrary(
-      id.resourceIsDeleted() == false,
-      "Array buffer not deleted");
-
-    this.log.debug("vertex-buffer: map " + id);
-
-    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id.getGLName());
-    GL15.glBufferData(
-      GL15.GL_ARRAY_BUFFER,
-      id.getSizeBytes(),
-      GL15.GL_STREAM_DRAW);
-
-    final ByteBuffer b =
-      GL15.glMapBuffer(GL15.GL_ARRAY_BUFFER, GL15.GL_WRITE_ONLY, null);
-    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-    GLError.check(this);
-
-    return new ArrayBufferWritableMap(id, b);
-  }
-
-  @Override public void arrayBufferUnmap(
-    final @Nonnull ArrayBuffer id)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(id, "Array buffer");
-    Constraints.constrainArbitrary(
-      id.resourceIsDeleted() == false,
-      "Array buffer not deleted");
-
-    this.log.debug("vertex-buffer: unmap " + id);
-
-    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id.getGLName());
-    GL15.glUnmapBuffer(GL15.GL_ARRAY_BUFFER);
-    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-    GLError.check(this);
   }
 
   static LogicOperation logicOpFromGL(
@@ -303,6 +177,275 @@ public final class GLInterface_LWJGL30 extends
     throw new UnreachableCodeException();
   }
 
+  static UsageHint usageHintFromGL(
+    final int hint)
+  {
+    switch (hint) {
+      case GL15.GL_DYNAMIC_COPY:
+        return UsageHint.USAGE_DYNAMIC_COPY;
+      case GL15.GL_DYNAMIC_DRAW:
+        return UsageHint.USAGE_DYNAMIC_DRAW;
+      case GL15.GL_DYNAMIC_READ:
+        return UsageHint.USAGE_DYNAMIC_READ;
+      case GL15.GL_STATIC_COPY:
+        return UsageHint.USAGE_STATIC_COPY;
+      case GL15.GL_STATIC_DRAW:
+        return UsageHint.USAGE_STATIC_DRAW;
+      case GL15.GL_STATIC_READ:
+        return UsageHint.USAGE_STATIC_READ;
+      case GL15.GL_STREAM_COPY:
+        return UsageHint.USAGE_STREAM_COPY;
+      case GL15.GL_STREAM_DRAW:
+        return UsageHint.USAGE_STREAM_DRAW;
+      case GL15.GL_STREAM_READ:
+        return UsageHint.USAGE_STREAM_READ;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  static int usageHintToGL(
+    final UsageHint hint)
+  {
+    switch (hint) {
+      case USAGE_DYNAMIC_COPY:
+        return GL15.GL_DYNAMIC_COPY;
+      case USAGE_DYNAMIC_DRAW:
+        return GL15.GL_DYNAMIC_DRAW;
+      case USAGE_DYNAMIC_READ:
+        return GL15.GL_DYNAMIC_READ;
+      case USAGE_STATIC_COPY:
+        return GL15.GL_STATIC_COPY;
+      case USAGE_STATIC_DRAW:
+        return GL15.GL_STATIC_DRAW;
+      case USAGE_STATIC_READ:
+        return GL15.GL_STATIC_READ;
+      case USAGE_STREAM_COPY:
+        return GL15.GL_STREAM_COPY;
+      case USAGE_STREAM_DRAW:
+        return GL15.GL_STREAM_DRAW;
+      case USAGE_STREAM_READ:
+        return GL15.GL_STREAM_READ;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  public GLInterface_LWJGL30(
+    final @Nonnull Log log)
+    throws ConstraintError,
+      GLException
+  {
+    super(log);
+  }
+
+  @Override public @Nonnull ByteBuffer arrayBufferMapRead(
+    final @Nonnull ArrayBuffer id)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(id, "Array buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Array buffer not deleted");
+
+    this.log.debug("vertex-buffer: map " + id);
+
+    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id.getGLName());
+    final ByteBuffer b =
+      GL15.glMapBuffer(GL15.GL_ARRAY_BUFFER, GL15.GL_READ_ONLY, null);
+    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+    GLError.check(this);
+    return b;
+  }
+
+  @Override public @Nonnull ArrayBufferWritableMap arrayBufferMapWrite(
+    final @Nonnull ArrayBuffer id)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(id, "Array buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Array buffer not deleted");
+
+    this.log.debug("vertex-buffer: map " + id);
+
+    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id.getGLName());
+    GL15.glBufferData(
+      GL15.GL_ARRAY_BUFFER,
+      id.getSizeBytes(),
+      GL15.GL_STREAM_DRAW);
+
+    final ByteBuffer b =
+      GL15.glMapBuffer(GL15.GL_ARRAY_BUFFER, GL15.GL_WRITE_ONLY, null);
+    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+    GLError.check(this);
+
+    return new ArrayBufferWritableMap(id, b);
+  }
+
+  @Override public void arrayBufferUnmap(
+    final @Nonnull ArrayBuffer id)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(id, "Array buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Array buffer not deleted");
+
+    this.log.debug("vertex-buffer: unmap " + id);
+
+    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id.getGLName());
+    GL15.glUnmapBuffer(GL15.GL_ARRAY_BUFFER);
+    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+    GLError.check(this);
+  }
+
+  @Override public void blendingEnableSeparateWithEquationSeparate(
+    final BlendFunction source_rgb_factor,
+    final BlendFunction source_alpha_factor,
+    final BlendFunction destination_rgb_factor,
+    final BlendFunction destination_alpha_factor,
+    final BlendEquation equation_rgb,
+    final BlendEquation equation_alpha)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(source_rgb_factor, "Source RGB factor");
+    Constraints.constrainNotNull(source_alpha_factor, "Source alpha factor");
+    Constraints.constrainNotNull(
+      destination_rgb_factor,
+      "Destination RGB factor");
+    Constraints.constrainNotNull(
+      destination_alpha_factor,
+      "Destination alpha factor");
+    Constraints.constrainNotNull(equation_rgb, "Equation RGB");
+    Constraints.constrainNotNull(equation_alpha, "Equation alpha");
+
+    Constraints.constrainArbitrary(
+      destination_rgb_factor != BlendFunction.BLEND_SOURCE_ALPHA_SATURATE,
+      "Destination RGB factor not SOURCE_ALPHA_SATURATE");
+    Constraints.constrainArbitrary(
+      destination_alpha_factor != BlendFunction.BLEND_SOURCE_ALPHA_SATURATE,
+      "Destination alpha factor not SOURCE_ALPHA_SATURATE");
+
+    GL11.glEnable(GL11.GL_BLEND);
+    GL20.glBlendEquationSeparate(
+      GLInterface_LWJGL30.blendEquationToGL(equation_rgb),
+      GLInterface_LWJGL30.blendEquationToGL(equation_alpha));
+    GL14.glBlendFuncSeparate(
+      GLInterfaceEmbedded_LWJGL_ES2_Actual
+        .blendFunctionToGL(source_rgb_factor),
+      GLInterfaceEmbedded_LWJGL_ES2_Actual
+        .blendFunctionToGL(destination_rgb_factor),
+      GLInterfaceEmbedded_LWJGL_ES2_Actual
+        .blendFunctionToGL(source_alpha_factor),
+      GLInterfaceEmbedded_LWJGL_ES2_Actual
+        .blendFunctionToGL(destination_alpha_factor));
+    GLError.check(this);
+  }
+
+  @Override public void blendingEnableWithEquation(
+    final @Nonnull BlendFunction source_factor,
+    final @Nonnull BlendFunction destination_factor,
+    final @Nonnull BlendEquation equation)
+    throws ConstraintError,
+      GLException
+  {
+    this.blendingEnableSeparateWithEquationSeparate(
+      source_factor,
+      source_factor,
+      destination_factor,
+      destination_factor,
+      equation,
+      equation);
+  }
+
+  @Override public void blendingEnableWithEquationSeparate(
+    final @Nonnull BlendFunction source_factor,
+    final @Nonnull BlendFunction destination_factor,
+    final @Nonnull BlendEquation equation_rgb,
+    final @Nonnull BlendEquation equation_alpha)
+    throws ConstraintError,
+      GLException
+  {
+    this.blendingEnableSeparateWithEquationSeparate(
+      source_factor,
+      source_factor,
+      destination_factor,
+      destination_factor,
+      equation_rgb,
+      equation_alpha);
+  }
+
+  @Override public @Nonnull IndexBufferReadableMap indexBufferMapRead(
+    final @Nonnull IndexBuffer id)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(id, "Index buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Index buffer not deleted");
+
+    this.log.debug("index-buffer: map " + id);
+
+    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
+    final ByteBuffer b =
+      GL15.glMapBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, GL15.GL_READ_ONLY, null);
+    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+    GLError.check(this);
+
+    return new IndexBufferReadableMap(id, b);
+  }
+
+  @Override public @Nonnull IndexBufferWritableMap indexBufferMapWrite(
+    final @Nonnull IndexBuffer id)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(id, "Index buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Index buffer not deleted");
+
+    this.log.debug("index-buffer: map " + id);
+
+    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
+    GL15.glBufferData(
+      GL15.GL_ELEMENT_ARRAY_BUFFER,
+      id.getSizeBytes(),
+      GL15.GL_STREAM_DRAW);
+
+    final ByteBuffer b =
+      GL15
+        .glMapBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, GL15.GL_WRITE_ONLY, null);
+    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+    GLError.check(this);
+
+    return new IndexBufferWritableMap(id, b);
+  }
+
+  @Override public void indexBufferUnmap(
+    final @Nonnull IndexBuffer id)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(id, "Index buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Index buffer not deleted");
+
+    this.log.debug("index-buffer: unmap " + id);
+
+    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
+    GL15.glUnmapBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER);
+    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+    GLError.check(this);
+  }
+
   @Override public void logicOperationsDisable()
     throws GLException
   {
@@ -415,148 +558,5 @@ public final class GLInterface_LWJGL30 extends
     final boolean e = GL11.glIsEnabled(GL11.GL_POLYGON_SMOOTH);
     GLError.check(this);
     return e;
-  }
-
-  @Override public void blendingEnableWithEquation(
-    final @Nonnull BlendFunction source_factor,
-    final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquation equation)
-    throws ConstraintError,
-      GLException
-  {
-    this.blendingEnableSeparateWithEquationSeparate(
-      source_factor,
-      source_factor,
-      destination_factor,
-      destination_factor,
-      equation,
-      equation);
-  }
-
-  @Override public void blendingEnableWithEquationSeparate(
-    final @Nonnull BlendFunction source_factor,
-    final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquation equation_rgb,
-    final @Nonnull BlendEquation equation_alpha)
-    throws ConstraintError,
-      GLException
-  {
-    this.blendingEnableSeparateWithEquationSeparate(
-      source_factor,
-      source_factor,
-      destination_factor,
-      destination_factor,
-      equation_rgb,
-      equation_alpha);
-  }
-
-  @Override public void blendingEnableSeparateWithEquationSeparate(
-    final BlendFunction source_rgb_factor,
-    final BlendFunction source_alpha_factor,
-    final BlendFunction destination_rgb_factor,
-    final BlendFunction destination_alpha_factor,
-    final BlendEquation equation_rgb,
-    final BlendEquation equation_alpha)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(source_rgb_factor, "Source RGB factor");
-    Constraints.constrainNotNull(source_alpha_factor, "Source alpha factor");
-    Constraints.constrainNotNull(
-      destination_rgb_factor,
-      "Destination RGB factor");
-    Constraints.constrainNotNull(
-      destination_alpha_factor,
-      "Destination alpha factor");
-    Constraints.constrainNotNull(equation_rgb, "Equation RGB");
-    Constraints.constrainNotNull(equation_alpha, "Equation alpha");
-
-    Constraints.constrainArbitrary(
-      destination_rgb_factor != BlendFunction.BLEND_SOURCE_ALPHA_SATURATE,
-      "Destination RGB factor not SOURCE_ALPHA_SATURATE");
-    Constraints.constrainArbitrary(
-      destination_alpha_factor != BlendFunction.BLEND_SOURCE_ALPHA_SATURATE,
-      "Destination alpha factor not SOURCE_ALPHA_SATURATE");
-
-    GL11.glEnable(GL11.GL_BLEND);
-    GL20.glBlendEquationSeparate(
-      GLInterface_LWJGL30.blendEquationToGL(equation_rgb),
-      GLInterface_LWJGL30.blendEquationToGL(equation_alpha));
-    GL14.glBlendFuncSeparate(
-      GLInterfaceEmbedded_LWJGL_ES2_Actual
-        .blendFunctionToGL(source_rgb_factor),
-      GLInterfaceEmbedded_LWJGL_ES2_Actual
-        .blendFunctionToGL(destination_rgb_factor),
-      GLInterfaceEmbedded_LWJGL_ES2_Actual
-        .blendFunctionToGL(source_alpha_factor),
-      GLInterfaceEmbedded_LWJGL_ES2_Actual
-        .blendFunctionToGL(destination_alpha_factor));
-    GLError.check(this);
-  }
-
-  @Override public @Nonnull IndexBufferReadableMap indexBufferMapRead(
-    final @Nonnull IndexBuffer id)
-    throws GLException,
-      ConstraintError
-  {
-    Constraints.constrainNotNull(id, "Index buffer");
-    Constraints.constrainArbitrary(
-      id.resourceIsDeleted() == false,
-      "Index buffer not deleted");
-
-    this.log.debug("index-buffer: map " + id);
-
-    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
-    final ByteBuffer b =
-      GL15.glMapBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, GL15.GL_READ_ONLY, null);
-    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
-    GLError.check(this);
-
-    return new IndexBufferReadableMap(id, b);
-  }
-
-  @Override public @Nonnull IndexBufferWritableMap indexBufferMapWrite(
-    final @Nonnull IndexBuffer id)
-    throws GLException,
-      ConstraintError
-  {
-    Constraints.constrainNotNull(id, "Index buffer");
-    Constraints.constrainArbitrary(
-      id.resourceIsDeleted() == false,
-      "Index buffer not deleted");
-
-    this.log.debug("index-buffer: map " + id);
-
-    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
-    GL15.glBufferData(
-      GL15.GL_ELEMENT_ARRAY_BUFFER,
-      id.getSizeBytes(),
-      GL15.GL_STREAM_DRAW);
-
-    final ByteBuffer b =
-      GL15
-        .glMapBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, GL15.GL_WRITE_ONLY, null);
-    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
-    GLError.check(this);
-
-    return new IndexBufferWritableMap(id, b);
-  }
-
-  @Override public void indexBufferUnmap(
-    final @Nonnull IndexBuffer id)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(id, "Index buffer");
-    Constraints.constrainArbitrary(
-      id.resourceIsDeleted() == false,
-      "Index buffer not deleted");
-
-    this.log.debug("index-buffer: unmap " + id);
-
-    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
-    GL15.glUnmapBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER);
-    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
-    GLError.check(this);
   }
 }

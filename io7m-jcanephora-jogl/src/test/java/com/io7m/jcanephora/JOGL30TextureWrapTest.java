@@ -21,7 +21,8 @@ public class JOGL30TextureWrapTest
   {
     for (final TextureWrap w : TextureWrap.values()) {
       Assert.assertEquals(w, GLInterfaceEmbedded_JOGL_ES2_Actual
-        .textureWrapFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual.textureWrapToGL(w)));
+        .textureWrapFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual
+          .textureWrapToGL(w)));
     }
   }
 }
