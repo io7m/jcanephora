@@ -15,8 +15,11 @@ public final class JOGL30PrimitivesTest
   @SuppressWarnings("static-method") @Test public void testModeBijection()
   {
     for (final Primitives p : Primitives.values()) {
-      Assert.assertEquals(GLInterfaceEmbedded_JOGL_ES2_Actual
-        .primitiveFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual.primitiveToGL(p)), p);
+      Assert.assertEquals(
+        GLInterfaceEmbedded_JOGL_ES2_Actual
+          .primitiveFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual
+            .primitiveToGL(p)),
+        p);
     }
   }
 

@@ -11,10 +11,10 @@ public final class LWJGL30DepthBuffersTest extends DepthBuffersContract
     return LWJGL30TestLog.getLog();
   }
 
-  @Override public GLInterface makeNewGL()
+  @Override public GLInterfaceEmbedded makeNewGL()
     throws GLException,
       ConstraintError
   {
-    return LWJGL30TestDisplay.getGL();
+    return LWJGL30TestDisplay.makeFreshGLEmbedded();
   }
 }

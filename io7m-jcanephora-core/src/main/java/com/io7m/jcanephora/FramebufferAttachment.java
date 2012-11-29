@@ -37,45 +37,6 @@ public class FramebufferAttachment
           "Attachment index");
     }
 
-    /**
-     * Retrieve the index at which this attachment is attached to the
-     * framebuffer.
-     */
-
-    public int getIndex()
-    {
-      return this.index;
-    }
-
-    /**
-     * Retrieve the texture that backs the color buffer.
-     */
-
-    public @Nonnull Texture2DRGBAStatic getTexture()
-    {
-      return this.texture;
-    }
-
-    @Override public String toString()
-    {
-      final StringBuilder builder = new StringBuilder();
-      builder.append("[FramebufferColorAttachment ");
-      builder.append(this.texture);
-      builder.append(" ");
-      builder.append(this.index);
-      builder.append("]");
-      return builder.toString();
-    }
-
-    @Override public int hashCode()
-    {
-      final int prime = 31;
-      int result = 1;
-      result = (prime * result) + this.index;
-      result = (prime * result) + this.texture.hashCode();
-      return result;
-    }
-
     @Override public boolean equals(
       final Object obj)
     {
@@ -97,6 +58,45 @@ public class FramebufferAttachment
       }
       return true;
     }
+
+    /**
+     * Retrieve the index at which this attachment is attached to the
+     * framebuffer.
+     */
+
+    public int getIndex()
+    {
+      return this.index;
+    }
+
+    /**
+     * Retrieve the texture that backs the color buffer.
+     */
+
+    public @Nonnull Texture2DRGBAStatic getTexture()
+    {
+      return this.texture;
+    }
+
+    @Override public int hashCode()
+    {
+      final int prime = 31;
+      int result = 1;
+      result = (prime * result) + this.index;
+      result = (prime * result) + this.texture.hashCode();
+      return result;
+    }
+
+    @Override public String toString()
+    {
+      final StringBuilder builder = new StringBuilder();
+      builder.append("[FramebufferColorAttachment ");
+      builder.append(this.texture);
+      builder.append(" ");
+      builder.append(this.index);
+      builder.append("]");
+      return builder.toString();
+    }
   }
 
   /**
@@ -116,14 +116,6 @@ public class FramebufferAttachment
     {
       super(Type.ATTACHMENT_D24S8);
       this.buffer = Constraints.constrainNotNull(buffer, "Renderbuffer");
-    }
-
-    @Override public int hashCode()
-    {
-      final int prime = 31;
-      int result = 1;
-      result = (prime * result) + this.buffer.hashCode();
-      return result;
     }
 
     @Override public boolean equals(
@@ -153,6 +145,14 @@ public class FramebufferAttachment
     public @Nonnull RenderbufferD24S8 getRenderbuffer()
     {
       return this.buffer;
+    }
+
+    @Override public int hashCode()
+    {
+      final int prime = 31;
+      int result = 1;
+      result = (prime * result) + this.buffer.hashCode();
+      return result;
     }
 
     @Override public String toString()

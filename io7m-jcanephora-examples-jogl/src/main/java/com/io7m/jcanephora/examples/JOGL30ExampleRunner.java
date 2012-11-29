@@ -24,6 +24,23 @@ import com.jogamp.opengl.util.FPSAnimator;
 
 final class JOGL30ExampleRunner implements GLEventListener
 {
+  static void fatal(
+    final Throwable e)
+  {
+    e.printStackTrace();
+    System.exit(1);
+  }
+
+  @SuppressWarnings("unused") public static void main(
+    final String args[])
+  {
+    try {
+      new JOGL30ExampleRunner();
+    } catch (final Throwable e) {
+      JOGL30ExampleRunner.fatal(e);
+    }
+  }
+
   private final HashMap<String, PartialFunction<ExampleConfig, Example, Throwable>> examples;
   private final Log                                                                 log;
   private final GLWindow                                                            window;
@@ -32,7 +49,9 @@ final class JOGL30ExampleRunner implements GLEventListener
   private GLInterfaceEmbedded_JOGL_ES2                                              gl;
   private final Filesystem                                                          filesystem;
   private final VectorM2I                                                           window_position;
+
   private final VectorM2I                                                           window_size;
+
   private ExampleConfig                                                             config;
 
   JOGL30ExampleRunner()
@@ -78,6 +97,26 @@ final class JOGL30ExampleRunner implements GLEventListener
     this.animator.start();
   }
 
+  @Override public void display(
+    @SuppressWarnings("unused") final GLAutoDrawable drawable)
+  {
+    try {
+      this.current_example.display();
+    } catch (final GLException e) {
+      JOGL30ExampleRunner.fatal(e);
+    } catch (final GLCompileException e) {
+      JOGL30ExampleRunner.fatal(e);
+    } catch (final ConstraintError e) {
+      JOGL30ExampleRunner.fatal(e);
+    }
+  }
+
+  @Override public void dispose(
+    @SuppressWarnings("unused") final GLAutoDrawable drawable)
+  {
+    // Nothing.
+  }
+
   private void examplesInitialize()
   {
     this.examples.put(
@@ -101,33 +140,6 @@ final class JOGL30ExampleRunner implements GLEventListener
           return new ExampleFBO(c);
         }
       });
-  }
-
-  static void fatal(
-    final Throwable e)
-  {
-    e.printStackTrace();
-    System.exit(1);
-  }
-
-  @Override public void display(
-    @SuppressWarnings("unused") final GLAutoDrawable drawable)
-  {
-    try {
-      this.current_example.display();
-    } catch (final GLException e) {
-      JOGL30ExampleRunner.fatal(e);
-    } catch (final GLCompileException e) {
-      JOGL30ExampleRunner.fatal(e);
-    } catch (final ConstraintError e) {
-      JOGL30ExampleRunner.fatal(e);
-    }
-  }
-
-  @Override public void dispose(
-    @SuppressWarnings("unused") final GLAutoDrawable drawable)
-  {
-    // Nothing.
   }
 
   @Override public void init(
@@ -176,16 +188,6 @@ final class JOGL30ExampleRunner implements GLEventListener
     } catch (final GLCompileException e) {
       JOGL30ExampleRunner.fatal(e);
     } catch (final ConstraintError e) {
-      JOGL30ExampleRunner.fatal(e);
-    }
-  }
-
-  @SuppressWarnings("unused") public static void main(
-    final String args[])
-  {
-    try {
-      new JOGL30ExampleRunner();
-    } catch (final Throwable e) {
       JOGL30ExampleRunner.fatal(e);
     }
   }

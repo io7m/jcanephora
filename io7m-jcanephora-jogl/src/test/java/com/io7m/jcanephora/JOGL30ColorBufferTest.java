@@ -15,6 +15,6 @@ public final class JOGL30ColorBufferTest extends ColorBufferContract
     throws GLException,
       ConstraintError
   {
-    return JOGL30TestDisplay.makeFreshGL();
+    return JOGL30TestDisplay.makeFreshGLEmbedded();
   }
 }

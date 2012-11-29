@@ -17,10 +17,10 @@ public final class LWJGL30ProgramTest extends ProgramContract
     return LWJGL30TestFilesystem.getFS();
   }
 
-  @Override public GLInterface makeNewGL()
+  @Override public GLInterfaceEmbedded makeNewGL()
     throws GLException,
       ConstraintError
   {
-    return LWJGL30TestDisplay.getGL();
+    return LWJGL30TestDisplay.makeFreshGLEmbedded();
   }
 }

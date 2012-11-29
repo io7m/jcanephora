@@ -16,7 +16,8 @@ public final class JOGL30ScalarTypeTest
   {
     for (final GLScalarType t : GLScalarType.values()) {
       Assert.assertEquals(GLInterfaceEmbedded_JOGL_ES2_Actual
-        .scalarTypeFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual.scalarTypeToGL(t)), t);
+        .scalarTypeFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual
+          .scalarTypeToGL(t)), t);
     }
   }
 

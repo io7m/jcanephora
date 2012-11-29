@@ -5,6 +5,8 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option;
+import com.io7m.jaux.functional.Option.Type;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface;
 
@@ -18,12 +20,15 @@ public abstract class RasterizationContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    GLInterface gl = null;
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      return;
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     int min = 0;
     int max = 0;
 
     try {
-      gl = this.makeNewGL();
       gl.lineSmoothingDisable();
       min = gl.lineAliasedGetMinimumWidth();
       max = gl.lineAliasedGetMaximumWidth();
@@ -47,11 +52,14 @@ public abstract class RasterizationContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    GLInterface gl = null;
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new ConstraintError("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     int max = 99999;
 
     try {
-      gl = this.makeNewGL();
       gl.lineSmoothingDisable();
       max = gl.lineAliasedGetMaximumWidth();
     } catch (final GLException e) {
@@ -72,11 +80,14 @@ public abstract class RasterizationContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    GLInterface gl = null;
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new ConstraintError("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     int min = 0;
 
     try {
-      gl = this.makeNewGL();
       gl.lineSmoothingDisable();
       min = gl.lineAliasedGetMinimumWidth();
     } catch (final GLException e) {
@@ -95,12 +106,15 @@ public abstract class RasterizationContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    GLInterface gl = null;
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      return;
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     int min = 0;
     int max = 0;
 
     try {
-      gl = this.makeNewGL();
       gl.lineSmoothingEnable();
       min = gl.lineSmoothGetMinimumWidth();
       max = gl.lineSmoothGetMaximumWidth();
@@ -124,11 +138,14 @@ public abstract class RasterizationContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    GLInterface gl = null;
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new ConstraintError("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     int max = 99999;
 
     try {
-      gl = this.makeNewGL();
       gl.lineSmoothingEnable();
       max = gl.lineSmoothGetMaximumWidth();
     } catch (final GLException e) {
@@ -149,11 +166,14 @@ public abstract class RasterizationContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    GLInterface gl = null;
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new ConstraintError("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     int min = 0;
 
     try {
-      gl = this.makeNewGL();
       gl.lineSmoothingEnable();
       min = gl.lineSmoothGetMinimumWidth();
     } catch (final GLException e) {
@@ -175,7 +195,11 @@ public abstract class RasterizationContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      return;
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     Assert.assertTrue(gl.pointGetMinimumWidth() >= 0);
     Assert.assertTrue(gl.pointGetMaximumWidth() >= 1);
   }
@@ -191,7 +215,11 @@ public abstract class RasterizationContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      return;
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
 
     gl.polygonSmoothingDisable();
     Assert.assertFalse(gl.polygonSmoothingIsEnabled());
@@ -207,7 +235,11 @@ public abstract class RasterizationContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      return;
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
 
     gl.pointProgramSizeControlDisable();
     Assert.assertFalse(gl.pointProgramSizeControlIsEnabled());

@@ -20,9 +20,8 @@ public class JOGL30UsageHintTest
   @SuppressWarnings("static-method") @Test public void testWrapBijection()
   {
     for (final UsageHint h : UsageHint.values()) {
-      Assert
-        .assertEquals(h, GLInterface_JOGL30.usageHintFromGL(GLInterface_JOGL30
-          .usageHintToGL(h)));
+      Assert.assertEquals(h, GLInterface_JOGL30
+        .usageHintFromGL(GLInterface_JOGL30.usageHintToGL(h)));
     }
   }
 }

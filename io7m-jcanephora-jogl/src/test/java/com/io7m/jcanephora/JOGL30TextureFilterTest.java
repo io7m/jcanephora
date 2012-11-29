@@ -15,7 +15,8 @@ public class JOGL30TextureFilterTest
   {
     for (final TextureFilter f : TextureFilter.values()) {
       Assert.assertEquals(f, GLInterfaceEmbedded_JOGL_ES2_Actual
-        .textureFilterFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual.textureFilterToGL(f)));
+        .textureFilterFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual
+          .textureFilterToGL(f)));
     }
   }
 

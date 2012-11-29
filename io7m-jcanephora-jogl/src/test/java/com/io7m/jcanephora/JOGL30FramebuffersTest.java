@@ -15,6 +15,6 @@ public final class JOGL30FramebuffersTest extends FramebuffersContract
     throws GLException,
       ConstraintError
   {
-    return JOGL30TestDisplay.makeFreshGL();
+    return JOGL30TestDisplay.makeFreshGLEmbedded();
   }
 }

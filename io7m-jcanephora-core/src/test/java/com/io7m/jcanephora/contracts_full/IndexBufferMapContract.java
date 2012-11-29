@@ -5,6 +5,8 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option;
+import com.io7m.jaux.functional.Option.Type;
 import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferDescriptor;
@@ -33,7 +35,11 @@ public abstract class IndexBufferMapContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new ConstraintError("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 25);
 
@@ -54,7 +60,11 @@ public abstract class IndexBufferMapContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new ConstraintError("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 25);
 
@@ -71,7 +81,11 @@ public abstract class IndexBufferMapContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      return;
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -113,7 +127,11 @@ public abstract class IndexBufferMapContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      return;
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -155,7 +173,11 @@ public abstract class IndexBufferMapContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      return;
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -201,7 +223,11 @@ public abstract class IndexBufferMapContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new ConstraintError("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 25);
 

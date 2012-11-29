@@ -407,6 +407,83 @@ import com.io7m.jlog.Log;
       equation_alpha);
   }
 
+  @Override public IndexBufferReadableMap indexBufferMapRead(
+    final @Nonnull IndexBuffer id)
+    throws GLException,
+      ConstraintError
+  {
+    final GL2GL3 gl = this.contextGetGL2GL3();
+
+    Constraints.constrainNotNull(id, "Index buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Index buffer not deleted");
+
+    this.log.debug("index-buffer: map " + id);
+
+    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
+    GLError.check(this);
+    final ByteBuffer b =
+      gl.glMapBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, GL2GL3.GL_READ_ONLY);
+    GLError.check(this);
+    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
+    GLError.check(this);
+
+    return new IndexBufferReadableMap(id, b);
+  }
+
+  @Override public IndexBufferWritableMap indexBufferMapWrite(
+    final @Nonnull IndexBuffer id)
+    throws GLException,
+      ConstraintError
+  {
+    final GL2GL3 gl = this.contextGetGL2GL3();
+
+    Constraints.constrainNotNull(id, "Index buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Index buffer not deleted");
+
+    this.log.debug("index-buffer: map " + id);
+
+    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
+    GLError.check(this);
+    gl.glBufferData(
+      GL.GL_ELEMENT_ARRAY_BUFFER,
+      id.getSizeBytes(),
+      null,
+      GL2ES2.GL_STREAM_DRAW);
+    GLError.check(this);
+
+    final ByteBuffer b =
+      gl.glMapBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, GL.GL_WRITE_ONLY);
+    GLError.check(this);
+    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
+    GLError.check(this);
+
+    return new IndexBufferWritableMap(id, b);
+  }
+
+  @Override public void indexBufferUnmap(
+    final @Nonnull IndexBuffer id)
+    throws ConstraintError,
+      GLException
+  {
+    final GL2GL3 gl = this.contextGetGL2GL3();
+
+    Constraints.constrainNotNull(id, "Index buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Index buffer not deleted");
+
+    this.log.debug("index-buffer: unmap " + id);
+
+    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
+    gl.glUnmapBuffer(GL.GL_ELEMENT_ARRAY_BUFFER);
+    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
+    GLError.check(this);
+  }
+
   @Override public void logicOperationsDisable()
     throws GLException
   {
@@ -527,82 +604,5 @@ import com.io7m.jlog.Log;
     final boolean e = g.glIsEnabled(GL2GL3.GL_POLYGON_SMOOTH);
     GLError.check(this);
     return e;
-  }
-
-  @Override public IndexBufferReadableMap indexBufferMapRead(
-    final @Nonnull IndexBuffer id)
-    throws GLException,
-      ConstraintError
-  {
-    final GL2GL3 gl = this.contextGetGL2GL3();
-
-    Constraints.constrainNotNull(id, "Index buffer");
-    Constraints.constrainArbitrary(
-      id.resourceIsDeleted() == false,
-      "Index buffer not deleted");
-
-    this.log.debug("index-buffer: map " + id);
-
-    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
-    GLError.check(this);
-    final ByteBuffer b =
-      gl.glMapBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, GL2GL3.GL_READ_ONLY);
-    GLError.check(this);
-    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
-    GLError.check(this);
-
-    return new IndexBufferReadableMap(id, b);
-  }
-
-  @Override public IndexBufferWritableMap indexBufferMapWrite(
-    final @Nonnull IndexBuffer id)
-    throws GLException,
-      ConstraintError
-  {
-    final GL2GL3 gl = this.contextGetGL2GL3();
-
-    Constraints.constrainNotNull(id, "Index buffer");
-    Constraints.constrainArbitrary(
-      id.resourceIsDeleted() == false,
-      "Index buffer not deleted");
-
-    this.log.debug("index-buffer: map " + id);
-
-    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
-    GLError.check(this);
-    gl.glBufferData(
-      GL.GL_ELEMENT_ARRAY_BUFFER,
-      id.getSizeBytes(),
-      null,
-      GL2ES2.GL_STREAM_DRAW);
-    GLError.check(this);
-
-    final ByteBuffer b =
-      gl.glMapBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, GL.GL_WRITE_ONLY);
-    GLError.check(this);
-    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
-    GLError.check(this);
-
-    return new IndexBufferWritableMap(id, b);
-  }
-
-  @Override public void indexBufferUnmap(
-    final @Nonnull IndexBuffer id)
-    throws ConstraintError,
-      GLException
-  {
-    final GL2GL3 gl = this.contextGetGL2GL3();
-
-    Constraints.constrainNotNull(id, "Index buffer");
-    Constraints.constrainArbitrary(
-      id.resourceIsDeleted() == false,
-      "Index buffer not deleted");
-
-    this.log.debug("index-buffer: unmap " + id);
-
-    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
-    gl.glUnmapBuffer(GL.GL_ELEMENT_ARRAY_BUFFER);
-    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
-    GLError.check(this);
   }
 }

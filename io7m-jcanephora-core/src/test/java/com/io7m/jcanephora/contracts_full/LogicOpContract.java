@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option;
+import com.io7m.jaux.functional.Option.Type;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface;
 import com.io7m.jcanephora.LogicOperation;
@@ -21,7 +23,11 @@ public abstract class LogicOpContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      return;
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
 
     for (final LogicOperation op : LogicOperation.values()) {
       gl.logicOperationsDisable();
@@ -42,7 +48,11 @@ public abstract class LogicOpContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      throw new ConstraintError("Unsupported");
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     gl.logicOperationsEnable(null);
   }
 }

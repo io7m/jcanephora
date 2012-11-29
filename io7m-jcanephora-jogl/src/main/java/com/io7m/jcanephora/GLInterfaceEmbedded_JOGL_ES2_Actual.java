@@ -634,12 +634,6 @@ import com.jogamp.common.nio.Buffers;
     GLError.check(this);
   }
 
-  private void integerCacheReset()
-  {
-    this.integer_cache.rewind();
-    this.integer_cache_buffer.rewind();
-  }
-
   @Override public final ArrayBuffer arrayBufferAllocate(
     final long elements,
     final @Nonnull ArrayBufferDescriptor descriptor)
@@ -1706,6 +1700,11 @@ import com.jogamp.common.nio.Buffers;
     GLError.check(this);
   }
 
+  private final boolean implementationIsES2()
+  {
+    return this.context.isGL2ES2();
+  }
+
   @Override public final IndexBuffer indexBufferAllocate(
     final @Nonnull ArrayBuffer buffer,
     final int indices)
@@ -1788,6 +1787,36 @@ import com.jogamp.common.nio.Buffers;
     gl.glDeleteBuffers(1, this.integer_cache);
     id.setDeleted();
     GLError.check(this);
+  }
+
+  @Override public void indexBufferUpdate(
+    final @Nonnull IndexBuffer buffer,
+    final @Nonnull IndexBufferWritableData data)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(buffer, "Index buffer");
+    Constraints.constrainNotNull(data, "Index data");
+
+    Constraints.constrainArbitrary(
+      buffer.resourceIsDeleted() == false,
+      "Index buffer not deleted");
+
+    final GL2ES2 g = this.contextGetGL2ES2();
+
+    g.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, buffer.getGLName());
+    g.glBufferSubData(
+      GL.GL_ELEMENT_ARRAY_BUFFER,
+      data.getTargetDataOffset(),
+      data.getTargetDataSize(),
+      data.getTargetData());
+    GLError.check(this);
+  }
+
+  private void integerCacheReset()
+  {
+    this.integer_cache.rewind();
+    this.integer_cache_buffer.rewind();
   }
 
   @Override public final int lineAliasedGetMaximumWidth()
@@ -2473,9 +2502,13 @@ import com.jogamp.common.nio.Buffers;
     return this.stencilBufferGetBitsGL2GL3();
   }
 
-  private final boolean implementationIsES2()
+  private final int stencilBufferGetBitsES2()
+    throws GLException
   {
-    return this.context.isGL2ES2();
+    final GL2ES2 gl = this.contextGetGL2ES2();
+    final int bits = this.contextGetInteger(gl, GL.GL_STENCIL_BITS);
+    GLError.check(this);
+    return bits;
   }
 
   protected final int stencilBufferGetBitsGL2GL3()
@@ -2527,198 +2560,6 @@ import com.jogamp.common.nio.Buffers;
       this.integer_cache);
     GLError.check(this);
     return this.integer_cache.get(0);
-  }
-
-  private final int stencilBufferGetBitsES2()
-    throws GLException
-  {
-    final GL2ES2 gl = this.contextGetGL2ES2();
-    final int bits = this.contextGetInteger(gl, GL.GL_STENCIL_BITS);
-    GLError.check(this);
-    return bits;
-  }
-
-  @Override public final int textureGetMaximumSize()
-    throws GLException
-  {
-    final GL2ES2 gl = this.contextGetGL2ES2();
-    return this.contextGetInteger(gl, GL.GL_MAX_TEXTURE_SIZE);
-  }
-
-  @Override public final TextureUnit[] textureGetUnits()
-    throws GLException
-  {
-    return this.texture_units;
-  }
-
-  private final TextureUnit[] textureGetUnitsCache()
-    throws GLException
-  {
-    final GL2ES2 g = this.contextGetGL2ES2();
-
-    final int max =
-      this.contextGetInteger(g, GL2ES2.GL_MAX_TEXTURE_IMAGE_UNITS);
-    this.log.debug("implementation supports " + max + " texture units");
-
-    final TextureUnit[] u = new TextureUnit[max];
-    for (int index = 0; index < max; ++index) {
-      u[index] = new TextureUnit(index);
-    }
-
-    return u;
-  }
-
-  @Override public final void vertexShaderAttach(
-    final @Nonnull ProgramReference program,
-    final @Nonnull VertexShader shader)
-    throws ConstraintError,
-      GLCompileException,
-      GLException
-  {
-    final GL2ES2 g = this.contextGetGL2ES2();
-
-    Constraints.constrainNotNull(program, "Program ID");
-    Constraints.constrainArbitrary(
-      program.resourceIsDeleted() == false,
-      "Program not deleted");
-
-    Constraints.constrainNotNull(shader, "Vertex shader");
-    Constraints.constrainArbitrary(
-      shader.resourceIsDeleted() == false,
-      "Vertex shader not deleted");
-
-    this.log.debug("vertex-shader: attach " + program + " " + shader);
-
-    g.glAttachShader(program.getGLName(), shader.getGLName());
-    GLError.check(this);
-  }
-
-  @Override public final VertexShader vertexShaderCompile(
-    final @Nonnull String name,
-    final @Nonnull InputStream stream)
-    throws ConstraintError,
-      GLCompileException,
-      IOException,
-      GLException
-  {
-    final GL2ES2 g = this.contextGetGL2ES2();
-
-    Constraints.constrainNotNull(name, "Shader name");
-    Constraints.constrainNotNull(stream, "input stream");
-
-    this.log.debug("vertex-shader: compile \"" + name + "\"");
-
-    final int id = g.glCreateShader(GL2ES2.GL_VERTEX_SHADER);
-    GLError.check(this);
-
-    final ArrayList<Integer> lengths = new ArrayList<Integer>();
-    final ArrayList<String> lines = new ArrayList<String>();
-    GLInterfaceEmbedded_JOGL_ES2_Actual.shaderReadSource(
-      stream,
-      lines,
-      lengths);
-    final String[] line_array = new String[lines.size()];
-    final IntBuffer line_lengths = Buffers.newDirectIntBuffer(lines.size());
-
-    for (int index = 0; index < lines.size(); ++index) {
-      line_array[index] = lines.get(index);
-      final int len = line_array[index].length();
-      line_lengths.put(index, len);
-    }
-
-    g.glShaderSource(id, line_array.length, line_array, line_lengths);
-    GLError.check(this);
-    g.glCompileShader(id);
-    GLError.check(this);
-    final int status =
-      this.contextGetShaderInteger(g, id, GL2ES2.GL_COMPILE_STATUS);
-    GLError.check(this);
-
-    if (status == 0) {
-      final ByteBuffer log_buffer = Buffers.newDirectByteBuffer(8192);
-      final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
-      g.glGetShaderInfoLog(id, 8192, buffer_length, log_buffer);
-      GLError.check(this);
-
-      final byte raw[] = new byte[log_buffer.remaining()];
-      log_buffer.get(raw);
-      final String text = new String(raw);
-      throw new GLCompileException(name, text);
-    }
-
-    return new VertexShader(id, name);
-  }
-
-  @Override public final void vertexShaderDelete(
-    final @Nonnull VertexShader id)
-    throws ConstraintError,
-      GLException
-  {
-    final GL2ES2 g = this.contextGetGL2ES2();
-
-    Constraints.constrainNotNull(id, "Vertex shader");
-    Constraints.constrainArbitrary(
-      id.resourceIsDeleted() == false,
-      "Vertex shader not deleted");
-
-    this.log.debug("vertex-shader: delete " + id);
-
-    g.glDeleteShader(id.getGLName());
-    id.setDeleted();
-    GLError.check(this);
-  }
-
-  @Override public final void viewportSet(
-    final @Nonnull VectorReadable2I position,
-    final @Nonnull VectorReadable2I dimensions)
-    throws ConstraintError,
-      GLException
-  {
-    final GL2ES2 g = this.contextGetGL2ES2();
-
-    Constraints.constrainNotNull(position, "Viewport position");
-    Constraints.constrainNotNull(dimensions, "Viewport dimensions");
-    Constraints.constrainRange(
-      dimensions.getXI(),
-      0,
-      Integer.MAX_VALUE,
-      "Viewport width");
-    Constraints.constrainRange(
-      dimensions.getYI(),
-      0,
-      Integer.MAX_VALUE,
-      "Viewport height");
-
-    g.glViewport(
-      position.getXI(),
-      position.getYI(),
-      dimensions.getXI(),
-      dimensions.getYI());
-    GLError.check(this);
-  }
-
-  @Override public void indexBufferUpdate(
-    final @Nonnull IndexBuffer buffer,
-    final @Nonnull IndexBufferWritableData data)
-    throws GLException,
-      ConstraintError
-  {
-    Constraints.constrainNotNull(buffer, "Index buffer");
-    Constraints.constrainNotNull(data, "Index data");
-
-    Constraints.constrainArbitrary(
-      buffer.resourceIsDeleted() == false,
-      "Index buffer not deleted");
-
-    final GL2ES2 g = this.contextGetGL2ES2();
-
-    g.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, buffer.getGLName());
-    g.glBufferSubData(
-      GL.GL_ELEMENT_ARRAY_BUFFER,
-      data.getTargetDataOffset(),
-      data.getTargetDataSize(),
-      data.getTargetData());
-    GLError.check(this);
   }
 
   @Override public @Nonnull Texture2DRGBAStatic texture2DRGBAStaticAllocate(
@@ -2852,6 +2693,36 @@ import com.jogamp.common.nio.Buffers;
     return e == texture.getGLName();
   }
 
+  @Override public final int textureGetMaximumSize()
+    throws GLException
+  {
+    final GL2ES2 gl = this.contextGetGL2ES2();
+    return this.contextGetInteger(gl, GL.GL_MAX_TEXTURE_SIZE);
+  }
+
+  @Override public final TextureUnit[] textureGetUnits()
+    throws GLException
+  {
+    return this.texture_units;
+  }
+
+  private final TextureUnit[] textureGetUnitsCache()
+    throws GLException
+  {
+    final GL2ES2 g = this.contextGetGL2ES2();
+
+    final int max =
+      this.contextGetInteger(g, GL2ES2.GL_MAX_TEXTURE_IMAGE_UNITS);
+    this.log.debug("implementation supports " + max + " texture units");
+
+    final TextureUnit[] u = new TextureUnit[max];
+    for (int index = 0; index < max; ++index) {
+      u[index] = new TextureUnit(index);
+    }
+
+    return u;
+  }
+
   @Override public void textureUnitUnbind(
     final TextureUnit unit)
     throws ConstraintError,
@@ -2863,6 +2734,135 @@ import com.jogamp.common.nio.Buffers;
 
     gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
     gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
+    GLError.check(this);
+  }
+
+  @Override public final void vertexShaderAttach(
+    final @Nonnull ProgramReference program,
+    final @Nonnull VertexShader shader)
+    throws ConstraintError,
+      GLCompileException,
+      GLException
+  {
+    final GL2ES2 g = this.contextGetGL2ES2();
+
+    Constraints.constrainNotNull(program, "Program ID");
+    Constraints.constrainArbitrary(
+      program.resourceIsDeleted() == false,
+      "Program not deleted");
+
+    Constraints.constrainNotNull(shader, "Vertex shader");
+    Constraints.constrainArbitrary(
+      shader.resourceIsDeleted() == false,
+      "Vertex shader not deleted");
+
+    this.log.debug("vertex-shader: attach " + program + " " + shader);
+
+    g.glAttachShader(program.getGLName(), shader.getGLName());
+    GLError.check(this);
+  }
+
+  @Override public final VertexShader vertexShaderCompile(
+    final @Nonnull String name,
+    final @Nonnull InputStream stream)
+    throws ConstraintError,
+      GLCompileException,
+      IOException,
+      GLException
+  {
+    final GL2ES2 g = this.contextGetGL2ES2();
+
+    Constraints.constrainNotNull(name, "Shader name");
+    Constraints.constrainNotNull(stream, "input stream");
+
+    this.log.debug("vertex-shader: compile \"" + name + "\"");
+
+    final int id = g.glCreateShader(GL2ES2.GL_VERTEX_SHADER);
+    GLError.check(this);
+
+    final ArrayList<Integer> lengths = new ArrayList<Integer>();
+    final ArrayList<String> lines = new ArrayList<String>();
+    GLInterfaceEmbedded_JOGL_ES2_Actual.shaderReadSource(
+      stream,
+      lines,
+      lengths);
+    final String[] line_array = new String[lines.size()];
+    final IntBuffer line_lengths = Buffers.newDirectIntBuffer(lines.size());
+
+    for (int index = 0; index < lines.size(); ++index) {
+      line_array[index] = lines.get(index);
+      final int len = line_array[index].length();
+      line_lengths.put(index, len);
+    }
+
+    g.glShaderSource(id, line_array.length, line_array, line_lengths);
+    GLError.check(this);
+    g.glCompileShader(id);
+    GLError.check(this);
+    final int status =
+      this.contextGetShaderInteger(g, id, GL2ES2.GL_COMPILE_STATUS);
+    GLError.check(this);
+
+    if (status == 0) {
+      final ByteBuffer log_buffer = Buffers.newDirectByteBuffer(8192);
+      final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
+      g.glGetShaderInfoLog(id, 8192, buffer_length, log_buffer);
+      GLError.check(this);
+
+      final byte raw[] = new byte[log_buffer.remaining()];
+      log_buffer.get(raw);
+      final String text = new String(raw);
+      throw new GLCompileException(name, text);
+    }
+
+    return new VertexShader(id, name);
+  }
+
+  @Override public final void vertexShaderDelete(
+    final @Nonnull VertexShader id)
+    throws ConstraintError,
+      GLException
+  {
+    final GL2ES2 g = this.contextGetGL2ES2();
+
+    Constraints.constrainNotNull(id, "Vertex shader");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Vertex shader not deleted");
+
+    this.log.debug("vertex-shader: delete " + id);
+
+    g.glDeleteShader(id.getGLName());
+    id.setDeleted();
+    GLError.check(this);
+  }
+
+  @Override public final void viewportSet(
+    final @Nonnull VectorReadable2I position,
+    final @Nonnull VectorReadable2I dimensions)
+    throws ConstraintError,
+      GLException
+  {
+    final GL2ES2 g = this.contextGetGL2ES2();
+
+    Constraints.constrainNotNull(position, "Viewport position");
+    Constraints.constrainNotNull(dimensions, "Viewport dimensions");
+    Constraints.constrainRange(
+      dimensions.getXI(),
+      0,
+      Integer.MAX_VALUE,
+      "Viewport width");
+    Constraints.constrainRange(
+      dimensions.getYI(),
+      0,
+      Integer.MAX_VALUE,
+      "Viewport height");
+
+    g.glViewport(
+      position.getXI(),
+      position.getYI(),
+      dimensions.getXI(),
+      dimensions.getYI());
     GLError.check(this);
   }
 }

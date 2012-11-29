@@ -15,6 +15,6 @@ public final class JOGL30DepthBuffersTest extends DepthBuffersContract
     throws GLException,
       ConstraintError
   {
-    return JOGL30TestDisplay.makeFreshGL();
+    return JOGL30TestDisplay.makeFreshGLEmbedded();
   }
 }
