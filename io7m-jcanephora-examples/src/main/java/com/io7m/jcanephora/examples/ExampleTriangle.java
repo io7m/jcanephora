@@ -25,6 +25,11 @@ import com.io7m.jtensors.VectorI2F;
 import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jvvfs.PathVirtual;
 
+/**
+ * Example program that draws a blended triangle to the screen, with an
+ * orthographic projection.
+ */
+
 public final class ExampleTriangle implements Example
 {
   private final GLInterfaceEmbedded     gl;
