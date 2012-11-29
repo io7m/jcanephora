@@ -43,7 +43,7 @@ final class ExampleConfig
     return this.log;
   }
 
-  VectorReadable2I getWindowPize()
+  VectorReadable2I getWindowSize()
   {
     return this.window_size;
   }

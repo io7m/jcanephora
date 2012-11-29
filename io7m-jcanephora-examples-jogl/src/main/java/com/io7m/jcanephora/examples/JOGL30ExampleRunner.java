@@ -43,15 +43,13 @@ final class JOGL30ExampleRunner implements GLEventListener
 
   private final HashMap<String, PartialFunction<ExampleConfig, Example, Throwable>> examples;
   private final Log                                                                 log;
-  private final GLWindow                                                            window;
+  protected final GLWindow                                                          window;
   private final FPSAnimator                                                         animator;
   private Example                                                                   current_example;
   private GLInterfaceEmbedded_JOGL_ES2                                              gl;
   private final Filesystem                                                          filesystem;
   private final VectorM2I                                                           window_position;
-
   private final VectorM2I                                                           window_size;
-
   private ExampleConfig                                                             config;
 
   JOGL30ExampleRunner()
@@ -120,23 +118,25 @@ final class JOGL30ExampleRunner implements GLEventListener
   private void examplesInitialize()
   {
     this.examples.put(
-      "ArrayBuffer",
+      "Triangle",
       new PartialFunction<ExampleConfig, Example, Throwable>() {
         @Override public Example call(
           final ExampleConfig c)
           throws Throwable
         {
-          return new ExampleArrayBuffer(c);
+          JOGL30ExampleRunner.this.window.setTitle("Triangle");
+          return new ExampleTriangle(c);
         }
       });
 
     this.examples.put(
-      "FBO",
+      "FBO Triangle",
       new PartialFunction<ExampleConfig, Example, Throwable>() {
         @Override public Example call(
           final ExampleConfig c)
           throws Throwable
         {
+          JOGL30ExampleRunner.this.window.setTitle("FBO Triangle");
           return new ExampleFBO(c);
         }
       });
@@ -157,8 +157,7 @@ final class JOGL30ExampleRunner implements GLEventListener
           this.window_position,
           this.window_size);
 
-      this.current_example =
-        this.examples.get("ArrayBuffer").call(this.config);
+      this.current_example = this.examples.get("Triangle").call(this.config);
 
     } catch (final GLException e) {
       JOGL30ExampleRunner.fatal(e);
