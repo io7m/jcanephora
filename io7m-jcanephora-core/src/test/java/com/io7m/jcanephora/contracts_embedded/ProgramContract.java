@@ -285,6 +285,33 @@ public abstract class ProgramContract implements
     Assert.assertTrue(gl.programGetMaximimActiveAttributes() >= 8);
   }
 
+  @Test public final void testProgramCompileDeleteCompile()
+    throws FilesystemError,
+      ConstraintError,
+      GLCompileException,
+      GLException
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
+    fs.mount("jcanephora.zip", "/");
+
+    final Program p = new Program("program", this.getLog());
+    p.addVertexShader(new PathVirtual("/shaders/simple.v"));
+    p.addFragmentShader(new PathVirtual("/shaders/simple.f"));
+    p.compile(fs, gl);
+    p.activate(gl);
+    p.deactivate(gl);
+    p.delete(gl);
+
+    final Program q = new Program("program", this.getLog());
+    q.addVertexShader(new PathVirtual("/shaders/simple.v"));
+    q.addFragmentShader(new PathVirtual("/shaders/simple.f"));
+    q.compile(fs, gl);
+    q.activate(gl);
+    q.deactivate(gl);
+    q.delete(gl);
+  }
+
   @Test public final void testProgramCompileFragmentRemovesRequirement()
     throws ConstraintError,
       GLCompileException,
@@ -421,33 +448,6 @@ public abstract class ProgramContract implements
     Assert.assertFalse(p.requiresCompilation(fs, gl));
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
-  }
-
-  @Test public final void testProgramCompileDeleteCompile()
-    throws FilesystemError,
-      ConstraintError,
-      GLCompileException,
-      GLException
-  {
-    final GLInterfaceEmbedded gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
-
-    final Program p = new Program("program", this.getLog());
-    p.addVertexShader(new PathVirtual("/shaders/simple.v"));
-    p.addFragmentShader(new PathVirtual("/shaders/simple.f"));
-    p.compile(fs, gl);
-    p.activate(gl);
-    p.deactivate(gl);
-    p.delete(gl);
-
-    final Program q = new Program("program", this.getLog());
-    q.addVertexShader(new PathVirtual("/shaders/simple.v"));
-    q.addFragmentShader(new PathVirtual("/shaders/simple.f"));
-    q.compile(fs, gl);
-    q.activate(gl);
-    q.deactivate(gl);
-    q.delete(gl);
   }
 
   @Test public final void testProgramCompileVertexRemovesRequirement()

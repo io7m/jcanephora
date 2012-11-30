@@ -393,6 +393,49 @@ import com.jogamp.common.nio.Buffers;
     throw new UnreachableCodeException();
   }
 
+  private static int textureTypeToFormatGL(
+    final @Nonnull TextureType type)
+  {
+    switch (type) {
+      case TEXTURE_TYPE_ALPHA_8_1BPP:
+        return GL.GL_ALPHA;
+      case TEXTURE_TYPE_LUMINANCE_8_1BPP:
+        return GL.GL_LUMINANCE;
+      case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
+        return GL.GL_LUMINANCE_ALPHA;
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+        return GL.GL_RGBA;
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_TYPE_RGB_888_3BPP:
+        return GL.GL_RGB;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  private static int textureTypeToTypeGL(
+    final @Nonnull TextureType type)
+  {
+    switch (type) {
+      case TEXTURE_TYPE_ALPHA_8_1BPP:
+      case TEXTURE_TYPE_LUMINANCE_8_1BPP:
+      case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+      case TEXTURE_TYPE_RGB_888_3BPP:
+        return GL.GL_UNSIGNED_BYTE;
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+        return GL.GL_UNSIGNED_SHORT_4_4_4_4;
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+        return GL.GL_UNSIGNED_SHORT_5_5_5_1;
+      case TEXTURE_TYPE_RGB_565_2BPP:
+        return GL.GL_UNSIGNED_SHORT_5_6_5;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
   static final @Nonnull TextureWrap textureWrapFromGL(
     final int wrap)
   {
@@ -588,7 +631,9 @@ import com.jogamp.common.nio.Buffers;
   private final int                    point_min_width;
   private final int                    point_max_width;
   protected final @Nonnull ByteBuffer  integer_cache_buffer;
+
   protected final @Nonnull IntBuffer   integer_cache;
+
   protected final @Nonnull ByteBuffer  color_buffer_mask_cache;
 
   public GLInterfaceEmbedded_JOGL_ES2_Actual(
@@ -2636,49 +2681,6 @@ import com.jogamp.common.nio.Buffers;
       new Texture2DStatic(name, type, texture_id, width, height);
     this.log.debug("texture-2D-static: allocated " + t);
     return t;
-  }
-
-  private static int textureTypeToTypeGL(
-    final @Nonnull TextureType type)
-  {
-    switch (type) {
-      case TEXTURE_TYPE_ALPHA_8_1BPP:
-      case TEXTURE_TYPE_LUMINANCE_8_1BPP:
-      case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
-      case TEXTURE_TYPE_RGBA_8888_4BPP:
-      case TEXTURE_TYPE_RGB_888_3BPP:
-        return GL.GL_UNSIGNED_BYTE;
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-        return GL.GL_UNSIGNED_SHORT_4_4_4_4;
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-        return GL.GL_UNSIGNED_SHORT_5_5_5_1;
-      case TEXTURE_TYPE_RGB_565_2BPP:
-        return GL.GL_UNSIGNED_SHORT_5_6_5;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  private static int textureTypeToFormatGL(
-    final @Nonnull TextureType type)
-  {
-    switch (type) {
-      case TEXTURE_TYPE_ALPHA_8_1BPP:
-        return GL.GL_ALPHA;
-      case TEXTURE_TYPE_LUMINANCE_8_1BPP:
-        return GL.GL_LUMINANCE;
-      case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
-        return GL.GL_LUMINANCE_ALPHA;
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_8888_4BPP:
-        return GL.GL_RGBA;
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_888_3BPP:
-        return GL.GL_RGB;
-    }
-
-    throw new UnreachableCodeException();
   }
 
   @Override public void texture2DStaticBind(

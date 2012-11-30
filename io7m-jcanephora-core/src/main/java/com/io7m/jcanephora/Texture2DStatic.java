@@ -60,6 +60,15 @@ public final class Texture2DStatic extends Deletable implements
     return true;
   }
 
+  /**
+   * Retrieve the inclusive area of this texture.
+   */
+
+  public @Nonnull AreaInclusive getArea()
+  {
+    return this.area;
+  }
+
   @Override public int getGLName()
   {
     return this.id;
@@ -102,30 +111,21 @@ public final class Texture2DStatic extends Deletable implements
   }
 
   /**
-   * Retrieve the width in pixels of the texture.
-   */
-
-  public int getWidth()
-  {
-    return (int) this.range_x.getInterval();
-  }
-
-  /**
-   * Retrieve the inclusive area of this texture.
-   */
-
-  public @Nonnull AreaInclusive getArea()
-  {
-    return this.area;
-  }
-
-  /**
    * Retrieve the type of the texture.
    */
 
   public @Nonnull TextureType getType()
   {
     return this.type;
+  }
+
+  /**
+   * Retrieve the width in pixels of the texture.
+   */
+
+  public int getWidth()
+  {
+    return (int) this.range_x.getInterval();
   }
 
   @Override public int hashCode()

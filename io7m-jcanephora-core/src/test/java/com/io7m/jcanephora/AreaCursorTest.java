@@ -8,41 +8,6 @@ import com.io7m.jaux.RangeInclusive;
 
 public class AreaCursorTest
 {
-  @SuppressWarnings({ "static-method", "unused" }) @Test(
-    expected = IllegalArgumentException.class) public void testIllegalLowX()
-    throws ConstraintError
-  {
-    final AreaInclusive area_outer =
-      new AreaInclusive(new RangeInclusive(-1, 6), new RangeInclusive(4, 6));
-    final AreaInclusive area_inner =
-      new AreaInclusive(new RangeInclusive(-1, 6), new RangeInclusive(4, 6));
-    new AreaCursor(area_outer, area_inner, 4);
-  }
-
-  @SuppressWarnings({ "static-method", "unused" }) @Test(
-    expected = IllegalArgumentException.class) public void testIllegalLowY()
-    throws ConstraintError
-  {
-    final AreaInclusive area_outer =
-      new AreaInclusive(new RangeInclusive(1, 6), new RangeInclusive(-1, 6));
-    final AreaInclusive area_inner =
-      new AreaInclusive(new RangeInclusive(1, 6), new RangeInclusive(-1, 6));
-    new AreaCursor(area_outer, area_inner, 4);
-  }
-
-  @SuppressWarnings({ "static-method", "unused" }) @Test(
-    expected = IllegalArgumentException.class) public
-    void
-    testIllegalLowBytes()
-      throws ConstraintError
-  {
-    final AreaInclusive area_outer =
-      new AreaInclusive(new RangeInclusive(0, 6), new RangeInclusive(0, 6));
-    final AreaInclusive area_inner =
-      new AreaInclusive(new RangeInclusive(0, 6), new RangeInclusive(0, 6));
-    new AreaCursor(area_outer, area_inner, -1);
-  }
-
   @SuppressWarnings("static-method") @Test public void testFourByte()
     throws ConstraintError
   {
@@ -63,6 +28,41 @@ public class AreaCursorTest
     }
 
     Assert.assertFalse(c.canWrite());
+  }
+
+  @SuppressWarnings({ "static-method", "unused" }) @Test(
+    expected = IllegalArgumentException.class) public
+    void
+    testIllegalLowBytes()
+      throws ConstraintError
+  {
+    final AreaInclusive area_outer =
+      new AreaInclusive(new RangeInclusive(0, 6), new RangeInclusive(0, 6));
+    final AreaInclusive area_inner =
+      new AreaInclusive(new RangeInclusive(0, 6), new RangeInclusive(0, 6));
+    new AreaCursor(area_outer, area_inner, -1);
+  }
+
+  @SuppressWarnings({ "static-method", "unused" }) @Test(
+    expected = IllegalArgumentException.class) public void testIllegalLowX()
+    throws ConstraintError
+  {
+    final AreaInclusive area_outer =
+      new AreaInclusive(new RangeInclusive(-1, 6), new RangeInclusive(4, 6));
+    final AreaInclusive area_inner =
+      new AreaInclusive(new RangeInclusive(-1, 6), new RangeInclusive(4, 6));
+    new AreaCursor(area_outer, area_inner, 4);
+  }
+
+  @SuppressWarnings({ "static-method", "unused" }) @Test(
+    expected = IllegalArgumentException.class) public void testIllegalLowY()
+    throws ConstraintError
+  {
+    final AreaInclusive area_outer =
+      new AreaInclusive(new RangeInclusive(1, 6), new RangeInclusive(-1, 6));
+    final AreaInclusive area_inner =
+      new AreaInclusive(new RangeInclusive(1, 6), new RangeInclusive(-1, 6));
+    new AreaCursor(area_outer, area_inner, 4);
   }
 
   @SuppressWarnings("static-method") @Test public

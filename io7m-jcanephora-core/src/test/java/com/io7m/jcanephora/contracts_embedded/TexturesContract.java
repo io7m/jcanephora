@@ -382,4 +382,38 @@ public abstract class TexturesContract implements GLEmbeddedTestContract
     final GLInterfaceEmbedded gl = this.makeNewGL();
     Assert.assertTrue(gl.textureGetMaximumSize() >= 128);
   }
+
+  /**
+   * Textures have the correct type.
+   * 
+   * @throws ConstraintError
+   * @throws GLException
+   */
+
+  @Test public final void testTextureTypes()
+    throws GLException,
+      ConstraintError
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+
+    for (final TextureType t : TextureType.values()) {
+      final Texture2DStatic tx =
+        gl.texture2DStaticAllocate(
+          "xyz",
+          8,
+          16,
+          t,
+          TextureWrap.TEXTURE_WRAP_REPEAT,
+          TextureWrap.TEXTURE_WRAP_REPEAT,
+          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureFilter.TEXTURE_FILTER_NEAREST);
+
+      Assert.assertEquals(8, tx.getWidth());
+      Assert.assertEquals(16, tx.getHeight());
+      Assert.assertEquals("xyz", tx.getName());
+      Assert.assertEquals(t, tx.getType());
+
+      tx.resourceDelete(gl);
+    }
+  }
 }

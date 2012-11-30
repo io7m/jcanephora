@@ -26,45 +26,6 @@ import com.io7m.jaux.RangeInclusive;
     this.range_y = Constraints.constrainNotNull(range_y, "Range Y");
   }
 
-  /**
-   * Retrieve the range of valid indices on the X axis for this area.
-   */
-
-  public @Nonnull RangeInclusive getRangeX()
-  {
-    return this.range_x;
-  }
-
-  /**
-   * Retrieve the range of valid indices on the Y axis for this area.
-   */
-
-  public @Nonnull RangeInclusive getRangeY()
-  {
-    return this.range_y;
-  }
-
-  /**
-   * Return <code>true</code> if this area is included within the given area.
-   */
-
-  public boolean isIncludedIn(
-    final @Nonnull AreaInclusive other)
-    throws ConstraintError
-  {
-    return this.range_x.isIncludedIn(other.range_x)
-      && this.range_y.isIncludedIn(other.range_y);
-  }
-
-  @Override public int hashCode()
-  {
-    final int prime = 31;
-    int result = 1;
-    result = (prime * result) + this.range_x.hashCode();
-    result = (prime * result) + this.range_y.hashCode();
-    return result;
-  }
-
   @Override public boolean equals(
     final Object obj)
   {
@@ -85,6 +46,45 @@ import com.io7m.jaux.RangeInclusive;
       return false;
     }
     return true;
+  }
+
+  /**
+   * Retrieve the range of valid indices on the X axis for this area.
+   */
+
+  public @Nonnull RangeInclusive getRangeX()
+  {
+    return this.range_x;
+  }
+
+  /**
+   * Retrieve the range of valid indices on the Y axis for this area.
+   */
+
+  public @Nonnull RangeInclusive getRangeY()
+  {
+    return this.range_y;
+  }
+
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + this.range_x.hashCode();
+    result = (prime * result) + this.range_y.hashCode();
+    return result;
+  }
+
+  /**
+   * Return <code>true</code> if this area is included within the given area.
+   */
+
+  public boolean isIncludedIn(
+    final @Nonnull AreaInclusive other)
+    throws ConstraintError
+  {
+    return this.range_x.isIncludedIn(other.range_x)
+      && this.range_y.isIncludedIn(other.range_y);
   }
 
   @Override public String toString()

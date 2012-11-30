@@ -20,7 +20,7 @@ public class FramebufferAttachment
   public static final class ColorAttachment extends FramebufferAttachment
   {
     private final @Nonnull Texture2DStatic texture;
-    private final int                          index;
+    private final int                      index;
 
     @SuppressWarnings("synthetic-access") public ColorAttachment(
       final @Nonnull Texture2DStatic texture,
