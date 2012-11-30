@@ -9,10 +9,10 @@ import com.io7m.jaux.UnreachableCodeException;
 final class TexturePixelPack
 {
   public static char pack2_4444(
-    final byte r,
-    final byte g,
-    final byte b,
-    final byte a)
+    final int r,
+    final int g,
+    final int b,
+    final int a)
   {
     final int r_hi4 = (r & 0xF0); // Select 4 high bits
     final int g_hi4 = (g & 0xF0); // Select 4 high bits
@@ -28,10 +28,10 @@ final class TexturePixelPack
   }
 
   public static char pack2_5551(
-    final byte r,
-    final byte g,
-    final byte b,
-    final byte a)
+    final int r,
+    final int g,
+    final int b,
+    final int a)
   {
     final int r_hi5 = (r & 0xF8); // Select 5 high bits
     final int g_hi5 = (g & 0xF8); // Select 5 high bits
@@ -47,9 +47,9 @@ final class TexturePixelPack
   }
 
   public static char pack2_565(
-    final byte r,
-    final byte g,
-    final byte b)
+    final int r,
+    final int g,
+    final int b)
   {
     final int r_hi5 = (r & 0xF8); // Select 5 high bits
     final int g_hi6 = (g & 0xFC); // Select 6 high bits
@@ -63,8 +63,8 @@ final class TexturePixelPack
   }
 
   public static char pack2_88(
-    final byte x,
-    final byte y)
+    final int x,
+    final int y)
   {
     final int xb = (x << 8) & 0xFF00;
     final int yb = (y & 0xFF);
@@ -72,10 +72,10 @@ final class TexturePixelPack
   }
 
   public static int pack4_8888(
-    final byte r,
-    final byte g,
-    final byte b,
-    final byte a)
+    final int r,
+    final int g,
+    final int b,
+    final int a)
   {
     final int ri = (r << 24) & 0xFF000000;
     final int rg = (g << 16) & 0x00FF0000;

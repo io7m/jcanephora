@@ -12,10 +12,20 @@ public class FramebufferAttachmentTest
   @SuppressWarnings("static-method") @Test public void testColorEquals()
     throws ConstraintError
   {
-    final Texture2DRGBAStatic ta =
-      new Texture2DRGBAStatic("xyz", 1, 128, 256);
-    final Texture2DRGBAStatic tb =
-      new Texture2DRGBAStatic("xyz", 2, 128, 256);
+    final Texture2DStatic ta =
+      new Texture2DStatic(
+        "xyz",
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        1,
+        128,
+        256);
+    final Texture2DStatic tb =
+      new Texture2DStatic(
+        "xyz",
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        2,
+        128,
+        256);
 
     final ColorAttachment tu0 = new ColorAttachment(ta, 1);
     final ColorAttachment tu1 = new ColorAttachment(ta, 2);
@@ -34,8 +44,13 @@ public class FramebufferAttachmentTest
   @SuppressWarnings("static-method") @Test public void testColorHashCode()
     throws ConstraintError
   {
-    final Texture2DRGBAStatic ta =
-      new Texture2DRGBAStatic("xyz", 1, 128, 256);
+    final Texture2DStatic ta =
+      new Texture2DStatic(
+        "xyz",
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        1,
+        128,
+        256);
 
     final ColorAttachment tu0 = new ColorAttachment(ta, 1);
     final ColorAttachment tu1 = new ColorAttachment(ta, 2);
@@ -47,8 +62,13 @@ public class FramebufferAttachmentTest
   @SuppressWarnings("static-method") @Test public void testColorIdentities()
     throws ConstraintError
   {
-    final Texture2DRGBAStatic ta =
-      new Texture2DRGBAStatic("xyz", 1, 128, 256);
+    final Texture2DStatic ta =
+      new Texture2DStatic(
+        "xyz",
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        1,
+        128,
+        256);
     final ColorAttachment tu0 = new ColorAttachment(ta, 1);
 
     Assert.assertEquals(1, tu0.getIndex());
@@ -58,8 +78,13 @@ public class FramebufferAttachmentTest
   @SuppressWarnings("static-method") @Test public void testColorToString()
     throws ConstraintError
   {
-    final Texture2DRGBAStatic ta =
-      new Texture2DRGBAStatic("xyz", 1, 128, 256);
+    final Texture2DStatic ta =
+      new Texture2DStatic(
+        "xyz",
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        1,
+        128,
+        256);
     final ColorAttachment tu0 = new ColorAttachment(ta, 1);
     final ColorAttachment tu1 = new ColorAttachment(ta, 2);
     final ColorAttachment tu2 = new ColorAttachment(ta, 1);

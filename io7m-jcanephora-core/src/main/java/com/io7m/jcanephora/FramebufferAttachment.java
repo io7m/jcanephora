@@ -19,11 +19,11 @@ public class FramebufferAttachment
 
   public static final class ColorAttachment extends FramebufferAttachment
   {
-    private final @Nonnull Texture2DRGBAStatic texture;
+    private final @Nonnull Texture2DStatic texture;
     private final int                          index;
 
     @SuppressWarnings("synthetic-access") public ColorAttachment(
-      final @Nonnull Texture2DRGBAStatic texture,
+      final @Nonnull Texture2DStatic texture,
       final int index)
       throws ConstraintError
     {
@@ -73,7 +73,7 @@ public class FramebufferAttachment
      * Retrieve the texture that backs the color buffer.
      */
 
-    public @Nonnull Texture2DRGBAStatic getTexture()
+    public @Nonnull Texture2DStatic getTexture()
     {
       return this.texture;
     }

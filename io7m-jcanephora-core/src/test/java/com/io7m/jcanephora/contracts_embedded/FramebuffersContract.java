@@ -13,8 +13,9 @@ import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceEmbedded;
 import com.io7m.jcanephora.RenderbufferD24S8;
-import com.io7m.jcanephora.Texture2DRGBAStatic;
+import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilter;
+import com.io7m.jcanephora.TextureType;
 import com.io7m.jcanephora.TextureWrap;
 import com.io7m.jtensors.VectorI3F;
 import com.io7m.jtensors.VectorI4F;
@@ -33,11 +34,12 @@ public abstract class FramebuffersContract implements GLEmbeddedTestContract
   {
     final GLInterfaceEmbedded g = this.makeNewGL();
     final RenderbufferD24S8 rb = g.renderbufferD24S8Allocate(128, 128);
-    final Texture2DRGBAStatic cb =
-      g.texture2DRGBAStaticAllocate(
+    final Texture2DStatic cb =
+      g.texture2DStaticAllocate(
         "framebuffer",
         128,
         128,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -61,11 +63,12 @@ public abstract class FramebuffersContract implements GLEmbeddedTestContract
     final GLInterfaceEmbedded g = this.makeNewGL();
 
     final RenderbufferD24S8 rb = g.renderbufferD24S8Allocate(128, 128);
-    final Texture2DRGBAStatic cb =
-      g.texture2DRGBAStaticAllocate(
+    final Texture2DStatic cb =
+      g.texture2DStaticAllocate(
         "framebuffer",
         128,
         128,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -93,11 +96,12 @@ public abstract class FramebuffersContract implements GLEmbeddedTestContract
     final GLInterfaceEmbedded g = this.makeNewGL();
 
     try {
-      final Texture2DRGBAStatic cb =
-        g.texture2DRGBAStaticAllocate(
+      final Texture2DStatic cb =
+        g.texture2DStaticAllocate(
           "framebuffer",
           128,
           128,
+          TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
           TextureWrap.TEXTURE_WRAP_REPEAT,
           TextureWrap.TEXTURE_WRAP_REPEAT,
           TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -129,11 +133,12 @@ public abstract class FramebuffersContract implements GLEmbeddedTestContract
       GLException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
-    final Texture2DRGBAStatic t =
-      gl.texture2DRGBAStaticAllocate(
+    final Texture2DStatic t =
+      gl.texture2DStaticAllocate(
         "buffer",
         128,
         128,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -155,11 +160,12 @@ public abstract class FramebuffersContract implements GLEmbeddedTestContract
       GLException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
-    final Texture2DRGBAStatic t =
-      gl.texture2DRGBAStaticAllocate(
+    final Texture2DStatic t =
+      gl.texture2DStaticAllocate(
         "buffer",
         128,
         128,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -180,21 +186,23 @@ public abstract class FramebuffersContract implements GLEmbeddedTestContract
       GLException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
-    final Texture2DRGBAStatic t0 =
-      gl.texture2DRGBAStaticAllocate(
+    final Texture2DStatic t0 =
+      gl.texture2DStaticAllocate(
         "buffer",
         128,
         128,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
     final ColorAttachment fbc0 = new ColorAttachment(t0, 0);
-    final Texture2DRGBAStatic t1 =
-      gl.texture2DRGBAStaticAllocate(
+    final Texture2DStatic t1 =
+      gl.texture2DStaticAllocate(
         "buffer",
         128,
         128,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -215,21 +223,23 @@ public abstract class FramebuffersContract implements GLEmbeddedTestContract
         GLException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
-    final Texture2DRGBAStatic t0 =
-      gl.texture2DRGBAStaticAllocate(
+    final Texture2DStatic t0 =
+      gl.texture2DStaticAllocate(
         "buffer",
         128,
         128,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
     final ColorAttachment fbc0 = new ColorAttachment(t0, 0);
-    final Texture2DRGBAStatic t1 =
-      gl.texture2DRGBAStaticAllocate(
+    final Texture2DStatic t1 =
+      gl.texture2DStaticAllocate(
         "buffer",
         128,
         128,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -247,11 +257,12 @@ public abstract class FramebuffersContract implements GLEmbeddedTestContract
       GLException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
-    final Texture2DRGBAStatic t =
-      gl.texture2DRGBAStaticAllocate(
+    final Texture2DStatic t =
+      gl.texture2DStaticAllocate(
         "buffer",
         128,
         128,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -330,11 +341,12 @@ public abstract class FramebuffersContract implements GLEmbeddedTestContract
         GLException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
-    final Texture2DRGBAStatic t =
-      gl.texture2DRGBAStaticAllocate(
+    final Texture2DStatic t =
+      gl.texture2DStaticAllocate(
         "buffer",
         128,
         128,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -355,11 +367,12 @@ public abstract class FramebuffersContract implements GLEmbeddedTestContract
       GLException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
-    final Texture2DRGBAStatic t =
-      gl.texture2DRGBAStaticAllocate(
+    final Texture2DStatic t =
+      gl.texture2DStaticAllocate(
         "buffer",
         128,
         128,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -418,11 +431,12 @@ public abstract class FramebuffersContract implements GLEmbeddedTestContract
 
     try {
       gl = this.makeNewGL();
-      final Texture2DRGBAStatic t =
-        gl.texture2DRGBAStaticAllocate(
+      final Texture2DStatic t =
+        gl.texture2DStaticAllocate(
           "buffer",
           128,
           128,
+          TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
           TextureWrap.TEXTURE_WRAP_REPEAT,
           TextureWrap.TEXTURE_WRAP_REPEAT,
           TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -484,11 +498,12 @@ public abstract class FramebuffersContract implements GLEmbeddedTestContract
       GLException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
-    final Texture2DRGBAStatic t =
-      gl.texture2DRGBAStaticAllocate(
+    final Texture2DStatic t =
+      gl.texture2DStaticAllocate(
         "buffer",
         128,
         128,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -512,11 +527,12 @@ public abstract class FramebuffersContract implements GLEmbeddedTestContract
         GLException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
-    final Texture2DRGBAStatic t =
-      gl.texture2DRGBAStaticAllocate(
+    final Texture2DStatic t =
+      gl.texture2DStaticAllocate(
         "buffer",
         128,
         128,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,

@@ -27,8 +27,9 @@ class BufferCursor implements Cursor
 
   private long                          element_current;
   private long                          byte_current;
+  private boolean                       can_write;
 
-  BufferCursor(
+  protected BufferCursor(
     final @Nonnull RangeInclusive range,
     final long attribute_offset,
     final long element_size)
@@ -56,15 +57,12 @@ class BufferCursor implements Cursor
     this.attribute_offset = attribute_offset;
     this.range = range;
     this.element_size = element_size;
-
-    this.element_current = range.getLower();
-    this.byte_current = (range.getLower() * element_size) + attribute_offset;
+    this.uncheckedSeek(range.getLower());
   }
 
-  @Override public boolean canWrite()
+  @Override public final boolean canWrite()
   {
-    return (this.range.getLower() <= this.element_current)
-      && (this.element_current <= this.range.getUpper());
+    return this.can_write;
   }
 
   /**
@@ -99,7 +97,7 @@ class BufferCursor implements Cursor
    * Return <code>true</code> iff there are more elements available.
    */
 
-  @Override public boolean hasNext()
+  @Override public final boolean hasNext()
   {
     return (this.element_current + 1) <= this.range.getUpper();
   }
@@ -108,7 +106,7 @@ class BufferCursor implements Cursor
    * Point the cursor at the next available element of the cursor's attribute.
    */
 
-  @Override public void next()
+  @Override public final void next()
   {
     this.uncheckedSeek(this.element_current + 1);
   }
@@ -129,5 +127,8 @@ class BufferCursor implements Cursor
     this.element_current = element;
     this.byte_current =
       (this.element_current * this.element_size) + this.attribute_offset;
+    this.can_write =
+      (this.range.getLower() <= this.element_current)
+        && (this.element_current <= this.range.getUpper());
   }
 }

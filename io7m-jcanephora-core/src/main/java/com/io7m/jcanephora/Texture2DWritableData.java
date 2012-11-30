@@ -10,9 +10,9 @@ import com.io7m.jaux.RangeInclusive;
  * An allocated region of data, to replace or update a 2D RGBA texture.
  */
 
-public final class Texture2DRGBAWritableData
+public final class Texture2DWritableData
 {
-  private final @Nonnull Texture2DRGBAStatic texture;
+  private final @Nonnull Texture2DStatic texture;
   private final @Nonnull AreaInclusive       target_area;
   private final @Nonnull AreaInclusive       source_area;
 
@@ -29,8 +29,8 @@ public final class Texture2DRGBAWritableData
    *           </ul>
    */
 
-  public Texture2DRGBAWritableData(
-    final @Nonnull Texture2DRGBAStatic texture)
+  public Texture2DWritableData(
+    final @Nonnull Texture2DStatic texture)
     throws ConstraintError
   {
     this(texture, texture.getArea());
@@ -54,8 +54,8 @@ public final class Texture2DRGBAWritableData
    *           </ul>
    */
 
-  public Texture2DRGBAWritableData(
-    final @Nonnull Texture2DRGBAStatic texture,
+  public Texture2DWritableData(
+    final @Nonnull Texture2DStatic texture,
     final @Nonnull AreaInclusive area)
     throws ConstraintError
   {

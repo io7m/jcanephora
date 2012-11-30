@@ -1343,7 +1343,7 @@ import com.io7m.jtensors.VectorReadable4F;
               color_indices.contains(Integer.valueOf(index)) == false,
               "Color buffer not already present at this index");
 
-            final Texture2DRGBAStatic texture = color.getTexture();
+            final Texture2DStatic texture = color.getTexture();
             Constraints.constrainArbitrary(
               texture.resourceIsDeleted() == false,
               "Texture is not deleted");
@@ -2250,10 +2250,11 @@ import com.io7m.jtensors.VectorReadable4F;
     return bits;
   }
 
-  @Override public @Nonnull Texture2DRGBAStatic texture2DRGBAStaticAllocate(
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocate(
     final @Nonnull String name,
     final int width,
     final int height,
+    final @Nonnull TextureType type,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -2269,7 +2270,7 @@ import com.io7m.jtensors.VectorReadable4F;
     Constraints.constrainNotNull(mag_filter, "Magnification filter");
     Constraints.constrainNotNull(min_filter, "Minification filter");
 
-    this.log.debug("texture-2DRGBA-static: allocate \""
+    this.log.debug("texture-2D-static: allocate \""
       + name
       + "\" "
       + width
@@ -2296,27 +2297,71 @@ import com.io7m.jtensors.VectorReadable4F;
       GL11.GL_TEXTURE_2D,
       GL11.GL_TEXTURE_MIN_FILTER,
       GLInterfaceEmbedded_LWJGL_ES2_Actual.textureFilterToGL(min_filter));
+
     GL11.glTexImage2D(
       GL11.GL_TEXTURE_2D,
       0,
-      GL11.GL_RGBA8,
+      GLInterfaceEmbedded_LWJGL_ES2_Actual.textureTypeToFormatGL(type),
       width,
       height,
       0,
-      GL11.GL_RGBA,
-      GL11.GL_UNSIGNED_BYTE,
+      GLInterfaceEmbedded_LWJGL_ES2_Actual.textureTypeToFormatGL(type),
+      GLInterfaceEmbedded_LWJGL_ES2_Actual.textureTypeToTypeGL(type),
       (ByteBuffer) null);
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 
-    final Texture2DRGBAStatic t =
-      new Texture2DRGBAStatic(name, texture_id, width, height);
-    this.log.debug("texture-2DRGBA-static: allocated " + t);
+    final Texture2DStatic t =
+      new Texture2DStatic(name, type, texture_id, width, height);
+    this.log.debug("texture-2D-static: allocated " + t);
     return t;
   }
 
-  @Override public void texture2DRGBAStaticBind(
+  private static int textureTypeToTypeGL(
+    final @Nonnull TextureType type)
+  {
+    switch (type) {
+      case TEXTURE_TYPE_ALPHA_8_1BPP:
+      case TEXTURE_TYPE_LUMINANCE_8_1BPP:
+      case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+      case TEXTURE_TYPE_RGB_888_3BPP:
+        return GL11.GL_UNSIGNED_BYTE;
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+        return GL12.GL_UNSIGNED_SHORT_4_4_4_4;
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+        return GL12.GL_UNSIGNED_SHORT_5_5_5_1;
+      case TEXTURE_TYPE_RGB_565_2BPP:
+        return GL12.GL_UNSIGNED_SHORT_5_6_5;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  private static int textureTypeToFormatGL(
+    final @Nonnull TextureType type)
+  {
+    switch (type) {
+      case TEXTURE_TYPE_ALPHA_8_1BPP:
+        return GL11.GL_ALPHA;
+      case TEXTURE_TYPE_LUMINANCE_8_1BPP:
+        return GL11.GL_LUMINANCE;
+      case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
+        return GL11.GL_LUMINANCE_ALPHA;
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+        return GL11.GL_RGBA;
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_TYPE_RGB_888_3BPP:
+        return GL11.GL_RGB;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  @Override public void texture2DStaticBind(
     final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DRGBAStatic texture)
+    final @Nonnull Texture2DStatic texture)
     throws ConstraintError,
       GLException
   {
@@ -2331,8 +2376,8 @@ import com.io7m.jtensors.VectorReadable4F;
     GLError.check(this);
   }
 
-  @Override public void texture2DRGBAStaticDelete(
-    final @Nonnull Texture2DRGBAStatic texture)
+  @Override public void texture2DStaticDelete(
+    final @Nonnull Texture2DStatic texture)
     throws ConstraintError,
       GLException
   {
@@ -2341,15 +2386,15 @@ import com.io7m.jtensors.VectorReadable4F;
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
 
-    this.log.debug("texture-2DRGBA-static: delete " + texture);
+    this.log.debug("texture-2D-static: delete " + texture);
 
     GL11.glDeleteTextures(texture.getGLName());
     texture.setDeleted();
   }
 
-  @Override public boolean texture2DRGBAStaticIsBound(
+  @Override public boolean texture2DStaticIsBound(
     final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DRGBAStatic texture)
+    final @Nonnull Texture2DStatic texture)
     throws ConstraintError,
       GLException
   {
