@@ -60,31 +60,6 @@ public class AreaInclusiveTest
     Assert.assertFalse(a0.hashCode() == a5.hashCode());
   }
 
-  @SuppressWarnings("static-method") @Test public void testAreaToString()
-    throws ConstraintError
-  {
-    final RangeInclusive r0 = new RangeInclusive(0, 99);
-    final RangeInclusive r1 = new RangeInclusive(0, 99);
-    final RangeInclusive r2 = new RangeInclusive(0, 98);
-    final RangeInclusive r3 = new RangeInclusive(1, 99);
-
-    final AreaInclusive a0 = new AreaInclusive(r0, r0);
-    final AreaInclusive a1 = new AreaInclusive(r1, r1);
-    final AreaInclusive a2 = new AreaInclusive(r0, r2);
-    final AreaInclusive a3 = new AreaInclusive(r0, r3);
-    final AreaInclusive a4 = new AreaInclusive(r2, r0);
-    final AreaInclusive a5 = new AreaInclusive(r3, r0);
-
-    Assert.assertTrue(a0.toString().equals(a0.toString()));
-    Assert.assertTrue(a0.toString().equals(a1.toString()));
-    Assert.assertTrue(a1.toString().equals(a0.toString()));
-
-    Assert.assertFalse(a0.toString().equals(a2.toString()));
-    Assert.assertFalse(a0.toString().equals(a3.toString()));
-    Assert.assertFalse(a0.toString().equals(a4.toString()));
-    Assert.assertFalse(a0.toString().equals(a5.toString()));
-  }
-
   @SuppressWarnings("static-method") @Test public void testAreaIdentities()
     throws ConstraintError
   {
@@ -112,5 +87,30 @@ public class AreaInclusiveTest
     Assert.assertFalse(a0.isIncludedIn(a1));
     Assert.assertTrue(a2.isIncludedIn(a0));
     Assert.assertFalse(a0.isIncludedIn(a2));
+  }
+
+  @SuppressWarnings("static-method") @Test public void testAreaToString()
+    throws ConstraintError
+  {
+    final RangeInclusive r0 = new RangeInclusive(0, 99);
+    final RangeInclusive r1 = new RangeInclusive(0, 99);
+    final RangeInclusive r2 = new RangeInclusive(0, 98);
+    final RangeInclusive r3 = new RangeInclusive(1, 99);
+
+    final AreaInclusive a0 = new AreaInclusive(r0, r0);
+    final AreaInclusive a1 = new AreaInclusive(r1, r1);
+    final AreaInclusive a2 = new AreaInclusive(r0, r2);
+    final AreaInclusive a3 = new AreaInclusive(r0, r3);
+    final AreaInclusive a4 = new AreaInclusive(r2, r0);
+    final AreaInclusive a5 = new AreaInclusive(r3, r0);
+
+    Assert.assertTrue(a0.toString().equals(a0.toString()));
+    Assert.assertTrue(a0.toString().equals(a1.toString()));
+    Assert.assertTrue(a1.toString().equals(a0.toString()));
+
+    Assert.assertFalse(a0.toString().equals(a2.toString()));
+    Assert.assertFalse(a0.toString().equals(a3.toString()));
+    Assert.assertFalse(a0.toString().equals(a4.toString()));
+    Assert.assertFalse(a0.toString().equals(a5.toString()));
   }
 }

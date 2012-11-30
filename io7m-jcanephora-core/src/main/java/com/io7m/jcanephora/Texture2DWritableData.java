@@ -13,8 +13,8 @@ import com.io7m.jaux.RangeInclusive;
 public final class Texture2DWritableData
 {
   private final @Nonnull Texture2DStatic texture;
-  private final @Nonnull AreaInclusive       target_area;
-  private final @Nonnull AreaInclusive       source_area;
+  private final @Nonnull AreaInclusive   target_area;
+  private final @Nonnull AreaInclusive   source_area;
 
   /**
    * Construct a buffer of data that will be used to replace the entirety of

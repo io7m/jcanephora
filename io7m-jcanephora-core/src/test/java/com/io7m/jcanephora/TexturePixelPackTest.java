@@ -5,46 +5,6 @@ import org.junit.Test;
 
 public class TexturePixelPackTest
 {
-  @SuppressWarnings("static-method") @Test public void testPack2_565()
-  {
-    {
-      final char c =
-        TexturePixelPack.pack2_565((byte) 0xFF, (byte) 0, (byte) 0);
-      Assert.assertEquals(0xF800, c);
-    }
-
-    {
-      final char c =
-        TexturePixelPack.pack2_565((byte) 0x00, (byte) 0xFF, (byte) 0);
-      Assert.assertEquals(0x7E0, c);
-    }
-
-    {
-      final char c =
-        TexturePixelPack.pack2_565((byte) 0x00, (byte) 0x0, (byte) 0xFF);
-      Assert.assertEquals(0x1F, c);
-    }
-
-    {
-      final char c =
-        TexturePixelPack.pack2_565((byte) 0xFF, (byte) 0xFF, (byte) 0xFF);
-      Assert.assertEquals(0xFFFF, c);
-    }
-  }
-
-  @SuppressWarnings("static-method") @Test public void testPack2_88()
-  {
-    {
-      final char c = TexturePixelPack.pack2_88((byte) 0xFF, (byte) 0);
-      Assert.assertEquals(0xFF00, c);
-    }
-
-    {
-      final char c = TexturePixelPack.pack2_88((byte) 0x0, (byte) 0xFF);
-      Assert.assertEquals(0x00FF, c);
-    }
-  }
-
   @SuppressWarnings("static-method") @Test public void testPack2_4444()
   {
     {
@@ -145,6 +105,46 @@ public class TexturePixelPackTest
     }
   }
 
+  @SuppressWarnings("static-method") @Test public void testPack2_565()
+  {
+    {
+      final char c =
+        TexturePixelPack.pack2_565((byte) 0xFF, (byte) 0, (byte) 0);
+      Assert.assertEquals(0xF800, c);
+    }
+
+    {
+      final char c =
+        TexturePixelPack.pack2_565((byte) 0x00, (byte) 0xFF, (byte) 0);
+      Assert.assertEquals(0x7E0, c);
+    }
+
+    {
+      final char c =
+        TexturePixelPack.pack2_565((byte) 0x00, (byte) 0x0, (byte) 0xFF);
+      Assert.assertEquals(0x1F, c);
+    }
+
+    {
+      final char c =
+        TexturePixelPack.pack2_565((byte) 0xFF, (byte) 0xFF, (byte) 0xFF);
+      Assert.assertEquals(0xFFFF, c);
+    }
+  }
+
+  @SuppressWarnings("static-method") @Test public void testPack2_88()
+  {
+    {
+      final char c = TexturePixelPack.pack2_88((byte) 0xFF, (byte) 0);
+      Assert.assertEquals(0xFF00, c);
+    }
+
+    {
+      final char c = TexturePixelPack.pack2_88((byte) 0x0, (byte) 0xFF);
+      Assert.assertEquals(0x00FF, c);
+    }
+  }
+
   @SuppressWarnings("static-method") @Test public void testPack4_8888()
   {
     Assert.assertEquals(
@@ -184,118 +184,6 @@ public class TexturePixelPackTest
       (byte) 0xFF,
       (byte) 0xFF,
       (byte) 0xFF));
-  }
-
-  @SuppressWarnings("static-method") @Test public void testUnpack2_565()
-  {
-    {
-      final int[] out = new int[3];
-      final char c =
-        TexturePixelPack.pack2_565((byte) 0xFF, (byte) 0, (byte) 0);
-      TexturePixelPack.unpack2_565(c, out);
-      Assert.assertEquals(0xF8, out[0]);
-      Assert.assertEquals(0x0, out[1]);
-      Assert.assertEquals(0x0, out[2]);
-    }
-
-    {
-      final int[] out = new int[3];
-      final char c =
-        TexturePixelPack.pack2_565((byte) 0, (byte) 0xFF, (byte) 0);
-      TexturePixelPack.unpack2_565(c, out);
-      Assert.assertEquals(0x0, out[0]);
-      Assert.assertEquals(0xFC, out[1]);
-      Assert.assertEquals(0x0, out[2]);
-    }
-
-    {
-      final int[] out = new int[3];
-      final char c =
-        TexturePixelPack.pack2_565((byte) 0, (byte) 0, (byte) 0xFF);
-      TexturePixelPack.unpack2_565(c, out);
-      Assert.assertEquals(0x0, out[0]);
-      Assert.assertEquals(0x0, out[1]);
-      Assert.assertEquals(0xF8, out[2]);
-    }
-  }
-
-  @SuppressWarnings("static-method") @Test public void testUnpack2_88()
-  {
-    {
-      final int[] out = new int[2];
-      final char c = TexturePixelPack.pack2_88((byte) 0xFF, (byte) 0);
-      TexturePixelPack.unpack2_88(c, out);
-      Assert.assertEquals(0xFF, out[0]);
-      Assert.assertEquals(0x0, out[1]);
-    }
-
-    {
-      final int[] out = new int[2];
-      final char c = TexturePixelPack.pack2_88((byte) 0x0, (byte) 0xFF);
-      TexturePixelPack.unpack2_88(c, out);
-      Assert.assertEquals(0x0, out[0]);
-      Assert.assertEquals(0xFF, out[1]);
-    }
-  }
-
-  @SuppressWarnings("static-method") @Test public void testUnpack4_8888()
-  {
-    {
-      final int[] out = new int[4];
-      final int c =
-        TexturePixelPack
-          .pack4_8888((byte) 0xFF, (byte) 0, (byte) 0, (byte) 0);
-      TexturePixelPack.unpack4_8888(c, out);
-      Assert.assertEquals(0xFF, out[0]);
-      Assert.assertEquals(0x0, out[1]);
-      Assert.assertEquals(0x0, out[2]);
-      Assert.assertEquals(0x0, out[3]);
-    }
-
-    {
-      final int[] out = new int[4];
-      final int c =
-        TexturePixelPack.pack4_8888(
-          (byte) 0x0,
-          (byte) 0xFF,
-          (byte) 0,
-          (byte) 0);
-      TexturePixelPack.unpack4_8888(c, out);
-      Assert.assertEquals(0x0, out[0]);
-      Assert.assertEquals(0xFF, out[1]);
-      Assert.assertEquals(0x0, out[2]);
-      Assert.assertEquals(0x0, out[3]);
-    }
-
-    {
-      final int[] out = new int[4];
-      final int c =
-        TexturePixelPack.pack4_8888(
-          (byte) 0x0,
-          (byte) 0x0,
-          (byte) 0xFF,
-          (byte) 0);
-      TexturePixelPack.unpack4_8888(c, out);
-      Assert.assertEquals(0x0, out[0]);
-      Assert.assertEquals(0x0, out[1]);
-      Assert.assertEquals(0xFF, out[2]);
-      Assert.assertEquals(0x0, out[3]);
-    }
-
-    {
-      final int[] out = new int[4];
-      final int c =
-        TexturePixelPack.pack4_8888(
-          (byte) 0x0,
-          (byte) 0x0,
-          (byte) 0x0,
-          (byte) 0xFF);
-      TexturePixelPack.unpack4_8888(c, out);
-      Assert.assertEquals(0x0, out[0]);
-      Assert.assertEquals(0x0, out[1]);
-      Assert.assertEquals(0x0, out[2]);
-      Assert.assertEquals(0xFF, out[3]);
-    }
   }
 
   @SuppressWarnings("static-method") @Test public void testUnpack2_4444()
@@ -411,6 +299,118 @@ public class TexturePixelPackTest
           (byte) 0x0,
           (byte) 0xFF);
       TexturePixelPack.unpack2_5551(c, out);
+      Assert.assertEquals(0x0, out[0]);
+      Assert.assertEquals(0x0, out[1]);
+      Assert.assertEquals(0x0, out[2]);
+      Assert.assertEquals(0xFF, out[3]);
+    }
+  }
+
+  @SuppressWarnings("static-method") @Test public void testUnpack2_565()
+  {
+    {
+      final int[] out = new int[3];
+      final char c =
+        TexturePixelPack.pack2_565((byte) 0xFF, (byte) 0, (byte) 0);
+      TexturePixelPack.unpack2_565(c, out);
+      Assert.assertEquals(0xF8, out[0]);
+      Assert.assertEquals(0x0, out[1]);
+      Assert.assertEquals(0x0, out[2]);
+    }
+
+    {
+      final int[] out = new int[3];
+      final char c =
+        TexturePixelPack.pack2_565((byte) 0, (byte) 0xFF, (byte) 0);
+      TexturePixelPack.unpack2_565(c, out);
+      Assert.assertEquals(0x0, out[0]);
+      Assert.assertEquals(0xFC, out[1]);
+      Assert.assertEquals(0x0, out[2]);
+    }
+
+    {
+      final int[] out = new int[3];
+      final char c =
+        TexturePixelPack.pack2_565((byte) 0, (byte) 0, (byte) 0xFF);
+      TexturePixelPack.unpack2_565(c, out);
+      Assert.assertEquals(0x0, out[0]);
+      Assert.assertEquals(0x0, out[1]);
+      Assert.assertEquals(0xF8, out[2]);
+    }
+  }
+
+  @SuppressWarnings("static-method") @Test public void testUnpack2_88()
+  {
+    {
+      final int[] out = new int[2];
+      final char c = TexturePixelPack.pack2_88((byte) 0xFF, (byte) 0);
+      TexturePixelPack.unpack2_88(c, out);
+      Assert.assertEquals(0xFF, out[0]);
+      Assert.assertEquals(0x0, out[1]);
+    }
+
+    {
+      final int[] out = new int[2];
+      final char c = TexturePixelPack.pack2_88((byte) 0x0, (byte) 0xFF);
+      TexturePixelPack.unpack2_88(c, out);
+      Assert.assertEquals(0x0, out[0]);
+      Assert.assertEquals(0xFF, out[1]);
+    }
+  }
+
+  @SuppressWarnings("static-method") @Test public void testUnpack4_8888()
+  {
+    {
+      final int[] out = new int[4];
+      final int c =
+        TexturePixelPack
+          .pack4_8888((byte) 0xFF, (byte) 0, (byte) 0, (byte) 0);
+      TexturePixelPack.unpack4_8888(c, out);
+      Assert.assertEquals(0xFF, out[0]);
+      Assert.assertEquals(0x0, out[1]);
+      Assert.assertEquals(0x0, out[2]);
+      Assert.assertEquals(0x0, out[3]);
+    }
+
+    {
+      final int[] out = new int[4];
+      final int c =
+        TexturePixelPack.pack4_8888(
+          (byte) 0x0,
+          (byte) 0xFF,
+          (byte) 0,
+          (byte) 0);
+      TexturePixelPack.unpack4_8888(c, out);
+      Assert.assertEquals(0x0, out[0]);
+      Assert.assertEquals(0xFF, out[1]);
+      Assert.assertEquals(0x0, out[2]);
+      Assert.assertEquals(0x0, out[3]);
+    }
+
+    {
+      final int[] out = new int[4];
+      final int c =
+        TexturePixelPack.pack4_8888(
+          (byte) 0x0,
+          (byte) 0x0,
+          (byte) 0xFF,
+          (byte) 0);
+      TexturePixelPack.unpack4_8888(c, out);
+      Assert.assertEquals(0x0, out[0]);
+      Assert.assertEquals(0x0, out[1]);
+      Assert.assertEquals(0xFF, out[2]);
+      Assert.assertEquals(0x0, out[3]);
+    }
+
+    {
+      final int[] out = new int[4];
+      final int c =
+        TexturePixelPack.pack4_8888(
+          (byte) 0x0,
+          (byte) 0x0,
+          (byte) 0x0,
+          (byte) 0xFF);
+      TexturePixelPack.unpack4_8888(c, out);
       Assert.assertEquals(0x0, out[0]);
       Assert.assertEquals(0x0, out[1]);
       Assert.assertEquals(0x0, out[2]);
