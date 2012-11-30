@@ -6,8 +6,9 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceEmbedded;
-import com.io7m.jcanephora.Texture2DRGBAStatic;
+import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilter;
+import com.io7m.jcanephora.TextureType;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureWrap;
 
@@ -42,21 +43,22 @@ public abstract class TexturesContract implements GLEmbeddedTestContract
     final GLInterfaceEmbedded gl = this.makeNewGL();
 
     final TextureUnit[] units = gl.textureGetUnits();
-    final Texture2DRGBAStatic t =
-      gl.texture2DRGBAStaticAllocate(
+    final Texture2DStatic t =
+      gl.texture2DStaticAllocate(
         "texture",
         64,
         64,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
 
-    gl.texture2DRGBAStaticBind(units[0], t);
-    Assert.assertTrue(gl.texture2DRGBAStaticIsBound(units[0], t));
+    gl.texture2DStaticBind(units[0], t);
+    Assert.assertTrue(gl.texture2DStaticIsBound(units[0], t));
     gl.textureUnitUnbind(units[0]);
-    Assert.assertFalse(gl.texture2DRGBAStaticIsBound(units[0], t));
-    gl.texture2DRGBAStaticDelete(t);
+    Assert.assertFalse(gl.texture2DStaticIsBound(units[0], t));
+    gl.texture2DStaticDelete(t);
   }
 
   /**
@@ -75,18 +77,19 @@ public abstract class TexturesContract implements GLEmbeddedTestContract
     final GLInterfaceEmbedded gl = this.makeNewGL();
 
     final TextureUnit[] units = gl.textureGetUnits();
-    final Texture2DRGBAStatic t =
-      gl.texture2DRGBAStaticAllocate(
+    final Texture2DStatic t =
+      gl.texture2DStaticAllocate(
         "texture",
         64,
         64,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
 
-    gl.texture2DRGBAStaticDelete(t);
-    gl.texture2DRGBAStaticBind(units[0], t);
+    gl.texture2DStaticDelete(t);
+    gl.texture2DStaticBind(units[0], t);
   }
 
   /**
@@ -105,7 +108,7 @@ public abstract class TexturesContract implements GLEmbeddedTestContract
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final TextureUnit[] units = gl.textureGetUnits();
 
-    gl.texture2DRGBAStaticBind(units[0], null);
+    gl.texture2DStaticBind(units[0], null);
   }
 
   /**
@@ -122,7 +125,7 @@ public abstract class TexturesContract implements GLEmbeddedTestContract
         ConstraintError
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
-    gl.texture2DRGBAStaticBind(null, null);
+    gl.texture2DStaticBind(null, null);
   }
 
   /**
@@ -138,18 +141,19 @@ public abstract class TexturesContract implements GLEmbeddedTestContract
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
 
-    final Texture2DRGBAStatic t =
-      gl.texture2DRGBAStaticAllocate(
+    final Texture2DStatic t =
+      gl.texture2DStaticAllocate(
         "texture",
         64,
         64,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
 
     Assert.assertFalse(t.resourceIsDeleted());
-    gl.texture2DRGBAStaticDelete(t);
+    gl.texture2DStaticDelete(t);
     Assert.assertTrue(t.resourceIsDeleted());
   }
 
@@ -168,20 +172,21 @@ public abstract class TexturesContract implements GLEmbeddedTestContract
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
 
-    final Texture2DRGBAStatic t =
-      gl.texture2DRGBAStaticAllocate(
+    final Texture2DStatic t =
+      gl.texture2DStaticAllocate(
         "texture",
         64,
         64,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
 
     Assert.assertFalse(t.resourceIsDeleted());
-    gl.texture2DRGBAStaticDelete(t);
+    gl.texture2DStaticDelete(t);
     Assert.assertTrue(t.resourceIsDeleted());
-    gl.texture2DRGBAStaticDelete(t);
+    gl.texture2DStaticDelete(t);
   }
 
   /**
@@ -200,19 +205,20 @@ public abstract class TexturesContract implements GLEmbeddedTestContract
     final GLInterfaceEmbedded gl = this.makeNewGL();
 
     final TextureUnit[] units = gl.textureGetUnits();
-    final Texture2DRGBAStatic t =
-      gl.texture2DRGBAStaticAllocate(
+    final Texture2DStatic t =
+      gl.texture2DStaticAllocate(
         "texture",
         64,
         64,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
 
-    gl.texture2DRGBAStaticBind(units[0], t);
-    gl.texture2DRGBAStaticDelete(t);
-    gl.texture2DRGBAStaticIsBound(units[0], t);
+    gl.texture2DStaticBind(units[0], t);
+    gl.texture2DStaticDelete(t);
+    gl.texture2DStaticIsBound(units[0], t);
   }
 
   /**
@@ -229,7 +235,7 @@ public abstract class TexturesContract implements GLEmbeddedTestContract
         ConstraintError
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
-    gl.texture2DRGBAStaticDelete(null);
+    gl.texture2DStaticDelete(null);
   }
 
   /**
@@ -247,10 +253,11 @@ public abstract class TexturesContract implements GLEmbeddedTestContract
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
 
-    gl.texture2DRGBAStaticAllocate(
+    gl.texture2DStaticAllocate(
       "texture",
       64,
       64,
+      TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
       TextureWrap.TEXTURE_WRAP_REPEAT,
       TextureWrap.TEXTURE_WRAP_REPEAT,
       TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -272,10 +279,11 @@ public abstract class TexturesContract implements GLEmbeddedTestContract
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
 
-    gl.texture2DRGBAStaticAllocate(
+    gl.texture2DStaticAllocate(
       "texture",
       64,
       64,
+      TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
       TextureWrap.TEXTURE_WRAP_REPEAT,
       TextureWrap.TEXTURE_WRAP_REPEAT,
       null,
@@ -297,10 +305,11 @@ public abstract class TexturesContract implements GLEmbeddedTestContract
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
 
-    gl.texture2DRGBAStaticAllocate(
+    gl.texture2DStaticAllocate(
       null,
       64,
       64,
+      TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
       TextureWrap.TEXTURE_WRAP_REPEAT,
       TextureWrap.TEXTURE_WRAP_REPEAT,
       TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -322,10 +331,11 @@ public abstract class TexturesContract implements GLEmbeddedTestContract
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
 
-    gl.texture2DRGBAStaticAllocate(
+    gl.texture2DStaticAllocate(
       "texture",
       64,
       64,
+      TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
       null,
       TextureWrap.TEXTURE_WRAP_REPEAT,
       TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -347,10 +357,11 @@ public abstract class TexturesContract implements GLEmbeddedTestContract
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
 
-    gl.texture2DRGBAStaticAllocate(
+    gl.texture2DStaticAllocate(
       "texture",
       64,
       64,
+      TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
       TextureWrap.TEXTURE_WRAP_REPEAT,
       null,
       TextureFilter.TEXTURE_FILTER_NEAREST,

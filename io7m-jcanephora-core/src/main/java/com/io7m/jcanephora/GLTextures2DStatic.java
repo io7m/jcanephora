@@ -5,14 +5,14 @@ import javax.annotation.Nonnull;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * Type-safe interface to 2D RGBA OpenGL textures.
+ * Type-safe interface to 2D OpenGL textures.
  */
 
-public interface GLTextures2DRGBAStatic
+public interface GLTextures2DStatic
 {
   /**
-   * Allocate an RGBA texture, using four bytes per pixel, of width
-   * <code>width</code> and height <code>height</code>.
+   * Allocate a texture of width <code>width</code> and height
+   * <code>height</code>, of type <code>type</code>.
    * 
    * The texture is wrapped around the <code>s</code> axis using the wrapping
    * mode <code>wrap_s</code>, with the OpenGL default being
@@ -30,6 +30,8 @@ public interface GLTextures2DRGBAStatic
    *          The width in pixels.
    * @param height
    *          The height in pixels.
+   * @param type
+   *          The type of texture.
    * @param wrap_s
    *          The method with which to wrap textures around the <code>s</code>
    *          axis.
@@ -45,6 +47,7 @@ public interface GLTextures2DRGBAStatic
    *           Iff any of the following conditions hold:
    *           <ul>
    *           <li><code>name == null</code></li>
+   *           <li><code>type == null</code></li>
    *           <li><code>wrap_s == null</code></li>
    *           <li><code>wrap_t == null</code></li>
    *           <li><code>mag_filter == null</code></li>
@@ -56,10 +59,11 @@ public interface GLTextures2DRGBAStatic
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull Texture2DRGBAStatic texture2DRGBAStaticAllocate(
+  public @Nonnull Texture2DStatic texture2DStaticAllocate(
     final @Nonnull String name,
     final int width,
     final int height,
+    final @Nonnull TextureType type,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter mag_filter,
@@ -87,9 +91,9 @@ public interface GLTextures2DRGBAStatic
    *           Iff an OpenGL error occurs.
    */
 
-  void texture2DRGBAStaticBind(
+  void texture2DStaticBind(
     final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DRGBAStatic texture)
+    final @Nonnull Texture2DStatic texture)
     throws ConstraintError,
       GLException;
 
@@ -109,8 +113,8 @@ public interface GLTextures2DRGBAStatic
    *           Iff an OpenGL error occurs.
    */
 
-  void texture2DRGBAStaticDelete(
-    final @Nonnull Texture2DRGBAStatic texture)
+  void texture2DStaticDelete(
+    final @Nonnull Texture2DStatic texture)
     throws ConstraintError,
       GLException;
 
@@ -132,9 +136,9 @@ public interface GLTextures2DRGBAStatic
    *           Iff an OpenGL error occurs.
    */
 
-  boolean texture2DRGBAStaticIsBound(
+  boolean texture2DStaticIsBound(
     final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DRGBAStatic texture)
+    final @Nonnull Texture2DStatic texture)
     throws ConstraintError,
       GLException;
 }

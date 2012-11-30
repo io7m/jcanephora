@@ -11,8 +11,9 @@ import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceEmbedded;
 import com.io7m.jcanephora.RenderbufferD24S8;
-import com.io7m.jcanephora.Texture2DRGBAStatic;
+import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilter;
+import com.io7m.jcanephora.TextureType;
 import com.io7m.jcanephora.TextureWrap;
 import com.io7m.jtensors.VectorReadable2I;
 
@@ -20,7 +21,7 @@ public final class ExampleFBO implements Example
 {
   private final GLInterfaceEmbedded gl;
   private final RenderbufferD24S8   depth_buffer;
-  private final Texture2DRGBAStatic texture;
+  private final Texture2DStatic     texture;
   private final Framebuffer         framebuffer;
   private boolean                   has_shut_down;
 
@@ -43,10 +44,11 @@ public final class ExampleFBO implements Example
      */
 
     this.texture =
-      this.gl.texture2DRGBAStaticAllocate(
+      this.gl.texture2DStaticAllocate(
         "color_buffer",
         640,
         480,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_LINEAR,

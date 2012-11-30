@@ -7,10 +7,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
 
 /**
- * 2D, 32-bit RGBA textures (8 bits per channel).
+ * 2D texture type.
  */
 
-public final class Texture2DRGBAStatic extends Deletable implements
+public final class Texture2DStatic extends Deletable implements
   GLResource,
   GLName
 {
@@ -20,9 +20,11 @@ public final class Texture2DRGBAStatic extends Deletable implements
   private final @Nonnull RangeInclusive range_y;
   private final @Nonnull String         name;
   private final @Nonnull AreaInclusive  area;
+  private final @Nonnull TextureType    type;
 
-  Texture2DRGBAStatic(
+  Texture2DStatic(
     final @Nonnull String name,
+    final @Nonnull TextureType type,
     final int id,
     final int width,
     final int height)
@@ -32,6 +34,7 @@ public final class Texture2DRGBAStatic extends Deletable implements
       Constraints
         .constrainRange(id, 0, Integer.MAX_VALUE, "Texture ID value");
     this.name = name;
+    this.type = type;
     this.range_x = new RangeInclusive(0, width - 1);
     this.range_y = new RangeInclusive(0, height - 1);
     this.area = new AreaInclusive(this.range_x, this.range_y);
@@ -50,7 +53,7 @@ public final class Texture2DRGBAStatic extends Deletable implements
     if (this.getClass() != obj.getClass()) {
       return false;
     }
-    final Texture2DRGBAStatic other = (Texture2DRGBAStatic) obj;
+    final Texture2DStatic other = (Texture2DStatic) obj;
     if (this.id != other.id) {
       return false;
     }
@@ -116,6 +119,15 @@ public final class Texture2DRGBAStatic extends Deletable implements
     return this.area;
   }
 
+  /**
+   * Retrieve the type of the texture.
+   */
+
+  public @Nonnull TextureType getType()
+  {
+    return this.type;
+  }
+
   @Override public int hashCode()
   {
     final int prime = 31;
@@ -129,7 +141,7 @@ public final class Texture2DRGBAStatic extends Deletable implements
     throws ConstraintError,
       GLException
   {
-    gl.texture2DRGBAStaticDelete(this);
+    gl.texture2DStaticDelete(this);
   }
 
   @Override public boolean resourceIsDeleted()
@@ -145,10 +157,12 @@ public final class Texture2DRGBAStatic extends Deletable implements
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("Texture2DRGBAStatic ");
+    builder.append("Texture2DStatic ");
     builder.append(this.name);
     builder.append(" ");
     builder.append(this.id);
+    builder.append(" ");
+    builder.append(this.type);
     builder.append(" ");
     builder.append(this.getWidth());
     builder.append("x");

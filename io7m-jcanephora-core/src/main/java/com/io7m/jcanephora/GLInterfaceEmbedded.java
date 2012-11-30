@@ -30,7 +30,7 @@ public interface GLInterfaceEmbedded extends
   GLShaders,
   GLStencilBuffer,
   GLTextureUnits,
-  GLTextures2DRGBAStatic,
+  GLTextures2DStatic,
   GLViewport
 {
   /*

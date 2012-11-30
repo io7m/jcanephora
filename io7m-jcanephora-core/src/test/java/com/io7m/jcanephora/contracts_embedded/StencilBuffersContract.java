@@ -12,8 +12,9 @@ import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceEmbedded;
 import com.io7m.jcanephora.RenderbufferD24S8;
-import com.io7m.jcanephora.Texture2DRGBAStatic;
+import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilter;
+import com.io7m.jcanephora.TextureType;
 import com.io7m.jcanephora.TextureWrap;
 
 public abstract class StencilBuffersContract implements
@@ -25,11 +26,12 @@ public abstract class StencilBuffersContract implements
       ConstraintError
   {
     final RenderbufferD24S8 rb = g.renderbufferD24S8Allocate(128, 128);
-    final Texture2DRGBAStatic cb =
-      g.texture2DRGBAStaticAllocate(
+    final Texture2DStatic cb =
+      g.texture2DStaticAllocate(
         "framebuffer",
         128,
         128,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -47,11 +49,12 @@ public abstract class StencilBuffersContract implements
     throws GLException,
       ConstraintError
   {
-    final Texture2DRGBAStatic cb =
-      g.texture2DRGBAStaticAllocate(
+    final Texture2DStatic cb =
+      g.texture2DStaticAllocate(
         "framebuffer",
         128,
         128,
+        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,

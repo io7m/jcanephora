@@ -1532,7 +1532,7 @@ import com.jogamp.common.nio.Buffers;
               color_indices.contains(Integer.valueOf(index)) == false,
               "Color buffer not already present at this index");
 
-            final Texture2DRGBAStatic texture = color.getTexture();
+            final Texture2DStatic texture = color.getTexture();
             Constraints.constrainArbitrary(
               texture.resourceIsDeleted() == false,
               "Texture is not deleted");
@@ -2565,10 +2565,11 @@ import com.jogamp.common.nio.Buffers;
     return this.integer_cache.get(0);
   }
 
-  @Override public @Nonnull Texture2DRGBAStatic texture2DRGBAStaticAllocate(
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocate(
     final @Nonnull String name,
     final int width,
     final int height,
+    final @Nonnull TextureType type,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter mag_filter,
@@ -2581,14 +2582,17 @@ import com.jogamp.common.nio.Buffers;
     Constraints.constrainNotNull(name, "Name");
     Constraints.constrainRange(width, 2, Integer.MAX_VALUE, "Width");
     Constraints.constrainRange(height, 2, Integer.MAX_VALUE, "Height");
+    Constraints.constrainNotNull(type, "Texture type");
     Constraints.constrainNotNull(wrap_s, "Wrap S mode");
     Constraints.constrainNotNull(wrap_t, "Wrap T mode");
     Constraints.constrainNotNull(mag_filter, "Magnification filter");
     Constraints.constrainNotNull(min_filter, "Minification filter");
 
-    this.log.debug("texture-2DRGBA-static: allocate \""
+    this.log.debug("texture-2D-static: allocate \""
       + name
       + "\" "
+      + type
+      + " "
       + width
       + "x"
       + height);
@@ -2615,27 +2619,71 @@ import com.jogamp.common.nio.Buffers;
       GL.GL_TEXTURE_2D,
       GL.GL_TEXTURE_MIN_FILTER,
       GLInterfaceEmbedded_JOGL_ES2_Actual.textureFilterToGL(min_filter));
+
     gl.glTexImage2D(
       GL.GL_TEXTURE_2D,
       0,
-      GL.GL_RGBA8,
+      GLInterfaceEmbedded_JOGL_ES2_Actual.textureTypeToFormatGL(type),
       width,
       height,
       0,
-      GL.GL_RGBA,
-      GL.GL_UNSIGNED_BYTE,
+      GLInterfaceEmbedded_JOGL_ES2_Actual.textureTypeToFormatGL(type),
+      GLInterfaceEmbedded_JOGL_ES2_Actual.textureTypeToTypeGL(type),
       null);
     gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
 
-    final Texture2DRGBAStatic t =
-      new Texture2DRGBAStatic(name, texture_id, width, height);
-    this.log.debug("texture-2DRGBA-static: allocated " + t);
+    final Texture2DStatic t =
+      new Texture2DStatic(name, type, texture_id, width, height);
+    this.log.debug("texture-2D-static: allocated " + t);
     return t;
   }
 
-  @Override public void texture2DRGBAStaticBind(
+  private static int textureTypeToTypeGL(
+    final @Nonnull TextureType type)
+  {
+    switch (type) {
+      case TEXTURE_TYPE_ALPHA_8_1BPP:
+      case TEXTURE_TYPE_LUMINANCE_8_1BPP:
+      case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+      case TEXTURE_TYPE_RGB_888_3BPP:
+        return GL.GL_UNSIGNED_BYTE;
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+        return GL.GL_UNSIGNED_SHORT_4_4_4_4;
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+        return GL.GL_UNSIGNED_SHORT_5_5_5_1;
+      case TEXTURE_TYPE_RGB_565_2BPP:
+        return GL.GL_UNSIGNED_SHORT_5_6_5;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  private static int textureTypeToFormatGL(
+    final @Nonnull TextureType type)
+  {
+    switch (type) {
+      case TEXTURE_TYPE_ALPHA_8_1BPP:
+        return GL.GL_ALPHA;
+      case TEXTURE_TYPE_LUMINANCE_8_1BPP:
+        return GL.GL_LUMINANCE;
+      case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
+        return GL.GL_LUMINANCE_ALPHA;
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+        return GL.GL_RGBA;
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_TYPE_RGB_888_3BPP:
+        return GL.GL_RGB;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  @Override public void texture2DStaticBind(
     final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DRGBAStatic texture)
+    final @Nonnull Texture2DStatic texture)
     throws ConstraintError,
       GLException
   {
@@ -2652,8 +2700,8 @@ import com.jogamp.common.nio.Buffers;
     GLError.check(this);
   }
 
-  @Override public void texture2DRGBAStaticDelete(
-    final @Nonnull Texture2DRGBAStatic texture)
+  @Override public void texture2DStaticDelete(
+    final @Nonnull Texture2DStatic texture)
     throws ConstraintError,
       GLException
   {
@@ -2664,7 +2712,7 @@ import com.jogamp.common.nio.Buffers;
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
 
-    this.log.debug("texture-2DRGBA-static: delete " + texture);
+    this.log.debug("texture-2D-static: delete " + texture);
 
     this.integerCacheReset();
     this.integer_cache.put(0, texture.getGLName());
@@ -2672,9 +2720,9 @@ import com.jogamp.common.nio.Buffers;
     texture.setDeleted();
   }
 
-  @Override public boolean texture2DRGBAStaticIsBound(
+  @Override public boolean texture2DStaticIsBound(
     final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DRGBAStatic texture)
+    final @Nonnull Texture2DStatic texture)
     throws ConstraintError,
       GLException
   {
