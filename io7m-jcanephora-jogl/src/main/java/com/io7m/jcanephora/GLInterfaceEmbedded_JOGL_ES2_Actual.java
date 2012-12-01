@@ -367,6 +367,56 @@ import com.jogamp.common.nio.Buffers;
     assert (lines.size() == lengths.size());
   }
 
+  private static int stencilFunctionToGL(
+    final @Nonnull StencilFunction function)
+  {
+    switch (function) {
+      case STENCIL_ALWAYS:
+        return GL.GL_ALWAYS;
+      case STENCIL_EQUAL:
+        return GL.GL_EQUAL;
+      case STENCIL_GREATER_THAN:
+        return GL.GL_GREATER;
+      case STENCIL_GREATER_THAN_OR_EQUAL:
+        return GL.GL_GEQUAL;
+      case STENCIL_LESS_THAN:
+        return GL.GL_LESS;
+      case STENCIL_LESS_THAN_OR_EQUAL:
+        return GL.GL_LEQUAL;
+      case STENCIL_NEVER:
+        return GL.GL_NEVER;
+      case STENCIL_NOT_EQUAL:
+        return GL.GL_NOTEQUAL;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  private static int stencilOperationToGL(
+    final @Nonnull StencilOperation op)
+  {
+    switch (op) {
+      case STENCIL_OP_DECREMENT:
+        return GL.GL_DECR;
+      case STENCIL_OP_DECREMENT_WRAP:
+        return GL.GL_DECR_WRAP;
+      case STENCIL_OP_INCREMENT:
+        return GL.GL_INCR;
+      case STENCIL_OP_INCREMENT_WRAP:
+        return GL.GL_INCR_WRAP;
+      case STENCIL_OP_INVERT:
+        return GL.GL_INVERT;
+      case STENCIL_OP_KEEP:
+        return GL.GL_KEEP;
+      case STENCIL_OP_REPLACE:
+        return GL.GL_REPLACE;
+      case STENCIL_OP_ZERO:
+        return GL.GL_ZERO;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
   static final @Nonnull TextureFilter textureFilterFromGL(
     final int mag_filter)
   {
@@ -631,7 +681,9 @@ import com.jogamp.common.nio.Buffers;
   private final int                    point_min_width;
   private final int                    point_max_width;
   protected final @Nonnull ByteBuffer  integer_cache_buffer;
+
   protected final @Nonnull IntBuffer   integer_cache;
+
   protected final @Nonnull ByteBuffer  color_buffer_mask_cache;
 
   public GLInterfaceEmbedded_JOGL_ES2_Actual(
@@ -2530,6 +2582,52 @@ import com.jogamp.common.nio.Buffers;
     return e;
   }
 
+  @Override public void stencilBufferDisable()
+    throws ConstraintError,
+      GLException
+  {
+    final GL2ES2 g = this.contextGetGL2ES2();
+    g.glDisable(GL.GL_STENCIL_TEST);
+    GLError.check(this);
+  }
+
+  @Override public void stencilBufferEnable()
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainRange(
+      this.stencilBufferGetBits(),
+      1,
+      Integer.MAX_VALUE,
+      "Stencil buffer bits available");
+
+    final GL2ES2 g = this.contextGetGL2ES2();
+    g.glEnable(GL.GL_STENCIL_TEST);
+    GLError.check(this);
+  }
+
+  @Override public void stencilBufferFunction(
+    final @Nonnull FaceSelection faces,
+    final @Nonnull StencilFunction function,
+    final int reference,
+    final int mask)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(faces, "Face selection");
+    Constraints.constrainNotNull(function, "Stencil function");
+
+    final GL2ES2 g = this.contextGetGL2ES2();
+    final int func =
+      GLInterfaceEmbedded_JOGL_ES2_Actual.stencilFunctionToGL(function);
+    g.glStencilFuncSeparate(
+      GLInterfaceEmbedded_JOGL_ES2_Actual.faceSelectionToGL(faces),
+      func,
+      reference,
+      mask);
+    GLError.check(this);
+  }
+
   @Override public int stencilBufferGetBits()
     throws GLException
   {
@@ -2606,6 +2704,57 @@ import com.jogamp.common.nio.Buffers;
       this.integer_cache);
     GLError.check(this);
     return this.integer_cache.get(0);
+  }
+
+  @Override public boolean stencilBufferIsEnabled()
+    throws GLException
+  {
+    final GL2ES2 g = this.contextGetGL2ES2();
+    final boolean e = g.glIsEnabled(GL.GL_STENCIL_TEST);
+    GLError.check(this);
+    return e;
+  }
+
+  @Override public void stencilBufferMask(
+    final @Nonnull FaceSelection faces,
+    final int mask)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(faces, "Face selection");
+
+    final GL2ES2 g = this.contextGetGL2ES2();
+    g.glStencilMaskSeparate(
+      GLInterfaceEmbedded_JOGL_ES2_Actual.faceSelectionToGL(faces),
+      mask);
+    GLError.check(this);
+  }
+
+  @Override public void stencilBufferOperation(
+    final @Nonnull FaceSelection faces,
+    final @Nonnull StencilOperation stencil_fail,
+    final @Nonnull StencilOperation depth_fail,
+    final @Nonnull StencilOperation pass)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(faces, "Face selection");
+    Constraints.constrainNotNull(stencil_fail, "Stencil fail operation");
+    Constraints.constrainNotNull(depth_fail, "Depth fail operation");
+    Constraints.constrainNotNull(pass, "Pass operation");
+
+    final GL2ES2 g = this.contextGetGL2ES2();
+    final int sfail =
+      GLInterfaceEmbedded_JOGL_ES2_Actual.stencilOperationToGL(stencil_fail);
+    final int dfail =
+      GLInterfaceEmbedded_JOGL_ES2_Actual.stencilOperationToGL(depth_fail);
+    final int dpass =
+      GLInterfaceEmbedded_JOGL_ES2_Actual.stencilOperationToGL(pass);
+    g.glStencilOpSeparate(
+      GLInterfaceEmbedded_JOGL_ES2_Actual.faceSelectionToGL(faces),
+      sfail,
+      dfail,
+      dpass);
   }
 
   @Override public @Nonnull Texture2DStatic texture2DStaticAllocate(
