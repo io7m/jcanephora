@@ -65,7 +65,6 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
   private final HashMap<String, PartialFunction<ExampleConfig, Example, Throwable>> examples;
   private final TreeSet<String>                                                     examples_names_sorted;
   private String                                                                    example_name_current;
-
   private Example                                                                   example_current;
 
   private final ConcurrentLinkedQueue<Command>                                      command_queue;
@@ -247,6 +246,18 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
         {
           JOGL30ExampleRunner.this.window.setTitle("Textured quad");
           return new ExampleTexturedQuad(c);
+        }
+      });
+
+    this.examples.put(
+      "Animated textured quad",
+      new PartialFunction<ExampleConfig, Example, Throwable>() {
+        @Override public Example call(
+          final ExampleConfig c)
+          throws Throwable
+        {
+          JOGL30ExampleRunner.this.window.setTitle("Animated textured quad");
+          return new ExampleTexturedQuadAnimatedNoise(c);
         }
       });
 
