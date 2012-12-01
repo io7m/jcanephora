@@ -5,6 +5,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.FaceSelection;
 import com.io7m.jcanephora.Framebuffer;
 import com.io7m.jcanephora.FramebufferAttachment;
 import com.io7m.jcanephora.FramebufferAttachment.ColorAttachment;
@@ -12,6 +13,8 @@ import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceEmbedded;
 import com.io7m.jcanephora.RenderbufferD24S8;
+import com.io7m.jcanephora.StencilFunction;
+import com.io7m.jcanephora.StencilOperation;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureType;
@@ -66,6 +69,164 @@ public abstract class StencilBuffersContract implements
           cb,
           0) });
     return fb;
+  }
+
+  @Test public void testStencilBufferEnableDisable()
+    throws GLException,
+      ConstraintError
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+    final Framebuffer fb = StencilBuffersContract.makeFramebuffer(gl);
+    gl.framebufferBind(fb);
+
+    gl.stencilBufferEnable();
+    Assert.assertTrue(gl.stencilBufferIsEnabled());
+    gl.stencilBufferDisable();
+    Assert.assertFalse(gl.stencilBufferIsEnabled());
+  }
+
+  @Test public void testStencilBufferFunctions()
+    throws GLException,
+      ConstraintError
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+    final Framebuffer fb = StencilBuffersContract.makeFramebuffer(gl);
+    gl.framebufferBind(fb);
+
+    for (final FaceSelection face : FaceSelection.values()) {
+      for (final StencilFunction function : StencilFunction.values()) {
+        gl.stencilBufferFunction(face, function, 0, 0xFF);
+      }
+    }
+  }
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testStencilBufferFunctionsNullFace()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+    final Framebuffer fb = StencilBuffersContract.makeFramebuffer(gl);
+    gl.framebufferBind(fb);
+    gl.stencilBufferFunction(null, StencilFunction.STENCIL_ALWAYS, 0, 0xFF);
+  }
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testStencilBufferFunctionsNullFunction()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+    final Framebuffer fb = StencilBuffersContract.makeFramebuffer(gl);
+    gl.framebufferBind(fb);
+    gl.stencilBufferFunction(FaceSelection.FACE_FRONT, null, 0, 0xFF);
+  }
+
+  @Test public void testStencilBufferMask()
+    throws GLException,
+      ConstraintError
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+    final Framebuffer fb = StencilBuffersContract.makeFramebuffer(gl);
+    gl.framebufferBind(fb);
+    gl.stencilBufferMask(FaceSelection.FACE_FRONT_AND_BACK, 0);
+  }
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testStencilBufferMaskNullFace()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+    final Framebuffer fb = StencilBuffersContract.makeFramebuffer(gl);
+    gl.framebufferBind(fb);
+    gl.stencilBufferMask(null, 0);
+  }
+
+  @Test public void testStencilBufferOperations()
+    throws GLException,
+      ConstraintError
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+    final Framebuffer fb = StencilBuffersContract.makeFramebuffer(gl);
+    gl.framebufferBind(fb);
+
+    for (final FaceSelection face : FaceSelection.values()) {
+      for (final StencilOperation stencil_fail : StencilOperation.values()) {
+        for (final StencilOperation depth_fail : StencilOperation.values()) {
+          for (final StencilOperation pass : StencilOperation.values()) {
+            gl.stencilBufferOperation(face, stencil_fail, depth_fail, pass);
+          }
+        }
+      }
+    }
+  }
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testStencilBufferOperationsNullDepthFail()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+    final Framebuffer fb = StencilBuffersContract.makeFramebuffer(gl);
+    gl.framebufferBind(fb);
+    gl.stencilBufferOperation(
+      FaceSelection.FACE_FRONT_AND_BACK,
+      StencilOperation.STENCIL_OP_DECREMENT,
+      null,
+      StencilOperation.STENCIL_OP_DECREMENT);
+  }
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testStencilBufferOperationsNullFace()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+    final Framebuffer fb = StencilBuffersContract.makeFramebuffer(gl);
+    gl.framebufferBind(fb);
+    gl.stencilBufferOperation(
+      null,
+      StencilOperation.STENCIL_OP_DECREMENT,
+      StencilOperation.STENCIL_OP_DECREMENT,
+      StencilOperation.STENCIL_OP_DECREMENT);
+  }
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testStencilBufferOperationsNullPass()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+    final Framebuffer fb = StencilBuffersContract.makeFramebuffer(gl);
+    gl.framebufferBind(fb);
+    gl.stencilBufferOperation(
+      FaceSelection.FACE_FRONT_AND_BACK,
+      StencilOperation.STENCIL_OP_DECREMENT,
+      StencilOperation.STENCIL_OP_DECREMENT,
+      null);
+  }
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testStencilBufferOperationsNullStencilFail()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+    final Framebuffer fb = StencilBuffersContract.makeFramebuffer(gl);
+    gl.framebufferBind(fb);
+    gl.stencilBufferOperation(
+      FaceSelection.FACE_FRONT_AND_BACK,
+      null,
+      StencilOperation.STENCIL_OP_DECREMENT,
+      StencilOperation.STENCIL_OP_DECREMENT);
   }
 
   @Test public void testStencilBufferWithoutBoundFramebufferWorks()
