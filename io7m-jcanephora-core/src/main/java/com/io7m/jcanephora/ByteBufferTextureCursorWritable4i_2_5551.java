@@ -11,12 +11,12 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * for each color channel and 1 bit for alpha.
  */
 
-final class ByteBufferSpatialCursorWritable4i_2_5551 extends AreaCursor implements
+final class ByteBufferTextureCursorWritable4i_2_5551 extends AreaCursor implements
   SpatialCursorWritable4i
 {
   private final @Nonnull ByteBuffer target_data;
 
-  protected ByteBufferSpatialCursorWritable4i_2_5551(
+  protected ByteBufferTextureCursorWritable4i_2_5551(
     final @Nonnull ByteBuffer target_data,
     final @Nonnull AreaInclusive target_area,
     final @Nonnull AreaInclusive update_area)

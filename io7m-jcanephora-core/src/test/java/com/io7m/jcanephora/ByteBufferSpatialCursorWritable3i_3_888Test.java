@@ -24,8 +24,8 @@ public class ByteBufferSpatialCursorWritable3i_3_888Test
         .allocate(
           4 * 4 * ByteBufferSpatialCursorWritable3i_3_888Test.BYTES_PER_PIXEL)
         .order(ByteOrder.nativeOrder());
-    final ByteBufferSpatialCursorWritable3i_3_888 c =
-      new ByteBufferSpatialCursorWritable3i_3_888(
+    final ByteBufferTextureCursorWritable3i_3_888 c =
+      new ByteBufferTextureCursorWritable3i_3_888(
         buffer,
         area_outer,
         area_outer);
@@ -61,8 +61,8 @@ public class ByteBufferSpatialCursorWritable3i_3_888Test
         .allocate(
           12 * 12 * ByteBufferSpatialCursorWritable3i_3_888Test.BYTES_PER_PIXEL)
         .order(ByteOrder.nativeOrder());
-    final ByteBufferSpatialCursorWritable3i_3_888 c =
-      new ByteBufferSpatialCursorWritable3i_3_888(
+    final ByteBufferTextureCursorWritable3i_3_888 c =
+      new ByteBufferTextureCursorWritable3i_3_888(
         buffer,
         area_outer,
         area_inner);

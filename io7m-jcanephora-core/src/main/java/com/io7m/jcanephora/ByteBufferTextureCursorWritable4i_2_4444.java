@@ -7,16 +7,15 @@ import javax.annotation.Nonnull;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * Texture cursor addressing textures with three RGBA elements, with 5 bits
- * for red, 6 bits for green, and 5 bits for blue.
+ * Texture cursor addressing textures with four 4 bit RGBA elements.
  */
 
-final class ByteBufferTextureCursorWritable3i_2_565 extends AreaCursor implements
-  SpatialCursorWritable3i
+final class ByteBufferTextureCursorWritable4i_2_4444 extends AreaCursor implements
+  SpatialCursorWritable4i
 {
   private final @Nonnull ByteBuffer target_data;
 
-  protected ByteBufferTextureCursorWritable3i_2_565(
+  protected ByteBufferTextureCursorWritable4i_2_4444(
     final @Nonnull ByteBuffer target_data,
     final @Nonnull AreaInclusive target_area,
     final @Nonnull AreaInclusive update_area)
@@ -26,14 +25,15 @@ final class ByteBufferTextureCursorWritable3i_2_565 extends AreaCursor implement
     this.target_data = target_data;
   }
 
-  @Override public void put3i(
+  @Override public void put4i(
     final int r,
     final int g,
-    final int b)
+    final int b,
+    final int a)
     throws ConstraintError
   {
-    final char data = TexturePixelPack.pack2_565(r, g, b);
     final int byte_current = (int) this.getByteOffset();
+    final char data = TexturePixelPack.pack2_4444(r, g, b, a);
     this.target_data.putChar(byte_current, data);
     this.next();
   }

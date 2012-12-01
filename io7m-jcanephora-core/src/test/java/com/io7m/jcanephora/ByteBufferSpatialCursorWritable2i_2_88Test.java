@@ -24,8 +24,8 @@ public class ByteBufferSpatialCursorWritable2i_2_88Test
         .allocate(
           4 * 4 * ByteBufferSpatialCursorWritable2i_2_88Test.BYTES_PER_PIXEL)
         .order(ByteOrder.nativeOrder());
-    final ByteBufferSpatialCursorWritable2i_2_88 c =
-      new ByteBufferSpatialCursorWritable2i_2_88(
+    final ByteBufferTextureCursorWritable2i_2_88 c =
+      new ByteBufferTextureCursorWritable2i_2_88(
         buffer,
         area_outer,
         area_outer);
@@ -60,8 +60,8 @@ public class ByteBufferSpatialCursorWritable2i_2_88Test
         .allocate(
           12 * 12 * ByteBufferSpatialCursorWritable2i_2_88Test.BYTES_PER_PIXEL)
         .order(ByteOrder.nativeOrder());
-    final ByteBufferSpatialCursorWritable2i_2_88 c =
-      new ByteBufferSpatialCursorWritable2i_2_88(
+    final ByteBufferTextureCursorWritable2i_2_88 c =
+      new ByteBufferTextureCursorWritable2i_2_88(
         buffer,
         area_outer,
         area_inner);

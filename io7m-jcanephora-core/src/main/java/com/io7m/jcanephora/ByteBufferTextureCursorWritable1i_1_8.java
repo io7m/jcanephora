@@ -10,12 +10,12 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * Texture cursor addressing textures with single 8 bit elements.
  */
 
-final class ByteBufferSpatialCursorWritable1i_1_8 extends AreaCursor implements
+final class ByteBufferTextureCursorWritable1i_1_8 extends AreaCursor implements
   SpatialCursorWritable1i
 {
   private final @Nonnull ByteBuffer target_data;
 
-  protected ByteBufferSpatialCursorWritable1i_1_8(
+  protected ByteBufferTextureCursorWritable1i_1_8(
     final @Nonnull ByteBuffer target_data,
     final @Nonnull AreaInclusive target_area,
     final @Nonnull AreaInclusive update_area)
