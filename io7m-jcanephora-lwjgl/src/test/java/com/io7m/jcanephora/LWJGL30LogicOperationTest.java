@@ -6,7 +6,8 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jcanephora.contracts.LogicOpContract;
+import com.io7m.jaux.functional.Option;
+import com.io7m.jcanephora.contracts_full.LogicOpContract;
 import com.io7m.jlog.Log;
 
 public final class LWJGL30LogicOperationTest extends LogicOpContract
@@ -16,11 +17,11 @@ public final class LWJGL30LogicOperationTest extends LogicOpContract
     return LWJGL30TestLog.getLog();
   }
 
-  @Override public GLInterface makeNewGL()
+  @Override public Option<GLInterface> makeNewGL()
     throws GLException,
       ConstraintError
   {
-    return LWJGL30TestDisplay.getGL();
+    return LWJGL30TestDisplay.makeFreshGLFull();
   }
 
   /**
@@ -30,15 +31,15 @@ public final class LWJGL30LogicOperationTest extends LogicOpContract
   @SuppressWarnings("static-method") @Test public void testLogicBijection()
   {
     for (final LogicOperation o : LogicOperation.values()) {
-      Assert.assertEquals(
-        GLInterfaceLWJGL30.logicOpFromGL(GLInterfaceLWJGL30.logicOpToGL(o)),
-        o);
+      Assert
+        .assertEquals(GLInterface_LWJGL30.logicOpFromGL(GLInterface_LWJGL30
+          .logicOpToGL(o)), o);
     }
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testLogicFailure()
   {
-    GLInterfaceLWJGL30.logicOpFromGL(-1);
+    GLInterface_LWJGL30.logicOpFromGL(-1);
   }
 }

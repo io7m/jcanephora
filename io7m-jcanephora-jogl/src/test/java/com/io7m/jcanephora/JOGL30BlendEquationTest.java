@@ -14,14 +14,14 @@ public final class JOGL30BlendEquationTest
   @SuppressWarnings("static-method") @Test public void testBijection()
   {
     for (final BlendEquation f : BlendEquation.values()) {
-      Assert.assertEquals(GLInterfaceJOGL30
-        .blendEquationFromGL(GLInterfaceJOGL30.blendEquationToGL(f)), f);
+      Assert.assertEquals(GLInterface_JOGL30
+        .blendEquationFromGL(GLInterface_JOGL30.blendEquationToGL(f)), f);
     }
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLInterfaceJOGL30.blendEquationFromGL(-1);
+    GLInterface_JOGL30.blendEquationFromGL(-1);
   }
 }

@@ -15,14 +15,14 @@ public final class LWJGL30PolygonModeTest
   @SuppressWarnings("static-method") @Test public void testModeBijection()
   {
     for (final PolygonMode p : PolygonMode.values()) {
-      Assert.assertEquals(GLInterfaceLWJGL30
-        .polygonModeFromGL(GLInterfaceLWJGL30.polygonModeToGL(p)), p);
+      Assert.assertEquals(GLInterface_LWJGL30
+        .polygonModeFromGL(GLInterface_LWJGL30.polygonModeToGL(p)), p);
     }
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLInterfaceLWJGL30.polygonModeFromGL(-1);
+    GLInterface_LWJGL30.polygonModeFromGL(-1);
   }
 }

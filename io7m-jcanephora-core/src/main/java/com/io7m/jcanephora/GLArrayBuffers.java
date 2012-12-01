@@ -1,7 +1,5 @@
 package com.io7m.jcanephora;
 
-import java.nio.ByteBuffer;
-
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -31,9 +29,9 @@ public interface GLArrayBuffers
    *           </ul>
    */
 
-  @Nonnull ArrayBuffer arrayBufferAllocate(
+  public @Nonnull ArrayBuffer arrayBufferAllocate(
     final long elements,
-    final ArrayBufferDescriptor descriptor)
+    final @Nonnull ArrayBufferDescriptor descriptor)
     throws GLException,
       ConstraintError;
 
@@ -55,7 +53,7 @@ public interface GLArrayBuffers
    *           </ul>
    */
 
-  void arrayBufferBind(
+  public void arrayBufferBind(
     final @Nonnull ArrayBuffer buffer)
     throws GLException,
       ConstraintError;
@@ -82,7 +80,7 @@ public interface GLArrayBuffers
    *           Iff an OpenGL error occurs.
    */
 
-  void arrayBufferBindVertexAttribute(
+  public void arrayBufferBindVertexAttribute(
     final @Nonnull ArrayBuffer buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
@@ -106,7 +104,7 @@ public interface GLArrayBuffers
    *           Iff an OpenGL error occurs.
    */
 
-  void arrayBufferDelete(
+  public void arrayBufferDelete(
     final @Nonnull ArrayBuffer id)
     throws ConstraintError,
       GLException;
@@ -129,60 +127,10 @@ public interface GLArrayBuffers
    *           Iff an OpenGL error occurs.
    */
 
-  boolean arrayBufferIsBound(
+  public boolean arrayBufferIsBound(
     final @Nonnull ArrayBuffer id)
     throws ConstraintError,
       GLException;
-
-  /**
-   * Map the buffer referenced by <code>id</code> into the program's address
-   * space. The buffer is mapped read-only. The buffer should be unmapped
-   * after use with {@link GLInterface#arrayBufferUnmap(ArrayBuffer)}.
-   * 
-   * @param id
-   *          The buffer.
-   * @return A readable byte buffer.
-   * @throws GLException
-   *           Iff an OpenGL exception occurs.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>id == null</code>.</li>
-   *           <li><code>id</code> does not refer to a valid buffer (possible
-   *           if the buffer has already been deleted).</li>
-   *           </ul>
-   */
-
-  @Nonnull ByteBuffer arrayBufferMapRead(
-    final @Nonnull ArrayBuffer id)
-    throws GLException,
-      ConstraintError;
-
-  /**
-   * Map the buffer referenced by <code>id</code> into the program's address
-   * space. The buffer is mapped write-only. The buffer should be unmapped
-   * after use with {@link GLInterface#arrayBufferUnmap(ArrayBuffer)}. The
-   * previous contents of the buffer are discarded before mapping, to prevent
-   * pipeline stalls.
-   * 
-   * @param id
-   *          The buffer.
-   * @return A readable byte buffer.
-   * @throws GLException
-   *           Iff an OpenGL exception occurs.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>id == null</code>.</li>
-   *           <li><code>id</code> does not refer to a valid buffer (possible
-   *           if the buffer has already been deleted).</li>
-   *           </ul>
-   */
-
-  @Nonnull ArrayBufferWritableMap arrayBufferMapWrite(
-    final @Nonnull ArrayBuffer id)
-    throws GLException,
-      ConstraintError;
 
   /**
    * Unbind the current array buffer.
@@ -191,7 +139,7 @@ public interface GLArrayBuffers
    *           Iff an OpenGL error occurs.
    */
 
-  void arrayBufferUnbind()
+  public void arrayBufferUnbind()
     throws GLException,
       ConstraintError;
 
@@ -217,7 +165,7 @@ public interface GLArrayBuffers
    *           Iff an OpenGL error occurs.
    */
 
-  void arrayBufferUnbindVertexAttribute(
+  public void arrayBufferUnbindVertexAttribute(
     final @Nonnull ArrayBuffer buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
@@ -225,24 +173,27 @@ public interface GLArrayBuffers
       ConstraintError;
 
   /**
-   * Unmap the array buffer specified by <code>id</code>.
+   * Replace the contents (or part of the contents) of the array buffer
+   * <code>buffer</code> with <code>data</code>.
    * 
-   * @param id
+   * @param buffer
    *          The array buffer.
+   * @param data
+   *          The data to upload.
+   * 
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
-   *           <li><code>id == null</code>.</li>
-   *           <li><code>id</code> does not refer to a valid buffer (possible
-   *           if the buffer has already been deleted).</li>
+   *           <li><code>buffer == null</code></li>
+   *           <li><code>data == null</code></li>
    *           </ul>
    * @throws GLException
    *           Iff an OpenGL error occurs.
    */
 
-  void arrayBufferUnmap(
-    final @Nonnull ArrayBuffer id)
-    throws ConstraintError,
-      GLException;
-
+  public void arrayBufferUpdate(
+    final @Nonnull ArrayBuffer buffer,
+    final @Nonnull ArrayBufferWritableData data)
+    throws GLException,
+      ConstraintError;
 }

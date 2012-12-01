@@ -65,21 +65,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.io7m.jtensors</groupId>
-      <artifactId>io7m-jtensors</artifactId>
-      <version>4.1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.io7m.jvvfs</groupId>
-      <artifactId>io7m-jvvfs</artifactId>
-      <version>2.3.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.io7m.jaux</groupId>
-      <artifactId>io7m-jaux</artifactId>
-      <version>2.3.0</version>
-    </dependency>
-    <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
       <version>2.0.1</version>

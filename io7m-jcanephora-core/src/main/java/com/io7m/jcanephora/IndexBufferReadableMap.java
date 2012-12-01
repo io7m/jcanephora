@@ -6,7 +6,6 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.UnreachableCodeException;
 
 /**
  * Abstraction over mapped index buffers.
@@ -34,39 +33,30 @@ public final class IndexBufferReadableMap
   }
 
   /**
-   * Retrieve the element at index <code>index</code>.
-   */
-
-  public int get(
-    final int index)
-  {
-    switch (this.buffer.getType()) {
-      case TYPE_UNSIGNED_BYTE:
-      {
-        final byte b = this.map.get(index);
-        return b & 0xff;
-      }
-      case TYPE_UNSIGNED_INT:
-      {
-        return this.map.getInt(index * 4);
-      }
-      case TYPE_UNSIGNED_SHORT:
-      {
-        final short s = this.map.getShort(index * 2);
-        return s & 0xffff;
-      }
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  /**
-   * Retrieve the readable <code>ByteBuffer</code> that backs the index
-   * buffer.
+   * Retrieve the raw ByteBuffer that backs the array buffer. The memory
+   * backing the buffer is mapped into the application address space from the
+   * GPU. The function is provided for use by developers that have needs not
+   * addressed by the cursor API.
+   * 
+   * Use of this buffer is discouraged for safety reasons.
    */
 
   public @Nonnull ByteBuffer getByteBuffer()
   {
     return this.map;
+  }
+
+  /**
+   * Retrieve a cursor that points to elements of the index buffer. The cursor
+   * interface allows constant time access to any element and also minimizes
+   * the number of checks performed for each access.
+   */
+
+  public @Nonnull CursorReadableIndex getCursor()
+  {
+    return new ByteBufferCursorReadableIndex(
+      this.map,
+      this.buffer.getRange(),
+      this.buffer.getType());
   }
 }

@@ -7,7 +7,8 @@ package com.io7m.jcanephora;
 public final class GLType
 {
   /**
-   * The set of types supported by GLSL 1.2.
+   * The common set of types supported by GLSL 1.2 and the shading language in
+   * ES2.
    */
 
   public static enum Type
@@ -27,17 +28,9 @@ public final class GLType
     TYPE_FLOAT_MATRIX_2,
     TYPE_FLOAT_MATRIX_3,
     TYPE_FLOAT_MATRIX_4,
-    TYPE_FLOAT_MATRIX_2x3,
-    TYPE_FLOAT_MATRIX_2x4,
-    TYPE_FLOAT_MATRIX_3x2,
-    TYPE_FLOAT_MATRIX_3x4,
-    TYPE_FLOAT_MATRIX_4x2,
-    TYPE_FLOAT_MATRIX_4x3,
-    TYPE_SAMPLER_1D,
     TYPE_SAMPLER_2D,
     TYPE_SAMPLER_3D,
     TYPE_SAMPLER_CUBE,
-    TYPE_SAMPLER_1D_SHADOW,
     TYPE_SAMPLER_2D_SHADOW
   }
 }

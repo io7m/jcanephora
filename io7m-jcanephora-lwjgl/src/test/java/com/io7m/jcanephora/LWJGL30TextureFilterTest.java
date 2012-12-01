@@ -14,14 +14,15 @@ public class LWJGL30TextureFilterTest
   @SuppressWarnings("static-method") @Test public void testFilterBijection()
   {
     for (final TextureFilter f : TextureFilter.values()) {
-      Assert.assertEquals(f, GLInterfaceLWJGL30
-        .textureFilterFromGL(GLInterfaceLWJGL30.textureFilterToGL(f)));
+      Assert.assertEquals(f, GLInterfaceEmbedded_LWJGL_ES2_Actual
+        .textureFilterFromGL(GLInterfaceEmbedded_LWJGL_ES2_Actual
+          .textureFilterToGL(f)));
     }
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLInterfaceLWJGL30.textureFilterFromGL(-1);
+    GLInterfaceEmbedded_LWJGL_ES2_Actual.textureFilterFromGL(-1);
   }
 }

@@ -15,8 +15,9 @@ public final class JOGL30ScalarTypeTest
   @SuppressWarnings("static-method") @Test public void testScalarBijection()
   {
     for (final GLScalarType t : GLScalarType.values()) {
-      Assert.assertEquals(GLInterfaceJOGL30
-        .scalarTypeFromGL(GLInterfaceJOGL30.scalarTypeToGL(t)), t);
+      Assert.assertEquals(GLInterfaceEmbedded_JOGL_ES2_Actual
+        .scalarTypeFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual
+          .scalarTypeToGL(t)), t);
     }
   }
 
@@ -25,6 +26,6 @@ public final class JOGL30ScalarTypeTest
     void
     testScalarFailure()
   {
-    GLInterfaceJOGL30.scalarTypeFromGL(-1);
+    GLInterfaceEmbedded_JOGL_ES2_Actual.scalarTypeFromGL(-1);
   }
 }
