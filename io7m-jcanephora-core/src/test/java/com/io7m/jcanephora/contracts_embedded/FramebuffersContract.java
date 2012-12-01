@@ -178,6 +178,38 @@ public abstract class FramebuffersContract implements GLEmbeddedTestContract
   }
 
   /**
+   * All of the available texture types are usable as framebuffer textures.
+   * 
+   * @throws ConstraintError
+   * @throws GLException
+   */
+
+  @Test public void testFramebufferAttachColorFormatsOK()
+    throws ConstraintError,
+      GLException
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+
+    for (final TextureType type : TextureType.values()) {
+      final Texture2DStatic t =
+        gl.texture2DStaticAllocate(
+          "buffer",
+          128,
+          128,
+          type,
+          TextureWrap.TEXTURE_WRAP_REPEAT,
+          TextureWrap.TEXTURE_WRAP_REPEAT,
+          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureFilter.TEXTURE_FILTER_NEAREST);
+      final ColorAttachment fbc = new ColorAttachment(t, 0);
+      final Framebuffer fb =
+        gl.framebufferAllocate(new FramebufferAttachment[] { fbc });
+      gl.framebufferDelete(fb);
+      gl.texture2DStaticDelete(t);
+    }
+  }
+
+  /**
    * Attaching a multiple color buffers to a framebuffer works.
    */
 
