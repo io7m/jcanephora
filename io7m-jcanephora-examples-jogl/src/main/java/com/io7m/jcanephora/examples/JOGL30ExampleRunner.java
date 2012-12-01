@@ -28,6 +28,12 @@ import com.jogamp.opengl.util.FPSAnimator;
 
 final class JOGL30ExampleRunner implements GLEventListener, KeyListener
 {
+  private enum Command
+  {
+    COMMAND_NEXT,
+    COMMAND_PREVIOUS
+  }
+
   private static final int FRAMES_PER_SECOND = 60;
 
   static void fatal(
@@ -54,12 +60,15 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
   private final Filesystem                                                          filesystem;
   private final VectorM2I                                                           window_position;
   private final VectorM2I                                                           window_size;
-  private ExampleConfig                                                             config;
 
+  private ExampleConfig                                                             config;
   private final HashMap<String, PartialFunction<ExampleConfig, Example, Throwable>> examples;
   private final TreeSet<String>                                                     examples_names_sorted;
   private String                                                                    example_name_current;
+
   private Example                                                                   example_current;
+
+  private final ConcurrentLinkedQueue<Command>                                      command_queue;
 
   JOGL30ExampleRunner()
     throws Throwable
@@ -205,6 +214,16 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
     }
   }
 
+  private void exampleShutdown()
+  {
+    try {
+      this.log.debug("Stopping: " + this.example_name_current);
+      this.example_current.shutdown();
+    } catch (final Throwable x) {
+      JOGL30ExampleRunner.fatal(x);
+    }
+  }
+
   private void examplesInitialize()
   {
     this.examples.put(
@@ -280,14 +299,6 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
     // Nothing
   }
 
-  private enum Command
-  {
-    COMMAND_NEXT,
-    COMMAND_PREVIOUS
-  }
-
-  private final ConcurrentLinkedQueue<Command> command_queue;
-
   @Override public void keyReleased(
     final KeyEvent e)
   {
@@ -305,16 +316,6 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
         }
       }
 
-    } catch (final Throwable x) {
-      JOGL30ExampleRunner.fatal(x);
-    }
-  }
-
-  private void exampleShutdown()
-  {
-    try {
-      this.log.debug("Stopping: " + this.example_name_current);
-      this.example_current.shutdown();
     } catch (final Throwable x) {
       JOGL30ExampleRunner.fatal(x);
     }

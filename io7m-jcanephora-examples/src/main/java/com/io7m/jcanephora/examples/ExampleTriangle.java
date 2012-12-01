@@ -101,13 +101,13 @@ public final class ExampleTriangle implements Example
       final CursorWritable4f col_cursor =
         this.array_data.getCursor4f("color");
 
-      pos_cursor.put4f(0.0f, 100.0f, -1.0f, 1.0f);
+      pos_cursor.put4f(-100.0f, 100.0f, -1.0f, 1.0f);
       col_cursor.put4f(1.0f, 0.0f, 0.0f, 1.0f);
 
-      pos_cursor.put4f(0.0f, 0.0f, -1.0f, 1.0f);
+      pos_cursor.put4f(-100.0f, -100.0f, -1.0f, 1.0f);
       col_cursor.put4f(0.0f, 1.0f, 0.0f, 1.0f);
 
-      pos_cursor.put4f(100.0f, 0.0f, -1.0f, 1.0f);
+      pos_cursor.put4f(100.0f, -100.0f, -1.0f, 1.0f);
       col_cursor.put4f(0.0f, 0.0f, 1.0f, 1.0f);
     }
 
@@ -227,6 +227,11 @@ public final class ExampleTriangle implements Example
     this.program.deactivate(this.gl);
   }
 
+  @Override public boolean hasShutDown()
+  {
+    return this.has_shut_down;
+  }
+
   @Override public void reshape(
     final @Nonnull VectorReadable2I position,
     final @Nonnull VectorReadable2I size)
@@ -255,10 +260,5 @@ public final class ExampleTriangle implements Example
     this.gl.arrayBufferDelete(this.array);
     this.gl.indexBufferDelete(this.indices);
     this.program.delete(this.gl);
-  }
-
-  @Override public boolean hasShutDown()
-  {
-    return this.has_shut_down;
   }
 }
