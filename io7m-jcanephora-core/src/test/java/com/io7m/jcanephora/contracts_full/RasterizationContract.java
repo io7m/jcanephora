@@ -7,8 +7,10 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jaux.functional.Option.Type;
+import com.io7m.jcanephora.FaceSelection;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface;
+import com.io7m.jcanephora.PolygonMode;
 
 public abstract class RasterizationContract implements GLTestContract
 {
@@ -202,6 +204,60 @@ public abstract class RasterizationContract implements GLTestContract
     final GLInterface gl = ((Option.Some<GLInterface>) og).value;
     Assert.assertTrue(gl.pointGetMinimumWidth() >= 0);
     Assert.assertTrue(gl.pointGetMaximumWidth() >= 1);
+  }
+
+  /**
+   * Polygon mode setting works.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   */
+
+  @Test public final void testPolygonModeIdentities()
+    throws GLException,
+      ConstraintError
+  {
+    final Option<GLInterface> og = this.makeNewGL();
+    if (og.type == Type.OPTION_NONE) {
+      return;
+    }
+    final GLInterface gl = ((Option.Some<GLInterface>) og).value;
+
+    gl.polygonSetMode(
+      FaceSelection.FACE_FRONT_AND_BACK,
+      PolygonMode.POLYGON_FILL);
+    Assert.assertEquals(PolygonMode.POLYGON_FILL, gl.polygonGetModeBack());
+    Assert.assertEquals(PolygonMode.POLYGON_FILL, gl.polygonGetModeFront());
+
+    for (final PolygonMode pm : PolygonMode.values()) {
+      gl.polygonSetMode(FaceSelection.FACE_FRONT, pm);
+      Assert.assertEquals(PolygonMode.POLYGON_FILL, gl.polygonGetModeBack());
+      Assert.assertEquals(pm, gl.polygonGetModeFront());
+    }
+
+    gl.polygonSetMode(
+      FaceSelection.FACE_FRONT_AND_BACK,
+      PolygonMode.POLYGON_FILL);
+    Assert.assertEquals(PolygonMode.POLYGON_FILL, gl.polygonGetModeBack());
+    Assert.assertEquals(PolygonMode.POLYGON_FILL, gl.polygonGetModeFront());
+
+    for (final PolygonMode pm : PolygonMode.values()) {
+      gl.polygonSetMode(FaceSelection.FACE_BACK, pm);
+      Assert.assertEquals(pm, gl.polygonGetModeBack());
+      Assert.assertEquals(PolygonMode.POLYGON_FILL, gl.polygonGetModeFront());
+    }
+
+    gl.polygonSetMode(
+      FaceSelection.FACE_FRONT_AND_BACK,
+      PolygonMode.POLYGON_FILL);
+    Assert.assertEquals(PolygonMode.POLYGON_FILL, gl.polygonGetModeBack());
+    Assert.assertEquals(PolygonMode.POLYGON_FILL, gl.polygonGetModeFront());
+
+    for (final PolygonMode pm : PolygonMode.values()) {
+      gl.polygonSetMode(FaceSelection.FACE_FRONT_AND_BACK, pm);
+      Assert.assertEquals(pm, gl.polygonGetModeBack());
+      Assert.assertEquals(pm, gl.polygonGetModeFront());
+    }
   }
 
   /**
