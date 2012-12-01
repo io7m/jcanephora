@@ -389,7 +389,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
         for details.
       </s:paragraph>
     </s:section>
-    <s:section>
+    <s:section xml:id="com.io7m.jcanephora.tutorial_vbo">
       <s:section-title>Vertex Buffer Objects</s:section-title>
       <s:paragraph>
         The following C program
@@ -403,8 +403,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
         <s:verbatim><xi:include href="../c/two-triangles.c" parse="text"/></s:verbatim>
       </s:formal-item>
       <s:paragraph>
-        The <s:term type="package">jcanephora</s:term> demonstrates many of the
-        package's convenience and safety features:
+        The <s:term type="package">jcanephora</s:term> version demonstrates
+        many of the package's convenience and safety features:
       </s:paragraph>
       <s:formal-item kind="example">
         <s:formal-item-title>Vertex buffers (Java)</s:formal-item-title>
@@ -456,45 +456,75 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
         pictured when the array or index buffer had been deleted.
       </s:paragraph>
     </s:section>
-<!--
     <s:section>
       <s:section-title>Textures</s:section-title>
       <s:paragraph>
         The following C program
-        [<s:link-external target="texture-use.c">texture-use.c</s:link-external>]
-        demonstrates the creation and usage of textures. It loads a TIFF
-        image using <s:link-external target="http://libtiff.org">libTIFF</s:link-external>,
-        into a pixel buffer, copies the pixel buffer into a texture,
-        binds the texture to the first texture unit, and displays it on a
-        textured quad.
+        [<s:link-external target="texture-simple.c">texture-simple.c</s:link-external>]
+        demonstrates the creation and usage of textures. It generates a simple
+        texture and displays it on a rectangle. The program uses the obsolete fixed-function
+        pipeline for brevity, as previously mentioned.
       </s:paragraph>
       <s:formal-item kind="example">
         <s:formal-item-title>Textures (C)</s:formal-item-title>
-        <s:verbatim><xi:include href="../c/texture-use.c" parse="text"/></s:verbatim>
+        <s:verbatim><xi:include href="../c/texture-simple.c" parse="text"/></s:verbatim>
       </s:formal-item>
       <s:paragraph>
-        The <s:term type="package">jcanephora</s:term> version reads an RGBA
-        texture directly from a file. The image is converted to RGBA regardless
-        of the format of the image. The <s:term type="package">jcanephora</s:term>
-        package requires the programmer to retrieve a list of the available
-        texture units and then explicitly bind textures to the texture units
-        for use. This eliminates an ugly class of bugs involving the programmer
-        using more texture units than the implementation provides and then
-        failing to check <s:term type="function">glGetError()</s:term> (the
-        bug may go completely unnoticed: who will notice that one texture out
-        of thirty applied to an object is missing?).
-      </s:paragraph>
-      <s:paragraph>
-        Note that textures are always backed by pixel buffers in
-        <s:term type="package">jcanephora</s:term> and may therefore be
-        mapped and then modified using typed cursors for trivial "streaming"
-        textures.
+        The <s:term type="package">jcanephora</s:term> version again demonstrates
+        many of the package's convenience and safety features:
       </s:paragraph>
       <s:formal-item kind="example">
         <s:formal-item-title>Textures (Java)</s:formal-item-title>
-<s:verbatim><xi:include href="../../../io7m-jcanephora-lwjgl/src/main/java/com/io7m/jcanephora/examples/lwjgl30/TextureExampleSimple.java" parse="text"/></s:verbatim>
+<s:verbatim><xi:include href="../../../io7m-jcanephora-examples/src/main/java/com/io7m/jcanephora/examples/ExampleTexturedQuad.java" parse="text"/></s:verbatim>
       </s:formal-item>
+      <s:paragraph>
+        In addition to the features demonstrated in the
+        <s:link target="com.io7m.jcanephora.tutorial_vbo">previous example</s:link>, the
+        program demonstrates a number of features specific to texturing.
+      </s:paragraph>
+      <s:paragraph>
+        The program requests access to a list of the available texture units. This
+        eliminates a class of bugs present in many programs that use
+        <s:term type="function">glActiveTexture</s:term>: Most implementations support
+        between 16-32 texture units, at the time of writing. OpenGL will raise an error
+        if a program attempts to use more than the available number of units, but most
+        programs also fail to check OpenGL error codes. The design of the
+        <s:term type="package">jcanephora</s:term> API models texture units as concrete
+        objects of type
+        <s:link-external target="javadoc/com/io7m/jcanephora/TextureUnit.html">TextureUnit</s:link-external>
+        and therefore programs cannot accidentally use more units than the implementation
+        provides.
+      </s:paragraph>
+      <s:paragraph>
+        The <s:term type="package">jcanephora</s:term> hides the ridiculously complicated,
+        type-unsafe and legacy-ridden <s:term type="function">glTexImage2D</s:term>,
+        <s:term type="function">glTexSubImage2D</s:term>, and
+        <s:term type="function">glTexParameter</s:term> interfaces
+        and instead exposes a simple allocation function that takes values of various
+        <s:term type="keyword">enum</s:term> types specifying the exact properties of the
+        texture to be allocated. The texture type information is stored (client side) along
+        with the details of the allocated texture, allowing type-safe access to texture data
+        later on.
+      </s:paragraph>
+      <s:paragraph>
+        The program updates the allocated texture by creating a new client-side buffer of
+        data and then obtaining access to the data via a typed cursor interface. It is an
+        error to try to obtain a cursor of the wrong type (such as requesting a cursor that
+        points to four-component elements in a texture that only contains a luminance and
+        alpha channel, for example). The cursor interface exposes a uniform interface with
+        regards to color data and performs automatic conversion/color packing - the program
+        works with simple linear RGBA color values and does not need to worry about
+        converting/packing those values into the correct format for the texture.
+      </s:paragraph>
+      <s:paragraph>
+        Finally, during rendering, the program binds the texture to a texture unit and
+        uploads the name of the texture unit to the shading language program. Naturally,
+        all of these operations have increased type safety (it's not possible to upload
+        an arbitrary integer to a program that expects a
+        <s:term type="type">sampler2D</s:term> type, for example).
+      </s:paragraph>
     </s:section>
+<!--
     <s:section>
       <s:section-title>Shaders</s:section-title>
       <s:paragraph>

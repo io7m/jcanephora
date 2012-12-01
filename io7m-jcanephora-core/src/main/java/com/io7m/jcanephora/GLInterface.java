@@ -20,7 +20,8 @@ public interface GLInterface extends
   GLLogic,
   GLPolygonModes,
   GLPolygonSmoothing,
-  GLProgramPointSizeControl
+  GLProgramPointSizeControl,
+  GLTextures2DBuffered
 {
   /*
    * All functions defined in the superinterfaces.
