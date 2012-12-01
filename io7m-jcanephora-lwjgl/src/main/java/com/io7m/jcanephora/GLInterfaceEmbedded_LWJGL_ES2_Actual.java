@@ -2414,6 +2414,42 @@ import com.io7m.jtensors.VectorReadable4F;
     return e == texture.getGLName();
   }
 
+  @Override public void texture2DStaticUpdate(
+    final @Nonnull Texture2DWritableData data)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(data, "Texture data");
+
+    final AreaInclusive area = data.targetArea();
+    final Texture2DStatic texture = data.getTexture();
+
+    final TextureType type = texture.getType();
+    final int x_offset = (int) area.getRangeX().getLower();
+    final int y_offset = (int) area.getRangeY().getLower();
+    final int width = (int) area.getRangeX().getInterval();
+    final int height = (int) area.getRangeY().getInterval();
+    final int format =
+      GLInterfaceEmbedded_LWJGL_ES2_Actual.textureTypeToFormatGL(type);
+    final int gl_type =
+      GLInterfaceEmbedded_LWJGL_ES2_Actual.textureTypeToTypeGL(type);
+    final ByteBuffer buffer = data.targetData();
+
+    GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getGLName());
+    GL11.glTexSubImage2D(
+      GL11.GL_TEXTURE_2D,
+      0,
+      x_offset,
+      y_offset,
+      width,
+      height,
+      format,
+      gl_type,
+      buffer);
+    GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+    GLError.check(this);
+  }
+
   @Override public int textureGetMaximumSize()
     throws GLException
   {

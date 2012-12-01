@@ -6,7 +6,9 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceEmbedded;
+import com.io7m.jcanephora.SpatialCursorWritable3i;
 import com.io7m.jcanephora.Texture2DStatic;
+import com.io7m.jcanephora.Texture2DWritableData;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureType;
 import com.io7m.jcanephora.TextureUnit;
@@ -415,5 +417,59 @@ public abstract class TexturesContract implements GLEmbeddedTestContract
 
       tx.resourceDelete(gl);
     }
+  }
+
+  /**
+   * Texture updates work.
+   * 
+   * @throws ConstraintError
+   * @throws GLException
+   */
+
+  @Test public final void testTextureUpdateCompleteSimple()
+    throws GLException,
+      ConstraintError
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+
+    final Texture2DStatic t =
+      gl.texture2DStaticAllocate(
+        "xyz",
+        64,
+        64,
+        TextureType.TEXTURE_TYPE_RGB_888_3BPP,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+
+    final Texture2DWritableData update = new Texture2DWritableData(t);
+    final SpatialCursorWritable3i cursor = update.getCursor3i();
+
+    Assert.assertTrue(cursor.canWrite());
+
+    while (cursor.canWrite()) {
+      cursor.put3i(0x0, 0x0, 0xff);
+      cursor.next();
+    }
+
+    gl.texture2DStaticUpdate(update);
+  }
+
+  /**
+   * Passing null as a texture update fails.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testTextureUpdateNullFails()
+      throws GLException,
+        ConstraintError
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+    gl.texture2DStaticUpdate(null);
   }
 }

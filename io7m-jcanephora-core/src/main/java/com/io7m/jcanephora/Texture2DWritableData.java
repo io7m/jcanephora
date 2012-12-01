@@ -94,43 +94,69 @@ public final class Texture2DWritableData
    * the number of checks performed for each access.
    * 
    * @throws ConstraintError
-   *           If the number of components in the texture is not 4.
+   *           If the number of components in the texture is not 1.
    */
 
-  public @Nonnull SpatialCursorWritable4i getCursor4i()
+  public @Nonnull SpatialCursorWritable1i getCursor1i()
     throws ConstraintError
   {
     switch (this.texture.getType()) {
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      {
-        return new ByteBufferTextureCursorWritable4i_2_4444(
-          this.target_data,
-          this.source_area,
-          this.source_area);
-      }
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      {
-        return new ByteBufferTextureCursorWritable4i_2_5551(
-          this.target_data,
-          this.source_area,
-          this.source_area);
-      }
-      case TEXTURE_TYPE_RGBA_8888_4BPP:
-      {
-        return new ByteBufferTextureCursorWritable4i_4_8888(
-          this.target_data,
-          this.source_area,
-          this.source_area);
-      }
       case TEXTURE_TYPE_ALPHA_8_1BPP:
       case TEXTURE_TYPE_LUMINANCE_8_1BPP:
+      {
+        return new ByteBufferTextureCursorWritable1i_1_8(
+          this.target_data,
+          this.source_area,
+          this.source_area);
+      }
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
       case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
       case TEXTURE_TYPE_RGB_565_2BPP:
       case TEXTURE_TYPE_RGB_888_3BPP:
       {
         Constraints.constrainArbitrary(
           false,
-          "Number of texture components is 4");
+          "Number of texture components is 1");
+      }
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Retrieve a cursor that points to elements of the texture. The cursor
+   * interface allows constant time access to any element and also minimizes
+   * the number of checks performed for each access.
+   * 
+   * @throws ConstraintError
+   *           If the number of components in the texture is not 2.
+   */
+
+  public @Nonnull SpatialCursorWritable2i getCursor2i()
+    throws ConstraintError
+  {
+    switch (this.texture.getType()) {
+      case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
+      {
+        return new ByteBufferTextureCursorWritable2i_2_88(
+          this.target_data,
+          this.source_area,
+          this.source_area);
+      }
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+      case TEXTURE_TYPE_ALPHA_8_1BPP:
+      case TEXTURE_TYPE_LUMINANCE_8_1BPP:
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_TYPE_RGB_888_3BPP:
+      {
+        Constraints.constrainArbitrary(
+          false,
+          "Number of texture components is 2");
+        break;
       }
     }
 
@@ -187,35 +213,65 @@ public final class Texture2DWritableData
    * the number of checks performed for each access.
    * 
    * @throws ConstraintError
-   *           If the number of components in the texture is not 2.
+   *           If the number of components in the texture is not 4.
    */
 
-  public @Nonnull SpatialCursorWritable2i getCursor2i()
+  public @Nonnull SpatialCursorWritable4i getCursor4i()
     throws ConstraintError
   {
     switch (this.texture.getType()) {
-      case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
       {
-        return new ByteBufferTextureCursorWritable2i_2_88(
+        return new ByteBufferTextureCursorWritable4i_2_4444(
           this.target_data,
           this.source_area,
           this.source_area);
       }
       case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      {
+        return new ByteBufferTextureCursorWritable4i_2_5551(
+          this.target_data,
+          this.source_area,
+          this.source_area);
+      }
       case TEXTURE_TYPE_RGBA_8888_4BPP:
+      {
+        return new ByteBufferTextureCursorWritable4i_4_8888(
+          this.target_data,
+          this.source_area,
+          this.source_area);
+      }
       case TEXTURE_TYPE_ALPHA_8_1BPP:
       case TEXTURE_TYPE_LUMINANCE_8_1BPP:
+      case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
       case TEXTURE_TYPE_RGB_565_2BPP:
       case TEXTURE_TYPE_RGB_888_3BPP:
       {
         Constraints.constrainArbitrary(
           false,
-          "Number of texture components is 2");
-        break;
+          "Number of texture components is 4");
       }
     }
 
     throw new UnreachableCodeException();
+  }
+
+  /**
+   * Retrieve the texture that will be affected by this update.
+   */
+
+  public @Nonnull Texture2DStatic getTexture()
+  {
+    return this.texture;
+  }
+
+  protected @Nonnull AreaInclusive targetArea()
+  {
+    return this.target_area;
+  }
+
+  protected @Nonnull ByteBuffer targetData()
+  {
+    return this.target_data;
   }
 }
