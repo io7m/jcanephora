@@ -73,6 +73,11 @@ public final class ExampleFBO implements Example
     this.gl.colorBufferClear3f(0.15f, 0.15f, 0.2f);
   }
 
+  @Override public boolean hasShutDown()
+  {
+    return this.has_shut_down;
+  }
+
   @Override public void reshape(
     final @Nonnull VectorReadable2I position,
     final @Nonnull VectorReadable2I size)
@@ -92,10 +97,5 @@ public final class ExampleFBO implements Example
     this.framebuffer.resourceDelete(this.gl);
     this.depth_buffer.resourceDelete(this.gl);
     this.texture.resourceDelete(this.gl);
-  }
-
-  @Override public boolean hasShutDown()
-  {
-    return this.has_shut_down;
   }
 }

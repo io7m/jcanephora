@@ -21,6 +21,13 @@ import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.ProjectionMatrix;
+import com.io7m.jcanephora.SpatialCursorWritable3i;
+import com.io7m.jcanephora.Texture2DStatic;
+import com.io7m.jcanephora.Texture2DWritableData;
+import com.io7m.jcanephora.TextureFilter;
+import com.io7m.jcanephora.TextureType;
+import com.io7m.jcanephora.TextureUnit;
+import com.io7m.jcanephora.TextureWrap;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorI2F;
 import com.io7m.jtensors.VectorReadable2I;
@@ -44,6 +51,9 @@ public final class ExampleTexturedQuad implements Example
   private final IndexBufferWritableData indices_data;
   private final ExampleConfig           config;
   private boolean                       has_shut_down;
+  private final Texture2DStatic         texture;
+  private final Texture2DWritableData   texture_update;
+  private final TextureUnit[]           texture_units;
 
   public ExampleTexturedQuad(
     final @Nonnull ExampleConfig config)
@@ -66,6 +76,53 @@ public final class ExampleTexturedQuad implements Example
     this.program.addFragmentShader(new PathVirtual(
       "/com/io7m/jcanephora/examples/uv.f"));
     this.program.compile(config.getFilesystem(), this.gl);
+
+    /**
+     * Obtain access to the available texture units.
+     */
+
+    this.texture_units = this.gl.textureGetUnits();
+
+    /**
+     * Allocate a texture.
+     */
+
+    this.texture =
+      this.gl.texture2DStaticAllocate(
+        "gradient",
+        64,
+        64,
+        TextureType.TEXTURE_TYPE_RGB_888_3BPP,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+
+    /**
+     * Allocate texture data and populate it using the cursor interface.
+     */
+
+    this.texture_update = new Texture2DWritableData(this.texture);
+
+    {
+      final SpatialCursorWritable3i tx_cursor =
+        this.texture_update.getCursor3i();
+
+      while (tx_cursor.canWrite()) {
+        final double x = tx_cursor.getElementX();
+        final double y = tx_cursor.getElementY();
+        final double red = x / 64.0;
+        final double green = Math.random() * 0.5;
+        final double blue = y / 64.0;
+
+        tx_cursor.put3i(
+          (int) (255 * red),
+          (int) (255 * green),
+          (int) (255 * blue));
+      }
+
+      this.gl.texture2DStaticUpdate(this.texture_update);
+    }
 
     /**
      * Allocate an array buffer.
@@ -101,15 +158,15 @@ public final class ExampleTexturedQuad implements Example
         this.array_data.getCursor4f("position");
       final CursorWritable2f uv_cursor = this.array_data.getCursor2f("uv");
 
-      pos_cursor.put4f(0.0f, 100.0f, -1.0f, 1.0f);
-      pos_cursor.put4f(0.0f, 0.0f, -1.0f, 1.0f);
-      pos_cursor.put4f(100.0f, 0.0f, -1.0f, 1.0f);
+      pos_cursor.put4f(-100.0f, 100.0f, -1.0f, 1.0f);
+      pos_cursor.put4f(-100.0f, -100.0f, -1.0f, 1.0f);
+      pos_cursor.put4f(100.0f, -100.0f, -1.0f, 1.0f);
       pos_cursor.put4f(100.0f, 100.0f, -1.0f, 1.0f);
 
+      uv_cursor.put2f(0.0f, 1.0f);
+      uv_cursor.put2f(0.0f, 0.0f);
       uv_cursor.put2f(1.0f, 0.0f);
-      uv_cursor.put2f(1.0f, 0.0f);
-      uv_cursor.put2f(1.0f, 0.0f);
-      uv_cursor.put2f(1.0f, 0.0f);
+      uv_cursor.put2f(1.0f, 1.0f);
     }
 
     /**
@@ -187,6 +244,7 @@ public final class ExampleTexturedQuad implements Example
         this.program.getUniform("matrix_projection");
       final ProgramUniform u_model =
         this.program.getUniform("matrix_modelview");
+      final ProgramUniform u_texture = this.program.getUniform("texture");
 
       /**
        * Upload the matrices to the uniform variable inputs.
@@ -194,6 +252,14 @@ public final class ExampleTexturedQuad implements Example
 
       this.gl.programPutUniformMatrix4x4f(u_proj, this.matrix_projection);
       this.gl.programPutUniformMatrix4x4f(u_model, this.matrix_modelview);
+
+      /**
+       * Bind the texture to the first available texture unit, then upload the
+       * texture unit reference to the shader.
+       */
+
+      this.gl.texture2DStaticBind(this.texture_units[0], this.texture);
+      this.gl.programPutUniformTextureUnit(u_texture, this.texture_units[0]);
 
       /**
        * Get references to the program's vertex attribute inputs.
@@ -230,6 +296,11 @@ public final class ExampleTexturedQuad implements Example
     this.program.deactivate(this.gl);
   }
 
+  @Override public boolean hasShutDown()
+  {
+    return this.has_shut_down;
+  }
+
   @Override public void reshape(
     final @Nonnull VectorReadable2I position,
     final @Nonnull VectorReadable2I size)
@@ -258,10 +329,5 @@ public final class ExampleTexturedQuad implements Example
     this.gl.arrayBufferDelete(this.array);
     this.gl.indexBufferDelete(this.indices);
     this.program.delete(this.gl);
-  }
-
-  @Override public boolean hasShutDown()
-  {
-    return this.has_shut_down;
   }
 }

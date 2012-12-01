@@ -14,14 +14,14 @@ public interface Example
       ConstraintError,
       GLCompileException;
 
+  boolean hasShutDown();
+
   void reshape(
     final @Nonnull VectorReadable2I position,
     final @Nonnull VectorReadable2I size)
     throws GLException,
       ConstraintError,
       GLCompileException;
-
-  boolean hasShutDown();
 
   void shutdown()
     throws GLException,

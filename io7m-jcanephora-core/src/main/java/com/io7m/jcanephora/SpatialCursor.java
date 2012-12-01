@@ -1,5 +1,7 @@
 package com.io7m.jcanephora;
 
+import com.io7m.jaux.Constraints.ConstraintError;
+
 /**
  * A cursor that address elements of a 2D area.
  * 
@@ -15,6 +17,26 @@ interface SpatialCursor
    */
 
   public boolean canWrite();
+
+  /**
+   * Retrieve the current position of the cursor on the X axis.
+   * 
+   * @throws ConstraintError
+   *           Iff the cursor is not currently pointing to a writable element.
+   */
+
+  public long getElementX()
+    throws ConstraintError;
+
+  /**
+   * Retrieve the current position of the cursor on the Y axis.
+   * 
+   * @throws ConstraintError
+   *           Iff the cursor is not currently pointing to a writable element.
+   */
+
+  public long getElementY()
+    throws ConstraintError;
 
   /**
    * Seek the cursor to the next element.

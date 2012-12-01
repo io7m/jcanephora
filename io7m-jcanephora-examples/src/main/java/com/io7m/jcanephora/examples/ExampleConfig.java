@@ -43,13 +43,13 @@ final class ExampleConfig
     return this.log;
   }
 
-  VectorReadable2I getWindowSize()
-  {
-    return this.window_size;
-  }
-
   VectorReadable2I getWindowPosition()
   {
     return this.window_position;
+  }
+
+  VectorReadable2I getWindowSize()
+  {
+    return this.window_size;
   }
 }

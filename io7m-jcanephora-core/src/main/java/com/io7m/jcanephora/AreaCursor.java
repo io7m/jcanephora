@@ -83,14 +83,14 @@ class AreaCursor implements SpatialCursor
     return this.byte_offset;
   }
 
-  protected final long getElementX()
+  @Override public final long getElementX()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(this.canWrite(), "Cursor is in range");
     return this.element_x;
   }
 
-  protected final long getElementY()
+  @Override public final long getElementY()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(this.canWrite(), "Cursor is in range");
