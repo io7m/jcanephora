@@ -77,14 +77,14 @@ public final class Program implements CompilableProgram, UsableProgram
    *          An OpenGL interface.
    * @throws ConstraintError
    *           Iff <code>gl == null</code> or one of the constraints for
-   *           {@link GLInterface#programActivate(ProgramReference)} does not
-   *           hold.
+   *           {@link GLInterfaceEmbedded#programActivate(ProgramReference)}
+   *           does not hold.
    * @throws GLException
    *           Iff an OpenGL error occurs.
    */
 
   @Override public void activate(
-    final @Nonnull GLInterface gl)
+    final @Nonnull GLInterfaceEmbedded gl)
     throws ConstraintError,
       GLException
   {
@@ -178,7 +178,7 @@ public final class Program implements CompilableProgram, UsableProgram
 
   @Override public void compile(
     final @Nonnull FilesystemAPI fs,
-    final @Nonnull GLInterface gl)
+    final @Nonnull GLInterfaceEmbedded gl)
     throws ConstraintError,
       GLCompileException
   {
@@ -326,7 +326,7 @@ public final class Program implements CompilableProgram, UsableProgram
    */
 
   @Override public void deactivate(
-    final @Nonnull GLInterface gl)
+    final @Nonnull GLInterfaceEmbedded gl)
     throws ConstraintError,
       GLException
   {
@@ -353,7 +353,7 @@ public final class Program implements CompilableProgram, UsableProgram
    */
 
   public void delete(
-    final @Nonnull GLInterface gl)
+    final @Nonnull GLInterfaceEmbedded gl)
     throws ConstraintError,
       GLException
   {
@@ -493,7 +493,7 @@ public final class Program implements CompilableProgram, UsableProgram
    */
 
   public boolean isActive(
-    final @Nonnull GLInterface gl)
+    final @Nonnull GLInterfaceEmbedded gl)
     throws GLException,
       ConstraintError
   {
@@ -524,7 +524,7 @@ public final class Program implements CompilableProgram, UsableProgram
 
   @Override public void removeFragmentShader(
     final @Nonnull PathVirtual path,
-    final @Nonnull GLInterface gl)
+    final @Nonnull GLInterfaceEmbedded gl)
     throws ConstraintError,
       GLException
   {
@@ -561,7 +561,7 @@ public final class Program implements CompilableProgram, UsableProgram
 
   @Override public void removeVertexShader(
     final @Nonnull PathVirtual path,
-    final @Nonnull GLInterface gl)
+    final @Nonnull GLInterfaceEmbedded gl)
     throws ConstraintError,
       GLException
   {
@@ -598,7 +598,7 @@ public final class Program implements CompilableProgram, UsableProgram
 
   @Override public boolean requiresCompilation(
     final @Nonnull FilesystemAPI fs,
-    final @Nonnull GLInterface gl)
+    final @Nonnull GLInterfaceEmbedded gl)
     throws FilesystemError,
       ConstraintError
   {

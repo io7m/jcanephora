@@ -15,14 +15,15 @@ public final class JOGL30FaceSelectionTest
   @SuppressWarnings("static-method") @Test public void testFaceBijection()
   {
     for (final FaceSelection f : FaceSelection.values()) {
-      Assert.assertEquals(GLInterfaceJOGL30
-        .faceSelectionFromGL(GLInterfaceJOGL30.faceSelectionToGL(f)), f);
+      Assert.assertEquals(GLInterfaceEmbedded_JOGL_ES2_Actual
+        .faceSelectionFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual
+          .faceSelectionToGL(f)), f);
     }
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLInterfaceJOGL30.faceSelectionFromGL(-1);
+    GLInterfaceEmbedded_JOGL_ES2_Actual.faceSelectionFromGL(-1);
   }
 }

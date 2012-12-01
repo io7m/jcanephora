@@ -14,14 +14,15 @@ public final class LWJGL30BlendFunctionTest
   @SuppressWarnings("static-method") @Test public void testBijection()
   {
     for (final BlendFunction f : BlendFunction.values()) {
-      Assert.assertEquals(GLInterfaceLWJGL30
-        .blendFunctionFromGL(GLInterfaceLWJGL30.blendFunctionToGL(f)), f);
+      Assert.assertEquals(GLInterfaceEmbedded_LWJGL_ES2_Actual
+        .blendFunctionFromGL(GLInterfaceEmbedded_LWJGL_ES2_Actual
+          .blendFunctionToGL(f)), f);
     }
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLInterfaceLWJGL30.blendFunctionFromGL(-1);
+    GLInterfaceEmbedded_LWJGL_ES2_Actual.blendFunctionFromGL(-1);
   }
 }

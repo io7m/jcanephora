@@ -7,6 +7,7 @@ import javax.media.opengl.GLOffscreenAutoDrawable;
 import javax.media.opengl.GLProfile;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option;
 import com.io7m.jlog.Log;
 
 public final class JOGL30TestDisplay
@@ -41,18 +42,35 @@ public final class JOGL30TestDisplay
       JOGL30TestDisplay.createOffscreenDisplay(640, 480);
     JOGL30TestDisplay.context = JOGL30TestDisplay.buffer.createContext(null);
 
+    final int r = JOGL30TestDisplay.context.makeCurrent();
+    if (r == GLContext.CONTEXT_NOT_CURRENT) {
+      throw new AssertionError("Could not make context current");
+    }
+
     return JOGL30TestDisplay.context;
   }
 
-  public static GLInterface makeFreshGL()
+  public static GLInterfaceEmbedded makeFreshGLEmbedded()
+    throws GLException,
+      ConstraintError
+  {
+    final GLContext ctx = JOGL30TestDisplay.getContext();
+    final Log log = JOGL30TestLog.getLog();
+    return new GLInterfaceEmbedded_JOGL_ES2(ctx, log);
+  }
+
+  public static Option<GLInterface> makeFreshGLFull()
     throws GLException,
       ConstraintError
   {
     final GLContext ctx = JOGL30TestDisplay.getContext();
     final Log log = JOGL30TestLog.getLog();
 
-    ctx.makeCurrent();
-    return new GLInterfaceJOGL30(ctx, log);
+    if (ctx.isGL2GL3()) {
+      return new Option.Some<GLInterface>(new GLInterface_JOGL30(ctx, log));
+    }
+
+    return new Option.None<GLInterface>();
   }
 
   private JOGL30TestDisplay()

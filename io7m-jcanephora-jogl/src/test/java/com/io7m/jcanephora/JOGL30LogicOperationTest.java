@@ -6,7 +6,8 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jcanephora.contracts.LogicOpContract;
+import com.io7m.jaux.functional.Option;
+import com.io7m.jcanephora.contracts_full.LogicOpContract;
 import com.io7m.jlog.Log;
 
 public final class JOGL30LogicOperationTest extends LogicOpContract
@@ -16,11 +17,11 @@ public final class JOGL30LogicOperationTest extends LogicOpContract
     return JOGL30TestLog.getLog();
   }
 
-  @Override public GLInterface makeNewGL()
+  @Override public Option<GLInterface> makeNewGL()
     throws GLException,
       ConstraintError
   {
-    return JOGL30TestDisplay.makeFreshGL();
+    return JOGL30TestDisplay.makeFreshGLFull();
   }
 
   /**
@@ -31,7 +32,7 @@ public final class JOGL30LogicOperationTest extends LogicOpContract
   {
     for (final LogicOperation o : LogicOperation.values()) {
       Assert.assertEquals(
-        GLInterfaceJOGL30.logicOpFromGL(GLInterfaceJOGL30.logicOpToGL(o)),
+        GLInterface_JOGL30.logicOpFromGL(GLInterface_JOGL30.logicOpToGL(o)),
         o);
     }
   }
@@ -39,6 +40,6 @@ public final class JOGL30LogicOperationTest extends LogicOpContract
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testLogicFailure()
   {
-    GLInterfaceJOGL30.logicOpFromGL(-1);
+    GLInterface_JOGL30.logicOpFromGL(-1);
   }
 }

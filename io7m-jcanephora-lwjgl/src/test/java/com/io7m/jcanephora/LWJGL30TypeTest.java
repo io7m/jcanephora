@@ -16,15 +16,14 @@ public final class LWJGL30TypeTest
   @SuppressWarnings("static-method") @Test public void testTypeBijection()
   {
     for (final Type u : GLType.Type.values()) {
-      Assert.assertEquals(
-        GLInterfaceLWJGL30.typeFromGL(GLInterfaceLWJGL30.typeToGL(u)),
-        u);
+      Assert.assertEquals(GLInterfaceEmbedded_LWJGL_ES2_Actual
+        .typeFromGL(GLInterfaceEmbedded_LWJGL_ES2_Actual.typeToGL(u)), u);
     }
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testTypeFailure()
   {
-    GLInterfaceLWJGL30.typeFromGL(-1);
+    GLInterfaceEmbedded_LWJGL_ES2_Actual.typeFromGL(-1);
   }
 }
