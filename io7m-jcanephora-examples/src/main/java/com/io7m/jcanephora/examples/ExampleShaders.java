@@ -1,5 +1,9 @@
 package com.io7m.jcanephora.examples;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -7,9 +11,9 @@ import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferDescriptor;
 import com.io7m.jcanephora.ArrayBufferWritableData;
-import com.io7m.jcanephora.CursorWritable2f;
 import com.io7m.jcanephora.CursorWritable4f;
 import com.io7m.jcanephora.CursorWritableIndex;
+import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceEmbedded;
@@ -17,51 +21,46 @@ import com.io7m.jcanephora.GLScalarType;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.Primitives;
-import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.ProgramAttribute;
+import com.io7m.jcanephora.ProgramReference;
 import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.ProjectionMatrix;
-import com.io7m.jcanephora.SpatialCursorWritable3i;
-import com.io7m.jcanephora.Texture2DStatic;
-import com.io7m.jcanephora.Texture2DWritableData;
-import com.io7m.jcanephora.TextureFilter;
-import com.io7m.jcanephora.TextureType;
-import com.io7m.jcanephora.TextureUnit;
-import com.io7m.jcanephora.TextureWrap;
+import com.io7m.jcanephora.VertexShader;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorI2F;
 import com.io7m.jtensors.VectorReadable2I;
-import com.io7m.jvvfs.PathVirtual;
+import com.io7m.jvvfs.FilesystemError;
 
 /**
- * Example program that draws a textured quad to the screen, with an
+ * Example program that draws a blended triangle to the screen, with an
  * orthographic projection.
- * 
- * The texture is replaced once-per frame with new texture data.
  */
 
-public final class ExampleTexturedQuadAnimatedNoise implements Example
+public final class ExampleShaders implements Example
 {
-  private final GLInterfaceEmbedded     gl;
-  private final ArrayBufferDescriptor   array_type;
-  private final ArrayBuffer             array;
-  private final ArrayBufferWritableData array_data;
-  private final Program                 program;
-  private final MatrixM4x4F             matrix_projection;
-  private final MatrixM4x4F             matrix_modelview;
-  private final IndexBuffer             indices;
-  private final IndexBufferWritableData indices_data;
-  private final ExampleConfig           config;
-  private boolean                       has_shut_down;
-  private final Texture2DStatic         texture;
-  private final Texture2DWritableData   texture_update;
-  private final TextureUnit[]           texture_units;
+  private final GLInterfaceEmbedded           gl;
+  private final ArrayBufferDescriptor         array_type;
+  private final ArrayBuffer                   array;
+  private final ArrayBufferWritableData       array_data;
+  private final MatrixM4x4F                   matrix_projection;
+  private final MatrixM4x4F                   matrix_modelview;
+  private final IndexBuffer                   indices;
+  private final IndexBufferWritableData       indices_data;
+  private final ExampleConfig                 config;
+  private boolean                             has_shut_down;
+  private final ProgramReference              shader_program;
+  private final VertexShader                  shader_vertex;
+  private final FragmentShader                shader_fragment;
+  private final Map<String, ProgramAttribute> program_attributes;
+  private final Map<String, ProgramUniform>   program_uniforms;
 
-  public ExampleTexturedQuadAnimatedNoise(
+  public ExampleShaders(
     final @Nonnull ExampleConfig config)
     throws ConstraintError,
       GLException,
-      GLCompileException
+      GLCompileException,
+      IOException,
+      FilesystemError
   {
     this.config = config;
     this.gl = config.getGL();
@@ -69,42 +68,36 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
     this.matrix_projection = new MatrixM4x4F();
 
     /**
-     * Initialize shaders.
+     * Create a shader program. Compile vertex and fragment shaders, attach
+     * them, and then link the program.
      */
 
-    this.program = new Program("uv", config.getLog());
-    this.program.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/examples/uv.v"));
-    this.program.addFragmentShader(new PathVirtual(
-      "/com/io7m/jcanephora/examples/uv.f"));
-    this.program.compile(config.getFilesystem(), this.gl);
+    this.shader_program = this.gl.programCreate("color");
+    this.shader_vertex =
+      this.gl.vertexShaderCompile(
+        "color",
+        config.getFilesystem().openFile(
+          "/com/io7m/jcanephora/examples/color.v"));
+    this.shader_fragment =
+      this.gl.fragmentShaderCompile(
+        "color",
+        config.getFilesystem().openFile(
+          "/com/io7m/jcanephora/examples/color.f"));
+
+    this.gl.vertexShaderAttach(this.shader_program, this.shader_vertex);
+    this.gl.fragmentShaderAttach(this.shader_program, this.shader_fragment);
+    this.gl.programLink(this.shader_program);
 
     /**
-     * Obtain access to the available texture units.
+     * Obtain references to all of the program's uniform and attribute
+     * variables.
      */
 
-    this.texture_units = this.gl.textureGetUnits();
-
-    /**
-     * Allocate a texture.
-     */
-
-    this.texture =
-      this.gl.texture2DStaticAllocate(
-        "gradient",
-        64,
-        64,
-        TextureType.TEXTURE_TYPE_RGB_888_3BPP,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-
-    /**
-     * Allocate texture data.
-     */
-
-    this.texture_update = new Texture2DWritableData(this.texture);
+    this.program_attributes = new HashMap<String, ProgramAttribute>();
+    this.program_uniforms = new HashMap<String, ProgramUniform>();
+    this.gl
+      .programGetAttributes(this.shader_program, this.program_attributes);
+    this.gl.programGetUniforms(this.shader_program, this.program_uniforms);
 
     /**
      * Allocate an array buffer.
@@ -112,16 +105,16 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
      * Set up a type descriptor that describes the types of elements within
      * the array. In this case, each element of the array is a series of four
      * floats representing the position of a vertex, followed by a series of
-     * two floats representing the texture coordinates of a vertex.
+     * four floats representing the color of a vertex.
      * 
      * Then, use this descriptor to allocate an array.
      */
 
     final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[2];
     ab[0] = new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 4);
-    ab[1] = new ArrayBufferAttribute("uv", GLScalarType.TYPE_FLOAT, 2);
+    ab[1] = new ArrayBufferAttribute("color", GLScalarType.TYPE_FLOAT, 4);
     this.array_type = new ArrayBufferDescriptor(ab);
-    this.array = this.gl.arrayBufferAllocate(4, this.array_type);
+    this.array = this.gl.arrayBufferAllocate(3, this.array_type);
 
     /**
      * Then, allocate a buffer of data that will be populated and uploaded.
@@ -138,17 +131,17 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
 
       final CursorWritable4f pos_cursor =
         this.array_data.getCursor4f("position");
-      final CursorWritable2f uv_cursor = this.array_data.getCursor2f("uv");
+      final CursorWritable4f col_cursor =
+        this.array_data.getCursor4f("color");
 
       pos_cursor.put4f(-100.0f, 100.0f, -1.0f, 1.0f);
-      pos_cursor.put4f(-100.0f, -100.0f, -1.0f, 1.0f);
-      pos_cursor.put4f(100.0f, -100.0f, -1.0f, 1.0f);
-      pos_cursor.put4f(100.0f, 100.0f, -1.0f, 1.0f);
+      col_cursor.put4f(1.0f, 0.0f, 0.0f, 1.0f);
 
-      uv_cursor.put2f(0.0f, 1.0f);
-      uv_cursor.put2f(0.0f, 0.0f);
-      uv_cursor.put2f(1.0f, 0.0f);
-      uv_cursor.put2f(1.0f, 1.0f);
+      pos_cursor.put4f(-100.0f, -100.0f, -1.0f, 1.0f);
+      col_cursor.put4f(0.0f, 1.0f, 0.0f, 1.0f);
+
+      pos_cursor.put4f(100.0f, -100.0f, -1.0f, 1.0f);
+      col_cursor.put4f(0.0f, 0.0f, 1.0f, 1.0f);
     }
 
     /**
@@ -159,10 +152,10 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
     this.gl.arrayBufferUpdate(this.array, this.array_data);
 
     /**
-     * Allocate and initialize an index buffer sufficient for two triangles.
+     * Allocate and initialize an index buffer.
      */
 
-    this.indices = this.gl.indexBufferAllocate(this.array, 6);
+    this.indices = this.gl.indexBufferAllocate(this.array, 3);
     this.indices_data = new IndexBufferWritableData(this.indices);
 
     {
@@ -170,10 +163,6 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
       ind_cursor.putIndex(0);
       ind_cursor.putIndex(1);
       ind_cursor.putIndex(2);
-
-      ind_cursor.putIndex(0);
-      ind_cursor.putIndex(2);
-      ind_cursor.putIndex(3);
     }
 
     this.gl.indexBufferUpdate(this.indices, this.indices_data);
@@ -184,7 +173,7 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
       GLCompileException,
       ConstraintError
   {
-    this.gl.colorBufferClear3f(0.15f, 0.15f, 0.15f);
+    this.gl.colorBufferClear3f(0.3f, 0.3f, 0.15f);
 
     /**
      * Initialize the projection matrix to an orthographic projection.
@@ -212,45 +201,20 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
         .getYI() / 2));
 
     /**
-     * Generate new texture data and update the texture.
-     */
-
-    {
-      final SpatialCursorWritable3i tx_cursor =
-        this.texture_update.getCursor3i();
-
-      while (tx_cursor.canWrite()) {
-        final double x = tx_cursor.getElementX();
-        final double y = tx_cursor.getElementY();
-        final double red = x / 64.0;
-        final double green = Math.random() * 0.5;
-        final double blue = y / 64.0;
-
-        tx_cursor.put3i(
-          (int) (255 * red),
-          (int) (255 * green),
-          (int) (255 * blue));
-      }
-
-      this.gl.texture2DStaticUpdate(this.texture_update);
-    }
-
-    /**
      * Activate shading program, and associate parts of the array buffer with
      * inputs to the shader.
      */
 
-    this.program.activate(this.gl);
+    this.gl.programActivate(this.shader_program);
     {
       /**
        * Get references to the program's uniform variable inputs.
        */
 
       final ProgramUniform u_proj =
-        this.program.getUniform("matrix_projection");
+        this.program_uniforms.get("matrix_projection");
       final ProgramUniform u_model =
-        this.program.getUniform("matrix_modelview");
-      final ProgramUniform u_texture = this.program.getUniform("texture");
+        this.program_uniforms.get("matrix_modelview");
 
       /**
        * Upload the matrices to the uniform variable inputs.
@@ -260,20 +224,13 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
       this.gl.programPutUniformMatrix4x4f(u_model, this.matrix_modelview);
 
       /**
-       * Bind the texture to the first available texture unit, then upload the
-       * texture unit reference to the shader.
-       */
-
-      this.gl.texture2DStaticBind(this.texture_units[0], this.texture);
-      this.gl.programPutUniformTextureUnit(u_texture, this.texture_units[0]);
-
-      /**
        * Get references to the program's vertex attribute inputs.
        */
 
       final ProgramAttribute p_pos =
-        this.program.getAttribute("vertex_position");
-      final ProgramAttribute p_uv = this.program.getAttribute("vertex_uv");
+        this.program_attributes.get("vertex_position");
+      final ProgramAttribute p_col =
+        this.program_attributes.get("vertex_color");
 
       /**
        * Get references to the array buffer's vertex attributes.
@@ -281,7 +238,8 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
 
       final ArrayBufferAttribute b_pos =
         this.array_type.getAttribute("position");
-      final ArrayBufferAttribute b_uv = this.array_type.getAttribute("uv");
+      final ArrayBufferAttribute b_col =
+        this.array_type.getAttribute("color");
 
       /**
        * Bind the array buffer, and associate program vertex attribute inputs
@@ -290,7 +248,7 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
 
       this.gl.arrayBufferBind(this.array);
       this.gl.arrayBufferBindVertexAttribute(this.array, b_pos, p_pos);
-      this.gl.arrayBufferBindVertexAttribute(this.array, b_uv, p_uv);
+      this.gl.arrayBufferBindVertexAttribute(this.array, b_col, p_col);
 
       /**
        * Draw primitives, using the array buffer and the given index buffer.
@@ -299,7 +257,7 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
       this.gl.drawElements(Primitives.PRIMITIVE_TRIANGLES, this.indices);
       this.gl.arrayBufferUnbind();
     }
-    this.program.deactivate(this.gl);
+    this.gl.programDeactivate();
   }
 
   @Override public boolean hasShutDown()
@@ -334,7 +292,8 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
     this.has_shut_down = true;
     this.gl.arrayBufferDelete(this.array);
     this.gl.indexBufferDelete(this.indices);
-    this.gl.texture2DStaticDelete(this.texture);
-    this.program.delete(this.gl);
+    this.gl.vertexShaderDelete(this.shader_vertex);
+    this.gl.fragmentShaderDelete(this.shader_fragment);
+    this.gl.programDelete(this.shader_program);
   }
 }

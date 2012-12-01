@@ -538,9 +538,14 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
         <s:term type="type">sampler2D</s:term> type, for example).
       </s:paragraph>
     </s:section>
-<!--
     <s:section>
       <s:section-title>Shaders</s:section-title>
+      <s:paragraph>
+        The
+        <s:link-external target="javadoc/com/io7m/jcanephora/Program.html">Program</s:link-external>
+        interface is actually a higher-level abstraction to a low-level shading
+        program interface.
+      </s:paragraph>
       <s:paragraph>
         Diverging from the convention of showing the C program
         <s:footnote>Because the C version requires
@@ -549,16 +554,18 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
         and the
         <s:term type="package">jcanephora</s:term> equivalent, a complete example
         of loading a single triangle into a vertex buffer and drawing it with
-        a GLSL shader:
+        a GLSL shader, using the low-level shading language interface:
       </s:paragraph>
       <s:formal-item kind="example">
         <s:formal-item-title>Shaders (Java)</s:formal-item-title>
-<s:verbatim><xi:include href="../../../io7m-jcanephora-lwjgl/src/main/java/com/io7m/jcanephora/examples/lwjgl30/ShaderSimple.java" parse="text"/></s:verbatim>
+<s:verbatim><xi:include href="../../../io7m-jcanephora-examples/src/main/java/com/io7m/jcanephora/examples/ExampleShaders.java" parse="text"/></s:verbatim>
       </s:formal-item>
       <s:paragraph>
-        Note that the APIs used above include quite a wide range of checks:
-        Types of array attributes are checked against the types of program
-        attributes, empty programs are rejected <s:footnote>
+        The
+        <s:link-external target="javadoc/com/io7m/jcanephora/Program.html">Program</s:link-external>
+        interface is recommended as it implements a wide array of safety
+        and convenience features:
+        Empty programs are rejected <s:footnote>
           Some OpenGL implementations cannot handle empty shading language
           programs, therefore they are automatically rejected by
           <s:term type="package">jcanephora</s:term> to ensure code stays
@@ -579,31 +586,23 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
         rendered using the contents of the framebuffer texture. This results
         in a simple "animated" texture.
       </s:paragraph>
-      <s:paragraph>
-        For simplicity, the fixed-function pipeline is used for rendering
-        primitives. This should hopefully demonstrate that it's possible
-        to use as much or as little of the <s:term type="package">jcanephora</s:term>
-        APIs as is desired: it's always possible to drop down to the chosen
-        "raw" OpenGL API <s:footnote>With the obvious disadvantage being that
-        the program is suddenly no longer OpenGL implementation-independent
-        </s:footnote>.
-      </s:paragraph>
       <s:formal-item kind="example">
         <s:formal-item-title>Framebuffers (Java)</s:formal-item-title>
-<s:verbatim><xi:include href="../../../io7m-jcanephora-lwjgl/src/main/java/com/io7m/jcanephora/examples/lwjgl30/FBOExample.java" parse="text"/></s:verbatim>
+<s:verbatim><xi:include href="../../../io7m-jcanephora-examples/src/main/java/com/io7m/jcanephora/examples/ExampleFBO.java" parse="text"/></s:verbatim>
       </s:formal-item>
       <s:paragraph>
         Again, the API enforces consistent semantics across implementations:
         Most OpenGL implementations cannot handle multiple depth/stencil
-        attachments, so only one is currently permitted. Most implementations
-        cannot handle separate depth and stencil attachments, so the API
-        only provides a single combined buffer. "Completeness" checks are
+        attachments, so only one is currently permitted. Most current
+        implementations cannot handle separate depth and stencil attachments,
+        so the API only provides a
+        <s:link-external target="javadoc/com/io7m/jcanephora/RenderbufferD24S8.html">single combined buffer</s:link-external>.
+        "Completeness" checks are
         made automatically on storage attachment (upon allocation of the
         framebuffer), so it's not possible to draw to a framebuffer
         configuration that OpenGL considers invalid.
       </s:paragraph>
     </s:section>
--->
     <s:section>
       <s:section-title>Everything Else</s:section-title>
       <s:paragraph>
