@@ -30,14 +30,22 @@ public final class IndexBufferWritableMap
   }
 
   /**
-   * Retrieve the writable <code>ByteBuffer</code> that backs the index
-   * buffer.
+   * Retrieve the raw ByteBuffer that backs the array buffer. The memory
+   * backing the buffer is mapped into the application address space from the
+   * GPU. The function is provided for use by developers that have needs not
+   * addressed by the cursor API.
+   * 
+   * Use of this buffer is discouraged for safety reasons.
    */
 
   public @Nonnull ByteBuffer getByteBuffer()
   {
     return this.map;
   }
+
+  /**
+   * Retrieve a writable cursor that addresses elements of the index buffer.
+   */
 
   public @Nonnull CursorWritableIndex getCursor()
   {
