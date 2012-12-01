@@ -4,6 +4,10 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 
+/**
+ * Simplified interface to memory-mapped index buffers.
+ */
+
 public interface GLIndexBuffersMapped
 {
   /**

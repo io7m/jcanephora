@@ -9,6 +9,10 @@ import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
 
+/**
+ * An allocated region of data, to replace or update an index buffer.
+ */
+
 public final class IndexBufferWritableData
 {
   private final @Nonnull IndexBuffer    buffer;
