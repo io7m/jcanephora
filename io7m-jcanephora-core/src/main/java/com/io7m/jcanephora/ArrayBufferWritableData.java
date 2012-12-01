@@ -139,6 +139,48 @@ public final class ArrayBufferWritableData
    *           <ul>
    *           <li><code>attribute_name == null</code>.</li>
    *           <li>
+   *           <code>getAttribute(attribute_name).getElements() != 3</code></li>
+   *           <li>
+   *           <code>getAttribute(attribute_name).getType() != TYPE_FLOAT</code>
+   *           </li>
+   *           </ul>
+   */
+
+  public @Nonnull CursorWritable3f getCursor3f(
+    final @Nonnull String attribute_name)
+    throws ConstraintError
+  {
+    final ArrayBufferDescriptor d = this.buffer.getDescriptor();
+    final ArrayBufferAttribute a = d.getAttribute(attribute_name);
+
+    Constraints.constrainArbitrary(
+      a.getElements() == 3,
+      "Attribute has three elements");
+    Constraints.constrainArbitrary(
+      a.getType() == GLScalarType.TYPE_FLOAT,
+      "Attribute elements are of type float");
+
+    return new ByteBufferCursorWritable3f(
+      this.target_data,
+      this.target_range,
+      d.getAttributeOffset(attribute_name),
+      d.getSize());
+  }
+
+  /**
+   * Retrieve a cursor that may only point to elements of the attribute
+   * <code>attribute_name</code> in the array data. The cursor interface
+   * allows constant time access to any element and also minimizes the number
+   * of checks performed for each access (attribute existence and types are
+   * checked once on cursor creation).
+   * 
+   * @param attribute_name
+   *          The name of the attribute.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>attribute_name == null</code>.</li>
+   *           <li>
    *           <code>getAttribute(attribute_name).getElements() != 4</code></li>
    *           <li>
    *           <code>getAttribute(attribute_name).getType() != TYPE_FLOAT</code>
