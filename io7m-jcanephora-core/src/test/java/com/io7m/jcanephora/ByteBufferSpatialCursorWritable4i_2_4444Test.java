@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
 
-public class ByteBufferSpatialCursorWritable3i_2_565Test
+public class ByteBufferSpatialCursorWritable4i_2_4444Test
 {
   private static int BYTES_PER_PIXEL = 2;
 
@@ -22,10 +22,10 @@ public class ByteBufferSpatialCursorWritable3i_2_565Test
     final ByteBuffer buffer =
       ByteBuffer
         .allocate(
-          4 * 4 * ByteBufferSpatialCursorWritable3i_2_565Test.BYTES_PER_PIXEL)
+          4 * 4 * ByteBufferSpatialCursorWritable4i_2_4444Test.BYTES_PER_PIXEL)
         .order(ByteOrder.nativeOrder());
-    final ByteBufferTextureCursorWritable3i_2_565 c =
-      new ByteBufferTextureCursorWritable3i_2_565(
+    final ByteBufferTextureCursorWritable4i_2_4444 c =
+      new ByteBufferTextureCursorWritable4i_2_4444(
         buffer,
         area_outer,
         area_outer);
@@ -34,13 +34,13 @@ public class ByteBufferSpatialCursorWritable3i_2_565Test
     for (int y = 0; y <= 3; ++y) {
       for (int x = 0; x <= 3; ++x) {
         Assert.assertTrue(c.canWrite());
-        c.put3i(0xFF - x, 0xFF - y, 0);
+        c.put4i(0xFF, 0xFF, 0xFF, 0xFF);
 
-        final char exp = TexturePixelPack.pack2_565(0xFF, 0xFF, 0);
+        final char exp = TexturePixelPack.pack2_4444(0xFF, 0xFF, 0xFF, 0xFF);
         final char got = buffer.getChar(index);
         Assert.assertEquals(exp, got);
 
-        index += ByteBufferSpatialCursorWritable3i_2_565Test.BYTES_PER_PIXEL;
+        index += ByteBufferSpatialCursorWritable4i_2_4444Test.BYTES_PER_PIXEL;
       }
     }
 
@@ -59,10 +59,10 @@ public class ByteBufferSpatialCursorWritable3i_2_565Test
     final ByteBuffer buffer =
       ByteBuffer
         .allocate(
-          12 * 12 * ByteBufferSpatialCursorWritable3i_2_565Test.BYTES_PER_PIXEL)
+          12 * 12 * ByteBufferSpatialCursorWritable4i_2_4444Test.BYTES_PER_PIXEL)
         .order(ByteOrder.nativeOrder());
-    final ByteBufferTextureCursorWritable3i_2_565 c =
-      new ByteBufferTextureCursorWritable3i_2_565(
+    final ByteBufferTextureCursorWritable4i_2_4444 c =
+      new ByteBufferTextureCursorWritable4i_2_4444(
         buffer,
         area_outer,
         area_inner);
@@ -75,10 +75,10 @@ public class ByteBufferSpatialCursorWritable3i_2_565Test
         Assert.assertEquals(y, c.getElementY());
         Assert
           .assertEquals(
-            (y * width * ByteBufferSpatialCursorWritable3i_2_565Test.BYTES_PER_PIXEL)
-              + (x * ByteBufferSpatialCursorWritable3i_2_565Test.BYTES_PER_PIXEL),
+            (y * width * ByteBufferSpatialCursorWritable4i_2_4444Test.BYTES_PER_PIXEL)
+              + (x * ByteBufferSpatialCursorWritable4i_2_4444Test.BYTES_PER_PIXEL),
             c.getByteOffset());
-        c.put3i(0xFF, 0xFF, 0);
+        c.put4i(0xFF, 0xFF, 0xFF, 0xFF);
       }
     }
 
@@ -93,12 +93,12 @@ public class ByteBufferSpatialCursorWritable3i_2_565Test
         int exp = 0;
         if ((y >= 4) && (y <= 7)) {
           if ((x >= 4) && (x <= 7)) {
-            exp = TexturePixelPack.pack2_565(0xFF, 0xFF, 0);
+            exp = TexturePixelPack.pack2_4444(0xFF, 0xFF, 0xFF, 0xFF);
           }
         }
 
         Assert.assertEquals(exp, got);
-        index += ByteBufferSpatialCursorWritable3i_2_565Test.BYTES_PER_PIXEL;
+        index += ByteBufferSpatialCursorWritable4i_2_4444Test.BYTES_PER_PIXEL;
       }
     }
   }

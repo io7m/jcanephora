@@ -1,10 +1,14 @@
 package com.io7m.jcanephora;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
+import com.io7m.jaux.UnreachableCodeException;
 
 /**
  * An allocated region of data, to replace or update a 2D RGBA texture.
@@ -15,6 +19,7 @@ public final class Texture2DWritableData
   private final @Nonnull Texture2DStatic texture;
   private final @Nonnull AreaInclusive   target_area;
   private final @Nonnull AreaInclusive   source_area;
+  private final @Nonnull ByteBuffer      target_data;
 
   /**
    * Construct a buffer of data that will be used to replace the entirety of
@@ -73,5 +78,144 @@ public final class Texture2DWritableData
     final RangeInclusive sry =
       new RangeInclusive(0, area.getRangeY().getInterval() - 1);
     this.source_area = new AreaInclusive(srx, sry);
+
+    final long width = this.source_area.getRangeX().getInterval();
+    final long height = this.source_area.getRangeY().getInterval();
+
+    this.target_data =
+      ByteBuffer.allocateDirect(
+        (int) (height * width * TextureTypeMeta.bytesPerPixel(texture
+          .getType()))).order(ByteOrder.nativeOrder());
+  }
+
+  /**
+   * Retrieve a cursor that points to elements of the texture. The cursor
+   * interface allows constant time access to any element and also minimizes
+   * the number of checks performed for each access.
+   * 
+   * @throws ConstraintError
+   *           If the number of components in the texture is not 4.
+   */
+
+  public @Nonnull SpatialCursorWritable4i getCursor4i()
+    throws ConstraintError
+  {
+    switch (this.texture.getType()) {
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      {
+        return new ByteBufferTextureCursorWritable4i_2_4444(
+          this.target_data,
+          this.source_area,
+          this.source_area);
+      }
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      {
+        return new ByteBufferTextureCursorWritable4i_2_5551(
+          this.target_data,
+          this.source_area,
+          this.source_area);
+      }
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+      {
+        return new ByteBufferTextureCursorWritable4i_4_8888(
+          this.target_data,
+          this.source_area,
+          this.source_area);
+      }
+      case TEXTURE_TYPE_ALPHA_8_1BPP:
+      case TEXTURE_TYPE_LUMINANCE_8_1BPP:
+      case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_TYPE_RGB_888_3BPP:
+      {
+        Constraints.constrainArbitrary(
+          false,
+          "Number of texture components is 4");
+      }
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Retrieve a cursor that points to elements of the texture. The cursor
+   * interface allows constant time access to any element and also minimizes
+   * the number of checks performed for each access.
+   * 
+   * @throws ConstraintError
+   *           If the number of components in the texture is not 3.
+   */
+
+  public @Nonnull SpatialCursorWritable3i getCursor3i()
+    throws ConstraintError
+  {
+    switch (this.texture.getType()) {
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+      case TEXTURE_TYPE_ALPHA_8_1BPP:
+      case TEXTURE_TYPE_LUMINANCE_8_1BPP:
+      case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
+      {
+        Constraints.constrainArbitrary(
+          false,
+          "Number of texture components is 3");
+        break;
+      }
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      {
+        return new ByteBufferTextureCursorWritable3i_2_565(
+          this.target_data,
+          this.source_area,
+          this.source_area);
+      }
+      case TEXTURE_TYPE_RGB_888_3BPP:
+      {
+        return new ByteBufferTextureCursorWritable3i_3_888(
+          this.target_data,
+          this.source_area,
+          this.source_area);
+      }
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Retrieve a cursor that points to elements of the texture. The cursor
+   * interface allows constant time access to any element and also minimizes
+   * the number of checks performed for each access.
+   * 
+   * @throws ConstraintError
+   *           If the number of components in the texture is not 2.
+   */
+
+  public @Nonnull SpatialCursorWritable2i getCursor2i()
+    throws ConstraintError
+  {
+    switch (this.texture.getType()) {
+      case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
+      {
+        return new ByteBufferTextureCursorWritable2i_2_88(
+          this.target_data,
+          this.source_area,
+          this.source_area);
+      }
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+      case TEXTURE_TYPE_ALPHA_8_1BPP:
+      case TEXTURE_TYPE_LUMINANCE_8_1BPP:
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_TYPE_RGB_888_3BPP:
+      {
+        Constraints.constrainArbitrary(
+          false,
+          "Number of texture components is 2");
+        break;
+      }
+    }
+
+    throw new UnreachableCodeException();
   }
 }
