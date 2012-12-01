@@ -14,7 +14,7 @@ public final class LWJGL30TestDisplay
       ConstraintError
   {
     LWJGL30TestDisplay.openContext();
-    return new GLInterface_LWJGL30(LWJGL30TestLog.getLog());
+    return new GLInterfaceEmbedded_LWJGL_ES2(LWJGL30TestLog.getLog());
   }
 
   public static Option<GLInterface> makeFreshGLFull()
