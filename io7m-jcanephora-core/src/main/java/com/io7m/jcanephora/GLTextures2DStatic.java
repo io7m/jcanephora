@@ -141,4 +141,25 @@ public interface GLTextures2DStatic
     final @Nonnull Texture2DStatic texture)
     throws ConstraintError,
       GLException;
+
+  /**
+   * Replace the contents (or part of the contents) of the texture
+   * <code>data.getTexture()</code> with <code>data</code>.
+   * 
+   * @param data
+   *          The data to upload.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>data == null</code></li>
+   *           </ul>
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void texture2DStaticUpdate(
+    final @Nonnull Texture2DWritableData data)
+    throws ConstraintError,
+      GLException;
 }

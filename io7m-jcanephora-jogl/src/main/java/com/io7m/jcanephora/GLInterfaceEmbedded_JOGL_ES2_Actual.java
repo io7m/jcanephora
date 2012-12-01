@@ -2746,6 +2746,43 @@ import com.jogamp.common.nio.Buffers;
     return e == texture.getGLName();
   }
 
+  @Override public void texture2DStaticUpdate(
+    final @Nonnull Texture2DWritableData data)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(data, "Texture data");
+
+    final GL2ES2 g = this.contextGetGL2ES2();
+    final AreaInclusive area = data.targetArea();
+    final Texture2DStatic texture = data.getTexture();
+
+    final TextureType type = texture.getType();
+    final int x_offset = (int) area.getRangeX().getLower();
+    final int y_offset = (int) area.getRangeY().getLower();
+    final int width = (int) area.getRangeX().getInterval();
+    final int height = (int) area.getRangeY().getInterval();
+    final int format =
+      GLInterfaceEmbedded_JOGL_ES2_Actual.textureTypeToFormatGL(type);
+    final int gl_type =
+      GLInterfaceEmbedded_JOGL_ES2_Actual.textureTypeToTypeGL(type);
+    final ByteBuffer buffer = data.targetData();
+
+    g.glBindTexture(GL.GL_TEXTURE_2D, texture.getGLName());
+    g.glTexSubImage2D(
+      GL.GL_TEXTURE_2D,
+      0,
+      x_offset,
+      y_offset,
+      width,
+      height,
+      format,
+      gl_type,
+      buffer);
+    g.glBindTexture(GL.GL_TEXTURE_2D, 0);
+    GLError.check(this);
+  }
+
   @Override public final int textureGetMaximumSize()
     throws GLException
   {
