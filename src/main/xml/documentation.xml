@@ -417,12 +417,17 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
         attribute variables present in the program.
       </s:paragraph>
       <s:paragraph>
-        The program allocates an array buffer by creating an explicit description
-        of the type of its elements, and then allocating a given number of them.
+        The program allocates an
+        <s:link-external target="javadoc/com/io7m/jcanephora/ArrayBuffer.html">array buffer</s:link-external>
+        by creating an explicit description of the type of its elements with an
+        <s:link-external target="javadoc/com/io7m/jcanephora/ArrayBufferDescriptor.html">ArrayBufferDescriptor</s:link-external>,
+        and then allocating a given number of them.
       </s:paragraph>
       <s:paragraph>
         Using the type information given when the array buffer was created, the program
-        obtains access to the elements of the array by using typed cursors. The cursors
+        obtains access to the elements of the array by using typed
+        <s:link-external target="javadoc/com/io7m/jcanephora/Cursor.html">Cursors</s:link-external>.
+        The cursors
         can only point to the specific attributes for which they are intended and refuse
         attempts to write to memory outside of the array data. The cursors also check the
         types of their intended attributes on creation and loudly refuse attempts to write
@@ -431,7 +436,9 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
         management in C.
       </s:paragraph>
       <s:paragraph>
-        The program allocates an index buffer by using the array buffer as a hint. This
+        The program allocates an
+        <s:link-external target="javadoc/com/io7m/jcanephora/IndexBuffer.html">index buffer</s:link-external>
+        by using the array buffer as a hint. This
         allows the <s:term type="package">jcanephora</s:term> package to pick the most
         efficient type for individual indices: If an array buffer has fewer than 256 vertices,
         for example, then there is no reason for the index buffer to use two or four-byte
@@ -504,17 +511,24 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
         <s:term type="keyword">enum</s:term> types specifying the exact properties of the
         texture to be allocated. The texture type information is stored (client side) along
         with the details of the allocated texture, allowing type-safe access to texture data
-        later on.
+        later on. Many of the combinations of parameters to the raw OpenGL functions
+        are invalid, according to the OpenGL specifications. This API rejects the
+        invalid combinations statically.
       </s:paragraph>
       <s:paragraph>
-        The program updates the allocated texture by creating a new client-side buffer of
-        data and then obtaining access to the data via a typed cursor interface. It is an
-        error to try to obtain a cursor of the wrong type (such as requesting a cursor that
-        points to four-component elements in a texture that only contains a luminance and
-        alpha channel, for example). The cursor interface exposes a uniform interface with
-        regards to color data and performs automatic conversion/color packing - the program
-        works with simple linear RGBA color values and does not need to worry about
-        converting/packing those values into the correct format for the texture.
+        The program updates the allocated texture by creating a new
+        <s:link-external target="javadoc/com/io7m/jcanephora/Texture2DWritableData.html">client-side buffer of data</s:link-external>
+        and then obtaining access to the data via a
+        <s:link-external target="javadoc/com/io7m/jcanephora/SpatialCursor.html">typed cursor</s:link-external>
+        interface. It is an error to try to obtain a cursor of the
+        wrong type (such as requesting a cursor that points to
+        four-component elements in a texture that only contains
+        a luminance and alpha channel, for example). The cursor
+        interface exposes a uniform interface with regards to color
+        data and performs automatic conversion/color packing - the
+        program works with simple linear RGBA color values and does
+        not need to worry about converting/packing those values into
+        the correct format for the texture.
       </s:paragraph>
       <s:paragraph>
         Finally, during rendering, the program binds the texture to a texture unit and

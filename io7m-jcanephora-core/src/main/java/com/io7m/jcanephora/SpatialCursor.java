@@ -9,7 +9,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * The cursor moves to the next row when it has passed the last column.
  */
 
-interface SpatialCursor
+public interface SpatialCursor
 {
   /**
    * Return <code>true</code> iff the cursor is currently pointing to a valid
