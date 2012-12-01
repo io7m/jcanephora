@@ -499,8 +499,12 @@ public final class ExampleFBO implements Example
       GLCompileException
   {
     this.has_shut_down = true;
+    this.color_quad.resourceDelete(this.gl);
+    this.textured_quad.resourceDelete(this.gl);
     this.framebuffer.resourceDelete(this.gl);
     this.depth_buffer.resourceDelete(this.gl);
     this.texture.resourceDelete(this.gl);
+    this.program_color.delete(this.gl);
+    this.program_uv.delete(this.gl);
   }
 }

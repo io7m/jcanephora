@@ -251,6 +251,18 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
       });
 
     this.examples.put(
+      "Shaders",
+      new PartialFunction<ExampleConfig, Example, Throwable>() {
+        @Override public Example call(
+          final ExampleConfig c)
+          throws Throwable
+        {
+          JOGL30ExampleRunner.this.window.setTitle("Shaders");
+          return new ExampleShaders(c);
+        }
+      });
+
+    this.examples.put(
       "Animated textured quad",
       new PartialFunction<ExampleConfig, Example, Throwable>() {
         @Override public Example call(
