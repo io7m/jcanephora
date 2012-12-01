@@ -7,9 +7,11 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferDescriptor;
+import com.io7m.jcanephora.ArrayBufferWritableData;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceEmbedded;
@@ -745,4 +747,156 @@ public abstract class ArrayBufferContract implements
     gl.arrayBufferUnbindVertexAttribute(a, d1.getAttribute("position"), pa);
   }
 
+  /**
+   * Array buffer complete updates work.
+   */
+
+  @Test public final void testArrayBufferUpdateComplete()
+    throws ConstraintError,
+      GLException
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+    ArrayBuffer a = null;
+
+    try {
+      final ArrayBufferDescriptor d =
+        new ArrayBufferDescriptor(
+          new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+            "position",
+            GLScalarType.TYPE_FLOAT,
+            3) });
+
+      a = gl.arrayBufferAllocate(10, d);
+    } catch (final Throwable e) {
+      Assert.fail(e.getMessage());
+    }
+
+    final ArrayBufferWritableData data = new ArrayBufferWritableData(a);
+    gl.arrayBufferUpdate(a, data);
+  }
+
+  /**
+   * Array buffer updates with a deleted buffer bound fail.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferUpdateDeletedFails()
+      throws ConstraintError,
+        GLException
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+    ArrayBuffer a = null;
+
+    try {
+      final ArrayBufferDescriptor d =
+        new ArrayBufferDescriptor(
+          new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+            "position",
+            GLScalarType.TYPE_FLOAT,
+            3) });
+
+      a = gl.arrayBufferAllocate(10, d);
+    } catch (final Throwable e) {
+      Assert.fail(e.getMessage());
+    }
+
+    final ArrayBufferWritableData data = new ArrayBufferWritableData(a);
+    gl.arrayBufferBind(a);
+    gl.arrayBufferDelete(a);
+    gl.arrayBufferUpdate(a, data);
+  }
+
+  /**
+   * Array buffer partial updates work.
+   */
+
+  @Test public final void testArrayBufferUpdatePartial()
+    throws ConstraintError,
+      GLException
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+    ArrayBuffer a = null;
+
+    try {
+      final ArrayBufferDescriptor d =
+        new ArrayBufferDescriptor(
+          new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+            "position",
+            GLScalarType.TYPE_FLOAT,
+            3) });
+
+      a = gl.arrayBufferAllocate(10, d);
+    } catch (final Throwable e) {
+      Assert.fail(e.getMessage());
+    }
+
+    final ArrayBufferWritableData data =
+      new ArrayBufferWritableData(a, new RangeInclusive(2, 8));
+    gl.arrayBufferUpdate(a, data);
+  }
+
+  /**
+   * Array buffer updates without a bound buffer fail.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferUpdateUnboundFails()
+      throws ConstraintError,
+        GLException
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+    ArrayBuffer a = null;
+
+    try {
+      final ArrayBufferDescriptor d =
+        new ArrayBufferDescriptor(
+          new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+            "position",
+            GLScalarType.TYPE_FLOAT,
+            3) });
+
+      a = gl.arrayBufferAllocate(10, d);
+    } catch (final Throwable e) {
+      Assert.fail(e.getMessage());
+    }
+
+    final ArrayBufferWritableData data = new ArrayBufferWritableData(a);
+    gl.arrayBufferUnbind();
+    gl.arrayBufferUpdate(a, data);
+  }
+
+  /**
+   * Array buffer updates with the wrong buffer bound fail.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferUpdateWrongBindingFails()
+      throws ConstraintError,
+        GLException
+  {
+    final GLInterfaceEmbedded gl = this.makeNewGL();
+    ArrayBuffer a = null;
+    ArrayBuffer b = null;
+
+    try {
+      final ArrayBufferDescriptor d =
+        new ArrayBufferDescriptor(
+          new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+            "position",
+            GLScalarType.TYPE_FLOAT,
+            3) });
+
+      a = gl.arrayBufferAllocate(10, d);
+      b = gl.arrayBufferAllocate(10, d);
+    } catch (final Throwable e) {
+      Assert.fail(e.getMessage());
+    }
+
+    final ArrayBufferWritableData data = new ArrayBufferWritableData(a);
+    gl.arrayBufferBind(b);
+    gl.arrayBufferUpdate(a, data);
+  }
 }
