@@ -265,12 +265,12 @@ public final class Texture2DWritableData
     return this.texture;
   }
 
-  protected @Nonnull AreaInclusive targetArea()
+  @Nonnull AreaInclusive targetArea()
   {
     return this.target_area;
   }
 
-  protected @Nonnull ByteBuffer targetData()
+  @Nonnull ByteBuffer targetData()
   {
     return this.target_data;
   }

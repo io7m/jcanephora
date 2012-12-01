@@ -18,8 +18,8 @@ public interface SpatialCursorWritable1i extends SpatialCursor
    * cursor to the next element iff there is one.
    * 
    * @throws ConstraintError
-   *           Iff attempting to write to the cursor would write past the end
-   *           of the array.
+   *           Iff attempting to write to the cursor would write outside of
+   *           the valid area for the cursor.
    */
 
   void put1i(
