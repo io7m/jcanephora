@@ -772,6 +772,7 @@ public abstract class ArrayBufferContract implements
     }
 
     final ArrayBufferWritableData data = new ArrayBufferWritableData(a);
+    gl.arrayBufferBind(a);
     gl.arrayBufferUpdate(a, data);
   }
 
@@ -833,6 +834,7 @@ public abstract class ArrayBufferContract implements
 
     final ArrayBufferWritableData data =
       new ArrayBufferWritableData(a, new RangeInclusive(2, 8));
+    gl.arrayBufferBind(a);
     gl.arrayBufferUpdate(a, data);
   }
 
