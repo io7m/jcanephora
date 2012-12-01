@@ -5,7 +5,15 @@ import javax.annotation.Nonnull;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * Type-safe interface to 2D OpenGL textures.
+ * Type-safe interface to 2D OpenGL "static" textures.
+ * 
+ * The textures are manipulated using the standard <code>glTexImage2D</code>
+ * family of functions, internally and the functions are intended for use with
+ * textures that are not frequently updated. For streaming, frequently updated
+ * textures on non-embedded platforms that support pixel-unpack buffers, see
+ * the {@link GLTextures2DBuffered} interface.
+ * 
+ * @see GLTextures2DBuffered
  */
 
 public interface GLTextures2DStatic

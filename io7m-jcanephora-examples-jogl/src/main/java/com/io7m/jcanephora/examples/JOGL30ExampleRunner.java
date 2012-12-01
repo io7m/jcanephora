@@ -218,6 +218,7 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
     try {
       this.log.debug("Stopping: " + this.example_name_current);
       this.example_current.shutdown();
+      System.gc();
     } catch (final Throwable x) {
       JOGL30ExampleRunner.fatal(x);
     }

@@ -7,7 +7,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
 
 /**
- * 2D texture type.
+ * 2D "static" texture type.
  */
 
 public final class Texture2DStatic extends Deletable implements
