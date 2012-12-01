@@ -629,7 +629,18 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
           <s:table-body>
             <s:table-row>
               <s:table-cell><s:term type="function">glBlendFunc</s:term></s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLBlend.html">GLBlend</s:link-external></s:table-cell>
+              <s:table-cell>
+                <s:link-external target="javadoc/com/io7m/jcanephora/GLBlending.html">GLBlending</s:link-external>,
+                <s:link-external target="javadoc/com/io7m/jcanephora/GLBlendingEmbedded.html">GLBlendingEmbedded</s:link-external>
+              </s:table-cell>
+            </s:table-row>
+            <s:table-row>
+              <s:table-cell>Vertex buffer objects</s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLArrayBuffers.html">GLArrayBuffers</s:link-external></s:table-cell>
+            </s:table-row>
+            <s:table-row>
+              <s:table-cell>Vertex buffer objects (glMapBuffer)</s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLArrayBuffersMapped.html">GLArrayBuffersMapped</s:link-external></s:table-cell>
             </s:table-row>
             <s:table-row>
               <s:table-cell><s:term type="function">glClear</s:term></s:table-cell>
@@ -652,11 +663,23 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
               <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLMeta.html">GLMeta</s:link-external></s:table-cell>
             </s:table-row>
             <s:table-row>
+              <s:table-cell>Index buffer objects</s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLIndexBuffers.html">GLIndexBuffers</s:link-external></s:table-cell>
+            </s:table-row>
+            <s:table-row>
+              <s:table-cell>Index buffer objects (glMapBuffer)</s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLIndexBuffersMapped.html">GLIndexBuffersMapped</s:link-external></s:table-cell>
+            </s:table-row>
+            <s:table-row>
               <s:table-cell><s:term type="function">glLogicOp</s:term></s:table-cell>
               <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLLogic.html">GLLogic</s:link-external></s:table-cell>
             </s:table-row>
             <s:table-row>
-              <s:table-cell><s:term type="function">glLineWidth</s:term>, <s:term type="function">glPolygonMode</s:term>, etc</s:table-cell>
+              <s:table-cell><s:term type="function">glPolygonMode</s:term>, etc</s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLPolygonModes.html">GLPolygonModes</s:link-external></s:table-cell>
+            </s:table-row>
+            <s:table-row>
+              <s:table-cell><s:term type="function">glLineWidth</s:term>, etc</s:table-cell>
               <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLRasterization.html">GLRasterization</s:link-external></s:table-cell>
             </s:table-row>
             <s:table-row>
@@ -664,8 +687,12 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
               <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLScissor.html">GLScissor</s:link-external></s:table-cell>
             </s:table-row>
             <s:table-row>
-              <s:table-cell><s:term type="function">glTexImage</s:term></s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLTextures.html">GLTextures</s:link-external></s:table-cell>
+              <s:table-cell><s:term type="function">glStencil</s:term>, <s:term type="function">glStencil</s:term></s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLStencilBuffer.html">GLStencilBuffer</s:link-external></s:table-cell>
+            </s:table-row>
+            <s:table-row>
+              <s:table-cell><s:term type="function">glTexImage2D</s:term></s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLTextures2DStatic.html">GLTextures2DStatic</s:link-external></s:table-cell>
             </s:table-row>
             <s:table-row>
               <s:table-cell><s:term type="function">glViewport</s:term></s:table-cell>
