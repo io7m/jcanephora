@@ -11,6 +11,22 @@ import com.io7m.jaux.Constraints.ConstraintError;
 public interface GLStencilBuffer
 {
   /**
+   * Clear the stencil buffer with the specified value <code>stencil</code>.
+   * 
+   * @param stencil
+   *          The stencil value.
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   * @throws ConstraintError
+   *           Iff no stencil buffer is available.
+   */
+
+  void stencilBufferClear(
+    final int stencil)
+    throws GLException,
+      ConstraintError;
+
+  /**
    * Disable the stencil test.
    */
 
