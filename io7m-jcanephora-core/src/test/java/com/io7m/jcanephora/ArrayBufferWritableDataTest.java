@@ -23,6 +23,26 @@ public class ArrayBufferWritableDataTest
     System.out.println();
   }
 
+  private static ArrayBuffer makeArray4Color2()
+    throws ConstraintError
+  {
+    final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[1];
+    ab[0] = new ArrayBufferAttribute("color", GLScalarType.TYPE_FLOAT, 2);
+    final ArrayBufferDescriptor type = new ArrayBufferDescriptor(ab);
+    final ArrayBuffer array = new ArrayBuffer(1, 4, type);
+    return array;
+  }
+
+  private static ArrayBuffer makeArray4Color3()
+    throws ConstraintError
+  {
+    final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[1];
+    ab[0] = new ArrayBufferAttribute("color", GLScalarType.TYPE_FLOAT, 3);
+    final ArrayBufferDescriptor type = new ArrayBufferDescriptor(ab);
+    final ArrayBuffer array = new ArrayBuffer(1, 4, type);
+    return array;
+  }
+
   private static ArrayBuffer makeArray4Color4()
     throws ConstraintError
   {
@@ -31,6 +51,164 @@ public class ArrayBufferWritableDataTest
     final ArrayBufferDescriptor type = new ArrayBufferDescriptor(ab);
     final ArrayBuffer array = new ArrayBuffer(1, 4, type);
     return array;
+  }
+
+  /**
+   * Getting a cursor of the wrong number of elements fails.
+   */
+
+  @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
+    void
+    testArrayDataCursor2fNot2()
+      throws ConstraintError
+  {
+    ArrayBufferWritableData data = null;
+
+    try {
+      final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[1];
+      ab[0] = new ArrayBufferAttribute("color", GLScalarType.TYPE_FLOAT, 4);
+      final ArrayBufferDescriptor type = new ArrayBufferDescriptor(ab);
+      final ArrayBuffer array = new ArrayBuffer(1, 4, type);
+      data = new ArrayBufferWritableData(array);
+    } catch (final ConstraintError e) {
+      Assert.fail(e.getMessage());
+    }
+
+    assert data != null;
+    data.getCursor2f("color");
+  }
+
+  /**
+   * Getting a cursor of the wrong type fails.
+   */
+
+  @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
+    void
+    testArrayDataCursor2fNotF()
+      throws ConstraintError
+  {
+    ArrayBufferWritableData data = null;
+
+    try {
+      final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[1];
+      ab[0] = new ArrayBufferAttribute("color", GLScalarType.TYPE_INT, 2);
+      final ArrayBufferDescriptor type = new ArrayBufferDescriptor(ab);
+      final ArrayBuffer array = new ArrayBuffer(1, 4, type);
+      data = new ArrayBufferWritableData(array);
+    } catch (final ConstraintError e) {
+      Assert.fail(e.getMessage());
+    }
+
+    assert data != null;
+    data.getCursor2f("color");
+  }
+
+  /**
+   * Trying to write beyond the end of the array fails.
+   */
+
+  @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
+    void
+    testArrayDataCursor2fOverflow()
+      throws ConstraintError
+  {
+    CursorWritable2f cursor = null;
+
+    try {
+      final ArrayBuffer array =
+        ArrayBufferWritableDataTest.makeArray4Color2();
+      final ArrayBufferWritableData data = new ArrayBufferWritableData(array);
+      cursor = data.getCursor2f("color");
+
+      cursor.put2f(0, 1);
+      cursor.put2f(2, 3);
+      cursor.put2f(4, 5);
+      cursor.put2f(6, 7);
+    } catch (final ConstraintError e) {
+      Assert.fail(e.getMessage());
+    }
+
+    assert cursor != null;
+    cursor.put2f(1000, 2000);
+  }
+
+  /**
+   * Getting a cursor of the wrong number of elements fails.
+   */
+
+  @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
+    void
+    testArrayDataCursor3fNot3()
+      throws ConstraintError
+  {
+    ArrayBufferWritableData data = null;
+
+    try {
+      final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[1];
+      ab[0] = new ArrayBufferAttribute("color", GLScalarType.TYPE_FLOAT, 4);
+      final ArrayBufferDescriptor type = new ArrayBufferDescriptor(ab);
+      final ArrayBuffer array = new ArrayBuffer(1, 4, type);
+      data = new ArrayBufferWritableData(array);
+    } catch (final ConstraintError e) {
+      Assert.fail(e.getMessage());
+    }
+
+    assert data != null;
+    data.getCursor3f("color");
+  }
+
+  /**
+   * Getting a cursor of the wrong type fails.
+   */
+
+  @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
+    void
+    testArrayDataCursor3fNotF()
+      throws ConstraintError
+  {
+    ArrayBufferWritableData data = null;
+
+    try {
+      final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[1];
+      ab[0] = new ArrayBufferAttribute("color", GLScalarType.TYPE_INT, 3);
+      final ArrayBufferDescriptor type = new ArrayBufferDescriptor(ab);
+      final ArrayBuffer array = new ArrayBuffer(1, 4, type);
+      data = new ArrayBufferWritableData(array);
+    } catch (final ConstraintError e) {
+      Assert.fail(e.getMessage());
+    }
+
+    assert data != null;
+    data.getCursor3f("color");
+  }
+
+  /**
+   * Trying to write beyond the end of the array fails.
+   */
+
+  @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
+    void
+    testArrayDataCursor3fOverflow()
+      throws ConstraintError
+  {
+    CursorWritable3f cursor = null;
+
+    try {
+      final ArrayBuffer array =
+        ArrayBufferWritableDataTest.makeArray4Color3();
+      final ArrayBufferWritableData data = new ArrayBufferWritableData(array);
+      cursor = data.getCursor3f("color");
+
+      cursor.put3f(0, 1, 2);
+      cursor.put3f(3, 4, 5);
+      cursor.put3f(6, 7, 8);
+      cursor.put3f(9, 10, 11);
+    } catch (final ConstraintError e) {
+      Assert.fail(e.getMessage());
+    }
+
+    assert cursor != null;
+    cursor.put3f(1000, 2000, 3000);
   }
 
   /**
