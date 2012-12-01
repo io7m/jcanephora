@@ -631,9 +631,7 @@ import com.jogamp.common.nio.Buffers;
   private final int                    point_min_width;
   private final int                    point_max_width;
   protected final @Nonnull ByteBuffer  integer_cache_buffer;
-
   protected final @Nonnull IntBuffer   integer_cache;
-
   protected final @Nonnull ByteBuffer  color_buffer_mask_cache;
 
   public GLInterfaceEmbedded_JOGL_ES2_Actual(
