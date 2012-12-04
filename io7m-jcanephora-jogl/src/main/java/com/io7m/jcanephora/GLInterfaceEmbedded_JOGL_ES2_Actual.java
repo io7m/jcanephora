@@ -26,6 +26,7 @@ import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.FramebufferAttachment.ColorAttachment;
 import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
 import com.io7m.jcanephora.GLType.Type;
+import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
@@ -681,9 +682,7 @@ import com.jogamp.common.nio.Buffers;
   private final int                    point_min_width;
   private final int                    point_max_width;
   protected final @Nonnull ByteBuffer  integer_cache_buffer;
-
   protected final @Nonnull IntBuffer   integer_cache;
-
   protected final @Nonnull ByteBuffer  color_buffer_mask_cache;
 
   public GLInterfaceEmbedded_JOGL_ES2_Actual(
@@ -2796,14 +2795,21 @@ import com.jogamp.common.nio.Buffers;
     Constraints.constrainNotNull(mag_filter, "Magnification filter");
     Constraints.constrainNotNull(min_filter, "Minification filter");
 
-    this.log.debug("texture-2D-static: allocate \""
-      + name
-      + "\" "
-      + type
-      + " "
-      + width
-      + "x"
-      + height);
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      final int bytes =
+        height * (TextureTypeMeta.bytesPerPixel(type) * width);
+      this.log.debug("texture-2D-static: allocate \""
+        + name
+        + "\" "
+        + type
+        + " "
+        + width
+        + "x"
+        + height
+        + ", "
+        + bytes
+        + " bytes");
+    }
 
     this.integerCacheReset();
     gl.glGenTextures(1, this.integer_cache);
