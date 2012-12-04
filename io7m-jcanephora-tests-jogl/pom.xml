@@ -62,7 +62,6 @@
       <artifactId>io7m-jcanephora-core</artifactId>
       <version>1.0.0</version>
       <type>test-jar</type>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.io7m.jcanephora.texload-imageio</groupId>
@@ -94,7 +93,6 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <scope>test</scope>
       <version>4.10</version>
     </dependency>
   </dependencies>
@@ -157,6 +155,8 @@
         <configuration>
           <forkMode>once</forkMode>
           <redirectTestOutputToFile>true</redirectTestOutputToFile>
+          <testSourceDirectory>${project.basedir}/src/main/java/</testSourceDirectory>
+          <testClassesDirectory>${project.build.directory}/classes/</testClassesDirectory>
         </configuration>
       </plugin>
 
