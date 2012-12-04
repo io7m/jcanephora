@@ -3,7 +3,6 @@ package com.io7m.jcanephora;
 import org.lwjgl.opengl.Pbuffer;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option;
 
 public final class LWJGL30TestDisplay
 {
@@ -17,13 +16,18 @@ public final class LWJGL30TestDisplay
     return new GLInterfaceEmbedded_LWJGL_ES2(LWJGL30TestLog.getLog());
   }
 
-  public static Option<GLInterface> makeFreshGLFull()
+  public static GLInterface makeFreshGLFull()
     throws GLException,
       ConstraintError
   {
     LWJGL30TestDisplay.openContext();
-    return new Option.Some<GLInterface>(new GLInterface_LWJGL30(
-      LWJGL30TestLog.getLog()));
+    return new GLInterface_LWJGL30(LWJGL30TestLog.getLog());
+  }
+
+  public static boolean isFullGLSupported()
+  {
+    // XXX: Surely not!
+    return true;
   }
 
   private static Pbuffer openContext()

@@ -1,10 +1,11 @@
 package com.io7m.jcanephora;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.contracts_full.IndexBufferMapContract;
 import com.io7m.jlog.Log;
 
-public final class LWJGL30RasterizationTest extends
-  com.io7m.jcanephora.contracts_full.RasterizationContract
+public final class LWJGL30IndexBufferWritableMap extends
+  IndexBufferMapContract
 {
   @Override public Log getLog()
   {
