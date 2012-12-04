@@ -16,6 +16,8 @@ import com.io7m.jaux.functional.PartialFunction;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceEmbedded_JOGL_ES2;
+import com.io7m.jcanephora.TextureLoader;
+import com.io7m.jcanephora.TextureLoaderImageIO;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.VectorM2I;
 import com.io7m.jvvfs.Filesystem;
@@ -69,6 +71,7 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
   private Example                                                                   example_current;
 
   private final ConcurrentLinkedQueue<Command>                                      command_queue;
+  private TextureLoader                                                             texture_loader;
 
   JOGL30ExampleRunner()
     throws Throwable
@@ -302,6 +305,18 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
       });
 
     this.examples.put(
+      "Image textured quad",
+      new PartialFunction<ExampleConfig, Example, Throwable>() {
+        @Override public Example call(
+          final ExampleConfig c)
+          throws Throwable
+        {
+          JOGL30ExampleRunner.this.window.setTitle("Image textured quad");
+          return new ExampleTexturedQuadImage(c);
+        }
+      });
+
+    this.examples.put(
       "Animated textured quad",
       new PartialFunction<ExampleConfig, Example, Throwable>() {
         @Override public Example call(
@@ -334,12 +349,14 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
     final GLAutoDrawable drawable)
   {
     try {
+      this.texture_loader = new TextureLoaderImageIO();
       this.gl =
         new GLInterfaceEmbedded_JOGL_ES2(drawable.getContext(), this.log);
 
       this.config =
         new ExampleConfig(
           this.gl,
+          this.texture_loader,
           this.log,
           this.filesystem,
           this.window_position,
