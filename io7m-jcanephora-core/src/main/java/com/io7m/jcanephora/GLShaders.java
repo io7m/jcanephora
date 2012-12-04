@@ -199,7 +199,7 @@ public interface GLShaders
    *           Iff an OpenGL error occurs.
    */
 
-  int programGetMaximimActiveAttributes()
+  int programGetMaximumActiveAttributes()
     throws GLException;
 
   /**

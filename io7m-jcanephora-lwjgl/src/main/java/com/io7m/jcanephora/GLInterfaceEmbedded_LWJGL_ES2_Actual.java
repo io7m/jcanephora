@@ -28,6 +28,7 @@ import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.FramebufferAttachment.ColorAttachment;
 import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
 import com.io7m.jcanephora.GLType.Type;
+import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
@@ -650,21 +651,18 @@ import com.io7m.jtensors.VectorReadable4F;
     throw new UnreachableCodeException();
   }
 
-  protected final @Nonnull Log log;
-  private final int            line_aliased_min_width;
-  private final int            line_aliased_max_width;
-  private final int            line_smooth_max_width;
-  private final int            line_smooth_min_width;
-  private boolean              line_smoothing;
-  private final int            point_min_width;
-
-  private final int            point_max_width;
-
-  private final TextureUnit[]  texture_units;
-
-  private final ByteBuffer     integer_cache_buffer;
-
-  private final IntBuffer      integer_cache;
+  protected final @Nonnull Log           log;
+  private final int                      line_aliased_min_width;
+  private final int                      line_aliased_max_width;
+  private final int                      line_smooth_max_width;
+  private final int                      line_smooth_min_width;
+  private boolean                        line_smoothing;
+  private final int                      point_min_width;
+  private final int                      point_max_width;
+  private final TextureUnit[]            texture_units;
+  private final ByteBuffer               integer_cache_buffer;
+  private final IntBuffer                integer_cache;
+  protected final @Nonnull StringBuilder log_text;
 
   public GLInterfaceEmbedded_LWJGL_ES2_Actual(
     final @Nonnull Log log)
@@ -673,6 +671,7 @@ import com.io7m.jtensors.VectorReadable4F;
   {
     this.log =
       new Log(Constraints.constrainNotNull(log, "log output"), "lwjgl30");
+    this.log_text = new StringBuilder();
 
     this.texture_units = this.textureGetUnitsCache();
     this.line_smoothing = false;
@@ -713,25 +712,29 @@ import com.io7m.jtensors.VectorReadable4F;
     Constraints.constrainNotNull(descriptor, "Buffer descriptor");
 
     final long size = descriptor.getSize();
-    final long bytes = elements * size;
+    final long bytes_total = elements * size;
 
-    this.log.debug("vertex-buffer: allocate ("
-      + elements
-      + " elements, "
-      + size
-      + " bytes per element, "
-      + bytes
-      + " bytes)");
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("array-buffer: allocate (");
+      this.log_text.append(elements);
+      this.log_text.append(" elements, ");
+      this.log_text.append(size);
+      this.log_text.append(" bytes per element, ");
+      this.log_text.append(bytes_total);
+      this.log_text.append(" bytes)");
+      this.log.debug(this.log_text.toString());
+    }
 
     final int id = GL15.glGenBuffers();
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id);
     GLError.check(this);
-    GL15.glBufferData(GL15.GL_ARRAY_BUFFER, bytes, GL15.GL_STREAM_DRAW);
+    GL15.glBufferData(GL15.GL_ARRAY_BUFFER, bytes_total, GL15.GL_STREAM_DRAW);
     GLError.check(this);
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     GLError.check(this);
 
-    this.log.debug("vertex-buffer: allocated " + id);
+    this.log.debug("array-buffer: allocated " + id);
     return new ArrayBuffer(id, elements, descriptor);
   }
 
@@ -815,7 +818,12 @@ import com.io7m.jtensors.VectorReadable4F;
       id.resourceIsDeleted() == false,
       "Array buffer not deleted");
 
-    this.log.debug("vertex-buffer: delete " + id);
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("array-buffer: delete ");
+      this.log_text.append(id);
+      this.log.debug(this.log_text.toString());
+    }
 
     GL15.glDeleteBuffers(id.getGLName());
     id.setDeleted();
@@ -1330,7 +1338,14 @@ import com.io7m.jtensors.VectorReadable4F;
       shader.resourceIsDeleted() == false,
       "Fragment shader not deleted");
 
-    this.log.debug("fragment-shader: attach " + program + " " + shader);
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("fragment-shader: attach ");
+      this.log_text.append(program);
+      this.log_text.append(" ");
+      this.log_text.append(shader);
+      this.log.debug(this.log_text.toString());
+    }
 
     GL20.glAttachShader(program.getGLName(), shader.getGLName());
     GLError.check(this);
@@ -1347,7 +1362,13 @@ import com.io7m.jtensors.VectorReadable4F;
     Constraints.constrainNotNull(name, "Shader name");
     Constraints.constrainNotNull(stream, "Input stream");
 
-    this.log.debug("fragment-shader: compile \"" + name + "\"");
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("fragment-shader: compile \"");
+      this.log_text.append(name);
+      this.log_text.append("\"");
+      this.log.debug(this.log_text.toString());
+    }
 
     final int id = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
     GLError.check(this);
@@ -1385,7 +1406,12 @@ import com.io7m.jtensors.VectorReadable4F;
       id.resourceIsDeleted() == false,
       "Fragment shader not deleted");
 
-    this.log.debug("fragment-shader: delete " + id);
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("fragment-shader: delete ");
+      this.log_text.append(id);
+      this.log.debug(this.log_text.toString());
+    }
 
     GL20.glDeleteShader(id.getGLName());
     id.setDeleted();
@@ -1456,10 +1482,14 @@ import com.io7m.jtensors.VectorReadable4F;
               0);
             GLError.check(this);
 
-            this.log.debug("framebuffer: attach color "
-              + buffer
-              + " "
-              + color);
+            if (this.log.enabled(Level.LOG_DEBUG)) {
+              this.log_text.setLength(0);
+              this.log_text.append("framebuffer: attach color ");
+              this.log_text.append(buffer);
+              this.log_text.append(" ");
+              this.log_text.append(color);
+              this.log.debug(this.log_text.toString());
+            }
             break;
           }
           case ATTACHMENT_D24S8:
@@ -1494,10 +1524,14 @@ import com.io7m.jtensors.VectorReadable4F;
               id);
             GLError.check(this);
 
-            this.log.debug("framebuffer: attach depth+stencil "
-              + buffer
-              + " "
-              + depth);
+            if (this.log.enabled(Level.LOG_DEBUG)) {
+              this.log_text.setLength(0);
+              this.log_text.append("framebuffer: attach depth+stencil ");
+              this.log_text.append(buffer);
+              this.log_text.append(" ");
+              this.log_text.append(depth);
+              this.log.debug(this.log_text.toString());
+            }
             break;
           }
           default:
@@ -1574,7 +1608,12 @@ import com.io7m.jtensors.VectorReadable4F;
       buffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
 
-    this.log.debug("framebuffer: delete " + buffer);
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("framebuffer: delete ");
+      this.log_text.append(buffer);
+      this.log.debug(this.log_text.toString());
+    }
 
     GL30.glDeleteFramebuffers(buffer.getGLName());
     GLError.check(this);
@@ -1587,7 +1626,14 @@ import com.io7m.jtensors.VectorReadable4F;
   {
     final int id = GL30.glGenFramebuffers();
     GLError.check(this);
-    this.log.debug("framebuffer: allocated " + id);
+
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("framebuffer: allocated ");
+      this.log_text.append(id);
+      this.log.debug(this.log_text.toString());
+    }
+
     return new Framebuffer(id);
   }
 
@@ -1631,21 +1677,25 @@ import com.io7m.jtensors.VectorReadable4F;
     Constraints.constrainRange(indices, 1, Integer.MAX_VALUE);
 
     final long size = GLUnsignedTypeMeta.getSizeBytes(type);
-    final long bytes = indices * size;
+    final long bytes_total = indices * size;
 
-    this.log.debug("index-buffer: allocate ("
-      + indices
-      + " elements, "
-      + size
-      + " bytes per element, "
-      + bytes
-      + " bytes)");
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("index-buffer: allocate (");
+      this.log_text.append(indices);
+      this.log_text.append(" elements, ");
+      this.log_text.append(size);
+      this.log_text.append(" bytes per element, ");
+      this.log_text.append(bytes_total);
+      this.log_text.append(" bytes)");
+      this.log.debug(this.log_text.toString());
+    }
 
     final int id = GL15.glGenBuffers();
     GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, id);
     GL15.glBufferData(
       GL15.GL_ELEMENT_ARRAY_BUFFER,
-      bytes,
+      bytes_total,
       GL15.GL_STREAM_DRAW);
     GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
     GLError.check(this);
@@ -1664,7 +1714,12 @@ import com.io7m.jtensors.VectorReadable4F;
       id.resourceIsDeleted() == false,
       "Index buffer not deleted");
 
-    this.log.debug("index-buffer: delete " + id);
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("index-buffer: delete ");
+      this.log_text.append(id);
+      this.log.debug(this.log_text.toString());
+    }
 
     GL15.glDeleteBuffers(id.getGLName());
     id.setDeleted();
@@ -1811,10 +1866,24 @@ import com.io7m.jtensors.VectorReadable4F;
   {
     Constraints.constrainNotNull(name, "Program name");
 
-    this.log.debug("program: create \"" + name + "\"");
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("program: create \"");
+      this.log_text.append(name);
+      this.log_text.append("\"");
+      this.log.debug(this.log_text.toString());
+    }
 
     final int id = GL20.glCreateProgram();
     GLError.check(this);
+
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("program: created ");
+      this.log_text.append(id);
+      this.log.debug(this.log_text.toString());
+    }
+
     return new ProgramReference(id, name);
   }
 
@@ -1835,7 +1904,12 @@ import com.io7m.jtensors.VectorReadable4F;
       program.resourceIsDeleted() == false,
       "Program not deleted");
 
-    this.log.debug("program: delete " + program);
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("program: delete ");
+      this.log_text.append(program);
+      this.log.debug(this.log_text.toString());
+    }
 
     GL20.glDeleteProgram(program.getGLName());
     program.setDeleted();
@@ -1911,9 +1985,13 @@ import com.io7m.jtensors.VectorReadable4F;
       GLError.check(this);
 
       if (location == -1) {
-        this.log.debug("driver returned active attribute '"
-          + name
-          + "' with location -1, ignoring");
+        if (this.log.enabled(Level.LOG_DEBUG)) {
+          this.log_text.setLength(0);
+          this.log_text.append("driver returned active attribute \"");
+          this.log_text.append(name);
+          this.log_text.append("\" with location -1, ignoring");
+          this.log.debug(this.log_text.toString());
+        }
         continue;
       }
 
@@ -1924,13 +2002,20 @@ import com.io7m.jtensors.VectorReadable4F;
     }
   }
 
-  @Override public int programGetMaximimActiveAttributes()
+  @Override public int programGetMaximumActiveAttributes()
     throws GLException
   {
     final int max = GL11.glGetInteger(GL20.GL_MAX_VERTEX_ATTRIBS);
     GLError.check(this);
 
-    this.log.debug("implementation supports " + max + " active attributes");
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("implementation supports ");
+      this.log_text.append(max);
+      this.log_text.append(" active attributes");
+      this.log.debug(this.log_text.toString());
+    }
+
     return max;
   }
 
@@ -1998,9 +2083,13 @@ import com.io7m.jtensors.VectorReadable4F;
       GLError.check(this);
 
       if (location == -1) {
-        this.log.debug("driver returned active uniform '"
-          + name
-          + "' with location -1, ignoring");
+        if (this.log.enabled(Level.LOG_DEBUG)) {
+          this.log_text.setLength(0);
+          this.log_text.append("driver returned active uniform \"");
+          this.log_text.append(name);
+          this.log_text.append("\" with location -1, ignoring");
+          this.log.debug(this.log_text.toString());
+        }
         continue;
       }
 
@@ -2035,7 +2124,12 @@ import com.io7m.jtensors.VectorReadable4F;
       program.resourceIsDeleted() == false,
       "Program not deleted");
 
-    this.log.debug("program: link " + program);
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("program: link ");
+      this.log_text.append(program);
+      this.log.debug(this.log_text.toString());
+    }
 
     GL20.glLinkProgram(program.getGLName());
     final int status =
@@ -2223,7 +2317,14 @@ import com.io7m.jtensors.VectorReadable4F;
     Constraints.constrainRange(width, 1, Integer.MAX_VALUE);
     Constraints.constrainRange(height, 1, Integer.MAX_VALUE);
 
-    this.log.debug("renderbuffer-d24s8: allocate " + width + "x" + height);
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("renderbuffer-ds24s8: allocate ");
+      this.log_text.append(width);
+      this.log_text.append("x");
+      this.log_text.append(height);
+      this.log.debug(this.log_text.toString());
+    }
 
     final int id = GL30.glGenRenderbuffers();
     GLError.check(this);
@@ -2240,7 +2341,13 @@ import com.io7m.jtensors.VectorReadable4F;
     GLError.check(this);
 
     final RenderbufferD24S8 r = new RenderbufferD24S8(id, width, height);
-    this.log.debug("renderbuffer-d24s8: allocated " + r);
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("renderbuffer-ds24s8: allocated ");
+      this.log_text.append(r);
+      this.log.debug(this.log_text.toString());
+    }
+
     return r;
   }
 
@@ -2254,7 +2361,12 @@ import com.io7m.jtensors.VectorReadable4F;
       buffer.resourceIsDeleted() == false,
       "Renderbuffer not deleted");
 
-    this.log.debug("renderbuffer-d24s8: delete " + buffer);
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("renderbuffer-ds24s8: delete ");
+      this.log_text.append(buffer);
+      this.log.debug(this.log_text.toString());
+    }
 
     GL30.glDeleteRenderbuffers(buffer.getGLName());
     buffer.setDeleted();
@@ -2473,12 +2585,23 @@ import com.io7m.jtensors.VectorReadable4F;
     Constraints.constrainNotNull(mag_filter, "Magnification filter");
     Constraints.constrainNotNull(min_filter, "Minification filter");
 
-    this.log.debug("texture-2D-static: allocate \""
-      + name
-      + "\" "
-      + width
-      + "x"
-      + height);
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      final int bytes =
+        height * (TextureTypeMeta.bytesPerPixel(type) * width);
+      this.log_text.setLength(0);
+      this.log_text.append("texture-2D-static: allocate \"");
+      this.log_text.append(name);
+      this.log_text.append("\" ");
+      this.log_text.append(type);
+      this.log_text.append(" ");
+      this.log_text.append(width);
+      this.log_text.append("x");
+      this.log_text.append(height);
+      this.log_text.append(" ");
+      this.log_text.append(bytes);
+      this.log_text.append(" bytes");
+      this.log.debug(this.log_text.toString());
+    }
 
     final int texture_id = GL11.glGenTextures();
     GLError.check(this);
@@ -2515,7 +2638,14 @@ import com.io7m.jtensors.VectorReadable4F;
 
     final Texture2DStatic t =
       new Texture2DStatic(name, type, texture_id, width, height);
-    this.log.debug("texture-2D-static: allocated " + t);
+
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("texture-2D-static: allocated ");
+      this.log_text.append(t);
+      this.log.debug(this.log_text.toString());
+    }
+
     return t;
   }
 
@@ -2546,7 +2676,12 @@ import com.io7m.jtensors.VectorReadable4F;
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
 
-    this.log.debug("texture-2D-static: delete " + texture);
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("texture-2D-static: delete ");
+      this.log_text.append(texture);
+      this.log.debug(this.log_text.toString());
+    }
 
     GL11.glDeleteTextures(texture.getGLName());
     texture.setDeleted();
@@ -2628,7 +2763,13 @@ import com.io7m.jtensors.VectorReadable4F;
     final int max = GL11.glGetInteger(GL20.GL_MAX_TEXTURE_IMAGE_UNITS);
     GLError.check(this);
 
-    this.log.debug("implementation supports " + max + " texture units");
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("implementation supports ");
+      this.log_text.append(max);
+      this.log_text.append(" texture units");
+      this.log.debug(this.log_text.toString());
+    }
 
     final TextureUnit[] u = new TextureUnit[max];
     for (int index = 0; index < max; ++index) {
@@ -2667,7 +2808,14 @@ import com.io7m.jtensors.VectorReadable4F;
       shader.resourceIsDeleted() == false,
       "Vertex shader not deleted");
 
-    this.log.debug("vertex-shader: attach " + program + " " + shader);
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("vertex-shader: attach ");
+      this.log_text.append(program);
+      this.log_text.append(" ");
+      this.log_text.append(shader);
+      this.log.debug(this.log_text.toString());
+    }
 
     GL20.glAttachShader(program.getGLName(), shader.getGLName());
     GLError.check(this);
@@ -2684,7 +2832,13 @@ import com.io7m.jtensors.VectorReadable4F;
     Constraints.constrainNotNull(name, "Shader name");
     Constraints.constrainNotNull(stream, "input stream");
 
-    this.log.debug("vertex-shader: compile \"" + name + "\"");
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("vertex-shader: compile \"");
+      this.log_text.append(name);
+      this.log_text.append("\"");
+      this.log.debug(this.log_text.toString());
+    }
 
     final int id = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);
     GLError.check(this);
@@ -2723,7 +2877,12 @@ import com.io7m.jtensors.VectorReadable4F;
       id.resourceIsDeleted() == false,
       "Vertex shader not deleted");
 
-    this.log.debug("vertex-shader: delete " + id);
+    if (this.log.enabled(Level.LOG_DEBUG)) {
+      this.log_text.setLength(0);
+      this.log_text.append("vertex-shader: delete ");
+      this.log_text.append(id);
+      this.log.debug(this.log_text.toString());
+    }
 
     GL20.glDeleteShader(id.getGLName());
     id.setDeleted();
