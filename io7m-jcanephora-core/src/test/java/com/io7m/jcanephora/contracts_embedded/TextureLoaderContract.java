@@ -41,7 +41,8 @@ public abstract class TextureLoaderContract implements
     final TextureLoader loader = this.makeTextureLoader();
 
     for (final TextureType type : TextureType.values()) {
-      final InputStream stream = fs.openFile("/com/io7m/jcanephora/32.png");
+      final InputStream stream =
+        fs.openFile("/com/io7m/jcanephora/images/32.png");
       final Texture2DStatic texture =
         loader.load2DStaticSpecific(
           gl,

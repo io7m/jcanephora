@@ -40,14 +40,13 @@ public abstract class ProgramContract implements
     final GLInterfaceEmbedded gl,
     final FilesystemAPI fs)
     throws ConstraintError,
-      FilesystemError,
       GLCompileException
   {
-    fs.mount("jcanephora.zip", "/");
-
     final Program p = new Program("program", this.getLog());
-    p.addVertexShader(new PathVirtual("/shaders/large.v"));
-    p.addFragmentShader(new PathVirtual("/shaders/texture.f"));
+    p
+      .addVertexShader(new PathVirtual("/com/io7m/jcanephora/shaders/large.v"));
+    p.addFragmentShader(new PathVirtual(
+      "/com/io7m/jcanephora/shaders/texture.f"));
     p.compile(fs, gl);
 
     return p;
@@ -73,10 +72,11 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final FragmentShader fr =
-      gl.fragmentShaderCompile("frag", fs.openFile("/shaders/simple.f"));
+      gl.fragmentShaderCompile(
+        "frag",
+        fs.openFile("/com/io7m/jcanephora/shaders/simple.f"));
 
     fr.resourceDelete(gl);
     fr.resourceDelete(gl);
@@ -89,15 +89,15 @@ public abstract class ProgramContract implements
   @Test public final void testProgramActivation()
     throws ConstraintError,
       GLException,
-      GLCompileException,
-      FilesystemError
+      GLCompileException
   {
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final Program p = new Program("program", this.getLog());
-    p.addVertexShader(new PathVirtual("/shaders/simple.v"));
+    p
+      .addVertexShader(new PathVirtual(
+        "/com/io7m/jcanephora/shaders/simple.v"));
     p.compile(fs, gl);
 
     Assert.assertFalse(p.isActive(gl));
@@ -153,14 +153,15 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
-    p.addVertexShader(new PathVirtual("/shaders/attribute0.v"));
+    p.addVertexShader(new PathVirtual(
+      "/com/io7m/jcanephora/shaders/attribute0.v"));
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
 
-    p.addFragmentShader(new PathVirtual("/shaders/simple.f"));
+    p.addFragmentShader(new PathVirtual(
+      "/com/io7m/jcanephora/shaders/simple.f"));
     Assert.assertTrue(p.requiresCompilation(fs, gl));
   }
 
@@ -223,14 +224,15 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
-    p.addFragmentShader(new PathVirtual("/shaders/simple.f"));
+    p.addFragmentShader(new PathVirtual(
+      "/com/io7m/jcanephora/shaders/simple.f"));
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
 
-    p.addVertexShader(new PathVirtual("/shaders/attribute0.v"));
+    p.addVertexShader(new PathVirtual(
+      "/com/io7m/jcanephora/shaders/attribute0.v"));
     Assert.assertTrue(p.requiresCompilation(fs, gl));
   }
 
@@ -254,10 +256,10 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
-    p.addVertexShader(new PathVirtual("/shaders/attribute0.v"));
+    p.addVertexShader(new PathVirtual(
+      "/com/io7m/jcanephora/shaders/attribute0.v"));
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
 
@@ -286,26 +288,30 @@ public abstract class ProgramContract implements
   }
 
   @Test public final void testProgramCompileDeleteCompile()
-    throws FilesystemError,
-      ConstraintError,
+    throws ConstraintError,
       GLCompileException,
       GLException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
-    p.addVertexShader(new PathVirtual("/shaders/simple.v"));
-    p.addFragmentShader(new PathVirtual("/shaders/simple.f"));
+    p
+      .addVertexShader(new PathVirtual(
+        "/com/io7m/jcanephora/shaders/simple.v"));
+    p.addFragmentShader(new PathVirtual(
+      "/com/io7m/jcanephora/shaders/simple.f"));
     p.compile(fs, gl);
     p.activate(gl);
     p.deactivate(gl);
     p.delete(gl);
 
     final Program q = new Program("program", this.getLog());
-    q.addVertexShader(new PathVirtual("/shaders/simple.v"));
-    q.addFragmentShader(new PathVirtual("/shaders/simple.f"));
+    q
+      .addVertexShader(new PathVirtual(
+        "/com/io7m/jcanephora/shaders/simple.v"));
+    q.addFragmentShader(new PathVirtual(
+      "/com/io7m/jcanephora/shaders/simple.f"));
     q.compile(fs, gl);
     q.activate(gl);
     q.deactivate(gl);
@@ -320,10 +326,10 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
-    p.addFragmentShader(new PathVirtual("/shaders/simple.f"));
+    p.addFragmentShader(new PathVirtual(
+      "/com/io7m/jcanephora/shaders/simple.f"));
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
     p.delete(gl);
@@ -371,9 +377,10 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
+
     final Program p = new Program("program", this.getLog());
-    p.addFragmentShader(new PathVirtual("/shaders/invalid.f"));
+    p.addFragmentShader(new PathVirtual(
+      "/com/io7m/jcanephora/shaders/invalid.f"));
     p.compile(fs, gl);
   }
 
@@ -395,9 +402,10 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
+
     final Program p = new Program("program", this.getLog());
-    p.addVertexShader(new PathVirtual("/shaders/invalid.v"));
+    p.addVertexShader(new PathVirtual(
+      "/com/io7m/jcanephora/shaders/invalid.v"));
     p.compile(fs, gl);
   }
 
@@ -412,12 +420,10 @@ public abstract class ProgramContract implements
     void
     testProgramCompileNothing()
       throws ConstraintError,
-        FilesystemError,
         GLCompileException,
         GLException
   {
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final Program p = new Program("program", this.getLog());
@@ -438,11 +444,13 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
-    p.addVertexShader(new PathVirtual("/shaders/simple.v"));
-    p.addFragmentShader(new PathVirtual("/shaders/simple.f"));
+    p
+      .addVertexShader(new PathVirtual(
+        "/com/io7m/jcanephora/shaders/simple.v"));
+    p.addFragmentShader(new PathVirtual(
+      "/com/io7m/jcanephora/shaders/simple.f"));
 
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
@@ -458,10 +466,11 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
-    p.addVertexShader(new PathVirtual("/shaders/simple.v"));
+    p
+      .addVertexShader(new PathVirtual(
+        "/com/io7m/jcanephora/shaders/simple.v"));
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
     p.delete(gl);
@@ -544,15 +553,15 @@ public abstract class ProgramContract implements
   @Test public final void testProgramDeactivateNotActive()
     throws ConstraintError,
       GLException,
-      GLCompileException,
-      FilesystemError
+      GLCompileException
   {
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final Program p = new Program("program", this.getLog());
-    p.addVertexShader(new PathVirtual("/shaders/simple.v"));
+    p
+      .addVertexShader(new PathVirtual(
+        "/com/io7m/jcanephora/shaders/simple.v"));
     p.compile(fs, gl);
     p.deactivate(gl);
   }
@@ -614,15 +623,14 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
-    p.addFragmentShader(new PathVirtual("/shaders/simple.f"));
+    p.addFragmentShader(new PathVirtual(
+      "/com/io7m/jcanephora/shaders/simple.f"));
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
 
-    fs.unmount("/");
-    fs.mount("jcanephora-newer.zip", "/");
+    fs.touch("/com/io7m/jcanephora/shaders/simple.f", 0);
     Assert.assertTrue(p.requiresCompilation(fs, gl));
   }
 
@@ -637,13 +645,11 @@ public abstract class ProgramContract implements
     void
     testProgramLinkInconsistentVarying()
       throws ConstraintError,
-        FilesystemError,
         GLCompileException,
         GLException,
         IOException
   {
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final GLInterfaceEmbedded gl = this.makeNewGL();
 
@@ -652,9 +658,13 @@ public abstract class ProgramContract implements
     try {
       pr = gl.programCreate("program");
       final VertexShader v =
-        gl.vertexShaderCompile("vertex", fs.openFile("/shaders/varying0.v"));
+        gl.vertexShaderCompile(
+          "vertex",
+          fs.openFile("/com/io7m/jcanephora/shaders/varying0.v"));
       final FragmentShader f =
-        gl.fragmentShaderCompile("frag", fs.openFile("/shaders/varying1.f"));
+        gl.fragmentShaderCompile(
+          "frag",
+          fs.openFile("/com/io7m/jcanephora/shaders/varying1.f"));
       gl.fragmentShaderAttach(pr, f);
       gl.vertexShaderAttach(pr, v);
     } catch (final Exception e) {
@@ -736,11 +746,12 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final ProgramReference pr = gl.programCreate("program");
     final FragmentShader fr =
-      gl.fragmentShaderCompile("frag", fs.openFile("/shaders/simple.f"));
+      gl.fragmentShaderCompile(
+        "frag",
+        fs.openFile("/com/io7m/jcanephora/shaders/simple.f"));
 
     fr.resourceDelete(gl);
     gl.fragmentShaderAttach(pr, fr);
@@ -766,11 +777,12 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final ProgramReference pr = gl.programCreate("program");
     final FragmentShader fr =
-      gl.fragmentShaderCompile("frag", fs.openFile("/shaders/simple.f"));
+      gl.fragmentShaderCompile(
+        "frag",
+        fs.openFile("/com/io7m/jcanephora/shaders/simple.f"));
 
     pr.resourceDelete(gl);
     gl.fragmentShaderAttach(pr, fr);
@@ -796,11 +808,12 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final ProgramReference pr = gl.programCreate("program");
     final VertexShader vr =
-      gl.vertexShaderCompile("vertex", fs.openFile("/shaders/simple.v"));
+      gl.vertexShaderCompile(
+        "vertex",
+        fs.openFile("/com/io7m/jcanephora/shaders/simple.v"));
 
     vr.resourceDelete(gl);
     gl.vertexShaderAttach(pr, vr);
@@ -826,11 +839,12 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final ProgramReference pr = gl.programCreate("program");
     final VertexShader vr =
-      gl.vertexShaderCompile("vertex", fs.openFile("/shaders/simple.v"));
+      gl.vertexShaderCompile(
+        "vertex",
+        fs.openFile("/com/io7m/jcanephora/shaders/simple.v"));
 
     pr.resourceDelete(gl);
     gl.vertexShaderAttach(pr, vr);
@@ -915,10 +929,10 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
-    p.addFragmentShader(new PathVirtual("/shaders/uniform0.f"));
+    p.addFragmentShader(new PathVirtual(
+      "/com/io7m/jcanephora/shaders/uniform0.f"));
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
 
@@ -1104,7 +1118,6 @@ public abstract class ProgramContract implements
     testProgramUniformTypeWrongFloat()
       throws GLException,
         ConstraintError,
-        FilesystemError,
         GLCompileException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
@@ -1125,7 +1138,6 @@ public abstract class ProgramContract implements
     testProgramUniformTypeWrongFloatNot()
       throws GLException,
         ConstraintError,
-        FilesystemError,
         GLCompileException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
@@ -1145,7 +1157,6 @@ public abstract class ProgramContract implements
     testProgramUniformTypeWrongMatrix3x3()
       throws GLException,
         ConstraintError,
-        FilesystemError,
         GLCompileException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
@@ -1166,7 +1177,6 @@ public abstract class ProgramContract implements
     testProgramUniformTypeWrongMatrix4x4()
       throws GLException,
         ConstraintError,
-        FilesystemError,
         GLCompileException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
@@ -1187,7 +1197,6 @@ public abstract class ProgramContract implements
     testProgramUniformTypeWrongTextureUnit()
       throws GLException,
         ConstraintError,
-        FilesystemError,
         GLCompileException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
@@ -1208,7 +1217,6 @@ public abstract class ProgramContract implements
     testProgramUniformTypeWrongVector2f()
       throws GLException,
         ConstraintError,
-        FilesystemError,
         GLCompileException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
@@ -1229,7 +1237,6 @@ public abstract class ProgramContract implements
     testProgramUniformTypeWrongVector2i()
       throws GLException,
         ConstraintError,
-        FilesystemError,
         GLCompileException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
@@ -1250,7 +1257,6 @@ public abstract class ProgramContract implements
     testProgramUniformTypeWrongVector3f()
       throws GLException,
         ConstraintError,
-        FilesystemError,
         GLCompileException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
@@ -1271,7 +1277,6 @@ public abstract class ProgramContract implements
     testProgramUniformTypeWrongVector4f()
       throws GLException,
         ConstraintError,
-        FilesystemError,
         GLCompileException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
@@ -1301,15 +1306,15 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final Program p = new Program("program", this.getLog());
-    p.addVertexShader(new PathVirtual("/shaders/simple.v"));
+    p
+      .addVertexShader(new PathVirtual(
+        "/com/io7m/jcanephora/shaders/simple.v"));
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
 
-    fs.unmount("/");
-    fs.mount("jcanephora-newer.zip", "/");
+    fs.touch("/com/io7m/jcanephora/shaders/simple.v", 0);
     Assert.assertTrue(p.requiresCompilation(fs, gl));
   }
 
@@ -1333,10 +1338,11 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
-    fs.mount("jcanephora.zip", "/");
 
     final VertexShader vr =
-      gl.vertexShaderCompile("vertex", fs.openFile("/shaders/simple.v"));
+      gl.vertexShaderCompile(
+        "vertex",
+        fs.openFile("/com/io7m/jcanephora/shaders/simple.v"));
 
     vr.resourceDelete(gl);
     vr.resourceDelete(gl);
