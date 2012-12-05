@@ -18,8 +18,6 @@ package com.io7m.jcanephora;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorConvertOp;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -37,336 +35,44 @@ import com.io7m.jaux.UnreachableCodeException;
 
 public final class TextureLoaderImageIO implements TextureLoader
 {
-  private static @Nonnull Texture2DWritableData convertABGRToAlpha8_1(
+  /**
+   * Convert any RGBA/ABGR image to an RGBA texture.
+   */
+
+  private static @Nonnull Texture2DWritableData convertABGRToRGBAGeneric(
     final @Nonnull BufferedImage image,
     final @Nonnull Texture2DWritableData data)
     throws ConstraintError
   {
-    final SpatialCursorWritable1i cursor = data.getCursor1i();
-    final WritableRaster raster = image.getRaster();
-    final DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-    final byte[] bytes = buffer.getData();
-
-    for (int index = 0; index < bytes.length; index += 4) {
-      cursor.put1i(bytes[index + 0]);
-    }
-    return data;
-  }
-
-  private static @Nonnull Texture2DWritableData convertABGRToLuminance8_1(
-    final @Nonnull BufferedImage image,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final SpatialCursorWritable1i cursor = data.getCursor1i();
-    final WritableRaster raster = image.getRaster();
-    final DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-    final byte[] bytes = buffer.getData();
-
-    for (int index = 0; index < bytes.length; index += 4) {
-      final byte r = bytes[index + 3];
-      final byte g = bytes[index + 2];
-      final byte b = bytes[index + 1];
-      final byte a = bytes[index + 0];
-      final int lum = (r + g + b + a) >> 2;
-      cursor.put1i(lum);
-    }
-    return data;
-  }
-
-  private static @Nonnull
-    Texture2DWritableData
-    convertABGRToLuminanceAlpha88_2(
-      final @Nonnull BufferedImage image,
-      final @Nonnull Texture2DWritableData data)
-      throws ConstraintError
-  {
-    final SpatialCursorWritable2i cursor = data.getCursor2i();
-    final WritableRaster raster = image.getRaster();
-    final DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-    final byte[] bytes = buffer.getData();
-
-    for (int index = 0; index < bytes.length; index += 4) {
-      final byte r = bytes[index + 3];
-      final byte g = bytes[index + 2];
-      final byte b = bytes[index + 1];
-      final byte a = bytes[index + 0];
-      final int lum = (r + g + b) >> 2;
-      cursor.put2i(lum, a);
-    }
-    return data;
-  }
-
-  private static @Nonnull Texture2DWritableData convertABGRToRGB(
-    final @Nonnull BufferedImage image,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final SpatialCursorWritable3i cursor = data.getCursor3i();
-    final WritableRaster raster = image.getRaster();
-    final DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-    final byte[] bytes = buffer.getData();
-
-    for (int index = 0; index < bytes.length; index += 4) {
-      final byte r = bytes[index + 3];
-      final byte g = bytes[index + 2];
-      final byte b = bytes[index + 1];
-      cursor.put3i(r, g, b);
-    }
-    return data;
-  }
-
-  private static @Nonnull Texture2DWritableData convertABGRToRGBA(
-    final @Nonnull BufferedImage image,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
+    final int width = image.getWidth();
+    final int height = image.getHeight();
     final SpatialCursorWritable4i cursor = data.getCursor4i();
-    final WritableRaster raster = image.getRaster();
-    final DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-    final byte[] bytes = buffer.getData();
-
-    for (int index = 0; index < bytes.length; index += 4) {
-      final byte r = bytes[index + 3];
-      final byte g = bytes[index + 2];
-      final byte b = bytes[index + 1];
-      final byte a = bytes[index + 0];
-      cursor.put4i(r, g, b, a);
-    }
-    return data;
-  }
-
-  private static @Nonnull Texture2DWritableData convertBGRToAlpha8_1(
-    final @Nonnull BufferedImage image,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final SpatialCursorWritable1i cursor = data.getCursor1i();
-    final WritableRaster raster = image.getRaster();
-    final DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-    final byte[] bytes = buffer.getData();
-
-    for (int index = 0; index < bytes.length; index += 3) {
-      final byte r = bytes[index + 2];
-      final byte g = bytes[index + 1];
-      final byte b = bytes[index + 0];
-      final int average = (r + g + b) / 3;
-      cursor.put1i(average);
-    }
-    return data;
-  }
-
-  private static @Nonnull Texture2DWritableData convertBGRToLuminance8_1(
-    final @Nonnull BufferedImage image,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final SpatialCursorWritable1i cursor = data.getCursor1i();
-    final WritableRaster raster = image.getRaster();
-    final DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-    final byte[] bytes = buffer.getData();
-
-    for (int index = 0; index < bytes.length; index += 3) {
-      final byte r = bytes[index + 2];
-      final byte g = bytes[index + 1];
-      final byte b = bytes[index + 0];
-      final int average = (r + g + b) / 3;
-      cursor.put1i(average);
-    }
-    return data;
-  }
-
-  private static @Nonnull
-    Texture2DWritableData
-    convertBGRToLuminanceAlpha88_2(
-      final @Nonnull BufferedImage image,
-      final @Nonnull Texture2DWritableData data)
-      throws ConstraintError
-  {
-    final SpatialCursorWritable2i cursor = data.getCursor2i();
-    final WritableRaster raster = image.getRaster();
-    final DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-    final byte[] bytes = buffer.getData();
-
-    for (int index = 0; index < bytes.length; index += 3) {
-      final byte alpha = bytes[index + 2];
-      final byte lum = bytes[index + 1];
-      cursor.put2i(lum, alpha);
-    }
-    return data;
-  }
-
-  private static @Nonnull Texture2DWritableData convertBGRToRGB(
-    final @Nonnull BufferedImage image,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final SpatialCursorWritable3i cursor = data.getCursor3i();
-    final WritableRaster raster = image.getRaster();
-    final DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-    final byte[] bytes = buffer.getData();
-
-    for (int index = 0; index < bytes.length; index += 3) {
-      final byte r = bytes[index + 2];
-      final byte g = bytes[index + 1];
-      final byte b = bytes[index + 0];
-      cursor.put3i(r, g, b);
-    }
-    return data;
-  }
-
-  private static @Nonnull Texture2DWritableData convertBGRToRGBA(
-    final @Nonnull BufferedImage image,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final SpatialCursorWritable4i cursor = data.getCursor4i();
-    final WritableRaster raster = image.getRaster();
-    final DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-    final byte[] bytes = buffer.getData();
-
-    for (int index = 0; index < bytes.length; index += 3) {
-      final byte r = bytes[index + 2];
-      final byte g = bytes[index + 1];
-      final byte b = bytes[index + 0];
-      final byte a = (byte) 0xff;
-      cursor.put4i(r, g, b, a);
-    }
-    return data;
-  }
-
-  private static @Nonnull Texture2DWritableData convertGray8Copy(
-    final @Nonnull BufferedImage image,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final SpatialCursorWritable1i cursor = data.getCursor1i();
-    final WritableRaster raster = image.getRaster();
-    final DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-    final byte[] bytes = buffer.getData();
-
-    for (int index = 0; index < bytes.length; index += 1) {
-      cursor.put1i(bytes[index + 0]);
-    }
-    return data;
-  }
-
-  private static @Nonnull Texture2DWritableData convertGray8Copy2(
-    final @Nonnull BufferedImage image,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final SpatialCursorWritable2i cursor = data.getCursor2i();
-    final WritableRaster raster = image.getRaster();
-    final DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-    final byte[] bytes = buffer.getData();
-
-    for (final byte b : bytes) {
-      cursor.put2i(b, b);
-    }
-    return data;
-  }
-
-  private static @Nonnull Texture2DWritableData convertGray8ToRGB(
-    final @Nonnull BufferedImage image,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final SpatialCursorWritable3i cursor = data.getCursor3i();
-    final WritableRaster raster = image.getRaster();
-    final DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-    final byte[] bytes = buffer.getData();
-
-    for (final byte b : bytes) {
-      cursor.put3i(b, b, b);
-    }
-    return data;
-  }
-
-  private static @Nonnull Texture2DWritableData convertGray8ToRGBA(
-    final @Nonnull BufferedImage image,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final SpatialCursorWritable4i cursor = data.getCursor4i();
-    final WritableRaster raster = image.getRaster();
-    final DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-    final byte[] bytes = buffer.getData();
-
-    for (final byte b : bytes) {
-      cursor.put4i(b, b, b, 0xff);
-    }
-    return data;
-  }
-
-  private static @Nonnull Texture2DWritableData convertRGB565ToAlpha8_1(
-    final @Nonnull BufferedImage image,
-    final int width,
-    final int height,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final SpatialCursorWritable1i cursor = data.getCursor1i();
 
     for (int y = 0; y < height; ++y) {
       for (int x = 0; x < width; ++x) {
         final int argb = image.getRGB(x, y);
-        final int r = (argb >> 16) & 0xff;
-        cursor.put1i(r);
-      }
-    }
-
-    return data;
-  }
-
-  private static @Nonnull Texture2DWritableData convertRGB565ToLuminance8_1(
-    final @Nonnull BufferedImage image,
-    final int width,
-    final int height,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final SpatialCursorWritable1i cursor = data.getCursor1i();
-
-    for (int y = 0; y < height; ++y) {
-      for (int x = 0; x < width; ++x) {
-        final int argb = image.getRGB(x, y);
-        final int g = (argb >> 8) & 0xff;
-        cursor.put1i(g);
-      }
-    }
-
-    return data;
-  }
-
-  private static @Nonnull Texture2DWritableData convertRGB565ToLuminance88_2(
-    final @Nonnull BufferedImage image,
-    final int width,
-    final int height,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final SpatialCursorWritable2i cursor = data.getCursor2i();
-
-    for (int y = 0; y < height; ++y) {
-      for (int x = 0; x < width; ++x) {
-        final int argb = image.getRGB(x, y);
+        final int a = (argb >> 24) & 0xff;
         final int r = (argb >> 16) & 0xff;
         final int g = (argb >> 8) & 0xff;
-        cursor.put2i(r, g);
+        final int b = argb & 0xff;
+        cursor.put4i(r, g, b, a);
       }
     }
 
     return data;
   }
 
-  private static @Nonnull Texture2DWritableData convertRGB565ToRGB(
+  /**
+   * Convert any RGBA/ABGR image to an RGB texture.
+   */
+
+  private static @Nonnull Texture2DWritableData convertABGRToRGBGeneric(
     final @Nonnull BufferedImage image,
-    final int width,
-    final int height,
     final @Nonnull Texture2DWritableData data)
     throws ConstraintError
   {
+    final int width = image.getWidth();
+    final int height = image.getHeight();
     final SpatialCursorWritable3i cursor = data.getCursor3i();
 
     for (int y = 0; y < height; ++y) {
@@ -382,23 +88,262 @@ public final class TextureLoaderImageIO implements TextureLoader
     return data;
   }
 
-  private static @Nonnull Texture2DWritableData convertRGB565ToRGBA(
+  /**
+   * Convert any RGB/BGR image to an RGBA texture.
+   */
+
+  private static @Nonnull Texture2DWritableData convertBGRToRGBAGeneric(
     final @Nonnull BufferedImage image,
-    final int width,
-    final int height,
     final @Nonnull Texture2DWritableData data)
     throws ConstraintError
   {
+    final int width = image.getWidth();
+    final int height = image.getHeight();
     final SpatialCursorWritable4i cursor = data.getCursor4i();
 
     for (int y = 0; y < height; ++y) {
       for (int x = 0; x < width; ++x) {
         final int argb = image.getRGB(x, y);
-        final int a = (argb >> 24) & 0xff;
+        final int a = 0xff;
         final int r = (argb >> 16) & 0xff;
         final int g = (argb >> 8) & 0xff;
         final int b = argb & 0xff;
         cursor.put4i(r, g, b, a);
+      }
+    }
+
+    return data;
+  }
+
+  /**
+   * Convert any RGB/BGR image to an RGB texture.
+   */
+
+  private static @Nonnull Texture2DWritableData convertBGRToRGBGeneric(
+    final @Nonnull BufferedImage image,
+    final @Nonnull Texture2DWritableData data)
+    throws ConstraintError
+  {
+    final int width = image.getWidth();
+    final int height = image.getHeight();
+    final SpatialCursorWritable3i cursor = data.getCursor3i();
+
+    for (int y = 0; y < height; ++y) {
+      for (int x = 0; x < width; ++x) {
+        final int argb = image.getRGB(x, y);
+        final int r = (argb >> 16) & 0xff;
+        final int g = (argb >> 8) & 0xff;
+        final int b = argb & 0xff;
+        cursor.put3i(r, g, b);
+      }
+    }
+
+    return data;
+  }
+
+  /**
+   * Convert a greyscale image to an alpha texture.
+   */
+
+  private static @Nonnull Texture2DWritableData convertGreyToAlpha(
+    final @Nonnull BufferedImage image,
+    final @Nonnull Texture2DWritableData data)
+    throws ConstraintError
+  {
+    final int width = image.getWidth();
+    final int height = image.getHeight();
+    final SpatialCursorWritable1i cursor = data.getCursor1i();
+
+    for (int y = 0; y < height; ++y) {
+      for (int x = 0; x < width; ++x) {
+        final int argb = image.getRGB(x, y);
+        final int r = (argb >> 16) & 0xff;
+        cursor.put1i(r);
+      }
+    }
+
+    return data;
+  }
+
+  /**
+   * Convert a greyscale image to a luminance texture.
+   */
+
+  private static @Nonnull Texture2DWritableData convertGreyToLuminance(
+    final @Nonnull BufferedImage image,
+    final @Nonnull Texture2DWritableData data)
+    throws ConstraintError
+  {
+    final int width = image.getWidth();
+    final int height = image.getHeight();
+    final SpatialCursorWritable1i cursor = data.getCursor1i();
+
+    for (int y = 0; y < height; ++y) {
+      for (int x = 0; x < width; ++x) {
+        final int argb = image.getRGB(x, y);
+        final int g = (argb >> 8) & 0xff;
+        cursor.put1i(g);
+      }
+    }
+
+    return data;
+  }
+
+  /**
+   * Convert a greyscale image to a luminance/alpha texture.
+   */
+
+  private static @Nonnull Texture2DWritableData convertGreyToLuminanceAlpha(
+    final @Nonnull BufferedImage image,
+    final @Nonnull Texture2DWritableData data)
+    throws ConstraintError
+  {
+    final int width = image.getWidth();
+    final int height = image.getHeight();
+    final SpatialCursorWritable2i cursor = data.getCursor2i();
+
+    for (int y = 0; y < height; ++y) {
+      for (int x = 0; x < width; ++x) {
+        final int argb = image.getRGB(x, y);
+        final int g = (argb >> 8) & 0xff;
+        cursor.put2i(g, g);
+      }
+    }
+
+    return data;
+  }
+
+  /**
+   * Convert a greyscale image to an RGB texture.
+   */
+
+  private static @Nonnull Texture2DWritableData convertGreyToRGB(
+    final @Nonnull BufferedImage image,
+    final @Nonnull Texture2DWritableData data)
+    throws ConstraintError
+  {
+    final int width = image.getWidth();
+    final int height = image.getHeight();
+    final SpatialCursorWritable3i cursor = data.getCursor3i();
+
+    for (int y = 0; y < height; ++y) {
+      for (int x = 0; x < width; ++x) {
+        final int argb = image.getRGB(x, y);
+        final int g = (argb >> 8) & 0xff;
+        cursor.put3i(g, g, g);
+      }
+    }
+
+    return data;
+  }
+
+  /**
+   * Convert a greyscale image to an RGBA texture.
+   */
+
+  private static @Nonnull Texture2DWritableData convertGreyToRGBA(
+    final @Nonnull BufferedImage image,
+    final @Nonnull Texture2DWritableData data)
+    throws ConstraintError
+  {
+    final int width = image.getWidth();
+    final int height = image.getHeight();
+    final SpatialCursorWritable4i cursor = data.getCursor4i();
+
+    for (int y = 0; y < height; ++y) {
+      for (int x = 0; x < width; ++x) {
+        final int argb = image.getRGB(x, y);
+        final int g = (argb >> 8) & 0xff;
+        cursor.put4i(g, g, g, g);
+      }
+    }
+
+    return data;
+  }
+
+  /**
+   * Convert an RGB image to an alpha texture.
+   * 
+   * The red channel of the image is used as the source for the resulting
+   * alpha channel.
+   */
+
+  private static @Nonnull Texture2DWritableData convertRGBToAlpha8_1Generic(
+    final @Nonnull BufferedImage image,
+    final @Nonnull Texture2DWritableData data)
+    throws ConstraintError
+  {
+    final int width = image.getWidth();
+    final int height = image.getHeight();
+    final SpatialCursorWritable1i cursor = data.getCursor1i();
+
+    for (int y = 0; y < height; ++y) {
+      for (int x = 0; x < width; ++x) {
+        final int argb = image.getRGB(x, y);
+        final int r = (argb >> 16) & 0xff;
+        cursor.put1i(r);
+      }
+    }
+
+    return data;
+  }
+
+  /**
+   * Convert an RGB image to a luminance texture.
+   * 
+   * The green channel of the image is used as the source for the resulting
+   * luminance channel.
+   */
+
+  private static @Nonnull
+    Texture2DWritableData
+    convertRGBToLuminance8_1Generic(
+      final @Nonnull BufferedImage image,
+      final @Nonnull Texture2DWritableData data)
+      throws ConstraintError
+  {
+    final int width = image.getWidth();
+    final int height = image.getHeight();
+    final SpatialCursorWritable1i cursor = data.getCursor1i();
+
+    for (int y = 0; y < height; ++y) {
+      for (int x = 0; x < width; ++x) {
+        final int argb = image.getRGB(x, y);
+        final int g = (argb >> 8) & 0xff;
+        cursor.put1i(g);
+      }
+    }
+
+    return data;
+  }
+
+  /**
+   * Convert an RGB image to a two-channel luminance/alpha texture.
+   * 
+   * The red channel of the image is used as the source for the resulting
+   * alpha channel.
+   * 
+   * The green channel of the image is used as the source for the resulting
+   * luminance channel.
+   */
+
+  private static @Nonnull
+    Texture2DWritableData
+    convertRGBToLuminance88_2Generic(
+      final @Nonnull BufferedImage image,
+      final @Nonnull Texture2DWritableData data)
+      throws ConstraintError
+  {
+    final int width = image.getWidth();
+    final int height = image.getHeight();
+    final SpatialCursorWritable2i cursor = data.getCursor2i();
+
+    for (int y = 0; y < height; ++y) {
+      for (int x = 0; x < width; ++x) {
+        final int argb = image.getRGB(x, y);
+        final int r = (argb >> 16) & 0xff;
+        final int g = (argb >> 8) & 0xff;
+        cursor.put2i(r, g);
       }
     }
 
@@ -505,25 +450,25 @@ public final class TextureLoaderImageIO implements TextureLoader
     throws ConstraintError
   {
     switch (image.getType()) {
+      case BufferedImage.TYPE_BYTE_INDEXED:
+      case BufferedImage.TYPE_USHORT_GRAY:
+      case BufferedImage.TYPE_USHORT_555_RGB:
+      case BufferedImage.TYPE_INT_RGB:
+      case BufferedImage.TYPE_INT_BGR:
+      case BufferedImage.TYPE_INT_ARGB_PRE:
+      case BufferedImage.TYPE_INT_ARGB:
       case BufferedImage.TYPE_BYTE_GRAY:
       case BufferedImage.TYPE_4BYTE_ABGR:
       case BufferedImage.TYPE_4BYTE_ABGR_PRE:
       case BufferedImage.TYPE_3BYTE_BGR:
       case BufferedImage.TYPE_USHORT_565_RGB:
+      case BufferedImage.TYPE_BYTE_BINARY:
       {
         return TextureLoaderImageIO.load2DStaticImageSpecificDataActual(
           texture,
           image);
       }
-      case BufferedImage.TYPE_INT_ARGB_PRE:
-      case BufferedImage.TYPE_INT_ARGB:
-      case BufferedImage.TYPE_BYTE_BINARY:
-      case BufferedImage.TYPE_BYTE_INDEXED:
-      case BufferedImage.TYPE_USHORT_GRAY:
-      case BufferedImage.TYPE_USHORT_555_RGB:
       case BufferedImage.TYPE_CUSTOM:
-      case BufferedImage.TYPE_INT_RGB:
-      case BufferedImage.TYPE_INT_BGR:
       default:
       {
         final int width = image.getWidth();
@@ -547,54 +492,49 @@ public final class TextureLoaderImageIO implements TextureLoader
       final @Nonnull BufferedImage image)
       throws ConstraintError
   {
-    final int width = image.getWidth();
-    final int height = image.getHeight();
     final TextureType type = texture.getType();
     final Texture2DWritableData data = new Texture2DWritableData(texture);
 
     switch (image.getType()) {
 
     /**
-     * Convert ABGR -> type
+     * Convert any RGBA -> type
      */
 
+      case BufferedImage.TYPE_INT_ARGB_PRE:
+      case BufferedImage.TYPE_INT_ARGB:
+      case BufferedImage.TYPE_4BYTE_ABGR_PRE:
       case BufferedImage.TYPE_4BYTE_ABGR:
       {
         switch (type) {
           case TEXTURE_TYPE_ALPHA_8_1BPP:
           {
-            return TextureLoaderImageIO.convertABGRToAlpha8_1(image, data);
+            return TextureLoaderImageIO.convertRGBToAlpha8_1Generic(
+              image,
+              data);
           }
           case TEXTURE_TYPE_LUMINANCE_8_1BPP:
           {
-            return TextureLoaderImageIO
-              .convertABGRToLuminance8_1(image, data);
+            return TextureLoaderImageIO.convertRGBToLuminance8_1Generic(
+              image,
+              data);
           }
           case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
           {
-            return TextureLoaderImageIO.convertABGRToLuminanceAlpha88_2(
+            return TextureLoaderImageIO.convertRGBToLuminance88_2Generic(
               image,
               data);
           }
           case TEXTURE_TYPE_RGBA_4444_2BPP:
-          {
-            return TextureLoaderImageIO.convertABGRToRGBA(image, data);
-          }
           case TEXTURE_TYPE_RGBA_5551_2BPP:
-          {
-            return TextureLoaderImageIO.convertABGRToRGBA(image, data);
-          }
           case TEXTURE_TYPE_RGBA_8888_4BPP:
           {
-            return TextureLoaderImageIO.convertABGRToRGBA(image, data);
+            return TextureLoaderImageIO.convertABGRToRGBAGeneric(image, data);
           }
           case TEXTURE_TYPE_RGB_565_2BPP:
-          {
-            return TextureLoaderImageIO.convertABGRToRGB(image, data);
-          }
           case TEXTURE_TYPE_RGB_888_3BPP:
           {
-            return TextureLoaderImageIO.convertABGRToRGB(image, data);
+            return TextureLoaderImageIO.convertABGRToRGBGeneric(image, data);
           }
         }
 
@@ -602,92 +542,45 @@ public final class TextureLoaderImageIO implements TextureLoader
       }
 
       /**
-       * Convert ABGR_PRE -> type
+       * Convert any RGB -> type
        */
 
-      case BufferedImage.TYPE_4BYTE_ABGR_PRE:
-      {
-        switch (type) {
-          case TEXTURE_TYPE_ALPHA_8_1BPP:
-          {
-            return TextureLoaderImageIO.convertABGRToAlpha8_1(image, data);
-          }
-          case TEXTURE_TYPE_LUMINANCE_8_1BPP:
-          {
-            return TextureLoaderImageIO
-              .convertABGRToLuminance8_1(image, data);
-          }
-          case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
-          {
-            return TextureLoaderImageIO.convertABGRToLuminanceAlpha88_2(
-              image,
-              data);
-          }
-          case TEXTURE_TYPE_RGBA_4444_2BPP:
-          {
-            return TextureLoaderImageIO.convertABGRToRGBA(image, data);
-          }
-          case TEXTURE_TYPE_RGBA_5551_2BPP:
-          {
-            return TextureLoaderImageIO.convertABGRToRGBA(image, data);
-          }
-          case TEXTURE_TYPE_RGBA_8888_4BPP:
-          {
-            return TextureLoaderImageIO.convertABGRToRGBA(image, data);
-          }
-          case TEXTURE_TYPE_RGB_565_2BPP:
-          {
-            return TextureLoaderImageIO.convertABGRToRGB(image, data);
-          }
-          case TEXTURE_TYPE_RGB_888_3BPP:
-          {
-            return TextureLoaderImageIO.convertABGRToRGB(image, data);
-          }
-        }
-
-        throw new UnreachableCodeException();
-      }
-
-      /**
-       * Convert BGR -> type
-       */
-
+      case BufferedImage.TYPE_BYTE_INDEXED:
+      case BufferedImage.TYPE_USHORT_555_RGB:
+      case BufferedImage.TYPE_INT_RGB:
+      case BufferedImage.TYPE_INT_BGR:
+      case BufferedImage.TYPE_USHORT_565_RGB:
       case BufferedImage.TYPE_3BYTE_BGR:
       {
         switch (type) {
           case TEXTURE_TYPE_ALPHA_8_1BPP:
           {
-            return TextureLoaderImageIO.convertBGRToAlpha8_1(image, data);
+            return TextureLoaderImageIO.convertRGBToAlpha8_1Generic(
+              image,
+              data);
           }
           case TEXTURE_TYPE_LUMINANCE_8_1BPP:
           {
-            return TextureLoaderImageIO.convertBGRToLuminance8_1(image, data);
+            return TextureLoaderImageIO.convertRGBToLuminance8_1Generic(
+              image,
+              data);
           }
           case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
           {
-            return TextureLoaderImageIO.convertBGRToLuminanceAlpha88_2(
+            return TextureLoaderImageIO.convertRGBToLuminance88_2Generic(
               image,
               data);
           }
           case TEXTURE_TYPE_RGBA_4444_2BPP:
-          {
-            return TextureLoaderImageIO.convertBGRToRGBA(image, data);
-          }
           case TEXTURE_TYPE_RGBA_5551_2BPP:
-          {
-            return TextureLoaderImageIO.convertBGRToRGBA(image, data);
-          }
           case TEXTURE_TYPE_RGBA_8888_4BPP:
           {
-            return TextureLoaderImageIO.convertBGRToRGBA(image, data);
+            return TextureLoaderImageIO.convertBGRToRGBAGeneric(image, data);
           }
           case TEXTURE_TYPE_RGB_565_2BPP:
-          {
-            return TextureLoaderImageIO.convertBGRToRGB(image, data);
-          }
           case TEXTURE_TYPE_RGB_888_3BPP:
           {
-            return TextureLoaderImageIO.convertBGRToRGB(image, data);
+            return TextureLoaderImageIO.convertBGRToRGBGeneric(image, data);
           }
         }
 
@@ -695,139 +588,51 @@ public final class TextureLoaderImageIO implements TextureLoader
       }
 
       /**
-       * Convert RGB565 -> type
-       */
-
-      case BufferedImage.TYPE_USHORT_565_RGB:
-      {
-        switch (type) {
-          case TEXTURE_TYPE_ALPHA_8_1BPP:
-          {
-            return TextureLoaderImageIO.convertRGB565ToAlpha8_1(
-              image,
-              width,
-              height,
-              data);
-          }
-          case TEXTURE_TYPE_LUMINANCE_8_1BPP:
-          {
-            return TextureLoaderImageIO.convertRGB565ToLuminance8_1(
-              image,
-              width,
-              height,
-              data);
-          }
-          case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
-          {
-            return TextureLoaderImageIO.convertRGB565ToLuminance88_2(
-              image,
-              width,
-              height,
-              data);
-          }
-          case TEXTURE_TYPE_RGBA_4444_2BPP:
-          {
-            return TextureLoaderImageIO.convertRGB565ToRGBA(
-              image,
-              width,
-              height,
-              data);
-          }
-          case TEXTURE_TYPE_RGBA_5551_2BPP:
-          {
-            return TextureLoaderImageIO.convertRGB565ToRGBA(
-              image,
-              width,
-              height,
-              data);
-          }
-          case TEXTURE_TYPE_RGBA_8888_4BPP:
-          {
-            return TextureLoaderImageIO.convertRGB565ToRGBA(
-              image,
-              width,
-              height,
-              data);
-          }
-          case TEXTURE_TYPE_RGB_565_2BPP:
-          {
-            return TextureLoaderImageIO.convertRGB565ToRGB(
-              image,
-              width,
-              height,
-              data);
-          }
-          case TEXTURE_TYPE_RGB_888_3BPP:
-          {
-            return TextureLoaderImageIO.convertRGB565ToRGB(
-              image,
-              width,
-              height,
-              data);
-          }
-        }
-
-        throw new UnreachableCodeException();
-      }
-
-      /**
-       * Convert Gray8 -> type
+       * Convert any grey -> type
        */
 
       case BufferedImage.TYPE_BYTE_GRAY:
+      case BufferedImage.TYPE_BYTE_BINARY:
+      case BufferedImage.TYPE_USHORT_GRAY:
       {
         switch (type) {
           case TEXTURE_TYPE_ALPHA_8_1BPP:
           {
-            return TextureLoaderImageIO.convertGray8Copy(image, data);
+            return TextureLoaderImageIO.convertGreyToAlpha(image, data);
           }
           case TEXTURE_TYPE_LUMINANCE_8_1BPP:
           {
-            return TextureLoaderImageIO.convertGray8Copy(image, data);
+            return TextureLoaderImageIO.convertGreyToLuminance(image, data);
           }
           case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
           {
-            return TextureLoaderImageIO.convertGray8Copy2(image, data);
+            return TextureLoaderImageIO.convertGreyToLuminanceAlpha(
+              image,
+              data);
           }
           case TEXTURE_TYPE_RGBA_4444_2BPP:
-          {
-            return TextureLoaderImageIO.convertGray8ToRGBA(image, data);
-          }
           case TEXTURE_TYPE_RGBA_5551_2BPP:
-          {
-            return TextureLoaderImageIO.convertGray8ToRGBA(image, data);
-          }
           case TEXTURE_TYPE_RGBA_8888_4BPP:
           {
-            return TextureLoaderImageIO.convertGray8ToRGBA(image, data);
+            return TextureLoaderImageIO.convertGreyToRGBA(image, data);
           }
           case TEXTURE_TYPE_RGB_565_2BPP:
-          {
-            return TextureLoaderImageIO.convertGray8ToRGB(image, data);
-          }
           case TEXTURE_TYPE_RGB_888_3BPP:
           {
-            return TextureLoaderImageIO.convertGray8ToRGB(image, data);
+            return TextureLoaderImageIO.convertGreyToRGB(image, data);
           }
         }
 
         throw new UnreachableCodeException();
       }
-      case BufferedImage.TYPE_INT_ARGB_PRE:
-      case BufferedImage.TYPE_INT_ARGB:
-      case BufferedImage.TYPE_BYTE_BINARY:
-      case BufferedImage.TYPE_BYTE_INDEXED:
-      case BufferedImage.TYPE_USHORT_GRAY:
-      case BufferedImage.TYPE_USHORT_555_RGB:
+
+      /**
+       * These alternatives must have been removed after conversion.
+       */
+
       case BufferedImage.TYPE_CUSTOM:
-      case BufferedImage.TYPE_INT_RGB:
-      case BufferedImage.TYPE_INT_BGR:
       default:
       {
-        /**
-         * These alternatives must have been removed after conversion.
-         */
-
         throw new UnreachableCodeException();
       }
     }
