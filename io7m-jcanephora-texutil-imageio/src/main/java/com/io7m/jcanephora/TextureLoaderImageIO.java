@@ -28,7 +28,6 @@ import javax.imageio.ImageIO;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.UnimplementedCodeException;
 import com.io7m.jaux.UnreachableCodeException;
 
 /**
@@ -421,48 +420,70 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull TextureFilter mag_filter,
     final @Nonnull BufferedImage image,
     final @Nonnull String name)
+    throws GLException,
+      ConstraintError
   {
     final int width = image.getWidth();
     final int height = image.getHeight();
 
     TextureType inferred = TextureType.TEXTURE_TYPE_RGBA_8888_4BPP;
+    BufferedImage actual = image;
 
     switch (image.getType()) {
       case BufferedImage.TYPE_4BYTE_ABGR_PRE:
       case BufferedImage.TYPE_4BYTE_ABGR:
+      case BufferedImage.TYPE_INT_ARGB_PRE:
+      case BufferedImage.TYPE_INT_ARGB:
       {
         inferred = TextureType.TEXTURE_TYPE_RGBA_8888_4BPP;
         break;
       }
-      case BufferedImage.TYPE_USHORT_565_RGB:
       case BufferedImage.TYPE_3BYTE_BGR:
+      case BufferedImage.TYPE_INT_RGB:
+      case BufferedImage.TYPE_INT_BGR:
+      {
+        inferred = TextureType.TEXTURE_TYPE_RGB_888_3BPP;
+        break;
+      }
+      case BufferedImage.TYPE_USHORT_555_RGB:
+      case BufferedImage.TYPE_USHORT_565_RGB:
+      case BufferedImage.TYPE_BYTE_INDEXED:
       {
         inferred = TextureType.TEXTURE_TYPE_RGB_565_2BPP;
         break;
       }
+      case BufferedImage.TYPE_BYTE_BINARY:
+      case BufferedImage.TYPE_USHORT_GRAY:
       case BufferedImage.TYPE_BYTE_GRAY:
       {
         inferred = TextureType.TEXTURE_TYPE_LUMINANCE_8_1BPP;
         break;
       }
-      case BufferedImage.TYPE_INT_ARGB_PRE:
-      case BufferedImage.TYPE_INT_ARGB:
-      {
-        throw new UnimplementedCodeException();
-      }
-      case BufferedImage.TYPE_BYTE_BINARY:
-      case BufferedImage.TYPE_BYTE_INDEXED:
-      case BufferedImage.TYPE_USHORT_GRAY:
-      case BufferedImage.TYPE_USHORT_555_RGB:
       case BufferedImage.TYPE_CUSTOM:
-      case BufferedImage.TYPE_INT_RGB:
-      case BufferedImage.TYPE_INT_BGR:
       {
+        final BufferedImage converted =
+          new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+        final ColorConvertOp op = new ColorConvertOp(null);
+        op.filter(image, converted);
+        inferred = TextureType.TEXTURE_TYPE_RGBA_8888_4BPP;
+        actual = converted;
         break;
       }
     }
 
-    throw new UnimplementedCodeException();
+    final Texture2DStatic texture =
+      gl.texture2DStaticAllocate(
+        name,
+        image.getWidth(),
+        image.getHeight(),
+        inferred,
+        wrap_s,
+        wrap_t,
+        mag_filter,
+        min_filter);
+
+    return TextureLoaderImageIO
+      .load2DStaticImageSpecific(gl, texture, actual);
   }
 
   private static @Nonnull Texture2DStatic load2DStaticImageSpecific(
@@ -510,8 +531,8 @@ public final class TextureLoaderImageIO implements TextureLoader
         final BufferedImage converted =
           new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
         final ColorConvertOp op = new ColorConvertOp(null);
-
         op.filter(image, converted);
+
         return TextureLoaderImageIO.load2DStaticImageSpecificDataActual(
           texture,
           converted);
