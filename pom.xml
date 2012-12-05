@@ -63,7 +63,7 @@
     <module>io7m-jcanephora-lwjgl</module>
     <module>io7m-jcanephora-tests-jogl</module>
     <module>io7m-jcanephora-tests-lwjgl</module>
-    <module>io7m-jcanephora-texutil-imageio</module>
+    <module>io7m-jcanephora-texload-imageio</module>
   </modules>
 
   <reporting>
