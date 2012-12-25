@@ -4,12 +4,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.io7m.jcanephora.lwjgl</groupId>
-  <artifactId>io7m-jcanephora-lwjgl</artifactId>
-  <name>io7m-jcanephora-lwjgl</name>
-  <description>API implementation using LWJGL</description>
+  <groupId>com.io7m.jcanephora.examples-jogl</groupId>
+  <artifactId>io7m-jcanephora-examples-jogl</artifactId>
+  <name>io7m-jcanephora-examples-jogl</name>
+  <description>JOGL frontends to example code</description>
   <version>1.0.0-SNAPSHOT</version>
-  <url>http://mvn.io7m.com/jcanephora-lwjgl</url>
+  <url>http://mvn.io7m.com/jcanephora-examples-jogl</url>
   <packaging>jar</packaging>
 
   <licenses>
@@ -34,7 +34,7 @@
     <site>
       <id>io7m</id>
       <name>io7m.com</name>
-      <url>http://mvn.io7m.com/jcanephora-lwjgl</url>
+      <url>http://mvn.io7m.com/jcanephora-examples-jogl</url>
     </site>
   </distributionManagement>
 
@@ -65,9 +65,14 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.lwjgl.lwjgl</groupId>
-      <artifactId>lwjgl</artifactId>
-      <version>2.8.4</version>
+      <groupId>com.io7m.jcanephora.jogl</groupId>
+      <artifactId>io7m-jcanephora-jogl</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.jcanephora.examples</groupId>
+      <artifactId>io7m-jcanephora-examples</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
@@ -79,6 +84,16 @@
       <artifactId>junit</artifactId>
       <scope>test</scope>
       <version>4.10</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jogamp.gluegen</groupId>
+      <artifactId>gluegen-rt-main</artifactId>
+      <version>2.0-rc11</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jogamp.jogl</groupId>
+      <artifactId>jogl-all-main</artifactId>
+      <version>2.0-rc11</version>
     </dependency>
   </dependencies>
 
@@ -140,6 +155,18 @@
         <version>2.5</version>
       </plugin>
 
+      <!-- Tell the surefire plugin to fork only once per set of unit tests, -->
+      <!-- and redirect test output -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.12</version>
+        <configuration>
+          <forkMode>once</forkMode>
+          <redirectTestOutputToFile>true</redirectTestOutputToFile>
+        </configuration>
+      </plugin>
+
       <!-- Require JDK >= 1.6 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -148,36 +175,6 @@
         <configuration>
           <source>1.6</source>
           <target>1.6</target>
-        </configuration>
-      </plugin>
-
-      <!-- Use mavennatives plugin to unpack native jar files -->
-      <plugin>
-        <groupId>com.googlecode.mavennatives</groupId>
-        <artifactId>maven-nativedependencies-plugin</artifactId>
-        <version>0.0.7</version>
-        <executions>
-          <execution>
-            <id>unpacknatives</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- Tell the surefire plugin to fork only once per set of unit tests, -->
-      <!-- and redirect test output -->
-      <!-- Tell the surefire plugin where to find native binaries -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.12</version>
-        <configuration>
-          <forkMode>once</forkMode>
-          <argLine>-Djava.library.path=${project.build.directory}/natives</argLine>
-          <redirectTestOutputToFile>true</redirectTestOutputToFile>
         </configuration>
       </plugin>
 
@@ -259,21 +256,6 @@
           <configuration>
             <lifecycleMappingMetadata>
               <pluginExecutions>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>com.googlecode.mavennatives</groupId>
-                    <artifactId>
-                      maven-nativedependencies-plugin
-                    </artifactId>
-                    <versionRange>[0.0.6,)</versionRange>
-                    <goals>
-                      <goal>copy</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore></ignore>
-                  </action>
-                </pluginExecution>
                 <pluginExecution>
                   <pluginExecutionFilter>
                     <groupId>org.sonatype.maven.plugin</groupId>
