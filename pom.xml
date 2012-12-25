@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.io7m.jcanephora</groupId>
   <artifactId>io7m-jcanephora</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.0-SNAPSHOT</version>
   <name>io7m-jcanephora</name>
   <description>OpenGL plus static safety</description>
   <url>http://mvn.io7m.com/jcanephora/</url>
@@ -90,6 +93,15 @@
   </reporting>
 
   <build>
+    <!-- Allow deployment over ssh -->
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh-external</artifactId>
+        <version>2.2</version>
+      </extension>
+    </extensions>
+
     <plugins>
       <!-- Plugin versions -->
       <plugin>
@@ -231,15 +243,6 @@
         </executions>
       </plugin>
     </plugins>
-
-    <!-- Allow deployment over ssh -->
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-ssh-external</artifactId>
-        <version>2.2</version>
-      </extension>
-    </extensions>
   </build>
 
   <!-- Sign artifacts when deploying to io7m -->
