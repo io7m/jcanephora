@@ -1,6 +1,9 @@
 package com.io7m.jcanephora.contracts_embedded;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import junit.framework.Assert;
 
@@ -12,12 +15,14 @@ import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferDescriptor;
 import com.io7m.jcanephora.ArrayBufferWritableData;
+import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceEmbedded;
 import com.io7m.jcanephora.GLScalarType;
-import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.ProgramAttribute;
+import com.io7m.jcanephora.ProgramReference;
+import com.io7m.jcanephora.VertexShader;
 import com.io7m.jvvfs.FilesystemAPI;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
@@ -26,6 +31,37 @@ public abstract class ArrayBufferContract implements
   GLEmbeddedTestContract,
   FilesystemTestContract
 {
+  static ProgramReference makeProgram(
+    final GLInterfaceEmbedded gl,
+    final FilesystemAPI filesystem,
+    final PathVirtual vertex_shader,
+    final PathVirtual fragment_shader)
+    throws GLException,
+      ConstraintError,
+      FilesystemError,
+      GLCompileException,
+      IOException
+  {
+    final ProgramReference pr = gl.programCreate("program");
+
+    if (vertex_shader != null) {
+      final InputStream vss = filesystem.openFile(vertex_shader);
+      final VertexShader vs = gl.vertexShaderCompile("vertex", vss);
+      vss.close();
+      gl.vertexShaderAttach(pr, vs);
+    }
+
+    if (fragment_shader != null) {
+      final InputStream fss = filesystem.openFile(fragment_shader);
+      final FragmentShader fs = gl.fragmentShaderCompile("fragment", fss);
+      fss.close();
+      gl.fragmentShaderAttach(pr, fs);
+    }
+
+    gl.programLink(pr);
+    return pr;
+  }
+
   /**
    * An allocated buffer has the correct number of elements and element size.
    */
@@ -239,12 +275,14 @@ public abstract class ArrayBufferContract implements
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final Program pr = new Program("program", this.getLog());
-    pr.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/position.v"));
-    pr.compile(fs, gl);
+    final ProgramReference pr =
+      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
+        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final Map<String, ProgramAttribute> attributes =
+      new HashMap<String, ProgramAttribute>();
+    gl.programGetAttributes(pr, attributes);
 
-    final ProgramAttribute pa = pr.getAttribute("position");
+    final ProgramAttribute pa = attributes.get("position");
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -280,12 +318,14 @@ public abstract class ArrayBufferContract implements
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final Program pr = new Program("program", this.getLog());
-    pr.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/position.v"));
-    pr.compile(fs, gl);
+    final ProgramReference pr =
+      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
+        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final Map<String, ProgramAttribute> attributes =
+      new HashMap<String, ProgramAttribute>();
+    gl.programGetAttributes(pr, attributes);
 
-    final ProgramAttribute pa = pr.getAttribute("position");
+    final ProgramAttribute pa = attributes.get("position");
     final ArrayBufferDescriptor d0 =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -328,12 +368,14 @@ public abstract class ArrayBufferContract implements
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final Program pr = new Program("program", this.getLog());
-    pr.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/position.v"));
-    pr.compile(fs, gl);
+    final ProgramReference pr =
+      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
+        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final Map<String, ProgramAttribute> attributes =
+      new HashMap<String, ProgramAttribute>();
+    gl.programGetAttributes(pr, attributes);
 
-    final ProgramAttribute pa = pr.getAttribute("position");
+    final ProgramAttribute pa = attributes.get("position");
     final ArrayBufferDescriptor d0 =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -483,12 +525,14 @@ public abstract class ArrayBufferContract implements
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final Program pr = new Program("program", this.getLog());
-    pr.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/position.v"));
-    pr.compile(fs, gl);
+    final ProgramReference pr =
+      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
+        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final Map<String, ProgramAttribute> attributes =
+      new HashMap<String, ProgramAttribute>();
+    gl.programGetAttributes(pr, attributes);
 
-    final ProgramAttribute pa = pr.getAttribute("position");
+    final ProgramAttribute pa = attributes.get("position");
     final ArrayBufferDescriptor d0 =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -511,6 +555,7 @@ public abstract class ArrayBufferContract implements
    * @throws ConstraintError
    * @throws FilesystemError
    * @throws GLCompileException
+   * @throws IOException
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -519,17 +564,20 @@ public abstract class ArrayBufferContract implements
       throws GLException,
         ConstraintError,
         FilesystemError,
-        GLCompileException
+        GLCompileException,
+        IOException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final Program pr = new Program("program", this.getLog());
-    pr.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/position.v"));
-    pr.compile(fs, gl);
+    final ProgramReference pr =
+      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
+        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final Map<String, ProgramAttribute> attributes =
+      new HashMap<String, ProgramAttribute>();
+    gl.programGetAttributes(pr, attributes);
 
-    final ProgramAttribute pa = pr.getAttribute("position");
+    final ProgramAttribute pa = attributes.get("position");
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -550,6 +598,7 @@ public abstract class ArrayBufferContract implements
    * @throws ConstraintError
    * @throws FilesystemError
    * @throws GLCompileException
+   * @throws IOException
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -558,17 +607,20 @@ public abstract class ArrayBufferContract implements
       throws GLException,
         ConstraintError,
         FilesystemError,
-        GLCompileException
+        GLCompileException,
+        IOException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final Program pr = new Program("program", this.getLog());
-    pr.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/position.v"));
-    pr.compile(fs, gl);
+    final ProgramReference pr =
+      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
+        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final Map<String, ProgramAttribute> attributes =
+      new HashMap<String, ProgramAttribute>();
+    gl.programGetAttributes(pr, attributes);
 
-    final ProgramAttribute pa = pr.getAttribute("position");
+    final ProgramAttribute pa = attributes.get("position");
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -589,6 +641,7 @@ public abstract class ArrayBufferContract implements
    * @throws ConstraintError
    * @throws FilesystemError
    * @throws GLCompileException
+   * @throws IOException
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -597,17 +650,20 @@ public abstract class ArrayBufferContract implements
       throws GLException,
         ConstraintError,
         FilesystemError,
-        GLCompileException
+        GLCompileException,
+        IOException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final Program pr = new Program("program", this.getLog());
-    pr.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/position.v"));
-    pr.compile(fs, gl);
+    final ProgramReference pr =
+      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
+        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final Map<String, ProgramAttribute> attributes =
+      new HashMap<String, ProgramAttribute>();
+    gl.programGetAttributes(pr, attributes);
 
-    final ProgramAttribute pa = pr.getAttribute("position");
+    final ProgramAttribute pa = attributes.get("position");
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -628,23 +684,27 @@ public abstract class ArrayBufferContract implements
    * @throws GLException
    * @throws FilesystemError
    * @throws GLCompileException
+   * @throws IOException
    */
 
   @Test public final void testArrayBufferUnbindVertexAttributeOK()
     throws GLException,
       ConstraintError,
       FilesystemError,
-      GLCompileException
+      GLCompileException,
+      IOException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final Program pr = new Program("program", this.getLog());
-    pr.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/position.v"));
-    pr.compile(fs, gl);
+    final ProgramReference pr =
+      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
+        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final Map<String, ProgramAttribute> attributes =
+      new HashMap<String, ProgramAttribute>();
+    gl.programGetAttributes(pr, attributes);
 
-    final ProgramAttribute pa = pr.getAttribute("position");
+    final ProgramAttribute pa = attributes.get("position");
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -665,6 +725,7 @@ public abstract class ArrayBufferContract implements
    * @throws ConstraintError
    * @throws FilesystemError
    * @throws GLCompileException
+   * @throws IOException
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -673,17 +734,20 @@ public abstract class ArrayBufferContract implements
       throws GLException,
         ConstraintError,
         FilesystemError,
-        GLCompileException
+        GLCompileException,
+        IOException
   {
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final Program pr = new Program("program", this.getLog());
-    pr.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/position.v"));
-    pr.compile(fs, gl);
+    final ProgramReference pr =
+      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
+        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final Map<String, ProgramAttribute> attributes =
+      new HashMap<String, ProgramAttribute>();
+    gl.programGetAttributes(pr, attributes);
 
-    final ProgramAttribute pa = pr.getAttribute("position");
+    final ProgramAttribute pa = attributes.get("position");
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -721,12 +785,14 @@ public abstract class ArrayBufferContract implements
     final GLInterfaceEmbedded gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final Program pr = new Program("program", this.getLog());
-    pr.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/position.v"));
-    pr.compile(fs, gl);
+    final ProgramReference pr =
+      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
+        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final Map<String, ProgramAttribute> attributes =
+      new HashMap<String, ProgramAttribute>();
+    gl.programGetAttributes(pr, attributes);
 
-    final ProgramAttribute pa = pr.getAttribute("position");
+    final ProgramAttribute pa = attributes.get("position");
     final ArrayBufferDescriptor d0 =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
