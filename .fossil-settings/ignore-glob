@@ -8,6 +8,11 @@ io7m-jcanephora-examples-lwjgl/target
 io7m-jcanephora-examples/target
 io7m-jcanephora-jogl/target
 io7m-jcanephora-lwjgl/target
+io7m-jcanephora-program/target
+io7m-jcanephora-tests-jogl/target
+io7m-jcanephora-tests-lwjgl/target
+io7m-jcanephora-tests/target
+io7m-jcanephora-texload-imageio/target
 javadoc
 target
 tmp

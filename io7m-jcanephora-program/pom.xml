@@ -4,12 +4,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.io7m.jcanephora.examples</groupId>
-  <artifactId>io7m-jcanephora-examples</artifactId>
-  <name>io7m-jcanephora-examples</name>
-  <description>Common example code</description>
+  <groupId>com.io7m.jcanephora.program</groupId>
+  <artifactId>io7m-jcanephora-program</artifactId>
+  <name>io7m-jcanephora-program</name>
+  <description>Shader program management</description>
   <version>1.0.0-SNAPSHOT</version>
-  <url>http://mvn.io7m.com/jcanephora-examples</url>
+  <url>http://mvn.io7m.com/jcanephora-program</url>
   <packaging>jar</packaging>
 
   <licenses>
@@ -34,7 +34,7 @@
     <site>
       <id>io7m</id>
       <name>io7m.com</name>
-      <url>http://mvn.io7m.com/jcanephora-examples</url>
+      <url>http://mvn.io7m.com/jcanephora-program</url>
     </site>
   </distributionManagement>
 
@@ -51,11 +51,6 @@
     </developer>
   </developers>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>com.io7m.jcanephora.core</groupId>
@@ -63,14 +58,11 @@
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>com.io7m.jcanephora.program</groupId>
-      <artifactId>io7m-jcanephora-program</artifactId>
+      <groupId>com.io7m.jcanephora.core</groupId>
+      <artifactId>io7m-jcanephora-core</artifactId>
       <version>1.0.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>com.io7m.jcanephora.texload-imageio</groupId>
-      <artifactId>io7m-jcanephora-texload-imageio</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <type>test-jar</type>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
@@ -80,8 +72,8 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.10</version>
       <scope>test</scope>
+      <version>4.10</version>
     </dependency>
   </dependencies>
 
@@ -104,6 +96,11 @@
       </plugin>
     </plugins>
   </reporting>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
 
   <build>
     <!-- Allow deployment over ssh -->
@@ -138,17 +135,6 @@
         <version>2.5</version>
       </plugin>
 
-      <!-- Require JDK >= 1.6 -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.5.1</version>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-        </configuration>
-      </plugin>
-
       <!-- Tell the surefire plugin to fork only once per set of unit tests, -->
       <!-- and redirect test output -->
       <plugin>
@@ -158,6 +144,17 @@
         <configuration>
           <forkMode>once</forkMode>
           <redirectTestOutputToFile>true</redirectTestOutputToFile>
+        </configuration>
+      </plugin>
+
+      <!-- Require JDK >= 1.6 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.5.1</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
         </configuration>
       </plugin>
 

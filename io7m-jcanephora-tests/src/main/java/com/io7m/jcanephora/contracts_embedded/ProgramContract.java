@@ -13,6 +13,8 @@ import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceEmbedded;
 import com.io7m.jcanephora.GLType;
 import com.io7m.jcanephora.GLType.Type;
+import com.io7m.jcanephora.contracts_embedded.FilesystemTestContract;
+import com.io7m.jcanephora.contracts_embedded.GLEmbeddedTestContract;
 import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramReference;
