@@ -31,6 +31,7 @@ import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureType;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureWrap;
+import com.io7m.jcanephora.UsageHint;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.MatrixM4x4F.Context;
 import com.io7m.jtensors.VectorI2F;
@@ -162,7 +163,10 @@ public final class ExampleFBO implements Example
       ab[1] = new ArrayBufferAttribute("uv", GLScalarType.TYPE_FLOAT, 2);
       this.textured_quad_type = new ArrayBufferDescriptor(ab);
       this.textured_quad =
-        this.gl.arrayBufferAllocate(4, this.textured_quad_type);
+        this.gl.arrayBufferAllocate(
+          4,
+          this.textured_quad_type,
+          UsageHint.USAGE_STATIC_DRAW);
     }
 
     {
@@ -171,7 +175,11 @@ public final class ExampleFBO implements Example
         new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 4);
       ab[1] = new ArrayBufferAttribute("color", GLScalarType.TYPE_FLOAT, 4);
       this.color_quad_type = new ArrayBufferDescriptor(ab);
-      this.color_quad = this.gl.arrayBufferAllocate(4, this.color_quad_type);
+      this.color_quad =
+        this.gl.arrayBufferAllocate(
+          4,
+          this.color_quad_type,
+          UsageHint.USAGE_STATIC_DRAW);
     }
 
     /**

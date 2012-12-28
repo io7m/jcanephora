@@ -14,6 +14,7 @@ import com.io7m.jcanephora.GLScalarType;
 import com.io7m.jcanephora.GLUnsignedType;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
+import com.io7m.jcanephora.UsageHint;
 
 public abstract class IndexBufferContract implements GLES2TestContract
 {
@@ -34,7 +35,8 @@ public abstract class IndexBufferContract implements GLES2TestContract
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(1, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(1, d, UsageHint.USAGE_STATIC_DRAW);
     a.resourceDelete(gl);
     gl.indexBufferAllocate(a, 0);
   }
@@ -59,7 +61,7 @@ public abstract class IndexBufferContract implements GLES2TestContract
     ArrayBuffer a = null;
 
     try {
-      a = gl.arrayBufferAllocate(255, d);
+      a = gl.arrayBufferAllocate(255, d, UsageHint.USAGE_STATIC_DRAW);
       i = gl.indexBufferAllocate(a, 4);
       Assert.assertEquals(GLUnsignedType.TYPE_UNSIGNED_BYTE, i.getType());
       Assert.assertEquals(1, i.getElementSizeBytes());
@@ -92,7 +94,7 @@ public abstract class IndexBufferContract implements GLES2TestContract
     ArrayBuffer a = null;
 
     try {
-      a = gl.arrayBufferAllocate(65536, d);
+      a = gl.arrayBufferAllocate(65536, d, UsageHint.USAGE_STATIC_DRAW);
       i = gl.indexBufferAllocate(a, 2);
       Assert.assertEquals(GLUnsignedType.TYPE_UNSIGNED_INT, i.getType());
       Assert.assertEquals(4, i.getElementSizeBytes());
@@ -139,7 +141,7 @@ public abstract class IndexBufferContract implements GLES2TestContract
     ArrayBuffer a = null;
 
     try {
-      a = gl.arrayBufferAllocate(256, d);
+      a = gl.arrayBufferAllocate(256, d, UsageHint.USAGE_STATIC_DRAW);
       i = gl.indexBufferAllocate(a, 4);
       Assert.assertEquals(GLUnsignedType.TYPE_UNSIGNED_SHORT, i.getType());
       Assert.assertEquals(2, i.getElementSizeBytes());
@@ -197,7 +199,8 @@ public abstract class IndexBufferContract implements GLES2TestContract
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(1, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(1, d, UsageHint.USAGE_STATIC_DRAW);
     gl.indexBufferAllocate(a, 0);
   }
 
@@ -222,7 +225,7 @@ public abstract class IndexBufferContract implements GLES2TestContract
     ArrayBuffer a = null;
 
     try {
-      a = gl.arrayBufferAllocate(4, d);
+      a = gl.arrayBufferAllocate(4, d, UsageHint.USAGE_STATIC_DRAW);
       i = gl.indexBufferAllocate(a, 10);
       gl.indexBufferDelete(i);
     } catch (final Exception e) {
@@ -265,7 +268,7 @@ public abstract class IndexBufferContract implements GLES2TestContract
     ArrayBuffer a = null;
 
     try {
-      a = gl.arrayBufferAllocate(255, d);
+      a = gl.arrayBufferAllocate(255, d, UsageHint.USAGE_STATIC_DRAW);
       i = gl.indexBufferAllocate(a, 4);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
@@ -296,7 +299,7 @@ public abstract class IndexBufferContract implements GLES2TestContract
     ArrayBuffer a = null;
 
     try {
-      a = gl.arrayBufferAllocate(255, d);
+      a = gl.arrayBufferAllocate(255, d, UsageHint.USAGE_STATIC_DRAW);
       i = gl.indexBufferAllocate(a, 4);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
@@ -328,7 +331,7 @@ public abstract class IndexBufferContract implements GLES2TestContract
     ArrayBuffer a = null;
 
     try {
-      a = gl.arrayBufferAllocate(255, d);
+      a = gl.arrayBufferAllocate(255, d, UsageHint.USAGE_STATIC_DRAW);
       i = gl.indexBufferAllocate(a, 4);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
@@ -359,7 +362,7 @@ public abstract class IndexBufferContract implements GLES2TestContract
     ArrayBuffer a = null;
 
     try {
-      a = gl.arrayBufferAllocate(255, d);
+      a = gl.arrayBufferAllocate(255, d, UsageHint.USAGE_STATIC_DRAW);
       i = gl.indexBufferAllocate(a, 4);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());

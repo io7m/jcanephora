@@ -16,6 +16,7 @@ import com.io7m.jcanephora.ArrayBufferWritableMap;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface;
 import com.io7m.jcanephora.GLScalarType;
+import com.io7m.jcanephora.UsageHint;
 import com.io7m.jcanephora.contracts_ES2.FilesystemTestContract;
 
 public abstract class ArrayBufferMapContract implements
@@ -39,7 +40,8 @@ public abstract class ArrayBufferMapContract implements
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     try {
       try {
@@ -87,7 +89,8 @@ public abstract class ArrayBufferMapContract implements
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     try {
       try {
@@ -122,7 +125,8 @@ public abstract class ArrayBufferMapContract implements
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     a.resourceDelete(gl);
     gl.arrayBufferMapRead(a);
@@ -150,7 +154,7 @@ public abstract class ArrayBufferMapContract implements
     ArrayBuffer a = null;
 
     try {
-      a = gl.arrayBufferAllocate(10, d);
+      a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
     } catch (final GLException e) {
       Assert.fail(e.getMessage());
     }
@@ -187,7 +191,7 @@ public abstract class ArrayBufferMapContract implements
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    gl.arrayBufferAllocate(10, d);
+    gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
     gl.arrayBufferMapRead(null);
   }
 
@@ -210,7 +214,8 @@ public abstract class ArrayBufferMapContract implements
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     try {
       try {
@@ -246,7 +251,8 @@ public abstract class ArrayBufferMapContract implements
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     a.resourceDelete(gl);
     gl.arrayBufferMapWrite(a);
@@ -271,7 +277,7 @@ public abstract class ArrayBufferMapContract implements
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    gl.arrayBufferAllocate(10, d);
+    gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
     gl.arrayBufferMapWrite(null);
   }
 
@@ -294,7 +300,8 @@ public abstract class ArrayBufferMapContract implements
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     gl.arrayBufferMapWrite(a);
     a.resourceDelete(gl);
@@ -323,7 +330,7 @@ public abstract class ArrayBufferMapContract implements
     ArrayBuffer a = null;
 
     try {
-      a = gl.arrayBufferAllocate(10, d);
+      a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
       gl.arrayBufferMapWrite(a);
     } catch (final GLException e) {
       Assert.fail(e.getMessage());
