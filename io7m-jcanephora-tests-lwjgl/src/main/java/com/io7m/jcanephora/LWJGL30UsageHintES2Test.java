@@ -3,10 +3,10 @@ package com.io7m.jcanephora;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class JOGL30UsageHintES2Test
+public class LWJGL30UsageHintES2Test
 {
   /**
-   * ∀h. usageHintFromGL(usageHintToGL(h)) == h.
+   * ∀h. usageHintES2FromGL(usageHintES2ToGL(h)) == h.
    */
 
   @SuppressWarnings("static-method") @Test public void testWrapBijection()

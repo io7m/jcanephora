@@ -732,29 +732,20 @@ final class GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final UsageHintES2 usageHintES2FromGL(
-    final int hint)
-  {
-    switch (hint) {
-      case GL15.GL_DYNAMIC_DRAW:
-        return UsageHintES2.USAGE_DYNAMIC_DRAW;
-      case GL15.GL_STATIC_DRAW:
-        return UsageHintES2.USAGE_STATIC_DRAW;
-      case GL15.GL_STREAM_DRAW:
-        return UsageHintES2.USAGE_STREAM_DRAW;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
   static final int usageHintES2ToGL(
-    final UsageHintES2 hint)
+    final UsageHint hint)
   {
     switch (hint) {
+      case USAGE_DYNAMIC_COPY:
+      case USAGE_DYNAMIC_READ:
       case USAGE_DYNAMIC_DRAW:
         return GL15.GL_DYNAMIC_DRAW;
+      case USAGE_STATIC_COPY:
+      case USAGE_STATIC_READ:
       case USAGE_STATIC_DRAW:
         return GL15.GL_STATIC_DRAW;
+      case USAGE_STREAM_COPY:
+      case USAGE_STREAM_READ:
       case USAGE_STREAM_DRAW:
         return GL15.GL_STREAM_DRAW;
     }
