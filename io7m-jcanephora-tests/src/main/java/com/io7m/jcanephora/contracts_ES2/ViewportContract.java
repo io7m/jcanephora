@@ -1,5 +1,7 @@
 package com.io7m.jcanephora.contracts_ES2;
 
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -9,6 +11,11 @@ import com.io7m.jtensors.VectorI2I;
 
 public abstract class ViewportContract implements GLES2TestContract
 {
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
+  }
+
   /**
    * Setting a viewport works.
    * 

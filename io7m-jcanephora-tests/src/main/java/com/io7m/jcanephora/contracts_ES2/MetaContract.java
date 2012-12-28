@@ -2,6 +2,8 @@ package com.io7m.jcanephora.contracts_ES2;
 
 import junit.framework.Assert;
 
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -10,6 +12,11 @@ import com.io7m.jcanephora.GLInterfaceES2;
 
 public abstract class MetaContract implements GLES2TestContract
 {
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
+  }
+
   @Test public void testMetaStrings()
     throws GLException,
       ConstraintError

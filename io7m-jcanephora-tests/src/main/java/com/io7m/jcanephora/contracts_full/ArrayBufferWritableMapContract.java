@@ -6,6 +6,7 @@ import java.nio.FloatBuffer;
 import junit.framework.Assert;
 
 import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -23,6 +24,11 @@ import com.io7m.jcanephora.UsageHint;
 public abstract class ArrayBufferWritableMapContract implements
   GLTestContract
 {
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
+  }
+
   /*
    * Cursor3f
    */
@@ -33,7 +39,7 @@ public abstract class ArrayBufferWritableMapContract implements
       throws ConstraintError,
         GLException
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     ArrayBuffer a = null;
@@ -63,7 +69,7 @@ public abstract class ArrayBufferWritableMapContract implements
       throws ConstraintError,
         GLException
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     ArrayBuffer a = null;
@@ -92,7 +98,7 @@ public abstract class ArrayBufferWritableMapContract implements
       throws ConstraintError,
         GLException
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     ArrayBuffer a = null;
@@ -172,7 +178,7 @@ public abstract class ArrayBufferWritableMapContract implements
       throws ConstraintError,
         GLException
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     ArrayBuffer a = null;
@@ -249,7 +255,7 @@ public abstract class ArrayBufferWritableMapContract implements
       throws ConstraintError,
         GLException
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     ArrayBuffer a = null;
@@ -281,7 +287,7 @@ public abstract class ArrayBufferWritableMapContract implements
       throws ConstraintError,
         GLException
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     ArrayBuffer a = null;
@@ -311,7 +317,7 @@ public abstract class ArrayBufferWritableMapContract implements
       throws ConstraintError,
         GLException
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     ArrayBuffer a = null;
@@ -379,7 +385,7 @@ public abstract class ArrayBufferWritableMapContract implements
       throws ConstraintError,
         GLException
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     ArrayBuffer a = null;
@@ -450,7 +456,7 @@ public abstract class ArrayBufferWritableMapContract implements
       throws ConstraintError,
         GLException
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     ArrayBuffer a = null;

@@ -8,13 +8,18 @@ public final class LWJGL30BlendTest extends BlendingES2Contract
 {
   @Override public Log getLog()
   {
-    return LWJGL30TestLog.getLog();
+    return LWJGLTestLog.getLog();
+  }
+
+  @Override public boolean isGLSupported()
+  {
+    return LWJGLTestDisplay.isOpenGL3Supported();
   }
 
   @Override public GLInterfaceES2 makeNewGL()
     throws GLException,
       ConstraintError
   {
-    return LWJGL30TestDisplay.makeFreshGLES2();
+    return LWJGLTestDisplay.makeES2WithOpenGL3();
   }
 }

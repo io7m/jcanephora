@@ -57,6 +57,9 @@ import com.io7m.jtensors.VectorReadable4F;
       new Log(Constraints.constrainNotNull(log, "log output"), "jogl30");
     this.state = new GLStateCache();
 
+    this.state.texture_units =
+      GLES2Functions.textureGetUnitsActual(this.state, log);
+
     {
       final IntBuffer cache = this.state.getIntegerCache();
       GL11.glGetInteger(GL12.GL_ALIASED_LINE_WIDTH_RANGE, cache);
@@ -908,9 +911,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.programPutUniformTextureUnit(
-
-    this.state, uniform, unit);
+    GLES2Functions.programPutUniformTextureUnit(this.state, uniform, unit);
   }
 
   @Override public void programPutUniformVector2f(
@@ -1139,9 +1140,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public int textureGetMaximumSize()
     throws GLException
   {
-    return GLES2Functions.textureGetMaximumSize(
-
-    this.state);
+    return GLES2Functions.textureGetMaximumSize(this.state);
   }
 
   @Override public TextureUnit[] textureGetUnits()
