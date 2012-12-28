@@ -109,7 +109,8 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public ArrayBuffer arrayBufferAllocate(
     final long elements,
-    final @Nonnull ArrayBufferDescriptor descriptor)
+    final @Nonnull ArrayBufferDescriptor descriptor,
+    final @Nonnull UsageHint usage)
     throws GLException,
       ConstraintError
   {
@@ -118,7 +119,8 @@ import com.io7m.jtensors.VectorReadable4F;
       this.log,
       this.state,
       elements,
-      descriptor);
+      descriptor,
+      usage);
   }
 
   @Override public void arrayBufferBind(

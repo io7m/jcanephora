@@ -23,6 +23,7 @@ import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.ProjectionMatrix;
 import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
+import com.io7m.jcanephora.UsageHint;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorM2F;
 import com.io7m.jtensors.VectorReadable2I;
@@ -74,7 +75,11 @@ public final class ExampleStencil implements Example
     ab[0] = new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 4);
     ab[1] = new ArrayBufferAttribute("color", GLScalarType.TYPE_FLOAT, 4);
     this.array_type = new ArrayBufferDescriptor(ab);
-    this.array = this.gl.arrayBufferAllocate(3, this.array_type);
+    this.array =
+      this.gl.arrayBufferAllocate(
+        3,
+        this.array_type,
+        UsageHint.USAGE_STATIC_DRAW);
     this.array_data = new ArrayBufferWritableData(this.array);
 
     {

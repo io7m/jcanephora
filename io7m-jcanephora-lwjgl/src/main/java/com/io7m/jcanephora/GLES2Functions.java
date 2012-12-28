@@ -43,7 +43,8 @@ final class GLES2Functions
     final @Nonnull Log log,
     final @Nonnull GLStateCache state,
     final long elements,
-    final @Nonnull ArrayBufferDescriptor descriptor)
+    final @Nonnull ArrayBufferDescriptor descriptor,
+    final @Nonnull UsageHint usage)
     throws GLException,
       ConstraintError
   {
@@ -62,13 +63,22 @@ final class GLES2Functions
       state.log_text.append(size);
       state.log_text.append(" bytes per element, ");
       state.log_text.append(bytes_total);
-      state.log_text.append(" bytes)");
+      state.log_text.append(" bytes, usage ");
+      state.log_text.append(usage);
+      state.log_text.append("))");
       log.debug(state.log_text.toString());
+    }
+
+    int hint = GL15.GL_STATIC_DRAW;
+    if (GLES2Functions.implementationReallyIsES2()) {
+      hint = GLTypeConversions.usageHintES2ToGL(usage);
+    } else {
+      hint = GLTypeConversions.usageHintToGL(usage);
     }
 
     final int id = GL15.glGenBuffers();
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id);
-    GL15.glBufferData(GL15.GL_ARRAY_BUFFER, bytes_total, GL15.GL_STREAM_DRAW);
+    GL15.glBufferData(GL15.GL_ARRAY_BUFFER, bytes_total, hint);
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);

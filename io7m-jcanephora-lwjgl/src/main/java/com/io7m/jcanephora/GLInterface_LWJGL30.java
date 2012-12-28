@@ -84,13 +84,17 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public ArrayBuffer arrayBufferAllocate(
     final long elements,
-    final @Nonnull ArrayBufferDescriptor descriptor)
+    final @Nonnull ArrayBufferDescriptor descriptor,
+    final @Nonnull UsageHint usage)
     throws GLException,
       ConstraintError
   {
     return GLES2Functions.arrayBufferAllocate(
-
-    this.log, this.state, elements, descriptor);
+      this.log,
+      this.state,
+      elements,
+      descriptor,
+      usage);
   }
 
   @Override public void arrayBufferBind(
@@ -109,8 +113,9 @@ import com.io7m.jtensors.VectorReadable4F;
       ConstraintError
   {
     GLES2Functions.arrayBufferBindVertexAttribute(
-
-    buffer, buffer_attribute, program_attribute);
+      buffer,
+      buffer_attribute,
+      program_attribute);
   }
 
   @Override public void arrayBufferDelete(
@@ -118,9 +123,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.arrayBufferDelete(
-
-    this.log, this.state, id);
+    GLES2Functions.arrayBufferDelete(this.log, this.state, id);
   }
 
   @Override public boolean arrayBufferIsBound(
@@ -136,9 +139,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    return GL3Functions.arrayBufferMapRead(
-
-    this.state, this.log, id);
+    return GL3Functions.arrayBufferMapRead(this.state, this.log, id);
   }
 
   @Override public ArrayBufferWritableMap arrayBufferMapWrite(

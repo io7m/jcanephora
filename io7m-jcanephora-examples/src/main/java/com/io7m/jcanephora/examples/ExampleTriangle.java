@@ -20,6 +20,7 @@ import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.ProjectionMatrix;
+import com.io7m.jcanephora.UsageHint;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorI2F;
 import com.io7m.jtensors.VectorReadable2I;
@@ -81,7 +82,11 @@ public final class ExampleTriangle implements Example
     ab[0] = new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 4);
     ab[1] = new ArrayBufferAttribute("color", GLScalarType.TYPE_FLOAT, 4);
     this.array_type = new ArrayBufferDescriptor(ab);
-    this.array = this.gl.arrayBufferAllocate(3, this.array_type);
+    this.array =
+      this.gl.arrayBufferAllocate(
+        3,
+        this.array_type,
+        UsageHint.USAGE_STATIC_DRAW);
 
     /**
      * Then, allocate a buffer of data that will be populated and uploaded.

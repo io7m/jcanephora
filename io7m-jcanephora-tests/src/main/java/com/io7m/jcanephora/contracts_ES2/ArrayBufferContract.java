@@ -22,6 +22,7 @@ import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.GLScalarType;
 import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramReference;
+import com.io7m.jcanephora.UsageHint;
 import com.io7m.jcanephora.VertexShader;
 import com.io7m.jvvfs.FilesystemAPI;
 import com.io7m.jvvfs.FilesystemError;
@@ -81,7 +82,7 @@ public abstract class ArrayBufferContract implements
             GLScalarType.TYPE_FLOAT,
             3) });
 
-      a = gl.arrayBufferAllocate(10, d);
+      a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
       Assert.assertEquals(12, a.getElementSizeBytes());
       Assert.assertEquals(10, a.getRange().getInterval());
       Assert.assertEquals(120, a.getSizeBytes());
@@ -111,7 +112,7 @@ public abstract class ArrayBufferContract implements
           GLScalarType.TYPE_FLOAT,
           3) });
 
-    gl.arrayBufferAllocate(0, d);
+    gl.arrayBufferAllocate(0, d, UsageHint.USAGE_STATIC_DRAW);
   }
 
   /**
@@ -131,7 +132,8 @@ public abstract class ArrayBufferContract implements
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     gl.arrayBufferBind(a);
     Assert.assertTrue(gl.arrayBufferIsBound(a));
@@ -156,7 +158,8 @@ public abstract class ArrayBufferContract implements
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     gl.arrayBufferBind(a);
     Assert.assertTrue(gl.arrayBufferIsBound(a));
@@ -184,7 +187,8 @@ public abstract class ArrayBufferContract implements
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
     gl.arrayBufferDelete(a);
     gl.arrayBufferBindVertexAttribute(a, null, null);
   }
@@ -226,7 +230,8 @@ public abstract class ArrayBufferContract implements
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
     gl.arrayBufferBindVertexAttribute(a, null, null);
   }
 
@@ -251,7 +256,8 @@ public abstract class ArrayBufferContract implements
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
     gl.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), null);
   }
 
@@ -289,7 +295,8 @@ public abstract class ArrayBufferContract implements
           "position",
           GLScalarType.TYPE_FLOAT,
           3) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     gl.arrayBufferBind(a);
     gl.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), pa);
@@ -339,7 +346,8 @@ public abstract class ArrayBufferContract implements
           GLScalarType.TYPE_FLOAT,
           3) });
 
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d1);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d1, UsageHint.USAGE_STATIC_DRAW);
 
     gl.arrayBufferBind(a);
     gl.arrayBufferBindVertexAttribute(a, d0.getAttribute("position"), pa);
@@ -383,7 +391,8 @@ public abstract class ArrayBufferContract implements
           GLScalarType.TYPE_INT,
           3) });
 
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d0);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d0, UsageHint.USAGE_STATIC_DRAW);
 
     gl.arrayBufferBind(a);
     gl.arrayBufferBindVertexAttribute(a, d0.getAttribute("position"), pa);
@@ -406,7 +415,8 @@ public abstract class ArrayBufferContract implements
           "position",
           GLScalarType.TYPE_SHORT,
           1) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
     a.resourceDelete(gl);
     gl.arrayBufferIsBound(a);
   }
@@ -432,7 +442,7 @@ public abstract class ArrayBufferContract implements
             GLScalarType.TYPE_FLOAT,
             3) });
 
-      a = gl.arrayBufferAllocate(10, d);
+      a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
       gl.arrayBufferDelete(a);
     } catch (final Exception e) {
       Assert.fail(e.getMessage());
@@ -477,7 +487,7 @@ public abstract class ArrayBufferContract implements
     ArrayBuffer a = null;
 
     try {
-      a = gl.arrayBufferAllocate(3, d);
+      a = gl.arrayBufferAllocate(3, d, UsageHint.USAGE_STATIC_DRAW);
       Assert.assertEquals(0, a.getElementOffset(0));
       Assert.assertEquals(18, a.getElementOffset(1));
       Assert.assertEquals(36, a.getElementOffset(2));
@@ -540,7 +550,8 @@ public abstract class ArrayBufferContract implements
           GLScalarType.TYPE_FLOAT,
           3) });
 
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d0);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d0, UsageHint.USAGE_STATIC_DRAW);
 
     gl.arrayBufferBind(a);
     gl.arrayBufferBindVertexAttribute(a, d0.getAttribute("position"), pa);
@@ -584,7 +595,8 @@ public abstract class ArrayBufferContract implements
           "position",
           GLScalarType.TYPE_FLOAT,
           3) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     gl.arrayBufferBind(a);
     gl.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), pa);
@@ -627,7 +639,8 @@ public abstract class ArrayBufferContract implements
           "position",
           GLScalarType.TYPE_FLOAT,
           3) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     gl.arrayBufferBind(a);
     gl.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), pa);
@@ -670,7 +683,8 @@ public abstract class ArrayBufferContract implements
           "position",
           GLScalarType.TYPE_FLOAT,
           3) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     gl.arrayBufferBind(a);
     gl.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), pa);
@@ -711,7 +725,8 @@ public abstract class ArrayBufferContract implements
           "position",
           GLScalarType.TYPE_FLOAT,
           3) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     gl.arrayBufferBind(a);
     gl.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), pa);
@@ -754,7 +769,8 @@ public abstract class ArrayBufferContract implements
           "position",
           GLScalarType.TYPE_FLOAT,
           3) });
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     gl.arrayBufferBind(a);
     gl.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), pa);
@@ -806,7 +822,8 @@ public abstract class ArrayBufferContract implements
           GLScalarType.TYPE_FLOAT,
           3) });
 
-    final ArrayBuffer a = gl.arrayBufferAllocate(10, d0);
+    final ArrayBuffer a =
+      gl.arrayBufferAllocate(10, d0, UsageHint.USAGE_STATIC_DRAW);
 
     gl.arrayBufferBind(a);
     gl.arrayBufferBindVertexAttribute(a, d0.getAttribute("position"), pa);
@@ -832,7 +849,7 @@ public abstract class ArrayBufferContract implements
             GLScalarType.TYPE_FLOAT,
             3) });
 
-      a = gl.arrayBufferAllocate(10, d);
+      a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
     }
@@ -863,7 +880,7 @@ public abstract class ArrayBufferContract implements
             GLScalarType.TYPE_FLOAT,
             3) });
 
-      a = gl.arrayBufferAllocate(10, d);
+      a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
     }
@@ -893,7 +910,7 @@ public abstract class ArrayBufferContract implements
             GLScalarType.TYPE_FLOAT,
             3) });
 
-      a = gl.arrayBufferAllocate(10, d);
+      a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
     }
@@ -925,7 +942,7 @@ public abstract class ArrayBufferContract implements
             GLScalarType.TYPE_FLOAT,
             3) });
 
-      a = gl.arrayBufferAllocate(10, d);
+      a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
     }
@@ -957,8 +974,8 @@ public abstract class ArrayBufferContract implements
             GLScalarType.TYPE_FLOAT,
             3) });
 
-      a = gl.arrayBufferAllocate(10, d);
-      b = gl.arrayBufferAllocate(10, d);
+      a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
+      b = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
     }
