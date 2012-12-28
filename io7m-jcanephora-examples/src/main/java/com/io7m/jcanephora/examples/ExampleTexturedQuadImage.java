@@ -15,7 +15,7 @@ import com.io7m.jcanephora.CursorWritable4f;
 import com.io7m.jcanephora.CursorWritableIndex;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterfaceEmbedded;
+import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.GLScalarType;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
@@ -43,7 +43,7 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleTexturedQuadImage implements Example
 {
-  private final GLInterfaceEmbedded     gl;
+  private final GLInterfaceES2          gl;
   private final ArrayBufferDescriptor   array_type;
   private final ArrayBuffer             array;
   private final ArrayBufferWritableData array_data;
@@ -56,6 +56,10 @@ public final class ExampleTexturedQuadImage implements Example
   private boolean                       has_shut_down;
   private final Texture2DStatic         textures[];
   private final TextureUnit[]           texture_units;
+
+  private int                           frame         = 0;
+
+  private int                           texture_index = 0;
 
   public ExampleTexturedQuadImage(
     final @Nonnull ExampleConfig config)
@@ -180,9 +184,6 @@ public final class ExampleTexturedQuadImage implements Example
 
     this.gl.indexBufferUpdate(this.indices, this.indices_data);
   }
-
-  private int frame         = 0;
-  private int texture_index = 0;
 
   @Override public void display()
     throws GLException,

@@ -1,10 +1,10 @@
 /*
  * Copyright © 2012 http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -54,20 +54,14 @@ public enum TextureType
   TEXTURE_TYPE_RGB_565_2BPP,
 
   /**
-   * Two channel luminance and alpha, 8 bits per channel, two bytes per pixel.
+   * Two channel red/green, 8 bits per channel, two bytes per pixel.
    */
 
-  TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP,
+  TEXTURE_TYPE_RG_88_2BPP,
 
   /**
-   * Single channel luminance, 8 bits per channel, one byte per pixel.
+   * Single channel red, 8 bits per channel, one byte per pixel.
    */
 
-  TEXTURE_TYPE_LUMINANCE_8_1BPP,
-
-  /**
-   * Single channel alpha, 8 bits per channel, one byte per pixel.
-   */
-
-  TEXTURE_TYPE_ALPHA_8_1BPP
+  TEXTURE_TYPE_R_8_1BPP,
 }

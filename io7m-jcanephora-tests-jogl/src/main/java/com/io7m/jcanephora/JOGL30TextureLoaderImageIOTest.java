@@ -12,15 +12,15 @@ public final class JOGL30TextureLoaderImageIOTest extends
     return JOGL30TestLog.getLog();
   }
 
-  @Override public GLInterfaceEmbedded makeNewGL()
+  @Override public FilesystemAPI makeNewFS()
+  {
+    return JOGL30TestFilesystem.getFS();
+  }
+
+  @Override public GLInterfaceES2 makeNewGL()
     throws GLException,
       ConstraintError
   {
     return JOGL30TestDisplay.makeFreshGLEmbedded();
-  }
-
-  @Override public FilesystemAPI makeNewFS()
-  {
-    return JOGL30TestFilesystem.getFS();
   }
 }

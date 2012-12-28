@@ -5,12 +5,12 @@ import org.junit.Test;
 
 import com.io7m.jaux.UnreachableCodeException;
 
-public class JOGL30UsageHintEmbeddedTest
+public class JOGL30UsageHintES2Test
 {
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLInterfaceEmbedded_JOGL_ES2_Actual.usageHintEmbeddedFromGL(-1);
+    GLTypeConversions.usageHintES2FromGL(-1);
   }
 
   /**
@@ -19,10 +19,9 @@ public class JOGL30UsageHintEmbeddedTest
 
   @SuppressWarnings("static-method") @Test public void testWrapBijection()
   {
-    for (final UsageHintEmbedded h : UsageHintEmbedded.values()) {
-      Assert.assertEquals(h, GLInterfaceEmbedded_JOGL_ES2_Actual
-        .usageHintEmbeddedFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual
-          .usageHintEmbeddedToGL(h)));
+    for (final UsageHintES2 h : UsageHintES2.values()) {
+      Assert.assertEquals(h, GLTypeConversions
+        .usageHintES2FromGL(GLTypeConversions.usageHintES2ToGL(h)));
     }
   }
 }

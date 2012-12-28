@@ -18,7 +18,7 @@ public final class JOGL30TestDisplay
     final int width,
     final int height)
   {
-    final GLProfile pro = GLProfile.get(GLProfile.GL2GL3);
+    final GLProfile pro = GLProfile.get(GLProfile.GL3);
     final GLCapabilities cap = new GLCapabilities(pro);
     cap.setFBO(true);
 
@@ -46,22 +46,23 @@ public final class JOGL30TestDisplay
       throw new AssertionError("Could not make context current");
     }
 
+    System.err.println("Context: " + JOGL30TestDisplay.context);
     return JOGL30TestDisplay.context;
-  }
-
-  public static GLInterfaceEmbedded makeFreshGLEmbedded()
-    throws GLException,
-      ConstraintError
-  {
-    final GLContext ctx = JOGL30TestDisplay.getContext();
-    final Log log = JOGL30TestLog.getLog();
-    return new GLInterfaceEmbedded_JOGL_ES2(ctx, log);
   }
 
   public static boolean isFullGLSupported()
   {
     final GLContext ctx = JOGL30TestDisplay.getContext();
-    return ctx.isGL2GL3() || ctx.isGL4() || ctx.isGL3();
+    return ctx.isGL3();
+  }
+
+  public static GLInterfaceES2 makeFreshGLEmbedded()
+    throws GLException,
+      ConstraintError
+  {
+    final GLContext ctx = JOGL30TestDisplay.getContext();
+    final Log log = JOGL30TestLog.getLog();
+    return new GLInterfaceES2_JOGL_ES2(ctx, log);
   }
 
   public static GLInterface makeFreshGLFull()

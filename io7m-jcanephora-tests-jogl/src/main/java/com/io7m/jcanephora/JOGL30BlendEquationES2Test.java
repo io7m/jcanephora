@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import com.io7m.jaux.UnreachableCodeException;
 
-public final class LWJGL30BlendEquationEmbeddedTest
+public final class JOGL30BlendEquationES2Test
 {
   /**
    * ∀f. blendEquationFromGL(blendEquationToGL(f)) = f.
@@ -13,16 +13,18 @@ public final class LWJGL30BlendEquationEmbeddedTest
 
   @SuppressWarnings("static-method") @Test public void testBijection()
   {
-    for (final BlendEquationEmbedded f : BlendEquationEmbedded.values()) {
-      Assert.assertEquals(GLInterfaceEmbedded_LWJGL_ES2_Actual
-        .blendEquationEmbeddedFromGL(GLInterfaceEmbedded_LWJGL_ES2_Actual
-          .blendEquationEmbeddedToGL(f)), f);
+    for (final BlendEquationES2 f : BlendEquationES2.values()) {
+      Assert
+        .assertEquals(
+          GLTypeConversions.blendEquationES2FromGL(GLTypeConversions
+            .blendEquationES2ToGL(f)),
+          f);
     }
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLInterfaceEmbedded_LWJGL_ES2_Actual.blendEquationEmbeddedFromGL(-1);
+    GLTypeConversions.blendEquationES2FromGL(-1);
   }
 }

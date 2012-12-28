@@ -1,10 +1,10 @@
 /*
  * Copyright © 2012 http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -18,10 +18,10 @@ package com.io7m.jcanephora;
 
 /**
  * Hints to the implementation about how array data will be used. This type
- * represents the subset of available values for embedded platforms.
+ * represents the subset of available values for OpenGL ES2.
  */
 
-public enum UsageHintEmbedded
+public enum UsageHintES2
 {
   USAGE_STREAM_DRAW,
   USAGE_STATIC_DRAW,

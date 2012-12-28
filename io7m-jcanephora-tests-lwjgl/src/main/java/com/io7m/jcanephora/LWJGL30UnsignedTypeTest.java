@@ -17,9 +17,8 @@ public final class LWJGL30UnsignedTypeTest
     testUnsignedBijection()
   {
     for (final GLUnsignedType u : GLUnsignedType.values()) {
-      Assert.assertEquals(GLInterfaceEmbedded_LWJGL_ES2_Actual
-        .unsignedTypeFromGL(GLInterfaceEmbedded_LWJGL_ES2_Actual
-          .unsignedTypeToGL(u)), u);
+      Assert.assertEquals(GLTypeConversions
+        .unsignedTypeFromGL(GLTypeConversions.unsignedTypeToGL(u)), u);
     }
   }
 
@@ -28,6 +27,6 @@ public final class LWJGL30UnsignedTypeTest
     void
     testUnsignedFailure()
   {
-    GLInterfaceEmbedded_LWJGL_ES2_Actual.unsignedTypeFromGL(-1);
+    GLTypeConversions.unsignedTypeFromGL(-1);
   }
 }

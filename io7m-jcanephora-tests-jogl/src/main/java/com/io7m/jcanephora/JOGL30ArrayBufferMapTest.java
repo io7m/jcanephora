@@ -12,6 +12,11 @@ public final class JOGL30ArrayBufferMapTest extends ArrayBufferMapContract
     return JOGL30TestLog.getLog();
   }
 
+  @Override public boolean isFullGLSupported()
+  {
+    return JOGL30TestDisplay.isFullGLSupported();
+  }
+
   @Override public FilesystemAPI makeNewFS()
   {
     return JOGL30TestFilesystem.getFS();
@@ -22,10 +27,5 @@ public final class JOGL30ArrayBufferMapTest extends ArrayBufferMapContract
       ConstraintError
   {
     return JOGL30TestDisplay.makeFreshGLFull();
-  }
-
-  @Override public boolean isFullGLSupported()
-  {
-    return JOGL30TestDisplay.isFullGLSupported();
   }
 }

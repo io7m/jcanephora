@@ -16,16 +16,16 @@ public final class LWJGL30LogicOperationTest extends LogicOpContract
     return LWJGL30TestLog.getLog();
   }
 
+  @Override public boolean isFullGLSupported()
+  {
+    return LWJGL30TestDisplay.isFullGLSupported();
+  }
+
   @Override public GLInterface makeNewGL()
     throws GLException,
       ConstraintError
   {
     return LWJGL30TestDisplay.makeFreshGLFull();
-  }
-
-  @Override public boolean isFullGLSupported()
-  {
-    return LWJGL30TestDisplay.isFullGLSupported();
   }
 
   /**
@@ -35,15 +35,15 @@ public final class LWJGL30LogicOperationTest extends LogicOpContract
   @SuppressWarnings("static-method") @Test public void testLogicBijection()
   {
     for (final LogicOperation o : LogicOperation.values()) {
-      Assert
-        .assertEquals(GLInterface_LWJGL30.logicOpFromGL(GLInterface_LWJGL30
-          .logicOpToGL(o)), o);
+      Assert.assertEquals(
+        GLTypeConversions.logicOpFromGL(GLTypeConversions.logicOpToGL(o)),
+        o);
     }
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testLogicFailure()
   {
-    GLInterface_LWJGL30.logicOpFromGL(-1);
+    GLTypeConversions.logicOpFromGL(-1);
   }
 }

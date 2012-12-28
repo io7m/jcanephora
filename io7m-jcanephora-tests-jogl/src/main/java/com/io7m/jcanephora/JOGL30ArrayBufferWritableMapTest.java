@@ -12,15 +12,15 @@ public final class JOGL30ArrayBufferWritableMapTest extends
     return JOGL30TestLog.getLog();
   }
 
+  @Override public boolean isFullGLSupported()
+  {
+    return JOGL30TestDisplay.isFullGLSupported();
+  }
+
   @Override public GLInterface makeNewGL()
     throws GLException,
       ConstraintError
   {
     return JOGL30TestDisplay.makeFreshGLFull();
-  }
-
-  @Override public boolean isFullGLSupported()
-  {
-    return JOGL30TestDisplay.isFullGLSupported();
   }
 }

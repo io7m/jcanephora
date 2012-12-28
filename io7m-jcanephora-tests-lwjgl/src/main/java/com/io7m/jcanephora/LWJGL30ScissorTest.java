@@ -1,7 +1,7 @@
 package com.io7m.jcanephora;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts_embedded.ScissorContract;
+import com.io7m.jcanephora.contracts_ES2.ScissorContract;
 import com.io7m.jlog.Log;
 
 public final class LWJGL30ScissorTest extends ScissorContract
@@ -11,10 +11,10 @@ public final class LWJGL30ScissorTest extends ScissorContract
     return LWJGL30TestLog.getLog();
   }
 
-  @Override public GLInterfaceEmbedded makeNewGL()
+  @Override public GLInterfaceES2 makeNewGL()
     throws GLException,
       ConstraintError
   {
-    return LWJGL30TestDisplay.makeFreshGLEmbedded();
+    return LWJGL30TestDisplay.makeFreshGLES2();
   }
 }

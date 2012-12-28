@@ -1,10 +1,10 @@
 /*
  * Copyright © 2012 http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -22,10 +22,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
  * Simplified and type-safe interface to the subset of OpenGL blending
- * available on embedded platforms.
+ * available on OpenGL ES2.
  */
 
-public interface GLBlendingEmbedded
+public interface GLBlendingES2
 {
   /**
    * Disable blending.
@@ -40,7 +40,7 @@ public interface GLBlendingEmbedded
   /**
    * Enable blending with the given blending functions. The function is
    * equivalent to: <code>
-   * {@link GLBlendingEmbedded#blendingEnableSeparateWithEquationSeparateEmbedded}(
+   * {@link GLBlendingES2#blendingEnableSeparateWithEquationSeparateES2}(
    *   source_factor,
    *   source_factor,
    *   destination_factor,
@@ -62,7 +62,7 @@ public interface GLBlendingEmbedded
   /**
    * Enable blending with the given blending functions. The function is
    * equivalent to: <code>
-   * {@link GLBlendingEmbedded#blendingEnableSeparateWithEquationSeparateEmbedded}(
+   * {@link GLBlendingES2#blendingEnableSeparateWithEquationSeparateES2}(
    *   source_rgb_factor,
    *   source_alpha_factor,
    *   destination_rgb_factor,
@@ -97,8 +97,8 @@ public interface GLBlendingEmbedded
    * <p>
    * The given blend functions are applied to the RGB and alpha elements of
    * the colors in question separately (as opposed to
-   * {@link GLBlendingEmbedded#blendingEnable}, which applies the given
-   * functions to the RGB and alpha components simultaneously).
+   * {@link GLBlendingES2#blendingEnable}, which applies the given functions
+   * to the RGB and alpha components simultaneously).
    * </p>
    * <p>
    * The given blend equations <code>equation_rgb</code> and
@@ -133,20 +133,20 @@ public interface GLBlendingEmbedded
    *           Iff an OpenGL error occurs.
    */
 
-  void blendingEnableSeparateWithEquationSeparateEmbedded(
+  void blendingEnableSeparateWithEquationSeparateES2(
     final @Nonnull BlendFunction source_rgb_factor,
     final @Nonnull BlendFunction source_alpha_factor,
     final @Nonnull BlendFunction destination_rgb_factor,
     final @Nonnull BlendFunction destination_alpha_factor,
-    final @Nonnull BlendEquationEmbedded equation_rgb,
-    final @Nonnull BlendEquationEmbedded equation_alpha)
+    final @Nonnull BlendEquationES2 equation_rgb,
+    final @Nonnull BlendEquationES2 equation_alpha)
     throws ConstraintError,
       GLException;
 
   /**
    * Enable blending with the given blending functions and equation. The
    * function is equivalent to: <code>
-   * {@link GLBlendingEmbedded#blendingEnableSeparateWithEquationSeparateEmbedded}(
+   * {@link GLBlendingES2#blendingEnableSeparateWithEquationSeparateES2}(
    *   source_factor,
    *   source_factor,
    *   destination_factor,
@@ -159,17 +159,17 @@ public interface GLBlendingEmbedded
    *           Iff an OpenGL error occurs.
    */
 
-  void blendingEnableWithEquationEmbedded(
+  void blendingEnableWithEquationES2(
     final @Nonnull BlendFunction source_factor,
     final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquationEmbedded equation)
+    final @Nonnull BlendEquationES2 equation)
     throws ConstraintError,
       GLException;
 
   /**
    * Enable blending with the given blending functions and equation. The
    * function is equivalent to: <code>
-   * {@link GLBlendingEmbedded#blendingEnableSeparateWithEquationSeparateEmbedded}(
+   * {@link GLBlendingES2#blendingEnableSeparateWithEquationSeparateES2}(
    *   source_factor,
    *   source_factor,
    *   destination_factor,
@@ -182,11 +182,11 @@ public interface GLBlendingEmbedded
    *           Iff an OpenGL error occurs.
    */
 
-  void blendingEnableWithEquationSeparateEmbedded(
+  void blendingEnableWithEquationSeparateES2(
     final @Nonnull BlendFunction source_factor,
     final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquationEmbedded equation_rgb,
-    final @Nonnull BlendEquationEmbedded equation_alpha)
+    final @Nonnull BlendEquationES2 equation_rgb,
+    final @Nonnull BlendEquationES2 equation_alpha)
     throws ConstraintError,
       GLException;
 

@@ -142,10 +142,10 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   /**
-   * Convert a greyscale image to an alpha texture.
+   * Convert a greyscale image to a single-channel red texture.
    */
 
-  private static @Nonnull Texture2DWritableData convertGreyToAlpha(
+  private static @Nonnull Texture2DWritableData convertGreyToR(
     final @Nonnull BufferedImage image,
     final @Nonnull Texture2DWritableData data)
     throws ConstraintError
@@ -166,34 +166,10 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   /**
-   * Convert a greyscale image to a luminance texture.
+   * Convert a greyscale image to an RG texture.
    */
 
-  private static @Nonnull Texture2DWritableData convertGreyToLuminance(
-    final @Nonnull BufferedImage image,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final int width = image.getWidth();
-    final int height = image.getHeight();
-    final SpatialCursorWritable1i cursor = data.getCursor1i();
-
-    for (int y = 0; y < height; ++y) {
-      for (int x = 0; x < width; ++x) {
-        final int argb = image.getRGB(x, y);
-        final int g = (argb >> 8) & 0xff;
-        cursor.put1i(g);
-      }
-    }
-
-    return data;
-  }
-
-  /**
-   * Convert a greyscale image to a luminance/alpha texture.
-   */
-
-  private static @Nonnull Texture2DWritableData convertGreyToLuminanceAlpha(
+  private static @Nonnull Texture2DWritableData convertGreyToRG(
     final @Nonnull BufferedImage image,
     final @Nonnull Texture2DWritableData data)
     throws ConstraintError
@@ -205,8 +181,8 @@ public final class TextureLoaderImageIO implements TextureLoader
     for (int y = 0; y < height; ++y) {
       for (int x = 0; x < width; ++x) {
         final int argb = image.getRGB(x, y);
-        final int g = (argb >> 8) & 0xff;
-        cursor.put2i(g, g);
+        final int r = (argb >> 16) & 0xff;
+        cursor.put2i(r, r);
       }
     }
 
@@ -268,7 +244,7 @@ public final class TextureLoaderImageIO implements TextureLoader
    * alpha channel.
    */
 
-  private static @Nonnull Texture2DWritableData convertRGBToAlpha8_1Generic(
+  private static @Nonnull Texture2DWritableData convertRGBToR8_1Generic(
     final @Nonnull BufferedImage image,
     final @Nonnull Texture2DWritableData data)
     throws ConstraintError
@@ -289,50 +265,17 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   /**
-   * Convert an RGB image to a luminance texture.
+   * Convert an RGB image to a two-channel RG texture.
    * 
-   * The green channel of the image is used as the source for the resulting
-   * luminance channel.
+   * The blue channel is simply discarded.
+   * 
+   * @throws ConstraintError
    */
 
-  private static @Nonnull
-    Texture2DWritableData
-    convertRGBToLuminance8_1Generic(
-      final @Nonnull BufferedImage image,
-      final @Nonnull Texture2DWritableData data)
-      throws ConstraintError
-  {
-    final int width = image.getWidth();
-    final int height = image.getHeight();
-    final SpatialCursorWritable1i cursor = data.getCursor1i();
-
-    for (int y = 0; y < height; ++y) {
-      for (int x = 0; x < width; ++x) {
-        final int argb = image.getRGB(x, y);
-        final int g = (argb >> 8) & 0xff;
-        cursor.put1i(g);
-      }
-    }
-
-    return data;
-  }
-
-  /**
-   * Convert an RGB image to a two-channel luminance/alpha texture.
-   * 
-   * The red channel of the image is used as the source for the resulting
-   * alpha channel.
-   * 
-   * The green channel of the image is used as the source for the resulting
-   * luminance channel.
-   */
-
-  private static @Nonnull
-    Texture2DWritableData
-    convertRGBToLuminance88_2Generic(
-      final @Nonnull BufferedImage image,
-      final @Nonnull Texture2DWritableData data)
-      throws ConstraintError
+  private static Texture2DWritableData convertRGBToRG88_2Generic(
+    final BufferedImage image,
+    final Texture2DWritableData data)
+    throws ConstraintError
   {
     final int width = image.getWidth();
     final int height = image.getHeight();
@@ -358,7 +301,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   private static @Nonnull Texture2DStatic load2DStaticImageInferred(
-    final @Nonnull GLInterfaceEmbedded gl,
+    final @Nonnull GLInterfaceES2 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -401,7 +344,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       case BufferedImage.TYPE_USHORT_GRAY:
       case BufferedImage.TYPE_BYTE_GRAY:
       {
-        inferred = TextureType.TEXTURE_TYPE_LUMINANCE_8_1BPP;
+        inferred = TextureType.TEXTURE_TYPE_R_8_1BPP;
         break;
       }
       case BufferedImage.TYPE_CUSTOM:
@@ -432,7 +375,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   private static @Nonnull Texture2DStatic load2DStaticImageSpecific(
-    final @Nonnull GLInterfaceEmbedded gl,
+    final @Nonnull GLInterfaceES2 gl,
     final @Nonnull Texture2DStatic texture,
     final @Nonnull BufferedImage image)
     throws ConstraintError,
@@ -507,23 +450,9 @@ public final class TextureLoaderImageIO implements TextureLoader
       case BufferedImage.TYPE_4BYTE_ABGR:
       {
         switch (type) {
-          case TEXTURE_TYPE_ALPHA_8_1BPP:
+          case TEXTURE_TYPE_R_8_1BPP:
           {
-            return TextureLoaderImageIO.convertRGBToAlpha8_1Generic(
-              image,
-              data);
-          }
-          case TEXTURE_TYPE_LUMINANCE_8_1BPP:
-          {
-            return TextureLoaderImageIO.convertRGBToLuminance8_1Generic(
-              image,
-              data);
-          }
-          case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
-          {
-            return TextureLoaderImageIO.convertRGBToLuminance88_2Generic(
-              image,
-              data);
+            return TextureLoaderImageIO.convertRGBToR8_1Generic(image, data);
           }
           case TEXTURE_TYPE_RGBA_4444_2BPP:
           case TEXTURE_TYPE_RGBA_5551_2BPP:
@@ -535,6 +464,11 @@ public final class TextureLoaderImageIO implements TextureLoader
           case TEXTURE_TYPE_RGB_888_3BPP:
           {
             return TextureLoaderImageIO.convertABGRToRGBGeneric(image, data);
+          }
+          case TEXTURE_TYPE_RG_88_2BPP:
+          {
+            return TextureLoaderImageIO
+              .convertRGBToRG88_2Generic(image, data);
           }
         }
 
@@ -553,23 +487,14 @@ public final class TextureLoaderImageIO implements TextureLoader
       case BufferedImage.TYPE_3BYTE_BGR:
       {
         switch (type) {
-          case TEXTURE_TYPE_ALPHA_8_1BPP:
+          case TEXTURE_TYPE_R_8_1BPP:
           {
-            return TextureLoaderImageIO.convertRGBToAlpha8_1Generic(
-              image,
-              data);
+            return TextureLoaderImageIO.convertRGBToR8_1Generic(image, data);
           }
-          case TEXTURE_TYPE_LUMINANCE_8_1BPP:
+          case TEXTURE_TYPE_RG_88_2BPP:
           {
-            return TextureLoaderImageIO.convertRGBToLuminance8_1Generic(
-              image,
-              data);
-          }
-          case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
-          {
-            return TextureLoaderImageIO.convertRGBToLuminance88_2Generic(
-              image,
-              data);
+            return TextureLoaderImageIO
+              .convertRGBToRG88_2Generic(image, data);
           }
           case TEXTURE_TYPE_RGBA_4444_2BPP:
           case TEXTURE_TYPE_RGBA_5551_2BPP:
@@ -596,19 +521,13 @@ public final class TextureLoaderImageIO implements TextureLoader
       case BufferedImage.TYPE_USHORT_GRAY:
       {
         switch (type) {
-          case TEXTURE_TYPE_ALPHA_8_1BPP:
+          case TEXTURE_TYPE_R_8_1BPP:
           {
-            return TextureLoaderImageIO.convertGreyToAlpha(image, data);
+            return TextureLoaderImageIO.convertGreyToR(image, data);
           }
-          case TEXTURE_TYPE_LUMINANCE_8_1BPP:
+          case TEXTURE_TYPE_RG_88_2BPP:
           {
-            return TextureLoaderImageIO.convertGreyToLuminance(image, data);
-          }
-          case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
-          {
-            return TextureLoaderImageIO.convertGreyToLuminanceAlpha(
-              image,
-              data);
+            return TextureLoaderImageIO.convertGreyToRG(image, data);
           }
           case TEXTURE_TYPE_RGBA_4444_2BPP:
           case TEXTURE_TYPE_RGBA_5551_2BPP:
@@ -639,7 +558,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   @Override public @Nonnull Texture2DStatic load2DStaticInferred(
-    final @Nonnull GLInterfaceEmbedded gl,
+    final @Nonnull GLInterfaceES2 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -670,7 +589,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   @Override public @Nonnull Texture2DStatic load2DStaticSpecific(
-    final @Nonnull GLInterfaceEmbedded gl,
+    final @Nonnull GLInterfaceES2 gl,
     final @Nonnull TextureType type,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,

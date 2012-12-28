@@ -1,10 +1,10 @@
 /*
  * Copyright © 2012 http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -18,21 +18,20 @@ package com.io7m.jcanephora;
 
 /**
  * A simplified and type-safe interface to modern programmable-pipeline GPUs
- * on "embedded" systems.
+ * on OpenGL ES2 systems.
  * 
- * The <code>GLInterfaceEmbedded</code> interface specifies a kind of
+ * The <code>GLInterfaceES2</code> interface specifies a kind of
  * minimum-compatibility level: Programs that are written against the
- * <code>GLInterfaceEmbedded</code> interface have a reasonable assurance that
- * they will work on implementations that support the common subset of OpenGL
- * 3.0 (with none of the deprecated features - the "core" profile) and OpenGL
- * ES2.
+ * <code>GLInterfaceES2</code> interface have a reasonable assurance that they
+ * will work on implementations that support the common subset of OpenGL 3.0
+ * (with none of the deprecated features - the "core" profile) and OpenGL ES2.
  * 
  * This assurance obviously does not extend to shading language programs.
  */
 
-public interface GLInterfaceEmbedded extends
+public interface GLInterfaceES2 extends
   GLArrayBuffers,
-  GLBlendingEmbedded,
+  GLBlendingES2,
   GLColorBuffer,
   GLCull,
   GLDepthBuffer,

@@ -1,10 +1,10 @@
 /*
  * Copyright © 2012 http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -117,8 +117,7 @@ public final class Texture2DWritableData
     throws ConstraintError
   {
     switch (this.texture.getType()) {
-      case TEXTURE_TYPE_ALPHA_8_1BPP:
-      case TEXTURE_TYPE_LUMINANCE_8_1BPP:
+      case TEXTURE_TYPE_R_8_1BPP:
       {
         return new ByteBufferTextureCursorWritable1i_1_8(
           this.target_data,
@@ -128,7 +127,7 @@ public final class Texture2DWritableData
       case TEXTURE_TYPE_RGBA_4444_2BPP:
       case TEXTURE_TYPE_RGBA_5551_2BPP:
       case TEXTURE_TYPE_RGBA_8888_4BPP:
-      case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
+      case TEXTURE_TYPE_RG_88_2BPP:
       case TEXTURE_TYPE_RGB_565_2BPP:
       case TEXTURE_TYPE_RGB_888_3BPP:
       {
@@ -154,7 +153,7 @@ public final class Texture2DWritableData
     throws ConstraintError
   {
     switch (this.texture.getType()) {
-      case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
+      case TEXTURE_TYPE_RG_88_2BPP:
       {
         return new ByteBufferTextureCursorWritable2i_2_88(
           this.target_data,
@@ -164,8 +163,7 @@ public final class Texture2DWritableData
       case TEXTURE_TYPE_RGBA_5551_2BPP:
       case TEXTURE_TYPE_RGBA_4444_2BPP:
       case TEXTURE_TYPE_RGBA_8888_4BPP:
-      case TEXTURE_TYPE_ALPHA_8_1BPP:
-      case TEXTURE_TYPE_LUMINANCE_8_1BPP:
+      case TEXTURE_TYPE_R_8_1BPP:
       case TEXTURE_TYPE_RGB_565_2BPP:
       case TEXTURE_TYPE_RGB_888_3BPP:
       {
@@ -195,9 +193,8 @@ public final class Texture2DWritableData
       case TEXTURE_TYPE_RGBA_4444_2BPP:
       case TEXTURE_TYPE_RGBA_5551_2BPP:
       case TEXTURE_TYPE_RGBA_8888_4BPP:
-      case TEXTURE_TYPE_ALPHA_8_1BPP:
-      case TEXTURE_TYPE_LUMINANCE_8_1BPP:
-      case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
+      case TEXTURE_TYPE_R_8_1BPP:
+      case TEXTURE_TYPE_RG_88_2BPP:
       {
         Constraints.constrainArbitrary(
           false,
@@ -257,9 +254,8 @@ public final class Texture2DWritableData
           this.source_area,
           this.source_area);
       }
-      case TEXTURE_TYPE_ALPHA_8_1BPP:
-      case TEXTURE_TYPE_LUMINANCE_8_1BPP:
-      case TEXTURE_TYPE_LUMINANCE_ALPHA_88_2BPP:
+      case TEXTURE_TYPE_R_8_1BPP:
+      case TEXTURE_TYPE_RG_88_2BPP:
       case TEXTURE_TYPE_RGB_565_2BPP:
       case TEXTURE_TYPE_RGB_888_3BPP:
       {

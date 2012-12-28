@@ -12,15 +12,15 @@ public final class LWJGL30IndexBufferWritableMap extends
     return LWJGL30TestLog.getLog();
   }
 
+  @Override public boolean isFullGLSupported()
+  {
+    return LWJGL30TestDisplay.isFullGLSupported();
+  }
+
   @Override public GLInterface makeNewGL()
     throws GLException,
       ConstraintError
   {
     return LWJGL30TestDisplay.makeFreshGLFull();
-  }
-
-  @Override public boolean isFullGLSupported()
-  {
-    return LWJGL30TestDisplay.isFullGLSupported();
   }
 }
