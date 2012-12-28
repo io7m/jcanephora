@@ -11,15 +11,15 @@ public final class JOGL30BlendFullTest extends BlendContract
     return JOGL30TestLog.getLog();
   }
 
+  @Override public boolean isFullGLSupported()
+  {
+    return JOGL30TestDisplay.isFullGLSupported();
+  }
+
   @Override public GLInterface makeNewGL()
     throws GLException,
       ConstraintError
   {
     return JOGL30TestDisplay.makeFreshGLFull();
-  }
-
-  @Override public boolean isFullGLSupported()
-  {
-    return JOGL30TestDisplay.isFullGLSupported();
   }
 }

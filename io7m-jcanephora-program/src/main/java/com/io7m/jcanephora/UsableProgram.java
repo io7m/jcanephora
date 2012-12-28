@@ -1,10 +1,10 @@
 /*
  * Copyright © 2012 http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -17,27 +17,46 @@
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
-import javax.annotation.concurrent.NotThreadSafe;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jlog.Log;
 
 /**
- * A class implementing GLInterface that uses only the features of OpenGL ES2,
- * using LWJGL as the backend.
- * 
- * As OpenGL ES2 is essentially a subset of 2.1, this class works on OpenGL
- * 2.1 implementations.
+ * A usable shading language program.
  */
 
-@NotThreadSafe public final class GLInterfaceEmbedded_LWJGL_ES2 extends
-  GLInterfaceEmbedded_LWJGL_ES2_Actual
+public interface UsableProgram
 {
-  public GLInterfaceEmbedded_LWJGL_ES2(
-    final @Nonnull Log log)
+  /**
+   * Make the program active.
+   * 
+   * @param gl
+   *          An OpenGL interface.
+   * @throws ConstraintError
+   *           Iff <code>gl == null</code> or one of the constraints for
+   *           {@link GLShaders#programActivate(ProgramReference)} does not
+   *           hold.
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void activate(
+    final @Nonnull GLShaders gl)
     throws ConstraintError,
-      GLException
-  {
-    super(log);
-  }
+      GLException;
+
+  /**
+   * Deactivate the current program. If the current program is not active, the
+   * function does nothing.
+   * 
+   * @param gl
+   * @throws ConstraintError
+   *           Iff <code>gl == null</code>.
+   * @throws GLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void deactivate(
+    final @Nonnull GLShaders gl)
+    throws ConstraintError,
+      GLException;
 }

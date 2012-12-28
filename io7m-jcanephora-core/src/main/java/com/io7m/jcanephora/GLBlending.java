@@ -1,10 +1,10 @@
 /*
  * Copyright © 2012 http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -24,10 +24,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * Simplified and type-safe interface to the full set of OpenGL blending
  * features.
  * 
- * @see GLBlendingEmbedded
+ * @see GLBlendingES2
  */
 
-public interface GLBlending extends GLBlendingEmbedded
+public interface GLBlending extends GLBlendingES2
 {
   /**
    * Enable blending with the given blending functions. The function is
