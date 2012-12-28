@@ -5,8 +5,12 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 import junit.framework.Assert;
 
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -60,6 +64,29 @@ public abstract class ArrayBufferContract implements
     }
 
     gl.programLink(pr);
+    return pr;
+  }
+
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
+  }
+
+  private @Nonnull ProgramReference makeStandardPositionProgram(
+    final @Nonnull GLInterfaceES2 gl,
+    final @Nonnull FilesystemAPI fs)
+    throws ConstraintError,
+      GLException,
+      FilesystemError,
+      GLCompileException,
+      IOException
+  {
+    final PathVirtual vss =
+      new PathVirtual(this.getShaderPath() + "/position.v");
+    final PathVirtual fss =
+      new PathVirtual(this.getShaderPath() + "/simple.f");
+    final ProgramReference pr =
+      ArrayBufferContract.makeProgram(gl, fs, vss, fss);
     return pr;
   }
 
@@ -281,9 +308,8 @@ public abstract class ArrayBufferContract implements
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final ProgramReference pr =
-      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
-        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
     gl.programGetAttributes(pr, attributes);
@@ -325,9 +351,8 @@ public abstract class ArrayBufferContract implements
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final ProgramReference pr =
-      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
-        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
     gl.programGetAttributes(pr, attributes);
@@ -376,9 +401,8 @@ public abstract class ArrayBufferContract implements
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final ProgramReference pr =
-      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
-        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
     gl.programGetAttributes(pr, attributes);
@@ -535,9 +559,8 @@ public abstract class ArrayBufferContract implements
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final ProgramReference pr =
-      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
-        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
     gl.programGetAttributes(pr, attributes);
@@ -581,9 +604,8 @@ public abstract class ArrayBufferContract implements
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final ProgramReference pr =
-      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
-        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
     gl.programGetAttributes(pr, attributes);
@@ -625,9 +647,8 @@ public abstract class ArrayBufferContract implements
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final ProgramReference pr =
-      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
-        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
     gl.programGetAttributes(pr, attributes);
@@ -669,9 +690,8 @@ public abstract class ArrayBufferContract implements
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final ProgramReference pr =
-      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
-        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
     gl.programGetAttributes(pr, attributes);
@@ -711,9 +731,8 @@ public abstract class ArrayBufferContract implements
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final ProgramReference pr =
-      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
-        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
     gl.programGetAttributes(pr, attributes);
@@ -755,9 +774,8 @@ public abstract class ArrayBufferContract implements
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final ProgramReference pr =
-      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
-        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
     gl.programGetAttributes(pr, attributes);
@@ -801,9 +819,8 @@ public abstract class ArrayBufferContract implements
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final ProgramReference pr =
-      ArrayBufferContract.makeProgram(gl, fs, new PathVirtual(
-        "/com/io7m/jcanephora/shaders/position.v"), null);
+    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
     gl.programGetAttributes(pr, attributes);

@@ -3,6 +3,7 @@ package com.io7m.jcanephora.contracts_full;
 import junit.framework.Assert;
 
 import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -13,6 +14,11 @@ import com.io7m.jcanephora.PolygonMode;
 
 public abstract class RasterizationContract implements GLTestContract
 {
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
+  }
+
   /**
    * All aliased line widths in the range [min .. max] inclusive are valid.
    */
@@ -21,7 +27,7 @@ public abstract class RasterizationContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     int min = 0;
@@ -51,7 +57,7 @@ public abstract class RasterizationContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     int max = 99999;
@@ -77,7 +83,7 @@ public abstract class RasterizationContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     int min = 0;
@@ -101,7 +107,7 @@ public abstract class RasterizationContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     int min = 0;
@@ -131,7 +137,7 @@ public abstract class RasterizationContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     int max = 99999;
@@ -157,7 +163,7 @@ public abstract class RasterizationContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     int min = 0;
@@ -184,7 +190,7 @@ public abstract class RasterizationContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     Assert.assertTrue(gl.pointGetMinimumWidth() >= 0);
@@ -202,7 +208,7 @@ public abstract class RasterizationContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     gl.polygonSetMode(
@@ -256,7 +262,7 @@ public abstract class RasterizationContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     gl.polygonSmoothingDisable();
@@ -273,7 +279,7 @@ public abstract class RasterizationContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     gl.pointProgramSizeControlDisable();

@@ -8,13 +8,18 @@ public final class JOGL30BlendTest extends BlendingES2Contract
 {
   @Override public Log getLog()
   {
-    return JOGL30TestLog.getLog();
+    return JOGLTestLog.getLog();
+  }
+
+  @Override public boolean isGLSupported()
+  {
+    return JOGLTestDisplay.isOpenGL3Supported();
   }
 
   @Override public GLInterfaceES2 makeNewGL()
     throws GLException,
       ConstraintError
   {
-    return JOGL30TestDisplay.makeFreshGLEmbedded();
+    return JOGLTestDisplay.makeES2WithOpenGL3();
   }
 }

@@ -43,10 +43,10 @@ import com.io7m.jtensors.VectorReadable4F;
  * OpenGL 3.0, using JOGL as the backend.
  * 
  * A {@link javax.media.opengl.GLContext} is used to construct the interface,
- * and therefore the <code>GLInterfaceJOGL30</code> interface has the same
+ * and therefore the <code>GLInterface_JOGL30</code> interface has the same
  * thread safe/unsafe behaviour.
  * 
- * The <code>GLInterfaceJOGL30</code> implementation does not call
+ * The <code>GLInterface_JOGL30</code> implementation does not call
  * {@link javax.media.opengl.GLContext#makeCurrent()} or
  * {@link javax.media.opengl.GLContext#release()}, so these calls must be made
  * by the programmer when necessary (typically, programs call
@@ -81,6 +81,9 @@ import com.io7m.jtensors.VectorReadable4F;
       "OpenGL implementation version");
 
     final GL3 g = this.context.getGL().getGL3();
+
+    this.state.texture_units =
+      GLES2Functions.textureGetUnitsActual(g, this.state, log);
 
     {
       final IntBuffer cache = this.state.getIntegerCache();

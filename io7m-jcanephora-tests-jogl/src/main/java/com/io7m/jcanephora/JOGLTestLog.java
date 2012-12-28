@@ -4,7 +4,7 @@ import java.util.Properties;
 
 import com.io7m.jlog.Log;
 
-final class JOGL30TestLog
+final class JOGLTestLog
 {
   private static final Log log;
 
@@ -15,6 +15,6 @@ final class JOGL30TestLog
 
   static Log getLog()
   {
-    return JOGL30TestLog.log;
+    return JOGLTestLog.log;
   }
 }

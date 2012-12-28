@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Assert;
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -21,6 +23,11 @@ public abstract class TextureLoaderContract implements
   TextureLoaderTestContract,
   FilesystemTestContract
 {
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
+  }
+
   /**
    * Inferring a RED texture from a monochrome image works.
    * 

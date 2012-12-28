@@ -6,6 +6,7 @@ import java.nio.ShortBuffer;
 import junit.framework.Assert;
 
 import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -23,6 +24,11 @@ public abstract class ArrayBufferMapContract implements
   GLTestContract,
   FilesystemTestContract
 {
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
+  }
+
   /**
    * Mapping a buffer works.
    */
@@ -31,7 +37,6 @@ public abstract class ArrayBufferMapContract implements
     throws ConstraintError,
       GLException
   {
-    Assume.assumeTrue(this.isFullGLSupported());
     final GLInterface gl = this.makeNewGL();
 
     final ArrayBufferDescriptor d =
@@ -80,7 +85,7 @@ public abstract class ArrayBufferMapContract implements
       throws ConstraintError,
         GLException
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     final ArrayBufferDescriptor d =
@@ -116,7 +121,7 @@ public abstract class ArrayBufferMapContract implements
       throws ConstraintError,
         GLException
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     final ArrayBufferDescriptor d =
@@ -142,7 +147,7 @@ public abstract class ArrayBufferMapContract implements
       throws ConstraintError,
         GLException
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     final ArrayBufferDescriptor d =
@@ -182,7 +187,7 @@ public abstract class ArrayBufferMapContract implements
       throws ConstraintError,
         GLException
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     final ArrayBufferDescriptor d =
@@ -205,7 +210,7 @@ public abstract class ArrayBufferMapContract implements
       throws ConstraintError,
         GLException
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     final ArrayBufferDescriptor d =
@@ -242,7 +247,7 @@ public abstract class ArrayBufferMapContract implements
       throws ConstraintError,
         GLException
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     final ArrayBufferDescriptor d =
@@ -268,7 +273,7 @@ public abstract class ArrayBufferMapContract implements
       throws ConstraintError,
         GLException
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     final ArrayBufferDescriptor d =
@@ -291,7 +296,7 @@ public abstract class ArrayBufferMapContract implements
       throws ConstraintError,
         GLException
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     final ArrayBufferDescriptor d =
@@ -318,7 +323,7 @@ public abstract class ArrayBufferMapContract implements
       throws ConstraintError,
         GLException
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     final ArrayBufferDescriptor d =

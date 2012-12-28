@@ -38,14 +38,14 @@ import com.io7m.jtensors.VectorReadable3F;
 import com.io7m.jtensors.VectorReadable4F;
 
 /**
- * A class implementing <code>GLInterfaceES2</code> that uses only the
- * features of OpenGL ES2, using JOGL as the backend.
+ * A class implementing <code>GLInterfaceES2</code> that exposes only the
+ * features of OpenGL ES2, using an OpenGL 3.0 context on JOGL.
  * 
  * A {@link javax.media.opengl.GLContext} is used to construct the interface,
- * and therefore the <code>GLInterfaceJOGL30</code> interface has the same
+ * and therefore the <code>GLInterfaceES2_JOGL30</code> interface has the same
  * thread safe/unsafe behaviour.
  * 
- * The <code>GLInterfaceES2</code> implementation does not call
+ * The <code>GLInterfaceES2_JOGL30</code> implementation does not call
  * {@link javax.media.opengl.GLContext#makeCurrent()} or
  * {@link javax.media.opengl.GLContext#release()}, so these calls must be made
  * by the programmer when necessary (typically, programs call
@@ -55,13 +55,13 @@ import com.io7m.jtensors.VectorReadable4F;
  * {@link javax.media.opengl.GLAutoDrawable} interface.
  */
 
-@NotThreadSafe public class GLInterfaceES2_JOGL_ES2 implements GLInterfaceES2
+@NotThreadSafe public class GLInterfaceES2_JOGL30 implements GLInterfaceES2
 {
   private final @Nonnull Log          log;
   private final @Nonnull GLContext    context;
   private final @Nonnull GLStateCache state;
 
-  public GLInterfaceES2_JOGL_ES2(
+  public GLInterfaceES2_JOGL30(
     final @Nonnull GLContext context,
     final @Nonnull Log log)
     throws ConstraintError,

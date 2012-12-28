@@ -1,6 +1,8 @@
 package com.io7m.jcanephora.contracts_ES2;
 
 import org.junit.Assert;
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -16,6 +18,11 @@ import com.io7m.jcanephora.TextureWrap;
 
 public abstract class TexturesContract implements GLES2TestContract
 {
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
+  }
+
   /**
    * OpenGL implementations support a minimum of two texture units.
    * 

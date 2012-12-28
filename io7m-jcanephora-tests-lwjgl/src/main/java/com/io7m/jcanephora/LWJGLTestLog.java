@@ -4,7 +4,7 @@ import java.util.Properties;
 
 import com.io7m.jlog.Log;
 
-final class LWJGL30TestLog
+final class LWJGLTestLog
 {
   private static final Log log;
 
@@ -15,6 +15,6 @@ final class LWJGL30TestLog
 
   static Log getLog()
   {
-    return LWJGL30TestLog.log;
+    return LWJGLTestLog.log;
   }
 }

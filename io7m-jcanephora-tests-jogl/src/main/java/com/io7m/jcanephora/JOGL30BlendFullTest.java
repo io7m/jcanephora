@@ -8,18 +8,18 @@ public final class JOGL30BlendFullTest extends BlendContract
 {
   @Override public Log getLog()
   {
-    return JOGL30TestLog.getLog();
+    return JOGLTestLog.getLog();
   }
 
-  @Override public boolean isFullGLSupported()
+  @Override public boolean isGLSupported()
   {
-    return JOGL30TestDisplay.isFullGLSupported();
+    return JOGLTestDisplay.isOpenGL3Supported();
   }
 
   @Override public GLInterface makeNewGL()
     throws GLException,
       ConstraintError
   {
-    return JOGL30TestDisplay.makeFreshGLFull();
+    return JOGLTestDisplay.makeFullWithOpenGL3();
   }
 }

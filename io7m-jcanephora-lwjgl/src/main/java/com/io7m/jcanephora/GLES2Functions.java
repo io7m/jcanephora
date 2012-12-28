@@ -1695,7 +1695,6 @@ final class GLES2Functions
   }
 
   static void programPutUniformTextureUnit(
-
     final @Nonnull GLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull TextureUnit unit)
@@ -1703,6 +1702,7 @@ final class GLES2Functions
       GLException
   {
     Constraints.constrainNotNull(uniform, "Uniform");
+    Constraints.constrainNotNull(unit, "Texture unit");
     Constraints.constrainArbitrary(
       uniform.getType() == Type.TYPE_SAMPLER_2D,
       "Uniform type is sampler_2d");

@@ -3,6 +3,7 @@ package com.io7m.jcanephora.contracts_full;
 import junit.framework.Assert;
 
 import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -22,6 +23,11 @@ import com.io7m.jcanephora.UsageHint;
 
 public abstract class IndexBufferMapContract implements GLTestContract
 {
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
+  }
+
   /**
    * Mapping a deleted buffer read-only fails.
    * 
@@ -35,7 +41,7 @@ public abstract class IndexBufferMapContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     final IndexBuffer ib =
@@ -58,7 +64,7 @@ public abstract class IndexBufferMapContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     final IndexBuffer ib =
@@ -77,7 +83,7 @@ public abstract class IndexBufferMapContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     final ArrayBufferDescriptor d =
@@ -122,7 +128,7 @@ public abstract class IndexBufferMapContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     final ArrayBufferDescriptor d =
@@ -167,7 +173,7 @@ public abstract class IndexBufferMapContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     final ArrayBufferDescriptor d =
@@ -216,7 +222,7 @@ public abstract class IndexBufferMapContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    Assume.assumeTrue(this.isFullGLSupported());
+
     final GLInterface gl = this.makeNewGL();
 
     final IndexBuffer ib =

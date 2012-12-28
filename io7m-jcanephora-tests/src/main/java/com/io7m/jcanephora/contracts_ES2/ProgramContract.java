@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import junit.framework.Assert;
 
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -36,6 +38,11 @@ public abstract class ProgramContract implements
   GLES2TestContract,
   FilesystemTestContract
 {
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
+  }
+
   private final Program makeLargeShader(
     final GLInterfaceES2 gl,
     final FilesystemAPI fs)
@@ -43,10 +50,10 @@ public abstract class ProgramContract implements
       GLCompileException
   {
     final Program p = new Program("program", this.getLog());
-    p
-      .addVertexShader(new PathVirtual("/com/io7m/jcanephora/shaders/large.v"));
-    p.addFragmentShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/texture.f"));
+
+    final PathVirtual path = this.getShaderPath();
+    p.addVertexShader(new PathVirtual(path + "/large.v"));
+    p.addFragmentShader(new PathVirtual(path + "/texture.f"));
     p.compile(fs, gl);
 
     return p;
@@ -76,7 +83,7 @@ public abstract class ProgramContract implements
     final FragmentShader fr =
       gl.fragmentShaderCompile(
         "frag",
-        fs.openFile("/com/io7m/jcanephora/shaders/simple.f"));
+        fs.openFile(this.getShaderPath() + "/simple.f"));
 
     fr.resourceDelete(gl);
     fr.resourceDelete(gl);
@@ -95,9 +102,8 @@ public abstract class ProgramContract implements
 
     final GLInterfaceES2 gl = this.makeNewGL();
     final Program p = new Program("program", this.getLog());
-    p
-      .addVertexShader(new PathVirtual(
-        "/com/io7m/jcanephora/shaders/simple.v"));
+    p.addVertexShader(new PathVirtual(this.getShaderPath() + "/simple.v"));
+    p.addFragmentShader(new PathVirtual(this.getShaderPath() + "/simple.f"));
     p.compile(fs, gl);
 
     Assert.assertFalse(p.isActive(gl));
@@ -155,13 +161,14 @@ public abstract class ProgramContract implements
     final FilesystemAPI fs = this.makeNewFS();
 
     final Program p = new Program("program", this.getLog());
-    p.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/attribute0.v"));
+    final PathVirtual path = this.getShaderPath();
+
+    p.addVertexShader(new PathVirtual(path + "/attribute0.v"));
+    p.addFragmentShader(new PathVirtual(path + "/simple.f"));
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
 
-    p.addFragmentShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/simple.f"));
+    p.addFragmentShader(new PathVirtual(path + "/func.f"));
     Assert.assertTrue(p.requiresCompilation(fs, gl));
   }
 
@@ -226,13 +233,14 @@ public abstract class ProgramContract implements
     final FilesystemAPI fs = this.makeNewFS();
 
     final Program p = new Program("program", this.getLog());
-    p.addFragmentShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/simple.f"));
+    final PathVirtual path = this.getShaderPath();
+
+    p.addVertexShader(new PathVirtual(path + "/simple.v"));
+    p.addFragmentShader(new PathVirtual(path + "/simple.f"));
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
 
-    p.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/attribute0.v"));
+    p.addVertexShader(new PathVirtual(path + "/func.v"));
     Assert.assertTrue(p.requiresCompilation(fs, gl));
   }
 
@@ -258,8 +266,10 @@ public abstract class ProgramContract implements
     final FilesystemAPI fs = this.makeNewFS();
 
     final Program p = new Program("program", this.getLog());
-    p.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/attribute0.v"));
+    final PathVirtual path = this.getShaderPath();
+
+    p.addVertexShader(new PathVirtual(path + "/attribute0.v"));
+    p.addFragmentShader(new PathVirtual(path + "/simple.f"));
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
 
@@ -295,23 +305,19 @@ public abstract class ProgramContract implements
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
+    final PathVirtual path = this.getShaderPath();
+
     final Program p = new Program("program", this.getLog());
-    p
-      .addVertexShader(new PathVirtual(
-        "/com/io7m/jcanephora/shaders/simple.v"));
-    p.addFragmentShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/simple.f"));
+    p.addVertexShader(new PathVirtual(path + "/simple.v"));
+    p.addFragmentShader(new PathVirtual(path + "/simple.f"));
     p.compile(fs, gl);
     p.activate(gl);
     p.deactivate(gl);
     p.delete(gl);
 
     final Program q = new Program("program", this.getLog());
-    q
-      .addVertexShader(new PathVirtual(
-        "/com/io7m/jcanephora/shaders/simple.v"));
-    q.addFragmentShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/simple.f"));
+    q.addVertexShader(new PathVirtual(path + "/simple.v"));
+    q.addFragmentShader(new PathVirtual(path + "/simple.f"));
     q.compile(fs, gl);
     q.activate(gl);
     q.deactivate(gl);
@@ -327,9 +333,13 @@ public abstract class ProgramContract implements
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
+    final PathVirtual path = this.getShaderPath();
     final Program p = new Program("program", this.getLog());
-    p.addFragmentShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/simple.f"));
+
+    p.addVertexShader(new PathVirtual(path + "/simple.v"));
+    p.addFragmentShader(new PathVirtual(path + "/simple.f"));
+    p.compile(fs, gl);
+    p.addFragmentShader(new PathVirtual(path + "/func.f"));
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
     p.delete(gl);
@@ -378,9 +388,9 @@ public abstract class ProgramContract implements
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
+    final PathVirtual path = this.getShaderPath();
     final Program p = new Program("program", this.getLog());
-    p.addFragmentShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/invalid.f"));
+    p.addFragmentShader(new PathVirtual(path + "/invalid.f"));
     p.compile(fs, gl);
   }
 
@@ -402,10 +412,10 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
+    final PathVirtual path = this.getShaderPath();
 
     final Program p = new Program("program", this.getLog());
-    p.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/invalid.v"));
+    p.addVertexShader(new PathVirtual(path + "/invalid.v"));
     p.compile(fs, gl);
   }
 
@@ -445,12 +455,10 @@ public abstract class ProgramContract implements
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
+    final PathVirtual path = this.getShaderPath();
     final Program p = new Program("program", this.getLog());
-    p
-      .addVertexShader(new PathVirtual(
-        "/com/io7m/jcanephora/shaders/simple.v"));
-    p.addFragmentShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/simple.f"));
+    p.addVertexShader(new PathVirtual(path + "/simple.v"));
+    p.addFragmentShader(new PathVirtual(path + "/simple.f"));
 
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
@@ -466,11 +474,13 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
+    final PathVirtual path = this.getShaderPath();
 
     final Program p = new Program("program", this.getLog());
-    p
-      .addVertexShader(new PathVirtual(
-        "/com/io7m/jcanephora/shaders/simple.v"));
+    p.addVertexShader(new PathVirtual(path + "/simple.v"));
+    p.addFragmentShader(new PathVirtual(path + "/simple.f"));
+    p.compile(fs, gl);
+    p.addVertexShader(new PathVirtual(path + "/func.v"));
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
     p.delete(gl);
@@ -556,12 +566,12 @@ public abstract class ProgramContract implements
       GLCompileException
   {
     final FilesystemAPI fs = this.makeNewFS();
-
     final GLInterfaceES2 gl = this.makeNewGL();
+    final PathVirtual path = this.getShaderPath();
+
     final Program p = new Program("program", this.getLog());
-    p
-      .addVertexShader(new PathVirtual(
-        "/com/io7m/jcanephora/shaders/simple.v"));
+    p.addVertexShader(new PathVirtual(path + "/simple.v"));
+    p.addFragmentShader(new PathVirtual(path + "/simple.f"));
     p.compile(fs, gl);
     p.deactivate(gl);
   }
@@ -623,14 +633,15 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
+    final PathVirtual path = this.getShaderPath();
 
     final Program p = new Program("program", this.getLog());
-    p.addFragmentShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/simple.f"));
+    p.addVertexShader(new PathVirtual(path + "/simple.v"));
+    p.addFragmentShader(new PathVirtual(path + "/simple.f"));
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
 
-    fs.touch("/com/io7m/jcanephora/shaders/simple.f", 0);
+    fs.touch(path + "/simple.f", 0);
     Assert.assertTrue(p.requiresCompilation(fs, gl));
   }
 
@@ -650,21 +661,17 @@ public abstract class ProgramContract implements
         IOException
   {
     final FilesystemAPI fs = this.makeNewFS();
-
     final GLInterfaceES2 gl = this.makeNewGL();
+    final PathVirtual path = this.getShaderPath();
 
     ProgramReference pr = null;
 
     try {
       pr = gl.programCreate("program");
       final VertexShader v =
-        gl.vertexShaderCompile(
-          "vertex",
-          fs.openFile("/com/io7m/jcanephora/shaders/varying0.v"));
+        gl.vertexShaderCompile("vertex", fs.openFile(path + "/varying0.v"));
       final FragmentShader f =
-        gl.fragmentShaderCompile(
-          "frag",
-          fs.openFile("/com/io7m/jcanephora/shaders/varying1.f"));
+        gl.fragmentShaderCompile("frag", fs.openFile(path + "/varying1.f"));
       gl.fragmentShaderAttach(pr, f);
       gl.vertexShaderAttach(pr, v);
     } catch (final Exception e) {
@@ -746,12 +753,11 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
+    final PathVirtual path = this.getShaderPath();
 
     final ProgramReference pr = gl.programCreate("program");
     final FragmentShader fr =
-      gl.fragmentShaderCompile(
-        "frag",
-        fs.openFile("/com/io7m/jcanephora/shaders/simple.f"));
+      gl.fragmentShaderCompile("frag", fs.openFile(path + "/simple.f"));
 
     fr.resourceDelete(gl);
     gl.fragmentShaderAttach(pr, fr);
@@ -777,12 +783,11 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
+    final PathVirtual path = this.getShaderPath();
 
     final ProgramReference pr = gl.programCreate("program");
     final FragmentShader fr =
-      gl.fragmentShaderCompile(
-        "frag",
-        fs.openFile("/com/io7m/jcanephora/shaders/simple.f"));
+      gl.fragmentShaderCompile("frag", fs.openFile(path + "/simple.f"));
 
     pr.resourceDelete(gl);
     gl.fragmentShaderAttach(pr, fr);
@@ -808,12 +813,11 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
+    final PathVirtual path = this.getShaderPath();
 
     final ProgramReference pr = gl.programCreate("program");
     final VertexShader vr =
-      gl.vertexShaderCompile(
-        "vertex",
-        fs.openFile("/com/io7m/jcanephora/shaders/simple.v"));
+      gl.vertexShaderCompile("vertex", fs.openFile(path + "/simple.v"));
 
     vr.resourceDelete(gl);
     gl.vertexShaderAttach(pr, vr);
@@ -839,12 +843,11 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
+    final PathVirtual path = this.getShaderPath();
 
     final ProgramReference pr = gl.programCreate("program");
     final VertexShader vr =
-      gl.vertexShaderCompile(
-        "vertex",
-        fs.openFile("/com/io7m/jcanephora/shaders/simple.v"));
+      gl.vertexShaderCompile("vertex", fs.openFile(path + "/simple.v"));
 
     pr.resourceDelete(gl);
     gl.vertexShaderAttach(pr, vr);
@@ -929,10 +932,11 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
+    final PathVirtual path = this.getShaderPath();
 
     final Program p = new Program("program", this.getLog());
-    p.addFragmentShader(new PathVirtual(
-      "/com/io7m/jcanephora/shaders/uniform0.f"));
+    p.addVertexShader(new PathVirtual(path + "/simple.v"));
+    p.addFragmentShader(new PathVirtual(path + "/uniform0.f"));
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
 
@@ -1306,15 +1310,15 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
+    final PathVirtual path = this.getShaderPath();
 
     final Program p = new Program("program", this.getLog());
-    p
-      .addVertexShader(new PathVirtual(
-        "/com/io7m/jcanephora/shaders/simple.v"));
+    p.addVertexShader(new PathVirtual(path + "/simple.v"));
+    p.addFragmentShader(new PathVirtual(path + "/simple.f"));
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
 
-    fs.touch("/com/io7m/jcanephora/shaders/simple.v", 0);
+    fs.touch(path + "/simple.v", 0);
     Assert.assertTrue(p.requiresCompilation(fs, gl));
   }
 
@@ -1338,11 +1342,10 @@ public abstract class ProgramContract implements
   {
     final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
+    final PathVirtual path = this.getShaderPath();
 
     final VertexShader vr =
-      gl.vertexShaderCompile(
-        "vertex",
-        fs.openFile("/com/io7m/jcanephora/shaders/simple.v"));
+      gl.vertexShaderCompile("vertex", fs.openFile(path + "/simple.v"));
 
     vr.resourceDelete(gl);
     vr.resourceDelete(gl);

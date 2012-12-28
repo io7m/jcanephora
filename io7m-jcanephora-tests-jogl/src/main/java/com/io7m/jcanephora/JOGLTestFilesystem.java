@@ -7,12 +7,12 @@ import com.io7m.jvvfs.FilesystemAPI;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
 
-public final class LWJGL30TestFilesystem
+public final class JOGLTestFilesystem
 {
   static FilesystemAPI getFS()
   {
     try {
-      final Filesystem fs = new Filesystem(LWJGL30TestLog.getLog());
+      final Filesystem fs = new Filesystem(JOGLTestLog.getLog());
       fs.mountUnsafeClasspathItem(
         FilesystemTestContract.class,
         new PathVirtual("/"));
