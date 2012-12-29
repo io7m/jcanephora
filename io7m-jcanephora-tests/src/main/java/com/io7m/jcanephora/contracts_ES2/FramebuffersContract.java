@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.UnimplementedCodeException;
 import com.io7m.jcanephora.DepthFunction;
 import com.io7m.jcanephora.Framebuffer;
 import com.io7m.jcanephora.FramebufferAttachment;
@@ -17,7 +18,6 @@ import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.RenderbufferD24S8;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilter;
-import com.io7m.jcanephora.TextureType;
 import com.io7m.jcanephora.TextureWrap;
 import com.io7m.jtensors.VectorI3F;
 import com.io7m.jtensors.VectorI4F;
@@ -42,11 +42,10 @@ public abstract class FramebuffersContract implements GLES2TestContract
     final GLInterfaceES2 g = this.makeNewGL();
     final RenderbufferD24S8 rb = g.renderbufferD24S8Allocate(128, 128);
     final Texture2DStatic cb =
-      g.texture2DStaticAllocate(
+      g.texture2DStaticAllocateRGBA8888(
         "framebuffer",
         128,
         128,
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -71,11 +70,10 @@ public abstract class FramebuffersContract implements GLES2TestContract
 
     final RenderbufferD24S8 rb = g.renderbufferD24S8Allocate(128, 128);
     final Texture2DStatic cb =
-      g.texture2DStaticAllocate(
+      g.texture2DStaticAllocateRGBA8888(
         "framebuffer",
         128,
         128,
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -104,11 +102,10 @@ public abstract class FramebuffersContract implements GLES2TestContract
 
     try {
       final Texture2DStatic cb =
-        g.texture2DStaticAllocate(
+        g.texture2DStaticAllocateRGBA8888(
           "framebuffer",
           128,
           128,
-          TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
           TextureWrap.TEXTURE_WRAP_REPEAT,
           TextureWrap.TEXTURE_WRAP_REPEAT,
           TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -141,11 +138,10 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final GLInterfaceES2 gl = this.makeNewGL();
     final Texture2DStatic t =
-      gl.texture2DStaticAllocate(
+      gl.texture2DStaticAllocateRGBA8888(
         "buffer",
         128,
         128,
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -168,11 +164,10 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final GLInterfaceES2 gl = this.makeNewGL();
     final Texture2DStatic t =
-      gl.texture2DStaticAllocate(
+      gl.texture2DStaticAllocateRGBA8888(
         "buffer",
         128,
         128,
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -191,29 +186,17 @@ public abstract class FramebuffersContract implements GLES2TestContract
    * @throws GLException
    */
 
-  @Test public void testFramebufferAttachColorFormatsOK()
-    throws ConstraintError,
-      GLException
+  @SuppressWarnings("static-method") @Test public
+    void
+    testFramebufferAttachColorFormatsOK()
+      throws ConstraintError,
+        GLException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    /**
+     * This won't be written until the new framebuffer API is implemented.
+     */
 
-    for (final TextureType type : TextureType.values()) {
-      final Texture2DStatic t =
-        gl.texture2DStaticAllocate(
-          "buffer",
-          128,
-          128,
-          type,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST);
-      final ColorAttachment fbc = new ColorAttachment(t, 0);
-      final Framebuffer fb =
-        gl.framebufferAllocate(new FramebufferAttachment[] { fbc });
-      gl.framebufferDelete(fb);
-      gl.texture2DStaticDelete(t);
-    }
+    throw new UnimplementedCodeException();
   }
 
   /**
@@ -226,22 +209,20 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final GLInterfaceES2 gl = this.makeNewGL();
     final Texture2DStatic t0 =
-      gl.texture2DStaticAllocate(
+      gl.texture2DStaticAllocateRGBA8888(
         "buffer",
         128,
         128,
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
     final ColorAttachment fbc0 = new ColorAttachment(t0, 0);
     final Texture2DStatic t1 =
-      gl.texture2DStaticAllocate(
+      gl.texture2DStaticAllocateRGBA8888(
         "buffer",
         128,
         128,
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -263,22 +244,20 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final GLInterfaceES2 gl = this.makeNewGL();
     final Texture2DStatic t0 =
-      gl.texture2DStaticAllocate(
+      gl.texture2DStaticAllocateRGBA8888(
         "buffer",
         128,
         128,
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
     final ColorAttachment fbc0 = new ColorAttachment(t0, 0);
     final Texture2DStatic t1 =
-      gl.texture2DStaticAllocate(
+      gl.texture2DStaticAllocateRGBA8888(
         "buffer",
         128,
         128,
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -297,11 +276,10 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final GLInterfaceES2 gl = this.makeNewGL();
     final Texture2DStatic t =
-      gl.texture2DStaticAllocate(
+      gl.texture2DStaticAllocateRGBA8888(
         "buffer",
         128,
         128,
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -381,11 +359,10 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final GLInterfaceES2 gl = this.makeNewGL();
     final Texture2DStatic t =
-      gl.texture2DStaticAllocate(
+      gl.texture2DStaticAllocateRGBA8888(
         "buffer",
         128,
         128,
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -407,11 +384,10 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final GLInterfaceES2 gl = this.makeNewGL();
     final Texture2DStatic t =
-      gl.texture2DStaticAllocate(
+      gl.texture2DStaticAllocateRGBA8888(
         "buffer",
         128,
         128,
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -471,11 +447,10 @@ public abstract class FramebuffersContract implements GLES2TestContract
     try {
       gl = this.makeNewGL();
       final Texture2DStatic t =
-        gl.texture2DStaticAllocate(
+        gl.texture2DStaticAllocateRGBA8888(
           "buffer",
           128,
           128,
-          TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
           TextureWrap.TEXTURE_WRAP_REPEAT,
           TextureWrap.TEXTURE_WRAP_REPEAT,
           TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -538,11 +513,10 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final GLInterfaceES2 gl = this.makeNewGL();
     final Texture2DStatic t =
-      gl.texture2DStaticAllocate(
+      gl.texture2DStaticAllocateRGBA8888(
         "buffer",
         128,
         128,
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -567,11 +541,10 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final GLInterfaceES2 gl = this.makeNewGL();
     final Texture2DStatic t =
-      gl.texture2DStaticAllocate(
+      gl.texture2DStaticAllocateRGBA8888(
         "buffer",
         128,
         128,
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,

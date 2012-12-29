@@ -7,26 +7,24 @@ public class TextureTypeTest
 {
   @SuppressWarnings("static-method") @Test public void testBytesPerPixel()
   {
-    Assert.assertEquals(
-      1,
-      TextureTypeMeta.bytesPerPixel(TextureType.TEXTURE_TYPE_R_8_1BPP));
+    Assert.assertEquals(1, TextureType.TEXTURE_TYPE_R_8_1BPP.bytesPerPixel());
     Assert.assertEquals(
       2,
-      TextureTypeMeta.bytesPerPixel(TextureType.TEXTURE_TYPE_RG_88_2BPP));
+      TextureType.TEXTURE_TYPE_RG_88_2BPP.bytesPerPixel());
     Assert.assertEquals(
       2,
-      TextureTypeMeta.bytesPerPixel(TextureType.TEXTURE_TYPE_RGB_565_2BPP));
+      TextureType.TEXTURE_TYPE_RGB_565_2BPP.bytesPerPixel());
     Assert.assertEquals(
       3,
-      TextureTypeMeta.bytesPerPixel(TextureType.TEXTURE_TYPE_RGB_888_3BPP));
+      TextureType.TEXTURE_TYPE_RGB_888_3BPP.bytesPerPixel());
     Assert.assertEquals(
       2,
-      TextureTypeMeta.bytesPerPixel(TextureType.TEXTURE_TYPE_RGBA_4444_2BPP));
+      TextureType.TEXTURE_TYPE_RGBA_4444_2BPP.bytesPerPixel());
     Assert.assertEquals(
       3,
-      TextureTypeMeta.bytesPerPixel(TextureType.TEXTURE_TYPE_RGB_888_3BPP));
+      TextureType.TEXTURE_TYPE_RGB_888_3BPP.bytesPerPixel());
     Assert.assertEquals(
       4,
-      TextureTypeMeta.bytesPerPixel(TextureType.TEXTURE_TYPE_RGBA_8888_4BPP));
+      TextureType.TEXTURE_TYPE_RGBA_8888_4BPP.bytesPerPixel());
   }
 }

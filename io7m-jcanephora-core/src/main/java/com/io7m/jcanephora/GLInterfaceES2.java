@@ -45,7 +45,7 @@ public interface GLInterfaceES2 extends
   GLShaders,
   GLStencilBuffer,
   GLTextureUnits,
-  GLTextures2DStatic,
+  GLTextures2DStaticES2,
   GLViewport
 {
   /*

@@ -16,6 +16,10 @@
 
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
+import com.io7m.jaux.UnreachableCodeException;
+
 /**
  * The type of elements in a given texture.
  */
@@ -64,4 +68,113 @@ public enum TextureType
    */
 
   TEXTURE_TYPE_R_8_1BPP,
+
+  /**
+   * 16 bit depth component texture, two bytes per pixel.
+   */
+
+  TEXTURE_TYPE_DEPTH_16_2BPP,
+
+  /**
+   * 24 bit depth component texture, four bytes per pixel.
+   */
+
+  TEXTURE_TYPE_DEPTH_24_4BPP,
+
+  /**
+   * 32 bit depth component texture with integer components, four bytes per
+   * pixel.
+   */
+
+  TEXTURE_TYPE_DEPTH_32_4BPP,
+
+  /**
+   * 32 bit depth component texture with floating point components, four bytes
+   * per pixel.
+   */
+
+  TEXTURE_TYPE_DEPTH_32F_4BPP;
+
+  /**
+   * The subset of texture types supported by ES2
+   */
+
+  static final @Nonnull TextureType[] ES2_TYPES;
+
+  static {
+    ES2_TYPES =
+      new TextureType[] {
+    TEXTURE_TYPE_RGBA_8888_4BPP,
+    TEXTURE_TYPE_RGBA_5551_2BPP,
+    TEXTURE_TYPE_RGBA_4444_2BPP,
+    TEXTURE_TYPE_RGB_888_3BPP,
+    TEXTURE_TYPE_RGB_565_2BPP };
+  }
+
+  /**
+   * Retrieve a list of the texture types supported by ES2
+   */
+
+  public static @Nonnull TextureType[] getES2Types()
+  {
+    final TextureType[] est = new TextureType[TextureType.ES2_TYPES.length];
+    for (int index = 0; index < TextureType.ES2_TYPES.length; ++index) {
+      est[index] = TextureType.ES2_TYPES[index];
+    }
+    return est;
+  }
+
+  /**
+   * Retrieve the number of bytes per pixel in the texture type.
+   */
+
+  public int bytesPerPixel()
+  {
+    switch (this) {
+      case TEXTURE_TYPE_R_8_1BPP:
+        return 1;
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_TYPE_RG_88_2BPP:
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGB_565_2BPP:
+        return 2;
+      case TEXTURE_TYPE_RGB_888_3BPP:
+        return 3;
+      case TEXTURE_TYPE_DEPTH_32_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+        return 4;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Return the number of components in the texture type.
+   */
+
+  public int getComponents()
+  {
+    switch (this) {
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+        return 4;
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_TYPE_RGB_888_3BPP:
+        return 3;
+      case TEXTURE_TYPE_RG_88_2BPP:
+        return 2;
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_DEPTH_32_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_R_8_1BPP:
+        return 1;
+    }
+
+    throw new UnreachableCodeException();
+  }
 }

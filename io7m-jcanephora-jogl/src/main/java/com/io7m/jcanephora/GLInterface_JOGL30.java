@@ -117,7 +117,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    return GLES2Functions.arrayBufferAllocate(
+    return GL3Functions.arrayBufferAllocate(
       this.contextGetGL3(),
       this.log,
       this.state,
@@ -509,8 +509,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public int depthBufferGetBits()
     throws GLException
   {
-    return GLES2Functions
-      .depthBufferGetBits(this.contextGetGL3(), this.state);
+    return GL3Functions.depthBufferGetBits(this.contextGetGL3(), this.state);
   }
 
   @Override public boolean depthBufferIsEnabled()
@@ -1177,9 +1176,8 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public int stencilBufferGetBits()
     throws GLException
   {
-    return GLES2Functions.stencilBufferGetBits(
-      this.contextGetGL3(),
-      this.state);
+    return GL3Functions
+      .stencilBufferGetBits(this.contextGetGL3(), this.state);
   }
 
   @Override public boolean stencilBufferIsEnabled()
@@ -1213,11 +1211,10 @@ import com.io7m.jtensors.VectorReadable4F;
       pass);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocate(
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateDepth16(
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureType type,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter mag_filter,
@@ -1232,7 +1229,257 @@ import com.io7m.jtensors.VectorReadable4F;
       name,
       width,
       height,
-      type,
+      TextureType.TEXTURE_TYPE_DEPTH_16_2BPP,
+      wrap_s,
+      wrap_t,
+      mag_filter,
+      min_filter);
+  }
+
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateDepth24(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureFilter min_filter)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.texture2DStaticAllocate(
+      this.contextGetGL3(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_DEPTH_24_4BPP,
+      wrap_s,
+      wrap_t,
+      mag_filter,
+      min_filter);
+  }
+
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateDepth32(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureFilter min_filter)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.texture2DStaticAllocate(
+      this.contextGetGL3(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_DEPTH_32_4BPP,
+      wrap_s,
+      wrap_t,
+      mag_filter,
+      min_filter);
+  }
+
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateDepth32f(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureFilter min_filter)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.texture2DStaticAllocate(
+      this.contextGetGL3(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_DEPTH_32F_4BPP,
+      wrap_s,
+      wrap_t,
+      mag_filter,
+      min_filter);
+  }
+
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateR8(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureFilter min_filter)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.texture2DStaticAllocate(
+      this.contextGetGL3(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_R_8_1BPP,
+      wrap_s,
+      wrap_t,
+      mag_filter,
+      min_filter);
+  }
+
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRG88(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureFilter min_filter)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.texture2DStaticAllocate(
+      this.contextGetGL3(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_RG_88_2BPP,
+      wrap_s,
+      wrap_t,
+      mag_filter,
+      min_filter);
+  }
+
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB565(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureFilter min_filter)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.texture2DStaticAllocate(
+      this.contextGetGL3(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_RGB_565_2BPP,
+      wrap_s,
+      wrap_t,
+      mag_filter,
+      min_filter);
+  }
+
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB888(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureFilter min_filter)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.texture2DStaticAllocate(
+      this.contextGetGL3(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_RGB_888_3BPP,
+      wrap_s,
+      wrap_t,
+      mag_filter,
+      min_filter);
+  }
+
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA4444(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureFilter min_filter)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.texture2DStaticAllocate(
+      this.contextGetGL3(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_RGBA_4444_2BPP,
+      wrap_s,
+      wrap_t,
+      mag_filter,
+      min_filter);
+  }
+
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA5551(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureFilter min_filter)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.texture2DStaticAllocate(
+      this.contextGetGL3(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_RGBA_5551_2BPP,
+      wrap_s,
+      wrap_t,
+      mag_filter,
+      min_filter);
+  }
+
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA8888(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureFilter min_filter)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.texture2DStaticAllocate(
+      this.contextGetGL3(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
       wrap_s,
       wrap_t,
       mag_filter,

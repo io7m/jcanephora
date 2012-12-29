@@ -72,6 +72,13 @@ import com.io7m.jtensors.VectorReadable4F;
     this.context = Constraints.constrainNotNull(context, "GL context");
     this.state = new GLStateCache();
 
+    final int version = context.getGLVersionMajor();
+    Constraints.constrainRange(
+      version,
+      3,
+      Integer.MAX_VALUE,
+      "OpenGL implementation version");
+
     final GL2ES2 g = this.context.getGL().getGL2ES2();
 
     this.state.texture_units =
@@ -109,8 +116,8 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    return GLES2Functions.arrayBufferAllocate(
-      this.contextGetGLES2(),
+    return GL3Functions.arrayBufferAllocate(
+      this.contextGetGL2ES2(),
       this.log,
       this.state,
       elements,
@@ -123,7 +130,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.arrayBufferBind(this.contextGetGLES2(), buffer);
+    GLES2Functions.arrayBufferBind(this.contextGetGL2ES2(), buffer);
   }
 
   @Override public void arrayBufferBindVertexAttribute(
@@ -134,7 +141,7 @@ import com.io7m.jtensors.VectorReadable4F;
       ConstraintError
   {
     GLES2Functions.arrayBufferBindVertexAttribute(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       buffer,
       buffer_attribute,
       program_attribute);
@@ -146,7 +153,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.arrayBufferDelete(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.log,
       this.state,
       id);
@@ -157,14 +164,14 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return GLES2Functions.arrayBufferIsBound(this.contextGetGLES2(), id);
+    return GLES2Functions.arrayBufferIsBound(this.contextGetGL2ES2(), id);
   }
 
   @Override public void arrayBufferUnbind()
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.arrayBufferUnbind(this.contextGetGLES2());
+    GLES2Functions.arrayBufferUnbind(this.contextGetGL2ES2());
   }
 
   @Override public void arrayBufferUnbindVertexAttribute(
@@ -175,7 +182,7 @@ import com.io7m.jtensors.VectorReadable4F;
       ConstraintError
   {
     GLES2Functions.arrayBufferUnbindVertexAttribute(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       buffer,
       buffer_attribute,
       program_attribute);
@@ -187,13 +194,13 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.arrayBufferUpdate(this.contextGetGLES2(), buffer, data);
+    GLES2Functions.arrayBufferUpdate(this.contextGetGL2ES2(), buffer, data);
   }
 
   @Override public void blendingDisable()
     throws GLException
   {
-    GLES2Functions.blendingDisable(this.contextGetGLES2());
+    GLES2Functions.blendingDisable(this.contextGetGL2ES2());
   }
 
   @Override public void blendingEnable(
@@ -203,7 +210,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.blendingEnable(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       source_factor,
       destination_factor);
   }
@@ -217,7 +224,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.blendingEnableSeparate(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       source_rgb_factor,
       source_alpha_factor,
       destination_rgb_factor,
@@ -235,7 +242,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.blendingEnableSeparateWithEquationSeparateES2(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       source_rgb_factor,
       source_alpha_factor,
       destination_rgb_factor,
@@ -252,7 +259,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.blendingEnableWithEquationES2(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       source_factor,
       destination_factor,
       equation);
@@ -267,7 +274,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.blendingEnableWithEquationSeparateES2(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       source_factor,
       destination_factor,
       equation_rgb,
@@ -279,7 +286,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     return GLES2Functions.blendingIsEnabled(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state);
   }
 
@@ -290,7 +297,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.colorBufferClear3f(this.contextGetGLES2(), r, g, b);
+    GLES2Functions.colorBufferClear3f(this.contextGetGL2ES2(), r, g, b);
   }
 
   @Override public void colorBufferClear4f(
@@ -301,7 +308,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.colorBufferClear4f(this.contextGetGLES2(), r, g, b, a);
+    GLES2Functions.colorBufferClear4f(this.contextGetGL2ES2(), r, g, b, a);
   }
 
   @Override public void colorBufferClearV3f(
@@ -309,7 +316,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.colorBufferClearV3f(this.contextGetGLES2(), color);
+    GLES2Functions.colorBufferClearV3f(this.contextGetGL2ES2(), color);
   }
 
   @Override public void colorBufferClearV4f(
@@ -317,7 +324,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.colorBufferClearV4f(this.contextGetGLES2(), color);
+    GLES2Functions.colorBufferClearV4f(this.contextGetGL2ES2(), color);
   }
 
   @Override public void colorBufferMask(
@@ -328,14 +335,14 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.colorBufferMask(this.contextGetGLES2(), r, g, b, a);
+    GLES2Functions.colorBufferMask(this.contextGetGL2ES2(), r, g, b, a);
   }
 
   @Override public boolean colorBufferMaskStatusAlpha()
     throws GLException
   {
     return GLES2Functions.colorBufferMaskStatusAlpha(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state);
   }
 
@@ -343,7 +350,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException
   {
     return GLES2Functions.colorBufferMaskStatusBlue(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state);
   }
 
@@ -351,7 +358,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException
   {
     return GLES2Functions.colorBufferMaskStatusGreen(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state);
   }
 
@@ -359,11 +366,11 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException
   {
     return GLES2Functions.colorBufferMaskStatusRed(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state);
   }
 
-  private GL2ES2 contextGetGLES2()
+  private GL2ES2 contextGetGL2ES2()
   {
     return this.context.getGL().getGL2ES2();
   }
@@ -371,7 +378,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public void cullingDisable()
     throws GLException
   {
-    GLES2Functions.cullingDisable(this.contextGetGLES2());
+    GLES2Functions.cullingDisable(this.contextGetGL2ES2());
   }
 
   @Override public void cullingEnable(
@@ -380,13 +387,13 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.cullingEnable(this.contextGetGLES2(), faces, order);
+    GLES2Functions.cullingEnable(this.contextGetGL2ES2(), faces, order);
   }
 
   @Override public boolean cullingIsEnabled()
     throws GLException
   {
-    return GLES2Functions.cullingIsEnabled(this.contextGetGLES2());
+    return GLES2Functions.cullingIsEnabled(this.contextGetGL2ES2());
   }
 
   @Override public void depthBufferClear(
@@ -394,14 +401,16 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions
-      .depthBufferClear(this.contextGetGLES2(), this.state, depth);
+    GLES2Functions.depthBufferClear(
+      this.contextGetGL2ES2(),
+      this.state,
+      depth);
   }
 
   @Override public void depthBufferDisable()
     throws GLException
   {
-    GLES2Functions.depthBufferDisable(this.contextGetGLES2());
+    GLES2Functions.depthBufferDisable(this.contextGetGL2ES2());
   }
 
   @Override public void depthBufferEnable(
@@ -410,7 +419,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.depthBufferEnable(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       function);
   }
@@ -418,37 +427,39 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public int depthBufferGetBits()
     throws GLException
   {
-    return GLES2Functions.depthBufferGetBits(
-      this.contextGetGLES2(),
+    return GL3Functions.depthBufferGetBits(
+      this.contextGetGL2ES2(),
       this.state);
   }
 
   @Override public boolean depthBufferIsEnabled()
     throws GLException
   {
-    return GLES2Functions.depthBufferIsEnabled(this.contextGetGLES2());
+    return GLES2Functions.depthBufferIsEnabled(this.contextGetGL2ES2());
   }
 
   @Override public void depthBufferWriteDisable()
     throws ConstraintError,
       GLException
   {
-    GLES2Functions
-      .depthBufferWriteDisable(this.contextGetGLES2(), this.state);
+    GLES2Functions.depthBufferWriteDisable(
+      this.contextGetGL2ES2(),
+      this.state);
   }
 
   @Override public void depthBufferWriteEnable()
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.depthBufferWriteEnable(this.contextGetGLES2(), this.state);
+    GLES2Functions
+      .depthBufferWriteEnable(this.contextGetGL2ES2(), this.state);
   }
 
   @Override public boolean depthBufferWriteIsEnabled()
     throws GLException
   {
     return GLES2Functions.depthBufferWriteIsEnabled(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state);
   }
 
@@ -458,7 +469,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.drawElements(this.contextGetGLES2(), mode, indices);
+    GLES2Functions.drawElements(this.contextGetGL2ES2(), mode, indices);
   }
 
   @Override public boolean errorCodeIsInvalidOperation(
@@ -474,7 +485,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.fragmentShaderAttach(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       program,
@@ -490,7 +501,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     return GLES2Functions.fragmentShaderCompile(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       name,
@@ -503,7 +514,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.fragmentShaderDelete(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       id);
@@ -515,7 +526,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     return GLES2Functions.framebufferAllocate(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       attachments);
@@ -526,7 +537,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.framebufferBind(this.contextGetGLES2(), buffer);
+    GLES2Functions.framebufferBind(this.contextGetGL2ES2(), buffer);
   }
 
   @Override public void framebufferDelete(
@@ -535,7 +546,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.framebufferDelete(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       buffer);
@@ -544,7 +555,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public void framebufferUnbind()
     throws GLException
   {
-    GLES2Functions.framebufferUnbind(this.contextGetGLES2());
+    GLES2Functions.framebufferUnbind(this.contextGetGL2ES2());
   }
 
   @Override public IndexBuffer indexBufferAllocate(
@@ -554,7 +565,7 @@ import com.io7m.jtensors.VectorReadable4F;
       ConstraintError
   {
     return GLES2Functions.indexBufferAllocate(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       buffer,
@@ -568,7 +579,7 @@ import com.io7m.jtensors.VectorReadable4F;
       ConstraintError
   {
     return GLES2Functions.indexBufferAllocateType(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       type,
@@ -581,7 +592,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.indexBufferDelete(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       id);
@@ -593,7 +604,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.indexBufferUpdate(this.contextGetGLES2(), buffer, data);
+    GLES2Functions.indexBufferUpdate(this.contextGetGL2ES2(), buffer, data);
   }
 
   @Override public int lineAliasedGetMaximumWidth()
@@ -611,7 +622,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.lineSetWidth(this.contextGetGLES2(), this.state, width);
+    GLES2Functions.lineSetWidth(this.contextGetGL2ES2(), this.state, width);
   }
 
   @Override public int lineSmoothGetMaximumWidth()
@@ -627,37 +638,37 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public void lineSmoothingDisable()
     throws GLException
   {
-    GLES2Functions.lineSmoothingDisable(this.contextGetGLES2(), this.state);
+    GLES2Functions.lineSmoothingDisable(this.contextGetGL2ES2(), this.state);
   }
 
   @Override public void lineSmoothingEnable()
     throws GLException
   {
-    GLES2Functions.lineSmoothingEnable(this.contextGetGLES2(), this.state);
+    GLES2Functions.lineSmoothingEnable(this.contextGetGL2ES2(), this.state);
   }
 
   @Override public int metaGetError()
     throws GLException
   {
-    return GLES2Functions.metaGetError(this.contextGetGLES2());
+    return GLES2Functions.metaGetError(this.contextGetGL2ES2());
   }
 
   @Override public String metaGetRenderer()
     throws GLException
   {
-    return GLES2Functions.metaGetRenderer(this.contextGetGLES2());
+    return GLES2Functions.metaGetRenderer(this.contextGetGL2ES2());
   }
 
   @Override public String metaGetVendor()
     throws GLException
   {
-    return GLES2Functions.metaGetVendor(this.contextGetGLES2());
+    return GLES2Functions.metaGetVendor(this.contextGetGL2ES2());
   }
 
   @Override public String metaGetVersion()
     throws GLException
   {
-    return GLES2Functions.metaGetVersion(this.contextGetGLES2());
+    return GLES2Functions.metaGetVersion(this.contextGetGL2ES2());
   }
 
   @Override public int pointGetMaximumWidth()
@@ -675,7 +686,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    final GL2ES2 gl = this.contextGetGLES2();
+    final GL2ES2 gl = this.contextGetGL2ES2();
 
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
@@ -692,7 +703,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     return GLES2Functions.programCreate(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       name);
@@ -701,7 +712,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public void programDeactivate()
     throws GLException
   {
-    GLES2Functions.programDeactivate(this.contextGetGLES2());
+    GLES2Functions.programDeactivate(this.contextGetGL2ES2());
   }
 
   @Override public void programDelete(
@@ -710,7 +721,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.programDelete(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       program);
@@ -723,7 +734,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.programGetAttributes(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       program,
@@ -734,7 +745,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException
   {
     return GLES2Functions.programGetMaximumActiveAttributes(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log);
   }
@@ -746,7 +757,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.programGetUniforms(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       program,
@@ -759,7 +770,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     return GLES2Functions.programIsActive(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       program);
   }
@@ -771,7 +782,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.programLink(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       program);
@@ -784,7 +795,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.programPutUniformFloat(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       uniform,
       value);
@@ -797,7 +808,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.programPutUniformMatrix3x3f(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       uniform,
       matrix);
@@ -810,7 +821,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.programPutUniformMatrix4x4f(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       uniform,
       matrix);
@@ -823,7 +834,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.programPutUniformTextureUnit(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       uniform,
       unit);
@@ -836,7 +847,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.programPutUniformVector2f(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       uniform,
       vector);
@@ -849,7 +860,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.programPutUniformVector2i(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       uniform,
       vector);
@@ -862,7 +873,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.programPutUniformVector3f(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       uniform,
       vector);
@@ -875,7 +886,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.programPutUniformVector4f(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       uniform,
       vector);
@@ -888,7 +899,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     return GLES2Functions.renderbufferD24S8Allocate(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       width,
@@ -901,7 +912,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.renderbufferD24S8Delete(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       buffer);
@@ -910,7 +921,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public void scissorDisable()
     throws GLException
   {
-    GLES2Functions.scissorDisable(this.contextGetGLES2());
+    GLES2Functions.scissorDisable(this.contextGetGL2ES2());
   }
 
   @Override public void scissorEnable(
@@ -919,14 +930,16 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions
-      .scissorEnable(this.contextGetGLES2(), position, dimensions);
+    GLES2Functions.scissorEnable(
+      this.contextGetGL2ES2(),
+      position,
+      dimensions);
   }
 
   @Override public boolean scissorIsEnabled()
     throws GLException
   {
-    return GLES2Functions.scissorIsEnabled(this.contextGetGLES2());
+    return GLES2Functions.scissorIsEnabled(this.contextGetGL2ES2());
   }
 
   @Override public void stencilBufferClear(
@@ -935,7 +948,7 @@ import com.io7m.jtensors.VectorReadable4F;
       ConstraintError
   {
     GLES2Functions.stencilBufferClear(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       stencil);
   }
@@ -944,14 +957,14 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.stencilBufferDisable(this.contextGetGLES2());
+    GLES2Functions.stencilBufferDisable(this.contextGetGL2ES2());
   }
 
   @Override public void stencilBufferEnable()
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.stencilBufferEnable(this.contextGetGLES2(), this.state);
+    GLES2Functions.stencilBufferEnable(this.contextGetGL2ES2(), this.state);
   }
 
   @Override public void stencilBufferFunction(
@@ -963,7 +976,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.stencilBufferFunction(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       faces,
       function,
       reference,
@@ -973,15 +986,15 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public int stencilBufferGetBits()
     throws GLException
   {
-    return GLES2Functions.stencilBufferGetBits(
-      this.contextGetGLES2(),
+    return GL3Functions.stencilBufferGetBits(
+      this.contextGetGL2ES2(),
       this.state);
   }
 
   @Override public boolean stencilBufferIsEnabled()
     throws GLException
   {
-    return GLES2Functions.stencilBufferIsEnabled(this.contextGetGLES2());
+    return GLES2Functions.stencilBufferIsEnabled(this.contextGetGL2ES2());
   }
 
   @Override public void stencilBufferMask(
@@ -990,7 +1003,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.stencilBufferMask(this.contextGetGLES2(), faces, mask);
+    GLES2Functions.stencilBufferMask(this.contextGetGL2ES2(), faces, mask);
   }
 
   @Override public void stencilBufferOperation(
@@ -1002,18 +1015,17 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.stencilBufferOperation(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       faces,
       stencil_fail,
       depth_fail,
       pass);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocate(
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB565(
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureType type,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter mag_filter,
@@ -1022,13 +1034,113 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     return GLES2Functions.texture2DStaticAllocate(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       name,
       width,
       height,
-      type,
+      TextureType.TEXTURE_TYPE_RGB_565_2BPP,
+      wrap_s,
+      wrap_t,
+      mag_filter,
+      min_filter);
+  }
+
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB888(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureFilter min_filter)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.texture2DStaticAllocate(
+      this.contextGetGL2ES2(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_RGB_888_3BPP,
+      wrap_s,
+      wrap_t,
+      mag_filter,
+      min_filter);
+  }
+
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA4444(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureFilter min_filter)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.texture2DStaticAllocate(
+      this.contextGetGL2ES2(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_RGBA_4444_2BPP,
+      wrap_s,
+      wrap_t,
+      mag_filter,
+      min_filter);
+  }
+
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA5551(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureFilter min_filter)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.texture2DStaticAllocate(
+      this.contextGetGL2ES2(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_RGBA_5551_2BPP,
+      wrap_s,
+      wrap_t,
+      mag_filter,
+      min_filter);
+  }
+
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA8888(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureFilter min_filter)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.texture2DStaticAllocate(
+      this.contextGetGL2ES2(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
       wrap_s,
       wrap_t,
       mag_filter,
@@ -1041,7 +1153,8 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.texture2DStaticBind(this.contextGetGLES2(), unit, texture);
+    GLES2Functions
+      .texture2DStaticBind(this.contextGetGL2ES2(), unit, texture);
   }
 
   @Override public void texture2DStaticDelete(
@@ -1050,7 +1163,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.texture2DStaticDelete(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       texture);
@@ -1063,7 +1176,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     return GLES2Functions.texture2DStaticIsBound(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       unit,
       texture);
@@ -1074,14 +1187,14 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.texture2DStaticUpdate(this.contextGetGLES2(), data);
+    GLES2Functions.texture2DStaticUpdate(this.contextGetGL2ES2(), data);
   }
 
   @Override public int textureGetMaximumSize()
     throws GLException
   {
     return GLES2Functions.textureGetMaximumSize(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state);
   }
 
@@ -1096,7 +1209,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.textureUnitUnbind(this.contextGetGLES2(), unit);
+    GLES2Functions.textureUnitUnbind(this.contextGetGL2ES2(), unit);
   }
 
   @Override public void vertexShaderAttach(
@@ -1107,7 +1220,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.vertexShaderAttach(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       program,
@@ -1123,7 +1236,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     return GLES2Functions.vertexShaderCompile(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       name,
@@ -1136,7 +1249,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.vertexShaderDelete(
-      this.contextGetGLES2(),
+      this.contextGetGL2ES2(),
       this.state,
       this.log,
       id);
@@ -1148,6 +1261,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.viewportSet(this.contextGetGLES2(), position, dimensions);
+    GLES2Functions.viewportSet(this.contextGetGL2ES2(), position, dimensions);
   }
+
 }

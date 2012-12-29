@@ -16,29 +16,37 @@
 
 package com.io7m.jcanephora;
 
+import java.nio.ByteBuffer;
+
+import javax.annotation.Nonnull;
+
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * Typed, writable cursor addressing areas consisting of single integer
- * elements.
- * 
- * Due to the lack of 8-bit unsigned types in Java, the interface uses
- * ordinary integers and simply assumes that values passed are in the range
- * <code>[0 .. 0xFF]</code>.
+ * Texture cursor addressing textures with single 32 bit elements.
  */
 
-public interface SpatialCursorWritable1i extends SpatialCursor
+final class ByteBufferTextureCursorWritable1i_1_32 extends AreaCursor implements
+  SpatialCursorWritable1i
 {
-  /**
-   * Put the value <code>x</code> at the current cursor location and seek the
-   * cursor to the next element iff there is one.
-   * 
-   * @throws ConstraintError
-   *           Iff attempting to write to the cursor would write outside of
-   *           the valid area for the cursor.
-   */
+  private final @Nonnull ByteBuffer target_data;
 
-  void put1i(
+  protected ByteBufferTextureCursorWritable1i_1_32(
+    final @Nonnull ByteBuffer target_data,
+    final @Nonnull AreaInclusive target_area,
+    final @Nonnull AreaInclusive update_area)
+    throws ConstraintError
+  {
+    super(target_area, update_area, 2);
+    this.target_data = target_data;
+  }
+
+  @Override public void put1i(
     final int x)
-    throws ConstraintError;
+    throws ConstraintError
+  {
+    final int byte_current = (int) this.getByteOffset();
+    this.target_data.putInt(byte_current, x);
+    this.next();
+  }
 }

@@ -16,31 +16,25 @@
 
 package com.io7m.jcanephora;
 
+import com.io7m.jaux.Constraints.ConstraintError;
+
 /**
- * A simplified and type-safe interface to modern programmable-pipeline GPUs.
- * 
- * The <code>GLInterface</code> interface specifies a kind of
- * minimum-compatibility level: Programs that are written against the
- * <code>GLInterface</code> interface have a reasonable assurance that they
- * will work on implementations that support the common subset of OpenGL 3.0
- * (with none of the deprecated features - the "core" profile) and OpenGL 2.1.
- * 
- * This assurance obviously does not extend to shading language programs.
+ * Typed, writable cursor addressing areas consisting of elements of type
+ * float.
  */
 
-public interface GLInterface extends
-  GLArrayBuffersMapped,
-  GLBlending,
-  GLInterfaceES2,
-  GLIndexBuffersMapped,
-  GLLogic,
-  GLPolygonModes,
-  GLPolygonSmoothing,
-  GLProgramPointSizeControl,
-  GLTextures2DBuffered,
-  GLTextures2DStatic
+public interface SpatialCursorWritable1f extends SpatialCursor
 {
-  /*
-   * All functions defined in the superinterfaces.
+  /**
+   * Put the value <code>x</code> at the current cursor location and seek the
+   * cursor to the next element iff there is one.
+   * 
+   * @throws ConstraintError
+   *           Iff attempting to write to the cursor would write outside of
+   *           the valid area for the cursor.
    */
+
+  void put1f(
+    final float x)
+    throws ConstraintError;
 }

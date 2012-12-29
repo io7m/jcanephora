@@ -67,19 +67,16 @@ final class GLES2Functions
       log.debug(state.log_text.toString());
     }
 
-    int hint = GL.GL_STATIC_DRAW;
-    if (GLES2Functions.implementationReallyIsES2(gl)) {
-      hint = GLTypeConversions.usageHintES2ToGL(usage);
-    } else {
-      hint = GLTypeConversions.usageHintToGL(usage);
-    }
-
     final IntBuffer cache = state.getIntegerCache();
     gl.glGenBuffers(1, cache);
 
     final int id = cache.get(0);
     gl.glBindBuffer(GL.GL_ARRAY_BUFFER, id);
-    gl.glBufferData(GL.GL_ARRAY_BUFFER, bytes_total, null, hint);
+    gl.glBufferData(
+      GL.GL_ARRAY_BUFFER,
+      bytes_total,
+      null,
+      GLTypeConversions.usageHintES2ToGL(usage));
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -653,81 +650,10 @@ final class GLES2Functions
     final @Nonnull GLStateCache state)
     throws GLException
   {
-    /**
-     * Note that because this package intends to be compatible with ES2, but
-     * might be running on an ordinary GL 2.1 or GL 3.0 implementation, it's
-     * necessary to check explicitly what the real underlying implementation
-     * is, because ES2 requires a different function call to retrieve the
-     * current depth buffer bits.
-     */
-
-    if (GLES2Functions.implementationReallyIsES2(gl)) {
-      return GLES2Functions.depthBufferGetBitsES2(gl, state);
-    }
-
-    return GLES2Functions.depthBufferGetBitsGL3(gl, state);
-  }
-
-  private static int depthBufferGetBitsES2(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state)
-    throws GLException
-  {
     final int bits =
       GLES2Functions.contextGetInteger(gl, state, GL.GL_DEPTH_BITS);
     GLES2Functions.checkError(gl);
     return bits;
-  }
-
-  private static int depthBufferGetBitsGL3(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state)
-    throws GLException
-  {
-    final int framebuffer =
-      GLES2Functions.contextGetInteger(gl, state, GL.GL_FRAMEBUFFER_BINDING);
-    GLES2Functions.checkError(gl);
-
-    /**
-     * If no framebuffer is bound, use the default glGet query.
-     */
-
-    if (framebuffer == 0) {
-      final int bits =
-        GLES2Functions.contextGetInteger(gl, state, GL.GL_DEPTH_BITS);
-      GLES2Functions.checkError(gl);
-      return bits;
-    }
-
-    /**
-     * If a framebuffer is bound, check to see if there's a depth attachment.
-     */
-
-    {
-      final IntBuffer cache = state.getIntegerCache();
-      gl.glGetFramebufferAttachmentParameteriv(
-        GL.GL_FRAMEBUFFER,
-        GL.GL_DEPTH_ATTACHMENT,
-        GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
-        cache);
-      GLES2Functions.checkError(gl);
-      if (cache.get(0) == GL.GL_NONE) {
-        return 0;
-      }
-    }
-
-    /**
-     * If there's a depth attachment, check the size of it.
-     */
-
-    final IntBuffer cache = state.getIntegerCache();
-    gl.glGetFramebufferAttachmentParameteriv(
-      GL.GL_FRAMEBUFFER,
-      GL.GL_DEPTH_ATTACHMENT,
-      GL2GL3.GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE,
-      cache);
-    GLES2Functions.checkError(gl);
-    return cache.get(0);
   }
 
   static boolean depthBufferIsEnabled(
@@ -1171,12 +1097,6 @@ final class GLES2Functions
   {
     gl.glBindFramebuffer(GL.GL_FRAMEBUFFER, 0);
     GLES2Functions.checkError(gl);
-  }
-
-  private static boolean implementationReallyIsES2(
-    final @Nonnull GL2ES2 gl)
-  {
-    return gl.isGLES2();
   }
 
   static IndexBuffer indexBufferAllocate(
@@ -2113,86 +2033,10 @@ final class GLES2Functions
     final @Nonnull GLStateCache state)
     throws GLException
   {
-    /**
-     * Note that because this package intends to be compatible with ES2, but
-     * might be running on an ordinary GL 2.1 or GL 3.0 implementation, it's
-     * necessary to check explicitly what the real underlying implementation
-     * is, because ES2 requires a different function call to retrieve the
-     * current stencil buffer bits.
-     */
-
-    if (GLES2Functions.implementationReallyIsES2(gl)) {
-      return GLES2Functions.stencilBufferGetBitsES2(gl, state);
-    }
-
-    return GLES2Functions.stencilBufferGetBitsGL3(gl, state);
-  }
-
-  static int stencilBufferGetBitsES2(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state)
-    throws GLException
-  {
     final int bits =
       GLES2Functions.contextGetInteger(gl, state, GL.GL_STENCIL_BITS);
     GLES2Functions.checkError(gl);
     return bits;
-  }
-
-  static int stencilBufferGetBitsGL3(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state)
-    throws GLException
-  {
-    final int framebuffer =
-      GLES2Functions.contextGetInteger(gl, state, GL.GL_FRAMEBUFFER_BINDING);
-    GLES2Functions.checkError(gl);
-
-    /**
-     * If no framebuffer is bound, use the default glGet query.
-     */
-
-    if (framebuffer == 0) {
-      final int bits =
-        GLES2Functions.contextGetInteger(gl, state, GL.GL_STENCIL_BITS);
-      GLES2Functions.checkError(gl);
-      return bits;
-    }
-
-    /**
-     * If a framebuffer is bound, check to see if there's a stencil
-     * attachment.
-     */
-
-    {
-      final IntBuffer cache = state.getIntegerCache();
-      gl.glGetFramebufferAttachmentParameteriv(
-        GL.GL_FRAMEBUFFER,
-        GL.GL_STENCIL_ATTACHMENT,
-        GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
-        cache);
-      GLES2Functions.checkError(gl);
-
-      final int type = cache.get(0);
-      if (type == GL.GL_NONE) {
-        return 0;
-      }
-    }
-
-    /**
-     * If there's a stencil attachment, check the size of it.
-     */
-
-    {
-      final IntBuffer cache = state.getIntegerCache();
-      gl.glGetFramebufferAttachmentParameteriv(
-        GL.GL_FRAMEBUFFER,
-        GL.GL_STENCIL_ATTACHMENT,
-        GL2GL3.GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE,
-        cache);
-      GLES2Functions.checkError(gl);
-      return cache.get(0);
-    }
   }
 
   static boolean stencilBufferIsEnabled(
@@ -2268,8 +2112,7 @@ final class GLES2Functions
     Constraints.constrainNotNull(min_filter, "Minification filter");
 
     if (log.enabled(Level.LOG_DEBUG)) {
-      final int bytes =
-        height * (TextureTypeMeta.bytesPerPixel(type) * width);
+      final int bytes = height * (type.bytesPerPixel() * width);
       state.log_text.setLength(0);
       state.log_text.append("texture-2D-static: allocate \"");
       state.log_text.append(name);
@@ -2313,15 +2156,20 @@ final class GLES2Functions
       GLTypeConversions.textureFilterToGL(min_filter));
     GLES2Functions.checkError(gl);
 
+    final int internal =
+      GLTypeConversions.textureTypeToInternalFormatGL(type);
+    final int format = GLTypeConversions.textureTypeToFormatGL(type);
+    final int itype = GLTypeConversions.textureTypeToTypeGL(type);
+
     gl.glTexImage2D(
       GL.GL_TEXTURE_2D,
       0,
-      GLTypeConversions.textureTypeToFormatGL(type),
+      internal,
       width,
       height,
       0,
-      GLTypeConversions.textureTypeToFormatGL(type),
-      GLTypeConversions.textureTypeToTypeGL(type),
+      format,
+      itype,
       null);
     gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
     GLES2Functions.checkError(gl);

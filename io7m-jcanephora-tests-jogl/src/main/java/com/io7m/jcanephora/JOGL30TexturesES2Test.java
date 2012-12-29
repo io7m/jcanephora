@@ -1,10 +1,10 @@
 package com.io7m.jcanephora;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts_ES2.TexturesContract;
+import com.io7m.jcanephora.contracts_ES2.TexturesES2Contract;
 import com.io7m.jlog.Log;
 
-public final class JOGLES2TexturesTest extends TexturesContract
+public final class JOGL30TexturesES2Test extends TexturesES2Contract
 {
   @Override public Log getLog()
   {
@@ -13,13 +13,13 @@ public final class JOGLES2TexturesTest extends TexturesContract
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestDisplay.isOpenGLES2Supported();
+    return JOGLTestDisplay.isOpenGL3Supported();
   }
 
   @Override public GLInterfaceES2 makeNewGL()
     throws GLException,
       ConstraintError
   {
-    return JOGLTestDisplay.makeES2WithOpenGLES2();
+    return JOGLTestDisplay.makeES2WithOpenGL3();
   }
 }

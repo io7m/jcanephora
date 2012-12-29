@@ -25,7 +25,6 @@ import com.io7m.jcanephora.SpatialCursorWritable3i;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.Texture2DWritableData;
 import com.io7m.jcanephora.TextureFilter;
-import com.io7m.jcanephora.TextureType;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureWrap;
 import com.io7m.jcanephora.UsageHint;
@@ -91,11 +90,10 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
      */
 
     this.texture =
-      this.gl.texture2DStaticAllocate(
+      this.gl.texture2DStaticAllocateRGB888(
         "gradient",
         64,
         64,
-        TextureType.TEXTURE_TYPE_RGB_888_3BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
