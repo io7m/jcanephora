@@ -833,27 +833,19 @@ import com.io7m.jtensors.VectorReadable4F;
       .pointProgramSizeControlIsEnabled(this.contextGetGL3());
   }
 
-  @Override public @Nonnull PolygonMode polygonGetModeBack()
+  @Override public @Nonnull PolygonMode polygonGetMode()
     throws ConstraintError,
       GLException
   {
-    return GL3Functions.polygonGetModeBack(this.contextGetGL3(), this.state);
-  }
-
-  @Override public @Nonnull PolygonMode polygonGetModeFront()
-    throws ConstraintError,
-      GLException
-  {
-    return GL3Functions.polygonGetModeFront(this.contextGetGL3(), this.state);
+    return GL3Functions.polygonGetMode(this.contextGetGL3(), this.state);
   }
 
   @Override public void polygonSetMode(
-    final @Nonnull FaceSelection faces,
     final @Nonnull PolygonMode mode)
     throws ConstraintError,
       GLException
   {
-    GL3Functions.polygonSetMode(this.contextGetGL3(), faces, mode);
+    GL3Functions.polygonSetMode(this.contextGetGL3(), mode);
   }
 
   @Override public final void polygonSmoothingDisable()

@@ -322,7 +322,7 @@ final class GL3Functions
     return e;
   }
 
-  static @Nonnull PolygonMode polygonGetModeBack(
+  static @Nonnull PolygonMode polygonGetMode(
     final @Nonnull GLStateCache state)
     throws GLException
   {
@@ -332,28 +332,15 @@ final class GL3Functions
     return GLTypeConversions.polygonModeFromGL(cache.get(1));
   }
 
-  static @Nonnull PolygonMode polygonGetModeFront(
-    final @Nonnull GLStateCache state)
-    throws GLException
-  {
-    final IntBuffer cache = state.getIntegerCache();
-    GL11.glGetInteger(GL11.GL_POLYGON_MODE, cache);
-    GLES2Functions.checkError();
-    return GLTypeConversions.polygonModeFromGL(cache.get(0));
-  }
-
   static void polygonSetMode(
-    final @Nonnull FaceSelection faces,
     final @Nonnull PolygonMode mode)
     throws ConstraintError,
       GLException
   {
-    Constraints.constrainNotNull(faces, "Face selection");
     Constraints.constrainNotNull(mode, "Polygon mode");
 
     final int im = GLTypeConversions.polygonModeToGL(mode);
-    final int fm = GLTypeConversions.faceSelectionToGL(faces);
-    GL11.glPolygonMode(fm, im);
+    GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, im);
     GLES2Functions.checkError();
   }
 
