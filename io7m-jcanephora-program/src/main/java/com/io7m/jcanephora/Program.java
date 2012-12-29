@@ -202,9 +202,15 @@ public final class Program implements CompilableProgram, UsableProgram
     Constraints.constrainNotNull(gl, "OpenGL interface");
 
     try {
-      if ((this.fragment_shaders.size() == 0)
-        && (this.vertex_shaders.size() == 0)) {
-        throw new GLCompileException("<none>", "empty program");
+      if (this.vertex_shaders.size() == 0) {
+        throw new GLCompileException(
+          "<none>",
+          "at least one vertex shader is required");
+      }
+      if (this.fragment_shaders.size() == 0) {
+        throw new GLCompileException(
+          "<none>",
+          "at least one fragment shader is required");
       }
 
       if (this.requiresCompilation(fs, gl) == false) {
