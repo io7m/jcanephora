@@ -69,7 +69,7 @@ public class Texture2DWritableDataTest
       throws ConstraintError
   {
     for (final TextureType type : TextureType.values()) {
-      if (TextureTypeMeta.components(type) != 1) {
+      if (type.getComponents() != 1) {
         final Texture2DStatic t = new Texture2DStatic("xyz", type, 1, 64, 64);
         final Texture2DWritableData d = new Texture2DWritableData(t);
 
@@ -124,7 +124,7 @@ public class Texture2DWritableDataTest
       throws ConstraintError
   {
     for (final TextureType type : TextureType.values()) {
-      if (TextureTypeMeta.components(type) != 2) {
+      if (type.getComponents() != 2) {
         final Texture2DStatic t = new Texture2DStatic("xyz", type, 1, 64, 64);
         final Texture2DWritableData d = new Texture2DWritableData(t);
 
@@ -179,7 +179,7 @@ public class Texture2DWritableDataTest
       throws ConstraintError
   {
     for (final TextureType type : TextureType.values()) {
-      if (TextureTypeMeta.components(type) != 3) {
+      if (type.getComponents() != 3) {
         final Texture2DStatic t = new Texture2DStatic("xyz", type, 1, 64, 64);
         final Texture2DWritableData d = new Texture2DWritableData(t);
 
@@ -234,7 +234,7 @@ public class Texture2DWritableDataTest
       throws ConstraintError
   {
     for (final TextureType type : TextureType.values()) {
-      if (TextureTypeMeta.components(type) != 4) {
+      if (type.getComponents() != 4) {
         final Texture2DStatic t = new Texture2DStatic("xyz", type, 1, 64, 64);
         final Texture2DWritableData d = new Texture2DWritableData(t);
 

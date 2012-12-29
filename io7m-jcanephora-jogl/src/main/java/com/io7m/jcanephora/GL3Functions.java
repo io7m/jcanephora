@@ -17,6 +17,60 @@ import com.io7m.jlog.Log;
 
 final class GL3Functions
 {
+  static final @Nonnull ArrayBuffer arrayBufferAllocate(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull Log log,
+    final @Nonnull GLStateCache state,
+    final long elements,
+    final @Nonnull ArrayBufferDescriptor descriptor,
+    final @Nonnull UsageHint usage)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints
+      .constrainRange(elements, 1, Long.MAX_VALUE, "Buffer elements");
+    Constraints.constrainNotNull(descriptor, "Buffer descriptor");
+    Constraints.constrainNotNull(usage, "Usage hint");
+
+    final long size = descriptor.getSize();
+    final long bytes_total = elements * size;
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("array-buffer: allocate (");
+      state.log_text.append(elements);
+      state.log_text.append(" elements, ");
+      state.log_text.append(size);
+      state.log_text.append(" bytes per element, ");
+      state.log_text.append(bytes_total);
+      state.log_text.append(" bytes, usage ");
+      state.log_text.append(usage);
+      state.log_text.append("))");
+      log.debug(state.log_text.toString());
+    }
+
+    final IntBuffer cache = state.getIntegerCache();
+    gl.glGenBuffers(1, cache);
+
+    final int id = cache.get(0);
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, id);
+    gl.glBufferData(
+      GL.GL_ARRAY_BUFFER,
+      bytes_total,
+      null,
+      GLTypeConversions.usageHintToGL(usage));
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("array-buffer: allocated ");
+      state.log_text.append(id);
+      log.debug(state.log_text.toString());
+    }
+
+    GLES2Functions.checkError(gl);
+    return new ArrayBuffer(id, elements, descriptor);
+  }
+
   static ByteBuffer arrayBufferMapRead(
     final @Nonnull GL3 gl,
     final @Nonnull GLStateCache state,
@@ -187,6 +241,57 @@ final class GL3Functions
       destination_factor,
       equation_rgb,
       equation_alpha);
+  }
+
+  static int depthBufferGetBits(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state)
+    throws GLException
+  {
+    final int framebuffer =
+      GLES2Functions.contextGetInteger(gl, state, GL.GL_FRAMEBUFFER_BINDING);
+    GLES2Functions.checkError(gl);
+
+    /**
+     * If no framebuffer is bound, use the default glGet query.
+     */
+
+    if (framebuffer == 0) {
+      final int bits =
+        GLES2Functions.contextGetInteger(gl, state, GL.GL_DEPTH_BITS);
+      GLES2Functions.checkError(gl);
+      return bits;
+    }
+
+    /**
+     * If a framebuffer is bound, check to see if there's a depth attachment.
+     */
+
+    {
+      final IntBuffer cache = state.getIntegerCache();
+      gl.glGetFramebufferAttachmentParameteriv(
+        GL.GL_FRAMEBUFFER,
+        GL.GL_DEPTH_ATTACHMENT,
+        GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
+        cache);
+      GLES2Functions.checkError(gl);
+      if (cache.get(0) == GL.GL_NONE) {
+        return 0;
+      }
+    }
+
+    /**
+     * If there's a depth attachment, check the size of it.
+     */
+
+    final IntBuffer cache = state.getIntegerCache();
+    gl.glGetFramebufferAttachmentParameteriv(
+      GL.GL_FRAMEBUFFER,
+      GL.GL_DEPTH_ATTACHMENT,
+      GL2GL3.GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE,
+      cache);
+    GLES2Functions.checkError(gl);
+    return cache.get(0);
   }
 
   static IndexBufferReadableMap indexBufferMapRead(
@@ -401,4 +506,59 @@ final class GL3Functions
     return e;
   }
 
+  static int stencilBufferGetBits(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state)
+    throws GLException
+  {
+    final int framebuffer =
+      GLES2Functions.contextGetInteger(gl, state, GL.GL_FRAMEBUFFER_BINDING);
+    GLES2Functions.checkError(gl);
+
+    /**
+     * If no framebuffer is bound, use the default glGet query.
+     */
+
+    if (framebuffer == 0) {
+      final int bits =
+        GLES2Functions.contextGetInteger(gl, state, GL.GL_STENCIL_BITS);
+      GLES2Functions.checkError(gl);
+      return bits;
+    }
+
+    /**
+     * If a framebuffer is bound, check to see if there's a stencil
+     * attachment.
+     */
+
+    {
+      final IntBuffer cache = state.getIntegerCache();
+      gl.glGetFramebufferAttachmentParameteriv(
+        GL.GL_FRAMEBUFFER,
+        GL.GL_STENCIL_ATTACHMENT,
+        GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
+        cache);
+      GLES2Functions.checkError(gl);
+
+      final int type = cache.get(0);
+      if (type == GL.GL_NONE) {
+        return 0;
+      }
+    }
+
+    /**
+     * If there's a stencil attachment, check the size of it.
+     */
+
+    {
+      final IntBuffer cache = state.getIntegerCache();
+      gl.glGetFramebufferAttachmentParameteriv(
+        GL.GL_FRAMEBUFFER,
+        GL.GL_STENCIL_ATTACHMENT,
+        GL2GL3.GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE,
+        cache);
+      GLES2Functions.checkError(gl);
+      return cache.get(0);
+    }
+  }
 }

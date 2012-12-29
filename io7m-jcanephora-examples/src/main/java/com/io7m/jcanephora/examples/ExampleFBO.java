@@ -28,7 +28,6 @@ import com.io7m.jcanephora.ProjectionMatrix;
 import com.io7m.jcanephora.RenderbufferD24S8;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilter;
-import com.io7m.jcanephora.TextureType;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureWrap;
 import com.io7m.jcanephora.UsageHint;
@@ -130,11 +129,10 @@ public final class ExampleFBO implements Example
         this.framebuffer_height);
 
     this.texture =
-      this.gl.texture2DStaticAllocate(
+      this.gl.texture2DStaticAllocateRGBA8888(
         "color_buffer",
         this.framebuffer_width,
         this.framebuffer_height,
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_LINEAR,

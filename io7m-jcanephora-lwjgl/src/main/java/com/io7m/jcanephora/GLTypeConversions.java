@@ -553,6 +553,43 @@ final class GLTypeConversions
         return GL11.GL_RGB;
       case TEXTURE_TYPE_RG_88_2BPP:
         return GL30.GL_RG;
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_DEPTH_32_4BPP:
+        return GL11.GL_DEPTH_COMPONENT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  static int textureTypeToInternalFormatGL(
+    final TextureType type)
+  {
+    switch (type) {
+      case TEXTURE_TYPE_R_8_1BPP:
+        return GL11.GL_RED;
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+        return GL11.GL_RGBA;
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_TYPE_RGB_888_3BPP:
+        return GL11.GL_RGB;
+      case TEXTURE_TYPE_RG_88_2BPP:
+        return GL30.GL_RG;
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+        return GL14.GL_DEPTH_COMPONENT16;
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+        return GL14.GL_DEPTH_COMPONENT24;
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+        /**
+         * XXX: The value of the GL30.GL_DEPTH_COMPONENT32F is wrong in at
+         * least LWJGL 2.8.4, so this apparent magic number is necessary.
+         */
+        return 0x8CAC;
+      case TEXTURE_TYPE_DEPTH_32_4BPP:
+        return GL14.GL_DEPTH_COMPONENT32;
     }
 
     throw new UnreachableCodeException();
@@ -573,6 +610,12 @@ final class GLTypeConversions
         return GL12.GL_UNSIGNED_SHORT_5_5_5_1;
       case TEXTURE_TYPE_RGB_565_2BPP:
         return GL12.GL_UNSIGNED_SHORT_5_6_5;
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+        return GL11.GL_UNSIGNED_SHORT;
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_DEPTH_32_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+        return GL11.GL_UNSIGNED_INT;
     }
 
     throw new UnreachableCodeException();

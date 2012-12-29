@@ -19,7 +19,6 @@ import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilter;
-import com.io7m.jcanephora.TextureType;
 import com.io7m.jcanephora.TextureWrap;
 
 public abstract class StencilBuffersContract implements GLES2TestContract
@@ -31,11 +30,10 @@ public abstract class StencilBuffersContract implements GLES2TestContract
   {
     final RenderbufferD24S8 rb = g.renderbufferD24S8Allocate(128, 128);
     final Texture2DStatic cb =
-      g.texture2DStaticAllocate(
+      g.texture2DStaticAllocateRGBA8888(
         "framebuffer",
         128,
         128,
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,
@@ -54,11 +52,10 @@ public abstract class StencilBuffersContract implements GLES2TestContract
       ConstraintError
   {
     final Texture2DStatic cb =
-      g.texture2DStaticAllocate(
+      g.texture2DStaticAllocateRGBA8888(
         "framebuffer",
         128,
         128,
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureFilter.TEXTURE_FILTER_NEAREST,

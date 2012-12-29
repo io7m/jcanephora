@@ -26,6 +26,7 @@ import javax.imageio.ImageIO;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.UnimplementedCodeException;
 import com.io7m.jaux.UnreachableCodeException;
 
 /**
@@ -300,6 +301,17 @@ public final class TextureLoaderImageIO implements TextureLoader
     return ImageIO.read(stream);
   }
 
+  /**
+   * @param gl
+   * @param wrap_s
+   * @param wrap_t
+   * @param min_filter
+   * @param mag_filter
+   * @param name
+   * @throws GLException
+   * @throws ConstraintError
+   */
+
   private static @Nonnull Texture2DStatic load2DStaticImageInferred(
     final @Nonnull GLInterfaceES2 gl,
     final @Nonnull TextureWrap wrap_s,
@@ -359,19 +371,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       }
     }
 
-    final Texture2DStatic texture =
-      gl.texture2DStaticAllocate(
-        name,
-        image.getWidth(),
-        image.getHeight(),
-        inferred,
-        wrap_s,
-        wrap_t,
-        mag_filter,
-        min_filter);
-
-    return TextureLoaderImageIO
-      .load2DStaticImageSpecific(gl, texture, actual);
+    throw new UnimplementedCodeException();
   }
 
   private static @Nonnull Texture2DStatic load2DStaticImageSpecific(
@@ -470,6 +470,13 @@ public final class TextureLoaderImageIO implements TextureLoader
             return TextureLoaderImageIO
               .convertRGBToRG88_2Generic(image, data);
           }
+          case TEXTURE_TYPE_DEPTH_16_2BPP:
+          case TEXTURE_TYPE_DEPTH_24_4BPP:
+          case TEXTURE_TYPE_DEPTH_32F_4BPP:
+          case TEXTURE_TYPE_DEPTH_32_4BPP:
+          {
+            throw new UnimplementedCodeException();
+          }
         }
 
         throw new UnreachableCodeException();
@@ -507,6 +514,13 @@ public final class TextureLoaderImageIO implements TextureLoader
           {
             return TextureLoaderImageIO.convertBGRToRGBGeneric(image, data);
           }
+          case TEXTURE_TYPE_DEPTH_16_2BPP:
+          case TEXTURE_TYPE_DEPTH_24_4BPP:
+          case TEXTURE_TYPE_DEPTH_32F_4BPP:
+          case TEXTURE_TYPE_DEPTH_32_4BPP:
+          {
+            throw new UnimplementedCodeException();
+          }
         }
 
         throw new UnreachableCodeException();
@@ -539,6 +553,13 @@ public final class TextureLoaderImageIO implements TextureLoader
           case TEXTURE_TYPE_RGB_888_3BPP:
           {
             return TextureLoaderImageIO.convertGreyToRGB(image, data);
+          }
+          case TEXTURE_TYPE_DEPTH_16_2BPP:
+          case TEXTURE_TYPE_DEPTH_24_4BPP:
+          case TEXTURE_TYPE_DEPTH_32F_4BPP:
+          case TEXTURE_TYPE_DEPTH_32_4BPP:
+          {
+            throw new UnimplementedCodeException();
           }
         }
 
@@ -611,17 +632,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     Constraints.constrainNotNull(min_filter, "Minification filter");
 
     final BufferedImage image = TextureLoaderImageIO.getBufferedImage(stream);
-    final Texture2DStatic texture =
-      gl.texture2DStaticAllocate(
-        name,
-        image.getWidth(),
-        image.getHeight(),
-        type,
-        wrap_s,
-        wrap_t,
-        mag_filter,
-        min_filter);
 
-    return TextureLoaderImageIO.load2DStaticImageSpecific(gl, texture, image);
+    throw new UnimplementedCodeException();
   }
 }

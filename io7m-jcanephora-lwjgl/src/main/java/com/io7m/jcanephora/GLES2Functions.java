@@ -2140,7 +2140,6 @@ final class GLES2Functions
   }
 
   static @Nonnull Texture2DStatic texture2DStaticAllocate(
-
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull String name,
@@ -2164,8 +2163,7 @@ final class GLES2Functions
     Constraints.constrainNotNull(min_filter, "Minification filter");
 
     if (log.enabled(Level.LOG_DEBUG)) {
-      final int bytes =
-        height * (TextureTypeMeta.bytesPerPixel(type) * width);
+      final int bytes = height * (type.bytesPerPixel() * width);
       state.log_text.setLength(0);
       state.log_text.append("texture-2D-static: allocate \"");
       state.log_text.append(name);
@@ -2207,15 +2205,20 @@ final class GLES2Functions
       GLTypeConversions.textureFilterToGL(min_filter));
     GLES2Functions.checkError();
 
+    final int internal =
+      GLTypeConversions.textureTypeToInternalFormatGL(type);
+    final int format = GLTypeConversions.textureTypeToFormatGL(type);
+    final int itype = GLTypeConversions.textureTypeToTypeGL(type);
+
     GL11.glTexImage2D(
       GL11.GL_TEXTURE_2D,
       0,
-      GLTypeConversions.textureTypeToFormatGL(type),
+      internal,
       width,
       height,
       0,
-      GLTypeConversions.textureTypeToFormatGL(type),
-      GLTypeConversions.textureTypeToTypeGL(type),
+      format,
+      itype,
       (ByteBuffer) null);
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
     GLES2Functions.checkError();

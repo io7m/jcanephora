@@ -97,11 +97,53 @@ public final class Texture2DWritableData
 
     final long width = this.source_area.getRangeX().getInterval();
     final long height = this.source_area.getRangeY().getInterval();
+    final int bpp = texture.getType().bytesPerPixel();
 
     this.target_data =
-      ByteBuffer.allocateDirect(
-        (int) (height * width * TextureTypeMeta.bytesPerPixel(texture
-          .getType()))).order(ByteOrder.nativeOrder());
+      ByteBuffer.allocateDirect((int) (height * width * bpp)).order(
+        ByteOrder.nativeOrder());
+  }
+
+  /**
+   * Retrieve a cursor that points to elements of the texture. The cursor
+   * interface allows constant time access to any element and also minimizes
+   * the number of checks performed for each access.
+   * 
+   * @throws ConstraintError
+   *           If the number of components in the texture is not 1.
+   */
+
+  public @Nonnull SpatialCursorWritable1f getCursor1f()
+    throws ConstraintError
+  {
+    switch (this.texture.getType()) {
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+      case TEXTURE_TYPE_RG_88_2BPP:
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_TYPE_RGB_888_3BPP:
+      case TEXTURE_TYPE_R_8_1BPP:
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_DEPTH_32_4BPP:
+      {
+        Constraints
+          .constrainArbitrary(
+            false,
+            "Number of texture components is 1 and textures are floating point");
+        break;
+      }
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      {
+        return new ByteBufferTextureCursorWritable1f_1_32(
+          this.target_data,
+          this.source_area,
+          this.source_area);
+      }
+    }
+
+    throw new UnreachableCodeException();
   }
 
   /**
@@ -134,6 +176,35 @@ public final class Texture2DWritableData
         Constraints.constrainArbitrary(
           false,
           "Number of texture components is 1");
+        break;
+      }
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      {
+        Constraints.constrainArbitrary(
+          false,
+          "Texture components are integers");
+        break;
+      }
+      case TEXTURE_TYPE_DEPTH_32_4BPP:
+      {
+        return new ByteBufferTextureCursorWritable1i_1_32(
+          this.target_data,
+          this.source_area,
+          this.source_area);
+      }
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      {
+        return new ByteBufferTextureCursorWritable1i_1_16(
+          this.target_data,
+          this.source_area,
+          this.source_area);
+      }
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      {
+        return new ByteBufferTextureCursorWritable1i_1_24(
+          this.target_data,
+          this.source_area,
+          this.source_area);
       }
     }
 
@@ -166,6 +237,10 @@ public final class Texture2DWritableData
       case TEXTURE_TYPE_R_8_1BPP:
       case TEXTURE_TYPE_RGB_565_2BPP:
       case TEXTURE_TYPE_RGB_888_3BPP:
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_DEPTH_32_4BPP:
       {
         Constraints.constrainArbitrary(
           false,
@@ -190,6 +265,10 @@ public final class Texture2DWritableData
     throws ConstraintError
   {
     switch (this.texture.getType()) {
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_DEPTH_32_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
       case TEXTURE_TYPE_RGBA_4444_2BPP:
       case TEXTURE_TYPE_RGBA_5551_2BPP:
       case TEXTURE_TYPE_RGBA_8888_4BPP:
@@ -254,6 +333,10 @@ public final class Texture2DWritableData
           this.source_area,
           this.source_area);
       }
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_DEPTH_32_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
       case TEXTURE_TYPE_R_8_1BPP:
       case TEXTURE_TYPE_RG_88_2BPP:
       case TEXTURE_TYPE_RGB_565_2BPP:
