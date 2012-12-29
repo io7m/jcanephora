@@ -27,38 +27,26 @@ import com.io7m.jaux.Constraints.ConstraintError;
 public interface GLPolygonModes
 {
   /**
-   * Return the <code>PolygonMode</code> used for back-facing polygons.
+   * Return the <code>PolygonMode</code> used for polygons.
    */
 
-  @Nonnull PolygonMode polygonGetModeBack()
+  @Nonnull PolygonMode polygonGetMode()
     throws ConstraintError,
       GLException;
 
   /**
-   * Return the <code>PolygonMode</code> used for front-facing polygons.
-   */
-
-  @Nonnull PolygonMode polygonGetModeFront()
-    throws ConstraintError,
-      GLException;
-
-  /**
-   * Set the polygon rasterization mode for the polygons specified by
-   * <code>faces</code> to <code>mode</code>. The OpenGL default is
-   * <code>POLYGON_FILL</code> for both front and back faces.
+   * Set the polygon rasterization mode for the polygons to <code>mode</code>.
+   * The OpenGL default is <code>POLYGON_FILL</code>.
    * 
-   * @param faces
-   *          The selected faces.
    * @param mode
    *          The rasterization mode.
    * @throws ConstraintError
-   *           Iff <code>faces == null | mode == null</code>.
+   *           Iff <code>mode == null</code>.
    * @throws GLException
    *           Iff an OpenGL error occurs.
    */
 
   void polygonSetMode(
-    final @Nonnull FaceSelection faces,
     final @Nonnull PolygonMode mode)
     throws ConstraintError,
       GLException;
