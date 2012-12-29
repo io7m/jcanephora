@@ -358,8 +358,11 @@ public abstract class ProgramContract implements
         GLCompileException,
         GLException
   {
+    final PathVirtual path = this.getShaderPath();
     final Program p = new Program("program", this.getLog());
     p.addFragmentShader(new PathVirtual("/nonexistent"));
+    p.addVertexShader(new PathVirtual(path + "/simple.v"));
+
     try {
       p.compile(this.makeNewFS(), this.makeNewGL());
     } catch (final GLCompileException e) {
@@ -420,28 +423,61 @@ public abstract class ProgramContract implements
   }
 
   /**
-   * Compiling an empty program is illegal (some implementations don't accept
-   * empty shading programs, notably the Mesa "software" implementation).
+   * Compiling a program without a fragment shader fails (in order to comply
+   * with GLSL ES 1.0 restrictions).
    * 
    * @throws GLException
    */
 
   @Test(expected = GLCompileException.class) public final
     void
-    testProgramCompileNothing()
+    testProgramCompileNoFragmentShader()
       throws ConstraintError,
         GLCompileException,
         GLException
   {
+    final GLInterfaceES2 gl = this.makeNewGL();
     final FilesystemAPI fs = this.makeNewFS();
 
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final PathVirtual path = this.getShaderPath();
     final Program p = new Program("program", this.getLog());
+    p.addVertexShader(new PathVirtual(path + "/simple.v"));
 
     try {
       p.compile(fs, gl);
     } catch (final GLCompileException e) {
-      Assert.assertTrue(e.getMessage().endsWith("empty program"));
+      Assert.assertTrue(e.getMessage().endsWith(
+        "at least one fragment shader is required"));
+      throw e;
+    }
+  }
+
+  /**
+   * Compiling a program without a vertex shader fails (in order to comply
+   * with GLSL ES 1.0 restrictions).
+   * 
+   * @throws GLException
+   */
+
+  @Test(expected = GLCompileException.class) public final
+    void
+    testProgramCompileNoVertexShader()
+      throws ConstraintError,
+        GLCompileException,
+        GLException
+  {
+    final GLInterfaceES2 gl = this.makeNewGL();
+    final FilesystemAPI fs = this.makeNewFS();
+
+    final PathVirtual path = this.getShaderPath();
+    final Program p = new Program("program", this.getLog());
+    p.addFragmentShader(new PathVirtual(path + "/simple.f"));
+
+    try {
+      p.compile(fs, gl);
+    } catch (final GLCompileException e) {
+      Assert.assertTrue(e.getMessage().endsWith(
+        "at least one vertex shader is required"));
       throw e;
     }
   }
@@ -499,8 +535,11 @@ public abstract class ProgramContract implements
         GLCompileException,
         GLException
   {
+    final PathVirtual path = this.getShaderPath();
     final Program p = new Program("program", this.getLog());
     p.addVertexShader(new PathVirtual("/nonexistent"));
+    p.addFragmentShader(new PathVirtual(path + "/simple.f"));
+
     try {
       p.compile(this.makeNewFS(), this.makeNewGL());
     } catch (final GLCompileException e) {
