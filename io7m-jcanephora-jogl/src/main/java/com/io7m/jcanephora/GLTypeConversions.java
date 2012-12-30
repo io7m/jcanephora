@@ -156,6 +156,48 @@ final class GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  static @Nonnull CubeMapFace cubeFaceFromGL(
+    final int face)
+  {
+    switch (face) {
+      case GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_X:
+        return CubeMapFace.CUBE_MAP_NEGATIVE_X;
+      case GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y:
+        return CubeMapFace.CUBE_MAP_NEGATIVE_Y;
+      case GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z:
+        return CubeMapFace.CUBE_MAP_NEGATIVE_Z;
+      case GL.GL_TEXTURE_CUBE_MAP_POSITIVE_X:
+        return CubeMapFace.CUBE_MAP_POSITIVE_X;
+      case GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Y:
+        return CubeMapFace.CUBE_MAP_POSITIVE_Y;
+      case GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Z:
+        return CubeMapFace.CUBE_MAP_POSITIVE_Z;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  static int cubeFaceToGL(
+    final @Nonnull CubeMapFace face)
+  {
+    switch (face) {
+      case CUBE_MAP_NEGATIVE_X:
+        return GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
+      case CUBE_MAP_NEGATIVE_Y:
+        return GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
+      case CUBE_MAP_NEGATIVE_Z:
+        return GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
+      case CUBE_MAP_POSITIVE_X:
+        return GL.GL_TEXTURE_CUBE_MAP_POSITIVE_X;
+      case CUBE_MAP_POSITIVE_Y:
+        return GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
+      case CUBE_MAP_POSITIVE_Z:
+        return GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
   static final DepthFunction depthFunctionFromGL(
     final int d)
   {

@@ -27,15 +27,15 @@ import com.io7m.jaux.RangeInclusive;
 import com.io7m.jaux.UnreachableCodeException;
 
 /**
- * An allocated region of data, to replace or update a 2D texture.
+ * An allocated region of data, to replace or update a cube map texture.
  */
 
-public final class Texture2DWritableData
+public final class TextureCubeWritableData
 {
-  private final @Nonnull Texture2DStatic texture;
-  private final @Nonnull AreaInclusive   target_area;
-  private final @Nonnull AreaInclusive   source_area;
-  private final @Nonnull ByteBuffer      target_data;
+  private final @Nonnull TextureCubeStatic texture;
+  private final @Nonnull AreaInclusive     target_area;
+  private final @Nonnull AreaInclusive     source_area;
+  private final @Nonnull ByteBuffer        target_data;
 
   /**
    * Construct a buffer of data that will be used to replace the entirety of
@@ -50,8 +50,8 @@ public final class Texture2DWritableData
    *           </ul>
    */
 
-  public Texture2DWritableData(
-    final @Nonnull Texture2DStatic texture)
+  public TextureCubeWritableData(
+    final @Nonnull TextureCubeStatic texture)
     throws ConstraintError
   {
     this(texture, texture.getArea());
@@ -75,8 +75,8 @@ public final class Texture2DWritableData
    *           </ul>
    */
 
-  public Texture2DWritableData(
-    final @Nonnull Texture2DStatic texture,
+  public TextureCubeWritableData(
+    final @Nonnull TextureCubeStatic texture,
     final @Nonnull AreaInclusive area)
     throws ConstraintError
   {
@@ -355,7 +355,7 @@ public final class Texture2DWritableData
    * Retrieve the texture that will be affected by this update.
    */
 
-  public @Nonnull Texture2DStatic getTexture()
+  public @Nonnull TextureCubeStatic getTexture()
   {
     return this.texture;
   }

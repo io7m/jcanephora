@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
@@ -155,6 +156,48 @@ final class GLTypeConversions
         return GL11.GL_SRC_COLOR;
       case BLEND_ZERO:
         return GL11.GL_ZERO;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  static @Nonnull CubeMapFace cubeFaceFromGL(
+    final int face)
+  {
+    switch (face) {
+      case GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_X:
+        return CubeMapFace.CUBE_MAP_NEGATIVE_X;
+      case GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y:
+        return CubeMapFace.CUBE_MAP_NEGATIVE_Y;
+      case GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z:
+        return CubeMapFace.CUBE_MAP_NEGATIVE_Z;
+      case GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X:
+        return CubeMapFace.CUBE_MAP_POSITIVE_X;
+      case GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_Y:
+        return CubeMapFace.CUBE_MAP_POSITIVE_Y;
+      case GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_Z:
+        return CubeMapFace.CUBE_MAP_POSITIVE_Z;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  static int cubeFaceToGL(
+    final @Nonnull CubeMapFace face)
+  {
+    switch (face) {
+      case CUBE_MAP_NEGATIVE_X:
+        return GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
+      case CUBE_MAP_NEGATIVE_Y:
+        return GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
+      case CUBE_MAP_NEGATIVE_Z:
+        return GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
+      case CUBE_MAP_POSITIVE_X:
+        return GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X;
+      case CUBE_MAP_POSITIVE_Y:
+        return GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
+      case CUBE_MAP_POSITIVE_Z:
+        return GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
     }
 
     throw new UnreachableCodeException();
@@ -849,4 +892,5 @@ final class GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
 }

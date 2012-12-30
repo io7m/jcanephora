@@ -21,33 +21,41 @@ import javax.annotation.Nonnull;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * Type-safe interface to the 2D texture API exposed by OpenGL ES2.
+ * Type-safe interface to the cube map texture API exposed by OpenGL 3.0.
  * 
- * The textures are manipulated using the standard <code>glTexImage2D</code>
+ * The textures are manipulated using the standard <code>glTexImageCube</code>
  * family of functions, internally and the functions are intended for use with
- * textures that are not frequently updated. For streaming, frequently updated
- * textures on non-embedded platforms that support pixel-unpack buffers, see
- * the {@link GLTextures2DBuffered} interface.
- * 
- * @see GLTextures2DBuffered
+ * textures that are not frequently updated.
  */
 
-public interface GLTextures2DStaticES2
+public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
 {
   /**
-   * Allocate an RGB texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGB_565_2BPP}
-   * for the precise format of the texture.
+   * Allocate a depth texture of width <code>width</code> and height
+   * <code>height</code>.
+   * 
+   * See {@link TextureType#TEXTURE_TYPE_DEPTH_16_2BPP} for the precise format
+   * of the texture.
    * 
    * The texture is wrapped around the <code>s</code> axis using the wrapping
    * mode <code>wrap_s</code>, with the OpenGL default being
-   * <code>TEXTURE_WRAP_REPEAT</code>. The texture is wrapped around the
-   * <code>t</code> axis using the wrapping mode <code>wrap_t</code>, with the
-   * OpenGL default being <code>TEXTURE_WRAP_REPEAT</code>. The texture is
-   * scaled up using the magnification filter <code>mag_filter</code>, with
-   * the OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture
-   * is scaled down using the minification filter <code>min_filter</code>,
-   * with the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * 
+   * The texture is wrapped around the <code>t</code> axis using the wrapping
+   * mode <code>wrap_t</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * 
+   * The texture is wrapped around the <code>r</code> axis using the wrapping
+   * mode <code>wrap_r</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * 
+   * The texture is scaled up using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
+   * <code>TEXURE_FILTER_LINEAR</code>.
+   * 
+   * The texture is scaled down using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
+   * <code>TEXTURE_FILTER_LINEAR</code>.
    * 
    * @param name
    *          The name of the texture.
@@ -55,6 +63,9 @@ public interface GLTextures2DStaticES2
    *          The width in pixels.
    * @param height
    *          The height in pixels.
+   * @param wrap_r
+   *          The method with which to wrap textures around the <code>t</code>
+   *          axis.
    * @param wrap_s
    *          The method with which to wrap textures around the <code>s</code>
    *          axis.
@@ -72,6 +83,7 @@ public interface GLTextures2DStaticES2
    *           <li><code>name == null</code></li>
    *           <li><code>wrap_s == null</code></li>
    *           <li><code>wrap_t == null</code></li>
+   *           <li><code>wrap_r == null</code></li>
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>min_filter == null</code></li>
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
@@ -81,10 +93,11 @@ public interface GLTextures2DStaticES2
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull Texture2DStatic texture2DStaticAllocateRGB565(
+  public @Nonnull TextureCubeStatic textureCubeStaticAllocateDepth16(
     final @Nonnull String name,
     final int width,
     final int height,
+    final @Nonnull TextureWrap wrap_r,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter mag_filter,
@@ -93,21 +106,31 @@ public interface GLTextures2DStaticES2
       GLException;
 
   /**
-   * Allocate an RGB texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGB_888_3BPP}
-   * for the precise format of the texture.
+   * Allocate a depth texture of width <code>width</code> and height
+   * <code>height</code>.
+   * 
+   * See {@link TextureType#TEXTURE_TYPE_DEPTH_24_4BPP} for the precise format
+   * of the texture.
    * 
    * The texture is wrapped around the <code>s</code> axis using the wrapping
    * mode <code>wrap_s</code>, with the OpenGL default being
-   * <code>TEXTURE_WRAP_REPEAT</code>. The texture is wrapped around the
-   * <code>t</code> axis using the wrapping mode <code>wrap_t</code>, with the
-   * OpenGL default being <code>TEXTURE_WRAP_REPEAT</code>. The texture is
-   * scaled up using the magnification filter <code>mag_filter</code>, with
-   * the OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture
-   * is scaled down using the minification filter <code>min_filter</code>,
-   * with the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
+   * <code>TEXTURE_WRAP_REPEAT</code>.
    * 
-   * @see TextureType#TEXTURE_TYPE_RGB_888_3BPP
+   * The texture is wrapped around the <code>t</code> axis using the wrapping
+   * mode <code>wrap_t</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * 
+   * The texture is wrapped around the <code>r</code> axis using the wrapping
+   * mode <code>wrap_r</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * 
+   * The texture is scaled up using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
+   * <code>TEXURE_FILTER_LINEAR</code>.
+   * 
+   * The texture is scaled down using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
+   * <code>TEXTURE_FILTER_LINEAR</code>.
    * 
    * @param name
    *          The name of the texture.
@@ -115,6 +138,9 @@ public interface GLTextures2DStaticES2
    *          The width in pixels.
    * @param height
    *          The height in pixels.
+   * @param wrap_r
+   *          The method with which to wrap textures around the <code>t</code>
+   *          axis.
    * @param wrap_s
    *          The method with which to wrap textures around the <code>s</code>
    *          axis.
@@ -132,6 +158,7 @@ public interface GLTextures2DStaticES2
    *           <li><code>name == null</code></li>
    *           <li><code>wrap_s == null</code></li>
    *           <li><code>wrap_t == null</code></li>
+   *           <li><code>wrap_r == null</code></li>
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>min_filter == null</code></li>
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
@@ -141,10 +168,11 @@ public interface GLTextures2DStaticES2
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull Texture2DStatic texture2DStaticAllocateRGB888(
+  public @Nonnull TextureCubeStatic textureCubeStaticAllocateDepth24(
     final @Nonnull String name,
     final int width,
     final int height,
+    final @Nonnull TextureWrap wrap_r,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter mag_filter,
@@ -153,19 +181,31 @@ public interface GLTextures2DStaticES2
       GLException;
 
   /**
-   * Allocate an RGBA texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGBA_4444_2BPP}
-   * for the precise format of the texture.
+   * Allocate a depth texture of width <code>width</code> and height
+   * <code>height</code>.
+   * 
+   * See {@link TextureType#TEXTURE_TYPE_DEPTH_32_4BPP} for the precise format
+   * of the texture.
    * 
    * The texture is wrapped around the <code>s</code> axis using the wrapping
    * mode <code>wrap_s</code>, with the OpenGL default being
-   * <code>TEXTURE_WRAP_REPEAT</code>. The texture is wrapped around the
-   * <code>t</code> axis using the wrapping mode <code>wrap_t</code>, with the
-   * OpenGL default being <code>TEXTURE_WRAP_REPEAT</code>. The texture is
-   * scaled up using the magnification filter <code>mag_filter</code>, with
-   * the OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture
-   * is scaled down using the minification filter <code>min_filter</code>,
-   * with the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * 
+   * The texture is wrapped around the <code>t</code> axis using the wrapping
+   * mode <code>wrap_t</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * 
+   * The texture is wrapped around the <code>r</code> axis using the wrapping
+   * mode <code>wrap_r</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * 
+   * The texture is scaled up using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
+   * <code>TEXURE_FILTER_LINEAR</code>.
+   * 
+   * The texture is scaled down using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
+   * <code>TEXTURE_FILTER_LINEAR</code>.
    * 
    * @param name
    *          The name of the texture.
@@ -173,6 +213,9 @@ public interface GLTextures2DStaticES2
    *          The width in pixels.
    * @param height
    *          The height in pixels.
+   * @param wrap_r
+   *          The method with which to wrap textures around the <code>t</code>
+   *          axis.
    * @param wrap_s
    *          The method with which to wrap textures around the <code>s</code>
    *          axis.
@@ -190,6 +233,7 @@ public interface GLTextures2DStaticES2
    *           <li><code>name == null</code></li>
    *           <li><code>wrap_s == null</code></li>
    *           <li><code>wrap_t == null</code></li>
+   *           <li><code>wrap_r == null</code></li>
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>min_filter == null</code></li>
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
@@ -199,10 +243,11 @@ public interface GLTextures2DStaticES2
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA4444(
+  public @Nonnull TextureCubeStatic textureCubeStaticAllocateDepth32(
     final @Nonnull String name,
     final int width,
     final int height,
+    final @Nonnull TextureWrap wrap_r,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter mag_filter,
@@ -211,19 +256,31 @@ public interface GLTextures2DStaticES2
       GLException;
 
   /**
-   * Allocate an RGBA texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGBA_5551_2BPP}
-   * for the precise format of the texture.
+   * Allocate a depth texture of width <code>width</code> and height
+   * <code>height</code>.
+   * 
+   * See {@link TextureType#TEXTURE_TYPE_DEPTH_32F_4BPP} for the precise
+   * format of the texture.
    * 
    * The texture is wrapped around the <code>s</code> axis using the wrapping
    * mode <code>wrap_s</code>, with the OpenGL default being
-   * <code>TEXTURE_WRAP_REPEAT</code>. The texture is wrapped around the
-   * <code>t</code> axis using the wrapping mode <code>wrap_t</code>, with the
-   * OpenGL default being <code>TEXTURE_WRAP_REPEAT</code>. The texture is
-   * scaled up using the magnification filter <code>mag_filter</code>, with
-   * the OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture
-   * is scaled down using the minification filter <code>min_filter</code>,
-   * with the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * 
+   * The texture is wrapped around the <code>t</code> axis using the wrapping
+   * mode <code>wrap_t</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * 
+   * The texture is wrapped around the <code>r</code> axis using the wrapping
+   * mode <code>wrap_r</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * 
+   * The texture is scaled up using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
+   * <code>TEXURE_FILTER_LINEAR</code>.
+   * 
+   * The texture is scaled down using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
+   * <code>TEXTURE_FILTER_LINEAR</code>.
    * 
    * @param name
    *          The name of the texture.
@@ -231,6 +288,9 @@ public interface GLTextures2DStaticES2
    *          The width in pixels.
    * @param height
    *          The height in pixels.
+   * @param wrap_r
+   *          The method with which to wrap textures around the <code>t</code>
+   *          axis.
    * @param wrap_s
    *          The method with which to wrap textures around the <code>s</code>
    *          axis.
@@ -248,6 +308,7 @@ public interface GLTextures2DStaticES2
    *           <li><code>name == null</code></li>
    *           <li><code>wrap_s == null</code></li>
    *           <li><code>wrap_t == null</code></li>
+   *           <li><code>wrap_r == null</code></li>
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>min_filter == null</code></li>
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
@@ -257,10 +318,11 @@ public interface GLTextures2DStaticES2
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA5551(
+  public @Nonnull TextureCubeStatic textureCubeStaticAllocateDepth32f(
     final @Nonnull String name,
     final int width,
     final int height,
+    final @Nonnull TextureWrap wrap_r,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter mag_filter,
@@ -269,19 +331,31 @@ public interface GLTextures2DStaticES2
       GLException;
 
   /**
-   * Allocate an RGBA texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGBA_8888_4BPP}
-   * for the precise format of the texture.
+   * Allocate an R texture of width <code>width</code> and height
+   * <code>height</code>.
+   * 
+   * See {@link TextureType#TEXTURE_TYPE_R_8_1BPP} for the precise format of
+   * the texture.
    * 
    * The texture is wrapped around the <code>s</code> axis using the wrapping
    * mode <code>wrap_s</code>, with the OpenGL default being
-   * <code>TEXTURE_WRAP_REPEAT</code>. The texture is wrapped around the
-   * <code>t</code> axis using the wrapping mode <code>wrap_t</code>, with the
-   * OpenGL default being <code>TEXTURE_WRAP_REPEAT</code>. The texture is
-   * scaled up using the magnification filter <code>mag_filter</code>, with
-   * the OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture
-   * is scaled down using the minification filter <code>min_filter</code>,
-   * with the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * 
+   * The texture is wrapped around the <code>t</code> axis using the wrapping
+   * mode <code>wrap_t</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * 
+   * The texture is wrapped around the <code>r</code> axis using the wrapping
+   * mode <code>wrap_r</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * 
+   * The texture is scaled up using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
+   * <code>TEXURE_FILTER_LINEAR</code>.
+   * 
+   * The texture is scaled down using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
+   * <code>TEXTURE_FILTER_LINEAR</code>.
    * 
    * @param name
    *          The name of the texture.
@@ -289,6 +363,9 @@ public interface GLTextures2DStaticES2
    *          The width in pixels.
    * @param height
    *          The height in pixels.
+   * @param wrap_r
+   *          The method with which to wrap textures around the <code>t</code>
+   *          axis.
    * @param wrap_s
    *          The method with which to wrap textures around the <code>s</code>
    *          axis.
@@ -306,6 +383,7 @@ public interface GLTextures2DStaticES2
    *           <li><code>name == null</code></li>
    *           <li><code>wrap_s == null</code></li>
    *           <li><code>wrap_t == null</code></li>
+   *           <li><code>wrap_r == null</code></li>
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>min_filter == null</code></li>
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
@@ -315,10 +393,11 @@ public interface GLTextures2DStaticES2
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA8888(
+  public @Nonnull TextureCubeStatic textureCubeStaticAllocateR8(
     final @Nonnull String name,
     final int width,
     final int height,
+    final @Nonnull TextureWrap wrap_r,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter mag_filter,
@@ -327,114 +406,77 @@ public interface GLTextures2DStaticES2
       GLException;
 
   /**
-   * Bind the texture <code>texture</code> to the texture unit
-   * <code>unit</code>.
+   * Allocate an RG texture of width <code>width</code> and height
+   * <code>height</code>.
    * 
-   * @param unit
-   *          The texture unit.
-   * @param texture
-   *          The texture.
+   * See {@link TextureType#TEXTURE_TYPE_RG_88_2BPP} for the precise format of
+   * the texture.
+   * 
+   * The texture is wrapped around the <code>s</code> axis using the wrapping
+   * mode <code>wrap_s</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * 
+   * The texture is wrapped around the <code>t</code> axis using the wrapping
+   * mode <code>wrap_t</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * 
+   * The texture is wrapped around the <code>r</code> axis using the wrapping
+   * mode <code>wrap_r</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * 
+   * The texture is scaled up using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
+   * <code>TEXURE_FILTER_LINEAR</code>.
+   * 
+   * The texture is scaled down using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
+   * <code>TEXTURE_FILTER_LINEAR</code>.
+   * 
+   * @param name
+   *          The name of the texture.
+   * @param width
+   *          The width in pixels.
+   * @param height
+   *          The height in pixels.
+   * @param wrap_r
+   *          The method with which to wrap textures around the <code>t</code>
+   *          axis.
+   * @param wrap_s
+   *          The method with which to wrap textures around the <code>s</code>
+   *          axis.
+   * @param wrap_t
+   *          The method with which to wrap textures around the <code>t</code>
+   *          axis.
+   * @param mag_filter
+   *          The magnification filter.
+   * @param min_filter
+   *          The minification filter.
+   * @return An allocated texture.
    * @throws ConstraintError
-   *           Iff any of the following hold:
+   *           Iff any of the following conditions hold:
    *           <ul>
-   *           <li><code>unit == null</code>.</li>
-   *           <li><code>texture == null</code>.</li>
-   *           <li><code>texture</code> does not refer to a valid texture
-   *           (possible if the texture has already been deleted).</li>
+   *           <li><code>name == null</code></li>
+   *           <li><code>wrap_s == null</code></li>
+   *           <li><code>wrap_t == null</code></li>
+   *           <li><code>wrap_r == null</code></li>
+   *           <li><code>mag_filter == null</code></li>
+   *           <li><code>min_filter == null</code></li>
+   *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
+   *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
    * @throws GLException
    *           Iff an OpenGL error occurs.
    */
 
-  void texture2DStaticBind(
-    final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DStatic texture)
-    throws ConstraintError,
-      GLException;
-
-  /**
-   * Deletes the texture referenced by <code>texture</code>.
-   * 
-   * @param texture
-   *          The texture.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>texture == null</code>.</li>
-   *           <li><code>texture</code> does not refer to a valid texture
-   *           (possible if the texture has already been deleted).</li>
-   *           </ul>
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  void texture2DStaticDelete(
-    final @Nonnull Texture2DStatic texture)
-    throws ConstraintError,
-      GLException;
-
-  /**
-   * Return <code>true</code> iff the texture <code>texture</code> is bound to
-   * the texture unit <code>unit</code>.
-   * 
-   * @param unit
-   *          The texture unit.
-   * @param texture
-   *          The texture. Iff any of the following hold:
-   *          <ul>
-   *          <li><code>unit == null</code>.</li>
-   *          <li><code>texture == null</code>.</li>
-   *          <li><code>texture</code> does not refer to a valid texture
-   *          (possible if the texture has already been deleted).</li>
-   *          </ul>
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  boolean texture2DStaticIsBound(
-    final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DStatic texture)
-    throws ConstraintError,
-      GLException;
-
-  /**
-   * Unbind whatever 2D texture is bound to the texture unit <code>unit</code>
-   * (if any).
-   * 
-   * @param unit
-   *          The texture unit.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>unit == null</code>.</li>
-   *           </ul>
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  void texture2DStaticUnbind(
-    final @Nonnull TextureUnit unit)
-    throws ConstraintError,
-      GLException;
-
-  /**
-   * Replace the contents (or part of the contents) of the texture
-   * <code>data.getTexture()</code> with <code>data</code>.
-   * 
-   * @param data
-   *          The data to upload.
-   * 
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>data == null</code></li>
-   *           </ul>
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  void texture2DStaticUpdate(
-    final @Nonnull Texture2DWritableData data)
+  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG88(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrap wrap_r,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureFilter min_filter)
     throws ConstraintError,
       GLException;
 }

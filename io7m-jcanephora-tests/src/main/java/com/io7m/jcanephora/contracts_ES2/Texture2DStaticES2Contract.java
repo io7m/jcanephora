@@ -1,4 +1,4 @@
-package com.io7m.jcanephora.contracts_full;
+package com.io7m.jcanephora.contracts_ES2;
 
 import org.junit.Assert;
 import org.junit.Assume;
@@ -6,8 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterface;
+import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.SpatialCursorWritable3i;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.Texture2DWritableData;
@@ -16,7 +17,7 @@ import com.io7m.jcanephora.TextureType;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureWrap;
 
-public abstract class TexturesContract implements GLTestContract
+public abstract class Texture2DStaticES2Contract implements GLES2TestContract
 {
   @Before public final void checkSupport()
   {
@@ -33,7 +34,7 @@ public abstract class TexturesContract implements GLTestContract
     throws ConstraintError,
       GLException
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceES2 gl = this.makeNewGL();
     final TextureUnit[] u = gl.textureGetUnits();
     Assert.assertTrue(u.length >= 2);
   }
@@ -49,7 +50,7 @@ public abstract class TexturesContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceES2 gl = this.makeNewGL();
 
     final TextureUnit[] units = gl.textureGetUnits();
     final Texture2DStatic t =
@@ -64,7 +65,7 @@ public abstract class TexturesContract implements GLTestContract
 
     gl.texture2DStaticBind(units[0], t);
     Assert.assertTrue(gl.texture2DStaticIsBound(units[0], t));
-    gl.textureUnitUnbind(units[0]);
+    gl.texture2DStaticUnbind(units[0]);
     Assert.assertFalse(gl.texture2DStaticIsBound(units[0], t));
     gl.texture2DStaticDelete(t);
   }
@@ -82,7 +83,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceES2 gl = this.makeNewGL();
 
     final TextureUnit[] units = gl.textureGetUnits();
     final Texture2DStatic t =
@@ -112,7 +113,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceES2 gl = this.makeNewGL();
     final TextureUnit[] units = gl.textureGetUnits();
 
     gl.texture2DStaticBind(units[0], null);
@@ -131,7 +132,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceES2 gl = this.makeNewGL();
     gl.texture2DStaticBind(null, null);
   }
 
@@ -146,7 +147,7 @@ public abstract class TexturesContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceES2 gl = this.makeNewGL();
 
     final Texture2DStatic t =
       gl.texture2DStaticAllocateRGBA8888(
@@ -176,7 +177,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceES2 gl = this.makeNewGL();
 
     final Texture2DStatic t =
       gl.texture2DStaticAllocateRGBA8888(
@@ -207,7 +208,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceES2 gl = this.makeNewGL();
 
     final TextureUnit[] units = gl.textureGetUnits();
     final Texture2DStatic t =
@@ -238,7 +239,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceES2 gl = this.makeNewGL();
     gl.texture2DStaticDelete(null);
   }
 
@@ -255,7 +256,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceES2 gl = this.makeNewGL();
 
     gl.texture2DStaticAllocateRGBA8888(
       "texture",
@@ -280,7 +281,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceES2 gl = this.makeNewGL();
 
     gl.texture2DStaticAllocateRGBA8888(
       "texture",
@@ -305,7 +306,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceES2 gl = this.makeNewGL();
 
     gl.texture2DStaticAllocateRGBA8888(
       null,
@@ -330,7 +331,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceES2 gl = this.makeNewGL();
 
     gl.texture2DStaticAllocateRGBA8888(
       "texture",
@@ -355,7 +356,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceES2 gl = this.makeNewGL();
 
     gl.texture2DStaticAllocateRGBA8888(
       "texture",
@@ -378,7 +379,7 @@ public abstract class TexturesContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceES2 gl = this.makeNewGL();
     Assert.assertTrue(gl.textureGetMaximumSize() >= 128);
   }
 
@@ -393,9 +394,9 @@ public abstract class TexturesContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceES2 gl = this.makeNewGL();
 
-    for (final TextureType t : TextureType.values()) {
+    for (final TextureType t : TextureType.getES2Types()) {
       switch (t) {
         case TEXTURE_TYPE_RGBA_4444_2BPP:
         {
@@ -468,88 +469,13 @@ public abstract class TexturesContract implements GLTestContract
           break;
         }
         case TEXTURE_TYPE_RG_88_2BPP:
-        {
-          final Texture2DStatic tx =
-            gl.texture2DStaticAllocateRG88(
-              t.toString(),
-              128,
-              128,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
-          Assert.assertEquals(tx.getType(), t);
-          break;
-        }
         case TEXTURE_TYPE_R_8_1BPP:
-        {
-          final Texture2DStatic tx =
-            gl.texture2DStaticAllocateR8(
-              t.toString(),
-              128,
-              128,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
-          Assert.assertEquals(tx.getType(), t);
-          break;
-        }
         case TEXTURE_TYPE_DEPTH_16_2BPP:
-        {
-          final Texture2DStatic tx =
-            gl.texture2DStaticAllocateDepth16(
-              t.toString(),
-              128,
-              128,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
-          Assert.assertEquals(tx.getType(), t);
-          break;
-        }
         case TEXTURE_TYPE_DEPTH_24_4BPP:
-        {
-          final Texture2DStatic tx =
-            gl.texture2DStaticAllocateDepth24(
-              t.toString(),
-              128,
-              128,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
-          Assert.assertEquals(tx.getType(), t);
-          break;
-        }
         case TEXTURE_TYPE_DEPTH_32_4BPP:
-        {
-          final Texture2DStatic tx =
-            gl.texture2DStaticAllocateDepth32(
-              t.toString(),
-              128,
-              128,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
-          Assert.assertEquals(tx.getType(), t);
-          break;
-        }
         case TEXTURE_TYPE_DEPTH_32F_4BPP:
         {
-          final Texture2DStatic tx =
-            gl.texture2DStaticAllocateDepth32f(
-              t.toString(),
-              128,
-              128,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
-          Assert.assertEquals(tx.getType(), t);
-          break;
+          throw new UnreachableCodeException();
         }
       }
     }
@@ -566,7 +492,7 @@ public abstract class TexturesContract implements GLTestContract
     throws GLException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceES2 gl = this.makeNewGL();
 
     final Texture2DStatic t =
       gl.texture2DStaticAllocateRGB888(
@@ -604,7 +530,7 @@ public abstract class TexturesContract implements GLTestContract
       throws GLException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterfaceES2 gl = this.makeNewGL();
     gl.texture2DStaticUpdate(null);
   }
 }
