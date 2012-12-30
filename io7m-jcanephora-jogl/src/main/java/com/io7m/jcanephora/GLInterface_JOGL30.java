@@ -1077,26 +1077,102 @@ import com.io7m.jtensors.VectorReadable4F;
       vector);
   }
 
-  @Override public RenderbufferD24S8 renderbufferD24S8Allocate(
+  @Override public @Nonnull Renderbuffer renderbufferAllocateDepth16(
     final int width,
     final int height)
     throws ConstraintError,
       GLException
   {
-    return GLES2Functions.renderbufferD24S8Allocate(
+    return GLES2Functions.renderbufferAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
+      RenderbufferType.RENDERBUFFER_DEPTH_16,
       width,
       height);
   }
 
-  @Override public void renderbufferD24S8Delete(
-    final @Nonnull RenderbufferD24S8 buffer)
+  @Override public @Nonnull Renderbuffer renderbufferAllocateDepth24Stencil8(
+    final int width,
+    final int height)
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.renderbufferD24S8Delete(
+    return GLES2Functions.renderbufferAllocate(
+      this.contextGetGL3(),
+      this.state,
+      this.log,
+      RenderbufferType.RENDERBUFFER_DEPTH_24_STENCIL_8,
+      width,
+      height);
+  }
+
+  @Override public Renderbuffer renderbufferAllocateRGB565(
+    final int width,
+    final int height)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.renderbufferAllocate(
+      this.contextGetGL3(),
+      this.state,
+      this.log,
+      RenderbufferType.RENDERBUFFER_COLOR_RGB_565,
+      width,
+      height);
+  }
+
+  @Override public @Nonnull Renderbuffer renderbufferAllocateRGBA4444(
+    final int width,
+    final int height)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.renderbufferAllocate(
+      this.contextGetGL3(),
+      this.state,
+      this.log,
+      RenderbufferType.RENDERBUFFER_COLOR_RGBA_4444,
+      width,
+      height);
+  }
+
+  @Override public @Nonnull Renderbuffer renderbufferAllocateRGBA5551(
+    final int width,
+    final int height)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.renderbufferAllocate(
+      this.contextGetGL3(),
+      this.state,
+      this.log,
+      RenderbufferType.RENDERBUFFER_COLOR_RGBA_5551,
+      width,
+      height);
+  }
+
+  @Override public @Nonnull Renderbuffer renderbufferAllocateStencil8(
+    final int width,
+    final int height)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.renderbufferAllocate(
+      this.contextGetGL3(),
+      this.state,
+      this.log,
+      RenderbufferType.RENDERBUFFER_STENCIL_8,
+      width,
+      height);
+  }
+
+  @Override public void renderbufferDelete(
+    final @Nonnull Renderbuffer buffer)
+    throws ConstraintError,
+      GLException
+  {
+    GLES2Functions.renderbufferDelete(
       this.contextGetGL3(),
       this.state,
       this.log,

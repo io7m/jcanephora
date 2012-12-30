@@ -41,6 +41,7 @@ public interface GLInterfaceES2 extends
   GLIndexBuffers,
   GLMeta,
   GLRasterization,
+  GLRenderbuffersES2,
   GLScissor,
   GLShaders,
   GLStencilBuffer,

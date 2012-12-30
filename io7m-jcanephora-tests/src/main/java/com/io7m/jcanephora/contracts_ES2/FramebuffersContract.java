@@ -15,7 +15,7 @@ import com.io7m.jcanephora.FramebufferAttachment.ColorAttachment;
 import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
-import com.io7m.jcanephora.RenderbufferD24S8;
+import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureWrap;
@@ -40,7 +40,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
         ConstraintError
   {
     final GLInterfaceES2 g = this.makeNewGL();
-    final RenderbufferD24S8 rb = g.renderbufferD24S8Allocate(128, 128);
+    final Renderbuffer rb = g.renderbufferAllocateDepth16(128, 128);
     final Texture2DStatic cb =
       g.texture2DStaticAllocateRGBA8888(
         "framebuffer",
@@ -68,7 +68,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final GLInterfaceES2 g = this.makeNewGL();
 
-    final RenderbufferD24S8 rb = g.renderbufferD24S8Allocate(128, 128);
+    final Renderbuffer rb = g.renderbufferAllocateDepth16(128, 128);
     final Texture2DStatic cb =
       g.texture2DStaticAllocateRGBA8888(
         "framebuffer",
@@ -147,9 +147,9 @@ public abstract class FramebuffersContract implements GLES2TestContract
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
     final ColorAttachment fbc = new ColorAttachment(t, 0);
-    final RenderbufferD24S8 depth = gl.renderbufferD24S8Allocate(128, 128);
+    final Renderbuffer rb = gl.renderbufferAllocateDepth16(128, 128);
     final RenderbufferD24S8Attachment fda =
-      new RenderbufferD24S8Attachment(depth);
+      new RenderbufferD24S8Attachment(rb);
     gl.framebufferAllocate(new FramebufferAttachment[] { fda, fbc });
   }
 
@@ -173,9 +173,9 @@ public abstract class FramebuffersContract implements GLES2TestContract
         TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
     final ColorAttachment fbc = new ColorAttachment(t, 0);
-    final RenderbufferD24S8 depth = gl.renderbufferD24S8Allocate(128, 128);
+    final Renderbuffer rb = gl.renderbufferAllocateDepth16(128, 128);
     final RenderbufferD24S8Attachment fda =
-      new RenderbufferD24S8Attachment(depth);
+      new RenderbufferD24S8Attachment(rb);
     gl.framebufferAllocate(new FramebufferAttachment[] { fbc, fda });
   }
 
@@ -299,9 +299,9 @@ public abstract class FramebuffersContract implements GLES2TestContract
         GLException
   {
     final GLInterfaceES2 gl = this.makeNewGL();
-    final RenderbufferD24S8 depth = gl.renderbufferD24S8Allocate(128, 128);
+    final Renderbuffer rb = gl.renderbufferAllocateDepth16(128, 128);
     final RenderbufferD24S8Attachment fda =
-      new RenderbufferD24S8Attachment(depth);
+      new RenderbufferD24S8Attachment(rb);
     gl.framebufferAllocate(new FramebufferAttachment[] { fda, fda });
   }
 
@@ -487,9 +487,9 @@ public abstract class FramebuffersContract implements GLES2TestContract
 
     try {
       gl = this.makeNewGL();
-      final RenderbufferD24S8 depth = gl.renderbufferD24S8Allocate(128, 128);
-      fda = new RenderbufferD24S8Attachment(depth);
-      depth.resourceDelete(gl);
+      final Renderbuffer rb = gl.renderbufferAllocateDepth16(128, 128);
+      fda = new RenderbufferD24S8Attachment(rb);
+      rb.resourceDelete(gl);
     } catch (final ConstraintError e) {
       Assert.fail(e.getMessage());
     } catch (final GLException e) {

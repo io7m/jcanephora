@@ -37,6 +37,7 @@ public interface GLInterface extends
   GLPolygonModes,
   GLPolygonSmoothing,
   GLProgramPointSizeControl,
+  GLRenderbuffers,
   GLTexturesCubeStatic,
   GLTextures2DBuffered,
   GLTextures2DStatic

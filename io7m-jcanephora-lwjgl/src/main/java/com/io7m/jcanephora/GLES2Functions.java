@@ -969,7 +969,7 @@ final class GLES2Functions
             final RenderbufferD24S8Attachment depth =
               (RenderbufferD24S8Attachment) attachment;
 
-            final RenderbufferD24S8 depth_buffer = depth.getRenderbuffer();
+            final Renderbuffer depth_buffer = depth.getRenderbuffer();
 
             Constraints.constrainArbitrary(
               depth_buffer.resourceIsDeleted() == false,
@@ -1807,15 +1807,16 @@ final class GLES2Functions
     GLES2Functions.checkError();
   }
 
-  static RenderbufferD24S8 renderbufferD24S8Allocate(
-
+  static Renderbuffer renderbufferAllocate(
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
+    final @Nonnull RenderbufferType type,
     final int width,
     final int height)
     throws ConstraintError,
       GLException
   {
+    Constraints.constrainNotNull(type, "Renderbuffer type");
     Constraints.constrainRange(width, 1, Integer.MAX_VALUE);
     Constraints.constrainRange(height, 1, Integer.MAX_VALUE);
 
@@ -1831,21 +1832,19 @@ final class GLES2Functions
     final int id = GL30.glGenRenderbuffers();
     GLES2Functions.checkError();
 
+    final int gtype = GLTypeConversions.renderbufferTypeToGL(type);
+
     GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, id);
     GLES2Functions.checkError();
-    GL30.glRenderbufferStorage(
-      GL30.GL_RENDERBUFFER,
-      GL30.GL_DEPTH24_STENCIL8,
-      width,
-      height);
+    GL30.glRenderbufferStorage(GL30.GL_RENDERBUFFER, gtype, width, height);
     GLES2Functions.checkError();
     GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, 0);
     GLES2Functions.checkError();
 
-    final RenderbufferD24S8 r = new RenderbufferD24S8(id, width, height);
+    final Renderbuffer r = new Renderbuffer(type, id, width, height);
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
-      state.log_text.append("renderbuffer-ds24s8: allocated ");
+      state.log_text.append("renderbuffer: allocated ");
       state.log_text.append(r);
       log.debug(state.log_text.toString());
     }
@@ -1853,11 +1852,10 @@ final class GLES2Functions
     return r;
   }
 
-  static void renderbufferD24S8Delete(
-
+  static void renderbufferDelete(
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull RenderbufferD24S8 buffer)
+    final @Nonnull Renderbuffer buffer)
     throws ConstraintError,
       GLException
   {
@@ -1868,7 +1866,7 @@ final class GLES2Functions
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
-      state.log_text.append("renderbuffer-ds24s8: delete ");
+      state.log_text.append("renderbuffer: delete ");
       state.log_text.append(buffer);
       log.debug(state.log_text.toString());
     }

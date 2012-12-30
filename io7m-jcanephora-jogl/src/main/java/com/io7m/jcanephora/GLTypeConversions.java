@@ -454,6 +454,27 @@ final class GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  static int renderbufferTypeToGL(
+    final RenderbufferType type)
+  {
+    switch (type) {
+      case RENDERBUFFER_COLOR_RGBA_4444:
+        return GL.GL_RGBA4;
+      case RENDERBUFFER_COLOR_RGBA_5551:
+        return GL.GL_RGB5_A1;
+      case RENDERBUFFER_COLOR_RGB_565:
+        return GL.GL_RGB565;
+      case RENDERBUFFER_DEPTH_16:
+        return GL.GL_DEPTH_COMPONENT16;
+      case RENDERBUFFER_DEPTH_24_STENCIL_8:
+        return GL.GL_DEPTH24_STENCIL8;
+      case RENDERBUFFER_STENCIL_8:
+        return GL.GL_STENCIL_INDEX8;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
   static final @Nonnull GLScalarType scalarTypeFromGL(
     final int type)
   {

@@ -16,7 +16,7 @@ import com.io7m.jcanephora.FramebufferAttachment.ColorAttachment;
 import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterfaceES2;
+import com.io7m.jcanephora.GLInterface;
 import com.io7m.jcanephora.GLScalarType;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
@@ -25,7 +25,7 @@ import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.ProjectionMatrix;
-import com.io7m.jcanephora.RenderbufferD24S8;
+import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureUnit;
@@ -47,8 +47,8 @@ public final class ExampleFBO implements Example
     Z_AXIS = new VectorI3F(0.0f, 0.0f, 1.0f);
   }
 
-  private final GLInterfaceES2          gl;
-  private final RenderbufferD24S8       depth_buffer;
+  private final GLInterface             gl;
+  private final Renderbuffer            depth_buffer;
   private final Texture2DStatic         texture;
   private final Framebuffer             framebuffer;
   private boolean                       has_shut_down;
@@ -124,7 +124,7 @@ public final class ExampleFBO implements Example
       config.getWindowSize().getYI() / this.framebuffer_divisor;
 
     this.depth_buffer =
-      this.gl.renderbufferD24S8Allocate(
+      this.gl.renderbufferAllocateDepth24Stencil8(
         this.framebuffer_width,
         this.framebuffer_height);
 
