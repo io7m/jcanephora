@@ -133,8 +133,7 @@ final class GLES2Functions
       "Buffer attribute belongs to the array buffer");
 
     final boolean same_type =
-      GLScalarTypeMeta.shaderTypeConvertible(
-        dba.getType(),
+      dba.getType().shaderTypeConvertible(
         dba.getElements(),
         program_attribute.getType());
     Constraints.constrainArbitrary(
