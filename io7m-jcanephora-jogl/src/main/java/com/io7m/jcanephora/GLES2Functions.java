@@ -1141,7 +1141,7 @@ final class GLES2Functions
     Constraints.constrainNotNull(type, "Index type");
     Constraints.constrainRange(indices, 1, Integer.MAX_VALUE);
 
-    final long size = GLUnsignedTypeMeta.getSizeBytes(type);
+    final long size = type.getSizeBytes();
     final long bytes_total = indices * size;
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -2573,19 +2573,6 @@ final class GLES2Functions
     }
 
     return u;
-  }
-
-  static void textureUnitUnbind(
-    final @Nonnull GL2ES2 gl,
-    final TextureUnit unit)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(unit, "Texture unit");
-
-    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
-    gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
-    GLES2Functions.checkError(gl);
   }
 
   static void vertexShaderAttach(

@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora;
 
+import com.io7m.jaux.UnreachableCodeException;
+
 /**
  * Type-safe unsigned OpenGL types.
  */
@@ -24,5 +26,19 @@ public enum GLUnsignedType
 {
   TYPE_UNSIGNED_BYTE,
   TYPE_UNSIGNED_SHORT,
-  TYPE_UNSIGNED_INT
+  TYPE_UNSIGNED_INT;
+
+  public int getSizeBytes()
+  {
+    switch (this) {
+      case TYPE_UNSIGNED_BYTE:
+        return 1;
+      case TYPE_UNSIGNED_INT:
+        return 4;
+      case TYPE_UNSIGNED_SHORT:
+        return 2;
+    }
+
+    throw new UnreachableCodeException();
+  }
 }

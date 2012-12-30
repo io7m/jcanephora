@@ -59,7 +59,7 @@ import com.io7m.jaux.RangeInclusive;
 
   @Override public long getElementSizeBytes()
   {
-    return GLUnsignedTypeMeta.getSizeBytes(this.type);
+    return this.type.getSizeBytes();
   }
 
   /**

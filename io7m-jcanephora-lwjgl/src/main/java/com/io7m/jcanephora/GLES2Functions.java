@@ -1160,7 +1160,7 @@ final class GLES2Functions
     Constraints.constrainNotNull(type, "Index type");
     Constraints.constrainRange(indices, 1, Integer.MAX_VALUE);
 
-    final long size = GLUnsignedTypeMeta.getSizeBytes(type);
+    final long size = type.getSizeBytes();
     final long bytes_total = indices * size;
 
     if (log.enabled(Level.LOG_DEBUG)) {
