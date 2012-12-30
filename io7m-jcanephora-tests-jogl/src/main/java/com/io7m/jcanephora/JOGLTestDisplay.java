@@ -79,7 +79,7 @@ public final class JOGLTestDisplay
     final GLContext ctx =
       JOGLTestDisplay.getContext(JOGLTestDisplay.PROFILE_OPENGL_3);
     final Log log = JOGLTestLog.getLog();
-    return new GLInterfaceES2_JOGL30(ctx, log);
+    return new GLInterface_JOGL30(ctx, log);
   }
 
   public static GLInterfaceES2 makeES2WithOpenGLES2()
