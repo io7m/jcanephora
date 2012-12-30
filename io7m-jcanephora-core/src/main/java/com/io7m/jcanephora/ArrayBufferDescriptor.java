@@ -67,7 +67,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
         new ArrayBufferAttribute(a.getName(), a.getType(), a.getElements());
       this.offsets[index] = bytes;
 
-      final int size = GLScalarTypeMeta.getSizeBytes(a.getType());
+      final int size = a.getType().getSizeBytes();
       final int elem = a.getElements();
       bytes += size * elem;
     }
@@ -200,7 +200,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     Constraints.constrainLessThan(element, a.getElements());
 
     final int base = this.getAttributeOffset(name);
-    final int off = element * GLScalarTypeMeta.getSizeBytes(a.getType());
+    final int off = element * a.getType().getSizeBytes();
     return base + off;
   }
 
