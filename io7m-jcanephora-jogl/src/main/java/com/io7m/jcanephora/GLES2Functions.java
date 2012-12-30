@@ -2257,6 +2257,19 @@ final class GLES2Functions
     return e == texture.getGLName();
   }
 
+  static void texture2DStaticUnbind(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull TextureUnit unit)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(unit, "Texture unit");
+
+    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
+    gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
+    GLES2Functions.checkError(gl);
+  }
+
   static void texture2DStaticUpdate(
     final @Nonnull GL2ES2 gl,
     final @Nonnull Texture2DWritableData data)
@@ -2289,6 +2302,240 @@ final class GLES2Functions
       gl_type,
       buffer);
     gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
+    GLES2Functions.checkError(gl);
+  }
+
+  static @Nonnull TextureCubeStatic textureCubeStaticAllocate(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureType type,
+    final @Nonnull TextureWrap wrap_r,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureFilter min_filter)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(name, "Name");
+    Constraints.constrainRange(width, 2, Integer.MAX_VALUE, "Width");
+    Constraints.constrainRange(height, 2, Integer.MAX_VALUE, "Height");
+    Constraints.constrainNotNull(type, "Texture type");
+    Constraints.constrainNotNull(wrap_s, "Wrap S mode");
+    Constraints.constrainNotNull(wrap_t, "Wrap T mode");
+    Constraints.constrainNotNull(wrap_r, "Wrap R mode");
+    Constraints.constrainNotNull(mag_filter, "Magnification filter");
+    Constraints.constrainNotNull(min_filter, "Minification filter");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      final int bytes = height * (type.bytesPerPixel() * width) * 6;
+      state.log_text.setLength(0);
+      state.log_text.append("texture-cube-static: allocate \"");
+      state.log_text.append(name);
+      state.log_text.append("\" ");
+      state.log_text.append(type);
+      state.log_text.append(" ");
+      state.log_text.append(width);
+      state.log_text.append("x");
+      state.log_text.append(height);
+      state.log_text.append(" ");
+      state.log_text.append(bytes);
+      state.log_text.append(" bytes");
+      log.debug(state.log_text.toString());
+    }
+
+    final IntBuffer cache = state.getIntegerCache();
+    gl.glGenTextures(1, cache);
+    GLES2Functions.checkError(gl);
+    final int texture_id = cache.get(0);
+
+    gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, texture_id);
+    GLES2Functions.checkError(gl);
+    gl.glTexParameteri(
+      GL.GL_TEXTURE_CUBE_MAP,
+      GL.GL_TEXTURE_WRAP_S,
+      GLTypeConversions.textureWrapToGL(wrap_s));
+    GLES2Functions.checkError(gl);
+    gl.glTexParameteri(
+      GL.GL_TEXTURE_CUBE_MAP,
+      GL.GL_TEXTURE_WRAP_T,
+      GLTypeConversions.textureWrapToGL(wrap_t));
+    GLES2Functions.checkError(gl);
+    gl.glTexParameteri(
+      GL.GL_TEXTURE_CUBE_MAP,
+      GL2ES2.GL_TEXTURE_WRAP_R,
+      GLTypeConversions.textureWrapToGL(wrap_r));
+    GLES2Functions.checkError(gl);
+    gl.glTexParameteri(
+      GL.GL_TEXTURE_CUBE_MAP,
+      GL.GL_TEXTURE_MAG_FILTER,
+      GLTypeConversions.textureFilterToGL(mag_filter));
+    GLES2Functions.checkError(gl);
+    gl.glTexParameteri(
+      GL.GL_TEXTURE_CUBE_MAP,
+      GL.GL_TEXTURE_MIN_FILTER,
+      GLTypeConversions.textureFilterToGL(min_filter));
+    GLES2Functions.checkError(gl);
+
+    final int internal =
+      GLTypeConversions.textureTypeToInternalFormatGL(type);
+    final int format = GLTypeConversions.textureTypeToFormatGL(type);
+    final int itype = GLTypeConversions.textureTypeToTypeGL(type);
+
+    for (final CubeMapFace face : CubeMapFace.values()) {
+      final int gface = GLTypeConversions.cubeFaceToGL(face);
+
+      gl.glTexImage2D(
+        gface,
+        0,
+        internal,
+        width,
+        height,
+        0,
+        format,
+        itype,
+        null);
+      GLES2Functions.checkError(gl);
+    }
+
+    gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
+    GLES2Functions.checkError(gl);
+
+    final TextureCubeStatic t =
+      new TextureCubeStatic(name, type, texture_id, width, height);
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("texture-cube-static: allocated ");
+      state.log_text.append(t);
+      log.debug(state.log_text.toString());
+    }
+
+    return t;
+  }
+
+  static void textureCubeStaticBind(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull TextureUnit unit,
+    final @Nonnull TextureCubeStatic texture)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(unit, "Texture unit");
+    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+
+    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
+    gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, texture.getGLName());
+    GLES2Functions.checkError(gl);
+  }
+
+  static void textureCubeStaticDelete(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull TextureCubeStatic texture)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("texture-cube-static: delete ");
+      state.log_text.append(texture);
+      log.debug(state.log_text.toString());
+    }
+
+    final IntBuffer cache = state.getIntegerCache();
+    cache.put(0, texture.getGLName());
+    gl.glDeleteTextures(1, cache);
+    GLES2Functions.checkError(gl);
+
+    texture.setDeleted();
+  }
+
+  static boolean textureCubeStaticIsBound(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull TextureUnit unit,
+    final @Nonnull TextureCubeStatic texture)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(unit, "Texture unit");
+    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+
+    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
+
+    final IntBuffer cache = state.getIntegerCache();
+    gl.glGetIntegerv(GL.GL_TEXTURE_BINDING_CUBE_MAP, cache);
+    final int e = cache.get(0);
+    GLES2Functions.checkError(gl);
+
+    return e == texture.getGLName();
+  }
+
+  static void textureCubeStaticUnbind(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull TextureUnit unit)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(unit, "Texture unit");
+
+    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
+    gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
+    GLES2Functions.checkError(gl);
+  }
+
+  static void textureCubeStaticUpdate(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull CubeMapFace face,
+    final @Nonnull TextureCubeWritableData data)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(face, "Cube map face");
+    Constraints.constrainNotNull(data, "Texture data");
+
+    final AreaInclusive area = data.targetArea();
+    final TextureCubeStatic texture = data.getTexture();
+
+    final TextureType type = texture.getType();
+    final int x_offset = (int) area.getRangeX().getLower();
+    final int y_offset = (int) area.getRangeY().getLower();
+    final int width = (int) area.getRangeX().getInterval();
+    final int height = (int) area.getRangeY().getInterval();
+    final int format = GLTypeConversions.textureTypeToFormatGL(type);
+    final int gl_type = GLTypeConversions.textureTypeToTypeGL(type);
+    final ByteBuffer buffer = data.targetData();
+    final int gface = GLTypeConversions.cubeFaceToGL(face);
+
+    gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, texture.getGLName());
+    gl.glTexSubImage2D(
+      gface,
+      0,
+      x_offset,
+      y_offset,
+      width,
+      height,
+      format,
+      gl_type,
+      buffer);
+    gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
     GLES2Functions.checkError(gl);
   }
 

@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 
-public class Texture2DWritableDataTest
+public class TextureCubeWritableDataTest
 {
   /**
    * Updating single element floating point textures works.
@@ -25,8 +25,9 @@ public class Texture2DWritableDataTest
         continue;
       }
 
-      final Texture2DStatic t = new Texture2DStatic("xyz", type, 1, 64, 64);
-      final Texture2DWritableData d = new Texture2DWritableData(t);
+      final TextureCubeStatic t =
+        new TextureCubeStatic("xyz", type, 1, 64, 64);
+      final TextureCubeWritableData d = new TextureCubeWritableData(t);
 
       final SpatialCursorWritable1f c = d.getCursor1f();
 
@@ -61,8 +62,9 @@ public class Texture2DWritableDataTest
           continue;
         }
 
-        final Texture2DStatic t = new Texture2DStatic("xyz", type, 1, 64, 64);
-        final Texture2DWritableData d = new Texture2DWritableData(t);
+        final TextureCubeStatic t =
+          new TextureCubeStatic("xyz", type, 1, 64, 64);
+        final TextureCubeWritableData d = new TextureCubeWritableData(t);
 
         try {
           d.getCursor1i();
@@ -91,8 +93,9 @@ public class Texture2DWritableDataTest
         continue;
       }
 
-      final Texture2DStatic t = new Texture2DStatic("xyz", type, 1, 64, 64);
-      final Texture2DWritableData d = new Texture2DWritableData(t);
+      final TextureCubeStatic t =
+        new TextureCubeStatic("xyz", type, 1, 64, 64);
+      final TextureCubeWritableData d = new TextureCubeWritableData(t);
       final SpatialCursorWritable1i c = d.getCursor1i();
 
       int count = 0;
@@ -122,8 +125,9 @@ public class Texture2DWritableDataTest
   {
     for (final TextureType type : TextureType.values()) {
       if (type.getComponents() != 1) {
-        final Texture2DStatic t = new Texture2DStatic("xyz", type, 1, 64, 64);
-        final Texture2DWritableData d = new Texture2DWritableData(t);
+        final TextureCubeStatic t =
+          new TextureCubeStatic("xyz", type, 1, 64, 64);
+        final TextureCubeWritableData d = new TextureCubeWritableData(t);
 
         try {
           d.getCursor1i();
@@ -148,8 +152,9 @@ public class Texture2DWritableDataTest
     final Set<TextureType> e2_types = TextureType.getWithComponents(2);
 
     for (final TextureType type : e2_types) {
-      final Texture2DStatic t = new Texture2DStatic("xyz", type, 1, 64, 64);
-      final Texture2DWritableData d = new Texture2DWritableData(t);
+      final TextureCubeStatic t =
+        new TextureCubeStatic("xyz", type, 1, 64, 64);
+      final TextureCubeWritableData d = new TextureCubeWritableData(t);
       final SpatialCursorWritable2i c = d.getCursor2i();
 
       int count = 0;
@@ -179,8 +184,9 @@ public class Texture2DWritableDataTest
   {
     for (final TextureType type : TextureType.values()) {
       if (type.getComponents() != 2) {
-        final Texture2DStatic t = new Texture2DStatic("xyz", type, 1, 64, 64);
-        final Texture2DWritableData d = new Texture2DWritableData(t);
+        final TextureCubeStatic t =
+          new TextureCubeStatic("xyz", type, 1, 64, 64);
+        final TextureCubeWritableData d = new TextureCubeWritableData(t);
 
         try {
           d.getCursor2i();
@@ -205,8 +211,9 @@ public class Texture2DWritableDataTest
     final Set<TextureType> e3_types = TextureType.getWithComponents(3);
 
     for (final TextureType type : e3_types) {
-      final Texture2DStatic t = new Texture2DStatic("xyz", type, 1, 64, 64);
-      final Texture2DWritableData d = new Texture2DWritableData(t);
+      final TextureCubeStatic t =
+        new TextureCubeStatic("xyz", type, 1, 64, 64);
+      final TextureCubeWritableData d = new TextureCubeWritableData(t);
       final SpatialCursorWritable3i c = d.getCursor3i();
 
       int count = 0;
@@ -236,8 +243,9 @@ public class Texture2DWritableDataTest
   {
     for (final TextureType type : TextureType.values()) {
       if (type.getComponents() != 3) {
-        final Texture2DStatic t = new Texture2DStatic("xyz", type, 1, 64, 64);
-        final Texture2DWritableData d = new Texture2DWritableData(t);
+        final TextureCubeStatic t =
+          new TextureCubeStatic("xyz", type, 1, 64, 64);
+        final TextureCubeWritableData d = new TextureCubeWritableData(t);
 
         try {
           d.getCursor3i();
@@ -262,8 +270,9 @@ public class Texture2DWritableDataTest
     final Set<TextureType> e4_types = TextureType.getWithComponents(4);
 
     for (final TextureType type : e4_types) {
-      final Texture2DStatic t = new Texture2DStatic("xyz", type, 1, 64, 64);
-      final Texture2DWritableData d = new Texture2DWritableData(t);
+      final TextureCubeStatic t =
+        new TextureCubeStatic("xyz", type, 1, 64, 64);
+      final TextureCubeWritableData d = new TextureCubeWritableData(t);
       final SpatialCursorWritable4i c = d.getCursor4i();
 
       int count = 0;
@@ -293,8 +302,9 @@ public class Texture2DWritableDataTest
   {
     for (final TextureType type : TextureType.values()) {
       if (type.getComponents() != 4) {
-        final Texture2DStatic t = new Texture2DStatic("xyz", type, 1, 64, 64);
-        final Texture2DWritableData d = new Texture2DWritableData(t);
+        final TextureCubeStatic t =
+          new TextureCubeStatic("xyz", type, 1, 64, 64);
+        final TextureCubeWritableData d = new TextureCubeWritableData(t);
 
         try {
           d.getCursor4i();
@@ -316,14 +326,14 @@ public class Texture2DWritableDataTest
   @SuppressWarnings("static-method") @Test public void testIdentities()
     throws ConstraintError
   {
-    final Texture2DStatic t =
-      new Texture2DStatic(
+    final TextureCubeStatic t =
+      new TextureCubeStatic(
         "xyz",
         TextureType.TEXTURE_TYPE_R_8_1BPP,
         1,
         64,
         128);
-    final Texture2DWritableData d = new Texture2DWritableData(t);
+    final TextureCubeWritableData d = new TextureCubeWritableData(t);
 
     Assert.assertTrue(d.getTexture() == t);
     Assert.assertTrue(d.targetArea().getRangeX().getLower() == 0);

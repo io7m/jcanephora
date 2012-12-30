@@ -1182,12 +1182,222 @@ import com.io7m.jtensors.VectorReadable4F;
       texture);
   }
 
+  @Override public void texture2DStaticUnbind(
+    final @Nonnull TextureUnit unit)
+    throws ConstraintError,
+      GLException
+  {
+    GLES2Functions.texture2DStaticUnbind(this.contextGetGL2ES2(), unit);
+  }
+
   @Override public void texture2DStaticUpdate(
     final @Nonnull Texture2DWritableData data)
     throws ConstraintError,
       GLException
   {
     GLES2Functions.texture2DStaticUpdate(this.contextGetGL2ES2(), data);
+  }
+
+  @Override public @Nonnull
+    TextureCubeStatic
+    textureCubeStaticAllocateRGB565(
+      final @Nonnull String name,
+      final int width,
+      final int height,
+      final @Nonnull TextureWrap wrap_r,
+      final @Nonnull TextureWrap wrap_s,
+      final @Nonnull TextureWrap wrap_t,
+      final @Nonnull TextureFilter mag_filter,
+      final @Nonnull TextureFilter min_filter)
+      throws ConstraintError,
+        GLException
+  {
+    return GLES2Functions.textureCubeStaticAllocate(
+      this.contextGetGL2ES2(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_RGB_565_2BPP,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      mag_filter,
+      min_filter);
+  }
+
+  @Override public @Nonnull
+    TextureCubeStatic
+    textureCubeStaticAllocateRGB888(
+      final @Nonnull String name,
+      final int width,
+      final int height,
+      final @Nonnull TextureWrap wrap_r,
+      final @Nonnull TextureWrap wrap_s,
+      final @Nonnull TextureWrap wrap_t,
+      final @Nonnull TextureFilter mag_filter,
+      final @Nonnull TextureFilter min_filter)
+      throws ConstraintError,
+        GLException
+  {
+    return GLES2Functions.textureCubeStaticAllocate(
+      this.contextGetGL2ES2(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_RGB_888_3BPP,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      mag_filter,
+      min_filter);
+  }
+
+  @Override public @Nonnull
+    TextureCubeStatic
+    textureCubeStaticAllocateRGBA4444(
+      final @Nonnull String name,
+      final int width,
+      final int height,
+      final @Nonnull TextureWrap wrap_r,
+      final @Nonnull TextureWrap wrap_s,
+      final @Nonnull TextureWrap wrap_t,
+      final @Nonnull TextureFilter mag_filter,
+      final @Nonnull TextureFilter min_filter)
+      throws ConstraintError,
+        GLException
+  {
+    return GLES2Functions.textureCubeStaticAllocate(
+      this.contextGetGL2ES2(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_RGBA_4444_2BPP,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      mag_filter,
+      min_filter);
+  }
+
+  @Override public @Nonnull
+    TextureCubeStatic
+    textureCubeStaticAllocateRGBA5551(
+      final @Nonnull String name,
+      final int width,
+      final int height,
+      final @Nonnull TextureWrap wrap_r,
+      final @Nonnull TextureWrap wrap_s,
+      final @Nonnull TextureWrap wrap_t,
+      final @Nonnull TextureFilter mag_filter,
+      final @Nonnull TextureFilter min_filter)
+      throws ConstraintError,
+        GLException
+  {
+    return GLES2Functions.textureCubeStaticAllocate(
+      this.contextGetGL2ES2(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_RGBA_5551_2BPP,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      mag_filter,
+      min_filter);
+  }
+
+  @Override public @Nonnull
+    TextureCubeStatic
+    textureCubeStaticAllocateRGBA8888(
+      final @Nonnull String name,
+      final int width,
+      final int height,
+      final @Nonnull TextureWrap wrap_r,
+      final @Nonnull TextureWrap wrap_s,
+      final @Nonnull TextureWrap wrap_t,
+      final @Nonnull TextureFilter mag_filter,
+      final @Nonnull TextureFilter min_filter)
+      throws ConstraintError,
+        GLException
+  {
+    return GLES2Functions.textureCubeStaticAllocate(
+      this.contextGetGL2ES2(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      mag_filter,
+      min_filter);
+  }
+
+  @Override public void textureCubeStaticBind(
+    final @Nonnull TextureUnit unit,
+    final @Nonnull TextureCubeStatic texture)
+    throws ConstraintError,
+      GLException
+  {
+    GLES2Functions.textureCubeStaticBind(
+      this.contextGetGL2ES2(),
+      unit,
+      texture);
+  }
+
+  @Override public void textureCubeStaticDelete(
+    final @Nonnull TextureCubeStatic texture)
+    throws ConstraintError,
+      GLException
+  {
+    GLES2Functions.textureCubeStaticDelete(
+      this.contextGetGL2ES2(),
+      this.state,
+      this.log,
+      texture);
+  }
+
+  @Override public boolean textureCubeStaticIsBound(
+    final @Nonnull TextureUnit unit,
+    final @Nonnull TextureCubeStatic texture)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.textureCubeStaticIsBound(
+      this.contextGetGL2ES2(),
+      this.state,
+      unit,
+      texture);
+  }
+
+  @Override public void textureCubeStaticUnbind(
+    final @Nonnull TextureUnit unit)
+    throws ConstraintError,
+      GLException
+  {
+    GLES2Functions.textureCubeStaticUnbind(this.contextGetGL2ES2(), unit);
+  }
+
+  @Override public void textureCubeStaticUpdate(
+    final @Nonnull CubeMapFace face,
+    final @Nonnull TextureCubeWritableData data)
+    throws ConstraintError,
+      GLException
+  {
+    GLES2Functions.textureCubeStaticUpdate(
+      this.contextGetGL2ES2(),
+      face,
+      data);
   }
 
   @Override public int textureGetMaximumSize()
@@ -1202,14 +1412,6 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException
   {
     return this.state.texture_units;
-  }
-
-  @Override public void textureUnitUnbind(
-    final TextureUnit unit)
-    throws ConstraintError,
-      GLException
-  {
-    GLES2Functions.textureUnitUnbind(this.contextGetGL2ES2(), unit);
   }
 
   @Override public void vertexShaderAttach(
@@ -1263,5 +1465,4 @@ import com.io7m.jtensors.VectorReadable4F;
   {
     GLES2Functions.viewportSet(this.contextGetGL2ES2(), position, dimensions);
   }
-
 }

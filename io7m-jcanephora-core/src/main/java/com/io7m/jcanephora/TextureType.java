@@ -16,6 +16,9 @@
 
 package com.io7m.jcanephora;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.UnreachableCodeException;
@@ -125,6 +128,28 @@ public enum TextureType
   }
 
   /**
+   * Return all texture types with the given number of components.
+   */
+
+  public static Set<TextureType> getWithComponents(
+    final int c)
+  {
+    final EnumSet<TextureType> xs = EnumSet.noneOf(TextureType.class);
+
+    if (c <= 0) {
+      return xs;
+    }
+
+    for (final TextureType t : TextureType.values()) {
+      if (t.getComponents() == c) {
+        xs.add(t);
+      }
+    }
+
+    return xs;
+  }
+
+  /**
    * Retrieve the number of bytes per pixel in the texture type.
    */
 
@@ -173,6 +198,27 @@ public enum TextureType
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
       case TEXTURE_TYPE_R_8_1BPP:
         return 1;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  public boolean isFloatingPoint()
+  {
+    switch (this) {
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_TYPE_RGB_888_3BPP:
+      case TEXTURE_TYPE_RG_88_2BPP:
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_DEPTH_32_4BPP:
+      case TEXTURE_TYPE_R_8_1BPP:
+        return false;
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+        return true;
     }
 
     throw new UnreachableCodeException();
