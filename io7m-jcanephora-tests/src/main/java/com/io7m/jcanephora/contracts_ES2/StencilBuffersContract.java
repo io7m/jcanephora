@@ -14,7 +14,7 @@ import com.io7m.jcanephora.FramebufferAttachment.ColorAttachment;
 import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
-import com.io7m.jcanephora.RenderbufferD24S8;
+import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
 import com.io7m.jcanephora.Texture2DStatic;
@@ -28,7 +28,7 @@ public abstract class StencilBuffersContract implements GLES2TestContract
     throws GLException,
       ConstraintError
   {
-    final RenderbufferD24S8 rb = g.renderbufferD24S8Allocate(128, 128);
+    final Renderbuffer rb = g.renderbufferAllocateDepth16(128, 128);
     final Texture2DStatic cb =
       g.texture2DStaticAllocateRGBA8888(
         "framebuffer",

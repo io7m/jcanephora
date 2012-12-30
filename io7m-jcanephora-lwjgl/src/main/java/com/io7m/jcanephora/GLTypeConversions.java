@@ -893,4 +893,28 @@ final class GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  public static int renderbufferTypeToGL(
+    final RenderbufferType type)
+  {
+    switch (type) {
+      case RENDERBUFFER_COLOR_RGBA_4444:
+        return GL11.GL_RGBA4;
+      case RENDERBUFFER_COLOR_RGBA_5551:
+        return GL11.GL_RGB5_A1;
+      case RENDERBUFFER_COLOR_RGB_565:
+        /**
+         * Apparently not available in LWJGL yet (GL_RGB565).
+         */
+        return 0x8D62;
+      case RENDERBUFFER_DEPTH_16:
+        return GL14.GL_DEPTH_COMPONENT16;
+      case RENDERBUFFER_DEPTH_24_STENCIL_8:
+        return GL30.GL_DEPTH24_STENCIL8;
+      case RENDERBUFFER_STENCIL_8:
+        return GL30.GL_STENCIL_INDEX8;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
 }

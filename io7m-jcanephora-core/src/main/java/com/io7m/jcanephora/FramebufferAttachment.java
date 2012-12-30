@@ -124,10 +124,10 @@ public class FramebufferAttachment
   public static final class RenderbufferD24S8Attachment extends
     FramebufferAttachment
   {
-    private final @Nonnull RenderbufferD24S8 buffer;
+    private final @Nonnull Renderbuffer buffer;
 
     @SuppressWarnings("synthetic-access") public RenderbufferD24S8Attachment(
-      final @Nonnull RenderbufferD24S8 buffer)
+      final @Nonnull Renderbuffer buffer)
       throws ConstraintError
     {
       super(Type.ATTACHMENT_D24S8);
@@ -158,7 +158,7 @@ public class FramebufferAttachment
      * Retrieve the renderbuffer for the attachment.
      */
 
-    public @Nonnull RenderbufferD24S8 getRenderbuffer()
+    public @Nonnull Renderbuffer getRenderbuffer()
     {
       return this.buffer;
     }

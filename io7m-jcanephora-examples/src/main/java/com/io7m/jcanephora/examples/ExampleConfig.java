@@ -2,7 +2,7 @@ package com.io7m.jcanephora.examples;
 
 import javax.annotation.Nonnull;
 
-import com.io7m.jcanephora.GLInterfaceES2;
+import com.io7m.jcanephora.GLInterface;
 import com.io7m.jcanephora.TextureLoader;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.VectorM2I;
@@ -11,15 +11,15 @@ import com.io7m.jvvfs.FilesystemAPI;
 
 final class ExampleConfig
 {
-  private final @Nonnull GLInterfaceES2 gl;
-  private final @Nonnull Log            log;
-  private final @Nonnull FilesystemAPI  filesystem;
-  private final @Nonnull TextureLoader  texture_loader;
-  private final @Nonnull VectorM2I      window_position;
-  private final @Nonnull VectorM2I      window_size;
+  private final @Nonnull GLInterface   gl;
+  private final @Nonnull Log           log;
+  private final @Nonnull FilesystemAPI filesystem;
+  private final @Nonnull TextureLoader texture_loader;
+  private final @Nonnull VectorM2I     window_position;
+  private final @Nonnull VectorM2I     window_size;
 
   public ExampleConfig(
-    final @Nonnull GLInterfaceES2 gl,
+    final @Nonnull GLInterface gl,
     final @Nonnull TextureLoader texture_loader,
     final @Nonnull Log log,
     final @Nonnull FilesystemAPI filesystem,
@@ -39,7 +39,7 @@ final class ExampleConfig
     return this.filesystem;
   }
 
-  @Nonnull GLInterfaceES2 getGL()
+  @Nonnull GLInterface getGL()
   {
     return this.gl;
   }

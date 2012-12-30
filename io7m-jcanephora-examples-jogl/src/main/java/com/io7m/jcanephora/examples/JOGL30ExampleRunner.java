@@ -15,7 +15,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.PartialFunction;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterfaceES2;
+import com.io7m.jcanephora.GLInterface;
 import com.io7m.jcanephora.GLInterface_JOGL30;
 import com.io7m.jcanephora.TextureLoader;
 import com.io7m.jcanephora.TextureLoaderImageIO;
@@ -60,7 +60,7 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
   private final Log                                                                 log;
   protected final GLWindow                                                          window;
   private final FPSAnimator                                                         animator;
-  private GLInterfaceES2                                                            gl;
+  private GLInterface                                                               gl;
   private final Filesystem                                                          filesystem;
   private final VectorM2I                                                           window_position;
   private final VectorM2I                                                           window_size;

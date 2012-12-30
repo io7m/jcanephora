@@ -23,26 +23,27 @@ import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * A immutable reference to an allocated depth/stencil renderbuffer. The
- * buffer has 24 bits of precision for the depth buffer and 8 bits of
- * precision for the stencil.
+ * A immutable reference to an allocated renderbuffer.
  */
 
-@Immutable public final class RenderbufferD24S8 extends Deletable implements
+@Immutable public final class Renderbuffer extends Deletable implements
   GLResource,
   GLName
 {
-  private final int value;
-  private final int width;
-  private final int height;
-  private boolean   deleted;
+  private final @Nonnull RenderbufferType type;
+  private final int                       value;
+  private final int                       width;
+  private final int                       height;
+  private boolean                         deleted;
 
-  RenderbufferD24S8(
+  Renderbuffer(
+    final @Nonnull RenderbufferType type,
     final int value,
     final int width,
     final int height)
     throws ConstraintError
   {
+    this.type = Constraints.constrainNotNull(type, "Renderbuffer type");
     this.value =
       Constraints.constrainRange(
         value,
@@ -66,7 +67,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     if (this.getClass() != obj.getClass()) {
       return false;
     }
-    final RenderbufferD24S8 other = (RenderbufferD24S8) obj;
+    final Renderbuffer other = (Renderbuffer) obj;
     if (this.value != other.value) {
       return false;
     }
@@ -109,7 +110,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     throws ConstraintError,
       GLException
   {
-    gl.renderbufferD24S8Delete(this);
+    gl.renderbufferDelete(this);
   }
 
   @Override public boolean resourceIsDeleted()
@@ -122,11 +123,26 @@ import com.io7m.jaux.Constraints.ConstraintError;
     this.deleted = true;
   }
 
+  /**
+   * Retrieve the type of the renderbuffer.
+   */
+
+  public @Nonnull RenderbufferType getType()
+  {
+    return this.type;
+  }
+
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("[RenderbufferD24S8 ");
-    builder.append(this.getGLName());
+    builder.append("[Renderbuffer ");
+    builder.append(this.type);
+    builder.append(" ");
+    builder.append(this.value);
+    builder.append(" ");
+    builder.append(this.width);
+    builder.append("x");
+    builder.append(this.height);
     builder.append("]");
     return builder.toString();
   }
