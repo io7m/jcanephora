@@ -18,6 +18,8 @@ package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
 
+import com.io7m.jaux.UnreachableCodeException;
+
 /**
  * The type of a renderbuffer.
  */
@@ -91,4 +93,63 @@ public enum RenderbufferType
     return est;
   }
 
+  /**
+   * Return <code>true</code> iff this type is depth-renderable.
+   */
+
+  public boolean isDepthRenderable()
+  {
+    switch (this) {
+      case RENDERBUFFER_COLOR_RGBA_4444:
+      case RENDERBUFFER_COLOR_RGBA_5551:
+      case RENDERBUFFER_COLOR_RGB_565:
+      case RENDERBUFFER_STENCIL_8:
+        return false;
+      case RENDERBUFFER_DEPTH_16:
+      case RENDERBUFFER_DEPTH_24_STENCIL_8:
+        return true;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Return <code>true</code> iff this type is stencil-renderable.
+   */
+
+  public boolean isStencilRenderable()
+  {
+    switch (this) {
+      case RENDERBUFFER_COLOR_RGBA_4444:
+      case RENDERBUFFER_COLOR_RGBA_5551:
+      case RENDERBUFFER_COLOR_RGB_565:
+      case RENDERBUFFER_DEPTH_16:
+        return false;
+      case RENDERBUFFER_STENCIL_8:
+      case RENDERBUFFER_DEPTH_24_STENCIL_8:
+        return true;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * Return <code>true</code> iff this type is color-renderable.
+   */
+
+  public boolean isColorRenderable()
+  {
+    switch (this) {
+      case RENDERBUFFER_COLOR_RGBA_4444:
+      case RENDERBUFFER_COLOR_RGBA_5551:
+      case RENDERBUFFER_COLOR_RGB_565:
+        return true;
+      case RENDERBUFFER_DEPTH_16:
+      case RENDERBUFFER_STENCIL_8:
+      case RENDERBUFFER_DEPTH_24_STENCIL_8:
+        return false;
+    }
+
+    throw new UnreachableCodeException();
+  }
 }
