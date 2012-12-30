@@ -16,7 +16,7 @@ import com.io7m.jaux.functional.PartialFunction;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
-import com.io7m.jcanephora.GLInterfaceES2_JOGL30;
+import com.io7m.jcanephora.GLInterface_JOGL30;
 import com.io7m.jcanephora.TextureLoader;
 import com.io7m.jcanephora.TextureLoaderImageIO;
 import com.io7m.jlog.Log;
@@ -351,7 +351,7 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
   {
     try {
       this.texture_loader = new TextureLoaderImageIO();
-      this.gl = new GLInterfaceES2_JOGL30(drawable.getContext(), this.log);
+      this.gl = new GLInterface_JOGL30(drawable.getContext(), this.log);
 
       this.config =
         new ExampleConfig(
