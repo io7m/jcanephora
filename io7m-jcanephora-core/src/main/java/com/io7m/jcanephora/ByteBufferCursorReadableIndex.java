@@ -41,7 +41,7 @@ final class ByteBufferCursorReadableIndex extends BufferCursor implements
     final @Nonnull RangeInclusive range,
     final @Nonnull GLUnsignedType type)
   {
-    super(range, 0, GLUnsignedTypeMeta.getSizeBytes(type));
+    super(range, 0, type.getSizeBytes());
     this.target_data = target_data;
     this.type = type;
   }
