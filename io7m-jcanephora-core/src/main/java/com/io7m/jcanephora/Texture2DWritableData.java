@@ -172,17 +172,11 @@ public final class Texture2DWritableData
       case TEXTURE_TYPE_RG_88_2BPP:
       case TEXTURE_TYPE_RGB_565_2BPP:
       case TEXTURE_TYPE_RGB_888_3BPP:
-      {
-        Constraints.constrainArbitrary(
-          false,
-          "Number of texture components is 1");
-        break;
-      }
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
       {
         Constraints.constrainArbitrary(
           false,
-          "Texture components are integers");
+          "Number of texture components is 1 and components are integers");
         break;
       }
       case TEXTURE_TYPE_DEPTH_32_4BPP:
@@ -244,7 +238,7 @@ public final class Texture2DWritableData
       {
         Constraints.constrainArbitrary(
           false,
-          "Number of texture components is 2");
+          "Number of texture components is 2 and components are integers");
         break;
       }
     }
@@ -277,7 +271,7 @@ public final class Texture2DWritableData
       {
         Constraints.constrainArbitrary(
           false,
-          "Number of texture components is 3");
+          "Number of texture components is 3 and components are integers");
         break;
       }
       case TEXTURE_TYPE_RGB_565_2BPP:
@@ -344,7 +338,7 @@ public final class Texture2DWritableData
       {
         Constraints.constrainArbitrary(
           false,
-          "Number of texture components is 4");
+          "Number of texture components is 4 and components are integers");
       }
     }
 
