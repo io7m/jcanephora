@@ -83,7 +83,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     this.log =
-      new Log(Constraints.constrainNotNull(log, "log output"), "jogl30");
+      new Log(Constraints.constrainNotNull(log, "log output"), "lwjgl-30");
     this.state = new GLStateCache();
 
     /**

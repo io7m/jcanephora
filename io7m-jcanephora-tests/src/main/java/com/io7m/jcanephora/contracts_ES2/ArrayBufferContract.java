@@ -27,15 +27,14 @@ import com.io7m.jcanephora.GLScalarType;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramReference;
+import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.UsageHint;
 import com.io7m.jcanephora.VertexShader;
 import com.io7m.jvvfs.FilesystemAPI;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
 
-public abstract class ArrayBufferContract implements
-  GLES2TestContract,
-  FilesystemTestContract
+public abstract class ArrayBufferContract implements GLES2TestContract
 {
   static ProgramReference makeProgram(
     final GLInterfaceES2 gl,
@@ -68,27 +67,29 @@ public abstract class ArrayBufferContract implements
     return pr;
   }
 
-  @Before public final void checkSupport()
-  {
-    Assume.assumeTrue(this.isGLSupported());
-  }
-
-  private @Nonnull ProgramReference makeStandardPositionProgram(
-    final @Nonnull GLInterfaceES2 gl,
-    final @Nonnull FilesystemAPI fs)
+  private static @Nonnull ProgramReference makeStandardPositionProgram(
+    final @Nonnull TestContext context)
     throws ConstraintError,
       GLException,
       FilesystemError,
       GLCompileException,
       IOException
   {
-    final PathVirtual vss =
-      new PathVirtual(this.getShaderPath() + "/position.v");
-    final PathVirtual fss =
-      new PathVirtual(this.getShaderPath() + "/simple.f");
+    final GLInterfaceES2 gl =
+      context.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = context.getFilesystem();
+    final PathVirtual path = context.getShaderPath();
+
+    final PathVirtual vss = new PathVirtual(path + "/position.v");
+    final PathVirtual fss = new PathVirtual(path + "/simple.f");
     final ProgramReference pr =
       ArrayBufferContract.makeProgram(gl, fs, vss, fss);
     return pr;
+  }
+
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
   }
 
   /**
@@ -100,8 +101,10 @@ public abstract class ArrayBufferContract implements
       GLException,
       GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     ArrayBuffer a = null;
 
     try {
@@ -135,8 +138,10 @@ public abstract class ArrayBufferContract implements
         GLException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -158,8 +163,10 @@ public abstract class ArrayBufferContract implements
         GLException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -186,8 +193,10 @@ public abstract class ArrayBufferContract implements
       GLException,
       GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -218,8 +227,10 @@ public abstract class ArrayBufferContract implements
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -247,8 +258,10 @@ public abstract class ArrayBufferContract implements
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     gl.arrayBufferBindVertexAttribute(null, null, null);
   }
 
@@ -267,8 +280,10 @@ public abstract class ArrayBufferContract implements
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -296,8 +311,10 @@ public abstract class ArrayBufferContract implements
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -328,11 +345,12 @@ public abstract class ArrayBufferContract implements
       IOException,
       FilesystemError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
 
-    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+    final ProgramReference pr =
+      ArrayBufferContract.makeStandardPositionProgram(tc);
 
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
@@ -374,11 +392,12 @@ public abstract class ArrayBufferContract implements
         IOException,
         FilesystemError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
 
-    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+    final ProgramReference pr =
+      ArrayBufferContract.makeStandardPositionProgram(tc);
 
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
@@ -427,11 +446,12 @@ public abstract class ArrayBufferContract implements
         IOException,
         FilesystemError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
 
-    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+    final ProgramReference pr =
+      ArrayBufferContract.makeStandardPositionProgram(tc);
 
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
@@ -463,8 +483,10 @@ public abstract class ArrayBufferContract implements
         GLException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -488,8 +510,10 @@ public abstract class ArrayBufferContract implements
         GLException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     ArrayBuffer a = null;
 
     try {
@@ -520,8 +544,10 @@ public abstract class ArrayBufferContract implements
         GLException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     gl.arrayBufferDelete(null);
   }
 
@@ -540,8 +566,10 @@ public abstract class ArrayBufferContract implements
         GLException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(new ArrayBufferAttribute[] {
         new ArrayBufferAttribute("position", GLScalarType.TYPE_SHORT, 3),
@@ -573,8 +601,10 @@ public abstract class ArrayBufferContract implements
         GLException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     gl.arrayBufferIsBound(null);
   }
 
@@ -599,11 +629,12 @@ public abstract class ArrayBufferContract implements
         IOException,
         FilesystemError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
 
-    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+    final ProgramReference pr =
+      ArrayBufferContract.makeStandardPositionProgram(tc);
 
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
@@ -647,11 +678,12 @@ public abstract class ArrayBufferContract implements
         GLCompileException,
         IOException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
 
-    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+    final ProgramReference pr =
+      ArrayBufferContract.makeStandardPositionProgram(tc);
 
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
@@ -693,11 +725,12 @@ public abstract class ArrayBufferContract implements
         GLCompileException,
         IOException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
 
-    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+    final ProgramReference pr =
+      ArrayBufferContract.makeStandardPositionProgram(tc);
 
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
@@ -739,11 +772,12 @@ public abstract class ArrayBufferContract implements
         GLCompileException,
         IOException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
 
-    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+    final ProgramReference pr =
+      ArrayBufferContract.makeStandardPositionProgram(tc);
 
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
@@ -783,11 +817,12 @@ public abstract class ArrayBufferContract implements
       GLCompileException,
       IOException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
 
-    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+    final ProgramReference pr =
+      ArrayBufferContract.makeStandardPositionProgram(tc);
 
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
@@ -829,11 +864,12 @@ public abstract class ArrayBufferContract implements
         GLCompileException,
         IOException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
 
-    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+    final ProgramReference pr =
+      ArrayBufferContract.makeStandardPositionProgram(tc);
 
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
@@ -877,11 +913,12 @@ public abstract class ArrayBufferContract implements
         IOException,
         FilesystemError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
 
-    final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
+    final ProgramReference pr =
+      ArrayBufferContract.makeStandardPositionProgram(tc);
 
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
@@ -918,8 +955,10 @@ public abstract class ArrayBufferContract implements
       GLException,
       GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     ArrayBuffer a = null;
 
     try {
@@ -951,8 +990,10 @@ public abstract class ArrayBufferContract implements
         GLException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     ArrayBuffer a = null;
 
     try {
@@ -983,8 +1024,10 @@ public abstract class ArrayBufferContract implements
       GLException,
       GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     ArrayBuffer a = null;
 
     try {
@@ -1017,8 +1060,10 @@ public abstract class ArrayBufferContract implements
         GLException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     ArrayBuffer a = null;
 
     try {
@@ -1051,8 +1096,10 @@ public abstract class ArrayBufferContract implements
         GLUnsupportedException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     ArrayBuffer a = null;
     ArrayBuffer b = null;
 

@@ -16,6 +16,7 @@ import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
+import com.io7m.jcanephora.TestContext;
 
 public abstract class StencilBuffersContract implements GLES2TestContract
 {
@@ -71,8 +72,10 @@ public abstract class StencilBuffersContract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final FramebufferReference fb =
       StencilBuffersContract.makeFramebuffer(gl);
     gl.framebufferDrawBind(fb);
@@ -86,8 +89,10 @@ public abstract class StencilBuffersContract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final FramebufferReference fb =
       StencilBuffersContract.makeFramebufferNoStencil(gl);
     gl.framebufferDrawBind(fb);
@@ -99,8 +104,10 @@ public abstract class StencilBuffersContract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final FramebufferReference fb =
       StencilBuffersContract.makeFramebuffer(gl);
     gl.framebufferDrawBind(fb);
@@ -116,8 +123,10 @@ public abstract class StencilBuffersContract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final FramebufferReference fb =
       StencilBuffersContract.makeFramebuffer(gl);
     gl.framebufferDrawBind(fb);
@@ -136,8 +145,10 @@ public abstract class StencilBuffersContract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final FramebufferReference fb =
       StencilBuffersContract.makeFramebuffer(gl);
     gl.framebufferDrawBind(fb);
@@ -151,8 +162,10 @@ public abstract class StencilBuffersContract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final FramebufferReference fb =
       StencilBuffersContract.makeFramebuffer(gl);
     gl.framebufferDrawBind(fb);
@@ -164,8 +177,10 @@ public abstract class StencilBuffersContract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final FramebufferReference fb =
       StencilBuffersContract.makeFramebuffer(gl);
     gl.framebufferDrawBind(fb);
@@ -179,8 +194,10 @@ public abstract class StencilBuffersContract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final FramebufferReference fb =
       StencilBuffersContract.makeFramebuffer(gl);
     gl.framebufferDrawBind(fb);
@@ -192,8 +209,10 @@ public abstract class StencilBuffersContract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final FramebufferReference fb =
       StencilBuffersContract.makeFramebuffer(gl);
     gl.framebufferDrawBind(fb);
@@ -216,8 +235,10 @@ public abstract class StencilBuffersContract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final FramebufferReference fb =
       StencilBuffersContract.makeFramebuffer(gl);
     gl.framebufferDrawBind(fb);
@@ -235,8 +256,10 @@ public abstract class StencilBuffersContract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final FramebufferReference fb =
       StencilBuffersContract.makeFramebuffer(gl);
     gl.framebufferDrawBind(fb);
@@ -254,8 +277,10 @@ public abstract class StencilBuffersContract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final FramebufferReference fb =
       StencilBuffersContract.makeFramebuffer(gl);
     gl.framebufferDrawBind(fb);
@@ -273,8 +298,10 @@ public abstract class StencilBuffersContract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final FramebufferReference fb =
       StencilBuffersContract.makeFramebuffer(gl);
     gl.framebufferDrawBind(fb);
@@ -290,8 +317,10 @@ public abstract class StencilBuffersContract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     Assert.assertTrue(gl.stencilBufferGetBits() >= 0);
   }
 
@@ -300,8 +329,10 @@ public abstract class StencilBuffersContract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final FramebufferReference fb =
       StencilBuffersContract.makeFramebufferNoStencil(gl);
     gl.framebufferDrawBind(fb);
@@ -313,8 +344,10 @@ public abstract class StencilBuffersContract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final FramebufferReference fb =
       StencilBuffersContract.makeFramebuffer(gl);
     gl.framebufferDrawBind(fb);

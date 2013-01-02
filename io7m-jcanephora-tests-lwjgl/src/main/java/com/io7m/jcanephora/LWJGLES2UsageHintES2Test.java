@@ -6,7 +6,7 @@ import org.junit.Test;
 public class LWJGLES2UsageHintES2Test
 {
   /**
-   * ∀h. usageHintES2FromGL(usageHintES2ToGL(h)) == h.
+   * ∀h. usageHintFromGL(usageHintToGL(h)) == h.
    */
 
   @SuppressWarnings("static-method") @Test public void testWrapBijection()

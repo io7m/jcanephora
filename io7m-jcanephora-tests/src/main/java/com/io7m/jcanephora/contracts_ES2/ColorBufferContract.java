@@ -10,6 +10,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.GLUnsupportedException;
+import com.io7m.jcanephora.TestContext;
 
 public abstract class ColorBufferContract implements GLES2TestContract
 {
@@ -27,8 +28,9 @@ public abstract class ColorBufferContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
 
     {
       final boolean r = gl.colorBufferMaskStatusRed();

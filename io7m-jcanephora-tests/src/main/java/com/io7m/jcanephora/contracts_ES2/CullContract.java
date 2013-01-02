@@ -11,6 +11,7 @@ import com.io7m.jcanephora.FaceWindingOrder;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.GLUnsupportedException;
+import com.io7m.jcanephora.TestContext;
 
 public abstract class CullContract implements GLES2TestContract
 {
@@ -28,8 +29,9 @@ public abstract class CullContract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
 
     for (final FaceSelection select : FaceSelection.values()) {
       for (final FaceWindingOrder order : FaceWindingOrder.values()) {
@@ -50,8 +52,10 @@ public abstract class CullContract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     gl.cullingEnable(null, FaceWindingOrder.FRONT_FACE_CLOCKWISE);
   }
 
@@ -64,8 +68,10 @@ public abstract class CullContract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     gl.cullingEnable(FaceSelection.FACE_BACK, null);
   }
 }

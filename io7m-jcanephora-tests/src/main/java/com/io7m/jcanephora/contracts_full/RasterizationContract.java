@@ -11,6 +11,7 @@ import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface3;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.PolygonMode;
+import com.io7m.jcanephora.TestContext;
 
 public abstract class RasterizationContract implements GLTestContract
 {
@@ -28,9 +29,8 @@ public abstract class RasterizationContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     int min = 0;
     int max = 0;
@@ -60,9 +60,8 @@ public abstract class RasterizationContract implements GLTestContract
         GLUnsupportedException,
         ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     int max = 99999;
 
@@ -88,9 +87,8 @@ public abstract class RasterizationContract implements GLTestContract
         GLUnsupportedException,
         ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     int min = 0;
 
@@ -114,9 +112,8 @@ public abstract class RasterizationContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     int min = 0;
     int max = 0;
@@ -146,9 +143,8 @@ public abstract class RasterizationContract implements GLTestContract
         GLUnsupportedException,
         ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     int max = 99999;
 
@@ -174,9 +170,8 @@ public abstract class RasterizationContract implements GLTestContract
         GLUnsupportedException,
         ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     int min = 0;
 
@@ -203,9 +198,8 @@ public abstract class RasterizationContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     Assert.assertTrue(gl.pointGetMinimumWidth() >= 0);
     Assert.assertTrue(gl.pointGetMaximumWidth() >= 1);
@@ -223,9 +217,8 @@ public abstract class RasterizationContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     gl.polygonSetMode(PolygonMode.POLYGON_FILL);
     Assert.assertEquals(PolygonMode.POLYGON_FILL, gl.polygonGetMode());
@@ -249,9 +242,8 @@ public abstract class RasterizationContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     gl.polygonSmoothingDisable();
     Assert.assertFalse(gl.polygonSmoothingIsEnabled());
@@ -268,9 +260,8 @@ public abstract class RasterizationContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     gl.pointProgramSizeControlDisable();
     Assert.assertFalse(gl.pointProgramSizeControlIsEnabled());

@@ -17,6 +17,7 @@ import com.io7m.jcanephora.GLUnsignedType;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
+import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.UsageHint;
 
 public abstract class IndexBufferContract implements GLES2TestContract
@@ -37,8 +38,10 @@ public abstract class IndexBufferContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -61,8 +64,10 @@ public abstract class IndexBufferContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -96,8 +101,10 @@ public abstract class IndexBufferContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -132,8 +139,10 @@ public abstract class IndexBufferContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     gl.indexBufferAllocate(null, 1);
   }
 
@@ -147,8 +156,10 @@ public abstract class IndexBufferContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -183,8 +194,10 @@ public abstract class IndexBufferContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     gl.indexBufferAllocateType(null, 1);
   }
 
@@ -199,8 +212,10 @@ public abstract class IndexBufferContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 0);
   }
 
@@ -215,8 +230,10 @@ public abstract class IndexBufferContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -239,8 +256,10 @@ public abstract class IndexBufferContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -272,8 +291,10 @@ public abstract class IndexBufferContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     gl.indexBufferDelete(null);
   }
 
@@ -286,8 +307,10 @@ public abstract class IndexBufferContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -319,8 +342,10 @@ public abstract class IndexBufferContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -353,8 +378,10 @@ public abstract class IndexBufferContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -386,8 +413,10 @@ public abstract class IndexBufferContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(

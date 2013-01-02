@@ -1,27 +1,23 @@
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.contracts_ES2.TextureCubeStaticES2Contract;
-import com.io7m.jlog.Log;
 
 public final class LWJGLES2TextureCubeStaticES2Test extends
   TextureCubeStaticES2Contract
 {
-  @Override public Log getLog()
+  @Override public @Nonnull TestContext getTestContext()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
   {
-    return LWJGLTestLog.getLog();
+    return LWJGLTestContext.makeContextWithOpenGL_ES2();
   }
 
   @Override public boolean isGLSupported()
   {
-    return LWJGLTestDisplay.isOpenGLES2Supported();
-  }
-
-  @Override public GLImplementation makeNewGLImplementation()
-    throws GLException,
-      ConstraintError,
-      GLUnsupportedException
-  {
-    return LWJGLTestDisplay.makeImplementationWithOpenGLES2();
+    return LWJGLTestContext.isOpenGLES2Supported();
   }
 }

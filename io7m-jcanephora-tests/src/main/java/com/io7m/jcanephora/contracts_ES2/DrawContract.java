@@ -11,6 +11,7 @@ import com.io7m.jcanephora.GLUnsignedType;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.Primitives;
+import com.io7m.jcanephora.TestContext;
 
 public abstract class DrawContract implements GLES2TestContract
 {
@@ -32,8 +33,10 @@ public abstract class DrawContract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 100);
 
@@ -57,8 +60,10 @@ public abstract class DrawContract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 100);
 
@@ -81,8 +86,10 @@ public abstract class DrawContract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     gl.drawElements(Primitives.PRIMITIVE_TRIANGLES, null);
   }
 
@@ -101,8 +108,10 @@ public abstract class DrawContract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 100);
 

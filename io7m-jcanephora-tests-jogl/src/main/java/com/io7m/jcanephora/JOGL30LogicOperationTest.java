@@ -1,5 +1,7 @@
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -7,27 +9,27 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.contracts_full.LogicOpContract;
-import com.io7m.jlog.Log;
+import com.io7m.jvvfs.PathVirtual;
 
 public final class JOGL30LogicOperationTest extends LogicOpContract
 {
-  @Override public Log getLog()
+  @Override public PathVirtual getShaderPath()
+    throws ConstraintError
   {
-    return JOGLTestLog.getLog();
+    return JOGLTestContext.GLSL_110_SHADER_PATH;
+  }
+
+  @Override public @Nonnull TestContext getTestContext()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    return JOGLTestContext.makeContextWithOpenGL3_X();
   }
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestDisplay.isOpenGL3Supported();
-  }
-
-  @Override public GLImplementation makeNewGLImplementation()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      GLUnsupportedException
-  {
-    return JOGLTestDisplay.makeImplementationWithOpenGL3();
+    return JOGLTestContext.isOpenGL3Supported();
   }
 
   /**

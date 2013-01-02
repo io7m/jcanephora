@@ -1,28 +1,30 @@
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.contracts_full.TextureCubeStaticContract;
-import com.io7m.jlog.Log;
+import com.io7m.jvvfs.PathVirtual;
 
 public final class LWJGL30TextureCubeStaticTest extends
   TextureCubeStaticContract
 {
-  @Override public Log getLog()
+  @Override public PathVirtual getShaderPath()
+    throws ConstraintError
   {
-    return LWJGLTestLog.getLog();
+    return LWJGLTestContext.GLSL_110_SHADER_PATH;
+  }
+
+  @Override public @Nonnull TestContext getTestContext()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    return LWJGLTestContext.makeContextWithOpenGL3_X();
   }
 
   @Override public boolean isGLSupported()
   {
-    return LWJGLTestDisplay.isOpenGL3Supported();
-  }
-
-  @Override public GLImplementation makeNewGLImplementation()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      GLUnsupportedException
-  {
-    return LWJGLTestDisplay.makeImplementationWithOpenGL3();
+    return LWJGLTestContext.isOpenGL3Supported();
   }
 }

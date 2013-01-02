@@ -11,6 +11,7 @@ import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.SpatialCursorWritable3i;
+import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.Texture2DWritableData;
 import com.io7m.jcanephora.TextureFilter;
@@ -36,8 +37,10 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final TextureUnit[] u = gl.textureGetUnits();
     Assert.assertTrue(u.length >= 2);
   }
@@ -55,8 +58,9 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
 
     final TextureUnit[] units = gl.textureGetUnits();
     final Texture2DStatic t =
@@ -91,8 +95,9 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
 
     final TextureUnit[] units = gl.textureGetUnits();
     final Texture2DStatic t =
@@ -124,8 +129,10 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final TextureUnit[] units = gl.textureGetUnits();
 
     gl.texture2DStaticBind(units[0], null);
@@ -146,8 +153,10 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     gl.texture2DStaticBind(null, null);
   }
 
@@ -164,8 +173,9 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
 
     final Texture2DStatic t =
       gl.texture2DStaticAllocateRGBA8888(
@@ -197,8 +207,9 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
 
     final Texture2DStatic t =
       gl.texture2DStaticAllocateRGBA8888(
@@ -231,8 +242,9 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
 
     final TextureUnit[] units = gl.textureGetUnits();
     final Texture2DStatic t =
@@ -265,8 +277,10 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     gl.texture2DStaticDelete(null);
   }
 
@@ -285,8 +299,9 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
 
     gl.texture2DStaticAllocateRGBA8888(
       "texture",
@@ -313,8 +328,9 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
 
     gl.texture2DStaticAllocateRGBA8888(
       "texture",
@@ -341,8 +357,9 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
 
     gl.texture2DStaticAllocateRGBA8888(
       null,
@@ -369,8 +386,9 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
 
     gl.texture2DStaticAllocateRGBA8888(
       "texture",
@@ -397,8 +415,9 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
 
     gl.texture2DStaticAllocateRGBA8888(
       "texture",
@@ -423,8 +442,10 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     Assert.assertTrue(gl.textureGetMaximumSize() >= 128);
   }
 
@@ -441,8 +462,9 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
 
     for (final TextureType t : TextureType.getES2Types()) {
       Texture2DStatic tx = null;
@@ -560,8 +582,9 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
 
     final Texture2DStatic t =
       gl.texture2DStaticAllocateRGB888(
@@ -601,8 +624,10 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     gl.texture2DStaticUpdate(null);
   }
 }

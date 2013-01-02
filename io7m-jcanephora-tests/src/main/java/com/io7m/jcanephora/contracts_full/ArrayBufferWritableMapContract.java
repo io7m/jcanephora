@@ -20,6 +20,7 @@ import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface3;
 import com.io7m.jcanephora.GLScalarType;
 import com.io7m.jcanephora.GLUnsupportedException;
+import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.UsageHint;
 
 public abstract class ArrayBufferWritableMapContract implements
@@ -41,8 +42,8 @@ public abstract class ArrayBufferWritableMapContract implements
         GLException,
         GLUnsupportedException
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     ArrayBuffer a = null;
     ArrayBufferWritableMap m = null;
@@ -72,9 +73,8 @@ public abstract class ArrayBufferWritableMapContract implements
         GLException,
         GLUnsupportedException
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     ArrayBuffer a = null;
     ArrayBufferWritableMap m = null;
@@ -103,9 +103,8 @@ public abstract class ArrayBufferWritableMapContract implements
         GLException,
         GLUnsupportedException
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     ArrayBuffer a = null;
     ArrayBufferWritableMap wm = null;
@@ -185,9 +184,8 @@ public abstract class ArrayBufferWritableMapContract implements
         GLException,
         GLUnsupportedException
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     ArrayBuffer a = null;
     ArrayBufferWritableMap wm = null;
@@ -264,9 +262,8 @@ public abstract class ArrayBufferWritableMapContract implements
         GLException,
         GLUnsupportedException
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     ArrayBuffer a = null;
     ArrayBufferWritableMap m = null;
@@ -298,9 +295,8 @@ public abstract class ArrayBufferWritableMapContract implements
         GLException,
         GLUnsupportedException
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     ArrayBuffer a = null;
     ArrayBufferWritableMap m = null;
@@ -330,9 +326,8 @@ public abstract class ArrayBufferWritableMapContract implements
         GLException,
         GLUnsupportedException
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     ArrayBuffer a = null;
     ArrayBufferWritableMap wm = null;
@@ -400,9 +395,8 @@ public abstract class ArrayBufferWritableMapContract implements
         GLException,
         GLUnsupportedException
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     ArrayBuffer a = null;
     ArrayBufferWritableMap wm = null;
@@ -473,9 +467,8 @@ public abstract class ArrayBufferWritableMapContract implements
         GLException,
         GLUnsupportedException
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     ArrayBuffer a = null;
     ArrayBufferWritableMap m = null;

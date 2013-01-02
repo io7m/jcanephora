@@ -11,6 +11,7 @@ import com.io7m.jcanephora.BlendFunction;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface3;
 import com.io7m.jcanephora.GLUnsupportedException;
+import com.io7m.jcanephora.TestContext;
 
 public abstract class BlendContract implements GLTestContract
 {
@@ -28,9 +29,8 @@ public abstract class BlendContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     gl.blendingDisable();
     Assert.assertFalse(gl.blendingIsEnabled());
@@ -43,9 +43,8 @@ public abstract class BlendContract implements GLTestContract
         GLUnsupportedException,
         ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     gl.blendingEnableWithEquationSeparate(
       BlendFunction.BLEND_ONE,
@@ -63,9 +62,8 @@ public abstract class BlendContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     // final Log log = this.getLog();
 
@@ -96,9 +94,8 @@ public abstract class BlendContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     for (final BlendFunction source : BlendFunction.values()) {
       for (final BlendFunction target : BlendFunction.values()) {
@@ -125,9 +122,8 @@ public abstract class BlendContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     for (final BlendFunction source : BlendFunction.values()) {
       for (final BlendFunction target : BlendFunction.values()) {
@@ -160,9 +156,8 @@ public abstract class BlendContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
     // final Log log = this.getLog();
 
     for (final BlendFunction rgb_source : BlendFunction.values()) {
@@ -211,9 +206,8 @@ public abstract class BlendContract implements GLTestContract
         GLUnsupportedException,
         ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     gl.blendingEnable(
       BlendFunction.BLEND_ONE,
@@ -227,9 +221,8 @@ public abstract class BlendContract implements GLTestContract
         GLUnsupportedException,
         ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     gl.blendingEnableWithEquation(
       BlendFunction.BLEND_ONE,
@@ -245,9 +238,8 @@ public abstract class BlendContract implements GLTestContract
         GLUnsupportedException,
         ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     gl.blendingEnableSeparateWithEquationSeparate(
       BlendFunction.BLEND_ONE,
@@ -265,9 +257,8 @@ public abstract class BlendContract implements GLTestContract
         GLUnsupportedException,
         ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     gl.blendingEnableSeparateWithEquationSeparate(
       BlendFunction.BLEND_ONE,

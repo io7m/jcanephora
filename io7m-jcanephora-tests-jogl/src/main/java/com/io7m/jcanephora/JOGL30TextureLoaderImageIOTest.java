@@ -1,39 +1,22 @@
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jlog.Log;
-import com.io7m.jvvfs.FilesystemAPI;
-import com.io7m.jvvfs.PathVirtual;
 
 public final class JOGL30TextureLoaderImageIOTest extends
   TextureLoaderImageIOTest
 {
-  @Override public Log getLog()
+  @Override public @Nonnull TestContext getTestContext()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
   {
-    return JOGLTestLog.getLog();
-  }
-
-  @Override public PathVirtual getShaderPath()
-    throws ConstraintError
-  {
-    return new PathVirtual("/com/io7m/jcanephora/shaders/glsl110");
+    return JOGLTestContext.makeContextWithOpenGL3_X();
   }
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestDisplay.isOpenGL3Supported();
-  }
-
-  @Override public FilesystemAPI makeNewFS()
-  {
-    return JOGLTestFilesystem.getFS();
-  }
-
-  @Override public GLImplementation makeNewGLImplementation()
-    throws GLException,
-      ConstraintError,
-      GLUnsupportedException
-  {
-    return JOGLTestDisplay.makeImplementationWithOpenGL3();
+    return JOGLTestContext.isOpenGL3Supported();
   }
 }
