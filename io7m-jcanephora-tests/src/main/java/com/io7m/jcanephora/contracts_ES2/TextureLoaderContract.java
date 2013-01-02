@@ -46,7 +46,7 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -93,7 +93,7 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -142,7 +142,7 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -191,7 +191,7 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -240,7 +240,7 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -287,7 +287,7 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -336,7 +336,7 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -384,7 +384,7 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -432,7 +432,7 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -481,7 +481,7 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();

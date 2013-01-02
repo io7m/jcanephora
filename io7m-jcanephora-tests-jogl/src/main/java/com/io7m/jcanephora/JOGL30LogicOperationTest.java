@@ -9,27 +9,20 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.contracts_full.LogicOpContract;
-import com.io7m.jvvfs.PathVirtual;
 
 public final class JOGL30LogicOperationTest extends LogicOpContract
 {
-  @Override public PathVirtual getShaderPath()
-    throws ConstraintError
+  @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.GLSL_110_SHADER_PATH;
+    return JOGLTestContext.isOpenGL3Supported();
   }
 
-  @Override public @Nonnull TestContext getTestContext()
+  @Override public @Nonnull TestContext newTestContext()
     throws GLException,
       GLUnsupportedException,
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL3_X();
-  }
-
-  @Override public boolean isGLSupported()
-  {
-    return JOGLTestContext.isOpenGL3Supported();
   }
 
   /**

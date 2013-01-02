@@ -293,7 +293,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
     final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
@@ -338,7 +338,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
     final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
@@ -387,7 +387,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
     final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
@@ -427,7 +427,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
     final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
@@ -468,7 +468,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
     final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
@@ -521,7 +521,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
     final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
@@ -580,7 +580,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
     final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
@@ -621,7 +621,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
     final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
@@ -674,7 +674,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
     final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
@@ -787,7 +787,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
     final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
@@ -835,7 +835,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
     final GLInterfaceES2 gl = gi.implementationGetGLES2();
 

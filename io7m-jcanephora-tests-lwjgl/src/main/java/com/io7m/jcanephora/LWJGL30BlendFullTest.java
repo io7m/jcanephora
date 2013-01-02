@@ -4,26 +4,19 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.contracts_full.BlendContract;
-import com.io7m.jvvfs.PathVirtual;
 
 public final class LWJGL30BlendFullTest extends BlendContract
 {
-  @Override public PathVirtual getShaderPath()
-    throws ConstraintError
+  @Override public boolean isGLSupported()
   {
-    return LWJGLTestContext.GLSL_110_SHADER_PATH;
+    return LWJGLTestContext.isOpenGL3Supported();
   }
 
-  @Override public @Nonnull TestContext getTestContext()
+  @Override public @Nonnull TestContext newTestContext()
     throws GLException,
       GLUnsupportedException,
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL3_X();
-  }
-
-  @Override public boolean isGLSupported()
-  {
-    return LWJGLTestContext.isOpenGL3Supported();
   }
 }

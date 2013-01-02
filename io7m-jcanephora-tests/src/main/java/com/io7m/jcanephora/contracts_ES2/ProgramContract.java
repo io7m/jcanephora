@@ -80,7 +80,7 @@ public abstract class ProgramContract implements GLES2TestContract
         GLCompileException,
         IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -104,7 +104,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLUnsupportedException,
       GLCompileException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -133,7 +133,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
 
     final Program p = new Program("program", tc.getLog());
     p.addFragmentShader(new PathVirtual("/nonexistent"));
@@ -154,7 +154,7 @@ public abstract class ProgramContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -178,7 +178,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -207,7 +207,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
 
     final Program p = new Program("program", tc.getLog());
     p.addFragmentShader(new PathVirtual("/nonexistent"));
@@ -226,7 +226,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
 
     final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual("/nonexistent"));
@@ -248,7 +248,7 @@ public abstract class ProgramContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -272,7 +272,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -301,7 +301,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
 
     final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual("/nonexistent"));
@@ -315,7 +315,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -350,7 +350,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     Assert.assertTrue(gl.programGetMaximumActiveAttributes() >= 8);
@@ -362,7 +362,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -393,7 +393,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -425,7 +425,7 @@ public abstract class ProgramContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -462,7 +462,7 @@ public abstract class ProgramContract implements GLES2TestContract
         FilesystemError,
         GLCompileException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -491,7 +491,7 @@ public abstract class ProgramContract implements GLES2TestContract
         FilesystemError,
         GLCompileException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -518,7 +518,7 @@ public abstract class ProgramContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -552,7 +552,7 @@ public abstract class ProgramContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -577,7 +577,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -600,7 +600,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -631,7 +631,7 @@ public abstract class ProgramContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -659,7 +659,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final Program p = new Program("program", tc.getLog());
@@ -681,7 +681,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -702,7 +702,7 @@ public abstract class ProgramContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     gl.programCreate(null);
@@ -718,7 +718,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLUnsupportedException,
       GLCompileException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -740,7 +740,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final Program p = new Program("program", tc.getLog());
@@ -758,7 +758,7 @@ public abstract class ProgramContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final ProgramReference p = gl.programCreate("program");
@@ -777,7 +777,7 @@ public abstract class ProgramContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     gl.programDelete(null);
@@ -798,7 +798,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -831,7 +831,7 @@ public abstract class ProgramContract implements GLES2TestContract
         GLUnsupportedException,
         IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -865,7 +865,7 @@ public abstract class ProgramContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final Program p = new Program("program", tc.getLog());
@@ -885,7 +885,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final Program p = new Program("program", tc.getLog());
     final ProgramAttribute a = p.getAttribute("something");
     Assert.assertEquals(null, a);
@@ -903,7 +903,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final Program p = new Program("program", tc.getLog());
     final ProgramReference r = p.getID();
     Assert.assertEquals(null, r);
@@ -921,7 +921,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final Program p = new Program("program", tc.getLog());
     final ProgramUniform u = p.getUniform("something");
     Assert.assertEquals(null, u);
@@ -947,7 +947,7 @@ public abstract class ProgramContract implements GLES2TestContract
         GLCompileException,
         IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -981,7 +981,7 @@ public abstract class ProgramContract implements GLES2TestContract
         GLCompileException,
         IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -1015,7 +1015,7 @@ public abstract class ProgramContract implements GLES2TestContract
         GLCompileException,
         IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -1049,7 +1049,7 @@ public abstract class ProgramContract implements GLES2TestContract
         GLCompileException,
         IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -1072,7 +1072,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     ProgramReference p = null;
@@ -1096,7 +1096,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final Program p = new Program("program", tc.getLog());
@@ -1112,7 +1112,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final Program p = new Program("program", tc.getLog());
@@ -1129,7 +1129,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final Program p = new Program("program", tc.getLog());
@@ -1145,7 +1145,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final Program p = new Program("program", tc.getLog());
@@ -1160,7 +1160,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -1198,7 +1198,7 @@ public abstract class ProgramContract implements GLES2TestContract
       FilesystemError,
       GLCompileException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final Program p = ProgramContract.makeLargeShader(tc);
@@ -1277,7 +1277,7 @@ public abstract class ProgramContract implements GLES2TestContract
       FilesystemError,
       GLCompileException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final Program p = ProgramContract.makeLargeShader(tc);
@@ -1363,7 +1363,7 @@ public abstract class ProgramContract implements GLES2TestContract
         ConstraintError,
         GLCompileException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final Program p = ProgramContract.makeLargeShader(tc);
@@ -1385,7 +1385,7 @@ public abstract class ProgramContract implements GLES2TestContract
         ConstraintError,
         GLCompileException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final Program p = ProgramContract.makeLargeShader(tc);
@@ -1406,7 +1406,7 @@ public abstract class ProgramContract implements GLES2TestContract
         ConstraintError,
         GLCompileException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final Program p = ProgramContract.makeLargeShader(tc);
@@ -1428,7 +1428,7 @@ public abstract class ProgramContract implements GLES2TestContract
         ConstraintError,
         GLCompileException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final Program p = ProgramContract.makeLargeShader(tc);
@@ -1450,7 +1450,7 @@ public abstract class ProgramContract implements GLES2TestContract
         ConstraintError,
         GLCompileException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final Program p = ProgramContract.makeLargeShader(tc);
@@ -1472,7 +1472,7 @@ public abstract class ProgramContract implements GLES2TestContract
         ConstraintError,
         GLCompileException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final Program p = ProgramContract.makeLargeShader(tc);
@@ -1494,7 +1494,7 @@ public abstract class ProgramContract implements GLES2TestContract
         ConstraintError,
         GLCompileException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final Program p = ProgramContract.makeLargeShader(tc);
@@ -1516,7 +1516,7 @@ public abstract class ProgramContract implements GLES2TestContract
         ConstraintError,
         GLCompileException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final Program p = ProgramContract.makeLargeShader(tc);
@@ -1538,7 +1538,7 @@ public abstract class ProgramContract implements GLES2TestContract
         ConstraintError,
         GLCompileException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final Program p = ProgramContract.makeLargeShader(tc);
@@ -1566,7 +1566,7 @@ public abstract class ProgramContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -1603,7 +1603,7 @@ public abstract class ProgramContract implements GLES2TestContract
         GLCompileException,
         IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = tc.getFilesystem();

@@ -33,7 +33,7 @@ public abstract class RenderbufferContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final int width = 128;
@@ -88,7 +88,7 @@ public abstract class RenderbufferContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final Renderbuffer rb = gl.renderbufferAllocateRGB565(128, 128);
@@ -111,7 +111,7 @@ public abstract class RenderbufferContract implements GLTestContract
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final Renderbuffer rb = gl.renderbufferAllocateRGB565(128, 128);
