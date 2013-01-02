@@ -29,10 +29,11 @@ public final class JOGL30TextureLoaderImageIOTest extends
     return JOGLTestFilesystem.getFS();
   }
 
-  @Override public GLInterfaceES2 makeNewGL()
+  @Override public GLImplementation makeNewGLImplementation()
     throws GLException,
-      ConstraintError
+      ConstraintError,
+      GLUnsupportedException
   {
-    return JOGLTestDisplay.makeES2WithOpenGL3();
+    return JOGLTestDisplay.makeImplementationWithOpenGL3();
   }
 }

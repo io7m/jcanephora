@@ -8,6 +8,7 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
+import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jtensors.VectorI2I;
 
 public abstract class ScissorContract implements GLES2TestContract
@@ -19,9 +20,11 @@ public abstract class ScissorContract implements GLES2TestContract
 
   @Test public void testScissorEnableWorks()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
 
     gl.scissorDisable();
     Assert.assertFalse(gl.scissorIsEnabled());
@@ -33,9 +36,11 @@ public abstract class ScissorContract implements GLES2TestContract
     void
     testScissorNullDimensions()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.scissorEnable(new VectorI2I(8, 8), null);
   }
 
@@ -43,9 +48,11 @@ public abstract class ScissorContract implements GLES2TestContract
     void
     testScissorNullPosition()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.scissorEnable(null, new VectorI2I(8, 8));
   }
 }

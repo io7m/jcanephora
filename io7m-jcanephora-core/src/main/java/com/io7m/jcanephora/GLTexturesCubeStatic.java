@@ -31,8 +31,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
 {
   /**
-   * Allocate a depth texture of width <code>width</code> and height
-   * <code>height</code>.
+   * Allocate a depth texture of width/height <code>size</code>.
    * 
    * See {@link TextureType#TEXTURE_TYPE_DEPTH_16_2BPP} for the precise format
    * of the texture.
@@ -49,20 +48,18 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
    * mode <code>wrap_r</code>, with the OpenGL default being
    * <code>TEXTURE_WRAP_REPEAT</code>.
    * 
-   * The texture is scaled up using the magnification filter
-   * <code>mag_filter</code>, with the OpenGL default being
+   * The texture is scaled up using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
    * <code>TEXURE_FILTER_LINEAR</code>.
    * 
-   * The texture is scaled down using the minification filter
-   * <code>min_filter</code>, with the OpenGL default being
+   * The texture is scaled down using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
    * <code>TEXTURE_FILTER_LINEAR</code>.
    * 
    * @param name
    *          The name of the texture.
-   * @param width
-   *          The width in pixels.
-   * @param height
-   *          The height in pixels.
+   * @param size
+   *          The size in pixels.
    * @param wrap_r
    *          The method with which to wrap textures around the <code>t</code>
    *          axis.
@@ -72,10 +69,10 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
    * @param wrap_t
    *          The method with which to wrap textures around the <code>t</code>
    *          axis.
-   * @param mag_filter
-   *          The magnification filter.
    * @param min_filter
    *          The minification filter.
+   * @param mag_filter
+   *          The magnification filter.
    * @return An allocated texture.
    * @throws ConstraintError
    *           Iff any of the following conditions hold:
@@ -84,10 +81,9 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
    *           <li><code>wrap_s == null</code></li>
    *           <li><code>wrap_t == null</code></li>
    *           <li><code>wrap_r == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
    *           <li><code>min_filter == null</code></li>
-   *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
-   *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
+   *           <li><code>mag_filter == null</code></li>
+   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
    * @throws GLException
    *           Iff an OpenGL error occurs.
@@ -95,19 +91,17 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
 
   public @Nonnull TextureCubeStatic textureCubeStaticAllocateDepth16(
     final @Nonnull String name,
-    final int width,
-    final int height,
+    final int size,
     final @Nonnull TextureWrap wrap_r,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter mag_filter,
-    final @Nonnull TextureFilter min_filter)
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter)
     throws ConstraintError,
       GLException;
 
   /**
-   * Allocate a depth texture of width <code>width</code> and height
-   * <code>height</code>.
+   * Allocate a depth texture of width/height <code>size</code>.
    * 
    * See {@link TextureType#TEXTURE_TYPE_DEPTH_24_4BPP} for the precise format
    * of the texture.
@@ -124,20 +118,18 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
    * mode <code>wrap_r</code>, with the OpenGL default being
    * <code>TEXTURE_WRAP_REPEAT</code>.
    * 
-   * The texture is scaled up using the magnification filter
-   * <code>mag_filter</code>, with the OpenGL default being
+   * The texture is scaled up using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
    * <code>TEXURE_FILTER_LINEAR</code>.
    * 
-   * The texture is scaled down using the minification filter
-   * <code>min_filter</code>, with the OpenGL default being
+   * The texture is scaled down using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
    * <code>TEXTURE_FILTER_LINEAR</code>.
    * 
    * @param name
    *          The name of the texture.
-   * @param width
-   *          The width in pixels.
-   * @param height
-   *          The height in pixels.
+   * @param size
+   *          The size in pixels.
    * @param wrap_r
    *          The method with which to wrap textures around the <code>t</code>
    *          axis.
@@ -147,10 +139,10 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
    * @param wrap_t
    *          The method with which to wrap textures around the <code>t</code>
    *          axis.
-   * @param mag_filter
-   *          The magnification filter.
    * @param min_filter
    *          The minification filter.
+   * @param mag_filter
+   *          The magnification filter.
    * @return An allocated texture.
    * @throws ConstraintError
    *           Iff any of the following conditions hold:
@@ -159,10 +151,9 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
    *           <li><code>wrap_s == null</code></li>
    *           <li><code>wrap_t == null</code></li>
    *           <li><code>wrap_r == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
    *           <li><code>min_filter == null</code></li>
-   *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
-   *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
+   *           <li><code>mag_filter == null</code></li>
+   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
    * @throws GLException
    *           Iff an OpenGL error occurs.
@@ -170,19 +161,17 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
 
   public @Nonnull TextureCubeStatic textureCubeStaticAllocateDepth24(
     final @Nonnull String name,
-    final int width,
-    final int height,
+    final int size,
     final @Nonnull TextureWrap wrap_r,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter mag_filter,
-    final @Nonnull TextureFilter min_filter)
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter)
     throws ConstraintError,
       GLException;
 
   /**
-   * Allocate a depth texture of width <code>width</code> and height
-   * <code>height</code>.
+   * Allocate a depth texture of width/height <code>size</code>.
    * 
    * See {@link TextureType#TEXTURE_TYPE_DEPTH_32_4BPP} for the precise format
    * of the texture.
@@ -199,20 +188,18 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
    * mode <code>wrap_r</code>, with the OpenGL default being
    * <code>TEXTURE_WRAP_REPEAT</code>.
    * 
-   * The texture is scaled up using the magnification filter
-   * <code>mag_filter</code>, with the OpenGL default being
+   * The texture is scaled up using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
    * <code>TEXURE_FILTER_LINEAR</code>.
    * 
-   * The texture is scaled down using the minification filter
-   * <code>min_filter</code>, with the OpenGL default being
+   * The texture is scaled down using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
    * <code>TEXTURE_FILTER_LINEAR</code>.
    * 
    * @param name
    *          The name of the texture.
-   * @param width
-   *          The width in pixels.
-   * @param height
-   *          The height in pixels.
+   * @param size
+   *          The size in pixels.
    * @param wrap_r
    *          The method with which to wrap textures around the <code>t</code>
    *          axis.
@@ -222,10 +209,10 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
    * @param wrap_t
    *          The method with which to wrap textures around the <code>t</code>
    *          axis.
-   * @param mag_filter
-   *          The magnification filter.
    * @param min_filter
    *          The minification filter.
+   * @param mag_filter
+   *          The magnification filter.
    * @return An allocated texture.
    * @throws ConstraintError
    *           Iff any of the following conditions hold:
@@ -234,10 +221,9 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
    *           <li><code>wrap_s == null</code></li>
    *           <li><code>wrap_t == null</code></li>
    *           <li><code>wrap_r == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
    *           <li><code>min_filter == null</code></li>
-   *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
-   *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
+   *           <li><code>mag_filter == null</code></li>
+   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
    * @throws GLException
    *           Iff an OpenGL error occurs.
@@ -245,19 +231,17 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
 
   public @Nonnull TextureCubeStatic textureCubeStaticAllocateDepth32(
     final @Nonnull String name,
-    final int width,
-    final int height,
+    final int size,
     final @Nonnull TextureWrap wrap_r,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter mag_filter,
-    final @Nonnull TextureFilter min_filter)
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter)
     throws ConstraintError,
       GLException;
 
   /**
-   * Allocate a depth texture of width <code>width</code> and height
-   * <code>height</code>.
+   * Allocate a depth texture of width/height <code>size</code>.
    * 
    * See {@link TextureType#TEXTURE_TYPE_DEPTH_32F_4BPP} for the precise
    * format of the texture.
@@ -274,20 +258,18 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
    * mode <code>wrap_r</code>, with the OpenGL default being
    * <code>TEXTURE_WRAP_REPEAT</code>.
    * 
-   * The texture is scaled up using the magnification filter
-   * <code>mag_filter</code>, with the OpenGL default being
+   * The texture is scaled up using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
    * <code>TEXURE_FILTER_LINEAR</code>.
    * 
-   * The texture is scaled down using the minification filter
-   * <code>min_filter</code>, with the OpenGL default being
+   * The texture is scaled down using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
    * <code>TEXTURE_FILTER_LINEAR</code>.
    * 
    * @param name
    *          The name of the texture.
-   * @param width
-   *          The width in pixels.
-   * @param height
-   *          The height in pixels.
+   * @param size
+   *          The size in pixels.
    * @param wrap_r
    *          The method with which to wrap textures around the <code>t</code>
    *          axis.
@@ -297,10 +279,10 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
    * @param wrap_t
    *          The method with which to wrap textures around the <code>t</code>
    *          axis.
-   * @param mag_filter
-   *          The magnification filter.
    * @param min_filter
    *          The minification filter.
+   * @param mag_filter
+   *          The magnification filter.
    * @return An allocated texture.
    * @throws ConstraintError
    *           Iff any of the following conditions hold:
@@ -309,10 +291,9 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
    *           <li><code>wrap_s == null</code></li>
    *           <li><code>wrap_t == null</code></li>
    *           <li><code>wrap_r == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
    *           <li><code>min_filter == null</code></li>
-   *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
-   *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
+   *           <li><code>mag_filter == null</code></li>
+   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
    * @throws GLException
    *           Iff an OpenGL error occurs.
@@ -320,19 +301,17 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
 
   public @Nonnull TextureCubeStatic textureCubeStaticAllocateDepth32f(
     final @Nonnull String name,
-    final int width,
-    final int height,
+    final int size,
     final @Nonnull TextureWrap wrap_r,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter mag_filter,
-    final @Nonnull TextureFilter min_filter)
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter)
     throws ConstraintError,
       GLException;
 
   /**
-   * Allocate an R texture of width <code>width</code> and height
-   * <code>height</code>.
+   * Allocate an R texture of width/height <code>size</code>.
    * 
    * See {@link TextureType#TEXTURE_TYPE_R_8_1BPP} for the precise format of
    * the texture.
@@ -349,20 +328,18 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
    * mode <code>wrap_r</code>, with the OpenGL default being
    * <code>TEXTURE_WRAP_REPEAT</code>.
    * 
-   * The texture is scaled up using the magnification filter
-   * <code>mag_filter</code>, with the OpenGL default being
+   * The texture is scaled up using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
    * <code>TEXURE_FILTER_LINEAR</code>.
    * 
-   * The texture is scaled down using the minification filter
-   * <code>min_filter</code>, with the OpenGL default being
+   * The texture is scaled down using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
    * <code>TEXTURE_FILTER_LINEAR</code>.
    * 
    * @param name
    *          The name of the texture.
-   * @param width
-   *          The width in pixels.
-   * @param height
-   *          The height in pixels.
+   * @param size
+   *          The size in pixels.
    * @param wrap_r
    *          The method with which to wrap textures around the <code>t</code>
    *          axis.
@@ -372,10 +349,10 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
    * @param wrap_t
    *          The method with which to wrap textures around the <code>t</code>
    *          axis.
-   * @param mag_filter
-   *          The magnification filter.
    * @param min_filter
    *          The minification filter.
+   * @param mag_filter
+   *          The magnification filter.
    * @return An allocated texture.
    * @throws ConstraintError
    *           Iff any of the following conditions hold:
@@ -384,10 +361,9 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
    *           <li><code>wrap_s == null</code></li>
    *           <li><code>wrap_t == null</code></li>
    *           <li><code>wrap_r == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
    *           <li><code>min_filter == null</code></li>
-   *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
-   *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
+   *           <li><code>mag_filter == null</code></li>
+   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
    * @throws GLException
    *           Iff an OpenGL error occurs.
@@ -395,19 +371,17 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
 
   public @Nonnull TextureCubeStatic textureCubeStaticAllocateR8(
     final @Nonnull String name,
-    final int width,
-    final int height,
+    final int size,
     final @Nonnull TextureWrap wrap_r,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter mag_filter,
-    final @Nonnull TextureFilter min_filter)
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter)
     throws ConstraintError,
       GLException;
 
   /**
-   * Allocate an RG texture of width <code>width</code> and height
-   * <code>height</code>.
+   * Allocate an RG texture of width/height <code>size</code>.
    * 
    * See {@link TextureType#TEXTURE_TYPE_RG_88_2BPP} for the precise format of
    * the texture.
@@ -424,20 +398,18 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
    * mode <code>wrap_r</code>, with the OpenGL default being
    * <code>TEXTURE_WRAP_REPEAT</code>.
    * 
-   * The texture is scaled up using the magnification filter
-   * <code>mag_filter</code>, with the OpenGL default being
+   * The texture is scaled up using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
    * <code>TEXURE_FILTER_LINEAR</code>.
    * 
-   * The texture is scaled down using the minification filter
-   * <code>min_filter</code>, with the OpenGL default being
+   * The texture is scaled down using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
    * <code>TEXTURE_FILTER_LINEAR</code>.
    * 
    * @param name
    *          The name of the texture.
-   * @param width
-   *          The width in pixels.
-   * @param height
-   *          The height in pixels.
+   * @param size
+   *          The size in pixels.
    * @param wrap_r
    *          The method with which to wrap textures around the <code>t</code>
    *          axis.
@@ -447,10 +419,10 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
    * @param wrap_t
    *          The method with which to wrap textures around the <code>t</code>
    *          axis.
-   * @param mag_filter
-   *          The magnification filter.
    * @param min_filter
    *          The minification filter.
+   * @param mag_filter
+   *          The magnification filter.
    * @return An allocated texture.
    * @throws ConstraintError
    *           Iff any of the following conditions hold:
@@ -459,10 +431,9 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
    *           <li><code>wrap_s == null</code></li>
    *           <li><code>wrap_t == null</code></li>
    *           <li><code>wrap_r == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
    *           <li><code>min_filter == null</code></li>
-   *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
-   *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
+   *           <li><code>mag_filter == null</code></li>
+   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
    * @throws GLException
    *           Iff an OpenGL error occurs.
@@ -470,13 +441,12 @@ public interface GLTexturesCubeStatic extends GLTexturesCubeStaticES2
 
   public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG88(
     final @Nonnull String name,
-    final int width,
-    final int height,
+    final int size,
     final @Nonnull TextureWrap wrap_r,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter mag_filter,
-    final @Nonnull TextureFilter min_filter)
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter)
     throws ConstraintError,
       GLException;
 }

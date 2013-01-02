@@ -9,6 +9,7 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
+import com.io7m.jcanephora.GLUnsupportedException;
 
 public abstract class MetaContract implements GLES2TestContract
 {
@@ -19,9 +20,11 @@ public abstract class MetaContract implements GLES2TestContract
 
   @Test public void testMetaStrings()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
 
     final String vn = gl.metaGetVendor();
     final String vr = gl.metaGetVersion();

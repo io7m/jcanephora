@@ -2,7 +2,8 @@ package com.io7m.jcanephora.contracts_full;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterface;
+import com.io7m.jcanephora.GLImplementation;
+import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jlog.Log;
 
 public interface GLTestContract
@@ -21,13 +22,15 @@ public interface GLTestContract
   public boolean isGLSupported();
 
   /**
-   * Construct a fresh implementation of the {@link GLInterface} interface.
+   * Construct a fresh OpenGL implementation.
    * 
    * @throws GLException
    * @throws ConstraintError
+   * @throws GLUnsupportedException
    */
 
-  public GLInterface makeNewGL()
-    throws GLException,
-      ConstraintError;
+  public GLImplementation makeNewGLImplementation()
+    throws GLException, GLUnsupportedException,
+      ConstraintError,
+      GLUnsupportedException;
 }

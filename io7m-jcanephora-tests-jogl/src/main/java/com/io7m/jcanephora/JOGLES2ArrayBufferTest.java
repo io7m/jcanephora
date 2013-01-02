@@ -29,10 +29,11 @@ public final class JOGLES2ArrayBufferTest extends ArrayBufferContract
     return JOGLTestFilesystem.getFS();
   }
 
-  @Override public GLInterfaceES2 makeNewGL()
+  @Override public GLImplementation makeNewGLImplementation()
     throws GLException,
-      ConstraintError
+      ConstraintError,
+      GLUnsupportedException
   {
-    return JOGLTestDisplay.makeES2WithOpenGLES2();
+    return JOGLTestDisplay.makeImplementationWithOpenES2();
   }
 }

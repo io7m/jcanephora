@@ -9,6 +9,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
+import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.SpatialCursorWritable3i;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.Texture2DWritableData;
@@ -32,9 +33,11 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
 
   @Test public final void testGetUnits()
     throws ConstraintError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final TextureUnit[] u = gl.textureGetUnits();
     Assert.assertTrue(u.length >= 2);
   }
@@ -43,14 +46,17 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
    * Binding a texture works.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public final void testTextureBind()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
 
     final TextureUnit[] units = gl.textureGetUnits();
     final Texture2DStatic t =
@@ -74,6 +80,7 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
    * Binding a deleted texture fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -81,9 +88,11 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
     void
     testTextureBindDeleted()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
 
     final TextureUnit[] units = gl.textureGetUnits();
     final Texture2DStatic t =
@@ -105,15 +114,18 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
    * 
    * @throws ConstraintError
    * @throws GLException
+   *           , GLUnsupportedException
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testTextureBindNull()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final TextureUnit[] units = gl.textureGetUnits();
 
     gl.texture2DStaticBind(units[0], null);
@@ -124,15 +136,18 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
    * 
    * @throws ConstraintError
    * @throws GLException
+   *           , GLUnsupportedException
    */
 
   @Test(expected = ConstraintError.class) public
     void
     testTextureBindUnitNull()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.texture2DStaticBind(null, null);
   }
 
@@ -140,14 +155,17 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
    * Deleting a texture works.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public final void testTextureDelete()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
 
     final Texture2DStatic t =
       gl.texture2DStaticAllocateRGBA8888(
@@ -168,6 +186,7 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
    * Deleting a texture twice fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -175,9 +194,11 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
     void
     testTextureDeleteDeleted()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
 
     final Texture2DStatic t =
       gl.texture2DStaticAllocateRGBA8888(
@@ -199,6 +220,7 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
    * Checking if a deleted texture is bound fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -206,9 +228,11 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
     void
     testTextureIsBoundDeleted()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
 
     final TextureUnit[] units = gl.textureGetUnits();
     final Texture2DStatic t =
@@ -230,6 +254,7 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
    * Deleting a null texture fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -237,9 +262,11 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
     void
     testTextureNullDelete()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.texture2DStaticDelete(null);
   }
 
@@ -247,6 +274,7 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
    * Passing null for the magnification filter fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -254,9 +282,11 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
     void
     testTextureNullFilterMax()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
 
     gl.texture2DStaticAllocateRGBA8888(
       "texture",
@@ -272,6 +302,7 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
    * Passing null for the minification filter fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -279,9 +310,11 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
     void
     testTextureNullFilterMin()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
 
     gl.texture2DStaticAllocateRGBA8888(
       "texture",
@@ -297,6 +330,7 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
    * Passing null for the texture name fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -304,9 +338,11 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
     void
     testTextureNullName()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
 
     gl.texture2DStaticAllocateRGBA8888(
       null,
@@ -322,6 +358,7 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
    * Passing null for the S texture wrap parameter fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -329,9 +366,11 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
     void
     testTextureNullWrapS()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
 
     gl.texture2DStaticAllocateRGBA8888(
       "texture",
@@ -347,6 +386,7 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
    * Passing null for the T texture wrap parameter fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -354,9 +394,11 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
     void
     testTextureNullWrapT()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
 
     gl.texture2DStaticAllocateRGBA8888(
       "texture",
@@ -372,14 +414,17 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
    * Maximum texture size is sane.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public final void testTextureSizeSane()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     Assert.assertTrue(gl.textureGetMaximumSize() >= 128);
   }
 
@@ -388,82 +433,87 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
    * 
    * @throws ConstraintError
    * @throws GLException
+   *           , GLUnsupportedException
    */
 
   @Test public final void testTextureTypes()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
 
     for (final TextureType t : TextureType.getES2Types()) {
+      Texture2DStatic tx = null;
+
       switch (t) {
         case TEXTURE_TYPE_RGBA_4444_2BPP:
         {
-          final Texture2DStatic tx =
+          tx =
             gl.texture2DStaticAllocateRGBA4444(
               t.toString(),
+              64,
               128,
-              128,
+              TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
               TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
+              TextureFilter.TEXTURE_FILTER_LINEAR,
               TextureFilter.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
         case TEXTURE_TYPE_RGBA_5551_2BPP:
         {
-          final Texture2DStatic tx =
+          tx =
             gl.texture2DStaticAllocateRGBA5551(
               t.toString(),
+              64,
               128,
-              128,
+              TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
               TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
+              TextureFilter.TEXTURE_FILTER_LINEAR,
               TextureFilter.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
         case TEXTURE_TYPE_RGBA_8888_4BPP:
         {
-          final Texture2DStatic tx =
+          tx =
             gl.texture2DStaticAllocateRGBA8888(
               t.toString(),
+              64,
               128,
-              128,
+              TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
               TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
+              TextureFilter.TEXTURE_FILTER_LINEAR,
               TextureFilter.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
         case TEXTURE_TYPE_RGB_565_2BPP:
         {
-          final Texture2DStatic tx =
+          tx =
             gl.texture2DStaticAllocateRGB565(
               t.toString(),
+              64,
               128,
-              128,
+              TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
               TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
+              TextureFilter.TEXTURE_FILTER_LINEAR,
               TextureFilter.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
         case TEXTURE_TYPE_RGB_888_3BPP:
         {
-          final Texture2DStatic tx =
+          tx =
             gl.texture2DStaticAllocateRGB888(
               t.toString(),
+              64,
               128,
-              128,
+              TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
               TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
+              TextureFilter.TEXTURE_FILTER_LINEAR,
               TextureFilter.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
@@ -478,6 +528,22 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
           throw new UnreachableCodeException();
         }
       }
+
+      assert tx != null;
+
+      Assert.assertEquals(t.toString(), tx.getName());
+      Assert.assertEquals(64, tx.getWidth());
+      Assert.assertEquals(128, tx.getHeight());
+      Assert.assertEquals(
+        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        tx.getWrapS());
+      Assert.assertEquals(TextureWrap.TEXTURE_WRAP_REPEAT, tx.getWrapT());
+      Assert.assertEquals(
+        TextureFilter.TEXTURE_FILTER_LINEAR,
+        tx.getMinificationFilter());
+      Assert.assertEquals(
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        tx.getMagnificationFilter());
     }
   }
 
@@ -486,13 +552,16 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
    * 
    * @throws ConstraintError
    * @throws GLException
+   *           , GLUnsupportedException
    */
 
   @Test public final void testTextureUpdateCompleteSimple()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
 
     final Texture2DStatic t =
       gl.texture2DStaticAllocateRGB888(
@@ -521,6 +590,7 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
    * Passing null as a texture update fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -528,9 +598,11 @@ public abstract class Texture2DStaticES2Contract implements GLES2TestContract
     void
     testTextureUpdateNullFails()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.texture2DStaticUpdate(null);
   }
 }

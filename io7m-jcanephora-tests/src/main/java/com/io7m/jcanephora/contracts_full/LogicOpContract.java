@@ -7,7 +7,8 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterface;
+import com.io7m.jcanephora.GLInterface3;
+import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.LogicOperation;
 
 public abstract class LogicOpContract implements GLTestContract
@@ -26,10 +27,12 @@ public abstract class LogicOpContract implements GLTestContract
 
   @Test public void testLogicOpsEnable()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
 
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     for (final LogicOperation op : LogicOperation.values()) {
       gl.logicOperationsDisable();
@@ -48,10 +51,12 @@ public abstract class LogicOpContract implements GLTestContract
 
   @Test(expected = ConstraintError.class) public void testLogicOpsNull()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
 
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     gl.logicOperationsEnable(null);
   }

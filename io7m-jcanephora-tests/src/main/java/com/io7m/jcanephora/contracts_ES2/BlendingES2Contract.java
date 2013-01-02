@@ -1,6 +1,8 @@
 package com.io7m.jcanephora.contracts_ES2;
 
 import org.junit.Assert;
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -8,18 +10,26 @@ import com.io7m.jcanephora.BlendEquationES2;
 import com.io7m.jcanephora.BlendFunction;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
+import com.io7m.jcanephora.GLUnsupportedException;
 
 public abstract class BlendingES2Contract implements GLES2TestContract
 {
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
+  }
+
   /**
    * Disabling blending works.
    */
 
   @Test public final void testBlendDisabled()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.blendingDisable();
     Assert.assertFalse(gl.blendingIsEnabled());
   }
@@ -28,9 +38,11 @@ public abstract class BlendingES2Contract implements GLES2TestContract
     void
     testBlendEnableWithEquationSeparateTargetNotSaturate()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.blendingEnableWithEquationSeparateES2(
       BlendFunction.BLEND_ONE,
       BlendFunction.BLEND_SOURCE_ALPHA_SATURATE,
@@ -44,9 +56,11 @@ public abstract class BlendingES2Contract implements GLES2TestContract
 
   @Test public final void testBlendFunctions()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     // final Log log = this.getLog();
 
     for (final BlendFunction source : BlendFunction.values()) {
@@ -73,9 +87,11 @@ public abstract class BlendingES2Contract implements GLES2TestContract
 
   @Test public final void testBlendFunctionSeparateWithEquation()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
 
     for (final BlendFunction source : BlendFunction.values()) {
       for (final BlendFunction target : BlendFunction.values()) {
@@ -99,9 +115,11 @@ public abstract class BlendingES2Contract implements GLES2TestContract
 
   @Test public final void testBlendFunctionSeparateWithEquationSeparate()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
 
     for (final BlendFunction source : BlendFunction.values()) {
       for (final BlendFunction target : BlendFunction.values()) {
@@ -131,9 +149,11 @@ public abstract class BlendingES2Contract implements GLES2TestContract
 
   @Test public final void testBlendFunctionsSeparateWithEquationSeparate()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     // final Log log = this.getLog();
 
     for (final BlendFunction rgb_source : BlendFunction.values()) {
@@ -179,9 +199,11 @@ public abstract class BlendingES2Contract implements GLES2TestContract
     void
     testBlendFunctionTargetNotSaturate()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.blendingEnable(
       BlendFunction.BLEND_ONE,
       BlendFunction.BLEND_SOURCE_ALPHA_SATURATE);
@@ -191,9 +213,11 @@ public abstract class BlendingES2Contract implements GLES2TestContract
     void
     testBlendFunctionWithEquationTargetNotSaturate()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.blendingEnableWithEquationES2(
       BlendFunction.BLEND_ONE,
       BlendFunction.BLEND_SOURCE_ALPHA_SATURATE,
@@ -205,9 +229,11 @@ public abstract class BlendingES2Contract implements GLES2TestContract
     void
     testBlendSeparateWithEquationSeparateTargetNotSaturate0()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.blendingEnableSeparateWithEquationSeparateES2(
       BlendFunction.BLEND_ONE,
       BlendFunction.BLEND_ONE,
@@ -221,9 +247,11 @@ public abstract class BlendingES2Contract implements GLES2TestContract
     void
     testBlendSeparateWithEquationSeparateTargetNotSaturate1()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.blendingEnableSeparateWithEquationSeparateES2(
       BlendFunction.BLEND_ONE,
       BlendFunction.BLEND_ONE,

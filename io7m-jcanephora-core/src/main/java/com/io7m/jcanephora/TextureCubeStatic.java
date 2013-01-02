@@ -37,13 +37,22 @@ public final class TextureCubeStatic extends Deletable implements
   private final @Nonnull String         name;
   private final @Nonnull AreaInclusive  area;
   private final @Nonnull TextureType    type;
+  private final @Nonnull TextureWrap    wrap_r;
+  private final @Nonnull TextureWrap    wrap_s;
+  private final @Nonnull TextureWrap    wrap_t;
+  private final @Nonnull TextureFilter  min_filter;
+  private final @Nonnull TextureFilter  mag_filter;
 
   TextureCubeStatic(
     final @Nonnull String name,
     final @Nonnull TextureType type,
     final int id,
-    final int width,
-    final int height)
+    final int size,
+    final @Nonnull TextureWrap wrap_r,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter)
     throws ConstraintError
   {
     this.id =
@@ -51,10 +60,15 @@ public final class TextureCubeStatic extends Deletable implements
         .constrainRange(id, 0, Integer.MAX_VALUE, "Texture ID value");
     this.name = name;
     this.type = type;
-    this.range_x = new RangeInclusive(0, width - 1);
-    this.range_y = new RangeInclusive(0, height - 1);
+    this.range_x = new RangeInclusive(0, size - 1);
+    this.range_y = new RangeInclusive(0, size - 1);
     this.area = new AreaInclusive(this.range_x, this.range_y);
     this.deleted = false;
+    this.wrap_r = wrap_r;
+    this.wrap_s = wrap_s;
+    this.wrap_t = wrap_t;
+    this.min_filter = min_filter;
+    this.mag_filter = mag_filter;
   }
 
   @Override public boolean equals(
@@ -97,6 +111,16 @@ public final class TextureCubeStatic extends Deletable implements
   public int getHeight()
   {
     return (int) this.range_y.getInterval();
+  }
+
+  public @Nonnull TextureFilter getMagnificationFilter()
+  {
+    return this.mag_filter;
+  }
+
+  public @Nonnull TextureFilter getMinificationFilter()
+  {
+    return this.min_filter;
   }
 
   /**
@@ -142,6 +166,21 @@ public final class TextureCubeStatic extends Deletable implements
   public int getWidth()
   {
     return (int) this.range_x.getInterval();
+  }
+
+  public @Nonnull TextureWrap getWrapR()
+  {
+    return this.wrap_r;
+  }
+
+  public @Nonnull TextureWrap getWrapS()
+  {
+    return this.wrap_s;
+  }
+
+  public @Nonnull TextureWrap getWrapT()
+  {
+    return this.wrap_t;
   }
 
   @Override public int hashCode()

@@ -17,10 +17,11 @@ public final class JOGL30TextureCubeStaticES2Test extends
     return JOGLTestDisplay.isOpenGL3Supported();
   }
 
-  @Override public GLInterfaceES2 makeNewGL()
+  @Override public GLImplementation makeNewGLImplementation()
     throws GLException,
-      ConstraintError
+      ConstraintError,
+      GLUnsupportedException
   {
-    return JOGLTestDisplay.makeES2WithOpenGL3();
+    return JOGLTestDisplay.makeImplementationWithOpenGL3();
   }
 }

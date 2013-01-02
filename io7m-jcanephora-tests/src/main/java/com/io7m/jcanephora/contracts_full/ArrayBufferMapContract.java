@@ -15,8 +15,9 @@ import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferDescriptor;
 import com.io7m.jcanephora.ArrayBufferWritableMap;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterface;
+import com.io7m.jcanephora.GLInterface3;
 import com.io7m.jcanephora.GLScalarType;
+import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.UsageHint;
 import com.io7m.jcanephora.contracts_ES2.FilesystemTestContract;
 
@@ -35,9 +36,11 @@ public abstract class ArrayBufferMapContract implements
 
   @Test public final void testArrayBufferMap()
     throws ConstraintError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
@@ -83,10 +86,11 @@ public abstract class ArrayBufferMapContract implements
     void
     testArrayBufferMapReadBounds()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
@@ -119,10 +123,11 @@ public abstract class ArrayBufferMapContract implements
     void
     testArrayBufferMapReadDeleted()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
@@ -145,10 +150,11 @@ public abstract class ArrayBufferMapContract implements
     void
     testArrayBufferMapReadDouble()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
@@ -185,10 +191,11 @@ public abstract class ArrayBufferMapContract implements
     void
     testArrayBufferMapReadNull()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
@@ -208,10 +215,11 @@ public abstract class ArrayBufferMapContract implements
     void
     testArrayBufferMapWriteBounds()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
@@ -245,10 +253,11 @@ public abstract class ArrayBufferMapContract implements
     void
     testArrayBufferMapWriteDeleted()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
@@ -271,10 +280,11 @@ public abstract class ArrayBufferMapContract implements
     void
     testArrayBufferMapWriteNull()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
@@ -294,10 +304,11 @@ public abstract class ArrayBufferMapContract implements
     void
     testArrayBufferUnmapDeleted()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
@@ -321,10 +332,11 @@ public abstract class ArrayBufferMapContract implements
     void
     testArrayBufferUnmapDouble()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(

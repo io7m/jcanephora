@@ -17,8 +17,9 @@ import com.io7m.jcanephora.ArrayBufferWritableMap;
 import com.io7m.jcanephora.CursorWritable2f;
 import com.io7m.jcanephora.CursorWritable3f;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterface;
+import com.io7m.jcanephora.GLInterface3;
 import com.io7m.jcanephora.GLScalarType;
+import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.UsageHint;
 
 public abstract class ArrayBufferWritableMapContract implements
@@ -37,10 +38,11 @@ public abstract class ArrayBufferWritableMapContract implements
     void
     testArrayBufferMapCursor2fNull()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     ArrayBuffer a = null;
     ArrayBufferWritableMap m = null;
@@ -67,10 +69,12 @@ public abstract class ArrayBufferWritableMapContract implements
     void
     testArrayBufferMapCursor2fOutOfRange()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
 
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     ArrayBuffer a = null;
     ArrayBufferWritableMap m = null;
@@ -96,10 +100,12 @@ public abstract class ArrayBufferWritableMapContract implements
     void
     testArrayBufferMapCursor2fSeekCorrect()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
 
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     ArrayBuffer a = null;
     ArrayBufferWritableMap wm = null;
@@ -176,10 +182,12 @@ public abstract class ArrayBufferWritableMapContract implements
     void
     testArrayBufferMapCursor2fWriteCorrect()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
 
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     ArrayBuffer a = null;
     ArrayBufferWritableMap wm = null;
@@ -253,10 +261,12 @@ public abstract class ArrayBufferWritableMapContract implements
     void
     testArrayBufferMapCursor2fWrongType()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
 
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     ArrayBuffer a = null;
     ArrayBufferWritableMap m = null;
@@ -285,10 +295,12 @@ public abstract class ArrayBufferWritableMapContract implements
     void
     testArrayBufferMapCursor3fNull()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
 
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     ArrayBuffer a = null;
     ArrayBufferWritableMap m = null;
@@ -315,10 +327,12 @@ public abstract class ArrayBufferWritableMapContract implements
     void
     testArrayBufferMapCursor3fWriteCorrect()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
 
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     ArrayBuffer a = null;
     ArrayBufferWritableMap wm = null;
@@ -383,10 +397,12 @@ public abstract class ArrayBufferWritableMapContract implements
     void
     testArrayBufferMapCursor3fWriteSeekCorrect()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
 
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     ArrayBuffer a = null;
     ArrayBufferWritableMap wm = null;
@@ -454,10 +470,12 @@ public abstract class ArrayBufferWritableMapContract implements
     void
     testArrayBufferMapCursor3fWrongType()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
 
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     ArrayBuffer a = null;
     ArrayBufferWritableMap m = null;

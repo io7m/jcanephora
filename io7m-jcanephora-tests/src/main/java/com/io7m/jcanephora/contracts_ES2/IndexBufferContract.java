@@ -14,6 +14,7 @@ import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.GLScalarType;
 import com.io7m.jcanephora.GLUnsignedType;
+import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.UsageHint;
@@ -33,9 +34,11 @@ public abstract class IndexBufferContract implements GLES2TestContract
     void
     testIndexBufferAllocateArrayDeleted()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -55,9 +58,11 @@ public abstract class IndexBufferContract implements GLES2TestContract
 
   @Test public final void testIndexBufferAllocateByte()
     throws ConstraintError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -88,9 +93,11 @@ public abstract class IndexBufferContract implements GLES2TestContract
 
   @Test public final void testIndexBufferAllocateInt()
     throws ConstraintError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -122,9 +129,11 @@ public abstract class IndexBufferContract implements GLES2TestContract
     void
     testIndexBufferAllocateNull()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.indexBufferAllocate(null, 1);
   }
 
@@ -135,9 +144,11 @@ public abstract class IndexBufferContract implements GLES2TestContract
 
   @Test public final void testIndexBufferAllocateShort()
     throws ConstraintError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -169,9 +180,11 @@ public abstract class IndexBufferContract implements GLES2TestContract
     void
     testIndexBufferAllocateTypeNull()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.indexBufferAllocateType(null, 1);
   }
 
@@ -183,9 +196,11 @@ public abstract class IndexBufferContract implements GLES2TestContract
     void
     testIndexBufferAllocateTypeZeroElements()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 0);
   }
 
@@ -197,9 +212,11 @@ public abstract class IndexBufferContract implements GLES2TestContract
     void
     testIndexBufferAllocateZeroElements()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -219,9 +236,11 @@ public abstract class IndexBufferContract implements GLES2TestContract
     void
     testIndexBufferDeleteDouble()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -250,9 +269,11 @@ public abstract class IndexBufferContract implements GLES2TestContract
     void
     testIndexBufferDeleteNull()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.indexBufferDelete(null);
   }
 
@@ -262,9 +283,11 @@ public abstract class IndexBufferContract implements GLES2TestContract
 
   @Test public final void testIndexBufferUpdate()
     throws ConstraintError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -293,9 +316,11 @@ public abstract class IndexBufferContract implements GLES2TestContract
     void
     testIndexBufferUpdateDeleted()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -325,9 +350,11 @@ public abstract class IndexBufferContract implements GLES2TestContract
     void
     testIndexBufferUpdateNull()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -356,9 +383,11 @@ public abstract class IndexBufferContract implements GLES2TestContract
     void
     testIndexBufferUpdateNullData()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(

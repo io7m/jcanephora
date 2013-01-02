@@ -26,14 +26,14 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * A immutable reference to an allocated framebuffer.
  */
 
-@Immutable public final class Framebuffer extends Deletable implements
+@Immutable public final class FramebufferReference extends Deletable implements
   GLResource,
   GLName
 {
   private final int value;
   private boolean   deleted;
 
-  Framebuffer(
+  FramebufferReference(
     final int value)
     throws ConstraintError
   {
@@ -58,7 +58,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     if (this.getClass() != obj.getClass()) {
       return false;
     }
-    final Framebuffer other = (Framebuffer) obj;
+    final FramebufferReference other = (FramebufferReference) obj;
     if (this.value != other.value) {
       return false;
     }
@@ -99,7 +99,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("[Framebuffer ");
+    builder.append("[FramebufferReference ");
     builder.append(this.getGLName());
     builder.append("]");
     return builder.toString();

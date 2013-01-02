@@ -44,10 +44,10 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
    * <code>TEXTURE_WRAP_REPEAT</code>. The texture is wrapped around the
    * <code>t</code> axis using the wrapping mode <code>wrap_t</code>, with the
    * OpenGL default being <code>TEXTURE_WRAP_REPEAT</code>. The texture is
-   * scaled up using the magnification filter <code>mag_filter</code>, with
-   * the OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture
-   * is scaled down using the minification filter <code>min_filter</code>,
-   * with the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
+   * scaled up using the minification filter <code>min_filter</code>, with the
+   * OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture is
+   * scaled down using the magnification filter <code>mag_filter</code>, with
+   * the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
    * 
    * @param name
    *          The name of the texture.
@@ -61,10 +61,10 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
    * @param wrap_t
    *          The method with which to wrap textures around the <code>t</code>
    *          axis.
-   * @param mag_filter
-   *          The magnification filter.
    * @param min_filter
    *          The minification filter.
+   * @param mag_filter
+   *          The magnification filter.
    * @return An allocated texture.
    * @throws ConstraintError
    *           Iff any of the following conditions hold:
@@ -72,8 +72,8 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
    *           <li><code>name == null</code></li>
    *           <li><code>wrap_s == null</code></li>
    *           <li><code>wrap_t == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
    *           <li><code>min_filter == null</code></li>
+   *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
    *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
@@ -87,8 +87,8 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
     final int height,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter mag_filter,
-    final @Nonnull TextureFilter min_filter)
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter)
     throws ConstraintError,
       GLException;
 
@@ -102,10 +102,10 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
    * <code>TEXTURE_WRAP_REPEAT</code>. The texture is wrapped around the
    * <code>t</code> axis using the wrapping mode <code>wrap_t</code>, with the
    * OpenGL default being <code>TEXTURE_WRAP_REPEAT</code>. The texture is
-   * scaled up using the magnification filter <code>mag_filter</code>, with
-   * the OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture
-   * is scaled down using the minification filter <code>min_filter</code>,
-   * with the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
+   * scaled up using the minification filter <code>min_filter</code>, with the
+   * OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture is
+   * scaled down using the magnification filter <code>mag_filter</code>, with
+   * the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
    * 
    * @param name
    *          The name of the texture.
@@ -119,10 +119,10 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
    * @param wrap_t
    *          The method with which to wrap textures around the <code>t</code>
    *          axis.
-   * @param mag_filter
-   *          The magnification filter.
    * @param min_filter
    *          The minification filter.
+   * @param mag_filter
+   *          The magnification filter.
    * @return An allocated texture.
    * @throws ConstraintError
    *           Iff any of the following conditions hold:
@@ -130,8 +130,8 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
    *           <li><code>name == null</code></li>
    *           <li><code>wrap_s == null</code></li>
    *           <li><code>wrap_t == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
    *           <li><code>min_filter == null</code></li>
+   *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
    *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
@@ -145,8 +145,8 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
     final int height,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter mag_filter,
-    final @Nonnull TextureFilter min_filter)
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter)
     throws ConstraintError,
       GLException;
 
@@ -160,10 +160,10 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
    * <code>TEXTURE_WRAP_REPEAT</code>. The texture is wrapped around the
    * <code>t</code> axis using the wrapping mode <code>wrap_t</code>, with the
    * OpenGL default being <code>TEXTURE_WRAP_REPEAT</code>. The texture is
-   * scaled up using the magnification filter <code>mag_filter</code>, with
-   * the OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture
-   * is scaled down using the minification filter <code>min_filter</code>,
-   * with the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
+   * scaled up using the minification filter <code>min_filter</code>, with the
+   * OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture is
+   * scaled down using the magnification filter <code>mag_filter</code>, with
+   * the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
    * 
    * @param name
    *          The name of the texture.
@@ -177,10 +177,10 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
    * @param wrap_t
    *          The method with which to wrap textures around the <code>t</code>
    *          axis.
-   * @param mag_filter
-   *          The magnification filter.
    * @param min_filter
    *          The minification filter.
+   * @param mag_filter
+   *          The magnification filter.
    * @return An allocated texture.
    * @throws ConstraintError
    *           Iff any of the following conditions hold:
@@ -188,8 +188,8 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
    *           <li><code>name == null</code></li>
    *           <li><code>wrap_s == null</code></li>
    *           <li><code>wrap_t == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
    *           <li><code>min_filter == null</code></li>
+   *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
    *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
@@ -203,8 +203,8 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
     final int height,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter mag_filter,
-    final @Nonnull TextureFilter min_filter)
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter)
     throws ConstraintError,
       GLException;
 
@@ -218,10 +218,10 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
    * <code>TEXTURE_WRAP_REPEAT</code>. The texture is wrapped around the
    * <code>t</code> axis using the wrapping mode <code>wrap_t</code>, with the
    * OpenGL default being <code>TEXTURE_WRAP_REPEAT</code>. The texture is
-   * scaled up using the magnification filter <code>mag_filter</code>, with
-   * the OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture
-   * is scaled down using the minification filter <code>min_filter</code>,
-   * with the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
+   * scaled up using the minification filter <code>min_filter</code>, with the
+   * OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture is
+   * scaled down using the magnification filter <code>mag_filter</code>, with
+   * the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
    * 
    * @param name
    *          The name of the texture.
@@ -235,10 +235,10 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
    * @param wrap_t
    *          The method with which to wrap textures around the <code>t</code>
    *          axis.
-   * @param mag_filter
-   *          The magnification filter.
    * @param min_filter
    *          The minification filter.
+   * @param mag_filter
+   *          The magnification filter.
    * @return An allocated texture.
    * @throws ConstraintError
    *           Iff any of the following conditions hold:
@@ -246,8 +246,8 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
    *           <li><code>name == null</code></li>
    *           <li><code>wrap_s == null</code></li>
    *           <li><code>wrap_t == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
    *           <li><code>min_filter == null</code></li>
+   *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
    *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
@@ -261,8 +261,8 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
     final int height,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter mag_filter,
-    final @Nonnull TextureFilter min_filter)
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter)
     throws ConstraintError,
       GLException;
 
@@ -276,10 +276,10 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
    * <code>TEXTURE_WRAP_REPEAT</code>. The texture is wrapped around the
    * <code>t</code> axis using the wrapping mode <code>wrap_t</code>, with the
    * OpenGL default being <code>TEXTURE_WRAP_REPEAT</code>. The texture is
-   * scaled up using the magnification filter <code>mag_filter</code>, with
-   * the OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture
-   * is scaled down using the minification filter <code>min_filter</code>,
-   * with the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
+   * scaled up using the minification filter <code>min_filter</code>, with the
+   * OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture is
+   * scaled down using the magnification filter <code>mag_filter</code>, with
+   * the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
    * 
    * @param name
    *          The name of the texture.
@@ -293,10 +293,10 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
    * @param wrap_t
    *          The method with which to wrap textures around the <code>t</code>
    *          axis.
-   * @param mag_filter
-   *          The magnification filter.
    * @param min_filter
    *          The minification filter.
+   * @param mag_filter
+   *          The magnification filter.
    * @return An allocated texture.
    * @throws ConstraintError
    *           Iff any of the following conditions hold:
@@ -304,8 +304,8 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
    *           <li><code>name == null</code></li>
    *           <li><code>wrap_s == null</code></li>
    *           <li><code>wrap_t == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
    *           <li><code>min_filter == null</code></li>
+   *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
    *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
@@ -319,8 +319,8 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
     final int height,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter mag_filter,
-    final @Nonnull TextureFilter min_filter)
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter)
     throws ConstraintError,
       GLException;
 
@@ -334,10 +334,10 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
    * <code>TEXTURE_WRAP_REPEAT</code>. The texture is wrapped around the
    * <code>t</code> axis using the wrapping mode <code>wrap_t</code>, with the
    * OpenGL default being <code>TEXTURE_WRAP_REPEAT</code>. The texture is
-   * scaled up using the magnification filter <code>mag_filter</code>, with
-   * the OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture
-   * is scaled down using the minification filter <code>min_filter</code>,
-   * with the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
+   * scaled up using the minification filter <code>min_filter</code>, with the
+   * OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture is
+   * scaled down using the magnification filter <code>mag_filter</code>, with
+   * the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
    * 
    * @param name
    *          The name of the texture.
@@ -351,10 +351,10 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
    * @param wrap_t
    *          The method with which to wrap textures around the <code>t</code>
    *          axis.
-   * @param mag_filter
-   *          The magnification filter.
    * @param min_filter
    *          The minification filter.
+   * @param mag_filter
+   *          The magnification filter.
    * @return An allocated texture.
    * @throws ConstraintError
    *           Iff any of the following conditions hold:
@@ -362,8 +362,8 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
    *           <li><code>name == null</code></li>
    *           <li><code>wrap_s == null</code></li>
    *           <li><code>wrap_t == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
    *           <li><code>min_filter == null</code></li>
+   *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
    *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
@@ -377,8 +377,8 @@ public interface GLTextures2DStatic extends GLTextures2DStaticES2
     final int height,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter mag_filter,
-    final @Nonnull TextureFilter min_filter)
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter)
     throws ConstraintError,
       GLException;
 }

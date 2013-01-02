@@ -11,6 +11,7 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
+import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureLoader;
@@ -32,6 +33,7 @@ public abstract class TextureLoaderContract implements
    * Inferring a RED texture from a monochrome image works.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    * @throws FilesystemError
    * @throws IOException
@@ -39,11 +41,13 @@ public abstract class TextureLoaderContract implements
 
   @Test public final void testGrey8Inferred()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError,
       FilesystemError,
       IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
     final TextureLoader loader = this.makeTextureLoader();
 
@@ -75,17 +79,20 @@ public abstract class TextureLoaderContract implements
    * 
    * @throws ConstraintError
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws FilesystemError
    * @throws IOException
    */
 
   @Test public final void testGreyscale8ToTypesSpecific()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError,
       FilesystemError,
       IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
     final TextureLoader loader = this.makeTextureLoader();
 
@@ -118,6 +125,7 @@ public abstract class TextureLoaderContract implements
    * Inferring an RGB565 texture from an 8-bit indexed color image works.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    * @throws FilesystemError
    * @throws IOException
@@ -125,11 +133,13 @@ public abstract class TextureLoaderContract implements
 
   @Test public final void testIndexed8Inferred()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError,
       FilesystemError,
       IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
     final TextureLoader loader = this.makeTextureLoader();
 
@@ -163,17 +173,20 @@ public abstract class TextureLoaderContract implements
    * 
    * @throws ConstraintError
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws FilesystemError
    * @throws IOException
    */
 
   @Test public final void testIndexed8ToTypesSpecific()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError,
       FilesystemError,
       IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
     final TextureLoader loader = this.makeTextureLoader();
 
@@ -206,6 +219,7 @@ public abstract class TextureLoaderContract implements
    * Inferring a RED texture from a monochrome image works.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    * @throws FilesystemError
    * @throws IOException
@@ -213,11 +227,13 @@ public abstract class TextureLoaderContract implements
 
   @Test public final void testMonoInferred()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError,
       FilesystemError,
       IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
     final TextureLoader loader = this.makeTextureLoader();
 
@@ -249,17 +265,20 @@ public abstract class TextureLoaderContract implements
    * 
    * @throws ConstraintError
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws FilesystemError
    * @throws IOException
    */
 
   @Test public final void testMonoToTypesSpecific()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError,
       FilesystemError,
       IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
     final TextureLoader loader = this.makeTextureLoader();
 
@@ -292,6 +311,7 @@ public abstract class TextureLoaderContract implements
    * Inferring an RGBA8888 texture from an RGBA8888 image works.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    * @throws FilesystemError
    * @throws IOException
@@ -299,11 +319,13 @@ public abstract class TextureLoaderContract implements
 
   @Test public final void testRGB8888Inferred()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError,
       FilesystemError,
       IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
     final TextureLoader loader = this.makeTextureLoader();
 
@@ -335,6 +357,7 @@ public abstract class TextureLoaderContract implements
    * Inferring an RGB888 texture from an RGB888 image works.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    * @throws FilesystemError
    * @throws IOException
@@ -342,11 +365,13 @@ public abstract class TextureLoaderContract implements
 
   @Test public final void testRGB888Inferred()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError,
       FilesystemError,
       IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
     final TextureLoader loader = this.makeTextureLoader();
 
@@ -379,17 +404,20 @@ public abstract class TextureLoaderContract implements
    * 
    * @throws ConstraintError
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws FilesystemError
    * @throws IOException
    */
 
   @Test public final void testRGB888ToTypesSpecific()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError,
       FilesystemError,
       IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
     final TextureLoader loader = this.makeTextureLoader();
 
@@ -423,17 +451,20 @@ public abstract class TextureLoaderContract implements
    * 
    * @throws ConstraintError
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws FilesystemError
    * @throws IOException
    */
 
   @Test public final void testRGBA8888ToTypesSpecific()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError,
       FilesystemError,
       IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
     final TextureLoader loader = this.makeTextureLoader();
 

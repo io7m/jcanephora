@@ -37,13 +37,21 @@ public final class Texture2DStatic extends Deletable implements
   private final @Nonnull String         name;
   private final @Nonnull AreaInclusive  area;
   private final @Nonnull TextureType    type;
+  private final @Nonnull TextureWrap    wrap_s;
+  private final @Nonnull TextureWrap    wrap_t;
+  private final @Nonnull TextureFilter  min_filter;
+  private final @Nonnull TextureFilter  mag_filter;
 
   Texture2DStatic(
     final @Nonnull String name,
     final @Nonnull TextureType type,
     final int id,
     final int width,
-    final int height)
+    final int height,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter)
     throws ConstraintError
   {
     this.id =
@@ -55,6 +63,10 @@ public final class Texture2DStatic extends Deletable implements
     this.range_y = new RangeInclusive(0, height - 1);
     this.area = new AreaInclusive(this.range_x, this.range_y);
     this.deleted = false;
+    this.wrap_s = wrap_s;
+    this.wrap_t = wrap_t;
+    this.min_filter = min_filter;
+    this.mag_filter = mag_filter;
   }
 
   @Override public boolean equals(
@@ -97,6 +109,16 @@ public final class Texture2DStatic extends Deletable implements
   public int getHeight()
   {
     return (int) this.range_y.getInterval();
+  }
+
+  public @Nonnull TextureFilter getMagnificationFilter()
+  {
+    return this.mag_filter;
+  }
+
+  public @Nonnull TextureFilter getMinificationFilter()
+  {
+    return this.min_filter;
   }
 
   /**
@@ -144,6 +166,16 @@ public final class Texture2DStatic extends Deletable implements
     return (int) this.range_x.getInterval();
   }
 
+  public @Nonnull TextureWrap getWrapS()
+  {
+    return this.wrap_s;
+  }
+
+  public @Nonnull TextureWrap getWrapT()
+  {
+    return this.wrap_t;
+  }
+
   @Override public int hashCode()
   {
     final int prime = 31;
@@ -173,16 +205,22 @@ public final class Texture2DStatic extends Deletable implements
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("Texture2DStatic ");
-    builder.append(this.name);
-    builder.append(" ");
+    builder.append("[Texture2DStatic ");
     builder.append(this.id);
+    builder.append(" ");
+    builder.append(this.name);
     builder.append(" ");
     builder.append(this.type);
     builder.append(" ");
-    builder.append(this.getWidth());
-    builder.append("x");
-    builder.append(this.getHeight());
+    builder.append(this.area);
+    builder.append(" ");
+    builder.append(this.wrap_s);
+    builder.append(" ");
+    builder.append(this.wrap_t);
+    builder.append(" ");
+    builder.append(this.min_filter);
+    builder.append(" ");
+    builder.append(this.mag_filter);
     builder.append("]");
     return builder.toString();
   }

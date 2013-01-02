@@ -13,9 +13,10 @@ import com.io7m.jcanephora.ArrayBufferDescriptor;
 import com.io7m.jcanephora.CursorReadableIndex;
 import com.io7m.jcanephora.CursorWritableIndex;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterface;
+import com.io7m.jcanephora.GLInterface3;
 import com.io7m.jcanephora.GLScalarType;
 import com.io7m.jcanephora.GLUnsignedType;
+import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferReadableMap;
 import com.io7m.jcanephora.IndexBufferWritableMap;
@@ -39,10 +40,12 @@ public abstract class IndexBufferMapContract implements GLTestContract
     void
     testMapReadDeleted()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
 
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 25);
@@ -62,10 +65,12 @@ public abstract class IndexBufferMapContract implements GLTestContract
     void
     testMapWriteDeleted()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
 
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 25);
@@ -81,10 +86,12 @@ public abstract class IndexBufferMapContract implements GLTestContract
 
   @Test public final void testReadWriteByte()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
 
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
@@ -126,10 +133,12 @@ public abstract class IndexBufferMapContract implements GLTestContract
 
   @Test public final void testReadWriteInt()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
 
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
@@ -171,10 +180,12 @@ public abstract class IndexBufferMapContract implements GLTestContract
 
   @Test public final void testReadWriteShort()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
 
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
@@ -220,10 +231,12 @@ public abstract class IndexBufferMapContract implements GLTestContract
     void
     testUnmapDeleted()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
 
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 25);
