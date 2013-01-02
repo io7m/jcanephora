@@ -7,16 +7,16 @@ import com.io7m.jaux.Constraints.ConstraintError;
 public final class LWJGL30TextureLoaderImageIOTest extends
   TextureLoaderImageIOTest
 {
-  @Override public @Nonnull TestContext getTestContext()
+  @Override public boolean isGLSupported()
+  {
+    return LWJGLTestContext.isOpenGL3Supported();
+  }
+
+  @Override public @Nonnull TestContext newTestContext()
     throws GLException,
       GLUnsupportedException,
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL3_X();
-  }
-
-  @Override public boolean isGLSupported()
-  {
-    return LWJGLTestContext.isOpenGL3Supported();
   }
 }

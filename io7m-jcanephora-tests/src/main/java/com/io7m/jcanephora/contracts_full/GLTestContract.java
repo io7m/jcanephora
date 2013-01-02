@@ -6,19 +6,15 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
-import com.io7m.jvvfs.PathVirtual;
 
 public interface GLTestContract
 {
   /**
-   * The path that should be used to find shaders, given the current OpenGL
+   * Return <code>true</code> if the test can run given the current OpenGL
    * implementation.
-   * 
-   * @throws ConstraintError
    */
 
-  public @Nonnull PathVirtual getShaderPath()
-    throws ConstraintError;
+  public boolean isGLSupported();
 
   /**
    * Construct test context data.
@@ -31,15 +27,8 @@ public interface GLTestContract
    * @throws GLException
    */
 
-  public @Nonnull TestContext getTestContext()
+  public @Nonnull TestContext newTestContext()
     throws GLException,
       GLUnsupportedException,
       ConstraintError;
-
-  /**
-   * Return <code>true</code> if the test can run given the current OpenGL
-   * implementation.
-   */
-
-  public boolean isGLSupported();
 }

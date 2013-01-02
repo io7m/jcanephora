@@ -39,7 +39,7 @@ public abstract class TextureCubeStaticES2Contract implements
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -60,7 +60,7 @@ public abstract class TextureCubeStaticES2Contract implements
       GLUnsupportedException,
       ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -97,7 +97,7 @@ public abstract class TextureCubeStaticES2Contract implements
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -131,7 +131,7 @@ public abstract class TextureCubeStaticES2Contract implements
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -155,7 +155,7 @@ public abstract class TextureCubeStaticES2Contract implements
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -175,7 +175,7 @@ public abstract class TextureCubeStaticES2Contract implements
       GLUnsupportedException,
       ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -209,7 +209,7 @@ public abstract class TextureCubeStaticES2Contract implements
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -244,7 +244,7 @@ public abstract class TextureCubeStaticES2Contract implements
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -279,7 +279,7 @@ public abstract class TextureCubeStaticES2Contract implements
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -301,7 +301,7 @@ public abstract class TextureCubeStaticES2Contract implements
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -330,7 +330,7 @@ public abstract class TextureCubeStaticES2Contract implements
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -359,7 +359,7 @@ public abstract class TextureCubeStaticES2Contract implements
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -388,7 +388,7 @@ public abstract class TextureCubeStaticES2Contract implements
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -417,7 +417,7 @@ public abstract class TextureCubeStaticES2Contract implements
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -446,7 +446,7 @@ public abstract class TextureCubeStaticES2Contract implements
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -473,7 +473,7 @@ public abstract class TextureCubeStaticES2Contract implements
       GLUnsupportedException,
       ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -493,7 +493,7 @@ public abstract class TextureCubeStaticES2Contract implements
       GLUnsupportedException,
       ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -595,7 +595,7 @@ public abstract class TextureCubeStaticES2Contract implements
       GLUnsupportedException,
       ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -639,7 +639,7 @@ public abstract class TextureCubeStaticES2Contract implements
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -672,7 +672,7 @@ public abstract class TextureCubeStaticES2Contract implements
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 

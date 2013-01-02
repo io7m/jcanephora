@@ -44,7 +44,7 @@ public abstract class IndexBufferMapContract implements GLTestContract
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final IndexBuffer ib =
@@ -68,7 +68,7 @@ public abstract class IndexBufferMapContract implements GLTestContract
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final IndexBuffer ib =
@@ -88,7 +88,7 @@ public abstract class IndexBufferMapContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
@@ -134,7 +134,7 @@ public abstract class IndexBufferMapContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
@@ -180,7 +180,7 @@ public abstract class IndexBufferMapContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
@@ -230,7 +230,7 @@ public abstract class IndexBufferMapContract implements GLTestContract
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final IndexBuffer ib =

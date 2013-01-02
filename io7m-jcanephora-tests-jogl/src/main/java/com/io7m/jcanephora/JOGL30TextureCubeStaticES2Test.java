@@ -8,16 +8,16 @@ import com.io7m.jcanephora.contracts_ES2.TextureCubeStaticES2Contract;
 public final class JOGL30TextureCubeStaticES2Test extends
   TextureCubeStaticES2Contract
 {
-  @Override public @Nonnull TestContext getTestContext()
+  @Override public boolean isGLSupported()
+  {
+    return JOGLTestContext.isOpenGL3Supported();
+  }
+
+  @Override public @Nonnull TestContext newTestContext()
     throws GLException,
       GLUnsupportedException,
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL3_X();
-  }
-
-  @Override public boolean isGLSupported()
-  {
-    return JOGLTestContext.isOpenGL3Supported();
   }
 }

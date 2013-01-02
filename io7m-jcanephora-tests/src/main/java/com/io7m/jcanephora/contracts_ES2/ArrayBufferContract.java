@@ -101,7 +101,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -138,7 +138,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -163,7 +163,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -193,7 +193,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -227,7 +227,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -258,7 +258,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -280,7 +280,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -311,7 +311,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -345,7 +345,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
       IOException,
       FilesystemError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -392,7 +392,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         IOException,
         FilesystemError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -446,7 +446,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         IOException,
         FilesystemError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -483,7 +483,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -510,7 +510,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -544,7 +544,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -566,7 +566,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -601,7 +601,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -629,7 +629,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         IOException,
         FilesystemError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -678,7 +678,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         GLCompileException,
         IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -725,7 +725,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         GLCompileException,
         IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -772,7 +772,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         GLCompileException,
         IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -817,7 +817,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
       GLCompileException,
       IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -864,7 +864,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         GLCompileException,
         IOException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -913,7 +913,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         IOException,
         FilesystemError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -955,7 +955,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -990,7 +990,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -1024,7 +1024,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -1060,7 +1060,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -1096,7 +1096,7 @@ public abstract class ArrayBufferContract implements GLES2TestContract
         GLUnsupportedException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 

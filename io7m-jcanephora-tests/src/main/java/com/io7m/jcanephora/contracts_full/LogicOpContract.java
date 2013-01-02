@@ -31,7 +31,7 @@ public abstract class LogicOpContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     for (final LogicOperation op : LogicOperation.values()) {
@@ -54,7 +54,7 @@ public abstract class LogicOpContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     gl.logicOperationsEnable(null);

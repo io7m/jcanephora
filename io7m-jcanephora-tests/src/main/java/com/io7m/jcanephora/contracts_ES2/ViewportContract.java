@@ -31,7 +31,7 @@ public abstract class ViewportContract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -53,7 +53,7 @@ public abstract class ViewportContract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -75,7 +75,7 @@ public abstract class ViewportContract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -97,7 +97,7 @@ public abstract class ViewportContract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
@@ -119,7 +119,7 @@ public abstract class ViewportContract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 

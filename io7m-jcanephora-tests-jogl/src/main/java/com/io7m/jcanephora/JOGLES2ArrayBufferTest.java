@@ -7,16 +7,16 @@ import com.io7m.jcanephora.contracts_ES2.ArrayBufferContract;
 
 public final class JOGLES2ArrayBufferTest extends ArrayBufferContract
 {
-  @Override public @Nonnull TestContext getTestContext()
+  @Override public boolean isGLSupported()
+  {
+    return JOGLTestContext.isOpenGLES2Supported();
+  }
+
+  @Override public @Nonnull TestContext newTestContext()
     throws GLException,
       GLUnsupportedException,
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL_ES2();
-  }
-
-  @Override public boolean isGLSupported()
-  {
-    return JOGLTestContext.isOpenGLES2Supported();
   }
 }

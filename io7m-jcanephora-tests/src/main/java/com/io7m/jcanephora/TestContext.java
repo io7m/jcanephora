@@ -25,6 +25,11 @@ public final class TestContext
     this.shader_path = shader_path;
   }
 
+  public FilesystemAPI getFilesystem()
+  {
+    return this.fs;
+  }
+
   public GLImplementation getGLImplementation()
   {
     return this.gi;
@@ -38,10 +43,5 @@ public final class TestContext
   public PathVirtual getShaderPath()
   {
     return this.shader_path;
-  }
-
-  public FilesystemAPI getFilesystem()
-  {
-    return this.fs;
   }
 }

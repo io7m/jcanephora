@@ -37,7 +37,7 @@ public abstract class ArrayBufferMapContract implements GLTestContract
       GLException,
       GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
@@ -87,7 +87,7 @@ public abstract class ArrayBufferMapContract implements GLTestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
@@ -124,7 +124,7 @@ public abstract class ArrayBufferMapContract implements GLTestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
@@ -151,7 +151,7 @@ public abstract class ArrayBufferMapContract implements GLTestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
@@ -192,7 +192,7 @@ public abstract class ArrayBufferMapContract implements GLTestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
@@ -216,7 +216,7 @@ public abstract class ArrayBufferMapContract implements GLTestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
@@ -254,7 +254,7 @@ public abstract class ArrayBufferMapContract implements GLTestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
@@ -281,7 +281,7 @@ public abstract class ArrayBufferMapContract implements GLTestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
@@ -305,7 +305,7 @@ public abstract class ArrayBufferMapContract implements GLTestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
@@ -333,7 +333,7 @@ public abstract class ArrayBufferMapContract implements GLTestContract
         GLException,
         GLUnsupportedException
   {
-    final TestContext tc = this.getTestContext();
+    final TestContext tc = this.newTestContext();
     final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final ArrayBufferDescriptor d =
