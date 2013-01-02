@@ -11,6 +11,7 @@ import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface3;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.SpatialCursorWritable3i;
+import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.TextureCubeStatic;
 import com.io7m.jcanephora.TextureCubeWritableData;
 import com.io7m.jcanephora.TextureFilter;
@@ -36,8 +37,9 @@ public abstract class TextureCubeStaticContract implements GLTestContract
       GLException,
       GLUnsupportedException
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
+
     final TextureUnit[] u = gl.textureGetUnits();
     Assert.assertTrue(u.length >= 2);
   }
@@ -50,11 +52,12 @@ public abstract class TextureCubeStaticContract implements GLTestContract
    */
 
   @Test public final void testTextureBind()
-    throws GLException, GLUnsupportedException,
+    throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final TextureUnit[] units = gl.textureGetUnits();
     final TextureCubeStatic t =
@@ -84,11 +87,12 @@ public abstract class TextureCubeStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public
     void
     testTextureBindDeleted()
-      throws GLException, GLUnsupportedException,
+      throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final TextureUnit[] units = gl.textureGetUnits();
     final TextureCubeStatic t =
@@ -115,11 +119,13 @@ public abstract class TextureCubeStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public final
     void
     testTextureBindNull()
-      throws GLException, GLUnsupportedException,
+      throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
+
     final TextureUnit[] units = gl.textureGetUnits();
 
     gl.textureCubeStaticBind(units[0], null);
@@ -135,11 +141,13 @@ public abstract class TextureCubeStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public
     void
     testTextureBindUnitNull()
-      throws GLException, GLUnsupportedException,
+      throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
+
     gl.textureCubeStaticBind(null, null);
   }
 
@@ -151,11 +159,12 @@ public abstract class TextureCubeStaticContract implements GLTestContract
    */
 
   @Test public final void testTextureDelete()
-    throws GLException, GLUnsupportedException,
+    throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final TextureCubeStatic t =
       gl.textureCubeStaticAllocateRGBA8888(
@@ -182,11 +191,12 @@ public abstract class TextureCubeStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public
     void
     testTextureDeleteDeleted()
-      throws GLException, GLUnsupportedException,
+      throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final TextureCubeStatic t =
       gl.textureCubeStaticAllocateRGBA8888(
@@ -214,11 +224,12 @@ public abstract class TextureCubeStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public
     void
     testTextureIsBoundDeleted()
-      throws GLException, GLUnsupportedException,
+      throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final TextureUnit[] units = gl.textureGetUnits();
     final TextureCubeStatic t =
@@ -246,11 +257,13 @@ public abstract class TextureCubeStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public final
     void
     testTextureNullDelete()
-      throws GLException, GLUnsupportedException,
+      throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
+
     gl.textureCubeStaticDelete(null);
   }
 
@@ -264,11 +277,12 @@ public abstract class TextureCubeStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public
     void
     testTextureNullFilterMax()
-      throws GLException, GLUnsupportedException,
+      throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     gl.textureCubeStaticAllocateRGBA8888(
       "texture",
@@ -290,11 +304,12 @@ public abstract class TextureCubeStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public
     void
     testTextureNullFilterMin()
-      throws GLException, GLUnsupportedException,
+      throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     gl.textureCubeStaticAllocateRGBA8888(
       "texture",
@@ -316,11 +331,12 @@ public abstract class TextureCubeStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public final
     void
     testTextureNullName()
-      throws GLException, GLUnsupportedException,
+      throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     gl.textureCubeStaticAllocateRGBA8888(
       null,
@@ -342,11 +358,12 @@ public abstract class TextureCubeStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public final
     void
     testTextureNullWrapR()
-      throws GLException, GLUnsupportedException,
+      throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     gl.textureCubeStaticAllocateRGBA8888(
       "texture",
@@ -368,11 +385,12 @@ public abstract class TextureCubeStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public final
     void
     testTextureNullWrapS()
-      throws GLException, GLUnsupportedException,
+      throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     gl.textureCubeStaticAllocateRGBA8888(
       "texture",
@@ -394,11 +412,12 @@ public abstract class TextureCubeStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public final
     void
     testTextureNullWrapT()
-      throws GLException, GLUnsupportedException,
+      throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     gl.textureCubeStaticAllocateRGBA8888(
       "texture",
@@ -418,11 +437,13 @@ public abstract class TextureCubeStaticContract implements GLTestContract
    */
 
   @Test public final void testTextureSizeSane()
-    throws GLException, GLUnsupportedException,
+    throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
+
     Assert.assertTrue(gl.textureGetMaximumSize() >= 128);
   }
 
@@ -434,11 +455,12 @@ public abstract class TextureCubeStaticContract implements GLTestContract
    */
 
   @Test public final void testTextureTypes()
-    throws GLException, GLUnsupportedException,
+    throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     for (final TextureType t : TextureType.values()) {
       switch (t) {
@@ -608,11 +630,12 @@ public abstract class TextureCubeStaticContract implements GLTestContract
    */
 
   @Test public final void testTextureUpdateCompleteSimple()
-    throws GLException, GLUnsupportedException,
+    throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final TextureCubeStatic t =
       gl.textureCubeStaticAllocateRGB888(
@@ -647,11 +670,12 @@ public abstract class TextureCubeStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public final
     void
     testTextureUpdateNullFaceFails()
-      throws GLException, GLUnsupportedException,
+      throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final TextureCubeStatic t =
       gl.textureCubeStaticAllocateRGB888(
@@ -677,11 +701,13 @@ public abstract class TextureCubeStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public final
     void
     testTextureUpdateNullFails()
-      throws GLException, GLUnsupportedException,
+      throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
+
     gl.textureCubeStaticUpdate(CubeMapFace.CUBE_MAP_NEGATIVE_X, null);
   }
 }

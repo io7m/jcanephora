@@ -141,7 +141,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     this.log =
-      new Log(Constraints.constrainNotNull(log, "log output"), "jogl-es2");
+      new Log(Constraints.constrainNotNull(log, "log output"), "lwjgl-es2");
     this.state = new GLStateCache();
 
     /**

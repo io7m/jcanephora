@@ -1,39 +1,22 @@
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.contracts_ES2.ArrayBufferContract;
-import com.io7m.jlog.Log;
-import com.io7m.jvvfs.FilesystemAPI;
-import com.io7m.jvvfs.PathVirtual;
 
 public final class LWJGL30ArrayBufferTest extends ArrayBufferContract
 {
-  @Override public Log getLog()
+  @Override public @Nonnull TestContext getTestContext()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
   {
-    return LWJGLTestLog.getLog();
-  }
-
-  @Override public PathVirtual getShaderPath()
-    throws ConstraintError
-  {
-    return new PathVirtual("/com/io7m/jcanephora/shaders/glsl110");
+    return LWJGLTestContext.makeContextWithOpenGL3_X();
   }
 
   @Override public boolean isGLSupported()
   {
-    return LWJGLTestDisplay.isOpenGL3Supported();
-  }
-
-  @Override public FilesystemAPI makeNewFS()
-  {
-    return LWJGLTestFilesystem.getFS();
-  }
-
-  @Override public GLImplementation makeNewGLImplementation()
-    throws GLException,
-      ConstraintError,
-      GLUnsupportedException
-  {
-    return LWJGLTestDisplay.makeImplementationWithOpenGL3();
+    return LWJGLTestContext.isOpenGL3Supported();
   }
 }

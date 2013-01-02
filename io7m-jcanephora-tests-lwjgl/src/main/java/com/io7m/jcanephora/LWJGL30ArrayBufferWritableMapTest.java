@@ -3,11 +3,18 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts_ES2.TextureCubeStaticES2Contract;
+import com.io7m.jcanephora.contracts_full.ArrayBufferWritableMapContract;
+import com.io7m.jvvfs.PathVirtual;
 
-public final class LWJGL30TextureCubeStaticES2Test extends
-  TextureCubeStaticES2Contract
+public final class LWJGL30ArrayBufferWritableMapTest extends
+  ArrayBufferWritableMapContract
 {
+  @Override public PathVirtual getShaderPath()
+    throws ConstraintError
+  {
+    return LWJGLTestContext.GLSL_110_SHADER_PATH;
+  }
+
   @Override public @Nonnull TestContext getTestContext()
     throws GLException,
       GLUnsupportedException,

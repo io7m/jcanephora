@@ -12,6 +12,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.GLUnsupportedException;
+import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureLoader;
@@ -21,8 +22,7 @@ import com.io7m.jvvfs.FilesystemAPI;
 import com.io7m.jvvfs.FilesystemError;
 
 public abstract class TextureLoaderContract implements
-  TextureLoaderTestContract,
-  FilesystemTestContract
+  TextureLoaderTestContract
 {
   @Before public final void checkSupport()
   {
@@ -46,9 +46,11 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+
     final TextureLoader loader = this.makeTextureLoader();
 
     final InputStream stream =
@@ -91,9 +93,11 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+
     final TextureLoader loader = this.makeTextureLoader();
 
     for (final TextureType type : TextureType.values()) {
@@ -138,9 +142,11 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+
     final TextureLoader loader = this.makeTextureLoader();
 
     final InputStream stream =
@@ -185,9 +191,11 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+
     final TextureLoader loader = this.makeTextureLoader();
 
     for (final TextureType type : TextureType.values()) {
@@ -232,9 +240,11 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+
     final TextureLoader loader = this.makeTextureLoader();
 
     final InputStream stream =
@@ -277,9 +287,11 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+
     final TextureLoader loader = this.makeTextureLoader();
 
     for (final TextureType type : TextureType.values()) {
@@ -324,9 +336,11 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+
     final TextureLoader loader = this.makeTextureLoader();
 
     final InputStream stream =
@@ -370,9 +384,11 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+
     final TextureLoader loader = this.makeTextureLoader();
 
     final InputStream stream =
@@ -416,9 +432,11 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+
     final TextureLoader loader = this.makeTextureLoader();
 
     for (final TextureType type : TextureType.values()) {
@@ -463,9 +481,11 @@ public abstract class TextureLoaderContract implements
       FilesystemError,
       IOException
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
-    final FilesystemAPI fs = this.makeNewFS();
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+
     final TextureLoader loader = this.makeTextureLoader();
 
     for (final TextureType type : TextureType.values()) {

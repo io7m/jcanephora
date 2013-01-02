@@ -10,6 +10,7 @@ import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterface3;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.LogicOperation;
+import com.io7m.jcanephora.TestContext;
 
 public abstract class LogicOpContract implements GLTestContract
 {
@@ -30,9 +31,8 @@ public abstract class LogicOpContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     for (final LogicOperation op : LogicOperation.values()) {
       gl.logicOperationsDisable();
@@ -54,9 +54,8 @@ public abstract class LogicOpContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     gl.logicOperationsEnable(null);
   }

@@ -22,6 +22,7 @@ import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.RequestColorTypeES2;
+import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureCubeStatic;
 import com.io7m.jcanephora.TextureFilter;
@@ -292,10 +293,12 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final GLImplementation gl = this.makeNewGLImplementation();
-    final GLInterfaceES2 es2 = gl.implementationGetGLES2();
+    final TestContext tc = this.getTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+
     final FramebufferColorAttachmentPoint[] points =
-      es2.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 256);
@@ -309,7 +312,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
         TextureFilter.TEXTURE_FILTER_NEAREST);
 
       final Indeterminate<Framebuffer, FramebufferStatus> result =
-        config.make(gl);
+        config.make(gi);
       Assert.assertTrue(result.isSuccess());
       final Success<Framebuffer, FramebufferStatus> success =
         (Success<Framebuffer, FramebufferStatus>) result;
@@ -321,7 +324,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       final Texture2DStatic t = color_textures.get(points[0]);
       Assert.assertEquals(c.equivalentTextureType(), t.getType());
 
-      fb.resourceDelete(es2);
+      fb.resourceDelete(gl);
     }
   }
 
@@ -335,10 +338,12 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final GLImplementation gl = this.makeNewGLImplementation();
-    final GLInterfaceES2 es2 = gl.implementationGetGLES2();
+    final TestContext tc = this.getTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+
     final FramebufferColorAttachmentPoint[] points =
-      es2.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 128);
@@ -353,7 +358,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
         TextureFilter.TEXTURE_FILTER_NEAREST);
 
       final Indeterminate<Framebuffer, FramebufferStatus> result =
-        config.make(gl);
+        config.make(gi);
       Assert.assertTrue(result.isSuccess());
       final Success<Framebuffer, FramebufferStatus> success =
         (Success<Framebuffer, FramebufferStatus>) result;
@@ -368,7 +373,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       Assert.assertEquals(c.equivalentTextureType(), t.getType());
       Assert.assertEquals(CubeMapFace.CUBE_MAP_POSITIVE_X, face);
 
-      fb.resourceDelete(es2);
+      fb.resourceDelete(gl);
     }
   }
 
@@ -382,10 +387,12 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final GLImplementation gl = this.makeNewGLImplementation();
-    final GLInterfaceES2 es2 = gl.implementationGetGLES2();
+    final TestContext tc = this.getTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+
     final FramebufferColorAttachmentPoint[] points =
-      es2.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 256);
@@ -394,7 +401,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       config.requestSpecificColorRenderbuffer(c);
 
       final Indeterminate<Framebuffer, FramebufferStatus> result =
-        config.make(gl);
+        config.make(gi);
 
       Assert.assertTrue(result.isSuccess());
       final Success<Framebuffer, FramebufferStatus> success =
@@ -407,7 +414,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       final Renderbuffer rb = color_rbs.get(points[0]);
       Assert.assertEquals(c.equivalentRenderbufferType(), rb.getType());
 
-      fb.resourceDelete(es2);
+      fb.resourceDelete(gl);
     }
   }
 
@@ -420,10 +427,12 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final GLImplementation gl = this.makeNewGLImplementation();
-    final GLInterfaceES2 es2 = gl.implementationGetGLES2();
+    final TestContext tc = this.getTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+
     final FramebufferColorAttachmentPoint[] points =
-      es2.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 256);
@@ -434,7 +443,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
     config.requestBestRGBAColorRenderbuffer();
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
-      config.make(gl);
+      config.make(gi);
 
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
@@ -447,7 +456,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
     final Renderbuffer rb = color_rbs.get(points[0]);
     Assert.assertTrue(rb.getType().isColorRenderable());
 
-    fb.resourceDelete(es2);
+    fb.resourceDelete(gl);
   }
 
   /**
@@ -459,10 +468,12 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final GLImplementation gl = this.makeNewGLImplementation();
-    final GLInterfaceES2 es2 = gl.implementationGetGLES2();
+    final TestContext tc = this.getTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+
     final FramebufferColorAttachmentPoint[] points =
-      es2.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 256);
@@ -477,7 +488,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       TextureFilter.TEXTURE_FILTER_NEAREST);
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
-      config.make(gl);
+      config.make(gi);
 
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
@@ -498,7 +509,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       t.getMagnificationFilter(),
       TextureFilter.TEXTURE_FILTER_NEAREST);
 
-    fb.resourceDelete(es2);
+    fb.resourceDelete(gl);
   }
 
   /**
@@ -510,10 +521,12 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final GLImplementation gl = this.makeNewGLImplementation();
-    final GLInterfaceES2 es2 = gl.implementationGetGLES2();
+    final TestContext tc = this.getTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+
     final FramebufferColorAttachmentPoint[] points =
-      es2.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 128);
@@ -529,7 +542,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       TextureFilter.TEXTURE_FILTER_NEAREST);
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
-      config.make(gl);
+      config.make(gi);
 
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
@@ -555,7 +568,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       CubeMapFace.CUBE_MAP_POSITIVE_X,
       color_textures.get(points[0]).second);
 
-    fb.resourceDelete(es2);
+    fb.resourceDelete(gl);
   }
 
   /**
@@ -567,10 +580,12 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final GLImplementation gl = this.makeNewGLImplementation();
-    final GLInterfaceES2 es2 = gl.implementationGetGLES2();
+    final TestContext tc = this.getTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+
     final FramebufferColorAttachmentPoint[] points =
-      es2.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 256);
@@ -581,7 +596,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
     config.requestBestRGBColorRenderbuffer();
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
-      config.make(gl);
+      config.make(gi);
 
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
@@ -594,7 +609,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
     final Renderbuffer rb = color_rbs.get(points[0]);
     Assert.assertTrue(rb.getType().isColorRenderable());
 
-    fb.resourceDelete(es2);
+    fb.resourceDelete(gl);
   }
 
   /**
@@ -606,10 +621,12 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final GLImplementation gl = this.makeNewGLImplementation();
-    final GLInterfaceES2 es2 = gl.implementationGetGLES2();
+    final TestContext tc = this.getTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+
     final FramebufferColorAttachmentPoint[] points =
-      es2.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 256);
@@ -624,7 +641,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       TextureFilter.TEXTURE_FILTER_NEAREST);
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
-      config.make(gl);
+      config.make(gi);
 
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
@@ -645,7 +662,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       t.getMagnificationFilter(),
       TextureFilter.TEXTURE_FILTER_NEAREST);
 
-    fb.resourceDelete(es2);
+    fb.resourceDelete(gl);
   }
 
   /**
@@ -657,10 +674,12 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLException,
       GLUnsupportedException
   {
-    final GLImplementation gl = this.makeNewGLImplementation();
-    final GLInterfaceES2 es2 = gl.implementationGetGLES2();
+    final TestContext tc = this.getTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+
     final FramebufferColorAttachmentPoint[] points =
-      es2.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 128);
@@ -676,7 +695,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       TextureFilter.TEXTURE_FILTER_NEAREST);
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
-      config.make(gl);
+      config.make(gi);
 
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
@@ -702,7 +721,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       CubeMapFace.CUBE_MAP_POSITIVE_X,
       color_textures.get(points[0]).second);
 
-    fb.resourceDelete(es2);
+    fb.resourceDelete(gl);
   }
 
   /**
@@ -768,8 +787,9 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
-    final GLImplementation gl = this.makeNewGLImplementation();
-    final GLInterfaceES2 es2 = gl.implementationGetGLES2();
+    final TestContext tc = this.getTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 256);
@@ -779,7 +799,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
     config.requestDepthRenderbuffer();
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
-      config.make(gl);
+      config.make(gi);
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
       (Success<Framebuffer, FramebufferStatus>) result;
@@ -789,7 +809,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
     final Renderbuffer rb = fb.getDepthBufferAttachment();
     Assert.assertTrue(rb.getType().isDepthRenderable());
 
-    fb.resourceDelete(es2);
+    fb.resourceDelete(gl);
   }
 
   @SuppressWarnings("static-method") @Test public void testIdentities()
@@ -815,8 +835,9 @@ public abstract class FramebuffersContract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
-    final GLImplementation gl = this.makeNewGLImplementation();
-    final GLInterfaceES2 es2 = gl.implementationGetGLES2();
+    final TestContext tc = this.getTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 256);
@@ -826,7 +847,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
     config.requestStencilRenderbuffer();
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
-      config.make(gl);
+      config.make(gi);
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
       (Success<Framebuffer, FramebufferStatus>) result;
@@ -836,7 +857,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
     final Renderbuffer rb = fb.getStencilBufferAttachment();
     Assert.assertTrue(rb.getType().isStencilRenderable());
 
-    fb.resourceDelete(es2);
+    fb.resourceDelete(gl);
   }
 
   @SuppressWarnings({ "static-method", "unused" }) @Test(

@@ -12,6 +12,7 @@ import com.io7m.jcanephora.GLInterface3;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.RenderbufferType;
+import com.io7m.jcanephora.TestContext;
 
 public abstract class RenderbufferContract implements GLTestContract
 {
@@ -32,8 +33,9 @@ public abstract class RenderbufferContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
+
     final int width = 128;
     final int height = 128;
 
@@ -86,8 +88,8 @@ public abstract class RenderbufferContract implements GLTestContract
       GLUnsupportedException,
       ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final Renderbuffer rb = gl.renderbufferAllocateRGB565(128, 128);
     Assert.assertFalse(rb.resourceIsDeleted());
@@ -109,8 +111,8 @@ public abstract class RenderbufferContract implements GLTestContract
         GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface3 gl =
-      this.makeNewGLImplementation().implementationGetGL3();
+    final TestContext tc = this.getTestContext();
+    final GLInterface3 gl = tc.getGLImplementation().implementationGetGL3();
 
     final Renderbuffer rb = gl.renderbufferAllocateRGB565(128, 128);
     Assert.assertFalse(rb.resourceIsDeleted());

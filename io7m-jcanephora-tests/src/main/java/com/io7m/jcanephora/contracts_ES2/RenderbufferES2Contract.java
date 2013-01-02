@@ -12,6 +12,7 @@ import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.RenderbufferType;
+import com.io7m.jcanephora.TestContext;
 
 public abstract class RenderbufferES2Contract implements GLES2TestContract
 {
@@ -33,8 +34,10 @@ public abstract class RenderbufferES2Contract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
+
     final int width = 128;
     final int height = 128;
 
@@ -83,8 +86,9 @@ public abstract class RenderbufferES2Contract implements GLES2TestContract
       GLUnsupportedException,
       ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
 
     final Renderbuffer rb = gl.renderbufferAllocateRGB565(128, 128);
     Assert.assertFalse(rb.resourceIsDeleted());
@@ -107,8 +111,9 @@ public abstract class RenderbufferES2Contract implements GLES2TestContract
         GLUnsupportedException,
         ConstraintError
   {
+    final TestContext tc = this.getTestContext();
     final GLInterfaceES2 gl =
-      this.makeNewGLImplementation().implementationGetGLES2();
+      tc.getGLImplementation().implementationGetGLES2();
 
     final Renderbuffer rb = gl.renderbufferAllocateRGB565(128, 128);
     Assert.assertFalse(rb.resourceIsDeleted());
