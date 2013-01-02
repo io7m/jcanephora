@@ -54,7 +54,6 @@ public final class JOGLTestDisplay
       throw new AssertionError("Could not make context current");
     }
 
-    System.err.println("Context: " + JOGLTestDisplay.context);
     return JOGLTestDisplay.context;
   }
 
@@ -92,7 +91,7 @@ public final class JOGLTestDisplay
     return new GLInterfaceES2_JOGLES2(ctx, log);
   }
 
-  public static GLInterface makeFullWithOpenGL3()
+  public static GLInterface3 makeFullWithOpenGL3()
     throws GLException,
       ConstraintError
   {
@@ -100,6 +99,28 @@ public final class JOGLTestDisplay
       JOGLTestDisplay.getContext(JOGLTestDisplay.PROFILE_OPENGL_3);
     final Log log = JOGLTestLog.getLog();
     return new GLInterface_JOGL30(ctx, log);
+  }
+
+  public static GLImplementation makeImplementationWithOpenES2()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    final GLContext ctx =
+      JOGLTestDisplay.getContext(JOGLTestDisplay.PROFILE_OPENGL_ES2);
+    final Log log = JOGLTestLog.getLog();
+    return new GLImplementationJOGL(ctx, log);
+  }
+
+  public static GLImplementation makeImplementationWithOpenGL3()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    final GLContext ctx =
+      JOGLTestDisplay.getContext(JOGLTestDisplay.PROFILE_OPENGL_3);
+    final Log log = JOGLTestLog.getLog();
+    return new GLImplementationJOGL(ctx, log);
   }
 
   private JOGLTestDisplay()

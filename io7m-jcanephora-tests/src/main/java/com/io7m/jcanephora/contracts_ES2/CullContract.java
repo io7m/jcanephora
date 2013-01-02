@@ -10,6 +10,7 @@ import com.io7m.jcanephora.FaceSelection;
 import com.io7m.jcanephora.FaceWindingOrder;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
+import com.io7m.jcanephora.GLUnsupportedException;
 
 public abstract class CullContract implements GLES2TestContract
 {
@@ -24,9 +25,11 @@ public abstract class CullContract implements GLES2TestContract
 
   @Test public void testCullingEnable()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
 
     for (final FaceSelection select : FaceSelection.values()) {
       for (final FaceWindingOrder order : FaceWindingOrder.values()) {
@@ -44,9 +47,11 @@ public abstract class CullContract implements GLES2TestContract
 
   @Test(expected = ConstraintError.class) public void testCullingNullFace()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.cullingEnable(null, FaceWindingOrder.FRONT_FACE_CLOCKWISE);
   }
 
@@ -56,9 +61,11 @@ public abstract class CullContract implements GLES2TestContract
 
   @Test(expected = ConstraintError.class) public void testCullingNullOrder()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.cullingEnable(FaceSelection.FACE_BACK, null);
   }
 }

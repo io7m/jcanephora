@@ -7,7 +7,8 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterface;
+import com.io7m.jcanephora.GLInterface3;
+import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.SpatialCursorWritable3i;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.Texture2DWritableData;
@@ -31,9 +32,11 @@ public abstract class Texture2DStaticContract implements GLTestContract
 
   @Test public final void testGetUnits()
     throws ConstraintError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
     final TextureUnit[] u = gl.textureGetUnits();
     Assert.assertTrue(u.length >= 2);
   }
@@ -46,10 +49,11 @@ public abstract class Texture2DStaticContract implements GLTestContract
    */
 
   @Test public final void testTextureBind()
-    throws GLException,
+    throws GLException, GLUnsupportedException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final TextureUnit[] units = gl.textureGetUnits();
     final Texture2DStatic t =
@@ -79,10 +83,11 @@ public abstract class Texture2DStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public
     void
     testTextureBindDeleted()
-      throws GLException,
+      throws GLException, GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final TextureUnit[] units = gl.textureGetUnits();
     final Texture2DStatic t =
@@ -109,10 +114,11 @@ public abstract class Texture2DStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public final
     void
     testTextureBindNull()
-      throws GLException,
+      throws GLException, GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
     final TextureUnit[] units = gl.textureGetUnits();
 
     gl.texture2DStaticBind(units[0], null);
@@ -128,10 +134,11 @@ public abstract class Texture2DStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public
     void
     testTextureBindUnitNull()
-      throws GLException,
+      throws GLException, GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
     gl.texture2DStaticBind(null, null);
   }
 
@@ -143,10 +150,11 @@ public abstract class Texture2DStaticContract implements GLTestContract
    */
 
   @Test public final void testTextureDelete()
-    throws GLException,
+    throws GLException, GLUnsupportedException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final Texture2DStatic t =
       gl.texture2DStaticAllocateRGBA8888(
@@ -173,10 +181,11 @@ public abstract class Texture2DStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public
     void
     testTextureDeleteDeleted()
-      throws GLException,
+      throws GLException, GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final Texture2DStatic t =
       gl.texture2DStaticAllocateRGBA8888(
@@ -204,10 +213,11 @@ public abstract class Texture2DStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public
     void
     testTextureIsBoundDeleted()
-      throws GLException,
+      throws GLException, GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final TextureUnit[] units = gl.textureGetUnits();
     final Texture2DStatic t =
@@ -235,10 +245,11 @@ public abstract class Texture2DStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public final
     void
     testTextureNullDelete()
-      throws GLException,
+      throws GLException, GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
     gl.texture2DStaticDelete(null);
   }
 
@@ -252,10 +263,11 @@ public abstract class Texture2DStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public
     void
     testTextureNullFilterMax()
-      throws GLException,
+      throws GLException, GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     gl.texture2DStaticAllocateRGBA8888(
       "texture",
@@ -277,10 +289,11 @@ public abstract class Texture2DStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public
     void
     testTextureNullFilterMin()
-      throws GLException,
+      throws GLException, GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     gl.texture2DStaticAllocateRGBA8888(
       "texture",
@@ -302,10 +315,11 @@ public abstract class Texture2DStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public final
     void
     testTextureNullName()
-      throws GLException,
+      throws GLException, GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     gl.texture2DStaticAllocateRGBA8888(
       null,
@@ -327,10 +341,11 @@ public abstract class Texture2DStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public final
     void
     testTextureNullWrapS()
-      throws GLException,
+      throws GLException, GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     gl.texture2DStaticAllocateRGBA8888(
       "texture",
@@ -352,10 +367,11 @@ public abstract class Texture2DStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public final
     void
     testTextureNullWrapT()
-      throws GLException,
+      throws GLException, GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     gl.texture2DStaticAllocateRGBA8888(
       "texture",
@@ -375,10 +391,11 @@ public abstract class Texture2DStaticContract implements GLTestContract
    */
 
   @Test public final void testTextureSizeSane()
-    throws GLException,
+    throws GLException, GLUnsupportedException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
     Assert.assertTrue(gl.textureGetMaximumSize() >= 128);
   }
 
@@ -390,10 +407,11 @@ public abstract class Texture2DStaticContract implements GLTestContract
    */
 
   @Test public final void testTextureTypes()
-    throws GLException,
+    throws GLException, GLUnsupportedException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     for (final TextureType t : TextureType.values()) {
       switch (t) {
@@ -563,10 +581,11 @@ public abstract class Texture2DStaticContract implements GLTestContract
    */
 
   @Test public final void testTextureUpdateCompleteSimple()
-    throws GLException,
+    throws GLException, GLUnsupportedException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final Texture2DStatic t =
       gl.texture2DStaticAllocateRGB888(
@@ -601,10 +620,11 @@ public abstract class Texture2DStaticContract implements GLTestContract
   @Test(expected = ConstraintError.class) public final
     void
     testTextureUpdateNullFails()
-      throws GLException,
+      throws GLException, GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
     gl.texture2DStaticUpdate(null);
   }
 }

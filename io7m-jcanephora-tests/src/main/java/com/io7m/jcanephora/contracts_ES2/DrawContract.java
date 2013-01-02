@@ -8,6 +8,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.GLUnsignedType;
+import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.Primitives;
 
@@ -22,14 +23,17 @@ public abstract class DrawContract implements GLES2TestContract
    * Drawing primitives works.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public final void testDraw()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 100);
 
@@ -42,6 +46,7 @@ public abstract class DrawContract implements GLES2TestContract
    * Drawing primitives with a deleted index buffer fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -49,9 +54,11 @@ public abstract class DrawContract implements GLES2TestContract
     void
     testDrawIndexDeleted()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 100);
 
@@ -63,6 +70,7 @@ public abstract class DrawContract implements GLES2TestContract
    * Drawing primitives with a null index buffer fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -70,9 +78,11 @@ public abstract class DrawContract implements GLES2TestContract
     void
     testDrawNullIndex()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.drawElements(Primitives.PRIMITIVE_TRIANGLES, null);
   }
 
@@ -80,6 +90,7 @@ public abstract class DrawContract implements GLES2TestContract
    * Drawing null primitives fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -87,9 +98,11 @@ public abstract class DrawContract implements GLES2TestContract
     void
     testDrawNullPrimitive()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final IndexBuffer ib =
       gl.indexBufferAllocateType(GLUnsignedType.TYPE_UNSIGNED_BYTE, 100);
 

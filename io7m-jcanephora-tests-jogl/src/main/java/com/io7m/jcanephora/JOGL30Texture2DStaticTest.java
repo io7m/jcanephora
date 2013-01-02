@@ -16,10 +16,12 @@ public final class JOGL30Texture2DStaticTest extends Texture2DStaticContract
     return JOGLTestDisplay.isOpenGL3Supported();
   }
 
-  @Override public GLInterface makeNewGL()
+  @Override public GLImplementation makeNewGLImplementation()
     throws GLException,
-      ConstraintError
+      GLUnsupportedException,
+      ConstraintError,
+      GLUnsupportedException
   {
-    return JOGLTestDisplay.makeFullWithOpenGL3();
+    return JOGLTestDisplay.makeImplementationWithOpenGL3();
   }
 }

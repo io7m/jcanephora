@@ -24,6 +24,7 @@ import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.GLScalarType;
+import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramReference;
 import com.io7m.jcanephora.UsageHint;
@@ -96,9 +97,11 @@ public abstract class ArrayBufferContract implements
 
   @Test public final void testArrayBufferAllocate()
     throws ConstraintError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     ArrayBuffer a = null;
 
     try {
@@ -129,9 +132,11 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferAllocateZeroElements()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -150,9 +155,11 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferBindDeleted()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -176,9 +183,11 @@ public abstract class ArrayBufferContract implements
 
   @Test public final void testArrayBufferBinding()
     throws ConstraintError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -198,6 +207,7 @@ public abstract class ArrayBufferContract implements
    * Attempting to bind a vertex attribute with a deleted array fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -205,9 +215,11 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferBindVertexAttributeDeletedArray()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -224,6 +236,7 @@ public abstract class ArrayBufferContract implements
    * Attempting to bind a vertex attribute with a null array fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -231,9 +244,11 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferBindVertexAttributeNullArray()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.arrayBufferBindVertexAttribute(null, null, null);
   }
 
@@ -241,6 +256,7 @@ public abstract class ArrayBufferContract implements
    * Attempting to bind a vertex attribute with a null attribute fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -248,9 +264,11 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferBindVertexAttributeNullAttribute()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -267,6 +285,7 @@ public abstract class ArrayBufferContract implements
    * fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -274,9 +293,11 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferBindVertexAttributeNullProgramAttribute()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -292,6 +313,7 @@ public abstract class ArrayBufferContract implements
    * Binding a vertex attribute works.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    * @throws FilesystemError
    * @throws IOException
@@ -300,12 +322,14 @@ public abstract class ArrayBufferContract implements
 
   @Test public final void testArrayBufferBindVertexAttributeOK()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError,
       GLCompileException,
       IOException,
       FilesystemError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
 
     final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
@@ -333,6 +357,7 @@ public abstract class ArrayBufferContract implements
    * fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    * @throws FilesystemError
    * @throws IOException
@@ -343,12 +368,14 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferBindVertexAttributeWrongArray()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError,
         GLCompileException,
         IOException,
         FilesystemError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
 
     final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
@@ -383,6 +410,7 @@ public abstract class ArrayBufferContract implements
    * attribute fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    * @throws FilesystemError
    * @throws IOException
@@ -393,12 +421,14 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferBindVertexAttributeWrongType()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError,
         GLCompileException,
         IOException,
         FilesystemError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
 
     final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
@@ -430,9 +460,11 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferDeletedIsBound()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
@@ -453,9 +485,11 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferDeleteDouble()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     ArrayBuffer a = null;
 
     try {
@@ -483,9 +517,11 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferDeleteNull()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.arrayBufferDelete(null);
   }
 
@@ -494,15 +530,18 @@ public abstract class ArrayBufferContract implements
    * 
    * @throws ConstraintError
    * @throws GLException
+   *           , GLUnsupportedException
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testArrayBufferElementOffset()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(new ArrayBufferAttribute[] {
         new ArrayBufferAttribute("position", GLScalarType.TYPE_SHORT, 3),
@@ -531,9 +570,11 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferNullIsBound()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     gl.arrayBufferIsBound(null);
   }
 
@@ -541,6 +582,7 @@ public abstract class ArrayBufferContract implements
    * Unbinding a vertex attribute for a deleted array fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    * @throws GLCompileException
    * @throws IOException
@@ -551,12 +593,14 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferUnbindVertexAttributeDeleted()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError,
         GLCompileException,
         IOException,
         FilesystemError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
 
     final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
@@ -586,6 +630,7 @@ public abstract class ArrayBufferContract implements
    * Unbinding a vertex attribute with a null attribute fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    * @throws FilesystemError
    * @throws GLCompileException
@@ -596,12 +641,14 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferUnbindVertexAttributeNull()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError,
         FilesystemError,
         GLCompileException,
         IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
 
     final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
@@ -629,6 +676,7 @@ public abstract class ArrayBufferContract implements
    * Unbinding a vertex attribute with a null array fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    * @throws FilesystemError
    * @throws GLCompileException
@@ -639,12 +687,14 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferUnbindVertexAttributeNullArray()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError,
         FilesystemError,
         GLCompileException,
         IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
 
     final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
@@ -672,6 +722,7 @@ public abstract class ArrayBufferContract implements
    * Unbinding a vertex attribute with a null program attribute fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    * @throws FilesystemError
    * @throws GLCompileException
@@ -682,12 +733,14 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferUnbindVertexAttributeNullProgram()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError,
         FilesystemError,
         GLCompileException,
         IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
 
     final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
@@ -716,6 +769,7 @@ public abstract class ArrayBufferContract implements
    * 
    * @throws ConstraintError
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws FilesystemError
    * @throws GLCompileException
    * @throws IOException
@@ -723,12 +777,14 @@ public abstract class ArrayBufferContract implements
 
   @Test public final void testArrayBufferUnbindVertexAttributeOK()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError,
       FilesystemError,
       GLCompileException,
       IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
 
     final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
@@ -756,6 +812,7 @@ public abstract class ArrayBufferContract implements
    * Unbinding a vertex attribute with an unbound array fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    * @throws FilesystemError
    * @throws GLCompileException
@@ -766,12 +823,14 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferUnbindVertexAttributeUnbound()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError,
         FilesystemError,
         GLCompileException,
         IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
 
     final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
@@ -801,6 +860,7 @@ public abstract class ArrayBufferContract implements
    * fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    * @throws GLCompileException
    * @throws IOException
@@ -811,12 +871,14 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferUnbindVertexAttributeWrongArray()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError,
         GLCompileException,
         IOException,
         FilesystemError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     final FilesystemAPI fs = this.makeNewFS();
 
     final ProgramReference pr = this.makeStandardPositionProgram(gl, fs);
@@ -853,9 +915,11 @@ public abstract class ArrayBufferContract implements
 
   @Test public final void testArrayBufferUpdateComplete()
     throws ConstraintError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     ArrayBuffer a = null;
 
     try {
@@ -884,9 +948,11 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferUpdateDeletedFails()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     ArrayBuffer a = null;
 
     try {
@@ -914,9 +980,11 @@ public abstract class ArrayBufferContract implements
 
   @Test public final void testArrayBufferUpdatePartial()
     throws ConstraintError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     ArrayBuffer a = null;
 
     try {
@@ -946,9 +1014,11 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferUpdateUnboundFails()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     ArrayBuffer a = null;
 
     try {
@@ -977,9 +1047,12 @@ public abstract class ArrayBufferContract implements
     void
     testArrayBufferUpdateWrongBindingFails()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final GLInterfaceES2 gl =
+      this.makeNewGLImplementation().implementationGetGLES2();
     ArrayBuffer a = null;
     ArrayBuffer b = null;
 

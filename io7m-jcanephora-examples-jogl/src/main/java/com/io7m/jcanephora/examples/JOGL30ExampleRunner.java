@@ -15,8 +15,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.PartialFunction;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterface;
-import com.io7m.jcanephora.GLInterface_JOGL30;
+import com.io7m.jcanephora.GLImplementationJOGL;
+import com.io7m.jcanephora.GLInterface3;
 import com.io7m.jcanephora.TextureLoader;
 import com.io7m.jcanephora.TextureLoaderImageIO;
 import com.io7m.jlog.Log;
@@ -60,7 +60,8 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
   private final Log                                                                 log;
   protected final GLWindow                                                          window;
   private final FPSAnimator                                                         animator;
-  private GLInterface                                                               gl;
+  private GLInterface3                                                              gl;
+  private GLImplementationJOGL                                                      gl_implementation;
   private final Filesystem                                                          filesystem;
   private final VectorM2I                                                           window_position;
   private final VectorM2I                                                           window_size;
@@ -351,11 +352,12 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
   {
     try {
       this.texture_loader = new TextureLoaderImageIO();
-      this.gl = new GLInterface_JOGL30(drawable.getContext(), this.log);
+      this.gl_implementation =
+        new GLImplementationJOGL(drawable.getContext(), this.log);
 
       this.config =
         new ExampleConfig(
-          this.gl,
+          this.gl_implementation,
           this.texture_loader,
           this.log,
           this.filesystem,

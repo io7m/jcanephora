@@ -1,8 +1,13 @@
 package com.io7m.jcanephora.examples;
 
+import java.util.Map;
+
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Indeterminate;
+import com.io7m.jaux.functional.Indeterminate.Failure;
+import com.io7m.jaux.functional.Indeterminate.Success;
 import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferDescriptor;
@@ -11,12 +16,13 @@ import com.io7m.jcanephora.CursorWritable2f;
 import com.io7m.jcanephora.CursorWritable4f;
 import com.io7m.jcanephora.CursorWritableIndex;
 import com.io7m.jcanephora.Framebuffer;
-import com.io7m.jcanephora.FramebufferAttachment;
-import com.io7m.jcanephora.FramebufferAttachment.ColorAttachment;
-import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
+import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
+import com.io7m.jcanephora.FramebufferConfigurationES2;
+import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterface;
+import com.io7m.jcanephora.GLImplementation;
+import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.GLScalarType;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
@@ -25,7 +31,6 @@ import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.ProjectionMatrix;
-import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureUnit;
@@ -41,37 +46,39 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleFBO implements Example
 {
-  private static final VectorReadable3F Z_AXIS;
+  private static final VectorReadable3F           Z_AXIS;
 
   static {
     Z_AXIS = new VectorI3F(0.0f, 0.0f, 1.0f);
   }
 
-  private final GLInterface             gl;
-  private final Renderbuffer            depth_buffer;
-  private final Texture2DStatic         texture;
-  private final Framebuffer             framebuffer;
-  private boolean                       has_shut_down;
-  private final ArrayBufferDescriptor   textured_quad_type;
-  private final ArrayBuffer             textured_quad;
-  private final ArrayBufferWritableData textured_quad_data;
-  private final IndexBuffer             indices;
-  private final IndexBufferWritableData indices_data;
-  private final ExampleConfig           config;
-  private final MatrixM4x4F             matrix_modelview;
-  private final MatrixM4x4F             matrix_projection;
-  private final Program                 program_uv;
-  private final Program                 program_color;
-  private final TextureUnit[]           texture_units;
-  private final Context                 context;
-  private float                         current_angle       = 0.0f;
-  private ArrayBufferDescriptor         color_quad_type;
-  private ArrayBuffer                   color_quad;
-  private final ArrayBufferWritableData color_quad_data;
+  private final GLImplementation                  gli;
+  private final GLInterfaceES2                    gl;
+  private final Texture2DStatic                   texture;
+  private final Framebuffer                       framebuffer;
+  private boolean                                 has_shut_down;
+  private final ArrayBufferDescriptor             textured_quad_type;
+  private final ArrayBuffer                       textured_quad;
+  private final ArrayBufferWritableData           textured_quad_data;
+  private final IndexBuffer                       indices;
+  private final IndexBufferWritableData           indices_data;
+  private final ExampleConfig                     config;
+  private final MatrixM4x4F                       matrix_modelview;
+  private final MatrixM4x4F                       matrix_projection;
+  private final Program                           program_uv;
+  private final Program                           program_color;
+  private final TextureUnit[]                     texture_units;
+  private final FramebufferColorAttachmentPoint[] framebuffer_color_points;
+  private final Context                           context;
+  private float                                   current_angle       = 0.0f;
+  private ArrayBufferDescriptor                   color_quad_type;
+  private ArrayBuffer                             color_quad;
+  private final ArrayBufferWritableData           color_quad_data;
 
-  private int                           framebuffer_width;
-  private int                           framebuffer_height;
-  private final int                     framebuffer_divisor = 8;
+  private int                                     framebuffer_width;
+  private int                                     framebuffer_height;
+  private final int                               framebuffer_divisor = 8;
+  private final FramebufferConfigurationES2       framebuffer_config;
 
   public ExampleFBO(
     final @Nonnull ExampleConfig config)
@@ -80,7 +87,8 @@ public final class ExampleFBO implements Example
       GLCompileException
   {
     this.config = config;
-    this.gl = config.getGL();
+    this.gli = config.getGL();
+    this.gl = this.gli.implementationGetGLES2();
     this.context = new MatrixM4x4F.Context();
     this.matrix_modelview = new MatrixM4x4F();
     this.matrix_projection = new MatrixM4x4F();
@@ -104,13 +112,8 @@ public final class ExampleFBO implements Example
     this.program_color.compile(config.getFilesystem(), this.gl);
 
     /**
-     * Allocate and initialize a framebuffer in three steps:
-     * 
-     * 1. Allocate a combined depth and stencil buffer.
-     * 
-     * 2. Allocate a texture to act as the color buffer for the framebuffer.
-     * 
-     * 3. Attach the allocated buffers to a framebuffer.
+     * Allocate and initialize a framebuffer using the high level
+     * {@link Framebuffer} API.
      * 
      * Note that the size of the framebuffer is deliberately different to that
      * of the screen. By using a much smaller framebuffer than the screen,
@@ -123,25 +126,41 @@ public final class ExampleFBO implements Example
     this.framebuffer_height =
       config.getWindowSize().getYI() / this.framebuffer_divisor;
 
-    this.depth_buffer =
-      this.gl.renderbufferAllocateDepth24Stencil8(
+    this.framebuffer_config =
+      new FramebufferConfigurationES2(
         this.framebuffer_width,
         this.framebuffer_height);
+    this.framebuffer_config.requestBestRGBAColorTexture2D(
+      TextureWrap.TEXTURE_WRAP_REPEAT,
+      TextureWrap.TEXTURE_WRAP_REPEAT,
+      TextureFilter.TEXTURE_FILTER_NEAREST,
+      TextureFilter.TEXTURE_FILTER_NEAREST);
+    this.framebuffer_config.requestDepthRenderbuffer();
 
-    this.texture =
-      this.gl.texture2DStaticAllocateRGBA8888(
-        "color_buffer",
-        this.framebuffer_width,
-        this.framebuffer_height,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
-        TextureFilter.TEXTURE_FILTER_LINEAR);
+    final Indeterminate<Framebuffer, FramebufferStatus> result =
+      this.framebuffer_config.make(this.gli);
+    if (result.isFailure()) {
+      final Failure<Framebuffer, FramebufferStatus> failure =
+        (Failure<Framebuffer, FramebufferStatus>) result;
+      throw new GLException(0, "Could not create framebuffer: "
+        + failure.value);
+    }
 
-    this.framebuffer =
-      this.gl.framebufferAllocate(new FramebufferAttachment[] {
-        new ColorAttachment(this.texture, 0),
-        new RenderbufferD24S8Attachment(this.depth_buffer) });
+    final Success<Framebuffer, FramebufferStatus> success =
+      (Success<Framebuffer, FramebufferStatus>) result;
+    this.framebuffer = success.value;
+
+    /**
+     * Retrieve the texture at attachment point 0.
+     */
+
+    this.framebuffer_color_points =
+      this.gl.framebufferGetColorAttachmentPoints();
+
+    final Map<FramebufferColorAttachmentPoint, Texture2DStatic> textures =
+      this.framebuffer.getColorTexture2DAttachments();
+
+    this.texture = textures.get(this.framebuffer_color_points[0]);
 
     /**
      * Retrieve a reference to the available texture units.
@@ -403,7 +422,7 @@ public final class ExampleFBO implements Example
      * Switch to using the allocated framebuffer, and render a scene.
      */
 
-    this.gl.framebufferBind(this.framebuffer);
+    this.gl.framebufferDrawBind(this.framebuffer.getFramebuffer());
     {
       this.gl.colorBufferClear3f(1.0f, 1.0f, 1.0f);
       this.current_angle = (float) ((this.current_angle + 1.0) % 360.0);
@@ -476,7 +495,7 @@ public final class ExampleFBO implements Example
       }
       this.program_color.deactivate(this.gl);
     }
-    this.gl.framebufferUnbind();
+    this.gl.framebufferDrawUnbind();
   }
 
   @Override public boolean hasShutDown()
@@ -508,8 +527,6 @@ public final class ExampleFBO implements Example
     this.color_quad.resourceDelete(this.gl);
     this.textured_quad.resourceDelete(this.gl);
     this.framebuffer.resourceDelete(this.gl);
-    this.depth_buffer.resourceDelete(this.gl);
-    this.texture.resourceDelete(this.gl);
     this.program_color.delete(this.gl);
     this.program_uv.delete(this.gl);
   }

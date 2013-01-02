@@ -8,7 +8,8 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterface;
+import com.io7m.jcanephora.GLInterface3;
+import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.RenderbufferType;
 
@@ -28,9 +29,11 @@ public abstract class RenderbufferContract implements GLTestContract
 
   @Test public void testRenderbufferAllocate()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
     final int width = 128;
     final int height = 128;
 
@@ -56,6 +59,12 @@ public abstract class RenderbufferContract implements GLTestContract
         case RENDERBUFFER_STENCIL_8:
           rb = gl.renderbufferAllocateStencil8(width, height);
           break;
+        case RENDERBUFFER_COLOR_RGBA_8888:
+          rb = gl.renderbufferAllocateRGBA8888(width, height);
+          break;
+        case RENDERBUFFER_COLOR_RGB_888:
+          rb = gl.renderbufferAllocateRGB888(width, height);
+          break;
       }
 
       assert rb != null;
@@ -74,9 +83,11 @@ public abstract class RenderbufferContract implements GLTestContract
 
   @Test public void testRenderbufferDelete()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final Renderbuffer rb = gl.renderbufferAllocateRGB565(128, 128);
     Assert.assertFalse(rb.resourceIsDeleted());
@@ -95,9 +106,11 @@ public abstract class RenderbufferContract implements GLTestContract
     void
     testRenderbufferDeleteTwice()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterface gl = this.makeNewGL();
+    final GLInterface3 gl =
+      this.makeNewGLImplementation().implementationGetGL3();
 
     final Renderbuffer rb = gl.renderbufferAllocateRGB565(128, 128);
     Assert.assertFalse(rb.resourceIsDeleted());

@@ -21,11 +21,13 @@ public final class LWJGL30LogicOperationTest extends LogicOpContract
     return LWJGLTestDisplay.isOpenGL3Supported();
   }
 
-  @Override public GLInterface makeNewGL()
+  @Override public GLImplementation makeNewGLImplementation()
     throws GLException,
-      ConstraintError
+      GLUnsupportedException,
+      ConstraintError,
+      GLUnsupportedException
   {
-    return LWJGLTestDisplay.makeFullWithOpenGL3();
+    return LWJGLTestDisplay.makeImplementationWithOpenGL3();
   }
 
   /**

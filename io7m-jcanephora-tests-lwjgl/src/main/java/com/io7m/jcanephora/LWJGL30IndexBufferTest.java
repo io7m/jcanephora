@@ -16,10 +16,11 @@ public final class LWJGL30IndexBufferTest extends IndexBufferContract
     return LWJGLTestDisplay.isOpenGL3Supported();
   }
 
-  @Override public GLInterfaceES2 makeNewGL()
+  @Override public GLImplementation makeNewGLImplementation()
     throws GLException,
-      ConstraintError
+      ConstraintError,
+      GLUnsupportedException
   {
-    return LWJGLTestDisplay.makeES2WithOpenGL3();
+    return LWJGLTestDisplay.makeImplementationWithOpenGL3();
   }
 }

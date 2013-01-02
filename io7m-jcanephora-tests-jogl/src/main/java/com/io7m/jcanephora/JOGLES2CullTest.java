@@ -16,10 +16,11 @@ public final class JOGLES2CullTest extends CullContract
     return JOGLTestDisplay.isOpenGLES2Supported();
   }
 
-  @Override public GLInterfaceES2 makeNewGL()
+  @Override public GLImplementation makeNewGLImplementation()
     throws GLException,
-      ConstraintError
+      ConstraintError,
+      GLUnsupportedException
   {
-    return JOGLTestDisplay.makeES2WithOpenGLES2();
+    return JOGLTestDisplay.makeImplementationWithOpenES2();
   }
 }

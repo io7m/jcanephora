@@ -203,6 +203,56 @@ public enum TextureType
     throw new UnreachableCodeException();
   }
 
+  public boolean isColorRenderable()
+  {
+    switch (this) {
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_DEPTH_32_4BPP:
+      {
+        return false;
+      }
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_TYPE_RGB_888_3BPP:
+      case TEXTURE_TYPE_RG_88_2BPP:
+      case TEXTURE_TYPE_R_8_1BPP:
+      {
+        return true;
+      }
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  public boolean isDepthRenderable()
+  {
+    switch (this) {
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_DEPTH_32_4BPP:
+      {
+        return true;
+      }
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_TYPE_RGB_888_3BPP:
+      case TEXTURE_TYPE_RG_88_2BPP:
+      case TEXTURE_TYPE_R_8_1BPP:
+      {
+        return false;
+      }
+    }
+
+    throw new UnreachableCodeException();
+  }
+
   public boolean isFloatingPoint()
   {
     switch (this) {

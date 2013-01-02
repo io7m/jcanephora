@@ -89,6 +89,15 @@ import com.io7m.jaux.Constraints.ConstraintError;
   }
 
   /**
+   * Retrieve the type of the renderbuffer.
+   */
+
+  public @Nonnull RenderbufferType getType()
+  {
+    return this.type;
+  }
+
+  /**
    * Retrieve the width of the buffer.
    */
 
@@ -121,15 +130,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
   @Override void setDeleted()
   {
     this.deleted = true;
-  }
-
-  /**
-   * Retrieve the type of the renderbuffer.
-   */
-
-  public @Nonnull RenderbufferType getType()
-  {
-    return this.type;
   }
 
   @Override public String toString()

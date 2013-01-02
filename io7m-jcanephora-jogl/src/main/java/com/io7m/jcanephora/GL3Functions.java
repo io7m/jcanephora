@@ -249,7 +249,10 @@ final class GL3Functions
     throws GLException
   {
     final int framebuffer =
-      GLES2Functions.contextGetInteger(gl, state, GL.GL_FRAMEBUFFER_BINDING);
+      GLES2Functions.contextGetInteger(
+        gl,
+        state,
+        GL2GL3.GL_DRAW_FRAMEBUFFER_BINDING);
     GLES2Functions.checkError(gl);
 
     /**
@@ -270,7 +273,7 @@ final class GL3Functions
     {
       final IntBuffer cache = state.getIntegerCache();
       gl.glGetFramebufferAttachmentParameteriv(
-        GL.GL_FRAMEBUFFER,
+        GL2GL3.GL_DRAW_FRAMEBUFFER,
         GL.GL_DEPTH_ATTACHMENT,
         GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
         cache);
@@ -286,12 +289,447 @@ final class GL3Functions
 
     final IntBuffer cache = state.getIntegerCache();
     gl.glGetFramebufferAttachmentParameteriv(
-      GL.GL_FRAMEBUFFER,
+      GL2GL3.GL_DRAW_FRAMEBUFFER,
       GL.GL_DEPTH_ATTACHMENT,
       GL2GL3.GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE,
       cache);
     GLES2Functions.checkError(gl);
     return cache.get(0);
+  }
+
+  static @Nonnull FramebufferReference framebufferAllocate(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log)
+    throws ConstraintError,
+      GLException
+  {
+    final IntBuffer cache = state.getIntegerCache();
+    gl.glGenFramebuffers(1, cache);
+    GLES2Functions.checkError(gl);
+    final int id = cache.get(0);
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer: allocated ");
+      state.log_text.append(id);
+      log.debug(state.log_text.toString());
+    }
+
+    return new FramebufferReference(id);
+  }
+
+  static void framebufferDelete(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference buffer)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(buffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      buffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer: delete ");
+      state.log_text.append(buffer);
+      log.debug(state.log_text.toString());
+    }
+
+    final IntBuffer cache = state.getIntegerCache();
+    cache.put(0, buffer.getGLName());
+    gl.glDeleteFramebuffers(1, cache);
+    GLES2Functions.checkError(gl);
+    buffer.setDeleted();
+  }
+
+  static void framebufferDrawAttachColorRenderbuffer(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull Renderbuffer renderbuffer)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      GLES2Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
+    Constraints.constrainArbitrary(
+      renderbuffer.resourceIsDeleted() == false,
+      "Renderbuffer not deleted");
+    Constraints.constrainArbitrary(
+      renderbuffer.getType().isColorRenderable(),
+      "Renderbuffer is color renderable");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(renderbuffer);
+      state.log_text.append(" at color attachment 0");
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glFramebufferRenderbuffer(
+      GL2GL3.GL_DRAW_FRAMEBUFFER,
+      GL.GL_COLOR_ATTACHMENT0,
+      GL.GL_RENDERBUFFER,
+      renderbuffer.getGLName());
+    GLES2Functions.checkError(gl);
+  }
+
+  static void framebufferDrawAttachColorTexture2D(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull Texture2DStatic texture)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      GLES2Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+    Constraints.constrainArbitrary(
+      texture.getType().isColorRenderable(),
+      "Texture is color renderable");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(texture);
+      state.log_text.append(" at color attachment 0");
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glFramebufferTexture2D(
+      GL2GL3.GL_DRAW_FRAMEBUFFER,
+      GL.GL_COLOR_ATTACHMENT0,
+      GL.GL_TEXTURE_2D,
+      texture.getGLName(),
+      0);
+    GLES2Functions.checkError(gl);
+  }
+
+  static void framebufferDrawAttachColorTextureCube(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull TextureCubeStatic texture,
+    final @Nonnull CubeMapFace face)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      GLES2Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+    Constraints.constrainArbitrary(
+      texture.getType().isColorRenderable(),
+      "Texture is color renderable");
+
+    Constraints.constrainNotNull(face, "Cube map face");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(texture);
+      state.log_text.append(" at color attachment 0");
+      log.debug(state.log_text.toString());
+    }
+
+    final int gface = GLTypeConversions.cubeFaceToGL(face);
+    gl.glFramebufferTexture2D(
+      GL2GL3.GL_DRAW_FRAMEBUFFER,
+      GL.GL_COLOR_ATTACHMENT0,
+      gface,
+      texture.getGLName(),
+      0);
+    GLES2Functions.checkError(gl);
+  }
+
+  static void framebufferDrawAttachDepthRenderbuffer(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull Renderbuffer renderbuffer)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      GLES2Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
+    Constraints.constrainArbitrary(
+      renderbuffer.resourceIsDeleted() == false,
+      "Renderbuffer not deleted");
+    Constraints.constrainArbitrary(
+      renderbuffer.getType().isDepthRenderable(),
+      "Renderbuffer is depth renderable");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(renderbuffer);
+      state.log_text.append(" at depth attachment");
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glFramebufferRenderbuffer(
+      GL2GL3.GL_DRAW_FRAMEBUFFER,
+      GL.GL_DEPTH_ATTACHMENT,
+      GL.GL_RENDERBUFFER,
+      renderbuffer.getGLName());
+    GLES2Functions.checkError(gl);
+  }
+
+  static void framebufferDrawAttachDepthStencilRenderbuffer(
+    final @Nonnull GL3 gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull Renderbuffer renderbuffer)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      GLES2Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
+    Constraints.constrainArbitrary(
+      renderbuffer.resourceIsDeleted() == false,
+      "Renderbuffer not deleted");
+
+    final RenderbufferType type = renderbuffer.getType();
+    Constraints.constrainArbitrary(
+      type.isDepthRenderable(),
+      "Renderbuffer is depth renderable");
+    Constraints.constrainArbitrary(
+      type.isStencilRenderable(),
+      "Renderbuffer is stencil renderable");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(renderbuffer);
+      state.log_text.append(" at depth+stencil attachment");
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glFramebufferRenderbuffer(
+      GL2GL3.GL_DRAW_FRAMEBUFFER,
+      GL.GL_DEPTH_ATTACHMENT,
+      GL.GL_RENDERBUFFER,
+      renderbuffer.getGLName());
+    gl.glFramebufferRenderbuffer(
+      GL2GL3.GL_DRAW_FRAMEBUFFER,
+      GL.GL_STENCIL_ATTACHMENT,
+      GL.GL_RENDERBUFFER,
+      renderbuffer.getGLName());
+    GLES2Functions.checkError(gl);
+  }
+
+  static void framebufferDrawAttachDepthTexture2D(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull Texture2DStatic texture)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      GLES2Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+    Constraints.constrainArbitrary(
+      texture.getType().isDepthRenderable(),
+      "Texture is depth renderable");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(texture);
+      state.log_text.append(" at depth attachment");
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glFramebufferTexture2D(
+      GL2GL3.GL_DRAW_FRAMEBUFFER,
+      GL.GL_DEPTH_ATTACHMENT,
+      GL.GL_TEXTURE_2D,
+      texture.getGLName(),
+      0);
+    GLES2Functions.checkError(gl);
+  }
+
+  static void framebufferDrawAttachStencilRenderbuffer(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull Renderbuffer renderbuffer)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      GLES2Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
+    Constraints.constrainArbitrary(
+      renderbuffer.resourceIsDeleted() == false,
+      "Renderbuffer not deleted");
+    Constraints.constrainArbitrary(renderbuffer
+      .getType()
+      .isStencilRenderable(), "Renderbuffer is stencil renderable");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(renderbuffer);
+      state.log_text.append(" at stencil attachment");
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glFramebufferRenderbuffer(
+      GL2GL3.GL_DRAW_FRAMEBUFFER,
+      GL.GL_STENCIL_ATTACHMENT,
+      GL.GL_RENDERBUFFER,
+      renderbuffer.getGLName());
+    GLES2Functions.checkError(gl);
+  }
+
+  static void framebufferDrawBind(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull FramebufferReference buffer)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(buffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      buffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+
+    gl.glBindFramebuffer(GL2GL3.GL_DRAW_FRAMEBUFFER, buffer.getGLName());
+    GLES2Functions.checkError(gl);
+  }
+
+  static boolean framebufferDrawIsBound(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull FramebufferReference framebuffer)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+
+    final IntBuffer cache = state.getIntegerCache();
+    gl.glGetIntegerv(GL2GL3.GL_DRAW_FRAMEBUFFER_BINDING, cache);
+    GLES2Functions.checkError(gl);
+    return cache.get(0) == framebuffer.getGLName();
+  }
+
+  static void framebufferDrawUnbind(
+    final @Nonnull GL2ES2 gl)
+    throws GLException
+  {
+    gl.glBindFramebuffer(GL2GL3.GL_DRAW_FRAMEBUFFER, 0);
+    GLES2Functions.checkError(gl);
+  }
+
+  static @Nonnull FramebufferStatus framebufferDrawValidate(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull FramebufferReference framebuffer)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      GLES2Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      "Framebuffer is bound");
+
+    final int status =
+      gl.glCheckFramebufferStatus(GL2GL3.GL_DRAW_FRAMEBUFFER);
+    GLES2Functions.checkError(gl);
+
+    return GLTypeConversions.framebufferStatusFromGL(status);
   }
 
   static IndexBufferReadableMap indexBufferMapRead(
@@ -498,7 +936,10 @@ final class GL3Functions
     throws GLException
   {
     final int framebuffer =
-      GLES2Functions.contextGetInteger(gl, state, GL.GL_FRAMEBUFFER_BINDING);
+      GLES2Functions.contextGetInteger(
+        gl,
+        state,
+        GL2GL3.GL_DRAW_FRAMEBUFFER_BINDING);
     GLES2Functions.checkError(gl);
 
     /**
@@ -520,7 +961,7 @@ final class GL3Functions
     {
       final IntBuffer cache = state.getIntegerCache();
       gl.glGetFramebufferAttachmentParameteriv(
-        GL.GL_FRAMEBUFFER,
+        GL2GL3.GL_DRAW_FRAMEBUFFER,
         GL.GL_STENCIL_ATTACHMENT,
         GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
         cache);
@@ -539,7 +980,7 @@ final class GL3Functions
     {
       final IntBuffer cache = state.getIntegerCache();
       gl.glGetFramebufferAttachmentParameteriv(
-        GL.GL_FRAMEBUFFER,
+        GL2GL3.GL_DRAW_FRAMEBUFFER,
         GL.GL_STENCIL_ATTACHMENT,
         GL2GL3.GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE,
         cache);
