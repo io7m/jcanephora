@@ -191,6 +191,25 @@ public final class Framebuffer implements GLResource
     this.stencil_buffer_shared = shared;
   }
 
+  @Override public boolean equals(
+    final Object obj)
+  {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (this.getClass() != obj.getClass()) {
+      return false;
+    }
+    final Framebuffer other = (Framebuffer) obj;
+    if (!this.framebuffer.equals(other.framebuffer)) {
+      return false;
+    }
+    return true;
+  }
+
   public @Nonnull
     Map<FramebufferColorAttachmentPoint, Renderbuffer>
     getColorBufferAttachments()
@@ -250,6 +269,14 @@ public final class Framebuffer implements GLResource
     return this.depth_buffer != null;
   }
 
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + this.framebuffer.hashCode();
+    return result;
+  }
+
   public boolean hasStencilBufferAttachment()
   {
     return this.stencil_buffer != null;
@@ -306,4 +333,18 @@ public final class Framebuffer implements GLResource
   {
     return this.is_deleted;
   }
+
+  @Override public String toString()
+  {
+    final StringBuilder builder = new StringBuilder();
+    builder.append("[Framebuffer  ");
+    builder.append(this.framebuffer);
+    builder.append(" ");
+    builder.append(this.width);
+    builder.append(" x ");
+    builder.append(this.height);
+    builder.append("]");
+    return builder.toString();
+  }
+
 }
