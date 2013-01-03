@@ -864,6 +864,12 @@ import com.io7m.jaux.functional.Option.Some;
     if (this.height != other.height) {
       return false;
     }
+    if (this.mag_filter != other.mag_filter) {
+      return false;
+    }
+    if (this.min_filter != other.min_filter) {
+      return false;
+    }
     if (this.want_color != other.want_color) {
       return false;
     }
@@ -877,6 +883,15 @@ import com.io7m.jaux.functional.Option.Some;
       return false;
     }
     if (this.width != other.width) {
+      return false;
+    }
+    if (this.wrap_r != other.wrap_r) {
+      return false;
+    }
+    if (this.wrap_s != other.wrap_s) {
+      return false;
+    }
+    if (this.wrap_t != other.wrap_t) {
       return false;
     }
     return true;
@@ -905,20 +920,19 @@ import com.io7m.jaux.functional.Option.Some;
     final int prime = 31;
     int result = 1;
     result = (prime * result) + this.height;
-    result =
-      (prime * result)
-        + ((this.want_color == null) ? 0 : this.want_color.hashCode());
+    result = (prime * result) + this.mag_filter.hashCode();
+    result = (prime * result) + this.min_filter.hashCode();
+    result = (prime * result) + this.want_color.hashCode();
     result =
       (prime * result)
         + ((this.want_color_specific == null) ? 0 : this.want_color_specific
           .hashCode());
-    result =
-      (prime * result)
-        + ((this.want_depth == null) ? 0 : this.want_depth.hashCode());
-    result =
-      (prime * result)
-        + ((this.want_stencil == null) ? 0 : this.want_stencil.hashCode());
+    result = (prime * result) + this.want_depth.hashCode();
+    result = (prime * result) + this.want_stencil.hashCode();
     result = (prime * result) + this.width;
+    result = (prime * result) + this.wrap_r.hashCode();
+    result = (prime * result) + this.wrap_s.hashCode();
+    result = (prime * result) + this.wrap_t.hashCode();
     return result;
   }
 
@@ -1398,6 +1412,35 @@ import com.io7m.jaux.functional.Option.Some;
   public void requestStencilRenderbuffer()
   {
     this.want_stencil = RequestStencil.WANT_STENCIL_RENDERBUFFER;
+  }
+
+  @Override public String toString()
+  {
+    final StringBuilder builder = new StringBuilder();
+    builder.append("[FramebufferConfigurationES2 want_depth=");
+    builder.append(this.want_depth);
+    builder.append(", want_stencil=");
+    builder.append(this.want_stencil);
+    builder.append(", want_color=");
+    builder.append(this.want_color);
+    builder.append(", want_color_specific=");
+    builder.append(this.want_color_specific);
+    builder.append(", width=");
+    builder.append(this.width);
+    builder.append(", height=");
+    builder.append(this.height);
+    builder.append(", mag_filter=");
+    builder.append(this.mag_filter);
+    builder.append(", min_filter=");
+    builder.append(this.min_filter);
+    builder.append(", wrap_r=");
+    builder.append(this.wrap_r);
+    builder.append(", wrap_s=");
+    builder.append(this.wrap_s);
+    builder.append(", wrap_t=");
+    builder.append(this.wrap_t);
+    builder.append("]");
+    return builder.toString();
   }
 
   /**
