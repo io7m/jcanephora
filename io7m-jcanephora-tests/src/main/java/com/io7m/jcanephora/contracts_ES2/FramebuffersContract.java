@@ -25,6 +25,7 @@ import com.io7m.jcanephora.RenderbufferReadable;
 import com.io7m.jcanephora.RequestColorTypeES2;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.Texture2DStatic;
+import com.io7m.jcanephora.Texture2DStaticReadable;
 import com.io7m.jcanephora.TextureCubeStatic;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureWrap;
@@ -74,7 +75,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       final Map<FramebufferColorAttachmentPoint, Texture2DStatic> color_textures =
         fb.getColorTexture2DAttachments();
       Assert.assertTrue(color_textures.containsKey(points[0]));
-      final Texture2DStatic t = color_textures.get(points[0]);
+      final Texture2DStaticReadable t = color_textures.get(points[0]);
       Assert.assertEquals(c.equivalentTextureType(), t.getType());
 
       fb.resourceDelete(gl);
@@ -252,7 +253,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       fb.getColorTexture2DAttachments();
     Assert.assertTrue(color_textures.containsKey(points[0]));
 
-    final Texture2DStatic t = color_textures.get(points[0]);
+    final Texture2DStaticReadable t = color_textures.get(points[0]);
     Assert.assertEquals(t.getWrapS(), TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE);
     Assert.assertEquals(t.getWrapT(), TextureWrap.TEXTURE_WRAP_REPEAT);
     Assert.assertEquals(
@@ -405,7 +406,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       fb.getColorTexture2DAttachments();
     Assert.assertTrue(color_textures.containsKey(points[0]));
 
-    final Texture2DStatic t = color_textures.get(points[0]);
+    final Texture2DStaticReadable t = color_textures.get(points[0]);
     Assert.assertEquals(t.getWrapS(), TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE);
     Assert.assertEquals(t.getWrapT(), TextureWrap.TEXTURE_WRAP_REPEAT);
     Assert.assertEquals(
