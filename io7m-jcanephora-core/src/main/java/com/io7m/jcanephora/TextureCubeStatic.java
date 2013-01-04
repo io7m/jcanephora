@@ -28,7 +28,7 @@ import com.io7m.jaux.RangeInclusive;
 
 public final class TextureCubeStatic extends Deletable implements
   GLResource,
-  GLName
+  TextureCubeStaticReadable
 {
   private boolean                       deleted = false;
   private final int                     id;
@@ -90,11 +90,7 @@ public final class TextureCubeStatic extends Deletable implements
     return true;
   }
 
-  /**
-   * Retrieve the inclusive area of this texture.
-   */
-
-  public @Nonnull AreaInclusive getArea()
+  @Override public @Nonnull AreaInclusive getArea()
   {
     return this.area;
   }
@@ -104,81 +100,57 @@ public final class TextureCubeStatic extends Deletable implements
     return this.id;
   }
 
-  /**
-   * Return the height in pixels of the texture.
-   */
-
-  public int getHeight()
+  @Override public int getHeight()
   {
     return (int) this.range_y.getInterval();
   }
 
-  public @Nonnull TextureFilter getMagnificationFilter()
+  @Override public @Nonnull TextureFilter getMagnificationFilter()
   {
     return this.mag_filter;
   }
 
-  public @Nonnull TextureFilter getMinificationFilter()
+  @Override public @Nonnull TextureFilter getMinificationFilter()
   {
     return this.min_filter;
   }
 
-  /**
-   * Retrieve the name of the texture.
-   */
-
-  public @Nonnull String getName()
+  @Override public @Nonnull String getName()
   {
     return this.name;
   }
 
-  /**
-   * Return the range of valid indices on the X axis.
-   */
-
-  public @Nonnull RangeInclusive getRangeX()
+  @Override public @Nonnull RangeInclusive getRangeX()
   {
     return this.range_x;
   }
 
-  /**
-   * Return the range of valid indices on the Y axis.
-   */
-
-  public @Nonnull RangeInclusive getRangeY()
+  @Override public @Nonnull RangeInclusive getRangeY()
   {
     return this.range_y;
   }
 
-  /**
-   * Retrieve the type of the texture.
-   */
-
-  public @Nonnull TextureType getType()
+  @Override public @Nonnull TextureType getType()
   {
     return this.type;
   }
 
-  /**
-   * Retrieve the width in pixels of the texture.
-   */
-
-  public int getWidth()
+  @Override public int getWidth()
   {
     return (int) this.range_x.getInterval();
   }
 
-  public @Nonnull TextureWrap getWrapR()
+  @Override public @Nonnull TextureWrap getWrapR()
   {
     return this.wrap_r;
   }
 
-  public @Nonnull TextureWrap getWrapS()
+  @Override public @Nonnull TextureWrap getWrapS()
   {
     return this.wrap_s;
   }
 
-  public @Nonnull TextureWrap getWrapT()
+  @Override public @Nonnull TextureWrap getWrapT()
   {
     return this.wrap_t;
   }

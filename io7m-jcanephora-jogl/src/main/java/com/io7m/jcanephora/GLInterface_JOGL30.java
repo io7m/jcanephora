@@ -2127,7 +2127,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void textureCubeStaticBind(
     final @Nonnull TextureUnit unit,
-    final @Nonnull TextureCubeStatic texture)
+    final @Nonnull TextureCubeStaticReadable texture)
     throws ConstraintError,
       GLException
   {
@@ -2148,7 +2148,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public boolean textureCubeStaticIsBound(
     final @Nonnull TextureUnit unit,
-    final @Nonnull TextureCubeStatic texture)
+    final @Nonnull TextureCubeStaticReadable texture)
     throws ConstraintError,
       GLException
   {
