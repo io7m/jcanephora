@@ -54,7 +54,7 @@ public interface GLExtensionPackedDepthStencil
 
   void framebufferDrawAttachDepthStencilRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Renderbuffer renderbuffer)
+    final @Nonnull RenderbufferReadable renderbuffer)
     throws GLException,
       ConstraintError;
 

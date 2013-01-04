@@ -21,6 +21,7 @@ import com.io7m.jcanephora.GLImplementation;
 import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.Renderbuffer;
+import com.io7m.jcanephora.RenderbufferReadable;
 import com.io7m.jcanephora.RequestColorTypeES2;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.Texture2DStatic;
@@ -163,7 +164,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       final Map<FramebufferColorAttachmentPoint, Renderbuffer> color_rbs =
         fb.getColorBufferAttachments();
       Assert.assertTrue(color_rbs.containsKey(points[0]));
-      final Renderbuffer rb = color_rbs.get(points[0]);
+      final RenderbufferReadable rb = color_rbs.get(points[0]);
       Assert.assertEquals(c.equivalentRenderbufferType(), rb.getType());
 
       fb.resourceDelete(gl);
@@ -205,7 +206,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
     final Map<FramebufferColorAttachmentPoint, Renderbuffer> color_rbs =
       fb.getColorBufferAttachments();
     Assert.assertTrue(color_rbs.containsKey(points[0]));
-    final Renderbuffer rb = color_rbs.get(points[0]);
+    final RenderbufferReadable rb = color_rbs.get(points[0]);
     Assert.assertTrue(rb.getType().isColorRenderable());
 
     fb.resourceDelete(gl);
@@ -358,7 +359,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
     final Map<FramebufferColorAttachmentPoint, Renderbuffer> color_rbs =
       fb.getColorBufferAttachments();
     Assert.assertTrue(color_rbs.containsKey(points[0]));
-    final Renderbuffer rb = color_rbs.get(points[0]);
+    final RenderbufferReadable rb = color_rbs.get(points[0]);
     Assert.assertTrue(rb.getType().isColorRenderable());
 
     fb.resourceDelete(gl);
@@ -508,7 +509,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
     final Framebuffer fb = success.value;
 
     Assert.assertTrue(fb.hasDepthBufferAttachment());
-    final Renderbuffer rb = fb.getDepthBufferAttachment();
+    final RenderbufferReadable rb = fb.getDepthBufferAttachment();
     Assert.assertTrue(rb.getType().isDepthRenderable());
 
     fb.resourceDelete(gl);
@@ -546,7 +547,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
     final Framebuffer fb = success.value;
 
     Assert.assertTrue(fb.hasStencilBufferAttachment());
-    final Renderbuffer rb = fb.getStencilBufferAttachment();
+    final RenderbufferReadable rb = fb.getStencilBufferAttachment();
     Assert.assertTrue(rb.getType().isStencilRenderable());
 
     fb.resourceDelete(gl);

@@ -901,7 +901,7 @@ final class GLES2Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Renderbuffer renderbuffer)
+    final @Nonnull RenderbufferReadable renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -1037,7 +1037,7 @@ final class GLES2Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Renderbuffer renderbuffer)
+    final @Nonnull RenderbufferReadable renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -1085,7 +1085,7 @@ final class GLES2Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Renderbuffer renderbuffer)
+    final @Nonnull RenderbufferReadable renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -1183,7 +1183,7 @@ final class GLES2Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Renderbuffer renderbuffer)
+    final @Nonnull RenderbufferReadable renderbuffer)
     throws GLException,
       ConstraintError
   {
