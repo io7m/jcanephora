@@ -1784,7 +1784,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void texture2DStaticBind(
     final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DStatic texture)
+    final @Nonnull Texture2DStaticReadable texture)
     throws ConstraintError,
       GLException
   {
@@ -1805,7 +1805,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public boolean texture2DStaticIsBound(
     final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DStatic texture)
+    final @Nonnull Texture2DStaticReadable texture)
     throws ConstraintError,
       GLException
   {

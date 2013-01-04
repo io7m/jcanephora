@@ -2436,7 +2436,7 @@ final class GLES2Functions
   static void texture2DStaticBind(
     final @Nonnull GL2ES2 gl,
     final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DStatic texture)
+    final @Nonnull Texture2DStaticReadable texture)
     throws ConstraintError,
       GLException
   {
@@ -2483,7 +2483,7 @@ final class GLES2Functions
     final @Nonnull GL2ES2 gl,
     final @Nonnull GLStateCache state,
     final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DStatic texture)
+    final @Nonnull Texture2DStaticReadable texture)
     throws ConstraintError,
       GLException
   {
