@@ -2643,7 +2643,7 @@ final class GLES2Functions
 
   static void textureCubeStaticBind(
     final @Nonnull TextureUnit unit,
-    final @Nonnull TextureCubeStatic texture)
+    final @Nonnull TextureCubeStaticReadable texture)
     throws GLException,
       ConstraintError
   {
@@ -2686,7 +2686,7 @@ final class GLES2Functions
   static boolean textureCubeStaticIsBound(
     final @Nonnull GLStateCache state,
     final @Nonnull TextureUnit unit,
-    final @Nonnull TextureCubeStatic texture)
+    final @Nonnull TextureCubeStaticReadable texture)
     throws ConstraintError,
       GLException
   {
