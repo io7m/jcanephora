@@ -73,7 +73,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
     @Override public void framebufferDrawAttachDepthStencilRenderbuffer(
       final @Nonnull FramebufferReference framebuffer,
-      final @Nonnull Renderbuffer renderbuffer)
+      final @Nonnull RenderbufferReadable renderbuffer)
       throws GLException,
         ConstraintError
     {
@@ -652,7 +652,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void framebufferDrawAttachColorRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Renderbuffer renderbuffer)
+    final @Nonnull RenderbufferReadable renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -696,7 +696,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void framebufferDrawAttachDepthRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Renderbuffer renderbuffer)
+    final @Nonnull RenderbufferReadable renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -724,7 +724,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void framebufferDrawAttachStencilRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Renderbuffer renderbuffer)
+    final @Nonnull RenderbufferReadable renderbuffer)
     throws GLException,
       ConstraintError
   {
