@@ -37,21 +37,21 @@ public abstract class AttachmentStencil
     private final @Nonnull RenderbufferReadable renderbuffer;
 
     public AttachmentSharedStencilRenderbuffer(
-      final @Nonnull RenderbufferReadable renderbuffer)
-      throws ConstraintError
-    {
-      super(Type.ATTACHMENT_SHARED_STENCIL_RENDERBUFFER);
-      this.renderbuffer =
-        Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
-    }
-
-    public AttachmentSharedStencilRenderbuffer(
       final @Nonnull AttachmentSharedStencilRenderbuffer a)
       throws ConstraintError
     {
       super(Type.ATTACHMENT_SHARED_STENCIL_RENDERBUFFER);
       Constraints.constrainNotNull(a, "Attachment");
       this.renderbuffer = a.getRenderbuffer();
+    }
+
+    public AttachmentSharedStencilRenderbuffer(
+      final @Nonnull RenderbufferReadable renderbuffer)
+      throws ConstraintError
+    {
+      super(Type.ATTACHMENT_SHARED_STENCIL_RENDERBUFFER);
+      this.renderbuffer =
+        Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
     }
 
     @Override public boolean equals(

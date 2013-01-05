@@ -252,21 +252,21 @@ public abstract class AttachmentColor
     private final @Nonnull RenderbufferReadable renderbuffer;
 
     public AttachmentSharedColorRenderbuffer(
-      final @Nonnull RenderbufferReadable renderbuffer)
-      throws ConstraintError
-    {
-      super(Type.ATTACHMENT_SHARED_COLOR_RENDERBUFFER);
-      this.renderbuffer =
-        Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
-    }
-
-    public AttachmentSharedColorRenderbuffer(
       final @Nonnull AttachmentSharedColorRenderbuffer a)
       throws ConstraintError
     {
       super(Type.ATTACHMENT_SHARED_COLOR_RENDERBUFFER);
       this.renderbuffer =
         Constraints.constrainNotNull(a.getRenderbuffer(), "Renderbuffer");
+    }
+
+    public AttachmentSharedColorRenderbuffer(
+      final @Nonnull RenderbufferReadable renderbuffer)
+      throws ConstraintError
+    {
+      super(Type.ATTACHMENT_SHARED_COLOR_RENDERBUFFER);
+      this.renderbuffer =
+        Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
     }
 
     @Override public boolean equals(
@@ -319,20 +319,20 @@ public abstract class AttachmentColor
     private final @Nonnull Texture2DStaticReadable texture;
 
     public AttachmentSharedColorTexture2DStatic(
-      final @Nonnull Texture2DStaticReadable texture)
-      throws ConstraintError
-    {
-      super(Type.ATTACHMENT_SHARED_COLOR_TEXTURE_2D);
-      this.texture = Constraints.constrainNotNull(texture, "Texture2DStatic");
-    }
-
-    public AttachmentSharedColorTexture2DStatic(
       final @Nonnull AttachmentSharedColorTexture2DStatic a)
       throws ConstraintError
     {
       super(Type.ATTACHMENT_SHARED_COLOR_TEXTURE_2D);
       this.texture =
         Constraints.constrainNotNull(a.getTexture2D(), "Texture2DStatic");
+    }
+
+    public AttachmentSharedColorTexture2DStatic(
+      final @Nonnull Texture2DStaticReadable texture)
+      throws ConstraintError
+    {
+      super(Type.ATTACHMENT_SHARED_COLOR_TEXTURE_2D);
+      this.texture = Constraints.constrainNotNull(texture, "Texture2DStatic");
     }
 
     @Override public boolean equals(
@@ -386,6 +386,16 @@ public abstract class AttachmentColor
     private final @Nonnull CubeMapFace               face;
 
     public AttachmentSharedColorTextureCubeStatic(
+      final @Nonnull AttachmentSharedColorTextureCubeStatic a)
+      throws ConstraintError
+    {
+      super(Type.ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE);
+      this.texture =
+        Constraints.constrainNotNull(a.getTextureCube(), "TextureCubeStatic");
+      this.face = Constraints.constrainNotNull(a.getFace(), "Face");
+    }
+
+    public AttachmentSharedColorTextureCubeStatic(
       final @Nonnull TextureCubeStaticReadable texture,
       final @Nonnull CubeMapFace face)
       throws ConstraintError
@@ -394,16 +404,6 @@ public abstract class AttachmentColor
       this.texture =
         Constraints.constrainNotNull(texture, "TextureCubeStatic");
       this.face = Constraints.constrainNotNull(face, "Face");
-    }
-
-    public AttachmentSharedColorTextureCubeStatic(
-      final @Nonnull AttachmentSharedColorTextureCubeStatic a)
-      throws ConstraintError
-    {
-      super(Type.ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE);
-      this.texture =
-        Constraints.constrainNotNull(a.getTextureCube(), "TextureCubeStatic");
-      this.face = Constraints.constrainNotNull(a.getFace(), "Face");
     }
 
     @Override public boolean equals(

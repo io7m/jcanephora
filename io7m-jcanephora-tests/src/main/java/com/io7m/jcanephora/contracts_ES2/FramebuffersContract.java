@@ -1105,6 +1105,102 @@ public abstract class FramebuffersContract implements GLES2TestContract
   }
 
   /**
+   * Requesting to share a depth attachment results in the correct shared
+   * depth attachment.
+   * 
+   * @throws GLException
+   * @throws GLUnsupportedException
+   * @throws ConstraintError
+   */
+
+  @Test public void testSharedDepth()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+
+    /**
+     * Create initial framebuffer.
+     */
+
+    final FramebufferConfigurationES2 fb0_config =
+      new FramebufferConfigurationES2(128, 128);
+    fb0_config.requestDepthRenderbuffer();
+
+    final Framebuffer fb0 =
+      FramebuffersContract.makeAssumingSuccess(fb0_config, gi);
+    final AttachmentDepth fb0_attach = fb0.getDepthAttachment();
+
+    RenderbufferReadable fb0_r = null;
+    switch (fb0_attach.type) {
+      case ATTACHMENT_DEPTH_RENDERBUFFER:
+      {
+        final AttachmentDepthRenderbuffer ar =
+          (AttachmentDepthRenderbuffer) fb0_attach;
+        fb0_r = ar.getRenderbuffer();
+        break;
+      }
+      case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
+      {
+        final AttachmentDepthStencilRenderbuffer ar =
+          (AttachmentDepthStencilRenderbuffer) fb0_attach;
+        fb0_r = ar.getRenderbuffer();
+        break;
+      }
+      case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
+      case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
+      {
+        Assert.fail("unreachable: type = " + fb0_attach.type);
+        break;
+      }
+    }
+
+    /**
+     * Create framebuffer that shares the depth attachment of fb0.
+     */
+
+    final FramebufferConfigurationES2 fb1_config =
+      new FramebufferConfigurationES2(128, 128);
+    fb1_config.requestSharedDepth(fb0);
+
+    final Framebuffer fb1 =
+      FramebuffersContract.makeAssumingSuccess(fb1_config, gi);
+
+    Assert.assertTrue(fb1.hasDepthAttachment());
+
+    RenderbufferReadable fb1_r = null;
+    final AttachmentDepth attach = fb1.getDepthAttachment();
+    switch (attach.type) {
+      case ATTACHMENT_DEPTH_RENDERBUFFER:
+      case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
+      {
+        Assert.fail("unreachable: type = " + fb0_attach.type);
+        break;
+      }
+      case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
+      {
+        final AttachmentSharedDepthRenderbuffer a =
+          (AttachmentSharedDepthRenderbuffer) attach;
+
+        fb1_r = a.getRenderbuffer();
+        break;
+      }
+      case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
+      {
+        final AttachmentSharedDepthStencilRenderbuffer a =
+          (AttachmentSharedDepthStencilRenderbuffer) attach;
+
+        fb1_r = a.getRenderbuffer();
+        break;
+      }
+    }
+
+    Assert.assertTrue(fb1_r == fb0_r);
+  }
+
+  /**
    * Requesting to share an already-shared color renderbuffer results in the
    * correct shared renderbuffer attachment.
    * 
@@ -1229,191 +1325,6 @@ public abstract class FramebuffersContract implements GLES2TestContract
   }
 
   /**
-   * Requesting a stencil renderbuffer works.
-   * 
-   * @throws ConstraintError
-   * @throws GLException
-   *           , GLUnsupportedException
-   */
-
-  @Test public void testStencilRenderbuffer()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError
-  {
-    final TestContext tc = this.newTestContext();
-    final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceES2 gl = gi.implementationGetGLES2();
-
-    final FramebufferConfigurationES2 config =
-      new FramebufferConfigurationES2(128, 256);
-
-    config.requestNoColor();
-    config.requestNoDepth();
-    config.requestStencilRenderbuffer();
-
-    final Indeterminate<Framebuffer, FramebufferStatus> result =
-      config.make(gi);
-    Assert.assertTrue(result.isSuccess());
-    final Success<Framebuffer, FramebufferStatus> success =
-      (Success<Framebuffer, FramebufferStatus>) result;
-    final Framebuffer fb = success.value;
-
-    Assert.assertTrue(fb.hasStencilAttachment());
-
-    final AttachmentStencil a = fb.getStencilAttachment();
-    switch (a.type) {
-      case ATTACHMENT_SHARED_STENCIL_RENDERBUFFER:
-      {
-        Assert.fail("unreachable: type = " + a.type);
-        break;
-      }
-
-      /**
-       * Implementation required a depth/stencil buffer.
-       */
-
-      case ATTACHMENT_STENCIL_AS_DEPTH_STENCIL:
-      {
-        final AttachmentDepth da = fb.getDepthAttachment();
-        switch (da.type) {
-          case ATTACHMENT_DEPTH_RENDERBUFFER:
-          case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
-          case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
-          {
-            Assert.fail("unreachable: type = " + da.type);
-            break;
-          }
-          case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
-          {
-            final AttachmentDepthStencilRenderbuffer dsa =
-              (AttachmentDepthStencilRenderbuffer) da;
-            final RenderbufferReadable rb = dsa.getRenderbuffer();
-            Assert.assertTrue(rb.getType().isDepthRenderable());
-            Assert.assertTrue(rb.getType().isStencilRenderable());
-            break;
-          }
-        }
-
-        break;
-      }
-
-      /**
-       * Implementation actually used a seperate depth/stencil buffer.
-       */
-
-      case ATTACHMENT_STENCIL_RENDERBUFFER:
-      {
-        final AttachmentStencilRenderbuffer ar =
-          (AttachmentStencilRenderbuffer) a;
-        Assert.assertTrue(ar
-          .getRenderbuffer()
-          .getType()
-          .isStencilRenderable());
-        break;
-      }
-    }
-
-    fb.resourceDelete(gl);
-  }
-
-  /**
-   * Requesting to share a depth attachment results in the correct shared
-   * depth attachment.
-   * 
-   * @throws GLException
-   * @throws GLUnsupportedException
-   * @throws ConstraintError
-   */
-
-  @Test public void testSharedDepth()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError
-  {
-    final TestContext tc = this.newTestContext();
-    final GLImplementation gi = tc.getGLImplementation();
-
-    /**
-     * Create initial framebuffer.
-     */
-
-    final FramebufferConfigurationES2 fb0_config =
-      new FramebufferConfigurationES2(128, 128);
-    fb0_config.requestDepthRenderbuffer();
-
-    final Framebuffer fb0 =
-      FramebuffersContract.makeAssumingSuccess(fb0_config, gi);
-    final AttachmentDepth fb0_attach = fb0.getDepthAttachment();
-
-    RenderbufferReadable fb0_r = null;
-    switch (fb0_attach.type) {
-      case ATTACHMENT_DEPTH_RENDERBUFFER:
-      {
-        final AttachmentDepthRenderbuffer ar =
-          (AttachmentDepthRenderbuffer) fb0_attach;
-        fb0_r = ar.getRenderbuffer();
-        break;
-      }
-      case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
-      {
-        final AttachmentDepthStencilRenderbuffer ar =
-          (AttachmentDepthStencilRenderbuffer) fb0_attach;
-        fb0_r = ar.getRenderbuffer();
-        break;
-      }
-      case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
-      case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
-      {
-        Assert.fail("unreachable: type = " + fb0_attach.type);
-        break;
-      }
-    }
-
-    /**
-     * Create framebuffer that shares the depth attachment of fb0.
-     */
-
-    final FramebufferConfigurationES2 fb1_config =
-      new FramebufferConfigurationES2(128, 128);
-    fb1_config.requestSharedDepth(fb0);
-
-    final Framebuffer fb1 =
-      FramebuffersContract.makeAssumingSuccess(fb1_config, gi);
-
-    Assert.assertTrue(fb1.hasDepthAttachment());
-
-    RenderbufferReadable fb1_r = null;
-    final AttachmentDepth attach = fb1.getDepthAttachment();
-    switch (attach.type) {
-      case ATTACHMENT_DEPTH_RENDERBUFFER:
-      case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
-      {
-        Assert.fail("unreachable: type = " + fb0_attach.type);
-        break;
-      }
-      case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
-      {
-        final AttachmentSharedDepthRenderbuffer a =
-          (AttachmentSharedDepthRenderbuffer) attach;
-
-        fb1_r = a.getRenderbuffer();
-        break;
-      }
-      case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
-      {
-        final AttachmentSharedDepthStencilRenderbuffer a =
-          (AttachmentSharedDepthStencilRenderbuffer) attach;
-
-        fb1_r = a.getRenderbuffer();
-        break;
-      }
-    }
-
-    Assert.assertTrue(fb1_r == fb0_r);
-  }
-
-  /**
    * Requesting to share a stencil attachment results in the correct shared
    * stencil attachment.
    * 
@@ -1520,5 +1431,94 @@ public abstract class FramebuffersContract implements GLES2TestContract
     }
 
     Assert.assertTrue(fb1_r == fb0_r);
+  }
+
+  /**
+   * Requesting a stencil renderbuffer works.
+   * 
+   * @throws ConstraintError
+   * @throws GLException
+   *           , GLUnsupportedException
+   */
+
+  @Test public void testStencilRenderbuffer()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+
+    final FramebufferConfigurationES2 config =
+      new FramebufferConfigurationES2(128, 256);
+
+    config.requestNoColor();
+    config.requestNoDepth();
+    config.requestStencilRenderbuffer();
+
+    final Indeterminate<Framebuffer, FramebufferStatus> result =
+      config.make(gi);
+    Assert.assertTrue(result.isSuccess());
+    final Success<Framebuffer, FramebufferStatus> success =
+      (Success<Framebuffer, FramebufferStatus>) result;
+    final Framebuffer fb = success.value;
+
+    Assert.assertTrue(fb.hasStencilAttachment());
+
+    final AttachmentStencil a = fb.getStencilAttachment();
+    switch (a.type) {
+      case ATTACHMENT_SHARED_STENCIL_RENDERBUFFER:
+      {
+        Assert.fail("unreachable: type = " + a.type);
+        break;
+      }
+
+      /**
+       * Implementation required a depth/stencil buffer.
+       */
+
+      case ATTACHMENT_STENCIL_AS_DEPTH_STENCIL:
+      {
+        final AttachmentDepth da = fb.getDepthAttachment();
+        switch (da.type) {
+          case ATTACHMENT_DEPTH_RENDERBUFFER:
+          case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
+          case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
+          {
+            Assert.fail("unreachable: type = " + da.type);
+            break;
+          }
+          case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
+          {
+            final AttachmentDepthStencilRenderbuffer dsa =
+              (AttachmentDepthStencilRenderbuffer) da;
+            final RenderbufferReadable rb = dsa.getRenderbuffer();
+            Assert.assertTrue(rb.getType().isDepthRenderable());
+            Assert.assertTrue(rb.getType().isStencilRenderable());
+            break;
+          }
+        }
+
+        break;
+      }
+
+      /**
+       * Implementation actually used a seperate depth/stencil buffer.
+       */
+
+      case ATTACHMENT_STENCIL_RENDERBUFFER:
+      {
+        final AttachmentStencilRenderbuffer ar =
+          (AttachmentStencilRenderbuffer) a;
+        Assert.assertTrue(ar
+          .getRenderbuffer()
+          .getType()
+          .isStencilRenderable());
+        break;
+      }
+    }
+
+    fb.resourceDelete(gl);
   }
 }
