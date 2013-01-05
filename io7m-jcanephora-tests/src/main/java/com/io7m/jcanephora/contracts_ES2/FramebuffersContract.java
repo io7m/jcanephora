@@ -1,7 +1,5 @@
 package com.io7m.jcanephora.contracts_ES2;
 
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -10,7 +8,15 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Indeterminate;
 import com.io7m.jaux.functional.Indeterminate.Success;
-import com.io7m.jaux.functional.Pair;
+import com.io7m.jcanephora.AttachmentColor;
+import com.io7m.jcanephora.AttachmentColor.AttachmentColorRenderbuffer;
+import com.io7m.jcanephora.AttachmentColor.AttachmentColorTexture2DStatic;
+import com.io7m.jcanephora.AttachmentColor.AttachmentColorTextureCubeStatic;
+import com.io7m.jcanephora.AttachmentDepth;
+import com.io7m.jcanephora.AttachmentDepth.AttachmentDepthRenderbuffer;
+import com.io7m.jcanephora.AttachmentDepth.AttachmentDepthStencilRenderbuffer;
+import com.io7m.jcanephora.AttachmentStencil;
+import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 import com.io7m.jcanephora.CubeMapFace;
 import com.io7m.jcanephora.Framebuffer;
 import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
@@ -20,13 +26,11 @@ import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLImplementation;
 import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.GLUnsupportedException;
-import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.RenderbufferReadable;
 import com.io7m.jcanephora.RequestColorTypeES2;
 import com.io7m.jcanephora.TestContext;
-import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.Texture2DStaticReadable;
-import com.io7m.jcanephora.TextureCubeStatic;
+import com.io7m.jcanephora.TextureCubeStaticReadable;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureWrap;
 
@@ -72,10 +76,30 @@ public abstract class FramebuffersContract implements GLES2TestContract
         (Success<Framebuffer, FramebufferStatus>) result;
 
       final Framebuffer fb = success.value;
-      final Map<FramebufferColorAttachmentPoint, Texture2DStatic> color_textures =
-        fb.getColorTexture2DAttachments();
-      Assert.assertTrue(color_textures.containsKey(points[0]));
-      final Texture2DStaticReadable t = color_textures.get(points[0]);
+
+      Assert.assertTrue(fb.hasColorAttachment(points[0]));
+
+      final AttachmentColor ca = fb.getColorAttachment(points[0]);
+      switch (ca.type) {
+        case ATTACHMENT_COLOR_RENDERBUFFER:
+        case ATTACHMENT_COLOR_TEXTURE_CUBE:
+        case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+        case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+        case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+        {
+          Assert.fail("unreachable, type = " + ca.type);
+          break;
+        }
+        case ATTACHMENT_COLOR_TEXTURE_2D:
+        {
+          break;
+        }
+      }
+
+      final AttachmentColorTexture2DStatic cat =
+        (AttachmentColorTexture2DStatic) ca;
+
+      final Texture2DStaticReadable t = cat.getTexture2D();
       Assert.assertEquals(c.equivalentTextureType(), t.getType());
 
       fb.resourceDelete(gl);
@@ -118,14 +142,32 @@ public abstract class FramebuffersContract implements GLES2TestContract
         (Success<Framebuffer, FramebufferStatus>) result;
 
       final Framebuffer fb = success.value;
-      final Map<FramebufferColorAttachmentPoint, Pair<TextureCubeStatic, CubeMapFace>> color_textures =
-        fb.getColorTextureCubeAttachments();
+      Assert.assertTrue(fb.hasColorAttachment(points[0]));
 
-      Assert.assertTrue(color_textures.containsKey(points[0]));
-      final TextureCubeStatic t = color_textures.get(points[0]).first;
-      final CubeMapFace face = color_textures.get(points[0]).second;
+      final AttachmentColor ca = fb.getColorAttachment(points[0]);
+      switch (ca.type) {
+        case ATTACHMENT_COLOR_RENDERBUFFER:
+        case ATTACHMENT_COLOR_TEXTURE_2D:
+        case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+        case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+        case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+        {
+          Assert.fail("unreachable, type = " + ca.type);
+          break;
+        }
+        case ATTACHMENT_COLOR_TEXTURE_CUBE:
+        {
+          break;
+        }
+      }
+
+      final AttachmentColorTextureCubeStatic cat =
+        (AttachmentColorTextureCubeStatic) ca;
+
+      final TextureCubeStaticReadable t = cat.getTextureCube();
+
       Assert.assertEquals(c.equivalentTextureType(), t.getType());
-      Assert.assertEquals(CubeMapFace.CUBE_MAP_POSITIVE_X, face);
+      Assert.assertEquals(CubeMapFace.CUBE_MAP_POSITIVE_X, cat.getFace());
 
       fb.resourceDelete(gl);
     }
@@ -156,16 +198,34 @@ public abstract class FramebuffersContract implements GLES2TestContract
 
       final Indeterminate<Framebuffer, FramebufferStatus> result =
         config.make(gi);
-
       Assert.assertTrue(result.isSuccess());
       final Success<Framebuffer, FramebufferStatus> success =
         (Success<Framebuffer, FramebufferStatus>) result;
 
       final Framebuffer fb = success.value;
-      final Map<FramebufferColorAttachmentPoint, Renderbuffer> color_rbs =
-        fb.getColorBufferAttachments();
-      Assert.assertTrue(color_rbs.containsKey(points[0]));
-      final RenderbufferReadable rb = color_rbs.get(points[0]);
+      Assert.assertTrue(fb.hasColorAttachment(points[0]));
+
+      final AttachmentColor ca = fb.getColorAttachment(points[0]);
+      switch (ca.type) {
+        case ATTACHMENT_COLOR_TEXTURE_CUBE:
+        case ATTACHMENT_COLOR_TEXTURE_2D:
+        case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+        case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+        case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+        {
+          Assert.fail("unreachable, type = " + ca.type);
+          break;
+        }
+        case ATTACHMENT_COLOR_RENDERBUFFER:
+        {
+          break;
+        }
+      }
+
+      final AttachmentColorRenderbuffer car =
+        (AttachmentColorRenderbuffer) ca;
+
+      final RenderbufferReadable rb = car.getRenderbuffer();
       Assert.assertEquals(c.equivalentRenderbufferType(), rb.getType());
 
       fb.resourceDelete(gl);
@@ -198,16 +258,33 @@ public abstract class FramebuffersContract implements GLES2TestContract
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
       config.make(gi);
-
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
       (Success<Framebuffer, FramebufferStatus>) result;
 
     final Framebuffer fb = success.value;
-    final Map<FramebufferColorAttachmentPoint, Renderbuffer> color_rbs =
-      fb.getColorBufferAttachments();
-    Assert.assertTrue(color_rbs.containsKey(points[0]));
-    final RenderbufferReadable rb = color_rbs.get(points[0]);
+    Assert.assertTrue(fb.hasColorAttachment(points[0]));
+
+    final AttachmentColor ca = fb.getColorAttachment(points[0]);
+    switch (ca.type) {
+      case ATTACHMENT_COLOR_TEXTURE_CUBE:
+      case ATTACHMENT_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+      {
+        Assert.fail("unreachable, type = " + ca.type);
+        break;
+      }
+      case ATTACHMENT_COLOR_RENDERBUFFER:
+      {
+        break;
+      }
+    }
+
+    final AttachmentColorRenderbuffer car = (AttachmentColorRenderbuffer) ca;
+
+    final RenderbufferReadable rb = car.getRenderbuffer();
     Assert.assertTrue(rb.getType().isColorRenderable());
 
     fb.resourceDelete(gl);
@@ -243,17 +320,34 @@ public abstract class FramebuffersContract implements GLES2TestContract
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
       config.make(gi);
-
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
       (Success<Framebuffer, FramebufferStatus>) result;
 
     final Framebuffer fb = success.value;
-    final Map<FramebufferColorAttachmentPoint, Texture2DStatic> color_textures =
-      fb.getColorTexture2DAttachments();
-    Assert.assertTrue(color_textures.containsKey(points[0]));
+    Assert.assertTrue(fb.hasColorAttachment(points[0]));
 
-    final Texture2DStaticReadable t = color_textures.get(points[0]);
+    final AttachmentColor ca = fb.getColorAttachment(points[0]);
+    switch (ca.type) {
+      case ATTACHMENT_COLOR_RENDERBUFFER:
+      case ATTACHMENT_COLOR_TEXTURE_CUBE:
+      case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+      {
+        Assert.fail("unreachable, type = " + ca.type);
+        break;
+      }
+      case ATTACHMENT_COLOR_TEXTURE_2D:
+      {
+        break;
+      }
+    }
+
+    final AttachmentColorTexture2DStatic cat =
+      (AttachmentColorTexture2DStatic) ca;
+
+    final Texture2DStaticReadable t = cat.getTexture2D();
     Assert.assertEquals(t.getWrapS(), TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE);
     Assert.assertEquals(t.getWrapT(), TextureWrap.TEXTURE_WRAP_REPEAT);
     Assert.assertEquals(
@@ -297,17 +391,35 @@ public abstract class FramebuffersContract implements GLES2TestContract
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
       config.make(gi);
-
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
       (Success<Framebuffer, FramebufferStatus>) result;
 
     final Framebuffer fb = success.value;
-    final Map<FramebufferColorAttachmentPoint, Pair<TextureCubeStatic, CubeMapFace>> color_textures =
-      fb.getColorTextureCubeAttachments();
-    Assert.assertTrue(color_textures.containsKey(points[0]));
+    Assert.assertTrue(fb.hasColorAttachment(points[0]));
 
-    final TextureCubeStatic t = color_textures.get(points[0]).first;
+    final AttachmentColor ca = fb.getColorAttachment(points[0]);
+    switch (ca.type) {
+      case ATTACHMENT_COLOR_RENDERBUFFER:
+
+      case ATTACHMENT_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+      {
+        Assert.fail("unreachable, type = " + ca.type);
+        break;
+      }
+      case ATTACHMENT_COLOR_TEXTURE_CUBE:
+      {
+        break;
+      }
+    }
+
+    final AttachmentColorTextureCubeStatic cat =
+      (AttachmentColorTextureCubeStatic) ca;
+
+    final TextureCubeStaticReadable t = cat.getTextureCube();
     Assert.assertEquals(t.getWrapR(), TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE);
     Assert.assertEquals(t.getWrapS(), TextureWrap.TEXTURE_WRAP_REPEAT);
     Assert.assertEquals(t.getWrapT(), TextureWrap.TEXTURE_WRAP_REPEAT);
@@ -318,9 +430,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       t.getMagnificationFilter(),
       TextureFilter.TEXTURE_FILTER_NEAREST);
 
-    Assert.assertEquals(
-      CubeMapFace.CUBE_MAP_POSITIVE_X,
-      color_textures.get(points[0]).second);
+    Assert.assertEquals(CubeMapFace.CUBE_MAP_POSITIVE_X, cat.getFace());
 
     fb.resourceDelete(gl);
   }
@@ -351,16 +461,33 @@ public abstract class FramebuffersContract implements GLES2TestContract
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
       config.make(gi);
-
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
       (Success<Framebuffer, FramebufferStatus>) result;
 
     final Framebuffer fb = success.value;
-    final Map<FramebufferColorAttachmentPoint, Renderbuffer> color_rbs =
-      fb.getColorBufferAttachments();
-    Assert.assertTrue(color_rbs.containsKey(points[0]));
-    final RenderbufferReadable rb = color_rbs.get(points[0]);
+    Assert.assertTrue(fb.hasColorAttachment(points[0]));
+
+    final AttachmentColor ca = fb.getColorAttachment(points[0]);
+    switch (ca.type) {
+      case ATTACHMENT_COLOR_TEXTURE_2D:
+      case ATTACHMENT_COLOR_TEXTURE_CUBE:
+      case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+      {
+        Assert.fail("unreachable, type = " + ca.type);
+        break;
+      }
+      case ATTACHMENT_COLOR_RENDERBUFFER:
+      {
+        break;
+      }
+    }
+
+    final AttachmentColorRenderbuffer car = (AttachmentColorRenderbuffer) ca;
+
+    final RenderbufferReadable rb = car.getRenderbuffer();
     Assert.assertTrue(rb.getType().isColorRenderable());
 
     fb.resourceDelete(gl);
@@ -396,17 +523,34 @@ public abstract class FramebuffersContract implements GLES2TestContract
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
       config.make(gi);
-
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
       (Success<Framebuffer, FramebufferStatus>) result;
 
     final Framebuffer fb = success.value;
-    final Map<FramebufferColorAttachmentPoint, Texture2DStatic> color_textures =
-      fb.getColorTexture2DAttachments();
-    Assert.assertTrue(color_textures.containsKey(points[0]));
+    Assert.assertTrue(fb.hasColorAttachment(points[0]));
 
-    final Texture2DStaticReadable t = color_textures.get(points[0]);
+    final AttachmentColor ca = fb.getColorAttachment(points[0]);
+    switch (ca.type) {
+      case ATTACHMENT_COLOR_RENDERBUFFER:
+      case ATTACHMENT_COLOR_TEXTURE_CUBE:
+      case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+      {
+        Assert.fail("unreachable, type = " + ca.type);
+        break;
+      }
+      case ATTACHMENT_COLOR_TEXTURE_2D:
+      {
+        break;
+      }
+    }
+
+    final AttachmentColorTexture2DStatic cat =
+      (AttachmentColorTexture2DStatic) ca;
+
+    final Texture2DStaticReadable t = cat.getTexture2D();
     Assert.assertEquals(t.getWrapS(), TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE);
     Assert.assertEquals(t.getWrapT(), TextureWrap.TEXTURE_WRAP_REPEAT);
     Assert.assertEquals(
@@ -450,17 +594,35 @@ public abstract class FramebuffersContract implements GLES2TestContract
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
       config.make(gi);
-
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
       (Success<Framebuffer, FramebufferStatus>) result;
 
     final Framebuffer fb = success.value;
-    final Map<FramebufferColorAttachmentPoint, Pair<TextureCubeStatic, CubeMapFace>> color_textures =
-      fb.getColorTextureCubeAttachments();
-    Assert.assertTrue(color_textures.containsKey(points[0]));
+    Assert.assertTrue(fb.hasColorAttachment(points[0]));
 
-    final TextureCubeStatic t = color_textures.get(points[0]).first;
+    final AttachmentColor ca = fb.getColorAttachment(points[0]);
+    switch (ca.type) {
+      case ATTACHMENT_COLOR_RENDERBUFFER:
+
+      case ATTACHMENT_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+      {
+        Assert.fail("unreachable, type = " + ca.type);
+        break;
+      }
+      case ATTACHMENT_COLOR_TEXTURE_CUBE:
+      {
+        break;
+      }
+    }
+
+    final AttachmentColorTextureCubeStatic cat =
+      (AttachmentColorTextureCubeStatic) ca;
+
+    final TextureCubeStaticReadable t = cat.getTextureCube();
     Assert.assertEquals(t.getWrapR(), TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE);
     Assert.assertEquals(t.getWrapS(), TextureWrap.TEXTURE_WRAP_REPEAT);
     Assert.assertEquals(t.getWrapT(), TextureWrap.TEXTURE_WRAP_REPEAT);
@@ -471,9 +633,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       t.getMagnificationFilter(),
       TextureFilter.TEXTURE_FILTER_NEAREST);
 
-    Assert.assertEquals(
-      CubeMapFace.CUBE_MAP_POSITIVE_X,
-      color_textures.get(points[0]).second);
+    Assert.assertEquals(CubeMapFace.CUBE_MAP_POSITIVE_X, cat.getFace());
 
     fb.resourceDelete(gl);
   }
@@ -509,11 +669,54 @@ public abstract class FramebuffersContract implements GLES2TestContract
       (Success<Framebuffer, FramebufferStatus>) result;
     final Framebuffer fb = success.value;
 
-    Assert.assertTrue(fb.hasDepthBufferAttachment());
-    final RenderbufferReadable rb = fb.getDepthBufferAttachment();
+    Assert.assertTrue(fb.hasDepthAttachment());
+    final AttachmentDepth da = fb.getDepthAttachment();
+
+    RenderbufferReadable rb = null;
+    switch (da.type) {
+      case ATTACHMENT_DEPTH_RENDERBUFFER:
+      {
+        final AttachmentDepthRenderbuffer adr =
+          (AttachmentDepthRenderbuffer) da;
+        rb = adr.getRenderbuffer();
+        break;
+      }
+      case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
+      {
+        final AttachmentDepthStencilRenderbuffer adr =
+          (AttachmentDepthStencilRenderbuffer) da;
+        rb = adr.getRenderbuffer();
+        break;
+      }
+      case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
+      case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
+      {
+        Assert.fail("unreachable: type = " + da.type);
+        break;
+      }
+    }
+
+    assert rb != null;
     Assert.assertTrue(rb.getType().isDepthRenderable());
 
     fb.resourceDelete(gl);
+  }
+
+  @Test(expected = ConstraintError.class) public void testEmptyFails()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+
+    final FramebufferConfigurationES2 config =
+      new FramebufferConfigurationES2(128, 256);
+
+    config.requestNoColor();
+    config.requestNoDepth();
+    config.requestNoStencil();
+    config.make(gi);
   }
 
   /**
@@ -547,9 +750,60 @@ public abstract class FramebuffersContract implements GLES2TestContract
       (Success<Framebuffer, FramebufferStatus>) result;
     final Framebuffer fb = success.value;
 
-    Assert.assertTrue(fb.hasStencilBufferAttachment());
-    final RenderbufferReadable rb = fb.getStencilBufferAttachment();
-    Assert.assertTrue(rb.getType().isStencilRenderable());
+    Assert.assertTrue(fb.hasStencilAttachment());
+
+    final AttachmentStencil a = fb.getStencilAttachment();
+    switch (a.type) {
+      case ATTACHMENT_SHARED_STENCIL_RENDERBUFFER:
+      {
+        Assert.fail("unreachable: type = " + a.type);
+        break;
+      }
+
+      /**
+       * Implementation required a depth/stencil buffer.
+       */
+
+      case ATTACHMENT_STENCIL_AS_DEPTH_STENCIL:
+      {
+        final AttachmentDepth da = fb.getDepthAttachment();
+        switch (da.type) {
+          case ATTACHMENT_DEPTH_RENDERBUFFER:
+          case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
+          case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
+          {
+            Assert.fail("unreachable: type = " + da.type);
+            break;
+          }
+          case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
+          {
+            final AttachmentDepthStencilRenderbuffer dsa =
+              (AttachmentDepthStencilRenderbuffer) da;
+            final RenderbufferReadable rb = dsa.getRenderbuffer();
+            Assert.assertTrue(rb.getType().isDepthRenderable());
+            Assert.assertTrue(rb.getType().isStencilRenderable());
+            break;
+          }
+        }
+
+        break;
+      }
+
+      /**
+       * Implementation actually used a seperate depth/stencil buffer.
+       */
+
+      case ATTACHMENT_STENCIL_RENDERBUFFER:
+      {
+        final AttachmentStencilRenderbuffer ar =
+          (AttachmentStencilRenderbuffer) a;
+        Assert.assertTrue(ar
+          .getRenderbuffer()
+          .getType()
+          .isStencilRenderable());
+        break;
+      }
+    }
 
     fb.resourceDelete(gl);
   }

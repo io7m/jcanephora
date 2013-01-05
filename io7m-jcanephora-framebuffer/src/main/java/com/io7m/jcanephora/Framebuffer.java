@@ -16,40 +16,35 @@
 
 package com.io7m.jcanephora;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeSet;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Pair;
+import com.io7m.jcanephora.AttachmentColor.AttachmentColorRenderbuffer;
+import com.io7m.jcanephora.AttachmentColor.AttachmentColorTexture2DStatic;
+import com.io7m.jcanephora.AttachmentColor.AttachmentColorTextureCubeStatic;
+import com.io7m.jcanephora.AttachmentDepth.AttachmentDepthRenderbuffer;
+import com.io7m.jcanephora.AttachmentDepth.AttachmentDepthStencilRenderbuffer;
+import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
 /**
  * A created framebuffer, with all associated textures and/or renderbuffers.
  */
 
-public final class Framebuffer implements GLResource
+public final class Framebuffer implements GLResource, FramebufferReadable
 {
-  private final @Nonnull FramebufferReference                                                           framebuffer;
-  private final int                                                                                     width;
-  private final int                                                                                     height;
-  private final boolean                                                                                 is_deleted;
+  private final @Nonnull FramebufferReference                                  framebuffer;
+  private final int                                                            width;
+  private final int                                                            height;
+  private final boolean                                                        is_deleted;
 
-  private final @Nonnull TreeSet<FramebufferColorAttachmentPoint>                                       color_shared;
-  private final @Nonnull HashMap<FramebufferColorAttachmentPoint, Texture2DStatic>                      color_textures_2d;
-  private final @Nonnull HashMap<FramebufferColorAttachmentPoint, Pair<TextureCubeStatic, CubeMapFace>> color_textures_cube;
-  private final @Nonnull HashMap<FramebufferColorAttachmentPoint, Renderbuffer>                         color_buffers;
-
-  private boolean                                                                                       depth_buffer_shared;
-  private @CheckForNull Renderbuffer                                                                    depth_buffer;
-
-  private @CheckForNull Renderbuffer                                                                    stencil_buffer;
-  private boolean                                                                                       stencil_buffer_shared;
+  private @Nonnull final Map<FramebufferColorAttachmentPoint, AttachmentColor> color_attachments;
+  private @CheckForNull AttachmentDepth                                        depth_attachment;
+  private @CheckForNull AttachmentStencil                                      stencil_attachment;
 
   Framebuffer(
     final @Nonnull FramebufferReference framebuffer,
@@ -59,136 +54,50 @@ public final class Framebuffer implements GLResource
     this.framebuffer = framebuffer;
     this.width = width;
     this.height = height;
-
-    this.color_shared = new TreeSet<FramebufferColorAttachmentPoint>();
-    this.color_buffers =
-      new HashMap<FramebufferColorAttachmentPoint, Renderbuffer>();
-    this.color_textures_2d =
-      new HashMap<FramebufferColorAttachmentPoint, Texture2DStatic>();
-    this.color_textures_cube =
-      new HashMap<FramebufferColorAttachmentPoint, Pair<TextureCubeStatic, CubeMapFace>>();
-
-    this.depth_buffer = null;
-    this.depth_buffer_shared = false;
-    this.stencil_buffer = null;
-    this.stencil_buffer_shared = false;
+    this.color_attachments =
+      new HashMap<FramebufferColorAttachmentPoint, AttachmentColor>();
+    this.depth_attachment = null;
+    this.stencil_attachment = null;
     this.is_deleted = false;
   }
 
-  void configAddColorRenderbuffer(
-    final @Nonnull FramebufferColorAttachmentPoint attachment_point,
-    final @Nonnull Renderbuffer buffer,
-    final boolean shared)
+  void configAddColorAttachment(
+    final @Nonnull FramebufferColorAttachmentPoint point,
+    final @Nonnull AttachmentColor attachment)
     throws ConstraintError
   {
-    Constraints.constrainArbitrary(
-      this.color_buffers.containsKey(attachment_point) == false,
-      "No color buffer at attachment point");
-    Constraints.constrainArbitrary(
-      this.color_textures_2d.containsKey(attachment_point) == false,
-      "No color 2D texture at attachment point");
-    Constraints.constrainArbitrary(
-      this.color_textures_cube.containsKey(attachment_point) == false,
-      "No color cube-map texture at attachment point");
+    Constraints.constrainNotNull(point, "Attachment point");
+    Constraints.constrainNotNull(attachment, "Color attachment");
 
-    this.color_buffers.put(attachment_point, buffer);
+    Constraints.constrainArbitrary(
+      this.color_attachments.containsKey(point) == false,
+      "No color attachment at " + point);
 
-    if (shared) {
-      this.color_shared.add(attachment_point);
-    }
+    this.color_attachments.put(point, attachment);
   }
 
-  void configAddColorTexture2D(
-    final @Nonnull FramebufferColorAttachmentPoint attachment_point,
-    final @Nonnull Texture2DStatic texture,
-    final boolean shared)
+  void configSetDepthAttachment(
+    final @Nonnull AttachmentDepth attachment)
     throws ConstraintError
   {
+    Constraints.constrainNotNull(attachment, "Depth attachment");
     Constraints.constrainArbitrary(
-      this.color_buffers.containsKey(attachment_point) == false,
-      "No color buffer at attachment point");
-    Constraints.constrainArbitrary(
-      this.color_textures_2d.containsKey(attachment_point) == false,
-      "No color 2D texture at attachment point");
-    Constraints.constrainArbitrary(
-      this.color_textures_cube.containsKey(attachment_point) == false,
-      "No color cube-map texture at attachment point");
+      this.depth_attachment == null,
+      "No depth attachment");
 
-    this.color_textures_2d.put(attachment_point, texture);
-
-    if (shared) {
-      this.color_shared.add(attachment_point);
-    }
+    this.depth_attachment = attachment;
   }
 
-  void configAddColorTextureCube(
-    final @Nonnull FramebufferColorAttachmentPoint attachment_point,
-    final @Nonnull CubeMapFace current_face,
-    final @Nonnull TextureCubeStatic texture,
-    final boolean shared)
+  void configSetStencilAttachment(
+    final @Nonnull AttachmentStencil attachment)
     throws ConstraintError
   {
+    Constraints.constrainNotNull(attachment, "Stencil attachment");
     Constraints.constrainArbitrary(
-      this.color_buffers.containsKey(attachment_point) == false,
-      "No color buffer at attachment point");
-    Constraints.constrainArbitrary(
-      this.color_textures_2d.containsKey(attachment_point) == false,
-      "No color 2D texture at attachment point");
-    Constraints.constrainArbitrary(
-      this.color_textures_cube.containsKey(attachment_point) == false,
-      "No color cube-map texture at attachment point");
+      this.stencil_attachment == null,
+      "No stencil attachment");
 
-    final Pair<TextureCubeStatic, CubeMapFace> pair =
-      new Pair<TextureCubeStatic, CubeMapFace>(texture, current_face);
-    this.color_textures_cube.put(attachment_point, pair);
-
-    if (shared) {
-      this.color_shared.add(attachment_point);
-    }
-  }
-
-  void configSetDepthBuffer(
-    final @Nonnull Renderbuffer buffer,
-    final boolean shared)
-    throws ConstraintError
-  {
-    Constraints.constrainArbitrary(
-      this.depth_buffer == null,
-      "No depth buffer set");
-
-    this.depth_buffer = buffer;
-    this.depth_buffer_shared = shared;
-  }
-
-  void configSetDepthStencilBuffer(
-    final @Nonnull Renderbuffer buffer,
-    final boolean shared)
-    throws ConstraintError
-  {
-    Constraints.constrainArbitrary(
-      this.depth_buffer == null,
-      "No depth buffer set");
-    Constraints.constrainArbitrary(
-      this.stencil_buffer == null,
-      "No stencil buffer set");
-
-    this.depth_buffer = buffer;
-    this.depth_buffer_shared = shared;
-    this.stencil_buffer = buffer;
-    this.stencil_buffer_shared = shared;
-  }
-
-  void configSetStencilBuffer(
-    final @Nonnull Renderbuffer buffer,
-    final boolean shared)
-    throws ConstraintError
-  {
-    Constraints.constrainArbitrary(
-      this.stencil_buffer == null,
-      "No stencil buffer set");
-
-    this.stencil_buffer = buffer;
-    this.stencil_buffer_shared = shared;
+    this.stencil_attachment = attachment;
   }
 
   @Override public boolean equals(
@@ -210,34 +119,24 @@ public final class Framebuffer implements GLResource
     return true;
   }
 
-  public @Nonnull
-    Map<FramebufferColorAttachmentPoint, Renderbuffer>
-    getColorBufferAttachments()
-  {
-    return Collections.unmodifiableMap(this.color_buffers);
-  }
-
-  public @Nonnull
-    Map<FramebufferColorAttachmentPoint, Texture2DStatic>
-    getColorTexture2DAttachments()
-  {
-    return Collections.unmodifiableMap(this.color_textures_2d);
-  }
-
-  public @Nonnull
-    Map<FramebufferColorAttachmentPoint, Pair<TextureCubeStatic, CubeMapFace>>
-    getColorTextureCubeAttachments()
-  {
-    return Collections.unmodifiableMap(this.color_textures_cube);
-  }
-
-  public @Nonnull Renderbuffer getDepthBufferAttachment()
+  @Override public @Nonnull AttachmentColor getColorAttachment(
+    final @Nonnull FramebufferColorAttachmentPoint point)
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
-      this.hasDepthBufferAttachment(),
-      "Has depth buffer");
-    return this.depth_buffer;
+      this.hasColorAttachment(point),
+      "Has color attachment at " + point);
+
+    return this.color_attachments.get(point);
+  }
+
+  @Override public @Nonnull AttachmentDepth getDepthAttachment()
+    throws ConstraintError
+  {
+    Constraints.constrainArbitrary(
+      this.hasDepthAttachment(),
+      "Has depth attachment");
+    return this.depth_attachment;
   }
 
   public @Nonnull FramebufferReference getFramebuffer()
@@ -245,28 +144,36 @@ public final class Framebuffer implements GLResource
     return this.framebuffer;
   }
 
-  public int getHeight()
+  @Override public int getHeight()
   {
     return this.height;
   }
 
-  public @Nonnull Renderbuffer getStencilBufferAttachment()
+  @Override public @Nonnull AttachmentStencil getStencilAttachment()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
-      this.hasStencilBufferAttachment(),
-      "Has stencil buffer");
-    return this.stencil_buffer;
+      this.hasStencilAttachment(),
+      "Has stencil attachment");
+    return this.stencil_attachment;
   }
 
-  public int getWidth()
+  @Override public int getWidth()
   {
     return this.width;
   }
 
-  public boolean hasDepthBufferAttachment()
+  @Override public boolean hasColorAttachment(
+    final @Nonnull FramebufferColorAttachmentPoint point)
+    throws ConstraintError
   {
-    return this.depth_buffer != null;
+    Constraints.constrainNotNull(point, "Attachment point");
+    return this.color_attachments.containsKey(point);
+  }
+
+  @Override public boolean hasDepthAttachment()
+  {
+    return this.depth_attachment != null;
   }
 
   @Override public int hashCode()
@@ -277,9 +184,9 @@ public final class Framebuffer implements GLResource
     return result;
   }
 
-  public boolean hasStencilBufferAttachment()
+  @Override public boolean hasStencilAttachment()
   {
-    return this.stencil_buffer != null;
+    return this.stencil_attachment != null;
   }
 
   @Override public <G extends GLInterfaceES2> void resourceDelete(
@@ -287,46 +194,78 @@ public final class Framebuffer implements GLResource
     throws ConstraintError,
       GLException
   {
-    for (final Entry<FramebufferColorAttachmentPoint, Renderbuffer> e : this.color_buffers
-      .entrySet()) {
-      if (this.color_shared.contains(e.getKey()) == false) {
-        gl.renderbufferDelete(e.getValue());
-      }
-    }
-
-    for (final Entry<FramebufferColorAttachmentPoint, Texture2DStatic> e : this.color_textures_2d
-      .entrySet()) {
-      if (this.color_shared.contains(e.getKey()) == false) {
-        gl.texture2DStaticDelete(e.getValue());
-      }
-    }
-
-    for (final Entry<FramebufferColorAttachmentPoint, Pair<TextureCubeStatic, CubeMapFace>> e : this.color_textures_cube
-      .entrySet()) {
-      if (this.color_shared.contains(e.getKey()) == false) {
-        gl.textureCubeStaticDelete(e.getValue().first);
-      }
-    }
-
-    if (this.depth_buffer != null) {
-      if (this.depth_buffer_shared == false) {
-        gl.renderbufferDelete(this.depth_buffer);
-      }
-    }
-
-    if (this.stencil_buffer != null) {
-      if (this.stencil_buffer_shared == false) {
-        /**
-         * With combined depth/stencil buffers, deleting the depth buffer
-         * above may have deleted the stencil buffer.
-         */
-        if (this.stencil_buffer.resourceIsDeleted() == false) {
-          gl.renderbufferDelete(this.stencil_buffer);
+    for (final AttachmentColor c : this.color_attachments.values()) {
+      switch (c.type) {
+        case ATTACHMENT_COLOR_RENDERBUFFER:
+        {
+          final AttachmentColorRenderbuffer ar =
+            (AttachmentColorRenderbuffer) c;
+          gl.renderbufferDelete(ar.getRenderbufferWritable());
+          break;
+        }
+        case ATTACHMENT_COLOR_TEXTURE_2D:
+        {
+          final AttachmentColorTexture2DStatic at =
+            (AttachmentColorTexture2DStatic) c;
+          gl.texture2DStaticDelete(at.getTextureWritable());
+          break;
+        }
+        case ATTACHMENT_COLOR_TEXTURE_CUBE:
+        {
+          final AttachmentColorTextureCubeStatic at =
+            (AttachmentColorTextureCubeStatic) c;
+          gl.textureCubeStaticDelete(at.getTextureWritable());
+          break;
+        }
+        case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+        case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+        case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+        {
+          break;
         }
       }
     }
 
-    gl.framebufferDelete(this.framebuffer);
+    if (this.depth_attachment != null) {
+      switch (this.depth_attachment.type) {
+        case ATTACHMENT_DEPTH_RENDERBUFFER:
+        {
+          final AttachmentDepthRenderbuffer a =
+            (AttachmentDepthRenderbuffer) this.depth_attachment;
+          gl.renderbufferDelete(a.getRenderbufferWritable());
+          break;
+        }
+        case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
+        {
+          final AttachmentDepthStencilRenderbuffer a =
+            (AttachmentDepthStencilRenderbuffer) this.depth_attachment;
+          gl.renderbufferDelete(a.getRenderbufferWritable());
+          break;
+        }
+        case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
+        case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
+        {
+          break;
+        }
+      }
+    }
+
+    if (this.stencil_attachment != null) {
+      switch (this.stencil_attachment.type) {
+        case ATTACHMENT_SHARED_STENCIL_RENDERBUFFER:
+        case ATTACHMENT_STENCIL_AS_DEPTH_STENCIL:
+        {
+          break;
+        }
+        case ATTACHMENT_STENCIL_RENDERBUFFER:
+        {
+          final AttachmentStencilRenderbuffer a =
+            (AttachmentStencilRenderbuffer) this.stencil_attachment;
+          gl.renderbufferDelete(a.getRenderbufferWritable());
+          break;
+        }
+      }
+    }
   }
 
   @Override public boolean resourceIsDeleted()
@@ -346,5 +285,4 @@ public final class Framebuffer implements GLResource
     builder.append("]");
     return builder.toString();
   }
-
 }
