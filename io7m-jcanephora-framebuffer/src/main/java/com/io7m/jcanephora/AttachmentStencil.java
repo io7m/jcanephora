@@ -45,6 +45,15 @@ public abstract class AttachmentStencil
         Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
     }
 
+    public AttachmentSharedStencilRenderbuffer(
+      final @Nonnull AttachmentSharedStencilRenderbuffer a)
+      throws ConstraintError
+    {
+      super(Type.ATTACHMENT_SHARED_STENCIL_RENDERBUFFER);
+      Constraints.constrainNotNull(a, "Attachment");
+      this.renderbuffer = a.getRenderbuffer();
+    }
+
     @Override public boolean equals(
       final Object obj)
     {

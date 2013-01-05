@@ -22,7 +22,6 @@ import javax.annotation.concurrent.NotThreadSafe;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.UnimplementedCodeException;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jaux.functional.Indeterminate;
 import com.io7m.jaux.functional.Indeterminate.Failure;
@@ -215,10 +214,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     gl.framebufferDrawBind(buffers.framebuffer);
 
     FramebufferConfigurationES2.attachColorBuffers(buffers, gl);
-    FramebufferConfigurationES2.attachDepthBuffers_ES2_DS(
-      buffers,
-      gl,
-      extension);
+    FramebufferConfigurationES2.attachDepthBuffers_ES2_DS(buffers, extension);
     FramebufferConfigurationES2.attachStencilBuffers(buffers, gl);
   }
 
@@ -317,22 +313,21 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
   private static void attachDepthBuffers_ES2_DS(
     final WorkingBuffers buffers,
-    final GLInterfaceES2 gl,
     final GLExtensionPackedDepthStencil extension)
     throws GLException,
       ConstraintError
   {
     if (buffers.attachment_depth != null) {
       switch (buffers.attachment_depth.type) {
+        case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
         case ATTACHMENT_DEPTH_RENDERBUFFER:
         {
-          final AttachmentDepthRenderbuffer a =
-            (AttachmentDepthRenderbuffer) buffers.attachment_depth;
+          /**
+           * If depth/shared attachments are supported, then the
+           * allocated/shared attachment can't be a single depth renderbuffer.
+           */
 
-          gl.framebufferDrawAttachDepthRenderbuffer(
-            buffers.framebuffer,
-            a.getRenderbufferWritable());
-          break;
+          throw new UnreachableCodeException();
         }
         case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
         {
@@ -342,16 +337,6 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
           extension.framebufferDrawAttachDepthStencilRenderbuffer(
             buffers.framebuffer,
             a.getRenderbufferWritable());
-          break;
-        }
-        case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
-        {
-          final AttachmentSharedDepthRenderbuffer a =
-            (AttachmentSharedDepthRenderbuffer) buffers.attachment_depth;
-
-          gl.framebufferDrawAttachDepthRenderbuffer(
-            buffers.framebuffer,
-            a.getRenderbuffer());
           break;
         }
         case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
@@ -376,15 +361,15 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   {
     if (buffers.attachment_depth != null) {
       switch (buffers.attachment_depth.type) {
+        case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
         case ATTACHMENT_DEPTH_RENDERBUFFER:
         {
-          final AttachmentDepthRenderbuffer a =
-            (AttachmentDepthRenderbuffer) buffers.attachment_depth;
+          /**
+           * Packed depth/stencil buffers are required by OpenGL 3.0, so
+           * allocated/shared attachment can't be a single depth renderbuffer.
+           */
 
-          gl.framebufferDrawAttachDepthRenderbuffer(
-            buffers.framebuffer,
-            a.getRenderbufferWritable());
-          break;
+          throw new UnreachableCodeException();
         }
         case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
         {
@@ -394,16 +379,6 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
           gl.framebufferDrawAttachDepthStencilRenderbuffer(
             buffers.framebuffer,
             a.getRenderbufferWritable());
-          break;
-        }
-        case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
-        {
-          final AttachmentSharedDepthRenderbuffer a =
-            (AttachmentSharedDepthRenderbuffer) buffers.attachment_depth;
-
-          gl.framebufferDrawAttachDepthRenderbuffer(
-            buffers.framebuffer,
-            a.getRenderbuffer());
           break;
         }
         case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
@@ -471,13 +446,17 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     buffers.text.setLength(0);
     buffers.text.append("framebuffer-");
     buffers.text.append(buffers.framebuffer.getGLName());
-    buffers.text.append("-texture2D-0");
+    buffers.text.append("-textureCube-0");
   }
 
   private @Nonnull RequestDepth             want_depth;
+  private @CheckForNull AttachmentDepth     want_depth_shared;
   private @Nonnull RequestStencil           want_stencil;
+  private @CheckForNull AttachmentStencil   want_stencil_shared;
   private @Nonnull RequestColor             want_color;
   private @CheckForNull RequestColorTypeES2 want_color_specific;
+  private @CheckForNull AttachmentColor     want_color_shared;
+
   private final int                         width;
   private final int                         height;
   private @Nonnull TextureFilter            mag_filter;
@@ -487,9 +466,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private @Nonnull TextureWrap              wrap_t;
 
   /**
-   * Construct a configuration that will, by default, ask for the best RGBA
-   * color texture available from the implementation, and for whatever depth
-   * buffer is available.
+   * Construct a configuration that will, by default, not ask for any color,
+   * depth, or stencil attachments.
    * 
    * The framebuffer will be of width <code>width</code> and height
    * <code>height</code>.
@@ -507,10 +485,16 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
       Constraints.constrainRange(width, 1, Integer.MAX_VALUE, "Width");
     this.height =
       Constraints.constrainRange(height, 1, Integer.MAX_VALUE, "Height");
+
     this.want_stencil = RequestStencil.WANT_NOTHING;
-    this.want_depth = RequestDepth.WANT_DEPTH_RENDERBUFFER;
-    this.want_color = RequestColor.WANT_COLOR_BEST_RGBA_TEXTURE_2D;
+    this.want_stencil_shared = null;
+
+    this.want_depth = RequestDepth.WANT_NOTHING;
+    this.want_depth_shared = null;
+
+    this.want_color = RequestColor.WANT_NOTHING;
     this.want_color_specific = null;
+    this.want_color_shared = null;
 
     this.wrap_r = TextureWrap.TEXTURE_WRAP_REPEAT;
     this.wrap_s = TextureWrap.TEXTURE_WRAP_REPEAT;
@@ -678,7 +662,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
       }
       case WANT_COLOR_SHARED_WITH:
       {
-        throw new UnimplementedCodeException();
+        buffers.attachment_color = this.want_color_shared;
+        break;
       }
       case WANT_COLOR_SPECIFIC_RENDERBUFFER:
       {
@@ -776,7 +761,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
       }
       case WANT_COLOR_SHARED_WITH:
       {
-        throw new UnimplementedCodeException();
+        buffers.attachment_color = this.want_color_shared;
+        break;
       }
       case WANT_COLOR_SPECIFIC_RENDERBUFFER:
       {
@@ -833,7 +819,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
       }
       case WANT_DEPTH_SHARED_WITH:
       {
-        throw new UnimplementedCodeException();
+        buffers.attachment_depth = this.want_depth_shared;
+        break;
       }
       case WANT_NOTHING:
       {
@@ -870,7 +857,14 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
     if ((this.want_depth == RequestDepth.WANT_DEPTH_SHARED_WITH)
       || (this.want_stencil == RequestStencil.WANT_STENCIL_SHARED_WITH)) {
-      throw new UnimplementedCodeException();
+
+      /**
+       * If depth/stencil buffers are supported, then the depth and/or stencil
+       * buffer of the other framebuffer must be a depth/stencil buffer.
+       */
+
+      buffers.attachment_depth = this.want_depth_shared;
+      buffers.attachment_stencil = this.want_stencil_shared;
     }
   }
 
@@ -900,7 +894,14 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
     if ((this.want_depth == RequestDepth.WANT_DEPTH_SHARED_WITH)
       || (this.want_stencil == RequestStencil.WANT_STENCIL_SHARED_WITH)) {
-      throw new UnimplementedCodeException();
+
+      /**
+       * The depth and/or stencil buffer of the other framebuffer must be a
+       * depth/stencil buffer.
+       */
+
+      buffers.attachment_depth = this.want_depth_shared;
+      buffers.attachment_stencil = this.want_stencil_shared;
     }
   }
 
@@ -1066,7 +1067,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
       }
       case WANT_STENCIL_SHARED_WITH:
       {
-        throw new UnimplementedCodeException();
+        buffers.attachment_stencil = this.want_stencil_shared;
       }
     }
   }
@@ -1335,37 +1336,46 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   }
 
   /**
+   * <p>
    * Request the best available RGBA color renderbuffer in the resulting
    * framebuffer.
-   * 
+   * </p>
+   * <p>
    * Note that this function is able to request RGBA renderbuffers of a better
    * quality than those given in the OpenGL ES2 specification <i>when not
    * running on an ES2 implementation</i>. This prevents programs from
    * effectively downgrading all framebuffers to OpenGL ES2 quality.
-   * 
+   * </p>
+   * <p>
    * Essentially, the function will pick the "best" quality ES2 type when
    * running on ES2, and will pick the "best" quality OpenGL 3.0 type when
    * running on OpenGL 3.0.
+   * </p>
    */
 
   public void requestBestRGBAColorRenderbuffer()
   {
     this.want_color = RequestColor.WANT_COLOR_BEST_RGBA_RENDERBUFFER;
     this.want_color_specific = null;
+    this.want_color_shared = null;
   }
 
   /**
+   * <p>
    * Request the best available RGBA color 2D texture in the resulting
    * framebuffer.
-   * 
+   * </p>
+   * <p>
    * Note that this function is able to request RGBA textures of a better
    * quality than those given in the OpenGL ES2 specification <i>when not
    * running on an ES2 implementation</i>. This prevents programs from
    * effectively downgrading all textures to OpenGL ES2 quality.
-   * 
+   * </p>
+   * <p>
    * Essentially, the function will pick the "best" quality ES2 type when
    * running on ES2, and will pick the "best" quality OpenGL 3.0 type when
    * running on OpenGL 3.0.
+   * </p>
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
@@ -1385,6 +1395,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
     this.want_color = RequestColor.WANT_COLOR_BEST_RGBA_TEXTURE_2D;
     this.want_color_specific = null;
+    this.want_color_shared = null;
     this.wrap_s = texture_wrap_s;
     this.wrap_t = texture_wrap_t;
     this.mag_filter = texture_mag_filter;
@@ -1392,17 +1403,21 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   }
 
   /**
+   * <p>
    * Request the best available RGBA color cube-map texture in the resulting
    * framebuffer.
-   * 
+   * </p>
+   * <p>
    * Note that this function is able to request RGBA textures of a better
    * quality than those given in the OpenGL ES2 specification <i>when not
    * running on an ES2 implementation</i>. This prevents programs from
    * effectively downgrading all textures to OpenGL ES2 quality.
-   * 
+   * </p>
+   * <p>
    * Essentially, the function will pick the "best" quality ES2 type when
    * running on ES2, and will pick the "best" quality OpenGL 3.0 type when
    * running on OpenGL 3.0.
+   * </p>
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>, or if the
@@ -1429,6 +1444,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
     this.want_color = RequestColor.WANT_COLOR_BEST_RGBA_TEXTURE_CUBE;
     this.want_color_specific = null;
+    this.want_color_shared = null;
     this.wrap_r = texture_wrap_r;
     this.wrap_s = texture_wrap_s;
     this.wrap_t = texture_wrap_t;
@@ -1437,37 +1453,46 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   }
 
   /**
+   * <p>
    * Request the best available RGB color renderbuffer in the resulting
    * framebuffer.
-   * 
+   * </p>
+   * <p>
    * Note that this function is able to request RGB renderbuffers of a better
    * quality than those given in the OpenGL ES2 specification <i>when not
    * running on an ES2 implementation</i>. This prevents programs from
    * effectively downgrading all framebuffers to OpenGL ES2 quality.
-   * 
+   * </p>
+   * <p>
    * Essentially, the function will pick the "best" quality ES2 type when
    * running on ES2, and will pick the "best" quality OpenGL 3.0 type when
    * running on OpenGL 3.0.
+   * </p>
    */
 
   public void requestBestRGBColorRenderbuffer()
   {
     this.want_color = RequestColor.WANT_COLOR_BEST_RGB_RENDERBUFFER;
     this.want_color_specific = null;
+    this.want_color_shared = null;
   }
 
   /**
+   * <p>
    * Request the best available RGB color 2D texture in the resulting
    * framebuffer.
-   * 
+   * </p>
+   * <p>
    * Note that this function is able to request RGB textures of a better
    * quality than those given in the OpenGL ES2 specification <i>when not
    * running on an ES2 implementation</i>. This prevents programs from
    * effectively downgrading all textures to OpenGL ES2 quality.
-   * 
+   * </p>
+   * <p>
    * Essentially, the function will pick the "best" quality ES2 type when
    * running on ES2, and will pick the "best" quality OpenGL 3.0 type when
    * running on OpenGL 3.0.
+   * </p>
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
@@ -1487,6 +1512,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
     this.want_color = RequestColor.WANT_COLOR_BEST_RGB_TEXTURE_2D;
     this.want_color_specific = null;
+    this.want_color_shared = null;
     this.wrap_s = texture_wrap_s;
     this.wrap_t = texture_wrap_t;
     this.mag_filter = texture_mag_filter;
@@ -1494,17 +1520,21 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   }
 
   /**
+   * <p>
    * Request the best available RGB color cube-map texture in the resulting
    * framebuffer.
-   * 
+   * </p>
+   * <p>
    * Note that this function is able to request RGB textures of a better
    * quality than those given in the OpenGL ES2 specification <i>when not
    * running on an ES2 implementation</i>. This prevents programs from
    * effectively downgrading all textures to OpenGL ES2 quality.
-   * 
+   * </p>
+   * <p>
    * Essentially, the function will pick the "best" quality ES2 type when
    * running on ES2, and will pick the "best" quality OpenGL 3.0 type when
    * running on OpenGL 3.0.
+   * </p>
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>, or if the
@@ -1531,6 +1561,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
     this.want_color = RequestColor.WANT_COLOR_BEST_RGB_TEXTURE_CUBE;
     this.want_color_specific = null;
+    this.want_color_shared = null;
     this.wrap_r = texture_wrap_r;
     this.wrap_s = texture_wrap_s;
     this.wrap_t = texture_wrap_t;
@@ -1539,48 +1570,282 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   }
 
   /**
+   * <p>
    * Request a depth renderbuffer in the resulting framebuffer.
+   * </p>
    */
 
   public void requestDepthRenderbuffer()
   {
     this.want_depth = RequestDepth.WANT_DEPTH_RENDERBUFFER;
+    this.want_depth_shared = null;
   }
 
   /**
+   * <p>
    * Request no color buffer in the resulting framebuffer.
+   * </p>
    */
 
   public void requestNoColor()
   {
     this.want_color = RequestColor.WANT_NOTHING;
     this.want_color_specific = null;
+    this.want_color_shared = null;
   }
 
   /**
+   * <p>
    * Request no depth buffer in the resulting framebuffer.
-   * 
+   * </p>
+   * <p>
    * Due to limitations in OpenGL drivers, requesting a depth buffer may also
    * request a stencil buffer, regardless of whether or not one was desired.
+   * </p>
    */
 
   public void requestNoDepth()
   {
     this.want_depth = RequestDepth.WANT_NOTHING;
+    this.want_depth_shared = null;
   }
 
   /**
+   * <p>
    * Request no stencil buffer in the resulting framebuffer.
+   * </p>
    */
 
   public void requestNoStencil()
   {
     this.want_stencil = RequestStencil.WANT_NOTHING;
+    this.want_stencil_shared = null;
   }
 
   /**
+   * <p>
+   * Request that the resulting framebuffer share the color buffer of
+   * <code>framebuffer</code> at attachment point <code>attachment</code>.
+   * </p>
+   * 
+   * @param framebuffer
+   *          The source framebuffer
+   * @param attachment
+   *          The attachment point
+   * @throws ConstraintError
+   *           If any of the following hold:
+   *           <ul>
+   *           <li>Any of the parameters are <code>null</code></li>
+   *           <li>If <code>framebuffer</code> has no color attachment at
+   *           <code>attachment</code></li>
+   *           </ul>
+   */
+
+  public void requestSharedColor(
+    final @Nonnull FramebufferReadable framebuffer,
+    final @Nonnull FramebufferColorAttachmentPoint attachment)
+    throws ConstraintError
+  {
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+
+    final AttachmentColor attach = framebuffer.getColorAttachment(attachment);
+    switch (attach.type) {
+      case ATTACHMENT_COLOR_RENDERBUFFER:
+      {
+        final AttachmentColorRenderbuffer a =
+          (AttachmentColorRenderbuffer) attach;
+        this.want_color_shared =
+          new AttachmentSharedColorRenderbuffer(a.getRenderbuffer());
+        break;
+      }
+      case ATTACHMENT_COLOR_TEXTURE_2D:
+      {
+        final AttachmentColorTexture2DStatic a =
+          (AttachmentColorTexture2DStatic) attach;
+        this.want_color_shared =
+          new AttachmentSharedColorTexture2DStatic(a.getTexture2D());
+        break;
+      }
+      case ATTACHMENT_COLOR_TEXTURE_CUBE:
+      {
+        final AttachmentColorTextureCubeStatic a =
+          (AttachmentColorTextureCubeStatic) attach;
+        this.want_color_shared =
+          new AttachmentSharedColorTextureCubeStatic(
+            a.getTextureCube(),
+            a.getFace());
+        break;
+      }
+      case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+      {
+        final AttachmentSharedColorRenderbuffer a =
+          (AttachmentSharedColorRenderbuffer) attach;
+        this.want_color_shared = new AttachmentSharedColorRenderbuffer(a);
+        break;
+      }
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+      {
+        final AttachmentSharedColorTexture2DStatic a =
+          (AttachmentSharedColorTexture2DStatic) attach;
+        this.want_color_shared = new AttachmentSharedColorTexture2DStatic(a);
+        break;
+      }
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+      {
+        final AttachmentSharedColorTextureCubeStatic a =
+          (AttachmentSharedColorTextureCubeStatic) attach;
+        this.want_color_shared =
+          new AttachmentSharedColorTextureCubeStatic(a);
+        break;
+      }
+    }
+
+    this.want_color = RequestColor.WANT_COLOR_SHARED_WITH;
+  }
+
+  /**
+   * <p>
+   * Request that the resulting framebuffer share the depth attachment of
+   * <code>framebuffer</code>.
+   * </p>
+   * <p>
+   * Note that on most systems, requesting a shared depth attachment will also
+   * result in a shared stencil attachment.
+   * </p>
+   * 
+   * @param framebuffer
+   *          The source framebuffer
+   * @throws ConstraintError
+   *           If any of the following hold:
+   *           <ul>
+   *           <li>Any of the parameters are <code>null</code></li>
+   *           <li>If <code>framebuffer</code> has no depth attachment</li>
+   *           </ul>
+   */
+
+  public void requestSharedDepth(
+    final @Nonnull Framebuffer framebuffer)
+    throws ConstraintError
+  {
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+
+    final AttachmentDepth attach = framebuffer.getDepthAttachment();
+    switch (attach.type) {
+      case ATTACHMENT_DEPTH_RENDERBUFFER:
+      {
+        final AttachmentDepthRenderbuffer a =
+          (AttachmentDepthRenderbuffer) attach;
+        this.want_depth_shared =
+          new AttachmentSharedDepthRenderbuffer(a.getRenderbuffer());
+        break;
+      }
+      case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
+      {
+        final AttachmentDepthStencilRenderbuffer a =
+          (AttachmentDepthStencilRenderbuffer) attach;
+        this.want_depth_shared =
+          new AttachmentSharedDepthStencilRenderbuffer(a.getRenderbuffer());
+        break;
+      }
+      case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
+      {
+        final AttachmentSharedDepthRenderbuffer a =
+          (AttachmentSharedDepthRenderbuffer) attach;
+        this.want_depth_shared = new AttachmentSharedDepthRenderbuffer(a);
+        break;
+      }
+      case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
+      {
+        final AttachmentSharedDepthStencilRenderbuffer a =
+          (AttachmentSharedDepthStencilRenderbuffer) attach;
+        this.want_depth_shared =
+          new AttachmentSharedDepthStencilRenderbuffer(a);
+        break;
+      }
+    }
+
+    this.want_depth = RequestDepth.WANT_DEPTH_SHARED_WITH;
+  }
+
+  /**
+   * <p>
+   * Request that the resulting framebuffer share the stencil attachment of
+   * <code>framebuffer</code>.
+   * </p>
+   * <p>
+   * Note that on most systems, requesting a shared stencil attachment will
+   * also result in a shared depth attachment.
+   * </p>
+   * 
+   * @param framebuffer
+   *          The source framebuffer
+   * @throws ConstraintError
+   *           If any of the following hold:
+   *           <ul>
+   *           <li>Any of the parameters are <code>null</code></li>
+   *           <li>If <code>framebuffer</code> has no stencil attachment</li>
+   *           </ul>
+   */
+
+  public void requestSharedStencil(
+    final @Nonnull Framebuffer framebuffer)
+    throws ConstraintError
+  {
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+
+    final AttachmentStencil attach = framebuffer.getStencilAttachment();
+    switch (attach.type) {
+      case ATTACHMENT_SHARED_STENCIL_RENDERBUFFER:
+      {
+        final AttachmentSharedStencilRenderbuffer a =
+          (AttachmentSharedStencilRenderbuffer) attach;
+        this.want_stencil_shared = new AttachmentSharedStencilRenderbuffer(a);
+        break;
+      }
+      case ATTACHMENT_STENCIL_AS_DEPTH_STENCIL:
+      {
+        /**
+         * If the source framebuffer's stencil attachment is a combined
+         * depth/stencil attachment, then request to share the depth
+         * attachment and set the stencil attachment to point to it.
+         */
+
+        final AttachmentDepth depth = framebuffer.getDepthAttachment();
+        switch (depth.type) {
+          case ATTACHMENT_DEPTH_RENDERBUFFER:
+          case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
+          {
+            throw new UnreachableCodeException();
+          }
+          case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
+          case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
+          {
+            this.requestSharedDepth(framebuffer);
+            break;
+          }
+        }
+
+        this.want_stencil_shared = new AttachmentStencilAsDepthStencil();
+        break;
+      }
+      case ATTACHMENT_STENCIL_RENDERBUFFER:
+      {
+        final AttachmentStencilRenderbuffer a =
+          (AttachmentStencilRenderbuffer) attach;
+        this.want_stencil_shared =
+          new AttachmentSharedStencilRenderbuffer(a.getRenderbuffer());
+        break;
+      }
+    }
+
+    this.want_stencil = RequestStencil.WANT_STENCIL_SHARED_WITH;
+  }
+
+  /**
+   * <p>
    * Request a specific type of color renderbuffer in the resulting
    * framebuffer.
+   * </p>
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
@@ -1594,10 +1859,13 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
     this.want_color = RequestColor.WANT_COLOR_SPECIFIC_RENDERBUFFER;
     this.want_color_specific = type;
+    this.want_color_shared = null;
   }
 
   /**
+   * <p>
    * Request a specific type of color 2D texture in the resulting framebuffer.
+   * </p>
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
@@ -1619,6 +1887,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
     this.want_color = RequestColor.WANT_COLOR_SPECIFIC_TEXTURE_2D;
     this.want_color_specific = type;
+    this.want_color_shared = null;
     this.wrap_s = texture_wrap_s;
     this.wrap_t = texture_wrap_t;
     this.mag_filter = texture_mag_filter;
@@ -1626,8 +1895,10 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   }
 
   /**
+   * <p>
    * Request a specific type of color cube-map texture in the resulting
    * framebuffer.
+   * </p>
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>, or if the
@@ -1656,6 +1927,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
     this.want_color = RequestColor.WANT_COLOR_SPECIFIC_TEXTURE_CUBE;
     this.want_color_specific = type;
+    this.want_color_shared = null;
     this.wrap_r = texture_wrap_r;
     this.wrap_s = texture_wrap_s;
     this.wrap_t = texture_wrap_t;
@@ -1664,16 +1936,20 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   }
 
   /**
+   * <p>
    * Request a stencil renderbuffer in the resulting framebuffer.
-   * 
+   * </p>
+   * <p>
    * Due to limitations in OpenGL drivers, requesting a stencil buffer may
    * also request a depth buffer, regardless of whether or not one was
    * desired.
+   * </p>
    */
 
   public void requestStencilRenderbuffer()
   {
     this.want_stencil = RequestStencil.WANT_STENCIL_RENDERBUFFER;
+    this.want_stencil_shared = null;
   }
 
   @Override public String toString()
@@ -1706,8 +1982,10 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   }
 
   /**
+   * <p>
    * Validate the constructed framebuffer, and return a completed framebuffer
    * structure if validation succeeds.
+   * </p>
    */
 
   private Indeterminate<Framebuffer, FramebufferStatus> validateAndMakeState(
