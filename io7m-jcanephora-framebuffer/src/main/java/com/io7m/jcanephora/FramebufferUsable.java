@@ -25,7 +25,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * the type but not mutation and/or deletion of the contents.
  */
 
-public interface FramebufferReadable extends GLResourceReadable
+public interface FramebufferUsable extends GLResourceUsable
 {
   /**
    * Return the color attachment at attachment point <code>point</code>.

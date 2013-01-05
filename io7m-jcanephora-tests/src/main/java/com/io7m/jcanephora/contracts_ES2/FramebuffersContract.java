@@ -33,11 +33,11 @@ import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLImplementation;
 import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.GLUnsupportedException;
-import com.io7m.jcanephora.RenderbufferReadable;
+import com.io7m.jcanephora.RenderbufferUsable;
 import com.io7m.jcanephora.RequestColorTypeES2;
 import com.io7m.jcanephora.TestContext;
-import com.io7m.jcanephora.Texture2DStaticReadable;
-import com.io7m.jcanephora.TextureCubeStaticReadable;
+import com.io7m.jcanephora.Texture2DStaticUsable;
+import com.io7m.jcanephora.TextureCubeStaticUsable;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureWrap;
 
@@ -121,7 +121,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       final AttachmentColorTexture2DStatic cat =
         (AttachmentColorTexture2DStatic) ca;
 
-      final Texture2DStaticReadable t = cat.getTexture2D();
+      final Texture2DStaticUsable t = cat.getTexture2D();
       Assert.assertEquals(c.equivalentTextureType(), t.getType());
 
       fb.resourceDelete(gl);
@@ -186,7 +186,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       final AttachmentColorTextureCubeStatic cat =
         (AttachmentColorTextureCubeStatic) ca;
 
-      final TextureCubeStaticReadable t = cat.getTextureCube();
+      final TextureCubeStaticUsable t = cat.getTextureCube();
 
       Assert.assertEquals(c.equivalentTextureType(), t.getType());
       Assert.assertEquals(CubeMapFace.CUBE_MAP_POSITIVE_X, cat.getFace());
@@ -247,7 +247,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       final AttachmentColorRenderbuffer car =
         (AttachmentColorRenderbuffer) ca;
 
-      final RenderbufferReadable rb = car.getRenderbuffer();
+      final RenderbufferUsable rb = car.getRenderbuffer();
       Assert.assertEquals(c.equivalentRenderbufferType(), rb.getType());
 
       fb.resourceDelete(gl);
@@ -306,7 +306,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
 
     final AttachmentColorRenderbuffer car = (AttachmentColorRenderbuffer) ca;
 
-    final RenderbufferReadable rb = car.getRenderbuffer();
+    final RenderbufferUsable rb = car.getRenderbuffer();
     Assert.assertTrue(rb.getType().isColorRenderable());
 
     fb.resourceDelete(gl);
@@ -369,7 +369,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
     final AttachmentColorTexture2DStatic cat =
       (AttachmentColorTexture2DStatic) ca;
 
-    final Texture2DStaticReadable t = cat.getTexture2D();
+    final Texture2DStaticUsable t = cat.getTexture2D();
     Assert.assertEquals(t.getWrapS(), TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE);
     Assert.assertEquals(t.getWrapT(), TextureWrap.TEXTURE_WRAP_REPEAT);
     Assert.assertEquals(
@@ -441,7 +441,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
     final AttachmentColorTextureCubeStatic cat =
       (AttachmentColorTextureCubeStatic) ca;
 
-    final TextureCubeStaticReadable t = cat.getTextureCube();
+    final TextureCubeStaticUsable t = cat.getTextureCube();
     Assert.assertEquals(t.getWrapR(), TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE);
     Assert.assertEquals(t.getWrapS(), TextureWrap.TEXTURE_WRAP_REPEAT);
     Assert.assertEquals(t.getWrapT(), TextureWrap.TEXTURE_WRAP_REPEAT);
@@ -509,7 +509,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
 
     final AttachmentColorRenderbuffer car = (AttachmentColorRenderbuffer) ca;
 
-    final RenderbufferReadable rb = car.getRenderbuffer();
+    final RenderbufferUsable rb = car.getRenderbuffer();
     Assert.assertTrue(rb.getType().isColorRenderable());
 
     fb.resourceDelete(gl);
@@ -572,7 +572,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
     final AttachmentColorTexture2DStatic cat =
       (AttachmentColorTexture2DStatic) ca;
 
-    final Texture2DStaticReadable t = cat.getTexture2D();
+    final Texture2DStaticUsable t = cat.getTexture2D();
     Assert.assertEquals(t.getWrapS(), TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE);
     Assert.assertEquals(t.getWrapT(), TextureWrap.TEXTURE_WRAP_REPEAT);
     Assert.assertEquals(
@@ -644,7 +644,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
     final AttachmentColorTextureCubeStatic cat =
       (AttachmentColorTextureCubeStatic) ca;
 
-    final TextureCubeStaticReadable t = cat.getTextureCube();
+    final TextureCubeStaticUsable t = cat.getTextureCube();
     Assert.assertEquals(t.getWrapR(), TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE);
     Assert.assertEquals(t.getWrapS(), TextureWrap.TEXTURE_WRAP_REPEAT);
     Assert.assertEquals(t.getWrapT(), TextureWrap.TEXTURE_WRAP_REPEAT);
@@ -694,7 +694,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
     Assert.assertTrue(fb.hasDepthAttachment());
     final AttachmentDepth da = fb.getDepthAttachment();
 
-    RenderbufferReadable rb = null;
+    RenderbufferUsable rb = null;
     switch (da.type) {
       case ATTACHMENT_DEPTH_RENDERBUFFER:
       {
@@ -791,7 +791,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
 
     final AttachmentColorRenderbuffer fb0_ar =
       (AttachmentColorRenderbuffer) fb0_attach;
-    final RenderbufferReadable fb0_r = fb0_ar.getRenderbuffer();
+    final RenderbufferUsable fb0_r = fb0_ar.getRenderbuffer();
 
     /**
      * Create framebuffer that shares the color attachment of fb0.
@@ -880,7 +880,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
 
     final AttachmentColorRenderbuffer fb0_ar =
       (AttachmentColorRenderbuffer) fb0_attach;
-    final RenderbufferReadable fb0_r = fb0_ar.getRenderbuffer();
+    final RenderbufferUsable fb0_r = fb0_ar.getRenderbuffer();
 
     /**
      * Create framebuffer that shares the color attachment of fb0.
@@ -973,7 +973,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
 
     final AttachmentColorTexture2DStatic fb0_at =
       (AttachmentColorTexture2DStatic) fb0_attach;
-    final Texture2DStaticReadable fb0_t = fb0_at.getTexture2D();
+    final Texture2DStaticUsable fb0_t = fb0_at.getTexture2D();
 
     /**
      * Create framebuffer that shares the color attachment of fb0.
@@ -1066,7 +1066,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
 
     final AttachmentColorTextureCubeStatic fb0_at =
       (AttachmentColorTextureCubeStatic) fb0_attach;
-    final TextureCubeStaticReadable fb0_t = fb0_at.getTextureCube();
+    final TextureCubeStaticUsable fb0_t = fb0_at.getTextureCube();
 
     /**
      * Create framebuffer that shares the color attachment of fb0.
@@ -1133,7 +1133,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       FramebuffersContract.makeAssumingSuccess(fb0_config, gi);
     final AttachmentDepth fb0_attach = fb0.getDepthAttachment();
 
-    RenderbufferReadable fb0_r = null;
+    RenderbufferUsable fb0_r = null;
     switch (fb0_attach.type) {
       case ATTACHMENT_DEPTH_RENDERBUFFER:
       {
@@ -1170,7 +1170,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
 
     Assert.assertTrue(fb1.hasDepthAttachment());
 
-    RenderbufferReadable fb1_r = null;
+    RenderbufferUsable fb1_r = null;
     final AttachmentDepth attach = fb1.getDepthAttachment();
     switch (attach.type) {
       case ATTACHMENT_DEPTH_RENDERBUFFER:
@@ -1250,7 +1250,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
 
     final AttachmentColorRenderbuffer fb0_ar =
       (AttachmentColorRenderbuffer) fb0_attach;
-    final RenderbufferReadable fb0_r = fb0_ar.getRenderbuffer();
+    final RenderbufferUsable fb0_r = fb0_ar.getRenderbuffer();
 
     /**
      * Create framebuffer that shares the color attachment of fb0.
@@ -1353,7 +1353,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       FramebuffersContract.makeAssumingSuccess(fb0_config, gi);
     final AttachmentStencil fb0_attach = fb0.getStencilAttachment();
 
-    RenderbufferReadable fb0_r = null;
+    RenderbufferUsable fb0_r = null;
     switch (fb0_attach.type) {
       case ATTACHMENT_SHARED_STENCIL_RENDERBUFFER:
       {
@@ -1403,7 +1403,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
 
     Assert.assertTrue(fb1.hasStencilAttachment());
 
-    RenderbufferReadable fb1_r = null;
+    RenderbufferUsable fb1_r = null;
     final AttachmentDepth attach = fb1.getDepthAttachment();
     switch (attach.type) {
       case ATTACHMENT_DEPTH_RENDERBUFFER:
@@ -1493,7 +1493,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
           {
             final AttachmentDepthStencilRenderbuffer dsa =
               (AttachmentDepthStencilRenderbuffer) da;
-            final RenderbufferReadable rb = dsa.getRenderbuffer();
+            final RenderbufferUsable rb = dsa.getRenderbuffer();
             Assert.assertTrue(rb.getType().isDepthRenderable());
             Assert.assertTrue(rb.getType().isStencilRenderable());
             break;

@@ -924,7 +924,7 @@ final class GLES2Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferReadable renderbuffer)
+    final @Nonnull RenderbufferUsable renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -966,7 +966,7 @@ final class GLES2Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticReadable texture)
+    final @Nonnull Texture2DStaticUsable texture)
     throws GLException,
       ConstraintError
   {
@@ -1009,7 +1009,7 @@ final class GLES2Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull TextureCubeStaticReadable texture,
+    final @Nonnull TextureCubeStaticUsable texture,
     final @Nonnull CubeMapFace face)
     throws GLException,
       ConstraintError
@@ -1056,7 +1056,7 @@ final class GLES2Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferReadable renderbuffer)
+    final @Nonnull RenderbufferUsable renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -1098,7 +1098,7 @@ final class GLES2Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticReadable texture)
+    final @Nonnull Texture2DStaticUsable texture)
     throws GLException,
       ConstraintError
   {
@@ -1141,7 +1141,7 @@ final class GLES2Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferReadable renderbuffer)
+    final @Nonnull RenderbufferUsable renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -2414,7 +2414,7 @@ final class GLES2Functions
 
   static void texture2DStaticBind(
     final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DStaticReadable texture)
+    final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
       GLException
   {
@@ -2457,7 +2457,7 @@ final class GLES2Functions
   static boolean texture2DStaticIsBound(
     final @Nonnull GLStateCache state,
     final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DStaticReadable texture)
+    final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
       GLException
   {
@@ -2643,7 +2643,7 @@ final class GLES2Functions
 
   static void textureCubeStaticBind(
     final @Nonnull TextureUnit unit,
-    final @Nonnull TextureCubeStaticReadable texture)
+    final @Nonnull TextureCubeStaticUsable texture)
     throws GLException,
       ConstraintError
   {
@@ -2686,7 +2686,7 @@ final class GLES2Functions
   static boolean textureCubeStaticIsBound(
     final @Nonnull GLStateCache state,
     final @Nonnull TextureUnit unit,
-    final @Nonnull TextureCubeStaticReadable texture)
+    final @Nonnull TextureCubeStaticUsable texture)
     throws ConstraintError,
       GLException
   {

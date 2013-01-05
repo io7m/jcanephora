@@ -32,7 +32,7 @@ import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.ProjectionMatrix;
-import com.io7m.jcanephora.Texture2DStaticReadable;
+import com.io7m.jcanephora.Texture2DStaticUsable;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureWrap;
@@ -55,7 +55,7 @@ public final class ExampleFBO implements Example
 
   private final GLImplementation                  gli;
   private final GLInterfaceES2                    gl;
-  private final Texture2DStaticReadable           texture;
+  private final Texture2DStaticUsable             texture;
   private final Framebuffer                       framebuffer;
   private boolean                                 has_shut_down;
   private final ArrayBufferDescriptor             textured_quad_type;

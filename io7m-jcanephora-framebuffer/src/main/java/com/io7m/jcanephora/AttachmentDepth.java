@@ -32,7 +32,7 @@ public abstract class AttachmentDepth
    */
 
   public static final class AttachmentDepthRenderbuffer extends
-    AttachmentDepth implements AttachmentDepthRenderbufferReadable
+    AttachmentDepth implements AttachmentDepthRenderbufferUsable
   {
     private final @Nonnull Renderbuffer renderbuffer;
 
@@ -65,7 +65,7 @@ public abstract class AttachmentDepth
       return true;
     }
 
-    @Override public @Nonnull RenderbufferReadable getRenderbuffer()
+    @Override public @Nonnull RenderbufferUsable getRenderbuffer()
     {
       return this.renderbuffer;
     }
@@ -90,9 +90,9 @@ public abstract class AttachmentDepth
     }
   }
 
-  interface AttachmentDepthRenderbufferReadable
+  interface AttachmentDepthRenderbufferUsable
   {
-    public @Nonnull RenderbufferReadable getRenderbuffer();
+    public @Nonnull RenderbufferUsable getRenderbuffer();
   }
 
   /**
@@ -100,7 +100,7 @@ public abstract class AttachmentDepth
    */
 
   public static final class AttachmentDepthStencilRenderbuffer extends
-    AttachmentDepth implements AttachmentDepthRenderbufferReadable
+    AttachmentDepth implements AttachmentDepthRenderbufferUsable
   {
     private final @Nonnull Renderbuffer renderbuffer;
 
@@ -133,7 +133,7 @@ public abstract class AttachmentDepth
       return true;
     }
 
-    @Override public @Nonnull RenderbufferReadable getRenderbuffer()
+    @Override public @Nonnull RenderbufferUsable getRenderbuffer()
     {
       return this.renderbuffer;
     }
@@ -163,9 +163,9 @@ public abstract class AttachmentDepth
    */
 
   public static final class AttachmentSharedDepthRenderbuffer extends
-    AttachmentDepth implements AttachmentDepthRenderbufferReadable
+    AttachmentDepth implements AttachmentDepthRenderbufferUsable
   {
-    private final @Nonnull RenderbufferReadable renderbuffer;
+    private final @Nonnull RenderbufferUsable renderbuffer;
 
     public AttachmentSharedDepthRenderbuffer(
       final AttachmentSharedDepthRenderbuffer a)
@@ -177,7 +177,7 @@ public abstract class AttachmentDepth
     }
 
     public AttachmentSharedDepthRenderbuffer(
-      final @Nonnull RenderbufferReadable renderbuffer)
+      final @Nonnull RenderbufferUsable renderbuffer)
       throws ConstraintError
     {
       super(Type.ATTACHMENT_SHARED_DEPTH_RENDERBUFFER);
@@ -205,7 +205,7 @@ public abstract class AttachmentDepth
       return true;
     }
 
-    @Override public @Nonnull RenderbufferReadable getRenderbuffer()
+    @Override public @Nonnull RenderbufferUsable getRenderbuffer()
     {
       return this.renderbuffer;
     }
@@ -230,9 +230,9 @@ public abstract class AttachmentDepth
    */
 
   public static final class AttachmentSharedDepthStencilRenderbuffer extends
-    AttachmentDepth implements AttachmentDepthRenderbufferReadable
+    AttachmentDepth implements AttachmentDepthRenderbufferUsable
   {
-    private final @Nonnull RenderbufferReadable renderbuffer;
+    private final @Nonnull RenderbufferUsable renderbuffer;
 
     public AttachmentSharedDepthStencilRenderbuffer(
       final @Nonnull AttachmentSharedDepthStencilRenderbuffer a)
@@ -244,7 +244,7 @@ public abstract class AttachmentDepth
     }
 
     public AttachmentSharedDepthStencilRenderbuffer(
-      final @Nonnull RenderbufferReadable renderbuffer)
+      final @Nonnull RenderbufferUsable renderbuffer)
       throws ConstraintError
     {
       super(Type.ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER);
@@ -272,7 +272,7 @@ public abstract class AttachmentDepth
       return true;
     }
 
-    @Override public @Nonnull RenderbufferReadable getRenderbuffer()
+    @Override public @Nonnull RenderbufferUsable getRenderbuffer()
     {
       return this.renderbuffer;
     }
