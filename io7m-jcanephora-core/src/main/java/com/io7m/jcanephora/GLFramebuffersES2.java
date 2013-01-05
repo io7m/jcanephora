@@ -97,7 +97,7 @@ public interface GLFramebuffersES2
 
   void framebufferDrawAttachColorTexture2D(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStatic texture)
+    final @Nonnull Texture2DStaticReadable texture)
     throws GLException,
       ConstraintError;
 
@@ -129,7 +129,7 @@ public interface GLFramebuffersES2
 
   void framebufferDrawAttachColorTextureCube(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull TextureCubeStatic texture,
+    final @Nonnull TextureCubeStaticReadable texture,
     final @Nonnull CubeMapFace face)
     throws GLException,
       ConstraintError;
@@ -186,7 +186,7 @@ public interface GLFramebuffersES2
 
   void framebufferDrawAttachDepthTexture2D(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStatic texture)
+    final @Nonnull Texture2DStaticReadable texture)
     throws GLException,
       ConstraintError;
 

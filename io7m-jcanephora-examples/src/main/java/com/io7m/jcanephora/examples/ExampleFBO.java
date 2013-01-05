@@ -1,10 +1,9 @@
 package com.io7m.jcanephora.examples;
 
-import java.util.Map;
-
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jaux.functional.Indeterminate;
 import com.io7m.jaux.functional.Indeterminate.Failure;
 import com.io7m.jaux.functional.Indeterminate.Success;
@@ -12,6 +11,8 @@ import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferDescriptor;
 import com.io7m.jcanephora.ArrayBufferWritableData;
+import com.io7m.jcanephora.AttachmentColor;
+import com.io7m.jcanephora.AttachmentColor.AttachmentColorTexture2DStatic;
 import com.io7m.jcanephora.CursorWritable2f;
 import com.io7m.jcanephora.CursorWritable4f;
 import com.io7m.jcanephora.CursorWritableIndex;
@@ -31,7 +32,7 @@ import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.ProjectionMatrix;
-import com.io7m.jcanephora.Texture2DStatic;
+import com.io7m.jcanephora.Texture2DStaticReadable;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureWrap;
@@ -54,7 +55,7 @@ public final class ExampleFBO implements Example
 
   private final GLImplementation                  gli;
   private final GLInterfaceES2                    gl;
-  private final Texture2DStatic                   texture;
+  private final Texture2DStaticReadable           texture;
   private final Framebuffer                       framebuffer;
   private boolean                                 has_shut_down;
   private final ArrayBufferDescriptor             textured_quad_type;
@@ -114,8 +115,10 @@ public final class ExampleFBO implements Example
     /**
      * Allocate and initialize a framebuffer using the high level
      * {@link Framebuffer} API.
-     * 
-     * Note that the size of the framebuffer is deliberately different to that
+     */
+
+    /**
+     * The size of the requested framebuffer is deliberately different to that
      * of the screen. By using a much smaller framebuffer than the screen,
      * there is clear visual aliasing that shows how the contents of the
      * framebuffer texture are being used.
@@ -126,19 +129,50 @@ public final class ExampleFBO implements Example
     this.framebuffer_height =
       config.getWindowSize().getYI() / this.framebuffer_divisor;
 
+    /**
+     * Create a new ES2-compatible configuration.
+     * 
+     * When the term "ES2-compatible" is used, it's intended to mean that this
+     * framebuffer will work equally well on ES2 and full OpenGL 3.0. It's not
+     * possible to configure the framebuffer in such a way that it would not
+     * work correctly when running on a real ES2 implementation.
+     */
+
     this.framebuffer_config =
       new FramebufferConfigurationES2(
         this.framebuffer_width,
         this.framebuffer_height);
+
+    /**
+     * Request a color buffer backed by a 2D texture, using the best quality
+     * texture available on the current implementation. This will probably be
+     * RGB8888 on OpenGL 3.0, and RGBA4444 on ES2.
+     */
+
     this.framebuffer_config.requestBestRGBAColorTexture2D(
       TextureWrap.TEXTURE_WRAP_REPEAT,
       TextureWrap.TEXTURE_WRAP_REPEAT,
       TextureFilter.TEXTURE_FILTER_NEAREST,
       TextureFilter.TEXTURE_FILTER_NEAREST);
+
+    /**
+     * Request a depth buffer. Most implementations will provide a packed
+     * depth/stencil buffer and nothing else.
+     */
+
     this.framebuffer_config.requestDepthRenderbuffer();
+
+    /**
+     * Construct the framebuffer.
+     * 
+     * Constructing the framebuffer will return either a validated
+     * framebuffer, or a status value indicating why the framebuffer could not
+     * be constructed.
+     */
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
       this.framebuffer_config.make(this.gli);
+
     if (result.isFailure()) {
       final Failure<Framebuffer, FramebufferStatus> failure =
         (Failure<Framebuffer, FramebufferStatus>) result;
@@ -148,19 +182,40 @@ public final class ExampleFBO implements Example
 
     final Success<Framebuffer, FramebufferStatus> success =
       (Success<Framebuffer, FramebufferStatus>) result;
+
     this.framebuffer = success.value;
 
     /**
      * Retrieve the texture at attachment point 0.
+     * 
+     * ES2-compatible framebuffers only have one color attachment point.
      */
 
     this.framebuffer_color_points =
       this.gl.framebufferGetColorAttachmentPoints();
 
-    final Map<FramebufferColorAttachmentPoint, Texture2DStatic> textures =
-      this.framebuffer.getColorTexture2DAttachments();
+    final AttachmentColor a =
+      this.framebuffer.getColorAttachment(this.framebuffer_color_points[0]);
 
-    this.texture = textures.get(this.framebuffer_color_points[0]);
+    /**
+     * Inspect the type of the color attachment. As an RGBA texture was
+     * requested, it can only be one of the possible cases.
+     */
+
+    switch (a.type) {
+      case ATTACHMENT_COLOR_RENDERBUFFER:
+      case ATTACHMENT_COLOR_TEXTURE_CUBE:
+      case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+        throw new UnreachableCodeException();
+      case ATTACHMENT_COLOR_TEXTURE_2D:
+        break;
+    }
+
+    final AttachmentColorTexture2DStatic at =
+      (AttachmentColorTexture2DStatic) a;
+    this.texture = at.getTexture2D();
 
     /**
      * Retrieve a reference to the available texture units.

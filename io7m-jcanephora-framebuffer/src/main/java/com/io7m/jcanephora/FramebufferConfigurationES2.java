@@ -29,6 +29,19 @@ import com.io7m.jaux.functional.Indeterminate.Failure;
 import com.io7m.jaux.functional.Indeterminate.Success;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jaux.functional.Option.Some;
+import com.io7m.jcanephora.AttachmentColor.AttachmentColorRenderbuffer;
+import com.io7m.jcanephora.AttachmentColor.AttachmentColorTexture2DStatic;
+import com.io7m.jcanephora.AttachmentColor.AttachmentColorTextureCubeStatic;
+import com.io7m.jcanephora.AttachmentColor.AttachmentSharedColorRenderbuffer;
+import com.io7m.jcanephora.AttachmentColor.AttachmentSharedColorTexture2DStatic;
+import com.io7m.jcanephora.AttachmentColor.AttachmentSharedColorTextureCubeStatic;
+import com.io7m.jcanephora.AttachmentDepth.AttachmentDepthRenderbuffer;
+import com.io7m.jcanephora.AttachmentDepth.AttachmentDepthStencilRenderbuffer;
+import com.io7m.jcanephora.AttachmentDepth.AttachmentSharedDepthRenderbuffer;
+import com.io7m.jcanephora.AttachmentDepth.AttachmentSharedDepthStencilRenderbuffer;
+import com.io7m.jcanephora.AttachmentStencil.AttachmentSharedStencilRenderbuffer;
+import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilAsDepthStencil;
+import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
 /**
  * Instructions to create an ES2 compatible framebuffer configuration (using
@@ -68,78 +81,15 @@ import com.io7m.jaux.functional.Option.Some;
 
   private static class WorkingBuffers
   {
-    @CheckForNull FramebufferReference framebuffer                = null;
-    @CheckForNull Texture2DStatic      color_texture_2d           = null;
-    @CheckForNull TextureCubeStatic    color_texture_cube         = null;
-    @CheckForNull Renderbuffer         color_renderbuffer         = null;
-    @CheckForNull Renderbuffer         depth_stencil_renderbuffer = null;
-    @CheckForNull Renderbuffer         depth_renderbuffer         = null;
-    @CheckForNull Renderbuffer         stencil_renderbuffer       = null;
+    @CheckForNull FramebufferReference framebuffer        = null;
+    @CheckForNull AttachmentColor      attachment_color   = null;
+    @CheckForNull AttachmentDepth      attachment_depth   = null;
+    @CheckForNull AttachmentStencil    attachment_stencil = null;
     final @Nonnull StringBuilder       text;
 
     WorkingBuffers()
     {
       this.text = new StringBuilder();
-    }
-
-    /**
-     * A simple sanity check to ensure that each possible allocation path is
-     * correct.
-     */
-
-    boolean allocationsConsistent()
-    {
-      /**
-       * If there's a depth/stencil buffer, then there cannot be a separate
-       * depth buffer.
-       */
-
-      if ((this.depth_stencil_renderbuffer != null)
-        && (this.depth_renderbuffer != null)) {
-        return false;
-      }
-
-      /**
-       * If there's a depth/stencil buffer, then there cannot be a separate
-       * stencil buffer.
-       */
-
-      if ((this.depth_stencil_renderbuffer != null)
-        && (this.stencil_renderbuffer != null)) {
-        return false;
-      }
-
-      /**
-       * If there's a color texture 2D, then there cannot be a separate color
-       * renderbuffer.
-       */
-
-      if ((this.color_texture_2d != null)
-        && (this.color_renderbuffer != null)) {
-        return false;
-      }
-
-      /**
-       * If there's a color texture 2D, then there cannot be a separate color
-       * texture cube.
-       */
-
-      if ((this.color_texture_2d != null)
-        && (this.color_texture_cube != null)) {
-        return false;
-      }
-
-      /**
-       * If there's a color renderbuffer, then there cannot be a separate
-       * color texture cube.
-       */
-
-      if ((this.color_renderbuffer != null)
-        && (this.color_texture_cube != null)) {
-        return false;
-      }
-
-      return true;
     }
 
     void emergencyCleanup(
@@ -156,46 +106,89 @@ import com.io7m.jaux.functional.Option.Some;
           saved = e;
         }
       }
-      if (this.color_texture_2d != null) {
-        try {
-          gl.texture2DStaticDelete(this.color_texture_2d);
-        } catch (final GLException e) {
-          saved = e;
+
+      /**
+       * Delete unshared color attachments.
+       */
+
+      if (this.attachment_color != null) {
+        switch (this.attachment_color.type) {
+          case ATTACHMENT_COLOR_RENDERBUFFER:
+          {
+            final AttachmentColorRenderbuffer a =
+              (AttachmentColorRenderbuffer) this.attachment_color;
+            gl.renderbufferDelete(a.getRenderbufferWritable());
+            break;
+          }
+          case ATTACHMENT_COLOR_TEXTURE_2D:
+          {
+            final AttachmentColorTexture2DStatic a =
+              (AttachmentColorTexture2DStatic) this.attachment_color;
+            gl.texture2DStaticDelete(a.getTextureWritable());
+            break;
+          }
+          case ATTACHMENT_COLOR_TEXTURE_CUBE:
+          {
+            final AttachmentColorTextureCubeStatic a =
+              (AttachmentColorTextureCubeStatic) this.attachment_color;
+            gl.textureCubeStaticDelete(a.getTextureWritable());
+            break;
+          }
+          case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+          case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+          case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+          {
+            break;
+          }
         }
       }
-      if (this.color_texture_cube != null) {
-        try {
-          gl.textureCubeStaticDelete(this.color_texture_cube);
-        } catch (final GLException e) {
-          saved = e;
+
+      /**
+       * Delete unshared depth attachments.
+       */
+
+      if (this.attachment_depth != null) {
+        switch (this.attachment_depth.type) {
+          case ATTACHMENT_DEPTH_RENDERBUFFER:
+          {
+            final AttachmentDepthRenderbuffer a =
+              (AttachmentDepthRenderbuffer) this.attachment_depth;
+            gl.renderbufferDelete(a.getRenderbufferWritable());
+            break;
+          }
+          case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
+          {
+            final AttachmentDepthStencilRenderbuffer a =
+              (AttachmentDepthStencilRenderbuffer) this.attachment_depth;
+            gl.renderbufferDelete(a.getRenderbufferWritable());
+            break;
+          }
+          case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
+          case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
+          {
+            break;
+          }
         }
       }
-      if (this.color_renderbuffer != null) {
-        try {
-          gl.renderbufferDelete(this.color_renderbuffer);
-        } catch (final GLException e) {
-          saved = e;
-        }
-      }
-      if (this.depth_stencil_renderbuffer != null) {
-        try {
-          gl.renderbufferDelete(this.depth_stencil_renderbuffer);
-        } catch (final GLException e) {
-          saved = e;
-        }
-      }
-      if (this.depth_renderbuffer != null) {
-        try {
-          gl.renderbufferDelete(this.depth_renderbuffer);
-        } catch (final GLException e) {
-          saved = e;
-        }
-      }
-      if (this.stencil_renderbuffer != null) {
-        try {
-          gl.renderbufferDelete(this.stencil_renderbuffer);
-        } catch (final GLException e) {
-          saved = e;
+
+      /**
+       * Delete unshared stencil attachments.
+       */
+
+      if (this.attachment_stencil != null) {
+        switch (this.attachment_stencil.type) {
+          case ATTACHMENT_STENCIL_RENDERBUFFER:
+          {
+            final AttachmentStencilRenderbuffer a =
+              (AttachmentStencilRenderbuffer) this.attachment_stencil;
+            gl.renderbufferDelete(a.getRenderbufferWritable());
+            break;
+          }
+          case ATTACHMENT_SHARED_STENCIL_RENDERBUFFER:
+          case ATTACHMENT_STENCIL_AS_DEPTH_STENCIL:
+          {
+            break;
+          }
         }
       }
 
@@ -221,39 +214,12 @@ import com.io7m.jaux.functional.Option.Some;
   {
     gl.framebufferDrawBind(buffers.framebuffer);
 
-    if (buffers.color_renderbuffer != null) {
-      gl.framebufferDrawAttachColorRenderbuffer(
-        buffers.framebuffer,
-        buffers.color_renderbuffer);
-    }
-    if (buffers.color_texture_2d != null) {
-      gl.framebufferDrawAttachColorTexture2D(
-        buffers.framebuffer,
-        buffers.color_texture_2d);
-    }
-    if (buffers.color_texture_cube != null) {
-      gl.framebufferDrawAttachColorTextureCube(
-        buffers.framebuffer,
-        buffers.color_texture_cube,
-        CubeMapFace.CUBE_MAP_POSITIVE_X);
-    }
-    if (buffers.depth_stencil_renderbuffer != null) {
-      assert extension != null;
-      extension.framebufferDrawAttachDepthStencilRenderbuffer(
-        buffers.framebuffer,
-        buffers.depth_stencil_renderbuffer);
-    } else {
-      if (buffers.depth_renderbuffer != null) {
-        gl.framebufferDrawAttachDepthRenderbuffer(
-          buffers.framebuffer,
-          buffers.depth_renderbuffer);
-      }
-      if (buffers.stencil_renderbuffer != null) {
-        gl.framebufferDrawAttachStencilRenderbuffer(
-          buffers.framebuffer,
-          buffers.stencil_renderbuffer);
-      }
-    }
+    FramebufferConfigurationES2.attachColorBuffers(buffers, gl);
+    FramebufferConfigurationES2.attachDepthBuffers_ES2_DS(
+      buffers,
+      gl,
+      extension);
+    FramebufferConfigurationES2.attachStencilBuffers(buffers, gl);
   }
 
   /**
@@ -271,30 +237,235 @@ import com.io7m.jaux.functional.Option.Some;
   {
     gl.framebufferDrawBind(buffers.framebuffer);
 
-    if (buffers.color_renderbuffer != null) {
-      gl.framebufferDrawAttachColorRenderbuffer(
-        buffers.framebuffer,
-        buffers.color_renderbuffer);
+    FramebufferConfigurationES2.attachColorBuffers(buffers, gl);
+    FramebufferConfigurationES2.attachDepthBuffers_GL3(buffers, gl);
+    FramebufferConfigurationES2.attachStencilBuffers(buffers, gl);
+  }
+
+  private static void attachColorBuffers(
+    final WorkingBuffers buffers,
+    final GLInterfaceES2 gl)
+    throws GLException,
+      ConstraintError
+  {
+    if (buffers.attachment_color != null) {
+      switch (buffers.attachment_color.type) {
+        case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+        {
+          final AttachmentSharedColorRenderbuffer a =
+            (AttachmentSharedColorRenderbuffer) buffers.attachment_color;
+
+          gl.framebufferDrawAttachColorRenderbuffer(
+            buffers.framebuffer,
+            a.getRenderbuffer());
+          break;
+        }
+        case ATTACHMENT_COLOR_RENDERBUFFER:
+        {
+          final AttachmentColorRenderbuffer a =
+            (AttachmentColorRenderbuffer) buffers.attachment_color;
+
+          gl.framebufferDrawAttachColorRenderbuffer(
+            buffers.framebuffer,
+            a.getRenderbufferWritable());
+          break;
+        }
+        case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+        {
+          final AttachmentSharedColorTexture2DStatic a =
+            (AttachmentSharedColorTexture2DStatic) buffers.attachment_color;
+
+          gl.framebufferDrawAttachColorTexture2D(
+            buffers.framebuffer,
+            a.getTexture2D());
+          break;
+        }
+        case ATTACHMENT_COLOR_TEXTURE_2D:
+        {
+          final AttachmentColorTexture2DStatic a =
+            (AttachmentColorTexture2DStatic) buffers.attachment_color;
+
+          gl.framebufferDrawAttachColorTexture2D(
+            buffers.framebuffer,
+            a.getTextureWritable());
+          break;
+        }
+        case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+        {
+          final AttachmentSharedColorTextureCubeStatic a =
+            (AttachmentSharedColorTextureCubeStatic) buffers.attachment_color;
+
+          gl.framebufferDrawAttachColorTextureCube(
+            buffers.framebuffer,
+            a.getTextureCube(),
+            CubeMapFace.CUBE_MAP_POSITIVE_X);
+          break;
+        }
+        case ATTACHMENT_COLOR_TEXTURE_CUBE:
+        {
+          final AttachmentColorTextureCubeStatic a =
+            (AttachmentColorTextureCubeStatic) buffers.attachment_color;
+          gl.framebufferDrawAttachColorTextureCube(
+            buffers.framebuffer,
+            a.getTextureWritable(),
+            CubeMapFace.CUBE_MAP_POSITIVE_X);
+          break;
+        }
+      }
     }
-    if (buffers.color_texture_2d != null) {
-      gl.framebufferDrawAttachColorTexture2D(
-        buffers.framebuffer,
-        buffers.color_texture_2d);
+  }
+
+  private static void attachDepthBuffers_ES2_DS(
+    final WorkingBuffers buffers,
+    final GLInterfaceES2 gl,
+    final GLExtensionPackedDepthStencil extension)
+    throws GLException,
+      ConstraintError
+  {
+    if (buffers.attachment_depth != null) {
+      switch (buffers.attachment_depth.type) {
+        case ATTACHMENT_DEPTH_RENDERBUFFER:
+        {
+          final AttachmentDepthRenderbuffer a =
+            (AttachmentDepthRenderbuffer) buffers.attachment_depth;
+
+          gl.framebufferDrawAttachDepthRenderbuffer(
+            buffers.framebuffer,
+            a.getRenderbufferWritable());
+          break;
+        }
+        case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
+        {
+          final AttachmentDepthStencilRenderbuffer a =
+            (AttachmentDepthStencilRenderbuffer) buffers.attachment_depth;
+
+          extension.framebufferDrawAttachDepthStencilRenderbuffer(
+            buffers.framebuffer,
+            a.getRenderbufferWritable());
+          break;
+        }
+        case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
+        {
+          final AttachmentSharedDepthRenderbuffer a =
+            (AttachmentSharedDepthRenderbuffer) buffers.attachment_depth;
+
+          gl.framebufferDrawAttachDepthRenderbuffer(
+            buffers.framebuffer,
+            a.getRenderbuffer());
+          break;
+        }
+        case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
+        {
+          final AttachmentSharedDepthStencilRenderbuffer a =
+            (AttachmentSharedDepthStencilRenderbuffer) buffers.attachment_depth;
+
+          extension.framebufferDrawAttachDepthStencilRenderbuffer(
+            buffers.framebuffer,
+            a.getRenderbuffer());
+          break;
+        }
+      }
     }
-    if (buffers.color_texture_cube != null) {
-      gl.framebufferDrawAttachColorTextureCube(
-        buffers.framebuffer,
-        buffers.color_texture_cube,
-        CubeMapFace.CUBE_MAP_POSITIVE_X);
+  }
+
+  private static void attachDepthBuffers_GL3(
+    final WorkingBuffers buffers,
+    final GLInterface3 gl)
+    throws GLException,
+      ConstraintError
+  {
+    if (buffers.attachment_depth != null) {
+      switch (buffers.attachment_depth.type) {
+        case ATTACHMENT_DEPTH_RENDERBUFFER:
+        {
+          final AttachmentDepthRenderbuffer a =
+            (AttachmentDepthRenderbuffer) buffers.attachment_depth;
+
+          gl.framebufferDrawAttachDepthRenderbuffer(
+            buffers.framebuffer,
+            a.getRenderbufferWritable());
+          break;
+        }
+        case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
+        {
+          final AttachmentDepthStencilRenderbuffer a =
+            (AttachmentDepthStencilRenderbuffer) buffers.attachment_depth;
+
+          gl.framebufferDrawAttachDepthStencilRenderbuffer(
+            buffers.framebuffer,
+            a.getRenderbufferWritable());
+          break;
+        }
+        case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
+        {
+          final AttachmentSharedDepthRenderbuffer a =
+            (AttachmentSharedDepthRenderbuffer) buffers.attachment_depth;
+
+          gl.framebufferDrawAttachDepthRenderbuffer(
+            buffers.framebuffer,
+            a.getRenderbuffer());
+          break;
+        }
+        case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
+        {
+          final AttachmentSharedDepthStencilRenderbuffer a =
+            (AttachmentSharedDepthStencilRenderbuffer) buffers.attachment_depth;
+
+          gl.framebufferDrawAttachDepthStencilRenderbuffer(
+            buffers.framebuffer,
+            a.getRenderbuffer());
+          break;
+        }
+      }
     }
-    if (buffers.depth_stencil_renderbuffer != null) {
-      gl.framebufferDrawAttachDepthStencilRenderbuffer(
-        buffers.framebuffer,
-        buffers.depth_stencil_renderbuffer);
+  }
+
+  private static void attachStencilBuffers(
+    final WorkingBuffers buffers,
+    final GLInterfaceES2 gl)
+    throws GLException,
+      ConstraintError
+  {
+    if (buffers.attachment_stencil != null) {
+      switch (buffers.attachment_stencil.type) {
+        case ATTACHMENT_SHARED_STENCIL_RENDERBUFFER:
+        {
+          final AttachmentSharedStencilRenderbuffer a =
+            (AttachmentSharedStencilRenderbuffer) buffers.attachment_stencil;
+
+          gl.framebufferDrawAttachStencilRenderbuffer(
+            buffers.framebuffer,
+            a.getRenderbuffer());
+          break;
+        }
+        case ATTACHMENT_STENCIL_RENDERBUFFER:
+        {
+          final AttachmentStencilRenderbuffer a =
+            (AttachmentStencilRenderbuffer) buffers.attachment_stencil;
+
+          gl.framebufferDrawAttachStencilRenderbuffer(
+            buffers.framebuffer,
+            a.getRenderbufferWritable());
+          break;
+        }
+        case ATTACHMENT_STENCIL_AS_DEPTH_STENCIL:
+        {
+          break;
+        }
+      }
     }
   }
 
   private static void makeTexture2DName(
+    final @Nonnull WorkingBuffers buffers)
+  {
+    buffers.text.setLength(0);
+    buffers.text.append("framebuffer-");
+    buffers.text.append(buffers.framebuffer.getGLName());
+    buffers.text.append("-texture2D-0");
+  }
+
+  private static void makeTextureCubeName(
     final @Nonnull WorkingBuffers buffers)
   {
     buffers.text.setLength(0);
@@ -454,42 +625,55 @@ import com.io7m.jaux.functional.Option.Some;
     throws GLException,
       ConstraintError
   {
-    FramebufferConfigurationES2.makeTexture2DName(buffers);
-
     switch (this.want_color) {
       case WANT_COLOR_BEST_RGBA_RENDERBUFFER:
       {
-        buffers.color_renderbuffer =
-          this.allocateBestRGBARenderbuffer_ES2(gl);
-        break;
-      }
-      case WANT_COLOR_BEST_RGBA_TEXTURE_2D:
-      {
-        buffers.color_texture_2d =
-          this.allocateBestRGBATexture2D(gl, buffers.text);
-        break;
-      }
-      case WANT_COLOR_BEST_RGBA_TEXTURE_CUBE:
-      {
-        buffers.color_texture_cube =
-          this.allocateBestRGBATextureCube(gl, buffers.text);
+        buffers.attachment_color =
+          new AttachmentColorRenderbuffer(
+            this.allocateBestRGBARenderbuffer_ES2(gl));
         break;
       }
       case WANT_COLOR_BEST_RGB_RENDERBUFFER:
       {
-        buffers.color_renderbuffer = this.allocateBestRGBRenderbuffer_ES2(gl);
+        buffers.attachment_color =
+          new AttachmentColorRenderbuffer(
+            this.allocateBestRGBRenderbuffer_ES2(gl));
+        break;
+      }
+      case WANT_COLOR_BEST_RGBA_TEXTURE_2D:
+      {
+        FramebufferConfigurationES2.makeTexture2DName(buffers);
+        buffers.attachment_color =
+          new AttachmentColorTexture2DStatic(this.allocateBestRGBATexture2D(
+            gl,
+            buffers.text));
+        break;
+      }
+      case WANT_COLOR_BEST_RGBA_TEXTURE_CUBE:
+      {
+        FramebufferConfigurationES2.makeTextureCubeName(buffers);
+        buffers.attachment_color =
+          new AttachmentColorTextureCubeStatic(
+            this.allocateBestRGBATextureCube(gl, buffers.text),
+            CubeMapFace.CUBE_MAP_POSITIVE_X);
         break;
       }
       case WANT_COLOR_BEST_RGB_TEXTURE_2D:
       {
-        buffers.color_texture_2d =
-          this.allocateBestRGBTexture2D(gl, buffers.text);
+        FramebufferConfigurationES2.makeTexture2DName(buffers);
+        buffers.attachment_color =
+          new AttachmentColorTexture2DStatic(this.allocateBestRGBTexture2D(
+            gl,
+            buffers.text));
         break;
       }
       case WANT_COLOR_BEST_RGB_TEXTURE_CUBE:
       {
-        buffers.color_texture_cube =
-          this.allocateBestRGBTextureCube(gl, buffers.text);
+        FramebufferConfigurationES2.makeTextureCubeName(buffers);
+        buffers.attachment_color =
+          new AttachmentColorTextureCubeStatic(
+            this.allocateBestRGBTextureCube(gl, buffers.text),
+            CubeMapFace.CUBE_MAP_POSITIVE_X);
         break;
       }
       case WANT_COLOR_SHARED_WITH:
@@ -498,20 +682,26 @@ import com.io7m.jaux.functional.Option.Some;
       }
       case WANT_COLOR_SPECIFIC_RENDERBUFFER:
       {
-        buffers.color_renderbuffer =
-          this.allocateSpecificColorRenderbuffer(gl);
+        buffers.attachment_color =
+          new AttachmentColorRenderbuffer(
+            this.allocateSpecificColorRenderbuffer(gl));
         break;
       }
       case WANT_COLOR_SPECIFIC_TEXTURE_2D:
       {
-        buffers.color_texture_2d =
-          this.allocateSpecificColorTexture2D(gl, buffers.text);
+        FramebufferConfigurationES2.makeTexture2DName(buffers);
+        buffers.attachment_color =
+          new AttachmentColorTexture2DStatic(
+            this.allocateSpecificColorTexture2D(gl, buffers.text));
         break;
       }
       case WANT_COLOR_SPECIFIC_TEXTURE_CUBE:
       {
-        buffers.color_texture_cube =
-          this.allocateSpecificColorTextureCube(gl, buffers.text);
+        FramebufferConfigurationES2.makeTextureCubeName(buffers);
+        buffers.attachment_color =
+          new AttachmentColorTextureCubeStatic(
+            this.allocateSpecificColorTextureCube(gl, buffers.text),
+            CubeMapFace.CUBE_MAP_POSITIVE_X);
         break;
       }
       case WANT_NOTHING:
@@ -531,40 +721,57 @@ import com.io7m.jaux.functional.Option.Some;
     throws GLException,
       ConstraintError
   {
+    FramebufferConfigurationES2.makeTexture2DName(buffers);
+
     switch (this.want_color) {
       case WANT_COLOR_BEST_RGBA_RENDERBUFFER:
       {
-        buffers.color_renderbuffer =
-          this.allocateBestRGBARenderbuffer_GL3(gl);
-        break;
-      }
-      case WANT_COLOR_BEST_RGBA_TEXTURE_2D:
-      {
-        buffers.color_texture_2d =
-          this.allocateBestRGBATexture2D(gl, buffers.text);
-        break;
-      }
-      case WANT_COLOR_BEST_RGBA_TEXTURE_CUBE:
-      {
-        buffers.color_texture_cube =
-          this.allocateBestRGBATextureCube(gl, buffers.text);
+        buffers.attachment_color =
+          new AttachmentColorRenderbuffer(
+            this.allocateBestRGBARenderbuffer_GL3(gl));
         break;
       }
       case WANT_COLOR_BEST_RGB_RENDERBUFFER:
       {
-        buffers.color_renderbuffer = this.allocateBestRGBRenderbuffer_GL3(gl);
+        buffers.attachment_color =
+          new AttachmentColorRenderbuffer(
+            this.allocateBestRGBRenderbuffer_GL3(gl));
+        break;
+      }
+      case WANT_COLOR_BEST_RGBA_TEXTURE_2D:
+      {
+        FramebufferConfigurationES2.makeTexture2DName(buffers);
+        buffers.attachment_color =
+          new AttachmentColorTexture2DStatic(this.allocateBestRGBATexture2D(
+            gl,
+            buffers.text));
+        break;
+      }
+      case WANT_COLOR_BEST_RGBA_TEXTURE_CUBE:
+      {
+        FramebufferConfigurationES2.makeTextureCubeName(buffers);
+        buffers.attachment_color =
+          new AttachmentColorTextureCubeStatic(
+            this.allocateBestRGBATextureCube(gl, buffers.text),
+            CubeMapFace.CUBE_MAP_POSITIVE_X);
         break;
       }
       case WANT_COLOR_BEST_RGB_TEXTURE_2D:
       {
-        buffers.color_texture_2d =
-          this.allocateBestRGBTexture2D(gl, buffers.text);
+        FramebufferConfigurationES2.makeTexture2DName(buffers);
+        buffers.attachment_color =
+          new AttachmentColorTexture2DStatic(this.allocateBestRGBTexture2D(
+            gl,
+            buffers.text));
         break;
       }
       case WANT_COLOR_BEST_RGB_TEXTURE_CUBE:
       {
-        buffers.color_texture_cube =
-          this.allocateBestRGBTextureCube(gl, buffers.text);
+        FramebufferConfigurationES2.makeTextureCubeName(buffers);
+        buffers.attachment_color =
+          new AttachmentColorTextureCubeStatic(
+            this.allocateBestRGBTextureCube(gl, buffers.text),
+            CubeMapFace.CUBE_MAP_POSITIVE_X);
         break;
       }
       case WANT_COLOR_SHARED_WITH:
@@ -573,20 +780,26 @@ import com.io7m.jaux.functional.Option.Some;
       }
       case WANT_COLOR_SPECIFIC_RENDERBUFFER:
       {
-        buffers.color_renderbuffer =
-          this.allocateSpecificColorRenderbuffer(gl);
+        buffers.attachment_color =
+          new AttachmentColorRenderbuffer(
+            this.allocateSpecificColorRenderbuffer(gl));
         break;
       }
       case WANT_COLOR_SPECIFIC_TEXTURE_2D:
       {
-        buffers.color_texture_2d =
-          this.allocateSpecificColorTexture2D(gl, buffers.text);
+        FramebufferConfigurationES2.makeTexture2DName(buffers);
+        buffers.attachment_color =
+          new AttachmentColorTexture2DStatic(
+            this.allocateSpecificColorTexture2D(gl, buffers.text));
         break;
       }
       case WANT_COLOR_SPECIFIC_TEXTURE_CUBE:
       {
-        buffers.color_texture_cube =
-          this.allocateSpecificColorTextureCube(gl, buffers.text);
+        FramebufferConfigurationES2.makeTextureCubeName(buffers);
+        buffers.attachment_color =
+          new AttachmentColorTextureCubeStatic(
+            this.allocateSpecificColorTextureCube(gl, buffers.text),
+            CubeMapFace.CUBE_MAP_POSITIVE_X);
         break;
       }
       case WANT_NOTHING:
@@ -612,8 +825,10 @@ import com.io7m.jaux.functional.Option.Some;
     switch (this.want_depth) {
       case WANT_DEPTH_RENDERBUFFER:
       {
-        buffers.depth_renderbuffer =
-          gl.renderbufferAllocateDepth16(this.width, this.height);
+        buffers.attachment_depth =
+          new AttachmentDepthRenderbuffer(gl.renderbufferAllocateDepth16(
+            this.width,
+            this.height));
         break;
       }
       case WANT_DEPTH_SHARED_WITH:
@@ -643,9 +858,13 @@ import com.io7m.jaux.functional.Option.Some;
   {
     if ((this.want_depth == RequestDepth.WANT_DEPTH_RENDERBUFFER)
       || (this.want_stencil == RequestStencil.WANT_STENCIL_RENDERBUFFER)) {
-      buffers.depth_stencil_renderbuffer =
-        extension
-          .renderbufferAllocateDepth24Stencil8(this.width, this.height);
+      buffers.attachment_depth =
+        new AttachmentDepthStencilRenderbuffer(
+          extension.renderbufferAllocateDepth24Stencil8(
+            this.width,
+            this.height));
+
+      buffers.attachment_stencil = new AttachmentStencilAsDepthStencil();
       return;
     }
 
@@ -671,8 +890,11 @@ import com.io7m.jaux.functional.Option.Some;
   {
     if ((this.want_depth == RequestDepth.WANT_DEPTH_RENDERBUFFER)
       || (this.want_stencil == RequestStencil.WANT_STENCIL_RENDERBUFFER)) {
-      buffers.depth_stencil_renderbuffer =
-        gl.renderbufferAllocateDepth24Stencil8(this.width, this.height);
+      buffers.attachment_depth =
+        new AttachmentDepthStencilRenderbuffer(
+          gl.renderbufferAllocateDepth24Stencil8(this.width, this.height));
+
+      buffers.attachment_stencil = new AttachmentStencilAsDepthStencil();
       return;
     }
 
@@ -836,8 +1058,10 @@ import com.io7m.jaux.functional.Option.Some;
       }
       case WANT_STENCIL_RENDERBUFFER:
       {
-        buffers.stencil_renderbuffer =
-          gl.renderbufferAllocateStencil8(this.width, this.height);
+        buffers.attachment_stencil =
+          new AttachmentStencilRenderbuffer(gl.renderbufferAllocateStencil8(
+            this.width,
+            this.height));
         break;
       }
       case WANT_STENCIL_SHARED_WITH:
@@ -936,6 +1160,35 @@ import com.io7m.jaux.functional.Option.Some;
     return result;
   }
 
+  private boolean hasRequestedAnything()
+  {
+    switch (this.want_color) {
+      case WANT_NOTHING:
+        break;
+      // $CASES-OMITTED$
+      default:
+        return true;
+    }
+
+    switch (this.want_depth) {
+      case WANT_NOTHING:
+        break;
+      // $CASES-OMITTED$
+      default:
+        return true;
+    }
+
+    switch (this.want_stencil) {
+      case WANT_NOTHING:
+        break;
+      // $CASES-OMITTED$
+      default:
+        return true;
+    }
+
+    return false;
+  }
+
   /**
    * Construct a framebuffer based on the current configuration.
    * 
@@ -951,6 +1204,10 @@ import com.io7m.jaux.functional.Option.Some;
       ConstraintError
   {
     final WorkingBuffers buffers = new WorkingBuffers();
+
+    Constraints.constrainArbitrary(
+      this.hasRequestedAnything(),
+      "Resulting framebuffer has at least one attachment");
 
     if (gi.implementationProvidesGL3()) {
       final GLInterface3 gl = gi.implementationGetGL3();
@@ -1032,7 +1289,6 @@ import com.io7m.jaux.functional.Option.Some;
   {
     this.allocateColorBuffers_ES2(buffers, gl);
     this.allocateDepthStencil_ES2(buffers, extension);
-    assert buffers.allocationsConsistent();
     FramebufferConfigurationES2.attachBuffers_ES2(buffers, gl, extension);
     return this.validateAndMakeState(buffers, gl);
   }
@@ -1054,7 +1310,6 @@ import com.io7m.jaux.functional.Option.Some;
     this.allocateColorBuffers_ES2(buffers, gl);
     this.allocateDepth_ES2(buffers, gl);
     this.allocateStencil_ES2(buffers, gl);
-    assert buffers.allocationsConsistent();
     FramebufferConfigurationES2.attachBuffers_ES2(buffers, gl, null);
     return this.validateAndMakeState(buffers, gl);
   }
@@ -1075,7 +1330,6 @@ import com.io7m.jaux.functional.Option.Some;
     buffers.framebuffer = gl.framebufferAllocate();
     this.allocateColorBuffers_GL3(buffers, gl);
     this.allocateDepthStencil_GL3(buffers, gl);
-    assert buffers.allocationsConsistent();
     FramebufferConfigurationES2.attachBuffers_GL3(buffers, gl);
     return this.validateAndMakeState(buffers, gl);
   }
@@ -1124,15 +1378,17 @@ import com.io7m.jaux.functional.Option.Some;
     final @Nonnull TextureFilter texture_mag_filter)
     throws ConstraintError
   {
+    Constraints.constrainNotNull(texture_wrap_s, "Wrap S");
+    Constraints.constrainNotNull(texture_wrap_t, "Wrap T");
+    Constraints.constrainNotNull(texture_mag_filter, "Magnification filter");
+    Constraints.constrainNotNull(texture_min_filter, "Minification filter");
+
     this.want_color = RequestColor.WANT_COLOR_BEST_RGBA_TEXTURE_2D;
     this.want_color_specific = null;
-    this.wrap_s = Constraints.constrainNotNull(texture_wrap_s, "Wrap S");
-    this.wrap_t = Constraints.constrainNotNull(texture_wrap_t, "Wrap T");
-    this.mag_filter =
-      Constraints
-        .constrainNotNull(texture_mag_filter, "Magnification filter");
-    this.min_filter =
-      Constraints.constrainNotNull(texture_min_filter, "Minification filter");
+    this.wrap_s = texture_wrap_s;
+    this.wrap_t = texture_wrap_t;
+    this.mag_filter = texture_mag_filter;
+    this.min_filter = texture_min_filter;
   }
 
   /**
@@ -1165,18 +1421,19 @@ import com.io7m.jaux.functional.Option.Some;
     Constraints.constrainArbitrary(
       this.width == this.height,
       "Framebuffer width == height required for cube maps");
+    Constraints.constrainNotNull(texture_wrap_r, "Wrap R");
+    Constraints.constrainNotNull(texture_wrap_s, "Wrap S");
+    Constraints.constrainNotNull(texture_wrap_t, "Wrap T");
+    Constraints.constrainNotNull(texture_mag_filter, "Magnification filter");
+    Constraints.constrainNotNull(texture_min_filter, "Minification filter");
 
     this.want_color = RequestColor.WANT_COLOR_BEST_RGBA_TEXTURE_CUBE;
-
-    this.wrap_r = Constraints.constrainNotNull(texture_wrap_r, "Wrap R");
-    this.wrap_s = Constraints.constrainNotNull(texture_wrap_s, "Wrap S");
-    this.wrap_t = Constraints.constrainNotNull(texture_wrap_t, "Wrap T");
-
-    this.mag_filter =
-      Constraints
-        .constrainNotNull(texture_mag_filter, "Magnification filter");
-    this.min_filter =
-      Constraints.constrainNotNull(texture_min_filter, "Minification filter");
+    this.want_color_specific = null;
+    this.wrap_r = texture_wrap_r;
+    this.wrap_s = texture_wrap_s;
+    this.wrap_t = texture_wrap_t;
+    this.mag_filter = texture_mag_filter;
+    this.min_filter = texture_min_filter;
   }
 
   /**
@@ -1223,15 +1480,17 @@ import com.io7m.jaux.functional.Option.Some;
     final @Nonnull TextureFilter texture_mag_filter)
     throws ConstraintError
   {
+    Constraints.constrainNotNull(texture_wrap_s, "Wrap S");
+    Constraints.constrainNotNull(texture_wrap_t, "Wrap T");
+    Constraints.constrainNotNull(texture_mag_filter, "Magnification filter");
+    Constraints.constrainNotNull(texture_min_filter, "Minification filter");
+
     this.want_color = RequestColor.WANT_COLOR_BEST_RGB_TEXTURE_2D;
     this.want_color_specific = null;
-    this.wrap_s = Constraints.constrainNotNull(texture_wrap_s, "Wrap S");
-    this.wrap_t = Constraints.constrainNotNull(texture_wrap_t, "Wrap T");
-    this.mag_filter =
-      Constraints
-        .constrainNotNull(texture_mag_filter, "Magnification filter");
-    this.min_filter =
-      Constraints.constrainNotNull(texture_min_filter, "Minification filter");
+    this.wrap_s = texture_wrap_s;
+    this.wrap_t = texture_wrap_t;
+    this.mag_filter = texture_mag_filter;
+    this.min_filter = texture_min_filter;
   }
 
   /**
@@ -1264,18 +1523,19 @@ import com.io7m.jaux.functional.Option.Some;
     Constraints.constrainArbitrary(
       this.width == this.height,
       "Framebuffer width == height required for cube maps");
+    Constraints.constrainNotNull(texture_wrap_r, "Wrap R");
+    Constraints.constrainNotNull(texture_wrap_s, "Wrap S");
+    Constraints.constrainNotNull(texture_wrap_t, "Wrap T");
+    Constraints.constrainNotNull(texture_mag_filter, "Magnification filter");
+    Constraints.constrainNotNull(texture_min_filter, "Minification filter");
 
     this.want_color = RequestColor.WANT_COLOR_BEST_RGB_TEXTURE_CUBE;
-
-    this.wrap_r = Constraints.constrainNotNull(texture_wrap_r, "Wrap R");
-    this.wrap_s = Constraints.constrainNotNull(texture_wrap_s, "Wrap S");
-    this.wrap_t = Constraints.constrainNotNull(texture_wrap_t, "Wrap T");
-
-    this.mag_filter =
-      Constraints
-        .constrainNotNull(texture_mag_filter, "Magnification filter");
-    this.min_filter =
-      Constraints.constrainNotNull(texture_min_filter, "Minification filter");
+    this.want_color_specific = null;
+    this.wrap_r = texture_wrap_r;
+    this.wrap_s = texture_wrap_s;
+    this.wrap_t = texture_wrap_t;
+    this.mag_filter = texture_mag_filter;
+    this.min_filter = texture_min_filter;
   }
 
   /**
@@ -1330,9 +1590,10 @@ import com.io7m.jaux.functional.Option.Some;
     final @Nonnull RequestColorTypeES2 type)
     throws ConstraintError
   {
+    Constraints.constrainNotNull(type, "Color type");
+
     this.want_color = RequestColor.WANT_COLOR_SPECIFIC_RENDERBUFFER;
-    this.want_color_specific =
-      Constraints.constrainNotNull(type, "Color type");
+    this.want_color_specific = type;
   }
 
   /**
@@ -1350,17 +1611,18 @@ import com.io7m.jaux.functional.Option.Some;
     final @Nonnull TextureFilter texture_mag_filter)
     throws ConstraintError
   {
-    this.want_color = RequestColor.WANT_COLOR_SPECIFIC_TEXTURE_2D;
-    this.want_color_specific =
-      Constraints.constrainNotNull(type, "Color type");
+    Constraints.constrainNotNull(type, "Color type");
+    Constraints.constrainNotNull(texture_wrap_s, "Wrap S");
+    Constraints.constrainNotNull(texture_wrap_t, "Wrap T");
+    Constraints.constrainNotNull(texture_mag_filter, "Magnification filter");
+    Constraints.constrainNotNull(texture_min_filter, "Minification filter");
 
-    this.wrap_s = Constraints.constrainNotNull(texture_wrap_s, "Wrap S");
-    this.wrap_t = Constraints.constrainNotNull(texture_wrap_t, "Wrap T");
-    this.mag_filter =
-      Constraints
-        .constrainNotNull(texture_mag_filter, "Magnification filter");
-    this.min_filter =
-      Constraints.constrainNotNull(texture_min_filter, "Minification filter");
+    this.want_color = RequestColor.WANT_COLOR_SPECIFIC_TEXTURE_2D;
+    this.want_color_specific = type;
+    this.wrap_s = texture_wrap_s;
+    this.wrap_t = texture_wrap_t;
+    this.mag_filter = texture_mag_filter;
+    this.min_filter = texture_min_filter;
   }
 
   /**
@@ -1385,20 +1647,20 @@ import com.io7m.jaux.functional.Option.Some;
     Constraints.constrainArbitrary(
       this.width == this.height,
       "Framebuffer width == height required for cube maps");
+    Constraints.constrainNotNull(type, "Color type");
+    Constraints.constrainNotNull(texture_wrap_r, "Wrap R");
+    Constraints.constrainNotNull(texture_wrap_s, "Wrap S");
+    Constraints.constrainNotNull(texture_wrap_t, "Wrap T");
+    Constraints.constrainNotNull(texture_mag_filter, "Magnification filter");
+    Constraints.constrainNotNull(texture_min_filter, "Minification filter");
 
     this.want_color = RequestColor.WANT_COLOR_SPECIFIC_TEXTURE_CUBE;
-    this.want_color_specific =
-      Constraints.constrainNotNull(type, "Color type");
-
-    this.wrap_r = Constraints.constrainNotNull(texture_wrap_r, "Wrap R");
-    this.wrap_s = Constraints.constrainNotNull(texture_wrap_s, "Wrap S");
-    this.wrap_t = Constraints.constrainNotNull(texture_wrap_t, "Wrap T");
-
-    this.mag_filter =
-      Constraints
-        .constrainNotNull(texture_mag_filter, "Magnification filter");
-    this.min_filter =
-      Constraints.constrainNotNull(texture_min_filter, "Minification filter");
+    this.want_color_specific = type;
+    this.wrap_r = texture_wrap_r;
+    this.wrap_s = texture_wrap_s;
+    this.wrap_t = texture_wrap_t;
+    this.mag_filter = texture_mag_filter;
+    this.min_filter = texture_min_filter;
   }
 
   /**
@@ -1480,36 +1742,14 @@ import com.io7m.jaux.functional.Option.Some;
     final Framebuffer state =
       new Framebuffer(buffers.framebuffer, this.width, this.height);
 
-    if (buffers.color_renderbuffer != null) {
-      state.configAddColorRenderbuffer(
-        points[0],
-        buffers.color_renderbuffer,
-        false);
+    if (buffers.attachment_color != null) {
+      state.configAddColorAttachment(points[0], buffers.attachment_color);
     }
-    if (buffers.color_texture_2d != null) {
-      state.configAddColorTexture2D(
-        points[0],
-        buffers.color_texture_2d,
-        false);
+    if (buffers.attachment_depth != null) {
+      state.configSetDepthAttachment(buffers.attachment_depth);
     }
-    if (buffers.color_texture_cube != null) {
-      state.configAddColorTextureCube(
-        points[0],
-        CubeMapFace.CUBE_MAP_POSITIVE_X,
-        buffers.color_texture_cube,
-        false);
-    }
-    if (buffers.depth_stencil_renderbuffer != null) {
-      state.configSetDepthStencilBuffer(
-        buffers.depth_stencil_renderbuffer,
-        false);
-    } else {
-      if (buffers.depth_renderbuffer != null) {
-        state.configSetDepthBuffer(buffers.depth_renderbuffer, false);
-      }
-      if (buffers.stencil_renderbuffer != null) {
-        state.configSetStencilBuffer(buffers.stencil_renderbuffer, false);
-      }
+    if (buffers.attachment_stencil != null) {
+      state.configSetStencilAttachment(buffers.attachment_stencil);
     }
 
     return new Success<Framebuffer, FramebufferStatus>(state);

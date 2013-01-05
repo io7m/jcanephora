@@ -616,7 +616,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void framebufferDrawAttachColorTexture2D(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStatic texture)
+    final @Nonnull Texture2DStaticReadable texture)
     throws GLException,
       ConstraintError
   {
@@ -629,7 +629,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void framebufferDrawAttachColorTextureCube(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull TextureCubeStatic texture,
+    final @Nonnull TextureCubeStaticReadable texture,
     final @Nonnull CubeMapFace face)
     throws GLException,
       ConstraintError
@@ -657,7 +657,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void framebufferDrawAttachDepthTexture2D(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStatic texture)
+    final @Nonnull Texture2DStaticReadable texture)
     throws GLException,
       ConstraintError
   {
