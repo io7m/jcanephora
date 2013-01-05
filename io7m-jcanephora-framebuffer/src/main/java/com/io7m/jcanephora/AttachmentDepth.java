@@ -168,21 +168,21 @@ public abstract class AttachmentDepth
     private final @Nonnull RenderbufferReadable renderbuffer;
 
     public AttachmentSharedDepthRenderbuffer(
-      final @Nonnull RenderbufferReadable renderbuffer)
-      throws ConstraintError
-    {
-      super(Type.ATTACHMENT_SHARED_DEPTH_RENDERBUFFER);
-      this.renderbuffer =
-        Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
-    }
-
-    public AttachmentSharedDepthRenderbuffer(
       final AttachmentSharedDepthRenderbuffer a)
       throws ConstraintError
     {
       super(Type.ATTACHMENT_SHARED_DEPTH_RENDERBUFFER);
       Constraints.constrainNotNull(a, "Attachment");
       this.renderbuffer = a.getRenderbuffer();
+    }
+
+    public AttachmentSharedDepthRenderbuffer(
+      final @Nonnull RenderbufferReadable renderbuffer)
+      throws ConstraintError
+    {
+      super(Type.ATTACHMENT_SHARED_DEPTH_RENDERBUFFER);
+      this.renderbuffer =
+        Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
     }
 
     @Override public boolean equals(
@@ -235,21 +235,21 @@ public abstract class AttachmentDepth
     private final @Nonnull RenderbufferReadable renderbuffer;
 
     public AttachmentSharedDepthStencilRenderbuffer(
-      final @Nonnull RenderbufferReadable renderbuffer)
-      throws ConstraintError
-    {
-      super(Type.ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER);
-      this.renderbuffer =
-        Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
-    }
-
-    public AttachmentSharedDepthStencilRenderbuffer(
       final @Nonnull AttachmentSharedDepthStencilRenderbuffer a)
       throws ConstraintError
     {
       super(Type.ATTACHMENT_SHARED_DEPTH_RENDERBUFFER);
       Constraints.constrainNotNull(a, "Attachment");
       this.renderbuffer = a.getRenderbuffer();
+    }
+
+    public AttachmentSharedDepthStencilRenderbuffer(
+      final @Nonnull RenderbufferReadable renderbuffer)
+      throws ConstraintError
+    {
+      super(Type.ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER);
+      this.renderbuffer =
+        Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
     }
 
     @Override public boolean equals(
