@@ -377,7 +377,7 @@ public interface GLTexturesCubeStaticES2
 
   void textureCubeStaticBind(
     final @Nonnull TextureUnit unit,
-    final @Nonnull TextureCubeStaticReadable texture)
+    final @Nonnull TextureCubeStaticUsable texture)
     throws ConstraintError,
       GLException;
 
@@ -422,7 +422,7 @@ public interface GLTexturesCubeStaticES2
 
   boolean textureCubeStaticIsBound(
     final @Nonnull TextureUnit unit,
-    final @Nonnull TextureCubeStaticReadable texture)
+    final @Nonnull TextureCubeStaticUsable texture)
     throws ConstraintError,
       GLException;
 

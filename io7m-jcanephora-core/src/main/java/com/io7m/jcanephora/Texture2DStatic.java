@@ -28,7 +28,7 @@ import com.io7m.jaux.RangeInclusive;
 
 public final class Texture2DStatic extends Deletable implements
   GLResource,
-  Texture2DStaticReadable
+  Texture2DStaticUsable
 {
   private boolean                       deleted = false;
   private final int                     id;

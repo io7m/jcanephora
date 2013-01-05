@@ -32,9 +32,9 @@ public abstract class AttachmentStencil
    */
 
   public static final class AttachmentSharedStencilRenderbuffer extends
-    AttachmentStencil implements AttachmentStencilRenderbufferReadable
+    AttachmentStencil implements AttachmentStencilRenderbufferUsable
   {
-    private final @Nonnull RenderbufferReadable renderbuffer;
+    private final @Nonnull RenderbufferUsable renderbuffer;
 
     public AttachmentSharedStencilRenderbuffer(
       final @Nonnull AttachmentSharedStencilRenderbuffer a)
@@ -46,7 +46,7 @@ public abstract class AttachmentStencil
     }
 
     public AttachmentSharedStencilRenderbuffer(
-      final @Nonnull RenderbufferReadable renderbuffer)
+      final @Nonnull RenderbufferUsable renderbuffer)
       throws ConstraintError
     {
       super(Type.ATTACHMENT_SHARED_STENCIL_RENDERBUFFER);
@@ -74,7 +74,7 @@ public abstract class AttachmentStencil
       return true;
     }
 
-    @Override public @Nonnull RenderbufferReadable getRenderbuffer()
+    @Override public @Nonnull RenderbufferUsable getRenderbuffer()
     {
       return this.renderbuffer;
     }
@@ -137,7 +137,7 @@ public abstract class AttachmentStencil
    */
 
   public static final class AttachmentStencilRenderbuffer extends
-    AttachmentStencil implements AttachmentStencilRenderbufferReadable
+    AttachmentStencil implements AttachmentStencilRenderbufferUsable
   {
     private final @Nonnull Renderbuffer renderbuffer;
 
@@ -170,7 +170,7 @@ public abstract class AttachmentStencil
       return true;
     }
 
-    @Override public @Nonnull RenderbufferReadable getRenderbuffer()
+    @Override public @Nonnull RenderbufferUsable getRenderbuffer()
     {
       return this.renderbuffer;
     }
@@ -195,9 +195,9 @@ public abstract class AttachmentStencil
     }
   }
 
-  interface AttachmentStencilRenderbufferReadable
+  interface AttachmentStencilRenderbufferUsable
   {
-    public @Nonnull RenderbufferReadable getRenderbuffer();
+    public @Nonnull RenderbufferUsable getRenderbuffer();
   }
 
   public static enum Type

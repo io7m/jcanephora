@@ -32,7 +32,7 @@ public abstract class AttachmentColor
    */
 
   public static final class AttachmentColorRenderbuffer extends
-    AttachmentColor implements AttachmentColorRenderbufferReadable
+    AttachmentColor implements AttachmentColorRenderbufferUsable
   {
     private final @Nonnull Renderbuffer renderbuffer;
 
@@ -65,7 +65,7 @@ public abstract class AttachmentColor
       return true;
     }
 
-    @Override public @Nonnull RenderbufferReadable getRenderbuffer()
+    @Override public @Nonnull RenderbufferUsable getRenderbuffer()
     {
       return this.renderbuffer;
     }
@@ -90,14 +90,9 @@ public abstract class AttachmentColor
     }
   }
 
-  interface AttachmentColorRenderbufferReadable
+  interface AttachmentColorRenderbufferUsable
   {
-    public @Nonnull RenderbufferReadable getRenderbuffer();
-  }
-
-  interface AttachmentColorTexture2DReadable
-  {
-    public @Nonnull Texture2DStaticReadable getTexture2D();
+    public @Nonnull RenderbufferUsable getRenderbuffer();
   }
 
   /**
@@ -105,7 +100,7 @@ public abstract class AttachmentColor
    */
 
   public static final class AttachmentColorTexture2DStatic extends
-    AttachmentColor implements AttachmentColorTexture2DReadable
+    AttachmentColor implements AttachmentColorTexture2DUsable
   {
     private final @Nonnull Texture2DStatic texture;
 
@@ -137,7 +132,7 @@ public abstract class AttachmentColor
       return true;
     }
 
-    @Override public @Nonnull Texture2DStaticReadable getTexture2D()
+    @Override public @Nonnull Texture2DStaticUsable getTexture2D()
     {
       return this.texture;
     }
@@ -162,11 +157,9 @@ public abstract class AttachmentColor
     }
   }
 
-  interface AttachmentColorTextureCubeReadable
+  interface AttachmentColorTexture2DUsable
   {
-    public @Nonnull CubeMapFace getFace();
-
-    public @Nonnull TextureCubeStaticReadable getTextureCube();
+    public @Nonnull Texture2DStaticUsable getTexture2D();
   }
 
   /**
@@ -174,7 +167,7 @@ public abstract class AttachmentColor
    */
 
   public static final class AttachmentColorTextureCubeStatic extends
-    AttachmentColor implements AttachmentColorTextureCubeReadable
+    AttachmentColor implements AttachmentColorTextureCubeUsable
   {
     private final @Nonnull TextureCubeStatic texture;
     private final @Nonnull CubeMapFace       face;
@@ -215,7 +208,7 @@ public abstract class AttachmentColor
       return this.face;
     }
 
-    @Override public @Nonnull TextureCubeStaticReadable getTextureCube()
+    @Override public @Nonnull TextureCubeStaticUsable getTextureCube()
     {
       return this.texture;
     }
@@ -242,14 +235,21 @@ public abstract class AttachmentColor
     }
   }
 
+  interface AttachmentColorTextureCubeUsable
+  {
+    public @Nonnull CubeMapFace getFace();
+
+    public @Nonnull TextureCubeStaticUsable getTextureCube();
+  }
+
   /**
    * ATTACHMENT_SHARED_COLOR_RENDERBUFFER
    */
 
   public static final class AttachmentSharedColorRenderbuffer extends
-    AttachmentColor implements AttachmentColorRenderbufferReadable
+    AttachmentColor implements AttachmentColorRenderbufferUsable
   {
-    private final @Nonnull RenderbufferReadable renderbuffer;
+    private final @Nonnull RenderbufferUsable renderbuffer;
 
     public AttachmentSharedColorRenderbuffer(
       final @Nonnull AttachmentSharedColorRenderbuffer a)
@@ -261,7 +261,7 @@ public abstract class AttachmentColor
     }
 
     public AttachmentSharedColorRenderbuffer(
-      final @Nonnull RenderbufferReadable renderbuffer)
+      final @Nonnull RenderbufferUsable renderbuffer)
       throws ConstraintError
     {
       super(Type.ATTACHMENT_SHARED_COLOR_RENDERBUFFER);
@@ -289,7 +289,7 @@ public abstract class AttachmentColor
       return true;
     }
 
-    @Override public @Nonnull RenderbufferReadable getRenderbuffer()
+    @Override public @Nonnull RenderbufferUsable getRenderbuffer()
     {
       return this.renderbuffer;
     }
@@ -314,9 +314,9 @@ public abstract class AttachmentColor
    */
 
   public static final class AttachmentSharedColorTexture2DStatic extends
-    AttachmentColor implements AttachmentColorTexture2DReadable
+    AttachmentColor implements AttachmentColorTexture2DUsable
   {
-    private final @Nonnull Texture2DStaticReadable texture;
+    private final @Nonnull Texture2DStaticUsable texture;
 
     public AttachmentSharedColorTexture2DStatic(
       final @Nonnull AttachmentSharedColorTexture2DStatic a)
@@ -328,7 +328,7 @@ public abstract class AttachmentColor
     }
 
     public AttachmentSharedColorTexture2DStatic(
-      final @Nonnull Texture2DStaticReadable texture)
+      final @Nonnull Texture2DStaticUsable texture)
       throws ConstraintError
     {
       super(Type.ATTACHMENT_SHARED_COLOR_TEXTURE_2D);
@@ -355,7 +355,7 @@ public abstract class AttachmentColor
       return true;
     }
 
-    @Override public @Nonnull Texture2DStaticReadable getTexture2D()
+    @Override public @Nonnull Texture2DStaticUsable getTexture2D()
     {
       return this.texture;
     }
@@ -380,10 +380,10 @@ public abstract class AttachmentColor
    */
 
   public static final class AttachmentSharedColorTextureCubeStatic extends
-    AttachmentColor implements AttachmentColorTextureCubeReadable
+    AttachmentColor implements AttachmentColorTextureCubeUsable
   {
-    private final @Nonnull TextureCubeStaticReadable texture;
-    private final @Nonnull CubeMapFace               face;
+    private final @Nonnull TextureCubeStaticUsable texture;
+    private final @Nonnull CubeMapFace             face;
 
     public AttachmentSharedColorTextureCubeStatic(
       final @Nonnull AttachmentSharedColorTextureCubeStatic a)
@@ -396,7 +396,7 @@ public abstract class AttachmentColor
     }
 
     public AttachmentSharedColorTextureCubeStatic(
-      final @Nonnull TextureCubeStaticReadable texture,
+      final @Nonnull TextureCubeStaticUsable texture,
       final @Nonnull CubeMapFace face)
       throws ConstraintError
     {
@@ -431,7 +431,7 @@ public abstract class AttachmentColor
       return this.face;
     }
 
-    @Override public @Nonnull TextureCubeStaticReadable getTextureCube()
+    @Override public @Nonnull TextureCubeStaticUsable getTextureCube()
     {
       return this.texture;
     }

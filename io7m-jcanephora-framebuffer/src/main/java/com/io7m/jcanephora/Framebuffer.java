@@ -35,7 +35,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
  * A created framebuffer, with all associated textures and/or renderbuffers.
  */
 
-public final class Framebuffer implements GLResource, FramebufferReadable
+public final class Framebuffer implements GLResource, FramebufferUsable
 {
   private final @Nonnull FramebufferReference                                  framebuffer;
   private final int                                                            width;

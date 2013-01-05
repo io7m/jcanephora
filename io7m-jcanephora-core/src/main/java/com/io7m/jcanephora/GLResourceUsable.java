@@ -17,11 +17,11 @@
 package com.io7m.jcanephora;
 
 /**
- * A view of a resource of some description that requires access to OpenGL for
- * deletion.
+ * A read-only view of a resource of some description that requires access to
+ * OpenGL for deletion.
  */
 
-public interface GLResourceReadable
+public interface GLResourceUsable
 {
   /**
    * Return <code>true</code> iff the given resource has been deleted.

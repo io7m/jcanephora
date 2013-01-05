@@ -28,7 +28,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 @Immutable public final class Renderbuffer extends Deletable implements
   GLResource,
-  RenderbufferReadable
+  RenderbufferUsable
 {
   private final @Nonnull RenderbufferType type;
   private final int                       value;

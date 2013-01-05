@@ -1642,7 +1642,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
    */
 
   public void requestSharedColor(
-    final @Nonnull FramebufferReadable framebuffer,
+    final @Nonnull FramebufferUsable framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint attachment)
     throws ConstraintError
   {

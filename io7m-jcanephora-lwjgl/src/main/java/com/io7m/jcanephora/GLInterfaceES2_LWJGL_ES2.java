@@ -62,7 +62,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
     @Override public void framebufferDrawAttachDepthStencilRenderbuffer(
       final @Nonnull FramebufferReference framebuffer,
-      final @Nonnull RenderbufferReadable renderbuffer)
+      final @Nonnull RenderbufferUsable renderbuffer)
       throws GLException,
         ConstraintError
     {
@@ -603,7 +603,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void framebufferDrawAttachColorRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferReadable renderbuffer)
+    final @Nonnull RenderbufferUsable renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -616,7 +616,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void framebufferDrawAttachColorTexture2D(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticReadable texture)
+    final @Nonnull Texture2DStaticUsable texture)
     throws GLException,
       ConstraintError
   {
@@ -629,7 +629,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void framebufferDrawAttachColorTextureCube(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull TextureCubeStaticReadable texture,
+    final @Nonnull TextureCubeStaticUsable texture,
     final @Nonnull CubeMapFace face)
     throws GLException,
       ConstraintError
@@ -644,7 +644,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void framebufferDrawAttachDepthRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferReadable renderbuffer)
+    final @Nonnull RenderbufferUsable renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -657,7 +657,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void framebufferDrawAttachDepthTexture2D(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticReadable texture)
+    final @Nonnull Texture2DStaticUsable texture)
     throws GLException,
       ConstraintError
   {
@@ -670,7 +670,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void framebufferDrawAttachStencilRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferReadable renderbuffer)
+    final @Nonnull RenderbufferUsable renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -1318,7 +1318,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void texture2DStaticBind(
     final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DStaticReadable texture)
+    final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
       GLException
   {
@@ -1335,7 +1335,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public boolean texture2DStaticIsBound(
     final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DStaticReadable texture)
+    final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
       GLException
   {
@@ -1490,7 +1490,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void textureCubeStaticBind(
     final @Nonnull TextureUnit unit,
-    final @Nonnull TextureCubeStaticReadable texture)
+    final @Nonnull TextureCubeStaticUsable texture)
     throws ConstraintError,
       GLException
   {
@@ -1507,7 +1507,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public boolean textureCubeStaticIsBound(
     final @Nonnull TextureUnit unit,
-    final @Nonnull TextureCubeStaticReadable texture)
+    final @Nonnull TextureCubeStaticUsable texture)
     throws ConstraintError,
       GLException
   {

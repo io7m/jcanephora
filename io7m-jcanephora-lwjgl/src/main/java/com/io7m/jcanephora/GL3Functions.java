@@ -211,7 +211,7 @@ final class GL3Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferReadable renderbuffer)
+    final @Nonnull RenderbufferUsable renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -253,7 +253,7 @@ final class GL3Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticReadable texture)
+    final @Nonnull Texture2DStaticUsable texture)
     throws GLException,
       ConstraintError
   {
@@ -296,7 +296,7 @@ final class GL3Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull TextureCubeStaticReadable texture,
+    final @Nonnull TextureCubeStaticUsable texture,
     final @Nonnull CubeMapFace face)
     throws GLException,
       ConstraintError
@@ -343,7 +343,7 @@ final class GL3Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferReadable renderbuffer)
+    final @Nonnull RenderbufferUsable renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -385,7 +385,7 @@ final class GL3Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferReadable renderbuffer)
+    final @Nonnull RenderbufferUsable renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -437,7 +437,7 @@ final class GL3Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticReadable texture)
+    final @Nonnull Texture2DStaticUsable texture)
     throws GLException,
       ConstraintError
   {
@@ -480,7 +480,7 @@ final class GL3Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferReadable renderbuffer)
+    final @Nonnull RenderbufferUsable renderbuffer)
     throws GLException,
       ConstraintError
   {

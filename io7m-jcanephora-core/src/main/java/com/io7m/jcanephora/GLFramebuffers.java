@@ -37,7 +37,7 @@ public interface GLFramebuffers extends GLFramebuffersES2
 
   void framebufferDrawAttachDepthStencilRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferReadable renderbuffer)
+    final @Nonnull RenderbufferUsable renderbuffer)
     throws GLException,
       ConstraintError;
 }

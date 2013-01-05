@@ -3,11 +3,11 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 /**
- * A "readable" interface to the {@link Renderbuffer} type that allows use of
+ * A read-only interface to the {@link Renderbuffer} type that allows use of
  * the type but not mutation and/or deletion of the contents.
  */
 
-public interface RenderbufferReadable extends GLName, GLResourceReadable
+public interface RenderbufferUsable extends GLName, GLResourceUsable
 {
   /**
    * Retrieve the height of the buffer.

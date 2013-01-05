@@ -28,7 +28,7 @@ import com.io7m.jaux.RangeInclusive;
 
 public final class TextureCubeStatic extends Deletable implements
   GLResource,
-  TextureCubeStaticReadable
+  TextureCubeStaticUsable
 {
   private boolean                       deleted = false;
   private final int                     id;
