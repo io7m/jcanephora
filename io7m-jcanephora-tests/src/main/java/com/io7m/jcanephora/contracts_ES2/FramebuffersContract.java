@@ -1,5 +1,7 @@
 package com.io7m.jcanephora.contracts_ES2;
 
+import javax.annotation.Nonnull;
+
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -12,9 +14,14 @@ import com.io7m.jcanephora.AttachmentColor;
 import com.io7m.jcanephora.AttachmentColor.AttachmentColorRenderbuffer;
 import com.io7m.jcanephora.AttachmentColor.AttachmentColorTexture2DStatic;
 import com.io7m.jcanephora.AttachmentColor.AttachmentColorTextureCubeStatic;
+import com.io7m.jcanephora.AttachmentColor.AttachmentSharedColorRenderbuffer;
+import com.io7m.jcanephora.AttachmentColor.AttachmentSharedColorTexture2DStatic;
+import com.io7m.jcanephora.AttachmentColor.AttachmentSharedColorTextureCubeStatic;
 import com.io7m.jcanephora.AttachmentDepth;
 import com.io7m.jcanephora.AttachmentDepth.AttachmentDepthRenderbuffer;
 import com.io7m.jcanephora.AttachmentDepth.AttachmentDepthStencilRenderbuffer;
+import com.io7m.jcanephora.AttachmentDepth.AttachmentSharedDepthRenderbuffer;
+import com.io7m.jcanephora.AttachmentDepth.AttachmentSharedDepthStencilRenderbuffer;
 import com.io7m.jcanephora.AttachmentStencil;
 import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 import com.io7m.jcanephora.CubeMapFace;
@@ -36,6 +43,21 @@ import com.io7m.jcanephora.TextureWrap;
 
 public abstract class FramebuffersContract implements GLES2TestContract
 {
+  private static @Nonnull Framebuffer makeAssumingSuccess(
+    final FramebufferConfigurationES2 config,
+    final GLImplementation gi)
+    throws GLException,
+      ConstraintError
+  {
+    final Indeterminate<Framebuffer, FramebufferStatus> result =
+      config.make(gi);
+    Assert.assertTrue(result.isSuccess());
+    final Success<Framebuffer, FramebufferStatus> success =
+      (Success<Framebuffer, FramebufferStatus>) result;
+    final Framebuffer fb = success.value;
+    return fb;
+  }
+
   @Before public final void checkSupport()
   {
     Assume.assumeTrue(this.isGLSupported());
@@ -720,6 +742,493 @@ public abstract class FramebuffersContract implements GLES2TestContract
   }
 
   /**
+   * Requesting to share a color renderbuffer results in the correct shared
+   * renderbuffer attachment.
+   * 
+   * @throws GLException
+   * @throws GLUnsupportedException
+   * @throws ConstraintError
+   */
+
+  @Test public void testSharedColorRenderbufferRGB()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final FramebufferColorAttachmentPoint[] points =
+      gl.framebufferGetColorAttachmentPoints();
+
+    /**
+     * Create initial framebuffer.
+     */
+
+    final FramebufferConfigurationES2 fb0_config =
+      new FramebufferConfigurationES2(128, 128);
+    fb0_config.requestBestRGBColorRenderbuffer();
+
+    final Framebuffer fb0 =
+      FramebuffersContract.makeAssumingSuccess(fb0_config, gi);
+    final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
+
+    switch (fb0_attach.type) {
+      case ATTACHMENT_COLOR_TEXTURE_2D:
+      case ATTACHMENT_COLOR_TEXTURE_CUBE:
+      case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+      {
+        Assert.fail("unreachable: type = " + fb0_attach.type);
+        break;
+      }
+      case ATTACHMENT_COLOR_RENDERBUFFER:
+      {
+        break;
+      }
+    }
+
+    final AttachmentColorRenderbuffer fb0_ar =
+      (AttachmentColorRenderbuffer) fb0_attach;
+    final RenderbufferReadable fb0_r = fb0_ar.getRenderbuffer();
+
+    /**
+     * Create framebuffer that shares the color attachment of fb0.
+     */
+
+    final FramebufferConfigurationES2 fb1_config =
+      new FramebufferConfigurationES2(128, 128);
+    fb1_config.requestSharedColor(fb0, points[0]);
+
+    final Framebuffer fb1 =
+      FramebuffersContract.makeAssumingSuccess(fb1_config, gi);
+
+    Assert.assertTrue(fb1.hasColorAttachment(points[0]));
+
+    final AttachmentColor attach = fb1.getColorAttachment(points[0]);
+    switch (attach.type) {
+      case ATTACHMENT_COLOR_RENDERBUFFER:
+      case ATTACHMENT_COLOR_TEXTURE_2D:
+      case ATTACHMENT_COLOR_TEXTURE_CUBE:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+      {
+        Assert.fail("unreachable: type = " + attach.type);
+        break;
+      }
+      case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+      {
+
+        break;
+      }
+    }
+
+    final AttachmentSharedColorRenderbuffer shared =
+      (AttachmentSharedColorRenderbuffer) attach;
+
+    Assert.assertTrue(shared.getRenderbuffer() == fb0_r);
+  }
+
+  /**
+   * Requesting to share a color renderbuffer results in the correct shared
+   * renderbuffer attachment.
+   * 
+   * @throws GLException
+   * @throws GLUnsupportedException
+   * @throws ConstraintError
+   */
+
+  @Test public void testSharedColorRenderbufferRGBA()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final FramebufferColorAttachmentPoint[] points =
+      gl.framebufferGetColorAttachmentPoints();
+
+    /**
+     * Create initial framebuffer.
+     */
+
+    final FramebufferConfigurationES2 fb0_config =
+      new FramebufferConfigurationES2(128, 128);
+    fb0_config.requestBestRGBAColorRenderbuffer();
+
+    final Framebuffer fb0 =
+      FramebuffersContract.makeAssumingSuccess(fb0_config, gi);
+    final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
+
+    switch (fb0_attach.type) {
+      case ATTACHMENT_COLOR_TEXTURE_2D:
+      case ATTACHMENT_COLOR_TEXTURE_CUBE:
+      case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+      {
+        Assert.fail("unreachable: type = " + fb0_attach.type);
+        break;
+      }
+      case ATTACHMENT_COLOR_RENDERBUFFER:
+      {
+        break;
+      }
+    }
+
+    final AttachmentColorRenderbuffer fb0_ar =
+      (AttachmentColorRenderbuffer) fb0_attach;
+    final RenderbufferReadable fb0_r = fb0_ar.getRenderbuffer();
+
+    /**
+     * Create framebuffer that shares the color attachment of fb0.
+     */
+
+    final FramebufferConfigurationES2 fb1_config =
+      new FramebufferConfigurationES2(128, 128);
+    fb1_config.requestSharedColor(fb0, points[0]);
+
+    final Framebuffer fb1 =
+      FramebuffersContract.makeAssumingSuccess(fb1_config, gi);
+
+    Assert.assertTrue(fb1.hasColorAttachment(points[0]));
+
+    final AttachmentColor attach = fb1.getColorAttachment(points[0]);
+    switch (attach.type) {
+      case ATTACHMENT_COLOR_RENDERBUFFER:
+      case ATTACHMENT_COLOR_TEXTURE_2D:
+      case ATTACHMENT_COLOR_TEXTURE_CUBE:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+      {
+        Assert.fail("unreachable: type = " + attach.type);
+        break;
+      }
+      case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+      {
+
+        break;
+      }
+    }
+
+    final AttachmentSharedColorRenderbuffer shared =
+      (AttachmentSharedColorRenderbuffer) attach;
+
+    Assert.assertTrue(shared.getRenderbuffer() == fb0_r);
+  }
+
+  /**
+   * Requesting to share a color 2D texture results in the correct shared 2D
+   * texture attachment.
+   * 
+   * @throws GLException
+   * @throws GLUnsupportedException
+   * @throws ConstraintError
+   */
+
+  @Test public void testSharedColorTexture2D()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final FramebufferColorAttachmentPoint[] points =
+      gl.framebufferGetColorAttachmentPoints();
+
+    /**
+     * Create initial framebuffer.
+     */
+
+    final FramebufferConfigurationES2 fb0_config =
+      new FramebufferConfigurationES2(128, 128);
+    fb0_config.requestBestRGBAColorTexture2D(
+      TextureWrap.TEXTURE_WRAP_REPEAT,
+      TextureWrap.TEXTURE_WRAP_REPEAT,
+      TextureFilter.TEXTURE_FILTER_NEAREST,
+      TextureFilter.TEXTURE_FILTER_NEAREST);
+
+    final Framebuffer fb0 =
+      FramebuffersContract.makeAssumingSuccess(fb0_config, gi);
+    final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
+
+    switch (fb0_attach.type) {
+      case ATTACHMENT_COLOR_RENDERBUFFER:
+      case ATTACHMENT_COLOR_TEXTURE_CUBE:
+      case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+      {
+        Assert.fail("unreachable: type = " + fb0_attach.type);
+        break;
+      }
+      case ATTACHMENT_COLOR_TEXTURE_2D:
+      {
+        break;
+      }
+    }
+
+    final AttachmentColorTexture2DStatic fb0_at =
+      (AttachmentColorTexture2DStatic) fb0_attach;
+    final Texture2DStaticReadable fb0_t = fb0_at.getTexture2D();
+
+    /**
+     * Create framebuffer that shares the color attachment of fb0.
+     */
+
+    final FramebufferConfigurationES2 fb1_config =
+      new FramebufferConfigurationES2(128, 128);
+    fb1_config.requestSharedColor(fb0, points[0]);
+
+    final Framebuffer fb1 =
+      FramebuffersContract.makeAssumingSuccess(fb1_config, gi);
+
+    Assert.assertTrue(fb1.hasColorAttachment(points[0]));
+
+    final AttachmentColor attach = fb1.getColorAttachment(points[0]);
+    switch (attach.type) {
+      case ATTACHMENT_COLOR_RENDERBUFFER:
+      case ATTACHMENT_COLOR_TEXTURE_2D:
+      case ATTACHMENT_COLOR_TEXTURE_CUBE:
+      case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+      {
+        Assert.fail("unreachable: type = " + attach.type);
+        break;
+      }
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+      {
+        break;
+      }
+    }
+
+    final AttachmentSharedColorTexture2DStatic shared =
+      (AttachmentSharedColorTexture2DStatic) attach;
+
+    Assert.assertTrue(shared.getTexture2D() == fb0_t);
+  }
+
+  /**
+   * Requesting to share a color cube texture results in the correct shared
+   * cube texture attachment.
+   * 
+   * @throws GLException
+   * @throws GLUnsupportedException
+   * @throws ConstraintError
+   */
+
+  @Test public void testSharedColorTextureCube()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final FramebufferColorAttachmentPoint[] points =
+      gl.framebufferGetColorAttachmentPoints();
+
+    /**
+     * Create initial framebuffer.
+     */
+
+    final FramebufferConfigurationES2 fb0_config =
+      new FramebufferConfigurationES2(128, 128);
+    fb0_config.requestBestRGBAColorTextureCube(
+      TextureWrap.TEXTURE_WRAP_REPEAT,
+      TextureWrap.TEXTURE_WRAP_REPEAT,
+      TextureWrap.TEXTURE_WRAP_REPEAT,
+      TextureFilter.TEXTURE_FILTER_NEAREST,
+      TextureFilter.TEXTURE_FILTER_NEAREST);
+
+    final Framebuffer fb0 =
+      FramebuffersContract.makeAssumingSuccess(fb0_config, gi);
+    final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
+
+    switch (fb0_attach.type) {
+      case ATTACHMENT_COLOR_RENDERBUFFER:
+      case ATTACHMENT_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+      {
+        Assert.fail("unreachable: type = " + fb0_attach.type);
+        break;
+      }
+      case ATTACHMENT_COLOR_TEXTURE_CUBE:
+      {
+        break;
+      }
+    }
+
+    final AttachmentColorTextureCubeStatic fb0_at =
+      (AttachmentColorTextureCubeStatic) fb0_attach;
+    final TextureCubeStaticReadable fb0_t = fb0_at.getTextureCube();
+
+    /**
+     * Create framebuffer that shares the color attachment of fb0.
+     */
+
+    final FramebufferConfigurationES2 fb1_config =
+      new FramebufferConfigurationES2(128, 128);
+    fb1_config.requestSharedColor(fb0, points[0]);
+
+    final Framebuffer fb1 =
+      FramebuffersContract.makeAssumingSuccess(fb1_config, gi);
+
+    Assert.assertTrue(fb1.hasColorAttachment(points[0]));
+
+    final AttachmentColor attach = fb1.getColorAttachment(points[0]);
+    switch (attach.type) {
+      case ATTACHMENT_COLOR_RENDERBUFFER:
+      case ATTACHMENT_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+      case ATTACHMENT_COLOR_TEXTURE_CUBE:
+      {
+        Assert.fail("unreachable: type = " + attach.type);
+        break;
+      }
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+      {
+        break;
+      }
+    }
+
+    final AttachmentSharedColorTextureCubeStatic shared =
+      (AttachmentSharedColorTextureCubeStatic) attach;
+
+    Assert.assertTrue(shared.getTextureCube() == fb0_t);
+  }
+
+  /**
+   * Requesting to share an already-shared color renderbuffer results in the
+   * correct shared renderbuffer attachment.
+   * 
+   * @throws GLException
+   * @throws GLUnsupportedException
+   * @throws ConstraintError
+   */
+
+  @Test public void testSharedSharedColorRenderbufferRGBA()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final FramebufferColorAttachmentPoint[] points =
+      gl.framebufferGetColorAttachmentPoints();
+
+    /**
+     * Create initial framebuffer.
+     */
+
+    final FramebufferConfigurationES2 fb0_config =
+      new FramebufferConfigurationES2(128, 128);
+    fb0_config.requestBestRGBAColorRenderbuffer();
+
+    final Framebuffer fb0 =
+      FramebuffersContract.makeAssumingSuccess(fb0_config, gi);
+    final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
+
+    switch (fb0_attach.type) {
+      case ATTACHMENT_COLOR_TEXTURE_2D:
+      case ATTACHMENT_COLOR_TEXTURE_CUBE:
+      case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+      {
+        Assert.fail("unreachable: type = " + fb0_attach.type);
+        break;
+      }
+      case ATTACHMENT_COLOR_RENDERBUFFER:
+      {
+        break;
+      }
+    }
+
+    final AttachmentColorRenderbuffer fb0_ar =
+      (AttachmentColorRenderbuffer) fb0_attach;
+    final RenderbufferReadable fb0_r = fb0_ar.getRenderbuffer();
+
+    /**
+     * Create framebuffer that shares the color attachment of fb0.
+     */
+
+    final FramebufferConfigurationES2 fb1_config =
+      new FramebufferConfigurationES2(128, 128);
+    fb1_config.requestSharedColor(fb0, points[0]);
+
+    final Framebuffer fb1 =
+      FramebuffersContract.makeAssumingSuccess(fb1_config, gi);
+
+    Assert.assertTrue(fb1.hasColorAttachment(points[0]));
+
+    final AttachmentColor attach1 = fb1.getColorAttachment(points[0]);
+    switch (attach1.type) {
+      case ATTACHMENT_COLOR_RENDERBUFFER:
+      case ATTACHMENT_COLOR_TEXTURE_2D:
+      case ATTACHMENT_COLOR_TEXTURE_CUBE:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+      {
+        Assert.fail("unreachable: type = " + attach1.type);
+        break;
+      }
+      case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+      {
+
+        break;
+      }
+    }
+
+    final AttachmentSharedColorRenderbuffer shared1 =
+      (AttachmentSharedColorRenderbuffer) attach1;
+
+    Assert.assertTrue(shared1.getRenderbuffer() == fb0_r);
+
+    /**
+     * Create framebuffer that shares the shared color attachment of fb1.
+     */
+
+    final FramebufferConfigurationES2 fb2_config =
+      new FramebufferConfigurationES2(128, 128);
+    fb2_config.requestSharedColor(fb1, points[0]);
+
+    final Framebuffer fb2 =
+      FramebuffersContract.makeAssumingSuccess(fb2_config, gi);
+
+    Assert.assertTrue(fb2.hasColorAttachment(points[0]));
+
+    final AttachmentColor attach2 = fb2.getColorAttachment(points[0]);
+    switch (attach2.type) {
+      case ATTACHMENT_COLOR_RENDERBUFFER:
+      case ATTACHMENT_COLOR_TEXTURE_2D:
+      case ATTACHMENT_COLOR_TEXTURE_CUBE:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+      case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+      {
+        Assert.fail("unreachable: type = " + attach2.type);
+        break;
+      }
+      case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+      {
+        break;
+      }
+    }
+
+    final AttachmentSharedColorRenderbuffer shared2 =
+      (AttachmentSharedColorRenderbuffer) attach2;
+
+    Assert.assertTrue(shared2.getRenderbuffer() == fb0_r);
+  }
+
+  /**
    * Requesting a stencil renderbuffer works.
    * 
    * @throws ConstraintError
@@ -806,5 +1315,210 @@ public abstract class FramebuffersContract implements GLES2TestContract
     }
 
     fb.resourceDelete(gl);
+  }
+
+  /**
+   * Requesting to share a depth attachment results in the correct shared
+   * depth attachment.
+   * 
+   * @throws GLException
+   * @throws GLUnsupportedException
+   * @throws ConstraintError
+   */
+
+  @Test public void testSharedDepth()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+
+    /**
+     * Create initial framebuffer.
+     */
+
+    final FramebufferConfigurationES2 fb0_config =
+      new FramebufferConfigurationES2(128, 128);
+    fb0_config.requestDepthRenderbuffer();
+
+    final Framebuffer fb0 =
+      FramebuffersContract.makeAssumingSuccess(fb0_config, gi);
+    final AttachmentDepth fb0_attach = fb0.getDepthAttachment();
+
+    RenderbufferReadable fb0_r = null;
+    switch (fb0_attach.type) {
+      case ATTACHMENT_DEPTH_RENDERBUFFER:
+      {
+        final AttachmentDepthRenderbuffer ar =
+          (AttachmentDepthRenderbuffer) fb0_attach;
+        fb0_r = ar.getRenderbuffer();
+        break;
+      }
+      case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
+      {
+        final AttachmentDepthStencilRenderbuffer ar =
+          (AttachmentDepthStencilRenderbuffer) fb0_attach;
+        fb0_r = ar.getRenderbuffer();
+        break;
+      }
+      case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
+      case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
+      {
+        Assert.fail("unreachable: type = " + fb0_attach.type);
+        break;
+      }
+    }
+
+    /**
+     * Create framebuffer that shares the depth attachment of fb0.
+     */
+
+    final FramebufferConfigurationES2 fb1_config =
+      new FramebufferConfigurationES2(128, 128);
+    fb1_config.requestSharedDepth(fb0);
+
+    final Framebuffer fb1 =
+      FramebuffersContract.makeAssumingSuccess(fb1_config, gi);
+
+    Assert.assertTrue(fb1.hasDepthAttachment());
+
+    RenderbufferReadable fb1_r = null;
+    final AttachmentDepth attach = fb1.getDepthAttachment();
+    switch (attach.type) {
+      case ATTACHMENT_DEPTH_RENDERBUFFER:
+      case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
+      {
+        Assert.fail("unreachable: type = " + fb0_attach.type);
+        break;
+      }
+      case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
+      {
+        final AttachmentSharedDepthRenderbuffer a =
+          (AttachmentSharedDepthRenderbuffer) attach;
+
+        fb1_r = a.getRenderbuffer();
+        break;
+      }
+      case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
+      {
+        final AttachmentSharedDepthStencilRenderbuffer a =
+          (AttachmentSharedDepthStencilRenderbuffer) attach;
+
+        fb1_r = a.getRenderbuffer();
+        break;
+      }
+    }
+
+    Assert.assertTrue(fb1_r == fb0_r);
+  }
+
+  /**
+   * Requesting to share a stencil attachment results in the correct shared
+   * stencil attachment.
+   * 
+   * @throws GLException
+   * @throws GLUnsupportedException
+   * @throws ConstraintError
+   */
+
+  @Test public void testSharedStencil()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+
+    /**
+     * Create initial framebuffer.
+     */
+
+    final FramebufferConfigurationES2 fb0_config =
+      new FramebufferConfigurationES2(128, 128);
+    fb0_config.requestDepthRenderbuffer();
+
+    final Framebuffer fb0 =
+      FramebuffersContract.makeAssumingSuccess(fb0_config, gi);
+    final AttachmentStencil fb0_attach = fb0.getStencilAttachment();
+
+    RenderbufferReadable fb0_r = null;
+    switch (fb0_attach.type) {
+      case ATTACHMENT_SHARED_STENCIL_RENDERBUFFER:
+      {
+        Assert.fail("unreachable: type = " + fb0_attach.type);
+        break;
+      }
+      case ATTACHMENT_STENCIL_AS_DEPTH_STENCIL:
+      {
+        final AttachmentDepth d_attach = fb0.getDepthAttachment();
+        switch (d_attach.type) {
+          case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
+          {
+            final AttachmentDepthStencilRenderbuffer a =
+              (AttachmentDepthStencilRenderbuffer) d_attach;
+            fb0_r = a.getRenderbuffer();
+            break;
+          }
+          case ATTACHMENT_DEPTH_RENDERBUFFER:
+          case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
+          case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
+          {
+            Assert.fail("unreachable: type = " + d_attach.type);
+            break;
+          }
+        }
+        break;
+      }
+      case ATTACHMENT_STENCIL_RENDERBUFFER:
+      {
+        final AttachmentStencilRenderbuffer a =
+          (AttachmentStencilRenderbuffer) fb0_attach;
+        fb0_r = a.getRenderbuffer();
+        break;
+      }
+    }
+
+    /**
+     * Create framebuffer that shares the stencil attachment of fb0.
+     */
+
+    final FramebufferConfigurationES2 fb1_config =
+      new FramebufferConfigurationES2(128, 128);
+    fb1_config.requestSharedStencil(fb0);
+
+    final Framebuffer fb1 =
+      FramebuffersContract.makeAssumingSuccess(fb1_config, gi);
+
+    Assert.assertTrue(fb1.hasStencilAttachment());
+
+    RenderbufferReadable fb1_r = null;
+    final AttachmentDepth attach = fb1.getDepthAttachment();
+    switch (attach.type) {
+      case ATTACHMENT_DEPTH_RENDERBUFFER:
+      case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
+      {
+        Assert.fail("unreachable: type = " + fb0_attach.type);
+        break;
+      }
+      case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
+      {
+        final AttachmentSharedDepthRenderbuffer a =
+          (AttachmentSharedDepthRenderbuffer) attach;
+
+        fb1_r = a.getRenderbuffer();
+        break;
+      }
+      case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
+      {
+        final AttachmentSharedDepthStencilRenderbuffer a =
+          (AttachmentSharedDepthStencilRenderbuffer) attach;
+
+        fb1_r = a.getRenderbuffer();
+        break;
+      }
+    }
+
+    Assert.assertTrue(fb1_r == fb0_r);
   }
 }

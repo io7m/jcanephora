@@ -7,6 +7,16 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 public final class FramebufferTest
 {
+  @SuppressWarnings("static-method") @Test public void testIdentities()
+    throws ConstraintError
+  {
+    final FramebufferReference fr0 = new FramebufferReference(1);
+    final Framebuffer f0 = new Framebuffer(fr0, 127, 128);
+
+    Assert.assertEquals(f0.getWidth(), 127);
+    Assert.assertEquals(f0.getHeight(), 128);
+  }
+
   @SuppressWarnings("static-method") @Test public void testEquals()
     throws ConstraintError
   {

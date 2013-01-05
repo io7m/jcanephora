@@ -176,6 +176,15 @@ public abstract class AttachmentDepth
         Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
     }
 
+    public AttachmentSharedDepthRenderbuffer(
+      final AttachmentSharedDepthRenderbuffer a)
+      throws ConstraintError
+    {
+      super(Type.ATTACHMENT_SHARED_DEPTH_RENDERBUFFER);
+      Constraints.constrainNotNull(a, "Attachment");
+      this.renderbuffer = a.getRenderbuffer();
+    }
+
     @Override public boolean equals(
       final Object obj)
     {
@@ -232,6 +241,15 @@ public abstract class AttachmentDepth
       super(Type.ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER);
       this.renderbuffer =
         Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
+    }
+
+    public AttachmentSharedDepthStencilRenderbuffer(
+      final @Nonnull AttachmentSharedDepthStencilRenderbuffer a)
+      throws ConstraintError
+    {
+      super(Type.ATTACHMENT_SHARED_DEPTH_RENDERBUFFER);
+      Constraints.constrainNotNull(a, "Attachment");
+      this.renderbuffer = a.getRenderbuffer();
     }
 
     @Override public boolean equals(
