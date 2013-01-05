@@ -1,10 +1,12 @@
 package com.io7m.jcanephora.examples;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferDescriptor;
@@ -27,6 +29,7 @@ import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.ProjectionMatrix;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilter;
+import com.io7m.jcanephora.TextureLoader;
 import com.io7m.jcanephora.TextureType;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureWrap;
@@ -34,6 +37,7 @@ import com.io7m.jcanephora.UsageHint;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorI2F;
 import com.io7m.jtensors.VectorReadable2I;
+import com.io7m.jvvfs.FilesystemAPI;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
 
@@ -97,21 +101,97 @@ public final class ExampleTexturedQuadImage implements Example
      * Load a texture from an image file.
      */
 
-    this.textures = new Texture2DStatic[TextureType.values().length];
+    this.textures = new Texture2DStatic[TextureType.getES2Types().length];
+
+    final TextureLoader loader = config.getTextureLoader();
+    final FilesystemAPI filesystem = config.getFilesystem();
 
     for (int index = 0; index < this.textures.length; ++index) {
       final TextureType type = TextureType.values()[index];
-      this.textures[index] =
-        config.getTextureLoader().load2DStaticSpecific(
-          this.gl,
-          type,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          config.getFilesystem().openFile(
-            "/com/io7m/jcanephora/examples/reference_8888_4.png"),
-          type.toString());
+
+      final InputStream stream =
+        filesystem
+          .openFile("/com/io7m/jcanephora/examples/reference_8888_4.png");
+
+      switch (type) {
+        case TEXTURE_TYPE_DEPTH_16_2BPP:
+        case TEXTURE_TYPE_DEPTH_24_4BPP:
+        case TEXTURE_TYPE_DEPTH_32F_4BPP:
+        case TEXTURE_TYPE_DEPTH_32_4BPP:
+        case TEXTURE_TYPE_R_8_1BPP:
+        case TEXTURE_TYPE_RG_88_2BPP:
+        {
+          stream.close();
+          throw new UnreachableCodeException();
+        }
+        case TEXTURE_TYPE_RGBA_4444_2BPP:
+        {
+          this.textures[index] =
+            loader.load2DStaticRGBA4444(
+              this.gl,
+              TextureWrap.TEXTURE_WRAP_REPEAT,
+              TextureWrap.TEXTURE_WRAP_REPEAT,
+              TextureFilter.TEXTURE_FILTER_NEAREST,
+              TextureFilter.TEXTURE_FILTER_NEAREST,
+              stream,
+              type.toString());
+          break;
+        }
+        case TEXTURE_TYPE_RGBA_5551_2BPP:
+        {
+          this.textures[index] =
+            loader.load2DStaticRGBA5551(
+              this.gl,
+              TextureWrap.TEXTURE_WRAP_REPEAT,
+              TextureWrap.TEXTURE_WRAP_REPEAT,
+              TextureFilter.TEXTURE_FILTER_NEAREST,
+              TextureFilter.TEXTURE_FILTER_NEAREST,
+              stream,
+              type.toString());
+          break;
+        }
+        case TEXTURE_TYPE_RGBA_8888_4BPP:
+        {
+          this.textures[index] =
+            loader.load2DStaticRGBA8888(
+              this.gl,
+              TextureWrap.TEXTURE_WRAP_REPEAT,
+              TextureWrap.TEXTURE_WRAP_REPEAT,
+              TextureFilter.TEXTURE_FILTER_NEAREST,
+              TextureFilter.TEXTURE_FILTER_NEAREST,
+              stream,
+              type.toString());
+          break;
+        }
+        case TEXTURE_TYPE_RGB_565_2BPP:
+        {
+          this.textures[index] =
+            loader.load2DStaticRGB565(
+              this.gl,
+              TextureWrap.TEXTURE_WRAP_REPEAT,
+              TextureWrap.TEXTURE_WRAP_REPEAT,
+              TextureFilter.TEXTURE_FILTER_NEAREST,
+              TextureFilter.TEXTURE_FILTER_NEAREST,
+              stream,
+              type.toString());
+          break;
+        }
+        case TEXTURE_TYPE_RGB_888_3BPP:
+        {
+          this.textures[index] =
+            loader.load2DStaticRGB888(
+              this.gl,
+              TextureWrap.TEXTURE_WRAP_REPEAT,
+              TextureWrap.TEXTURE_WRAP_REPEAT,
+              TextureFilter.TEXTURE_FILTER_NEAREST,
+              TextureFilter.TEXTURE_FILTER_NEAREST,
+              stream,
+              type.toString());
+          break;
+        }
+      }
+
+      stream.close();
     }
 
     /**

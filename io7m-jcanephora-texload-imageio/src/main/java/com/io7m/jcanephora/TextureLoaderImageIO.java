@@ -26,7 +26,6 @@ import javax.imageio.ImageIO;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.UnimplementedCodeException;
 import com.io7m.jaux.UnreachableCodeException;
 
 /**
@@ -36,6 +35,214 @@ import com.io7m.jaux.UnreachableCodeException;
 
 public final class TextureLoaderImageIO implements TextureLoader
 {
+  private static @Nonnull Texture2DStatic allocateTexture_ES2(
+    final @Nonnull GLInterfaceES2 gl,
+    final @Nonnull TextureType type,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull String name)
+    throws GLException,
+      ConstraintError
+  {
+    switch (type) {
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+        return gl.texture2DStaticAllocateRGBA4444(
+          name,
+          width,
+          height,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+        return gl.texture2DStaticAllocateRGBA5551(
+          name,
+          width,
+          height,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+        return gl.texture2DStaticAllocateRGBA8888(
+          name,
+          width,
+          height,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      case TEXTURE_TYPE_RGB_565_2BPP:
+        return gl.texture2DStaticAllocateRGB565(
+          name,
+          width,
+          height,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      case TEXTURE_TYPE_RGB_888_3BPP:
+        return gl.texture2DStaticAllocateRGB888(
+          name,
+          width,
+          height,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_DEPTH_32_4BPP:
+      case TEXTURE_TYPE_RG_88_2BPP:
+      case TEXTURE_TYPE_R_8_1BPP:
+        throw new UnreachableCodeException();
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  private static @Nonnull Texture2DStatic allocateTexture_GL3(
+    final @Nonnull GLInterface3 gl,
+    final @Nonnull TextureType type,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull String name)
+    throws GLException,
+      ConstraintError
+  {
+    switch (type) {
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+        return gl.texture2DStaticAllocateDepth16(
+          name,
+          width,
+          height,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+        return gl.texture2DStaticAllocateDepth24(
+          name,
+          width,
+          height,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+        return gl.texture2DStaticAllocateDepth32f(
+          name,
+          width,
+          height,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      case TEXTURE_TYPE_DEPTH_32_4BPP:
+        return gl.texture2DStaticAllocateDepth32(
+          name,
+          width,
+          height,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+        return gl.texture2DStaticAllocateRGBA4444(
+          name,
+          width,
+          height,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+        return gl.texture2DStaticAllocateRGBA5551(
+          name,
+          width,
+          height,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+        return gl.texture2DStaticAllocateRGBA8888(
+          name,
+          width,
+          height,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      case TEXTURE_TYPE_RGB_565_2BPP:
+        return gl.texture2DStaticAllocateRGB565(
+          name,
+          width,
+          height,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      case TEXTURE_TYPE_RGB_888_3BPP:
+        return gl.texture2DStaticAllocateRGB888(
+          name,
+          width,
+          height,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      case TEXTURE_TYPE_RG_88_2BPP:
+        return gl.texture2DStaticAllocateRG88(
+          name,
+          width,
+          height,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      case TEXTURE_TYPE_R_8_1BPP:
+        return gl.texture2DStaticAllocateR8(
+          name,
+          width,
+          height,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  private static void checkConstraints(
+    final @Nonnull GLInterfaceES2 gl,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError
+  {
+    Constraints.constrainNotNull(name, "Name");
+    Constraints.constrainNotNull(stream, "Input stream");
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(wrap_s, "Wrap S mode");
+    Constraints.constrainNotNull(wrap_t, "Wrap T mode");
+    Constraints.constrainNotNull(mag_filter, "Magnification filter");
+    Constraints.constrainNotNull(min_filter, "Minification filter");
+  }
+
   /**
    * Convert any RGBA/ABGR image to an RGBA texture.
    */
@@ -239,10 +446,39 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   /**
-   * Convert an RGB image to an alpha texture.
+   * Convert an (A)RGB image to single channel floating point texture.
    * 
    * The red channel of the image is used as the source for the resulting
-   * alpha channel.
+   * channel.
+   */
+
+  private static @Nonnull Texture2DWritableData convertRGBToR8_1fGeneric(
+    final @Nonnull BufferedImage image,
+    final @Nonnull Texture2DWritableData data)
+    throws ConstraintError
+  {
+    final int width = image.getWidth();
+    final int height = image.getHeight();
+    final SpatialCursorWritable1f cursor = data.getCursor1f();
+
+    final float recip = 1.0f / 255.0f;
+    for (int y = 0; y < height; ++y) {
+      for (int x = 0; x < width; ++x) {
+        final int argb = image.getRGB(x, y);
+        final int r = (argb >> 16) & 0xff;
+        final float rf = r;
+        cursor.put1f(rf * recip);
+      }
+    }
+
+    return data;
+  }
+
+  /**
+   * Convert an (A)RGB image to single channel texture.
+   * 
+   * The red channel of the image is used as the source for the resulting
+   * channel.
    */
 
   private static @Nonnull Texture2DWritableData convertRGBToR8_1Generic(
@@ -266,7 +502,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   /**
-   * Convert an RGB image to a two-channel RG texture.
+   * Convert an (A)RGB image to a two-channel RG texture.
    * 
    * The blue channel is simply discarded.
    * 
@@ -294,6 +530,26 @@ public final class TextureLoaderImageIO implements TextureLoader
     return data;
   }
 
+  /**
+   * Convert any image to RGBA using ImageIO's conversion functions.
+   * 
+   * @param image
+   * @return
+   */
+
+  private static @Nonnull BufferedImage customToRGBA(
+    final @Nonnull BufferedImage image)
+  {
+    final BufferedImage converted =
+      new BufferedImage(
+        image.getWidth(),
+        image.getHeight(),
+        BufferedImage.TYPE_4BYTE_ABGR);
+    final ColorConvertOp op = new ColorConvertOp(null);
+    op.filter(image, converted);
+    return converted;
+  }
+
   private static BufferedImage getBufferedImage(
     final @Nonnull InputStream stream)
     throws IOException
@@ -301,19 +557,115 @@ public final class TextureLoaderImageIO implements TextureLoader
     return ImageIO.read(stream);
   }
 
-  /**
-   * @param gl
-   * @param wrap_s
-   * @param wrap_t
-   * @param min_filter
-   * @param mag_filter
-   * @param name
-   * @throws GLException
-   * @throws ConstraintError
-   */
+  private static @Nonnull TextureType inferTextureTypeES2(
+    final @Nonnull BufferedImage image)
+  {
+    switch (image.getType()) {
+      case BufferedImage.TYPE_INT_ARGB_PRE:
+      case BufferedImage.TYPE_INT_ARGB:
+      case BufferedImage.TYPE_4BYTE_ABGR_PRE:
+      case BufferedImage.TYPE_4BYTE_ABGR:
+      {
+        return TextureType.TEXTURE_TYPE_RGBA_8888_4BPP;
+      }
+      case BufferedImage.TYPE_USHORT_555_RGB:
+      case BufferedImage.TYPE_USHORT_565_RGB:
+      {
+        return TextureType.TEXTURE_TYPE_RGB_565_2BPP;
+      }
+      case BufferedImage.TYPE_3BYTE_BGR:
+      case BufferedImage.TYPE_BYTE_INDEXED:
+      case BufferedImage.TYPE_INT_RGB:
+      case BufferedImage.TYPE_INT_BGR:
+      case BufferedImage.TYPE_BYTE_GRAY:
+      case BufferedImage.TYPE_BYTE_BINARY:
+      case BufferedImage.TYPE_USHORT_GRAY:
+      {
+        return TextureType.TEXTURE_TYPE_RGB_888_3BPP;
+      }
+      case BufferedImage.TYPE_CUSTOM:
+      default:
+      {
+        return TextureType.TEXTURE_TYPE_RGBA_8888_4BPP;
+      }
+    }
+  }
 
-  private static @Nonnull Texture2DStatic load2DStaticImageInferred(
+  private static @Nonnull TextureType inferTextureTypeGL3(
+    final @Nonnull BufferedImage image)
+  {
+    switch (image.getType()) {
+      case BufferedImage.TYPE_INT_ARGB_PRE:
+      case BufferedImage.TYPE_INT_ARGB:
+      case BufferedImage.TYPE_4BYTE_ABGR_PRE:
+      case BufferedImage.TYPE_4BYTE_ABGR:
+      {
+        return TextureType.TEXTURE_TYPE_RGBA_8888_4BPP;
+      }
+      case BufferedImage.TYPE_USHORT_555_RGB:
+      case BufferedImage.TYPE_USHORT_565_RGB:
+      {
+        return TextureType.TEXTURE_TYPE_RGB_565_2BPP;
+      }
+      case BufferedImage.TYPE_3BYTE_BGR:
+      case BufferedImage.TYPE_BYTE_INDEXED:
+      case BufferedImage.TYPE_INT_RGB:
+      case BufferedImage.TYPE_INT_BGR:
+      {
+        return TextureType.TEXTURE_TYPE_RGB_888_3BPP;
+      }
+      case BufferedImage.TYPE_BYTE_GRAY:
+      case BufferedImage.TYPE_BYTE_BINARY:
+      case BufferedImage.TYPE_USHORT_GRAY:
+      {
+        return TextureType.TEXTURE_TYPE_R_8_1BPP;
+      }
+      case BufferedImage.TYPE_CUSTOM:
+      default:
+      {
+        return TextureType.TEXTURE_TYPE_RGBA_8888_4BPP;
+      }
+    }
+  }
+
+  private static @Nonnull Texture2DStatic load2DStaticSpecificImage_ES2(
     final @Nonnull GLInterfaceES2 gl,
+    final @Nonnull TextureType type,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull BufferedImage image,
+    final @Nonnull String name)
+    throws ConstraintError,
+      GLException
+  {
+    final Texture2DStatic texture =
+      TextureLoaderImageIO.allocateTexture_ES2(
+        gl,
+        type,
+        image.getWidth(),
+        image.getHeight(),
+        wrap_s,
+        wrap_t,
+        min_filter,
+        mag_filter,
+        name);
+
+    try {
+      final Texture2DWritableData data = new Texture2DWritableData(texture);
+      TextureLoaderImageIO.writeImageDataWithConversion(image, data, type);
+      gl.texture2DStaticUpdate(data);
+      return texture;
+    } catch (final GLException e) {
+      gl.texture2DStaticDelete(texture);
+      throw e;
+    }
+  }
+
+  private static @Nonnull Texture2DStatic load2DStaticSpecificImage_GL3(
+    final @Nonnull GLInterface3 gl,
+    final @Nonnull TextureType type,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -323,262 +675,261 @@ public final class TextureLoaderImageIO implements TextureLoader
     throws GLException,
       ConstraintError
   {
-    final int width = image.getWidth();
-    final int height = image.getHeight();
+    final Texture2DStatic texture =
+      TextureLoaderImageIO.allocateTexture_GL3(
+        gl,
+        type,
+        image.getWidth(),
+        image.getHeight(),
+        wrap_s,
+        wrap_t,
+        min_filter,
+        mag_filter,
+        name);
 
-    TextureType inferred = TextureType.TEXTURE_TYPE_RGBA_8888_4BPP;
-    BufferedImage actual = image;
+    try {
+      final Texture2DWritableData data = new Texture2DWritableData(texture);
+      TextureLoaderImageIO.writeImageDataWithConversion(image, data, type);
+      gl.texture2DStaticUpdate(data);
+      return texture;
+    } catch (final GLException e) {
+      gl.texture2DStaticDelete(texture);
+      throw e;
+    }
+  }
 
-    switch (image.getType()) {
-      case BufferedImage.TYPE_4BYTE_ABGR_PRE:
-      case BufferedImage.TYPE_4BYTE_ABGR:
-      case BufferedImage.TYPE_INT_ARGB_PRE:
-      case BufferedImage.TYPE_INT_ARGB:
+  public static final @Nonnull TextureType textureTypeES2Map(
+    final @Nonnull TextureType type)
+  {
+    switch (type) {
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_DEPTH_32_4BPP:
+      case TEXTURE_TYPE_RG_88_2BPP:
+      case TEXTURE_TYPE_R_8_1BPP:
       {
-        inferred = TextureType.TEXTURE_TYPE_RGBA_8888_4BPP;
-        break;
+        return TextureType.TEXTURE_TYPE_RGB_888_3BPP;
       }
-      case BufferedImage.TYPE_3BYTE_BGR:
-      case BufferedImage.TYPE_INT_RGB:
-      case BufferedImage.TYPE_INT_BGR:
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGBA_8888_4BPP:
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_TYPE_RGB_888_3BPP:
       {
-        inferred = TextureType.TEXTURE_TYPE_RGB_888_3BPP;
-        break;
-      }
-      case BufferedImage.TYPE_USHORT_555_RGB:
-      case BufferedImage.TYPE_USHORT_565_RGB:
-      case BufferedImage.TYPE_BYTE_INDEXED:
-      {
-        inferred = TextureType.TEXTURE_TYPE_RGB_565_2BPP;
-        break;
-      }
-      case BufferedImage.TYPE_BYTE_BINARY:
-      case BufferedImage.TYPE_USHORT_GRAY:
-      case BufferedImage.TYPE_BYTE_GRAY:
-      {
-        inferred = TextureType.TEXTURE_TYPE_R_8_1BPP;
-        break;
-      }
-      case BufferedImage.TYPE_CUSTOM:
-      {
-        final BufferedImage converted =
-          new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
-        final ColorConvertOp op = new ColorConvertOp(null);
-        op.filter(image, converted);
-        inferred = TextureType.TEXTURE_TYPE_RGBA_8888_4BPP;
-        actual = converted;
-        break;
+        return type;
       }
     }
 
-    throw new UnimplementedCodeException();
+    throw new UnreachableCodeException();
   }
 
-  private static @Nonnull Texture2DStatic load2DStaticImageSpecific(
-    final @Nonnull GLInterfaceES2 gl,
-    final @Nonnull Texture2DStatic texture,
-    final @Nonnull BufferedImage image)
-    throws ConstraintError,
-      GLException
-  {
-    final Texture2DWritableData data =
-      TextureLoaderImageIO.load2DStaticImageSpecificData(texture, image);
-    gl.texture2DStaticUpdate(data);
-    return data.getTexture();
-  }
+  /**
+   * Update <code>data</code> with the image data in <code>image</code>, doing
+   * an appropriate conversion to the type <code>type</code>.
+   */
 
-  static @Nonnull Texture2DWritableData load2DStaticImageSpecificData(
-    final @Nonnull Texture2DStatic texture,
-    final @Nonnull BufferedImage image)
+  private static void writeImageDataWithConversion(
+    final @Nonnull BufferedImage image,
+    final @Nonnull Texture2DWritableData data,
+    final @Nonnull TextureType type)
     throws ConstraintError
   {
     switch (image.getType()) {
-      case BufferedImage.TYPE_BYTE_INDEXED:
+      case BufferedImage.TYPE_BYTE_GRAY:
+      case BufferedImage.TYPE_BYTE_BINARY:
       case BufferedImage.TYPE_USHORT_GRAY:
       case BufferedImage.TYPE_USHORT_555_RGB:
+      case BufferedImage.TYPE_USHORT_565_RGB:
+      case BufferedImage.TYPE_3BYTE_BGR:
+      case BufferedImage.TYPE_BYTE_INDEXED:
       case BufferedImage.TYPE_INT_RGB:
       case BufferedImage.TYPE_INT_BGR:
       case BufferedImage.TYPE_INT_ARGB_PRE:
       case BufferedImage.TYPE_INT_ARGB:
-      case BufferedImage.TYPE_BYTE_GRAY:
-      case BufferedImage.TYPE_4BYTE_ABGR:
       case BufferedImage.TYPE_4BYTE_ABGR_PRE:
-      case BufferedImage.TYPE_3BYTE_BGR:
-      case BufferedImage.TYPE_USHORT_565_RGB:
-      case BufferedImage.TYPE_BYTE_BINARY:
+      case BufferedImage.TYPE_4BYTE_ABGR:
       {
-        return TextureLoaderImageIO.load2DStaticImageSpecificDataActual(
-          texture,
-          image);
+        switch (type) {
+          case TEXTURE_TYPE_DEPTH_16_2BPP:
+          case TEXTURE_TYPE_DEPTH_24_4BPP:
+          case TEXTURE_TYPE_DEPTH_32_4BPP:
+          {
+            TextureLoaderImageIO.convertRGBToR8_1Generic(image, data);
+            return;
+          }
+          case TEXTURE_TYPE_DEPTH_32F_4BPP:
+          {
+            TextureLoaderImageIO.convertRGBToR8_1fGeneric(image, data);
+            return;
+          }
+          case TEXTURE_TYPE_RGBA_4444_2BPP:
+          case TEXTURE_TYPE_RGBA_5551_2BPP:
+          case TEXTURE_TYPE_RGBA_8888_4BPP:
+          {
+            TextureLoaderImageIO.convertABGRToRGBAGeneric(image, data);
+            return;
+          }
+          case TEXTURE_TYPE_RGB_565_2BPP:
+          case TEXTURE_TYPE_RGB_888_3BPP:
+          {
+            TextureLoaderImageIO.convertABGRToRGBGeneric(image, data);
+            return;
+          }
+          case TEXTURE_TYPE_RG_88_2BPP:
+          {
+            TextureLoaderImageIO.convertRGBToRG88_2Generic(image, data);
+            return;
+          }
+          case TEXTURE_TYPE_R_8_1BPP:
+          {
+            TextureLoaderImageIO.convertRGBToR8_1Generic(image, data);
+            return;
+          }
+        }
+
+        throw new UnreachableCodeException();
       }
       case BufferedImage.TYPE_CUSTOM:
       default:
       {
-        final int width = image.getWidth();
-        final int height = image.getHeight();
         final BufferedImage converted =
-          new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
-        final ColorConvertOp op = new ColorConvertOp(null);
-        op.filter(image, converted);
-
-        return TextureLoaderImageIO.load2DStaticImageSpecificDataActual(
-          texture,
-          converted);
+          TextureLoaderImageIO.customToRGBA(image);
+        assert converted.getType() != BufferedImage.TYPE_CUSTOM;
+        TextureLoaderImageIO.writeImageDataWithConversion(
+          converted,
+          data,
+          type);
+        return;
       }
     }
   }
 
-  private static @Nonnull
-    Texture2DWritableData
-    load2DStaticImageSpecificDataActual(
-      final @Nonnull Texture2DStatic texture,
-      final @Nonnull BufferedImage image)
-      throws ConstraintError
+  @Override public @Nonnull Texture2DStatic load2DStaticDepth16(
+    final @Nonnull GLInterface3 gl,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      GLException,
+      IOException
   {
-    final TextureType type = texture.getType();
-    final Texture2DWritableData data = new Texture2DWritableData(texture);
-
-    switch (image.getType()) {
-
-    /**
-     * Convert any RGBA -> type
-     */
-
-      case BufferedImage.TYPE_INT_ARGB_PRE:
-      case BufferedImage.TYPE_INT_ARGB:
-      case BufferedImage.TYPE_4BYTE_ABGR_PRE:
-      case BufferedImage.TYPE_4BYTE_ABGR:
-      {
-        switch (type) {
-          case TEXTURE_TYPE_R_8_1BPP:
-          {
-            return TextureLoaderImageIO.convertRGBToR8_1Generic(image, data);
-          }
-          case TEXTURE_TYPE_RGBA_4444_2BPP:
-          case TEXTURE_TYPE_RGBA_5551_2BPP:
-          case TEXTURE_TYPE_RGBA_8888_4BPP:
-          {
-            return TextureLoaderImageIO.convertABGRToRGBAGeneric(image, data);
-          }
-          case TEXTURE_TYPE_RGB_565_2BPP:
-          case TEXTURE_TYPE_RGB_888_3BPP:
-          {
-            return TextureLoaderImageIO.convertABGRToRGBGeneric(image, data);
-          }
-          case TEXTURE_TYPE_RG_88_2BPP:
-          {
-            return TextureLoaderImageIO
-              .convertRGBToRG88_2Generic(image, data);
-          }
-          case TEXTURE_TYPE_DEPTH_16_2BPP:
-          case TEXTURE_TYPE_DEPTH_24_4BPP:
-          case TEXTURE_TYPE_DEPTH_32F_4BPP:
-          case TEXTURE_TYPE_DEPTH_32_4BPP:
-          {
-            throw new UnimplementedCodeException();
-          }
-        }
-
-        throw new UnreachableCodeException();
-      }
-
-      /**
-       * Convert any RGB -> type
-       */
-
-      case BufferedImage.TYPE_BYTE_INDEXED:
-      case BufferedImage.TYPE_USHORT_555_RGB:
-      case BufferedImage.TYPE_INT_RGB:
-      case BufferedImage.TYPE_INT_BGR:
-      case BufferedImage.TYPE_USHORT_565_RGB:
-      case BufferedImage.TYPE_3BYTE_BGR:
-      {
-        switch (type) {
-          case TEXTURE_TYPE_R_8_1BPP:
-          {
-            return TextureLoaderImageIO.convertRGBToR8_1Generic(image, data);
-          }
-          case TEXTURE_TYPE_RG_88_2BPP:
-          {
-            return TextureLoaderImageIO
-              .convertRGBToRG88_2Generic(image, data);
-          }
-          case TEXTURE_TYPE_RGBA_4444_2BPP:
-          case TEXTURE_TYPE_RGBA_5551_2BPP:
-          case TEXTURE_TYPE_RGBA_8888_4BPP:
-          {
-            return TextureLoaderImageIO.convertBGRToRGBAGeneric(image, data);
-          }
-          case TEXTURE_TYPE_RGB_565_2BPP:
-          case TEXTURE_TYPE_RGB_888_3BPP:
-          {
-            return TextureLoaderImageIO.convertBGRToRGBGeneric(image, data);
-          }
-          case TEXTURE_TYPE_DEPTH_16_2BPP:
-          case TEXTURE_TYPE_DEPTH_24_4BPP:
-          case TEXTURE_TYPE_DEPTH_32F_4BPP:
-          case TEXTURE_TYPE_DEPTH_32_4BPP:
-          {
-            throw new UnimplementedCodeException();
-          }
-        }
-
-        throw new UnreachableCodeException();
-      }
-
-      /**
-       * Convert any grey -> type
-       */
-
-      case BufferedImage.TYPE_BYTE_GRAY:
-      case BufferedImage.TYPE_BYTE_BINARY:
-      case BufferedImage.TYPE_USHORT_GRAY:
-      {
-        switch (type) {
-          case TEXTURE_TYPE_R_8_1BPP:
-          {
-            return TextureLoaderImageIO.convertGreyToR(image, data);
-          }
-          case TEXTURE_TYPE_RG_88_2BPP:
-          {
-            return TextureLoaderImageIO.convertGreyToRG(image, data);
-          }
-          case TEXTURE_TYPE_RGBA_4444_2BPP:
-          case TEXTURE_TYPE_RGBA_5551_2BPP:
-          case TEXTURE_TYPE_RGBA_8888_4BPP:
-          {
-            return TextureLoaderImageIO.convertGreyToRGBA(image, data);
-          }
-          case TEXTURE_TYPE_RGB_565_2BPP:
-          case TEXTURE_TYPE_RGB_888_3BPP:
-          {
-            return TextureLoaderImageIO.convertGreyToRGB(image, data);
-          }
-          case TEXTURE_TYPE_DEPTH_16_2BPP:
-          case TEXTURE_TYPE_DEPTH_24_4BPP:
-          case TEXTURE_TYPE_DEPTH_32F_4BPP:
-          case TEXTURE_TYPE_DEPTH_32_4BPP:
-          {
-            throw new UnimplementedCodeException();
-          }
-        }
-
-        throw new UnreachableCodeException();
-      }
-
-      /**
-       * These alternatives must have been removed after conversion.
-       */
-
-      case BufferedImage.TYPE_CUSTOM:
-      default:
-      {
-        throw new UnreachableCodeException();
-      }
-    }
+    TextureLoaderImageIO.checkConstraints(
+      gl,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      stream,
+      name);
+    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3(
+      gl,
+      TextureType.TEXTURE_TYPE_DEPTH_16_2BPP,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      TextureLoaderImageIO.getBufferedImage(stream),
+      name);
   }
 
-  @Override public @Nonnull Texture2DStatic load2DStaticInferred(
+  @Override public @Nonnull Texture2DStatic load2DStaticDepth24(
+    final @Nonnull GLInterface3 gl,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      GLException,
+      IOException
+  {
+    TextureLoaderImageIO.checkConstraints(
+      gl,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      stream,
+      name);
+    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3(
+      gl,
+      TextureType.TEXTURE_TYPE_DEPTH_24_4BPP,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      TextureLoaderImageIO.getBufferedImage(stream),
+      name);
+  }
+
+  @Override public @Nonnull Texture2DStatic load2DStaticDepth32(
+    final @Nonnull GLInterface3 gl,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      GLException,
+      IOException
+  {
+    TextureLoaderImageIO.checkConstraints(
+      gl,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      stream,
+      name);
+    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3(
+      gl,
+      TextureType.TEXTURE_TYPE_DEPTH_32_4BPP,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      TextureLoaderImageIO.getBufferedImage(stream),
+      name);
+  }
+
+  @Override public @Nonnull Texture2DStatic load2DStaticDepth32f(
+    final @Nonnull GLInterface3 gl,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      GLException,
+      IOException
+  {
+    TextureLoaderImageIO.checkConstraints(
+      gl,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      stream,
+      name);
+    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3(
+      gl,
+      TextureType.TEXTURE_TYPE_DEPTH_32F_4BPP,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      TextureLoaderImageIO.getBufferedImage(stream),
+      name);
+  }
+
+  @Override public @Nonnull Texture2DStatic load2DStaticInferredES2(
     final @Nonnull GLInterfaceES2 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
@@ -599,8 +950,11 @@ public final class TextureLoaderImageIO implements TextureLoader
     Constraints.constrainNotNull(min_filter, "Minification filter");
 
     final BufferedImage image = TextureLoaderImageIO.getBufferedImage(stream);
-    return TextureLoaderImageIO.load2DStaticImageInferred(
+    final TextureType type = TextureLoaderImageIO.inferTextureTypeES2(image);
+
+    return TextureLoaderImageIO.load2DStaticSpecificImage_ES2(
       gl,
+      type,
       wrap_s,
       wrap_t,
       min_filter,
@@ -609,9 +963,8 @@ public final class TextureLoaderImageIO implements TextureLoader
       name);
   }
 
-  @Override public @Nonnull Texture2DStatic load2DStaticSpecific(
-    final @Nonnull GLInterfaceES2 gl,
-    final @Nonnull TextureType type,
+  @Override public @Nonnull Texture2DStatic load2DStaticInferredGL3(
+    final @Nonnull GLInterface3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -623,7 +976,6 @@ public final class TextureLoaderImageIO implements TextureLoader
       IOException
   {
     Constraints.constrainNotNull(name, "Name");
-    Constraints.constrainNotNull(type, "Texture type");
     Constraints.constrainNotNull(stream, "Input stream");
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(wrap_s, "Wrap S mode");
@@ -632,7 +984,233 @@ public final class TextureLoaderImageIO implements TextureLoader
     Constraints.constrainNotNull(min_filter, "Minification filter");
 
     final BufferedImage image = TextureLoaderImageIO.getBufferedImage(stream);
+    final TextureType type = TextureLoaderImageIO.inferTextureTypeGL3(image);
 
-    throw new UnimplementedCodeException();
+    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3(
+      gl,
+      type,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      image,
+      name);
+  }
+
+  @Override public @Nonnull Texture2DStatic load2DStaticR8(
+    final @Nonnull GLInterface3 gl,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      GLException,
+      IOException
+  {
+    TextureLoaderImageIO.checkConstraints(
+      gl,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      stream,
+      name);
+    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3(
+      gl,
+      TextureType.TEXTURE_TYPE_R_8_1BPP,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      TextureLoaderImageIO.getBufferedImage(stream),
+      name);
+  }
+
+  @Override public @Nonnull Texture2DStatic load2DStaticRG88(
+    final @Nonnull GLInterface3 gl,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      GLException,
+      IOException
+  {
+    TextureLoaderImageIO.checkConstraints(
+      gl,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      stream,
+      name);
+    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3(
+      gl,
+      TextureType.TEXTURE_TYPE_RG_88_2BPP,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      TextureLoaderImageIO.getBufferedImage(stream),
+      name);
+  }
+
+  @Override public @Nonnull Texture2DStatic load2DStaticRGB565(
+    final @Nonnull GLInterfaceES2 gl,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      GLException,
+      IOException
+  {
+    TextureLoaderImageIO.checkConstraints(
+      gl,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      stream,
+      name);
+    return TextureLoaderImageIO.load2DStaticSpecificImage_ES2(
+      gl,
+      TextureType.TEXTURE_TYPE_RGB_565_2BPP,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      TextureLoaderImageIO.getBufferedImage(stream),
+      name);
+  }
+
+  @Override public @Nonnull Texture2DStatic load2DStaticRGB888(
+    final @Nonnull GLInterfaceES2 gl,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      GLException,
+      IOException
+  {
+    TextureLoaderImageIO.checkConstraints(
+      gl,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      stream,
+      name);
+    return TextureLoaderImageIO.load2DStaticSpecificImage_ES2(
+      gl,
+      TextureType.TEXTURE_TYPE_RGB_888_3BPP,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      TextureLoaderImageIO.getBufferedImage(stream),
+      name);
+  }
+
+  @Override public @Nonnull Texture2DStatic load2DStaticRGBA4444(
+    final @Nonnull GLInterfaceES2 gl,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      GLException,
+      IOException
+  {
+    TextureLoaderImageIO.checkConstraints(
+      gl,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      stream,
+      name);
+    return TextureLoaderImageIO.load2DStaticSpecificImage_ES2(
+      gl,
+      TextureType.TEXTURE_TYPE_RGBA_4444_2BPP,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      TextureLoaderImageIO.getBufferedImage(stream),
+      name);
+  }
+
+  @Override public @Nonnull Texture2DStatic load2DStaticRGBA5551(
+    final @Nonnull GLInterfaceES2 gl,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      GLException,
+      IOException
+  {
+    TextureLoaderImageIO.checkConstraints(
+      gl,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      stream,
+      name);
+    return TextureLoaderImageIO.load2DStaticSpecificImage_ES2(
+      gl,
+      TextureType.TEXTURE_TYPE_RGBA_5551_2BPP,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      TextureLoaderImageIO.getBufferedImage(stream),
+      name);
+  }
+
+  @Override public @Nonnull Texture2DStatic load2DStaticRGBA8888(
+    final @Nonnull GLInterfaceES2 gl,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      GLException,
+      IOException
+  {
+    TextureLoaderImageIO.checkConstraints(
+      gl,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      stream,
+      name);
+    return TextureLoaderImageIO.load2DStaticSpecificImage_ES2(
+      gl,
+      TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      TextureLoaderImageIO.getBufferedImage(stream),
+      name);
   }
 }
