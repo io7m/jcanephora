@@ -300,4 +300,18 @@ public interface GLFramebuffersES2
     framebufferGetColorAttachmentPoints()
       throws GLException,
         ConstraintError;
+
+  /**
+   * Retrieve the available set of draw buffers framebuffers.
+   * 
+   * On ES2 implementations, the returned list will be a single item (as ES2
+   * only allows a single color draw buffer).
+   * 
+   * @throws GLException
+   *           Iff an OpenGL exception occurs.
+   */
+
+  @Nonnull FramebufferDrawBuffer[] framebufferGetDrawBuffers()
+    throws GLException,
+      ConstraintError;
 }

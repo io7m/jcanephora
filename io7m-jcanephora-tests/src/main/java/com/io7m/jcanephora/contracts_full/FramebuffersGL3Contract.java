@@ -1,4 +1,4 @@
-package com.io7m.jcanephora.contracts_ES2;
+package com.io7m.jcanephora.contracts_full;
 
 import javax.annotation.Nonnull;
 
@@ -27,30 +27,31 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 import com.io7m.jcanephora.CubeMapFace;
 import com.io7m.jcanephora.Framebuffer;
 import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
-import com.io7m.jcanephora.FramebufferConfigurationES2;
+import com.io7m.jcanephora.FramebufferConfigurationGL3;
+import com.io7m.jcanephora.FramebufferDrawBuffer;
 import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLImplementation;
-import com.io7m.jcanephora.GLInterfaceES2;
+import com.io7m.jcanephora.GLInterface3;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.RenderbufferUsable;
-import com.io7m.jcanephora.RequestColorTypeES2;
+import com.io7m.jcanephora.RequestColorTypeGL3;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.Texture2DStaticUsable;
 import com.io7m.jcanephora.TextureCubeStaticUsable;
 import com.io7m.jcanephora.TextureFilter;
 import com.io7m.jcanephora.TextureWrap;
 
-public abstract class FramebuffersContract implements GLES2TestContract
+public abstract class FramebuffersGL3Contract implements GLTestContract
 {
   private static @Nonnull Framebuffer makeAssumingSuccess(
-    final FramebufferConfigurationES2 config,
-    final GLImplementation gi)
+    final FramebufferConfigurationGL3 config,
+    final GLInterface3 gl)
     throws GLException,
       ConstraintError
   {
     final Indeterminate<Framebuffer, FramebufferStatus> result =
-      config.make(gi);
+      config.make(gl);
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
       (Success<Framebuffer, FramebufferStatus>) result;
@@ -61,6 +62,42 @@ public abstract class FramebuffersContract implements GLES2TestContract
   @Before public final void checkSupport()
   {
     Assume.assumeTrue(this.isGLSupported());
+  }
+
+  /**
+   * Associating an attachment with a draw buffer, then deleting the
+   * attachment, breaks the association between the draw buffer and the
+   * attachment.
+   * 
+   * @throws ConstraintError
+   * @throws GLUnsupportedException
+   * @throws GLException
+   */
+
+  @Test public void testBufferAssociationBreaks()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterface3 gl = gi.implementationGetGL3();
+
+    final FramebufferColorAttachmentPoint[] points =
+      gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+    Assume.assumeTrue(points.length >= 2);
+    Assume.assumeTrue(buffers.length >= 2);
+
+    final FramebufferConfigurationGL3 config =
+      new FramebufferConfigurationGL3(128, 256);
+
+    config.requestNoColor();
+    config.requestNoDepth();
+    config.requestNoStencil();
+    config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
+    config.requestNoColorAt(points[0]);
+    config.requestBestRGBAColorRenderbuffer(points[1], buffers[0]);
   }
 
   /**
@@ -75,16 +112,19 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final GLInterface3 gl = gi.implementationGetGL3();
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
-    final FramebufferConfigurationES2 config =
-      new FramebufferConfigurationES2(128, 256);
+    final FramebufferConfigurationGL3 config =
+      new FramebufferConfigurationGL3(128, 256);
 
-    for (final RequestColorTypeES2 c : RequestColorTypeES2.values()) {
+    for (final RequestColorTypeGL3 c : RequestColorTypeGL3.values()) {
       config.requestSpecificColorTexture2D(
+        points[0],
+        buffers[0],
         c,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
@@ -92,7 +132,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
         TextureFilter.TEXTURE_FILTER_NEAREST);
 
       final Indeterminate<Framebuffer, FramebufferStatus> result =
-        config.make(gi);
+        config.make(gl);
       Assert.assertTrue(result.isSuccess());
       final Success<Framebuffer, FramebufferStatus> success =
         (Success<Framebuffer, FramebufferStatus>) result;
@@ -140,16 +180,19 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final GLInterface3 gl = gi.implementationGetGL3();
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
-    final FramebufferConfigurationES2 config =
-      new FramebufferConfigurationES2(128, 128);
+    final FramebufferConfigurationGL3 config =
+      new FramebufferConfigurationGL3(128, 128);
 
-    for (final RequestColorTypeES2 c : RequestColorTypeES2.values()) {
+    for (final RequestColorTypeGL3 c : RequestColorTypeGL3.values()) {
       config.requestSpecificColorTextureCube(
+        points[0],
+        buffers[0],
         c,
         TextureWrap.TEXTURE_WRAP_REPEAT,
         TextureWrap.TEXTURE_WRAP_REPEAT,
@@ -158,7 +201,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
         TextureFilter.TEXTURE_FILTER_NEAREST);
 
       final Indeterminate<Framebuffer, FramebufferStatus> result =
-        config.make(gi);
+        config.make(gl);
       Assert.assertTrue(result.isSuccess());
       final Success<Framebuffer, FramebufferStatus> success =
         (Success<Framebuffer, FramebufferStatus>) result;
@@ -207,19 +250,20 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final GLInterface3 gl = gi.implementationGetGL3();
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
-    final FramebufferConfigurationES2 config =
-      new FramebufferConfigurationES2(128, 256);
+    final FramebufferConfigurationGL3 config =
+      new FramebufferConfigurationGL3(128, 256);
 
-    for (final RequestColorTypeES2 c : RequestColorTypeES2.values()) {
-      config.requestSpecificColorRenderbuffer(c);
+    for (final RequestColorTypeGL3 c : RequestColorTypeGL3.values()) {
+      config.requestSpecificColorRenderbuffer(points[0], buffers[0], c);
 
       final Indeterminate<Framebuffer, FramebufferStatus> result =
-        config.make(gi);
+        config.make(gl);
       Assert.assertTrue(result.isSuccess());
       final Success<Framebuffer, FramebufferStatus> success =
         (Success<Framebuffer, FramebufferStatus>) result;
@@ -265,21 +309,22 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final GLInterface3 gl = gi.implementationGetGL3();
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
-    final FramebufferConfigurationES2 config =
-      new FramebufferConfigurationES2(128, 256);
+    final FramebufferConfigurationGL3 config =
+      new FramebufferConfigurationGL3(128, 256);
 
     config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
-    config.requestBestRGBAColorRenderbuffer();
+    config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
-      config.make(gi);
+      config.make(gl);
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
       (Success<Framebuffer, FramebufferStatus>) result;
@@ -323,25 +368,28 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final GLInterface3 gl = gi.implementationGetGL3();
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
-    final FramebufferConfigurationES2 config =
-      new FramebufferConfigurationES2(128, 256);
+    final FramebufferConfigurationGL3 config =
+      new FramebufferConfigurationGL3(128, 256);
 
     config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
     config.requestBestRGBAColorTexture2D(
+      points[0],
+      buffers[0],
       TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
       TextureWrap.TEXTURE_WRAP_REPEAT,
       TextureFilter.TEXTURE_FILTER_LINEAR,
       TextureFilter.TEXTURE_FILTER_NEAREST);
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
-      config.make(gi);
+      config.make(gl);
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
       (Success<Framebuffer, FramebufferStatus>) result;
@@ -393,18 +441,21 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final GLInterface3 gl = gi.implementationGetGL3();
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
-    final FramebufferConfigurationES2 config =
-      new FramebufferConfigurationES2(128, 128);
+    final FramebufferConfigurationGL3 config =
+      new FramebufferConfigurationGL3(128, 128);
 
     config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
     config.requestBestRGBAColorTextureCube(
+      points[0],
+      buffers[0],
       TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
       TextureWrap.TEXTURE_WRAP_REPEAT,
       TextureWrap.TEXTURE_WRAP_REPEAT,
@@ -412,7 +463,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       TextureFilter.TEXTURE_FILTER_NEAREST);
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
-      config.make(gi);
+      config.make(gl);
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
       (Success<Framebuffer, FramebufferStatus>) result;
@@ -468,21 +519,22 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final GLInterface3 gl = gi.implementationGetGL3();
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
-    final FramebufferConfigurationES2 config =
-      new FramebufferConfigurationES2(128, 256);
+    final FramebufferConfigurationGL3 config =
+      new FramebufferConfigurationGL3(128, 256);
 
     config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
-    config.requestBestRGBColorRenderbuffer();
+    config.requestBestRGBColorRenderbuffer(points[0], buffers[0]);
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
-      config.make(gi);
+      config.make(gl);
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
       (Success<Framebuffer, FramebufferStatus>) result;
@@ -526,25 +578,28 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final GLInterface3 gl = gi.implementationGetGL3();
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
-    final FramebufferConfigurationES2 config =
-      new FramebufferConfigurationES2(128, 256);
+    final FramebufferConfigurationGL3 config =
+      new FramebufferConfigurationGL3(128, 256);
 
     config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
     config.requestBestRGBColorTexture2D(
+      points[0],
+      buffers[0],
       TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
       TextureWrap.TEXTURE_WRAP_REPEAT,
       TextureFilter.TEXTURE_FILTER_LINEAR,
       TextureFilter.TEXTURE_FILTER_NEAREST);
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
-      config.make(gi);
+      config.make(gl);
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
       (Success<Framebuffer, FramebufferStatus>) result;
@@ -596,18 +651,21 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final GLInterface3 gl = gi.implementationGetGL3();
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
-    final FramebufferConfigurationES2 config =
-      new FramebufferConfigurationES2(128, 128);
+    final FramebufferConfigurationGL3 config =
+      new FramebufferConfigurationGL3(128, 128);
 
     config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
     config.requestBestRGBColorTextureCube(
+      points[0],
+      buffers[0],
       TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
       TextureWrap.TEXTURE_WRAP_REPEAT,
       TextureWrap.TEXTURE_WRAP_REPEAT,
@@ -615,7 +673,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       TextureFilter.TEXTURE_FILTER_NEAREST);
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
-      config.make(gi);
+      config.make(gl);
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
       (Success<Framebuffer, FramebufferStatus>) result;
@@ -665,7 +723,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
    * 
    * @throws ConstraintError
    * @throws GLException
-   *           , GLUnsupportedException
+   * 
    */
 
   @Test public void testDepthRenderbuffer()
@@ -675,17 +733,17 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final GLInterface3 gl = gi.implementationGetGL3();
 
-    final FramebufferConfigurationES2 config =
-      new FramebufferConfigurationES2(128, 256);
+    final FramebufferConfigurationGL3 config =
+      new FramebufferConfigurationGL3(128, 256);
 
     config.requestNoColor();
     config.requestNoStencil();
     config.requestDepthRenderbuffer();
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
-      config.make(gi);
+      config.make(gl);
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
       (Success<Framebuffer, FramebufferStatus>) result;
@@ -731,14 +789,141 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
+    final GLInterface3 gl = gi.implementationGetGL3();
 
-    final FramebufferConfigurationES2 config =
-      new FramebufferConfigurationES2(128, 256);
+    final FramebufferConfigurationGL3 config =
+      new FramebufferConfigurationGL3(128, 256);
 
     config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
-    config.make(gi);
+    config.make(gl);
+  }
+
+  @Test public void testMultipleDrawBufferMapping()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterface3 gl = gi.implementationGetGL3();
+
+    final FramebufferColorAttachmentPoint[] points =
+      gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+    Assume.assumeTrue(points.length >= 2);
+    Assume.assumeTrue(buffers.length >= 2);
+
+    final FramebufferConfigurationGL3 config =
+      new FramebufferConfigurationGL3(128, 256);
+
+    config.requestNoColor();
+    config.requestNoDepth();
+    config.requestNoStencil();
+    config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
+
+    int rejected = 0;
+
+    try {
+      config.requestBestRGBAColorRenderbuffer(points[1], buffers[0]);
+    } catch (final ConstraintError e) {
+      ++rejected;
+    }
+
+    try {
+      config.requestBestRGBColorRenderbuffer(points[1], buffers[0]);
+    } catch (final ConstraintError e) {
+      ++rejected;
+    }
+
+    try {
+      config.requestBestRGBAColorTexture2D(
+        points[1],
+        buffers[0],
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+    } catch (final ConstraintError e) {
+      ++rejected;
+    }
+
+    try {
+      config.requestBestRGBColorTexture2D(
+        points[1],
+        buffers[0],
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+    } catch (final ConstraintError e) {
+      ++rejected;
+    }
+
+    try {
+      config.requestBestRGBAColorTextureCube(
+        points[1],
+        buffers[0],
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+    } catch (final ConstraintError e) {
+      ++rejected;
+    }
+
+    try {
+      config.requestBestRGBColorTextureCube(
+        points[1],
+        buffers[0],
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+    } catch (final ConstraintError e) {
+      ++rejected;
+    }
+
+    try {
+      config.requestSpecificColorRenderbuffer(
+        points[1],
+        buffers[0],
+        RequestColorTypeGL3.REQUEST_GL3_COLOR_RGB565);
+    } catch (final ConstraintError e) {
+      ++rejected;
+    }
+
+    try {
+      config.requestSpecificColorTexture2D(
+        points[1],
+        buffers[0],
+        RequestColorTypeGL3.REQUEST_GL3_COLOR_RGB565,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+    } catch (final ConstraintError e) {
+      ++rejected;
+    }
+
+    try {
+      config.requestSpecificColorTextureCube(
+        points[1],
+        buffers[0],
+        RequestColorTypeGL3.REQUEST_GL3_COLOR_RGB565,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
+    } catch (final ConstraintError e) {
+      ++rejected;
+    }
+
+    Assert.assertEquals(9, rejected);
   }
 
   /**
@@ -757,20 +942,22 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final GLInterface3 gl = gi.implementationGetGL3();
+
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
     /**
      * Create initial framebuffer.
      */
 
-    final FramebufferConfigurationES2 fb0_config =
-      new FramebufferConfigurationES2(128, 128);
-    fb0_config.requestBestRGBColorRenderbuffer();
+    final FramebufferConfigurationGL3 fb0_config =
+      new FramebufferConfigurationGL3(128, 128);
+    fb0_config.requestBestRGBColorRenderbuffer(points[0], buffers[0]);
 
     final Framebuffer fb0 =
-      FramebuffersContract.makeAssumingSuccess(fb0_config, gi);
+      FramebuffersGL3Contract.makeAssumingSuccess(fb0_config, gl);
     final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
 
     switch (fb0_attach.type) {
@@ -797,12 +984,12 @@ public abstract class FramebuffersContract implements GLES2TestContract
      * Create framebuffer that shares the color attachment of fb0.
      */
 
-    final FramebufferConfigurationES2 fb1_config =
-      new FramebufferConfigurationES2(128, 128);
-    fb1_config.requestSharedColor(fb0, points[0]);
+    final FramebufferConfigurationGL3 fb1_config =
+      new FramebufferConfigurationGL3(128, 128);
+    fb1_config.requestSharedColor(points[0], buffers[0], fb0, points[0]);
 
     final Framebuffer fb1 =
-      FramebuffersContract.makeAssumingSuccess(fb1_config, gi);
+      FramebuffersGL3Contract.makeAssumingSuccess(fb1_config, gl);
 
     Assert.assertTrue(fb1.hasColorAttachment(points[0]));
 
@@ -846,20 +1033,22 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final GLInterface3 gl = gi.implementationGetGL3();
+
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
     /**
      * Create initial framebuffer.
      */
 
-    final FramebufferConfigurationES2 fb0_config =
-      new FramebufferConfigurationES2(128, 128);
-    fb0_config.requestBestRGBAColorRenderbuffer();
+    final FramebufferConfigurationGL3 fb0_config =
+      new FramebufferConfigurationGL3(128, 128);
+    fb0_config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
 
     final Framebuffer fb0 =
-      FramebuffersContract.makeAssumingSuccess(fb0_config, gi);
+      FramebuffersGL3Contract.makeAssumingSuccess(fb0_config, gl);
     final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
 
     switch (fb0_attach.type) {
@@ -886,12 +1075,12 @@ public abstract class FramebuffersContract implements GLES2TestContract
      * Create framebuffer that shares the color attachment of fb0.
      */
 
-    final FramebufferConfigurationES2 fb1_config =
-      new FramebufferConfigurationES2(128, 128);
-    fb1_config.requestSharedColor(fb0, points[0]);
+    final FramebufferConfigurationGL3 fb1_config =
+      new FramebufferConfigurationGL3(128, 128);
+    fb1_config.requestSharedColor(points[0], buffers[0], fb0, points[0]);
 
     final Framebuffer fb1 =
-      FramebuffersContract.makeAssumingSuccess(fb1_config, gi);
+      FramebuffersGL3Contract.makeAssumingSuccess(fb1_config, gl);
 
     Assert.assertTrue(fb1.hasColorAttachment(points[0]));
 
@@ -935,24 +1124,28 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final GLInterface3 gl = gi.implementationGetGL3();
+
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
     /**
      * Create initial framebuffer.
      */
 
-    final FramebufferConfigurationES2 fb0_config =
-      new FramebufferConfigurationES2(128, 128);
+    final FramebufferConfigurationGL3 fb0_config =
+      new FramebufferConfigurationGL3(128, 128);
     fb0_config.requestBestRGBAColorTexture2D(
+      points[0],
+      buffers[0],
       TextureWrap.TEXTURE_WRAP_REPEAT,
       TextureWrap.TEXTURE_WRAP_REPEAT,
       TextureFilter.TEXTURE_FILTER_NEAREST,
       TextureFilter.TEXTURE_FILTER_NEAREST);
 
     final Framebuffer fb0 =
-      FramebuffersContract.makeAssumingSuccess(fb0_config, gi);
+      FramebuffersGL3Contract.makeAssumingSuccess(fb0_config, gl);
     final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
 
     switch (fb0_attach.type) {
@@ -979,12 +1172,12 @@ public abstract class FramebuffersContract implements GLES2TestContract
      * Create framebuffer that shares the color attachment of fb0.
      */
 
-    final FramebufferConfigurationES2 fb1_config =
-      new FramebufferConfigurationES2(128, 128);
-    fb1_config.requestSharedColor(fb0, points[0]);
+    final FramebufferConfigurationGL3 fb1_config =
+      new FramebufferConfigurationGL3(128, 128);
+    fb1_config.requestSharedColor(points[0], buffers[0], fb0, points[0]);
 
     final Framebuffer fb1 =
-      FramebuffersContract.makeAssumingSuccess(fb1_config, gi);
+      FramebuffersGL3Contract.makeAssumingSuccess(fb1_config, gl);
 
     Assert.assertTrue(fb1.hasColorAttachment(points[0]));
 
@@ -1027,17 +1220,21 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final GLInterface3 gl = gi.implementationGetGL3();
+
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
     /**
      * Create initial framebuffer.
      */
 
-    final FramebufferConfigurationES2 fb0_config =
-      new FramebufferConfigurationES2(128, 128);
+    final FramebufferConfigurationGL3 fb0_config =
+      new FramebufferConfigurationGL3(128, 128);
     fb0_config.requestBestRGBAColorTextureCube(
+      points[0],
+      buffers[0],
       TextureWrap.TEXTURE_WRAP_REPEAT,
       TextureWrap.TEXTURE_WRAP_REPEAT,
       TextureWrap.TEXTURE_WRAP_REPEAT,
@@ -1045,7 +1242,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
       TextureFilter.TEXTURE_FILTER_NEAREST);
 
     final Framebuffer fb0 =
-      FramebuffersContract.makeAssumingSuccess(fb0_config, gi);
+      FramebuffersGL3Contract.makeAssumingSuccess(fb0_config, gl);
     final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
 
     switch (fb0_attach.type) {
@@ -1072,12 +1269,12 @@ public abstract class FramebuffersContract implements GLES2TestContract
      * Create framebuffer that shares the color attachment of fb0.
      */
 
-    final FramebufferConfigurationES2 fb1_config =
-      new FramebufferConfigurationES2(128, 128);
-    fb1_config.requestSharedColor(fb0, points[0]);
+    final FramebufferConfigurationGL3 fb1_config =
+      new FramebufferConfigurationGL3(128, 128);
+    fb1_config.requestSharedColor(points[0], buffers[0], fb0, points[0]);
 
     final Framebuffer fb1 =
-      FramebuffersContract.makeAssumingSuccess(fb1_config, gi);
+      FramebuffersGL3Contract.makeAssumingSuccess(fb1_config, gl);
 
     Assert.assertTrue(fb1.hasColorAttachment(points[0]));
 
@@ -1120,17 +1317,18 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
+    final GLInterface3 gl = gi.implementationGetGL3();
 
     /**
      * Create initial framebuffer.
      */
 
-    final FramebufferConfigurationES2 fb0_config =
-      new FramebufferConfigurationES2(128, 128);
+    final FramebufferConfigurationGL3 fb0_config =
+      new FramebufferConfigurationGL3(128, 128);
     fb0_config.requestDepthRenderbuffer();
 
     final Framebuffer fb0 =
-      FramebuffersContract.makeAssumingSuccess(fb0_config, gi);
+      FramebuffersGL3Contract.makeAssumingSuccess(fb0_config, gl);
     final AttachmentDepth fb0_attach = fb0.getDepthAttachment();
 
     RenderbufferUsable fb0_r = null;
@@ -1161,12 +1359,12 @@ public abstract class FramebuffersContract implements GLES2TestContract
      * Create framebuffer that shares the depth attachment of fb0.
      */
 
-    final FramebufferConfigurationES2 fb1_config =
-      new FramebufferConfigurationES2(128, 128);
+    final FramebufferConfigurationGL3 fb1_config =
+      new FramebufferConfigurationGL3(128, 128);
     fb1_config.requestSharedDepth(fb0);
 
     final Framebuffer fb1 =
-      FramebuffersContract.makeAssumingSuccess(fb1_config, gi);
+      FramebuffersGL3Contract.makeAssumingSuccess(fb1_config, gl);
 
     Assert.assertTrue(fb1.hasDepthAttachment());
 
@@ -1216,20 +1414,22 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final GLInterface3 gl = gi.implementationGetGL3();
+
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
     /**
      * Create initial framebuffer.
      */
 
-    final FramebufferConfigurationES2 fb0_config =
-      new FramebufferConfigurationES2(128, 128);
-    fb0_config.requestBestRGBAColorRenderbuffer();
+    final FramebufferConfigurationGL3 fb0_config =
+      new FramebufferConfigurationGL3(128, 128);
+    fb0_config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
 
     final Framebuffer fb0 =
-      FramebuffersContract.makeAssumingSuccess(fb0_config, gi);
+      FramebuffersGL3Contract.makeAssumingSuccess(fb0_config, gl);
     final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
 
     switch (fb0_attach.type) {
@@ -1256,12 +1456,12 @@ public abstract class FramebuffersContract implements GLES2TestContract
      * Create framebuffer that shares the color attachment of fb0.
      */
 
-    final FramebufferConfigurationES2 fb1_config =
-      new FramebufferConfigurationES2(128, 128);
-    fb1_config.requestSharedColor(fb0, points[0]);
+    final FramebufferConfigurationGL3 fb1_config =
+      new FramebufferConfigurationGL3(128, 128);
+    fb1_config.requestSharedColor(points[0], buffers[0], fb0, points[0]);
 
     final Framebuffer fb1 =
-      FramebuffersContract.makeAssumingSuccess(fb1_config, gi);
+      FramebuffersGL3Contract.makeAssumingSuccess(fb1_config, gl);
 
     Assert.assertTrue(fb1.hasColorAttachment(points[0]));
 
@@ -1292,12 +1492,12 @@ public abstract class FramebuffersContract implements GLES2TestContract
      * Create framebuffer that shares the shared color attachment of fb1.
      */
 
-    final FramebufferConfigurationES2 fb2_config =
-      new FramebufferConfigurationES2(128, 128);
-    fb2_config.requestSharedColor(fb1, points[0]);
+    final FramebufferConfigurationGL3 fb2_config =
+      new FramebufferConfigurationGL3(128, 128);
+    fb2_config.requestSharedColor(points[0], buffers[0], fb1, points[0]);
 
     final Framebuffer fb2 =
-      FramebuffersContract.makeAssumingSuccess(fb2_config, gi);
+      FramebuffersGL3Contract.makeAssumingSuccess(fb2_config, gl);
 
     Assert.assertTrue(fb2.hasColorAttachment(points[0]));
 
@@ -1340,17 +1540,18 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
+    final GLInterface3 gl = gi.implementationGetGL3();
 
     /**
      * Create initial framebuffer.
      */
 
-    final FramebufferConfigurationES2 fb0_config =
-      new FramebufferConfigurationES2(128, 128);
+    final FramebufferConfigurationGL3 fb0_config =
+      new FramebufferConfigurationGL3(128, 128);
     fb0_config.requestDepthRenderbuffer();
 
     final Framebuffer fb0 =
-      FramebuffersContract.makeAssumingSuccess(fb0_config, gi);
+      FramebuffersGL3Contract.makeAssumingSuccess(fb0_config, gl);
     final AttachmentStencil fb0_attach = fb0.getStencilAttachment();
 
     RenderbufferUsable fb0_r = null;
@@ -1394,12 +1595,12 @@ public abstract class FramebuffersContract implements GLES2TestContract
      * Create framebuffer that shares the stencil attachment of fb0.
      */
 
-    final FramebufferConfigurationES2 fb1_config =
-      new FramebufferConfigurationES2(128, 128);
+    final FramebufferConfigurationGL3 fb1_config =
+      new FramebufferConfigurationGL3(128, 128);
     fb1_config.requestSharedStencil(fb0);
 
     final Framebuffer fb1 =
-      FramebuffersContract.makeAssumingSuccess(fb1_config, gi);
+      FramebuffersGL3Contract.makeAssumingSuccess(fb1_config, gl);
 
     Assert.assertTrue(fb1.hasStencilAttachment());
 
@@ -1438,7 +1639,7 @@ public abstract class FramebuffersContract implements GLES2TestContract
    * 
    * @throws ConstraintError
    * @throws GLException
-   *           , GLUnsupportedException
+   * 
    */
 
   @Test public void testStencilRenderbuffer()
@@ -1448,17 +1649,17 @@ public abstract class FramebuffersContract implements GLES2TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceES2 gl = gi.implementationGetGLES2();
+    final GLInterface3 gl = gi.implementationGetGL3();
 
-    final FramebufferConfigurationES2 config =
-      new FramebufferConfigurationES2(128, 256);
+    final FramebufferConfigurationGL3 config =
+      new FramebufferConfigurationGL3(128, 256);
 
     config.requestNoColor();
     config.requestNoDepth();
     config.requestStencilRenderbuffer();
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
-      config.make(gi);
+      config.make(gl);
     Assert.assertTrue(result.isSuccess());
     final Success<Framebuffer, FramebufferStatus> success =
       (Success<Framebuffer, FramebufferStatus>) result;

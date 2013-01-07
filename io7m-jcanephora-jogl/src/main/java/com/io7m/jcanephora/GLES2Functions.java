@@ -1316,6 +1316,31 @@ final class GLES2Functions
     return a;
   }
 
+  static @Nonnull FramebufferDrawBuffer[] framebufferGetDrawBuffersActual(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log)
+    throws GLException
+  {
+    final int max =
+      GLES2Functions.contextGetInteger(gl, state, GL2ES2.GL_MAX_DRAW_BUFFERS);
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("implementation supports ");
+      state.log_text.append(max);
+      state.log_text.append(" framebuffer draw buffers");
+      log.debug(state.log_text.toString());
+    }
+
+    final FramebufferDrawBuffer[] b = new FramebufferDrawBuffer[max];
+    for (int index = 0; index < max; ++index) {
+      b[index] = new FramebufferDrawBuffer(index);
+    }
+
+    return b;
+  }
+
   static IndexBuffer indexBufferAllocate(
     final @Nonnull GL2ES2 gl,
     final @Nonnull GLStateCache state,

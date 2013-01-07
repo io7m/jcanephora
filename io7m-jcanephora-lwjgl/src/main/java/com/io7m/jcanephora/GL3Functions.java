@@ -2,9 +2,11 @@ package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL15;
@@ -220,7 +222,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GLES2Functions.framebufferDrawIsBound(state, framebuffer),
+      GL3Functions.framebufferDrawIsBound(state, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
@@ -249,6 +251,51 @@ final class GL3Functions
     GLES2Functions.checkError();
   }
 
+  static void framebufferDrawAttachColorRenderbufferAt(
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull FramebufferColorAttachmentPoint point,
+    final @Nonnull RenderbufferUsable renderbuffer)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(point, "Attachment point");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      GL3Functions.framebufferDrawIsBound(state, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
+    Constraints.constrainArbitrary(
+      renderbuffer.resourceIsDeleted() == false,
+      "Renderbuffer not deleted");
+    Constraints.constrainArbitrary(
+      renderbuffer.getType().isColorRenderable(),
+      "Renderbuffer is color renderable");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(renderbuffer);
+      state.log_text.append(" at color attachment ");
+      state.log_text.append(point);
+      log.debug(state.log_text.toString());
+    }
+
+    GL30.glFramebufferRenderbuffer(
+      GL30.GL_DRAW_FRAMEBUFFER,
+      GL30.GL_COLOR_ATTACHMENT0 + point.getIndex(),
+      GL30.GL_RENDERBUFFER,
+      renderbuffer.getGLName());
+    GLES2Functions.checkError();
+  }
+
   static void framebufferDrawAttachColorTexture2D(
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
@@ -262,7 +309,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GLES2Functions.framebufferDrawIsBound(state, framebuffer),
+      GL3Functions.framebufferDrawIsBound(state, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(texture, "Texture");
@@ -292,6 +339,52 @@ final class GL3Functions
     GLES2Functions.checkError();
   }
 
+  static void framebufferDrawAttachColorTexture2DAt(
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull FramebufferColorAttachmentPoint point,
+    final @Nonnull Texture2DStaticUsable texture)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(point, "Attachment point");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      GL3Functions.framebufferDrawIsBound(state, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+    Constraints.constrainArbitrary(
+      texture.getType().isColorRenderable(),
+      "Texture is color renderable");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(texture);
+      state.log_text.append(" at color attachment ");
+      state.log_text.append(point);
+      log.debug(state.log_text.toString());
+    }
+
+    GL30.glFramebufferTexture2D(
+      GL30.GL_DRAW_FRAMEBUFFER,
+      GL30.GL_COLOR_ATTACHMENT0 + point.getIndex(),
+      GL11.GL_TEXTURE_2D,
+      texture.getGLName(),
+      0);
+    GLES2Functions.checkError();
+  }
+
   static void framebufferDrawAttachColorTextureCube(
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
@@ -306,7 +399,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GLES2Functions.framebufferDrawIsBound(state, framebuffer),
+      GL3Functions.framebufferDrawIsBound(state, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(texture, "Texture");
@@ -339,6 +432,57 @@ final class GL3Functions
     GLES2Functions.checkError();
   }
 
+  static void framebufferDrawAttachColorTextureCubeAt(
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull FramebufferColorAttachmentPoint point,
+    final @Nonnull TextureCubeStaticUsable texture,
+    final @Nonnull CubeMapFace face)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(point, "Attachment point");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      GL3Functions.framebufferDrawIsBound(state, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+    Constraints.constrainArbitrary(
+      texture.getType().isColorRenderable(),
+      "Texture is color renderable");
+
+    Constraints.constrainNotNull(face, "Cube map face");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(texture);
+      state.log_text.append(" face ");
+      state.log_text.append(face);
+      state.log_text.append(" at color attachment ");
+      state.log_text.append(point);
+      log.debug(state.log_text.toString());
+    }
+
+    GL30.glFramebufferTexture2D(
+      GL30.GL_DRAW_FRAMEBUFFER,
+      GL30.GL_COLOR_ATTACHMENT0 + point.getIndex(),
+      GLTypeConversions.cubeFaceToGL(face),
+      texture.getGLName(),
+      0);
+    GLES2Functions.checkError();
+  }
+
   static void framebufferDrawAttachDepthRenderbuffer(
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
@@ -352,7 +496,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GLES2Functions.framebufferDrawIsBound(state, framebuffer),
+      GL3Functions.framebufferDrawIsBound(state, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
@@ -394,7 +538,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GLES2Functions.framebufferDrawIsBound(state, framebuffer),
+      GL3Functions.framebufferDrawIsBound(state, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
@@ -446,7 +590,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GLES2Functions.framebufferDrawIsBound(state, framebuffer),
+      GL3Functions.framebufferDrawIsBound(state, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(texture, "Texture");
@@ -489,7 +633,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GLES2Functions.framebufferDrawIsBound(state, framebuffer),
+      GL3Functions.framebufferDrawIsBound(state, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
@@ -549,6 +693,59 @@ final class GL3Functions
     return cache.get(0) == framebuffer.getGLName();
   }
 
+  static
+    void
+    framebufferDrawSetBuffers(
+      final @Nonnull GLStateCache state,
+      final @Nonnull Log log,
+      final @Nonnull FramebufferReference framebuffer,
+      final @Nonnull Map<FramebufferDrawBuffer, FramebufferColorAttachmentPoint> mappings)
+      throws ConstraintError,
+        GLException
+  {
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      GL3Functions.framebufferDrawIsBound(state, framebuffer),
+      "Framebuffer is bound");
+    Constraints.constrainNotNull(mappings, "Draw buffer attachment mappings");
+
+    final FramebufferDrawBuffer[] buffers = state.draw_buffers;
+    final IntBuffer out = BufferUtils.createIntBuffer(buffers.length);
+
+    for (int index = 0; index < buffers.length; ++index) {
+      final FramebufferDrawBuffer buffer = new FramebufferDrawBuffer(index);
+      if (mappings.containsKey(buffer)) {
+        final FramebufferColorAttachmentPoint attach = mappings.get(buffer);
+        out.put(index, GL30.GL_COLOR_ATTACHMENT0 + attach.getIndex());
+        if (log.enabled(Level.LOG_DEBUG)) {
+          state.log_text.setLength(0);
+          state.log_text.append("draw-buffers: map ");
+          state.log_text.append(buffer);
+          state.log_text.append(" to ");
+          state.log_text.append(attach);
+          log.debug(state.log_text.toString());
+        }
+      } else {
+        out.put(index, GL11.GL_NONE);
+        if (log.enabled(Level.LOG_DEBUG)) {
+          state.log_text.setLength(0);
+          state.log_text.append("draw-buffers: map ");
+          state.log_text.append(buffer);
+          state.log_text.append(" to none");
+          log.debug(state.log_text.toString());
+        }
+      }
+    }
+
+    out.rewind();
+
+    GL20.glDrawBuffers(out);
+    GLES2Functions.checkError();
+  }
+
   static void framebufferDrawUnbind()
     throws GLException
   {
@@ -567,7 +764,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GLES2Functions.framebufferDrawIsBound(state, framebuffer),
+      GL3Functions.framebufferDrawIsBound(state, framebuffer),
       "Framebuffer is bound");
 
     final int status =

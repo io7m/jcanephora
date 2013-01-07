@@ -3,9 +3,9 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts_ES2.FramebuffersContract;
+import com.io7m.jcanephora.contracts_full.FramebuffersGL3Contract;
 
-public final class LWJGL30FramebuffersTest extends FramebuffersContract
+public final class LWJGL30FramebuffersGL3Test extends FramebuffersGL3Contract
 {
   @Override public boolean isGLSupported()
   {

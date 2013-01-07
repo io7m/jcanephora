@@ -721,6 +721,15 @@ import com.io7m.jtensors.VectorReadable4F;
     return this.state.color_attachments;
   }
 
+  @Override public @Nonnull
+    FramebufferDrawBuffer[]
+    framebufferGetDrawBuffers()
+      throws GLException,
+        ConstraintError
+  {
+    return this.state.draw_buffers;
+  }
+
   @Override public IndexBuffer indexBufferAllocate(
     final @Nonnull ArrayBuffer buffer,
     final int indices)
