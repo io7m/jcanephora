@@ -3,13 +3,13 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts_ES2.FramebuffersContract;
+import com.io7m.jcanephora.contracts_full.FramebuffersGL3Contract;
 
-public final class JOGLES2FramebuffersTest extends FramebuffersContract
+public final class JOGL30FramebuffersGL3Test extends FramebuffersGL3Contract
 {
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGLES2Supported();
+    return JOGLTestContext.isOpenGL3Supported();
   }
 
   @Override public @Nonnull TestContext newTestContext()
@@ -17,6 +17,6 @@ public final class JOGLES2FramebuffersTest extends FramebuffersContract
       GLUnsupportedException,
       ConstraintError
   {
-    return JOGLTestContext.makeContextWithOpenGL_ES2();
+    return JOGLTestContext.makeContextWithOpenGL3_X();
   }
 }

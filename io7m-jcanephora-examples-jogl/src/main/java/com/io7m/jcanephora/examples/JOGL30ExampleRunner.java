@@ -99,7 +99,7 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
     this.filesystem.mountUnsafeClasspathItem(Example.class, new PathVirtual(
       "/"));
 
-    final GLProfile profile = GLProfile.getDefault();
+    final GLProfile profile = GLProfile.get(GLProfile.GL3);
     final GLCapabilities requested_caps = new GLCapabilities(profile);
     requested_caps.setStencilBits(8);
     requested_caps.setDepthBits(24);
@@ -339,6 +339,18 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
         {
           JOGL30ExampleRunner.this.window.setTitle("FBO Triangle");
           return new ExampleFBO(c);
+        }
+      });
+
+    this.examples.put(
+      "FBO Triangle GL3",
+      new PartialFunction<ExampleConfig, Example, Throwable>() {
+        @Override public Example call(
+          final ExampleConfig c)
+          throws Throwable
+        {
+          JOGL30ExampleRunner.this.window.setTitle("FBO Triangle GL3");
+          return new ExampleFBO3(c);
         }
       });
 

@@ -19,6 +19,8 @@ import javax.annotation.concurrent.NotThreadSafe;
 {
   @Nonnull FramebufferColorAttachmentPoint[] color_attachments;
   @Nonnull TextureUnit[]                     texture_units;
+  @Nonnull FramebufferDrawBuffer[]           draw_buffers;
+
   boolean                                    line_smoothing;
   int                                        line_aliased_min_width;
   int                                        line_aliased_max_width;

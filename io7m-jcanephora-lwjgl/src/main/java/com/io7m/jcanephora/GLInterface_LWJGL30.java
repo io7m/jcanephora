@@ -103,6 +103,13 @@ import com.io7m.jtensors.VectorReadable4F;
         this.log);
 
     /**
+     * Get maximum draw buffers.
+     */
+
+    this.state.draw_buffers =
+      GLES2Functions.framebufferGetDrawBuffersActual(this.state, this.log);
+
+    /**
      * Initialize extensions.
      */
 
@@ -623,6 +630,21 @@ import com.io7m.jtensors.VectorReadable4F;
       renderbuffer);
   }
 
+  @Override public void framebufferDrawAttachColorRenderbufferAt(
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull FramebufferColorAttachmentPoint point,
+    final @Nonnull RenderbufferUsable renderbuffer)
+    throws GLException,
+      ConstraintError
+  {
+    GL3Functions.framebufferDrawAttachColorRenderbufferAt(
+      this.state,
+      this.log,
+      framebuffer,
+      point,
+      renderbuffer);
+  }
+
   @Override public void framebufferDrawAttachColorTexture2D(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull Texture2DStaticUsable texture)
@@ -633,6 +655,21 @@ import com.io7m.jtensors.VectorReadable4F;
       this.state,
       this.log,
       framebuffer,
+      texture);
+  }
+
+  @Override public void framebufferDrawAttachColorTexture2DAt(
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull FramebufferColorAttachmentPoint point,
+    final @Nonnull Texture2DStaticUsable texture)
+    throws GLException,
+      ConstraintError
+  {
+    GL3Functions.framebufferDrawAttachColorTexture2DAt(
+      this.state,
+      this.log,
+      framebuffer,
+      point,
       texture);
   }
 
@@ -647,6 +684,23 @@ import com.io7m.jtensors.VectorReadable4F;
       this.state,
       this.log,
       framebuffer,
+      texture,
+      face);
+  }
+
+  @Override public void framebufferDrawAttachColorTextureCubeAt(
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull FramebufferColorAttachmentPoint point,
+    final @Nonnull TextureCubeStaticUsable texture,
+    final @Nonnull CubeMapFace face)
+    throws GLException,
+      ConstraintError
+  {
+    GL3Functions.framebufferDrawAttachColorTextureCubeAt(
+      this.state,
+      this.log,
+      framebuffer,
+      point,
       texture,
       face);
   }
@@ -719,6 +773,21 @@ import com.io7m.jtensors.VectorReadable4F;
     return GLES2Functions.framebufferDrawIsBound(this.state, framebuffer);
   }
 
+  @Override public
+    void
+    framebufferDrawSetBuffers(
+      @Nonnull final FramebufferReference framebuffer,
+      @Nonnull final Map<FramebufferDrawBuffer, FramebufferColorAttachmentPoint> mappings)
+      throws GLException,
+        ConstraintError
+  {
+    GL3Functions.framebufferDrawSetBuffers(
+      this.state,
+      this.log,
+      framebuffer,
+      mappings);
+  }
+
   @Override public void framebufferDrawUnbind()
     throws GLException,
       ConstraintError
@@ -741,6 +810,15 @@ import com.io7m.jtensors.VectorReadable4F;
         ConstraintError
   {
     return this.state.color_attachments;
+  }
+
+  @Override public @Nonnull
+    FramebufferDrawBuffer[]
+    framebufferGetDrawBuffers()
+      throws GLException,
+        ConstraintError
+  {
+    return this.state.draw_buffers;
   }
 
   @Override public IndexBuffer indexBufferAllocate(
