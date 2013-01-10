@@ -70,7 +70,7 @@ public interface TextureLoader
     final @Nonnull TextureFilter min_filter,
     final @Nonnull TextureFilter mag_filter,
     final @Nonnull InputStream stream,
-    final @Nonnull String string)
+    final @Nonnull String name)
     throws ConstraintError,
       GLException,
       IOException;
@@ -116,7 +116,7 @@ public interface TextureLoader
     final @Nonnull TextureFilter min_filter,
     final @Nonnull TextureFilter mag_filter,
     final @Nonnull InputStream stream,
-    final @Nonnull String string)
+    final @Nonnull String name)
     throws ConstraintError,
       GLException,
       IOException;
@@ -162,7 +162,7 @@ public interface TextureLoader
     final @Nonnull TextureFilter min_filter,
     final @Nonnull TextureFilter mag_filter,
     final @Nonnull InputStream stream,
-    final @Nonnull String string)
+    final @Nonnull String name)
     throws ConstraintError,
       GLException,
       IOException;
@@ -208,7 +208,7 @@ public interface TextureLoader
     final @Nonnull TextureFilter min_filter,
     final @Nonnull TextureFilter mag_filter,
     final @Nonnull InputStream stream,
-    final @Nonnull String string)
+    final @Nonnull String name)
     throws ConstraintError,
       GLException,
       IOException;
@@ -346,7 +346,7 @@ public interface TextureLoader
     final @Nonnull TextureFilter min_filter,
     final @Nonnull TextureFilter mag_filter,
     final @Nonnull InputStream stream,
-    final @Nonnull String string)
+    final @Nonnull String name)
     throws ConstraintError,
       GLException,
       IOException;
@@ -392,7 +392,7 @@ public interface TextureLoader
     final @Nonnull TextureFilter min_filter,
     final @Nonnull TextureFilter mag_filter,
     final @Nonnull InputStream stream,
-    final @Nonnull String string)
+    final @Nonnull String name)
     throws ConstraintError,
       GLException,
       IOException;
@@ -530,7 +530,7 @@ public interface TextureLoader
     final @Nonnull TextureFilter min_filter,
     final @Nonnull TextureFilter mag_filter,
     final @Nonnull InputStream stream,
-    final @Nonnull String string)
+    final @Nonnull String name)
     throws ConstraintError,
       GLException,
       IOException;
@@ -576,7 +576,7 @@ public interface TextureLoader
     final @Nonnull TextureFilter min_filter,
     final @Nonnull TextureFilter mag_filter,
     final @Nonnull InputStream stream,
-    final @Nonnull String string)
+    final @Nonnull String name)
     throws ConstraintError,
       GLException,
       IOException;
@@ -622,7 +622,7 @@ public interface TextureLoader
     final @Nonnull TextureFilter min_filter,
     final @Nonnull TextureFilter mag_filter,
     final @Nonnull InputStream stream,
-    final @Nonnull String string)
+    final @Nonnull String name)
     throws ConstraintError,
       GLException,
       IOException;
