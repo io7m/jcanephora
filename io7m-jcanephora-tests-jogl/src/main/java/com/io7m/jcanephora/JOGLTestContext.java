@@ -20,25 +20,15 @@ public final class JOGLTestContext
 {
   private static GLContext               context;
   private static GLOffscreenAutoDrawable buffer;
-  private static GLProfile               PROFILE_OPENGL_3;
-  private static GLProfile               PROFILE_OPENGL_ES2;
-
-  static {
-    JOGLTestContext.PROFILE_OPENGL_3 = GLProfile.get(GLProfile.GL2);
-    JOGLTestContext.PROFILE_OPENGL_ES2 = GLProfile.get(GLProfile.GLES2);
-  }
-
-  static final String                    LOG_DESTINATION_OPENGL_ES_2_0 =
-                                                                         "jogl_es_2_0-test";
-
-  static final String                    LOG_DESTINATION_OPENGL_3_X    =
-                                                                         "jogl_3_x-test";
-
+  static final String                    LOG_DESTINATION_OPENGL_ES_2_0;
+  static final String                    LOG_DESTINATION_OPENGL_3_X;
   static final PathVirtual               GLSL_110_SHADER_PATH;
-
   static final PathVirtual               GLSL_ES_100_SHADER_PATH;
 
   static {
+    LOG_DESTINATION_OPENGL_ES_2_0 = "jogl_es_2_0-test";
+    LOG_DESTINATION_OPENGL_3_X = "jogl_3_x-test";
+
     try {
       GLSL_110_SHADER_PATH =
         new PathVirtual("/com/io7m/jcanephora/shaders/glsl110");
@@ -109,16 +99,12 @@ public final class JOGLTestContext
 
   public static boolean isOpenGL3Supported()
   {
-    final GLContext ctx =
-      JOGLTestContext.getContext(JOGLTestContext.PROFILE_OPENGL_3);
-    return ctx.isGL3();
+    return GLProfile.isAvailable(GLProfile.GL3);
   }
 
   public static boolean isOpenGLES2Supported()
   {
-    final GLContext ctx =
-      JOGLTestContext.getContext(JOGLTestContext.PROFILE_OPENGL_ES2);
-    return ctx.isGLES2();
+    return GLProfile.isAvailable(GLProfile.GLES2);
   }
 
   public static TestContext makeContextWithOpenGL_ES2()
@@ -158,7 +144,7 @@ public final class JOGLTestContext
       ConstraintError
   {
     final GLContext ctx =
-      JOGLTestContext.getContext(JOGLTestContext.PROFILE_OPENGL_ES2);
+      JOGLTestContext.getContext(GLProfile.get(GLProfile.GLES2));
     return new GLImplementationJOGL(ctx, log);
   }
 
@@ -169,7 +155,7 @@ public final class JOGLTestContext
       ConstraintError
   {
     final GLContext ctx =
-      JOGLTestContext.getContext(JOGLTestContext.PROFILE_OPENGL_3);
+      JOGLTestContext.getContext(GLProfile.get(GLProfile.GL3));
     return new GLImplementationJOGL(ctx, log);
   }
 
