@@ -193,28 +193,6 @@
               <goal>jar</goal>
             </goals>
           </execution>
-
-          <!-- Produce jar file containing unit tests -->
-          <execution>
-            <id>make-tests-jar</id>
-            <configuration>
-              <archive>
-                <manifestEntries>
-                  <Specification-Title>${project.name} tests</Specification-Title>
-                  <Specification-Version>${project.version}</Specification-Version>
-                  <Specification-Vendor>io7m.com</Specification-Vendor>
-                  <Implementation-Title>${project.name} tests</Implementation-Title>
-                  <Implementation-Version>${project.version}</Implementation-Version>
-                  <Implementation-Vendor>io7m.com</Implementation-Vendor>
-                  <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
-                  <Built-By>io7m</Built-By>
-                </manifestEntries>
-              </archive>
-            </configuration>
-            <goals>
-              <goal>test-jar</goal>
-            </goals>
-          </execution>
         </executions>
       </plugin>
 
