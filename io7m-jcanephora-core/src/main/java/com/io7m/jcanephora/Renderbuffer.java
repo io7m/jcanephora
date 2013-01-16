@@ -28,7 +28,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 @Immutable public final class Renderbuffer extends Deletable implements
   GLResource,
-  GLName
+  RenderbufferUsable
 {
   private final @Nonnull RenderbufferType type;
   private final int                       value;
@@ -79,20 +79,17 @@ import com.io7m.jaux.Constraints.ConstraintError;
     return this.value;
   }
 
-  /**
-   * Retrieve the height of the buffer.
-   */
-
-  public int getHeight()
+  @Override public int getHeight()
   {
     return this.height;
   }
 
-  /**
-   * Retrieve the width of the buffer.
-   */
+  @Override public @Nonnull RenderbufferType getType()
+  {
+    return this.type;
+  }
 
-  public int getWidth()
+  @Override public int getWidth()
   {
     return this.width;
   }
@@ -121,15 +118,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
   @Override void setDeleted()
   {
     this.deleted = true;
-  }
-
-  /**
-   * Retrieve the type of the renderbuffer.
-   */
-
-  public @Nonnull RenderbufferType getType()
-  {
-    return this.type;
   }
 
   @Override public String toString()

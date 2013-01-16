@@ -309,6 +309,28 @@ final class GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  static @Nonnull FramebufferStatus framebufferStatusFromGL(
+    final int status)
+  {
+    switch (status) {
+      case GL30.GL_FRAMEBUFFER_COMPLETE:
+        return FramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE;
+      case GL30.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+        return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_ATTACHMENT;
+      case GL30.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+        return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_MISSING_IMAGE_ATTACHMENT;
+      case GL30.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
+        return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_DRAW_BUFFER;
+      case GL30.GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
+        return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_READ_BUFFER;
+      case GL30.GL_FRAMEBUFFER_UNSUPPORTED:
+        return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_UNSUPPORTED;
+
+    }
+
+    return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_UNKNOWN;
+  }
+
   static final LogicOperation logicOpFromGL(
     final int op)
   {
@@ -454,6 +476,34 @@ final class GLTypeConversions
         return GL11.GL_TRIANGLE_STRIP;
       case PRIMITIVE_POINTS:
         return GL11.GL_POINTS;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  public static int renderbufferTypeToGL(
+    final RenderbufferType type)
+  {
+    switch (type) {
+      case RENDERBUFFER_COLOR_RGBA_4444:
+        return GL11.GL_RGBA4;
+      case RENDERBUFFER_COLOR_RGBA_5551:
+        return GL11.GL_RGB5_A1;
+      case RENDERBUFFER_COLOR_RGB_565:
+        /**
+         * Apparently not available in LWJGL yet (GL_RGB565).
+         */
+        return 0x8D62;
+      case RENDERBUFFER_DEPTH_16:
+        return GL14.GL_DEPTH_COMPONENT16;
+      case RENDERBUFFER_DEPTH_24_STENCIL_8:
+        return GL30.GL_DEPTH24_STENCIL8;
+      case RENDERBUFFER_STENCIL_8:
+        return GL30.GL_STENCIL_INDEX8;
+      case RENDERBUFFER_COLOR_RGBA_8888:
+        return GL11.GL_RGBA8;
+      case RENDERBUFFER_COLOR_RGB_888:
+        return GL11.GL_RGB8;
     }
 
     throw new UnreachableCodeException();
@@ -888,30 +938,6 @@ final class GLTypeConversions
         return GL15.GL_STREAM_DRAW;
       case USAGE_STREAM_READ:
         return GL15.GL_STREAM_READ;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  public static int renderbufferTypeToGL(
-    final RenderbufferType type)
-  {
-    switch (type) {
-      case RENDERBUFFER_COLOR_RGBA_4444:
-        return GL11.GL_RGBA4;
-      case RENDERBUFFER_COLOR_RGBA_5551:
-        return GL11.GL_RGB5_A1;
-      case RENDERBUFFER_COLOR_RGB_565:
-        /**
-         * Apparently not available in LWJGL yet (GL_RGB565).
-         */
-        return 0x8D62;
-      case RENDERBUFFER_DEPTH_16:
-        return GL14.GL_DEPTH_COMPONENT16;
-      case RENDERBUFFER_DEPTH_24_STENCIL_8:
-        return GL30.GL_DEPTH24_STENCIL8;
-      case RENDERBUFFER_STENCIL_8:
-        return GL30.GL_STENCIL_INDEX8;
     }
 
     throw new UnreachableCodeException();

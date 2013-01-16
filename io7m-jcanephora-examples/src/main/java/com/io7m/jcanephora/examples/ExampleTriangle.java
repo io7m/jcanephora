@@ -11,6 +11,7 @@ import com.io7m.jcanephora.CursorWritable4f;
 import com.io7m.jcanephora.CursorWritableIndex;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
+import com.io7m.jcanephora.GLImplementation;
 import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.GLScalarType;
 import com.io7m.jcanephora.IndexBuffer;
@@ -33,6 +34,7 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleTriangle implements Example
 {
+  private final GLImplementation        gl_implementation;
   private final GLInterfaceES2          gl;
   private final ArrayBufferDescriptor   array_type;
   private final ArrayBuffer             array;
@@ -52,9 +54,10 @@ public final class ExampleTriangle implements Example
       GLCompileException
   {
     this.config = config;
-    this.gl = config.getGL();
     this.matrix_modelview = new MatrixM4x4F();
     this.matrix_projection = new MatrixM4x4F();
+    this.gl_implementation = config.getGL();
+    this.gl = this.gl_implementation.implementationGetGLES2();
 
     /**
      * Initialize shaders.

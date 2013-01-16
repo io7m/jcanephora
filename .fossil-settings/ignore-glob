@@ -6,6 +6,7 @@ io7m-jcanephora-core/target
 io7m-jcanephora-examples-jogl/target
 io7m-jcanephora-examples-lwjgl/target
 io7m-jcanephora-examples/target
+io7m-jcanephora-framebuffer/target
 io7m-jcanephora-jogl/target
 io7m-jcanephora-lwjgl/target
 io7m-jcanephora-program/target

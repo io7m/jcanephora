@@ -17,25 +17,28 @@ import javax.annotation.concurrent.NotThreadSafe;
 
 @NotThreadSafe final class GLStateCache
 {
-  @Nonnull TextureUnit[]            texture_units;
-  boolean                           line_smoothing;
-  int                               line_aliased_min_width;
-  int                               line_aliased_max_width;
-  int                               line_smooth_min_width;
-  int                               line_smooth_max_width;
-  int                               point_min_width;
-  int                               point_max_width;
-  private final @Nonnull ByteBuffer integer_cache_buffer;
-  private final @Nonnull IntBuffer  integer_cache;
-  private final @Nonnull ByteBuffer color_buffer_mask_cache;
-  private final @Nonnull ByteBuffer depth_buffer_mask_cache;
-  final @Nonnull StringBuilder      log_text;
+  @Nonnull FramebufferColorAttachmentPoint[] color_attachments;
+  @Nonnull TextureUnit[]                     texture_units;
+  @Nonnull FramebufferDrawBuffer[]           draw_buffers;
+
+  boolean                                    line_smoothing;
+  int                                        line_aliased_min_width;
+  int                                        line_aliased_max_width;
+  int                                        line_smooth_min_width;
+  int                                        line_smooth_max_width;
+  int                                        point_min_width;
+  int                                        point_max_width;
+  private final @Nonnull ByteBuffer          integer_cache_buffer;
+  private final @Nonnull IntBuffer           integer_cache;
+  private final @Nonnull ByteBuffer          color_buffer_mask_cache;
+  private final @Nonnull ByteBuffer          depth_buffer_mask_cache;
+  final @Nonnull StringBuilder               log_text;
 
   /**
    * The size of the integer cache, in bytes.
    */
 
-  private static final int          INTEGER_CACHE_SIZE = 16 * 4;
+  private static final int                   INTEGER_CACHE_SIZE = 16 * 4;
 
   GLStateCache()
   {
@@ -49,6 +52,7 @@ import javax.annotation.concurrent.NotThreadSafe;
         ByteOrder.nativeOrder());
     this.integer_cache = this.integer_cache_buffer.asIntBuffer();
 
+    this.color_attachments = null;
     this.texture_units = null;
     this.line_smoothing = false;
 

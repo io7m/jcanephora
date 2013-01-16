@@ -1,25 +1,22 @@
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.contracts_ES2.DepthBuffersContract;
-import com.io7m.jlog.Log;
 
 public final class LWJGL30DepthBuffersTest extends DepthBuffersContract
 {
-  @Override public Log getLog()
-  {
-    return LWJGLTestLog.getLog();
-  }
-
   @Override public boolean isGLSupported()
   {
-    return LWJGLTestDisplay.isOpenGL3Supported();
+    return LWJGLTestContext.isOpenGL3Supported();
   }
 
-  @Override public GLInterfaceES2 makeNewGL()
+  @Override public @Nonnull TestContext newTestContext()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    return LWJGLTestDisplay.makeES2WithOpenGL3();
+    return LWJGLTestContext.makeContextWithOpenGL3_X();
   }
 }

@@ -21,7 +21,10 @@ import javax.annotation.Nonnull;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * Type-safe interface to the renderbuffer API exposed by OpenGL 3.0.
+ * Type-safe interface to the renderbuffer API exposed by OpenGL 3.0 and ES2.
+ * 
+ * Note that the framebuffer API exposed by 3.0 and ES2 are mutually
+ * incompatible in various ways, so this interface
  */
 
 public interface GLRenderbuffers extends GLRenderbuffersES2
@@ -38,12 +41,62 @@ public interface GLRenderbuffers extends GLRenderbuffersES2
    *           <ul>
    *           <li><code>1 <= width <= Integer.MAX_VALUE == false</code></li>
    *           <li><code>1 <= height <= Integer.MAX_VALUE == false</code></li>
+   *           <li>
+   *           <code>renderbufferSupportsDepth24Stencil8() == false</code></li>
    *           </ul>
    * @throws GLException
    *           Iff an OpenGL exception occurs.
    */
 
   @Nonnull Renderbuffer renderbufferAllocateDepth24Stencil8(
+    final int width,
+    final int height)
+    throws ConstraintError,
+      GLException;
+
+  /**
+   * Allocate a color renderbuffer.
+   * 
+   * See {@link RenderbufferType#RENDERBUFFER_COLOR_RGB_888} for the precise
+   * format.
+   * 
+   * @return A freshly allocated renderbuffer.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>1 <= width <= Integer.MAX_VALUE == false</code></li>
+   *           <li><code>1 <= height <= Integer.MAX_VALUE == false</code></li>
+   *           <li><code>renderbufferSupportsRGB888() == false</code></li>
+   *           </ul>
+   * @throws GLException
+   *           Iff an OpenGL exception occurs.
+   */
+
+  @Nonnull Renderbuffer renderbufferAllocateRGB888(
+    final int width,
+    final int height)
+    throws ConstraintError,
+      GLException;
+
+  /**
+   * Allocate a color renderbuffer.
+   * 
+   * See {@link RenderbufferType#RENDERBUFFER_COLOR_RGBA_8888} for the precise
+   * format.
+   * 
+   * @return A freshly allocated renderbuffer.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>1 <= width <= Integer.MAX_VALUE == false</code></li>
+   *           <li><code>1 <= height <= Integer.MAX_VALUE == false</code></li>
+   *           <li><code>renderbufferSupportsRGBA8888() == false</code></li>
+   *           </ul>
+   * @throws GLException
+   *           Iff an OpenGL exception occurs.
+   */
+
+  @Nonnull Renderbuffer renderbufferAllocateRGBA8888(
     final int width,
     final int height)
     throws ConstraintError,

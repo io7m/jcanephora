@@ -61,7 +61,19 @@ public enum RenderbufferType
    * Four-channel RGBA, 5 bits R, 6 bits G, 5 bits B, two bytes per pixel.
    */
 
-  RENDERBUFFER_COLOR_RGB_565;
+  RENDERBUFFER_COLOR_RGB_565,
+
+  /**
+   * Four-channel RGBA, 8 bits per channel, four bytes per pixel.
+   */
+
+  RENDERBUFFER_COLOR_RGBA_8888,
+
+  /**
+   * Three-channel RGB, 8 bits per channel, three bytes per pixel.
+   */
+
+  RENDERBUFFER_COLOR_RGB_888;
 
   /**
    * The subset of renderbuffer types supported by ES2
@@ -94,6 +106,28 @@ public enum RenderbufferType
   }
 
   /**
+   * Return <code>true</code> iff this type is color-renderable.
+   */
+
+  public boolean isColorRenderable()
+  {
+    switch (this) {
+      case RENDERBUFFER_COLOR_RGBA_4444:
+      case RENDERBUFFER_COLOR_RGBA_5551:
+      case RENDERBUFFER_COLOR_RGB_565:
+      case RENDERBUFFER_COLOR_RGBA_8888:
+      case RENDERBUFFER_COLOR_RGB_888:
+        return true;
+      case RENDERBUFFER_DEPTH_16:
+      case RENDERBUFFER_STENCIL_8:
+      case RENDERBUFFER_DEPTH_24_STENCIL_8:
+        return false;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
    * Return <code>true</code> iff this type is depth-renderable.
    */
 
@@ -104,6 +138,8 @@ public enum RenderbufferType
       case RENDERBUFFER_COLOR_RGBA_5551:
       case RENDERBUFFER_COLOR_RGB_565:
       case RENDERBUFFER_STENCIL_8:
+      case RENDERBUFFER_COLOR_RGBA_8888:
+      case RENDERBUFFER_COLOR_RGB_888:
         return false;
       case RENDERBUFFER_DEPTH_16:
       case RENDERBUFFER_DEPTH_24_STENCIL_8:
@@ -124,30 +160,12 @@ public enum RenderbufferType
       case RENDERBUFFER_COLOR_RGBA_5551:
       case RENDERBUFFER_COLOR_RGB_565:
       case RENDERBUFFER_DEPTH_16:
+      case RENDERBUFFER_COLOR_RGBA_8888:
+      case RENDERBUFFER_COLOR_RGB_888:
         return false;
       case RENDERBUFFER_STENCIL_8:
       case RENDERBUFFER_DEPTH_24_STENCIL_8:
         return true;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  /**
-   * Return <code>true</code> iff this type is color-renderable.
-   */
-
-  public boolean isColorRenderable()
-  {
-    switch (this) {
-      case RENDERBUFFER_COLOR_RGBA_4444:
-      case RENDERBUFFER_COLOR_RGBA_5551:
-      case RENDERBUFFER_COLOR_RGB_565:
-        return true;
-      case RENDERBUFFER_DEPTH_16:
-      case RENDERBUFFER_STENCIL_8:
-      case RENDERBUFFER_DEPTH_24_STENCIL_8:
-        return false;
     }
 
     throw new UnreachableCodeException();

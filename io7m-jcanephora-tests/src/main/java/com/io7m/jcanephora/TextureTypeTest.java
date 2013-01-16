@@ -1,5 +1,7 @@
 package com.io7m.jcanephora;
 
+import java.util.EnumSet;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -26,5 +28,12 @@ public class TextureTypeTest
     Assert.assertEquals(
       4,
       TextureType.TEXTURE_TYPE_RGBA_8888_4BPP.bytesPerPixel());
+  }
+
+  @SuppressWarnings("static-method") @Test public void testComponents()
+  {
+    Assert.assertEquals(
+      EnumSet.noneOf(TextureType.class),
+      TextureType.getWithComponents(0));
   }
 }

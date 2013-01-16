@@ -1,5 +1,7 @@
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -7,25 +9,20 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.contracts_full.LogicOpContract;
-import com.io7m.jlog.Log;
 
 public final class LWJGL30LogicOperationTest extends LogicOpContract
 {
-  @Override public Log getLog()
-  {
-    return LWJGLTestLog.getLog();
-  }
-
   @Override public boolean isGLSupported()
   {
-    return LWJGLTestDisplay.isOpenGL3Supported();
+    return LWJGLTestContext.isOpenGL3Supported();
   }
 
-  @Override public GLInterface makeNewGL()
+  @Override public @Nonnull TestContext newTestContext()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    return LWJGLTestDisplay.makeFullWithOpenGL3();
+    return LWJGLTestContext.makeContextWithOpenGL3_X();
   }
 
   /**
