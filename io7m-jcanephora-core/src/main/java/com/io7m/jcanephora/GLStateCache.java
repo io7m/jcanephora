@@ -21,11 +21,6 @@ import javax.annotation.concurrent.NotThreadSafe;
   @Nonnull TextureUnit[]                     texture_units;
   @Nonnull FramebufferDrawBuffer[]           draw_buffers;
 
-  boolean                                    line_smoothing;
-  int                                        line_aliased_min_width;
-  int                                        line_aliased_max_width;
-  int                                        line_smooth_min_width;
-  int                                        line_smooth_max_width;
   int                                        point_min_width;
   int                                        point_max_width;
   private final @Nonnull ByteBuffer          integer_cache_buffer;
@@ -54,12 +49,6 @@ import javax.annotation.concurrent.NotThreadSafe;
 
     this.color_attachments = null;
     this.texture_units = null;
-    this.line_smoothing = false;
-
-    this.line_aliased_max_width = 0;
-    this.line_aliased_min_width = 0;
-    this.line_smooth_max_width = 0;
-    this.line_smooth_min_width = 0;
     this.point_max_width = 0;
     this.point_min_width = 0;
 

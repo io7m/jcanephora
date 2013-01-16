@@ -178,19 +178,6 @@ import com.io7m.jtensors.VectorReadable4F;
 
     {
       final IntBuffer cache = this.state.getIntegerCache();
-      g.glGetIntegerv(GL.GL_ALIASED_LINE_WIDTH_RANGE, cache);
-      this.state.line_aliased_min_width = cache.get();
-      this.state.line_aliased_max_width = cache.get();
-      GLError.check(this);
-    }
-
-    {
-      this.state.line_smooth_min_width = 1;
-      this.state.line_smooth_max_width = 1;
-    }
-
-    {
-      final IntBuffer cache = this.state.getIntegerCache();
       g.glGetIntegerv(GL.GL_ALIASED_POINT_SIZE_RANGE, cache);
       this.state.point_min_width = cache.get();
       this.state.point_max_width = cache.get();
@@ -838,46 +825,6 @@ import com.io7m.jtensors.VectorReadable4F;
       ConstraintError
   {
     GLES2Functions.indexBufferUpdate(this.contextGetGLES2(), buffer, data);
-  }
-
-  @Override public int lineAliasedGetMaximumWidth()
-  {
-    return this.state.line_aliased_max_width;
-  }
-
-  @Override public int lineAliasedGetMinimumWidth()
-  {
-    return this.state.line_aliased_min_width;
-  }
-
-  @Override public void lineSetWidth(
-    final float width)
-    throws GLException,
-      ConstraintError
-  {
-    GLES2Functions.lineSetWidth(this.contextGetGLES2(), this.state, width);
-  }
-
-  @Override public int lineSmoothGetMaximumWidth()
-  {
-    return this.state.line_smooth_max_width;
-  }
-
-  @Override public int lineSmoothGetMinimumWidth()
-  {
-    return this.state.line_smooth_min_width;
-  }
-
-  @Override public void lineSmoothingDisable()
-    throws GLException
-  {
-    GLES2Functions.lineSmoothingDisable(this.contextGetGLES2(), this.state);
-  }
-
-  @Override public void lineSmoothingEnable()
-    throws GLException
-  {
-    GLES2Functions.lineSmoothingEnable(this.contextGetGLES2(), this.state);
   }
 
   @Override public int metaGetError()
