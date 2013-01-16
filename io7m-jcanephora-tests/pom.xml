@@ -4,12 +4,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.io7m.jcanephora.tests-jogl</groupId>
-  <artifactId>io7m-jcanephora-tests-jogl</artifactId>
-  <name>io7m-jcanephora-tests-jogl</name>
-  <description>Unit tests for the JOGL implementation of the jcanephora API</description>
+  <groupId>com.io7m.jcanephora.tests</groupId>
+  <artifactId>io7m-jcanephora-tests</artifactId>
+  <name>io7m-jcanephora-tests</name>
+  <description>Test contracts and cases</description>
   <version>1.0.0-SNAPSHOT</version>
-  <url>http://mvn.io7m.com/jcanephora-tests-jogl</url>
+  <url>http://mvn.io7m.com/jcanephora-tests</url>
   <packaging>jar</packaging>
 
   <licenses>
@@ -34,7 +34,7 @@
     <site>
       <id>io7m</id>
       <name>io7m.com</name>
-      <url>http://mvn.io7m.com/jcanephora-tests-jogl</url>
+      <url>http://mvn.io7m.com/jcanephora-tests</url>
     </site>
   </distributionManagement>
 
@@ -58,13 +58,8 @@
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>com.io7m.jcanephora.tests</groupId>
-      <artifactId>io7m-jcanephora-tests</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>com.io7m.jcanephora.texload-imageio</groupId>
-      <artifactId>io7m-jcanephora-texload-imageio</artifactId>
+      <groupId>com.io7m.jcanephora.framebuffer</groupId>
+      <artifactId>io7m-jcanephora-framebuffer</artifactId>
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
@@ -73,22 +68,9 @@
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>com.io7m.jcanephora.jogl</groupId>
-      <artifactId>io7m-jcanephora-jogl</artifactId>
+      <groupId>com.io7m.jcanephora.texload-imageio</groupId>
+      <artifactId>io7m-jcanephora-texload-imageio</artifactId>
       <version>1.0.0-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jogamp.gluegen</groupId>
-      <artifactId>gluegen-rt-main</artifactId>
-      <version>2.0-rc11post04</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.jogamp.jogl</groupId>
-      <artifactId>jogl-all-main</artifactId>
-      <version>2.0-rc11post04</version>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
@@ -169,8 +151,6 @@
         <configuration>
           <forkMode>once</forkMode>
           <redirectTestOutputToFile>true</redirectTestOutputToFile>
-          <testSourceDirectory>${project.basedir}/src/main/java/</testSourceDirectory>
-          <testClassesDirectory>${project.build.directory}/classes/</testClassesDirectory>
         </configuration>
       </plugin>
 
@@ -185,25 +165,35 @@
         </configuration>
       </plugin>
 
-      <!-- Produce custom manifest in jar files -->
+      <!-- Produce jar files -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <version>2.4</version>
-        <configuration>
-          <archive>
-            <manifestEntries>
-              <Specification-Title>${project.name}</Specification-Title>
-              <Specification-Version>${project.version}</Specification-Version>
-              <Specification-Vendor>io7m.com</Specification-Vendor>
-              <Implementation-Title>${project.name}</Implementation-Title>
-              <Implementation-Version>${project.version}</Implementation-Version>
-              <Implementation-Vendor>io7m.com</Implementation-Vendor>
-              <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
-              <Built-By>io7m</Built-By>
-            </manifestEntries>
-          </archive>
-        </configuration>
+        <executions>
+
+          <!-- Produce jar file with custom manifest -->
+          <execution>
+            <id>make-jar</id>
+            <configuration>
+              <archive>
+                <manifestEntries>
+                  <Specification-Title>${project.name}</Specification-Title>
+                  <Specification-Version>${project.version}</Specification-Version>
+                  <Specification-Vendor>io7m.com</Specification-Vendor>
+                  <Implementation-Title>${project.name}</Implementation-Title>
+                  <Implementation-Version>${project.version}</Implementation-Version>
+                  <Implementation-Vendor>io7m.com</Implementation-Vendor>
+                  <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
+                  <Built-By>io7m</Built-By>
+                </manifestEntries>
+              </archive>
+            </configuration>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <!-- Create source jar -->
@@ -252,7 +242,7 @@
         </executions>
       </plugin>
     </plugins>
-    
+
     <!-- Mark certain plugins as ignored in Eclipse. Does not affect the build. -->
     <pluginManagement>
       <plugins>

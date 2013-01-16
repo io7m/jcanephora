@@ -29,7 +29,7 @@ public interface GLIndexBuffersMapped
   /**
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped read-only. The buffer should be unmapped
-   * after use with {@link GLInterface#indexBufferUnmap(IndexBuffer)}. Note
+   * after use with {@link GLInterface3#indexBufferUnmap(IndexBuffer)}. Note
    * that the type of indices in the buffer is given by
    * <code>id.getType()</code>.
    * 
@@ -55,7 +55,7 @@ public interface GLIndexBuffersMapped
   /**
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped write-only. The buffer should be unmapped
-   * after use with {@link GLInterface#indexBufferUnmap(IndexBuffer)}. Note
+   * after use with {@link GLInterface3#indexBufferUnmap(IndexBuffer)}. Note
    * that the type of indices in the buffer is given by
    * <code>id.getType()</code>. The previous contents of the buffer are
    * discarded to prevent pipeline stalls.

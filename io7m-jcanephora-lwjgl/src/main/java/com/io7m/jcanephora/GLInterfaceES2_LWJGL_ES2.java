@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.IntBuffer;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -29,6 +30,8 @@ import org.lwjgl.opengl.GL12;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option;
+import com.io7m.jaux.functional.Pair;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
@@ -42,23 +45,132 @@ import com.io7m.jtensors.VectorReadable4F;
  * features of OpenGL ES2, using LWJGL as the backend.
  */
 
-@NotThreadSafe public class GLInterfaceES2_LWJGL_ES2 implements
+@NotThreadSafe public final class GLInterfaceES2_LWJGL_ES2 implements
   GLInterfaceES2
 {
-  private final @Nonnull Log          log;
-  private final @Nonnull GLStateCache state;
+  /**
+   * The packed depth/stencil extension.
+   */
 
-  public GLInterfaceES2_LWJGL_ES2(
+  private class ExtPackedDepthStencil implements
+    GLExtensionPackedDepthStencil
+  {
+    ExtPackedDepthStencil()
+    {
+      // Nothing
+    }
+
+    @Override public void framebufferDrawAttachDepthStencilRenderbuffer(
+      final @Nonnull FramebufferReference framebuffer,
+      final @Nonnull RenderbufferUsable renderbuffer)
+      throws GLException,
+        ConstraintError
+    {
+      GLES2Functions.framebufferDrawAttachStencilRenderbuffer(
+        GLInterfaceES2_LWJGL_ES2.this.state,
+        GLInterfaceES2_LWJGL_ES2.this.log,
+        framebuffer,
+        renderbuffer);
+    }
+
+    @Override public @Nonnull
+      Renderbuffer
+      renderbufferAllocateDepth24Stencil8(
+        final int width,
+        final int height)
+        throws ConstraintError,
+          GLException
+    {
+      return GLES2Functions.renderbufferAllocate(
+        GLInterfaceES2_LWJGL_ES2.this.state,
+        GLInterfaceES2_LWJGL_ES2.this.log,
+        RenderbufferType.RENDERBUFFER_DEPTH_24_STENCIL_8,
+        width,
+        height);
+    }
+  }
+
+  /**
+   * Support for the packed depth/stencil extension.
+   */
+
+  private class ExtPackedDepthStencilSupport implements
+    GLExtensionSupport<GLExtensionPackedDepthStencil>
+  {
+    ExtPackedDepthStencilSupport()
+    {
+      // Nothing.
+    }
+
+    @Override public
+      Option<GLExtensionPackedDepthStencil>
+      extensionGetSupport()
+        throws ConstraintError,
+          GLException
+    {
+      final String names[] =
+        { "GL_OES_packed_depth_stencil", "GL_EXT_packed_depth_stencil", };
+
+      final String all = GL11.glGetString(GL11.GL_EXTENSIONS);
+      final StringTokenizer tok = new StringTokenizer(all);
+
+      while (tok.hasMoreTokens()) {
+        final String extension = tok.nextToken();
+        for (final String name : names) {
+          if (extension.equals(name)) {
+            return new Option.Some<GLExtensionPackedDepthStencil>(
+              new ExtPackedDepthStencil());
+          }
+        }
+      }
+
+      return new Option.None<GLExtensionPackedDepthStencil>();
+    }
+  }
+
+  final @Nonnull Log                                                       log;
+  final @Nonnull GLStateCache                                              state;
+  private final Pair<Integer, Integer>                                     version;
+  private final boolean                                                    version_is_es;
+  private final @Nonnull GLExtensionSupport<GLExtensionPackedDepthStencil> ext_packed_depth_stencil_support;
+  private final @Nonnull GLExtensionPackedDepthStencil                     ext_packed_depth_stencil;
+
+  GLInterfaceES2_LWJGL_ES2(
     final @Nonnull Log log)
     throws ConstraintError,
       GLException
   {
     this.log =
-      new Log(Constraints.constrainNotNull(log, "log output"), "jogl-es2");
+      new Log(Constraints.constrainNotNull(log, "log output"), "lwjgl-es2");
     this.state = new GLStateCache();
 
+    /**
+     * Initialize texture unit cache.
+     */
+
     this.state.texture_units =
-      GLES2Functions.textureGetUnitsActual(this.state, log);
+      GLES2Functions.textureGetUnitsActual(this.state, this.log);
+
+    /**
+     * Initialize color attachment point cache.
+     */
+
+    this.state.color_attachments =
+      GLES2Functions.framebufferGetAttachmentPointsActual(
+        this.state,
+        this.log);
+
+    /**
+     * Initialize extensions.
+     */
+
+    this.ext_packed_depth_stencil_support =
+      new ExtPackedDepthStencilSupport();
+    this.ext_packed_depth_stencil = new ExtPackedDepthStencil();
+
+    /**
+     * Initialize various constants.
+     */
 
     {
       final IntBuffer cache = this.state.getIntegerCache();
@@ -69,11 +181,8 @@ import com.io7m.jtensors.VectorReadable4F;
     }
 
     {
-      final IntBuffer cache = this.state.getIntegerCache();
-      GL11.glGetInteger(GL12.GL_SMOOTH_LINE_WIDTH_RANGE, cache);
-      this.state.line_smooth_min_width = cache.get();
-      this.state.line_smooth_max_width = cache.get();
-      GLError.check(this);
+      this.state.line_smooth_min_width = 1;
+      this.state.line_smooth_max_width = 1;
     }
 
     {
@@ -83,6 +192,15 @@ import com.io7m.jtensors.VectorReadable4F;
       this.state.point_max_width = cache.get();
       GLError.check(this);
     }
+
+    /**
+     * Initialize version info.
+     */
+
+    final String v = GL11.glGetString(GL11.GL_VERSION);
+    GLError.check(this);
+    this.version = GLES2Functions.metaParseVersion(v);
+    this.version_is_es = GLES2Functions.metaVersionIsES(v);
   }
 
   @Override public ArrayBuffer arrayBufferAllocate(
@@ -427,6 +545,13 @@ import com.io7m.jtensors.VectorReadable4F;
     return code == GL11.GL_INVALID_OPERATION;
   }
 
+  @Override public @Nonnull
+    GLExtensionSupport<GLExtensionPackedDepthStencil>
+    extensionPackedDepthStencil()
+  {
+    return this.ext_packed_depth_stencil_support;
+  }
+
   @Override public void fragmentShaderAttach(
     final @Nonnull ProgramReference program,
     final @Nonnull FragmentShader shader)
@@ -461,38 +586,148 @@ import com.io7m.jtensors.VectorReadable4F;
     this.state, this.log, id);
   }
 
-  @Override public Framebuffer framebufferAllocate(
-    final @Nonnull FramebufferAttachment[] attachments)
-    throws ConstraintError,
-      GLException
+  @Override public @Nonnull FramebufferReference framebufferAllocate()
+    throws GLException,
+      ConstraintError
   {
-    return GLES2Functions.framebufferAllocate(
-
-    this.state, this.log, attachments);
-  }
-
-  @Override public void framebufferBind(
-    final @Nonnull Framebuffer buffer)
-    throws ConstraintError,
-      GLException
-  {
-    GLES2Functions.framebufferBind(buffer);
+    return GLES2Functions.framebufferAllocate(this.state, this.log);
   }
 
   @Override public void framebufferDelete(
-    final @Nonnull Framebuffer buffer)
-    throws ConstraintError,
-      GLException
+    final @Nonnull FramebufferReference framebuffer)
+    throws GLException,
+      ConstraintError
   {
-    GLES2Functions.framebufferDelete(
-
-    this.state, this.log, buffer);
+    GLES2Functions.framebufferDelete(this.state, this.log, framebuffer);
   }
 
-  @Override public void framebufferUnbind()
-    throws GLException
+  @Override public void framebufferDrawAttachColorRenderbuffer(
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull RenderbufferUsable renderbuffer)
+    throws GLException,
+      ConstraintError
   {
-    GLES2Functions.framebufferUnbind();
+    GLES2Functions.framebufferDrawAttachColorRenderbuffer(
+      this.state,
+      this.log,
+      framebuffer,
+      renderbuffer);
+  }
+
+  @Override public void framebufferDrawAttachColorTexture2D(
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull Texture2DStaticUsable texture)
+    throws GLException,
+      ConstraintError
+  {
+    GLES2Functions.framebufferDrawAttachColorTexture2D(
+      this.state,
+      this.log,
+      framebuffer,
+      texture);
+  }
+
+  @Override public void framebufferDrawAttachColorTextureCube(
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull TextureCubeStaticUsable texture,
+    final @Nonnull CubeMapFace face)
+    throws GLException,
+      ConstraintError
+  {
+    GLES2Functions.framebufferDrawAttachColorTextureCube(
+      this.state,
+      this.log,
+      framebuffer,
+      texture,
+      face);
+  }
+
+  @Override public void framebufferDrawAttachDepthRenderbuffer(
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull RenderbufferUsable renderbuffer)
+    throws GLException,
+      ConstraintError
+  {
+    GLES2Functions.framebufferDrawAttachDepthRenderbuffer(
+      this.state,
+      this.log,
+      framebuffer,
+      renderbuffer);
+  }
+
+  @Override public void framebufferDrawAttachDepthTexture2D(
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull Texture2DStaticUsable texture)
+    throws GLException,
+      ConstraintError
+  {
+    GLES2Functions.framebufferDrawAttachDepthTexture2D(
+      this.state,
+      this.log,
+      framebuffer,
+      texture);
+  }
+
+  @Override public void framebufferDrawAttachStencilRenderbuffer(
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull RenderbufferUsable renderbuffer)
+    throws GLException,
+      ConstraintError
+  {
+    GLES2Functions.framebufferDrawAttachStencilRenderbuffer(
+      this.state,
+      this.log,
+      framebuffer,
+      renderbuffer);
+  }
+
+  @Override public void framebufferDrawBind(
+    final @Nonnull FramebufferReference framebuffer)
+    throws GLException,
+      ConstraintError
+  {
+    GLES2Functions.framebufferDrawBind(framebuffer);
+  }
+
+  @Override public boolean framebufferDrawIsBound(
+    final @Nonnull FramebufferReference framebuffer)
+    throws GLException,
+      ConstraintError
+  {
+    return GLES2Functions.framebufferDrawIsBound(this.state, framebuffer);
+  }
+
+  @Override public void framebufferDrawUnbind()
+    throws GLException,
+      ConstraintError
+  {
+    GLES2Functions.framebufferDrawUnbind();
+  }
+
+  @Override public @Nonnull FramebufferStatus framebufferDrawValidate(
+    final @Nonnull FramebufferReference framebuffer)
+    throws GLException,
+      ConstraintError
+  {
+    return GLES2Functions.framebufferDrawValidate(this.state, framebuffer);
+  }
+
+  @Override public @Nonnull
+    FramebufferColorAttachmentPoint[]
+    framebufferGetColorAttachmentPoints()
+      throws GLException,
+        ConstraintError
+  {
+    return this.state.color_attachments;
+  }
+
+  @Override public @Nonnull
+    FramebufferDrawBuffer[]
+    framebufferGetDrawBuffers()
+      throws GLException,
+        ConstraintError
+  {
+    return this.state.draw_buffers;
   }
 
   @Override public IndexBuffer indexBufferAllocate(
@@ -598,6 +833,21 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException
   {
     return GLES2Functions.metaGetVersion();
+  }
+
+  @Override public int metaGetVersionMajor()
+  {
+    return this.version.first.intValue();
+  }
+
+  @Override public int metaGetVersionMinor()
+  {
+    return this.version.second.intValue();
+  }
+
+  @Override public boolean metaIsES()
+  {
+    return this.version_is_es;
   }
 
   @Override public int pointGetMaximumWidth()
@@ -783,25 +1033,82 @@ import com.io7m.jtensors.VectorReadable4F;
     this.state, uniform, vector);
   }
 
-  @Override public RenderbufferD24S8 renderbufferD24S8Allocate(
+  @Override public @Nonnull Renderbuffer renderbufferAllocateDepth16(
     final int width,
     final int height)
     throws ConstraintError,
       GLException
   {
-    return GLES2Functions.renderbufferD24S8Allocate(
-
-    this.state, this.log, width, height);
+    return GLES2Functions.renderbufferAllocate(
+      this.state,
+      this.log,
+      RenderbufferType.RENDERBUFFER_DEPTH_16,
+      width,
+      height);
   }
 
-  @Override public void renderbufferD24S8Delete(
-    final @Nonnull RenderbufferD24S8 buffer)
+  @Override public Renderbuffer renderbufferAllocateRGB565(
+    final int width,
+    final int height)
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.renderbufferD24S8Delete(
+    return GLES2Functions.renderbufferAllocate(
+      this.state,
+      this.log,
+      RenderbufferType.RENDERBUFFER_COLOR_RGB_565,
+      width,
+      height);
+  }
 
-    this.state, this.log, buffer);
+  @Override public @Nonnull Renderbuffer renderbufferAllocateRGBA4444(
+    final int width,
+    final int height)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.renderbufferAllocate(
+      this.state,
+      this.log,
+      RenderbufferType.RENDERBUFFER_COLOR_RGBA_4444,
+      width,
+      height);
+  }
+
+  @Override public @Nonnull Renderbuffer renderbufferAllocateRGBA5551(
+    final int width,
+    final int height)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.renderbufferAllocate(
+      this.state,
+      this.log,
+      RenderbufferType.RENDERBUFFER_COLOR_RGBA_5551,
+      width,
+      height);
+  }
+
+  @Override public @Nonnull Renderbuffer renderbufferAllocateStencil8(
+    final int width,
+    final int height)
+    throws ConstraintError,
+      GLException
+  {
+    return GLES2Functions.renderbufferAllocate(
+      this.state,
+      this.log,
+      RenderbufferType.RENDERBUFFER_STENCIL_8,
+      width,
+      height);
+  }
+
+  @Override public void renderbufferDelete(
+    final @Nonnull Renderbuffer buffer)
+    throws ConstraintError,
+      GLException
+  {
+    GLES2Functions.renderbufferDelete(this.state, this.log, buffer);
   }
 
   @Override public void scissorDisable()
@@ -904,8 +1211,8 @@ import com.io7m.jtensors.VectorReadable4F;
     final int height,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter mag_filter,
-    final @Nonnull TextureFilter min_filter)
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -918,8 +1225,8 @@ import com.io7m.jtensors.VectorReadable4F;
       TextureType.TEXTURE_TYPE_RGB_565_2BPP,
       wrap_s,
       wrap_t,
-      mag_filter,
-      min_filter);
+      min_filter,
+      mag_filter);
   }
 
   @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB888(
@@ -928,8 +1235,8 @@ import com.io7m.jtensors.VectorReadable4F;
     final int height,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter mag_filter,
-    final @Nonnull TextureFilter min_filter)
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -942,8 +1249,8 @@ import com.io7m.jtensors.VectorReadable4F;
       TextureType.TEXTURE_TYPE_RGB_888_3BPP,
       wrap_s,
       wrap_t,
-      mag_filter,
-      min_filter);
+      min_filter,
+      mag_filter);
   }
 
   @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA4444(
@@ -952,8 +1259,8 @@ import com.io7m.jtensors.VectorReadable4F;
     final int height,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter mag_filter,
-    final @Nonnull TextureFilter min_filter)
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -966,8 +1273,8 @@ import com.io7m.jtensors.VectorReadable4F;
       TextureType.TEXTURE_TYPE_RGBA_4444_2BPP,
       wrap_s,
       wrap_t,
-      mag_filter,
-      min_filter);
+      min_filter,
+      mag_filter);
   }
 
   @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA5551(
@@ -976,8 +1283,8 @@ import com.io7m.jtensors.VectorReadable4F;
     final int height,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter mag_filter,
-    final @Nonnull TextureFilter min_filter)
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -990,8 +1297,8 @@ import com.io7m.jtensors.VectorReadable4F;
       TextureType.TEXTURE_TYPE_RGBA_5551_2BPP,
       wrap_s,
       wrap_t,
-      mag_filter,
-      min_filter);
+      min_filter,
+      mag_filter);
   }
 
   @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA8888(
@@ -1000,8 +1307,8 @@ import com.io7m.jtensors.VectorReadable4F;
     final int height,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter mag_filter,
-    final @Nonnull TextureFilter min_filter)
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -1014,13 +1321,13 @@ import com.io7m.jtensors.VectorReadable4F;
       TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
       wrap_s,
       wrap_t,
-      mag_filter,
-      min_filter);
+      min_filter,
+      mag_filter);
   }
 
   @Override public void texture2DStaticBind(
     final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DStatic texture)
+    final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
       GLException
   {
@@ -1032,20 +1339,16 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.texture2DStaticDelete(
-
-    this.state, this.log, texture);
+    GLES2Functions.texture2DStaticDelete(this.state, this.log, texture);
   }
 
   @Override public boolean texture2DStaticIsBound(
     final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DStatic texture)
+    final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
       GLException
   {
-    return GLES2Functions.texture2DStaticIsBound(
-
-    this.state, unit, texture);
+    return GLES2Functions.texture2DStaticIsBound(this.state, unit, texture);
   }
 
   @Override public void texture2DStaticUnbind(
@@ -1068,13 +1371,12 @@ import com.io7m.jtensors.VectorReadable4F;
     TextureCubeStatic
     textureCubeStaticAllocateRGB565(
       final @Nonnull String name,
-      final int width,
-      final int height,
+      final int size,
       final @Nonnull TextureWrap wrap_r,
       final @Nonnull TextureWrap wrap_s,
       final @Nonnull TextureWrap wrap_t,
-      final @Nonnull TextureFilter mag_filter,
-      final @Nonnull TextureFilter min_filter)
+      final @Nonnull TextureFilter min_filter,
+      final @Nonnull TextureFilter mag_filter)
       throws ConstraintError,
         GLException
   {
@@ -1082,27 +1384,25 @@ import com.io7m.jtensors.VectorReadable4F;
       this.state,
       this.log,
       name,
-      width,
-      height,
+      size,
       TextureType.TEXTURE_TYPE_RGB_565_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
-      mag_filter,
-      min_filter);
+      min_filter,
+      mag_filter);
   }
 
   @Override public @Nonnull
     TextureCubeStatic
     textureCubeStaticAllocateRGB888(
       final @Nonnull String name,
-      final int width,
-      final int height,
+      final int size,
       final @Nonnull TextureWrap wrap_r,
       final @Nonnull TextureWrap wrap_s,
       final @Nonnull TextureWrap wrap_t,
-      final @Nonnull TextureFilter mag_filter,
-      final @Nonnull TextureFilter min_filter)
+      final @Nonnull TextureFilter min_filter,
+      final @Nonnull TextureFilter mag_filter)
       throws ConstraintError,
         GLException
   {
@@ -1110,27 +1410,25 @@ import com.io7m.jtensors.VectorReadable4F;
       this.state,
       this.log,
       name,
-      width,
-      height,
+      size,
       TextureType.TEXTURE_TYPE_RGB_888_3BPP,
       wrap_r,
       wrap_s,
       wrap_t,
-      mag_filter,
-      min_filter);
+      min_filter,
+      mag_filter);
   }
 
   @Override public @Nonnull
     TextureCubeStatic
     textureCubeStaticAllocateRGBA4444(
       final @Nonnull String name,
-      final int width,
-      final int height,
+      final int size,
       final @Nonnull TextureWrap wrap_r,
       final @Nonnull TextureWrap wrap_s,
       final @Nonnull TextureWrap wrap_t,
-      final @Nonnull TextureFilter mag_filter,
-      final @Nonnull TextureFilter min_filter)
+      final @Nonnull TextureFilter min_filter,
+      final @Nonnull TextureFilter mag_filter)
       throws ConstraintError,
         GLException
   {
@@ -1138,27 +1436,25 @@ import com.io7m.jtensors.VectorReadable4F;
       this.state,
       this.log,
       name,
-      width,
-      height,
+      size,
       TextureType.TEXTURE_TYPE_RGBA_4444_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
-      mag_filter,
-      min_filter);
+      min_filter,
+      mag_filter);
   }
 
   @Override public @Nonnull
     TextureCubeStatic
     textureCubeStaticAllocateRGBA5551(
       final @Nonnull String name,
-      final int width,
-      final int height,
+      final int size,
       final @Nonnull TextureWrap wrap_r,
       final @Nonnull TextureWrap wrap_s,
       final @Nonnull TextureWrap wrap_t,
-      final @Nonnull TextureFilter mag_filter,
-      final @Nonnull TextureFilter min_filter)
+      final @Nonnull TextureFilter min_filter,
+      final @Nonnull TextureFilter mag_filter)
       throws ConstraintError,
         GLException
   {
@@ -1166,27 +1462,25 @@ import com.io7m.jtensors.VectorReadable4F;
       this.state,
       this.log,
       name,
-      width,
-      height,
+      size,
       TextureType.TEXTURE_TYPE_RGBA_5551_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
-      mag_filter,
-      min_filter);
+      min_filter,
+      mag_filter);
   }
 
   @Override public @Nonnull
     TextureCubeStatic
     textureCubeStaticAllocateRGBA8888(
       final @Nonnull String name,
-      final int width,
-      final int height,
+      final int size,
       final @Nonnull TextureWrap wrap_r,
       final @Nonnull TextureWrap wrap_s,
       final @Nonnull TextureWrap wrap_t,
-      final @Nonnull TextureFilter mag_filter,
-      final @Nonnull TextureFilter min_filter)
+      final @Nonnull TextureFilter min_filter,
+      final @Nonnull TextureFilter mag_filter)
       throws ConstraintError,
         GLException
   {
@@ -1194,19 +1488,18 @@ import com.io7m.jtensors.VectorReadable4F;
       this.state,
       this.log,
       name,
-      width,
-      height,
+      size,
       TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
-      mag_filter,
-      min_filter);
+      min_filter,
+      mag_filter);
   }
 
   @Override public void textureCubeStaticBind(
     final @Nonnull TextureUnit unit,
-    final @Nonnull TextureCubeStatic texture)
+    final @Nonnull TextureCubeStaticUsable texture)
     throws ConstraintError,
       GLException
   {
@@ -1223,7 +1516,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public boolean textureCubeStaticIsBound(
     final @Nonnull TextureUnit unit,
-    final @Nonnull TextureCubeStatic texture)
+    final @Nonnull TextureCubeStaticUsable texture)
     throws ConstraintError,
       GLException
   {
@@ -1304,5 +1597,4 @@ import com.io7m.jtensors.VectorReadable4F;
   {
     GLES2Functions.viewportSet(position, dimensions);
   }
-
 }
