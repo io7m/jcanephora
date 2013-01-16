@@ -15,10 +15,12 @@ import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.GLType;
 import com.io7m.jcanephora.GLType.Type;
+import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramReference;
 import com.io7m.jcanephora.ProgramUniform;
+import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.VertexShader;
 import com.io7m.jtensors.MatrixM3x3F;
@@ -34,35 +36,35 @@ import com.io7m.jvvfs.FilesystemAPI;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
 
-public abstract class ProgramContract implements
-  GLES2TestContract,
-  FilesystemTestContract
+public abstract class ProgramContract implements GLES2TestContract
 {
-  @Before public final void checkSupport()
-  {
-    Assume.assumeTrue(this.isGLSupported());
-  }
-
-  private final Program makeLargeShader(
-    final GLInterfaceES2 gl,
-    final FilesystemAPI fs)
+  private final static Program makeLargeShader(
+    final TestContext tc)
     throws ConstraintError,
       GLCompileException
   {
-    final Program p = new Program("program", this.getLog());
+    final Program p = new Program("program", tc.getLog());
 
-    final PathVirtual path = this.getShaderPath();
+    final PathVirtual path = tc.getShaderPath();
     p.addVertexShader(new PathVirtual(path + "/large.v"));
     p.addFragmentShader(new PathVirtual(path + "/texture.f"));
-    p.compile(fs, gl);
+    p.compile(tc.getFilesystem(), tc
+      .getGLImplementation()
+      .implementationGetGLES2());
 
     return p;
+  }
+
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
   }
 
   /**
    * Deleting a fragment shader twice fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws FilesystemError
    * @throws IOException
    * @throws GLCompileException
@@ -73,17 +75,20 @@ public abstract class ProgramContract implements
     testFragmentShaderDeleteTwice()
       throws ConstraintError,
         GLException,
+        GLUnsupportedException,
         FilesystemError,
         GLCompileException,
         IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
 
     final FragmentShader fr =
       gl.fragmentShaderCompile(
         "frag",
-        fs.openFile(this.getShaderPath() + "/simple.f"));
+        fs.openFile(tc.getShaderPath() + "/simple.f"));
 
     fr.resourceDelete(gl);
     fr.resourceDelete(gl);
@@ -96,14 +101,17 @@ public abstract class ProgramContract implements
   @Test public final void testProgramActivation()
     throws ConstraintError,
       GLException,
+      GLUnsupportedException,
       GLCompileException
   {
-    final FilesystemAPI fs = this.makeNewFS();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
 
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final Program p = new Program("program", this.getLog());
-    p.addVertexShader(new PathVirtual(this.getShaderPath() + "/simple.v"));
-    p.addFragmentShader(new PathVirtual(this.getShaderPath() + "/simple.f"));
+    final Program p = new Program("program", tc.getLog());
+    p.addVertexShader(new PathVirtual(tc.getShaderPath() + "/simple.v"));
+    p.addFragmentShader(new PathVirtual(tc.getShaderPath() + "/simple.f"));
     p.compile(fs, gl);
 
     Assert.assertFalse(p.isActive(gl));
@@ -115,12 +123,19 @@ public abstract class ProgramContract implements
 
   /**
    * Adding a nonexistent shader does not fail.
+   * 
+   * @throws GLUnsupportedException
+   * @throws GLException
    */
 
   @Test public final void testProgramAddFragmentShaderNonexistent()
-    throws ConstraintError
+    throws ConstraintError,
+      GLException,
+      GLUnsupportedException
   {
-    final Program p = new Program("program", this.getLog());
+    final TestContext tc = this.newTestContext();
+
+    final Program p = new Program("program", tc.getLog());
     p.addFragmentShader(new PathVirtual("/nonexistent"));
   }
 
@@ -128,6 +143,7 @@ public abstract class ProgramContract implements
    * Adding a shader causes the program to require compilation.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    */
 
   @Test public final
@@ -135,18 +151,22 @@ public abstract class ProgramContract implements
     testProgramAddFragmentShaderPreservesCompilationRequirement()
       throws ConstraintError,
         FilesystemError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final Program p = new Program("program", this.getLog());
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+
+    final Program p = new Program("program", tc.getLog());
     {
-      final boolean r =
-        p.requiresCompilation(this.makeNewFS(), this.makeNewGL());
+      final boolean r = p.requiresCompilation(fs, gl);
       Assert.assertEquals(true, r);
     }
     p.addFragmentShader(new PathVirtual("/nonexistent"));
     {
-      final boolean r =
-        p.requiresCompilation(this.makeNewFS(), this.makeNewGL());
+      final boolean r = p.requiresCompilation(fs, gl);
       Assert.assertEquals(true, r);
     }
   }
@@ -155,13 +175,16 @@ public abstract class ProgramContract implements
     throws FilesystemError,
       ConstraintError,
       GLCompileException,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
 
-    final Program p = new Program("program", this.getLog());
-    final PathVirtual path = this.getShaderPath();
+    final Program p = new Program("program", tc.getLog());
+    final PathVirtual path = tc.getShaderPath();
 
     p.addVertexShader(new PathVirtual(path + "/attribute0.v"));
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
@@ -174,24 +197,38 @@ public abstract class ProgramContract implements
 
   /**
    * Adding a shader twice does nothing.
+   * 
+   * @throws GLUnsupportedException
+   * @throws GLException
    */
 
   @Test public final void testProgramAddFragmentShaderTwice()
-    throws ConstraintError
+    throws ConstraintError,
+      GLException,
+      GLUnsupportedException
   {
-    final Program p = new Program("program", this.getLog());
+    final TestContext tc = this.newTestContext();
+
+    final Program p = new Program("program", tc.getLog());
     p.addFragmentShader(new PathVirtual("/nonexistent"));
     p.addFragmentShader(new PathVirtual("/nonexistent"));
   }
 
   /**
    * Adding a nonexistent shader does not fail.
+   * 
+   * @throws GLUnsupportedException
+   * @throws GLException
    */
 
   @Test public final void testProgramAddVertexShaderNonexistent()
-    throws ConstraintError
+    throws ConstraintError,
+      GLException,
+      GLUnsupportedException
   {
-    final Program p = new Program("program", this.getLog());
+    final TestContext tc = this.newTestContext();
+
+    final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual("/nonexistent"));
   }
 
@@ -200,6 +237,7 @@ public abstract class ProgramContract implements
    * requirement.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    */
 
   @Test public final
@@ -207,18 +245,22 @@ public abstract class ProgramContract implements
     testProgramAddVertexShaderPreservesCompilationRequirement()
       throws ConstraintError,
         FilesystemError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final Program p = new Program("program", this.getLog());
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+
+    final Program p = new Program("program", tc.getLog());
     {
-      final boolean r =
-        p.requiresCompilation(this.makeNewFS(), this.makeNewGL());
+      final boolean r = p.requiresCompilation(fs, gl);
       Assert.assertEquals(true, r);
     }
     p.addVertexShader(new PathVirtual("/nonexistent"));
     {
-      final boolean r =
-        p.requiresCompilation(this.makeNewFS(), this.makeNewGL());
+      final boolean r = p.requiresCompilation(fs, gl);
       Assert.assertEquals(true, r);
     }
   }
@@ -227,13 +269,16 @@ public abstract class ProgramContract implements
     throws FilesystemError,
       ConstraintError,
       GLCompileException,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
 
-    final Program p = new Program("program", this.getLog());
-    final PathVirtual path = this.getShaderPath();
+    final Program p = new Program("program", tc.getLog());
+    final PathVirtual path = tc.getShaderPath();
 
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
@@ -246,12 +291,19 @@ public abstract class ProgramContract implements
 
   /**
    * Adding a shader twice does nothing.
+   * 
+   * @throws GLUnsupportedException
+   * @throws GLException
    */
 
   @Test public final void testProgramAddVertexShaderTwice()
-    throws ConstraintError
+    throws ConstraintError,
+      GLException,
+      GLUnsupportedException
   {
-    final Program p = new Program("program", this.getLog());
+    final TestContext tc = this.newTestContext();
+
+    final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual("/nonexistent"));
     p.addVertexShader(new PathVirtual("/nonexistent"));
   }
@@ -260,13 +312,16 @@ public abstract class ProgramContract implements
     throws FilesystemError,
       ConstraintError,
       GLCompileException,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
 
-    final Program p = new Program("program", this.getLog());
-    final PathVirtual path = this.getShaderPath();
+    final Program p = new Program("program", tc.getLog());
+    final PathVirtual path = tc.getShaderPath();
 
     p.addVertexShader(new PathVirtual(path + "/attribute0.v"));
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
@@ -287,27 +342,34 @@ public abstract class ProgramContract implements
    * 
    * @throws ConstraintError
    * @throws GLException
+   *           , GLUnsupportedException
    */
 
   @Test public final void testProgramAttributes()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
     Assert.assertTrue(gl.programGetMaximumActiveAttributes() >= 8);
   }
 
   @Test public final void testProgramCompileDeleteCompile()
     throws ConstraintError,
       GLCompileException,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
 
-    final PathVirtual path = this.getShaderPath();
+    final PathVirtual path = tc.getShaderPath();
 
-    final Program p = new Program("program", this.getLog());
+    final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
     p.compile(fs, gl);
@@ -315,7 +377,7 @@ public abstract class ProgramContract implements
     p.deactivate(gl);
     p.delete(gl);
 
-    final Program q = new Program("program", this.getLog());
+    final Program q = new Program("program", tc.getLog());
     q.addVertexShader(new PathVirtual(path + "/simple.v"));
     q.addFragmentShader(new PathVirtual(path + "/simple.f"));
     q.compile(fs, gl);
@@ -328,13 +390,16 @@ public abstract class ProgramContract implements
     throws ConstraintError,
       GLCompileException,
       FilesystemError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
 
-    final PathVirtual path = this.getShaderPath();
-    final Program p = new Program("program", this.getLog());
+    final PathVirtual path = tc.getShaderPath();
+    final Program p = new Program("program", tc.getLog());
 
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
@@ -349,6 +414,7 @@ public abstract class ProgramContract implements
    * A nonexistent shader causes a compilation error.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    */
 
   @Test(expected = GLCompileException.class) public final
@@ -356,15 +422,21 @@ public abstract class ProgramContract implements
     testProgramCompileFragmentShaderNonexistent()
       throws ConstraintError,
         GLCompileException,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final PathVirtual path = this.getShaderPath();
-    final Program p = new Program("program", this.getLog());
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+
+    final PathVirtual path = tc.getShaderPath();
+    final Program p = new Program("program", tc.getLog());
     p.addFragmentShader(new PathVirtual("/nonexistent"));
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
 
     try {
-      p.compile(this.makeNewFS(), this.makeNewGL());
+      p.compile(fs, gl);
     } catch (final GLCompileException e) {
       Assert.assertTrue(e.getMessage().endsWith(
         "file not found '/nonexistent'"));
@@ -376,6 +448,7 @@ public abstract class ProgramContract implements
    * Compiling an invalid fragment shader fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws FilesystemError
    * @throws GLCompileException
    */
@@ -385,14 +458,17 @@ public abstract class ProgramContract implements
     testProgramCompileInvalidFragment()
       throws ConstraintError,
         GLException,
+        GLUnsupportedException,
         FilesystemError,
         GLCompileException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
 
-    final PathVirtual path = this.getShaderPath();
-    final Program p = new Program("program", this.getLog());
+    final PathVirtual path = tc.getShaderPath();
+    final Program p = new Program("program", tc.getLog());
     p.addFragmentShader(new PathVirtual(path + "/invalid.f"));
     p.compile(fs, gl);
   }
@@ -401,6 +477,7 @@ public abstract class ProgramContract implements
    * Compiling an invalid vertex shader fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws FilesystemError
    * @throws GLCompileException
    */
@@ -410,14 +487,17 @@ public abstract class ProgramContract implements
     testProgramCompileInvalidVertex()
       throws ConstraintError,
         GLException,
+        GLUnsupportedException,
         FilesystemError,
         GLCompileException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final PathVirtual path = this.getShaderPath();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+    final PathVirtual path = tc.getShaderPath();
 
-    final Program p = new Program("program", this.getLog());
+    final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual(path + "/invalid.v"));
     p.compile(fs, gl);
   }
@@ -427,6 +507,7 @@ public abstract class ProgramContract implements
    * with GLSL ES 1.0 restrictions).
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    */
 
   @Test(expected = GLCompileException.class) public final
@@ -434,13 +515,16 @@ public abstract class ProgramContract implements
     testProgramCompileNoFragmentShader()
       throws ConstraintError,
         GLCompileException,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
 
-    final PathVirtual path = this.getShaderPath();
-    final Program p = new Program("program", this.getLog());
+    final PathVirtual path = tc.getShaderPath();
+    final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
 
     try {
@@ -457,6 +541,7 @@ public abstract class ProgramContract implements
    * with GLSL ES 1.0 restrictions).
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    */
 
   @Test(expected = GLCompileException.class) public final
@@ -464,13 +549,16 @@ public abstract class ProgramContract implements
     testProgramCompileNoVertexShader()
       throws ConstraintError,
         GLCompileException,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
 
-    final PathVirtual path = this.getShaderPath();
-    final Program p = new Program("program", this.getLog());
+    final PathVirtual path = tc.getShaderPath();
+    final Program p = new Program("program", tc.getLog());
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
 
     try {
@@ -486,13 +574,16 @@ public abstract class ProgramContract implements
     throws FilesystemError,
       ConstraintError,
       GLCompileException,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
 
-    final PathVirtual path = this.getShaderPath();
-    final Program p = new Program("program", this.getLog());
+    final PathVirtual path = tc.getShaderPath();
+    final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
 
@@ -506,13 +597,16 @@ public abstract class ProgramContract implements
     throws ConstraintError,
       GLCompileException,
       FilesystemError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final PathVirtual path = this.getShaderPath();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+    final PathVirtual path = tc.getShaderPath();
 
-    final Program p = new Program("program", this.getLog());
+    final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
     p.compile(fs, gl);
@@ -526,6 +620,7 @@ public abstract class ProgramContract implements
    * A nonexistent shader causes a compilation error.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    */
 
   @Test(expected = GLCompileException.class) public final
@@ -533,15 +628,21 @@ public abstract class ProgramContract implements
     testProgramCompileVertexShaderNonexistent()
       throws ConstraintError,
         GLCompileException,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final PathVirtual path = this.getShaderPath();
-    final Program p = new Program("program", this.getLog());
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+
+    final PathVirtual path = tc.getShaderPath();
+    final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual("/nonexistent"));
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
 
     try {
-      p.compile(this.makeNewFS(), this.makeNewGL());
+      p.compile(fs, gl);
     } catch (final GLCompileException e) {
       Assert.assertTrue(e.getMessage().endsWith(
         "file not found '/nonexistent'"));
@@ -555,29 +656,38 @@ public abstract class ProgramContract implements
 
   @Test public final void testProgramCreate()
     throws ConstraintError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final Program p = new Program("program", this.getLog());
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final Program p = new Program("program", tc.getLog());
     Assert.assertEquals("program", p.getName());
     Assert.assertEquals(false, p.isActive(gl));
-    p.delete(this.makeNewGL());
+    p.delete(gl);
   }
 
   /**
    * New program requires compilation.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    */
 
   @Test public final void testProgramCreatedRequiresCompilation()
     throws ConstraintError,
       FilesystemError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final Program p = new Program("program", this.getLog());
-    final boolean r =
-      p.requiresCompilation(this.makeNewFS(), this.makeNewGL());
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+
+    final Program p = new Program("program", tc.getLog());
+    final boolean r = p.requiresCompilation(fs, gl);
     Assert.assertEquals(true, r);
   }
 
@@ -589,9 +699,12 @@ public abstract class ProgramContract implements
     void
     testProgramCreateNull()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
     gl.programCreate(null);
   }
 
@@ -602,13 +715,16 @@ public abstract class ProgramContract implements
   @Test public final void testProgramDeactivateNotActive()
     throws ConstraintError,
       GLException,
+      GLUnsupportedException,
       GLCompileException
   {
-    final FilesystemAPI fs = this.makeNewFS();
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final PathVirtual path = this.getShaderPath();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+    final PathVirtual path = tc.getShaderPath();
 
-    final Program p = new Program("program", this.getLog());
+    final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
     p.compile(fs, gl);
@@ -621,10 +737,14 @@ public abstract class ProgramContract implements
 
   @Test public final void testProgramDeactivateNotCompiled()
     throws ConstraintError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final Program p = new Program("program", this.getLog());
-    p.deactivate(this.makeNewGL());
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final Program p = new Program("program", tc.getLog());
+    p.deactivate(gl);
   }
 
   /**
@@ -635,9 +755,12 @@ public abstract class ProgramContract implements
     void
     testProgramDeleteDeleted()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
     final ProgramReference p = gl.programCreate("program");
     p.resourceDelete(gl);
     p.resourceDelete(gl);
@@ -651,9 +774,12 @@ public abstract class ProgramContract implements
     void
     testProgramDeleteNull()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
     gl.programDelete(null);
   }
 
@@ -662,19 +788,23 @@ public abstract class ProgramContract implements
    * recompilation.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    */
 
   @Test public final void testProgramFragmentShaderTimeRequiresCompilation()
     throws FilesystemError,
       ConstraintError,
       GLCompileException,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final PathVirtual path = this.getShaderPath();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+    final PathVirtual path = tc.getShaderPath();
 
-    final Program p = new Program("program", this.getLog());
+    final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
     p.compile(fs, gl);
@@ -688,6 +818,7 @@ public abstract class ProgramContract implements
    * Linking a program with inconsistent varying parameters fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws IOException
    */
 
@@ -697,11 +828,14 @@ public abstract class ProgramContract implements
       throws ConstraintError,
         GLCompileException,
         GLException,
+        GLUnsupportedException,
         IOException
   {
-    final FilesystemAPI fs = this.makeNewFS();
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final PathVirtual path = this.getShaderPath();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+    final PathVirtual path = tc.getShaderPath();
 
     ProgramReference pr = null;
 
@@ -728,46 +862,67 @@ public abstract class ProgramContract implements
     void
     testProgramNotCompiledActivate()
       throws ConstraintError,
-        GLException
+        GLException,
+        GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final Program p = new Program("program", this.getLog());
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final Program p = new Program("program", tc.getLog());
     p.activate(gl);
   }
 
   /**
    * Retrieving an attribute for a program that's not yet compiled returns
    * null.
+   * 
+   * @throws GLUnsupportedException
+   * @throws GLException
    */
 
   @Test public final void testProgramNotCompiledAttribute()
-    throws ConstraintError
+    throws ConstraintError,
+      GLException,
+      GLUnsupportedException
   {
-    final Program p = new Program("program", this.getLog());
+    final TestContext tc = this.newTestContext();
+    final Program p = new Program("program", tc.getLog());
     final ProgramAttribute a = p.getAttribute("something");
     Assert.assertEquals(null, a);
   }
 
   /**
    * Retrieving the ID of a program that's not yet compiled returns null.
+   * 
+   * @throws GLUnsupportedException
+   * @throws GLException
    */
 
   @Test public final void testProgramNotCompiledIDNull()
-    throws ConstraintError
+    throws ConstraintError,
+      GLException,
+      GLUnsupportedException
   {
-    final Program p = new Program("program", this.getLog());
+    final TestContext tc = this.newTestContext();
+    final Program p = new Program("program", tc.getLog());
     final ProgramReference r = p.getID();
     Assert.assertEquals(null, r);
   }
 
   /**
    * Retrieving a uniform for a program that's not yet compiled returns null.
+   * 
+   * @throws GLUnsupportedException
+   * @throws GLException
    */
 
   @Test public final void testProgramNotCompiledUniform()
-    throws ConstraintError
+    throws ConstraintError,
+      GLException,
+      GLUnsupportedException
   {
-    final Program p = new Program("program", this.getLog());
+    final TestContext tc = this.newTestContext();
+    final Program p = new Program("program", tc.getLog());
     final ProgramUniform u = p.getUniform("something");
     Assert.assertEquals(null, u);
   }
@@ -776,6 +931,7 @@ public abstract class ProgramContract implements
    * Adding a deleted fragment shader fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws FilesystemError
    * @throws IOException
    * @throws GLCompileException
@@ -786,13 +942,16 @@ public abstract class ProgramContract implements
     testProgramReferenceAddFragmentShaderDeleted()
       throws ConstraintError,
         GLException,
+        GLUnsupportedException,
         FilesystemError,
         GLCompileException,
         IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final PathVirtual path = this.getShaderPath();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+    final PathVirtual path = tc.getShaderPath();
 
     final ProgramReference pr = gl.programCreate("program");
     final FragmentShader fr =
@@ -806,6 +965,7 @@ public abstract class ProgramContract implements
    * Adding a fragment shader to a deleted program fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws FilesystemError
    * @throws IOException
    * @throws GLCompileException
@@ -816,13 +976,16 @@ public abstract class ProgramContract implements
     testProgramReferenceAddFragmentShaderDeletedProgram()
       throws ConstraintError,
         GLException,
+        GLUnsupportedException,
         FilesystemError,
         GLCompileException,
         IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final PathVirtual path = this.getShaderPath();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+    final PathVirtual path = tc.getShaderPath();
 
     final ProgramReference pr = gl.programCreate("program");
     final FragmentShader fr =
@@ -836,6 +999,7 @@ public abstract class ProgramContract implements
    * Adding a deleted vertex shader fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws FilesystemError
    * @throws IOException
    * @throws GLCompileException
@@ -846,13 +1010,16 @@ public abstract class ProgramContract implements
     testProgramReferenceAddVertexShaderDeleted()
       throws ConstraintError,
         GLException,
+        GLUnsupportedException,
         FilesystemError,
         GLCompileException,
         IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final PathVirtual path = this.getShaderPath();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+    final PathVirtual path = tc.getShaderPath();
 
     final ProgramReference pr = gl.programCreate("program");
     final VertexShader vr =
@@ -866,6 +1033,7 @@ public abstract class ProgramContract implements
    * Adding a vertex shader to a deleted program fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws FilesystemError
    * @throws IOException
    * @throws GLCompileException
@@ -876,13 +1044,16 @@ public abstract class ProgramContract implements
     testProgramReferenceAddVertexShaderDeletedProgram()
       throws ConstraintError,
         GLException,
+        GLUnsupportedException,
         FilesystemError,
         GLCompileException,
         IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final PathVirtual path = this.getShaderPath();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+    final PathVirtual path = tc.getShaderPath();
 
     final ProgramReference pr = gl.programCreate("program");
     final VertexShader vr =
@@ -898,9 +1069,12 @@ public abstract class ProgramContract implements
 
   @Test public final void testProgramReferenceCreate()
     throws ConstraintError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
     ProgramReference p = null;
 
     try {
@@ -919,10 +1093,14 @@ public abstract class ProgramContract implements
 
   @Test public final void testProgramRemoveFragmentShaderNone()
     throws ConstraintError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final Program p = new Program("program", this.getLog());
-    p.removeFragmentShader(new PathVirtual("/nonexistent"), this.makeNewGL());
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final Program p = new Program("program", tc.getLog());
+    p.removeFragmentShader(new PathVirtual("/nonexistent"), gl);
   }
 
   /**
@@ -931,11 +1109,15 @@ public abstract class ProgramContract implements
 
   @Test public final void testProgramRemoveFragmentShaderNotCompiled()
     throws ConstraintError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final Program p = new Program("program", this.getLog());
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final Program p = new Program("program", tc.getLog());
     p.addFragmentShader(new PathVirtual("/nonexistent"));
-    p.removeFragmentShader(new PathVirtual("/nonexistent"), this.makeNewGL());
+    p.removeFragmentShader(new PathVirtual("/nonexistent"), gl);
   }
 
   /**
@@ -944,10 +1126,14 @@ public abstract class ProgramContract implements
 
   @Test public final void testProgramRemoveVertexShaderNone()
     throws ConstraintError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final Program p = new Program("program", this.getLog());
-    p.removeVertexShader(new PathVirtual("/nonexistent"), this.makeNewGL());
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final Program p = new Program("program", tc.getLog());
+    p.removeVertexShader(new PathVirtual("/nonexistent"), gl);
   }
 
   /**
@@ -956,24 +1142,31 @@ public abstract class ProgramContract implements
 
   @Test public final void testProgramRemoveVertexShaderNotCompiled()
     throws ConstraintError,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final Program p = new Program("program", this.getLog());
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual("/nonexistent"));
-    p.removeVertexShader(new PathVirtual("/nonexistent"), this.makeNewGL());
+    p.removeVertexShader(new PathVirtual("/nonexistent"), gl);
   }
 
   @Test public final void testProgramUniformFloat()
     throws FilesystemError,
       ConstraintError,
       GLCompileException,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final PathVirtual path = this.getShaderPath();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+    final PathVirtual path = tc.getShaderPath();
 
-    final Program p = new Program("program", this.getLog());
+    final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
     p.addFragmentShader(new PathVirtual(path + "/uniform0.f"));
     p.compile(fs, gl);
@@ -993,19 +1186,22 @@ public abstract class ProgramContract implements
    * 
    * @throws ConstraintError
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws FilesystemError
    * @throws GLCompileException
    */
 
   @Test public final void testProgramUniforms()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError,
       FilesystemError,
       GLCompileException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final Program p = this.makeLargeShader(gl, fs);
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final Program p = ProgramContract.makeLargeShader(tc);
     p.activate(gl);
 
     {
@@ -1069,19 +1265,22 @@ public abstract class ProgramContract implements
    * 
    * @throws ConstraintError
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws FilesystemError
    * @throws GLCompileException
    */
 
   @Test public final void testProgramUniformsNullFails()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError,
       FilesystemError,
       GLCompileException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final Program p = this.makeLargeShader(gl, fs);
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final Program p = ProgramContract.makeLargeShader(tc);
     p.activate(gl);
 
     try {
@@ -1160,12 +1359,14 @@ public abstract class ProgramContract implements
     void
     testProgramUniformTypeWrongFloat()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError,
         GLCompileException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final Program p = this.makeLargeShader(gl, fs);
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final Program p = ProgramContract.makeLargeShader(tc);
     p.activate(gl);
 
     {
@@ -1180,12 +1381,14 @@ public abstract class ProgramContract implements
     void
     testProgramUniformTypeWrongFloatNot()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError,
         GLCompileException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final Program p = this.makeLargeShader(gl, fs);
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final Program p = ProgramContract.makeLargeShader(tc);
     p.activate(gl);
 
     {
@@ -1199,12 +1402,14 @@ public abstract class ProgramContract implements
     void
     testProgramUniformTypeWrongMatrix3x3()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError,
         GLCompileException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final Program p = this.makeLargeShader(gl, fs);
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final Program p = ProgramContract.makeLargeShader(tc);
     p.activate(gl);
 
     {
@@ -1219,12 +1424,14 @@ public abstract class ProgramContract implements
     void
     testProgramUniformTypeWrongMatrix4x4()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError,
         GLCompileException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final Program p = this.makeLargeShader(gl, fs);
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final Program p = ProgramContract.makeLargeShader(tc);
     p.activate(gl);
 
     {
@@ -1239,12 +1446,14 @@ public abstract class ProgramContract implements
     void
     testProgramUniformTypeWrongTextureUnit()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError,
         GLCompileException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final Program p = this.makeLargeShader(gl, fs);
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final Program p = ProgramContract.makeLargeShader(tc);
     p.activate(gl);
 
     {
@@ -1259,12 +1468,14 @@ public abstract class ProgramContract implements
     void
     testProgramUniformTypeWrongVector2f()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError,
         GLCompileException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final Program p = this.makeLargeShader(gl, fs);
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final Program p = ProgramContract.makeLargeShader(tc);
     p.activate(gl);
 
     {
@@ -1279,12 +1490,14 @@ public abstract class ProgramContract implements
     void
     testProgramUniformTypeWrongVector2i()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError,
         GLCompileException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final Program p = this.makeLargeShader(gl, fs);
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final Program p = ProgramContract.makeLargeShader(tc);
     p.activate(gl);
 
     {
@@ -1299,12 +1512,14 @@ public abstract class ProgramContract implements
     void
     testProgramUniformTypeWrongVector3f()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError,
         GLCompileException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final Program p = this.makeLargeShader(gl, fs);
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final Program p = ProgramContract.makeLargeShader(tc);
     p.activate(gl);
 
     {
@@ -1319,12 +1534,14 @@ public abstract class ProgramContract implements
     void
     testProgramUniformTypeWrongVector4f()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError,
         GLCompileException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final Program p = this.makeLargeShader(gl, fs);
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final Program p = ProgramContract.makeLargeShader(tc);
     p.activate(gl);
 
     {
@@ -1339,19 +1556,24 @@ public abstract class ProgramContract implements
    * A change in modification time for a vertex shader requires recompilation.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    */
 
   @Test public final void testProgramVertexShaderTimeRequiresCompilation()
     throws FilesystemError,
       ConstraintError,
       GLCompileException,
-      GLException
+      GLException,
+      GLUnsupportedException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final PathVirtual path = this.getShaderPath();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
 
-    final Program p = new Program("program", this.getLog());
+    final PathVirtual path = tc.getShaderPath();
+
+    final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
     p.compile(fs, gl);
@@ -1365,6 +1587,7 @@ public abstract class ProgramContract implements
    * Deleting a vertex shader twice fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws FilesystemError
    * @throws IOException
    * @throws GLCompileException
@@ -1375,13 +1598,16 @@ public abstract class ProgramContract implements
     testVertexShaderDeleteTwice()
       throws ConstraintError,
         GLException,
+        GLUnsupportedException,
         FilesystemError,
         GLCompileException,
         IOException
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final FilesystemAPI fs = this.makeNewFS();
-    final PathVirtual path = this.getShaderPath();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+    final FilesystemAPI fs = tc.getFilesystem();
+    final PathVirtual path = tc.getShaderPath();
 
     final VertexShader vr =
       gl.vertexShaderCompile("vertex", fs.openFile(path + "/simple.v"));

@@ -26,7 +26,16 @@ public class TextureCubeWritableDataTest
       }
 
       final TextureCubeStatic t =
-        new TextureCubeStatic("xyz", type, 1, 64, 64);
+        new TextureCubeStatic(
+          "xyz",
+          type,
+          1,
+          64,
+          TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+          TextureWrap.TEXTURE_WRAP_REPEAT,
+          TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
+          TextureFilter.TEXTURE_FILTER_LINEAR,
+          TextureFilter.TEXTURE_FILTER_NEAREST);
       final TextureCubeWritableData d = new TextureCubeWritableData(t);
 
       final SpatialCursorWritable1f c = d.getCursor1f();
@@ -63,7 +72,16 @@ public class TextureCubeWritableDataTest
         }
 
         final TextureCubeStatic t =
-          new TextureCubeStatic("xyz", type, 1, 64, 64);
+          new TextureCubeStatic(
+            "xyz",
+            type,
+            1,
+            64,
+            TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+            TextureWrap.TEXTURE_WRAP_REPEAT,
+            TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
+            TextureFilter.TEXTURE_FILTER_LINEAR,
+            TextureFilter.TEXTURE_FILTER_NEAREST);
         final TextureCubeWritableData d = new TextureCubeWritableData(t);
 
         try {
@@ -94,7 +112,16 @@ public class TextureCubeWritableDataTest
       }
 
       final TextureCubeStatic t =
-        new TextureCubeStatic("xyz", type, 1, 64, 64);
+        new TextureCubeStatic(
+          "xyz",
+          type,
+          1,
+          64,
+          TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+          TextureWrap.TEXTURE_WRAP_REPEAT,
+          TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
+          TextureFilter.TEXTURE_FILTER_LINEAR,
+          TextureFilter.TEXTURE_FILTER_NEAREST);
       final TextureCubeWritableData d = new TextureCubeWritableData(t);
       final SpatialCursorWritable1i c = d.getCursor1i();
 
@@ -126,7 +153,16 @@ public class TextureCubeWritableDataTest
     for (final TextureType type : TextureType.values()) {
       if (type.getComponents() != 1) {
         final TextureCubeStatic t =
-          new TextureCubeStatic("xyz", type, 1, 64, 64);
+          new TextureCubeStatic(
+            "xyz",
+            type,
+            1,
+            64,
+            TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+            TextureWrap.TEXTURE_WRAP_REPEAT,
+            TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
+            TextureFilter.TEXTURE_FILTER_LINEAR,
+            TextureFilter.TEXTURE_FILTER_NEAREST);
         final TextureCubeWritableData d = new TextureCubeWritableData(t);
 
         try {
@@ -153,7 +189,16 @@ public class TextureCubeWritableDataTest
 
     for (final TextureType type : e2_types) {
       final TextureCubeStatic t =
-        new TextureCubeStatic("xyz", type, 1, 64, 64);
+        new TextureCubeStatic(
+          "xyz",
+          type,
+          1,
+          64,
+          TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+          TextureWrap.TEXTURE_WRAP_REPEAT,
+          TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
+          TextureFilter.TEXTURE_FILTER_LINEAR,
+          TextureFilter.TEXTURE_FILTER_NEAREST);
       final TextureCubeWritableData d = new TextureCubeWritableData(t);
       final SpatialCursorWritable2i c = d.getCursor2i();
 
@@ -185,7 +230,16 @@ public class TextureCubeWritableDataTest
     for (final TextureType type : TextureType.values()) {
       if (type.getComponents() != 2) {
         final TextureCubeStatic t =
-          new TextureCubeStatic("xyz", type, 1, 64, 64);
+          new TextureCubeStatic(
+            "xyz",
+            type,
+            1,
+            64,
+            TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+            TextureWrap.TEXTURE_WRAP_REPEAT,
+            TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
+            TextureFilter.TEXTURE_FILTER_LINEAR,
+            TextureFilter.TEXTURE_FILTER_NEAREST);
         final TextureCubeWritableData d = new TextureCubeWritableData(t);
 
         try {
@@ -212,7 +266,16 @@ public class TextureCubeWritableDataTest
 
     for (final TextureType type : e3_types) {
       final TextureCubeStatic t =
-        new TextureCubeStatic("xyz", type, 1, 64, 64);
+        new TextureCubeStatic(
+          "xyz",
+          type,
+          1,
+          64,
+          TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+          TextureWrap.TEXTURE_WRAP_REPEAT,
+          TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
+          TextureFilter.TEXTURE_FILTER_LINEAR,
+          TextureFilter.TEXTURE_FILTER_NEAREST);
       final TextureCubeWritableData d = new TextureCubeWritableData(t);
       final SpatialCursorWritable3i c = d.getCursor3i();
 
@@ -244,7 +307,16 @@ public class TextureCubeWritableDataTest
     for (final TextureType type : TextureType.values()) {
       if (type.getComponents() != 3) {
         final TextureCubeStatic t =
-          new TextureCubeStatic("xyz", type, 1, 64, 64);
+          new TextureCubeStatic(
+            "xyz",
+            type,
+            1,
+            64,
+            TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+            TextureWrap.TEXTURE_WRAP_REPEAT,
+            TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
+            TextureFilter.TEXTURE_FILTER_LINEAR,
+            TextureFilter.TEXTURE_FILTER_NEAREST);
         final TextureCubeWritableData d = new TextureCubeWritableData(t);
 
         try {
@@ -271,7 +343,16 @@ public class TextureCubeWritableDataTest
 
     for (final TextureType type : e4_types) {
       final TextureCubeStatic t =
-        new TextureCubeStatic("xyz", type, 1, 64, 64);
+        new TextureCubeStatic(
+          "xyz",
+          type,
+          1,
+          64,
+          TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+          TextureWrap.TEXTURE_WRAP_REPEAT,
+          TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
+          TextureFilter.TEXTURE_FILTER_LINEAR,
+          TextureFilter.TEXTURE_FILTER_NEAREST);
       final TextureCubeWritableData d = new TextureCubeWritableData(t);
       final SpatialCursorWritable4i c = d.getCursor4i();
 
@@ -303,7 +384,16 @@ public class TextureCubeWritableDataTest
     for (final TextureType type : TextureType.values()) {
       if (type.getComponents() != 4) {
         final TextureCubeStatic t =
-          new TextureCubeStatic("xyz", type, 1, 64, 64);
+          new TextureCubeStatic(
+            "xyz",
+            type,
+            1,
+            64,
+            TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+            TextureWrap.TEXTURE_WRAP_REPEAT,
+            TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
+            TextureFilter.TEXTURE_FILTER_LINEAR,
+            TextureFilter.TEXTURE_FILTER_NEAREST);
         final TextureCubeWritableData d = new TextureCubeWritableData(t);
 
         try {
@@ -332,14 +422,18 @@ public class TextureCubeWritableDataTest
         TextureType.TEXTURE_TYPE_R_8_1BPP,
         1,
         64,
-        128);
+        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
+        TextureFilter.TEXTURE_FILTER_LINEAR,
+        TextureFilter.TEXTURE_FILTER_NEAREST);
     final TextureCubeWritableData d = new TextureCubeWritableData(t);
 
     Assert.assertTrue(d.getTexture() == t);
     Assert.assertTrue(d.targetArea().getRangeX().getLower() == 0);
     Assert.assertTrue(d.targetArea().getRangeY().getLower() == 0);
     Assert.assertTrue(d.targetArea().getRangeX().getUpper() == 63);
-    Assert.assertTrue(d.targetArea().getRangeY().getUpper() == 127);
-    Assert.assertTrue(d.targetData().capacity() == (64 * 128));
+    Assert.assertTrue(d.targetArea().getRangeY().getUpper() == 63);
+    Assert.assertTrue(d.targetData().capacity() == (64 * 64));
   }
 }

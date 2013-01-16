@@ -24,7 +24,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * A resource of some description that requires access to OpenGL for deletion.
  */
 
-public interface GLResource
+public interface GLResource extends GLResourceUsable
 {
   /**
    * Deallocate the resources associated with the associated object.
@@ -41,10 +41,4 @@ public interface GLResource
     final @Nonnull G gl)
     throws ConstraintError,
       GLException;
-
-  /**
-   * Return <code>true</code> iff the given resource has been deleted.
-   */
-
-  boolean resourceIsDeleted();
 }

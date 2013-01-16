@@ -304,6 +304,28 @@ final class GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  static @Nonnull FramebufferStatus framebufferStatusFromGL(
+    final int status)
+  {
+    switch (status) {
+      case GL.GL_FRAMEBUFFER_COMPLETE:
+        return FramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE;
+      case GL.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+        return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_ATTACHMENT;
+      case GL.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+        return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_MISSING_IMAGE_ATTACHMENT;
+      case GL2GL3.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
+        return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_DRAW_BUFFER;
+      case GL2GL3.GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
+        return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_READ_BUFFER;
+      case GL.GL_FRAMEBUFFER_UNSUPPORTED:
+        return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_UNSUPPORTED;
+
+    }
+
+    return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_UNKNOWN;
+  }
+
   static final LogicOperation logicOpFromGL(
     final int op)
   {
@@ -470,6 +492,10 @@ final class GLTypeConversions
         return GL.GL_DEPTH24_STENCIL8;
       case RENDERBUFFER_STENCIL_8:
         return GL.GL_STENCIL_INDEX8;
+      case RENDERBUFFER_COLOR_RGBA_8888:
+        return GL.GL_RGBA8;
+      case RENDERBUFFER_COLOR_RGB_888:
+        return GL.GL_RGB8;
     }
 
     throw new UnreachableCodeException();

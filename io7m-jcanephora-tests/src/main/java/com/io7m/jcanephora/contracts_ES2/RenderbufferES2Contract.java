@@ -9,8 +9,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
+import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.RenderbufferType;
+import com.io7m.jcanephora.TestContext;
 
 public abstract class RenderbufferES2Contract implements GLES2TestContract
 {
@@ -24,13 +26,18 @@ public abstract class RenderbufferES2Contract implements GLES2TestContract
    * 
    * @throws ConstraintError
    * @throws GLException
+   *           , GLUnsupportedException
    */
 
   @Test public void testRenderbufferAllocate()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+
     final int width = 128;
     final int height = 128;
 
@@ -50,11 +57,13 @@ public abstract class RenderbufferES2Contract implements GLES2TestContract
         case RENDERBUFFER_DEPTH_16:
           rb = gl.renderbufferAllocateDepth16(width, height);
           break;
-        case RENDERBUFFER_DEPTH_24_STENCIL_8:
-          throw new UnreachableCodeException();
         case RENDERBUFFER_STENCIL_8:
           rb = gl.renderbufferAllocateStencil8(width, height);
           break;
+        case RENDERBUFFER_DEPTH_24_STENCIL_8:
+        case RENDERBUFFER_COLOR_RGBA_8888:
+        case RENDERBUFFER_COLOR_RGB_888:
+          throw new UnreachableCodeException();
       }
 
       assert rb != null;
@@ -69,13 +78,17 @@ public abstract class RenderbufferES2Contract implements GLES2TestContract
    * 
    * @throws ConstraintError
    * @throws GLException
+   *           , GLUnsupportedException
    */
 
   @Test public void testRenderbufferDelete()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
 
     final Renderbuffer rb = gl.renderbufferAllocateRGB565(128, 128);
     Assert.assertFalse(rb.resourceIsDeleted());
@@ -88,15 +101,19 @@ public abstract class RenderbufferES2Contract implements GLES2TestContract
    * 
    * @throws ConstraintError
    * @throws GLException
+   *           , GLUnsupportedException
    */
 
   @Test(expected = ConstraintError.class) public
     void
     testRenderbufferDeleteTwice()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
 
     final Renderbuffer rb = gl.renderbufferAllocateRGB565(128, 128);
     Assert.assertFalse(rb.resourceIsDeleted());

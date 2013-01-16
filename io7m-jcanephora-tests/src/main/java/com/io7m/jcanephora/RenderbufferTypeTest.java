@@ -8,9 +8,12 @@ public final class RenderbufferTypeTest
   @SuppressWarnings("static-method") @Test public void testColorRenderable()
   {
     for (final RenderbufferType t : RenderbufferType.values()) {
+      System.err.println("ColorRenderable: " + t);
       if ((t == RenderbufferType.RENDERBUFFER_COLOR_RGB_565)
         || (t == RenderbufferType.RENDERBUFFER_COLOR_RGBA_4444)
-        || (t == RenderbufferType.RENDERBUFFER_COLOR_RGBA_5551)) {
+        || (t == RenderbufferType.RENDERBUFFER_COLOR_RGBA_5551)
+        || (t == RenderbufferType.RENDERBUFFER_COLOR_RGBA_8888)
+        || (t == RenderbufferType.RENDERBUFFER_COLOR_RGB_888)) {
         Assert.assertTrue(t.isColorRenderable());
       } else {
         Assert.assertFalse(t.isColorRenderable());

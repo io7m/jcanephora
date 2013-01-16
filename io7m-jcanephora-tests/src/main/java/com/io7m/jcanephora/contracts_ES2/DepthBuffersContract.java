@@ -8,62 +8,55 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.DepthFunction;
-import com.io7m.jcanephora.Framebuffer;
-import com.io7m.jcanephora.FramebufferAttachment;
-import com.io7m.jcanephora.FramebufferAttachment.ColorAttachment;
-import com.io7m.jcanephora.FramebufferAttachment.RenderbufferD24S8Attachment;
+import com.io7m.jcanephora.FramebufferReference;
+import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
+import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.Renderbuffer;
-import com.io7m.jcanephora.Texture2DStatic;
-import com.io7m.jcanephora.TextureFilter;
-import com.io7m.jcanephora.TextureWrap;
+import com.io7m.jcanephora.TestContext;
 
 public abstract class DepthBuffersContract implements GLES2TestContract
 {
-  private static Framebuffer makeFramebuffer(
+  private static FramebufferReference makeFramebuffer(
     final GLInterfaceES2 g)
     throws GLException,
       ConstraintError
   {
-    final Renderbuffer rb = g.renderbufferAllocateDepth16(128, 128);
-    final Texture2DStatic cb =
-      g.texture2DStaticAllocateRGBA8888(
-        "framebuffer",
-        128,
-        128,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+    final FramebufferReference fb = g.framebufferAllocate();
+    final Renderbuffer db = g.renderbufferAllocateDepth16(128, 128);
+    final Renderbuffer cb = g.renderbufferAllocateRGB565(128, 128);
 
-    final Framebuffer fb =
-      g.framebufferAllocate(new FramebufferAttachment[] {
-        new ColorAttachment(cb, 0),
-        new RenderbufferD24S8Attachment(rb) });
+    g.framebufferDrawBind(fb);
+    g.framebufferDrawAttachColorRenderbuffer(fb, cb);
+    g.framebufferDrawAttachDepthRenderbuffer(fb, db);
+
+    final FramebufferStatus expect =
+      FramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE;
+    final FramebufferStatus status = g.framebufferDrawValidate(fb);
+    Assert.assertEquals(expect, status);
+
+    g.framebufferDrawUnbind();
     return fb;
   }
 
-  private static Framebuffer makeFramebufferNoDepth(
+  private static FramebufferReference makeFramebufferNoDepth(
     final GLInterfaceES2 g)
     throws GLException,
       ConstraintError
   {
-    final Texture2DStatic cb =
-      g.texture2DStaticAllocateRGBA8888(
-        "framebuffer",
-        128,
-        128,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+    final FramebufferReference fb = g.framebufferAllocate();
+    final Renderbuffer cb = g.renderbufferAllocateRGB565(128, 128);
 
-    final Framebuffer fb =
-      g
-        .framebufferAllocate(new FramebufferAttachment[] { new ColorAttachment(
-          cb,
-          0) });
+    g.framebufferDrawBind(fb);
+    g.framebufferDrawAttachColorRenderbuffer(fb, cb);
+
+    final FramebufferStatus expect =
+      FramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE;
+    final FramebufferStatus status = g.framebufferDrawValidate(fb);
+    Assert.assertEquals(expect, status);
+
+    g.framebufferDrawUnbind();
     return fb;
   }
 
@@ -74,21 +67,29 @@ public abstract class DepthBuffersContract implements GLES2TestContract
 
   @Test public void testDepthBufferClearWorks()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final Framebuffer fb = DepthBuffersContract.makeFramebuffer(gl);
-    gl.framebufferBind(fb);
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+
+    final FramebufferReference fb = DepthBuffersContract.makeFramebuffer(gl);
+    gl.framebufferDrawBind(fb);
     gl.depthBufferClear(1.0f);
   }
 
   @Test public void testDepthBufferEnable()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final Framebuffer fb = DepthBuffersContract.makeFramebuffer(gl);
-    gl.framebufferBind(fb);
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+
+    final FramebufferReference fb = DepthBuffersContract.makeFramebuffer(gl);
+    gl.framebufferDrawBind(fb);
 
     for (final DepthFunction f : DepthFunction.values()) {
       gl.depthBufferDisable();
@@ -105,10 +106,14 @@ public abstract class DepthBuffersContract implements GLES2TestContract
 
   @Test public void testDepthBufferWithoutBoundFramebufferWorks()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    gl.framebufferUnbind();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+
+    gl.framebufferDrawUnbind();
     Assert.assertTrue(gl.depthBufferGetBits() >= 0);
   }
 
@@ -116,11 +121,16 @@ public abstract class DepthBuffersContract implements GLES2TestContract
     void
     testDepthBufferWithoutDepthClearFails()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final Framebuffer fb = DepthBuffersContract.makeFramebufferNoDepth(gl);
-    gl.framebufferBind(fb);
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+
+    final FramebufferReference fb =
+      DepthBuffersContract.makeFramebufferNoDepth(gl);
+    gl.framebufferDrawBind(fb);
     gl.depthBufferClear(1.0f);
   }
 
@@ -128,21 +138,31 @@ public abstract class DepthBuffersContract implements GLES2TestContract
     void
     testDepthBufferWithoutDepthEnableFails()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final Framebuffer fb = DepthBuffersContract.makeFramebufferNoDepth(gl);
-    gl.framebufferBind(fb);
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+
+    final FramebufferReference fb =
+      DepthBuffersContract.makeFramebufferNoDepth(gl);
+    gl.framebufferDrawBind(fb);
     gl.depthBufferEnable(DepthFunction.DEPTH_EQUAL);
   }
 
   @Test public void testDepthBufferWithoutDepthHasNoBits()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final Framebuffer fb = DepthBuffersContract.makeFramebufferNoDepth(gl);
-    gl.framebufferBind(fb);
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+
+    final FramebufferReference fb =
+      DepthBuffersContract.makeFramebufferNoDepth(gl);
+    gl.framebufferDrawBind(fb);
     Assert.assertEquals(0, gl.depthBufferGetBits());
   }
 
@@ -150,21 +170,30 @@ public abstract class DepthBuffersContract implements GLES2TestContract
     void
     testDepthBufferWriteDisableWithoutDepthFails()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final Framebuffer fb = DepthBuffersContract.makeFramebufferNoDepth(gl);
-    gl.framebufferBind(fb);
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+
+    final FramebufferReference fb =
+      DepthBuffersContract.makeFramebufferNoDepth(gl);
+    gl.framebufferDrawBind(fb);
     gl.depthBufferWriteDisable();
   }
 
   @Test public void testDepthBufferWriteEnableDisableWorks()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final Framebuffer fb = DepthBuffersContract.makeFramebuffer(gl);
-    gl.framebufferBind(fb);
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+
+    final FramebufferReference fb = DepthBuffersContract.makeFramebuffer(gl);
+    gl.framebufferDrawBind(fb);
 
     gl.depthBufferWriteEnable();
     Assert.assertTrue(gl.depthBufferWriteIsEnabled());
@@ -176,11 +205,16 @@ public abstract class DepthBuffersContract implements GLES2TestContract
     void
     testDepthBufferWriteEnableWithoutDepthFails()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
-    final Framebuffer fb = DepthBuffersContract.makeFramebufferNoDepth(gl);
-    gl.framebufferBind(fb);
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+
+    final FramebufferReference fb =
+      DepthBuffersContract.makeFramebufferNoDepth(gl);
+    gl.framebufferDrawBind(fb);
     gl.depthBufferWriteEnable();
   }
 }

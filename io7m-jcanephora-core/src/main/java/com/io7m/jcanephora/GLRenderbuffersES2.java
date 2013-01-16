@@ -50,29 +50,6 @@ public interface GLRenderbuffersES2
       GLException;
 
   /**
-   * Allocate a stencil renderbuffer.
-   * 
-   * See {@link RenderbufferType#RENDERBUFFER_STENCIL_8} for the precise
-   * format.
-   * 
-   * @return A freshly allocated renderbuffer.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>1 <= width <= Integer.MAX_VALUE == false</code></li>
-   *           <li><code>1 <= height <= Integer.MAX_VALUE == false</code></li>
-   *           </ul>
-   * @throws GLException
-   *           Iff an OpenGL exception occurs.
-   */
-
-  @Nonnull Renderbuffer renderbufferAllocateStencil8(
-    final int width,
-    final int height)
-    throws ConstraintError,
-      GLException;
-
-  /**
    * Allocate a color renderbuffer.
    * 
    * See {@link RenderbufferType#RENDERBUFFER_COLOR_RGB_565} for the precise
@@ -136,6 +113,29 @@ public interface GLRenderbuffersES2
    */
 
   @Nonnull Renderbuffer renderbufferAllocateRGBA5551(
+    final int width,
+    final int height)
+    throws ConstraintError,
+      GLException;
+
+  /**
+   * Allocate a stencil renderbuffer.
+   * 
+   * See {@link RenderbufferType#RENDERBUFFER_STENCIL_8} for the precise
+   * format.
+   * 
+   * @return A freshly allocated renderbuffer.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>1 <= width <= Integer.MAX_VALUE == false</code></li>
+   *           <li><code>1 <= height <= Integer.MAX_VALUE == false</code></li>
+   *           </ul>
+   * @throws GLException
+   *           Iff an OpenGL exception occurs.
+   */
+
+  @Nonnull Renderbuffer renderbufferAllocateStencil8(
     final int width,
     final int height)
     throws ConstraintError,
