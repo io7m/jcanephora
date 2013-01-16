@@ -1,18 +1,14 @@
 package com.io7m.jcanephora.contracts_ES2;
 
+import javax.annotation.Nonnull;
+
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterfaceES2;
-import com.io7m.jlog.Log;
+import com.io7m.jcanephora.GLUnsupportedException;
+import com.io7m.jcanephora.TestContext;
 
 public interface GLES2TestContract
 {
-  /**
-   * Construct a fresh logger.
-   */
-
-  public Log getLog();
-
   /**
    * Return <code>true</code> if the test can run given the current OpenGL
    * implementation.
@@ -25,13 +21,18 @@ public interface GLES2TestContract
   public boolean isGLSupported();
 
   /**
-   * Construct a fresh implementation of the {@link GLInterfaceES2} interface.
+   * Construct test context data.
    * 
-   * @throws GLException
+   * This generally involves mounting a filesystem and opening a new OpenGL
+   * context.
+   * 
    * @throws ConstraintError
+   * @throws GLUnsupportedException
+   * @throws GLException
    */
 
-  public GLInterfaceES2 makeNewGL()
+  public @Nonnull TestContext newTestContext()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError;
 }

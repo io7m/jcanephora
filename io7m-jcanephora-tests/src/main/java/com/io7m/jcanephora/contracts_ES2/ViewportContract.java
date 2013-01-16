@@ -7,6 +7,8 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLInterfaceES2;
+import com.io7m.jcanephora.GLUnsupportedException;
+import com.io7m.jcanephora.TestContext;
 import com.io7m.jtensors.VectorI2I;
 
 public abstract class ViewportContract implements GLES2TestContract
@@ -20,14 +22,19 @@ public abstract class ViewportContract implements GLES2TestContract
    * Setting a viewport works.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public final void testViewport()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+
     gl.viewportSet(new VectorI2I(0, 0), new VectorI2I(64, 64));
   }
 
@@ -35,6 +42,7 @@ public abstract class ViewportContract implements GLES2TestContract
    * Setting a viewport with a negative X dimension fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -42,9 +50,13 @@ public abstract class ViewportContract implements GLES2TestContract
     void
     testViewportDimensionNegativeX()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+
     gl.viewportSet(new VectorI2I(0, 0), new VectorI2I(-1, 32));
   }
 
@@ -52,6 +64,7 @@ public abstract class ViewportContract implements GLES2TestContract
    * Setting a viewport with a negative Y dimension fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -59,9 +72,13 @@ public abstract class ViewportContract implements GLES2TestContract
     void
     testViewportDimensionNegativeY()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+
     gl.viewportSet(new VectorI2I(0, 0), new VectorI2I(32, -1));
   }
 
@@ -69,6 +86,7 @@ public abstract class ViewportContract implements GLES2TestContract
    * Setting a viewport with a null dimension fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -76,9 +94,13 @@ public abstract class ViewportContract implements GLES2TestContract
     void
     testViewportDimensionNull()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+
     gl.viewportSet(new VectorI2I(0, 0), null);
   }
 
@@ -86,6 +108,7 @@ public abstract class ViewportContract implements GLES2TestContract
    * Setting a viewport with a null position fails.
    * 
    * @throws GLException
+   *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
@@ -93,9 +116,13 @@ public abstract class ViewportContract implements GLES2TestContract
     void
     testViewportPositionNull()
       throws GLException,
+        GLUnsupportedException,
         ConstraintError
   {
-    final GLInterfaceES2 gl = this.makeNewGL();
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceES2 gl =
+      tc.getGLImplementation().implementationGetGLES2();
+
     gl.viewportSet(null, new VectorI2I(64, 64));
   }
 }

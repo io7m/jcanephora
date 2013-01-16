@@ -77,6 +77,10 @@
           to query the names and types of parameters at run-time.
         </s:paragraph>
         <s:paragraph>
+          The package also provides a high-level API for constructing framebuffers that
+          work consistently across OpenGL 3.0 and ES2 implementations.
+        </s:paragraph>
+        <s:paragraph>
           The package also provides functions to produce orthographic and perspective
           projection matrices, and an implementation of the ubiquitous
           <s:term type="function">lookAt()</s:term>
@@ -122,7 +126,7 @@
             Barring any incompatibilities in shading language programs, which are
             outside of the scope of <s:term type="package">jcanephora</s:term>.
           </s:footnote>. Programs written against the
-          <s:link-external target="javadoc/com/io7m/jcanephora/GLInterface.html">GLInterface</s:link-external>
+          <s:link-external target="javadoc/com/io7m/jcanephora/GLInterfaceES2.html">GLInterfaceES2</s:link-external>
           interface can be assumed to run unmodified on any OpenGL 2.1+ or 3.0+
           implementation
           <s:footnote>
@@ -700,6 +704,27 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
           </s:table-body>
         </s:table>
       </s:formal-item>
+    </s:section>
+  </s:part>
+
+  <s:part>
+    <s:part-title>Design/Rationale</s:part-title>
+    <s:section>
+      <s:section-title>Overview</s:section-title>
+      <s:paragraph>
+        This section of the documentation attempts to informally
+        describe the design decisions and principles of the
+        <s:term type="package">jcanephora</s:term> package.
+      </s:paragraph>
+    </s:section>
+    <s:section>
+      <s:section-title>General Principles</s:section-title>
+      <s:subsection>
+        <s:subsection-title>Types</s:subsection-title>
+        <s:paragraph>
+          Explain.
+        </s:paragraph>
+      </s:subsection>
     </s:section>
   </s:part>
 

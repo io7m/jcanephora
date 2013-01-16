@@ -62,4 +62,23 @@ public interface GLMeta
 
   @Nonnull String metaGetVersion()
     throws GLException;
+
+  /**
+   * Return the major version number of the actual OpenGL implementation.
+   */
+
+  int metaGetVersionMajor();
+
+  /**
+   * Return the minor version number of the actual OpenGL implementation.
+   */
+
+  int metaGetVersionMinor();
+
+  /**
+   * Return <code>true</code> iff the underyling implementation is an OpenGL
+   * ES implementation.
+   */
+
+  boolean metaIsES();
 }

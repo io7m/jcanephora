@@ -1,38 +1,22 @@
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.contracts_ES2.ProgramContract;
-import com.io7m.jlog.Log;
-import com.io7m.jvvfs.FilesystemAPI;
-import com.io7m.jvvfs.PathVirtual;
 
 public final class JOGLES2ProgramTest extends ProgramContract
 {
-  @Override public Log getLog()
-  {
-    return JOGLTestLog.getLog();
-  }
-
-  @Override public PathVirtual getShaderPath()
-    throws ConstraintError
-  {
-    return new PathVirtual("/com/io7m/jcanephora/shaders/glsles100");
-  }
-
   @Override public boolean isGLSupported()
   {
-    return JOGLTestDisplay.isOpenGLES2Supported();
+    return JOGLTestContext.isOpenGLES2Supported();
   }
 
-  @Override public FilesystemAPI makeNewFS()
-  {
-    return JOGLTestFilesystem.getFS();
-  }
-
-  @Override public GLInterfaceES2 makeNewGL()
+  @Override public @Nonnull TestContext newTestContext()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    return JOGLTestDisplay.makeES2WithOpenGLES2();
+    return JOGLTestContext.makeContextWithOpenGL_ES2();
   }
 }

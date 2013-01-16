@@ -165,7 +165,7 @@ import com.io7m.jaux.RangeInclusive;
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("[ArrayBufferID ");
+    builder.append("[ArrayBuffer ");
     builder.append(this.getGLName());
     builder.append(" ");
     builder.append(this.range);

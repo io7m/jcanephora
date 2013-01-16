@@ -5,43 +5,43 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 
-public class TextureCubeStaticTest
+public class Texture2DStaticTest
 {
   @SuppressWarnings("static-method") @Test public void testEquals()
     throws ConstraintError
   {
-    final TextureCubeStatic t0 =
-      new TextureCubeStatic(
+    final Texture2DStatic t0 =
+      new Texture2DStatic(
         "xyz",
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         1,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        256,
         TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
-    final TextureCubeStatic t1 =
-      new TextureCubeStatic(
+    final Texture2DStatic t1 =
+      new Texture2DStatic(
         "xyz",
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         2,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        256,
         TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
-    final TextureCubeStatic t2 =
-      new TextureCubeStatic(
+    final Texture2DStatic t2 =
+      new Texture2DStatic(
         "xyz",
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         1,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        256,
         TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
 
     Assert.assertEquals(t0, t0);
@@ -55,60 +55,60 @@ public class TextureCubeStaticTest
   @SuppressWarnings("static-method") @Test public void testHashCode()
     throws ConstraintError
   {
-    final TextureCubeStatic t0 =
-      new TextureCubeStatic(
+    final Texture2DStatic t0 =
+      new Texture2DStatic(
         "xyz",
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         1,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        256,
         TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
-    final TextureCubeStatic t1 =
-      new TextureCubeStatic(
+    final Texture2DStatic t1 =
+      new Texture2DStatic(
         "xyz",
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         2,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        256,
         TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
-    final TextureCubeStatic t2 =
-      new TextureCubeStatic(
+    final Texture2DStatic t2 =
+      new Texture2DStatic(
         "xyz",
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         1,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        256,
         TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
-    final TextureCubeStatic t3 =
-      new TextureCubeStatic(
+    final Texture2DStatic t3 =
+      new Texture2DStatic(
         "abc",
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         2,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        256,
         TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
-    final TextureCubeStatic t4 =
-      new TextureCubeStatic(
+    final Texture2DStatic t4 =
+      new Texture2DStatic(
         "abc",
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         1,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        256,
         TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
 
     Assert.assertTrue(t0.hashCode() == t0.hashCode());
@@ -126,36 +126,33 @@ public class TextureCubeStaticTest
     throws ConstraintError
   {
     for (final TextureType type : TextureType.values()) {
-      final TextureCubeStatic t0 =
-        new TextureCubeStatic(
+      final Texture2DStatic t0 =
+        new Texture2DStatic(
           "xyz",
           type,
           1,
           128,
+          256,
           TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
           TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
           TextureFilter.TEXTURE_FILTER_LINEAR,
           TextureFilter.TEXTURE_FILTER_NEAREST);
 
       Assert.assertEquals(1, t0.getGLName());
       Assert.assertEquals("xyz", t0.getName());
       Assert.assertEquals(128, t0.getWidth());
-      Assert.assertEquals(128, t0.getHeight());
+      Assert.assertEquals(256, t0.getHeight());
       Assert.assertEquals(0, t0.getRangeX().getLower());
       Assert.assertEquals(127, t0.getRangeX().getUpper());
       Assert.assertEquals(0, t0.getRangeY().getLower());
-      Assert.assertEquals(127, t0.getRangeY().getUpper());
+      Assert.assertEquals(255, t0.getRangeY().getUpper());
       Assert.assertEquals(t0.getRangeX(), t0.getArea().getRangeX());
       Assert.assertEquals(t0.getRangeY(), t0.getArea().getRangeY());
       Assert.assertEquals(type, t0.getType());
       Assert.assertEquals(
         TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-        t0.getWrapR());
-      Assert.assertEquals(TextureWrap.TEXTURE_WRAP_REPEAT, t0.getWrapS());
-      Assert.assertEquals(
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        t0.getWrapT());
+        t0.getWrapS());
+      Assert.assertEquals(TextureWrap.TEXTURE_WRAP_REPEAT, t0.getWrapT());
       Assert.assertEquals(
         TextureFilter.TEXTURE_FILTER_LINEAR,
         t0.getMinificationFilter());
@@ -168,38 +165,38 @@ public class TextureCubeStaticTest
   @SuppressWarnings("static-method") @Test public void testToString()
     throws ConstraintError
   {
-    final TextureCubeStatic t0 =
-      new TextureCubeStatic(
+    final Texture2DStatic t0 =
+      new Texture2DStatic(
         "xyz",
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         1,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        256,
         TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
-    final TextureCubeStatic t1 =
-      new TextureCubeStatic(
+    final Texture2DStatic t1 =
+      new Texture2DStatic(
         "xyz",
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         2,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        256,
         TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
-    final TextureCubeStatic t2 =
-      new TextureCubeStatic(
+    final Texture2DStatic t2 =
+      new Texture2DStatic(
         "xyz",
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         1,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        256,
         TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
+        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureFilter.TEXTURE_FILTER_NEAREST,
         TextureFilter.TEXTURE_FILTER_NEAREST);
 
     Assert.assertEquals(t0.toString(), t0.toString());
