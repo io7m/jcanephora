@@ -1414,51 +1414,6 @@ final class GLES2Functions
     GLES2Functions.checkError();
   }
 
-  static void lineSetWidth(
-
-    final @Nonnull GLStateCache state,
-    final float width)
-    throws GLException,
-      ConstraintError
-  {
-    if (state.line_smoothing) {
-      Constraints.constrainRange(
-        width,
-        state.line_smooth_min_width,
-        state.line_smooth_max_width,
-        "Smooth line width");
-    } else {
-      Constraints.constrainRange(
-        width,
-        state.line_aliased_min_width,
-        state.line_aliased_max_width,
-        "Aliased line width");
-    }
-
-    GL11.glLineWidth(width);
-    GLES2Functions.checkError();
-  }
-
-  static void lineSmoothingDisable(
-
-    final @Nonnull GLStateCache state)
-    throws GLException
-  {
-    GL11.glDisable(GL11.GL_LINE_SMOOTH);
-    GLES2Functions.checkError();
-    state.line_smoothing = false;
-  }
-
-  static void lineSmoothingEnable(
-
-    final @Nonnull GLStateCache state)
-    throws GLException
-  {
-    GL11.glEnable(GL11.GL_LINE_SMOOTH);
-    GLES2Functions.checkError();
-    state.line_smoothing = true;
-  }
-
   static int metaGetError()
   {
     return GL11.glGetError();
