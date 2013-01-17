@@ -264,7 +264,7 @@ final class GL3Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable renderbuffer)
+    final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -307,7 +307,7 @@ final class GL3Functions
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull RenderbufferUsable renderbuffer)
+    final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
     throws ConstraintError,
       GLException
   {
@@ -538,7 +538,7 @@ final class GL3Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable renderbuffer)
+    final @Nonnull RenderbufferUsable<RenderableDepth> renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -580,7 +580,7 @@ final class GL3Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable renderbuffer)
+    final @Nonnull RenderbufferUsable<RenderableDepthStencil> renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -675,7 +675,7 @@ final class GL3Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable renderbuffer)
+    final @Nonnull RenderbufferUsable<RenderableStencil> renderbuffer)
     throws GLException,
       ConstraintError
   {

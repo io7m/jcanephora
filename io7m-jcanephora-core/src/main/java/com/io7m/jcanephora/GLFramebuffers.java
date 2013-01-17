@@ -39,7 +39,7 @@ public interface GLFramebuffers extends GLFramebuffersES2
   void framebufferDrawAttachColorRenderbufferAt(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull RenderbufferUsable renderbuffer)
+    final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
     throws GLException,
       ConstraintError;
 
@@ -128,7 +128,7 @@ public interface GLFramebuffers extends GLFramebuffersES2
 
   void framebufferDrawAttachDepthStencilRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable renderbuffer)
+    final @Nonnull RenderbufferUsable<RenderableDepthStencil> renderbuffer)
     throws GLException,
       ConstraintError;
 
