@@ -484,9 +484,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public int depthBufferGetBits()
     throws GLException
   {
-    return GLES2Functions.depthBufferGetBits(
-
-    this.state);
+    return GLES2Functions.depthBufferGetBits(this.state);
   }
 
   @Override public boolean depthBufferIsEnabled()
@@ -586,6 +584,13 @@ import com.io7m.jtensors.VectorReadable4F;
       ConstraintError
   {
     GLES2Functions.framebufferDelete(this.state, this.log, framebuffer);
+  }
+
+  @Override public boolean framebufferDrawAnyIsBound()
+    throws GLException,
+      ConstraintError
+  {
+    return GLES2Functions.framebufferDrawAnyIsBound();
   }
 
   @Override public void framebufferDrawAttachColorRenderbuffer(
@@ -1119,9 +1124,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public int stencilBufferGetBits()
     throws GLException
   {
-    return GLES2Functions.stencilBufferGetBits(
-
-    this.state);
+    return GLES2Functions.stencilBufferGetBits(this.state);
   }
 
   @Override public boolean stencilBufferIsEnabled()

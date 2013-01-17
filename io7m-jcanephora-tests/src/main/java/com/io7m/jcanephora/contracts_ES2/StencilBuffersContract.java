@@ -1,5 +1,7 @@
 package com.io7m.jcanephora.contracts_ES2;
 
+import javax.annotation.Nonnull;
+
 import junit.framework.Assert;
 
 import org.junit.Assume;
@@ -9,63 +11,32 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.FaceSelection;
 import com.io7m.jcanephora.FramebufferReference;
-import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.GLException;
+import com.io7m.jcanephora.GLImplementation;
 import com.io7m.jcanephora.GLInterfaceES2;
 import com.io7m.jcanephora.GLUnsupportedException;
-import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
 import com.io7m.jcanephora.TestContext;
 
 public abstract class StencilBuffersContract implements GLES2TestContract
 {
-  private static FramebufferReference makeFramebuffer(
-    final GLInterfaceES2 g)
-    throws GLException,
-      ConstraintError
-  {
-    final FramebufferReference fb = g.framebufferAllocate();
-    final Renderbuffer sb = g.renderbufferAllocateStencil8(128, 128);
-    final Renderbuffer cb = g.renderbufferAllocateRGB565(128, 128);
-
-    g.framebufferDrawBind(fb);
-    g.framebufferDrawAttachColorRenderbuffer(fb, cb);
-    g.framebufferDrawAttachStencilRenderbuffer(fb, sb);
-
-    final FramebufferStatus expect =
-      FramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE;
-    final FramebufferStatus status = g.framebufferDrawValidate(fb);
-    Assert.assertEquals(expect, status);
-
-    g.framebufferDrawUnbind();
-    return fb;
-  }
-
-  private static FramebufferReference makeFramebufferNoStencil(
-    final GLInterfaceES2 g)
-    throws GLException,
-      ConstraintError
-  {
-    final FramebufferReference fb = g.framebufferAllocate();
-    final Renderbuffer cb = g.renderbufferAllocateRGB565(128, 128);
-
-    g.framebufferDrawBind(fb);
-    g.framebufferDrawAttachColorRenderbuffer(fb, cb);
-
-    final FramebufferStatus expect =
-      FramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE;
-    final FramebufferStatus status = g.framebufferDrawValidate(fb);
-    Assert.assertEquals(expect, status);
-
-    g.framebufferDrawUnbind();
-    return fb;
-  }
-
   @Before public final void checkSupport()
   {
     Assume.assumeTrue(this.isGLSupported());
   }
+
+  public abstract @Nonnull
+    FramebufferReference
+    makeFramebufferWithoutStencil(
+      final @Nonnull GLImplementation gi)
+      throws ConstraintError,
+        GLException;
+
+  public abstract @Nonnull FramebufferReference makeFramebufferWithStencil(
+    final @Nonnull GLImplementation gi)
+    throws ConstraintError,
+      GLException;
 
   @Test public void testStencilBufferClear()
     throws GLException,
@@ -73,12 +44,17 @@ public abstract class StencilBuffersContract implements GLES2TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceES2 gl =
-      tc.getGLImplementation().implementationGetGLES2();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
-    final FramebufferReference fb =
-      StencilBuffersContract.makeFramebuffer(gl);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    Assert.assertFalse(gl.framebufferDrawAnyIsBound());
+    Assert.assertFalse(gl.framebufferDrawIsBound(fb));
+
     gl.framebufferDrawBind(fb);
+    Assert.assertTrue(gl.framebufferDrawAnyIsBound());
+    Assert.assertTrue(gl.framebufferDrawIsBound(fb));
+
     gl.stencilBufferClear(0);
   }
 
@@ -90,12 +66,17 @@ public abstract class StencilBuffersContract implements GLES2TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceES2 gl =
-      tc.getGLImplementation().implementationGetGLES2();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
-    final FramebufferReference fb =
-      StencilBuffersContract.makeFramebufferNoStencil(gl);
+    final FramebufferReference fb = this.makeFramebufferWithoutStencil(gi);
+    Assert.assertFalse(gl.framebufferDrawAnyIsBound());
+    Assert.assertFalse(gl.framebufferDrawIsBound(fb));
+
     gl.framebufferDrawBind(fb);
+    Assert.assertTrue(gl.framebufferDrawAnyIsBound());
+    Assert.assertTrue(gl.framebufferDrawIsBound(fb));
+
     gl.stencilBufferClear(0);
   }
 
@@ -105,12 +86,16 @@ public abstract class StencilBuffersContract implements GLES2TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceES2 gl =
-      tc.getGLImplementation().implementationGetGLES2();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
-    final FramebufferReference fb =
-      StencilBuffersContract.makeFramebuffer(gl);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    Assert.assertFalse(gl.framebufferDrawAnyIsBound());
+    Assert.assertFalse(gl.framebufferDrawIsBound(fb));
+
     gl.framebufferDrawBind(fb);
+    Assert.assertTrue(gl.framebufferDrawAnyIsBound());
+    Assert.assertTrue(gl.framebufferDrawIsBound(fb));
 
     gl.stencilBufferEnable();
     Assert.assertTrue(gl.stencilBufferIsEnabled());
@@ -124,12 +109,16 @@ public abstract class StencilBuffersContract implements GLES2TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceES2 gl =
-      tc.getGLImplementation().implementationGetGLES2();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
-    final FramebufferReference fb =
-      StencilBuffersContract.makeFramebuffer(gl);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    Assert.assertFalse(gl.framebufferDrawAnyIsBound());
+    Assert.assertFalse(gl.framebufferDrawIsBound(fb));
+
     gl.framebufferDrawBind(fb);
+    Assert.assertTrue(gl.framebufferDrawAnyIsBound());
+    Assert.assertTrue(gl.framebufferDrawIsBound(fb));
 
     for (final FaceSelection face : FaceSelection.values()) {
       for (final StencilFunction function : StencilFunction.values()) {
@@ -146,12 +135,17 @@ public abstract class StencilBuffersContract implements GLES2TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceES2 gl =
-      tc.getGLImplementation().implementationGetGLES2();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
-    final FramebufferReference fb =
-      StencilBuffersContract.makeFramebuffer(gl);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    Assert.assertFalse(gl.framebufferDrawAnyIsBound());
+    Assert.assertFalse(gl.framebufferDrawIsBound(fb));
+
     gl.framebufferDrawBind(fb);
+    Assert.assertTrue(gl.framebufferDrawAnyIsBound());
+    Assert.assertTrue(gl.framebufferDrawIsBound(fb));
+
     gl.stencilBufferFunction(null, StencilFunction.STENCIL_ALWAYS, 0, 0xFF);
   }
 
@@ -163,12 +157,17 @@ public abstract class StencilBuffersContract implements GLES2TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceES2 gl =
-      tc.getGLImplementation().implementationGetGLES2();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
-    final FramebufferReference fb =
-      StencilBuffersContract.makeFramebuffer(gl);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    Assert.assertFalse(gl.framebufferDrawAnyIsBound());
+    Assert.assertFalse(gl.framebufferDrawIsBound(fb));
+
     gl.framebufferDrawBind(fb);
+    Assert.assertTrue(gl.framebufferDrawAnyIsBound());
+    Assert.assertTrue(gl.framebufferDrawIsBound(fb));
+
     gl.stencilBufferFunction(FaceSelection.FACE_FRONT, null, 0, 0xFF);
   }
 
@@ -178,12 +177,17 @@ public abstract class StencilBuffersContract implements GLES2TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceES2 gl =
-      tc.getGLImplementation().implementationGetGLES2();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
-    final FramebufferReference fb =
-      StencilBuffersContract.makeFramebuffer(gl);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    Assert.assertFalse(gl.framebufferDrawAnyIsBound());
+    Assert.assertFalse(gl.framebufferDrawIsBound(fb));
+
     gl.framebufferDrawBind(fb);
+    Assert.assertTrue(gl.framebufferDrawAnyIsBound());
+    Assert.assertTrue(gl.framebufferDrawIsBound(fb));
+
     gl.stencilBufferMask(FaceSelection.FACE_FRONT_AND_BACK, 0);
   }
 
@@ -195,12 +199,17 @@ public abstract class StencilBuffersContract implements GLES2TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceES2 gl =
-      tc.getGLImplementation().implementationGetGLES2();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
-    final FramebufferReference fb =
-      StencilBuffersContract.makeFramebuffer(gl);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    Assert.assertFalse(gl.framebufferDrawAnyIsBound());
+    Assert.assertFalse(gl.framebufferDrawIsBound(fb));
+
     gl.framebufferDrawBind(fb);
+    Assert.assertTrue(gl.framebufferDrawAnyIsBound());
+    Assert.assertTrue(gl.framebufferDrawIsBound(fb));
+
     gl.stencilBufferMask(null, 0);
   }
 
@@ -210,12 +219,16 @@ public abstract class StencilBuffersContract implements GLES2TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceES2 gl =
-      tc.getGLImplementation().implementationGetGLES2();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
-    final FramebufferReference fb =
-      StencilBuffersContract.makeFramebuffer(gl);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    Assert.assertFalse(gl.framebufferDrawAnyIsBound());
+    Assert.assertFalse(gl.framebufferDrawIsBound(fb));
+
     gl.framebufferDrawBind(fb);
+    Assert.assertTrue(gl.framebufferDrawAnyIsBound());
+    Assert.assertTrue(gl.framebufferDrawIsBound(fb));
 
     for (final FaceSelection face : FaceSelection.values()) {
       for (final StencilOperation stencil_fail : StencilOperation.values()) {
@@ -236,12 +249,17 @@ public abstract class StencilBuffersContract implements GLES2TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceES2 gl =
-      tc.getGLImplementation().implementationGetGLES2();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
-    final FramebufferReference fb =
-      StencilBuffersContract.makeFramebuffer(gl);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    Assert.assertFalse(gl.framebufferDrawAnyIsBound());
+    Assert.assertFalse(gl.framebufferDrawIsBound(fb));
+
     gl.framebufferDrawBind(fb);
+    Assert.assertTrue(gl.framebufferDrawAnyIsBound());
+    Assert.assertTrue(gl.framebufferDrawIsBound(fb));
+
     gl.stencilBufferOperation(
       FaceSelection.FACE_FRONT_AND_BACK,
       StencilOperation.STENCIL_OP_DECREMENT,
@@ -257,12 +275,17 @@ public abstract class StencilBuffersContract implements GLES2TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceES2 gl =
-      tc.getGLImplementation().implementationGetGLES2();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
-    final FramebufferReference fb =
-      StencilBuffersContract.makeFramebuffer(gl);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    Assert.assertFalse(gl.framebufferDrawAnyIsBound());
+    Assert.assertFalse(gl.framebufferDrawIsBound(fb));
+
     gl.framebufferDrawBind(fb);
+    Assert.assertTrue(gl.framebufferDrawAnyIsBound());
+    Assert.assertTrue(gl.framebufferDrawIsBound(fb));
+
     gl.stencilBufferOperation(
       null,
       StencilOperation.STENCIL_OP_DECREMENT,
@@ -278,12 +301,17 @@ public abstract class StencilBuffersContract implements GLES2TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceES2 gl =
-      tc.getGLImplementation().implementationGetGLES2();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
-    final FramebufferReference fb =
-      StencilBuffersContract.makeFramebuffer(gl);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    Assert.assertFalse(gl.framebufferDrawAnyIsBound());
+    Assert.assertFalse(gl.framebufferDrawIsBound(fb));
+
     gl.framebufferDrawBind(fb);
+    Assert.assertTrue(gl.framebufferDrawAnyIsBound());
+    Assert.assertTrue(gl.framebufferDrawIsBound(fb));
+
     gl.stencilBufferOperation(
       FaceSelection.FACE_FRONT_AND_BACK,
       StencilOperation.STENCIL_OP_DECREMENT,
@@ -299,12 +327,17 @@ public abstract class StencilBuffersContract implements GLES2TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceES2 gl =
-      tc.getGLImplementation().implementationGetGLES2();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
-    final FramebufferReference fb =
-      StencilBuffersContract.makeFramebuffer(gl);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    Assert.assertFalse(gl.framebufferDrawAnyIsBound());
+    Assert.assertFalse(gl.framebufferDrawIsBound(fb));
+
     gl.framebufferDrawBind(fb);
+    Assert.assertTrue(gl.framebufferDrawAnyIsBound());
+    Assert.assertTrue(gl.framebufferDrawIsBound(fb));
+
     gl.stencilBufferOperation(
       FaceSelection.FACE_FRONT_AND_BACK,
       null,
@@ -321,6 +354,8 @@ public abstract class StencilBuffersContract implements GLES2TestContract
     final GLInterfaceES2 gl =
       tc.getGLImplementation().implementationGetGLES2();
 
+    Assert.assertFalse(gl.framebufferDrawAnyIsBound());
+
     Assert.assertTrue(gl.stencilBufferGetBits() >= 0);
   }
 
@@ -330,12 +365,17 @@ public abstract class StencilBuffersContract implements GLES2TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceES2 gl =
-      tc.getGLImplementation().implementationGetGLES2();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
-    final FramebufferReference fb =
-      StencilBuffersContract.makeFramebufferNoStencil(gl);
+    final FramebufferReference fb = this.makeFramebufferWithoutStencil(gi);
+    Assert.assertFalse(gl.framebufferDrawAnyIsBound());
+    Assert.assertFalse(gl.framebufferDrawIsBound(fb));
+
     gl.framebufferDrawBind(fb);
+    Assert.assertTrue(gl.framebufferDrawAnyIsBound());
+    Assert.assertTrue(gl.framebufferDrawIsBound(fb));
+
     Assert.assertEquals(0, gl.stencilBufferGetBits());
   }
 
@@ -345,12 +385,17 @@ public abstract class StencilBuffersContract implements GLES2TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceES2 gl =
-      tc.getGLImplementation().implementationGetGLES2();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceES2 gl = gi.implementationGetGLES2();
 
-    final FramebufferReference fb =
-      StencilBuffersContract.makeFramebuffer(gl);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    Assert.assertFalse(gl.framebufferDrawAnyIsBound());
+    Assert.assertFalse(gl.framebufferDrawIsBound(fb));
+
     gl.framebufferDrawBind(fb);
+    Assert.assertTrue(gl.framebufferDrawAnyIsBound());
+    Assert.assertTrue(gl.framebufferDrawIsBound(fb));
+
     Assert.assertEquals(8, gl.stencilBufferGetBits());
   }
 }

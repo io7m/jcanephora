@@ -10,11 +10,11 @@ import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jaux.functional.Option.Type;
 import com.io7m.jcanephora.contracts_ES2.DepthBuffersContract;
 
-public final class JOGLES2DepthBuffersTest extends DepthBuffersContract
+public final class LWJGLES2DepthBuffersTest extends DepthBuffersContract
 {
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGLES2Supported();
+    return LWJGLTestContext.isOpenGLES2Supported();
   }
 
   @Override public @Nonnull FramebufferReference makeFramebufferWithDepth(
@@ -77,6 +77,6 @@ public final class JOGLES2DepthBuffersTest extends DepthBuffersContract
       GLUnsupportedException,
       ConstraintError
   {
-    return JOGLTestContext.makeContextWithOpenGL_ES2();
+    return LWJGLTestContext.makeContextWithOpenGL_ES2();
   }
 }
