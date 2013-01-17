@@ -909,7 +909,7 @@ final class GLES2Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable renderbuffer)
+    final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -1045,7 +1045,7 @@ final class GLES2Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable renderbuffer)
+    final @Nonnull RenderbufferUsable<RenderableDepth> renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -1096,7 +1096,7 @@ final class GLES2Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable renderbuffer)
+    final @Nonnull RenderbufferUsable<RenderableDepthStencil> renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -1194,7 +1194,7 @@ final class GLES2Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable renderbuffer)
+    final @Nonnull RenderbufferUsable<RenderableStencil> renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -2048,7 +2048,7 @@ final class GLES2Functions
     GLES2Functions.checkError(gl);
   }
 
-  static Renderbuffer renderbufferAllocate(
+  static Renderbuffer<?> renderbufferAllocate(
     final @Nonnull GL2ES2 gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
@@ -2087,7 +2087,13 @@ final class GLES2Functions
     gl.glBindRenderbuffer(GL.GL_RENDERBUFFER, 0);
     GLES2Functions.checkError(gl);
 
-    final Renderbuffer r = new Renderbuffer(type, id, width, height);
+    /**
+     * The phantom type is set to RenderableColor here and then deliberately
+     * discarded. The caller will cast to the correct type.
+     */
+
+    final Renderbuffer<?> r =
+      new Renderbuffer<RenderableColor>(type, id, width, height);
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
       state.log_text.append("renderbuffer: allocated ");
@@ -2102,7 +2108,7 @@ final class GLES2Functions
     final @Nonnull GL2ES2 gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull Renderbuffer buffer)
+    final @Nonnull Renderbuffer<?> buffer)
     throws ConstraintError,
       GLException
   {

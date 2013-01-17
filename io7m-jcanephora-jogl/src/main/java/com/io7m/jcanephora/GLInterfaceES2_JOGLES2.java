@@ -73,7 +73,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
     @Override public void framebufferDrawAttachDepthStencilRenderbuffer(
       final @Nonnull FramebufferReference framebuffer,
-      final @Nonnull RenderbufferUsable renderbuffer)
+      final @Nonnull RenderbufferUsable<RenderableDepthStencil> renderbuffer)
       throws GLException,
         ConstraintError
     {
@@ -86,20 +86,21 @@ import com.io7m.jtensors.VectorReadable4F;
     }
 
     @Override public @Nonnull
-      Renderbuffer
+      Renderbuffer<RenderableDepthStencil>
       renderbufferAllocateDepth24Stencil8(
         final int width,
         final int height)
         throws ConstraintError,
           GLException
     {
-      return GLES2Functions.renderbufferAllocate(
-        GLInterfaceES2_JOGLES2.this.contextGetGLES2(),
-        GLInterfaceES2_JOGLES2.this.state,
-        GLInterfaceES2_JOGLES2.this.log,
-        RenderbufferType.RENDERBUFFER_DEPTH_24_STENCIL_8,
-        width,
-        height);
+      return Renderbuffer.unsafeBrandDepthStencil(GLES2Functions
+        .renderbufferAllocate(
+          GLInterfaceES2_JOGLES2.this.contextGetGLES2(),
+          GLInterfaceES2_JOGLES2.this.state,
+          GLInterfaceES2_JOGLES2.this.log,
+          RenderbufferType.RENDERBUFFER_DEPTH_24_STENCIL_8,
+          width,
+          height));
     }
   }
 
@@ -646,7 +647,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void framebufferDrawAttachColorRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable renderbuffer)
+    final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -690,7 +691,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void framebufferDrawAttachDepthRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable renderbuffer)
+    final @Nonnull RenderbufferUsable<RenderableDepth> renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -718,7 +719,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void framebufferDrawAttachStencilRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable renderbuffer)
+    final @Nonnull RenderbufferUsable<RenderableStencil> renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -1092,83 +1093,94 @@ import com.io7m.jtensors.VectorReadable4F;
       vector);
   }
 
-  @Override public @Nonnull Renderbuffer renderbufferAllocateDepth16(
-    final int width,
-    final int height)
-    throws ConstraintError,
-      GLException
+  @Override public @Nonnull
+    Renderbuffer<RenderableDepth>
+    renderbufferAllocateDepth16(
+      final int width,
+      final int height)
+      throws ConstraintError,
+        GLException
   {
-    return GLES2Functions.renderbufferAllocate(
+    return Renderbuffer.unsafeBrandDepth(GLES2Functions.renderbufferAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
       RenderbufferType.RENDERBUFFER_DEPTH_16,
       width,
-      height);
+      height));
   }
 
-  @Override public @Nonnull Renderbuffer renderbufferAllocateRGB565(
-    final int width,
-    final int height)
-    throws ConstraintError,
-      GLException
+  @Override public @Nonnull
+    Renderbuffer<RenderableColor>
+    renderbufferAllocateRGB565(
+      final int width,
+      final int height)
+      throws ConstraintError,
+        GLException
   {
-    return GLES2Functions.renderbufferAllocate(
+    return Renderbuffer.unsafeBrandColor(GLES2Functions.renderbufferAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
       RenderbufferType.RENDERBUFFER_COLOR_RGB_565,
       width,
-      height);
+      height));
   }
 
-  @Override public @Nonnull Renderbuffer renderbufferAllocateRGBA4444(
-    final int width,
-    final int height)
-    throws ConstraintError,
-      GLException
+  @Override public @Nonnull
+    Renderbuffer<RenderableColor>
+    renderbufferAllocateRGBA4444(
+      final int width,
+      final int height)
+      throws ConstraintError,
+        GLException
   {
-    return GLES2Functions.renderbufferAllocate(
+    return Renderbuffer.unsafeBrandColor(GLES2Functions.renderbufferAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
       RenderbufferType.RENDERBUFFER_COLOR_RGBA_4444,
       width,
-      height);
+      height));
   }
 
-  @Override public @Nonnull Renderbuffer renderbufferAllocateRGBA5551(
-    final int width,
-    final int height)
-    throws ConstraintError,
-      GLException
+  @Override public @Nonnull
+    Renderbuffer<RenderableColor>
+    renderbufferAllocateRGBA5551(
+      final int width,
+      final int height)
+      throws ConstraintError,
+        GLException
   {
-    return GLES2Functions.renderbufferAllocate(
+    return Renderbuffer.unsafeBrandColor(GLES2Functions.renderbufferAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
       RenderbufferType.RENDERBUFFER_COLOR_RGBA_5551,
       width,
-      height);
+      height));
   }
 
-  @Override public @Nonnull Renderbuffer renderbufferAllocateStencil8(
-    final int width,
-    final int height)
-    throws ConstraintError,
-      GLException
+  @Override public @Nonnull
+    Renderbuffer<RenderableStencil>
+    renderbufferAllocateStencil8(
+      final int width,
+      final int height)
+      throws ConstraintError,
+        GLException
   {
-    return GLES2Functions.renderbufferAllocate(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      RenderbufferType.RENDERBUFFER_STENCIL_8,
-      width,
-      height);
+    return Renderbuffer.unsafeBrandStencil(GLES2Functions
+      .renderbufferAllocate(
+        this.contextGetGLES2(),
+        this.state,
+        this.log,
+        RenderbufferType.RENDERBUFFER_STENCIL_8,
+        width,
+        height));
   }
 
   @Override public void renderbufferDelete(
-    final @Nonnull Renderbuffer buffer)
+    final @Nonnull Renderbuffer<?> buffer)
     throws ConstraintError,
       GLException
   {

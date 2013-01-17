@@ -57,6 +57,16 @@ public final class JOGLTestContext
     return k;
   }
 
+  private static PathVirtual decideShaderPath(
+    final GLContext ctx)
+  {
+    if (ctx.getGLVersionMajor() == 2) {
+      return JOGLTestContext.GLSL_110_SHADER_PATH;
+    }
+
+    return JOGLTestContext.GLSL_130_SHADER_PATH;
+  }
+
   private static GLContext getContext(
     final GLProfile profile)
   {
@@ -143,16 +153,6 @@ public final class JOGLTestContext
     final PathVirtual shader_path = JOGLTestContext.decideShaderPath(ctx);
 
     return new TestContext(fs, gi, log, shader_path);
-  }
-
-  private static PathVirtual decideShaderPath(
-    final GLContext ctx)
-  {
-    if (ctx.getGLVersionMajor() == 2) {
-      return JOGLTestContext.GLSL_110_SHADER_PATH;
-    }
-
-    return JOGLTestContext.GLSL_130_SHADER_PATH;
   }
 
   private JOGLTestContext()

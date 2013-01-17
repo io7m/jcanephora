@@ -29,8 +29,10 @@ public final class LWJGL30DepthBuffersTest extends DepthBuffersContract
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
     Assert.assertFalse(g.framebufferDrawIsBound(fb));
 
-    final Renderbuffer db = g.renderbufferAllocateDepth24Stencil8(128, 128);
-    final Renderbuffer cb = g.renderbufferAllocateRGBA8888(128, 128);
+    final Renderbuffer<RenderableDepthStencil> db =
+      g.renderbufferAllocateDepth24Stencil8(128, 128);
+    final Renderbuffer<RenderableColor> cb =
+      g.renderbufferAllocateRGBA8888(128, 128);
 
     g.framebufferDrawBind(fb);
     Assert.assertTrue(g.framebufferDrawAnyIsBound());
@@ -70,7 +72,8 @@ public final class LWJGL30DepthBuffersTest extends DepthBuffersContract
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
     Assert.assertFalse(g.framebufferDrawIsBound(fb));
 
-    final Renderbuffer cb = g.renderbufferAllocateRGBA8888(128, 128);
+    final Renderbuffer<RenderableColor> cb =
+      g.renderbufferAllocateRGBA8888(128, 128);
 
     g.framebufferDrawBind(fb);
     Assert.assertTrue(g.framebufferDrawAnyIsBound());
