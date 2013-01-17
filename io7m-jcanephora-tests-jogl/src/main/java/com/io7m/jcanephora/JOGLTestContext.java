@@ -22,6 +22,7 @@ public final class JOGLTestContext
   static final String                    LOG_DESTINATION_OPENGL_ES_2_0;
   static final String                    LOG_DESTINATION_OPENGL_3_X;
   static final PathVirtual               GLSL_110_SHADER_PATH;
+  static final PathVirtual               GLSL_130_SHADER_PATH;
   static final PathVirtual               GLSL_ES_100_SHADER_PATH;
 
   static {
@@ -29,6 +30,8 @@ public final class JOGLTestContext
     LOG_DESTINATION_OPENGL_3_X = "jogl_3_x-test";
 
     try {
+      GLSL_130_SHADER_PATH =
+        new PathVirtual("/com/io7m/jcanephora/shaders/glsl130");
       GLSL_110_SHADER_PATH =
         new PathVirtual("/com/io7m/jcanephora/shaders/glsl110");
       GLSL_ES_100_SHADER_PATH =
@@ -112,8 +115,11 @@ public final class JOGLTestContext
     final Log log =
       JOGLTestContext.getLog(JOGLTestContext.LOG_DESTINATION_OPENGL_ES_2_0);
     final FilesystemAPI fs = JOGLTestContext.getFS(log);
-    final GLImplementation gi =
-      JOGLTestContext.makeGLImplementationWithOpenGL_ES2(log);
+
+    final GLContext ctx =
+      JOGLTestContext.getContext(GLProfile.get(GLProfile.GLES2));
+    final GLImplementation gi = new GLImplementationJOGL(ctx, log);
+
     return new TestContext(
       fs,
       gi,
@@ -129,31 +135,24 @@ public final class JOGLTestContext
     final Log log =
       JOGLTestContext.getLog(JOGLTestContext.LOG_DESTINATION_OPENGL_3_X);
     final FilesystemAPI fs = JOGLTestContext.getFS(log);
-    final GLImplementation gi =
-      JOGLTestContext.makeGLImplementationWithOpenGL3_X(log);
-    return new TestContext(fs, gi, log, JOGLTestContext.GLSL_110_SHADER_PATH);
-  }
 
-  private static GLImplementation makeGLImplementationWithOpenGL_ES2(
-    final Log log)
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError
-  {
-    final GLContext ctx =
-      JOGLTestContext.getContext(GLProfile.get(GLProfile.GLES2));
-    return new GLImplementationJOGL(ctx, log);
-  }
-
-  private static GLImplementation makeGLImplementationWithOpenGL3_X(
-    final Log log)
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError
-  {
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GL3));
-    return new GLImplementationJOGL(ctx, log);
+    final GLImplementation gi = new GLImplementationJOGL(ctx, log);
+
+    final PathVirtual shader_path = JOGLTestContext.decideShaderPath(ctx);
+
+    return new TestContext(fs, gi, log, shader_path);
+  }
+
+  private static PathVirtual decideShaderPath(
+    final GLContext ctx)
+  {
+    if (ctx.getGLVersionMajor() == 2) {
+      return JOGLTestContext.GLSL_110_SHADER_PATH;
+    }
+
+    return JOGLTestContext.GLSL_130_SHADER_PATH;
   }
 
   private JOGLTestContext()
