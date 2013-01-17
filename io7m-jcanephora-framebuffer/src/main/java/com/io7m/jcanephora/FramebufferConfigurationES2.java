@@ -1161,25 +1161,9 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     return result;
   }
 
-  private boolean hasRequestedAnything()
+  private boolean hasRequestedColor()
   {
     switch (this.want_color) {
-      case WANT_NOTHING:
-        break;
-      // $CASES-OMITTED$
-      default:
-        return true;
-    }
-
-    switch (this.want_depth) {
-      case WANT_NOTHING:
-        break;
-      // $CASES-OMITTED$
-      default:
-        return true;
-    }
-
-    switch (this.want_stencil) {
       case WANT_NOTHING:
         break;
       // $CASES-OMITTED$
@@ -1207,8 +1191,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     final WorkingBuffers buffers = new WorkingBuffers();
 
     Constraints.constrainArbitrary(
-      this.hasRequestedAnything(),
-      "Resulting framebuffer has at least one attachment");
+      this.hasRequestedColor(),
+      "Resulting framebuffer has a color attachment");
 
     if (gi.implementationProvidesGL3()) {
       final GLInterface3 gl = gi.implementationGetGL3();
@@ -1579,19 +1563,6 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   {
     this.want_depth = RequestDepth.WANT_DEPTH_RENDERBUFFER;
     this.want_depth_shared = null;
-  }
-
-  /**
-   * <p>
-   * Request no color buffer in the resulting framebuffer.
-   * </p>
-   */
-
-  public void requestNoColor()
-  {
-    this.want_color = RequestColor.WANT_NOTHING;
-    this.want_color_specific = null;
-    this.want_color_shared = null;
   }
 
   /**
