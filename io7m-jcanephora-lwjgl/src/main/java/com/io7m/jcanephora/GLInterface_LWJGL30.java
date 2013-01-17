@@ -974,7 +974,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return GL3Functions.polygonGetMode(this.state);
+    return this.state.polygon_mode;
   }
 
   @Override public void polygonSetMode(
@@ -982,7 +982,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GL3Functions.polygonSetMode(mode);
+    GL3Functions.polygonSetMode(this.state, mode);
   }
 
   @Override public final void polygonSmoothingDisable()
