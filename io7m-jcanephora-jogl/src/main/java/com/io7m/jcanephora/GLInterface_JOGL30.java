@@ -528,13 +528,13 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.depthBufferClear(this.contextGetGL3(), this.state, depth);
+    GL3Functions.depthBufferClear(this.contextGetGL3(), this.state, depth);
   }
 
   @Override public void depthBufferDisable()
     throws GLException
   {
-    GLES2Functions.depthBufferDisable(this.contextGetGL3());
+    GL3Functions.depthBufferDisable(this.contextGetGL3());
   }
 
   @Override public void depthBufferEnable(
@@ -542,10 +542,8 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.depthBufferEnable(
-      this.contextGetGL3(),
-      this.state,
-      function);
+    GL3Functions
+      .depthBufferEnable(this.contextGetGL3(), this.state, function);
   }
 
   @Override public int depthBufferGetBits()
@@ -564,20 +562,20 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.depthBufferWriteDisable(this.contextGetGL3(), this.state);
+    GL3Functions.depthBufferWriteDisable(this.contextGetGL3(), this.state);
   }
 
   @Override public void depthBufferWriteEnable()
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.depthBufferWriteEnable(this.contextGetGL3(), this.state);
+    GL3Functions.depthBufferWriteEnable(this.contextGetGL3(), this.state);
   }
 
   @Override public boolean depthBufferWriteIsEnabled()
     throws GLException
   {
-    return GLES2Functions.depthBufferWriteIsEnabled(
+    return GL3Functions.depthBufferWriteIsEnabled(
       this.contextGetGL3(),
       this.state);
   }
@@ -1469,24 +1467,22 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.stencilBufferClear(
-      this.contextGetGL3(),
-      this.state,
-      stencil);
+    GL3Functions
+      .stencilBufferClear(this.contextGetGL3(), this.state, stencil);
   }
 
   @Override public void stencilBufferDisable()
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.stencilBufferDisable(this.contextGetGL3());
+    GL3Functions.stencilBufferDisable(this.contextGetGL3());
   }
 
   @Override public void stencilBufferEnable()
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.stencilBufferEnable(this.contextGetGL3(), this.state);
+    GL3Functions.stencilBufferEnable(this.contextGetGL3(), this.state);
   }
 
   @Override public void stencilBufferFunction(
@@ -1497,7 +1493,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.stencilBufferFunction(
+    GL3Functions.stencilBufferFunction(
       this.contextGetGL3(),
       faces,
       function,
@@ -1515,7 +1511,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public boolean stencilBufferIsEnabled()
     throws GLException
   {
-    return GLES2Functions.stencilBufferIsEnabled(this.contextGetGL3());
+    return GL3Functions.stencilBufferIsEnabled(this.contextGetGL3());
   }
 
   @Override public void stencilBufferMask(
@@ -1535,7 +1531,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.stencilBufferOperation(
+    GL3Functions.stencilBufferOperation(
       this.contextGetGL3(),
       faces,
       stencil_fail,

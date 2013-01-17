@@ -245,6 +245,52 @@ final class GL3Functions
       equation_alpha);
   }
 
+  static void depthBufferClear(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final float depth)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainRange(
+      GL3Functions.depthBufferGetBits(gl, state),
+      1,
+      Integer.MAX_VALUE,
+      "Depth buffer bits available");
+
+    gl.glClearDepth(depth);
+    gl.glClear(GL.GL_DEPTH_BUFFER_BIT);
+    GLES2Functions.checkError(gl);
+  }
+
+  static void depthBufferDisable(
+    final @Nonnull GL2ES2 gl)
+    throws GLException
+  {
+    gl.glDisable(GL.GL_DEPTH_TEST);
+    GLES2Functions.checkError(gl);
+  }
+
+  static void depthBufferEnable(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull DepthFunction function)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(function, "Depth function");
+    Constraints.constrainRange(
+      GL3Functions.depthBufferGetBits(gl, state),
+      1,
+      Integer.MAX_VALUE,
+      "Depth buffer bits available");
+
+    final int d = GLTypeConversions.depthFunctionToGL(function);
+    gl.glEnable(GL.GL_DEPTH_TEST);
+    gl.glDepthFunc(d);
+    GLES2Functions.checkError(gl);
+  }
+
   static int depthBufferGetBits(
     final @Nonnull GL2ES2 gl,
     final @Nonnull GLStateCache state)
@@ -291,6 +337,60 @@ final class GL3Functions
       GLES2Functions.contextGetInteger(gl, state, GL.GL_DEPTH_BITS);
     GLES2Functions.checkError(gl);
     return bits;
+  }
+
+  static boolean depthBufferIsEnabled(
+    final @Nonnull GL2ES2 gl)
+    throws GLException
+  {
+    final boolean e = gl.glIsEnabled(GL.GL_DEPTH_TEST);
+    GLES2Functions.checkError(gl);
+    return e;
+  }
+
+  static void depthBufferWriteDisable(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainRange(
+      GL3Functions.depthBufferGetBits(gl, state),
+      1,
+      Integer.MAX_VALUE,
+      "Depth buffer bits available");
+
+    gl.glDepthMask(false);
+    GLES2Functions.checkError(gl);
+  }
+
+  static void depthBufferWriteEnable(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainRange(
+      GL3Functions.depthBufferGetBits(gl, state),
+      1,
+      Integer.MAX_VALUE,
+      "Depth buffer bits available");
+
+    gl.glDepthMask(true);
+    GLES2Functions.checkError(gl);
+  }
+
+  static boolean depthBufferWriteIsEnabled(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state)
+    throws GLException
+  {
+    final ByteBuffer cache = state.getDepthMaskCache();
+    gl.glGetBooleanv(GL.GL_DEPTH_WRITEMASK, cache);
+    GLES2Functions.checkError(gl);
+
+    final IntBuffer bi = cache.asIntBuffer();
+    return bi.get(0) == 1;
   }
 
   static @Nonnull FramebufferReference framebufferAllocate(
@@ -1133,6 +1233,68 @@ final class GL3Functions
     return e;
   }
 
+  static void stencilBufferClear(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final int stencil)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainRange(
+      GL3Functions.stencilBufferGetBits(gl, state),
+      1,
+      Integer.MAX_VALUE,
+      "Stencil buffer bits available");
+
+    gl.glClearStencil(stencil);
+    GLES2Functions.checkError(gl);
+  }
+
+  static void stencilBufferDisable(
+    final @Nonnull GL2ES2 gl)
+    throws GLException
+  {
+    gl.glDisable(GL.GL_STENCIL_TEST);
+    GLES2Functions.checkError(gl);
+  }
+
+  static void stencilBufferEnable(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainRange(
+      GL3Functions.stencilBufferGetBits(gl, state),
+      1,
+      Integer.MAX_VALUE,
+      "Stencil buffer bits available");
+
+    gl.glEnable(GL.GL_STENCIL_TEST);
+    GLES2Functions.checkError(gl);
+  }
+
+  static void stencilBufferFunction(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull FaceSelection faces,
+    final @Nonnull StencilFunction function,
+    final int reference,
+    final int mask)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(faces, "Face selection");
+    Constraints.constrainNotNull(function, "Stencil function");
+
+    final int func = GLTypeConversions.stencilFunctionToGL(function);
+    gl.glStencilFuncSeparate(
+      GLTypeConversions.faceSelectionToGL(faces),
+      func,
+      reference,
+      mask);
+    GLES2Functions.checkError(gl);
+  }
+
   static int stencilBufferGetBits(
     final @Nonnull GL2ES2 gl,
     final @Nonnull GLStateCache state)
@@ -1184,4 +1346,53 @@ final class GL3Functions
     GLES2Functions.checkError(gl);
     return bits;
   }
+
+  static boolean stencilBufferIsEnabled(
+    final @Nonnull GL2ES2 gl)
+    throws GLException
+  {
+    final boolean e = gl.glIsEnabled(GL.GL_STENCIL_TEST);
+    GLES2Functions.checkError(gl);
+    return e;
+  }
+
+  static void stencilBufferMask(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull FaceSelection faces,
+    final int mask)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(faces, "Face selection");
+
+    gl
+      .glStencilMaskSeparate(GLTypeConversions.faceSelectionToGL(faces), mask);
+    GLES2Functions.checkError(gl);
+  }
+
+  static void stencilBufferOperation(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull FaceSelection faces,
+    final @Nonnull StencilOperation stencil_fail,
+    final @Nonnull StencilOperation depth_fail,
+    final @Nonnull StencilOperation pass)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(faces, "Face selection");
+    Constraints.constrainNotNull(stencil_fail, "Stencil fail operation");
+    Constraints.constrainNotNull(depth_fail, "Depth fail operation");
+    Constraints.constrainNotNull(pass, "Pass operation");
+
+    final int sfail = GLTypeConversions.stencilOperationToGL(stencil_fail);
+    final int dfail = GLTypeConversions.stencilOperationToGL(depth_fail);
+    final int dpass = GLTypeConversions.stencilOperationToGL(pass);
+    gl.glStencilOpSeparate(
+      GLTypeConversions.faceSelectionToGL(faces),
+      sfail,
+      dfail,
+      dpass);
+    GLES2Functions.checkError(gl);
+  }
+
 }
