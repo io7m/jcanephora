@@ -1005,29 +1005,9 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     return result;
   }
 
-  private boolean hasRequestedAnything()
+  private boolean hasRequestedColor()
   {
-    if (this.want_color.isEmpty() == false) {
-      return true;
-    }
-
-    switch (this.want_depth) {
-      case WANT_NOTHING:
-        break;
-      // $CASES-OMITTED$
-      default:
-        return true;
-    }
-
-    switch (this.want_stencil) {
-      case WANT_NOTHING:
-        break;
-      // $CASES-OMITTED$
-      default:
-        return true;
-    }
-
-    return false;
+    return this.want_color.isEmpty() == false;
   }
 
   /**
@@ -1047,8 +1027,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     final WorkingBuffers buffers = new WorkingBuffers();
 
     Constraints.constrainArbitrary(
-      this.hasRequestedAnything(),
-      "Resulting framebuffer has at least one attachment");
+      this.hasRequestedColor(),
+      "Resulting framebuffer has a color attachment");
 
     buffers.framebuffer = gl.framebufferAllocate();
     this.allocateColorBuffers(buffers, gl);
