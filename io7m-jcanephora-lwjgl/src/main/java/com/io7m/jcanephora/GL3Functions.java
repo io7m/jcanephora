@@ -185,6 +185,51 @@ final class GL3Functions
       equation_alpha);
   }
 
+  static int depthBufferGetBits(
+    final @Nonnull GLStateCache state)
+    throws GLException
+  {
+    /**
+     * If a framebuffer is bound, check to see if there's a depth attachment.
+     */
+
+    if (GL3Functions.framebufferDrawAnyIsBound()) {
+
+      {
+        final int p =
+          GL30.glGetFramebufferAttachmentParameter(
+            GL30.GL_DRAW_FRAMEBUFFER,
+            GL30.GL_DEPTH_ATTACHMENT,
+            GL30.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE);
+        GLES2Functions.checkError();
+        if (p == GL11.GL_NONE) {
+          return 0;
+        }
+      }
+
+      /**
+       * If there's a depth attachment, check the size of it.
+       */
+
+      final int p =
+        GL30.glGetFramebufferAttachmentParameter(
+          GL30.GL_DRAW_FRAMEBUFFER,
+          GL30.GL_DEPTH_ATTACHMENT,
+          GL30.GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE);
+      GLES2Functions.checkError();
+      return p;
+    }
+
+    /**
+     * If no framebuffer is bound, use the default glGet query.
+     */
+
+    final int bits =
+      GLES2Functions.contextGetInteger(state, GL11.GL_DEPTH_BITS);
+    GLES2Functions.checkError();
+    return bits;
+  }
+
   static void framebufferDelete(
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
@@ -207,6 +252,12 @@ final class GL3Functions
     GL30.glDeleteFramebuffers(buffer.getGLName());
     GLES2Functions.checkError();
     buffer.setDeleted();
+  }
+
+  static boolean framebufferDrawAnyIsBound()
+  {
+    final int bound = GL11.glGetInteger(GL30.GL_DRAW_FRAMEBUFFER_BINDING);
+    return bound != 0;
   }
 
   static void framebufferDrawAttachColorRenderbuffer(
@@ -956,5 +1007,52 @@ final class GL3Functions
     final boolean e = GL11.glIsEnabled(GL11.GL_POLYGON_SMOOTH);
     GLES2Functions.checkError();
     return e;
+  }
+
+  static int stencilBufferGetBits(
+    final @Nonnull GLStateCache state)
+    throws GLException
+  {
+    if (GL3Functions.framebufferDrawAnyIsBound()) {
+      /**
+       * If a framebuffer is bound, check to see if there's a stencil
+       * attachment.
+       */
+
+      {
+        final int p =
+          GL30.glGetFramebufferAttachmentParameter(
+            GL30.GL_DRAW_FRAMEBUFFER,
+            GL30.GL_STENCIL_ATTACHMENT,
+            GL30.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE);
+        GLES2Functions.checkError();
+        if (p == GL11.GL_NONE) {
+          return 0;
+        }
+      }
+
+      /**
+       * If there's a stencil attachment, check the size of it.
+       */
+
+      {
+        final int p =
+          GL30.glGetFramebufferAttachmentParameter(
+            GL30.GL_DRAW_FRAMEBUFFER,
+            GL30.GL_STENCIL_ATTACHMENT,
+            GL30.GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE);
+        GLES2Functions.checkError();
+        return p;
+      }
+    }
+
+    /**
+     * If no framebuffer is bound, use the default glGet query.
+     */
+
+    final int bits =
+      GLES2Functions.contextGetInteger(state, GL11.GL_STENCIL_BITS);
+    GLES2Functions.checkError();
+    return bits;
   }
 }

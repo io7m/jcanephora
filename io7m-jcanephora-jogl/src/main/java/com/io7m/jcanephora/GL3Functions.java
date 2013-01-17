@@ -245,58 +245,155 @@ final class GL3Functions
       equation_alpha);
   }
 
+  static void depthBufferClear(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final float depth)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainRange(
+      GL3Functions.depthBufferGetBits(gl, state),
+      1,
+      Integer.MAX_VALUE,
+      "Depth buffer bits available");
+
+    gl.glClearDepth(depth);
+    gl.glClear(GL.GL_DEPTH_BUFFER_BIT);
+    GLES2Functions.checkError(gl);
+  }
+
+  static void depthBufferDisable(
+    final @Nonnull GL2ES2 gl)
+    throws GLException
+  {
+    gl.glDisable(GL.GL_DEPTH_TEST);
+    GLES2Functions.checkError(gl);
+  }
+
+  static void depthBufferEnable(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull DepthFunction function)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(function, "Depth function");
+    Constraints.constrainRange(
+      GL3Functions.depthBufferGetBits(gl, state),
+      1,
+      Integer.MAX_VALUE,
+      "Depth buffer bits available");
+
+    final int d = GLTypeConversions.depthFunctionToGL(function);
+    gl.glEnable(GL.GL_DEPTH_TEST);
+    gl.glDepthFunc(d);
+    GLES2Functions.checkError(gl);
+  }
+
   static int depthBufferGetBits(
     final @Nonnull GL2ES2 gl,
     final @Nonnull GLStateCache state)
     throws GLException
   {
-    final int framebuffer =
-      GLES2Functions.contextGetInteger(
-        gl,
-        state,
-        GL2GL3.GL_DRAW_FRAMEBUFFER_BINDING);
-    GLES2Functions.checkError(gl);
-
-    /**
-     * If no framebuffer is bound, use the default glGet query.
-     */
-
-    if (framebuffer == 0) {
-      final int bits =
-        GLES2Functions.contextGetInteger(gl, state, GL.GL_DEPTH_BITS);
-      GLES2Functions.checkError(gl);
-      return bits;
-    }
-
     /**
      * If a framebuffer is bound, check to see if there's a depth attachment.
      */
 
-    {
+    if (GL3Functions.framebufferDrawAnyIsBound(gl)) {
+
+      {
+        final IntBuffer cache = state.getIntegerCache();
+        gl.glGetFramebufferAttachmentParameteriv(
+          GL2GL3.GL_DRAW_FRAMEBUFFER,
+          GL.GL_DEPTH_ATTACHMENT,
+          GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
+          cache);
+        GLES2Functions.checkError(gl);
+        if (cache.get(0) == GL.GL_NONE) {
+          return 0;
+        }
+      }
+
+      /**
+       * If there's a depth attachment, check the size of it.
+       */
+
       final IntBuffer cache = state.getIntegerCache();
       gl.glGetFramebufferAttachmentParameteriv(
         GL2GL3.GL_DRAW_FRAMEBUFFER,
         GL.GL_DEPTH_ATTACHMENT,
-        GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
+        GL2GL3.GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE,
         cache);
       GLES2Functions.checkError(gl);
-      if (cache.get(0) == GL.GL_NONE) {
-        return 0;
-      }
+      return cache.get(0);
     }
 
     /**
-     * If there's a depth attachment, check the size of it.
+     * It's no longer possible to use the GL_DEPTH_BITS query
+     * (deprecated/removed), so it's necessary to ask JOGL itself what the
+     * default framebuffer is using.
      */
 
-    final IntBuffer cache = state.getIntegerCache();
-    gl.glGetFramebufferAttachmentParameteriv(
-      GL2GL3.GL_DRAW_FRAMEBUFFER,
-      GL.GL_DEPTH_ATTACHMENT,
-      GL2GL3.GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE,
-      cache);
+    return gl
+      .getContext()
+      .getGLDrawable()
+      .getChosenGLCapabilities()
+      .getDepthBits();
+  }
+
+  static boolean depthBufferIsEnabled(
+    final @Nonnull GL2ES2 gl)
+    throws GLException
+  {
+    final boolean e = gl.glIsEnabled(GL.GL_DEPTH_TEST);
     GLES2Functions.checkError(gl);
-    return cache.get(0);
+    return e;
+  }
+
+  static void depthBufferWriteDisable(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainRange(
+      GL3Functions.depthBufferGetBits(gl, state),
+      1,
+      Integer.MAX_VALUE,
+      "Depth buffer bits available");
+
+    gl.glDepthMask(false);
+    GLES2Functions.checkError(gl);
+  }
+
+  static void depthBufferWriteEnable(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainRange(
+      GL3Functions.depthBufferGetBits(gl, state),
+      1,
+      Integer.MAX_VALUE,
+      "Depth buffer bits available");
+
+    gl.glDepthMask(true);
+    GLES2Functions.checkError(gl);
+  }
+
+  static boolean depthBufferWriteIsEnabled(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state)
+    throws GLException
+  {
+    final ByteBuffer cache = state.getDepthMaskCache();
+    gl.glGetBooleanv(GL.GL_DEPTH_WRITEMASK, cache);
+    GLES2Functions.checkError(gl);
+
+    final IntBuffer bi = cache.asIntBuffer();
+    return bi.get(0) == 1;
   }
 
   static @Nonnull FramebufferReference framebufferAllocate(
@@ -348,6 +445,14 @@ final class GL3Functions
     buffer.setDeleted();
   }
 
+  static boolean framebufferDrawAnyIsBound(
+    final @Nonnull GL2ES2 gl)
+  {
+    final int bound = gl.getBoundFramebuffer(GL2GL3.GL_DRAW_FRAMEBUFFER);
+    final int default_fb = gl.getDefaultDrawFramebuffer();
+    return bound != default_fb;
+  }
+
   static void framebufferDrawAttachColorRenderbuffer(
     final @Nonnull GL2ES2 gl,
     final @Nonnull GLStateCache state,
@@ -363,7 +468,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GL3Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GL3Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
@@ -409,7 +514,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GLES2Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GLES2Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
@@ -453,7 +558,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GL3Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GL3Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(texture, "Texture");
@@ -500,7 +605,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GLES2Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GLES2Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(texture, "Texture");
@@ -546,7 +651,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GL3Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GL3Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(texture, "Texture");
@@ -597,7 +702,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GLES2Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GLES2Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(texture, "Texture");
@@ -647,7 +752,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GL3Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GL3Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
@@ -657,6 +762,9 @@ final class GL3Functions
     Constraints.constrainArbitrary(
       renderbuffer.getType().isDepthRenderable(),
       "Renderbuffer is depth renderable");
+    Constraints.constrainArbitrary(
+      renderbuffer.getType().isStencilRenderable() == false,
+      "Renderbuffer is not also stencil renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -691,7 +799,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GL3Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GL3Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
@@ -719,12 +827,7 @@ final class GL3Functions
 
     gl.glFramebufferRenderbuffer(
       GL2GL3.GL_DRAW_FRAMEBUFFER,
-      GL.GL_DEPTH_ATTACHMENT,
-      GL.GL_RENDERBUFFER,
-      renderbuffer.getGLName());
-    gl.glFramebufferRenderbuffer(
-      GL2GL3.GL_DRAW_FRAMEBUFFER,
-      GL.GL_STENCIL_ATTACHMENT,
+      GL2GL3.GL_DEPTH_STENCIL_ATTACHMENT,
       GL.GL_RENDERBUFFER,
       renderbuffer.getGLName());
     GLES2Functions.checkError(gl);
@@ -744,7 +847,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GL3Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GL3Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(texture, "Texture");
@@ -789,7 +892,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GL3Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GL3Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
@@ -799,6 +902,9 @@ final class GL3Functions
     Constraints.constrainArbitrary(renderbuffer
       .getType()
       .isStencilRenderable(), "Renderbuffer is stencil renderable");
+    Constraints.constrainArbitrary(
+      renderbuffer.getType().isDepthRenderable() == false,
+      "Renderbuffer is not also depth renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -835,20 +941,16 @@ final class GL3Functions
 
   static boolean framebufferDrawIsBound(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
     final @Nonnull FramebufferReference framebuffer)
-    throws GLException,
-      ConstraintError
+    throws ConstraintError
   {
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
     Constraints.constrainArbitrary(
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
 
-    final IntBuffer cache = state.getIntegerCache();
-    gl.glGetIntegerv(GL2GL3.GL_DRAW_FRAMEBUFFER_BINDING, cache);
-    GLES2Functions.checkError(gl);
-    return cache.get(0) == framebuffer.getGLName();
+    final int bound = gl.getBoundFramebuffer(GL2GL3.GL_DRAW_FRAMEBUFFER);
+    return bound == framebuffer.getGLName();
   }
 
   static
@@ -868,7 +970,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GL3Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GL3Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
     Constraints.constrainNotNull(mappings, "Draw buffer attachment mappings");
 
@@ -916,7 +1018,6 @@ final class GL3Functions
 
   static @Nonnull FramebufferStatus framebufferDrawValidate(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
     final @Nonnull FramebufferReference framebuffer)
     throws GLException,
       ConstraintError
@@ -927,7 +1028,7 @@ final class GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GL3Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GL3Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     final int status =
@@ -1135,62 +1236,185 @@ final class GL3Functions
     return e;
   }
 
+  static void stencilBufferClear(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state,
+    final int stencil)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainRange(
+      GL3Functions.stencilBufferGetBits(gl, state),
+      1,
+      Integer.MAX_VALUE,
+      "Stencil buffer bits available");
+
+    gl.glClearStencil(stencil);
+    GLES2Functions.checkError(gl);
+  }
+
+  static void stencilBufferDisable(
+    final @Nonnull GL2ES2 gl)
+    throws GLException
+  {
+    gl.glDisable(GL.GL_STENCIL_TEST);
+    GLES2Functions.checkError(gl);
+  }
+
+  static void stencilBufferEnable(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull GLStateCache state)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainRange(
+      GL3Functions.stencilBufferGetBits(gl, state),
+      1,
+      Integer.MAX_VALUE,
+      "Stencil buffer bits available");
+
+    gl.glEnable(GL.GL_STENCIL_TEST);
+    GLES2Functions.checkError(gl);
+  }
+
+  static void stencilBufferFunction(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull FaceSelection faces,
+    final @Nonnull StencilFunction function,
+    final int reference,
+    final int mask)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(faces, "Face selection");
+    Constraints.constrainNotNull(function, "Stencil function");
+
+    final int func = GLTypeConversions.stencilFunctionToGL(function);
+    gl.glStencilFuncSeparate(
+      GLTypeConversions.faceSelectionToGL(faces),
+      func,
+      reference,
+      mask);
+    GLES2Functions.checkError(gl);
+  }
+
   static int stencilBufferGetBits(
     final @Nonnull GL2ES2 gl,
     final @Nonnull GLStateCache state)
     throws GLException
   {
-    final int framebuffer =
-      GLES2Functions.contextGetInteger(
-        gl,
-        state,
-        GL2GL3.GL_DRAW_FRAMEBUFFER_BINDING);
-    GLES2Functions.checkError(gl);
+    if (GL3Functions.framebufferDrawAnyIsBound(gl)) {
+      /**
+       * If a framebuffer is bound, check to see if there's a pure stencil
+       * attachment.
+       */
 
-    /**
-     * If no framebuffer is bound, use the default glGet query.
-     */
+      {
+        final IntBuffer c0 = state.getIntegerCache();
+        gl.glGetFramebufferAttachmentParameteriv(
+          GL2GL3.GL_DRAW_FRAMEBUFFER,
+          GL.GL_STENCIL_ATTACHMENT,
+          GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
+          c0);
+        GLES2Functions.checkError(gl);
 
-    if (framebuffer == 0) {
-      final int bits =
-        GLES2Functions.contextGetInteger(gl, state, GL.GL_STENCIL_BITS);
-      GLES2Functions.checkError(gl);
-      return bits;
-    }
+        /**
+         * The only available pure stencil format is STENCIL8, so the stencil
+         * buffer must have 8 bits.
+         */
 
-    /**
-     * If a framebuffer is bound, check to see if there's a stencil
-     * attachment.
-     */
-
-    {
-      final IntBuffer cache = state.getIntegerCache();
-      gl.glGetFramebufferAttachmentParameteriv(
-        GL2GL3.GL_DRAW_FRAMEBUFFER,
-        GL.GL_STENCIL_ATTACHMENT,
-        GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
-        cache);
-      GLES2Functions.checkError(gl);
-
-      final int type = cache.get(0);
-      if (type == GL.GL_NONE) {
-        return 0;
+        final int type = c0.get(0);
+        if (type != GL.GL_NONE) {
+          return 8;
+        }
       }
+
+      /**
+       * If a framebuffer is bound, check to see if there's a depth+stencil
+       * attachment.
+       */
+
+      {
+        final IntBuffer c0 = state.getIntegerCache();
+        gl.glGetFramebufferAttachmentParameteriv(
+          GL2GL3.GL_DRAW_FRAMEBUFFER,
+          GL2GL3.GL_DEPTH_STENCIL_ATTACHMENT,
+          GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
+          c0);
+        GLES2Functions.checkError(gl);
+
+        /**
+         * The only available depth/stencil format is DEPTH24_STENCIL8, so the
+         * stencil buffer must have 8 bits.
+         */
+
+        final int type = c0.get(0);
+        if (type != GL.GL_NONE) {
+          return 8;
+        }
+      }
+
     }
 
     /**
-     * If there's a stencil attachment, check the size of it.
+     * It's no longer possible to use the GL_STENCIL_BITS query
+     * (deprecated/removed), so it's necessary to ask JOGL itself what the
+     * default framebuffer is using.
      */
 
-    {
-      final IntBuffer cache = state.getIntegerCache();
-      gl.glGetFramebufferAttachmentParameteriv(
-        GL2GL3.GL_DRAW_FRAMEBUFFER,
-        GL.GL_STENCIL_ATTACHMENT,
-        GL2GL3.GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE,
-        cache);
-      GLES2Functions.checkError(gl);
-      return cache.get(0);
-    }
+    return gl
+      .getContext()
+      .getGLDrawable()
+      .getChosenGLCapabilities()
+      .getStencilBits();
   }
+
+  static boolean stencilBufferIsEnabled(
+    final @Nonnull GL2ES2 gl)
+    throws GLException
+  {
+    final boolean e = gl.glIsEnabled(GL.GL_STENCIL_TEST);
+    GLES2Functions.checkError(gl);
+    return e;
+  }
+
+  static void stencilBufferMask(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull FaceSelection faces,
+    final int mask)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(faces, "Face selection");
+
+    gl
+      .glStencilMaskSeparate(GLTypeConversions.faceSelectionToGL(faces), mask);
+    GLES2Functions.checkError(gl);
+  }
+
+  static void stencilBufferOperation(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull FaceSelection faces,
+    final @Nonnull StencilOperation stencil_fail,
+    final @Nonnull StencilOperation depth_fail,
+    final @Nonnull StencilOperation pass)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(faces, "Face selection");
+    Constraints.constrainNotNull(stencil_fail, "Stencil fail operation");
+    Constraints.constrainNotNull(depth_fail, "Depth fail operation");
+    Constraints.constrainNotNull(pass, "Pass operation");
+
+    final int sfail = GLTypeConversions.stencilOperationToGL(stencil_fail);
+    final int dfail = GLTypeConversions.stencilOperationToGL(depth_fail);
+    final int dpass = GLTypeConversions.stencilOperationToGL(pass);
+    gl.glStencilOpSeparate(
+      GLTypeConversions.faceSelectionToGL(faces),
+      sfail,
+      dfail,
+      dpass);
+    GLES2Functions.checkError(gl);
+  }
+
 }

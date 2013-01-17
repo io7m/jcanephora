@@ -605,27 +605,6 @@ final class GLES2Functions
   }
 
   static int depthBufferGetBits(
-
-    final @Nonnull GLStateCache state)
-    throws GLException
-  {
-    /**
-     * Note that because this package intends to be compatible with ES2, but
-     * might be running on an ordinary GL 2.1 or GL 3.0 implementation, it's
-     * necessary to check explicitly what the real underlying implementation
-     * is, because ES2 requires a different function call to retrieve the
-     * current depth buffer bits.
-     */
-
-    if (GLES2Functions.implementationReallyIsES2()) {
-      return GLES2Functions.depthBufferGetBitsES2(state);
-    }
-
-    return GLES2Functions.depthBufferGetBitsGL3(state);
-  }
-
-  private static int depthBufferGetBitsES2(
-
     final @Nonnull GLStateCache state)
     throws GLException
   {
@@ -633,57 +612,6 @@ final class GLES2Functions
       GLES2Functions.contextGetInteger(state, GL11.GL_DEPTH_BITS);
     GLES2Functions.checkError();
     return bits;
-  }
-
-  private static int depthBufferGetBitsGL3(
-
-    final @Nonnull GLStateCache state)
-    throws GLException
-  {
-    final int framebuffer =
-      GLES2Functions.contextGetInteger(state, GL30.GL_FRAMEBUFFER_BINDING);
-    GLES2Functions.checkError();
-
-    /**
-     * If no framebuffer is bound, use the default glGet query.
-     */
-
-    if (framebuffer == 0) {
-      final int bits =
-        GLES2Functions.contextGetInteger(state, GL11.GL_DEPTH_BITS);
-      GLES2Functions.checkError();
-      return bits;
-    }
-
-    /**
-     * If a framebuffer is bound, check to see if there's a depth attachment.
-     */
-
-    {
-      final IntBuffer cache = state.getIntegerCache();
-      GL30.glGetFramebufferAttachmentParameter(
-        GL30.GL_DRAW_FRAMEBUFFER,
-        GL30.GL_DEPTH_ATTACHMENT,
-        GL30.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
-        cache);
-      GLES2Functions.checkError();
-      if (cache.get(0) == GL11.GL_NONE) {
-        return 0;
-      }
-    }
-
-    /**
-     * If there's a depth attachment, check the size of it.
-     */
-
-    final IntBuffer cache = state.getIntegerCache();
-    GL30.glGetFramebufferAttachmentParameter(
-      GL30.GL_DRAW_FRAMEBUFFER,
-      GL30.GL_DEPTH_ATTACHMENT,
-      GL30.GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE,
-      cache);
-    GLES2Functions.checkError();
-    return cache.get(0);
   }
 
   static boolean depthBufferIsEnabled()
@@ -918,6 +846,12 @@ final class GLES2Functions
     GL30.glDeleteFramebuffers(buffer.getGLName());
     GLES2Functions.checkError();
     buffer.setDeleted();
+  }
+
+  static boolean framebufferDrawAnyIsBound()
+  {
+    final int bound = GL11.glGetInteger(GL30.GL_DRAW_FRAMEBUFFER_BINDING);
+    return bound != 0;
   }
 
   static void framebufferDrawAttachColorRenderbuffer(
@@ -2151,27 +2085,6 @@ final class GLES2Functions
   }
 
   static int stencilBufferGetBits(
-
-    final @Nonnull GLStateCache state)
-    throws GLException
-  {
-    /**
-     * Note that because this package intends to be compatible with ES2, but
-     * might be running on an ordinary GL 2.1 or GL 3.0 implementation, it's
-     * necessary to check explicitly what the real underlying implementation
-     * is, because ES2 requires a different function call to retrieve the
-     * current stencil buffer bits.
-     */
-
-    if (GLES2Functions.implementationReallyIsES2()) {
-      return GLES2Functions.stencilBufferGetBitsES2(state);
-    }
-
-    return GLES2Functions.stencilBufferGetBitsGL3(state);
-  }
-
-  static int stencilBufferGetBitsES2(
-
     final @Nonnull GLStateCache state)
     throws GLException
   {
@@ -2179,62 +2092,6 @@ final class GLES2Functions
       GLES2Functions.contextGetInteger(state, GL11.GL_STENCIL_BITS);
     GLES2Functions.checkError();
     return bits;
-  }
-
-  static int stencilBufferGetBitsGL3(
-
-    final @Nonnull GLStateCache state)
-    throws GLException
-  {
-    final int framebuffer =
-      GLES2Functions.contextGetInteger(state, GL30.GL_FRAMEBUFFER_BINDING);
-    GLES2Functions.checkError();
-
-    /**
-     * If no framebuffer is bound, use the default glGet query.
-     */
-
-    if (framebuffer == 0) {
-      final int bits =
-        GLES2Functions.contextGetInteger(state, GL11.GL_STENCIL_BITS);
-      GLES2Functions.checkError();
-      return bits;
-    }
-
-    /**
-     * If a framebuffer is bound, check to see if there's a stencil
-     * attachment.
-     */
-
-    {
-      final IntBuffer cache = state.getIntegerCache();
-      GL30.glGetFramebufferAttachmentParameter(
-        GL30.GL_DRAW_FRAMEBUFFER,
-        GL30.GL_STENCIL_ATTACHMENT,
-        GL30.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
-        cache);
-      GLES2Functions.checkError();
-
-      final int type = cache.get(0);
-      if (type == GL11.GL_NONE) {
-        return 0;
-      }
-    }
-
-    /**
-     * If there's a stencil attachment, check the size of it.
-     */
-
-    {
-      final IntBuffer cache = state.getIntegerCache();
-      GL30.glGetFramebufferAttachmentParameter(
-        GL30.GL_DRAW_FRAMEBUFFER,
-        GL30.GL_STENCIL_ATTACHMENT,
-        GL30.GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE,
-        cache);
-      GLES2Functions.checkError();
-      return cache.get(0);
-    }
   }
 
   static boolean stencilBufferIsEnabled()
