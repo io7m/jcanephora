@@ -28,6 +28,7 @@ import javax.annotation.concurrent.NotThreadSafe;
   private final @Nonnull ByteBuffer          color_buffer_mask_cache;
   private final @Nonnull ByteBuffer          depth_buffer_mask_cache;
   final @Nonnull StringBuilder               log_text;
+  @Nonnull PolygonMode                       polygon_mode;
 
   /**
    * The size of the integer cache, in bytes.
@@ -53,6 +54,7 @@ import javax.annotation.concurrent.NotThreadSafe;
     this.point_min_width = 0;
 
     this.log_text = new StringBuilder();
+    this.polygon_mode = PolygonMode.POLYGON_FILL;
   }
 
   @Nonnull ByteBuffer getColorMaskCache()

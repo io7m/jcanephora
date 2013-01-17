@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.media.opengl.GL;
-import javax.media.opengl.GL2;
 import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GL2GL3;
 import javax.media.opengl.GL3;
@@ -1187,19 +1186,9 @@ final class GL3Functions
     return e;
   }
 
-  static @Nonnull PolygonMode polygonGetMode(
-    final @Nonnull GL3 gl,
-    final @Nonnull GLStateCache state)
-    throws GLException
-  {
-    final IntBuffer cache = state.getIntegerCache();
-    gl.glGetIntegerv(GL2.GL_POLYGON_MODE, cache);
-    GLES2Functions.checkError(gl);
-    return GLTypeConversions.polygonModeFromGL(cache.get(1));
-  }
-
   static void polygonSetMode(
     final @Nonnull GL3 gl,
+    final @Nonnull GLStateCache cache,
     final @Nonnull PolygonMode mode)
     throws ConstraintError,
       GLException
@@ -1209,6 +1198,7 @@ final class GL3Functions
     final int im = GLTypeConversions.polygonModeToGL(mode);
     gl.glPolygonMode(GL.GL_FRONT_AND_BACK, im);
     GLES2Functions.checkError(gl);
+    cache.polygon_mode = mode;
   }
 
   static void polygonSmoothingDisable(
