@@ -965,17 +965,8 @@ final class GL3Functions
     return e;
   }
 
-  static @Nonnull PolygonMode polygonGetMode(
-    final @Nonnull GLStateCache state)
-    throws GLException
-  {
-    final IntBuffer cache = state.getIntegerCache();
-    GL11.glGetInteger(GL11.GL_POLYGON_MODE, cache);
-    GLES2Functions.checkError();
-    return GLTypeConversions.polygonModeFromGL(cache.get(1));
-  }
-
   static void polygonSetMode(
+    final @Nonnull GLStateCache cache,
     final @Nonnull PolygonMode mode)
     throws ConstraintError,
       GLException
@@ -985,6 +976,7 @@ final class GL3Functions
     final int im = GLTypeConversions.polygonModeToGL(mode);
     GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, im);
     GLES2Functions.checkError();
+    cache.polygon_mode = mode;
   }
 
   static void polygonSmoothingDisable()
