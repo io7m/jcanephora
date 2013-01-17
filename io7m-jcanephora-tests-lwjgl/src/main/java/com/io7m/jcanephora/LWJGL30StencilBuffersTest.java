@@ -26,7 +26,8 @@ public final class LWJGL30StencilBuffersTest extends StencilBuffersContract
 
     final GLInterface3 g = gi.implementationGetGL3();
     final FramebufferReference fb = g.framebufferAllocate();
-    final Renderbuffer cb = g.renderbufferAllocateRGBA8888(128, 128);
+    final Renderbuffer<RenderableColor> cb =
+      g.renderbufferAllocateRGBA8888(128, 128);
 
     g.framebufferDrawBind(fb);
     g.framebufferDrawAttachColorRenderbuffer(fb, cb);
@@ -49,8 +50,10 @@ public final class LWJGL30StencilBuffersTest extends StencilBuffersContract
 
     final GLInterface3 g = gi.implementationGetGL3();
     final FramebufferReference fb = g.framebufferAllocate();
-    final Renderbuffer db = g.renderbufferAllocateDepth24Stencil8(128, 128);
-    final Renderbuffer cb = g.renderbufferAllocateRGBA8888(128, 128);
+    final Renderbuffer<RenderableDepthStencil> db =
+      g.renderbufferAllocateDepth24Stencil8(128, 128);
+    final Renderbuffer<RenderableColor> cb =
+      g.renderbufferAllocateRGBA8888(128, 128);
 
     g.framebufferDrawBind(fb);
     g.framebufferDrawAttachColorRenderbuffer(fb, cb);

@@ -858,7 +858,7 @@ final class GLES2Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable renderbuffer)
+    final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -990,7 +990,7 @@ final class GLES2Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable renderbuffer)
+    final @Nonnull RenderbufferUsable<RenderableDepth> renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -1023,6 +1023,48 @@ final class GLES2Functions
     GL30.glFramebufferRenderbuffer(
       GL30.GL_DRAW_FRAMEBUFFER,
       GL30.GL_DEPTH_ATTACHMENT,
+      GL30.GL_RENDERBUFFER,
+      renderbuffer.getGLName());
+    GLES2Functions.checkError();
+  }
+
+  static void framebufferDrawAttachDepthStencilRenderbuffer(
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull RenderbufferUsable<RenderableDepthStencil> renderbuffer)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      GLES2Functions.framebufferDrawIsBound(state, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
+    Constraints.constrainArbitrary(
+      renderbuffer.resourceIsDeleted() == false,
+      "Renderbuffer not deleted");
+    Constraints.constrainArbitrary(
+      renderbuffer.getType().isDepthRenderable(),
+      "Renderbuffer is depth renderable");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(renderbuffer);
+      state.log_text.append(" at depth attachment");
+      log.debug(state.log_text.toString());
+    }
+
+    GL30.glFramebufferRenderbuffer(
+      GL30.GL_DRAW_FRAMEBUFFER,
+      GL30.GL_DEPTH_STENCIL_ATTACHMENT,
       GL30.GL_RENDERBUFFER,
       renderbuffer.getGLName());
     GLES2Functions.checkError();
@@ -1075,7 +1117,7 @@ final class GLES2Functions
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable renderbuffer)
+    final @Nonnull RenderbufferUsable<RenderableStencil> renderbuffer)
     throws GLException,
       ConstraintError
   {
@@ -1887,7 +1929,7 @@ final class GLES2Functions
     GLES2Functions.checkError();
   }
 
-  static Renderbuffer renderbufferAllocate(
+  static Renderbuffer<?> renderbufferAllocate(
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull RenderbufferType type,
@@ -1923,7 +1965,13 @@ final class GLES2Functions
     GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, 0);
     GLES2Functions.checkError();
 
-    final Renderbuffer r = new Renderbuffer(type, id, width, height);
+    /**
+     * The phantom type is set to RenderableColor here and then deliberately
+     * discarded. The caller will cast to the correct type.
+     */
+
+    final Renderbuffer<?> r =
+      new Renderbuffer<RenderableColor>(type, id, width, height);
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
       state.log_text.append("renderbuffer: allocated ");
@@ -1937,7 +1985,7 @@ final class GLES2Functions
   static void renderbufferDelete(
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull Renderbuffer buffer)
+    final @Nonnull Renderbuffer<?> buffer)
     throws ConstraintError,
       GLException
   {

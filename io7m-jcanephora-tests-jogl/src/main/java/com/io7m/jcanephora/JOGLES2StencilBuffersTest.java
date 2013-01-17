@@ -28,7 +28,8 @@ public final class JOGLES2StencilBuffersTest extends StencilBuffersContract
     final FramebufferReference fb = g.framebufferAllocate();
 
     g.framebufferDrawBind(fb);
-    final Renderbuffer cb = g.renderbufferAllocateRGBA4444(128, 128);
+    final Renderbuffer<RenderableColor> cb =
+      g.renderbufferAllocateRGBA4444(128, 128);
     g.framebufferDrawAttachColorRenderbuffer(fb, cb);
 
     final FramebufferStatus expect =
@@ -49,7 +50,8 @@ public final class JOGLES2StencilBuffersTest extends StencilBuffersContract
     final FramebufferReference fb = g.framebufferAllocate();
 
     g.framebufferDrawBind(fb);
-    final Renderbuffer cb = g.renderbufferAllocateRGBA4444(128, 128);
+    final Renderbuffer<RenderableColor> cb =
+      g.renderbufferAllocateRGBA4444(128, 128);
     g.framebufferDrawAttachColorRenderbuffer(fb, cb);
 
     final Option<GLExtensionPackedDepthStencil> e =
@@ -58,11 +60,12 @@ public final class JOGLES2StencilBuffersTest extends StencilBuffersContract
     if (e.type == Type.OPTION_SOME) {
       final GLExtensionPackedDepthStencil ex =
         ((Some<GLExtensionPackedDepthStencil>) e).value;
-      final Renderbuffer db =
+      final Renderbuffer<RenderableDepthStencil> db =
         ex.renderbufferAllocateDepth24Stencil8(128, 128);
       ex.framebufferDrawAttachDepthStencilRenderbuffer(fb, db);
     } else {
-      final Renderbuffer db = g.renderbufferAllocateStencil8(128, 128);
+      final Renderbuffer<RenderableStencil> db =
+        g.renderbufferAllocateStencil8(128, 128);
       g.framebufferDrawAttachStencilRenderbuffer(fb, db);
     }
 
