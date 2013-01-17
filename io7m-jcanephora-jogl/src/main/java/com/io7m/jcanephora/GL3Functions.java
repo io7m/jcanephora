@@ -330,13 +330,16 @@ final class GL3Functions
     }
 
     /**
-     * If no framebuffer is bound, use the default glGet query.
+     * It's no longer possible to use the GL_DEPTH_BITS query
+     * (deprecated/removed), so it's necessary to ask JOGL itself what the
+     * default framebuffer is using.
      */
 
-    final int bits =
-      GLES2Functions.contextGetInteger(gl, state, GL.GL_DEPTH_BITS);
-    GLES2Functions.checkError(gl);
-    return bits;
+    return gl
+      .getContext()
+      .getGLDrawable()
+      .getChosenGLCapabilities()
+      .getDepthBits();
   }
 
   static boolean depthBufferIsEnabled(
@@ -1354,13 +1357,16 @@ final class GL3Functions
     }
 
     /**
-     * If no framebuffer is bound, use the default glGet query.
+     * It's no longer possible to use the GL_STENCIL_BITS query
+     * (deprecated/removed), so it's necessary to ask JOGL itself what the
+     * default framebuffer is using.
      */
 
-    final int bits =
-      GLES2Functions.contextGetInteger(gl, state, GL.GL_STENCIL_BITS);
-    GLES2Functions.checkError(gl);
-    return bits;
+    return gl
+      .getContext()
+      .getGLDrawable()
+      .getChosenGLCapabilities()
+      .getStencilBits();
   }
 
   static boolean stencilBufferIsEnabled(
