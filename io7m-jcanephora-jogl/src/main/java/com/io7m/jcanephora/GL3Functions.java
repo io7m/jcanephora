@@ -1302,39 +1302,55 @@ final class GL3Functions
   {
     if (GL3Functions.framebufferDrawAnyIsBound(gl)) {
       /**
-       * If a framebuffer is bound, check to see if there's a stencil
+       * If a framebuffer is bound, check to see if there's a pure stencil
        * attachment.
        */
 
       {
-        final IntBuffer cache = state.getIntegerCache();
+        final IntBuffer c0 = state.getIntegerCache();
         gl.glGetFramebufferAttachmentParameteriv(
           GL2GL3.GL_DRAW_FRAMEBUFFER,
           GL.GL_STENCIL_ATTACHMENT,
           GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
-          cache);
+          c0);
         GLES2Functions.checkError(gl);
 
-        final int type = cache.get(0);
-        if (type == GL.GL_NONE) {
-          return 0;
+        /**
+         * The only available pure stencil format is STENCIL8, so the stencil
+         * buffer must have 8 bits.
+         */
+
+        final int type = c0.get(0);
+        if (type != GL.GL_NONE) {
+          return 8;
         }
       }
 
       /**
-       * If there's a stencil attachment, check the size of it.
+       * If a framebuffer is bound, check to see if there's a depth+stencil
+       * attachment.
        */
 
       {
-        final IntBuffer cache = state.getIntegerCache();
+        final IntBuffer c0 = state.getIntegerCache();
         gl.glGetFramebufferAttachmentParameteriv(
           GL2GL3.GL_DRAW_FRAMEBUFFER,
-          GL.GL_STENCIL_ATTACHMENT,
-          GL2GL3.GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE,
-          cache);
+          GL2GL3.GL_DEPTH_STENCIL_ATTACHMENT,
+          GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
+          c0);
         GLES2Functions.checkError(gl);
-        return cache.get(0);
+
+        /**
+         * The only available depth/stencil format is DEPTH24_STENCIL8, so the
+         * stencil buffer must have 8 bits.
+         */
+
+        final int type = c0.get(0);
+        if (type != GL.GL_NONE) {
+          return 8;
+        }
       }
+
     }
 
     /**
