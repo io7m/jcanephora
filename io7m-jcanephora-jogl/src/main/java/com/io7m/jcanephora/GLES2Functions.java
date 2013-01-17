@@ -896,6 +896,14 @@ final class GLES2Functions
     buffer.setDeleted();
   }
 
+  static boolean framebufferDrawAnyIsBound(
+    final @Nonnull GL2ES2 gl)
+  {
+    final int bound = gl.getBoundFramebuffer(GL.GL_FRAMEBUFFER);
+    final int default_fb = gl.getDefaultDrawFramebuffer();
+    return bound != default_fb;
+  }
+
   static void framebufferDrawAttachColorRenderbuffer(
     final @Nonnull GL2ES2 gl,
     final @Nonnull GLStateCache state,
@@ -911,7 +919,7 @@ final class GLES2Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GLES2Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GLES2Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
@@ -954,7 +962,7 @@ final class GLES2Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GLES2Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GLES2Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(texture, "Texture");
@@ -999,7 +1007,7 @@ final class GLES2Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GLES2Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GLES2Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(texture, "Texture");
@@ -1047,7 +1055,7 @@ final class GLES2Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GLES2Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GLES2Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
@@ -1057,6 +1065,9 @@ final class GLES2Functions
     Constraints.constrainArbitrary(
       renderbuffer.getType().isDepthRenderable(),
       "Renderbuffer is depth renderable");
+    Constraints.constrainArbitrary(
+      renderbuffer.getType().isStencilRenderable() == false,
+      "Renderbuffer is not also stencil renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -1095,7 +1106,7 @@ final class GLES2Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GLES2Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GLES2Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
@@ -1148,7 +1159,7 @@ final class GLES2Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GLES2Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GLES2Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(texture, "Texture");
@@ -1193,7 +1204,7 @@ final class GLES2Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GLES2Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GLES2Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
@@ -1203,6 +1214,9 @@ final class GLES2Functions
     Constraints.constrainArbitrary(renderbuffer
       .getType()
       .isStencilRenderable(), "Renderbuffer is stencil renderable");
+    Constraints.constrainArbitrary(
+      renderbuffer.getType().isDepthRenderable() == false,
+      "Renderbuffer is not also depth renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -1239,20 +1253,16 @@ final class GLES2Functions
 
   static boolean framebufferDrawIsBound(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
     final @Nonnull FramebufferReference framebuffer)
-    throws GLException,
-      ConstraintError
+    throws ConstraintError
   {
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
     Constraints.constrainArbitrary(
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
 
-    final IntBuffer cache = state.getIntegerCache();
-    gl.glGetIntegerv(GL.GL_FRAMEBUFFER_BINDING, cache);
-    GLES2Functions.checkError(gl);
-    return cache.get(0) == framebuffer.getGLName();
+    final int bound = gl.getBoundFramebuffer(GL.GL_FRAMEBUFFER);
+    return bound == framebuffer.getGLName();
   }
 
   static void framebufferDrawUnbind(
@@ -1265,7 +1275,6 @@ final class GLES2Functions
 
   static @Nonnull FramebufferStatus framebufferDrawValidate(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
     final @Nonnull FramebufferReference framebuffer)
     throws GLException,
       ConstraintError
@@ -1276,7 +1285,7 @@ final class GLES2Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      GLES2Functions.framebufferDrawIsBound(gl, state, framebuffer),
+      GLES2Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     final int status = gl.glCheckFramebufferStatus(GL.GL_FRAMEBUFFER);

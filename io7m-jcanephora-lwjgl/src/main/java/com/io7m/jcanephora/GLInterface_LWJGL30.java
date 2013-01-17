@@ -499,7 +499,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public int depthBufferGetBits()
     throws GLException
   {
-    return GLES2Functions.depthBufferGetBits(this.state);
+    return GL3Functions.depthBufferGetBits(this.state);
   }
 
   @Override public boolean depthBufferIsEnabled()
@@ -598,7 +598,14 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.framebufferDelete(this.state, this.log, framebuffer);
+    GL3Functions.framebufferDelete(this.state, this.log, framebuffer);
+  }
+
+  @Override public boolean framebufferDrawAnyIsBound()
+    throws GLException,
+      ConstraintError
+  {
+    return GL3Functions.framebufferDrawAnyIsBound();
   }
 
   @Override public void framebufferDrawAttachColorRenderbuffer(
@@ -607,7 +614,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.framebufferDrawAttachColorRenderbuffer(
+    GL3Functions.framebufferDrawAttachColorRenderbuffer(
       this.state,
       this.log,
       framebuffer,
@@ -635,7 +642,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.framebufferDrawAttachColorTexture2D(
+    GL3Functions.framebufferDrawAttachColorTexture2D(
       this.state,
       this.log,
       framebuffer,
@@ -695,7 +702,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.framebufferDrawAttachDepthRenderbuffer(
+    GL3Functions.framebufferDrawAttachDepthRenderbuffer(
       this.state,
       this.log,
       framebuffer,
@@ -721,7 +728,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.framebufferDrawAttachDepthTexture2D(
+    GL3Functions.framebufferDrawAttachDepthTexture2D(
       this.state,
       this.log,
       framebuffer,
@@ -734,7 +741,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.framebufferDrawAttachStencilRenderbuffer(
+    GL3Functions.framebufferDrawAttachStencilRenderbuffer(
       this.state,
       this.log,
       framebuffer,
@@ -746,7 +753,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.framebufferDrawBind(framebuffer);
+    GL3Functions.framebufferDrawBind(framebuffer);
   }
 
   @Override public boolean framebufferDrawIsBound(
@@ -754,7 +761,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    return GLES2Functions.framebufferDrawIsBound(this.state, framebuffer);
+    return GL3Functions.framebufferDrawIsBound(this.state, framebuffer);
   }
 
   @Override public
@@ -776,7 +783,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.framebufferDrawUnbind();
+    GL3Functions.framebufferDrawUnbind();
   }
 
   @Override public @Nonnull FramebufferStatus framebufferDrawValidate(
@@ -784,7 +791,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    return GLES2Functions.framebufferDrawValidate(this.state, framebuffer);
+    return GL3Functions.framebufferDrawValidate(this.state, framebuffer);
   }
 
   @Override public @Nonnull
@@ -1346,9 +1353,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public int stencilBufferGetBits()
     throws GLException
   {
-    return GLES2Functions.stencilBufferGetBits(
-
-    this.state);
+    return GL3Functions.stencilBufferGetBits(this.state);
   }
 
   @Override public boolean stencilBufferIsEnabled()
