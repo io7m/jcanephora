@@ -275,7 +275,6 @@ public abstract class FramebuffersES2Contract implements GLES2TestContract
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 256);
 
-    config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
     config.requestBestRGBAColorRenderbuffer();
@@ -333,7 +332,6 @@ public abstract class FramebuffersES2Contract implements GLES2TestContract
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 256);
 
-    config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
     config.requestBestRGBAColorTexture2D(
@@ -403,7 +401,6 @@ public abstract class FramebuffersES2Contract implements GLES2TestContract
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 128);
 
-    config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
     config.requestBestRGBAColorTextureCube(
@@ -478,7 +475,6 @@ public abstract class FramebuffersES2Contract implements GLES2TestContract
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 256);
 
-    config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
     config.requestBestRGBColorRenderbuffer();
@@ -536,7 +532,6 @@ public abstract class FramebuffersES2Contract implements GLES2TestContract
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 256);
 
-    config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
     config.requestBestRGBColorTexture2D(
@@ -606,7 +601,6 @@ public abstract class FramebuffersES2Contract implements GLES2TestContract
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 128);
 
-    config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
     config.requestBestRGBColorTextureCube(
@@ -682,7 +676,7 @@ public abstract class FramebuffersES2Contract implements GLES2TestContract
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 256);
 
-    config.requestNoColor();
+    config.requestBestRGBAColorRenderbuffer();
     config.requestNoStencil();
     config.requestDepthRenderbuffer();
 
@@ -750,7 +744,6 @@ public abstract class FramebuffersES2Contract implements GLES2TestContract
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 256);
 
-    config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
     config.make(gi);
@@ -1144,6 +1137,7 @@ public abstract class FramebuffersES2Contract implements GLES2TestContract
 
     final FramebufferConfigurationES2 fb0_config =
       new FramebufferConfigurationES2(128, 128);
+    fb0_config.requestBestRGBAColorRenderbuffer();
     fb0_config.requestDepthRenderbuffer();
 
     final Framebuffer fb0 =
@@ -1180,6 +1174,7 @@ public abstract class FramebuffersES2Contract implements GLES2TestContract
 
     final FramebufferConfigurationES2 fb1_config =
       new FramebufferConfigurationES2(128, 128);
+    fb1_config.requestBestRGBAColorRenderbuffer();
     fb1_config.requestSharedDepth(fb0);
 
     final Framebuffer fb1 =
@@ -1364,6 +1359,7 @@ public abstract class FramebuffersES2Contract implements GLES2TestContract
 
     final FramebufferConfigurationES2 fb0_config =
       new FramebufferConfigurationES2(128, 128);
+    fb0_config.requestBestRGBAColorRenderbuffer();
     fb0_config.requestDepthRenderbuffer();
 
     final Framebuffer fb0 =
@@ -1413,6 +1409,7 @@ public abstract class FramebuffersES2Contract implements GLES2TestContract
 
     final FramebufferConfigurationES2 fb1_config =
       new FramebufferConfigurationES2(128, 128);
+    fb1_config.requestBestRGBAColorRenderbuffer();
     fb1_config.requestSharedStencil(fb0);
 
     final Framebuffer fb1 =
@@ -1470,7 +1467,7 @@ public abstract class FramebuffersES2Contract implements GLES2TestContract
     final FramebufferConfigurationES2 config =
       new FramebufferConfigurationES2(128, 256);
 
-    config.requestNoColor();
+    config.requestBestRGBAColorRenderbuffer();
     config.requestNoDepth();
     config.requestStencilRenderbuffer();
 

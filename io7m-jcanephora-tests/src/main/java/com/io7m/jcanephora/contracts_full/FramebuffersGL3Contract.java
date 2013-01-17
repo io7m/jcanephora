@@ -736,10 +736,14 @@ public abstract class FramebuffersGL3Contract implements GLTestContract
     final GLImplementation gi = tc.getGLImplementation();
     final GLInterface3 gl = gi.implementationGetGL3();
 
+    final FramebufferColorAttachmentPoint[] points =
+      gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+
     final FramebufferConfigurationGL3 config =
       new FramebufferConfigurationGL3(128, 256);
 
-    config.requestNoColor();
+    config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
     config.requestNoStencil();
     config.requestDepthRenderbuffer();
 
@@ -1322,12 +1326,17 @@ public abstract class FramebuffersGL3Contract implements GLTestContract
     final GLImplementation gi = tc.getGLImplementation();
     final GLInterface3 gl = gi.implementationGetGL3();
 
+    final FramebufferColorAttachmentPoint[] points =
+      gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+
     /**
      * Create initial framebuffer.
      */
 
     final FramebufferConfigurationGL3 fb0_config =
       new FramebufferConfigurationGL3(128, 128);
+    fb0_config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
     fb0_config.requestDepthRenderbuffer();
 
     final Framebuffer fb0 =
@@ -1365,6 +1374,7 @@ public abstract class FramebuffersGL3Contract implements GLTestContract
     final FramebufferConfigurationGL3 fb1_config =
       new FramebufferConfigurationGL3(128, 128);
     fb1_config.requestSharedDepth(fb0);
+    fb1_config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
 
     final Framebuffer fb1 =
       FramebuffersGL3Contract.makeAssumingSuccess(fb1_config, gl);
@@ -1545,6 +1555,9 @@ public abstract class FramebuffersGL3Contract implements GLTestContract
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
     final GLInterface3 gl = gi.implementationGetGL3();
+    final FramebufferColorAttachmentPoint[] points =
+      gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
     /**
      * Create initial framebuffer.
@@ -1553,6 +1566,7 @@ public abstract class FramebuffersGL3Contract implements GLTestContract
     final FramebufferConfigurationGL3 fb0_config =
       new FramebufferConfigurationGL3(128, 128);
     fb0_config.requestDepthRenderbuffer();
+    fb0_config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
 
     final Framebuffer fb0 =
       FramebuffersGL3Contract.makeAssumingSuccess(fb0_config, gl);
@@ -1602,6 +1616,7 @@ public abstract class FramebuffersGL3Contract implements GLTestContract
     final FramebufferConfigurationGL3 fb1_config =
       new FramebufferConfigurationGL3(128, 128);
     fb1_config.requestSharedStencil(fb0);
+    fb1_config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
 
     final Framebuffer fb1 =
       FramebuffersGL3Contract.makeAssumingSuccess(fb1_config, gl);
@@ -1654,11 +1669,14 @@ public abstract class FramebuffersGL3Contract implements GLTestContract
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
     final GLInterface3 gl = gi.implementationGetGL3();
+    final FramebufferColorAttachmentPoint[] points =
+      gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
     final FramebufferConfigurationGL3 config =
       new FramebufferConfigurationGL3(128, 256);
 
-    config.requestNoColor();
+    config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
     config.requestNoDepth();
     config.requestStencilRenderbuffer();
 
