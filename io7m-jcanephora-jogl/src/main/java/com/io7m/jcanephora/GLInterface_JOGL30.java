@@ -103,6 +103,10 @@ import com.io7m.jtensors.VectorReadable4F;
 
     final GL3 g = this.context.getGL().getGL3();
 
+    Constraints.constrainArbitrary(
+      this.framebufferDrawAnyIsBound() == false,
+      "NOT BOUND!");
+
     /**
      * Initialize texture unit cache.
      */
@@ -664,6 +668,13 @@ import com.io7m.jtensors.VectorReadable4F;
       framebuffer);
   }
 
+  @Override public boolean framebufferDrawAnyIsBound()
+    throws GLException,
+      ConstraintError
+  {
+    return GL3Functions.framebufferDrawAnyIsBound(this.contextGetGL3());
+  }
+
   @Override public void framebufferDrawAttachColorRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable renderbuffer)
@@ -829,7 +840,6 @@ import com.io7m.jtensors.VectorReadable4F;
   {
     return GL3Functions.framebufferDrawIsBound(
       this.contextGetGL3(),
-      this.state,
       framebuffer);
   }
 
@@ -863,7 +873,6 @@ import com.io7m.jtensors.VectorReadable4F;
   {
     return GL3Functions.framebufferDrawValidate(
       this.contextGetGL3(),
-      this.state,
       framebuffer);
   }
 

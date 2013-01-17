@@ -637,6 +637,13 @@ import com.io7m.jtensors.VectorReadable4F;
       framebuffer);
   }
 
+  @Override public boolean framebufferDrawAnyIsBound()
+    throws GLException,
+      ConstraintError
+  {
+    return GLES2Functions.framebufferDrawAnyIsBound(this.contextGetGLES2());
+  }
+
   @Override public void framebufferDrawAttachColorRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable renderbuffer)
@@ -738,7 +745,6 @@ import com.io7m.jtensors.VectorReadable4F;
   {
     return GLES2Functions.framebufferDrawIsBound(
       this.contextGetGLES2(),
-      this.state,
       framebuffer);
   }
 
@@ -756,7 +762,6 @@ import com.io7m.jtensors.VectorReadable4F;
   {
     return GLES2Functions.framebufferDrawValidate(
       this.contextGetGLES2(),
-      this.state,
       framebuffer);
   }
 
