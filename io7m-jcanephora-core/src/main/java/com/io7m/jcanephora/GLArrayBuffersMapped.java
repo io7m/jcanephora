@@ -31,7 +31,7 @@ public interface GLArrayBuffersMapped
   /**
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped read-only. The buffer should be unmapped
-   * after use with {@link GLInterface3#arrayBufferUnmap(ArrayBuffer)}.
+   * after use with {@link GLInterfaceGL3#arrayBufferUnmap(ArrayBuffer)}.
    * 
    * @param id
    *          The buffer.
@@ -55,7 +55,7 @@ public interface GLArrayBuffersMapped
   /**
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped write-only. The buffer should be unmapped
-   * after use with {@link GLInterface3#arrayBufferUnmap(ArrayBuffer)}. The
+   * after use with {@link GLInterfaceGL3#arrayBufferUnmap(ArrayBuffer)}. The
    * previous contents of the buffer are discarded before mapping, to prevent
    * pipeline stalls.
    * 

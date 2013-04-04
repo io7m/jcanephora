@@ -26,13 +26,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * An immutable reference to an OpenGL shading program.
  */
 
-@Immutable public final class ProgramReference extends Deletable implements
-  GLResource,
+@Immutable public final class ProgramReference extends GLResourceDeleteable implements
   GLName
 {
   private final int             id;
   private final @Nonnull String name;
-  private boolean               deleted;
 
   ProgramReference(
     final int id,
@@ -42,7 +40,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
     this.id =
       Constraints.constrainRange(id, 1, Integer.MAX_VALUE, "Program ID");
     this.name = Constraints.constrainNotNull(name, "Program name");
-    this.deleted = false;
   }
 
   @Override public boolean equals(
@@ -85,25 +82,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
     result = (prime * result) + this.id;
     result = (prime * result) + this.name.hashCode();
     return result;
-  }
-
-  @Override public void resourceDelete(
-    final @Nonnull GLInterfaceES2 gl)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(gl, "OpenGL interface");
-    gl.programDelete(this);
-  }
-
-  @Override public boolean resourceIsDeleted()
-  {
-    return this.deleted;
-  }
-
-  @Override void setDeleted()
-  {
-    this.deleted = true;
   }
 
   @Override public String toString()

@@ -3,7 +3,7 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts_ES2.CullContract;
+import com.io7m.jcanephora.contracts.common.CullContract;
 
 public final class LWJGL30CullTest extends CullContract
 {

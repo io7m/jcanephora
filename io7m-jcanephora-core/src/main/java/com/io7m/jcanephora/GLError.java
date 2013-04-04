@@ -34,7 +34,7 @@ public final class GLError
    */
 
   public static void check(
-    final GLInterfaceES2 gl)
+    final GLMeta gl)
     throws GLException
   {
     final int code = gl.metaGetError();

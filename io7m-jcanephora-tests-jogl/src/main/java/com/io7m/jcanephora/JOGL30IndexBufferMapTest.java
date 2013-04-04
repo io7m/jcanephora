@@ -3,7 +3,7 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts_full.IndexBufferMapContract;
+import com.io7m.jcanephora.contracts.gl3.IndexBufferMapContract;
 
 public final class JOGL30IndexBufferMapTest extends IndexBufferMapContract
 {

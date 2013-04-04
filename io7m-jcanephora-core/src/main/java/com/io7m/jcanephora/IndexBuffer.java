@@ -27,13 +27,12 @@ import com.io7m.jaux.RangeInclusive;
  * An immutable reference to an allocated index buffer.
  */
 
-@Immutable public final class IndexBuffer extends Deletable implements
+@Immutable public final class IndexBuffer extends GLResourceDeleteable implements
   Buffer,
-  GLResource
+  IndexBufferUsable
 {
   private final int            value;
   private final GLUnsignedType type;
-  private boolean              deleted;
   private final RangeInclusive range;
 
   IndexBuffer(
@@ -50,11 +49,12 @@ import com.io7m.jaux.RangeInclusive;
         "buffer ID value");
     this.range = range;
     this.type = Constraints.constrainNotNull(type, "GL type");
-    this.deleted = false;
   }
 
-  /**
-   * Retrieve the size in bytes of each element.
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.io7m.jcanephora.IndexBufferUsable#getElementSizeBytes()
    */
 
   @Override public long getElementSizeBytes()
@@ -76,41 +76,14 @@ import com.io7m.jaux.RangeInclusive;
     return this.range;
   }
 
-  /**
-   * Retrieve the total size in bytes of the allocated buffer.
-   */
-
   @Override public long getSizeBytes()
   {
     return this.getElementSizeBytes() * this.range.getInterval();
   }
 
-  /**
-   * Retrieve the type of the elements in the buffer.
-   */
-
-  public @Nonnull GLUnsignedType getType()
+  @Override public @Nonnull GLUnsignedType getType()
   {
     return this.type;
-  }
-
-  @Override public void resourceDelete(
-    final @Nonnull GLInterfaceES2 gl)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(gl, "OpenGL interface");
-    gl.indexBufferDelete(this);
-  }
-
-  @Override public boolean resourceIsDeleted()
-  {
-    return this.deleted;
-  }
-
-  @Override void setDeleted()
-  {
-    this.deleted = true;
   }
 
   @Override public String toString()

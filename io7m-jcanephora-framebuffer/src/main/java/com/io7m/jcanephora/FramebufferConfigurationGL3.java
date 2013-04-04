@@ -52,35 +52,31 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 {
   private static class ColorRequest
   {
-    @Nonnull RequestColor             want_color = RequestColor.WANT_NOTHING;
-    @CheckForNull RequestColorTypeGL3 want_color_specific;
-    @CheckForNull AttachmentColor     want_color_shared;
-    public TextureWrap                wrap_s;
-    public TextureWrap                wrap_t;
-    public TextureFilter              min_filter;
-    public TextureFilter              mag_filter;
-    public TextureWrap                wrap_r;
-    public FramebufferDrawBuffer      draw_buffer;
+    @Nonnull RequestColor                                    want_color;
+    @CheckForNull AttachmentColor                            want_color_shared;
+    public TextureWrap                                       wrap_s;
+    public TextureWrap                                       wrap_t;
+    public TextureFilter                                     min_filter;
+    public TextureFilter                                     mag_filter;
+    public TextureWrap                                       wrap_r;
+    @SuppressWarnings("unused") public FramebufferDrawBuffer draw_buffer;
 
     ColorRequest()
     {
-
+      this.want_color = RequestColor.WANT_NOTHING;
     }
   }
 
   private static enum RequestColor
   {
     WANT_NOTHING,
-    WANT_COLOR_BEST_RGB_RENDERBUFFER,
-    WANT_COLOR_BEST_RGBA_RENDERBUFFER,
-    WANT_COLOR_SPECIFIC_RENDERBUFFER,
-    WANT_COLOR_BEST_RGB_TEXTURE_2D,
-    WANT_COLOR_BEST_RGBA_TEXTURE_2D,
-    WANT_COLOR_SPECIFIC_TEXTURE_2D,
+    WANT_COLOR_RGB_RENDERBUFFER,
+    WANT_COLOR_RGBA_RENDERBUFFER,
+    WANT_COLOR_RGB_TEXTURE_2D,
+    WANT_COLOR_RGBA_TEXTURE_2D,
     WANT_COLOR_SHARED_WITH,
-    WANT_COLOR_BEST_RGB_TEXTURE_CUBE,
-    WANT_COLOR_BEST_RGBA_TEXTURE_CUBE,
-    WANT_COLOR_SPECIFIC_TEXTURE_CUBE,
+    WANT_COLOR_RGB_TEXTURE_CUBE,
+    WANT_COLOR_RGBA_TEXTURE_CUBE
   }
 
   private static enum RequestDepth
@@ -113,7 +109,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     }
 
     void emergencyCleanup(
-      final @Nonnull GLInterface3 gl)
+      final @Nonnull GLInterfaceGL3 gl)
       throws ConstraintError,
         GLException
     {
@@ -227,7 +223,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
   private static void attachBuffers(
     final @Nonnull WorkingBuffers buffers,
-    final @Nonnull GLInterface3 gl)
+    final @Nonnull GLInterfaceGL3 gl)
     throws GLException,
       ConstraintError
   {
@@ -240,7 +236,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
   private static void attachColorBuffers(
     final WorkingBuffers buffers,
-    final GLInterface3 gl)
+    final GLInterfaceGL3 gl)
     throws GLException,
       ConstraintError
   {
@@ -324,7 +320,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
   private static void attachDepthBuffers_GL3(
     final WorkingBuffers buffers,
-    final GLInterface3 gl)
+    final GLInterfaceGL3 gl)
     throws GLException,
       ConstraintError
   {
@@ -366,7 +362,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
   private static void attachStencilBuffers(
     final WorkingBuffers buffers,
-    final GLInterface3 gl)
+    final GLInterfaceGL3 gl)
     throws GLException,
       ConstraintError
   {
@@ -481,7 +477,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   }
 
   private @Nonnull AttachmentColorRenderbuffer allocateBestRGBARenderbuffer(
-    final @Nonnull GLInterface3 gl)
+    final @Nonnull GLInterfaceGL3 gl)
     throws GLException,
       ConstraintError
   {
@@ -491,7 +487,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   }
 
   private @Nonnull AttachmentColorTexture2DStatic allocateBestRGBATexture2D(
-    final @Nonnull GLInterface3 gl,
+    final @Nonnull GLInterfaceGL3 gl,
     final @Nonnull String name,
     final @Nonnull ColorRequest req)
     throws GLException,
@@ -511,7 +507,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private @Nonnull
     AttachmentColorTextureCubeStatic
     allocateBestRGBATextureCube(
-      final @Nonnull GLInterface3 gl,
+      final @Nonnull GLInterfaceGL3 gl,
       final @Nonnull String name,
       final @Nonnull ColorRequest req)
       throws GLException,
@@ -529,7 +525,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   }
 
   private @Nonnull AttachmentColorRenderbuffer allocateBestRGBRenderbuffer(
-    final @Nonnull GLInterface3 gl)
+    final @Nonnull GLInterfaceGL3 gl)
     throws GLException,
       ConstraintError
   {
@@ -539,7 +535,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   }
 
   private @Nonnull AttachmentColorTexture2DStatic allocateBestRGBTexture2D(
-    final @Nonnull GLInterface3 gl,
+    final @Nonnull GLInterfaceGL3 gl,
     final @Nonnull String name,
     final @Nonnull ColorRequest req)
     throws GLException,
@@ -559,7 +555,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private @Nonnull
     AttachmentColorTextureCubeStatic
     allocateBestRGBTextureCube(
-      final @Nonnull GLInterface3 gl,
+      final @Nonnull GLInterfaceGL3 gl,
       final @Nonnull String name,
       final @Nonnull ColorRequest req)
       throws GLException,
@@ -578,7 +574,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
   private void allocateColorBuffers(
     final @Nonnull WorkingBuffers buffers,
-    final @Nonnull GLInterface3 gl)
+    final @Nonnull GLInterfaceGL3 gl)
     throws GLException,
       ConstraintError
   {
@@ -589,14 +585,14 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
       final ColorRequest req = e.getValue();
 
       switch (req.want_color) {
-        case WANT_COLOR_BEST_RGBA_RENDERBUFFER:
+        case WANT_COLOR_RGBA_RENDERBUFFER:
         {
           final AttachmentColorRenderbuffer attach =
             this.allocateBestRGBARenderbuffer(gl);
           buffers.attachments_color.put(point, attach);
           break;
         }
-        case WANT_COLOR_BEST_RGBA_TEXTURE_2D:
+        case WANT_COLOR_RGBA_TEXTURE_2D:
         {
           FramebufferConfigurationGL3.makeTexture2DName(buffers, point);
           final AttachmentColorTexture2DStatic attach =
@@ -604,7 +600,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
           buffers.attachments_color.put(point, attach);
           break;
         }
-        case WANT_COLOR_BEST_RGBA_TEXTURE_CUBE:
+        case WANT_COLOR_RGBA_TEXTURE_CUBE:
         {
           FramebufferConfigurationGL3.makeTextureCubeName(buffers, point);
           final AttachmentColorTextureCubeStatic attach =
@@ -613,14 +609,14 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
           buffers.attachments_color.put(point, attach);
           break;
         }
-        case WANT_COLOR_BEST_RGB_RENDERBUFFER:
+        case WANT_COLOR_RGB_RENDERBUFFER:
         {
           final AttachmentColorRenderbuffer attach =
             this.allocateBestRGBRenderbuffer(gl);
           buffers.attachments_color.put(point, attach);
           break;
         }
-        case WANT_COLOR_BEST_RGB_TEXTURE_2D:
+        case WANT_COLOR_RGB_TEXTURE_2D:
         {
           FramebufferConfigurationGL3.makeTexture2DName(buffers, point);
           final AttachmentColorTexture2DStatic attach =
@@ -628,7 +624,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
           buffers.attachments_color.put(point, attach);
           break;
         }
-        case WANT_COLOR_BEST_RGB_TEXTURE_CUBE:
+        case WANT_COLOR_RGB_TEXTURE_CUBE:
         {
           FramebufferConfigurationGL3.makeTextureCubeName(buffers, point);
           final AttachmentColorTextureCubeStatic attach =
@@ -641,30 +637,6 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
           buffers.attachments_color.put(point, req.want_color_shared);
           break;
         }
-        case WANT_COLOR_SPECIFIC_RENDERBUFFER:
-        {
-          final AttachmentColorRenderbuffer attach =
-            this.allocateSpecificRenderbuffer(gl, req);
-          buffers.attachments_color.put(point, attach);
-          break;
-        }
-        case WANT_COLOR_SPECIFIC_TEXTURE_2D:
-        {
-          FramebufferConfigurationGL3.makeTexture2DName(buffers, point);
-          final AttachmentColorTexture2DStatic attach =
-            this.allocateSpecificTexture2D(gl, buffers.text.toString(), req);
-          buffers.attachments_color.put(point, attach);
-          break;
-        }
-        case WANT_COLOR_SPECIFIC_TEXTURE_CUBE:
-        {
-          FramebufferConfigurationGL3.makeTextureCubeName(buffers, point);
-          final AttachmentColorTextureCubeStatic attach =
-            this
-              .allocateSpecificTextureCube(gl, buffers.text.toString(), req);
-          buffers.attachments_color.put(point, attach);
-          break;
-        }
         case WANT_NOTHING:
         {
           throw new UnreachableCodeException();
@@ -675,7 +647,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
   private void allocateDepthStencil(
     final @Nonnull WorkingBuffers buffers,
-    final @Nonnull GLInterface3 gl)
+    final @Nonnull GLInterfaceGL3 gl)
     throws GLException,
       ConstraintError
   {
@@ -716,209 +688,6 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
         break;
       }
     }
-  }
-
-  private @Nonnull AttachmentColorRenderbuffer allocateSpecificRenderbuffer(
-    final @Nonnull GLInterface3 gl,
-    final @Nonnull ColorRequest req)
-    throws GLException,
-      ConstraintError
-  {
-    Renderbuffer<RenderableColor> rb = null;
-
-    switch (req.want_color_specific) {
-      case REQUEST_GL3_COLOR_RGB565:
-      {
-        rb = gl.renderbufferAllocateRGB565(this.width, this.height);
-        break;
-      }
-      case REQUEST_GL3_COLOR_RGB888:
-      {
-        rb = gl.renderbufferAllocateRGB888(this.width, this.height);
-        break;
-      }
-      case REQUEST_GL3_COLOR_RGBA4444:
-      {
-        rb = gl.renderbufferAllocateRGBA4444(this.width, this.height);
-        break;
-      }
-      case REQUEST_GL3_COLOR_RGBA5551:
-      {
-        rb = gl.renderbufferAllocateRGBA5551(this.width, this.height);
-        break;
-      }
-      case REQUEST_GL3_COLOR_RGBA8888:
-      {
-        rb = gl.renderbufferAllocateRGBA8888(this.width, this.height);
-        break;
-      }
-    }
-
-    return new AttachmentColorRenderbuffer(rb);
-  }
-
-  private @Nonnull AttachmentColorTexture2DStatic allocateSpecificTexture2D(
-    final @Nonnull GLInterface3 gl,
-    final @Nonnull String name,
-    final @Nonnull ColorRequest req)
-    throws GLException,
-      ConstraintError
-  {
-    Texture2DStatic t = null;
-
-    switch (req.want_color_specific) {
-      case REQUEST_GL3_COLOR_RGB565:
-      {
-        t =
-          gl.texture2DStaticAllocateRGB565(
-            name,
-            this.width,
-            this.height,
-            req.wrap_s,
-            req.wrap_t,
-            req.min_filter,
-            req.mag_filter);
-        break;
-      }
-      case REQUEST_GL3_COLOR_RGB888:
-      {
-        t =
-          gl.texture2DStaticAllocateRGB888(
-            name,
-            this.width,
-            this.height,
-            req.wrap_s,
-            req.wrap_t,
-            req.min_filter,
-            req.mag_filter);
-        break;
-      }
-      case REQUEST_GL3_COLOR_RGBA4444:
-      {
-        t =
-          gl.texture2DStaticAllocateRGBA4444(
-            name,
-            this.width,
-            this.height,
-            req.wrap_s,
-            req.wrap_t,
-            req.min_filter,
-            req.mag_filter);
-        break;
-      }
-      case REQUEST_GL3_COLOR_RGBA5551:
-      {
-        t =
-          gl.texture2DStaticAllocateRGBA5551(
-            name,
-            this.width,
-            this.height,
-            req.wrap_s,
-            req.wrap_t,
-            req.min_filter,
-            req.mag_filter);
-        break;
-      }
-      case REQUEST_GL3_COLOR_RGBA8888:
-      {
-        t =
-          gl.texture2DStaticAllocateRGBA8888(
-            name,
-            this.width,
-            this.height,
-            req.wrap_s,
-            req.wrap_t,
-            req.min_filter,
-            req.mag_filter);
-        break;
-      }
-    }
-
-    return new AttachmentColorTexture2DStatic(t);
-  }
-
-  private @Nonnull
-    AttachmentColorTextureCubeStatic
-    allocateSpecificTextureCube(
-      final @Nonnull GLInterface3 gl,
-      final @Nonnull String name,
-      final @Nonnull ColorRequest req)
-      throws ConstraintError,
-        GLException
-  {
-    TextureCubeStatic t = null;
-
-    switch (req.want_color_specific) {
-      case REQUEST_GL3_COLOR_RGB565:
-      {
-        t =
-          gl.textureCubeStaticAllocateRGB565(
-            name,
-            this.width,
-            req.wrap_r,
-            req.wrap_s,
-            req.wrap_t,
-            req.min_filter,
-            req.mag_filter);
-        break;
-      }
-      case REQUEST_GL3_COLOR_RGB888:
-      {
-        t =
-          gl.textureCubeStaticAllocateRGB888(
-            name,
-            this.width,
-            req.wrap_r,
-            req.wrap_s,
-            req.wrap_t,
-            req.min_filter,
-            req.mag_filter);
-        break;
-      }
-      case REQUEST_GL3_COLOR_RGBA4444:
-      {
-        t =
-          gl.textureCubeStaticAllocateRGBA4444(
-            name,
-            this.width,
-            req.wrap_r,
-            req.wrap_s,
-            req.wrap_t,
-            req.min_filter,
-            req.mag_filter);
-        break;
-      }
-      case REQUEST_GL3_COLOR_RGBA5551:
-      {
-        t =
-          gl.textureCubeStaticAllocateRGBA5551(
-            name,
-            this.width,
-            req.wrap_r,
-            req.wrap_s,
-            req.wrap_t,
-            req.min_filter,
-            req.mag_filter);
-        break;
-      }
-      case REQUEST_GL3_COLOR_RGBA8888:
-      {
-        t =
-          gl.textureCubeStaticAllocateRGBA8888(
-            name,
-            this.width,
-            req.wrap_r,
-            req.wrap_s,
-            req.wrap_t,
-            req.min_filter,
-            req.mag_filter);
-        break;
-      }
-    }
-
-    return new AttachmentColorTextureCubeStatic(
-      t,
-      CubeMapFace.CUBE_MAP_POSITIVE_X);
   }
 
   @Override public boolean equals(
@@ -1020,7 +789,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
    */
 
   public @Nonnull Indeterminate<Framebuffer, FramebufferStatus> make(
-    final @Nonnull GLInterface3 gl)
+    final @Nonnull GLInterfaceGL3 gl)
     throws GLException,
       ConstraintError
   {
@@ -1064,9 +833,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
     this.addDrawBufferMapping(buffer, point);
     final ColorRequest cr = new ColorRequest();
-    cr.want_color = RequestColor.WANT_COLOR_BEST_RGBA_RENDERBUFFER;
+    cr.want_color = RequestColor.WANT_COLOR_RGBA_RENDERBUFFER;
     cr.want_color_shared = null;
-    cr.want_color_specific = null;
     cr.draw_buffer = buffer;
     this.want_color.put(point, cr);
   }
@@ -1106,9 +874,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
     this.addDrawBufferMapping(buffer, point);
     final ColorRequest cr = new ColorRequest();
-    cr.want_color = RequestColor.WANT_COLOR_BEST_RGBA_TEXTURE_2D;
+    cr.want_color = RequestColor.WANT_COLOR_RGBA_TEXTURE_2D;
     cr.want_color_shared = null;
-    cr.want_color_specific = null;
     cr.wrap_s = texture_wrap_s;
     cr.wrap_t = texture_wrap_t;
     cr.min_filter = texture_min_filter;
@@ -1160,9 +927,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
     this.addDrawBufferMapping(buffer, point);
     final ColorRequest cr = new ColorRequest();
-    cr.want_color = RequestColor.WANT_COLOR_BEST_RGBA_TEXTURE_CUBE;
+    cr.want_color = RequestColor.WANT_COLOR_RGBA_TEXTURE_CUBE;
     cr.want_color_shared = null;
-    cr.want_color_specific = null;
     cr.wrap_r = texture_wrap_r;
     cr.wrap_s = texture_wrap_s;
     cr.wrap_t = texture_wrap_t;
@@ -1198,9 +964,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
     this.addDrawBufferMapping(buffer, point);
     final ColorRequest cr = new ColorRequest();
-    cr.want_color = RequestColor.WANT_COLOR_BEST_RGB_RENDERBUFFER;
+    cr.want_color = RequestColor.WANT_COLOR_RGB_RENDERBUFFER;
     cr.want_color_shared = null;
-    cr.want_color_specific = null;
     this.want_color.put(point, cr);
   }
 
@@ -1239,9 +1004,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
     this.addDrawBufferMapping(buffer, point);
     final ColorRequest cr = new ColorRequest();
-    cr.want_color = RequestColor.WANT_COLOR_BEST_RGB_TEXTURE_2D;
+    cr.want_color = RequestColor.WANT_COLOR_RGB_TEXTURE_2D;
     cr.want_color_shared = null;
-    cr.want_color_specific = null;
     cr.wrap_s = texture_wrap_s;
     cr.wrap_t = texture_wrap_t;
     cr.min_filter = texture_min_filter;
@@ -1293,9 +1057,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
     this.addDrawBufferMapping(buffer, point);
     final ColorRequest cr = new ColorRequest();
-    cr.want_color = RequestColor.WANT_COLOR_BEST_RGB_TEXTURE_CUBE;
+    cr.want_color = RequestColor.WANT_COLOR_RGB_TEXTURE_CUBE;
     cr.want_color_shared = null;
-    cr.want_color_specific = null;
     cr.wrap_r = texture_wrap_r;
     cr.wrap_s = texture_wrap_s;
     cr.wrap_t = texture_wrap_t;
@@ -1634,145 +1397,6 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
   /**
    * <p>
-   * Request a specific type of color renderbuffer in the resulting
-   * framebuffer, attached at attachment point <code>point</code>, with
-   * fragment shader output (draw buffer) <code>buffer</code> mapped to use
-   * the resulting attachment.
-   * </p>
-   * 
-   * @throws ConstraintError
-   *           If any of the following hold:
-   *           <ul>
-   *           <li>Any of the parameters are <code>null</code></li>
-   *           <li>Another color attachment at a different attachment point is
-   *           already mapped to <code>buffer</code></li>
-   *           </ul>
-   */
-
-  public void requestSpecificColorRenderbuffer(
-    final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull FramebufferDrawBuffer buffer,
-    final @Nonnull RequestColorTypeGL3 type)
-    throws ConstraintError
-  {
-    Constraints.constrainNotNull(point, "Attachment point");
-    Constraints.constrainNotNull(buffer, "Draw buffer");
-    Constraints.constrainNotNull(type, "Type");
-
-    this.addDrawBufferMapping(buffer, point);
-    final ColorRequest cr = new ColorRequest();
-    cr.want_color = RequestColor.WANT_COLOR_SPECIFIC_RENDERBUFFER;
-    cr.want_color_shared = null;
-    cr.want_color_specific = type;
-    this.want_color.put(point, cr);
-  }
-
-  /**
-   * <p>
-   * Request a specific type of color 2D texture in the resulting framebuffer,
-   * attached at attachment point <code>point</code>, with fragment shader
-   * output (draw buffer) <code>buffer</code> mapped to use the resulting
-   * attachment.
-   * </p>
-   * 
-   * @throws ConstraintError
-   *           If any of the following hold:
-   *           <ul>
-   *           <li>Any of the parameters are <code>null</code></li>
-   *           <li>Another color attachment at a different attachment point is
-   *           already mapped to <code>buffer</code></li>
-   *           </ul>
-   */
-
-  public void requestSpecificColorTexture2D(
-    final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull FramebufferDrawBuffer buffer,
-    final @Nonnull RequestColorTypeGL3 type,
-    final @Nonnull TextureWrap texture_wrap_s,
-    final @Nonnull TextureWrap texture_wrap_t,
-    final @Nonnull TextureFilter texture_min_filter,
-    final @Nonnull TextureFilter texture_mag_filter)
-    throws ConstraintError
-  {
-    Constraints.constrainNotNull(point, "Attachment point");
-    Constraints.constrainNotNull(buffer, "Draw buffer");
-    Constraints.constrainNotNull(type, "Color type");
-    Constraints.constrainNotNull(texture_wrap_s, "Wrap S");
-    Constraints.constrainNotNull(texture_wrap_t, "Wrap T");
-    Constraints.constrainNotNull(texture_mag_filter, "Magnification filter");
-    Constraints.constrainNotNull(texture_min_filter, "Minification filter");
-
-    this.addDrawBufferMapping(buffer, point);
-    final ColorRequest cr = new ColorRequest();
-    cr.want_color = RequestColor.WANT_COLOR_SPECIFIC_TEXTURE_2D;
-    cr.want_color_shared = null;
-    cr.want_color_specific = type;
-    cr.wrap_s = texture_wrap_s;
-    cr.wrap_t = texture_wrap_t;
-    cr.min_filter = texture_min_filter;
-    cr.mag_filter = texture_mag_filter;
-    this.want_color.put(point, cr);
-  }
-
-  /**
-   * <p>
-   * Request a specific type of color cube-map texture in the resulting
-   * framebuffer, attached at attachment point <code>point</code>, with
-   * fragment shader output (draw buffer) <code>buffer</code> mapped to use
-   * the resulting attachment.
-   * </p>
-   * 
-   * @throws ConstraintError
-   *           If any of the following hold:
-   *           <ul>
-   *           <li>Any of the parameters are <code>null</code></li>
-   *           <li>Another color attachment at a different attachment point is
-   *           already mapped to <code>buffer</code></li>
-   *           <li>
-   *           The framebuffer width is not equal to its height (cube maps
-   *           must be square)</li>
-   *           </ul>
-   */
-
-  public void requestSpecificColorTextureCube(
-    final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull FramebufferDrawBuffer buffer,
-    final @Nonnull RequestColorTypeGL3 type,
-    final @Nonnull TextureWrap texture_wrap_r,
-    final @Nonnull TextureWrap texture_wrap_s,
-    final @Nonnull TextureWrap texture_wrap_t,
-    final @Nonnull TextureFilter texture_min_filter,
-    final @Nonnull TextureFilter texture_mag_filter)
-    throws ConstraintError
-  {
-    Constraints.constrainNotNull(point, "Attachment point");
-    Constraints.constrainNotNull(buffer, "Draw buffer");
-    Constraints.constrainNotNull(type, "Color type");
-    Constraints.constrainNotNull(texture_wrap_r, "Wrap R");
-    Constraints.constrainNotNull(texture_wrap_s, "Wrap S");
-    Constraints.constrainNotNull(texture_wrap_t, "Wrap T");
-    Constraints.constrainNotNull(texture_mag_filter, "Magnification filter");
-    Constraints.constrainNotNull(texture_min_filter, "Minification filter");
-
-    Constraints.constrainArbitrary(
-      this.width == this.height,
-      "Framebuffer width == height required for cube maps");
-
-    this.addDrawBufferMapping(buffer, point);
-    final ColorRequest cr = new ColorRequest();
-    cr.want_color = RequestColor.WANT_COLOR_SPECIFIC_TEXTURE_CUBE;
-    cr.want_color_shared = null;
-    cr.want_color_specific = type;
-    cr.wrap_r = texture_wrap_r;
-    cr.wrap_s = texture_wrap_s;
-    cr.wrap_t = texture_wrap_t;
-    cr.min_filter = texture_min_filter;
-    cr.mag_filter = texture_mag_filter;
-    this.want_color.put(point, cr);
-  }
-
-  /**
-   * <p>
    * Request a stencil renderbuffer in the resulting framebuffer.
    * </p>
    * <p>
@@ -1823,7 +1447,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
   private Indeterminate<Framebuffer, FramebufferStatus> validateAndMakeState(
     final @Nonnull WorkingBuffers buffers,
-    final @Nonnull GLInterface3 gl)
+    final @Nonnull GLInterfaceGL3 gl)
     throws GLException,
       ConstraintError
   {

@@ -27,13 +27,12 @@ import com.io7m.jaux.RangeInclusive;
  * A immutable reference to an allocated array buffer.
  */
 
-@Immutable public final class ArrayBuffer extends Deletable implements
+@Immutable public final class ArrayBuffer extends GLResourceDeleteable implements
   Buffer,
-  GLResource
+  ArrayBufferUsable
 {
   private final int                            value;
   private final @Nonnull ArrayBufferDescriptor descriptor;
-  private boolean                              deleted;
   private final RangeInclusive                 range;
 
   ArrayBuffer(
@@ -58,7 +57,6 @@ import com.io7m.jaux.RangeInclusive;
 
     this.descriptor =
       Constraints.constrainNotNull(descriptor, "Buffer descriptor");
-    this.deleted = false;
   }
 
   @Override public boolean equals(
@@ -89,27 +87,13 @@ import com.io7m.jaux.RangeInclusive;
     return this.descriptor;
   }
 
-  /**
-   * Return the offset in bytes of the element at <code>index</code>.
-   * 
-   * @param index
-   *          The index.
-   * @throws ConstraintError
-   *           Iff
-   *           <code>0 <= index < this.getRange().getUpper() == false</code>
-   */
-
-  public long getElementOffset(
+  @Override public long getElementOffset(
     final int index)
     throws ConstraintError
   {
     return Constraints.constrainRange(index, 0, this.range.getUpper())
       * this.getElementSizeBytes();
   }
-
-  /**
-   * Retrieve the size in bytes of a single element in the buffer.
-   */
 
   @Override public long getElementSizeBytes()
   {
@@ -126,10 +110,6 @@ import com.io7m.jaux.RangeInclusive;
     return this.range;
   }
 
-  /**
-   * Return the total size in bytes of the allocated buffer.
-   */
-
   @Override public long getSizeBytes()
   {
     return this.descriptor.getSize() * this.range.getInterval();
@@ -141,25 +121,6 @@ import com.io7m.jaux.RangeInclusive;
     int result = 1;
     result = (prime * result) + this.value;
     return result;
-  }
-
-  @Override public void resourceDelete(
-    final @Nonnull GLInterfaceES2 gl)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(gl, "OpenGL interface");
-    gl.arrayBufferDelete(this);
-  }
-
-  @Override public boolean resourceIsDeleted()
-  {
-    return this.deleted;
-  }
-
-  @Override void setDeleted()
-  {
-    this.deleted = true;
   }
 
   @Override public String toString()

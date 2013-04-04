@@ -16,8 +16,8 @@ public final class FramebufferConfigurationES2Test
   @SuppressWarnings("static-method") @Test public void testBestRGB2DNulls()
     throws ConstraintError
   {
-    final FramebufferConfigurationES2 config =
-      new FramebufferConfigurationES2(128, 256);
+    final FramebufferConfigurationGLES2 config =
+      new FramebufferConfigurationGLES2(128, 256);
     config.requestNoDepth();
     config.requestNoStencil();
 
@@ -75,8 +75,8 @@ public final class FramebufferConfigurationES2Test
   @SuppressWarnings("static-method") @Test public void testBestRGBA2DNulls()
     throws ConstraintError
   {
-    final FramebufferConfigurationES2 config =
-      new FramebufferConfigurationES2(128, 256);
+    final FramebufferConfigurationGLES2 config =
+      new FramebufferConfigurationGLES2(128, 256);
     config.requestNoDepth();
     config.requestNoStencil();
 
@@ -136,8 +136,8 @@ public final class FramebufferConfigurationES2Test
     testBestRGBACubeNulls()
       throws ConstraintError
   {
-    final FramebufferConfigurationES2 config =
-      new FramebufferConfigurationES2(128, 256);
+    final FramebufferConfigurationGLES2 config =
+      new FramebufferConfigurationGLES2(128, 256);
     config.requestNoDepth();
     config.requestNoStencil();
 
@@ -210,8 +210,8 @@ public final class FramebufferConfigurationES2Test
   @SuppressWarnings("static-method") @Test public void testBestRGBCubeNulls()
     throws ConstraintError
   {
-    final FramebufferConfigurationES2 config =
-      new FramebufferConfigurationES2(128, 256);
+    final FramebufferConfigurationGLES2 config =
+      new FramebufferConfigurationGLES2(128, 256);
     config.requestNoDepth();
     config.requestNoStencil();
 
@@ -284,8 +284,8 @@ public final class FramebufferConfigurationES2Test
   @SuppressWarnings("static-method") @Test public void testCubeSizeFails()
     throws ConstraintError
   {
-    final FramebufferConfigurationES2 config =
-      new FramebufferConfigurationES2(128, 256);
+    final FramebufferConfigurationGLES2 config =
+      new FramebufferConfigurationGLES2(128, 256);
     int rejected = 0;
 
     try {
@@ -310,248 +310,70 @@ public final class FramebufferConfigurationES2Test
       ++rejected;
     }
 
-    try {
-      config.requestSpecificColorTextureCube(
-        RequestColorTypeES2.REQUEST_ES2_COLOR_RGB565,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-    } catch (final ConstraintError e) {
-      ++rejected;
-    }
-
-    Assert.assertEquals(3, rejected);
+    Assert.assertEquals(2, rejected);
   }
 
   @SuppressWarnings("static-method") @Test public void testEquals()
     throws ConstraintError
   {
-    final FramebufferConfigurationES2 c0 =
-      new FramebufferConfigurationES2(128, 128);
+    final FramebufferConfigurationGLES2 c0 =
+      new FramebufferConfigurationGLES2(128, 128);
 
     Assert.assertFalse(c0.equals(null));
     Assert.assertFalse(c0.equals(Integer.valueOf(23)));
     Assert.assertTrue(c0.equals(c0));
 
     {
-      final FramebufferConfigurationES2 c1 =
-        new FramebufferConfigurationES2(128, 129);
+      final FramebufferConfigurationGLES2 c1 =
+        new FramebufferConfigurationGLES2(128, 129);
       Assert.assertFalse(c0.equals(c1));
     }
 
     {
-      final FramebufferConfigurationES2 c1 =
-        new FramebufferConfigurationES2(127, 128);
+      final FramebufferConfigurationGLES2 c1 =
+        new FramebufferConfigurationGLES2(127, 128);
       Assert.assertFalse(c0.equals(c1));
     }
 
     {
-      final FramebufferConfigurationES2 c1 =
-        new FramebufferConfigurationES2(128, 128);
+      final FramebufferConfigurationGLES2 c1 =
+        new FramebufferConfigurationGLES2(128, 128);
       c1.requestBestRGBAColorRenderbuffer();
       Assert.assertFalse(c0.equals(c1));
     }
 
     {
-      final FramebufferConfigurationES2 c1 =
-        new FramebufferConfigurationES2(128, 128);
-      c1.requestSpecificColorTexture2D(
-        RequestColorTypeES2.REQUEST_ES2_COLOR_RGB565,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-      final FramebufferConfigurationES2 c2 =
-        new FramebufferConfigurationES2(128, 128);
-      c2.requestSpecificColorTexture2D(
-        RequestColorTypeES2.REQUEST_ES2_COLOR_RGB565,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-      Assert.assertFalse(c1.equals(c2));
-    }
-
-    {
-      final FramebufferConfigurationES2 c1 =
-        new FramebufferConfigurationES2(128, 128);
-      c1.requestSpecificColorTexture2D(
-        RequestColorTypeES2.REQUEST_ES2_COLOR_RGB565,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_LINEAR);
-      final FramebufferConfigurationES2 c2 =
-        new FramebufferConfigurationES2(128, 128);
-      c2.requestSpecificColorTexture2D(
-        RequestColorTypeES2.REQUEST_ES2_COLOR_RGB565,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-      Assert.assertFalse(c1.equals(c2));
-    }
-
-    {
-      final FramebufferConfigurationES2 c1 =
-        new FramebufferConfigurationES2(128, 128);
-      c1.requestSpecificColorTexture2D(
-        RequestColorTypeES2.REQUEST_ES2_COLOR_RGBA4444,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-      final FramebufferConfigurationES2 c2 =
-        new FramebufferConfigurationES2(128, 128);
-      c2.requestSpecificColorTexture2D(
-        RequestColorTypeES2.REQUEST_ES2_COLOR_RGB565,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-      Assert.assertFalse(c1.equals(c2));
-    }
-
-    {
-      final FramebufferConfigurationES2 c1 =
-        new FramebufferConfigurationES2(128, 128);
+      final FramebufferConfigurationGLES2 c1 =
+        new FramebufferConfigurationGLES2(128, 128);
       c1.requestNoDepth();
       c1.requestNoStencil();
-      final FramebufferConfigurationES2 c2 =
-        new FramebufferConfigurationES2(128, 128);
+      final FramebufferConfigurationGLES2 c2 =
+        new FramebufferConfigurationGLES2(128, 128);
       c2.requestDepthRenderbuffer();
       c2.requestNoStencil();
       Assert.assertFalse(c1.equals(c2));
     }
 
     {
-      final FramebufferConfigurationES2 c1 =
-        new FramebufferConfigurationES2(128, 128);
+      final FramebufferConfigurationGLES2 c1 =
+        new FramebufferConfigurationGLES2(128, 128);
       c1.requestNoDepth();
       c1.requestNoStencil();
-      final FramebufferConfigurationES2 c2 =
-        new FramebufferConfigurationES2(128, 128);
+      final FramebufferConfigurationGLES2 c2 =
+        new FramebufferConfigurationGLES2(128, 128);
       c2.requestNoDepth();
       c2.requestStencilRenderbuffer();
       Assert.assertFalse(c1.equals(c2));
-    }
-
-    {
-      final FramebufferConfigurationES2 c1 =
-        new FramebufferConfigurationES2(128, 128);
-      c1.requestSpecificColorTexture2D(
-        RequestColorTypeES2.REQUEST_ES2_COLOR_RGB565,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-      final FramebufferConfigurationES2 c2 =
-        new FramebufferConfigurationES2(128, 128);
-      c2.requestSpecificColorTexture2D(
-        RequestColorTypeES2.REQUEST_ES2_COLOR_RGB565,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-      Assert.assertFalse(c1.equals(c2));
-    }
-
-    {
-      final FramebufferConfigurationES2 c1 =
-        new FramebufferConfigurationES2(128, 128);
-      c1.requestSpecificColorTexture2D(
-        RequestColorTypeES2.REQUEST_ES2_COLOR_RGB565,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-      final FramebufferConfigurationES2 c2 =
-        new FramebufferConfigurationES2(128, 128);
-      c2.requestSpecificColorTexture2D(
-        RequestColorTypeES2.REQUEST_ES2_COLOR_RGB565,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-      Assert.assertFalse(c1.equals(c2));
-    }
-
-    {
-      final FramebufferConfigurationES2 c1 =
-        new FramebufferConfigurationES2(128, 128);
-      c1.requestSpecificColorTextureCube(
-        RequestColorTypeES2.REQUEST_ES2_COLOR_RGB565,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-      final FramebufferConfigurationES2 c2 =
-        new FramebufferConfigurationES2(128, 128);
-      c2.requestSpecificColorTextureCube(
-        RequestColorTypeES2.REQUEST_ES2_COLOR_RGB565,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-      Assert.assertFalse(c1.equals(c2));
-    }
-
-    {
-      final FramebufferConfigurationES2 c1 =
-        new FramebufferConfigurationES2(128, 128);
-      c1.requestSpecificColorTextureCube(
-        RequestColorTypeES2.REQUEST_ES2_COLOR_RGB565,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-      final FramebufferConfigurationES2 c2 =
-        new FramebufferConfigurationES2(128, 128);
-      c2.requestSpecificColorTextureCube(
-        RequestColorTypeES2.REQUEST_ES2_COLOR_RGB565,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-      Assert.assertFalse(c1.equals(c2));
-    }
-
-    {
-      final FramebufferConfigurationES2 c1 =
-        new FramebufferConfigurationES2(128, 128);
-      c1.requestSpecificColorTextureCube(
-        RequestColorTypeES2.REQUEST_ES2_COLOR_RGB565,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-      final FramebufferConfigurationES2 c2 =
-        new FramebufferConfigurationES2(128, 128);
-      c2.requestSpecificColorTextureCube(
-        RequestColorTypeES2.REQUEST_ES2_COLOR_RGB565,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
-      Assert.assertTrue(c1.equals(c2));
     }
   }
 
   @SuppressWarnings("static-method") @Test public void testHashCode()
     throws ConstraintError
   {
-    final FramebufferConfigurationES2 c0 =
-      new FramebufferConfigurationES2(128, 128);
-    final FramebufferConfigurationES2 c1 =
-      new FramebufferConfigurationES2(128, 128);
+    final FramebufferConfigurationGLES2 c0 =
+      new FramebufferConfigurationGLES2(128, 128);
+    final FramebufferConfigurationGLES2 c1 =
+      new FramebufferConfigurationGLES2(128, 128);
 
     c0.requestNoDepth();
     c0.requestNoStencil();
@@ -561,8 +383,7 @@ public final class FramebufferConfigurationES2Test
 
     Assert.assertEquals(c0.hashCode(), c1.hashCode());
 
-    c1
-      .requestSpecificColorRenderbuffer(RequestColorTypeES2.REQUEST_ES2_COLOR_RGB565);
+    c1.requestBestRGBAColorRenderbuffer();
 
     Assert.assertFalse(c0.hashCode() == c1.hashCode());
   }
@@ -576,8 +397,8 @@ public final class FramebufferConfigurationES2Test
   @SuppressWarnings("static-method") @Test public void testIdentities()
     throws ConstraintError
   {
-    final FramebufferConfigurationES2 config =
-      new FramebufferConfigurationES2(128, 256);
+    final FramebufferConfigurationGLES2 config =
+      new FramebufferConfigurationGLES2(128, 256);
 
     Assert.assertEquals(128, config.getWidth());
     Assert.assertEquals(256, config.getHeight());
@@ -586,12 +407,12 @@ public final class FramebufferConfigurationES2Test
   @SuppressWarnings("static-method") @Test public void testString()
     throws ConstraintError
   {
-    final FramebufferConfigurationES2 c0 =
-      new FramebufferConfigurationES2(128, 256);
-    final FramebufferConfigurationES2 c1 =
-      new FramebufferConfigurationES2(128, 256);
-    final FramebufferConfigurationES2 c2 =
-      new FramebufferConfigurationES2(128, 300);
+    final FramebufferConfigurationGLES2 c0 =
+      new FramebufferConfigurationGLES2(128, 256);
+    final FramebufferConfigurationGLES2 c1 =
+      new FramebufferConfigurationGLES2(128, 256);
+    final FramebufferConfigurationGLES2 c2 =
+      new FramebufferConfigurationGLES2(128, 300);
 
     Assert.assertEquals(c0.toString(), c0.toString());
     Assert.assertEquals(c0.toString(), c1.toString());
@@ -608,7 +429,7 @@ public final class FramebufferConfigurationES2Test
     expected = ConstraintError.class) public void testZeroHeight()
     throws ConstraintError
   {
-    new FramebufferConfigurationES2(256, 0);
+    new FramebufferConfigurationGLES2(256, 0);
   }
 
   /**
@@ -621,6 +442,6 @@ public final class FramebufferConfigurationES2Test
     expected = ConstraintError.class) public void testZeroWidth()
     throws ConstraintError
   {
-    new FramebufferConfigurationES2(0, 256);
+    new FramebufferConfigurationGLES2(0, 256);
   }
 }

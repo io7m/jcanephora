@@ -3,7 +3,7 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts_ES2.ColorBufferContract;
+import com.io7m.jcanephora.contracts.common.ColorBufferContract;
 
 public final class LWJGL30ColorBufferTest extends ColorBufferContract
 {

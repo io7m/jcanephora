@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Assume;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts_ES2.StencilBuffersContract;
+import com.io7m.jcanephora.contracts.common.StencilBuffersContract;
 
 public final class LWJGL30StencilBuffersTest extends StencilBuffersContract
 {
@@ -24,7 +24,7 @@ public final class LWJGL30StencilBuffersTest extends StencilBuffersContract
   {
     Assume.assumeTrue(gi.implementationProvidesGL3());
 
-    final GLInterface3 g = gi.implementationGetGL3();
+    final GLInterfaceGL3 g = gi.implementationGetGL3();
     final FramebufferReference fb = g.framebufferAllocate();
     final Renderbuffer<RenderableColor> cb =
       g.renderbufferAllocateRGBA8888(128, 128);
@@ -48,7 +48,7 @@ public final class LWJGL30StencilBuffersTest extends StencilBuffersContract
   {
     Assume.assumeTrue(gi.implementationProvidesGL3());
 
-    final GLInterface3 g = gi.implementationGetGL3();
+    final GLInterfaceGL3 g = gi.implementationGetGL3();
     final FramebufferReference fb = g.framebufferAllocate();
     final Renderbuffer<RenderableDepthStencil> db =
       g.renderbufferAllocateDepth24Stencil8(128, 128);

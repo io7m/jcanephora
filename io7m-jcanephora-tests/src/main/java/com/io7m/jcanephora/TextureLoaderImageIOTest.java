@@ -2,7 +2,7 @@ package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
 
-import com.io7m.jcanephora.contracts_ES2.TextureLoaderContract;
+import com.io7m.jcanephora.contracts.common.TextureLoaderContract;
 
 public abstract class TextureLoaderImageIOTest extends TextureLoaderContract
 {

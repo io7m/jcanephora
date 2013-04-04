@@ -18,12 +18,12 @@ import com.io7m.jcanephora.CursorWritable4f;
 import com.io7m.jcanephora.CursorWritableIndex;
 import com.io7m.jcanephora.Framebuffer;
 import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
-import com.io7m.jcanephora.FramebufferConfigurationES2;
+import com.io7m.jcanephora.FramebufferConfigurationGLES2;
 import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLImplementation;
-import com.io7m.jcanephora.GLInterfaceES2;
+import com.io7m.jcanephora.GLInterfaceGLES2;
 import com.io7m.jcanephora.GLScalarType;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
@@ -54,7 +54,7 @@ public final class ExampleFBO implements Example
   }
 
   private final GLImplementation                  gli;
-  private final GLInterfaceES2                    gl;
+  private final GLInterfaceGLES2                    gl;
   private final Texture2DStaticUsable             texture;
   private final Framebuffer                       framebuffer;
   private boolean                                 has_shut_down;
@@ -79,7 +79,7 @@ public final class ExampleFBO implements Example
   private int                                     framebuffer_width;
   private int                                     framebuffer_height;
   private final int                               framebuffer_divisor = 8;
-  private final FramebufferConfigurationES2       framebuffer_config;
+  private final FramebufferConfigurationGLES2       framebuffer_config;
 
   public ExampleFBO(
     final @Nonnull ExampleConfig config)
@@ -139,7 +139,7 @@ public final class ExampleFBO implements Example
      */
 
     this.framebuffer_config =
-      new FramebufferConfigurationES2(
+      new FramebufferConfigurationGLES2(
         this.framebuffer_width,
         this.framebuffer_height);
 

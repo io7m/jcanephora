@@ -177,7 +177,7 @@ final class GLES2Functions
     }
 
     GL15.glDeleteBuffers(id.getGLName());
-    id.setDeleted();
+    id.resourceSetDeleted();
     GLES2Functions.checkError();
   }
 
@@ -289,8 +289,8 @@ final class GLES2Functions
       source_alpha_factor,
       destination_rgb_factor,
       destination_alpha_factor,
-      BlendEquationES2.BLEND_EQUATION_ADD,
-      BlendEquationES2.BLEND_EQUATION_ADD);
+      BlendEquationGLES2.BLEND_EQUATION_ADD,
+      BlendEquationGLES2.BLEND_EQUATION_ADD);
   }
 
   static void blendingEnableSeparateWithEquationSeparateES2(
@@ -298,8 +298,8 @@ final class GLES2Functions
     final @Nonnull BlendFunction source_alpha_factor,
     final @Nonnull BlendFunction destination_rgb_factor,
     final @Nonnull BlendFunction destination_alpha_factor,
-    final @Nonnull BlendEquationES2 equation_rgb,
-    final @Nonnull BlendEquationES2 equation_alpha)
+    final @Nonnull BlendEquationGLES2 equation_rgb,
+    final @Nonnull BlendEquationGLES2 equation_alpha)
     throws ConstraintError,
       GLException
   {
@@ -337,7 +337,7 @@ final class GLES2Functions
 
     final @Nonnull BlendFunction source_factor,
     final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquationES2 equation)
+    final @Nonnull BlendEquationGLES2 equation)
     throws ConstraintError,
       GLException
   {
@@ -355,8 +355,8 @@ final class GLES2Functions
 
     final @Nonnull BlendFunction source_factor,
     final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquationES2 equation_rgb,
-    final @Nonnull BlendEquationES2 equation_alpha)
+    final @Nonnull BlendEquationGLES2 equation_rgb,
+    final @Nonnull BlendEquationGLES2 equation_alpha)
     throws ConstraintError,
       GLException
   {
@@ -801,7 +801,7 @@ final class GLES2Functions
     }
 
     GL20.glDeleteShader(id.getGLName());
-    id.setDeleted();
+    id.resourceSetDeleted();
     GLES2Functions.checkError();
   }
 
@@ -845,7 +845,7 @@ final class GLES2Functions
 
     GL30.glDeleteFramebuffers(buffer.getGLName());
     GLES2Functions.checkError();
-    buffer.setDeleted();
+    buffer.resourceSetDeleted();
   }
 
   static boolean framebufferDrawAnyIsBound()
@@ -1364,7 +1364,7 @@ final class GLES2Functions
     }
 
     GL15.glDeleteBuffers(id.getGLName());
-    id.setDeleted();
+    id.resourceSetDeleted();
     GLES2Functions.checkError();
   }
 
@@ -1515,7 +1515,7 @@ final class GLES2Functions
     }
 
     GL20.glDeleteProgram(program.getGLName());
-    program.setDeleted();
+    program.resourceSetDeleted();
     GLES2Functions.checkError();
   }
 
@@ -2002,7 +2002,7 @@ final class GLES2Functions
     }
 
     GL30.glDeleteRenderbuffers(buffer.getGLName());
-    buffer.setDeleted();
+    buffer.resourceSetDeleted();
     GLES2Functions.checkError();
   }
 
@@ -2335,7 +2335,7 @@ final class GLES2Functions
     GL11.glDeleteTextures(texture.getGLName());
     GLES2Functions.checkError();
 
-    texture.setDeleted();
+    texture.resourceSetDeleted();
   }
 
   static boolean texture2DStaticIsBound(
@@ -2564,7 +2564,7 @@ final class GLES2Functions
     GL11.glDeleteTextures(texture.getGLName());
     GLES2Functions.checkError();
 
-    texture.setDeleted();
+    texture.resourceSetDeleted();
   }
 
   static boolean textureCubeStaticIsBound(
@@ -2786,7 +2786,7 @@ final class GLES2Functions
     }
 
     GL20.glDeleteShader(id.getGLName());
-    id.setDeleted();
+    id.resourceSetDeleted();
     GLES2Functions.checkError();
   }
 

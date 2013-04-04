@@ -64,7 +64,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticDepth16(
-    final @Nonnull GLInterface3 gl,
+    final @Nonnull GLInterfaceGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -110,7 +110,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticDepth24(
-    final @Nonnull GLInterface3 gl,
+    final @Nonnull GLInterfaceGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -156,7 +156,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticDepth32(
-    final @Nonnull GLInterface3 gl,
+    final @Nonnull GLInterfaceGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -202,7 +202,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticDepth32f(
-    final @Nonnull GLInterface3 gl,
+    final @Nonnull GLInterfaceGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -251,7 +251,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticInferredES2(
-    final @Nonnull GLInterfaceES2 gl,
+    final @Nonnull GLInterfaceGLES2 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -294,7 +294,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticInferredGL3(
-    final @Nonnull GLInterface3 gl,
+    final @Nonnull GLInterfaceGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -340,7 +340,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticR8(
-    final @Nonnull GLInterface3 gl,
+    final @Nonnull GLInterfaceGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -386,7 +386,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticRG88(
-    final @Nonnull GLInterface3 gl,
+    final @Nonnull GLInterfaceGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -432,7 +432,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGB565(
-    final @Nonnull GLInterfaceES2 gl,
+    final @Nonnull GLInterfaceGLES2 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -478,7 +478,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGB888(
-    final @Nonnull GLInterfaceES2 gl,
+    final @Nonnull GLInterfaceGLES2 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -524,7 +524,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGBA4444(
-    final @Nonnull GLInterfaceES2 gl,
+    final @Nonnull GLInterfaceGLES2 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -570,7 +570,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGBA5551(
-    final @Nonnull GLInterfaceES2 gl,
+    final @Nonnull GLInterfaceGLES2 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -616,7 +616,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGBA8888(
-    final @Nonnull GLInterfaceES2 gl,
+    final @Nonnull GLInterfaceGLES2 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,

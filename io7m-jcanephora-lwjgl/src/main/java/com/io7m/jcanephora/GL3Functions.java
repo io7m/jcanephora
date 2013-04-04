@@ -116,8 +116,8 @@ final class GL3Functions
     final @Nonnull BlendFunction source_alpha_factor,
     final @Nonnull BlendFunction destination_rgb_factor,
     final @Nonnull BlendFunction destination_alpha_factor,
-    final @Nonnull BlendEquation equation_rgb,
-    final @Nonnull BlendEquation equation_alpha)
+    final @Nonnull BlendEquationGL3 equation_rgb,
+    final @Nonnull BlendEquationGL3 equation_alpha)
     throws ConstraintError,
       GLException
   {
@@ -154,7 +154,7 @@ final class GL3Functions
   static void blendingEnableWithEquation(
     final @Nonnull BlendFunction source_factor,
     final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquation equation)
+    final @Nonnull BlendEquationGL3 equation)
     throws ConstraintError,
       GLException
   {
@@ -171,8 +171,8 @@ final class GL3Functions
   static void blendingEnableWithEquationSeparate(
     final @Nonnull BlendFunction source_factor,
     final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquation equation_rgb,
-    final @Nonnull BlendEquation equation_alpha)
+    final @Nonnull BlendEquationGL3 equation_rgb,
+    final @Nonnull BlendEquationGL3 equation_alpha)
     throws ConstraintError,
       GLException
   {
@@ -251,7 +251,7 @@ final class GL3Functions
 
     GL30.glDeleteFramebuffers(buffer.getGLName());
     GLES2Functions.checkError();
-    buffer.setDeleted();
+    buffer.resourceSetDeleted();
   }
 
   static boolean framebufferDrawAnyIsBound()
