@@ -22,7 +22,9 @@ public final class JOGLES2DepthBuffersTest extends DepthBuffersContract
     throws ConstraintError,
       GLException
   {
-    final GLInterfaceGLES2 g = gi.implementationGetGLES2();
+    final Some<GLInterfaceGLES2> some =
+      (Some<GLInterfaceGLES2>) gi.getGLES2();
+    final GLInterfaceGLES2 g = some.value;
     final FramebufferReference fb = g.framebufferAllocate();
 
     g.framebufferDrawBind(fb);
@@ -58,7 +60,10 @@ public final class JOGLES2DepthBuffersTest extends DepthBuffersContract
     throws ConstraintError,
       GLException
   {
-    final GLInterfaceGLES2 g = gi.implementationGetGLES2();
+    final Some<GLInterfaceGLES2> some =
+      (Some<GLInterfaceGLES2>) gi.getGLES2();
+    final GLInterfaceGLES2 g = some.value;
+
     final FramebufferReference fb = g.framebufferAllocate();
 
     g.framebufferDrawBind(fb);
@@ -81,5 +86,21 @@ public final class JOGLES2DepthBuffersTest extends DepthBuffersContract
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL_ES2();
+  }
+
+  @Override public @Nonnull GLFramebuffersCommon getGLFramebuffers(
+    @Nonnull final TestContext tc)
+  {
+    final Some<GLInterfaceGLES2> some =
+      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    return some.value;
+  }
+
+  @Override public @Nonnull GLDepthBuffer getGLDepthBuffer(
+    @Nonnull final TestContext tc)
+  {
+    final Some<GLInterfaceGLES2> some =
+      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    return some.value;
   }
 }

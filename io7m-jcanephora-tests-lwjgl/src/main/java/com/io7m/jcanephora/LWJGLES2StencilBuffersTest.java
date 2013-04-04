@@ -24,7 +24,9 @@ public final class LWJGLES2StencilBuffersTest extends StencilBuffersContract
       throws ConstraintError,
         GLException
   {
-    final GLInterfaceGLES2 g = gi.implementationGetGLES2();
+    final Some<GLInterfaceGLES2> some =
+      (Some<GLInterfaceGLES2>) gi.getGLES2();
+    final GLInterfaceGLES2 g = some.value;
     final FramebufferReference fb = g.framebufferAllocate();
 
     g.framebufferDrawBind(fb);
@@ -46,7 +48,9 @@ public final class LWJGLES2StencilBuffersTest extends StencilBuffersContract
     throws ConstraintError,
       GLException
   {
-    final GLInterfaceGLES2 g = gi.implementationGetGLES2();
+    final Some<GLInterfaceGLES2> some =
+      (Some<GLInterfaceGLES2>) gi.getGLES2();
+    final GLInterfaceGLES2 g = some.value;
     final FramebufferReference fb = g.framebufferAllocate();
 
     g.framebufferDrawBind(fb);
@@ -84,5 +88,21 @@ public final class LWJGLES2StencilBuffersTest extends StencilBuffersContract
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL_ES2();
+  }
+
+  @Override public GLStencilBuffer getGLStencilBuffer(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGLES2> some =
+      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    return some.value;
+  }
+
+  @Override public GLFramebuffersCommon getGLFramebuffers(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGLES2> some =
+      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    return some.value;
   }
 }

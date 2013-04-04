@@ -18,7 +18,7 @@ public abstract class ViewportContract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  abstract GLViewport getGLViewport(
+  public abstract GLViewport getGLViewport(
     TestContext tc);
 
   /**

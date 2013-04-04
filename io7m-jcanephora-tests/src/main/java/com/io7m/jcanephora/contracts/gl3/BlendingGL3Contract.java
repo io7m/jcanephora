@@ -21,7 +21,7 @@ public abstract class BlendingGL3Contract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  abstract GLBlendingGL3 getGLBlendingGL3(
+  public abstract GLBlendingGL3 getGLBlendingGL3(
     TestContext tc);
 
   /**

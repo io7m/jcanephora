@@ -3,6 +3,7 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option.Some;
 
 public final class JOGL30TextureLoaderImageIOTest extends
   TextureLoaderImageIOTest
@@ -18,5 +19,13 @@ public final class JOGL30TextureLoaderImageIOTest extends
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL3_X();
+  }
+
+  @Override public GLTextures2DStaticCommon getGLTextures2DStaticCommon(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
   }
 }

@@ -10,7 +10,7 @@ import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.CubeMapFace;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLTextureUnits;
-import com.io7m.jcanephora.GLTexturesCubeStaticGL3;
+import com.io7m.jcanephora.GLTexturesCubeStaticCommon;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.SpatialCursorWritable3i;
 import com.io7m.jcanephora.TestContext;
@@ -29,10 +29,10 @@ public abstract class TextureCubeStaticES2Contract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  abstract GLTextureUnits getGLTextureUnits(
+  public abstract GLTextureUnits getGLTextureUnits(
     TestContext tc);
 
-  abstract GLTexturesCubeStaticGL3 getGLTextureCubeStaticGL3(
+  public abstract GLTexturesCubeStaticCommon getGLTextureCubeStaticCommon(
     TestContext tc);
 
   /**
@@ -67,7 +67,8 @@ public abstract class TextureCubeStaticES2Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStaticGL3(tc);
+    final GLTexturesCubeStaticCommon gl =
+      this.getGLTextureCubeStaticCommon(tc);
     final GLTextureUnits gu = this.getGLTextureUnits(tc);
 
     final TextureUnit[] units = gu.textureGetUnits();
@@ -104,7 +105,8 @@ public abstract class TextureCubeStaticES2Contract implements TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStaticGL3(tc);
+    final GLTexturesCubeStaticCommon gl =
+      this.getGLTextureCubeStaticCommon(tc);
     final GLTextureUnits gu = this.getGLTextureUnits(tc);
 
     final TextureUnit[] units = gu.textureGetUnits();
@@ -138,7 +140,8 @@ public abstract class TextureCubeStaticES2Contract implements TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStaticGL3(tc);
+    final GLTexturesCubeStaticCommon gl =
+      this.getGLTextureCubeStaticCommon(tc);
     final GLTextureUnits gu = this.getGLTextureUnits(tc);
 
     final TextureUnit[] units = gu.textureGetUnits();
@@ -162,7 +165,8 @@ public abstract class TextureCubeStaticES2Contract implements TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStaticGL3(tc);
+    final GLTexturesCubeStaticCommon gl =
+      this.getGLTextureCubeStaticCommon(tc);
 
     gl.textureCubeStaticBind(null, null);
   }
@@ -181,7 +185,8 @@ public abstract class TextureCubeStaticES2Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStaticGL3(tc);
+    final GLTexturesCubeStaticCommon gl =
+      this.getGLTextureCubeStaticCommon(tc);
 
     final TextureCubeStatic t =
       gl.textureCubeStaticAllocateRGBA8888(
@@ -214,7 +219,8 @@ public abstract class TextureCubeStaticES2Contract implements TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStaticGL3(tc);
+    final GLTexturesCubeStaticCommon gl =
+      this.getGLTextureCubeStaticCommon(tc);
 
     final TextureCubeStatic t =
       gl.textureCubeStaticAllocateRGBA8888(
@@ -248,7 +254,8 @@ public abstract class TextureCubeStaticES2Contract implements TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStaticGL3(tc);
+    final GLTexturesCubeStaticCommon gl =
+      this.getGLTextureCubeStaticCommon(tc);
     final GLTextureUnits gu = this.getGLTextureUnits(tc);
 
     final TextureUnit[] units = gu.textureGetUnits();
@@ -283,7 +290,8 @@ public abstract class TextureCubeStaticES2Contract implements TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStaticGL3(tc);
+    final GLTexturesCubeStaticCommon gl =
+      this.getGLTextureCubeStaticCommon(tc);
 
     gl.textureCubeStaticDelete(null);
   }
@@ -304,7 +312,8 @@ public abstract class TextureCubeStaticES2Contract implements TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStaticGL3(tc);
+    final GLTexturesCubeStaticCommon gl =
+      this.getGLTextureCubeStaticCommon(tc);
 
     gl.textureCubeStaticAllocateRGBA8888(
       "texture",
@@ -332,7 +341,8 @@ public abstract class TextureCubeStaticES2Contract implements TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStaticGL3(tc);
+    final GLTexturesCubeStaticCommon gl =
+      this.getGLTextureCubeStaticCommon(tc);
 
     gl.textureCubeStaticAllocateRGBA8888(
       "texture",
@@ -360,7 +370,8 @@ public abstract class TextureCubeStaticES2Contract implements TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStaticGL3(tc);
+    final GLTexturesCubeStaticCommon gl =
+      this.getGLTextureCubeStaticCommon(tc);
 
     gl.textureCubeStaticAllocateRGBA8888(
       null,
@@ -388,7 +399,8 @@ public abstract class TextureCubeStaticES2Contract implements TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStaticGL3(tc);
+    final GLTexturesCubeStaticCommon gl =
+      this.getGLTextureCubeStaticCommon(tc);
 
     gl.textureCubeStaticAllocateRGBA8888(
       "texture",
@@ -416,7 +428,8 @@ public abstract class TextureCubeStaticES2Contract implements TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStaticGL3(tc);
+    final GLTexturesCubeStaticCommon gl =
+      this.getGLTextureCubeStaticCommon(tc);
 
     gl.textureCubeStaticAllocateRGBA8888(
       "texture",
@@ -444,7 +457,8 @@ public abstract class TextureCubeStaticES2Contract implements TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStaticGL3(tc);
+    final GLTexturesCubeStaticCommon gl =
+      this.getGLTextureCubeStaticCommon(tc);
 
     gl.textureCubeStaticAllocateRGBA8888(
       "texture",
@@ -489,7 +503,8 @@ public abstract class TextureCubeStaticES2Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStaticGL3(tc);
+    final GLTexturesCubeStaticCommon gl =
+      this.getGLTextureCubeStaticCommon(tc);
 
     for (final TextureType t : TextureType.getES2Types()) {
       switch (t) {
@@ -590,7 +605,8 @@ public abstract class TextureCubeStaticES2Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStaticGL3(tc);
+    final GLTexturesCubeStaticCommon gl =
+      this.getGLTextureCubeStaticCommon(tc);
 
     final TextureCubeStatic t =
       gl.textureCubeStaticAllocateRGB888(
@@ -633,7 +649,8 @@ public abstract class TextureCubeStaticES2Contract implements TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStaticGL3(tc);
+    final GLTexturesCubeStaticCommon gl =
+      this.getGLTextureCubeStaticCommon(tc);
 
     final TextureCubeStatic t =
       gl.textureCubeStaticAllocateRGB888(
@@ -665,7 +682,8 @@ public abstract class TextureCubeStaticES2Contract implements TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStaticGL3(tc);
+    final GLTexturesCubeStaticCommon gl =
+      this.getGLTextureCubeStaticCommon(tc);
 
     gl.textureCubeStaticUpdate(CubeMapFace.CUBE_MAP_NEGATIVE_X, null);
   }

@@ -3,6 +3,7 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.gl3.RenderbufferGL3Contract;
 
 public final class LWJGL30RenderbufferTest extends RenderbufferGL3Contract
@@ -18,5 +19,13 @@ public final class LWJGL30RenderbufferTest extends RenderbufferGL3Contract
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL3_X();
+  }
+
+  @Override public GLRenderbuffersGL3 getGLRenderbuffers(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
   }
 }

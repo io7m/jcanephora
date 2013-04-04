@@ -19,7 +19,7 @@ public abstract class ScissorContract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  abstract GLScissor getGLScissor(
+  public abstract GLScissor getGLScissor(
     TestContext tc);
 
   @Test public void testScissorEnableWorks()

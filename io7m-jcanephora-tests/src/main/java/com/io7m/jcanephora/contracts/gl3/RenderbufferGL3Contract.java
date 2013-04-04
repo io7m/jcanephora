@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLRenderbuffersGL3;
 import com.io7m.jcanephora.GLUnsupportedException;
@@ -23,7 +22,7 @@ public abstract class RenderbufferGL3Contract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  abstract GLRenderbuffersGL3 getGLRenderbuffers(
+  public abstract GLRenderbuffersGL3 getGLRenderbuffers(
     TestContext tc);
 
   /**
@@ -62,7 +61,7 @@ public abstract class RenderbufferGL3Contract implements TestContract
         case RENDERBUFFER_COLOR_RGB_565:
         case RENDERBUFFER_DEPTH_16:
         case RENDERBUFFER_STENCIL_8:
-          throw new UnreachableCodeException();
+          break;
       }
 
       assert rb != null;

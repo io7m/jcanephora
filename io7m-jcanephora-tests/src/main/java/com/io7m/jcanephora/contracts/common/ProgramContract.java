@@ -60,10 +60,10 @@ public abstract class ProgramContract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  abstract GLShaders getGLShaders(
+  public abstract GLShaders getGLShaders(
     TestContext tc);
 
-  abstract GLTextureUnits getGLTextureUnits(
+  public abstract GLTextureUnits getGLTextureUnits(
     TestContext tc);
 
   /**
