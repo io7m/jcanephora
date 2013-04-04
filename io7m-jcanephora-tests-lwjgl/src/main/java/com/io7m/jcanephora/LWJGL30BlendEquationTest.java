@@ -13,7 +13,7 @@ public final class LWJGL30BlendEquationTest
 
   @SuppressWarnings("static-method") @Test public void testBijection()
   {
-    for (final BlendEquation f : BlendEquation.values()) {
+    for (final BlendEquationGL3 f : BlendEquationGL3.values()) {
       Assert.assertEquals(GLTypeConversions
         .blendEquationFromGL(GLTypeConversions.blendEquationToGL(f)), f);
     }

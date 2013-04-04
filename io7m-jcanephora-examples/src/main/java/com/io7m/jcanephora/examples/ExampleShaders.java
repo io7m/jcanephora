@@ -17,7 +17,7 @@ import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLImplementation;
-import com.io7m.jcanephora.GLInterfaceES2;
+import com.io7m.jcanephora.GLInterfaceGLES2;
 import com.io7m.jcanephora.GLScalarType;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
@@ -41,7 +41,7 @@ import com.io7m.jvvfs.FilesystemError;
 public final class ExampleShaders implements Example
 {
   private final GLImplementation              gl_implementation;
-  private final GLInterfaceES2                gl;
+  private final GLInterfaceGLES2                gl;
   private final ArrayBufferDescriptor         array_type;
   private final ArrayBuffer                   array;
   private final ArrayBufferWritableData       array_data;

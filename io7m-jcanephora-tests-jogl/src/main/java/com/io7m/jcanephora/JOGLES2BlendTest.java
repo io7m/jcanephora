@@ -3,9 +3,9 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts_ES2.BlendingES2Contract;
+import com.io7m.jcanephora.contracts.gles2.BlendingGLES2Contract;
 
-public final class JOGLES2BlendTest extends BlendingES2Contract
+public final class JOGLES2BlendTest extends BlendingGLES2Contract
 {
   @Override public boolean isGLSupported()
   {

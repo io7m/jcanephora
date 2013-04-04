@@ -8,7 +8,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jaux.functional.Option.Type;
-import com.io7m.jcanephora.contracts_ES2.DepthBuffersContract;
+import com.io7m.jcanephora.contracts.common.DepthBuffersContract;
 
 public final class JOGLES2DepthBuffersTest extends DepthBuffersContract
 {
@@ -22,7 +22,7 @@ public final class JOGLES2DepthBuffersTest extends DepthBuffersContract
     throws ConstraintError,
       GLException
   {
-    final GLInterfaceES2 g = gi.implementationGetGLES2();
+    final GLInterfaceGLES2 g = gi.implementationGetGLES2();
     final FramebufferReference fb = g.framebufferAllocate();
 
     g.framebufferDrawBind(fb);
@@ -58,7 +58,7 @@ public final class JOGLES2DepthBuffersTest extends DepthBuffersContract
     throws ConstraintError,
       GLException
   {
-    final GLInterfaceES2 g = gi.implementationGetGLES2();
+    final GLInterfaceGLES2 g = gi.implementationGetGLES2();
     final FramebufferReference fb = g.framebufferAllocate();
 
     g.framebufferDrawBind(fb);

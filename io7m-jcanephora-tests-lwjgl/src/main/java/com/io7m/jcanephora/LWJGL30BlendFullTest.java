@@ -3,9 +3,9 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts_full.BlendContract;
+import com.io7m.jcanephora.contracts.gl3.BlendingGL3Contract;
 
-public final class LWJGL30BlendFullTest extends BlendContract
+public final class LWJGL30BlendFullTest extends BlendingGL3Contract
 {
   @Override public boolean isGLSupported()
   {

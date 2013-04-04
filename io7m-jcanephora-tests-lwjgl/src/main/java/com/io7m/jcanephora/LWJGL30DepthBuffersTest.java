@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Assume;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts_ES2.DepthBuffersContract;
+import com.io7m.jcanephora.contracts.common.DepthBuffersContract;
 
 public final class LWJGL30DepthBuffersTest extends DepthBuffersContract
 {
@@ -22,7 +22,7 @@ public final class LWJGL30DepthBuffersTest extends DepthBuffersContract
   {
     Assume.assumeTrue(gi.implementationProvidesGL3());
 
-    final GLInterface3 g = gi.implementationGetGL3();
+    final GLInterfaceGL3 g = gi.implementationGetGL3();
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
     final FramebufferReference fb = g.framebufferAllocate();
@@ -65,7 +65,7 @@ public final class LWJGL30DepthBuffersTest extends DepthBuffersContract
   {
     Assume.assumeTrue(gi.implementationProvidesGL3());
 
-    final GLInterface3 g = gi.implementationGetGL3();
+    final GLInterfaceGL3 g = gi.implementationGetGL3();
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
     final FramebufferReference fb = g.framebufferAllocate();

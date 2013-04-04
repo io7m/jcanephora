@@ -3,7 +3,7 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts_ES2.TextureCubeStaticES2Contract;
+import com.io7m.jcanephora.contracts.gles2.TextureCubeStaticES2Contract;
 
 public final class LWJGL30TextureCubeStaticES2Test extends
   TextureCubeStaticES2Contract

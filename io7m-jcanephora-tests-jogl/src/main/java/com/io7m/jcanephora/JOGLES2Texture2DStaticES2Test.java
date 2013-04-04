@@ -3,7 +3,7 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts_ES2.Texture2DStaticES2Contract;
+import com.io7m.jcanephora.contracts.gles2.Texture2DStaticES2Contract;
 
 public final class JOGLES2Texture2DStaticES2Test extends
   Texture2DStaticES2Contract

@@ -26,11 +26,9 @@ import com.io7m.jaux.RangeInclusive;
  * Cube-map "static" texture type.
  */
 
-public final class TextureCubeStatic extends Deletable implements
-  GLResource,
+public final class TextureCubeStatic extends GLResourceDeleteable implements
   TextureCubeStaticUsable
 {
-  private boolean                       deleted = false;
   private final int                     id;
   private final @Nonnull RangeInclusive range_x;
   private final @Nonnull RangeInclusive range_y;
@@ -63,7 +61,6 @@ public final class TextureCubeStatic extends Deletable implements
     this.range_x = new RangeInclusive(0, size - 1);
     this.range_y = new RangeInclusive(0, size - 1);
     this.area = new AreaInclusive(this.range_x, this.range_y);
-    this.deleted = false;
     this.wrap_r = wrap_r;
     this.wrap_s = wrap_s;
     this.wrap_t = wrap_t;
@@ -161,24 +158,6 @@ public final class TextureCubeStatic extends Deletable implements
     int result = 1;
     result = (prime * result) + this.id;
     return result;
-  }
-
-  @Override public <G extends GLInterfaceES2> void resourceDelete(
-    @Nonnull final G gl)
-    throws ConstraintError,
-      GLException
-  {
-    gl.textureCubeStaticDelete(this);
-  }
-
-  @Override public boolean resourceIsDeleted()
-  {
-    return this.deleted;
-  }
-
-  @Override void setDeleted()
-  {
-    this.deleted = true;
   }
 
   @Override public String toString()

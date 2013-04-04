@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 public final class JOGL30RasterizationTest extends
-  com.io7m.jcanephora.contracts_full.RasterizationContract
+  com.io7m.jcanephora.contracts.gl3.RasterizationContract
 {
   @Override public boolean isGLSupported()
   {

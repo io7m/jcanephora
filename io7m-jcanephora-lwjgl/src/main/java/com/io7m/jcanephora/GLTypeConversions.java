@@ -15,23 +15,23 @@ import com.io7m.jcanephora.GLType.Type;
 
 final class GLTypeConversions
 {
-  static final @Nonnull BlendEquationES2 blendEquationES2FromGL(
+  static final @Nonnull BlendEquationGLES2 blendEquationES2FromGL(
     final int e)
   {
     switch (e) {
       case GL14.GL_FUNC_ADD:
-        return BlendEquationES2.BLEND_EQUATION_ADD;
+        return BlendEquationGLES2.BLEND_EQUATION_ADD;
       case GL14.GL_FUNC_REVERSE_SUBTRACT:
-        return BlendEquationES2.BLEND_EQUATION_REVERSE_SUBTRACT;
+        return BlendEquationGLES2.BLEND_EQUATION_REVERSE_SUBTRACT;
       case GL14.GL_FUNC_SUBTRACT:
-        return BlendEquationES2.BLEND_EQUATION_SUBTRACT;
+        return BlendEquationGLES2.BLEND_EQUATION_SUBTRACT;
     }
 
     throw new UnreachableCodeException();
   }
 
   static final int blendEquationES2ToGL(
-    final @Nonnull BlendEquationES2 e)
+    final @Nonnull BlendEquationGLES2 e)
   {
     switch (e) {
       case BLEND_EQUATION_ADD:
@@ -45,27 +45,27 @@ final class GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static @Nonnull BlendEquation blendEquationFromGL(
+  static @Nonnull BlendEquationGL3 blendEquationFromGL(
     final int e)
   {
     switch (e) {
       case GL14.GL_FUNC_ADD:
-        return BlendEquation.BLEND_EQUATION_ADD;
+        return BlendEquationGL3.BLEND_EQUATION_ADD;
       case GL14.GL_MAX:
-        return BlendEquation.BLEND_EQUATION_MAXIMUM;
+        return BlendEquationGL3.BLEND_EQUATION_MAXIMUM;
       case GL14.GL_MIN:
-        return BlendEquation.BLEND_EQUATION_MINIMUM;
+        return BlendEquationGL3.BLEND_EQUATION_MINIMUM;
       case GL14.GL_FUNC_REVERSE_SUBTRACT:
-        return BlendEquation.BLEND_EQUATION_REVERSE_SUBTRACT;
+        return BlendEquationGL3.BLEND_EQUATION_REVERSE_SUBTRACT;
       case GL14.GL_FUNC_SUBTRACT:
-        return BlendEquation.BLEND_EQUATION_SUBTRACT;
+        return BlendEquationGL3.BLEND_EQUATION_SUBTRACT;
     }
 
     throw new UnreachableCodeException();
   }
 
   static int blendEquationToGL(
-    final @Nonnull BlendEquation e)
+    final @Nonnull BlendEquationGL3 e)
   {
     switch (e) {
       case BLEND_EQUATION_ADD:

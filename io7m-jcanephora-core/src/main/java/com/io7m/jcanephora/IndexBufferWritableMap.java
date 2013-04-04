@@ -75,7 +75,7 @@ public final class IndexBufferWritableMap
    * Retrieve the mapped IndexBuffer.
    */
 
-  public @Nonnull IndexBuffer getIndexBuffer()
+  public @Nonnull IndexBufferUsable getIndexBuffer()
   {
     return this.buffer;
   }

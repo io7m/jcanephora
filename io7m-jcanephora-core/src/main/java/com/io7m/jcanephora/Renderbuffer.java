@@ -27,7 +27,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  */
 
 @Immutable public final class Renderbuffer<K extends RenderbufferKind> extends
-  Deletable implements GLResource, RenderbufferUsable<K>
+  GLResourceDeleteable implements RenderbufferUsable<K>
 {
   /**
    * Unsafe operation for branding a renderbuffer <code>r</code> with the
@@ -90,14 +90,9 @@ import com.io7m.jaux.Constraints.ConstraintError;
   }
 
   private final @Nonnull RenderbufferType type;
-
   private final int                       value;
-
   private final int                       width;
-
   private final int                       height;
-
-  private boolean                         deleted;
 
   Renderbuffer(
     final @Nonnull RenderbufferType type,
@@ -115,7 +110,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
         "Buffer ID value");
     this.width = width;
     this.height = height;
-    this.deleted = false;
   }
 
   @Override public boolean equals(
@@ -163,24 +157,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
     int result = 1;
     result = (prime * result) + this.value;
     return result;
-  }
-
-  @Override public void resourceDelete(
-    final @Nonnull GLInterfaceES2 gl)
-    throws ConstraintError,
-      GLException
-  {
-    gl.renderbufferDelete(this);
-  }
-
-  @Override public boolean resourceIsDeleted()
-  {
-    return this.deleted;
-  }
-
-  @Override void setDeleted()
-  {
-    this.deleted = true;
   }
 
   @Override public String toString()

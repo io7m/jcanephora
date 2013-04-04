@@ -13,7 +13,7 @@ public final class JOGL30BlendEquationES2Test
 
   @SuppressWarnings("static-method") @Test public void testBijection()
   {
-    for (final BlendEquationES2 f : BlendEquationES2.values()) {
+    for (final BlendEquationGLES2 f : BlendEquationGLES2.values()) {
       Assert
         .assertEquals(
           GLTypeConversions.blendEquationES2FromGL(GLTypeConversions

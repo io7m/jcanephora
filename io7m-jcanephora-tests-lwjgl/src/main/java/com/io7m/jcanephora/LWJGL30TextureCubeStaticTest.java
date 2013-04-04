@@ -3,10 +3,10 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts_full.TextureCubeStaticContract;
+import com.io7m.jcanephora.contracts.gl3.TextureCubeStaticGL3Contract;
 
 public final class LWJGL30TextureCubeStaticTest extends
-  TextureCubeStaticContract
+  TextureCubeStaticGL3Contract
 {
   @Override public boolean isGLSupported()
   {
