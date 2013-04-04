@@ -12,6 +12,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
+import com.io7m.jcanephora.GLMeta;
 import com.io7m.jcanephora.GLShaders;
 import com.io7m.jcanephora.GLTextureUnits;
 import com.io7m.jcanephora.GLType;
@@ -41,7 +42,8 @@ public abstract class ProgramContract implements TestContract
 {
   private final static Program makeLargeShader(
     final TestContext tc,
-    final GLShaders gs)
+    final GLShaders gs,
+    final GLMeta gm)
     throws ConstraintError,
       GLCompileException
   {
@@ -50,7 +52,7 @@ public abstract class ProgramContract implements TestContract
     final PathVirtual path = tc.getShaderPath();
     p.addVertexShader(new PathVirtual(path + "/large.v"));
     p.addFragmentShader(new PathVirtual(path + "/texture.f"));
-    p.compile(tc.getFilesystem(), gs);
+    p.compile(tc.getFilesystem(), gs, gm);
 
     return p;
   }
@@ -61,6 +63,9 @@ public abstract class ProgramContract implements TestContract
   }
 
   public abstract GLShaders getGLShaders(
+    TestContext tc);
+
+  public abstract GLMeta getGLMeta(
     TestContext tc);
 
   public abstract GLTextureUnits getGLTextureUnits(
@@ -111,12 +116,13 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
+    final GLMeta gm = this.getGLMeta(tc);
     final FilesystemAPI fs = tc.getFilesystem();
 
     final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual(tc.getShaderPath() + "/simple.v"));
     p.addFragmentShader(new PathVirtual(tc.getShaderPath() + "/simple.f"));
-    p.compile(fs, gs);
+    p.compile(fs, gs, gm);
 
     Assert.assertFalse(p.isActive(gs));
     p.activate(gs);
@@ -183,6 +189,7 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
+    final GLMeta gm = this.getGLMeta(tc);
     final FilesystemAPI fs = tc.getFilesystem();
 
     final Program p = new Program("program", tc.getLog());
@@ -190,7 +197,7 @@ public abstract class ProgramContract implements TestContract
 
     p.addVertexShader(new PathVirtual(path + "/attribute0.v"));
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
-    p.compile(fs, gs);
+    p.compile(fs, gs, gm);
     Assert.assertFalse(p.requiresCompilation(fs, gs));
 
     p.addFragmentShader(new PathVirtual(path + "/func.f"));
@@ -275,6 +282,7 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
+    final GLMeta gm = this.getGLMeta(tc);
     final FilesystemAPI fs = tc.getFilesystem();
 
     final Program p = new Program("program", tc.getLog());
@@ -282,7 +290,7 @@ public abstract class ProgramContract implements TestContract
 
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
-    p.compile(fs, gs);
+    p.compile(fs, gs, gm);
     Assert.assertFalse(p.requiresCompilation(fs, gs));
 
     p.addVertexShader(new PathVirtual(path + "/func.v"));
@@ -317,6 +325,7 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
+    final GLMeta gm = this.getGLMeta(tc);
     final FilesystemAPI fs = tc.getFilesystem();
 
     final Program p = new Program("program", tc.getLog());
@@ -324,7 +333,7 @@ public abstract class ProgramContract implements TestContract
 
     p.addVertexShader(new PathVirtual(path + "/attribute0.v"));
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
-    p.compile(fs, gs);
+    p.compile(fs, gs, gm);
     Assert.assertFalse(p.requiresCompilation(fs, gs));
 
     final ProgramAttribute a = p.getAttribute("vertex");
@@ -362,6 +371,7 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
+    final GLMeta gm = this.getGLMeta(tc);
     final FilesystemAPI fs = tc.getFilesystem();
 
     final PathVirtual path = tc.getShaderPath();
@@ -369,7 +379,7 @@ public abstract class ProgramContract implements TestContract
     final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
-    p.compile(fs, gs);
+    p.compile(fs, gs, gm);
     p.activate(gs);
     p.deactivate(gs);
     p.delete(gs);
@@ -377,33 +387,10 @@ public abstract class ProgramContract implements TestContract
     final Program q = new Program("program", tc.getLog());
     q.addVertexShader(new PathVirtual(path + "/simple.v"));
     q.addFragmentShader(new PathVirtual(path + "/simple.f"));
-    q.compile(fs, gs);
+    q.compile(fs, gs, gm);
     q.activate(gs);
     q.deactivate(gs);
     q.delete(gs);
-  }
-
-  @Test public final void testProgramCompileFragmentRemovesRequirement()
-    throws ConstraintError,
-      GLCompileException,
-      FilesystemError,
-      GLException,
-      GLUnsupportedException
-  {
-    final TestContext tc = this.newTestContext();
-    final GLShaders gs = this.getGLShaders(tc);
-    final FilesystemAPI fs = tc.getFilesystem();
-
-    final PathVirtual path = tc.getShaderPath();
-    final Program p = new Program("program", tc.getLog());
-
-    p.addVertexShader(new PathVirtual(path + "/simple.v"));
-    p.addFragmentShader(new PathVirtual(path + "/simple.f"));
-    p.compile(fs, gs);
-    p.addFragmentShader(new PathVirtual(path + "/func.f"));
-    p.compile(fs, gs);
-    Assert.assertFalse(p.requiresCompilation(fs, gs));
-    p.delete(gs);
   }
 
   /**
@@ -423,6 +410,7 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
+    final GLMeta gm = this.getGLMeta(tc);
     final FilesystemAPI fs = tc.getFilesystem();
 
     final PathVirtual path = tc.getShaderPath();
@@ -431,7 +419,7 @@ public abstract class ProgramContract implements TestContract
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
 
     try {
-      p.compile(fs, gs);
+      p.compile(fs, gs, gm);
     } catch (final GLCompileException e) {
       Assert.assertTrue(e.getMessage().endsWith(
         "file not found '/nonexistent'"));
@@ -459,12 +447,13 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
+    final GLMeta gm = this.getGLMeta(tc);
     final FilesystemAPI fs = tc.getFilesystem();
 
     final PathVirtual path = tc.getShaderPath();
     final Program p = new Program("program", tc.getLog());
     p.addFragmentShader(new PathVirtual(path + "/invalid.f"));
-    p.compile(fs, gs);
+    p.compile(fs, gs, gm);
   }
 
   /**
@@ -487,12 +476,13 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
+    final GLMeta gm = this.getGLMeta(tc);
     final FilesystemAPI fs = tc.getFilesystem();
     final PathVirtual path = tc.getShaderPath();
 
     final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual(path + "/invalid.v"));
-    p.compile(fs, gs);
+    p.compile(fs, gs, gm);
   }
 
   /**
@@ -513,6 +503,7 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
+    final GLMeta gm = this.getGLMeta(tc);
     final FilesystemAPI fs = tc.getFilesystem();
 
     final PathVirtual path = tc.getShaderPath();
@@ -520,7 +511,7 @@ public abstract class ProgramContract implements TestContract
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
 
     try {
-      p.compile(fs, gs);
+      p.compile(fs, gs, gm);
     } catch (final GLCompileException e) {
       Assert.assertTrue(e.getMessage().endsWith(
         "at least one fragment shader is required"));
@@ -546,6 +537,7 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
+    final GLMeta gm = this.getGLMeta(tc);
     final FilesystemAPI fs = tc.getFilesystem();
 
     final PathVirtual path = tc.getShaderPath();
@@ -553,7 +545,7 @@ public abstract class ProgramContract implements TestContract
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
 
     try {
-      p.compile(fs, gs);
+      p.compile(fs, gs, gm);
     } catch (final GLCompileException e) {
       Assert.assertTrue(e.getMessage().endsWith(
         "at least one vertex shader is required"));
@@ -570,6 +562,7 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
+    final GLMeta gm = this.getGLMeta(tc);
     final FilesystemAPI fs = tc.getFilesystem();
 
     final PathVirtual path = tc.getShaderPath();
@@ -577,32 +570,10 @@ public abstract class ProgramContract implements TestContract
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
 
-    p.compile(fs, gs);
+    p.compile(fs, gs, gm);
     Assert.assertFalse(p.requiresCompilation(fs, gs));
-    p.compile(fs, gs);
+    p.compile(fs, gs, gm);
     Assert.assertFalse(p.requiresCompilation(fs, gs));
-  }
-
-  @Test public final void testProgramCompileVertexRemovesRequirement()
-    throws ConstraintError,
-      GLCompileException,
-      FilesystemError,
-      GLException,
-      GLUnsupportedException
-  {
-    final TestContext tc = this.newTestContext();
-    final GLShaders gs = this.getGLShaders(tc);
-    final FilesystemAPI fs = tc.getFilesystem();
-    final PathVirtual path = tc.getShaderPath();
-
-    final Program p = new Program("program", tc.getLog());
-    p.addVertexShader(new PathVirtual(path + "/simple.v"));
-    p.addFragmentShader(new PathVirtual(path + "/simple.f"));
-    p.compile(fs, gs);
-    p.addVertexShader(new PathVirtual(path + "/func.v"));
-    p.compile(fs, gs);
-    Assert.assertFalse(p.requiresCompilation(fs, gs));
-    p.delete(gs);
   }
 
   /**
@@ -622,6 +593,7 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
+    final GLMeta gm = this.getGLMeta(tc);
     final FilesystemAPI fs = tc.getFilesystem();
 
     final PathVirtual path = tc.getShaderPath();
@@ -630,7 +602,7 @@ public abstract class ProgramContract implements TestContract
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
 
     try {
-      p.compile(fs, gs);
+      p.compile(fs, gs, gm);
     } catch (final GLCompileException e) {
       Assert.assertTrue(e.getMessage().endsWith(
         "file not found '/nonexistent'"));
@@ -705,13 +677,14 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
+    final GLMeta gm = this.getGLMeta(tc);
     final FilesystemAPI fs = tc.getFilesystem();
     final PathVirtual path = tc.getShaderPath();
 
     final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
-    p.compile(fs, gs);
+    p.compile(fs, gs, gm);
     p.deactivate(gs);
   }
 
@@ -782,13 +755,14 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
+    final GLMeta gm = this.getGLMeta(tc);
     final FilesystemAPI fs = tc.getFilesystem();
     final PathVirtual path = tc.getShaderPath();
 
     final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
-    p.compile(fs, gs);
+    p.compile(fs, gs, gm);
     Assert.assertFalse(p.requiresCompilation(fs, gs));
 
     fs.touch(path + "/simple.f", 0);
@@ -1132,13 +1106,14 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
+    final GLMeta gm = this.getGLMeta(tc);
     final FilesystemAPI fs = tc.getFilesystem();
     final PathVirtual path = tc.getShaderPath();
 
     final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
     p.addFragmentShader(new PathVirtual(path + "/uniform0.f"));
-    p.compile(fs, gs);
+    p.compile(fs, gs, gm);
     Assert.assertFalse(p.requiresCompilation(fs, gs));
 
     final ProgramUniform u = p.getUniform("alpha");
@@ -1169,8 +1144,9 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
+    final GLMeta gm = this.getGLMeta(tc);
     final GLTextureUnits gt = this.getGLTextureUnits(tc);
-    final Program p = ProgramContract.makeLargeShader(tc, gs);
+    final Program p = ProgramContract.makeLargeShader(tc, gs, gm);
     p.activate(gs);
 
     {
@@ -1248,8 +1224,9 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
+    final GLMeta gm = this.getGLMeta(tc);
     final GLTextureUnits gt = this.getGLTextureUnits(tc);
-    final Program p = ProgramContract.makeLargeShader(tc, gs);
+    final Program p = ProgramContract.makeLargeShader(tc, gs, gm);
     p.activate(gs);
 
     try {
@@ -1334,7 +1311,8 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
-    final Program p = ProgramContract.makeLargeShader(tc, gs);
+    final GLMeta gm = this.getGLMeta(tc);
+    final Program p = ProgramContract.makeLargeShader(tc, gs, gm);
     p.activate(gs);
 
     {
@@ -1355,7 +1333,8 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
-    final Program p = ProgramContract.makeLargeShader(tc, gs);
+    final GLMeta gm = this.getGLMeta(tc);
+    final Program p = ProgramContract.makeLargeShader(tc, gs, gm);
     p.activate(gs);
 
     {
@@ -1375,7 +1354,8 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
-    final Program p = ProgramContract.makeLargeShader(tc, gs);
+    final GLMeta gm = this.getGLMeta(tc);
+    final Program p = ProgramContract.makeLargeShader(tc, gs, gm);
     p.activate(gs);
 
     {
@@ -1396,7 +1376,8 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
-    final Program p = ProgramContract.makeLargeShader(tc, gs);
+    final GLMeta gm = this.getGLMeta(tc);
+    final Program p = ProgramContract.makeLargeShader(tc, gs, gm);
     p.activate(gs);
 
     {
@@ -1417,8 +1398,9 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
+    final GLMeta gm = this.getGLMeta(tc);
     final GLTextureUnits gt = this.getGLTextureUnits(tc);
-    final Program p = ProgramContract.makeLargeShader(tc, gs);
+    final Program p = ProgramContract.makeLargeShader(tc, gs, gm);
     p.activate(gs);
 
     {
@@ -1439,7 +1421,8 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
-    final Program p = ProgramContract.makeLargeShader(tc, gs);
+    final GLMeta gm = this.getGLMeta(tc);
+    final Program p = ProgramContract.makeLargeShader(tc, gs, gm);
     p.activate(gs);
 
     {
@@ -1460,7 +1443,8 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
-    final Program p = ProgramContract.makeLargeShader(tc, gs);
+    final GLMeta gm = this.getGLMeta(tc);
+    final Program p = ProgramContract.makeLargeShader(tc, gs, gm);
     p.activate(gs);
 
     {
@@ -1481,7 +1465,8 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
-    final Program p = ProgramContract.makeLargeShader(tc, gs);
+    final GLMeta gm = this.getGLMeta(tc);
+    final Program p = ProgramContract.makeLargeShader(tc, gs, gm);
     p.activate(gs);
 
     {
@@ -1502,7 +1487,8 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
-    final Program p = ProgramContract.makeLargeShader(tc, gs);
+    final GLMeta gm = this.getGLMeta(tc);
+    final Program p = ProgramContract.makeLargeShader(tc, gs, gm);
     p.activate(gs);
 
     {
@@ -1529,6 +1515,7 @@ public abstract class ProgramContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLShaders gs = this.getGLShaders(tc);
+    final GLMeta gm = this.getGLMeta(tc);
     final FilesystemAPI fs = tc.getFilesystem();
 
     final PathVirtual path = tc.getShaderPath();
@@ -1536,7 +1523,7 @@ public abstract class ProgramContract implements TestContract
     final Program p = new Program("program", tc.getLog());
     p.addVertexShader(new PathVirtual(path + "/simple.v"));
     p.addFragmentShader(new PathVirtual(path + "/simple.f"));
-    p.compile(fs, gs);
+    p.compile(fs, gs, gm);
     Assert.assertFalse(p.requiresCompilation(fs, gs));
 
     fs.touch(path + "/simple.v", 0);

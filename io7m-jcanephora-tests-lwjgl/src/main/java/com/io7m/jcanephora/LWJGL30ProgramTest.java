@@ -36,4 +36,12 @@ public final class LWJGL30ProgramTest extends ProgramContract
       (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
     return some.value;
   }
+
+  @Override public GLMeta getGLMeta(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
+  }
 }

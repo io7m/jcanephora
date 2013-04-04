@@ -36,4 +36,12 @@ public final class LWJGLES2ProgramTest extends ProgramContract
       (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
     return some.value;
   }
+
+  @Override public GLMeta getGLMeta(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGLES2> some =
+      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    return some.value;
+  }
 }
