@@ -64,7 +64,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticDepth16(
-    final @Nonnull GLInterfaceGL3 gl,
+    final @Nonnull GLTextures2DStaticGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -110,7 +110,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticDepth24(
-    final @Nonnull GLInterfaceGL3 gl,
+    final @Nonnull GLTextures2DStaticGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -156,7 +156,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticDepth32(
-    final @Nonnull GLInterfaceGL3 gl,
+    final @Nonnull GLTextures2DStaticGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -202,56 +202,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticDepth32f(
-    final @Nonnull GLInterfaceGL3 gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
-    throws ConstraintError,
-      GLException,
-      IOException;
-
-  /**
-   * <p>
-   * Attempt to load an OpenGL texture from the stream <code>stream</code>.
-   * The texture will be constructed using the given parameters, and named
-   * <code>name</code>. The resulting texture will be of a type appropriate to
-   * the original image data.
-   * </p>
-   * <p>
-   * The function will only attempt to infer texture types supported by OpenGL
-   * ES2. In practice, this means that most resulting textures will be of
-   * types {@link TextureType#TEXTURE_TYPE_RGB_888_3BPP} or
-   * {@link TextureType#TEXTURE_TYPE_RGBA_8888_4BPP}.
-   * </p>
-   * 
-   * @param gl
-   *          The OpenGL interface to use.
-   * @param wrap_s
-   *          The texture wrapping mode on the S axis.
-   * @param wrap_t
-   *          The texture wrapping mode on the T axis.
-   * @param min_filter
-   *          The minification filter to use.
-   * @param mag_filter
-   *          The magnification filter to use.
-   * @param stream
-   *          The input stream from which to read image data.
-   * @param name
-   *          The name of the resulting texture.
-   * 
-   * @throws ConstraintError
-   *           Iff any of the parameters are <code>null</code>.
-   * @throws GLException
-   *           Iff an internal OpenGL error occurs.
-   * @throws IOException
-   *           Iff an I/O error occurs whilst reading the image.
-   */
-
-  public @Nonnull Texture2DStatic load2DStaticInferredES2(
-    final @Nonnull GLInterfaceGLES2 gl,
+    final @Nonnull GLTextures2DStaticGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -294,7 +245,57 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticInferredGL3(
-    final @Nonnull GLInterfaceGL3 gl,
+    final @Nonnull GLTextures2DStaticGL3 gl,
+    final @Nonnull TextureWrap wrap_s,
+    final @Nonnull TextureWrap wrap_t,
+    final @Nonnull TextureFilter min_filter,
+    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      GLException,
+      IOException;
+
+  /**
+   * <p>
+   * Attempt to load an OpenGL texture from the stream <code>stream</code>.
+   * The texture will be constructed using the given parameters, and named
+   * <code>name</code>. The resulting texture will be of a type appropriate to
+   * the original image data.
+   * </p>
+   * <p>
+   * The function will only attempt to infer texture types supported by the
+   * common subset of OpenGL ES2 and OpenGL 3.*. In practice, this means that
+   * most resulting textures will be of types
+   * {@link TextureType#TEXTURE_TYPE_RGB_888_3BPP} or
+   * {@link TextureType#TEXTURE_TYPE_RGBA_8888_4BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws GLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticInferredGLES2(
+    final @Nonnull GLTextures2DStaticCommon gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -340,7 +341,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticR8(
-    final @Nonnull GLInterfaceGL3 gl,
+    final @Nonnull GLTextures2DStaticGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -386,7 +387,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticRG88(
-    final @Nonnull GLInterfaceGL3 gl,
+    final @Nonnull GLTextures2DStaticGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -432,7 +433,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGB565(
-    final @Nonnull GLInterfaceGLES2 gl,
+    final @Nonnull GLTextures2DStaticCommon gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -478,7 +479,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGB888(
-    final @Nonnull GLInterfaceGLES2 gl,
+    final @Nonnull GLTextures2DStaticCommon gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -524,7 +525,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGBA4444(
-    final @Nonnull GLInterfaceGLES2 gl,
+    final @Nonnull GLTextures2DStaticCommon gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -570,7 +571,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGBA5551(
-    final @Nonnull GLInterfaceGLES2 gl,
+    final @Nonnull GLTextures2DStaticCommon gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -616,7 +617,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGBA8888(
-    final @Nonnull GLInterfaceGLES2 gl,
+    final @Nonnull GLTextures2DStaticCommon gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,

@@ -21,7 +21,7 @@ public abstract class ColorBufferContract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  abstract GLColorBuffer getGLColorBuffer(
+  public abstract GLColorBuffer getGLColorBuffer(
     final @Nonnull TestContext context);
 
   /**

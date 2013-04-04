@@ -24,16 +24,16 @@ public abstract class RasterizationContract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  abstract GLRasterization getGLRasterization(
+  public abstract GLRasterization getGLRasterization(
     TestContext tc);
 
-  abstract GLProgramPointSizeControl getGLProgramPointSizeControl(
+  public abstract GLProgramPointSizeControl getGLProgramPointSizeControl(
     TestContext tc);
 
-  abstract GLPolygonSmoothing getGLPolygonSmoothing(
+  public abstract GLPolygonSmoothing getGLPolygonSmoothing(
     TestContext tc);
 
-  abstract GLPolygonModes getGLPolygonModes(
+  public abstract GLPolygonModes getGLPolygonModes(
     TestContext tc);
 
   /**

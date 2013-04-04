@@ -64,7 +64,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  abstract GLInterfaceGL3 getGL3(
+  public abstract GLInterfaceGL3 getGL3(
     TestContext context);
 
   /**

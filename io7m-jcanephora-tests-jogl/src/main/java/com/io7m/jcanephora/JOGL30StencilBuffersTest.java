@@ -3,9 +3,9 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import org.junit.Assert;
-import org.junit.Assume;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.common.StencilBuffersContract;
 
 public final class JOGL30StencilBuffersTest extends StencilBuffersContract
@@ -22,9 +22,9 @@ public final class JOGL30StencilBuffersTest extends StencilBuffersContract
       throws ConstraintError,
         GLException
   {
-    Assume.assumeTrue(gi.implementationProvidesGL3());
+    final Some<GLInterfaceGL3> some = (Some<GLInterfaceGL3>) gi.getGL3();
+    final GLInterfaceGL3 g = some.value;
 
-    final GLInterfaceGL3 g = gi.implementationGetGL3();
     final FramebufferReference fb = g.framebufferAllocate();
     final Renderbuffer<RenderableColor> cb =
       g.renderbufferAllocateRGBA8888(128, 128);
@@ -46,9 +46,9 @@ public final class JOGL30StencilBuffersTest extends StencilBuffersContract
     throws ConstraintError,
       GLException
   {
-    Assume.assumeTrue(gi.implementationProvidesGL3());
+    final Some<GLInterfaceGL3> some = (Some<GLInterfaceGL3>) gi.getGL3();
+    final GLInterfaceGL3 g = some.value;
 
-    final GLInterfaceGL3 g = gi.implementationGetGL3();
     final FramebufferReference fb = g.framebufferAllocate();
     final Renderbuffer<RenderableDepthStencil> db =
       g.renderbufferAllocateDepth24Stencil8(128, 128);
@@ -74,5 +74,21 @@ public final class JOGL30StencilBuffersTest extends StencilBuffersContract
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL3_X();
+  }
+
+  @Override public GLStencilBuffer getGLStencilBuffer(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
+  }
+
+  @Override public GLFramebuffersCommon getGLFramebuffers(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
   }
 }

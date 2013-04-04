@@ -28,10 +28,10 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  abstract GLTextureUnits getGLTextureUnits(
+  public abstract GLTextureUnits getGLTextureUnits(
     TestContext tc);
 
-  abstract GLTexturesCubeStaticGL3 getGLTextureCubeStaticGL3(
+  public abstract GLTexturesCubeStaticGL3 getGLTextureCubeStaticGL3(
     TestContext tc);
 
   /**

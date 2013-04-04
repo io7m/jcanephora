@@ -3,6 +3,7 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.common.ColorBufferContract;
 
 public final class JOGL30ColorBufferTest extends ColorBufferContract
@@ -18,5 +19,13 @@ public final class JOGL30ColorBufferTest extends ColorBufferContract
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL3_X();
+  }
+
+  @Override public GLColorBuffer getGLColorBuffer(
+    final TestContext context)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) context.getGLImplementation().getGL3();
+    return some.value;
   }
 }

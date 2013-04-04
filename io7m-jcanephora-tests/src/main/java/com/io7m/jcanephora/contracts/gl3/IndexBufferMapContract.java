@@ -35,19 +35,19 @@ public abstract class IndexBufferMapContract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  abstract GLArrayBuffers getGLArrayBuffers(
+  public abstract GLArrayBuffers getGLArrayBuffers(
     final TestContext tc);
 
-  abstract GLArrayBuffersMapped getGLArrayBuffersMapped(
+  public abstract GLArrayBuffersMapped getGLArrayBuffersMapped(
     final TestContext tc);
 
-  abstract GLIndexBuffers getGLIndexBuffers(
+  public abstract GLIndexBuffers getGLIndexBuffers(
     final TestContext tc);
 
-  abstract GLIndexBuffersMapped getGLIndexBuffersMapped(
+  public abstract GLIndexBuffersMapped getGLIndexBuffersMapped(
     final TestContext tc);
 
-  abstract GLErrorCodes getGLErrorCodes(
+  public abstract GLErrorCodes getGLErrorCodes(
     TestContext tc);
 
   /**

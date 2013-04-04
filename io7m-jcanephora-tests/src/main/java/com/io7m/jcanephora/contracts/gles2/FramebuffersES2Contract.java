@@ -68,16 +68,16 @@ public abstract class FramebuffersES2Contract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  abstract GLFramebuffersCommon getGLFramebuffers(
+  public abstract GLFramebuffersCommon getGLFramebuffers(
     TestContext tc);
 
-  abstract GLRenderbuffersCommon getGLRenderbuffers(
+  public abstract GLRenderbuffersCommon getGLRenderbuffers(
     TestContext tc);
 
-  abstract GLTexturesCubeStaticCommon getGLTexturesCube(
+  public abstract GLTexturesCubeStaticCommon getGLTexturesCube(
     TestContext tc);
 
-  abstract GLTextures2DStaticCommon getGLTextures2D(
+  public abstract GLTextures2DStaticCommon getGLTextures2D(
     TestContext tc);
 
   /**

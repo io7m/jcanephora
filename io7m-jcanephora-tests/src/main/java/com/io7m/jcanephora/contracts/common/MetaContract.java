@@ -19,7 +19,7 @@ public abstract class MetaContract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  abstract GLMeta getGLMeta(
+  public abstract GLMeta getGLMeta(
     TestContext tc);
 
   @Test public void testMetaStrings()

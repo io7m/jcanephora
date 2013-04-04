@@ -22,7 +22,7 @@ public abstract class CullContract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  abstract GLCull getGLCull(
+  public abstract GLCull getGLCull(
     final @Nonnull TestContext context);
 
   /**

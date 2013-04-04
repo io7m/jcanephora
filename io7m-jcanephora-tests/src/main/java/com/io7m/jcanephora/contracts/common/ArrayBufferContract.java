@@ -37,10 +37,10 @@ import com.io7m.jvvfs.PathVirtual;
 
 public abstract class ArrayBufferContract implements TestContract
 {
-  abstract @Nonnull GLArrayBuffers getGLArrayBuffers(
+  public abstract @Nonnull GLArrayBuffers getGLArrayBuffers(
     final @Nonnull TestContext context);
 
-  abstract @Nonnull GLShaders getGLPrograms(
+  public abstract @Nonnull GLShaders getGLPrograms(
     final @Nonnull TestContext context);
 
   static ProgramReference makeProgram(

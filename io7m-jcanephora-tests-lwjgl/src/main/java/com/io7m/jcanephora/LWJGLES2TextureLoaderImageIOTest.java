@@ -4,13 +4,13 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option.Some;
-import com.io7m.jcanephora.contracts.gl3.BlendingGL3Contract;
 
-public final class LWJGL30BlendFullTest extends BlendingGL3Contract
+public final class LWJGLES2TextureLoaderImageIOTest extends
+  TextureLoaderImageIOTest
 {
   @Override public boolean isGLSupported()
   {
-    return LWJGLTestContext.isOpenGL3Supported();
+    return LWJGLTestContext.isOpenGLES2Supported();
   }
 
   @Override public @Nonnull TestContext newTestContext()
@@ -18,14 +18,14 @@ public final class LWJGL30BlendFullTest extends BlendingGL3Contract
       GLUnsupportedException,
       ConstraintError
   {
-    return LWJGLTestContext.makeContextWithOpenGL3_X();
+    return LWJGLTestContext.makeContextWithOpenGL_ES2();
   }
 
-  @Override public GLBlendingGL3 getGLBlendingGL3(
+  @Override public GLTextures2DStaticCommon getGLTextures2DStaticCommon(
     final TestContext tc)
   {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    final Some<GLInterfaceGLES2> some =
+      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
     return some.value;
   }
 }

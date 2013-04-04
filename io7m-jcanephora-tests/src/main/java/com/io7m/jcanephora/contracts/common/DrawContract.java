@@ -23,10 +23,10 @@ public abstract class DrawContract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  abstract @Nonnull GLDraw getGLDraw(
+  public abstract @Nonnull GLDraw getGLDraw(
     TestContext context);
 
-  abstract @Nonnull GLIndexBuffers getGLIndexBuffers(
+  public abstract @Nonnull GLIndexBuffers getGLIndexBuffers(
     TestContext context);
 
   /**

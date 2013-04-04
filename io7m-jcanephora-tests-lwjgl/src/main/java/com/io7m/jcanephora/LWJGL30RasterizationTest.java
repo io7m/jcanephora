@@ -3,6 +3,7 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option.Some;
 
 public final class LWJGL30RasterizationTest extends
   com.io7m.jcanephora.contracts.gl3.RasterizationContract
@@ -18,5 +19,37 @@ public final class LWJGL30RasterizationTest extends
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL3_X();
+  }
+
+  @Override public GLRasterization getGLRasterization(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
+  }
+
+  @Override public GLProgramPointSizeControl getGLProgramPointSizeControl(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
+  }
+
+  @Override public GLPolygonSmoothing getGLPolygonSmoothing(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
+  }
+
+  @Override public GLPolygonModes getGLPolygonModes(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
   }
 }

@@ -3,6 +3,7 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.common.ViewportContract;
 
 public final class LWJGL30ViewportTest extends ViewportContract
@@ -18,5 +19,13 @@ public final class LWJGL30ViewportTest extends ViewportContract
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL3_X();
+  }
+
+  @Override public GLViewport getGLViewport(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
   }
 }

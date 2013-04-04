@@ -33,13 +33,13 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  abstract GLArrayBuffers getGLArrayBuffers(
+  public abstract GLArrayBuffers getGLArrayBuffers(
     final TestContext tc);
 
-  abstract GLArrayBuffersMapped getGLArrayBuffersMapped(
+  public abstract GLArrayBuffersMapped getGLArrayBuffersMapped(
     final TestContext tc);
 
-  abstract GLErrorCodes getGLErrorCodes(
+  public abstract GLErrorCodes getGLErrorCodes(
     TestContext tc);
 
   /*

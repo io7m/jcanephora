@@ -20,7 +20,7 @@ public abstract class LogicOpContract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  abstract GLLogic getGLLogic(
+  public abstract GLLogic getGLLogic(
     TestContext tc);
 
   /**

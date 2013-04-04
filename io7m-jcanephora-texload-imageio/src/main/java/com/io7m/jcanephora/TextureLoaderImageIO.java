@@ -36,7 +36,7 @@ import com.io7m.jaux.UnreachableCodeException;
 public final class TextureLoaderImageIO implements TextureLoader
 {
   private static @Nonnull Texture2DStatic allocateTexture_ES2(
-    final @Nonnull GLInterfaceGLES2 gl,
+    final @Nonnull GLTextures2DStaticCommon gl,
     final @Nonnull TextureType type,
     final int width,
     final int height,
@@ -107,7 +107,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   private static @Nonnull Texture2DStatic allocateTexture_GL3(
-    final @Nonnull GLInterfaceGL3 gl,
+    final @Nonnull GLTextures2DStaticGL3 gl,
     final @Nonnull TextureType type,
     final int width,
     final int height,
@@ -225,7 +225,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   private static void checkConstraints(
-    final @Nonnull GLInterfaceGLES2 gl,
+    final @Nonnull GLTextures2DStaticCommon gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -629,7 +629,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   private static @Nonnull Texture2DStatic load2DStaticSpecificImage_ES2(
-    final @Nonnull GLInterfaceGLES2 gl,
+    final @Nonnull GLTextures2DStaticCommon gl,
     final @Nonnull TextureType type,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
@@ -664,7 +664,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   private static @Nonnull Texture2DStatic load2DStaticSpecificImage_GL3(
-    final @Nonnull GLInterfaceGL3 gl,
+    final @Nonnull GLTextures2DStaticGL3 gl,
     final @Nonnull TextureType type,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
@@ -806,7 +806,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   @Override public @Nonnull Texture2DStatic load2DStaticDepth16(
-    final @Nonnull GLInterfaceGL3 gl,
+    final @Nonnull GLTextures2DStaticGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -837,7 +837,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   @Override public @Nonnull Texture2DStatic load2DStaticDepth24(
-    final @Nonnull GLInterfaceGL3 gl,
+    final @Nonnull GLTextures2DStaticGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -868,7 +868,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   @Override public @Nonnull Texture2DStatic load2DStaticDepth32(
-    final @Nonnull GLInterfaceGL3 gl,
+    final @Nonnull GLTextures2DStaticGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -899,7 +899,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   @Override public @Nonnull Texture2DStatic load2DStaticDepth32f(
-    final @Nonnull GLInterfaceGL3 gl,
+    final @Nonnull GLTextures2DStaticGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -929,8 +929,8 @@ public final class TextureLoaderImageIO implements TextureLoader
       name);
   }
 
-  @Override public @Nonnull Texture2DStatic load2DStaticInferredES2(
-    final @Nonnull GLInterfaceGLES2 gl,
+  @Override public @Nonnull Texture2DStatic load2DStaticInferredGLES2(
+    final @Nonnull GLTextures2DStaticCommon gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -964,7 +964,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   @Override public @Nonnull Texture2DStatic load2DStaticInferredGL3(
-    final @Nonnull GLInterfaceGL3 gl,
+    final @Nonnull GLTextures2DStaticGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -998,7 +998,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   @Override public @Nonnull Texture2DStatic load2DStaticR8(
-    final @Nonnull GLInterfaceGL3 gl,
+    final @Nonnull GLTextures2DStaticGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -1029,7 +1029,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   @Override public @Nonnull Texture2DStatic load2DStaticRG88(
-    final @Nonnull GLInterfaceGL3 gl,
+    final @Nonnull GLTextures2DStaticGL3 gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -1060,7 +1060,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   @Override public @Nonnull Texture2DStatic load2DStaticRGB565(
-    final @Nonnull GLInterfaceGLES2 gl,
+    final @Nonnull GLTextures2DStaticCommon gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -1091,7 +1091,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   @Override public @Nonnull Texture2DStatic load2DStaticRGB888(
-    final @Nonnull GLInterfaceGLES2 gl,
+    final @Nonnull GLTextures2DStaticCommon gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -1122,7 +1122,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   @Override public @Nonnull Texture2DStatic load2DStaticRGBA4444(
-    final @Nonnull GLInterfaceGLES2 gl,
+    final @Nonnull GLTextures2DStaticCommon gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -1153,7 +1153,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   @Override public @Nonnull Texture2DStatic load2DStaticRGBA5551(
-    final @Nonnull GLInterfaceGLES2 gl,
+    final @Nonnull GLTextures2DStaticCommon gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,
@@ -1184,7 +1184,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   @Override public @Nonnull Texture2DStatic load2DStaticRGBA8888(
-    final @Nonnull GLInterfaceGLES2 gl,
+    final @Nonnull GLTextures2DStaticCommon gl,
     final @Nonnull TextureWrap wrap_s,
     final @Nonnull TextureWrap wrap_t,
     final @Nonnull TextureFilter min_filter,

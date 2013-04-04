@@ -3,10 +3,10 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts.gles2.TextureCubeStaticES2Contract;
+import com.io7m.jaux.functional.Option.Some;
 
-public final class LWJGL30TextureCubeStaticES2Test extends
-  TextureCubeStaticES2Contract
+public final class LWJGL30TextureLoaderImageIOTest extends
+  TextureLoaderImageIOTest
 {
   @Override public boolean isGLSupported()
   {
@@ -19,5 +19,13 @@ public final class LWJGL30TextureCubeStaticES2Test extends
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL3_X();
+  }
+
+  @Override public GLTextures2DStaticCommon getGLTextures2DStaticCommon(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
   }
 }

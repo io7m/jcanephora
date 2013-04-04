@@ -22,7 +22,7 @@ public abstract class RenderbufferGLES2Contract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  abstract GLRenderbuffersGLES2 getGLRenderbuffers(
+  public abstract GLRenderbuffersGLES2 getGLRenderbuffers(
     TestContext tc);
 
   /**
