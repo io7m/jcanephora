@@ -64,10 +64,11 @@ public abstract class RenderbufferGL3Contract implements TestContract
           break;
       }
 
-      assert rb != null;
-      Assert.assertFalse(rb.resourceIsDeleted());
-      gr.renderbufferDelete(rb);
-      Assert.assertTrue(rb.resourceIsDeleted());
+      if (rb != null) {
+        Assert.assertFalse(rb.resourceIsDeleted());
+        gr.renderbufferDelete(rb);
+        Assert.assertTrue(rb.resourceIsDeleted());
+      }
     }
   }
 

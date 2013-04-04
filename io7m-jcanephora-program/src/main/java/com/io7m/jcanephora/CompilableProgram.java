@@ -82,13 +82,16 @@ public interface CompilableProgram
    * 
    * @param fs
    *          A reference to a filesystem.
-   * @param gl
-   *          An OpenGL interface.
+   * @param gs
+   *          The interface to OpenGL shaders.
+   * @param gm
+   *          The interface to OpenGL metadata.
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
    *           <li><code>fs == null</code>.</li>
-   *           <li><code>gl == null</code>.</li>
+   *           <li><code>gs == null</code>.</li>
+   *           <li><code>gm == null</code>.</li>
    *           </ul>
    * @throws GLCompileException
    *           Iff a compilation error occurs.
@@ -96,7 +99,8 @@ public interface CompilableProgram
 
   void compile(
     final @Nonnull FilesystemAPI fs,
-    final @Nonnull GLShaders gl)
+    final @Nonnull GLShaders gs,
+    final @Nonnull GLMeta gm)
     throws ConstraintError,
       GLCompileException;
 
