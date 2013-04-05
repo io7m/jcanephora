@@ -708,7 +708,9 @@ public abstract class ProgramContract implements TestContract
     final GLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     final ProgramReference p = gl.programCreate("program");
 
+    Assert.assertFalse(p.resourceIsDeleted());
     gl.programDelete(p);
+    Assert.assertTrue(p.resourceIsDeleted());
     gl.programDelete(p);
   }
 
