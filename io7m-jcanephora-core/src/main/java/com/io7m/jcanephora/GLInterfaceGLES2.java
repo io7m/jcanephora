@@ -21,26 +21,12 @@ package com.io7m.jcanephora;
  */
 
 public interface GLInterfaceGLES2 extends
-  GLArrayBuffers,
-  GLBlendingGLES2,
-  GLColorBuffer,
-  GLCull,
-  GLDepthBuffer,
-  GLDraw,
-  GLErrorCodes,
+  GLInterfaceCommon,
   GLExtensionsGLES2,
   GLFramebuffersGLES2,
-  GLIndexBuffers,
-  GLMeta,
-  GLRasterization,
   GLRenderbuffersGLES2,
-  GLScissor,
-  GLShaders,
-  GLStencilBuffer,
   GLTexturesCubeStaticGLES2,
-  GLTextures2DStaticGLES2,
-  GLTextureUnits,
-  GLViewport
+  GLTextures2DStaticGLES2
 {
   /*
    * All functions defined in the superinterfaces.

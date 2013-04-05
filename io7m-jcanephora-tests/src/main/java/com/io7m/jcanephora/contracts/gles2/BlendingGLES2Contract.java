@@ -13,7 +13,7 @@ import com.io7m.jaux.functional.Option;
 import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.BlendEquationGLES2;
 import com.io7m.jcanephora.BlendFunction;
-import com.io7m.jcanephora.GLBlendingGLES2;
+import com.io7m.jcanephora.GLBlendingCommon;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLImplementation;
 import com.io7m.jcanephora.GLInterfaceGL3;
@@ -29,7 +29,7 @@ public abstract class BlendingGLES2Contract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  static GLBlendingGLES2 getGLBlending(
+  static GLBlendingCommon getGLBlending(
     final @Nonnull TestContext context)
   {
     final GLImplementation gi = context.getGLImplementation();
@@ -74,7 +74,7 @@ public abstract class BlendingGLES2Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingGLES2 gl = BlendingGLES2Contract.getGLBlending(tc);
+    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
 
     gl.blendingDisable();
     Assert.assertFalse(gl.blendingIsEnabled());
@@ -88,7 +88,7 @@ public abstract class BlendingGLES2Contract implements TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingGLES2 gl = BlendingGLES2Contract.getGLBlending(tc);
+    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
 
     gl.blendingEnableWithEquationSeparateES2(
       BlendFunction.BLEND_ONE,
@@ -107,7 +107,7 @@ public abstract class BlendingGLES2Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingGLES2 gl = BlendingGLES2Contract.getGLBlending(tc);
+    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
     // final Log log = this.getLog();
 
     for (final BlendFunction source : BlendFunction.values()) {
@@ -138,7 +138,7 @@ public abstract class BlendingGLES2Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingGLES2 gl = BlendingGLES2Contract.getGLBlending(tc);
+    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
 
     for (final BlendFunction source : BlendFunction.values()) {
       for (final BlendFunction target : BlendFunction.values()) {
@@ -166,7 +166,7 @@ public abstract class BlendingGLES2Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingGLES2 gl = BlendingGLES2Contract.getGLBlending(tc);
+    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
 
     for (final BlendFunction source : BlendFunction.values()) {
       for (final BlendFunction target : BlendFunction.values()) {
@@ -200,7 +200,7 @@ public abstract class BlendingGLES2Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingGLES2 gl = BlendingGLES2Contract.getGLBlending(tc);
+    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
     // final Log log = this.getLog();
 
     for (final BlendFunction rgb_source : BlendFunction.values()) {
@@ -252,7 +252,7 @@ public abstract class BlendingGLES2Contract implements TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingGLES2 gl = BlendingGLES2Contract.getGLBlending(tc);
+    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
 
     gl.blendingEnable(
       BlendFunction.BLEND_ONE,
@@ -267,7 +267,7 @@ public abstract class BlendingGLES2Contract implements TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingGLES2 gl = BlendingGLES2Contract.getGLBlending(tc);
+    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
 
     gl.blendingEnableWithEquationES2(
       BlendFunction.BLEND_ONE,
@@ -284,7 +284,7 @@ public abstract class BlendingGLES2Contract implements TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingGLES2 gl = BlendingGLES2Contract.getGLBlending(tc);
+    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
 
     gl.blendingEnableSeparateWithEquationSeparateES2(
       BlendFunction.BLEND_ONE,
@@ -303,7 +303,7 @@ public abstract class BlendingGLES2Contract implements TestContract
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingGLES2 gl = BlendingGLES2Contract.getGLBlending(tc);
+    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
 
     gl.blendingEnableSeparateWithEquationSeparateES2(
       BlendFunction.BLEND_ONE,

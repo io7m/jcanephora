@@ -21,11 +21,11 @@ import javax.annotation.Nonnull;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * Simplified and type-safe interface to the set of blending features
- * supported by OpenGL ES2.
+ * Simplified and type-safe interface to the common subset of blending
+ * features supported by OpenGL ES2 and OpenGL 3.*.
  */
 
-public interface GLBlendingGLES2
+public interface GLBlendingCommon
 {
   /**
    * Disable blending.
@@ -40,7 +40,7 @@ public interface GLBlendingGLES2
   /**
    * Enable blending with the given blending functions. The function is
    * equivalent to: <code>
-   * {@link GLBlendingGLES2#blendingEnableSeparateWithEquationSeparateES2}(
+   * {@link GLBlendingCommon#blendingEnableSeparateWithEquationSeparateES2}(
    *   source_factor,
    *   source_factor,
    *   destination_factor,
@@ -62,7 +62,7 @@ public interface GLBlendingGLES2
   /**
    * Enable blending with the given blending functions. The function is
    * equivalent to: <code>
-   * {@link GLBlendingGLES2#blendingEnableSeparateWithEquationSeparateES2}(
+   * {@link GLBlendingCommon#blendingEnableSeparateWithEquationSeparateES2}(
    *   source_rgb_factor,
    *   source_alpha_factor,
    *   destination_rgb_factor,
@@ -97,8 +97,8 @@ public interface GLBlendingGLES2
    * <p>
    * The given blend functions are applied to the RGB and alpha elements of
    * the colors in question separately (as opposed to
-   * {@link GLBlendingGLES2#blendingEnable}, which applies the given functions
-   * to the RGB and alpha components simultaneously).
+   * {@link GLBlendingCommon#blendingEnable}, which applies the given
+   * functions to the RGB and alpha components simultaneously).
    * </p>
    * <p>
    * The given blend equations <code>equation_rgb</code> and
@@ -146,7 +146,7 @@ public interface GLBlendingGLES2
   /**
    * Enable blending with the given blending functions and equation. The
    * function is equivalent to: <code>
-   * {@link GLBlendingGLES2#blendingEnableSeparateWithEquationSeparateES2}(
+   * {@link GLBlendingCommon#blendingEnableSeparateWithEquationSeparateES2}(
    *   source_factor,
    *   source_factor,
    *   destination_factor,
@@ -169,7 +169,7 @@ public interface GLBlendingGLES2
   /**
    * Enable blending with the given blending functions and equation. The
    * function is equivalent to: <code>
-   * {@link GLBlendingGLES2#blendingEnableSeparateWithEquationSeparateES2}(
+   * {@link GLBlendingCommon#blendingEnableSeparateWithEquationSeparateES2}(
    *   source_factor,
    *   source_factor,
    *   destination_factor,
