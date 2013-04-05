@@ -37,7 +37,9 @@ import com.io7m.jvvfs.PathVirtual;
  * recompilation and graceful handling of compilation errors.
  */
 
-public final class Program implements CompilableProgram, UsableProgram
+public final class Program extends GLResourceDeleteable implements
+  CompilableProgram,
+  UsableProgram
 {
   private static class FragmentShaderEntry
   {
@@ -430,6 +432,8 @@ public final class Program implements CompilableProgram, UsableProgram
     } catch (final GLException x) {
       error = x;
     }
+
+    this.resourceSetDeleted();
 
     if (error != null) {
       throw error;
