@@ -262,12 +262,14 @@ public abstract class TextureLoaderContractGL3 implements
    * @throws IOException
    */
 
-  @Test public final void testGrey8InferredES2()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      FilesystemError,
-      IOException
+  @Test @SuppressWarnings("resource") public final
+    void
+    testGrey8InferredES2()
+      throws GLException,
+        GLUnsupportedException,
+        ConstraintError,
+        FilesystemError,
+        IOException
   {
     final TestContext tc = this.newTestContext();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -309,12 +311,14 @@ public abstract class TextureLoaderContractGL3 implements
    * @throws IOException
    */
 
-  @Test public final void testGrey8InferredGL3()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      FilesystemError,
-      IOException
+  @Test @SuppressWarnings("resource") public final
+    void
+    testGrey8InferredGL3()
+      throws GLException,
+        GLUnsupportedException,
+        ConstraintError,
+        FilesystemError,
+        IOException
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
@@ -359,12 +363,14 @@ public abstract class TextureLoaderContractGL3 implements
    * @throws IOException
    */
 
-  @Test public final void testGreyscale8ToTypesSpecificES2()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      FilesystemError,
-      IOException
+  @Test @SuppressWarnings("resource") public final
+    void
+    testGreyscale8ToTypesSpecificES2()
+      throws GLException,
+        GLUnsupportedException,
+        ConstraintError,
+        FilesystemError,
+        IOException
   {
     final TestContext tc = this.newTestContext();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -403,12 +409,14 @@ public abstract class TextureLoaderContractGL3 implements
    * @throws IOException
    */
 
-  @Test public final void testGreyscale8ToTypesSpecificGL3()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      FilesystemError,
-      IOException
+  @Test @SuppressWarnings("resource") public final
+    void
+    testGreyscale8ToTypesSpecificGL3()
+      throws GLException,
+        GLUnsupportedException,
+        ConstraintError,
+        FilesystemError,
+        IOException
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
@@ -449,12 +457,14 @@ public abstract class TextureLoaderContractGL3 implements
    * @throws IOException
    */
 
-  @Test public final void testIndexed8InferredES2()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      FilesystemError,
-      IOException
+  @Test @SuppressWarnings("resource") public final
+    void
+    testIndexed8InferredES2()
+      throws GLException,
+        GLUnsupportedException,
+        ConstraintError,
+        FilesystemError,
+        IOException
   {
     final TestContext tc = this.newTestContext();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -496,12 +506,14 @@ public abstract class TextureLoaderContractGL3 implements
    * @throws IOException
    */
 
-  @Test public final void testIndexed8InferredGL3()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      FilesystemError,
-      IOException
+  @Test @SuppressWarnings("resource") public final
+    void
+    testIndexed8InferredGL3()
+      throws GLException,
+        GLUnsupportedException,
+        ConstraintError,
+        FilesystemError,
+        IOException
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
@@ -547,12 +559,14 @@ public abstract class TextureLoaderContractGL3 implements
    * @throws IOException
    */
 
-  @Test public final void testIndexed8ToTypesSpecificES2()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      FilesystemError,
-      IOException
+  @Test @SuppressWarnings("resource") public final
+    void
+    testIndexed8ToTypesSpecificES2()
+      throws GLException,
+        GLUnsupportedException,
+        ConstraintError,
+        FilesystemError,
+        IOException
   {
     final TestContext tc = this.newTestContext();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -590,12 +604,14 @@ public abstract class TextureLoaderContractGL3 implements
    * @throws IOException
    */
 
-  @Test public final void testIndexed8ToTypesSpecificGL3()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      FilesystemError,
-      IOException
+  @Test @SuppressWarnings("resource") public final
+    void
+    testIndexed8ToTypesSpecificGL3()
+      throws GLException,
+        GLUnsupportedException,
+        ConstraintError,
+        FilesystemError,
+        IOException
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
@@ -636,7 +652,7 @@ public abstract class TextureLoaderContractGL3 implements
    * @throws IOException
    */
 
-  @Test public final void testMonoInferredES2()
+  @Test @SuppressWarnings("resource") public final void testMonoInferredES2()
     throws GLException,
       GLUnsupportedException,
       ConstraintError,
@@ -683,12 +699,14 @@ public abstract class TextureLoaderContractGL3 implements
    * @throws IOException
    */
 
-  @Test public final void testMonoToTypesSpecificES2()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      FilesystemError,
-      IOException
+  @Test @SuppressWarnings("resource") public final
+    void
+    testMonoToTypesSpecificES2()
+      throws GLException,
+        GLUnsupportedException,
+        ConstraintError,
+        FilesystemError,
+        IOException
   {
     final TestContext tc = this.newTestContext();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -726,12 +744,14 @@ public abstract class TextureLoaderContractGL3 implements
    * @throws IOException
    */
 
-  @Test public final void testMonoToTypesSpecificGL3()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      FilesystemError,
-      IOException
+  @Test @SuppressWarnings("resource") public final
+    void
+    testMonoToTypesSpecificGL3()
+      throws GLException,
+        GLUnsupportedException,
+        ConstraintError,
+        FilesystemError,
+        IOException
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
@@ -772,12 +792,14 @@ public abstract class TextureLoaderContractGL3 implements
    * @throws IOException
    */
 
-  @Test public final void testRGB8888InferredES2()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      FilesystemError,
-      IOException
+  @Test @SuppressWarnings("resource") public final
+    void
+    testRGB8888InferredES2()
+      throws GLException,
+        GLUnsupportedException,
+        ConstraintError,
+        FilesystemError,
+        IOException
   {
     final TestContext tc = this.newTestContext();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -818,12 +840,14 @@ public abstract class TextureLoaderContractGL3 implements
    * @throws IOException
    */
 
-  @Test public final void testRGB8888InferredGL3()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      FilesystemError,
-      IOException
+  @Test @SuppressWarnings("resource") public final
+    void
+    testRGB8888InferredGL3()
+      throws GLException,
+        GLUnsupportedException,
+        ConstraintError,
+        FilesystemError,
+        IOException
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
@@ -868,12 +892,14 @@ public abstract class TextureLoaderContractGL3 implements
    * @throws IOException
    */
 
-  @Test public final void testRGB888InferredES2()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      FilesystemError,
-      IOException
+  @Test @SuppressWarnings("resource") public final
+    void
+    testRGB888InferredES2()
+      throws GLException,
+        GLUnsupportedException,
+        ConstraintError,
+        FilesystemError,
+        IOException
   {
     final TestContext tc = this.newTestContext();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -914,12 +940,14 @@ public abstract class TextureLoaderContractGL3 implements
    * @throws IOException
    */
 
-  @Test public final void testRGB888InferredGL3()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      FilesystemError,
-      IOException
+  @Test @SuppressWarnings("resource") public final
+    void
+    testRGB888InferredGL3()
+      throws GLException,
+        GLUnsupportedException,
+        ConstraintError,
+        FilesystemError,
+        IOException
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
@@ -964,12 +992,14 @@ public abstract class TextureLoaderContractGL3 implements
    * @throws IOException
    */
 
-  @Test public final void testRGB888ToTypesSpecificES2()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      FilesystemError,
-      IOException
+  @Test @SuppressWarnings("resource") public final
+    void
+    testRGB888ToTypesSpecificES2()
+      throws GLException,
+        GLUnsupportedException,
+        ConstraintError,
+        FilesystemError,
+        IOException
   {
     final TestContext tc = this.newTestContext();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -1006,12 +1036,14 @@ public abstract class TextureLoaderContractGL3 implements
    * @throws IOException
    */
 
-  @Test public final void testRGB888ToTypesSpecificGL3()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      FilesystemError,
-      IOException
+  @Test @SuppressWarnings("resource") public final
+    void
+    testRGB888ToTypesSpecificGL3()
+      throws GLException,
+        GLUnsupportedException,
+        ConstraintError,
+        FilesystemError,
+        IOException
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
@@ -1052,12 +1084,14 @@ public abstract class TextureLoaderContractGL3 implements
    * @throws IOException
    */
 
-  @Test public final void testRGBA8888ToTypesSpecificES2()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      FilesystemError,
-      IOException
+  @Test @SuppressWarnings("resource") public final
+    void
+    testRGBA8888ToTypesSpecificES2()
+      throws GLException,
+        GLUnsupportedException,
+        ConstraintError,
+        FilesystemError,
+        IOException
   {
     final TestContext tc = this.newTestContext();
     final FilesystemAPI fs = tc.getFilesystem();
@@ -1094,12 +1128,14 @@ public abstract class TextureLoaderContractGL3 implements
    * @throws IOException
    */
 
-  @Test public final void testRGBA8888ToTypesSpecificGL3()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError,
-      FilesystemError,
-      IOException
+  @Test @SuppressWarnings("resource") public final
+    void
+    testRGBA8888ToTypesSpecificGL3()
+      throws GLException,
+        GLUnsupportedException,
+        ConstraintError,
+        FilesystemError,
+        IOException
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();

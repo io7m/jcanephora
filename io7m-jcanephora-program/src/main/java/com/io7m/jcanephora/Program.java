@@ -192,11 +192,14 @@ public final class Program implements CompilableProgram, UsableProgram
    *           Iff a compilation error occurs.
    */
 
-  @Override public <G extends GLShaders & GLMeta> void compile(
-    final @Nonnull FilesystemAPI fs,
-    final @Nonnull G gl)
-    throws ConstraintError,
-      GLCompileException
+  @SuppressWarnings("resource") @Override public
+    <G extends GLShaders & GLMeta>
+    void
+    compile(
+      final @Nonnull FilesystemAPI fs,
+      final @Nonnull G gl)
+      throws ConstraintError,
+        GLCompileException
   {
     Constraints.constrainNotNull(fs, "Filesystem");
     Constraints.constrainNotNull(gl, "OpenGL interface");

@@ -56,7 +56,8 @@ import com.io7m.jtensors.VectorReadable4F;
  * {@link javax.media.opengl.GLAutoDrawable} interface.
  */
 
-@NotThreadSafe final class GLInterfaceGLES2_JOGL_ES2 implements GLInterfaceGLES2
+@NotThreadSafe final class GLInterfaceGLES2_JOGL_ES2 implements
+  GLInterfaceGLES2
 {
   /**
    * The packed depth/stencil extension.

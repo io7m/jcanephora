@@ -16,7 +16,6 @@ import com.io7m.jaux.functional.PartialFunction;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLImplementationJOGL;
-import com.io7m.jcanephora.GLInterfaceGL3;
 import com.io7m.jcanephora.TextureLoader;
 import com.io7m.jcanephora.TextureLoaderImageIO;
 import com.io7m.jlog.Log;
@@ -60,7 +59,6 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
   private final Log                                                                 log;
   protected final GLWindow                                                          window;
   private final FPSAnimator                                                         animator;
-  private GLInterfaceGL3                                                              gl;
   private GLImplementationJOGL                                                      gl_implementation;
   private final Filesystem                                                          filesystem;
   private final VectorM2I                                                           window_position;
@@ -134,7 +132,7 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
     this.window.setTitle(this.getClass().getName());
     this.window.addWindowListener(new WindowAdapter() {
       @Override public void windowDestroyNotify(
-        @SuppressWarnings("unused") final WindowEvent e)
+        final WindowEvent e)
       {
         System.exit(0);
       }
@@ -152,7 +150,7 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
   }
 
   @Override public void display(
-    @SuppressWarnings("unused") final GLAutoDrawable drawable)
+    final GLAutoDrawable drawable)
   {
     try {
       while (this.command_queue.peek() != null) {
@@ -190,7 +188,7 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
   }
 
   @Override public void dispose(
-    @SuppressWarnings("unused") final GLAutoDrawable drawable)
+    final GLAutoDrawable drawable)
   {
     // Nothing.
   }
@@ -387,7 +385,7 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
     }
   }
 
-  @SuppressWarnings("unused") @Override public void keyPressed(
+  @Override public void keyPressed(
     final KeyEvent e)
   {
     // Nothing
@@ -415,14 +413,14 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
     }
   }
 
-  @SuppressWarnings("unused") @Override public void keyTyped(
+  @Override public void keyTyped(
     final KeyEvent e)
   {
     // Nothing
   }
 
   @Override public void reshape(
-    @SuppressWarnings("unused") final GLAutoDrawable drawable,
+    final GLAutoDrawable drawable,
     final int x,
     final int y,
     final int w,

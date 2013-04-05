@@ -64,7 +64,7 @@ public final class ExampleTexturedQuadImage implements Example
   private int                           frame         = 0;
   private int                           texture_index = 0;
 
-  public ExampleTexturedQuadImage(
+  @SuppressWarnings("resource") public ExampleTexturedQuadImage(
     final @Nonnull ExampleConfig config)
     throws ConstraintError,
       GLException,
