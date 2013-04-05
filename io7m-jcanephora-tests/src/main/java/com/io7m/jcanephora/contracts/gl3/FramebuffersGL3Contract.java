@@ -517,6 +517,42 @@ public abstract class FramebuffersGL3Contract implements TestContract
   }
 
   /**
+   * Deleting a framebuffer marks the framebuffer as deleted.
+   */
+
+  @Test public void testDelete()
+    throws ConstraintError,
+      GLException,
+      GLUnsupportedException
+  {
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceGL3 gl = this.getGL3(tc);
+
+    final FramebufferColorAttachmentPoint[] points =
+      gl.framebufferGetColorAttachmentPoints();
+    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+
+    final FramebufferConfigurationGL3 config =
+      new FramebufferConfigurationGL3(128, 256);
+
+    config.requestNoColor();
+    config.requestNoDepth();
+    config.requestNoStencil();
+    config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
+
+    final Indeterminate<Framebuffer, FramebufferStatus> result =
+      config.make(gl);
+    Assert.assertTrue(result.isSuccess());
+    final Success<Framebuffer, FramebufferStatus> success =
+      (Success<Framebuffer, FramebufferStatus>) result;
+
+    final Framebuffer fb = success.value;
+    Assert.assertFalse(fb.resourceIsDeleted());
+    fb.delete(gl);
+    Assert.assertTrue(fb.resourceIsDeleted());
+  }
+
+  /**
    * Requesting a depth renderbuffer works.
    * 
    * @throws ConstraintError

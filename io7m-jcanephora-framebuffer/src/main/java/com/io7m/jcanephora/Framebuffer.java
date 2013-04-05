@@ -189,7 +189,7 @@ public final class Framebuffer extends GLResourceDeleteable implements
   }
 
   public
-    <G extends GLRenderbuffersCommon & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon>
+    <G extends GLRenderbuffersCommon & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon & GLFramebuffersCommon>
     void
     delete(
       final @Nonnull G gl)
@@ -268,6 +268,9 @@ public final class Framebuffer extends GLResourceDeleteable implements
         }
       }
     }
+
+    gl.framebufferDelete(this.framebuffer);
+    this.resourceSetDeleted();
   }
 
   @Override public String toString()
