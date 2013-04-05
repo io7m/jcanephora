@@ -69,7 +69,7 @@ public final class ExampleStencil implements Example
       "/com/io7m/jcanephora/examples/color.v"));
     this.program.addFragmentShader(new PathVirtual(
       "/com/io7m/jcanephora/examples/color.f"));
-    this.program.compile(config.getFilesystem(), this.gl, this.gl);
+    this.program.compile(config.getFilesystem(), this.gl);
 
     final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[2];
     ab[0] = new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 4);

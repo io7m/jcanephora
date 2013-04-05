@@ -143,14 +143,14 @@ public final class ExampleFBO3 implements Example
       "/com/io7m/jcanephora/examples/uv.v"));
     this.program_uv.addFragmentShader(new PathVirtual(
       "/com/io7m/jcanephora/examples/uv.f"));
-    this.program_uv.compile(config.getFilesystem(), this.gl, this.gl);
+    this.program_uv.compile(config.getFilesystem(), this.gl);
 
     this.program_color = new Program("color", config.getLog());
     this.program_color.addVertexShader(new PathVirtual(
       "/com/io7m/jcanephora/examples/color.v"));
     this.program_color.addFragmentShader(new PathVirtual(
       "/com/io7m/jcanephora/examples/color.f"));
-    this.program_color.compile(config.getFilesystem(), this.gl, this.gl);
+    this.program_color.compile(config.getFilesystem(), this.gl);
 
     /**
      * Allocate and initialize a framebuffer using the high level
@@ -637,7 +637,7 @@ public final class ExampleFBO3 implements Example
       this.has_shut_down = true;
       this.gl.arrayBufferDelete(this.color_quad);
       this.gl.arrayBufferDelete(this.textured_quad);
-      this.framebuffer.delete(this.gl, this.gl, this.gl);
+      this.framebuffer.delete(this.gl);
       this.program_color.delete(this.gl);
       this.program_uv.delete(this.gl);
     }

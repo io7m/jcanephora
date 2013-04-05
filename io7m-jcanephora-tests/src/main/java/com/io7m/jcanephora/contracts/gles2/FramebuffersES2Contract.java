@@ -31,11 +31,8 @@ import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
 import com.io7m.jcanephora.FramebufferConfigurationGLES2;
 import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLFramebuffersCommon;
 import com.io7m.jcanephora.GLImplementation;
-import com.io7m.jcanephora.GLRenderbuffersCommon;
-import com.io7m.jcanephora.GLTextures2DStaticCommon;
-import com.io7m.jcanephora.GLTexturesCubeStaticCommon;
+import com.io7m.jcanephora.GLInterfaceCommon;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.RenderableColor;
 import com.io7m.jcanephora.RenderbufferUsable;
@@ -68,18 +65,6 @@ public abstract class FramebuffersES2Contract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  public abstract GLFramebuffersCommon getGLFramebuffers(
-    TestContext tc);
-
-  public abstract GLRenderbuffersCommon getGLRenderbuffers(
-    TestContext tc);
-
-  public abstract GLTexturesCubeStaticCommon getGLTexturesCube(
-    TestContext tc);
-
-  public abstract GLTextures2DStaticCommon getGLTextures2D(
-    TestContext tc);
-
   /**
    * Requesting the best available color RGBA renderbuffer works.
    */
@@ -91,13 +76,10 @@ public abstract class FramebuffersES2Contract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLFramebuffersCommon gf = this.getGLFramebuffers(tc);
-    final GLRenderbuffersCommon gr = this.getGLRenderbuffers(tc);
-    final GLTextures2DStaticCommon gt2 = this.getGLTextures2D(tc);
-    final GLTexturesCubeStaticCommon gtc = this.getGLTexturesCube(tc);
+    final GLInterfaceCommon gl = gi.getGLCommon();
 
     final FramebufferColorAttachmentPoint[] points =
-      gf.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationGLES2 config =
       new FramebufferConfigurationGLES2(128, 256);
@@ -137,7 +119,7 @@ public abstract class FramebuffersES2Contract implements TestContract
     final RenderbufferUsable<RenderableColor> rb = car.getRenderbuffer();
     Assert.assertTrue(rb.getType().isColorRenderable());
 
-    fb.delete(gr, gt2, gtc);
+    fb.delete(gl);
   }
 
   /**
@@ -151,13 +133,10 @@ public abstract class FramebuffersES2Contract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLFramebuffersCommon gf = this.getGLFramebuffers(tc);
-    final GLRenderbuffersCommon gr = this.getGLRenderbuffers(tc);
-    final GLTextures2DStaticCommon gt2 = this.getGLTextures2D(tc);
-    final GLTexturesCubeStaticCommon gtc = this.getGLTexturesCube(tc);
+    final GLInterfaceCommon gl = gi.getGLCommon();
 
     final FramebufferColorAttachmentPoint[] points =
-      gf.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationGLES2 config =
       new FramebufferConfigurationGLES2(128, 256);
@@ -209,7 +188,7 @@ public abstract class FramebuffersES2Contract implements TestContract
       t.getMagnificationFilter(),
       TextureFilter.TEXTURE_FILTER_NEAREST);
 
-    fb.delete(gr, gt2, gtc);
+    fb.delete(gl);
   }
 
   /**
@@ -223,13 +202,10 @@ public abstract class FramebuffersES2Contract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLFramebuffersCommon gf = this.getGLFramebuffers(tc);
-    final GLRenderbuffersCommon gr = this.getGLRenderbuffers(tc);
-    final GLTextures2DStaticCommon gt2 = this.getGLTextures2D(tc);
-    final GLTexturesCubeStaticCommon gtc = this.getGLTexturesCube(tc);
+    final GLInterfaceCommon gl = gi.getGLCommon();
 
     final FramebufferColorAttachmentPoint[] points =
-      gf.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationGLES2 config =
       new FramebufferConfigurationGLES2(128, 128);
@@ -286,7 +262,7 @@ public abstract class FramebuffersES2Contract implements TestContract
 
     Assert.assertEquals(CubeMapFace.CUBE_MAP_POSITIVE_X, cat.getFace());
 
-    fb.delete(gr, gt2, gtc);
+    fb.delete(gl);
   }
 
   /**
@@ -300,13 +276,10 @@ public abstract class FramebuffersES2Contract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLFramebuffersCommon gf = this.getGLFramebuffers(tc);
-    final GLRenderbuffersCommon gr = this.getGLRenderbuffers(tc);
-    final GLTextures2DStaticCommon gt2 = this.getGLTextures2D(tc);
-    final GLTexturesCubeStaticCommon gtc = this.getGLTexturesCube(tc);
+    final GLInterfaceCommon gl = gi.getGLCommon();
 
     final FramebufferColorAttachmentPoint[] points =
-      gf.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationGLES2 config =
       new FramebufferConfigurationGLES2(128, 256);
@@ -346,7 +319,7 @@ public abstract class FramebuffersES2Contract implements TestContract
     final RenderbufferUsable<RenderableColor> rb = car.getRenderbuffer();
     Assert.assertTrue(rb.getType().isColorRenderable());
 
-    fb.delete(gr, gt2, gtc);
+    fb.delete(gl);
   }
 
   /**
@@ -360,13 +333,10 @@ public abstract class FramebuffersES2Contract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLFramebuffersCommon gf = this.getGLFramebuffers(tc);
-    final GLRenderbuffersCommon gr = this.getGLRenderbuffers(tc);
-    final GLTextures2DStaticCommon gt2 = this.getGLTextures2D(tc);
-    final GLTexturesCubeStaticCommon gtc = this.getGLTexturesCube(tc);
+    final GLInterfaceCommon gl = gi.getGLCommon();
 
     final FramebufferColorAttachmentPoint[] points =
-      gf.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationGLES2 config =
       new FramebufferConfigurationGLES2(128, 256);
@@ -418,7 +388,7 @@ public abstract class FramebuffersES2Contract implements TestContract
       t.getMagnificationFilter(),
       TextureFilter.TEXTURE_FILTER_NEAREST);
 
-    fb.delete(gr, gt2, gtc);
+    fb.delete(gl);
   }
 
   /**
@@ -432,13 +402,10 @@ public abstract class FramebuffersES2Contract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLFramebuffersCommon gf = this.getGLFramebuffers(tc);
-    final GLRenderbuffersCommon gr = this.getGLRenderbuffers(tc);
-    final GLTextures2DStaticCommon gt2 = this.getGLTextures2D(tc);
-    final GLTexturesCubeStaticCommon gtc = this.getGLTexturesCube(tc);
+    final GLInterfaceCommon gl = gi.getGLCommon();
 
     final FramebufferColorAttachmentPoint[] points =
-      gf.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationGLES2 config =
       new FramebufferConfigurationGLES2(128, 128);
@@ -495,7 +462,7 @@ public abstract class FramebuffersES2Contract implements TestContract
 
     Assert.assertEquals(CubeMapFace.CUBE_MAP_POSITIVE_X, cat.getFace());
 
-    fb.delete(gr, gt2, gtc);
+    fb.delete(gl);
   }
 
   /**
@@ -513,9 +480,7 @@ public abstract class FramebuffersES2Contract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLRenderbuffersCommon gr = this.getGLRenderbuffers(tc);
-    final GLTextures2DStaticCommon gt2 = this.getGLTextures2D(tc);
-    final GLTexturesCubeStaticCommon gtc = this.getGLTexturesCube(tc);
+    final GLInterfaceCommon gl = gi.getGLCommon();
 
     final FramebufferConfigurationGLES2 config =
       new FramebufferConfigurationGLES2(128, 256);
@@ -574,7 +539,7 @@ public abstract class FramebuffersES2Contract implements TestContract
     assert rb != null;
     Assert.assertTrue(rb.getType().isDepthRenderable());
 
-    fb.delete(gr, gt2, gtc);
+    fb.delete(gl);
   }
 
   @Test(expected = ConstraintError.class) public void testEmptyFails()
@@ -609,9 +574,9 @@ public abstract class FramebuffersES2Contract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLFramebuffersCommon gf = this.getGLFramebuffers(tc);
+    final GLInterfaceCommon gl = gi.getGLCommon();
     final FramebufferColorAttachmentPoint[] points =
-      gf.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     /**
      * Create initial framebuffer.
@@ -699,9 +664,9 @@ public abstract class FramebuffersES2Contract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLFramebuffersCommon gf = this.getGLFramebuffers(tc);
+    final GLInterfaceCommon gl = gi.getGLCommon();
     final FramebufferColorAttachmentPoint[] points =
-      gf.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     /**
      * Create initial framebuffer.
@@ -789,9 +754,9 @@ public abstract class FramebuffersES2Contract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLFramebuffersCommon gf = this.getGLFramebuffers(tc);
+    final GLInterfaceCommon gl = gi.getGLCommon();
     final FramebufferColorAttachmentPoint[] points =
-      gf.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     /**
      * Create initial framebuffer.
@@ -881,9 +846,9 @@ public abstract class FramebuffersES2Contract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLFramebuffersCommon gf = this.getGLFramebuffers(tc);
+    final GLInterfaceCommon gl = gi.getGLCommon();
     final FramebufferColorAttachmentPoint[] points =
-      gf.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     /**
      * Create initial framebuffer.
@@ -1072,9 +1037,9 @@ public abstract class FramebuffersES2Contract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLFramebuffersCommon gf = this.getGLFramebuffers(tc);
+    final GLInterfaceCommon gl = gi.getGLCommon();
     final FramebufferColorAttachmentPoint[] points =
-      gf.framebufferGetColorAttachmentPoints();
+      gl.framebufferGetColorAttachmentPoints();
 
     /**
      * Create initial framebuffer.
@@ -1306,9 +1271,7 @@ public abstract class FramebuffersES2Contract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final GLRenderbuffersCommon gr = this.getGLRenderbuffers(tc);
-    final GLTextures2DStaticCommon gt2 = this.getGLTextures2D(tc);
-    final GLTexturesCubeStaticCommon gtc = this.getGLTexturesCube(tc);
+    final GLInterfaceCommon gl = gi.getGLCommon();
 
     final FramebufferConfigurationGLES2 config =
       new FramebufferConfigurationGLES2(128, 256);
@@ -1379,6 +1342,6 @@ public abstract class FramebuffersES2Contract implements TestContract
       }
     }
 
-    fb.delete(gr, gt2, gtc);
+    fb.delete(gl);
   }
 }

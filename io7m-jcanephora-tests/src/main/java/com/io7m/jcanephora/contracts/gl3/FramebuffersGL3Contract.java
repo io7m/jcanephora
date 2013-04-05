@@ -157,7 +157,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
     final RenderbufferUsable<RenderableColor> rb = car.getRenderbuffer();
     Assert.assertTrue(rb.getType().isColorRenderable());
 
-    fb.delete(gl, gl, gl);
+    fb.delete(gl);
   }
 
   /**
@@ -229,7 +229,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       t.getMagnificationFilter(),
       TextureFilter.TEXTURE_FILTER_NEAREST);
 
-    fb.delete(gl, gl, gl);
+    fb.delete(gl);
   }
 
   /**
@@ -306,7 +306,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
 
     Assert.assertEquals(CubeMapFace.CUBE_MAP_POSITIVE_X, cat.getFace());
 
-    fb.delete(gl, gl, gl);
+    fb.delete(gl);
   }
 
   /**
@@ -364,7 +364,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
     final RenderbufferUsable<RenderableColor> rb = car.getRenderbuffer();
     Assert.assertTrue(rb.getType().isColorRenderable());
 
-    fb.delete(gl, gl, gl);
+    fb.delete(gl);
   }
 
   /**
@@ -436,7 +436,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       t.getMagnificationFilter(),
       TextureFilter.TEXTURE_FILTER_NEAREST);
 
-    fb.delete(gl, gl, gl);
+    fb.delete(gl);
   }
 
   /**
@@ -513,7 +513,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
 
     Assert.assertEquals(CubeMapFace.CUBE_MAP_POSITIVE_X, cat.getFace());
 
-    fb.delete(gl, gl, gl);
+    fb.delete(gl);
   }
 
   /**
@@ -580,7 +580,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
     assert rb != null;
     Assert.assertTrue(rb.getType().isDepthRenderable());
 
-    fb.delete(gl, gl, gl);
+    fb.delete(gl);
   }
 
   @Test(expected = ConstraintError.class) public void testEmptyFails()
@@ -1494,6 +1494,6 @@ public abstract class FramebuffersGL3Contract implements TestContract
       }
     }
 
-    fb.delete(gl, gl, gl);
+    fb.delete(gl);
   }
 }

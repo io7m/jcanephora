@@ -192,16 +192,14 @@ public final class Program implements CompilableProgram, UsableProgram
    *           Iff a compilation error occurs.
    */
 
-  @Override public void compile(
+  @Override public <G extends GLShaders & GLMeta> void compile(
     final @Nonnull FilesystemAPI fs,
-    final @Nonnull GLShaders gs,
-    final @Nonnull GLMeta gm)
+    final @Nonnull G gl)
     throws ConstraintError,
       GLCompileException
   {
     Constraints.constrainNotNull(fs, "Filesystem");
-    Constraints.constrainNotNull(gs, "OpenGL shader interface");
-    Constraints.constrainNotNull(gm, "OpenGL meta interface");
+    Constraints.constrainNotNull(gl, "OpenGL interface");
 
     try {
       if (this.vertex_shaders.size() == 0) {
@@ -210,7 +208,7 @@ public final class Program implements CompilableProgram, UsableProgram
           "at least one vertex shader is required");
       }
       if (this.vertex_shaders.size() > 1) {
-        if (gm.metaIsES() && (gm.metaGetVersionMajor() == 2)) {
+        if (gl.metaIsES() && (gl.metaGetVersionMajor() == 2)) {
           throw new GLCompileException(
             "<none>",
             "ES2 forbids multiple vertex shader attachments");
@@ -223,21 +221,21 @@ public final class Program implements CompilableProgram, UsableProgram
           "at least one fragment shader is required");
       }
       if (this.fragment_shaders.size() > 1) {
-        if (gm.metaIsES() && (gm.metaGetVersionMajor() == 2)) {
+        if (gl.metaIsES() && (gl.metaGetVersionMajor() == 2)) {
           throw new GLCompileException(
             "<none>",
             "ES2 forbids multiple fragment shader attachments");
         }
       }
 
-      if (this.requiresCompilation(fs, gs) == false) {
+      if (this.requiresCompilation(fs, gl) == false) {
         this.debug("program component(s) not modified - not recompiling");
         return;
       }
 
       this.debug("program component(s) modified - recompiling");
       final ProgramReference old_program = this.program;
-      final ProgramReference new_program = gs.programCreate(this.name);
+      final ProgramReference new_program = gl.programCreate(this.name);
 
       /*
        * Recompile vertex shaders if necessary.
@@ -256,14 +254,14 @@ public final class Program implements CompilableProgram, UsableProgram
             stream = fs.openFile(path);
 
             final VertexShader new_shader =
-              gs.vertexShaderCompile(path.toString(), stream);
+              gl.vertexShaderCompile(path.toString(), stream);
 
             if (shader.shader != null) {
-              gs.vertexShaderDelete(shader.shader);
+              gl.vertexShaderDelete(shader.shader);
             }
             shader.last_modified = time;
             shader.shader = new_shader;
-            gs.vertexShaderAttach(new_program, new_shader);
+            gl.vertexShaderAttach(new_program, new_shader);
 
             final InputStream alt = stream;
             stream = null;
@@ -275,7 +273,7 @@ public final class Program implements CompilableProgram, UsableProgram
           }
         } else {
           assert shader.shader != null;
-          gs.vertexShaderAttach(new_program, shader.shader);
+          gl.vertexShaderAttach(new_program, shader.shader);
         }
       }
 
@@ -296,14 +294,14 @@ public final class Program implements CompilableProgram, UsableProgram
             stream = fs.openFile(path);
 
             final FragmentShader new_shader =
-              gs.fragmentShaderCompile(path.toString(), stream);
+              gl.fragmentShaderCompile(path.toString(), stream);
 
             if (shader.shader != null) {
-              gs.fragmentShaderDelete(shader.shader);
+              gl.fragmentShaderDelete(shader.shader);
             }
             shader.last_modified = time;
             shader.shader = new_shader;
-            gs.fragmentShaderAttach(new_program, new_shader);
+            gl.fragmentShaderAttach(new_program, new_shader);
 
             final InputStream alt = stream;
             stream = null;
@@ -315,23 +313,23 @@ public final class Program implements CompilableProgram, UsableProgram
           }
         } else {
           assert shader.shader != null;
-          gs.fragmentShaderAttach(new_program, shader.shader);
+          gl.fragmentShaderAttach(new_program, shader.shader);
         }
       }
 
-      gs.programLink(new_program);
+      gl.programLink(new_program);
 
       this.program = new_program;
       if (old_program != null) {
-        gs.programDelete(old_program);
+        gl.programDelete(old_program);
       }
 
-      gs.programActivate(new_program);
+      gl.programActivate(new_program);
 
       this.uniforms.clear();
-      gs.programGetUniforms(this.program, this.uniforms);
+      gl.programGetUniforms(this.program, this.uniforms);
       this.attributes.clear();
-      gs.programGetAttributes(this.program, this.attributes);
+      gl.programGetAttributes(this.program, this.attributes);
       this.changed = false;
 
       for (final Entry<String, ProgramUniform> e : this.uniforms.entrySet()) {
@@ -342,7 +340,7 @@ public final class Program implements CompilableProgram, UsableProgram
         this.debug("attribute " + e.getValue());
       }
 
-      gs.programDeactivate();
+      gl.programDeactivate();
 
     } catch (final FilesystemError e) {
       throw new GLCompileException(this.name, e.getMessage());

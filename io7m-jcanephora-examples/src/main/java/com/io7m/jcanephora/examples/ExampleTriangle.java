@@ -65,7 +65,7 @@ public final class ExampleTriangle implements Example
       "/com/io7m/jcanephora/examples/color.v"));
     this.program.addFragmentShader(new PathVirtual(
       "/com/io7m/jcanephora/examples/color.f"));
-    this.program.compile(config.getFilesystem(), this.gl, this.gl);
+    this.program.compile(config.getFilesystem(), this.gl);
 
     /**
      * Allocate an array buffer.

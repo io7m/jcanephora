@@ -188,12 +188,13 @@ public final class Framebuffer extends GLResourceDeleteable implements
     return this.stencil_attachment != null;
   }
 
-  public void delete(
-    final @Nonnull GLRenderbuffersCommon rb,
-    final @Nonnull GLTextures2DStaticCommon t2d,
-    final @Nonnull GLTexturesCubeStaticCommon tc)
-    throws ConstraintError,
-      GLException
+  public
+    <G extends GLRenderbuffersCommon & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon>
+    void
+    delete(
+      final @Nonnull G gl)
+      throws ConstraintError,
+        GLException
   {
     for (final AttachmentColor c : this.color_attachments.values()) {
       switch (c.type) {
@@ -201,21 +202,21 @@ public final class Framebuffer extends GLResourceDeleteable implements
         {
           final AttachmentColorRenderbuffer ar =
             (AttachmentColorRenderbuffer) c;
-          rb.renderbufferDelete(ar.getRenderbufferWritable());
+          gl.renderbufferDelete(ar.getRenderbufferWritable());
           break;
         }
         case ATTACHMENT_COLOR_TEXTURE_2D:
         {
           final AttachmentColorTexture2DStatic at =
             (AttachmentColorTexture2DStatic) c;
-          t2d.texture2DStaticDelete(at.getTextureWritable());
+          gl.texture2DStaticDelete(at.getTextureWritable());
           break;
         }
         case ATTACHMENT_COLOR_TEXTURE_CUBE:
         {
           final AttachmentColorTextureCubeStatic at =
             (AttachmentColorTextureCubeStatic) c;
-          tc.textureCubeStaticDelete(at.getTextureWritable());
+          gl.textureCubeStaticDelete(at.getTextureWritable());
           break;
         }
         case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
@@ -233,14 +234,14 @@ public final class Framebuffer extends GLResourceDeleteable implements
         {
           final AttachmentDepthRenderbuffer a =
             (AttachmentDepthRenderbuffer) this.depth_attachment;
-          rb.renderbufferDelete(a.getRenderbufferWritable());
+          gl.renderbufferDelete(a.getRenderbufferWritable());
           break;
         }
         case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
         {
           final AttachmentDepthStencilRenderbuffer a =
             (AttachmentDepthStencilRenderbuffer) this.depth_attachment;
-          rb.renderbufferDelete(a.getRenderbufferWritable());
+          gl.renderbufferDelete(a.getRenderbufferWritable());
           break;
         }
         case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
@@ -262,7 +263,7 @@ public final class Framebuffer extends GLResourceDeleteable implements
         {
           final AttachmentStencilRenderbuffer a =
             (AttachmentStencilRenderbuffer) this.stencil_attachment;
-          rb.renderbufferDelete(a.getRenderbufferWritable());
+          gl.renderbufferDelete(a.getRenderbufferWritable());
           break;
         }
       }
