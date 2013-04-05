@@ -77,7 +77,7 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
       "/com/io7m/jcanephora/examples/uv.v"));
     this.program.addFragmentShader(new PathVirtual(
       "/com/io7m/jcanephora/examples/uv.f"));
-    this.program.compile(config.getFilesystem(), this.gl, this.gl);
+    this.program.compile(config.getFilesystem(), this.gl);
 
     /**
      * Obtain access to the available texture units.
