@@ -43,7 +43,7 @@ public abstract class ArrayBufferContract implements TestContract
   public abstract @Nonnull GLShaders getGLPrograms(
     final @Nonnull TestContext context);
 
-  static ProgramReference makeProgram(
+  @SuppressWarnings("resource") static ProgramReference makeProgram(
     final GLShaders gl,
     final FilesystemAPI filesystem,
     final PathVirtual vertex_shader,

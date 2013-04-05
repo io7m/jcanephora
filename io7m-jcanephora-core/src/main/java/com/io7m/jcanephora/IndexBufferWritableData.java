@@ -31,12 +31,12 @@ import com.io7m.jaux.RangeInclusive;
 
 public final class IndexBufferWritableData
 {
-  private final @Nonnull IndexBufferUsable    buffer;
-  private final @Nonnull ByteBuffer     target_data;
-  private final long                    target_data_size;
-  private final long                    target_data_offset;
-  private final @Nonnull RangeInclusive range;
-  private final RangeInclusive          target_range;
+  private final @Nonnull IndexBufferUsable buffer;
+  private final @Nonnull ByteBuffer        target_data;
+  private final long                       target_data_size;
+  private final long                       target_data_offset;
+  private final @Nonnull RangeInclusive    range;
+  private final RangeInclusive             target_range;
 
   /**
    * Construct a buffer of data that will be used to replace the entirety of
