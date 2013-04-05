@@ -1,6 +1,6 @@
 package com.io7m.jcanephora;
 
-abstract class GLResourceDeleteable implements GLResourceUsable
+abstract class GLResourceDeletable implements GLResourceUsable
 {
   private boolean deleted = false;
 

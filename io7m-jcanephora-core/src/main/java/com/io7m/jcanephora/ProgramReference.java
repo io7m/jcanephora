@@ -26,7 +26,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * An immutable reference to an OpenGL shading program.
  */
 
-@Immutable public final class ProgramReference extends GLResourceDeleteable implements
+@Immutable public final class ProgramReference extends GLResourceDeletable implements
   GLName
 {
   private final int             id;

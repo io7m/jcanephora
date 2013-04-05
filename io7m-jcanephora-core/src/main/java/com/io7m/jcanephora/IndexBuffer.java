@@ -27,7 +27,7 @@ import com.io7m.jaux.RangeInclusive;
  * An immutable reference to an allocated index buffer.
  */
 
-@Immutable public final class IndexBuffer extends GLResourceDeleteable implements
+@Immutable public final class IndexBuffer extends GLResourceDeletable implements
   Buffer,
   IndexBufferUsable
 {
