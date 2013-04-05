@@ -37,7 +37,7 @@ import com.io7m.jvvfs.PathVirtual;
  * recompilation and graceful handling of compilation errors.
  */
 
-public final class Program extends GLResourceDeleteable implements
+public final class Program extends GLResourceDeletable implements
   CompilableProgram,
   UsableProgram
 {
