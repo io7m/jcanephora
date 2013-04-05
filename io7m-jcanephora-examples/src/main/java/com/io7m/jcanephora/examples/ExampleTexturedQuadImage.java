@@ -17,8 +17,7 @@ import com.io7m.jcanephora.CursorWritable4f;
 import com.io7m.jcanephora.CursorWritableIndex;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLImplementation;
-import com.io7m.jcanephora.GLInterfaceGLES2;
+import com.io7m.jcanephora.GLInterfaceCommon;
 import com.io7m.jcanephora.GLScalarType;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
@@ -49,8 +48,7 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleTexturedQuadImage implements Example
 {
-  private final GLImplementation        gl_implementation;
-  private final GLInterfaceGLES2          gl;
+  private final GLInterfaceCommon       gl;
   private final ArrayBufferDescriptor   array_type;
   private final ArrayBuffer             array;
   private final ArrayBufferWritableData array_data;
@@ -77,8 +75,7 @@ public final class ExampleTexturedQuadImage implements Example
     this.config = config;
     this.matrix_modelview = new MatrixM4x4F();
     this.matrix_projection = new MatrixM4x4F();
-    this.gl_implementation = config.getGL();
-    this.gl = this.gl_implementation.implementationGetGLES2();
+    this.gl = this.config.getGL().getGLCommon();
 
     /**
      * Initialize shaders.
@@ -89,7 +86,7 @@ public final class ExampleTexturedQuadImage implements Example
       "/com/io7m/jcanephora/examples/uv.v"));
     this.program.addFragmentShader(new PathVirtual(
       "/com/io7m/jcanephora/examples/uv.f"));
-    this.program.compile(config.getFilesystem(), this.gl);
+    this.program.compile(config.getFilesystem(), this.gl, this.gl);
 
     /**
      * Obtain access to the available texture units.

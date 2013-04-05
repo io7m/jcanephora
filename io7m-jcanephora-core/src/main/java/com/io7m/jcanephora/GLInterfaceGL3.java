@@ -21,31 +21,18 @@ package com.io7m.jcanephora;
  */
 
 public interface GLInterfaceGL3 extends
-  GLArrayBuffers,
+  GLInterfaceCommon,
   GLArrayBuffersMapped,
   GLBlendingGL3,
-  GLColorBuffer,
-  GLCull,
-  GLDepthBuffer,
-  GLDraw,
-  GLErrorCodes,
   GLFramebuffersGL3,
-  GLIndexBuffers,
   GLIndexBuffersMapped,
   GLLogic,
-  GLMeta,
   GLPolygonModes,
   GLPolygonSmoothing,
   GLProgramPointSizeControl,
-  GLRasterization,
   GLRenderbuffersGL3,
-  GLScissor,
-  GLShaders,
-  GLStencilBuffer,
   GLTexturesCubeStaticGL3,
-  GLTextures2DStaticGL3,
-  GLTextureUnits,
-  GLViewport
+  GLTextures2DStaticGL3
 {
   /*
    * All functions defined in the superinterfaces.

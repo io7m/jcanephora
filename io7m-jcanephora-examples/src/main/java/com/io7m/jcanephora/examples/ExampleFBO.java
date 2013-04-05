@@ -23,7 +23,7 @@ import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLImplementation;
-import com.io7m.jcanephora.GLInterfaceGLES2;
+import com.io7m.jcanephora.GLInterfaceCommon;
 import com.io7m.jcanephora.GLScalarType;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
@@ -54,7 +54,7 @@ public final class ExampleFBO implements Example
   }
 
   private final GLImplementation                  gli;
-  private final GLInterfaceGLES2                    gl;
+  private final GLInterfaceCommon                 gl;
   private final Texture2DStaticUsable             texture;
   private final Framebuffer                       framebuffer;
   private boolean                                 has_shut_down;
@@ -79,7 +79,7 @@ public final class ExampleFBO implements Example
   private int                                     framebuffer_width;
   private int                                     framebuffer_height;
   private final int                               framebuffer_divisor = 8;
-  private final FramebufferConfigurationGLES2       framebuffer_config;
+  private final FramebufferConfigurationGLES2     framebuffer_config;
 
   public ExampleFBO(
     final @Nonnull ExampleConfig config)
@@ -89,7 +89,7 @@ public final class ExampleFBO implements Example
   {
     this.config = config;
     this.gli = config.getGL();
-    this.gl = this.gli.implementationGetGLES2();
+    this.gl = this.gli.getGLCommon();
     this.context = new MatrixM4x4F.Context();
     this.matrix_modelview = new MatrixM4x4F();
     this.matrix_projection = new MatrixM4x4F();
@@ -103,14 +103,14 @@ public final class ExampleFBO implements Example
       "/com/io7m/jcanephora/examples/uv.v"));
     this.program_uv.addFragmentShader(new PathVirtual(
       "/com/io7m/jcanephora/examples/uv.f"));
-    this.program_uv.compile(config.getFilesystem(), this.gl);
+    this.program_uv.compile(config.getFilesystem(), this.gl, this.gl);
 
     this.program_color = new Program("color", config.getLog());
     this.program_color.addVertexShader(new PathVirtual(
       "/com/io7m/jcanephora/examples/color.v"));
     this.program_color.addFragmentShader(new PathVirtual(
       "/com/io7m/jcanephora/examples/color.f"));
-    this.program_color.compile(config.getFilesystem(), this.gl);
+    this.program_color.compile(config.getFilesystem(), this.gl, this.gl);
 
     /**
      * Allocate and initialize a framebuffer using the high level
@@ -579,9 +579,10 @@ public final class ExampleFBO implements Example
       GLCompileException
   {
     this.has_shut_down = true;
-    this.color_quad.resourceDelete(this.gl);
-    this.textured_quad.resourceDelete(this.gl);
-    this.framebuffer.resourceDelete(this.gl);
+
+    this.gl.arrayBufferDelete(this.color_quad);
+    this.gl.arrayBufferDelete(this.textured_quad);
+    this.framebuffer.delete(this.gl, this.gl, this.gl);
     this.program_color.delete(this.gl);
     this.program_uv.delete(this.gl);
   }

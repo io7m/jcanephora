@@ -24,4 +24,10 @@ public interface GLImplementation
 
   @Nonnull Option<GLInterfaceGL3> getGL3();
 
+  /**
+   * Return a reference to the interface representing the common subset of
+   * OpenGL 3.* and OpenGL ES2.
+   */
+
+  @Nonnull GLInterfaceCommon getGLCommon();
 }

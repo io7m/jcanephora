@@ -24,10 +24,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * Simplified and type-safe interface to the set of blending features
  * supported by OpenGL 3.*.
  * 
- * @see GLBlendingGLES2
+ * @see GLBlendingCommon
  */
 
-public interface GLBlendingGL3 extends GLBlendingGLES2
+public interface GLBlendingGL3 extends GLBlendingCommon
 {
   /**
    * Enable blending with the given blending functions. The function is

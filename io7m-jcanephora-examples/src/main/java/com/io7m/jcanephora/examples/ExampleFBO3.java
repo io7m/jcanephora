@@ -7,6 +7,7 @@ import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jaux.functional.Indeterminate;
 import com.io7m.jaux.functional.Indeterminate.Failure;
 import com.io7m.jaux.functional.Indeterminate.Success;
+import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferDescriptor;
@@ -54,8 +55,10 @@ public final class ExampleFBO3 implements Example
     Z_AXIS = new VectorI3F(0.0f, 0.0f, 1.0f);
   }
 
-  private final GLImplementation                  gli;
-  private final GLInterfaceGL3                      gl;
+  private final GLImplementation                  gl_implementation;
+  private final GLInterfaceGL3                    gl;
+  private boolean                                 supported;
+
   private final Texture2DStaticUsable             texture;
   private final Framebuffer                       framebuffer;
   private boolean                                 has_shut_down;
@@ -90,11 +93,46 @@ public final class ExampleFBO3 implements Example
       GLCompileException
   {
     this.config = config;
-    this.gli = config.getGL();
-    this.gl = this.gli.implementationGetGL3();
     this.context = new MatrixM4x4F.Context();
     this.matrix_modelview = new MatrixM4x4F();
     this.matrix_projection = new MatrixM4x4F();
+    this.gl_implementation = this.config.getGL();
+
+    /**
+     * This example only works on OpenGL 3.*
+     * 
+     * If given an implementation that does not support OpenGL 3.*, the
+     * example simply prints a message and does nothing.
+     */
+
+    switch (this.gl_implementation.getGL3().type) {
+      case OPTION_SOME:
+        this.gl =
+          ((Some<GLInterfaceGL3>) this.gl_implementation.getGL3()).value;
+        this.supported = true;
+        break;
+      case OPTION_NONE:
+      default:
+        config.getLog().error("Example not supported on this implementation");
+        this.supported = false;
+        this.color_quad = null;
+        this.color_quad_data = null;
+        this.framebuffer_color_points = null;
+        this.framebuffer_draw_buffers = null;
+        this.framebuffer_config = null;
+        this.textured_quad = null;
+        this.textured_quad_type = null;
+        this.textured_quad_data = null;
+        this.texture_units = null;
+        this.texture = null;
+        this.program_uv = null;
+        this.program_color = null;
+        this.indices = null;
+        this.indices_data = null;
+        this.gl = null;
+        this.framebuffer = null;
+        return;
+    }
 
     /**
      * Initialize shaders.
@@ -105,14 +143,14 @@ public final class ExampleFBO3 implements Example
       "/com/io7m/jcanephora/examples/uv.v"));
     this.program_uv.addFragmentShader(new PathVirtual(
       "/com/io7m/jcanephora/examples/uv.f"));
-    this.program_uv.compile(config.getFilesystem(), this.gl);
+    this.program_uv.compile(config.getFilesystem(), this.gl, this.gl);
 
     this.program_color = new Program("color", config.getLog());
     this.program_color.addVertexShader(new PathVirtual(
       "/com/io7m/jcanephora/examples/color.v"));
     this.program_color.addFragmentShader(new PathVirtual(
       "/com/io7m/jcanephora/examples/color.f"));
-    this.program_color.compile(config.getFilesystem(), this.gl);
+    this.program_color.compile(config.getFilesystem(), this.gl, this.gl);
 
     /**
      * Allocate and initialize a framebuffer using the high level
@@ -343,8 +381,10 @@ public final class ExampleFBO3 implements Example
       GLCompileException,
       ConstraintError
   {
-    this.drawFramebufferScene();
-    this.drawActualScene();
+    if (this.supported) {
+      this.drawFramebufferScene();
+      this.drawActualScene();
+    }
   }
 
   /**
@@ -578,12 +618,14 @@ public final class ExampleFBO3 implements Example
       ConstraintError,
       GLCompileException
   {
-    this.gl.viewportSet(position, size);
+    if (this.supported) {
+      this.gl.viewportSet(position, size);
 
-    this.framebuffer_width =
-      this.config.getWindowSize().getXI() / this.framebuffer_divisor;
-    this.framebuffer_height =
-      this.config.getWindowSize().getYI() / this.framebuffer_divisor;
+      this.framebuffer_width =
+        this.config.getWindowSize().getXI() / this.framebuffer_divisor;
+      this.framebuffer_height =
+        this.config.getWindowSize().getYI() / this.framebuffer_divisor;
+    }
   }
 
   @Override public void shutdown()
@@ -591,11 +633,13 @@ public final class ExampleFBO3 implements Example
       ConstraintError,
       GLCompileException
   {
-    this.has_shut_down = true;
-    this.color_quad.resourceDelete(this.gl);
-    this.textured_quad.resourceDelete(this.gl);
-    this.framebuffer.resourceDelete(this.gl);
-    this.program_color.delete(this.gl);
-    this.program_uv.delete(this.gl);
+    if (this.supported) {
+      this.has_shut_down = true;
+      this.gl.arrayBufferDelete(this.color_quad);
+      this.gl.arrayBufferDelete(this.textured_quad);
+      this.framebuffer.delete(this.gl, this.gl, this.gl);
+      this.program_color.delete(this.gl);
+      this.program_uv.delete(this.gl);
+    }
   }
 }

@@ -21,6 +21,7 @@ import javax.media.opengl.GLContext;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jlog.Log;
 
@@ -98,5 +99,17 @@ public final class GLImplementationJOGL implements GLImplementation
       return new Option.Some<GLInterfaceGL3>(this.gl_3);
     }
     return new Option.None<GLInterfaceGL3>();
+  }
+
+  @Override public @Nonnull GLInterfaceCommon getGLCommon()
+  {
+    if (this.gl_es2 != null) {
+      return this.gl_es2;
+    }
+    if (this.gl_3 != null) {
+      return this.gl_3;
+    }
+
+    throw new UnreachableCodeException();
   }
 }
