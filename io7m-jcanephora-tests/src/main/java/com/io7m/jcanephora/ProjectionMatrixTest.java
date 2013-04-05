@@ -44,13 +44,14 @@ public class ProjectionMatrixTest
       .assertTrue(AlmostEqualFloat.almostEqual(context, 0.0f, m.get(2, 0)));
     Assert
       .assertTrue(AlmostEqualFloat.almostEqual(context, 0.0f, m.get(2, 1)));
+
     Assert.assertTrue(AlmostEqualFloat.almostEqual(
       context,
-      -0.2f,
+      -0.22222222f,
       m.get(2, 2)));
     Assert.assertTrue(AlmostEqualFloat.almostEqual(
       context,
-      -1.2f,
+      -1.2222222f,
       m.get(2, 3)));
 
     Assert
@@ -89,10 +90,8 @@ public class ProjectionMatrixTest
 
     Assert
       .assertTrue(AlmostEqualFloat.almostEqual(context, 0.0f, m.get(1, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(
-      context,
-      1.29999f,
-      m.get(1, 1)));
+    Assert
+      .assertTrue(AlmostEqualFloat.almostEqual(context, 1.3f, m.get(1, 1)));
     Assert
       .assertTrue(AlmostEqualFloat.almostEqual(context, 0.0f, m.get(1, 2)));
     Assert
@@ -108,7 +107,7 @@ public class ProjectionMatrixTest
       m.get(2, 2)));
     Assert.assertTrue(AlmostEqualFloat.almostEqual(
       context,
-      -2.0f,
+      -2.002002f,
       m.get(2, 3)));
 
     Assert
@@ -149,10 +148,8 @@ public class ProjectionMatrixTest
 
     Assert
       .assertTrue(AlmostEqualFloat.almostEqual(context, 0.0f, m.get(1, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(
-      context,
-      1.29999f,
-      m.get(1, 1)));
+    Assert
+      .assertTrue(AlmostEqualFloat.almostEqual(context, 1.3f, m.get(1, 1)));
     Assert
       .assertTrue(AlmostEqualFloat.almostEqual(context, 0.0f, m.get(1, 2)));
     Assert

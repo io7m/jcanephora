@@ -466,6 +466,38 @@ public abstract class FramebuffersES2Contract implements TestContract
   }
 
   /**
+   * Deleting a framebuffer marks the framebuffer as deleted.
+   */
+
+  @Test public void testDelete()
+    throws ConstraintError,
+      GLException,
+      GLUnsupportedException
+  {
+    final TestContext tc = this.newTestContext();
+    final GLImplementation gi = tc.getGLImplementation();
+    final GLInterfaceCommon gl = gi.getGLCommon();
+
+    final FramebufferConfigurationGLES2 config =
+      new FramebufferConfigurationGLES2(128, 256);
+
+    config.requestNoDepth();
+    config.requestNoStencil();
+    config.requestBestRGBAColorRenderbuffer();
+
+    final Indeterminate<Framebuffer, FramebufferStatus> result =
+      config.make(gi);
+    Assert.assertTrue(result.isSuccess());
+    final Success<Framebuffer, FramebufferStatus> success =
+      (Success<Framebuffer, FramebufferStatus>) result;
+
+    final Framebuffer fb = success.value;
+    Assert.assertFalse(fb.resourceIsDeleted());
+    fb.delete(gl);
+    Assert.assertTrue(fb.resourceIsDeleted());
+  }
+
+  /**
    * Requesting a depth renderbuffer works.
    * 
    * @throws ConstraintError
