@@ -12,7 +12,7 @@ import com.io7m.jcanephora.CursorWritableIndex;
 import com.io7m.jcanephora.FaceSelection;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterfaceEmbedded;
+import com.io7m.jcanephora.GLInterfaceCommon;
 import com.io7m.jcanephora.GLScalarType;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
@@ -23,6 +23,7 @@ import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.ProjectionMatrix;
 import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
+import com.io7m.jcanephora.UsageHint;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorM2F;
 import com.io7m.jtensors.VectorReadable2I;
@@ -35,7 +36,7 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleStencil implements Example
 {
-  private final GLInterfaceEmbedded     gl;
+  private final GLInterfaceCommon       gl;
   private final ArrayBufferDescriptor   array_type;
   private final ArrayBuffer             array;
   private final ArrayBufferWritableData array_data;
@@ -59,9 +60,9 @@ public final class ExampleStencil implements Example
       GLCompileException
   {
     this.config = config;
-    this.gl = config.getGL();
     this.matrix_modelview = new MatrixM4x4F();
     this.matrix_projection = new MatrixM4x4F();
+    this.gl = this.config.getGL().getGLCommon();
 
     this.program = new Program("color", config.getLog());
     this.program.addVertexShader(new PathVirtual(
@@ -74,7 +75,11 @@ public final class ExampleStencil implements Example
     ab[0] = new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 4);
     ab[1] = new ArrayBufferAttribute("color", GLScalarType.TYPE_FLOAT, 4);
     this.array_type = new ArrayBufferDescriptor(ab);
-    this.array = this.gl.arrayBufferAllocate(3, this.array_type);
+    this.array =
+      this.gl.arrayBufferAllocate(
+        3,
+        this.array_type,
+        UsageHint.USAGE_STATIC_DRAW);
     this.array_data = new ArrayBufferWritableData(this.array);
 
     {

@@ -1,10 +1,10 @@
 /*
  * Copyright © 2012 http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora;
 
+import com.io7m.jaux.UnreachableCodeException;
+
 /**
  * Type-safe unsigned OpenGL types.
  */
@@ -24,5 +26,19 @@ public enum GLUnsignedType
 {
   TYPE_UNSIGNED_BYTE,
   TYPE_UNSIGNED_SHORT,
-  TYPE_UNSIGNED_INT
+  TYPE_UNSIGNED_INT;
+
+  public int getSizeBytes()
+  {
+    switch (this) {
+      case TYPE_UNSIGNED_BYTE:
+        return 1;
+      case TYPE_UNSIGNED_INT:
+        return 4;
+      case TYPE_UNSIGNED_SHORT:
+        return 2;
+    }
+
+    throw new UnreachableCodeException();
+  }
 }

@@ -1,26 +1,31 @@
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jlog.Log;
-import com.io7m.jvvfs.FilesystemAPI;
+import com.io7m.jaux.functional.Option.Some;
 
 public final class JOGL30TextureLoaderImageIOTest extends
   TextureLoaderImageIOTest
 {
-  @Override public Log getLog()
+  @Override public GLTextures2DStaticCommon getGLTextures2DStaticCommon(
+    final TestContext tc)
   {
-    return JOGL30TestLog.getLog();
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
   }
 
-  @Override public GLInterfaceEmbedded makeNewGL()
+  @Override public boolean isGLSupported()
+  {
+    return JOGLTestContext.isOpenGL3Supported();
+  }
+
+  @Override public @Nonnull TestContext newTestContext()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    return JOGL30TestDisplay.makeFreshGLEmbedded();
-  }
-
-  @Override public FilesystemAPI makeNewFS()
-  {
-    return JOGL30TestFilesystem.getFS();
+    return JOGLTestContext.makeContextWithOpenGL3_X();
   }
 }

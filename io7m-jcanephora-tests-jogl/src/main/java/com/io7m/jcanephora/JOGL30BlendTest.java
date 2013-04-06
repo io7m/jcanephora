@@ -1,20 +1,22 @@
 package com.io7m.jcanephora;
 
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts_embedded.BlendingEmbeddedContract;
-import com.io7m.jlog.Log;
+import javax.annotation.Nonnull;
 
-public final class JOGL30BlendTest extends BlendingEmbeddedContract
+import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.contracts.gles2.BlendingGLES2Contract;
+
+public final class JOGL30BlendTest extends BlendingGLES2Contract
 {
-  @Override public Log getLog()
+  @Override public boolean isGLSupported()
   {
-    return JOGL30TestLog.getLog();
+    return JOGLTestContext.isOpenGL3Supported();
   }
 
-  @Override public GLInterfaceEmbedded makeNewGL()
+  @Override public @Nonnull TestContext newTestContext()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    return JOGL30TestDisplay.makeFreshGLEmbedded();
+    return JOGLTestContext.makeContextWithOpenGL3_X();
   }
 }

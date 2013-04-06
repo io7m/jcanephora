@@ -1,26 +1,39 @@
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts_embedded.ArrayBufferContract;
-import com.io7m.jlog.Log;
-import com.io7m.jvvfs.FilesystemAPI;
+import com.io7m.jaux.functional.Option.Some;
+import com.io7m.jcanephora.contracts.common.ArrayBufferContract;
 
 public final class JOGL30ArrayBufferTest extends ArrayBufferContract
 {
-  @Override public Log getLog()
+  @Override public @Nonnull GLArrayBuffers getGLArrayBuffers(
+    @Nonnull final TestContext context)
   {
-    return JOGL30TestLog.getLog();
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) context.getGLImplementation().getGL3();
+    return some.value;
   }
 
-  @Override public FilesystemAPI makeNewFS()
+  @Override public @Nonnull GLShaders getGLPrograms(
+    @Nonnull final TestContext context)
   {
-    return JOGL30TestFilesystem.getFS();
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) context.getGLImplementation().getGL3();
+    return some.value;
   }
 
-  @Override public GLInterfaceEmbedded makeNewGL()
+  @Override public boolean isGLSupported()
+  {
+    return JOGLTestContext.isOpenGL3Supported();
+  }
+
+  @Override public @Nonnull TestContext newTestContext()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    return JOGL30TestDisplay.makeFreshGLEmbedded();
+    return JOGLTestContext.makeContextWithOpenGL3_X();
   }
 }

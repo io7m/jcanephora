@@ -8,21 +8,44 @@ import com.io7m.jaux.UnreachableCodeException;
 public class JOGL30TextureFilterTest
 {
   /**
-   * ∀f. textureFilterFromGL(textureFilterToGL(f)) == f.
+   * ∀f. textureFilterMagFromGL(textureFilterMagToGL(f)) == f.
    */
 
-  @SuppressWarnings("static-method") @Test public void testFilterBijection()
+  @SuppressWarnings("static-method") @Test public
+    void
+    testFilterMagBijection()
   {
-    for (final TextureFilter f : TextureFilter.values()) {
-      Assert.assertEquals(f, GLInterfaceEmbedded_JOGL_ES2_Actual
-        .textureFilterFromGL(GLInterfaceEmbedded_JOGL_ES2_Actual
-          .textureFilterToGL(f)));
+    for (final TextureFilterMagnification f : TextureFilterMagnification
+      .values()) {
+      Assert.assertEquals(f, GLTypeConversions
+        .textureFilterMagFromGL(GLTypeConversions.textureFilterMagToGL(f)));
+    }
+  }
+
+  /**
+   * ∀f. textureFilterMinFromGL(textureFilterMinToGL(f)) == f.
+   */
+
+  @SuppressWarnings("static-method") @Test public
+    void
+    testFilterMinBijection()
+  {
+    for (final TextureFilterMinification f : TextureFilterMinification
+      .values()) {
+      Assert.assertEquals(f, GLTypeConversions
+        .textureFilterMinFromGL(GLTypeConversions.textureFilterMinToGL(f)));
     }
   }
 
   @SuppressWarnings("static-method") @Test(
-    expected = UnreachableCodeException.class) public void testNonsense()
+    expected = UnreachableCodeException.class) public void testMagNonsense()
   {
-    GLInterfaceEmbedded_JOGL_ES2_Actual.textureFilterFromGL(-1);
+    GLTypeConversions.textureFilterMagFromGL(-1);
+  }
+
+  @SuppressWarnings("static-method") @Test(
+    expected = UnreachableCodeException.class) public void testMinNonsense()
+  {
+    GLTypeConversions.textureFilterMinFromGL(-1);
   }
 }

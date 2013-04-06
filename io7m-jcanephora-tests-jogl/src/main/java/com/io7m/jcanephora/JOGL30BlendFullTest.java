@@ -1,25 +1,31 @@
 package com.io7m.jcanephora;
 
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts_full.BlendContract;
-import com.io7m.jlog.Log;
+import javax.annotation.Nonnull;
 
-public final class JOGL30BlendFullTest extends BlendContract
+import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option.Some;
+import com.io7m.jcanephora.contracts.gl3.BlendingGL3Contract;
+
+public final class JOGL30BlendFullTest extends BlendingGL3Contract
 {
-  @Override public Log getLog()
+  @Override public GLBlendingGL3 getGLBlendingGL3(
+    final TestContext tc)
   {
-    return JOGL30TestLog.getLog();
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
   }
 
-  @Override public GLInterface makeNewGL()
+  @Override public boolean isGLSupported()
+  {
+    return JOGLTestContext.isOpenGL3Supported();
+  }
+
+  @Override public @Nonnull TestContext newTestContext()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    return JOGL30TestDisplay.makeFreshGLFull();
-  }
-
-  @Override public boolean isFullGLSupported()
-  {
-    return JOGL30TestDisplay.isFullGLSupported();
+    return JOGLTestContext.makeContextWithOpenGL3_X();
   }
 }

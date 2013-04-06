@@ -1,10 +1,10 @@
 /*
  * Copyright © 2012 http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -19,8 +19,8 @@ package com.io7m.jcanephora;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * Typed, writable cursor addressing areas consisting of elements of type
- * Vector2B.
+ * Typed, writable cursor addressing areas consisting of single integer
+ * elements.
  * 
  * Due to the lack of 8-bit unsigned types in Java, the interface uses
  * ordinary integers and simply assumes that values passed are in the range

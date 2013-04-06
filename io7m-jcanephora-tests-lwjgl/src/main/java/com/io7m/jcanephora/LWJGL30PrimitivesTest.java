@@ -15,8 +15,8 @@ public final class LWJGL30PrimitivesTest
   @SuppressWarnings("static-method") @Test public void testModeBijection()
   {
     for (final Primitives p : Primitives.values()) {
-      Assert.assertEquals(GLInterfaceEmbedded_LWJGL_ES2_Actual
-        .primitiveFromGL(GLInterfaceEmbedded_LWJGL_ES2_Actual
+      Assert
+        .assertEquals(GLTypeConversions.primitiveFromGL(GLTypeConversions
           .primitiveToGL(p)), p);
     }
   }
@@ -24,6 +24,6 @@ public final class LWJGL30PrimitivesTest
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLInterface_LWJGL30.polygonModeFromGL(-1);
+    GLTypeConversions.polygonModeFromGL(-1);
   }
 }

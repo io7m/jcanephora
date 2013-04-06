@@ -1,10 +1,10 @@
 /*
  * Copyright © 2012 http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -29,7 +29,7 @@ public interface GLIndexBuffersMapped
   /**
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped read-only. The buffer should be unmapped
-   * after use with {@link GLInterface#indexBufferUnmap(IndexBuffer)}. Note
+   * after use with {@link GLInterfaceGL3#indexBufferUnmap(IndexBuffer)}. Note
    * that the type of indices in the buffer is given by
    * <code>id.getType()</code>.
    * 
@@ -55,7 +55,7 @@ public interface GLIndexBuffersMapped
   /**
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped write-only. The buffer should be unmapped
-   * after use with {@link GLInterface#indexBufferUnmap(IndexBuffer)}. Note
+   * after use with {@link GLInterfaceGL3#indexBufferUnmap(IndexBuffer)}. Note
    * that the type of indices in the buffer is given by
    * <code>id.getType()</code>. The previous contents of the buffer are
    * discarded to prevent pipeline stalls.

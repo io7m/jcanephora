@@ -1,10 +1,10 @@
 /*
  * Copyright © 2012 http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -17,8 +17,6 @@
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
  * Type-safe interface to the GPU's texture units.
@@ -48,23 +46,4 @@ public interface GLTextureUnits
 
   public @Nonnull TextureUnit[] textureGetUnits()
     throws GLException;
-
-  /**
-   * Unbind whatever texture is bound to the texture unit <code>unit</code>.
-   * 
-   * @param unit
-   *          The texture unit.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>unit == null</code>.</li>
-   *           </ul>
-   * @throws GLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  void textureUnitUnbind(
-    final @Nonnull TextureUnit unit)
-    throws ConstraintError,
-      GLException;
 }
