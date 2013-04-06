@@ -4,12 +4,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.io7m.jcanephora.jogl</groupId>
-  <artifactId>io7m-jcanephora-jogl</artifactId>
-  <name>io7m-jcanephora-jogl</name>
-  <description>API implementation using JOGL</description>
+  <groupId>com.io7m.jcanephora.framebuffer</groupId>
+  <artifactId>io7m-jcanephora-framebuffer</artifactId>
+  <name>io7m-jcanephora-framebuffer</name>
+  <description>High-level framebuffer API for portable framebuffer creation</description>
   <version>1.0.0-SNAPSHOT</version>
-  <url>http://mvn.io7m.com/jcanephora-jogl</url>
+  <url>http://mvn.io7m.com/jcanephora-framebuffer</url>
   <packaging>jar</packaging>
 
   <licenses>
@@ -34,7 +34,7 @@
     <site>
       <id>io7m</id>
       <name>io7m.com</name>
-      <url>http://mvn.io7m.com/jcanephora-jogl</url>
+      <url>http://mvn.io7m.com/jcanephora-framebuffer</url>
     </site>
   </distributionManagement>
 
@@ -67,18 +67,6 @@
       <artifactId>junit</artifactId>
       <scope>test</scope>
       <version>4.11</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jogamp.gluegen</groupId>
-      <artifactId>gluegen-rt-main</artifactId>
-      <version>2.0.2-rc20130404</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.jogamp.jogl</groupId>
-      <artifactId>jogl-all-main</artifactId>
-      <version>2.0.2-rc20130404</version>
-      <optional>true</optional>
     </dependency>
   </dependencies>
 
@@ -163,25 +151,35 @@
         </configuration>
       </plugin>
 
-      <!-- Produce custom manifest in jar files -->
+      <!-- Produce jar files -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <version>2.4</version>
-        <configuration>
-          <archive>
-            <manifestEntries>
-              <Specification-Title>${project.name}</Specification-Title>
-              <Specification-Version>${project.version}</Specification-Version>
-              <Specification-Vendor>io7m.com</Specification-Vendor>
-              <Implementation-Title>${project.name}</Implementation-Title>
-              <Implementation-Version>${project.version}</Implementation-Version>
-              <Implementation-Vendor>io7m.com</Implementation-Vendor>
-              <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
-              <Built-By>io7m</Built-By>
-            </manifestEntries>
-          </archive>
-        </configuration>
+        <executions>
+
+          <!-- Produce jar file with custom manifest -->
+          <execution>
+            <id>make-jar</id>
+            <configuration>
+              <archive>
+                <manifestEntries>
+                  <Specification-Title>${project.name}</Specification-Title>
+                  <Specification-Version>${project.version}</Specification-Version>
+                  <Specification-Vendor>io7m.com</Specification-Vendor>
+                  <Implementation-Title>${project.name}</Implementation-Title>
+                  <Implementation-Version>${project.version}</Implementation-Version>
+                  <Implementation-Vendor>io7m.com</Implementation-Vendor>
+                  <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
+                  <Built-By>io7m</Built-By>
+                </manifestEntries>
+              </archive>
+            </configuration>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <!-- Create source jar -->
@@ -230,7 +228,7 @@
         </executions>
       </plugin>
     </plugins>
-    
+
     <!-- Mark certain plugins as ignored in Eclipse. Does not affect the build. -->
     <pluginManagement>
       <plugins>
