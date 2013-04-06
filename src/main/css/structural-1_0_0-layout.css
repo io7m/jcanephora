@@ -228,6 +228,11 @@
 
 }
 
+.structural_1_0_0_formal_item .structural_1_0_0_list_item
+{
+  padding-bottom: 1em;
+}
+
 /*
  * Element: list-ordered
  */
@@ -235,6 +240,11 @@
 .structural_1_0_0_list_ordered
 {
 
+}
+
+.structural_1_0_0_formal_item .structural_1_0_0_list_ordered
+{
+  padding-right: 2em;
 }
 
 /*

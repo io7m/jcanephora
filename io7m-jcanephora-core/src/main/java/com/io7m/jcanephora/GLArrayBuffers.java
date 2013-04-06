@@ -1,10 +1,10 @@
 /*
  * Copyright © 2012 http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -28,12 +28,15 @@ public interface GLArrayBuffers
 {
   /**
    * Allocate a buffer of <code>elements</code> elements of size
-   * <code>descriptor.getSize()</code>.
+   * <code>descriptor.getSize()</code>, informing the implementation that the
+   * buffer will be used in the manner specified by <code>usage</code>.
    * 
    * @param elements
    *          The number of elements in the buffer.
    * @param descriptor
    *          A value describing the type of elements held in the buffer.
+   * @param usage
+   *          The usage hint
    * @return A reference to the allocated buffer.
    * @throws GLException
    *           Iff an OpenGL error occurs.
@@ -42,12 +45,14 @@ public interface GLArrayBuffers
    *           <ul>
    *           <li><code>0 < elements <= Long.MAX_VALUE == false</code>.</li>
    *           <li><code>descriptor == null</code>.</li>
+   *           <li><code>usage == null</code>.</li>
    *           </ul>
    */
 
   public @Nonnull ArrayBuffer arrayBufferAllocate(
     final long elements,
-    final @Nonnull ArrayBufferDescriptor descriptor)
+    final @Nonnull ArrayBufferDescriptor descriptor,
+    final @Nonnull UsageHint usage)
     throws GLException,
       ConstraintError;
 

@@ -13,15 +13,15 @@ public final class LWJGL30BlendEquationTest
 
   @SuppressWarnings("static-method") @Test public void testBijection()
   {
-    for (final BlendEquation f : BlendEquation.values()) {
-      Assert.assertEquals(GLInterface_LWJGL30
-        .blendEquationFromGL(GLInterface_LWJGL30.blendEquationToGL(f)), f);
+    for (final BlendEquationGL3 f : BlendEquationGL3.values()) {
+      Assert.assertEquals(GLTypeConversions
+        .blendEquationFromGL(GLTypeConversions.blendEquationToGL(f)), f);
     }
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLInterface_LWJGL30.blendEquationFromGL(-1);
+    GLTypeConversions.blendEquationFromGL(-1);
   }
 }

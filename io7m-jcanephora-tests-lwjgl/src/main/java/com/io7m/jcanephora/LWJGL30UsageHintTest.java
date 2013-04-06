@@ -10,7 +10,7 @@ public class LWJGL30UsageHintTest
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLInterface_LWJGL30.usageHintFromGL(-1);
+    GLTypeConversions.usageHintFromGL(-1);
   }
 
   /**
@@ -20,8 +20,9 @@ public class LWJGL30UsageHintTest
   @SuppressWarnings("static-method") @Test public void testWrapBijection()
   {
     for (final UsageHint h : UsageHint.values()) {
-      Assert.assertEquals(h, GLInterface_LWJGL30
-        .usageHintFromGL(GLInterface_LWJGL30.usageHintToGL(h)));
+      Assert
+        .assertEquals(h, GLTypeConversions.usageHintFromGL(GLTypeConversions
+          .usageHintToGL(h)));
     }
   }
 }

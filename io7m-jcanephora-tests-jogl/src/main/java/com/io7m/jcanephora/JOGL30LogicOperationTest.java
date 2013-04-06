@@ -1,31 +1,37 @@
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jcanephora.contracts_full.LogicOpContract;
-import com.io7m.jlog.Log;
+import com.io7m.jaux.functional.Option.Some;
+import com.io7m.jcanephora.contracts.gl3.LogicOpContract;
 
 public final class JOGL30LogicOperationTest extends LogicOpContract
 {
-  @Override public Log getLog()
+  @Override public GLLogic getGLLogic(
+    final TestContext tc)
   {
-    return JOGL30TestLog.getLog();
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
   }
 
-  @Override public GLInterface makeNewGL()
+  @Override public boolean isGLSupported()
+  {
+    return JOGLTestContext.isOpenGL3Supported();
+  }
+
+  @Override public @Nonnull TestContext newTestContext()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    return JOGL30TestDisplay.makeFreshGLFull();
-  }
-
-  @Override public boolean isFullGLSupported()
-  {
-    return JOGL30TestDisplay.isFullGLSupported();
+    return JOGLTestContext.makeContextWithOpenGL3_X();
   }
 
   /**
@@ -36,7 +42,7 @@ public final class JOGL30LogicOperationTest extends LogicOpContract
   {
     for (final LogicOperation o : LogicOperation.values()) {
       Assert.assertEquals(
-        GLInterface_JOGL30.logicOpFromGL(GLInterface_JOGL30.logicOpToGL(o)),
+        GLTypeConversions.logicOpFromGL(GLTypeConversions.logicOpToGL(o)),
         o);
     }
   }
@@ -44,6 +50,6 @@ public final class JOGL30LogicOperationTest extends LogicOpContract
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testLogicFailure()
   {
-    GLInterface_JOGL30.logicOpFromGL(-1);
+    GLTypeConversions.logicOpFromGL(-1);
   }
 }

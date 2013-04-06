@@ -1,10 +1,10 @@
 /*
  * Copyright © 2012 http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -26,24 +26,30 @@ import com.io7m.jaux.RangeInclusive;
  * 2D "static" texture type.
  */
 
-public final class Texture2DStatic extends Deletable implements
-  GLResource,
-  GLName
+public final class Texture2DStatic extends GLResourceDeletable implements
+  Texture2DStaticUsable
 {
-  private boolean                       deleted = false;
-  private final int                     id;
-  private final @Nonnull RangeInclusive range_x;
-  private final @Nonnull RangeInclusive range_y;
-  private final @Nonnull String         name;
-  private final @Nonnull AreaInclusive  area;
-  private final @Nonnull TextureType    type;
+  private final int                                 id;
+  private final @Nonnull RangeInclusive             range_x;
+  private final @Nonnull RangeInclusive             range_y;
+  private final @Nonnull String                     name;
+  private final @Nonnull AreaInclusive              area;
+  private final @Nonnull TextureType                type;
+  private final @Nonnull TextureWrapS               wrap_s;
+  private final @Nonnull TextureWrapT               wrap_t;
+  private final @Nonnull TextureFilterMinification  min_filter;
+  private final @Nonnull TextureFilterMagnification mag_filter;
 
   Texture2DStatic(
     final @Nonnull String name,
     final @Nonnull TextureType type,
     final int id,
     final int width,
-    final int height)
+    final int height,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError
   {
     this.id =
@@ -54,7 +60,10 @@ public final class Texture2DStatic extends Deletable implements
     this.range_x = new RangeInclusive(0, width - 1);
     this.range_y = new RangeInclusive(0, height - 1);
     this.area = new AreaInclusive(this.range_x, this.range_y);
-    this.deleted = false;
+    this.wrap_s = wrap_s;
+    this.wrap_t = wrap_t;
+    this.min_filter = min_filter;
+    this.mag_filter = mag_filter;
   }
 
   @Override public boolean equals(
@@ -76,11 +85,7 @@ public final class Texture2DStatic extends Deletable implements
     return true;
   }
 
-  /**
-   * Retrieve the inclusive area of this texture.
-   */
-
-  public @Nonnull AreaInclusive getArea()
+  @Override public @Nonnull AreaInclusive getArea()
   {
     return this.area;
   }
@@ -90,58 +95,56 @@ public final class Texture2DStatic extends Deletable implements
     return this.id;
   }
 
-  /**
-   * Return the height in pixels of the texture.
-   */
-
-  public int getHeight()
+  @Override public int getHeight()
   {
     return (int) this.range_y.getInterval();
   }
 
-  /**
-   * Retrieve the name of the texture.
-   */
+  @Override public @Nonnull
+    TextureFilterMagnification
+    getMagnificationFilter()
+  {
+    return this.mag_filter;
+  }
 
-  public @Nonnull String getName()
+  @Override public @Nonnull TextureFilterMinification getMinificationFilter()
+  {
+    return this.min_filter;
+  }
+
+  @Override public @Nonnull String getName()
   {
     return this.name;
   }
 
-  /**
-   * Return the range of valid indices on the X axis.
-   */
-
-  public @Nonnull RangeInclusive getRangeX()
+  @Override public @Nonnull RangeInclusive getRangeX()
   {
     return this.range_x;
   }
 
-  /**
-   * Return the range of valid indices on the Y axis.
-   */
-
-  public @Nonnull RangeInclusive getRangeY()
+  @Override public @Nonnull RangeInclusive getRangeY()
   {
     return this.range_y;
   }
 
-  /**
-   * Retrieve the type of the texture.
-   */
-
-  public @Nonnull TextureType getType()
+  @Override public @Nonnull TextureType getType()
   {
     return this.type;
   }
 
-  /**
-   * Retrieve the width in pixels of the texture.
-   */
-
-  public int getWidth()
+  @Override public int getWidth()
   {
     return (int) this.range_x.getInterval();
+  }
+
+  @Override public @Nonnull TextureWrapS getWrapS()
+  {
+    return this.wrap_s;
+  }
+
+  @Override public @Nonnull TextureWrapT getWrapT()
+  {
+    return this.wrap_t;
   }
 
   @Override public int hashCode()
@@ -152,37 +155,25 @@ public final class Texture2DStatic extends Deletable implements
     return result;
   }
 
-  @Override public <G extends GLInterfaceEmbedded> void resourceDelete(
-    @Nonnull final G gl)
-    throws ConstraintError,
-      GLException
-  {
-    gl.texture2DStaticDelete(this);
-  }
-
-  @Override public boolean resourceIsDeleted()
-  {
-    return this.deleted;
-  }
-
-  @Override void setDeleted()
-  {
-    this.deleted = true;
-  }
-
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("Texture2DStatic ");
-    builder.append(this.name);
-    builder.append(" ");
+    builder.append("[Texture2DStatic ");
     builder.append(this.id);
+    builder.append(" ");
+    builder.append(this.name);
     builder.append(" ");
     builder.append(this.type);
     builder.append(" ");
-    builder.append(this.getWidth());
-    builder.append("x");
-    builder.append(this.getHeight());
+    builder.append(this.area);
+    builder.append(" ");
+    builder.append(this.wrap_s);
+    builder.append(" ");
+    builder.append(this.wrap_t);
+    builder.append(" ");
+    builder.append(this.min_filter);
+    builder.append(" ");
+    builder.append(this.mag_filter);
     builder.append("]");
     return builder.toString();
   }

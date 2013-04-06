@@ -2,7 +2,7 @@ package com.io7m.jcanephora.examples;
 
 import javax.annotation.Nonnull;
 
-import com.io7m.jcanephora.GLInterfaceEmbedded;
+import com.io7m.jcanephora.GLImplementation;
 import com.io7m.jcanephora.TextureLoader;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.VectorM2I;
@@ -11,22 +11,22 @@ import com.io7m.jvvfs.FilesystemAPI;
 
 final class ExampleConfig
 {
-  private final @Nonnull GLInterfaceEmbedded gl;
-  private final @Nonnull Log                 log;
-  private final @Nonnull FilesystemAPI       filesystem;
-  private final @Nonnull TextureLoader       texture_loader;
-  private final @Nonnull VectorM2I           window_position;
-  private final @Nonnull VectorM2I           window_size;
+  private final @Nonnull GLImplementation gl_implementation;
+  private final @Nonnull Log              log;
+  private final @Nonnull FilesystemAPI    filesystem;
+  private final @Nonnull TextureLoader    texture_loader;
+  private final @Nonnull VectorM2I        window_position;
+  private final @Nonnull VectorM2I        window_size;
 
   public ExampleConfig(
-    final @Nonnull GLInterfaceEmbedded gl,
+    final @Nonnull GLImplementation gl,
     final @Nonnull TextureLoader texture_loader,
     final @Nonnull Log log,
     final @Nonnull FilesystemAPI filesystem,
     final @Nonnull VectorM2I window_position,
     final @Nonnull VectorM2I window_size)
   {
-    this.gl = gl;
+    this.gl_implementation = gl;
     this.log = log;
     this.texture_loader = texture_loader;
     this.filesystem = filesystem;
@@ -39,9 +39,9 @@ final class ExampleConfig
     return this.filesystem;
   }
 
-  @Nonnull GLInterfaceEmbedded getGL()
+  @Nonnull GLImplementation getGL()
   {
-    return this.gl;
+    return this.gl_implementation;
   }
 
   @Nonnull Log getLog()

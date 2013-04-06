@@ -1,10 +1,10 @@
 /*
  * Copyright © 2012 http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -67,7 +67,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
         new ArrayBufferAttribute(a.getName(), a.getType(), a.getElements());
       this.offsets[index] = bytes;
 
-      final int size = GLScalarTypeMeta.getSizeBytes(a.getType());
+      final int size = a.getType().getSizeBytes();
       final int elem = a.getElements();
       bytes += size * elem;
     }
@@ -200,7 +200,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     Constraints.constrainLessThan(element, a.getElements());
 
     final int base = this.getAttributeOffset(name);
-    final int off = element * GLScalarTypeMeta.getSizeBytes(a.getType());
+    final int off = element * a.getType().getSizeBytes();
     return base + off;
   }
 

@@ -77,6 +77,10 @@
           to query the names and types of parameters at run-time.
         </s:paragraph>
         <s:paragraph>
+          The package also provides a high-level API for constructing framebuffers that
+          work consistently across OpenGL 3.0 and ES2 implementations.
+        </s:paragraph>
+        <s:paragraph>
           The package also provides functions to produce orthographic and perspective
           projection matrices, and an implementation of the ubiquitous
           <s:term type="function">lookAt()</s:term>
@@ -96,38 +100,22 @@
         </s:paragraph>
       </s:subsection>
       <s:subsection>
-        <s:subsection-title>Portability</s:subsection-title>
+        <s:subsection-title>Compatibility</s:subsection-title>
         <s:paragraph>
-          The <s:term type="package">jcanephora</s:term> package has backends
+          The <s:term type="package">jcanephora</s:term> exposes interfaces
+          that allows developers to target the common subset of OpenGL ES2
+          and OpenGL 3.*, with incompatibilities between the two indicated
+          <s:term type="emphasis">statically</s:term>. This means that a
+          developer using <s:term type="package">jcanephora</s:term> gets
+          strong guarantees that their program will work on as many OpenGL
+          implementations as possible, with implementation-specific parts
+          clearly indicated by the type system.
+        </s:paragraph>
+        <s:paragraph>
+          The package has backends
           for both <s:link-external target="http://www.jogamp.org">JOGL</s:link-external>
           and <s:link-external target="http://www.lwjgl.org">LWJGL</s:link-external>
           and presents a common API, with consistent semantics, for both.
-        </s:paragraph>
-        <s:paragraph>
-          At the time of writing, the most widely supported version of OpenGL is 2.1 and the
-          most widely supported version of OpenGL ES is 2. The version of OpenGL that
-          followed, 3.0, was the first version to actually deprecate/remove
-          obsolete features such as the fixed-function pipeline. The
-          <s:term type="package">jcanephora</s:term> API and implementation therefore
-          only uses those features of 3.0 that are also present in 2.1, and does not
-          use any deprecated and/or obsolete features. It also provides an "embedded" API
-          that essentially represents the capabilities of OpenGL ES 2. This allows programs
-          using <s:term type="package">jcanephora</s:term> to run unmodified on just about
-          any desktop/workstation graphics hardware produced in the last ten years or
-          so. Programs written against the
-          <s:link-external target="javadoc/com/io7m/jcanephora/GLInterfaceEmbedded.html">GLInterfaceEmbedded</s:link-external>
-          interface can be assumed to run unmodified on any OpenGL 2.1+, 3.0+ or ES2+
-          implementation
-          <s:footnote>
-            Barring any incompatibilities in shading language programs, which are
-            outside of the scope of <s:term type="package">jcanephora</s:term>.
-          </s:footnote>. Programs written against the
-          <s:link-external target="javadoc/com/io7m/jcanephora/GLInterface.html">GLInterface</s:link-external>
-          interface can be assumed to run unmodified on any OpenGL 2.1+ or 3.0+
-          implementation
-          <s:footnote>
-            Again, barring any incompatibilities in shading language programs.
-          </s:footnote>.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
@@ -332,6 +320,516 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
   </s:part>
 
   <s:part>
+    <s:part-title>Design/Rationale</s:part-title>
+    <s:part-contents/>
+
+    <s:section xml:id="com.io7m.jcanephora.rationale.problems">
+      <s:section-title>Problems with OpenGL</s:section-title>
+      <s:subsection>
+        <s:subsection-title>Overview</s:subsection-title>
+        <s:paragraph>
+          The <s:term type="package">jcanephora</s:term> package takes the
+          general view that OpenGL as an API is a ridiculously error-prone
+          and poorly defined mess
+          <s:footnote>
+            Whilst, annoyingly, being the only viable cross-platform and
+            vendor neutral graphics API available.
+          </s:footnote>. The package attempts to address most if not all of
+          the problems listed in this section. 
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection xml:id="com.io7m.jcanephora.rationale.problems.versioning">
+        <s:subsection-title>Versioning</s:subsection-title>
+        <s:paragraph>
+          Severely mismanaged by multiple committees since its inception,
+          OpenGL has an excruciating approach to backwards compability. It 
+          is only in relatively
+          recent versions of OpenGL (3.0 and beyond) that features have
+          actually been removed from the API. Where this has happened, the
+          removals have occurred in the worst way possible: Previously valid
+          function calls simply become runtime errors.
+        </s:paragraph>
+        <s:paragraph>
+          The version numbering system for OpenGL is also apparently
+          meaningless when it comes to compatibility. Developers cannot
+          safely give version constraints for their programs such as
+          "this program works on version <s:term type="variable">p</s:term>,
+          where <s:term type="expression">4.0 &lt;= p &lt; 5.0</s:term>"
+          as is standard practice for developers using some form of
+          <s:link-external target="http://semver.org">semantic
+          versioning</s:link-external>. OpenGL features may be deprecated
+          without warning and deployed programs, without modification by
+          developers, will simply stop working on newer OpenGL contexts
+          <s:footnote>
+            As an aside, this essentially results in an impossible situation
+            for developers wanting to write programs that run on as many
+            implementations as possible: They cannot ask for a
+            <s:term type="emphasis">specific</s:term> version
+            of OpenGL, as it may not be available. They cannot ask for any
+            version <s:term type="emphasis">older</s:term> than a specific
+            version, as it may not be available. They cannot ask for any
+            version <s:term type="emphasis">equal to or newer</s:term> than
+            a specific version, because they cannot know when the OpenGL 
+            committees will deprecate or remove features. What do most programs
+            do? Open a context and simply hope.
+          </s:footnote>.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection xml:id="com.io7m.jcanephora.rationale.problems.availability">
+        <s:subsection-title>Availability</s:subsection-title>
+        <s:paragraph>
+          At the time of writing, the most commonly available version of
+          OpenGL is still 2.1. On mobile devices, the most commonly available
+          version of OpenGL ES is ES2. Different drivers on the same operating
+          systems result in differing degrees of support. The open-source
+          <s:link-external target="http://www.x.org/wiki/radeon">radeon</s:link-external>
+          driver supports up to OpenGL 3.3 on Linux. The same driver on the same
+          hardware on one of the BSD operating systems will typically only
+          expose the fixed-function pipeline (FreeBSD up until recently,
+          would only expose OpenGL 1.3!). The same hardware, on the same
+          operating system, but using the proprietary Catalyst™ driver from AMD,
+          will typically support the latest available version of the OpenGL
+          4 branch (4.3, currently). Intel GPUs on Linux platforms expose
+          OpenGL ES2, OpenGL 3.0, and OpenGL 3.1.
+        </s:paragraph>
+        <s:paragraph>
+          Developers wanting their programs to work on as many platforms as
+          possible have to take extreme care to identify the portable subset
+          (unless they effectively want to write the same program once for
+          each version of the API
+          <s:footnote>
+            Not exactly ideal for an API that insists that it has excellent
+            backwards compatibility.
+          </s:footnote> or write insane and impossible-to-test branching
+          version-specific code).
+        </s:paragraph>
+        <s:paragraph>
+          In addition to the chaos above, drivers regularly deviate from the
+          published OpenGL specifications. A developer has to know by
+          <s:term type="emphasis">trial and error</s:term>, which features
+          <s:term type="emphasis">do not work on any available implementations</s:term>.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection xml:id="com.io7m.jcanephora.rationale.problems.embedded">
+        <s:subsection-title>Embedded subsets</s:subsection-title>
+        <s:paragraph>
+          Apparently exhausted with the complete incompetence on the part
+          of the committees managing the OpenGL API, vendors began work
+          on a specification for an "embedded" "subset" of the API, containing
+          none of the entirely irrelevant and useless features that had been
+          stubbornly carried around for years
+          <s:footnote>
+            The committee in charge of the OpenGL API refused to admit
+            the existence of programmable graphics hardware, instead choosing
+            to try to emulate features of this hardware by endlessly extending
+            the fixed-function pipeline.
+          </s:footnote> and represented a huge implementation burden for
+          vendors without any benefit. Unfortunately, the resulting 
+          API - OpenGL ES - isn't actually a subset. There are numerous
+          incompatibilities, meaning that while OpenGL 3.0 and ES2 programs
+          are "mostly compatible", they're incompatible in a few fundamental
+          areas. Obviously, these incompatibilities aren't discovered by the
+          developer until runtime.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection xml:id="com.io7m.jcanephora.rationale.problems.types">
+        <s:subsection-title>Types</s:subsection-title>
+        <s:paragraph>
+          The OpenGL API itself is weakly typed even for a C language API, simply
+          exposing absolutely everything as a <s:term type="type">float</s:term>,
+          <s:term type="type">int</s:term>, or untyped pointer. Entire classes
+          of problems that should be prevented at compile time are moved to
+          run-time, increasing development time, developer frustration, and
+          testing burden.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection xml:id="com.io7m.jcanephora.rationale.problems.silent_failure">
+        <s:subsection-title>Silent failure</s:subsection-title>
+        <s:paragraph>
+          OpenGL programs frequently fail, and when they do, they usually do
+          so silently. Programmers are forced to call
+          <s:term type="function">glGetError</s:term> after every API call
+          if they wish to avoid this (and actually detect the error at the
+          correct function call).
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+    
+    <s:section>
+      <s:section-title>Goals</s:section-title>
+      <s:subsection>
+        <s:subsection-title>Overview</s:subsection-title>
+        <s:paragraph>
+          Given the
+          <s:link target="com.io7m.jcanephora.rationale.problems">problems</s:link>
+          with OpenGL, the <s:term type="package">jcanephora</s:term> package
+          has the following goals (in no particular order):
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection xml:id="com.io7m.jcanephora.rationale.goals.portability">
+        <s:subsection-title>Portability</s:subsection-title>
+        <s:paragraph>
+          Programs using the <s:term type="package">jcanephora</s:term> APIs
+          must run on as many different OpenGL implementations as possible.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection xml:id="com.io7m.jcanephora.rationale.goals.type_safety">
+        <s:subsection-title>Type safety</s:subsection-title>
+        <s:paragraph>
+          Representing every object as an integer is unacceptable. Any
+          conceptually distinct objects must be made type-incompatible,
+          eliminating entire classes of bugs typical to OpenGL programs
+          at compile time.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection xml:id="com.io7m.jcanephora.rationale.goals.linearity">
+        <s:subsection-title>Linearity</s:subsection-title>
+        <s:paragraph>
+          Branching, version-specific code must be eliminated as far as
+          is possible. Code of this type is fragile, difficult to test,
+          and usually incorrect.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection xml:id="com.io7m.jcanephora.rationale.goals.conspicuity">
+        <s:subsection-title>Conspicuity of errors</s:subsection-title>
+        <s:paragraph>
+          Silent failure of programs is unacceptable. All errors that
+          cannot be prevented statically must be loudly and immediately
+          signalled at runtime.
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+    
+    <s:section>
+      <s:section-title>API Design</s:section-title>
+      <s:subsection xml:id="com.io7m.jcanephora.rationale.solutions.interfaces">
+        <s:subsection-title>Interfaces</s:subsection-title>
+        <s:paragraph>
+          The <s:term type="package">jcanephora</s:term> package attempts
+          to combat the problems with OpenGL's idea of
+          <s:link target="com.io7m.jcanephora.rationale.problems.versioning">versioning</s:link>,
+          the actual
+          <s:link target="com.io7m.jcanephora.rationale.problems.availability">availability</s:link>
+          of implementations, and the presence of
+          <s:link target="com.io7m.jcanephora.rationale.problems.embedded">embedded not-actually-subsets</s:link>
+          of the API, by identifying the most widely-deployed versions of OpenGL
+          at present (OpenGL 2.1, OpenGL 3.1, and ES2) and then
+          by identifying the non-deprecated, arguably future-proof, and common
+          subset of the versions in question.
+        </s:paragraph>
+        <s:paragraph>
+          The package then provides interface types that expose the functionality of 
+          varying parts of this common subset. Developers know, unambiguously,
+          on which versions of OpenGL their code will run simply by looking at
+          the interface types their code uses. The package tends to only
+          provide those things that are required to be provided according to
+          the OpenGL specification. Exceptions to this rule are made when,
+          for example,  OpenGL driver limitations force the use of extensions.
+        </s:paragraph>
+        <s:paragraph>
+          The developer interacts with the 
+          <s:term type="package">jcanephora</s:term> package via the
+          <s:link-external target="javadoc/com/io7m/jcanephora/GLImplementation.html">GLImplementation</s:link-external>
+          type. The <s:term type="type">GLImplementation</s:term> type,
+          unsurprisingly, represents the current OpenGL implementation. The
+          <s:term type="type">GLImplementation</s:term> type allows access
+          to interfaces such as
+          <s:link-external target="javadoc/com/io7m/jcanephora/GLInterfaceGLES2.html">GLInterfaceGLES2</s:link-external>
+          (if the current implementation provides OpenGL ES2),
+          <s:link-external target="./io7m-jcanephora-core/src/main/java/com/io7m/jcanephora/GLInterfaceGL3.html">GLInterfaceGL3</s:link-external>
+          (if the current implementation provides OpenGL 3.*), and
+          also to
+          <s:link-external target="javadoc/com/io7m/jcanephora/GLInterfaceCommon.html">GLInterfaceCommon</s:link-external>,
+          representing the common subset of both.
+        </s:paragraph>
+        <s:paragraph>
+          The <s:term type="type">GLInterface</s:term> types statically
+          control access to features of the current OpenGL implementation and
+          essentially aggregate a set of smaller interfaces. For example,
+          the
+          <s:link-external target="javadoc/com/io7m/jcanephora/GLArrayBuffers.html">GLArrayBuffers</s:link-external>
+          interface represents the
+          <s:link-external target="http://opengl.org/wiki/Vertex_Buffer_Object">vertex buffer object</s:link-external>
+          functionality common to both OpenGL 3.* and OpenGL ES2. The
+          <s:link-external target="javadoc/com/io7m/jcanephora/GLArrayBuffersMapped.html">GLArrayBuffersMapped</s:link-external>
+          interface, however, provides the extra functionality only supported
+          by OpenGL 3.* and is therefore not available via the
+          <s:term type="type">GLInterfaceGLES2</s:term> interface.
+        </s:paragraph>
+        <s:paragraph>
+          An extremely useful consequence of the way that the
+          <s:term type="package">jcanephora</s:term> interfaces are structured
+          is that developers can indicate at the level of types which versions
+          of OpenGL their code can work with. They can even go so far as to
+          specify these dependencies at the granularity of features
+          ("this code will work with any OpenGL implementation supporting
+          unmapped vertex buffer objects, and 2D textures"):
+        </s:paragraph>
+        <s:formal-item type="implications" kind="implications">
+          <s:formal-item-title>Compatibility implications of interfaces</s:formal-item-title>
+          <s:table>
+            <s:table-summary>Compatibility implications of interfaces</s:table-summary>
+            <s:table-head>
+              <s:table-column-name>The developer writes a function parameterized by:</s:table-column-name>
+              <s:table-column-name>This implies:</s:table-column-name>
+            </s:table-head>
+            <s:table-body>
+              <s:table-row>
+                <s:table-cell><s:verbatim>GLImplementation</s:verbatim></s:table-cell>
+                <s:table-cell>The function works on any OpenGL implementation</s:table-cell>
+              </s:table-row>
+              <s:table-row>
+                <s:table-cell><s:verbatim>GLInterfaceGLES2</s:verbatim></s:table-cell>
+                <s:table-cell>The function works on any OpenGL ES2 implementation</s:table-cell>
+              </s:table-row>
+              <s:table-row>
+                <s:table-cell><s:verbatim>GLInterfaceGL3</s:verbatim></s:table-cell>
+                <s:table-cell>The function works on any OpenGL 3.* implementation</s:table-cell>
+              </s:table-row>
+              <s:table-row>
+                <s:table-cell><s:verbatim>G extends GLArrayBuffers &amp; GLTextures2DStaticCommon</s:verbatim></s:table-cell>
+                <s:table-cell>The function works on any implementation supporting vertex buffer objects and 2D textures</s:table-cell>
+              </s:table-row>
+            </s:table-body>
+          </s:table>
+        </s:formal-item>
+        <s:paragraph>
+          The interfaces described in this section contribute towards
+          the goals of <s:link target="com.io7m.jcanephora.rationale.goals.portability">portability</s:link>
+          and
+          <s:link target="com.io7m.jcanephora.rationale.goals.type_safety">type safety</s:link>.
+        </s:paragraph>
+      </s:subsection>
+      
+      <s:subsection xml:id="com.io7m.jcanephora.rationale.solutions.capabilities">
+        <s:subsection-title>Interfaces as capabilities</s:subsection-title>
+        <s:paragraph>
+          The package is written with one particular concept, throughout:
+          Types represent capabilities. If the developer has a value of a
+          given type, then the developer can perform all of the operations
+          associated with that type. This is a direct attempt at the goal
+          of <s:link target="com.io7m.jcanephora.rationale.goals.linearity">linearity</s:link>.
+        </s:paragraph>
+        <s:paragraph>
+          This is in direct contrast to the OpenGL
+          API, where the developer always has full access to all API functions,
+          and individual functions (or combinations of parameters to functions)
+          may not work based on what the implementation supports. The emphasis
+          is on <s:term type="emphasis">isolating the correct operations and
+          statically preventing incorrect operations from occurring</s:term>.
+        </s:paragraph>
+        <s:paragraph>
+          One example of the "capability" based design is the
+          <s:link-external target="javadoc/com/io7m/jcanephora/GLRenderbuffersGL3.html">GLRenderbuffersGL3</s:link-external>
+          and
+          <s:link-external target="javadoc/com/io7m/jcanephora/GLRenderbuffersGLES2.html">GLRenderbuffersGLES2</s:link-external>
+          interfaces. The specifications for OpenGL ES2 and OpenGL 3.0 do
+          not require a color-renderable framebuffer format that is common
+          to both. Therefore, the <s:term type="type">GLRenderbuffersGL3</s:term>
+          interface allows the allocation of texture types specific to OpenGL 3.0,
+          and the <s:term type="type">GLRenderbuffersGLES2</s:term> interface
+          provides texture types specific to OpenGL ES2. A developer using
+          the package will be presented with an
+          <s:term type="type">GLRenderbuffersGL3</s:term> interface when code
+          is running on OpenGL 3.0, and an
+          <s:term type="type">GLRenderbuffersGLES2</s:term> interface when
+          code is running on OpenGL ES2, thus
+          <s:term type="emphasis">statically preventing an attempt to allocate an unsupported format</s:term>.
+          Of course, some ES2 and 3.0 implementations do have color-renderable
+          formats in common, but a portable program cannot assume this as it
+          is not required by the OpenGL specification
+          <s:footnote>
+            The <s:term type="package">jcanephora</s:term> package
+            also provides higher level abstractions such as the
+            <s:link-external target="javadoc/com/io7m/jcanephora/FramebufferConfigurationGLES2.html">FramebufferConfigurationGLES2</s:link-external>
+            interface, which takes a set of abstract properties such as "must have a color buffer"
+            and "must have a depth buffer" and produces a framebuffer that will
+            be usable on all OpenGL versions. A similar interface,
+            <s:link-external target="javadoc/com/io7m/jcanephora/FramebufferConfigurationGL3.html">FramebufferConfigurationGL3</s:link-external>,
+            produces framebuffers that are not expected to work on OpenGL ES2
+            (as the OpenGL 3.* framebuffers are far more feature-rich and
+            no equivalent functionality exists on ES2).
+          </s:footnote>.
+        </s:paragraph>
+      </s:subsection>
+      
+      <s:subsection xml:id="com.io7m.jcanephora.rationale.solutions.types">
+        <s:subsection-title>Types</s:subsection-title>
+        <s:paragraph>
+          The <s:term type="package">jcanephora</s:term> package wraps all
+          conceptually distinct objects in new types and provides sane and
+          unsurprising functions to construct them. This prevents large
+          classes of bugs from occurring, at compile time. It also allows
+          the interfaces to be self-documenting. Consider the following
+          C function prototype:
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Weakly typed C function</s:formal-item-title>
+          <s:verbatim>void _ (GLsizei, GLuint *)</s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          What does the function do? It could generate a set of textures
+          (<s:term type="function">glGenTextures</s:term>), or it could
+          generate a set of new buffer names
+          (<s:term type="function">glGenBuffers</s:term>). Without carefully
+          reading the documentation, the required parameters to the function
+          are certainly not obvious from the type alone. Assuming the developer
+          has read the documentation and worked out that the correct way to
+          call the function is with the following sequence:
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Weakly typed C calls</s:formal-item-title>
+          <s:verbatim><![CDATA[GLuint texture;
+
+glGenTextures(1, &texture);
+checkGLErrors();]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          The developer now has a value of type
+          <s:term type="type">GLuint</s:term>. Given that many functions in
+          the OpenGL API also take values of <s:term type="type">GLuint</s:term>,
+          and those values have nothing to do with textures, that's a huge
+          number of potential bugs that cannot be prevented by the compiler.
+        </s:paragraph>
+        <s:paragraph>
+          The developer now wants to allocate a new RGBA texture. The
+          types of the <s:term type="function">glTexImage2D</s:term>
+          and <s:term type="function">glTexParameteri</s:term> functions
+          are, quite frankly, insane. Almost no developer manages to use these
+          functions successfully without trial and error, and naturally all
+          errors are runtime errors. Eventually, through some painful
+          experimentation, the developer might stumble onto the following
+          sequence of calls:
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Allocating a texture</s:formal-item-title>
+          <s:verbatim><![CDATA[GLuint texture;
+void *data = makeTextureData();
+
+glGenTextures(1, &texture);
+glBindTexture(GL_TEXTURE_2D, texture);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          The types of the parameters to all of the functions mentioned allow
+          the developer to pass in practically anything. Only a very small
+          subset of the possible parameters are actually valid.
+        </s:paragraph>
+        <s:paragraph> 
+          Now consider the
+          following <s:term type="package">jcanephora</s:term> function:
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Texture allocation?</s:formal-item-title>
+          <s:verbatim><![CDATA[public @Nonnull Texture2DStatic _(
+  final @Nonnull String _,
+  final int _,
+  final int _,
+  final @Nonnull TextureWrapS _,
+  final @Nonnull TextureWrapT _,
+  final @Nonnull TextureFilterMinification _,
+  final @Nonnull TextureFilterMagnification _)
+    throws ConstraintError,
+      GLException;]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          Even without the names of the function and the parameters,
+          the type above make it quite clear that the function returns a
+          <s:term type="type">Texture2DStatic</s:term>, which is somehow
+          derived from the arguments to the function. It's a reasonable
+          assumption to make that the function allocates a new texture.
+        </s:paragraph>
+        <s:paragraph>
+          The wrapping modes on the <s:term type="constant">S</s:term> and
+          <s:term type="constant">T</s:term> axis will presumably be
+          derived from the parameters of type
+          <s:term type="type">TextureWrapS</s:term> and
+          <s:term type="type">TextureWrapT</s:term> respectively. The
+          minification and magnification filters will presumably be derived
+          from the parameters of type
+          <s:term type="type">TextureFilterMinification</s:term> and
+          <s:term type="type">TextureFilterMagnification</s:term>,
+          respectively. The programmer is statically prevented from mixing
+          up the two axes, or the two filter domains.
+        </s:paragraph>
+        <s:paragraph>
+          The two parameters of type <s:term type="type">int</s:term>
+          presumably correspond to the width and height of the resulting
+          texture, but the types are not descriptive enough to say for sure.
+          Unfortunately, Java lacks a way to make existing arithmetic types
+          incompatible without sacrificing efficiency
+          <s:footnote>
+            New types will be new classes, resulting in all integers being
+            replaced with pointers to integers.
+          </s:footnote>. In this case, the two parameters do indeed
+          correspond to the width and height, in that order, and the
+          <s:term type="package">jcanephora</s:term> package uses this
+          order consistently throughout.
+        </s:paragraph>
+        <s:paragraph>
+          The annotations on the parameters indicate that passing
+          <s:term type="constant">null</s:term> for any parameter is an
+          error. The Java compiler cannot currently statically prevent this,
+          but the
+          <s:link-external target="http://findbugs.sourceforge.net">findbugs</s:link-external>
+          tool can. The annotation on the return type also indicates that
+          the function will always return a 
+          non-<s:term type="constant">null</s:term> result. This implies that
+          either the function will return a correct and complete result,
+          or it will raise an exception.
+        </s:paragraph>
+        <s:paragraph>
+          The errors that the function may raise are also clearly marked as
+          checked exceptions.
+        </s:paragraph>
+        <s:paragraph>
+          Some information is still missing, of course, such as the format
+          (such as 32-bit RGBA) and type (such as 2D or cube map) of the
+          resulting texture. The full name and type of the function is given
+          in the
+          <s:link-external target="javadoc/com/io7m/jcanephora/GLTextures2DStaticCommon.html">GLTextures2DStaticCommon</s:link-external>
+          interface:
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>texture2DStaticAllocateRGBA8888</s:formal-item-title>
+          <s:verbatim><![CDATA[public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA8888(
+  final @Nonnull String name,
+  final int width,
+  final int height,
+  final @Nonnull TextureWrapS wrap_s,
+  final @Nonnull TextureWrapT wrap_t,
+  final @Nonnull TextureFilterMinification min_filter,
+  final @Nonnull TextureFilterMagnification mag_filter)
+    throws ConstraintError,
+      GLException;]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          The function allocates a 2D RGBA texture with
+          <s:term type="constant">8</s:term> bits of precision per channel.
+          The texture will be <s:term type="variable">width</s:term> texels
+          wide, and <s:term type="variable">height</s:term> texels tall. The
+          texture will be assigned the name
+          <s:term type="variable">name</s:term>, useful for debugging and
+          logging (by convention, this is the filename containing the original
+          texture's image, if any).
+        </s:paragraph>
+        <s:paragraph>
+          The extremely descriptive type given for the function, and the
+          presence of checked exceptions are direct contributions towards
+          the goals of
+          <s:link target="com.io7m.jcanephora.rationale.goals.type_safety">type safety</s:link>
+          and
+          <s:link target="com.io7m.jcanephora.rationale.goals.conspicuity">conspicuity of errors</s:link>.
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+  </s:part>
+
+  <s:part>
     <s:part-title>jcanephora For OpenGL Programmers</s:part-title>
     <s:part-contents/>
     <s:section>
@@ -350,11 +848,9 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
       </s:paragraph>
       <s:paragraph>
         Every <s:term type="package">jcanephora</s:term> program begins
-        by creating or retrieving an implementation of the
-        <s:link-external target="javadoc/com/io7m/jcanephora/GLInterface.html">GLInterface</s:link-external>
-        or
-        <s:link-external target="javadoc/com/io7m/jcanephora/GLInterfaceEmbedded.html">GLInterfaceEmbedded</s:link-external>
-        type. At the time of writing, there are implementations based on
+        by retrieving an implementation of the
+        <s:link-external target="javadoc/com/io7m/jcanephora/GLImplementation.html">GLImplementation</s:link-external>
+        interface. At the time of writing, there are implementations based on
         <s:link-external target="http://lwjgl.org">LWJGL</s:link-external>
         and
         <s:link-external target="http://jogamp.org">JOGL</s:link-external>.
@@ -372,19 +868,22 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
         the details are obviously outside of the scope of this
         documentation. Once initialized, the programmer can then use
         the constructors of any of the implementations of
-        <s:term type="function">GLInterface</s:term>
+        <s:term type="function">GLImplementation</s:term>
         to get access to the <s:term type="package">jcanephora</s:term>
         APIs.
       </s:paragraph>
       <s:paragraph>
-        Beyond the API exposed by <s:term type="function">GLInterface</s:term>,
+        Beyond the APIs exposed by <s:term type="function">GLImplementation</s:term>,
         the <s:term type="package">jcanephora</s:term> package also provides
-        various higher level abstractions that work through this interface,
-        such as on-demand shader compilation with
+        various higher level abstractions, such as on-demand shader
+        compilation with
         <s:link-external target="javadoc/com/io7m/jcanephora/Program.html">Program</s:link-external>,
         matrix manipulation with
         <s:link-external target="javadoc/com/io7m/jcanephora/ProjectionMatrix.html">ProjectionMatrix</s:link-external>,
-        static and streaming textures, and more.
+        implementation-independent framebuffer creation with
+        <s:link-external target="javadoc/com/io7m/jcanephora/FramebufferConfigurationGLES2.html">FramebufferConfigurationGLES2</s:link-external>
+        and
+        <s:link-external target="javadoc/com/io7m/jcanephora/FramebufferConfigurationGL3.html">FramebufferConfigurationGL3</s:link-external>,
         See the <s:link-external target="javadoc/index.html">Javadoc</s:link-external>
         for details.
       </s:paragraph>
@@ -447,7 +946,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
         index buffer types directly, but that is not shown here.
       </s:paragraph>
       <s:paragraph>
-        The program passes uniform values to the program over a simple and typed-check
+        The program passes uniform values to the program over a simple and type-checked
         analogue to the <s:term type="function">glUniform*</s:term> interface. Attempting
         to pass a value of the wrong type is prevented at run-time.
       </s:paragraph>
@@ -638,7 +1137,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
               <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLArrayBuffers.html">GLArrayBuffers</s:link-external></s:table-cell>
             </s:table-row>
             <s:table-row>
-              <s:table-cell>Vertex buffer objects (glMapBuffer)</s:table-cell>
+              <s:table-cell>Mapped vertex buffer objects (glMapBuffer)</s:table-cell>
               <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLArrayBuffersMapped.html">GLArrayBuffersMapped</s:link-external></s:table-cell>
             </s:table-row>
             <s:table-row>
@@ -666,7 +1165,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
               <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLIndexBuffers.html">GLIndexBuffers</s:link-external></s:table-cell>
             </s:table-row>
             <s:table-row>
-              <s:table-cell>Index buffer objects (glMapBuffer)</s:table-cell>
+              <s:table-cell>Mapped index buffer objects (glMapBuffer)</s:table-cell>
               <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLIndexBuffersMapped.html">GLIndexBuffersMapped</s:link-external></s:table-cell>
             </s:table-row>
             <s:table-row>
@@ -690,8 +1189,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
               <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLStencilBuffer.html">GLStencilBuffer</s:link-external></s:table-cell>
             </s:table-row>
             <s:table-row>
-              <s:table-cell><s:term type="function">glTexImage2D</s:term></s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLTextures2DStatic.html">GLTextures2DStatic</s:link-external></s:table-cell>
+              <s:table-cell>Textures (<s:term type="function">glTexImage2D</s:term>)</s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLTextures2DStaticCommon.html">GLTextures2DStaticCommon</s:link-external></s:table-cell>
             </s:table-row>
             <s:table-row>
               <s:table-cell><s:term type="function">glViewport</s:term></s:table-cell>

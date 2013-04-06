@@ -1,10 +1,10 @@
 /*
  * Copyright © 2012 http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -31,12 +31,12 @@ import com.io7m.jaux.RangeInclusive;
 
 public final class IndexBufferWritableData
 {
-  private final @Nonnull IndexBuffer    buffer;
-  private final @Nonnull ByteBuffer     target_data;
-  private final long                    target_data_size;
-  private final long                    target_data_offset;
-  private final @Nonnull RangeInclusive range;
-  private final RangeInclusive          target_range;
+  private final @Nonnull IndexBufferUsable buffer;
+  private final @Nonnull ByteBuffer        target_data;
+  private final long                       target_data_size;
+  private final long                       target_data_offset;
+  private final @Nonnull RangeInclusive    range;
+  private final RangeInclusive             target_range;
 
   /**
    * Construct a buffer of data that will be used to replace the entirety of

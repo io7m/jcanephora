@@ -1,26 +1,22 @@
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts_embedded.ProgramContract;
-import com.io7m.jlog.Log;
-import com.io7m.jvvfs.FilesystemAPI;
+import com.io7m.jcanephora.contracts.gl3.ProgramGL3Contract;
 
-public final class JOGL30ProgramTest extends ProgramContract
+public final class JOGL30ProgramTest extends ProgramGL3Contract
 {
-  @Override public Log getLog()
+  @Override public boolean isGLSupported()
   {
-    return JOGL30TestLog.getLog();
+    return JOGLTestContext.isOpenGL3Supported();
   }
 
-  @Override public FilesystemAPI makeNewFS()
-  {
-    return JOGL30TestFilesystem.getFS();
-  }
-
-  @Override public GLInterfaceEmbedded makeNewGL()
+  @Override public @Nonnull TestContext newTestContext()
     throws GLException,
+      GLUnsupportedException,
       ConstraintError
   {
-    return JOGL30TestDisplay.makeFreshGLEmbedded();
+    return JOGLTestContext.makeContextWithOpenGL3_X();
   }
 }
