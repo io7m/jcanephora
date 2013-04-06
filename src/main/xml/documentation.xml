@@ -1137,7 +1137,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
               <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLArrayBuffers.html">GLArrayBuffers</s:link-external></s:table-cell>
             </s:table-row>
             <s:table-row>
-              <s:table-cell>Vertex buffer objects (glMapBuffer)</s:table-cell>
+              <s:table-cell>Mapped vertex buffer objects (glMapBuffer)</s:table-cell>
               <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLArrayBuffersMapped.html">GLArrayBuffersMapped</s:link-external></s:table-cell>
             </s:table-row>
             <s:table-row>
@@ -1165,7 +1165,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
               <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLIndexBuffers.html">GLIndexBuffers</s:link-external></s:table-cell>
             </s:table-row>
             <s:table-row>
-              <s:table-cell>Index buffer objects (glMapBuffer)</s:table-cell>
+              <s:table-cell>Mapped index buffer objects (glMapBuffer)</s:table-cell>
               <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLIndexBuffersMapped.html">GLIndexBuffersMapped</s:link-external></s:table-cell>
             </s:table-row>
             <s:table-row>
@@ -1189,8 +1189,8 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
               <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLStencilBuffer.html">GLStencilBuffer</s:link-external></s:table-cell>
             </s:table-row>
             <s:table-row>
-              <s:table-cell><s:term type="function">glTexImage2D</s:term></s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLTextures2DStatic.html">GLTextures2DStatic</s:link-external></s:table-cell>
+              <s:table-cell>Textures (<s:term type="function">glTexImage2D</s:term>)</s:table-cell>
+              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/GLTextures2DStaticCommon.html">GLTextures2DStaticCommon</s:link-external></s:table-cell>
             </s:table-row>
             <s:table-row>
               <s:table-cell><s:term type="function">glViewport</s:term></s:table-cell>
