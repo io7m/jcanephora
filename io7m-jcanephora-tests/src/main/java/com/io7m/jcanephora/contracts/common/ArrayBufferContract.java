@@ -37,12 +37,6 @@ import com.io7m.jvvfs.PathVirtual;
 
 public abstract class ArrayBufferContract implements TestContract
 {
-  public abstract @Nonnull GLArrayBuffers getGLArrayBuffers(
-    final @Nonnull TestContext context);
-
-  public abstract @Nonnull GLShaders getGLPrograms(
-    final @Nonnull TestContext context);
-
   @SuppressWarnings("resource") static ProgramReference makeProgram(
     final GLShaders gl,
     final FilesystemAPI filesystem,
@@ -97,6 +91,12 @@ public abstract class ArrayBufferContract implements TestContract
   {
     Assume.assumeTrue(this.isGLSupported());
   }
+
+  public abstract @Nonnull GLArrayBuffers getGLArrayBuffers(
+    final @Nonnull TestContext context);
+
+  public abstract @Nonnull GLShaders getGLPrograms(
+    final @Nonnull TestContext context);
 
   /**
    * An allocated buffer has the correct number of elements and element size.

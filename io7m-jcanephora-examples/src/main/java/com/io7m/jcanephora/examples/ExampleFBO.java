@@ -19,6 +19,7 @@ import com.io7m.jcanephora.CursorWritableIndex;
 import com.io7m.jcanephora.Framebuffer;
 import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
 import com.io7m.jcanephora.FramebufferConfigurationGLES2;
+import com.io7m.jcanephora.FramebufferConfigurationGLES2Actual;
 import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
@@ -33,9 +34,11 @@ import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.ProjectionMatrix;
 import com.io7m.jcanephora.Texture2DStaticUsable;
-import com.io7m.jcanephora.TextureFilter;
+import com.io7m.jcanephora.TextureFilterMagnification;
+import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureUnit;
-import com.io7m.jcanephora.TextureWrap;
+import com.io7m.jcanephora.TextureWrapS;
+import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.UsageHint;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.MatrixM4x4F.Context;
@@ -139,7 +142,7 @@ public final class ExampleFBO implements Example
      */
 
     this.framebuffer_config =
-      new FramebufferConfigurationGLES2(
+      new FramebufferConfigurationGLES2Actual(
         this.framebuffer_width,
         this.framebuffer_height);
 
@@ -150,10 +153,10 @@ public final class ExampleFBO implements Example
      */
 
     this.framebuffer_config.requestBestRGBAColorTexture2D(
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureFilter.TEXTURE_FILTER_NEAREST,
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureWrapS.TEXTURE_WRAP_REPEAT,
+      TextureWrapT.TEXTURE_WRAP_REPEAT,
+      TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     /**
      * Request a depth buffer. Most implementations will provide a packed

@@ -27,11 +27,13 @@ import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.ProjectionMatrix;
 import com.io7m.jcanephora.Texture2DStatic;
-import com.io7m.jcanephora.TextureFilter;
+import com.io7m.jcanephora.TextureFilterMagnification;
+import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureLoader;
 import com.io7m.jcanephora.TextureType;
 import com.io7m.jcanephora.TextureUnit;
-import com.io7m.jcanephora.TextureWrap;
+import com.io7m.jcanephora.TextureWrapS;
+import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.UsageHint;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorI2F;
@@ -126,10 +128,10 @@ public final class ExampleTexturedQuadImage implements Example
           this.textures[index] =
             loader.load2DStaticRGBA4444(
               this.gl,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
               stream,
               type.toString());
           break;
@@ -139,10 +141,10 @@ public final class ExampleTexturedQuadImage implements Example
           this.textures[index] =
             loader.load2DStaticRGBA5551(
               this.gl,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
               stream,
               type.toString());
           break;
@@ -152,10 +154,10 @@ public final class ExampleTexturedQuadImage implements Example
           this.textures[index] =
             loader.load2DStaticRGBA8888(
               this.gl,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
               stream,
               type.toString());
           break;
@@ -165,10 +167,10 @@ public final class ExampleTexturedQuadImage implements Example
           this.textures[index] =
             loader.load2DStaticRGB565(
               this.gl,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
               stream,
               type.toString());
           break;
@@ -178,10 +180,10 @@ public final class ExampleTexturedQuadImage implements Example
           this.textures[index] =
             loader.load2DStaticRGB888(
               this.gl,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
               stream,
               type.toString());
           break;

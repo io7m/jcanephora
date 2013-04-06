@@ -27,10 +27,10 @@ public abstract class StencilBuffersContract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  public abstract GLStencilBuffer getGLStencilBuffer(
+  public abstract GLFramebuffersCommon getGLFramebuffers(
     TestContext tc);
 
-  public abstract GLFramebuffersCommon getGLFramebuffers(
+  public abstract GLStencilBuffer getGLStencilBuffer(
     TestContext tc);
 
   public abstract @Nonnull

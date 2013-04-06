@@ -40,10 +40,10 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull TextureType type,
     final int width,
     final int height,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull String name)
     throws GLException,
       ConstraintError
@@ -111,10 +111,10 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull TextureType type,
     final int width,
     final int height,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull String name)
     throws GLException,
       ConstraintError
@@ -226,10 +226,10 @@ public final class TextureLoaderImageIO implements TextureLoader
 
   private static void checkConstraints(
     final @Nonnull GLTextures2DStaticCommon gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError
@@ -532,9 +532,6 @@ public final class TextureLoaderImageIO implements TextureLoader
 
   /**
    * Convert any image to RGBA using ImageIO's conversion functions.
-   * 
-   * @param image
-   * @return
    */
 
   private static @Nonnull BufferedImage customToRGBA(
@@ -631,10 +628,10 @@ public final class TextureLoaderImageIO implements TextureLoader
   private static @Nonnull Texture2DStatic load2DStaticSpecificImage_ES2(
     final @Nonnull GLTextures2DStaticCommon gl,
     final @Nonnull TextureType type,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull BufferedImage image,
     final @Nonnull String name)
     throws ConstraintError,
@@ -666,10 +663,10 @@ public final class TextureLoaderImageIO implements TextureLoader
   private static @Nonnull Texture2DStatic load2DStaticSpecificImage_GL3(
     final @Nonnull GLTextures2DStaticGL3 gl,
     final @Nonnull TextureType type,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull BufferedImage image,
     final @Nonnull String name)
     throws GLException,
@@ -807,10 +804,10 @@ public final class TextureLoaderImageIO implements TextureLoader
 
   @Override public @Nonnull Texture2DStatic load2DStaticDepth16(
     final @Nonnull GLTextures2DStaticGL3 gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -838,10 +835,10 @@ public final class TextureLoaderImageIO implements TextureLoader
 
   @Override public @Nonnull Texture2DStatic load2DStaticDepth24(
     final @Nonnull GLTextures2DStaticGL3 gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -869,10 +866,10 @@ public final class TextureLoaderImageIO implements TextureLoader
 
   @Override public @Nonnull Texture2DStatic load2DStaticDepth32(
     final @Nonnull GLTextures2DStaticGL3 gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -900,10 +897,10 @@ public final class TextureLoaderImageIO implements TextureLoader
 
   @Override public @Nonnull Texture2DStatic load2DStaticDepth32f(
     final @Nonnull GLTextures2DStaticGL3 gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -929,46 +926,12 @@ public final class TextureLoaderImageIO implements TextureLoader
       name);
   }
 
-  @Override public @Nonnull Texture2DStatic load2DStaticInferredGLES2(
-    final @Nonnull GLTextures2DStaticCommon gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
-    throws ConstraintError,
-      GLException,
-      IOException
-  {
-    Constraints.constrainNotNull(name, "Name");
-    Constraints.constrainNotNull(stream, "Input stream");
-    Constraints.constrainNotNull(gl, "OpenGL interface");
-    Constraints.constrainNotNull(wrap_s, "Wrap S mode");
-    Constraints.constrainNotNull(wrap_t, "Wrap T mode");
-    Constraints.constrainNotNull(mag_filter, "Magnification filter");
-    Constraints.constrainNotNull(min_filter, "Minification filter");
-
-    final BufferedImage image = TextureLoaderImageIO.getBufferedImage(stream);
-    final TextureType type = TextureLoaderImageIO.inferTextureTypeES2(image);
-
-    return TextureLoaderImageIO.load2DStaticSpecificImage_ES2(
-      gl,
-      type,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter,
-      image,
-      name);
-  }
-
   @Override public @Nonnull Texture2DStatic load2DStaticInferredGL3(
     final @Nonnull GLTextures2DStaticGL3 gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -997,12 +960,46 @@ public final class TextureLoaderImageIO implements TextureLoader
       name);
   }
 
+  @Override public @Nonnull Texture2DStatic load2DStaticInferredGLES2(
+    final @Nonnull GLTextures2DStaticCommon gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      GLException,
+      IOException
+  {
+    Constraints.constrainNotNull(name, "Name");
+    Constraints.constrainNotNull(stream, "Input stream");
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(wrap_s, "Wrap S mode");
+    Constraints.constrainNotNull(wrap_t, "Wrap T mode");
+    Constraints.constrainNotNull(mag_filter, "Magnification filter");
+    Constraints.constrainNotNull(min_filter, "Minification filter");
+
+    final BufferedImage image = TextureLoaderImageIO.getBufferedImage(stream);
+    final TextureType type = TextureLoaderImageIO.inferTextureTypeES2(image);
+
+    return TextureLoaderImageIO.load2DStaticSpecificImage_ES2(
+      gl,
+      type,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      image,
+      name);
+  }
+
   @Override public @Nonnull Texture2DStatic load2DStaticR8(
     final @Nonnull GLTextures2DStaticGL3 gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -1030,10 +1027,10 @@ public final class TextureLoaderImageIO implements TextureLoader
 
   @Override public @Nonnull Texture2DStatic load2DStaticRG88(
     final @Nonnull GLTextures2DStaticGL3 gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -1061,10 +1058,10 @@ public final class TextureLoaderImageIO implements TextureLoader
 
   @Override public @Nonnull Texture2DStatic load2DStaticRGB565(
     final @Nonnull GLTextures2DStaticCommon gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -1092,10 +1089,10 @@ public final class TextureLoaderImageIO implements TextureLoader
 
   @Override public @Nonnull Texture2DStatic load2DStaticRGB888(
     final @Nonnull GLTextures2DStaticCommon gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -1123,10 +1120,10 @@ public final class TextureLoaderImageIO implements TextureLoader
 
   @Override public @Nonnull Texture2DStatic load2DStaticRGBA4444(
     final @Nonnull GLTextures2DStaticCommon gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -1154,10 +1151,10 @@ public final class TextureLoaderImageIO implements TextureLoader
 
   @Override public @Nonnull Texture2DStatic load2DStaticRGBA5551(
     final @Nonnull GLTextures2DStaticCommon gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -1185,10 +1182,10 @@ public final class TextureLoaderImageIO implements TextureLoader
 
   @Override public @Nonnull Texture2DStatic load2DStaticRGBA8888(
     final @Nonnull GLTextures2DStaticCommon gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,

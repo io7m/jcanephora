@@ -4,14 +4,26 @@
   font-weight: bold;
 }
 
+.emphasis
+{
+  font-style: italic;
+}
+
+.actor,
+.actor_system,
 .attribute,
 .class,
 .command,
 .constant,
 .element,
+.expression,
 .file,
 .function,
-.type
+.index_term,
+.role,
+.schema,
+.type,
+.variable
 {
   font-family: monospace;
 }
@@ -49,5 +61,16 @@
 .feature_mapping td
 {
   padding-right: 2em;
+}
+
+.implications table thead
+{
+  padding-right: 2.0em;
+  vertical-align: top;
+}
+
+.implications table
+{
+  text-align: left;
 }
 

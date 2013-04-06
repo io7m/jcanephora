@@ -8,19 +8,6 @@ import com.io7m.jcanephora.contracts.common.DrawContract;
 
 public final class LWJGLES2DrawTest extends DrawContract
 {
-  @Override public boolean isGLSupported()
-  {
-    return LWJGLTestContext.isOpenGLES2Supported();
-  }
-
-  @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError
-  {
-    return LWJGLTestContext.makeContextWithOpenGL_ES2();
-  }
-
   @Override public @Nonnull GLDraw getGLDraw(
     final TestContext context)
   {
@@ -35,5 +22,18 @@ public final class LWJGLES2DrawTest extends DrawContract
     final Some<GLInterfaceGLES2> some =
       (Some<GLInterfaceGLES2>) context.getGLImplementation().getGLES2();
     return some.value;
+  }
+
+  @Override public boolean isGLSupported()
+  {
+    return LWJGLTestContext.isOpenGLES2Supported();
+  }
+
+  @Override public @Nonnull TestContext newTestContext()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    return LWJGLTestContext.makeContextWithOpenGL_ES2();
   }
 }

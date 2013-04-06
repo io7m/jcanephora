@@ -43,13 +43,13 @@ public interface Texture2DStaticUsable extends GLName, GLResourceUsable
    * Retrieve the magnification filter used for the texture.
    */
 
-  public @Nonnull TextureFilter getMagnificationFilter();
+  public @Nonnull TextureFilterMagnification getMagnificationFilter();
 
   /**
    * Retrieve the minification filter used for the texture.
    */
 
-  public @Nonnull TextureFilter getMinificationFilter();
+  public @Nonnull TextureFilterMinification getMinificationFilter();
 
   /**
    * Retrieve the name of the texture.
@@ -85,11 +85,11 @@ public interface Texture2DStaticUsable extends GLName, GLResourceUsable
    * Retrieve the wrapping mode used on the S axis of the texture.
    */
 
-  public @Nonnull TextureWrap getWrapS();
+  public @Nonnull TextureWrapS getWrapS();
 
   /**
    * Retrieve the wrapping mode used on the T axis of the texture.
    */
 
-  public @Nonnull TextureWrap getWrapT();
+  public @Nonnull TextureWrapT getWrapT();
 }

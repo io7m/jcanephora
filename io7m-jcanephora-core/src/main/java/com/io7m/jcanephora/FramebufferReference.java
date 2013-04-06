@@ -22,7 +22,7 @@ import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * A immutable reference to an allocated framebuffer.
+ * An immutable reference to an allocated framebuffer.
  */
 
 @Immutable public final class FramebufferReference extends

@@ -8,6 +8,14 @@ import com.io7m.jcanephora.contracts.common.ScissorContract;
 
 public final class LWJGL30ScissorTest extends ScissorContract
 {
+  @Override public GLScissor getGLScissor(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
+  }
+
   @Override public boolean isGLSupported()
   {
     return LWJGLTestContext.isOpenGL3Supported();
@@ -19,13 +27,5 @@ public final class LWJGL30ScissorTest extends ScissorContract
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL3_X();
-  }
-
-  @Override public GLScissor getGLScissor(
-    final TestContext tc)
-  {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
-    return some.value;
   }
 }

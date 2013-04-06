@@ -182,7 +182,7 @@ public final class Program extends GLResourceDeletable implements
    * 
    * @param fs
    *          A reference to a filesystem.
-   * @param gs
+   * @param gl
    *          An OpenGL interface.
    * @throws ConstraintError
    *           Iff any of the following hold:

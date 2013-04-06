@@ -17,12 +17,11 @@
 package com.io7m.jcanephora;
 
 /**
- * Texture wrapping mode.
+ * OpenGL texture magnification filter specification.
  */
 
-public enum TextureWrap
+public enum TextureFilterMagnification
 {
-  TEXTURE_WRAP_CLAMP_TO_EDGE,
-  TEXTURE_WRAP_REPEAT,
-  TEXTURE_WRAP_REPEAT_MIRRORED
+  TEXTURE_FILTER_LINEAR,
+  TEXTURE_FILTER_NEAREST
 }

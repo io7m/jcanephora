@@ -8,6 +8,14 @@ import com.io7m.jaux.functional.Option.Some;
 public final class JOGL30TextureLoaderImageIOTest extends
   TextureLoaderImageIOTest
 {
+  @Override public GLTextures2DStaticCommon getGLTextures2DStaticCommon(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
+  }
+
   @Override public boolean isGLSupported()
   {
     return JOGLTestContext.isOpenGL3Supported();
@@ -19,13 +27,5 @@ public final class JOGL30TextureLoaderImageIOTest extends
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL3_X();
-  }
-
-  @Override public GLTextures2DStaticCommon getGLTextures2DStaticCommon(
-    final TestContext tc)
-  {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
-    return some.value;
   }
 }

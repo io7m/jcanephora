@@ -597,23 +597,49 @@ final class GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final @Nonnull TextureFilter textureFilterFromGL(
+  static final @Nonnull TextureFilterMagnification textureFilterMagFromGL(
     final int mag_filter)
   {
     switch (mag_filter) {
       case GL.GL_LINEAR:
-        return TextureFilter.TEXTURE_FILTER_LINEAR;
+        return TextureFilterMagnification.TEXTURE_FILTER_LINEAR;
       case GL.GL_NEAREST:
-        return TextureFilter.TEXTURE_FILTER_NEAREST;
+        return TextureFilterMagnification.TEXTURE_FILTER_NEAREST;
     }
 
     throw new UnreachableCodeException();
   }
 
-  static final int textureFilterToGL(
-    final @Nonnull TextureFilter mag_filter)
+  static final int textureFilterMagToGL(
+    final @Nonnull TextureFilterMagnification mag_filter)
   {
     switch (mag_filter) {
+      case TEXTURE_FILTER_LINEAR:
+        return GL.GL_LINEAR;
+      case TEXTURE_FILTER_NEAREST:
+        return GL.GL_NEAREST;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  static final @Nonnull TextureFilterMinification textureFilterMinFromGL(
+    final int mag_filter)
+  {
+    switch (mag_filter) {
+      case GL.GL_LINEAR:
+        return TextureFilterMinification.TEXTURE_FILTER_LINEAR;
+      case GL.GL_NEAREST:
+        return TextureFilterMinification.TEXTURE_FILTER_NEAREST;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  static final int textureFilterMinToGL(
+    final @Nonnull TextureFilterMinification min_filter)
+  {
+    switch (min_filter) {
       case TEXTURE_FILTER_LINEAR:
         return GL.GL_LINEAR;
       case TEXTURE_FILTER_NEAREST:
@@ -702,23 +728,83 @@ final class GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final @Nonnull TextureWrap textureWrapFromGL(
+  static final @Nonnull TextureWrapR textureWrapRFromGL(
     final int wrap)
   {
     switch (wrap) {
       case GL.GL_CLAMP_TO_EDGE:
-        return TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE;
+        return TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE;
       case GL.GL_REPEAT:
-        return TextureWrap.TEXTURE_WRAP_REPEAT;
+        return TextureWrapR.TEXTURE_WRAP_REPEAT;
       case GL.GL_MIRRORED_REPEAT:
-        return TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED;
+        return TextureWrapR.TEXTURE_WRAP_REPEAT_MIRRORED;
     }
 
     throw new UnreachableCodeException();
   }
 
-  static final int textureWrapToGL(
-    final @Nonnull TextureWrap wrap)
+  static final int textureWrapRToGL(
+    final @Nonnull TextureWrapR wrap)
+  {
+    switch (wrap) {
+      case TEXTURE_WRAP_CLAMP_TO_EDGE:
+        return GL.GL_CLAMP_TO_EDGE;
+      case TEXTURE_WRAP_REPEAT:
+        return GL.GL_REPEAT;
+      case TEXTURE_WRAP_REPEAT_MIRRORED:
+        return GL.GL_MIRRORED_REPEAT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  static final @Nonnull TextureWrapS textureWrapSFromGL(
+    final int wrap)
+  {
+    switch (wrap) {
+      case GL.GL_CLAMP_TO_EDGE:
+        return TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE;
+      case GL.GL_REPEAT:
+        return TextureWrapS.TEXTURE_WRAP_REPEAT;
+      case GL.GL_MIRRORED_REPEAT:
+        return TextureWrapS.TEXTURE_WRAP_REPEAT_MIRRORED;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  static final int textureWrapSToGL(
+    final @Nonnull TextureWrapS wrap)
+  {
+    switch (wrap) {
+      case TEXTURE_WRAP_CLAMP_TO_EDGE:
+        return GL.GL_CLAMP_TO_EDGE;
+      case TEXTURE_WRAP_REPEAT:
+        return GL.GL_REPEAT;
+      case TEXTURE_WRAP_REPEAT_MIRRORED:
+        return GL.GL_MIRRORED_REPEAT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  static final @Nonnull TextureWrapT textureWrapTFromGL(
+    final int wrap)
+  {
+    switch (wrap) {
+      case GL.GL_CLAMP_TO_EDGE:
+        return TextureWrapT.TEXTURE_WRAP_CLAMP_TO_EDGE;
+      case GL.GL_REPEAT:
+        return TextureWrapT.TEXTURE_WRAP_REPEAT;
+      case GL.GL_MIRRORED_REPEAT:
+        return TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  static final int textureWrapTToGL(
+    final @Nonnull TextureWrapT wrap)
   {
     switch (wrap) {
       case TEXTURE_WRAP_CLAMP_TO_EDGE:

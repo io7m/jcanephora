@@ -10,6 +10,22 @@ import com.io7m.jcanephora.contracts.common.DepthBuffersContract;
 
 public final class JOGL30DepthBuffersTest extends DepthBuffersContract
 {
+  @Override public @Nonnull GLDepthBuffer getGLDepthBuffer(
+    @Nonnull final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
+  }
+
+  @Override public @Nonnull GLFramebuffersCommon getGLFramebuffers(
+    @Nonnull final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
+  }
+
   @Override public boolean isGLSupported()
   {
     return JOGLTestContext.isOpenGL3Supported();
@@ -99,21 +115,5 @@ public final class JOGL30DepthBuffersTest extends DepthBuffersContract
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL3_X();
-  }
-
-  @Override public @Nonnull GLFramebuffersCommon getGLFramebuffers(
-    @Nonnull final TestContext tc)
-  {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
-    return some.value;
-  }
-
-  @Override public @Nonnull GLDepthBuffer getGLDepthBuffer(
-    @Nonnull final TestContext tc)
-  {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
-    return some.value;
   }
 }

@@ -32,10 +32,10 @@ public class Texture2DWritableDataTest
           1,
           64,
           64,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST);
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
       final Texture2DWritableData d = new Texture2DWritableData(t);
 
       final SpatialCursorWritable1f c = d.getCursor1f();
@@ -78,10 +78,10 @@ public class Texture2DWritableDataTest
             1,
             64,
             64,
-            TextureWrap.TEXTURE_WRAP_REPEAT,
-            TextureWrap.TEXTURE_WRAP_REPEAT,
-            TextureFilter.TEXTURE_FILTER_NEAREST,
-            TextureFilter.TEXTURE_FILTER_NEAREST);
+            TextureWrapS.TEXTURE_WRAP_REPEAT,
+            TextureWrapT.TEXTURE_WRAP_REPEAT,
+            TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+            TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
         final Texture2DWritableData d = new Texture2DWritableData(t);
 
         try {
@@ -118,10 +118,10 @@ public class Texture2DWritableDataTest
           1,
           64,
           64,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST);
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
       final Texture2DWritableData d = new Texture2DWritableData(t);
       final SpatialCursorWritable1i c = d.getCursor1i();
 
@@ -159,10 +159,10 @@ public class Texture2DWritableDataTest
             1,
             64,
             64,
-            TextureWrap.TEXTURE_WRAP_REPEAT,
-            TextureWrap.TEXTURE_WRAP_REPEAT,
-            TextureFilter.TEXTURE_FILTER_NEAREST,
-            TextureFilter.TEXTURE_FILTER_NEAREST);
+            TextureWrapS.TEXTURE_WRAP_REPEAT,
+            TextureWrapT.TEXTURE_WRAP_REPEAT,
+            TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+            TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
         final Texture2DWritableData d = new Texture2DWritableData(t);
 
         try {
@@ -195,10 +195,10 @@ public class Texture2DWritableDataTest
           1,
           64,
           64,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST);
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
       final Texture2DWritableData d = new Texture2DWritableData(t);
       final SpatialCursorWritable2i c = d.getCursor2i();
 
@@ -236,10 +236,10 @@ public class Texture2DWritableDataTest
             1,
             64,
             64,
-            TextureWrap.TEXTURE_WRAP_REPEAT,
-            TextureWrap.TEXTURE_WRAP_REPEAT,
-            TextureFilter.TEXTURE_FILTER_NEAREST,
-            TextureFilter.TEXTURE_FILTER_NEAREST);
+            TextureWrapS.TEXTURE_WRAP_REPEAT,
+            TextureWrapT.TEXTURE_WRAP_REPEAT,
+            TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+            TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
         final Texture2DWritableData d = new Texture2DWritableData(t);
 
         try {
@@ -272,10 +272,10 @@ public class Texture2DWritableDataTest
           1,
           64,
           64,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST);
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
       final Texture2DWritableData d = new Texture2DWritableData(t);
       final SpatialCursorWritable3i c = d.getCursor3i();
 
@@ -313,10 +313,10 @@ public class Texture2DWritableDataTest
             1,
             64,
             64,
-            TextureWrap.TEXTURE_WRAP_REPEAT,
-            TextureWrap.TEXTURE_WRAP_REPEAT,
-            TextureFilter.TEXTURE_FILTER_NEAREST,
-            TextureFilter.TEXTURE_FILTER_NEAREST);
+            TextureWrapS.TEXTURE_WRAP_REPEAT,
+            TextureWrapT.TEXTURE_WRAP_REPEAT,
+            TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+            TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
         final Texture2DWritableData d = new Texture2DWritableData(t);
 
         try {
@@ -349,10 +349,10 @@ public class Texture2DWritableDataTest
           1,
           64,
           64,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST);
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
       final Texture2DWritableData d = new Texture2DWritableData(t);
       final SpatialCursorWritable4i c = d.getCursor4i();
 
@@ -390,10 +390,10 @@ public class Texture2DWritableDataTest
             1,
             64,
             64,
-            TextureWrap.TEXTURE_WRAP_REPEAT,
-            TextureWrap.TEXTURE_WRAP_REPEAT,
-            TextureFilter.TEXTURE_FILTER_NEAREST,
-            TextureFilter.TEXTURE_FILTER_NEAREST);
+            TextureWrapS.TEXTURE_WRAP_REPEAT,
+            TextureWrapT.TEXTURE_WRAP_REPEAT,
+            TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+            TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
         final Texture2DWritableData d = new Texture2DWritableData(t);
 
         try {
@@ -423,10 +423,10 @@ public class Texture2DWritableDataTest
         1,
         64,
         128,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     final Texture2DWritableData d = new Texture2DWritableData(t);
 
     Assert.assertTrue(d.getTexture() == t);

@@ -28,6 +28,7 @@ import com.io7m.jcanephora.CubeMapFace;
 import com.io7m.jcanephora.Framebuffer;
 import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
 import com.io7m.jcanephora.FramebufferConfigurationGL3;
+import com.io7m.jcanephora.FramebufferConfigurationGL3Actual;
 import com.io7m.jcanephora.FramebufferDrawBuffer;
 import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.GLException;
@@ -38,8 +39,11 @@ import com.io7m.jcanephora.RenderbufferUsable;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.Texture2DStaticUsable;
 import com.io7m.jcanephora.TextureCubeStaticUsable;
-import com.io7m.jcanephora.TextureFilter;
-import com.io7m.jcanephora.TextureWrap;
+import com.io7m.jcanephora.TextureFilterMagnification;
+import com.io7m.jcanephora.TextureFilterMinification;
+import com.io7m.jcanephora.TextureWrapR;
+import com.io7m.jcanephora.TextureWrapS;
+import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.contracts.common.TestContract;
 
 public abstract class FramebuffersGL3Contract implements TestContract
@@ -92,7 +96,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
     Assume.assumeTrue(buffers.length >= 2);
 
     final FramebufferConfigurationGL3 config =
-      new FramebufferConfigurationGL3(128, 256);
+      new FramebufferConfigurationGL3Actual(128, 256);
 
     config.requestNoColor();
     config.requestNoDepth();
@@ -119,7 +123,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
     final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
     final FramebufferConfigurationGL3 config =
-      new FramebufferConfigurationGL3(128, 256);
+      new FramebufferConfigurationGL3Actual(128, 256);
 
     config.requestNoColor();
     config.requestNoDepth();
@@ -177,7 +181,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
     final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
     final FramebufferConfigurationGL3 config =
-      new FramebufferConfigurationGL3(128, 256);
+      new FramebufferConfigurationGL3Actual(128, 256);
 
     config.requestNoColor();
     config.requestNoDepth();
@@ -185,10 +189,10 @@ public abstract class FramebuffersGL3Contract implements TestContract
     config.requestBestRGBAColorTexture2D(
       points[0],
       buffers[0],
-      TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureFilter.TEXTURE_FILTER_LINEAR,
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+      TextureWrapT.TEXTURE_WRAP_REPEAT,
+      TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
       config.make(gl);
@@ -220,14 +224,15 @@ public abstract class FramebuffersGL3Contract implements TestContract
       (AttachmentColorTexture2DStatic) ca;
 
     final Texture2DStaticUsable t = cat.getTexture2D();
-    Assert.assertEquals(t.getWrapS(), TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE);
-    Assert.assertEquals(t.getWrapT(), TextureWrap.TEXTURE_WRAP_REPEAT);
+    Assert
+      .assertEquals(t.getWrapS(), TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE);
+    Assert.assertEquals(t.getWrapT(), TextureWrapT.TEXTURE_WRAP_REPEAT);
     Assert.assertEquals(
       t.getMinificationFilter(),
-      TextureFilter.TEXTURE_FILTER_LINEAR);
+      TextureFilterMinification.TEXTURE_FILTER_LINEAR);
     Assert.assertEquals(
       t.getMagnificationFilter(),
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     fb.delete(gl);
   }
@@ -249,7 +254,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
     final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
     final FramebufferConfigurationGL3 config =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
 
     config.requestNoColor();
     config.requestNoDepth();
@@ -257,11 +262,11 @@ public abstract class FramebuffersGL3Contract implements TestContract
     config.requestBestRGBAColorTextureCube(
       points[0],
       buffers[0],
-      TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureFilter.TEXTURE_FILTER_LINEAR,
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+      TextureWrapS.TEXTURE_WRAP_REPEAT,
+      TextureWrapT.TEXTURE_WRAP_REPEAT,
+      TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
       config.make(gl);
@@ -294,15 +299,16 @@ public abstract class FramebuffersGL3Contract implements TestContract
       (AttachmentColorTextureCubeStatic) ca;
 
     final TextureCubeStaticUsable t = cat.getTextureCube();
-    Assert.assertEquals(t.getWrapR(), TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE);
-    Assert.assertEquals(t.getWrapS(), TextureWrap.TEXTURE_WRAP_REPEAT);
-    Assert.assertEquals(t.getWrapT(), TextureWrap.TEXTURE_WRAP_REPEAT);
+    Assert
+      .assertEquals(t.getWrapR(), TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE);
+    Assert.assertEquals(t.getWrapS(), TextureWrapS.TEXTURE_WRAP_REPEAT);
+    Assert.assertEquals(t.getWrapT(), TextureWrapT.TEXTURE_WRAP_REPEAT);
     Assert.assertEquals(
       t.getMinificationFilter(),
-      TextureFilter.TEXTURE_FILTER_LINEAR);
+      TextureFilterMinification.TEXTURE_FILTER_LINEAR);
     Assert.assertEquals(
       t.getMagnificationFilter(),
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     Assert.assertEquals(CubeMapFace.CUBE_MAP_POSITIVE_X, cat.getFace());
 
@@ -326,7 +332,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
     final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
     final FramebufferConfigurationGL3 config =
-      new FramebufferConfigurationGL3(128, 256);
+      new FramebufferConfigurationGL3Actual(128, 256);
 
     config.requestNoColor();
     config.requestNoDepth();
@@ -384,7 +390,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
     final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
     final FramebufferConfigurationGL3 config =
-      new FramebufferConfigurationGL3(128, 256);
+      new FramebufferConfigurationGL3Actual(128, 256);
 
     config.requestNoColor();
     config.requestNoDepth();
@@ -392,10 +398,10 @@ public abstract class FramebuffersGL3Contract implements TestContract
     config.requestBestRGBColorTexture2D(
       points[0],
       buffers[0],
-      TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureFilter.TEXTURE_FILTER_LINEAR,
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+      TextureWrapT.TEXTURE_WRAP_REPEAT,
+      TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
       config.make(gl);
@@ -427,14 +433,15 @@ public abstract class FramebuffersGL3Contract implements TestContract
       (AttachmentColorTexture2DStatic) ca;
 
     final Texture2DStaticUsable t = cat.getTexture2D();
-    Assert.assertEquals(t.getWrapS(), TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE);
-    Assert.assertEquals(t.getWrapT(), TextureWrap.TEXTURE_WRAP_REPEAT);
+    Assert
+      .assertEquals(t.getWrapS(), TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE);
+    Assert.assertEquals(t.getWrapT(), TextureWrapT.TEXTURE_WRAP_REPEAT);
     Assert.assertEquals(
       t.getMinificationFilter(),
-      TextureFilter.TEXTURE_FILTER_LINEAR);
+      TextureFilterMinification.TEXTURE_FILTER_LINEAR);
     Assert.assertEquals(
       t.getMagnificationFilter(),
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     fb.delete(gl);
   }
@@ -456,7 +463,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
     final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
     final FramebufferConfigurationGL3 config =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
 
     config.requestNoColor();
     config.requestNoDepth();
@@ -464,11 +471,11 @@ public abstract class FramebuffersGL3Contract implements TestContract
     config.requestBestRGBColorTextureCube(
       points[0],
       buffers[0],
-      TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureFilter.TEXTURE_FILTER_LINEAR,
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+      TextureWrapS.TEXTURE_WRAP_REPEAT,
+      TextureWrapT.TEXTURE_WRAP_REPEAT,
+      TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
       config.make(gl);
@@ -501,15 +508,16 @@ public abstract class FramebuffersGL3Contract implements TestContract
       (AttachmentColorTextureCubeStatic) ca;
 
     final TextureCubeStaticUsable t = cat.getTextureCube();
-    Assert.assertEquals(t.getWrapR(), TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE);
-    Assert.assertEquals(t.getWrapS(), TextureWrap.TEXTURE_WRAP_REPEAT);
-    Assert.assertEquals(t.getWrapT(), TextureWrap.TEXTURE_WRAP_REPEAT);
+    Assert
+      .assertEquals(t.getWrapR(), TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE);
+    Assert.assertEquals(t.getWrapS(), TextureWrapS.TEXTURE_WRAP_REPEAT);
+    Assert.assertEquals(t.getWrapT(), TextureWrapT.TEXTURE_WRAP_REPEAT);
     Assert.assertEquals(
       t.getMinificationFilter(),
-      TextureFilter.TEXTURE_FILTER_LINEAR);
+      TextureFilterMinification.TEXTURE_FILTER_LINEAR);
     Assert.assertEquals(
       t.getMagnificationFilter(),
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     Assert.assertEquals(CubeMapFace.CUBE_MAP_POSITIVE_X, cat.getFace());
 
@@ -533,7 +541,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
     final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
     final FramebufferConfigurationGL3 config =
-      new FramebufferConfigurationGL3(128, 256);
+      new FramebufferConfigurationGL3Actual(128, 256);
 
     config.requestNoColor();
     config.requestNoDepth();
@@ -573,7 +581,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
     final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
     final FramebufferConfigurationGL3 config =
-      new FramebufferConfigurationGL3(128, 256);
+      new FramebufferConfigurationGL3Actual(128, 256);
 
     config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
     config.requestNoStencil();
@@ -628,7 +636,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
     final GLInterfaceGL3 gl = this.getGL3(tc);
 
     final FramebufferConfigurationGL3 config =
-      new FramebufferConfigurationGL3(128, 256);
+      new FramebufferConfigurationGL3Actual(128, 256);
 
     config.requestNoColor();
     config.requestNoDepth();
@@ -651,7 +659,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
     Assume.assumeTrue(buffers.length >= 2);
 
     final FramebufferConfigurationGL3 config =
-      new FramebufferConfigurationGL3(128, 256);
+      new FramebufferConfigurationGL3Actual(128, 256);
 
     config.requestNoColor();
     config.requestNoDepth();
@@ -676,10 +684,10 @@ public abstract class FramebuffersGL3Contract implements TestContract
       config.requestBestRGBAColorTexture2D(
         points[1],
         buffers[0],
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -688,10 +696,10 @@ public abstract class FramebuffersGL3Contract implements TestContract
       config.requestBestRGBColorTexture2D(
         points[1],
         buffers[0],
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -700,11 +708,11 @@ public abstract class FramebuffersGL3Contract implements TestContract
       config.requestBestRGBAColorTextureCube(
         points[1],
         buffers[0],
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -713,11 +721,11 @@ public abstract class FramebuffersGL3Contract implements TestContract
       config.requestBestRGBColorTextureCube(
         points[1],
         buffers[0],
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -751,7 +759,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
      */
 
     final FramebufferConfigurationGL3 fb0_config =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
     fb0_config.requestBestRGBColorRenderbuffer(points[0], buffers[0]);
 
     final Framebuffer fb0 =
@@ -784,7 +792,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
      */
 
     final FramebufferConfigurationGL3 fb1_config =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
     fb1_config.requestSharedColor(points[0], buffers[0], fb0, points[0]);
 
     final Framebuffer fb1 =
@@ -842,7 +850,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
      */
 
     final FramebufferConfigurationGL3 fb0_config =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
     fb0_config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
 
     final Framebuffer fb0 =
@@ -875,7 +883,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
      */
 
     final FramebufferConfigurationGL3 fb1_config =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
     fb1_config.requestSharedColor(points[0], buffers[0], fb0, points[0]);
 
     final Framebuffer fb1 =
@@ -933,14 +941,14 @@ public abstract class FramebuffersGL3Contract implements TestContract
      */
 
     final FramebufferConfigurationGL3 fb0_config =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
     fb0_config.requestBestRGBAColorTexture2D(
       points[0],
       buffers[0],
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureFilter.TEXTURE_FILTER_NEAREST,
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureWrapS.TEXTURE_WRAP_REPEAT,
+      TextureWrapT.TEXTURE_WRAP_REPEAT,
+      TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     final Framebuffer fb0 =
       FramebuffersGL3Contract.makeAssumingSuccess(fb0_config, gl);
@@ -971,7 +979,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
      */
 
     final FramebufferConfigurationGL3 fb1_config =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
     fb1_config.requestSharedColor(points[0], buffers[0], fb0, points[0]);
 
     final Framebuffer fb1 =
@@ -1028,15 +1036,15 @@ public abstract class FramebuffersGL3Contract implements TestContract
      */
 
     final FramebufferConfigurationGL3 fb0_config =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
     fb0_config.requestBestRGBAColorTextureCube(
       points[0],
       buffers[0],
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureFilter.TEXTURE_FILTER_NEAREST,
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureWrapR.TEXTURE_WRAP_REPEAT,
+      TextureWrapS.TEXTURE_WRAP_REPEAT,
+      TextureWrapT.TEXTURE_WRAP_REPEAT,
+      TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     final Framebuffer fb0 =
       FramebuffersGL3Contract.makeAssumingSuccess(fb0_config, gl);
@@ -1067,7 +1075,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
      */
 
     final FramebufferConfigurationGL3 fb1_config =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
     fb1_config.requestSharedColor(points[0], buffers[0], fb0, points[0]);
 
     final Framebuffer fb1 =
@@ -1124,7 +1132,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
      */
 
     final FramebufferConfigurationGL3 fb0_config =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
     fb0_config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
     fb0_config.requestDepthRenderbuffer();
 
@@ -1161,7 +1169,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
      */
 
     final FramebufferConfigurationGL3 fb1_config =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
     fb1_config.requestSharedDepth(fb0);
     fb1_config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
 
@@ -1226,7 +1234,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
      */
 
     final FramebufferConfigurationGL3 fb0_config =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
     fb0_config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
 
     final Framebuffer fb0 =
@@ -1259,7 +1267,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
      */
 
     final FramebufferConfigurationGL3 fb1_config =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
     fb1_config.requestSharedColor(points[0], buffers[0], fb0, points[0]);
 
     final Framebuffer fb1 =
@@ -1295,7 +1303,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
      */
 
     final FramebufferConfigurationGL3 fb2_config =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
     fb2_config.requestSharedColor(points[0], buffers[0], fb1, points[0]);
 
     final Framebuffer fb2 =
@@ -1352,7 +1360,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
      */
 
     final FramebufferConfigurationGL3 fb0_config =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
     fb0_config.requestDepthRenderbuffer();
     fb0_config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
 
@@ -1402,7 +1410,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
      */
 
     final FramebufferConfigurationGL3 fb1_config =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
     fb1_config.requestSharedStencil(fb0);
     fb1_config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
 
@@ -1462,7 +1470,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
     final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
 
     final FramebufferConfigurationGL3 config =
-      new FramebufferConfigurationGL3(128, 256);
+      new FramebufferConfigurationGL3Actual(128, 256);
 
     config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
     config.requestNoDepth();

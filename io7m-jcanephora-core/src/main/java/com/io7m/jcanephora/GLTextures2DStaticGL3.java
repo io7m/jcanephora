@@ -78,10 +78,10 @@ public interface GLTextures2DStaticGL3 extends GLTextures2DStaticCommon
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException;
 
@@ -136,10 +136,10 @@ public interface GLTextures2DStaticGL3 extends GLTextures2DStaticCommon
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException;
 
@@ -194,10 +194,10 @@ public interface GLTextures2DStaticGL3 extends GLTextures2DStaticCommon
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException;
 
@@ -252,10 +252,10 @@ public interface GLTextures2DStaticGL3 extends GLTextures2DStaticCommon
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException;
 
@@ -310,10 +310,10 @@ public interface GLTextures2DStaticGL3 extends GLTextures2DStaticCommon
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException;
 
@@ -368,10 +368,10 @@ public interface GLTextures2DStaticGL3 extends GLTextures2DStaticCommon
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException;
 }

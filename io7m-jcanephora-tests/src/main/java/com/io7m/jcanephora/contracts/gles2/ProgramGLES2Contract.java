@@ -38,37 +38,6 @@ public abstract class ProgramGLES2Contract implements TestContract
     TestContext tc);
 
   /**
-   * Attaching two vertex shaders on ES2, fails.
-   * 
-   * @throws GLException
-   * @throws GLUnsupportedException
-   * @throws FilesystemError
-   * @throws IOException
-   * @throws GLCompileException
-   */
-
-  @Test(expected = GLCompileException.class) public final
-    void
-    testTwoVertexShaders()
-      throws ConstraintError,
-        GLException,
-        GLUnsupportedException,
-        FilesystemError,
-        GLCompileException,
-        IOException
-  {
-    final TestContext tc = this.newTestContext();
-    final GLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final FilesystemAPI fs = tc.getFilesystem();
-
-    final Program p = new Program("program", tc.getLog());
-    p.addVertexShader(new PathVirtual(tc.getShaderPath() + "/simple.v"));
-    p.addVertexShader(new PathVirtual(tc.getShaderPath() + "/func.v"));
-    p.addFragmentShader(new PathVirtual(tc.getShaderPath() + "/simple.f"));
-    p.compile(fs, gl);
-  }
-
-  /**
    * Attaching two fragment shaders on ES2, fails.
    * 
    * @throws GLException
@@ -96,6 +65,37 @@ public abstract class ProgramGLES2Contract implements TestContract
     p.addVertexShader(new PathVirtual(tc.getShaderPath() + "/simple.v"));
     p.addFragmentShader(new PathVirtual(tc.getShaderPath() + "/simple.f"));
     p.addFragmentShader(new PathVirtual(tc.getShaderPath() + "/func.f"));
+    p.compile(fs, gl);
+  }
+
+  /**
+   * Attaching two vertex shaders on ES2, fails.
+   * 
+   * @throws GLException
+   * @throws GLUnsupportedException
+   * @throws FilesystemError
+   * @throws IOException
+   * @throws GLCompileException
+   */
+
+  @Test(expected = GLCompileException.class) public final
+    void
+    testTwoVertexShaders()
+      throws ConstraintError,
+        GLException,
+        GLUnsupportedException,
+        FilesystemError,
+        GLCompileException,
+        IOException
+  {
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    final FilesystemAPI fs = tc.getFilesystem();
+
+    final Program p = new Program("program", tc.getLog());
+    p.addVertexShader(new PathVirtual(tc.getShaderPath() + "/simple.v"));
+    p.addVertexShader(new PathVirtual(tc.getShaderPath() + "/func.v"));
+    p.addFragmentShader(new PathVirtual(tc.getShaderPath() + "/simple.f"));
     p.compile(fs, gl);
   }
 }

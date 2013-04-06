@@ -9,6 +9,22 @@ import com.io7m.jcanephora.contracts.gles2.TextureCubeStaticES2Contract;
 public final class LWJGLES2TextureCubeStaticES2Test extends
   TextureCubeStaticES2Contract
 {
+  @Override public GLTexturesCubeStaticCommon getGLTextureCubeStaticCommon(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGLES2> some =
+      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    return some.value;
+  }
+
+  @Override public GLTextureUnits getGLTextureUnits(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGLES2> some =
+      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    return some.value;
+  }
+
   @Override public boolean isGLSupported()
   {
     return LWJGLTestContext.isOpenGLES2Supported();
@@ -20,21 +36,5 @@ public final class LWJGLES2TextureCubeStaticES2Test extends
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL_ES2();
-  }
-
-  @Override public GLTextureUnits getGLTextureUnits(
-    final TestContext tc)
-  {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
-    return some.value;
-  }
-
-  @Override public GLTexturesCubeStaticCommon getGLTextureCubeStaticCommon(
-    final TestContext tc)
-  {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
-    return some.value;
   }
 }

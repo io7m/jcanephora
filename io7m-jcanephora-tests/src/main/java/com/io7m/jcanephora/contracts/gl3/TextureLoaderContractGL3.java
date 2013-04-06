@@ -17,10 +17,12 @@ import com.io7m.jcanephora.GLTextures2DStaticGL3;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.Texture2DStatic;
-import com.io7m.jcanephora.TextureFilter;
+import com.io7m.jcanephora.TextureFilterMagnification;
+import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureLoader;
 import com.io7m.jcanephora.TextureType;
-import com.io7m.jcanephora.TextureWrap;
+import com.io7m.jcanephora.TextureWrapS;
+import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.contracts.common.TextureLoaderTestContract;
 import com.io7m.jvvfs.FilesystemAPI;
 import com.io7m.jvvfs.FilesystemError;
@@ -28,9 +30,6 @@ import com.io7m.jvvfs.FilesystemError;
 public abstract class TextureLoaderContractGL3 implements
   TextureLoaderTestContract
 {
-  public abstract GLTextures2DStaticGL3 getGLTextures2DStaticGL3(
-    TestContext tc);
-
   private static Texture2DStatic convertES2(
     final GLTextures2DStaticCommon gl,
     final TextureLoader loader,
@@ -45,10 +44,10 @@ public abstract class TextureLoaderContractGL3 implements
       {
         return loader.load2DStaticRGB565(
           gl,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
           stream,
           type.toString());
       }
@@ -56,10 +55,10 @@ public abstract class TextureLoaderContractGL3 implements
       {
         return loader.load2DStaticRGB888(
           gl,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
           stream,
           type.toString());
       }
@@ -67,10 +66,10 @@ public abstract class TextureLoaderContractGL3 implements
       {
         return loader.load2DStaticRGBA4444(
           gl,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
           stream,
           type.toString());
       }
@@ -78,10 +77,10 @@ public abstract class TextureLoaderContractGL3 implements
       {
         return loader.load2DStaticRGBA5551(
           gl,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
           stream,
           type.toString());
       }
@@ -89,10 +88,10 @@ public abstract class TextureLoaderContractGL3 implements
       {
         return loader.load2DStaticRGBA8888(
           gl,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
           stream,
           type.toString());
       }
@@ -125,10 +124,10 @@ public abstract class TextureLoaderContractGL3 implements
       {
         return loader.load2DStaticRGB565(
           gl,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
           stream,
           type.toString());
       }
@@ -136,10 +135,10 @@ public abstract class TextureLoaderContractGL3 implements
       {
         return loader.load2DStaticRGB888(
           gl,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
           stream,
           type.toString());
       }
@@ -147,10 +146,10 @@ public abstract class TextureLoaderContractGL3 implements
       {
         return loader.load2DStaticRGBA4444(
           gl,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
           stream,
           type.toString());
       }
@@ -158,10 +157,10 @@ public abstract class TextureLoaderContractGL3 implements
       {
         return loader.load2DStaticRGBA5551(
           gl,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
           stream,
           type.toString());
       }
@@ -169,10 +168,10 @@ public abstract class TextureLoaderContractGL3 implements
       {
         return loader.load2DStaticRGBA8888(
           gl,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
           stream,
           type.toString());
       }
@@ -180,10 +179,10 @@ public abstract class TextureLoaderContractGL3 implements
       {
         return loader.load2DStaticRG88(
           gl,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
           stream,
           type.toString());
       }
@@ -191,10 +190,10 @@ public abstract class TextureLoaderContractGL3 implements
       {
         return loader.load2DStaticR8(
           gl,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
           stream,
           type.toString());
       }
@@ -202,10 +201,10 @@ public abstract class TextureLoaderContractGL3 implements
       {
         return loader.load2DStaticDepth16(
           gl,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
           stream,
           type.toString());
       }
@@ -213,10 +212,10 @@ public abstract class TextureLoaderContractGL3 implements
       {
         return loader.load2DStaticDepth24(
           gl,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
           stream,
           type.toString());
       }
@@ -224,10 +223,10 @@ public abstract class TextureLoaderContractGL3 implements
       {
         return loader.load2DStaticDepth32f(
           gl,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
           stream,
           type.toString());
       }
@@ -235,10 +234,10 @@ public abstract class TextureLoaderContractGL3 implements
       {
         return loader.load2DStaticDepth32(
           gl,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
-          TextureFilter.TEXTURE_FILTER_NEAREST,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT,
+          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
           stream,
           type.toString());
       }
@@ -251,6 +250,9 @@ public abstract class TextureLoaderContractGL3 implements
   {
     Assume.assumeTrue(this.isGLSupported());
   }
+
+  public abstract GLTextures2DStaticGL3 getGLTextures2DStaticGL3(
+    TestContext tc);
 
   /**
    * Inferring a RGB888 texture from a monochrome image works.
@@ -282,10 +284,10 @@ public abstract class TextureLoaderContractGL3 implements
     final Texture2DStatic texture =
       loader.load2DStaticInferredGLES2(
         gl,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
         stream,
         "image");
 
@@ -335,10 +337,10 @@ public abstract class TextureLoaderContractGL3 implements
     final Texture2DStatic texture =
       loader.load2DStaticInferredGL3(
         gl,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
         stream,
         "image");
 
@@ -477,10 +479,10 @@ public abstract class TextureLoaderContractGL3 implements
     final Texture2DStatic texture =
       loader.load2DStaticInferredGLES2(
         gl,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
         stream,
         "image");
 
@@ -529,10 +531,10 @@ public abstract class TextureLoaderContractGL3 implements
     final Texture2DStatic texture =
       loader.load2DStaticInferredGL3(
         gl,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
         stream,
         "image");
 
@@ -669,10 +671,10 @@ public abstract class TextureLoaderContractGL3 implements
     final Texture2DStatic texture =
       loader.load2DStaticInferredGLES2(
         gl,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
         stream,
         "image");
 
@@ -811,10 +813,10 @@ public abstract class TextureLoaderContractGL3 implements
     final Texture2DStatic texture =
       loader.load2DStaticInferredGLES2(
         gl,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
         stream,
         "image");
 
@@ -863,10 +865,10 @@ public abstract class TextureLoaderContractGL3 implements
     final Texture2DStatic texture =
       loader.load2DStaticInferredGLES2(
         gl,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
         stream,
         "image");
 
@@ -911,10 +913,10 @@ public abstract class TextureLoaderContractGL3 implements
     final Texture2DStatic texture =
       loader.load2DStaticInferredGLES2(
         gl,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
         stream,
         "image");
 
@@ -963,10 +965,10 @@ public abstract class TextureLoaderContractGL3 implements
     final Texture2DStatic texture =
       loader.load2DStaticInferredGLES2(
         gl,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
         stream,
         "image");
 

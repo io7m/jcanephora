@@ -41,14 +41,14 @@ public abstract class IndexBufferMapContract implements TestContract
   public abstract GLArrayBuffersMapped getGLArrayBuffersMapped(
     final TestContext tc);
 
+  public abstract GLErrorCodes getGLErrorCodes(
+    TestContext tc);
+
   public abstract GLIndexBuffers getGLIndexBuffers(
     final TestContext tc);
 
   public abstract GLIndexBuffersMapped getGLIndexBuffersMapped(
     final TestContext tc);
-
-  public abstract GLErrorCodes getGLErrorCodes(
-    TestContext tc);
 
   /**
    * Mapping a deleted buffer read-only fails.

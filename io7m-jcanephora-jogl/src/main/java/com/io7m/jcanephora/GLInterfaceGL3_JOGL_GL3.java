@@ -1433,10 +1433,10 @@ import com.io7m.jtensors.VectorReadable4F;
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -1458,10 +1458,10 @@ import com.io7m.jtensors.VectorReadable4F;
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -1483,10 +1483,10 @@ import com.io7m.jtensors.VectorReadable4F;
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -1508,10 +1508,10 @@ import com.io7m.jtensors.VectorReadable4F;
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -1533,10 +1533,10 @@ import com.io7m.jtensors.VectorReadable4F;
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -1558,10 +1558,10 @@ import com.io7m.jtensors.VectorReadable4F;
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -1583,10 +1583,10 @@ import com.io7m.jtensors.VectorReadable4F;
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -1608,10 +1608,10 @@ import com.io7m.jtensors.VectorReadable4F;
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -1633,10 +1633,10 @@ import com.io7m.jtensors.VectorReadable4F;
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -1658,10 +1658,10 @@ import com.io7m.jtensors.VectorReadable4F;
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -1683,10 +1683,10 @@ import com.io7m.jtensors.VectorReadable4F;
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -1759,11 +1759,11 @@ import com.io7m.jtensors.VectorReadable4F;
     textureCubeStaticAllocateDepth16(
       final @Nonnull String name,
       final int size,
-      final @Nonnull TextureWrap wrap_r,
-      final @Nonnull TextureWrap wrap_s,
-      final @Nonnull TextureWrap wrap_t,
-      final @Nonnull TextureFilter min_filter,
-      final @Nonnull TextureFilter mag_filter)
+      final @Nonnull TextureWrapR wrap_r,
+      final @Nonnull TextureWrapS wrap_s,
+      final @Nonnull TextureWrapT wrap_t,
+      final @Nonnull TextureFilterMinification min_filter,
+      final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
         GLException
   {
@@ -1786,11 +1786,11 @@ import com.io7m.jtensors.VectorReadable4F;
     textureCubeStaticAllocateDepth24(
       final @Nonnull String name,
       final int size,
-      final @Nonnull TextureWrap wrap_r,
-      final @Nonnull TextureWrap wrap_s,
-      final @Nonnull TextureWrap wrap_t,
-      final @Nonnull TextureFilter min_filter,
-      final @Nonnull TextureFilter mag_filter)
+      final @Nonnull TextureWrapR wrap_r,
+      final @Nonnull TextureWrapS wrap_s,
+      final @Nonnull TextureWrapT wrap_t,
+      final @Nonnull TextureFilterMinification min_filter,
+      final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
         GLException
   {
@@ -1813,11 +1813,11 @@ import com.io7m.jtensors.VectorReadable4F;
     textureCubeStaticAllocateDepth32(
       final @Nonnull String name,
       final int size,
-      final @Nonnull TextureWrap wrap_r,
-      final @Nonnull TextureWrap wrap_s,
-      final @Nonnull TextureWrap wrap_t,
-      final @Nonnull TextureFilter min_filter,
-      final @Nonnull TextureFilter mag_filter)
+      final @Nonnull TextureWrapR wrap_r,
+      final @Nonnull TextureWrapS wrap_s,
+      final @Nonnull TextureWrapT wrap_t,
+      final @Nonnull TextureFilterMinification min_filter,
+      final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
         GLException
   {
@@ -1840,11 +1840,11 @@ import com.io7m.jtensors.VectorReadable4F;
     textureCubeStaticAllocateDepth32f(
       final @Nonnull String name,
       final int size,
-      final @Nonnull TextureWrap wrap_r,
-      final @Nonnull TextureWrap wrap_s,
-      final @Nonnull TextureWrap wrap_t,
-      final @Nonnull TextureFilter min_filter,
-      final @Nonnull TextureFilter mag_filter)
+      final @Nonnull TextureWrapR wrap_r,
+      final @Nonnull TextureWrapS wrap_s,
+      final @Nonnull TextureWrapT wrap_t,
+      final @Nonnull TextureFilterMinification min_filter,
+      final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
         GLException
   {
@@ -1865,11 +1865,11 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateR8(
     final @Nonnull String name,
     final int size,
-    final @Nonnull TextureWrap wrap_r,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -1890,11 +1890,11 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG88(
     final @Nonnull String name,
     final int size,
-    final @Nonnull TextureWrap wrap_r,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -1917,11 +1917,11 @@ import com.io7m.jtensors.VectorReadable4F;
     textureCubeStaticAllocateRGB565(
       final @Nonnull String name,
       final int size,
-      final @Nonnull TextureWrap wrap_r,
-      final @Nonnull TextureWrap wrap_s,
-      final @Nonnull TextureWrap wrap_t,
-      final @Nonnull TextureFilter min_filter,
-      final @Nonnull TextureFilter mag_filter)
+      final @Nonnull TextureWrapR wrap_r,
+      final @Nonnull TextureWrapS wrap_s,
+      final @Nonnull TextureWrapT wrap_t,
+      final @Nonnull TextureFilterMinification min_filter,
+      final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
         GLException
   {
@@ -1944,11 +1944,11 @@ import com.io7m.jtensors.VectorReadable4F;
     textureCubeStaticAllocateRGB888(
       final @Nonnull String name,
       final int size,
-      final @Nonnull TextureWrap wrap_r,
-      final @Nonnull TextureWrap wrap_s,
-      final @Nonnull TextureWrap wrap_t,
-      final @Nonnull TextureFilter min_filter,
-      final @Nonnull TextureFilter mag_filter)
+      final @Nonnull TextureWrapR wrap_r,
+      final @Nonnull TextureWrapS wrap_s,
+      final @Nonnull TextureWrapT wrap_t,
+      final @Nonnull TextureFilterMinification min_filter,
+      final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
         GLException
   {
@@ -1971,11 +1971,11 @@ import com.io7m.jtensors.VectorReadable4F;
     textureCubeStaticAllocateRGBA4444(
       final @Nonnull String name,
       final int size,
-      final @Nonnull TextureWrap wrap_r,
-      final @Nonnull TextureWrap wrap_s,
-      final @Nonnull TextureWrap wrap_t,
-      final @Nonnull TextureFilter min_filter,
-      final @Nonnull TextureFilter mag_filter)
+      final @Nonnull TextureWrapR wrap_r,
+      final @Nonnull TextureWrapS wrap_s,
+      final @Nonnull TextureWrapT wrap_t,
+      final @Nonnull TextureFilterMinification min_filter,
+      final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
         GLException
   {
@@ -1998,11 +1998,11 @@ import com.io7m.jtensors.VectorReadable4F;
     textureCubeStaticAllocateRGBA5551(
       final @Nonnull String name,
       final int size,
-      final @Nonnull TextureWrap wrap_r,
-      final @Nonnull TextureWrap wrap_s,
-      final @Nonnull TextureWrap wrap_t,
-      final @Nonnull TextureFilter min_filter,
-      final @Nonnull TextureFilter mag_filter)
+      final @Nonnull TextureWrapR wrap_r,
+      final @Nonnull TextureWrapS wrap_s,
+      final @Nonnull TextureWrapT wrap_t,
+      final @Nonnull TextureFilterMinification min_filter,
+      final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
         GLException
   {
@@ -2025,11 +2025,11 @@ import com.io7m.jtensors.VectorReadable4F;
     textureCubeStaticAllocateRGBA8888(
       final @Nonnull String name,
       final int size,
-      final @Nonnull TextureWrap wrap_r,
-      final @Nonnull TextureWrap wrap_s,
-      final @Nonnull TextureWrap wrap_t,
-      final @Nonnull TextureFilter min_filter,
-      final @Nonnull TextureFilter mag_filter)
+      final @Nonnull TextureWrapR wrap_r,
+      final @Nonnull TextureWrapS wrap_s,
+      final @Nonnull TextureWrapT wrap_t,
+      final @Nonnull TextureFilterMinification min_filter,
+      final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
         GLException
   {

@@ -25,6 +25,12 @@ public abstract class DepthBuffersContract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
+  public abstract @Nonnull GLDepthBuffer getGLDepthBuffer(
+    final @Nonnull TestContext tc);
+
+  public abstract @Nonnull GLFramebuffersCommon getGLFramebuffers(
+    final @Nonnull TestContext tc);
+
   public abstract @Nonnull FramebufferReference makeFramebufferWithDepth(
     final @Nonnull GLImplementation gi)
     throws ConstraintError,
@@ -34,12 +40,6 @@ public abstract class DepthBuffersContract implements TestContract
     final @Nonnull GLImplementation gi)
     throws ConstraintError,
       GLException;
-
-  public abstract @Nonnull GLFramebuffersCommon getGLFramebuffers(
-    final @Nonnull TestContext tc);
-
-  public abstract @Nonnull GLDepthBuffer getGLDepthBuffer(
-    final @Nonnull TestContext tc);
 
   @Test public void testDepthBufferClearWorks()
     throws GLException,
