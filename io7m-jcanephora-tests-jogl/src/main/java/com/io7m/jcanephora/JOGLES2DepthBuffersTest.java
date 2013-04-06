@@ -12,6 +12,22 @@ import com.io7m.jcanephora.contracts.common.DepthBuffersContract;
 
 public final class JOGLES2DepthBuffersTest extends DepthBuffersContract
 {
+  @Override public @Nonnull GLDepthBuffer getGLDepthBuffer(
+    @Nonnull final TestContext tc)
+  {
+    final Some<GLInterfaceGLES2> some =
+      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    return some.value;
+  }
+
+  @Override public @Nonnull GLFramebuffersCommon getGLFramebuffers(
+    @Nonnull final TestContext tc)
+  {
+    final Some<GLInterfaceGLES2> some =
+      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    return some.value;
+  }
+
   @Override public boolean isGLSupported()
   {
     return JOGLTestContext.isOpenGLES2Supported();
@@ -86,21 +102,5 @@ public final class JOGLES2DepthBuffersTest extends DepthBuffersContract
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL_ES2();
-  }
-
-  @Override public @Nonnull GLFramebuffersCommon getGLFramebuffers(
-    @Nonnull final TestContext tc)
-  {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
-    return some.value;
-  }
-
-  @Override public @Nonnull GLDepthBuffer getGLDepthBuffer(
-    @Nonnull final TestContext tc)
-  {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
-    return some.value;
   }
 }

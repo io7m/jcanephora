@@ -65,10 +65,10 @@ public interface TextureLoader
 
   public @Nonnull Texture2DStatic load2DStaticDepth16(
     final @Nonnull GLTextures2DStaticGL3 gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -111,10 +111,10 @@ public interface TextureLoader
 
   public @Nonnull Texture2DStatic load2DStaticDepth24(
     final @Nonnull GLTextures2DStaticGL3 gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -157,10 +157,10 @@ public interface TextureLoader
 
   public @Nonnull Texture2DStatic load2DStaticDepth32(
     final @Nonnull GLTextures2DStaticGL3 gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -203,10 +203,10 @@ public interface TextureLoader
 
   public @Nonnull Texture2DStatic load2DStaticDepth32f(
     final @Nonnull GLTextures2DStaticGL3 gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -246,10 +246,10 @@ public interface TextureLoader
 
   public @Nonnull Texture2DStatic load2DStaticInferredGL3(
     final @Nonnull GLTextures2DStaticGL3 gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -296,10 +296,10 @@ public interface TextureLoader
 
   public @Nonnull Texture2DStatic load2DStaticInferredGLES2(
     final @Nonnull GLTextures2DStaticCommon gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -342,10 +342,10 @@ public interface TextureLoader
 
   public @Nonnull Texture2DStatic load2DStaticR8(
     final @Nonnull GLTextures2DStaticGL3 gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -388,10 +388,10 @@ public interface TextureLoader
 
   public @Nonnull Texture2DStatic load2DStaticRG88(
     final @Nonnull GLTextures2DStaticGL3 gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -434,10 +434,10 @@ public interface TextureLoader
 
   public @Nonnull Texture2DStatic load2DStaticRGB565(
     final @Nonnull GLTextures2DStaticCommon gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -480,10 +480,10 @@ public interface TextureLoader
 
   public @Nonnull Texture2DStatic load2DStaticRGB888(
     final @Nonnull GLTextures2DStaticCommon gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -526,10 +526,10 @@ public interface TextureLoader
 
   public @Nonnull Texture2DStatic load2DStaticRGBA4444(
     final @Nonnull GLTextures2DStaticCommon gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -572,10 +572,10 @@ public interface TextureLoader
 
   public @Nonnull Texture2DStatic load2DStaticRGBA5551(
     final @Nonnull GLTextures2DStaticCommon gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
@@ -618,10 +618,10 @@ public interface TextureLoader
 
   public @Nonnull Texture2DStatic load2DStaticRGBA8888(
     final @Nonnull GLTextures2DStaticCommon gl,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,

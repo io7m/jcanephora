@@ -2327,10 +2327,10 @@ final class GLES2Functions
     final int width,
     final int height,
     final @Nonnull TextureType type,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -2370,22 +2370,22 @@ final class GLES2Functions
     gl.glTexParameteri(
       GL.GL_TEXTURE_2D,
       GL.GL_TEXTURE_WRAP_S,
-      GLTypeConversions.textureWrapToGL(wrap_s));
+      GLTypeConversions.textureWrapSToGL(wrap_s));
     GLES2Functions.checkError(gl);
     gl.glTexParameteri(
       GL.GL_TEXTURE_2D,
       GL.GL_TEXTURE_WRAP_T,
-      GLTypeConversions.textureWrapToGL(wrap_t));
+      GLTypeConversions.textureWrapTToGL(wrap_t));
     GLES2Functions.checkError(gl);
     gl.glTexParameteri(
       GL.GL_TEXTURE_2D,
       GL.GL_TEXTURE_MIN_FILTER,
-      GLTypeConversions.textureFilterToGL(min_filter));
+      GLTypeConversions.textureFilterMinToGL(min_filter));
     GLES2Functions.checkError(gl);
     gl.glTexParameteri(
       GL.GL_TEXTURE_2D,
       GL.GL_TEXTURE_MAG_FILTER,
-      GLTypeConversions.textureFilterToGL(mag_filter));
+      GLTypeConversions.textureFilterMagToGL(mag_filter));
     GLES2Functions.checkError(gl);
 
     final int internal =
@@ -2553,11 +2553,11 @@ final class GLES2Functions
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureType type,
-    final @Nonnull TextureWrap wrap_r,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
       GLException
   {
@@ -2597,27 +2597,27 @@ final class GLES2Functions
     gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL.GL_TEXTURE_WRAP_S,
-      GLTypeConversions.textureWrapToGL(wrap_s));
+      GLTypeConversions.textureWrapSToGL(wrap_s));
     GLES2Functions.checkError(gl);
     gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL.GL_TEXTURE_WRAP_T,
-      GLTypeConversions.textureWrapToGL(wrap_t));
+      GLTypeConversions.textureWrapTToGL(wrap_t));
     GLES2Functions.checkError(gl);
     gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL2ES2.GL_TEXTURE_WRAP_R,
-      GLTypeConversions.textureWrapToGL(wrap_r));
+      GLTypeConversions.textureWrapRToGL(wrap_r));
     GLES2Functions.checkError(gl);
     gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL.GL_TEXTURE_MIN_FILTER,
-      GLTypeConversions.textureFilterToGL(min_filter));
+      GLTypeConversions.textureFilterMinToGL(min_filter));
     GLES2Functions.checkError(gl);
     gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL.GL_TEXTURE_MAG_FILTER,
-      GLTypeConversions.textureFilterToGL(mag_filter));
+      GLTypeConversions.textureFilterMagToGL(mag_filter));
     GLES2Functions.checkError(gl);
 
     final int internal =

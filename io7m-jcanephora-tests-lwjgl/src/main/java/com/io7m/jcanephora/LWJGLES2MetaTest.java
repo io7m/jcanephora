@@ -8,6 +8,14 @@ import com.io7m.jcanephora.contracts.common.MetaContract;
 
 public final class LWJGLES2MetaTest extends MetaContract
 {
+  @Override public GLMeta getGLMeta(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGLES2> some =
+      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    return some.value;
+  }
+
   @Override public boolean isGLSupported()
   {
     return LWJGLTestContext.isOpenGLES2Supported();
@@ -19,13 +27,5 @@ public final class LWJGLES2MetaTest extends MetaContract
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL_ES2();
-  }
-
-  @Override public GLMeta getGLMeta(
-    final TestContext tc)
-  {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
-    return some.value;
   }
 }

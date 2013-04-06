@@ -15,10 +15,12 @@ import com.io7m.jcanephora.SpatialCursorWritable3i;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.Texture2DWritableData;
-import com.io7m.jcanephora.TextureFilter;
+import com.io7m.jcanephora.TextureFilterMagnification;
+import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureType;
 import com.io7m.jcanephora.TextureUnit;
-import com.io7m.jcanephora.TextureWrap;
+import com.io7m.jcanephora.TextureWrapS;
+import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.contracts.common.TestContract;
 
 public abstract class Texture2DStaticES2Contract implements TestContract
@@ -28,10 +30,10 @@ public abstract class Texture2DStaticES2Contract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  public abstract GLTextureUnits getGLTextureUnits(
+  public abstract GLTextures2DStaticGLES2 getGLTexture2DStaticGLES2(
     TestContext tc);
 
-  public abstract GLTextures2DStaticGLES2 getGLTexture2DStaticGLES2(
+  public abstract GLTextureUnits getGLTextureUnits(
     TestContext tc);
 
   /**
@@ -75,10 +77,10 @@ public abstract class Texture2DStaticES2Contract implements TestContract
         "texture",
         64,
         64,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     gl.texture2DStaticBind(units[0], t);
     Assert.assertTrue(gl.texture2DStaticIsBound(units[0], t));
@@ -112,10 +114,10 @@ public abstract class Texture2DStaticES2Contract implements TestContract
         "texture",
         64,
         64,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     gl.texture2DStaticDelete(t);
     gl.texture2DStaticBind(units[0], t);
@@ -187,10 +189,10 @@ public abstract class Texture2DStaticES2Contract implements TestContract
         "texture",
         64,
         64,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     Assert.assertFalse(t.resourceIsDeleted());
     gl.texture2DStaticDelete(t);
@@ -220,10 +222,10 @@ public abstract class Texture2DStaticES2Contract implements TestContract
         "texture",
         64,
         64,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     Assert.assertFalse(t.resourceIsDeleted());
     gl.texture2DStaticDelete(t);
@@ -256,10 +258,10 @@ public abstract class Texture2DStaticES2Contract implements TestContract
         "texture",
         64,
         64,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     gl.texture2DStaticBind(units[0], t);
     gl.texture2DStaticDelete(t);
@@ -309,9 +311,9 @@ public abstract class Texture2DStaticES2Contract implements TestContract
       "texture",
       64,
       64,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureFilter.TEXTURE_FILTER_NEAREST,
+      TextureWrapS.TEXTURE_WRAP_REPEAT,
+      TextureWrapT.TEXTURE_WRAP_REPEAT,
+      TextureFilterMinification.TEXTURE_FILTER_NEAREST,
       null);
   }
 
@@ -337,10 +339,10 @@ public abstract class Texture2DStaticES2Contract implements TestContract
       "texture",
       64,
       64,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
+      TextureWrapS.TEXTURE_WRAP_REPEAT,
+      TextureWrapT.TEXTURE_WRAP_REPEAT,
       null,
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
   }
 
   /**
@@ -365,10 +367,10 @@ public abstract class Texture2DStaticES2Contract implements TestContract
       null,
       64,
       64,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureFilter.TEXTURE_FILTER_NEAREST,
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureWrapS.TEXTURE_WRAP_REPEAT,
+      TextureWrapT.TEXTURE_WRAP_REPEAT,
+      TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
   }
 
   /**
@@ -394,9 +396,9 @@ public abstract class Texture2DStaticES2Contract implements TestContract
       64,
       64,
       null,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureFilter.TEXTURE_FILTER_NEAREST,
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureWrapT.TEXTURE_WRAP_REPEAT,
+      TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
   }
 
   /**
@@ -421,10 +423,10 @@ public abstract class Texture2DStaticES2Contract implements TestContract
       "texture",
       64,
       64,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
+      TextureWrapS.TEXTURE_WRAP_REPEAT,
       null,
-      TextureFilter.TEXTURE_FILTER_NEAREST,
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
   }
 
   /**
@@ -473,10 +475,10 @@ public abstract class Texture2DStaticES2Contract implements TestContract
               t.toString(),
               64,
               128,
-              TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_LINEAR,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
@@ -487,10 +489,10 @@ public abstract class Texture2DStaticES2Contract implements TestContract
               t.toString(),
               64,
               128,
-              TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_LINEAR,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
@@ -501,10 +503,10 @@ public abstract class Texture2DStaticES2Contract implements TestContract
               t.toString(),
               64,
               128,
-              TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_LINEAR,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
@@ -515,10 +517,10 @@ public abstract class Texture2DStaticES2Contract implements TestContract
               t.toString(),
               64,
               128,
-              TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_LINEAR,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
@@ -529,10 +531,10 @@ public abstract class Texture2DStaticES2Contract implements TestContract
               t.toString(),
               64,
               128,
-              TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_LINEAR,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
@@ -553,14 +555,14 @@ public abstract class Texture2DStaticES2Contract implements TestContract
       Assert.assertEquals(64, tx.getWidth());
       Assert.assertEquals(128, tx.getHeight());
       Assert.assertEquals(
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
         tx.getWrapS());
-      Assert.assertEquals(TextureWrap.TEXTURE_WRAP_REPEAT, tx.getWrapT());
+      Assert.assertEquals(TextureWrapT.TEXTURE_WRAP_REPEAT, tx.getWrapT());
       Assert.assertEquals(
-        TextureFilter.TEXTURE_FILTER_LINEAR,
+        TextureFilterMinification.TEXTURE_FILTER_LINEAR,
         tx.getMinificationFilter());
       Assert.assertEquals(
-        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
         tx.getMagnificationFilter());
     }
   }
@@ -586,10 +588,10 @@ public abstract class Texture2DStaticES2Contract implements TestContract
         "xyz",
         64,
         64,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     final Texture2DWritableData update = new Texture2DWritableData(t);
     final SpatialCursorWritable3i cursor = update.getCursor3i();

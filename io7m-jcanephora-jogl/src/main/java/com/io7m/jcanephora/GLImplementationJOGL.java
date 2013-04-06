@@ -25,6 +25,10 @@ import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jlog.Log;
 
+/**
+ * A JOGL-based implementation of the <code>jcanephora</code> API.
+ */
+
 public final class GLImplementationJOGL implements GLImplementation
 {
   private static boolean isGLES2(
@@ -52,6 +56,19 @@ public final class GLImplementationJOGL implements GLImplementation
   private final @Nonnull GLContext        context;
   private final @Nonnull GLInterfaceGLES2 gl_es2;
   private final @Nonnull GLInterfaceGL3   gl_3;
+
+  /**
+   * Construct an implementation using the initialized <code>context</code>
+   * and <code>log</code>.
+   * 
+   * @throws ConstraintError
+   *           Iff <code>context == null || log == null</code>.
+   * @throws GLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws GLUnsupportedException
+   *           Iff the given graphics context does not support either of
+   *           OpenGL 3.* or ES2.
+   */
 
   public GLImplementationJOGL(
     final @Nonnull GLContext context,
@@ -85,14 +102,6 @@ public final class GLImplementationJOGL implements GLImplementation
       "At least OpenGL 2.1 or OpenGL ES2 is required");
   }
 
-  @Override public @Nonnull Option<GLInterfaceGLES2> getGLES2()
-  {
-    if (this.gl_es2 != null) {
-      return new Option.Some<GLInterfaceGLES2>(this.gl_es2);
-    }
-    return new Option.None<GLInterfaceGLES2>();
-  }
-
   @Override public @Nonnull Option<GLInterfaceGL3> getGL3()
   {
     if (this.gl_3 != null) {
@@ -111,5 +120,13 @@ public final class GLImplementationJOGL implements GLImplementation
     }
 
     throw new UnreachableCodeException();
+  }
+
+  @Override public @Nonnull Option<GLInterfaceGLES2> getGLES2()
+  {
+    if (this.gl_es2 != null) {
+      return new Option.Some<GLInterfaceGLES2>(this.gl_es2);
+    }
+    return new Option.None<GLInterfaceGLES2>();
   }
 }

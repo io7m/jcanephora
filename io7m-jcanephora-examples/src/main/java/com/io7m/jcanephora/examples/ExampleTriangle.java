@@ -75,7 +75,7 @@ public final class ExampleTriangle implements Example
      * floats representing the position of a vertex, followed by a series of
      * four floats representing the color of a vertex.
      * 
-     * Then, use this descriptor to allocate an array.
+     * Then, use this descriptor to allocate an array on the GPU.
      */
 
     final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[2];
@@ -173,8 +173,7 @@ public final class ExampleTriangle implements Example
         .getYI() / 2));
 
     /**
-     * Activate shading program, and associate parts of the array buffer with
-     * inputs to the shader.
+     * Activate shading program.
      */
 
     this.program.activate(this.gl);

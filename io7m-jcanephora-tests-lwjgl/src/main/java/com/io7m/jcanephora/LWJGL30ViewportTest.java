@@ -8,6 +8,14 @@ import com.io7m.jcanephora.contracts.common.ViewportContract;
 
 public final class LWJGL30ViewportTest extends ViewportContract
 {
+  @Override public GLViewport getGLViewport(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
+  }
+
   @Override public boolean isGLSupported()
   {
     return LWJGLTestContext.isOpenGL3Supported();
@@ -19,13 +27,5 @@ public final class LWJGL30ViewportTest extends ViewportContract
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL3_X();
-  }
-
-  @Override public GLViewport getGLViewport(
-    final TestContext tc)
-  {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
-    return some.value;
   }
 }

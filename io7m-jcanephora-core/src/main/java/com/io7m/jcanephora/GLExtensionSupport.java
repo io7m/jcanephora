@@ -16,12 +16,29 @@
 
 package com.io7m.jcanephora;
 
+import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option;
+
 /**
- * OpenGL texture filter specification.
+ * An extension of type <code>I</code> that may or may not be present on the
+ * current OpenGL implementation.
+ * 
+ * @param <I>
+ *          The extension type.
  */
 
-public enum TextureFilter
+public interface GLExtensionSupport<I>
 {
-  TEXTURE_FILTER_LINEAR,
-  TEXTURE_FILTER_NEAREST
+  /**
+   * Iff the extension represented by <code>I</code> is supported, return an
+   * interface to it. Otherwise, return
+   * {@link com.io7m.jaux.functional.Option.None}.
+   * 
+   * @throws GLException
+   *           Iff an internal OpenGL error occurs.
+   */
+
+  Option<I> extensionGetSupport()
+    throws ConstraintError,
+      GLException;
 }

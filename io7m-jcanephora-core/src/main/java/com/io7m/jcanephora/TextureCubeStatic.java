@@ -29,28 +29,28 @@ import com.io7m.jaux.RangeInclusive;
 public final class TextureCubeStatic extends GLResourceDeletable implements
   TextureCubeStaticUsable
 {
-  private final int                     id;
-  private final @Nonnull RangeInclusive range_x;
-  private final @Nonnull RangeInclusive range_y;
-  private final @Nonnull String         name;
-  private final @Nonnull AreaInclusive  area;
-  private final @Nonnull TextureType    type;
-  private final @Nonnull TextureWrap    wrap_r;
-  private final @Nonnull TextureWrap    wrap_s;
-  private final @Nonnull TextureWrap    wrap_t;
-  private final @Nonnull TextureFilter  min_filter;
-  private final @Nonnull TextureFilter  mag_filter;
+  private final int                                 id;
+  private final @Nonnull RangeInclusive             range_x;
+  private final @Nonnull RangeInclusive             range_y;
+  private final @Nonnull String                     name;
+  private final @Nonnull AreaInclusive              area;
+  private final @Nonnull TextureType                type;
+  private final @Nonnull TextureWrapR               wrap_r;
+  private final @Nonnull TextureWrapS               wrap_s;
+  private final @Nonnull TextureWrapT               wrap_t;
+  private final @Nonnull TextureFilterMinification  min_filter;
+  private final @Nonnull TextureFilterMagnification mag_filter;
 
   TextureCubeStatic(
     final @Nonnull String name,
     final @Nonnull TextureType type,
     final int id,
     final int size,
-    final @Nonnull TextureWrap wrap_r,
-    final @Nonnull TextureWrap wrap_s,
-    final @Nonnull TextureWrap wrap_t,
-    final @Nonnull TextureFilter min_filter,
-    final @Nonnull TextureFilter mag_filter)
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError
   {
     this.id =
@@ -102,12 +102,14 @@ public final class TextureCubeStatic extends GLResourceDeletable implements
     return (int) this.range_y.getInterval();
   }
 
-  @Override public @Nonnull TextureFilter getMagnificationFilter()
+  @Override public @Nonnull
+    TextureFilterMagnification
+    getMagnificationFilter()
   {
     return this.mag_filter;
   }
 
-  @Override public @Nonnull TextureFilter getMinificationFilter()
+  @Override public @Nonnull TextureFilterMinification getMinificationFilter()
   {
     return this.min_filter;
   }
@@ -137,17 +139,17 @@ public final class TextureCubeStatic extends GLResourceDeletable implements
     return (int) this.range_x.getInterval();
   }
 
-  @Override public @Nonnull TextureWrap getWrapR()
+  @Override public @Nonnull TextureWrapR getWrapR()
   {
     return this.wrap_r;
   }
 
-  @Override public @Nonnull TextureWrap getWrapS()
+  @Override public @Nonnull TextureWrapS getWrapS()
   {
     return this.wrap_s;
   }
 
-  @Override public @Nonnull TextureWrap getWrapT()
+  @Override public @Nonnull TextureWrapT getWrapT()
   {
     return this.wrap_t;
   }

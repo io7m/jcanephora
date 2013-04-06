@@ -17,7 +17,7 @@ public final class FramebufferConfigurationES2Test
     throws ConstraintError
   {
     final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2(128, 256);
+      new FramebufferConfigurationGLES2Actual(128, 256);
     config.requestNoDepth();
     config.requestNoStencil();
 
@@ -26,38 +26,38 @@ public final class FramebufferConfigurationES2Test
     try {
       config.requestBestRGBColorTexture2D(
         null,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
 
     try {
       config.requestBestRGBColorTexture2D(
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
         null,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
 
     try {
       config.requestBestRGBColorTexture2D(
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
         null,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
 
     try {
       config.requestBestRGBColorTexture2D(
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
         null);
     } catch (final ConstraintError e) {
       ++rejected;
@@ -76,7 +76,7 @@ public final class FramebufferConfigurationES2Test
     throws ConstraintError
   {
     final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2(128, 256);
+      new FramebufferConfigurationGLES2Actual(128, 256);
     config.requestNoDepth();
     config.requestNoStencil();
 
@@ -85,38 +85,38 @@ public final class FramebufferConfigurationES2Test
     try {
       config.requestBestRGBAColorTexture2D(
         null,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
 
     try {
       config.requestBestRGBAColorTexture2D(
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
         null,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
 
     try {
       config.requestBestRGBAColorTexture2D(
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
         null,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
 
     try {
       config.requestBestRGBAColorTexture2D(
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
         null);
     } catch (final ConstraintError e) {
       ++rejected;
@@ -137,7 +137,7 @@ public final class FramebufferConfigurationES2Test
       throws ConstraintError
   {
     final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2(128, 256);
+      new FramebufferConfigurationGLES2Actual(128, 256);
     config.requestNoDepth();
     config.requestNoStencil();
 
@@ -146,53 +146,53 @@ public final class FramebufferConfigurationES2Test
     try {
       config.requestBestRGBAColorTextureCube(
         null,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
 
     try {
       config.requestBestRGBAColorTextureCube(
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
         null,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
 
     try {
       config.requestBestRGBAColorTextureCube(
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
         null,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
 
     try {
       config.requestBestRGBAColorTextureCube(
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
         null,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
 
     try {
       config.requestBestRGBAColorTextureCube(
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
         null);
     } catch (final ConstraintError e) {
       ++rejected;
@@ -211,7 +211,7 @@ public final class FramebufferConfigurationES2Test
     throws ConstraintError
   {
     final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2(128, 256);
+      new FramebufferConfigurationGLES2Actual(128, 256);
     config.requestNoDepth();
     config.requestNoStencil();
 
@@ -220,53 +220,53 @@ public final class FramebufferConfigurationES2Test
     try {
       config.requestBestRGBColorTextureCube(
         null,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
 
     try {
       config.requestBestRGBColorTextureCube(
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
         null,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
 
     try {
       config.requestBestRGBColorTextureCube(
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
         null,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
 
     try {
       config.requestBestRGBColorTextureCube(
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
         null,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
 
     try {
       config.requestBestRGBColorTextureCube(
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
         null);
     } catch (final ConstraintError e) {
       ++rejected;
@@ -285,27 +285,27 @@ public final class FramebufferConfigurationES2Test
     throws ConstraintError
   {
     final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2(128, 256);
+      new FramebufferConfigurationGLES2Actual(128, 256);
     int rejected = 0;
 
     try {
       config.requestBestRGBAColorTextureCube(
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
 
     try {
       config.requestBestRGBColorTextureCube(
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -317,7 +317,7 @@ public final class FramebufferConfigurationES2Test
     throws ConstraintError
   {
     final FramebufferConfigurationGLES2 c0 =
-      new FramebufferConfigurationGLES2(128, 128);
+      new FramebufferConfigurationGLES2Actual(128, 128);
 
     Assert.assertFalse(c0.equals(null));
     Assert.assertFalse(c0.equals(Integer.valueOf(23)));
@@ -325,30 +325,30 @@ public final class FramebufferConfigurationES2Test
 
     {
       final FramebufferConfigurationGLES2 c1 =
-        new FramebufferConfigurationGLES2(128, 129);
+        new FramebufferConfigurationGLES2Actual(128, 129);
       Assert.assertFalse(c0.equals(c1));
     }
 
     {
       final FramebufferConfigurationGLES2 c1 =
-        new FramebufferConfigurationGLES2(127, 128);
+        new FramebufferConfigurationGLES2Actual(127, 128);
       Assert.assertFalse(c0.equals(c1));
     }
 
     {
       final FramebufferConfigurationGLES2 c1 =
-        new FramebufferConfigurationGLES2(128, 128);
+        new FramebufferConfigurationGLES2Actual(128, 128);
       c1.requestBestRGBAColorRenderbuffer();
       Assert.assertFalse(c0.equals(c1));
     }
 
     {
       final FramebufferConfigurationGLES2 c1 =
-        new FramebufferConfigurationGLES2(128, 128);
+        new FramebufferConfigurationGLES2Actual(128, 128);
       c1.requestNoDepth();
       c1.requestNoStencil();
       final FramebufferConfigurationGLES2 c2 =
-        new FramebufferConfigurationGLES2(128, 128);
+        new FramebufferConfigurationGLES2Actual(128, 128);
       c2.requestDepthRenderbuffer();
       c2.requestNoStencil();
       Assert.assertFalse(c1.equals(c2));
@@ -356,11 +356,11 @@ public final class FramebufferConfigurationES2Test
 
     {
       final FramebufferConfigurationGLES2 c1 =
-        new FramebufferConfigurationGLES2(128, 128);
+        new FramebufferConfigurationGLES2Actual(128, 128);
       c1.requestNoDepth();
       c1.requestNoStencil();
       final FramebufferConfigurationGLES2 c2 =
-        new FramebufferConfigurationGLES2(128, 128);
+        new FramebufferConfigurationGLES2Actual(128, 128);
       c2.requestNoDepth();
       c2.requestStencilRenderbuffer();
       Assert.assertFalse(c1.equals(c2));
@@ -371,9 +371,9 @@ public final class FramebufferConfigurationES2Test
     throws ConstraintError
   {
     final FramebufferConfigurationGLES2 c0 =
-      new FramebufferConfigurationGLES2(128, 128);
+      new FramebufferConfigurationGLES2Actual(128, 128);
     final FramebufferConfigurationGLES2 c1 =
-      new FramebufferConfigurationGLES2(128, 128);
+      new FramebufferConfigurationGLES2Actual(128, 128);
 
     c0.requestNoDepth();
     c0.requestNoStencil();
@@ -398,7 +398,7 @@ public final class FramebufferConfigurationES2Test
     throws ConstraintError
   {
     final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2(128, 256);
+      new FramebufferConfigurationGLES2Actual(128, 256);
 
     Assert.assertEquals(128, config.getWidth());
     Assert.assertEquals(256, config.getHeight());
@@ -408,11 +408,11 @@ public final class FramebufferConfigurationES2Test
     throws ConstraintError
   {
     final FramebufferConfigurationGLES2 c0 =
-      new FramebufferConfigurationGLES2(128, 256);
+      new FramebufferConfigurationGLES2Actual(128, 256);
     final FramebufferConfigurationGLES2 c1 =
-      new FramebufferConfigurationGLES2(128, 256);
+      new FramebufferConfigurationGLES2Actual(128, 256);
     final FramebufferConfigurationGLES2 c2 =
-      new FramebufferConfigurationGLES2(128, 300);
+      new FramebufferConfigurationGLES2Actual(128, 300);
 
     Assert.assertEquals(c0.toString(), c0.toString());
     Assert.assertEquals(c0.toString(), c1.toString());
@@ -429,7 +429,7 @@ public final class FramebufferConfigurationES2Test
     expected = ConstraintError.class) public void testZeroHeight()
     throws ConstraintError
   {
-    new FramebufferConfigurationGLES2(256, 0);
+    new FramebufferConfigurationGLES2Actual(256, 0);
   }
 
   /**
@@ -442,6 +442,6 @@ public final class FramebufferConfigurationES2Test
     expected = ConstraintError.class) public void testZeroWidth()
     throws ConstraintError
   {
-    new FramebufferConfigurationGLES2(0, 256);
+    new FramebufferConfigurationGLES2Actual(0, 256);
   }
 }

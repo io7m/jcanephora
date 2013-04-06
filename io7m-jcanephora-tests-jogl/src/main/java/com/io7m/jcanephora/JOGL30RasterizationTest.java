@@ -8,28 +8,7 @@ import com.io7m.jaux.functional.Option.Some;
 public final class JOGL30RasterizationTest extends
   com.io7m.jcanephora.contracts.gl3.RasterizationContract
 {
-  @Override public boolean isGLSupported()
-  {
-    return JOGLTestContext.isOpenGL3Supported();
-  }
-
-  @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError
-  {
-    return JOGLTestContext.makeContextWithOpenGL3_X();
-  }
-
-  @Override public GLRasterization getGLRasterization(
-    final TestContext tc)
-  {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
-    return some.value;
-  }
-
-  @Override public GLProgramPointSizeControl getGLProgramPointSizeControl(
+  @Override public GLPolygonModes getGLPolygonModes(
     final TestContext tc)
   {
     final Some<GLInterfaceGL3> some =
@@ -45,11 +24,32 @@ public final class JOGL30RasterizationTest extends
     return some.value;
   }
 
-  @Override public GLPolygonModes getGLPolygonModes(
+  @Override public GLProgramPointSizeControl getGLProgramPointSizeControl(
     final TestContext tc)
   {
     final Some<GLInterfaceGL3> some =
       (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
     return some.value;
+  }
+
+  @Override public GLRasterization getGLRasterization(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
+  }
+
+  @Override public boolean isGLSupported()
+  {
+    return JOGLTestContext.isOpenGL3Supported();
+  }
+
+  @Override public @Nonnull TestContext newTestContext()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    return JOGLTestContext.makeContextWithOpenGL3_X();
   }
 }

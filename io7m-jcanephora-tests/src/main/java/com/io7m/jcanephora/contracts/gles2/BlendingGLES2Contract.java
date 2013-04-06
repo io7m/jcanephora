@@ -24,11 +24,6 @@ import com.io7m.jcanephora.contracts.common.TestContract;
 
 public abstract class BlendingGLES2Contract implements TestContract
 {
-  @Before public final void checkSupport()
-  {
-    Assume.assumeTrue(this.isGLSupported());
-  }
-
   static GLBlendingCommon getGLBlending(
     final @Nonnull TestContext context)
   {
@@ -62,6 +57,11 @@ public abstract class BlendingGLES2Contract implements TestContract
     }
 
     throw new UnreachableCodeException();
+  }
+
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
   }
 
   /**

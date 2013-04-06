@@ -71,10 +71,10 @@ public final class AttachmentColorTest
         1,
         128,
         128,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     final Texture2DStatic t2 =
       new Texture2DStatic(
         "t2",
@@ -82,10 +82,10 @@ public final class AttachmentColorTest
         2,
         128,
         128,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     final AttachmentColorTexture2DStatic a0 =
       new AttachmentColorTexture2DStatic(t1);
@@ -126,22 +126,22 @@ public final class AttachmentColorTest
         TextureType.TEXTURE_TYPE_RGB_565_2BPP,
         1,
         128,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     final TextureCubeStatic t2 =
       new TextureCubeStatic(
         "t2",
         TextureType.TEXTURE_TYPE_RGB_565_2BPP,
         2,
         128,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     final AttachmentColorTextureCubeStatic a0 =
       new AttachmentColorTextureCubeStatic(
@@ -233,10 +233,10 @@ public final class AttachmentColorTest
         1,
         128,
         128,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     final Texture2DStatic t2 =
       new Texture2DStatic(
         "t2",
@@ -244,10 +244,10 @@ public final class AttachmentColorTest
         2,
         128,
         128,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     final AttachmentSharedColorTexture2DStatic a0 =
       new AttachmentSharedColorTexture2DStatic(t1);
@@ -284,22 +284,22 @@ public final class AttachmentColorTest
         TextureType.TEXTURE_TYPE_RGB_565_2BPP,
         1,
         128,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     final TextureCubeStatic t2 =
       new TextureCubeStatic(
         "t2",
         TextureType.TEXTURE_TYPE_RGB_565_2BPP,
         2,
         128,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     final AttachmentSharedColorTextureCubeStatic a0 =
       new AttachmentSharedColorTextureCubeStatic(

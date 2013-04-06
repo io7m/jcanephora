@@ -16,33 +16,33 @@ public class TextureCubeStaticTest
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         1,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+        TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     final TextureCubeStatic t1 =
       new TextureCubeStatic(
         "xyz",
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         2,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+        TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     final TextureCubeStatic t2 =
       new TextureCubeStatic(
         "xyz",
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         1,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+        TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     Assert.assertEquals(t0, t0);
     Assert.assertEquals(t0, t2);
@@ -61,55 +61,55 @@ public class TextureCubeStaticTest
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         1,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+        TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     final TextureCubeStatic t1 =
       new TextureCubeStatic(
         "xyz",
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         2,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+        TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     final TextureCubeStatic t2 =
       new TextureCubeStatic(
         "xyz",
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         1,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+        TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     final TextureCubeStatic t3 =
       new TextureCubeStatic(
         "abc",
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         2,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+        TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     final TextureCubeStatic t4 =
       new TextureCubeStatic(
         "abc",
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         1,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+        TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     Assert.assertTrue(t0.hashCode() == t0.hashCode());
     Assert.assertTrue(t0.hashCode() == t2.hashCode());
@@ -132,11 +132,11 @@ public class TextureCubeStaticTest
           type,
           1,
           128,
-          TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-          TextureWrap.TEXTURE_WRAP_REPEAT,
-          TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-          TextureFilter.TEXTURE_FILTER_LINEAR,
-          TextureFilter.TEXTURE_FILTER_NEAREST);
+          TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+          TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
       Assert.assertEquals(1, t0.getGLName());
       Assert.assertEquals("xyz", t0.getName());
@@ -150,17 +150,17 @@ public class TextureCubeStaticTest
       Assert.assertEquals(t0.getRangeY(), t0.getArea().getRangeY());
       Assert.assertEquals(type, t0.getType());
       Assert.assertEquals(
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
         t0.getWrapR());
-      Assert.assertEquals(TextureWrap.TEXTURE_WRAP_REPEAT, t0.getWrapS());
+      Assert.assertEquals(TextureWrapS.TEXTURE_WRAP_REPEAT, t0.getWrapS());
       Assert.assertEquals(
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
+        TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
         t0.getWrapT());
       Assert.assertEquals(
-        TextureFilter.TEXTURE_FILTER_LINEAR,
+        TextureFilterMinification.TEXTURE_FILTER_LINEAR,
         t0.getMinificationFilter());
       Assert.assertEquals(
-        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
         t0.getMagnificationFilter());
     }
   }
@@ -174,33 +174,33 @@ public class TextureCubeStaticTest
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         1,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+        TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     final TextureCubeStatic t1 =
       new TextureCubeStatic(
         "xyz",
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         2,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+        TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     final TextureCubeStatic t2 =
       new TextureCubeStatic(
         "xyz",
         TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
         1,
         128,
-        TextureWrap.TEXTURE_WRAP_CLAMP_TO_EDGE,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT_MIRRORED,
-        TextureFilter.TEXTURE_FILTER_LINEAR,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+        TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     Assert.assertEquals(t0.toString(), t0.toString());
     Assert.assertEquals(t0.toString(), t2.toString());

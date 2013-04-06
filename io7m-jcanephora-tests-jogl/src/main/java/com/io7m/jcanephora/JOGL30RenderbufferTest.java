@@ -8,6 +8,14 @@ import com.io7m.jcanephora.contracts.gl3.RenderbufferGL3Contract;
 
 public final class JOGL30RenderbufferTest extends RenderbufferGL3Contract
 {
+  @Override public GLRenderbuffersGL3 getGLRenderbuffers(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
+  }
+
   @Override public boolean isGLSupported()
   {
     return JOGLTestContext.isOpenGL3Supported();
@@ -19,13 +27,5 @@ public final class JOGL30RenderbufferTest extends RenderbufferGL3Contract
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL3_X();
-  }
-
-  @Override public GLRenderbuffersGL3 getGLRenderbuffers(
-    final TestContext tc)
-  {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
-    return some.value;
   }
 }

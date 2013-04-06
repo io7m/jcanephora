@@ -99,6 +99,91 @@ public final class Framebuffer extends GLResourceDeletable implements
     this.stencil_attachment = attachment;
   }
 
+  public
+    <G extends GLRenderbuffersCommon & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon & GLFramebuffersCommon>
+    void
+    delete(
+      final @Nonnull G gl)
+      throws ConstraintError,
+        GLException
+  {
+    for (final AttachmentColor c : this.color_attachments.values()) {
+      switch (c.type) {
+        case ATTACHMENT_COLOR_RENDERBUFFER:
+        {
+          final AttachmentColorRenderbuffer ar =
+            (AttachmentColorRenderbuffer) c;
+          gl.renderbufferDelete(ar.getRenderbufferWritable());
+          break;
+        }
+        case ATTACHMENT_COLOR_TEXTURE_2D:
+        {
+          final AttachmentColorTexture2DStatic at =
+            (AttachmentColorTexture2DStatic) c;
+          gl.texture2DStaticDelete(at.getTextureWritable());
+          break;
+        }
+        case ATTACHMENT_COLOR_TEXTURE_CUBE:
+        {
+          final AttachmentColorTextureCubeStatic at =
+            (AttachmentColorTextureCubeStatic) c;
+          gl.textureCubeStaticDelete(at.getTextureWritable());
+          break;
+        }
+        case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
+        case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
+        case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
+        {
+          break;
+        }
+      }
+    }
+
+    if (this.depth_attachment != null) {
+      switch (this.depth_attachment.type) {
+        case ATTACHMENT_DEPTH_RENDERBUFFER:
+        {
+          final AttachmentDepthRenderbuffer a =
+            (AttachmentDepthRenderbuffer) this.depth_attachment;
+          gl.renderbufferDelete(a.getRenderbufferWritable());
+          break;
+        }
+        case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
+        {
+          final AttachmentDepthStencilRenderbuffer a =
+            (AttachmentDepthStencilRenderbuffer) this.depth_attachment;
+          gl.renderbufferDelete(a.getRenderbufferWritable());
+          break;
+        }
+        case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
+        case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
+        {
+          break;
+        }
+      }
+    }
+
+    if (this.stencil_attachment != null) {
+      switch (this.stencil_attachment.type) {
+        case ATTACHMENT_SHARED_STENCIL_RENDERBUFFER:
+        case ATTACHMENT_STENCIL_AS_DEPTH_STENCIL:
+        {
+          break;
+        }
+        case ATTACHMENT_STENCIL_RENDERBUFFER:
+        {
+          final AttachmentStencilRenderbuffer a =
+            (AttachmentStencilRenderbuffer) this.stencil_attachment;
+          gl.renderbufferDelete(a.getRenderbufferWritable());
+          break;
+        }
+      }
+    }
+
+    gl.framebufferDelete(this.framebuffer);
+    this.resourceSetDeleted();
+  }
+
   @Override public boolean equals(
     final Object obj)
   {
@@ -186,91 +271,6 @@ public final class Framebuffer extends GLResourceDeletable implements
   @Override public boolean hasStencilAttachment()
   {
     return this.stencil_attachment != null;
-  }
-
-  public
-    <G extends GLRenderbuffersCommon & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon & GLFramebuffersCommon>
-    void
-    delete(
-      final @Nonnull G gl)
-      throws ConstraintError,
-        GLException
-  {
-    for (final AttachmentColor c : this.color_attachments.values()) {
-      switch (c.type) {
-        case ATTACHMENT_COLOR_RENDERBUFFER:
-        {
-          final AttachmentColorRenderbuffer ar =
-            (AttachmentColorRenderbuffer) c;
-          gl.renderbufferDelete(ar.getRenderbufferWritable());
-          break;
-        }
-        case ATTACHMENT_COLOR_TEXTURE_2D:
-        {
-          final AttachmentColorTexture2DStatic at =
-            (AttachmentColorTexture2DStatic) c;
-          gl.texture2DStaticDelete(at.getTextureWritable());
-          break;
-        }
-        case ATTACHMENT_COLOR_TEXTURE_CUBE:
-        {
-          final AttachmentColorTextureCubeStatic at =
-            (AttachmentColorTextureCubeStatic) c;
-          gl.textureCubeStaticDelete(at.getTextureWritable());
-          break;
-        }
-        case ATTACHMENT_SHARED_COLOR_RENDERBUFFER:
-        case ATTACHMENT_SHARED_COLOR_TEXTURE_2D:
-        case ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE:
-        {
-          break;
-        }
-      }
-    }
-
-    if (this.depth_attachment != null) {
-      switch (this.depth_attachment.type) {
-        case ATTACHMENT_DEPTH_RENDERBUFFER:
-        {
-          final AttachmentDepthRenderbuffer a =
-            (AttachmentDepthRenderbuffer) this.depth_attachment;
-          gl.renderbufferDelete(a.getRenderbufferWritable());
-          break;
-        }
-        case ATTACHMENT_DEPTH_STENCIL_RENDERBUFFER:
-        {
-          final AttachmentDepthStencilRenderbuffer a =
-            (AttachmentDepthStencilRenderbuffer) this.depth_attachment;
-          gl.renderbufferDelete(a.getRenderbufferWritable());
-          break;
-        }
-        case ATTACHMENT_SHARED_DEPTH_RENDERBUFFER:
-        case ATTACHMENT_SHARED_DEPTH_STENCIL_RENDERBUFFER:
-        {
-          break;
-        }
-      }
-    }
-
-    if (this.stencil_attachment != null) {
-      switch (this.stencil_attachment.type) {
-        case ATTACHMENT_SHARED_STENCIL_RENDERBUFFER:
-        case ATTACHMENT_STENCIL_AS_DEPTH_STENCIL:
-        {
-          break;
-        }
-        case ATTACHMENT_STENCIL_RENDERBUFFER:
-        {
-          final AttachmentStencilRenderbuffer a =
-            (AttachmentStencilRenderbuffer) this.stencil_attachment;
-          gl.renderbufferDelete(a.getRenderbufferWritable());
-          break;
-        }
-      }
-    }
-
-    gl.framebufferDelete(this.framebuffer);
-    this.resourceSetDeleted();
   }
 
   @Override public String toString()

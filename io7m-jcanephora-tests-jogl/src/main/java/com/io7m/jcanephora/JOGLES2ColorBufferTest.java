@@ -8,6 +8,14 @@ import com.io7m.jcanephora.contracts.common.ColorBufferContract;
 
 public final class JOGLES2ColorBufferTest extends ColorBufferContract
 {
+  @Override public GLColorBuffer getGLColorBuffer(
+    final TestContext context)
+  {
+    final Some<GLInterfaceGLES2> some =
+      (Some<GLInterfaceGLES2>) context.getGLImplementation().getGLES2();
+    return some.value;
+  }
+
   @Override public boolean isGLSupported()
   {
     return JOGLTestContext.isOpenGLES2Supported();
@@ -19,13 +27,5 @@ public final class JOGLES2ColorBufferTest extends ColorBufferContract
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL_ES2();
-  }
-
-  @Override public GLColorBuffer getGLColorBuffer(
-    final TestContext context)
-  {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) context.getGLImplementation().getGLES2();
-    return some.value;
   }
 }

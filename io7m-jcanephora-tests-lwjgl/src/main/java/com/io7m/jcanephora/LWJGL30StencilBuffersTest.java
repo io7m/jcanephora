@@ -10,6 +10,22 @@ import com.io7m.jcanephora.contracts.common.StencilBuffersContract;
 
 public final class LWJGL30StencilBuffersTest extends StencilBuffersContract
 {
+  @Override public GLFramebuffersCommon getGLFramebuffers(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
+  }
+
+  @Override public GLStencilBuffer getGLStencilBuffer(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
+  }
+
   @Override public boolean isGLSupported()
   {
     return LWJGLTestContext.isOpenGL3Supported();
@@ -74,21 +90,5 @@ public final class LWJGL30StencilBuffersTest extends StencilBuffersContract
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL3_X();
-  }
-
-  @Override public GLStencilBuffer getGLStencilBuffer(
-    final TestContext tc)
-  {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
-    return some.value;
-  }
-
-  @Override public GLFramebuffersCommon getGLFramebuffers(
-    final TestContext tc)
-  {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
-    return some.value;
   }
 }

@@ -15,10 +15,13 @@ import com.io7m.jcanephora.SpatialCursorWritable3i;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.TextureCubeStatic;
 import com.io7m.jcanephora.TextureCubeWritableData;
-import com.io7m.jcanephora.TextureFilter;
+import com.io7m.jcanephora.TextureFilterMagnification;
+import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureType;
 import com.io7m.jcanephora.TextureUnit;
-import com.io7m.jcanephora.TextureWrap;
+import com.io7m.jcanephora.TextureWrapR;
+import com.io7m.jcanephora.TextureWrapS;
+import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.contracts.common.TestContract;
 
 public abstract class TextureCubeStaticGL3Contract implements TestContract
@@ -28,10 +31,10 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  public abstract GLTextureUnits getGLTextureUnits(
+  public abstract GLTexturesCubeStaticGL3 getGLTextureCubeStaticGL3(
     TestContext tc);
 
-  public abstract GLTexturesCubeStaticGL3 getGLTextureCubeStaticGL3(
+  public abstract GLTextureUnits getGLTextureUnits(
     TestContext tc);
 
   /**
@@ -73,11 +76,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
       gl.textureCubeStaticAllocateRGBA8888(
         "texture",
         64,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     gl.textureCubeStaticBind(units[0], t);
     Assert.assertTrue(gl.textureCubeStaticIsBound(units[0], t));
@@ -109,11 +112,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
       gl.textureCubeStaticAllocateRGBA8888(
         "texture",
         64,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     gl.textureCubeStaticDelete(t);
     gl.textureCubeStaticBind(units[0], t);
@@ -181,11 +184,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
       gl.textureCubeStaticAllocateRGBA8888(
         "texture",
         64,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     Assert.assertFalse(t.resourceIsDeleted());
     gl.textureCubeStaticDelete(t);
@@ -213,11 +216,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
       gl.textureCubeStaticAllocateRGBA8888(
         "texture",
         64,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     Assert.assertFalse(t.resourceIsDeleted());
     gl.textureCubeStaticDelete(t);
@@ -248,11 +251,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
       gl.textureCubeStaticAllocateRGBA8888(
         "texture",
         64,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     gl.textureCubeStaticBind(units[0], t);
     gl.textureCubeStaticDelete(t);
@@ -299,10 +302,10 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
     gl.textureCubeStaticAllocateRGBA8888(
       "texture",
       64,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureFilter.TEXTURE_FILTER_NEAREST,
+      TextureWrapR.TEXTURE_WRAP_REPEAT,
+      TextureWrapS.TEXTURE_WRAP_REPEAT,
+      TextureWrapT.TEXTURE_WRAP_REPEAT,
+      TextureFilterMinification.TEXTURE_FILTER_NEAREST,
       null);
   }
 
@@ -326,11 +329,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
     gl.textureCubeStaticAllocateRGBA8888(
       "texture",
       64,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
+      TextureWrapR.TEXTURE_WRAP_REPEAT,
+      TextureWrapS.TEXTURE_WRAP_REPEAT,
+      TextureWrapT.TEXTURE_WRAP_REPEAT,
       null,
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
   }
 
   /**
@@ -353,11 +356,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
     gl.textureCubeStaticAllocateRGBA8888(
       null,
       64,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureFilter.TEXTURE_FILTER_NEAREST,
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureWrapR.TEXTURE_WRAP_REPEAT,
+      TextureWrapS.TEXTURE_WRAP_REPEAT,
+      TextureWrapT.TEXTURE_WRAP_REPEAT,
+      TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
   }
 
   /**
@@ -381,10 +384,10 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
       "texture",
       64,
       null,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureFilter.TEXTURE_FILTER_NEAREST,
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureWrapS.TEXTURE_WRAP_REPEAT,
+      TextureWrapT.TEXTURE_WRAP_REPEAT,
+      TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
   }
 
   /**
@@ -407,11 +410,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
     gl.textureCubeStaticAllocateRGBA8888(
       "texture",
       64,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
+      TextureWrapR.TEXTURE_WRAP_REPEAT,
       null,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureFilter.TEXTURE_FILTER_NEAREST,
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureWrapT.TEXTURE_WRAP_REPEAT,
+      TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
   }
 
   /**
@@ -434,11 +437,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
     gl.textureCubeStaticAllocateRGBA8888(
       "texture",
       64,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
-      TextureWrap.TEXTURE_WRAP_REPEAT,
+      TextureWrapR.TEXTURE_WRAP_REPEAT,
+      TextureWrapS.TEXTURE_WRAP_REPEAT,
       null,
-      TextureFilter.TEXTURE_FILTER_NEAREST,
-      TextureFilter.TEXTURE_FILTER_NEAREST);
+      TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
   }
 
   /**
@@ -482,11 +485,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
             gl.textureCubeStaticAllocateRGBA4444(
               t.toString(),
               128,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
@@ -496,11 +499,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
             gl.textureCubeStaticAllocateRGBA5551(
               t.toString(),
               128,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
@@ -510,11 +513,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
             gl.textureCubeStaticAllocateRGBA8888(
               t.toString(),
               128,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
@@ -524,11 +527,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
             gl.textureCubeStaticAllocateRGB565(
               t.toString(),
               128,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
@@ -538,11 +541,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
             gl.textureCubeStaticAllocateRGB888(
               t.toString(),
               128,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
@@ -552,11 +555,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
             gl.textureCubeStaticAllocateRG88(
               t.toString(),
               128,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
@@ -566,11 +569,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
             gl.textureCubeStaticAllocateR8(
               t.toString(),
               128,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
@@ -580,11 +583,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
             gl.textureCubeStaticAllocateDepth16(
               t.toString(),
               128,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
@@ -594,11 +597,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
             gl.textureCubeStaticAllocateDepth24(
               t.toString(),
               128,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
@@ -608,11 +611,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
             gl.textureCubeStaticAllocateDepth32(
               t.toString(),
               128,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
@@ -622,11 +625,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
             gl.textureCubeStaticAllocateDepth32f(
               t.toString(),
               128,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureWrap.TEXTURE_WRAP_REPEAT,
-              TextureFilter.TEXTURE_FILTER_NEAREST,
-              TextureFilter.TEXTURE_FILTER_NEAREST);
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
         }
@@ -653,11 +656,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
       gl.textureCubeStaticAllocateRGB888(
         "xyz",
         64,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     final TextureCubeWritableData update = new TextureCubeWritableData(t);
     final SpatialCursorWritable3i cursor = update.getCursor3i();
@@ -693,11 +696,11 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
       gl.textureCubeStaticAllocateRGB888(
         "xyz",
         64,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     final TextureCubeWritableData update = new TextureCubeWritableData(t);
     gl.textureCubeStaticUpdate(null, update);

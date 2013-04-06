@@ -21,7 +21,7 @@ public final class FramebufferConfigurationGL3Test
     final FramebufferDrawBuffer buffer = new FramebufferDrawBuffer(0);
 
     final FramebufferConfigurationGL3 config =
-      new FramebufferConfigurationGL3(128, 256);
+      new FramebufferConfigurationGL3Actual(128, 256);
     config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
@@ -32,10 +32,10 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBColorTexture2D(
         null,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -44,10 +44,10 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBColorTexture2D(
         point,
         null,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -57,9 +57,9 @@ public final class FramebufferConfigurationGL3Test
         point,
         buffer,
         null,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -68,10 +68,10 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBColorTexture2D(
         point,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
         null,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -80,10 +80,10 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBColorTexture2D(
         point,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
         null,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -92,9 +92,9 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBColorTexture2D(
         point,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
         null);
     } catch (final ConstraintError e) {
       ++rejected;
@@ -117,7 +117,7 @@ public final class FramebufferConfigurationGL3Test
     final FramebufferDrawBuffer buffer = new FramebufferDrawBuffer(0);
 
     final FramebufferConfigurationGL3 config =
-      new FramebufferConfigurationGL3(128, 256);
+      new FramebufferConfigurationGL3Actual(128, 256);
     config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
@@ -128,10 +128,10 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBAColorTexture2D(
         null,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -140,10 +140,10 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBAColorTexture2D(
         point,
         null,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -153,9 +153,9 @@ public final class FramebufferConfigurationGL3Test
         point,
         buffer,
         null,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -164,10 +164,10 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBAColorTexture2D(
         point,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
         null,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -176,10 +176,10 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBAColorTexture2D(
         point,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
         null,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -188,9 +188,9 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBAColorTexture2D(
         point,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
         null);
     } catch (final ConstraintError e) {
       ++rejected;
@@ -215,7 +215,7 @@ public final class FramebufferConfigurationGL3Test
     final FramebufferDrawBuffer buffer = new FramebufferDrawBuffer(0);
 
     final FramebufferConfigurationGL3 config =
-      new FramebufferConfigurationGL3(128, 256);
+      new FramebufferConfigurationGL3Actual(128, 256);
     config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
@@ -226,11 +226,11 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBAColorTextureCube(
         null,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -239,11 +239,11 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBAColorTextureCube(
         point,
         null,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -253,10 +253,10 @@ public final class FramebufferConfigurationGL3Test
         point,
         buffer,
         null,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -265,11 +265,11 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBAColorTextureCube(
         point,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
         null,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -278,11 +278,11 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBAColorTextureCube(
         point,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
         null,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -291,11 +291,11 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBAColorTextureCube(
         point,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
         null,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -304,10 +304,10 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBAColorTextureCube(
         point,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
         null);
     } catch (final ConstraintError e) {
       ++rejected;
@@ -330,7 +330,7 @@ public final class FramebufferConfigurationGL3Test
     final FramebufferDrawBuffer buffer = new FramebufferDrawBuffer(0);
 
     final FramebufferConfigurationGL3 config =
-      new FramebufferConfigurationGL3(128, 256);
+      new FramebufferConfigurationGL3Actual(128, 256);
     config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
@@ -341,11 +341,11 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBColorTextureCube(
         null,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -354,11 +354,11 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBColorTextureCube(
         point,
         null,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -368,10 +368,10 @@ public final class FramebufferConfigurationGL3Test
         point,
         buffer,
         null,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -380,11 +380,11 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBColorTextureCube(
         point,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
         null,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -393,11 +393,11 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBColorTextureCube(
         point,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
         null,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -406,11 +406,11 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBColorTextureCube(
         point,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
         null,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -419,10 +419,10 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBColorTextureCube(
         point,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
         null);
     } catch (final ConstraintError e) {
       ++rejected;
@@ -445,18 +445,18 @@ public final class FramebufferConfigurationGL3Test
     final FramebufferDrawBuffer buffer = new FramebufferDrawBuffer(0);
 
     final FramebufferConfigurationGL3 config =
-      new FramebufferConfigurationGL3(128, 256);
+      new FramebufferConfigurationGL3Actual(128, 256);
     int rejected = 0;
 
     try {
       config.requestBestRGBAColorTextureCube(
         point,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -465,11 +465,11 @@ public final class FramebufferConfigurationGL3Test
       config.requestBestRGBColorTextureCube(
         point,
         buffer,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureWrap.TEXTURE_WRAP_REPEAT,
-        TextureFilter.TEXTURE_FILTER_NEAREST,
-        TextureFilter.TEXTURE_FILTER_NEAREST);
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
     } catch (final ConstraintError e) {
       ++rejected;
     }
@@ -485,7 +485,7 @@ public final class FramebufferConfigurationGL3Test
     final FramebufferDrawBuffer buffer = new FramebufferDrawBuffer(0);
 
     final FramebufferConfigurationGL3 c0 =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
 
     Assert.assertFalse(c0.equals(null));
     Assert.assertFalse(c0.equals(Integer.valueOf(23)));
@@ -493,31 +493,31 @@ public final class FramebufferConfigurationGL3Test
 
     {
       final FramebufferConfigurationGL3 c1 =
-        new FramebufferConfigurationGL3(128, 129);
+        new FramebufferConfigurationGL3Actual(128, 129);
       Assert.assertFalse(c0.equals(c1));
     }
 
     {
       final FramebufferConfigurationGL3 c1 =
-        new FramebufferConfigurationGL3(127, 128);
+        new FramebufferConfigurationGL3Actual(127, 128);
       Assert.assertFalse(c0.equals(c1));
     }
 
     {
       final FramebufferConfigurationGL3 c1 =
-        new FramebufferConfigurationGL3(128, 128);
+        new FramebufferConfigurationGL3Actual(128, 128);
       c1.requestBestRGBAColorRenderbuffer(point, buffer);
       Assert.assertFalse(c0.equals(c1));
     }
 
     {
       final FramebufferConfigurationGL3 c1 =
-        new FramebufferConfigurationGL3(128, 128);
+        new FramebufferConfigurationGL3Actual(128, 128);
       c1.requestNoColor();
       c1.requestNoDepth();
       c1.requestNoStencil();
       final FramebufferConfigurationGL3 c2 =
-        new FramebufferConfigurationGL3(128, 128);
+        new FramebufferConfigurationGL3Actual(128, 128);
       c2.requestNoColor();
       c2.requestDepthRenderbuffer();
       c2.requestNoStencil();
@@ -526,12 +526,12 @@ public final class FramebufferConfigurationGL3Test
 
     {
       final FramebufferConfigurationGL3 c1 =
-        new FramebufferConfigurationGL3(128, 128);
+        new FramebufferConfigurationGL3Actual(128, 128);
       c1.requestNoColor();
       c1.requestNoDepth();
       c1.requestNoStencil();
       final FramebufferConfigurationGL3 c2 =
-        new FramebufferConfigurationGL3(128, 128);
+        new FramebufferConfigurationGL3Actual(128, 128);
       c2.requestNoColor();
       c2.requestNoDepth();
       c2.requestStencilRenderbuffer();
@@ -547,9 +547,9 @@ public final class FramebufferConfigurationGL3Test
     final FramebufferDrawBuffer buffer = new FramebufferDrawBuffer(0);
 
     final FramebufferConfigurationGL3 c0 =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
     final FramebufferConfigurationGL3 c1 =
-      new FramebufferConfigurationGL3(128, 128);
+      new FramebufferConfigurationGL3Actual(128, 128);
 
     c0.requestNoColor();
     c0.requestNoDepth();
@@ -576,7 +576,7 @@ public final class FramebufferConfigurationGL3Test
     throws ConstraintError
   {
     final FramebufferConfigurationGL3 config =
-      new FramebufferConfigurationGL3(128, 256);
+      new FramebufferConfigurationGL3Actual(128, 256);
 
     Assert.assertEquals(128, config.getWidth());
     Assert.assertEquals(256, config.getHeight());
@@ -586,11 +586,11 @@ public final class FramebufferConfigurationGL3Test
     throws ConstraintError
   {
     final FramebufferConfigurationGL3 c0 =
-      new FramebufferConfigurationGL3(128, 256);
+      new FramebufferConfigurationGL3Actual(128, 256);
     final FramebufferConfigurationGL3 c1 =
-      new FramebufferConfigurationGL3(128, 256);
+      new FramebufferConfigurationGL3Actual(128, 256);
     final FramebufferConfigurationGL3 c2 =
-      new FramebufferConfigurationGL3(128, 300);
+      new FramebufferConfigurationGL3Actual(128, 300);
 
     Assert.assertEquals(c0.toString(), c0.toString());
     Assert.assertEquals(c0.toString(), c1.toString());
@@ -607,7 +607,7 @@ public final class FramebufferConfigurationGL3Test
     expected = ConstraintError.class) public void testZeroHeight()
     throws ConstraintError
   {
-    new FramebufferConfigurationGL3(256, 0);
+    new FramebufferConfigurationGL3Actual(256, 0);
   }
 
   /**
@@ -620,6 +620,6 @@ public final class FramebufferConfigurationGL3Test
     expected = ConstraintError.class) public void testZeroWidth()
     throws ConstraintError
   {
-    new FramebufferConfigurationGL3(0, 256);
+    new FramebufferConfigurationGL3Actual(0, 256);
   }
 }

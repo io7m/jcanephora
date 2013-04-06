@@ -12,6 +12,22 @@ import com.io7m.jcanephora.contracts.common.StencilBuffersContract;
 
 public final class JOGLES2StencilBuffersTest extends StencilBuffersContract
 {
+  @Override public GLFramebuffersCommon getGLFramebuffers(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGLES2> some =
+      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    return some.value;
+  }
+
+  @Override public GLStencilBuffer getGLStencilBuffer(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGLES2> some =
+      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    return some.value;
+  }
+
   @Override public boolean isGLSupported()
   {
     return JOGLTestContext.isOpenGLES2Supported();
@@ -88,21 +104,5 @@ public final class JOGLES2StencilBuffersTest extends StencilBuffersContract
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL_ES2();
-  }
-
-  @Override public GLStencilBuffer getGLStencilBuffer(
-    final TestContext tc)
-  {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
-    return some.value;
-  }
-
-  @Override public GLFramebuffersCommon getGLFramebuffers(
-    final TestContext tc)
-  {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
-    return some.value;
   }
 }

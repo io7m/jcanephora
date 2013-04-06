@@ -8,17 +8,12 @@ import com.io7m.jcanephora.contracts.gles2.ProgramGLES2Contract;
 
 public final class JOGLES2ProgramTest extends ProgramGLES2Contract
 {
-  @Override public boolean isGLSupported()
+  @Override public GLMeta getGLMeta(
+    final TestContext tc)
   {
-    return JOGLTestContext.isOpenGLES2Supported();
-  }
-
-  @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError
-  {
-    return JOGLTestContext.makeContextWithOpenGL_ES2();
+    final Some<GLInterfaceGLES2> some =
+      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    return some.value;
   }
 
   @Override public GLShaders getGLShaders(
@@ -37,11 +32,16 @@ public final class JOGLES2ProgramTest extends ProgramGLES2Contract
     return some.value;
   }
 
-  @Override public GLMeta getGLMeta(
-    final TestContext tc)
+  @Override public boolean isGLSupported()
   {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
-    return some.value;
+    return JOGLTestContext.isOpenGLES2Supported();
+  }
+
+  @Override public @Nonnull TestContext newTestContext()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    return JOGLTestContext.makeContextWithOpenGL_ES2();
   }
 }

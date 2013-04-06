@@ -24,7 +24,7 @@ import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * A immutable reference to an active attribute variable for a program.
+ * An immutable reference to an active attribute variable for a program.
  * 
  * An attribute has a name, a location, and a type.
  */
