@@ -28,7 +28,7 @@ public final class JOGL21StencilBuffersTest extends StencilBuffersContract
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL3Supported();
+    return JOGLTestContext.isOpenGL21WithExtensionsSupported();
   }
 
   @Override public @Nonnull

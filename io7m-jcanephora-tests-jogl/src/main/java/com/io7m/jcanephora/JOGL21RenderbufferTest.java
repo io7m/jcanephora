@@ -18,7 +18,7 @@ public final class JOGL21RenderbufferTest extends RenderbufferGL3Contract
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL3Supported();
+    return JOGLTestContext.isOpenGL21WithExtensionsSupported();
   }
 
   @Override public @Nonnull TestContext newTestContext()
