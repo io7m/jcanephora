@@ -73,6 +73,8 @@ public final class JOGLTestContext
     final GLProfile profile)
   {
     if (JOGLTestContext.buffer != null) {
+      final GLContext context = JOGLTestContext.buffer.getContext();
+      context.release();
       JOGLTestContext.buffer.destroy();
     }
 
