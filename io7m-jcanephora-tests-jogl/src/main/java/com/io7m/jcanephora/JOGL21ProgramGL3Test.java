@@ -9,7 +9,7 @@ public final class JOGL21ProgramGL3Test extends ProgramGL3Contract
 {
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL3Supported();
+    return JOGLTestContext.isOpenGL21WithExtensionsSupported();
   }
 
   @Override public @Nonnull TestContext newTestContext()

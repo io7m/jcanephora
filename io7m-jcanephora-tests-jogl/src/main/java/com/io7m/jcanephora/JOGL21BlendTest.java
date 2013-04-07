@@ -9,7 +9,7 @@ public final class JOGL21BlendTest extends BlendingGLES2Contract
 {
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL3Supported();
+    return JOGLTestContext.isOpenGL21WithExtensionsSupported();
   }
 
   @Override public @Nonnull TestContext newTestContext()

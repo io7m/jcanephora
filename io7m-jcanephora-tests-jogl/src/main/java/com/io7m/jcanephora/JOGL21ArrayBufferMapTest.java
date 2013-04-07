@@ -34,7 +34,7 @@ public final class JOGL21ArrayBufferMapTest extends ArrayBufferMapContract
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL3Supported();
+    return JOGLTestContext.isOpenGL21WithExtensionsSupported();
   }
 
   @Override public @Nonnull TestContext newTestContext()

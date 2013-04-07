@@ -22,7 +22,7 @@ public final class JOGL21LogicOperationTest extends LogicOpContract
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL3Supported();
+    return JOGLTestContext.isOpenGL21WithExtensionsSupported();
   }
 
   @Override public @Nonnull TestContext newTestContext()
