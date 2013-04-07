@@ -24,7 +24,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jlog.Log;
-import com.jogamp.common.util.VersionNumber;
 
 /**
  * A JOGL-based implementation of the <code>jcanephora</code> API.
@@ -32,28 +31,6 @@ import com.jogamp.common.util.VersionNumber;
 
 public final class GLImplementationJOGL implements GLImplementation
 {
-  private static boolean isGLES2(
-    final @Nonnull GLContext context)
-  {
-    return context.isGLES() && (context.getGLVersionNumber().getMajor() == 2);
-  }
-
-  private static boolean isGLES3OrNewer(
-    final @Nonnull GLContext context)
-  {
-    return context.isGLES() && (context.getGLVersionNumber().getMajor() >= 3);
-  }
-
-  private static boolean isOpenGL21OrNewer(
-    final @Nonnull GLContext context)
-  {
-    final VersionNumber number = context.getGLVersionNumber();
-    if (number.getMajor() == 2) {
-      return number.getMinor() == 1;
-    }
-    return number.getMajor() >= 3;
-  }
-
   private final @Nonnull Log              log;
   private final @Nonnull GLContext        context;
   private final @Nonnull GLInterfaceGLES2 gl_es2;
@@ -85,16 +62,22 @@ public final class GLImplementationJOGL implements GLImplementation
 
     log.debug("Context is " + context.getGLVersion());
 
-    if (GLImplementationJOGL.isGLES2(context)) {
-      log.debug("Creating GLES2 interface");
+    if (context.isGLES2()) {
+      log.debug("Context is GLES2 - creating GLES2 interface");
       this.gl_es2 = new GLInterfaceGLES2_JOGL_ES2(context, log);
       this.gl_3 = null;
       return;
     }
 
-    if (GLImplementationJOGL.isGLES3OrNewer(context)
-      || GLImplementationJOGL.isOpenGL21OrNewer(context)) {
-      log.debug("Creating OpenGL 3 interface");
+    if (context.isGL2()) {
+      log.debug("Context is GL2, creating OpenGL 2.1-3.0 interface");
+      this.gl_3 = new GLInterfaceGL3_JOGL_GL21(context, log);
+      this.gl_es2 = null;
+      return;
+    }
+
+    if (context.isGL3()) {
+      log.debug("Context is GL3, creating OpenGL >= 3.1 interface");
       this.gl_3 = new GLInterfaceGL3_JOGL_GL3(context, log);
       this.gl_es2 = null;
       return;
