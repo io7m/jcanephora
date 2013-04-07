@@ -97,7 +97,7 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
     this.filesystem.mountUnsafeClasspathItem(Example.class, new PathVirtual(
       "/"));
 
-    final GLProfile profile = GLProfile.get(GLProfile.GL3);
+    final GLProfile profile = GLProfile.getDefault();
     final GLCapabilities requested_caps = new GLCapabilities(profile);
     requested_caps.setStencilBits(8);
     requested_caps.setDepthBits(24);

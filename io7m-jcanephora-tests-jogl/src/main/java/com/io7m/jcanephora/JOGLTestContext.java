@@ -21,6 +21,7 @@ public final class JOGLTestContext
   private static GLOffscreenAutoDrawable buffer;
   static final String                    LOG_DESTINATION_OPENGL_ES_2_0;
   static final String                    LOG_DESTINATION_OPENGL_3_X;
+  static final String                    LOG_DESTINATION_OPENGL_2_1;
   static final PathVirtual               GLSL_110_SHADER_PATH;
   static final PathVirtual               GLSL_130_SHADER_PATH;
   static final PathVirtual               GLSL_ES_100_SHADER_PATH;
@@ -28,6 +29,7 @@ public final class JOGLTestContext
   static {
     LOG_DESTINATION_OPENGL_ES_2_0 = "jogl_es_2_0-test";
     LOG_DESTINATION_OPENGL_3_X = "jogl_3_x-test";
+    LOG_DESTINATION_OPENGL_2_1 = "jogl_2_1-test";
 
     try {
       GLSL_130_SHADER_PATH =
@@ -112,6 +114,11 @@ public final class JOGLTestContext
     return GLProfile.isAvailable(GLProfile.GL3);
   }
 
+  public static boolean isOpenGL21WithExtensionsSupported()
+  {
+    return GLProfile.isAvailable(GLProfile.GL2);
+  }
+
   public static boolean isOpenGLES2Supported()
   {
     return GLProfile.isAvailable(GLProfile.GLES2);
@@ -148,6 +155,24 @@ public final class JOGLTestContext
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GL3));
+    final GLImplementation gi = new GLImplementationJOGL(ctx, log);
+
+    final PathVirtual shader_path = JOGLTestContext.decideShaderPath(ctx);
+
+    return new TestContext(fs, gi, log, shader_path);
+  }
+
+  public static TestContext makeContextWithOpenGL2_1()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    final Log log =
+      JOGLTestContext.getLog(JOGLTestContext.LOG_DESTINATION_OPENGL_2_1);
+    final FilesystemAPI fs = JOGLTestContext.getFS(log);
+
+    final GLContext ctx =
+      JOGLTestContext.getContext(GLProfile.get(GLProfile.GL2));
     final GLImplementation gi = new GLImplementationJOGL(ctx, log);
 
     final PathVirtual shader_path = JOGLTestContext.decideShaderPath(ctx);
