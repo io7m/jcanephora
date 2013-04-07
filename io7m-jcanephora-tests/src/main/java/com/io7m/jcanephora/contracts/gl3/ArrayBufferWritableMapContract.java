@@ -8,6 +8,8 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.io7m.jaux.AlmostEqualFloat;
+import com.io7m.jaux.AlmostEqualFloat.ContextRelative;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
@@ -108,12 +110,10 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
     c.seekTo(10);
   }
 
-  @SuppressWarnings("boxing") @Test public final
-    void
-    testArrayBufferMapCursor2fSeekCorrect()
-      throws ConstraintError,
-        GLException,
-        GLUnsupportedException
+  @Test public final void testArrayBufferMapCursor2fSeekCorrect()
+    throws ConstraintError,
+      GLException,
+      GLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
     final GLArrayBuffers ga = this.getGLArrayBuffers(tc);
@@ -160,41 +160,40 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
 
     final ByteBuffer b = gm.arrayBufferMapRead(a);
     final FloatBuffer fb = b.asFloatBuffer();
+    final ContextRelative rc = new AlmostEqualFloat.ContextRelative();
 
-    Assert.assertEquals(1.0f, fb.get(0));
-    Assert.assertEquals(1.0f, fb.get(1));
-    Assert.assertEquals(1.0f, fb.get(2));
-    Assert.assertEquals(2.0f, fb.get(3));
-    Assert.assertEquals(2.0f, fb.get(4));
-    Assert.assertEquals(2.0f, fb.get(5));
-    Assert.assertEquals(0.0f, fb.get(6));
-    Assert.assertEquals(0.0f, fb.get(7));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 1.0f, fb.get(0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 1.0f, fb.get(1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 1.0f, fb.get(2)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 2.0f, fb.get(3)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 2.0f, fb.get(4)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 2.0f, fb.get(5)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(6)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(7)));
 
-    Assert.assertEquals(1.0f, fb.get(8));
-    Assert.assertEquals(1.0f, fb.get(9));
-    Assert.assertEquals(1.0f, fb.get(10));
-    Assert.assertEquals(2.0f, fb.get(11));
-    Assert.assertEquals(2.0f, fb.get(12));
-    Assert.assertEquals(2.0f, fb.get(13));
-    Assert.assertEquals(9.0f, fb.get(14));
-    Assert.assertEquals(9.0f, fb.get(15));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 1.0f, fb.get(8)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 1.0f, fb.get(9)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 1.0f, fb.get(10)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 2.0f, fb.get(11)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 2.0f, fb.get(12)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 2.0f, fb.get(13)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 9.0f, fb.get(14)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 9.0f, fb.get(15)));
 
-    Assert.assertEquals(1.0f, fb.get(16));
-    Assert.assertEquals(1.0f, fb.get(17));
-    Assert.assertEquals(1.0f, fb.get(18));
-    Assert.assertEquals(2.0f, fb.get(19));
-    Assert.assertEquals(2.0f, fb.get(20));
-    Assert.assertEquals(2.0f, fb.get(21));
-    Assert.assertEquals(0.0f, fb.get(22));
-    Assert.assertEquals(0.0f, fb.get(23));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 1.0f, fb.get(16)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 1.0f, fb.get(17)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 1.0f, fb.get(18)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 2.0f, fb.get(19)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 2.0f, fb.get(20)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 2.0f, fb.get(21)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(22)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(23)));
   }
 
-  @SuppressWarnings("boxing") @Test public final
-    void
-    testArrayBufferMapCursor2fWriteCorrect()
-      throws ConstraintError,
-        GLException,
-        GLUnsupportedException
+  @Test public final void testArrayBufferMapCursor2fWriteCorrect()
+    throws ConstraintError,
+      GLException,
+      GLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
     final GLArrayBuffers ga = this.getGLArrayBuffers(tc);
@@ -238,33 +237,34 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
 
     final ByteBuffer b = gm.arrayBufferMapRead(a);
     final FloatBuffer fb = b.asFloatBuffer();
+    final ContextRelative rc = new AlmostEqualFloat.ContextRelative();
 
-    Assert.assertEquals(1.0f, fb.get(0));
-    Assert.assertEquals(2.0f, fb.get(1));
-    Assert.assertEquals(3.0f, fb.get(2));
-    Assert.assertEquals(10.0f, fb.get(3));
-    Assert.assertEquals(20.0f, fb.get(4));
-    Assert.assertEquals(30.0f, fb.get(5));
-    Assert.assertEquals(0.0f, fb.get(6));
-    Assert.assertEquals(0.0f, fb.get(7));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 1.0f, fb.get(0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 2.0f, fb.get(1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 3.0f, fb.get(2)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 10.0f, fb.get(3)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 20.0f, fb.get(4)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 30.0f, fb.get(5)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(6)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(7)));
 
-    Assert.assertEquals(4.0f, fb.get(8));
-    Assert.assertEquals(5.0f, fb.get(9));
-    Assert.assertEquals(6.0f, fb.get(10));
-    Assert.assertEquals(40.0f, fb.get(11));
-    Assert.assertEquals(50.0f, fb.get(12));
-    Assert.assertEquals(60.0f, fb.get(13));
-    Assert.assertEquals(1.0f, fb.get(14));
-    Assert.assertEquals(0.0f, fb.get(15));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 4.0f, fb.get(8)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 5.0f, fb.get(9)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 6.0f, fb.get(10)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 40.0f, fb.get(11)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 50.0f, fb.get(12)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 60.0f, fb.get(13)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 1.0f, fb.get(14)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(15)));
 
-    Assert.assertEquals(7.0f, fb.get(16));
-    Assert.assertEquals(8.0f, fb.get(17));
-    Assert.assertEquals(9.0f, fb.get(18));
-    Assert.assertEquals(70.0f, fb.get(19));
-    Assert.assertEquals(80.0f, fb.get(20));
-    Assert.assertEquals(90.0f, fb.get(21));
-    Assert.assertEquals(1.0f, fb.get(22));
-    Assert.assertEquals(1.0f, fb.get(23));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 7.0f, fb.get(16)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 8.0f, fb.get(17)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 9.0f, fb.get(18)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 70.0f, fb.get(19)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 80.0f, fb.get(20)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 90.0f, fb.get(21)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 1.0f, fb.get(22)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 1.0f, fb.get(23)));
   }
 
   @Test(expected = ConstraintError.class) public final
@@ -333,12 +333,10 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
     m.getCursor3f(null);
   }
 
-  @SuppressWarnings("boxing") @Test public final
-    void
-    testArrayBufferMapCursor3fWriteCorrect()
-      throws ConstraintError,
-        GLException,
-        GLUnsupportedException
+  @Test public final void testArrayBufferMapCursor3fWriteCorrect()
+    throws ConstraintError,
+      GLException,
+      GLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
     final GLArrayBuffers ga = this.getGLArrayBuffers(tc);
@@ -376,38 +374,37 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
 
     final ByteBuffer b = gm.arrayBufferMapRead(a);
     final FloatBuffer fb = b.asFloatBuffer();
+    final ContextRelative rc = new AlmostEqualFloat.ContextRelative();
 
-    Assert.assertEquals(1.0f, fb.get(0));
-    Assert.assertEquals(2.0f, fb.get(1));
-    Assert.assertEquals(3.0f, fb.get(2));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 1.0f, fb.get(0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 2.0f, fb.get(1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 3.0f, fb.get(2)));
 
-    Assert.assertEquals(10.0f, fb.get(3));
-    Assert.assertEquals(20.0f, fb.get(4));
-    Assert.assertEquals(30.0f, fb.get(5));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 10.0f, fb.get(3)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 20.0f, fb.get(4)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 30.0f, fb.get(5)));
 
-    Assert.assertEquals(4.0f, fb.get(6));
-    Assert.assertEquals(5.0f, fb.get(7));
-    Assert.assertEquals(6.0f, fb.get(8));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 4.0f, fb.get(6)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 5.0f, fb.get(7)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 6.0f, fb.get(8)));
 
-    Assert.assertEquals(40.0f, fb.get(9));
-    Assert.assertEquals(50.0f, fb.get(10));
-    Assert.assertEquals(60.0f, fb.get(11));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 40.0f, fb.get(9)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 50.0f, fb.get(10)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 60.0f, fb.get(11)));
 
-    Assert.assertEquals(7.0f, fb.get(12));
-    Assert.assertEquals(8.0f, fb.get(13));
-    Assert.assertEquals(9.0f, fb.get(14));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 7.0f, fb.get(12)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 8.0f, fb.get(13)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 9.0f, fb.get(14)));
 
-    Assert.assertEquals(70.0f, fb.get(15));
-    Assert.assertEquals(80.0f, fb.get(16));
-    Assert.assertEquals(90.0f, fb.get(17));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 70.0f, fb.get(15)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 80.0f, fb.get(16)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 90.0f, fb.get(17)));
   }
 
-  @SuppressWarnings("boxing") @Test public final
-    void
-    testArrayBufferMapCursor3fWriteSeekCorrect()
-      throws ConstraintError,
-        GLException,
-        GLUnsupportedException
+  @Test public final void testArrayBufferMapCursor3fWriteSeekCorrect()
+    throws ConstraintError,
+      GLException,
+      GLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
     final GLArrayBuffers ga = this.getGLArrayBuffers(tc);
@@ -448,30 +445,31 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
 
     final ByteBuffer b = gm.arrayBufferMapRead(a);
     final FloatBuffer fb = b.asFloatBuffer();
+    final ContextRelative rc = new AlmostEqualFloat.ContextRelative();
 
-    Assert.assertEquals(0.0f, fb.get(0));
-    Assert.assertEquals(0.0f, fb.get(1));
-    Assert.assertEquals(0.0f, fb.get(2));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(2)));
 
-    Assert.assertEquals(0.0f, fb.get(3));
-    Assert.assertEquals(0.0f, fb.get(4));
-    Assert.assertEquals(0.0f, fb.get(5));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(3)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(4)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(5)));
 
-    Assert.assertEquals(23.0f, fb.get(6));
-    Assert.assertEquals(24.0f, fb.get(7));
-    Assert.assertEquals(25.0f, fb.get(8));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 23.0f, fb.get(6)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 24.0f, fb.get(7)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 25.0f, fb.get(8)));
 
-    Assert.assertEquals(0.0f, fb.get(9));
-    Assert.assertEquals(0.0f, fb.get(10));
-    Assert.assertEquals(0.0f, fb.get(11));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(9)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(10)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(11)));
 
-    Assert.assertEquals(0.0f, fb.get(12));
-    Assert.assertEquals(0.0f, fb.get(13));
-    Assert.assertEquals(0.0f, fb.get(14));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(12)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(13)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(14)));
 
-    Assert.assertEquals(0.0f, fb.get(15));
-    Assert.assertEquals(0.0f, fb.get(16));
-    Assert.assertEquals(0.0f, fb.get(17));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(15)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(16)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(rc, 0.0f, fb.get(17)));
   }
 
   @Test(expected = ConstraintError.class) public final
