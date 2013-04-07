@@ -5,11 +5,11 @@ import javax.annotation.Nonnull;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.contracts.common.ProgramContract;
 
-public final class JOGL30ProgramTest extends ProgramContract
+public final class JOGLES2ProgramTest extends ProgramContract
 {
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL3Supported();
+    return JOGLTestContext.isOpenGLES2Supported();
   }
 
   @Override public @Nonnull TestContext newTestContext()
@@ -17,6 +17,6 @@ public final class JOGL30ProgramTest extends ProgramContract
       GLUnsupportedException,
       ConstraintError
   {
-    return JOGLTestContext.makeContextWithOpenGL3_X();
+    return JOGLTestContext.makeContextWithOpenGL_ES2();
   }
 }

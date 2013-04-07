@@ -37,8 +37,12 @@ public abstract class MetaContract implements TestContract
     Assert.assertNotNull(vr);
     Assert.assertNotNull(r);
 
-    System.out.println("Vendor   : " + vn);
-    System.out.println("Version  : " + vr);
-    System.out.println("Renderer : " + r);
+    System.out.println("Vendor        : " + vn);
+    System.out.println("Version       : " + vr);
+    System.out.println("Renderer      : " + r);
+
+    System.out.println("Version major : " + gl.metaGetVersionMajor());
+    System.out.println("Version minor : " + gl.metaGetVersionMinor());
+    System.out.println("isES          : " + gl.metaIsES());
   }
 }

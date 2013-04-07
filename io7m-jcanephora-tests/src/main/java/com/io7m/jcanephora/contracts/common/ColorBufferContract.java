@@ -12,6 +12,8 @@ import com.io7m.jcanephora.GLColorBuffer;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
+import com.io7m.jtensors.VectorI3F;
+import com.io7m.jtensors.VectorI4F;
 
 public abstract class ColorBufferContract implements TestContract
 {
@@ -116,5 +118,45 @@ public abstract class ColorBufferContract implements TestContract
       Assert.assertFalse(b);
       Assert.assertFalse(a);
     }
+  }
+
+  @Test public final void testColorBufferClear()
+    throws ConstraintError,
+      GLException,
+      GLUnsupportedException
+  {
+    final TestContext tc = this.newTestContext();
+    final GLColorBuffer gl = this.getGLColorBuffer(tc);
+
+    gl.colorBufferClear3f(1.0f, 0.0f, 0.0f);
+    gl.colorBufferClear4f(1.0f, 0.0f, 0.0f, 1.0f);
+    gl.colorBufferClearV3f(new VectorI3F(1.0f, 0.0f, 0.0f));
+    gl.colorBufferClearV4f(new VectorI4F(0.0f, 1.0f, 1.0f, 1.0f));
+  }
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testColorBufferClearV3Null()
+      throws ConstraintError,
+        GLException,
+        GLUnsupportedException
+  {
+    final TestContext tc = this.newTestContext();
+    final GLColorBuffer gl = this.getGLColorBuffer(tc);
+
+    gl.colorBufferClearV3f(null);
+  }
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testColorBufferClearV4Null()
+      throws ConstraintError,
+        GLException,
+        GLUnsupportedException
+  {
+    final TestContext tc = this.newTestContext();
+    final GLColorBuffer gl = this.getGLColorBuffer(tc);
+
+    gl.colorBufferClearV4f(null);
   }
 }
