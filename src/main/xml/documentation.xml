@@ -151,33 +151,93 @@
           Regular releases are made to the
           <s:link-external target="http://search.maven.org/#search|ga|1|jcanephora">Central Repository</s:link-external>,
           so it's possible to use the <s:term type="package">jcanephora</s:term>
-          package in your projects with the following Maven dependency:
+          package in your projects by simply adding some dependencies to
+          your Maven project.
+        </s:paragraph>
+        
+        <s:paragraph>
+          The package is split into multiple sub-packages. The
+          <s:term type="package">jcanephora-core</s:term> package provides
+          the types, interfaces, and implementations comprising the core of
+          <s:term type="package">jcanephora</s:term>. This package is
+          required to use <s:term type="package">jcanephora</s:term>.
         </s:paragraph>
         <s:paragraph>
           <s:verbatim type="example"><![CDATA[<dependency>
   <groupId>com.io7m.jcanephora.core</groupId>
   <artifactId>io7m-jcanephora-core</artifactId>
   <version>1.0.0</version>
-</dependency>
-<dependency>
+</dependency>]]></s:verbatim>
+        </s:paragraph>
+        
+        <s:paragraph>
+          To use the <s:link-external target="http://jogamp.org">JOGL</s:link-external>
+          backend for <s:term type="package">jcanephora</s:term>, include the
+          <s:term type="package">jcanephora-jogl</s:term> package:
+        </s:paragraph>
+        <s:paragraph>
+          <s:verbatim type="example"><![CDATA[<dependency>
   <groupId>com.io7m.jcanephora.jogl</groupId>
   <artifactId>io7m-jcanephora-jogl</artifactId>
   <version>1.0.0</version>
-</dependency>
-<dependency>
+</dependency>]]></s:verbatim>
+        </s:paragraph>
+        
+        <s:paragraph>
+          To use the <s:link-external target="http://lwjgl.org">LWJGL</s:link-external>
+          backend for <s:term type="package">jcanephora</s:term>, include the
+          <s:term type="package">jcanephora-lwjgl</s:term> package:
+        </s:paragraph>
+        <s:paragraph>
+          <s:verbatim type="example"><![CDATA[<dependency>
   <groupId>com.io7m.jcanephora.lwjgl</groupId>
   <artifactId>io7m-jcanephora-lwjgl</artifactId>
   <version>1.0.0</version>
 </dependency>]]></s:verbatim>
         </s:paragraph>
+        
         <s:paragraph>
-          Note that it is possible to omit either (but not both) of the
-          <s:term type="package">jogl</s:term> or
-          <s:term type="package">lwjgl</s:term> packages if your project
-          does not need support for both
-          <s:link-external target="http://jogamp.org">JOGL</s:link-external>
-          and
-          <s:link-external target="http://lwjgl.org">LWJGL</s:link-external>.
+          To use the optional
+          <s:link-external target="./javadoc/com/io7m/jcanephora/Framebuffer.html">Framebuffer</s:link-external>
+          abstraction, include the
+          <s:term type="package">jcanephora-framebuffer</s:term> package:
+        </s:paragraph>
+        <s:paragraph>
+          <s:verbatim type="example"><![CDATA[<dependency>
+  <groupId>com.io7m.jcanephora.framebuffer</groupId>
+  <artifactId>io7m-jcanephora-framebuffer</artifactId>
+  <version>1.0.0</version>
+</dependency>]]></s:verbatim>
+        </s:paragraph>
+        
+        <s:paragraph>
+          To use the optional 
+          <s:link-external target="./javadoc/com/io7m/jcanephora/Program.html">Program</s:link-external>
+          abstraction, include the
+          <s:term type="package">jcanephora-program</s:term> package:
+        </s:paragraph>
+        <s:paragraph>
+          <s:verbatim type="example"><![CDATA[<dependency>
+  <groupId>com.io7m.jcanephora.program</groupId>
+  <artifactId>io7m-jcanephora-program</artifactId>
+  <version>1.0.0</version>
+</dependency>]]></s:verbatim>
+        </s:paragraph>
+        
+        <s:paragraph>
+          To use the optional 
+          <s:link-external target="./javadoc/com/io7m/jcanephora/TextureLoaderImageIO.html">ImageIO</s:link-external>
+          implementation of the
+          <s:link-external target="./javadoc/com/io7m/jcanephora/TextureLoader.html">TextureLoader</s:link-external>
+          interface, include the
+          <s:term type="package">jcanephora-texload-imageio</s:term> package:
+        </s:paragraph>
+        <s:paragraph>
+          <s:verbatim type="example"><![CDATA[<dependency>
+  <groupId>com.io7m.jcanephora.texload-imageio</groupId>
+  <artifactId>io7m-jcanephora-texload-imageio</artifactId>
+  <version>1.0.0</version>
+</dependency>]]></s:verbatim>
         </s:paragraph>
       </s:subsection>
     </s:section>
@@ -218,6 +278,45 @@
   <s:table-cell>Intel Open Source Technology Center</s:table-cell>
   <s:table-cell>Mesa DRI Intel(R) Sandybridge Mobile </s:table-cell>
   <s:table-cell>3.1 (Core Profile) Mesa 9.1.1</s:table-cell>
+</s:table-row>
+<s:table-row xmlns:s="http://www.io7m.com/schemas/structural/1.0.0">
+  <s:table-cell>Linux</s:table-cell>
+  <s:table-cell>3.8.4-1-ARCH</s:table-cell>
+  <s:table-cell>amd64</s:table-cell>
+  <s:table-cell>Oracle Corporation</s:table-cell>
+  <s:table-cell>1.7.0_17</s:table-cell>
+  <s:table-cell>OpenJDK 64-Bit Server VM</s:table-cell>
+  <s:table-cell>Oracle Corporation</s:table-cell>
+  <s:table-cell>23.7-b01</s:table-cell>
+  <s:table-cell>Intel Open Source Technology Center</s:table-cell>
+  <s:table-cell>Mesa DRI Intel(R) Sandybridge Mobile </s:table-cell>
+  <s:table-cell>3.0 Mesa 9.1.1</s:table-cell>
+</s:table-row>
+<s:table-row xmlns:s="http://www.io7m.com/schemas/structural/1.0.0">
+  <s:table-cell>Linux</s:table-cell>
+  <s:table-cell>3.8.4-1-ARCH</s:table-cell>
+  <s:table-cell>amd64</s:table-cell>
+  <s:table-cell>Oracle Corporation</s:table-cell>
+  <s:table-cell>1.7.0_17</s:table-cell>
+  <s:table-cell>OpenJDK 64-Bit Server VM</s:table-cell>
+  <s:table-cell>Oracle Corporation</s:table-cell>
+  <s:table-cell>23.7-b01</s:table-cell>
+  <s:table-cell>Intel Open Source Technology Center</s:table-cell>
+  <s:table-cell>Mesa DRI Intel(R) Sandybridge Mobile </s:table-cell>
+  <s:table-cell>OpenGL ES 3.0 Mesa 9.1.1</s:table-cell>
+</s:table-row>
+<s:table-row xmlns:s="http://www.io7m.com/schemas/structural/1.0.0">
+  <s:table-cell>Mac OS X</s:table-cell>
+  <s:table-cell>10.6.8</s:table-cell>
+  <s:table-cell>x86_64</s:table-cell>
+  <s:table-cell>Apple Inc.</s:table-cell>
+  <s:table-cell>1.6.0_43</s:table-cell>
+  <s:table-cell>Java HotSpot(TM) 64-Bit Server VM</s:table-cell>
+  <s:table-cell>Apple Inc.</s:table-cell>
+  <s:table-cell>20.14-b01-447</s:table-cell>
+  <s:table-cell>ATI Technologies Inc.</s:table-cell>
+  <s:table-cell>ATI Radeon HD 5670 OpenGL Engine</s:table-cell>
+  <s:table-cell>2.1 ATI-1.6.36</s:table-cell>
 </s:table-row>
           </s:table-body>
         </s:table>
