@@ -142,7 +142,6 @@
       <s:formal-item>
         <s:formal-item-title>POM files</s:formal-item-title>
         <s:list-unordered>
-<s:list-item><s:link-external target="./io7m-jcanephora-1.0.0.pom">io7m-jcanephora-1.0.0.pom</s:link-external></s:list-item>
 <s:list-item><s:link-external target="./io7m-jcanephora-core-1.0.0.pom">io7m-jcanephora-core-1.0.0.pom</s:link-external></s:list-item>
 <s:list-item><s:link-external target="./io7m-jcanephora-examples-1.0.0.pom">io7m-jcanephora-examples-1.0.0.pom</s:link-external></s:list-item>
 <s:list-item><s:link-external target="./io7m-jcanephora-examples-jogl-1.0.0.pom">io7m-jcanephora-examples-jogl-1.0.0.pom</s:link-external></s:list-item>
