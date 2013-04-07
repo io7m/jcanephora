@@ -70,6 +70,31 @@ public final class GLImplementationJOGL implements GLImplementation
     }
 
     if (context.isGL2()) {
+      if (context.hasFullFBOSupport() == false) {
+        if (context.isExtensionAvailable("ARB_framebuffer_object") == false) {
+          throw new GLUnsupportedException(
+            "Context supports OpenGL 2.1 but does not support the required ARB_framebuffer_object extension");
+        }
+        if (context.isExtensionAvailable("EXT_framebuffer_object") == false) {
+          throw new GLUnsupportedException(
+            "Context supports OpenGL 2.1 but does not support the required EXT_framebuffer_object extension");
+        }
+        if (context.isExtensionAvailable("EXT_framebuffer_multisample") == false) {
+          throw new GLUnsupportedException(
+            "Context supports OpenGL 2.1 but does not support the required EXT_framebuffer_multisample extension");
+        }
+        if (context.isExtensionAvailable("EXT_framebuffer_blit") == false) {
+          throw new GLUnsupportedException(
+            "Context supports OpenGL 2.1 but does not support the required EXT_framebuffer_blit extension");
+        }
+        if (context.isExtensionAvailable("GL_EXT_packed_depth_stencil") == false) {
+          throw new GLUnsupportedException(
+            "Context supports OpenGL 2.1 but does not support the required GL_EXT_packed_depth_stencil extension");
+        }
+
+        throw new UnreachableCodeException();
+      }
+
       log.debug("Context is GL2, creating OpenGL 2.1-3.0 interface");
       this.gl_3 = new GLInterfaceGL3_JOGL_GL21(context, log);
       this.gl_es2 = null;
