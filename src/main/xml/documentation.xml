@@ -318,6 +318,19 @@
   <s:table-cell>ATI Radeon HD 5670 OpenGL Engine</s:table-cell>
   <s:table-cell>2.1 ATI-1.6.36</s:table-cell>
 </s:table-row>
+<s:table-row xmlns:s="http://www.io7m.com/schemas/structural/1.0.0">
+  <s:table-cell>Windows XP</s:table-cell>
+  <s:table-cell>5.1</s:table-cell>
+  <s:table-cell>x86</s:table-cell>
+  <s:table-cell>Oracle Corporation</s:table-cell>
+  <s:table-cell>1.7.0_05</s:table-cell>
+  <s:table-cell>Java HotSpot(TM) Client VM</s:table-cell>
+  <s:table-cell>Oracle Corporation</s:table-cell>
+  <s:table-cell>23.1-b03</s:table-cell>
+  <s:table-cell>ATI Technologies Inc.</s:table-cell>
+  <s:table-cell>ATI Radeon HD 4800 Series</s:table-cell>
+  <s:table-cell>3.3.11653 Compatibility Profile Context</s:table-cell>
+</s:table-row>
           </s:table-body>
         </s:table>
       </s:formal-item>
