@@ -413,8 +413,10 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
     }
   }
 
-  @Override public void keyTyped(
-    final KeyEvent e)
+  @SuppressWarnings("deprecation") @Deprecated @Override public
+    void
+    keyTyped(
+      final KeyEvent e)
   {
     // Nothing
   }

@@ -2,8 +2,7 @@ package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;

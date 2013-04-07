@@ -1,7 +1,6 @@
 package com.io7m.jcanephora;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 public final class GLUnsignedTypeTest
