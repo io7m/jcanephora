@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -26,6 +26,13 @@ import com.io7m.jaux.functional.Option;
 public interface GLImplementation
 {
   /**
+   * Return a reference to the OpenGL 2.1 interface provided by the
+   * implementation, or <code>None</code> if it is not supported.
+   */
+
+  @Nonnull Option<GLInterfaceGL2> getGL2();
+
+  /**
    * Return a reference to the OpenGL 3.* interface provided by the
    * implementation, or <code>None</code> if it is not supported.
    */
@@ -34,7 +41,7 @@ public interface GLImplementation
 
   /**
    * Return a reference to the interface representing the common subset of
-   * OpenGL 3.* and OpenGL ES2.
+   * OpenGL 3.*, OpenGL ES2, and OpenGL 2.1.
    */
 
   @Nonnull GLInterfaceCommon getGLCommon();

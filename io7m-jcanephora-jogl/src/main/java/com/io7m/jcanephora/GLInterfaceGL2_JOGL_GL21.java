@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -56,13 +56,13 @@ import com.io7m.jtensors.VectorReadable4F;
  * {@link javax.media.opengl.GLAutoDrawable} interface.
  */
 
-@NotThreadSafe final class GLInterfaceGL3_JOGL_GL21 implements GLInterfaceGL3
+@NotThreadSafe final class GLInterfaceGL2_JOGL_GL21 implements GLInterfaceGL2
 {
   private final @Nonnull Log          log;
   private final @Nonnull GLContext    context;
   private final @Nonnull GLStateCache state;
 
-  GLInterfaceGL3_JOGL_GL21(
+  GLInterfaceGL2_JOGL_GL21(
     final @Nonnull GLContext context,
     final @Nonnull Log log)
     throws ConstraintError,
@@ -1764,164 +1764,6 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     GLES2Functions.texture2DStaticUpdate(this.contextGetGL2GL3(), data);
-  }
-
-  @Override public @Nonnull
-    TextureCubeStatic
-    textureCubeStaticAllocateDepth16(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        GLException
-  {
-    return GLES2Functions.textureCubeStaticAllocate(
-      this.contextGetGL2GL3(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureType.TEXTURE_TYPE_DEPTH_16_2BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    TextureCubeStatic
-    textureCubeStaticAllocateDepth24(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        GLException
-  {
-    return GLES2Functions.textureCubeStaticAllocate(
-      this.contextGetGL2GL3(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureType.TEXTURE_TYPE_DEPTH_24_4BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    TextureCubeStatic
-    textureCubeStaticAllocateDepth32(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        GLException
-  {
-    return GLES2Functions.textureCubeStaticAllocate(
-      this.contextGetGL2GL3(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureType.TEXTURE_TYPE_DEPTH_32_4BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    TextureCubeStatic
-    textureCubeStaticAllocateDepth32f(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        GLException
-  {
-    return GLES2Functions.textureCubeStaticAllocate(
-      this.contextGetGL2GL3(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureType.TEXTURE_TYPE_DEPTH_32F_4BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateR8(
-    final @Nonnull String name,
-    final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      GLException
-  {
-    return GLES2Functions.textureCubeStaticAllocate(
-      this.contextGetGL2GL3(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureType.TEXTURE_TYPE_R_8_1BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG88(
-    final @Nonnull String name,
-    final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      GLException
-  {
-    return GLES2Functions.textureCubeStaticAllocate(
-      this.contextGetGL2GL3(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureType.TEXTURE_TYPE_RG_88_2BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
   }
 
   @Override public @Nonnull

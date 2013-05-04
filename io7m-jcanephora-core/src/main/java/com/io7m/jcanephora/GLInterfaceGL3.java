@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -21,18 +21,8 @@ package com.io7m.jcanephora;
  */
 
 public interface GLInterfaceGL3 extends
-  GLInterfaceCommon,
-  GLArrayBuffersMapped,
-  GLBlendingGL3,
-  GLFramebuffersGL3,
-  GLIndexBuffersMapped,
-  GLLogic,
-  GLPolygonModes,
-  GLPolygonSmoothing,
-  GLProgramPointSizeControl,
-  GLRenderbuffersGL3,
-  GLTexturesCubeStaticGL3,
-  GLTextures2DStaticGL3
+  GLInterfaceGL2,
+  GLTexturesCubeStaticGL3
 {
   /*
    * All functions defined in the superinterfaces.

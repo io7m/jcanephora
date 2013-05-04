@@ -26,8 +26,8 @@ public final class JOGL21ColorBufferTest extends ColorBufferContract
   @Override public GLColorBuffer getGLColorBuffer(
     final TestContext context)
   {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) context.getGLImplementation().getGL3();
+    final Some<GLInterfaceGL2> some =
+      (Some<GLInterfaceGL2>) context.getGLImplementation().getGL2();
     return some.value;
   }
 
