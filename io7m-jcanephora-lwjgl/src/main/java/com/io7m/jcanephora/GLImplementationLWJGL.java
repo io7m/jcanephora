@@ -16,6 +16,9 @@
 
 package com.io7m.jcanephora;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import javax.annotation.Nonnull;
 
 import org.lwjgl.opengl.GL11;
@@ -74,6 +77,39 @@ public final class GLImplementationLWJGL implements GLImplementation
   private final @Nonnull GLInterfaceGL3   gl_3;
   private final @Nonnull GLInterfaceGL2   gl_2;
 
+  static void checkFBOSupport(
+    final @Nonnull Log log,
+    final @Nonnull Set<String> extensions)
+    throws GLUnsupportedException
+  {
+    if (extensions.contains("GL_ARB_framebuffer_object") == false) {
+      log
+        .debug("GL_ARB_framebuffer_object not supported, checking for EXT extensions");
+
+      if (extensions.contains("GL_EXT_framebuffer_object") == false) {
+        throw new GLUnsupportedException(
+          "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_object extension");
+      }
+      if (extensions.contains("GL_EXT_framebuffer_multisample") == false) {
+        throw new GLUnsupportedException(
+          "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_multisample extension");
+      }
+      if (extensions.contains("GL_EXT_framebuffer_blit") == false) {
+        throw new GLUnsupportedException(
+          "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_blit extension");
+      }
+      if (extensions.contains("GL_EXT_packed_depth_stencil") == false) {
+        throw new GLUnsupportedException(
+          "Context supports OpenGL 2.1 but does not support the required GL_EXT_packed_depth_stencil extension");
+      }
+
+      log
+        .debug("(EXT_framebuffer_object|EXT_framebuffer_multisample|EXT_framebuffer_blit|GL_EXT_packed_depth_stencil) supported");
+    } else {
+      log.debug("ARB_framebuffer_object supported");
+    }
+  }
+
   /**
    * Construct an implementation assuming that the LWJGL library has already
    * been initialized.
@@ -97,6 +133,7 @@ public final class GLImplementationLWJGL implements GLImplementation
       new Log(Constraints.constrainNotNull(log, "log output"), "lwjgl30");
 
     final String vs = GL11.glGetString(GL11.GL_VERSION);
+
     if (GLImplementationLWJGL.isGLES2(vs)) {
       log.debug("Context is GLES2 - creating GLES2 interface");
       this.gl_es2 = new GLInterfaceGLES2_LWJGL_ES2(log);
@@ -106,30 +143,9 @@ public final class GLImplementationLWJGL implements GLImplementation
     }
 
     if (GLImplementationLWJGL.isGL2(vs)) {
-      if (GLImplementationLWJGL
-        .isExtensionAvailable("ARB_framebuffer_object") == false) {
-        throw new GLUnsupportedException(
-          "Context supports OpenGL 2.1 but does not support the required ARB_framebuffer_object extension");
-      }
-      if (GLImplementationLWJGL
-        .isExtensionAvailable("EXT_framebuffer_object") == false) {
-        throw new GLUnsupportedException(
-          "Context supports OpenGL 2.1 but does not support the required EXT_framebuffer_object extension");
-      }
-      if (GLImplementationLWJGL
-        .isExtensionAvailable("EXT_framebuffer_multisample") == false) {
-        throw new GLUnsupportedException(
-          "Context supports OpenGL 2.1 but does not support the required EXT_framebuffer_multisample extension");
-      }
-      if (GLImplementationLWJGL.isExtensionAvailable("EXT_framebuffer_blit") == false) {
-        throw new GLUnsupportedException(
-          "Context supports OpenGL 2.1 but does not support the required EXT_framebuffer_blit extension");
-      }
-      if (GLImplementationLWJGL
-        .isExtensionAvailable("GL_EXT_packed_depth_stencil") == false) {
-        throw new GLUnsupportedException(
-          "Context supports OpenGL 2.1 but does not support the required GL_EXT_packed_depth_stencil extension");
-      }
+      final Set<String> extensions =
+        GLImplementationLWJGL.getExtensionsGL21_30();
+      GLImplementationLWJGL.checkFBOSupport(log, extensions);
 
       log.debug("Context is GL2, creating OpenGL 2.1 interface");
       this.gl_2 = new GLInterfaceGL2_LWJGL_GL2(log);
@@ -150,11 +166,17 @@ public final class GLImplementationLWJGL implements GLImplementation
       "At least OpenGL 2.1 or OpenGL ES2 is required");
   }
 
-  private static boolean isExtensionAvailable(
-    final String name)
+  private static Set<String> getExtensionsGL21_30()
   {
-    // XXX: Check for extensions in a portable way...
-    return true;
+    final String eraw = GL11.glGetString(GL11.GL_EXTENSIONS);
+    final String[] exts = eraw.split(" ");
+    final TreeSet<String> ext_set = new TreeSet<String>();
+
+    for (final String e : exts) {
+      ext_set.add(e);
+    }
+
+    return ext_set;
   }
 
   @Override public @Nonnull Option<GLInterfaceGL3> getGL3()
