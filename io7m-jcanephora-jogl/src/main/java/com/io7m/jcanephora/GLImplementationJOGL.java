@@ -73,6 +73,12 @@ public final class GLImplementationJOGL implements GLImplementation
 
     if (context.isGL2()) {
       if (context.hasFullFBOSupport() == false) {
+
+        /**
+         * Full FBO support is not available, raise an exception to explain
+         * what was missing.
+         */
+
         if (context.isExtensionAvailable("ARB_framebuffer_object") == false) {
           throw new GLUnsupportedException(
             "Context supports OpenGL 2.1 but does not support the required ARB_framebuffer_object extension");
