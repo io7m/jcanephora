@@ -30,6 +30,7 @@ import com.io7m.jvvfs.Filesystem;
 import com.io7m.jvvfs.FilesystemAPI;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
+import com.jogamp.common.util.VersionNumber;
 
 public final class JOGLTestContext
 {
@@ -37,26 +38,11 @@ public final class JOGLTestContext
   static final String                    LOG_DESTINATION_OPENGL_ES_2_0;
   static final String                    LOG_DESTINATION_OPENGL_3_X;
   static final String                    LOG_DESTINATION_OPENGL_2_1;
-  static final PathVirtual               GLSL_110_SHADER_PATH;
-  static final PathVirtual               GLSL_130_SHADER_PATH;
-  static final PathVirtual               GLSL_ES_100_SHADER_PATH;
 
   static {
     LOG_DESTINATION_OPENGL_ES_2_0 = "jogl_es_2_0-test";
     LOG_DESTINATION_OPENGL_3_X = "jogl_3_x-test";
     LOG_DESTINATION_OPENGL_2_1 = "jogl_2_1-test";
-
-    try {
-      GLSL_130_SHADER_PATH =
-        new PathVirtual("/com/io7m/jcanephora/shaders/glsl130");
-      GLSL_110_SHADER_PATH =
-        new PathVirtual("/com/io7m/jcanephora/shaders/glsl110");
-      GLSL_ES_100_SHADER_PATH =
-        new PathVirtual("/com/io7m/jcanephora/shaders/glsles100");
-    } catch (final ConstraintError e) {
-      e.printStackTrace();
-      throw new UnreachableCodeException();
-    }
   }
 
   private static GLOffscreenAutoDrawable createOffscreenDrawable(
@@ -72,18 +58,6 @@ public final class JOGLTestContext
       f.createOffscreenAutoDrawable(null, cap, null, width, height, null);
 
     return k;
-  }
-
-  private static PathVirtual decideShaderPath(
-    final GLContext ctx)
-  {
-    final int major = ctx.getGLVersionNumber().getMajor();
-
-    if (major == 2) {
-      return JOGLTestContext.GLSL_110_SHADER_PATH;
-    }
-
-    return JOGLTestContext.GLSL_130_SHADER_PATH;
   }
 
   private static GLContext getContext(
@@ -156,11 +130,7 @@ public final class JOGLTestContext
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GLES2));
     final GLImplementation gi = new GLImplementationJOGL(ctx, log);
 
-    return new TestContext(
-      fs,
-      gi,
-      log,
-      JOGLTestContext.GLSL_ES_100_SHADER_PATH);
+    return new TestContext(fs, gi, log, ShaderPaths.getShaderPath(2, 0, true));
   }
 
   public static TestContext makeContextWithOpenGL3_X()
@@ -176,8 +146,10 @@ public final class JOGLTestContext
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GL3));
     final GLImplementation gi = new GLImplementationJOGL(ctx, log);
 
-    final PathVirtual shader_path = JOGLTestContext.decideShaderPath(ctx);
-
+    final VersionNumber version = ctx.getGLVersionNumber();
+    final PathVirtual shader_path =
+      ShaderPaths
+        .getShaderPath(version.getMajor(), version.getMinor(), false);
     return new TestContext(fs, gi, log, shader_path);
   }
 
@@ -194,8 +166,10 @@ public final class JOGLTestContext
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GL2));
     final GLImplementation gi = new GLImplementationJOGL(ctx, log);
 
-    final PathVirtual shader_path = JOGLTestContext.decideShaderPath(ctx);
-
+    final VersionNumber version = ctx.getGLVersionNumber();
+    final PathVirtual shader_path =
+      ShaderPaths
+        .getShaderPath(version.getMajor(), version.getMinor(), false);
     return new TestContext(fs, gi, log, shader_path);
   }
 

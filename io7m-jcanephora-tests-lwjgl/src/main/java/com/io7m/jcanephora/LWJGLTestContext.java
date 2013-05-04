@@ -87,23 +87,10 @@ public final class LWJGLTestContext
   static final String          LOG_DESTINATION_OPENGL_3_X;
   static final String          LOG_DESTINATION_OPENGL_2_1;
 
-  static final PathVirtual     GLSL_110_SHADER_PATH;
-  static final PathVirtual     GLSL_ES_100_SHADER_PATH;
-
   static {
     LOG_DESTINATION_OPENGL_ES_2_0 = "lwjgl_es_2_0-test";
     LOG_DESTINATION_OPENGL_3_X = "lwjgl_3_x-test";
     LOG_DESTINATION_OPENGL_2_1 = "lwjgl_2_1-test";
-
-    try {
-      GLSL_110_SHADER_PATH =
-        new PathVirtual("/com/io7m/jcanephora/shaders/glsl110");
-      GLSL_ES_100_SHADER_PATH =
-        new PathVirtual("/com/io7m/jcanephora/shaders/glsles100");
-    } catch (final ConstraintError e) {
-      e.printStackTrace();
-      throw new UnreachableCodeException();
-    }
   }
 
   private static Pbuffer       buffer = null;
@@ -250,11 +237,7 @@ public final class LWJGLTestContext
     final FilesystemAPI fs = LWJGLTestContext.getFS(log);
     final GLImplementation gi =
       LWJGLTestContext.makeImplementationWithOpenGL_ES2(log);
-    return new TestContext(
-      fs,
-      gi,
-      log,
-      LWJGLTestContext.GLSL_ES_100_SHADER_PATH);
+    return new TestContext(fs, gi, log, ShaderPaths.getShaderPath(2, 0, true));
   }
 
   public static TestContext makeContextWithOpenGL3_X()
@@ -267,7 +250,11 @@ public final class LWJGLTestContext
     final FilesystemAPI fs = LWJGLTestContext.getFS(log);
     final GLImplementation gi =
       LWJGLTestContext.makeImplementationWithOpenGL_3_X(log);
-    return new TestContext(fs, gi, log, LWJGLTestContext.GLSL_110_SHADER_PATH);
+    return new TestContext(
+      fs,
+      gi,
+      log,
+      ShaderPaths.getShaderPath(3, 0, false));
   }
 
   public static TestContext makeContextWithOpenGL21_X()
@@ -280,7 +267,11 @@ public final class LWJGLTestContext
     final FilesystemAPI fs = LWJGLTestContext.getFS(log);
     final GLImplementation gi =
       LWJGLTestContext.makeImplementationWithOpenGL_2_1(log);
-    return new TestContext(fs, gi, log, LWJGLTestContext.GLSL_110_SHADER_PATH);
+    return new TestContext(
+      fs,
+      gi,
+      log,
+      ShaderPaths.getShaderPath(2, 1, false));
   }
 
   public static GLImplementation makeImplementationWithOpenGL_3_X(
