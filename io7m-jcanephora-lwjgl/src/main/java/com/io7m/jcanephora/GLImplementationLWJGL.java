@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -45,33 +45,34 @@ public final class GLImplementationLWJGL implements GLImplementation
     return false;
   }
 
-  private static boolean isGLES3OrNewer(
+  private static boolean isGL2(
     final @Nonnull String version)
   {
-    if (GLES2Functions.metaVersionIsES(version)) {
+    if (GLES2Functions.metaVersionIsES(version) == false) {
       final Pair<Integer, Integer> p =
         GLES2Functions.metaParseVersion(version);
-      return p.first.intValue() >= 3;
+      return (p.first.intValue() == 2) && (p.second.intValue() == 1);
     }
 
     return false;
   }
 
-  private static boolean isOpenGL21OrNewer(
+  private static boolean isGL3(
     final @Nonnull String version)
   {
-    final Pair<Integer, Integer> p = GLES2Functions.metaParseVersion(version);
-
-    if (p.first.intValue() == 2) {
-      return p.second.intValue() == 1;
+    if (GLES2Functions.metaVersionIsES(version) == false) {
+      final Pair<Integer, Integer> p =
+        GLES2Functions.metaParseVersion(version);
+      return (p.first.intValue() >= 3) && (p.second.intValue() >= 0);
     }
 
-    return p.first.intValue() >= 3;
+    return false;
   }
 
   private final @Nonnull Log              log;
   private final @Nonnull GLInterfaceGLES2 gl_es2;
   private final @Nonnull GLInterfaceGL3   gl_3;
+  private final @Nonnull GLInterfaceGL2   gl_2;
 
   /**
    * Construct an implementation assuming that the LWJGL library has already
@@ -93,28 +94,67 @@ public final class GLImplementationLWJGL implements GLImplementation
       GLUnsupportedException
   {
     this.log =
-      new Log(Constraints.constrainNotNull(log, "log output"), "LWJGL30");
+      new Log(Constraints.constrainNotNull(log, "log output"), "lwjgl30");
 
-    final String version = GL11.glGetString(GL11.GL_VERSION);
-    log.debug("Context is " + version);
-
-    if (GLImplementationLWJGL.isGLES2(version)) {
-      log.debug("Creating GLES2 interface");
+    final String vs = GL11.glGetString(GL11.GL_VERSION);
+    if (GLImplementationLWJGL.isGLES2(vs)) {
+      log.debug("Context is GLES2 - creating GLES2 interface");
       this.gl_es2 = new GLInterfaceGLES2_LWJGL_ES2(log);
+      this.gl_2 = null;
       this.gl_3 = null;
       return;
     }
 
-    if (GLImplementationLWJGL.isGLES3OrNewer(version)
-      || GLImplementationLWJGL.isOpenGL21OrNewer(version)) {
-      log.debug("Creating OpenGL 3 interface");
+    if (GLImplementationLWJGL.isGL2(vs)) {
+      if (GLImplementationLWJGL
+        .isExtensionAvailable("ARB_framebuffer_object") == false) {
+        throw new GLUnsupportedException(
+          "Context supports OpenGL 2.1 but does not support the required ARB_framebuffer_object extension");
+      }
+      if (GLImplementationLWJGL
+        .isExtensionAvailable("EXT_framebuffer_object") == false) {
+        throw new GLUnsupportedException(
+          "Context supports OpenGL 2.1 but does not support the required EXT_framebuffer_object extension");
+      }
+      if (GLImplementationLWJGL
+        .isExtensionAvailable("EXT_framebuffer_multisample") == false) {
+        throw new GLUnsupportedException(
+          "Context supports OpenGL 2.1 but does not support the required EXT_framebuffer_multisample extension");
+      }
+      if (GLImplementationLWJGL.isExtensionAvailable("EXT_framebuffer_blit") == false) {
+        throw new GLUnsupportedException(
+          "Context supports OpenGL 2.1 but does not support the required EXT_framebuffer_blit extension");
+      }
+      if (GLImplementationLWJGL
+        .isExtensionAvailable("GL_EXT_packed_depth_stencil") == false) {
+        throw new GLUnsupportedException(
+          "Context supports OpenGL 2.1 but does not support the required GL_EXT_packed_depth_stencil extension");
+      }
+
+      log.debug("Context is GL2, creating OpenGL 2.1 interface");
+      this.gl_2 = new GLInterfaceGL2_LWJGL_GL2(log);
+      this.gl_3 = null;
+      this.gl_es2 = null;
+      return;
+    }
+
+    if (GLImplementationLWJGL.isGL3(vs)) {
+      log.debug("Context is GL3, creating OpenGL >= 3.1 interface");
       this.gl_3 = new GLInterfaceGL3_LWJGL_GL3(log);
+      this.gl_2 = null;
       this.gl_es2 = null;
       return;
     }
 
     throw new GLUnsupportedException(
       "At least OpenGL 2.1 or OpenGL ES2 is required");
+  }
+
+  private static boolean isExtensionAvailable(
+    final String name)
+  {
+    // XXX: Check for extensions in a portable way...
+    return true;
   }
 
   @Override public @Nonnull Option<GLInterfaceGL3> getGL3()
@@ -125,10 +165,21 @@ public final class GLImplementationLWJGL implements GLImplementation
     return new Option.None<GLInterfaceGL3>();
   }
 
+  @Override public @Nonnull Option<GLInterfaceGL2> getGL2()
+  {
+    if (this.gl_2 != null) {
+      return new Option.Some<GLInterfaceGL2>(this.gl_2);
+    }
+    return new Option.None<GLInterfaceGL2>();
+  }
+
   @Override public @Nonnull GLInterfaceCommon getGLCommon()
   {
     if (this.gl_es2 != null) {
       return this.gl_es2;
+    }
+    if (this.gl_2 != null) {
+      return this.gl_2;
     }
     if (this.gl_3 != null) {
       return this.gl_3;

@@ -26,16 +26,16 @@ public final class JOGL21DrawTest extends DrawContract
   @Override public @Nonnull GLDraw getGLDraw(
     final TestContext context)
   {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) context.getGLImplementation().getGL3();
+    final Some<GLInterfaceGL2> some =
+      (Some<GLInterfaceGL2>) context.getGLImplementation().getGL2();
     return some.value;
   }
 
   @Override public @Nonnull GLIndexBuffers getGLIndexBuffers(
     final TestContext context)
   {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) context.getGLImplementation().getGL3();
+    final Some<GLInterfaceGL2> some =
+      (Some<GLInterfaceGL2>) context.getGLImplementation().getGL2();
     return some.value;
   }
 

@@ -28,16 +28,16 @@ public final class JOGL21DepthBuffersTest extends DepthBuffersContract
   @Override public @Nonnull GLDepthBuffer getGLDepthBuffer(
     @Nonnull final TestContext tc)
   {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    final Some<GLInterfaceGL2> some =
+      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
     return some.value;
   }
 
   @Override public @Nonnull GLFramebuffersCommon getGLFramebuffers(
     @Nonnull final TestContext tc)
   {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    final Some<GLInterfaceGL2> some =
+      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
     return some.value;
   }
 
@@ -51,8 +51,8 @@ public final class JOGL21DepthBuffersTest extends DepthBuffersContract
     throws ConstraintError,
       GLException
   {
-    final Some<GLInterfaceGL3> some = (Some<GLInterfaceGL3>) gi.getGL3();
-    final GLInterfaceGL3 g = some.value;
+    final Some<GLInterfaceGL2> some = (Some<GLInterfaceGL2>) gi.getGL2();
+    final GLInterfaceGL2 g = some.value;
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
     final FramebufferReference fb = g.framebufferAllocate();
@@ -93,8 +93,8 @@ public final class JOGL21DepthBuffersTest extends DepthBuffersContract
     throws ConstraintError,
       GLException
   {
-    final Some<GLInterfaceGL3> some = (Some<GLInterfaceGL3>) gi.getGL3();
-    final GLInterfaceGL3 g = some.value;
+    final Some<GLInterfaceGL2> some = (Some<GLInterfaceGL2>) gi.getGL2();
+    final GLInterfaceGL2 g = some.value;
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
     final FramebufferReference fb = g.framebufferAllocate();

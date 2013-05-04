@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -27,16 +27,16 @@ public final class JOGL21Texture2DStaticTest extends
   @Override public GLTextures2DStaticGL3 getGLTexture2DStaticGL3(
     final TestContext tc)
   {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    final Some<GLInterfaceGL2> some =
+      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
     return some.value;
   }
 
   @Override public GLTextureUnits getGLTextureUnits(
     final TestContext tc)
   {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    final Some<GLInterfaceGL2> some =
+      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
     return some.value;
   }
 

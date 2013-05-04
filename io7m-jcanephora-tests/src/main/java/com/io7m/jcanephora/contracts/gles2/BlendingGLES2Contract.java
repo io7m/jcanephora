@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -31,6 +31,7 @@ import com.io7m.jcanephora.BlendFunction;
 import com.io7m.jcanephora.GLBlendingCommon;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLImplementation;
+import com.io7m.jcanephora.GLInterfaceGL2;
 import com.io7m.jcanephora.GLInterfaceGL3;
 import com.io7m.jcanephora.GLInterfaceGLES2;
 import com.io7m.jcanephora.GLUnsupportedException;
@@ -53,6 +54,19 @@ public abstract class BlendingGLES2Contract implements TestContract
       case OPTION_SOME:
       {
         final Some<GLInterfaceGL3> some = (Option.Some<GLInterfaceGL3>) opt3;
+        return some.value;
+      }
+    }
+
+    final Option<GLInterfaceGL2> opt2 = gi.getGL2();
+    switch (opt2.type) {
+      case OPTION_NONE:
+      {
+        break;
+      }
+      case OPTION_SOME:
+      {
+        final Some<GLInterfaceGL2> some = (Option.Some<GLInterfaceGL2>) opt2;
         return some.value;
       }
     }

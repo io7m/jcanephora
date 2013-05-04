@@ -26,8 +26,8 @@ public final class JOGL21TextureLoaderImageIOTest extends
   @Override public GLTextures2DStaticCommon getGLTextures2DStaticCommon(
     final TestContext tc)
   {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    final Some<GLInterfaceGL2> some =
+      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
     return some.value;
   }
 

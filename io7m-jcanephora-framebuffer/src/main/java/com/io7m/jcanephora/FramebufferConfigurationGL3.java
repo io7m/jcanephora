@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -48,10 +48,13 @@ public interface FramebufferConfigurationGL3
    *           Iff an OpenGL error occurs.
    */
 
-  @Nonnull Indeterminate<Framebuffer, FramebufferStatus> make(
-    @Nonnull GLInterfaceGL3 gl)
-    throws GLException,
-      ConstraintError;
+  @Nonnull
+    <G extends GLFramebuffersGL3 & GLTextures2DStaticGL3 & GLTexturesCubeStaticGL2 & GLRenderbuffersGL3>
+    Indeterminate<Framebuffer, FramebufferStatus>
+    make(
+      @Nonnull G gl)
+      throws GLException,
+        ConstraintError;
 
   /**
    * <p>
