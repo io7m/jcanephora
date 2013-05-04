@@ -82,21 +82,21 @@ public final class GLImplementationLWJGL implements GLImplementation
     final @Nonnull Set<String> extensions)
     throws GLUnsupportedException
   {
-    if (extensions.contains("ARB_framebuffer_object") == false) {
+    if (extensions.contains("GL_ARB_framebuffer_object") == false) {
       log
-        .debug("ARB_framebuffer_object not supported, checking for EXT extensions");
+        .debug("GL_ARB_framebuffer_object not supported, checking for EXT extensions");
 
-      if (extensions.contains("EXT_framebuffer_object") == false) {
+      if (extensions.contains("GL_EXT_framebuffer_object") == false) {
         throw new GLUnsupportedException(
-          "Context supports OpenGL 2.1 but does not support the required EXT_framebuffer_object extension");
+          "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_object extension");
       }
-      if (extensions.contains("EXT_framebuffer_multisample") == false) {
+      if (extensions.contains("GL_EXT_framebuffer_multisample") == false) {
         throw new GLUnsupportedException(
-          "Context supports OpenGL 2.1 but does not support the required EXT_framebuffer_multisample extension");
+          "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_multisample extension");
       }
-      if (extensions.contains("EXT_framebuffer_blit") == false) {
+      if (extensions.contains("GL_EXT_framebuffer_blit") == false) {
         throw new GLUnsupportedException(
-          "Context supports OpenGL 2.1 but does not support the required EXT_framebuffer_blit extension");
+          "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_blit extension");
       }
       if (extensions.contains("GL_EXT_packed_depth_stencil") == false) {
         throw new GLUnsupportedException(
