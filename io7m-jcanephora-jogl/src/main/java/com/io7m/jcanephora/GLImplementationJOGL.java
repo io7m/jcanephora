@@ -79,21 +79,21 @@ public final class GLImplementationJOGL implements GLImplementation
          * what was missing.
          */
 
-        if (context.isExtensionAvailable("ARB_framebuffer_object") == false) {
+        if (context.isExtensionAvailable("GL_ARB_framebuffer_object") == false) {
           throw new GLUnsupportedException(
-            "Context supports OpenGL 2.1 but does not support the required ARB_framebuffer_object extension");
+            "Context supports OpenGL 2.1 but does not support the required GL_ARB_framebuffer_object extension");
         }
-        if (context.isExtensionAvailable("EXT_framebuffer_object") == false) {
+        if (context.isExtensionAvailable("GL_EXT_framebuffer_object") == false) {
           throw new GLUnsupportedException(
-            "Context supports OpenGL 2.1 but does not support the required EXT_framebuffer_object extension");
+            "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_object extension");
         }
-        if (context.isExtensionAvailable("EXT_framebuffer_multisample") == false) {
+        if (context.isExtensionAvailable("GL_EXT_framebuffer_multisample") == false) {
           throw new GLUnsupportedException(
-            "Context supports OpenGL 2.1 but does not support the required EXT_framebuffer_multisample extension");
+            "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_multisample extension");
         }
-        if (context.isExtensionAvailable("EXT_framebuffer_blit") == false) {
+        if (context.isExtensionAvailable("GL_EXT_framebuffer_blit") == false) {
           throw new GLUnsupportedException(
-            "Context supports OpenGL 2.1 but does not support the required EXT_framebuffer_blit extension");
+            "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_blit extension");
         }
         if (context.isExtensionAvailable("GL_EXT_packed_depth_stencil") == false) {
           throw new GLUnsupportedException(
