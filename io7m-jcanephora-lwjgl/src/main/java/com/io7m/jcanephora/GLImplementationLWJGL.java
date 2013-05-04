@@ -16,6 +16,9 @@
 
 package com.io7m.jcanephora;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import javax.annotation.Nonnull;
 
 import org.lwjgl.opengl.GL11;
@@ -97,6 +100,7 @@ public final class GLImplementationLWJGL implements GLImplementation
       new Log(Constraints.constrainNotNull(log, "log output"), "lwjgl30");
 
     final String vs = GL11.glGetString(GL11.GL_VERSION);
+
     if (GLImplementationLWJGL.isGLES2(vs)) {
       log.debug("Context is GLES2 - creating GLES2 interface");
       this.gl_es2 = new GLInterfaceGLES2_LWJGL_ES2(log);
@@ -106,27 +110,25 @@ public final class GLImplementationLWJGL implements GLImplementation
     }
 
     if (GLImplementationLWJGL.isGL2(vs)) {
-      if (GLImplementationLWJGL
-        .isExtensionAvailable("ARB_framebuffer_object") == false) {
+      final Set<String> es = GLImplementationLWJGL.getExtensionsGL21_30();
+
+      if (es.contains("ARB_framebuffer_object") == false) {
         throw new GLUnsupportedException(
           "Context supports OpenGL 2.1 but does not support the required ARB_framebuffer_object extension");
       }
-      if (GLImplementationLWJGL
-        .isExtensionAvailable("EXT_framebuffer_object") == false) {
+      if (es.contains("EXT_framebuffer_object") == false) {
         throw new GLUnsupportedException(
           "Context supports OpenGL 2.1 but does not support the required EXT_framebuffer_object extension");
       }
-      if (GLImplementationLWJGL
-        .isExtensionAvailable("EXT_framebuffer_multisample") == false) {
+      if (es.contains("EXT_framebuffer_multisample") == false) {
         throw new GLUnsupportedException(
           "Context supports OpenGL 2.1 but does not support the required EXT_framebuffer_multisample extension");
       }
-      if (GLImplementationLWJGL.isExtensionAvailable("EXT_framebuffer_blit") == false) {
+      if (es.contains("EXT_framebuffer_blit") == false) {
         throw new GLUnsupportedException(
           "Context supports OpenGL 2.1 but does not support the required EXT_framebuffer_blit extension");
       }
-      if (GLImplementationLWJGL
-        .isExtensionAvailable("GL_EXT_packed_depth_stencil") == false) {
+      if (es.contains("GL_EXT_packed_depth_stencil") == false) {
         throw new GLUnsupportedException(
           "Context supports OpenGL 2.1 but does not support the required GL_EXT_packed_depth_stencil extension");
       }
@@ -150,11 +152,17 @@ public final class GLImplementationLWJGL implements GLImplementation
       "At least OpenGL 2.1 or OpenGL ES2 is required");
   }
 
-  private static boolean isExtensionAvailable(
-    final String name)
+  private static Set<String> getExtensionsGL21_30()
   {
-    // XXX: Check for extensions in a portable way...
-    return true;
+    final String eraw = GL11.glGetString(GL11.GL_EXTENSIONS);
+    final String[] exts = eraw.split(" ");
+    final TreeSet<String> ext_set = new TreeSet<String>();
+
+    for (final String e : exts) {
+      ext_set.add(e);
+    }
+
+    return ext_set;
   }
 
   @Override public @Nonnull Option<GLInterfaceGL3> getGL3()
