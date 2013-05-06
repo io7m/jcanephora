@@ -8,7 +8,7 @@
   <artifactId>io7m-jcanephora-examples-jogl</artifactId>
   <name>io7m-jcanephora-examples-jogl</name>
   <description>JOGL frontends to example code</description>
-  <version>1.0.0</version>
+  <version>0.9.0</version>
   <url>http://mvn.io7m.com/jcanephora-examples-jogl</url>
   <packaging>jar</packaging>
 
@@ -55,17 +55,17 @@
     <dependency>
       <groupId>com.io7m.jcanephora.core</groupId>
       <artifactId>io7m-jcanephora-core</artifactId>
-      <version>1.0.0</version>
+      <version>0.9.0</version>
     </dependency>
     <dependency>
       <groupId>com.io7m.jcanephora.jogl</groupId>
       <artifactId>io7m-jcanephora-jogl</artifactId>
-      <version>1.0.0</version>
+      <version>0.9.0</version>
     </dependency>
     <dependency>
       <groupId>com.io7m.jcanephora.examples</groupId>
       <artifactId>io7m-jcanephora-examples</artifactId>
-      <version>1.0.0</version>
+      <version>0.9.0</version>
     </dependency>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
