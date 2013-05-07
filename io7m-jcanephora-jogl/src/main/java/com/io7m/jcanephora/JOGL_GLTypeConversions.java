@@ -23,7 +23,7 @@ import javax.media.opengl.GL2GL3;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.GLType.Type;
 
-final class GLTypeConversions
+final class JOGL_GLTypeConversions
 {
   static final @Nonnull BlendEquationGLES2 blendEquationES2FromGL(
     final int e)

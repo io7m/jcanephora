@@ -29,14 +29,14 @@ public final class JOGLES2FaceSelectionTest
   @SuppressWarnings("static-method") @Test public void testFaceBijection()
   {
     for (final FaceSelection f : FaceSelection.values()) {
-      Assert.assertEquals(GLTypeConversions
-        .faceSelectionFromGL(GLTypeConversions.faceSelectionToGL(f)), f);
+      Assert.assertEquals(JOGL_GLTypeConversions
+        .faceSelectionFromGL(JOGL_GLTypeConversions.faceSelectionToGL(f)), f);
     }
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLTypeConversions.faceSelectionFromGL(-1);
+    JOGL_GLTypeConversions.faceSelectionFromGL(-1);
   }
 }

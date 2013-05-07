@@ -32,8 +32,8 @@ public class JOGL21TextureFilterTest
   {
     for (final TextureFilterMagnification f : TextureFilterMagnification
       .values()) {
-      Assert.assertEquals(f, GLTypeConversions
-        .textureFilterMagFromGL(GLTypeConversions.textureFilterMagToGL(f)));
+      Assert.assertEquals(f, JOGL_GLTypeConversions
+        .textureFilterMagFromGL(JOGL_GLTypeConversions.textureFilterMagToGL(f)));
     }
   }
 
@@ -47,20 +47,20 @@ public class JOGL21TextureFilterTest
   {
     for (final TextureFilterMinification f : TextureFilterMinification
       .values()) {
-      Assert.assertEquals(f, GLTypeConversions
-        .textureFilterMinFromGL(GLTypeConversions.textureFilterMinToGL(f)));
+      Assert.assertEquals(f, JOGL_GLTypeConversions
+        .textureFilterMinFromGL(JOGL_GLTypeConversions.textureFilterMinToGL(f)));
     }
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testMagNonsense()
   {
-    GLTypeConversions.textureFilterMagFromGL(-1);
+    JOGL_GLTypeConversions.textureFilterMagFromGL(-1);
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testMinNonsense()
   {
-    GLTypeConversions.textureFilterMinFromGL(-1);
+    JOGL_GLTypeConversions.textureFilterMinFromGL(-1);
   }
 }

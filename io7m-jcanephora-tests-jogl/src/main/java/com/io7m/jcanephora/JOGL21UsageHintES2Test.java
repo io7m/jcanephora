@@ -35,7 +35,7 @@ public class JOGL21UsageHintES2Test
 
       for (final UsageHint h : hints) {
         Assert.assertEquals(
-          GLTypeConversions.usageHintFromGL(GLTypeConversions
+          JOGL_GLTypeConversions.usageHintFromGL(JOGL_GLTypeConversions
             .usageHintES2ToGL(h)),
           UsageHint.USAGE_DYNAMIC_DRAW);
       }
@@ -50,7 +50,7 @@ public class JOGL21UsageHintES2Test
 
       for (final UsageHint h : hints) {
         Assert.assertEquals(
-          GLTypeConversions.usageHintFromGL(GLTypeConversions
+          JOGL_GLTypeConversions.usageHintFromGL(JOGL_GLTypeConversions
             .usageHintES2ToGL(h)),
           UsageHint.USAGE_STATIC_DRAW);
       }
@@ -65,7 +65,7 @@ public class JOGL21UsageHintES2Test
 
       for (final UsageHint h : hints) {
         Assert.assertEquals(
-          GLTypeConversions.usageHintFromGL(GLTypeConversions
+          JOGL_GLTypeConversions.usageHintFromGL(JOGL_GLTypeConversions
             .usageHintES2ToGL(h)),
           UsageHint.USAGE_STREAM_DRAW);
       }

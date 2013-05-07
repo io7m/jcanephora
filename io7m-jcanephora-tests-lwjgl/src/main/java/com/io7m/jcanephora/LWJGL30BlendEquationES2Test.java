@@ -31,7 +31,7 @@ public final class LWJGL30BlendEquationES2Test
     for (final BlendEquationGLES2 f : BlendEquationGLES2.values()) {
       Assert
         .assertEquals(
-          GLTypeConversions.blendEquationES2FromGL(GLTypeConversions
+          LWJGL_GLTypeConversions.blendEquationES2FromGL(LWJGL_GLTypeConversions
             .blendEquationES2ToGL(f)),
           f);
     }
@@ -40,6 +40,6 @@ public final class LWJGL30BlendEquationES2Test
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLTypeConversions.blendEquationES2FromGL(-1);
+    LWJGL_GLTypeConversions.blendEquationES2FromGL(-1);
   }
 }

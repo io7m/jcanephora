@@ -77,7 +77,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws GLException,
         ConstraintError
     {
-      GLES2Functions.framebufferDrawAttachDepthStencilRenderbuffer(
+      JOGL_GLES2Functions.framebufferDrawAttachDepthStencilRenderbuffer(
         GLInterfaceGLES2_JOGL_ES2.this.contextGetGLES2(),
         GLInterfaceGLES2_JOGL_ES2.this.state,
         GLInterfaceGLES2_JOGL_ES2.this.log,
@@ -93,7 +93,7 @@ import com.io7m.jtensors.VectorReadable4F;
         throws ConstraintError,
           GLException
     {
-      return Renderbuffer.unsafeBrandDepthStencil(GLES2Functions
+      return Renderbuffer.unsafeBrandDepthStencil(JOGL_GLES2Functions
         .renderbufferAllocate(
           GLInterfaceGLES2_JOGL_ES2.this.contextGetGLES2(),
           GLInterfaceGLES2_JOGL_ES2.this.state,
@@ -161,14 +161,14 @@ import com.io7m.jtensors.VectorReadable4F;
      */
 
     this.state.texture_units =
-      GLES2Functions.textureGetUnitsActual(g, this.state, this.log);
+      JOGL_GLES2Functions.textureGetUnitsActual(g, this.state, this.log);
 
     /**
      * Initialize color attachment point cache.
      */
 
     this.state.color_attachments =
-      GLES2Functions.framebufferGetAttachmentPointsActual(
+      JOGL_GLES2Functions.framebufferGetAttachmentPointsActual(
         g,
         this.state,
         this.log);
@@ -193,7 +193,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    return GLES2Functions.arrayBufferAllocate(
+    return JOGL_GLES2Functions.arrayBufferAllocate(
       this.contextGetGLES2(),
       this.log,
       this.state,
@@ -207,7 +207,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.arrayBufferBind(this.contextGetGLES2(), buffer);
+    JOGL_GLES2Functions.arrayBufferBind(this.contextGetGLES2(), buffer);
   }
 
   @Override public void arrayBufferBindVertexAttribute(
@@ -217,7 +217,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.arrayBufferBindVertexAttribute(
+    JOGL_GLES2Functions.arrayBufferBindVertexAttribute(
       this.contextGetGLES2(),
       buffer,
       buffer_attribute,
@@ -229,7 +229,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.arrayBufferDelete(
+    JOGL_GLES2Functions.arrayBufferDelete(
       this.contextGetGLES2(),
       this.log,
       this.state,
@@ -241,14 +241,14 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return GLES2Functions.arrayBufferIsBound(this.contextGetGLES2(), id);
+    return JOGL_GLES2Functions.arrayBufferIsBound(this.contextGetGLES2(), id);
   }
 
   @Override public void arrayBufferUnbind()
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.arrayBufferUnbind(this.contextGetGLES2());
+    JOGL_GLES2Functions.arrayBufferUnbind(this.contextGetGLES2());
   }
 
   @Override public void arrayBufferUnbindVertexAttribute(
@@ -258,7 +258,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.arrayBufferUnbindVertexAttribute(
+    JOGL_GLES2Functions.arrayBufferUnbindVertexAttribute(
       this.contextGetGLES2(),
       buffer,
       buffer_attribute,
@@ -271,13 +271,13 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.arrayBufferUpdate(this.contextGetGLES2(), buffer, data);
+    JOGL_GLES2Functions.arrayBufferUpdate(this.contextGetGLES2(), buffer, data);
   }
 
   @Override public void blendingDisable()
     throws GLException
   {
-    GLES2Functions.blendingDisable(this.contextGetGLES2());
+    JOGL_GLES2Functions.blendingDisable(this.contextGetGLES2());
   }
 
   @Override public void blendingEnable(
@@ -286,7 +286,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.blendingEnable(
+    JOGL_GLES2Functions.blendingEnable(
       this.contextGetGLES2(),
       source_factor,
       destination_factor);
@@ -300,7 +300,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.blendingEnableSeparate(
+    JOGL_GLES2Functions.blendingEnableSeparate(
       this.contextGetGLES2(),
       source_rgb_factor,
       source_alpha_factor,
@@ -318,7 +318,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.blendingEnableSeparateWithEquationSeparateES2(
+    JOGL_GLES2Functions.blendingEnableSeparateWithEquationSeparateES2(
       this.contextGetGLES2(),
       source_rgb_factor,
       source_alpha_factor,
@@ -335,7 +335,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.blendingEnableWithEquationES2(
+    JOGL_GLES2Functions.blendingEnableWithEquationES2(
       this.contextGetGLES2(),
       source_factor,
       destination_factor,
@@ -350,7 +350,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.blendingEnableWithEquationSeparateES2(
+    JOGL_GLES2Functions.blendingEnableWithEquationSeparateES2(
       this.contextGetGLES2(),
       source_factor,
       destination_factor,
@@ -362,7 +362,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return GLES2Functions.blendingIsEnabled(
+    return JOGL_GLES2Functions.blendingIsEnabled(
       this.contextGetGLES2(),
       this.state);
   }
@@ -374,7 +374,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.colorBufferClear3f(this.contextGetGLES2(), r, g, b);
+    JOGL_GLES2Functions.colorBufferClear3f(this.contextGetGLES2(), r, g, b);
   }
 
   @Override public void colorBufferClear4f(
@@ -385,7 +385,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.colorBufferClear4f(this.contextGetGLES2(), r, g, b, a);
+    JOGL_GLES2Functions.colorBufferClear4f(this.contextGetGLES2(), r, g, b, a);
   }
 
   @Override public void colorBufferClearV3f(
@@ -393,7 +393,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.colorBufferClearV3f(this.contextGetGLES2(), color);
+    JOGL_GLES2Functions.colorBufferClearV3f(this.contextGetGLES2(), color);
   }
 
   @Override public void colorBufferClearV4f(
@@ -401,7 +401,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.colorBufferClearV4f(this.contextGetGLES2(), color);
+    JOGL_GLES2Functions.colorBufferClearV4f(this.contextGetGLES2(), color);
   }
 
   @Override public void colorBufferMask(
@@ -412,13 +412,13 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.colorBufferMask(this.contextGetGLES2(), r, g, b, a);
+    JOGL_GLES2Functions.colorBufferMask(this.contextGetGLES2(), r, g, b, a);
   }
 
   @Override public boolean colorBufferMaskStatusAlpha()
     throws GLException
   {
-    return GLES2Functions.colorBufferMaskStatusAlpha(
+    return JOGL_GLES2Functions.colorBufferMaskStatusAlpha(
       this.contextGetGLES2(),
       this.state);
   }
@@ -426,7 +426,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public boolean colorBufferMaskStatusBlue()
     throws GLException
   {
-    return GLES2Functions.colorBufferMaskStatusBlue(
+    return JOGL_GLES2Functions.colorBufferMaskStatusBlue(
       this.contextGetGLES2(),
       this.state);
   }
@@ -434,7 +434,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public boolean colorBufferMaskStatusGreen()
     throws GLException
   {
-    return GLES2Functions.colorBufferMaskStatusGreen(
+    return JOGL_GLES2Functions.colorBufferMaskStatusGreen(
       this.contextGetGLES2(),
       this.state);
   }
@@ -442,7 +442,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public boolean colorBufferMaskStatusRed()
     throws GLException
   {
-    return GLES2Functions.colorBufferMaskStatusRed(
+    return JOGL_GLES2Functions.colorBufferMaskStatusRed(
       this.contextGetGLES2(),
       this.state);
   }
@@ -455,7 +455,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public void cullingDisable()
     throws GLException
   {
-    GLES2Functions.cullingDisable(this.contextGetGLES2());
+    JOGL_GLES2Functions.cullingDisable(this.contextGetGLES2());
   }
 
   @Override public void cullingEnable(
@@ -464,13 +464,13 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.cullingEnable(this.contextGetGLES2(), faces, order);
+    JOGL_GLES2Functions.cullingEnable(this.contextGetGLES2(), faces, order);
   }
 
   @Override public boolean cullingIsEnabled()
     throws GLException
   {
-    return GLES2Functions.cullingIsEnabled(this.contextGetGLES2());
+    return JOGL_GLES2Functions.cullingIsEnabled(this.contextGetGLES2());
   }
 
   @Override public void depthBufferClear(
@@ -478,14 +478,14 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions
+    JOGL_GLES2Functions
       .depthBufferClear(this.contextGetGLES2(), this.state, depth);
   }
 
   @Override public void depthBufferDisable()
     throws GLException
   {
-    GLES2Functions.depthBufferDisable(this.contextGetGLES2());
+    JOGL_GLES2Functions.depthBufferDisable(this.contextGetGLES2());
   }
 
   @Override public void depthBufferEnable(
@@ -493,7 +493,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.depthBufferEnable(
+    JOGL_GLES2Functions.depthBufferEnable(
       this.contextGetGLES2(),
       this.state,
       function);
@@ -502,7 +502,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public int depthBufferGetBits()
     throws GLException
   {
-    return GLES2Functions.depthBufferGetBits(
+    return JOGL_GLES2Functions.depthBufferGetBits(
       this.contextGetGLES2(),
       this.state);
   }
@@ -510,14 +510,14 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public boolean depthBufferIsEnabled()
     throws GLException
   {
-    return GLES2Functions.depthBufferIsEnabled(this.contextGetGLES2());
+    return JOGL_GLES2Functions.depthBufferIsEnabled(this.contextGetGLES2());
   }
 
   @Override public void depthBufferWriteDisable()
     throws ConstraintError,
       GLException
   {
-    GLES2Functions
+    JOGL_GLES2Functions
       .depthBufferWriteDisable(this.contextGetGLES2(), this.state);
   }
 
@@ -525,13 +525,13 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.depthBufferWriteEnable(this.contextGetGLES2(), this.state);
+    JOGL_GLES2Functions.depthBufferWriteEnable(this.contextGetGLES2(), this.state);
   }
 
   @Override public boolean depthBufferWriteIsEnabled()
     throws GLException
   {
-    return GLES2Functions.depthBufferWriteIsEnabled(
+    return JOGL_GLES2Functions.depthBufferWriteIsEnabled(
       this.contextGetGLES2(),
       this.state);
   }
@@ -542,7 +542,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.drawElements(this.contextGetGLES2(), mode, indices);
+    JOGL_GLES2Functions.drawElements(this.contextGetGLES2(), mode, indices);
   }
 
   @Override public boolean errorCodeIsInvalidOperation(
@@ -580,7 +580,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.fragmentShaderAttach(
+    JOGL_GLES2Functions.fragmentShaderAttach(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -596,7 +596,7 @@ import com.io7m.jtensors.VectorReadable4F;
       IOException,
       GLException
   {
-    return GLES2Functions.fragmentShaderCompile(
+    return JOGL_GLES2Functions.fragmentShaderCompile(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -609,7 +609,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.fragmentShaderDelete(
+    JOGL_GLES2Functions.fragmentShaderDelete(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -620,7 +620,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    return GLES2Functions.framebufferAllocate(
+    return JOGL_GLES2Functions.framebufferAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log);
@@ -631,7 +631,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.framebufferDelete(
+    JOGL_GLES2Functions.framebufferDelete(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -642,7 +642,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    return GLES2Functions.framebufferDrawAnyIsBound(this.contextGetGLES2());
+    return JOGL_GLES2Functions.framebufferDrawAnyIsBound(this.contextGetGLES2());
   }
 
   @Override public void framebufferDrawAttachColorRenderbuffer(
@@ -651,7 +651,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.framebufferDrawAttachColorRenderbuffer(
+    JOGL_GLES2Functions.framebufferDrawAttachColorRenderbuffer(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -665,7 +665,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.framebufferDrawAttachColorTexture2D(
+    JOGL_GLES2Functions.framebufferDrawAttachColorTexture2D(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -680,7 +680,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.framebufferDrawAttachColorTextureCube(
+    JOGL_GLES2Functions.framebufferDrawAttachColorTextureCube(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -695,7 +695,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.framebufferDrawAttachDepthRenderbuffer(
+    JOGL_GLES2Functions.framebufferDrawAttachDepthRenderbuffer(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -709,7 +709,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.framebufferDrawAttachDepthTexture2D(
+    JOGL_GLES2Functions.framebufferDrawAttachDepthTexture2D(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -723,7 +723,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.framebufferDrawAttachStencilRenderbuffer(
+    JOGL_GLES2Functions.framebufferDrawAttachStencilRenderbuffer(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -736,7 +736,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.framebufferDrawBind(this.contextGetGLES2(), framebuffer);
+    JOGL_GLES2Functions.framebufferDrawBind(this.contextGetGLES2(), framebuffer);
   }
 
   @Override public boolean framebufferDrawIsBound(
@@ -744,7 +744,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    return GLES2Functions.framebufferDrawIsBound(
+    return JOGL_GLES2Functions.framebufferDrawIsBound(
       this.contextGetGLES2(),
       framebuffer);
   }
@@ -753,7 +753,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.framebufferDrawUnbind(this.contextGetGLES2());
+    JOGL_GLES2Functions.framebufferDrawUnbind(this.contextGetGLES2());
   }
 
   @Override public @Nonnull FramebufferStatus framebufferDrawValidate(
@@ -761,7 +761,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    return GLES2Functions.framebufferDrawValidate(
+    return JOGL_GLES2Functions.framebufferDrawValidate(
       this.contextGetGLES2(),
       framebuffer);
   }
@@ -790,7 +790,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    return GLES2Functions.indexBufferAllocate(
+    return JOGL_GLES2Functions.indexBufferAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -804,7 +804,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    return GLES2Functions.indexBufferAllocateType(
+    return JOGL_GLES2Functions.indexBufferAllocateType(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -817,7 +817,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.indexBufferDelete(
+    JOGL_GLES2Functions.indexBufferDelete(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -830,46 +830,46 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.indexBufferUpdate(this.contextGetGLES2(), buffer, data);
+    JOGL_GLES2Functions.indexBufferUpdate(this.contextGetGLES2(), buffer, data);
   }
 
   @Override public int metaGetError()
     throws GLException
   {
-    return GLES2Functions.metaGetError(this.contextGetGLES2());
+    return JOGL_GLES2Functions.metaGetError(this.contextGetGLES2());
   }
 
   @Override public String metaGetRenderer()
     throws GLException
   {
-    return GLES2Functions.metaGetRenderer(this.contextGetGLES2());
+    return JOGL_GLES2Functions.metaGetRenderer(this.contextGetGLES2());
   }
 
   @Override public String metaGetVendor()
     throws GLException
   {
-    return GLES2Functions.metaGetVendor(this.contextGetGLES2());
+    return JOGL_GLES2Functions.metaGetVendor(this.contextGetGLES2());
   }
 
   @Override public String metaGetVersion()
     throws GLException
   {
-    return GLES2Functions.metaGetVersion(this.contextGetGLES2());
+    return JOGL_GLES2Functions.metaGetVersion(this.contextGetGLES2());
   }
 
   @Override public int metaGetVersionMajor()
   {
-    return GLES2Functions.metaGetVersionMajor(this.contextGetGLES2());
+    return JOGL_GLES2Functions.metaGetVersionMajor(this.contextGetGLES2());
   }
 
   @Override public int metaGetVersionMinor()
   {
-    return GLES2Functions.metaGetVersionMinor(this.contextGetGLES2());
+    return JOGL_GLES2Functions.metaGetVersionMinor(this.contextGetGLES2());
   }
 
   @Override public boolean metaIsES()
   {
-    return GLES2Functions.metaIsES(this.contextGetGLES2());
+    return JOGL_GLES2Functions.metaIsES(this.contextGetGLES2());
   }
 
   @Override public int pointGetMaximumWidth()
@@ -903,7 +903,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return GLES2Functions.programCreate(
+    return JOGL_GLES2Functions.programCreate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -913,7 +913,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public void programDeactivate()
     throws GLException
   {
-    GLES2Functions.programDeactivate(this.contextGetGLES2());
+    JOGL_GLES2Functions.programDeactivate(this.contextGetGLES2());
   }
 
   @Override public void programDelete(
@@ -921,7 +921,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.programDelete(
+    JOGL_GLES2Functions.programDelete(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -934,7 +934,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.programGetAttributes(
+    JOGL_GLES2Functions.programGetAttributes(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -945,7 +945,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public int programGetMaximumActiveAttributes()
     throws GLException
   {
-    return GLES2Functions.programGetMaximumActiveAttributes(
+    return JOGL_GLES2Functions.programGetMaximumActiveAttributes(
       this.contextGetGLES2(),
       this.state,
       this.log);
@@ -957,7 +957,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.programGetUniforms(
+    JOGL_GLES2Functions.programGetUniforms(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -970,7 +970,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return GLES2Functions.programIsActive(
+    return JOGL_GLES2Functions.programIsActive(
       this.contextGetGLES2(),
       this.state,
       program);
@@ -982,7 +982,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLCompileException,
       GLException
   {
-    GLES2Functions.programLink(
+    JOGL_GLES2Functions.programLink(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -995,7 +995,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.programPutUniformFloat(
+    JOGL_GLES2Functions.programPutUniformFloat(
       this.contextGetGLES2(),
       this.state,
       uniform,
@@ -1008,7 +1008,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.programPutUniformMatrix3x3f(
+    JOGL_GLES2Functions.programPutUniformMatrix3x3f(
       this.contextGetGLES2(),
       this.state,
       uniform,
@@ -1021,7 +1021,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.programPutUniformMatrix4x4f(
+    JOGL_GLES2Functions.programPutUniformMatrix4x4f(
       this.contextGetGLES2(),
       this.state,
       uniform,
@@ -1034,7 +1034,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.programPutUniformTextureUnit(
+    JOGL_GLES2Functions.programPutUniformTextureUnit(
       this.contextGetGLES2(),
       this.state,
       uniform,
@@ -1047,7 +1047,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.programPutUniformVector2f(
+    JOGL_GLES2Functions.programPutUniformVector2f(
       this.contextGetGLES2(),
       this.state,
       uniform,
@@ -1060,7 +1060,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.programPutUniformVector2i(
+    JOGL_GLES2Functions.programPutUniformVector2i(
       this.contextGetGLES2(),
       this.state,
       uniform,
@@ -1073,7 +1073,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.programPutUniformVector3f(
+    JOGL_GLES2Functions.programPutUniformVector3f(
       this.contextGetGLES2(),
       this.state,
       uniform,
@@ -1086,7 +1086,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.programPutUniformVector4f(
+    JOGL_GLES2Functions.programPutUniformVector4f(
       this.contextGetGLES2(),
       this.state,
       uniform,
@@ -1101,7 +1101,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return Renderbuffer.unsafeBrandDepth(GLES2Functions.renderbufferAllocate(
+    return Renderbuffer.unsafeBrandDepth(JOGL_GLES2Functions.renderbufferAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1118,7 +1118,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return Renderbuffer.unsafeBrandColor(GLES2Functions.renderbufferAllocate(
+    return Renderbuffer.unsafeBrandColor(JOGL_GLES2Functions.renderbufferAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1135,7 +1135,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return Renderbuffer.unsafeBrandColor(GLES2Functions.renderbufferAllocate(
+    return Renderbuffer.unsafeBrandColor(JOGL_GLES2Functions.renderbufferAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1152,7 +1152,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return Renderbuffer.unsafeBrandColor(GLES2Functions.renderbufferAllocate(
+    return Renderbuffer.unsafeBrandColor(JOGL_GLES2Functions.renderbufferAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1169,7 +1169,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return Renderbuffer.unsafeBrandStencil(GLES2Functions
+    return Renderbuffer.unsafeBrandStencil(JOGL_GLES2Functions
       .renderbufferAllocate(
         this.contextGetGLES2(),
         this.state,
@@ -1184,7 +1184,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.renderbufferDelete(
+    JOGL_GLES2Functions.renderbufferDelete(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1194,7 +1194,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public void scissorDisable()
     throws GLException
   {
-    GLES2Functions.scissorDisable(this.contextGetGLES2());
+    JOGL_GLES2Functions.scissorDisable(this.contextGetGLES2());
   }
 
   @Override public void scissorEnable(
@@ -1203,14 +1203,14 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions
+    JOGL_GLES2Functions
       .scissorEnable(this.contextGetGLES2(), position, dimensions);
   }
 
   @Override public boolean scissorIsEnabled()
     throws GLException
   {
-    return GLES2Functions.scissorIsEnabled(this.contextGetGLES2());
+    return JOGL_GLES2Functions.scissorIsEnabled(this.contextGetGLES2());
   }
 
   @Override public void stencilBufferClear(
@@ -1218,7 +1218,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    GLES2Functions.stencilBufferClear(
+    JOGL_GLES2Functions.stencilBufferClear(
       this.contextGetGLES2(),
       this.state,
       stencil);
@@ -1228,14 +1228,14 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.stencilBufferDisable(this.contextGetGLES2());
+    JOGL_GLES2Functions.stencilBufferDisable(this.contextGetGLES2());
   }
 
   @Override public void stencilBufferEnable()
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.stencilBufferEnable(this.contextGetGLES2(), this.state);
+    JOGL_GLES2Functions.stencilBufferEnable(this.contextGetGLES2(), this.state);
   }
 
   @Override public void stencilBufferFunction(
@@ -1246,7 +1246,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.stencilBufferFunction(
+    JOGL_GLES2Functions.stencilBufferFunction(
       this.contextGetGLES2(),
       faces,
       function,
@@ -1257,7 +1257,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public int stencilBufferGetBits()
     throws GLException
   {
-    return GLES2Functions.stencilBufferGetBits(
+    return JOGL_GLES2Functions.stencilBufferGetBits(
       this.contextGetGLES2(),
       this.state);
   }
@@ -1265,7 +1265,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public boolean stencilBufferIsEnabled()
     throws GLException
   {
-    return GLES2Functions.stencilBufferIsEnabled(this.contextGetGLES2());
+    return JOGL_GLES2Functions.stencilBufferIsEnabled(this.contextGetGLES2());
   }
 
   @Override public void stencilBufferMask(
@@ -1274,7 +1274,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.stencilBufferMask(this.contextGetGLES2(), faces, mask);
+    JOGL_GLES2Functions.stencilBufferMask(this.contextGetGLES2(), faces, mask);
   }
 
   @Override public void stencilBufferOperation(
@@ -1285,7 +1285,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.stencilBufferOperation(
+    JOGL_GLES2Functions.stencilBufferOperation(
       this.contextGetGLES2(),
       faces,
       stencil_fail,
@@ -1304,7 +1304,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return GLES2Functions.texture2DStaticAllocate(
+    return JOGL_GLES2Functions.texture2DStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1329,7 +1329,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return GLES2Functions.texture2DStaticAllocate(
+    return JOGL_GLES2Functions.texture2DStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1354,7 +1354,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return GLES2Functions.texture2DStaticAllocate(
+    return JOGL_GLES2Functions.texture2DStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1379,7 +1379,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return GLES2Functions.texture2DStaticAllocate(
+    return JOGL_GLES2Functions.texture2DStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1404,7 +1404,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return GLES2Functions.texture2DStaticAllocate(
+    return JOGL_GLES2Functions.texture2DStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1424,7 +1424,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.texture2DStaticBind(this.contextGetGLES2(), unit, texture);
+    JOGL_GLES2Functions.texture2DStaticBind(this.contextGetGLES2(), unit, texture);
   }
 
   @Override public void texture2DStaticDelete(
@@ -1432,7 +1432,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.texture2DStaticDelete(
+    JOGL_GLES2Functions.texture2DStaticDelete(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1445,7 +1445,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return GLES2Functions.texture2DStaticIsBound(
+    return JOGL_GLES2Functions.texture2DStaticIsBound(
       this.contextGetGLES2(),
       this.state,
       unit,
@@ -1457,7 +1457,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.texture2DStaticUnbind(this.contextGetGLES2(), unit);
+    JOGL_GLES2Functions.texture2DStaticUnbind(this.contextGetGLES2(), unit);
   }
 
   @Override public void texture2DStaticUpdate(
@@ -1465,7 +1465,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.texture2DStaticUpdate(this.contextGetGLES2(), data);
+    JOGL_GLES2Functions.texture2DStaticUpdate(this.contextGetGLES2(), data);
   }
 
   @Override public @Nonnull
@@ -1481,7 +1481,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return GLES2Functions.textureCubeStaticAllocate(
+    return JOGL_GLES2Functions.textureCubeStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1508,7 +1508,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return GLES2Functions.textureCubeStaticAllocate(
+    return JOGL_GLES2Functions.textureCubeStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1535,7 +1535,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return GLES2Functions.textureCubeStaticAllocate(
+    return JOGL_GLES2Functions.textureCubeStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1562,7 +1562,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return GLES2Functions.textureCubeStaticAllocate(
+    return JOGL_GLES2Functions.textureCubeStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1589,7 +1589,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return GLES2Functions.textureCubeStaticAllocate(
+    return JOGL_GLES2Functions.textureCubeStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1609,7 +1609,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.textureCubeStaticBind(
+    JOGL_GLES2Functions.textureCubeStaticBind(
       this.contextGetGLES2(),
       unit,
       texture);
@@ -1620,7 +1620,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.textureCubeStaticDelete(
+    JOGL_GLES2Functions.textureCubeStaticDelete(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1633,7 +1633,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return GLES2Functions.textureCubeStaticIsBound(
+    return JOGL_GLES2Functions.textureCubeStaticIsBound(
       this.contextGetGLES2(),
       this.state,
       unit,
@@ -1645,7 +1645,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.textureCubeStaticUnbind(this.contextGetGLES2(), unit);
+    JOGL_GLES2Functions.textureCubeStaticUnbind(this.contextGetGLES2(), unit);
   }
 
   @Override public void textureCubeStaticUpdate(
@@ -1654,14 +1654,14 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions
+    JOGL_GLES2Functions
       .textureCubeStaticUpdate(this.contextGetGLES2(), face, data);
   }
 
   @Override public int textureGetMaximumSize()
     throws GLException
   {
-    return GLES2Functions.textureGetMaximumSize(
+    return JOGL_GLES2Functions.textureGetMaximumSize(
       this.contextGetGLES2(),
       this.state);
   }
@@ -1679,7 +1679,7 @@ import com.io7m.jtensors.VectorReadable4F;
       GLCompileException,
       GLException
   {
-    GLES2Functions.vertexShaderAttach(
+    JOGL_GLES2Functions.vertexShaderAttach(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1695,7 +1695,7 @@ import com.io7m.jtensors.VectorReadable4F;
       IOException,
       GLException
   {
-    return GLES2Functions.vertexShaderCompile(
+    return JOGL_GLES2Functions.vertexShaderCompile(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1708,7 +1708,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.vertexShaderDelete(
+    JOGL_GLES2Functions.vertexShaderDelete(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1721,6 +1721,6 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    GLES2Functions.viewportSet(this.contextGetGLES2(), position, dimensions);
+    JOGL_GLES2Functions.viewportSet(this.contextGetGLES2(), position, dimensions);
   }
 }

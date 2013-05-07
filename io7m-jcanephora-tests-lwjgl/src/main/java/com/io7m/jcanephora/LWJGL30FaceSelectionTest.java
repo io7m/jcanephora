@@ -29,14 +29,14 @@ public final class LWJGL30FaceSelectionTest
   @SuppressWarnings("static-method") @Test public void testFaceBijection()
   {
     for (final FaceSelection f : FaceSelection.values()) {
-      Assert.assertEquals(GLTypeConversions
-        .faceSelectionFromGL(GLTypeConversions.faceSelectionToGL(f)), f);
+      Assert.assertEquals(LWJGL_GLTypeConversions
+        .faceSelectionFromGL(LWJGL_GLTypeConversions.faceSelectionToGL(f)), f);
     }
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLTypeConversions.faceSelectionFromGL(-1);
+    LWJGL_GLTypeConversions.faceSelectionFromGL(-1);
   }
 }

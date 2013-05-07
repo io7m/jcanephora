@@ -25,7 +25,7 @@ public final class LWJGLES2FaceWindingOrderTest
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLTypeConversions.faceWindingOrderFromGL(-1);
+    LWJGL_GLTypeConversions.faceWindingOrderFromGL(-1);
   }
 
   /**
@@ -37,7 +37,7 @@ public final class LWJGLES2FaceWindingOrderTest
     for (final FaceWindingOrder f : FaceWindingOrder.values()) {
       Assert
         .assertEquals(
-          GLTypeConversions.faceWindingOrderFromGL(GLTypeConversions
+          LWJGL_GLTypeConversions.faceWindingOrderFromGL(LWJGL_GLTypeConversions
             .faceWindingOrderToGL(f)),
           f);
     }

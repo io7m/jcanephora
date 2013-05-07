@@ -30,7 +30,7 @@ public final class JOGLES2PrimitivesTest
   {
     for (final Primitives p : Primitives.values()) {
       Assert
-        .assertEquals(GLTypeConversions.primitiveFromGL(GLTypeConversions
+        .assertEquals(JOGL_GLTypeConversions.primitiveFromGL(JOGL_GLTypeConversions
           .primitiveToGL(p)), p);
     }
   }
@@ -38,6 +38,6 @@ public final class JOGLES2PrimitivesTest
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLTypeConversions.polygonModeFromGL(-1);
+    JOGL_GLTypeConversions.polygonModeFromGL(-1);
   }
 }

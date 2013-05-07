@@ -31,7 +31,7 @@ public final class JOGLES2TypeTest
   {
     for (final Type u : GLType.Type.values()) {
       Assert.assertEquals(
-        GLTypeConversions.typeFromGL(GLTypeConversions.typeToGL(u)),
+        JOGL_GLTypeConversions.typeFromGL(JOGL_GLTypeConversions.typeToGL(u)),
         u);
     }
   }
@@ -39,6 +39,6 @@ public final class JOGLES2TypeTest
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testTypeFailure()
   {
-    GLTypeConversions.typeFromGL(-1);
+    JOGL_GLTypeConversions.typeFromGL(-1);
   }
 }

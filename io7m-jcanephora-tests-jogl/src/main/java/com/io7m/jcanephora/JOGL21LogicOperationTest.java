@@ -56,7 +56,7 @@ public final class JOGL21LogicOperationTest extends LogicOpContract
   {
     for (final LogicOperation o : LogicOperation.values()) {
       Assert.assertEquals(
-        GLTypeConversions.logicOpFromGL(GLTypeConversions.logicOpToGL(o)),
+        JOGL_GLTypeConversions.logicOpFromGL(JOGL_GLTypeConversions.logicOpToGL(o)),
         o);
     }
   }
@@ -64,6 +64,6 @@ public final class JOGL21LogicOperationTest extends LogicOpContract
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testLogicFailure()
   {
-    GLTypeConversions.logicOpFromGL(-1);
+    JOGL_GLTypeConversions.logicOpFromGL(-1);
   }
 }
