@@ -29,14 +29,14 @@ public final class JOGLES2BlendEquationTest
   @SuppressWarnings("static-method") @Test public void testBijection()
   {
     for (final BlendEquationGL3 f : BlendEquationGL3.values()) {
-      Assert.assertEquals(GLTypeConversions
-        .blendEquationFromGL(GLTypeConversions.blendEquationToGL(f)), f);
+      Assert.assertEquals(JOGL_GLTypeConversions
+        .blendEquationFromGL(JOGL_GLTypeConversions.blendEquationToGL(f)), f);
     }
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLTypeConversions.blendEquationFromGL(-1);
+    JOGL_GLTypeConversions.blendEquationFromGL(-1);
   }
 }

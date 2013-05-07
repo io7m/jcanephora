@@ -39,9 +39,9 @@ public final class GLImplementationLWJGL implements GLImplementation
   private static boolean isGLES2(
     final @Nonnull String version)
   {
-    if (GLES2Functions.metaVersionIsES(version)) {
+    if (LWJGL_GLES2Functions.metaVersionIsES(version)) {
       final Pair<Integer, Integer> p =
-        GLES2Functions.metaParseVersion(version);
+        LWJGL_GLES2Functions.metaParseVersion(version);
       return p.first.intValue() == 2;
     }
 
@@ -51,9 +51,9 @@ public final class GLImplementationLWJGL implements GLImplementation
   private static boolean isGL2(
     final @Nonnull String version)
   {
-    if (GLES2Functions.metaVersionIsES(version) == false) {
+    if (LWJGL_GLES2Functions.metaVersionIsES(version) == false) {
       final Pair<Integer, Integer> p =
-        GLES2Functions.metaParseVersion(version);
+        LWJGL_GLES2Functions.metaParseVersion(version);
       return (p.first.intValue() == 2) && (p.second.intValue() == 1);
     }
 
@@ -63,9 +63,9 @@ public final class GLImplementationLWJGL implements GLImplementation
   private static boolean isGL3(
     final @Nonnull String version)
   {
-    if (GLES2Functions.metaVersionIsES(version) == false) {
+    if (LWJGL_GLES2Functions.metaVersionIsES(version) == false) {
       final Pair<Integer, Integer> p =
-        GLES2Functions.metaParseVersion(version);
+        LWJGL_GLES2Functions.metaParseVersion(version);
       return (p.first.intValue() >= 3) && (p.second.intValue() >= 0);
     }
 

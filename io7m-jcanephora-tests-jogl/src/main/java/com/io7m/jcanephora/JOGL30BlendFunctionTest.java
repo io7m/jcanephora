@@ -29,14 +29,14 @@ public final class JOGL30BlendFunctionTest
   @SuppressWarnings("static-method") @Test public void testBijection()
   {
     for (final BlendFunction f : BlendFunction.values()) {
-      Assert.assertEquals(GLTypeConversions
-        .blendFunctionFromGL(GLTypeConversions.blendFunctionToGL(f)), f);
+      Assert.assertEquals(JOGL_GLTypeConversions
+        .blendFunctionFromGL(JOGL_GLTypeConversions.blendFunctionToGL(f)), f);
     }
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLTypeConversions.blendFunctionFromGL(-1);
+    JOGL_GLTypeConversions.blendFunctionFromGL(-1);
   }
 }

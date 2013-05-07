@@ -29,14 +29,14 @@ public final class JOGLES2PolygonModeTest
   @SuppressWarnings("static-method") @Test public void testModeBijection()
   {
     for (final PolygonMode p : PolygonMode.values()) {
-      Assert.assertEquals(GLTypeConversions
-        .polygonModeFromGL(GLTypeConversions.polygonModeToGL(p)), p);
+      Assert.assertEquals(JOGL_GLTypeConversions
+        .polygonModeFromGL(JOGL_GLTypeConversions.polygonModeToGL(p)), p);
     }
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLTypeConversions.polygonModeFromGL(-1);
+    JOGL_GLTypeConversions.polygonModeFromGL(-1);
   }
 }

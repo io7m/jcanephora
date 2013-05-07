@@ -31,7 +31,7 @@ public final class LWJGLES2TypeTest
   {
     for (final Type u : GLType.Type.values()) {
       Assert.assertEquals(
-        GLTypeConversions.typeFromGL(GLTypeConversions.typeToGL(u)),
+        LWJGL_GLTypeConversions.typeFromGL(LWJGL_GLTypeConversions.typeToGL(u)),
         u);
     }
   }
@@ -39,6 +39,6 @@ public final class LWJGLES2TypeTest
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testTypeFailure()
   {
-    GLTypeConversions.typeFromGL(-1);
+    LWJGL_GLTypeConversions.typeFromGL(-1);
   }
 }

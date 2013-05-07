@@ -26,8 +26,8 @@ public final class MetaTest
   {
     {
       final String s = "OpenGL ES 1.0 Mesa 9.0.1";
-      final Pair<Integer, Integer> p = GLES2Functions.metaParseVersion(s);
-      final boolean es = GLES2Functions.metaVersionIsES(s);
+      final Pair<Integer, Integer> p = LWJGL_GLES2Functions.metaParseVersion(s);
+      final boolean es = LWJGL_GLES2Functions.metaVersionIsES(s);
       Assert.assertEquals(1, p.first.intValue());
       Assert.assertEquals(0, p.second.intValue());
       Assert.assertTrue(es);
@@ -35,8 +35,8 @@ public final class MetaTest
 
     {
       final String s = "OpenGL ES 2.0 Mesa 9.0.1";
-      final Pair<Integer, Integer> p = GLES2Functions.metaParseVersion(s);
-      final boolean es = GLES2Functions.metaVersionIsES(s);
+      final Pair<Integer, Integer> p = LWJGL_GLES2Functions.metaParseVersion(s);
+      final boolean es = LWJGL_GLES2Functions.metaVersionIsES(s);
       Assert.assertEquals(2, p.first.intValue());
       Assert.assertEquals(0, p.second.intValue());
       Assert.assertTrue(es);
@@ -44,8 +44,8 @@ public final class MetaTest
 
     {
       final String s = "OpenGL ES 2.1 Mesa 9.0.1";
-      final Pair<Integer, Integer> p = GLES2Functions.metaParseVersion(s);
-      final boolean es = GLES2Functions.metaVersionIsES(s);
+      final Pair<Integer, Integer> p = LWJGL_GLES2Functions.metaParseVersion(s);
+      final boolean es = LWJGL_GLES2Functions.metaVersionIsES(s);
       Assert.assertEquals(2, p.first.intValue());
       Assert.assertEquals(1, p.second.intValue());
       Assert.assertTrue(es);
@@ -53,8 +53,8 @@ public final class MetaTest
 
     {
       final String s = "OpenGL ES 3.0 Mesa 9.0.1";
-      final Pair<Integer, Integer> p = GLES2Functions.metaParseVersion(s);
-      final boolean es = GLES2Functions.metaVersionIsES(s);
+      final Pair<Integer, Integer> p = LWJGL_GLES2Functions.metaParseVersion(s);
+      final boolean es = LWJGL_GLES2Functions.metaVersionIsES(s);
       Assert.assertEquals(3, p.first.intValue());
       Assert.assertEquals(0, p.second.intValue());
       Assert.assertTrue(es);
@@ -62,8 +62,8 @@ public final class MetaTest
 
     {
       final String s = "OpenGL ES 3.1 Mesa 9.0.1";
-      final Pair<Integer, Integer> p = GLES2Functions.metaParseVersion(s);
-      final boolean es = GLES2Functions.metaVersionIsES(s);
+      final Pair<Integer, Integer> p = LWJGL_GLES2Functions.metaParseVersion(s);
+      final boolean es = LWJGL_GLES2Functions.metaVersionIsES(s);
       Assert.assertEquals(3, p.first.intValue());
       Assert.assertEquals(1, p.second.intValue());
       Assert.assertTrue(es);
@@ -71,8 +71,8 @@ public final class MetaTest
 
     {
       final String s = "1.0";
-      final Pair<Integer, Integer> p = GLES2Functions.metaParseVersion(s);
-      final boolean es = GLES2Functions.metaVersionIsES(s);
+      final Pair<Integer, Integer> p = LWJGL_GLES2Functions.metaParseVersion(s);
+      final boolean es = LWJGL_GLES2Functions.metaVersionIsES(s);
       Assert.assertEquals(1, p.first.intValue());
       Assert.assertEquals(0, p.second.intValue());
       Assert.assertFalse(es);
@@ -80,8 +80,8 @@ public final class MetaTest
 
     {
       final String s = "2.0";
-      final Pair<Integer, Integer> p = GLES2Functions.metaParseVersion(s);
-      final boolean es = GLES2Functions.metaVersionIsES(s);
+      final Pair<Integer, Integer> p = LWJGL_GLES2Functions.metaParseVersion(s);
+      final boolean es = LWJGL_GLES2Functions.metaVersionIsES(s);
       Assert.assertEquals(2, p.first.intValue());
       Assert.assertEquals(0, p.second.intValue());
       Assert.assertFalse(es);
@@ -89,8 +89,8 @@ public final class MetaTest
 
     {
       final String s = "2.1";
-      final Pair<Integer, Integer> p = GLES2Functions.metaParseVersion(s);
-      final boolean es = GLES2Functions.metaVersionIsES(s);
+      final Pair<Integer, Integer> p = LWJGL_GLES2Functions.metaParseVersion(s);
+      final boolean es = LWJGL_GLES2Functions.metaVersionIsES(s);
       Assert.assertEquals(2, p.first.intValue());
       Assert.assertEquals(1, p.second.intValue());
       Assert.assertFalse(es);
@@ -98,8 +98,8 @@ public final class MetaTest
 
     {
       final String s = "3.1";
-      final Pair<Integer, Integer> p = GLES2Functions.metaParseVersion(s);
-      final boolean es = GLES2Functions.metaVersionIsES(s);
+      final Pair<Integer, Integer> p = LWJGL_GLES2Functions.metaParseVersion(s);
+      final boolean es = LWJGL_GLES2Functions.metaVersionIsES(s);
       Assert.assertEquals(3, p.first.intValue());
       Assert.assertEquals(1, p.second.intValue());
       Assert.assertFalse(es);

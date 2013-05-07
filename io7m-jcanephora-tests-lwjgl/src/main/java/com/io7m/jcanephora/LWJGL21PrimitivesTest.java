@@ -30,7 +30,7 @@ public final class LWJGL21PrimitivesTest
   {
     for (final Primitives p : Primitives.values()) {
       Assert
-        .assertEquals(GLTypeConversions.primitiveFromGL(GLTypeConversions
+        .assertEquals(LWJGL_GLTypeConversions.primitiveFromGL(LWJGL_GLTypeConversions
           .primitiveToGL(p)), p);
     }
   }
@@ -38,6 +38,6 @@ public final class LWJGL21PrimitivesTest
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLTypeConversions.polygonModeFromGL(-1);
+    LWJGL_GLTypeConversions.polygonModeFromGL(-1);
   }
 }

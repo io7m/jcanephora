@@ -25,7 +25,7 @@ public class LWJGLES2UsageHintTest
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLTypeConversions.usageHintFromGL(-1);
+    LWJGL_GLTypeConversions.usageHintFromGL(-1);
   }
 
   /**
@@ -36,7 +36,7 @@ public class LWJGLES2UsageHintTest
   {
     for (final UsageHint h : UsageHint.values()) {
       Assert
-        .assertEquals(h, GLTypeConversions.usageHintFromGL(GLTypeConversions
+        .assertEquals(h, LWJGL_GLTypeConversions.usageHintFromGL(LWJGL_GLTypeConversions
           .usageHintToGL(h)));
     }
   }

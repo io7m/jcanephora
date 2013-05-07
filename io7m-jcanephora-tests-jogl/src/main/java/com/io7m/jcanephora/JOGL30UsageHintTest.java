@@ -25,7 +25,7 @@ public class JOGL30UsageHintTest
   @SuppressWarnings("static-method") @Test(
     expected = UnreachableCodeException.class) public void testNonsense()
   {
-    GLTypeConversions.usageHintFromGL(-1);
+    JOGL_GLTypeConversions.usageHintFromGL(-1);
   }
 
   /**
@@ -36,7 +36,7 @@ public class JOGL30UsageHintTest
   {
     for (final UsageHint h : UsageHint.values()) {
       Assert
-        .assertEquals(h, GLTypeConversions.usageHintFromGL(GLTypeConversions
+        .assertEquals(h, JOGL_GLTypeConversions.usageHintFromGL(JOGL_GLTypeConversions
           .usageHintToGL(h)));
     }
   }

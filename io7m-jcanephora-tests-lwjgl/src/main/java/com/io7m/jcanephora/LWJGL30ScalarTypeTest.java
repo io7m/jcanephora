@@ -29,8 +29,8 @@ public final class LWJGL30ScalarTypeTest
   @SuppressWarnings("static-method") @Test public void testScalarBijection()
   {
     for (final GLScalarType t : GLScalarType.values()) {
-      Assert.assertEquals(GLTypeConversions
-        .scalarTypeFromGL(GLTypeConversions.scalarTypeToGL(t)), t);
+      Assert.assertEquals(LWJGL_GLTypeConversions
+        .scalarTypeFromGL(LWJGL_GLTypeConversions.scalarTypeToGL(t)), t);
     }
   }
 
@@ -39,6 +39,6 @@ public final class LWJGL30ScalarTypeTest
     void
     testScalarFailure()
   {
-    GLTypeConversions.scalarTypeFromGL(-1);
+    LWJGL_GLTypeConversions.scalarTypeFromGL(-1);
   }
 }

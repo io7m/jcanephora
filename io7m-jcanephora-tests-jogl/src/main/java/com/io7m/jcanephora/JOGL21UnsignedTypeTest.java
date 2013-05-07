@@ -31,8 +31,8 @@ public final class JOGL21UnsignedTypeTest
     testUnsignedBijection()
   {
     for (final GLUnsignedType u : GLUnsignedType.values()) {
-      Assert.assertEquals(GLTypeConversions
-        .unsignedTypeFromGL(GLTypeConversions.unsignedTypeToGL(u)), u);
+      Assert.assertEquals(JOGL_GLTypeConversions
+        .unsignedTypeFromGL(JOGL_GLTypeConversions.unsignedTypeToGL(u)), u);
     }
   }
 
@@ -41,6 +41,6 @@ public final class JOGL21UnsignedTypeTest
     void
     testUnsignedFailure()
   {
-    GLTypeConversions.unsignedTypeFromGL(-1);
+    JOGL_GLTypeConversions.unsignedTypeFromGL(-1);
   }
 }

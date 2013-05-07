@@ -167,10 +167,10 @@ public final class LWJGLTestContext
 
       final String version = GL11.glGetString(GL11.GL_VERSION);
       final Pair<Integer, Integer> p =
-        GLES2Functions.metaParseVersion(version);
+        LWJGL_GLES2Functions.metaParseVersion(version);
 
       final boolean correct =
-        ((p.first >= 3) && (p.second >= 0) && (GLES2Functions
+        ((p.first >= 3) && (p.second >= 0) && (LWJGL_GLES2Functions
           .metaVersionIsES(version) == false));
       if (correct) {
         System.err.println("Context " + version + " is 3.*");
@@ -195,10 +195,10 @@ public final class LWJGLTestContext
 
       final String version = GL11.glGetString(GL11.GL_VERSION);
       final Pair<Integer, Integer> p =
-        GLES2Functions.metaParseVersion(version);
+        LWJGL_GLES2Functions.metaParseVersion(version);
 
       final boolean correct =
-        ((p.first == 2) && (p.second == 1) && (GLES2Functions
+        ((p.first == 2) && (p.second == 1) && (LWJGL_GLES2Functions
           .metaVersionIsES(version) == false));
 
       if (correct) {
