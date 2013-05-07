@@ -50,7 +50,7 @@ public final class LWJGLTestContext
 
   private static final Profile PROFILE_OPENGL_3_0;
   private static final Profile PROFILE_OPENGL_ES_2_0;
-  private static final Profile PROFILE_OPENGL_3_1;
+  private static final Profile PROFILE_OPENGL_3_X;
   private static final Profile PROFILE_OPENGL_2_1;
 
   static {
@@ -68,12 +68,12 @@ public final class LWJGLTestContext
     LWJGLTestContext.PROFILE_OPENGL_3_0.width = 640;
     LWJGLTestContext.PROFILE_OPENGL_3_0.height = 480;
 
-    PROFILE_OPENGL_3_1 = new Profile();
-    LWJGLTestContext.PROFILE_OPENGL_3_1.version_major = 3;
-    LWJGLTestContext.PROFILE_OPENGL_3_1.version_minor = 1;
-    LWJGLTestContext.PROFILE_OPENGL_3_1.version_es = false;
-    LWJGLTestContext.PROFILE_OPENGL_3_1.width = 640;
-    LWJGLTestContext.PROFILE_OPENGL_3_1.height = 480;
+    PROFILE_OPENGL_3_X = new Profile();
+    LWJGLTestContext.PROFILE_OPENGL_3_X.version_major = 3;
+    LWJGLTestContext.PROFILE_OPENGL_3_X.version_minor = 1;
+    LWJGLTestContext.PROFILE_OPENGL_3_X.version_es = false;
+    LWJGLTestContext.PROFILE_OPENGL_3_X.width = 640;
+    LWJGLTestContext.PROFILE_OPENGL_3_X.height = 480;
 
     PROFILE_OPENGL_ES_2_0 = new Profile();
     LWJGLTestContext.PROFILE_OPENGL_ES_2_0.version_major = 2;
@@ -85,11 +85,13 @@ public final class LWJGLTestContext
 
   static final String          LOG_DESTINATION_OPENGL_ES_2_0;
   static final String          LOG_DESTINATION_OPENGL_3_X;
+  static final String          LOG_DESTINATION_OPENGL_3_0;
   static final String          LOG_DESTINATION_OPENGL_2_1;
 
   static {
     LOG_DESTINATION_OPENGL_ES_2_0 = "lwjgl_es_2_0-test";
     LOG_DESTINATION_OPENGL_3_X = "lwjgl_3_x-test";
+    LOG_DESTINATION_OPENGL_3_0 = "lwjgl_3_0-test";
     LOG_DESTINATION_OPENGL_2_1 = "lwjgl_2_1-test";
   }
 
@@ -159,7 +161,11 @@ public final class LWJGLTestContext
     return new Log(properties, "com.io7m.jcanephora", destination);
   }
 
-  @SuppressWarnings("boxing") public static boolean isOpenGL3Supported()
+  /**
+   * Return <code>true</code> iff the created context is exactly OpenGL 3.0.
+   */
+
+  @SuppressWarnings("boxing") public static boolean isOpenGL30Supported()
   {
     try {
       final Pbuffer pb =
@@ -170,12 +176,12 @@ public final class LWJGLTestContext
         LWJGL_GLES2Functions.metaParseVersion(version);
 
       final boolean correct =
-        ((p.first >= 3) && (p.second >= 0) && (LWJGL_GLES2Functions
+        ((p.first >= 3) && (p.second == 0) && (LWJGL_GLES2Functions
           .metaVersionIsES(version) == false));
       if (correct) {
-        System.err.println("Context " + version + " is 3.*");
+        System.err.println("Context " + version + " is 3.0");
       } else {
-        System.err.println("Context " + version + " is not 3.*");
+        System.err.println("Context " + version + " is not 3.0");
       }
 
       pb.releaseContext();
@@ -187,11 +193,49 @@ public final class LWJGLTestContext
     }
   }
 
+  /**
+   * Return <code>true</code> iff the created context is OpenGL 3.n, where n
+   * >= 1.
+   */
+
+  @SuppressWarnings("boxing") public static boolean isOpenGL3xSupported()
+  {
+    try {
+      final Pbuffer pb =
+        LWJGLTestContext.makePbuffer(LWJGLTestContext.PROFILE_OPENGL_3_X);
+
+      final String version = GL11.glGetString(GL11.GL_VERSION);
+      final Pair<Integer, Integer> p =
+        LWJGL_GLES2Functions.metaParseVersion(version);
+
+      final boolean correct =
+        ((p.first >= 3) && (p.second >= 1) && (LWJGL_GLES2Functions
+          .metaVersionIsES(version) == false));
+      if (correct) {
+        System.err.println("Context " + version + " is 3.n, where n >= 1");
+      } else {
+        System.err
+          .println("Context " + version + " is not 3.n, where n >= 1");
+      }
+
+      pb.releaseContext();
+      pb.destroy();
+      return correct;
+    } catch (final LWJGLException e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+
+  /**
+   * Return <code>true</code> iff the created context is exactly OpenGL 2.1.
+   */
+
   @SuppressWarnings("boxing") public static boolean isOpenGL21Supported()
   {
     try {
       final Pbuffer pb =
-        LWJGLTestContext.makePbuffer(LWJGLTestContext.PROFILE_OPENGL_3_0);
+        LWJGLTestContext.makePbuffer(LWJGLTestContext.PROFILE_OPENGL_2_1);
 
       final String version = GL11.glGetString(GL11.GL_VERSION);
       final Pair<Integer, Integer> p =
@@ -215,6 +259,10 @@ public final class LWJGLTestContext
       return false;
     }
   }
+
+  /**
+   * Return <code>true</code> iff the created context is exactly OpenGL ES2.
+   */
 
   public static boolean isOpenGLES2Supported()
   {
@@ -254,6 +302,23 @@ public final class LWJGLTestContext
       fs,
       gi,
       log,
+      ShaderPaths.getShaderPath(3, 1, false));
+  }
+
+  public static TestContext makeContextWithOpenGL3_0()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    final Log log =
+      LWJGLTestContext.getLog(LWJGLTestContext.LOG_DESTINATION_OPENGL_3_0);
+    final FilesystemAPI fs = LWJGLTestContext.getFS(log);
+    final GLImplementation gi =
+      LWJGLTestContext.makeImplementationWithOpenGL_3_0(log);
+    return new TestContext(
+      fs,
+      gi,
+      log,
       ShaderPaths.getShaderPath(3, 0, false));
   }
 
@@ -274,13 +339,23 @@ public final class LWJGLTestContext
       ShaderPaths.getShaderPath(2, 1, false));
   }
 
-  public static GLImplementation makeImplementationWithOpenGL_3_X(
+  public static GLImplementation makeImplementationWithOpenGL_3_0(
     final Log log)
     throws GLException,
       GLUnsupportedException,
       ConstraintError
   {
     LWJGLTestContext.openContext(LWJGLTestContext.PROFILE_OPENGL_3_0);
+    return new GLImplementationLWJGL(log);
+  }
+
+  public static GLImplementation makeImplementationWithOpenGL_3_X(
+    final Log log)
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    LWJGLTestContext.openContext(LWJGLTestContext.PROFILE_OPENGL_3_X);
     return new GLImplementationLWJGL(log);
   }
 

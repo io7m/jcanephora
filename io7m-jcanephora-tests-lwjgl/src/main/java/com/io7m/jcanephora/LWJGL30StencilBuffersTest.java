@@ -43,7 +43,7 @@ public final class LWJGL30StencilBuffersTest extends StencilBuffersContract
 
   @Override public boolean isGLSupported()
   {
-    return LWJGLTestContext.isOpenGL3Supported();
+    return LWJGLTestContext.isOpenGL30Supported();
   }
 
   @Override public @Nonnull
@@ -104,6 +104,6 @@ public final class LWJGL30StencilBuffersTest extends StencilBuffersContract
       GLUnsupportedException,
       ConstraintError
   {
-    return LWJGLTestContext.makeContextWithOpenGL3_X();
+    return LWJGLTestContext.makeContextWithOpenGL3_0();
   }
 }

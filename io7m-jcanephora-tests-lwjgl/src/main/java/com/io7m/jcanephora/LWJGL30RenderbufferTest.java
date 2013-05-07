@@ -33,7 +33,7 @@ public final class LWJGL30RenderbufferTest extends RenderbufferGL3Contract
 
   @Override public boolean isGLSupported()
   {
-    return LWJGLTestContext.isOpenGL3Supported();
+    return LWJGLTestContext.isOpenGL30Supported();
   }
 
   @Override public @Nonnull TestContext newTestContext()
@@ -41,6 +41,6 @@ public final class LWJGL30RenderbufferTest extends RenderbufferGL3Contract
       GLUnsupportedException,
       ConstraintError
   {
-    return LWJGLTestContext.makeContextWithOpenGL3_X();
+    return LWJGLTestContext.makeContextWithOpenGL3_0();
   }
 }

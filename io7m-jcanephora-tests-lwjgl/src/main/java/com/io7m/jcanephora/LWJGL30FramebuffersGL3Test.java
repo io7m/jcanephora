@@ -25,7 +25,7 @@ public final class LWJGL30FramebuffersGL3Test extends FramebuffersGL3Contract
 {
   @Override public boolean isGLSupported()
   {
-    return LWJGLTestContext.isOpenGL3Supported();
+    return LWJGLTestContext.isOpenGL30Supported();
   }
 
   @Override public @Nonnull TestContext newTestContext()
@@ -33,7 +33,7 @@ public final class LWJGL30FramebuffersGL3Test extends FramebuffersGL3Contract
       GLUnsupportedException,
       ConstraintError
   {
-    return LWJGLTestContext.makeContextWithOpenGL3_X();
+    return LWJGLTestContext.makeContextWithOpenGL3_0();
   }
 
   @Override public GLInterfaceGL2 getGLInterface(
