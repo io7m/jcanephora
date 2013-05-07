@@ -42,7 +42,7 @@ public final class LWJGL30TextureCubeStaticTest extends
 
   @Override public boolean isGLSupported()
   {
-    return LWJGLTestContext.isOpenGL3Supported();
+    return LWJGLTestContext.isOpenGL30Supported();
   }
 
   @Override public @Nonnull TestContext newTestContext()
@@ -50,6 +50,6 @@ public final class LWJGL30TextureCubeStaticTest extends
       GLUnsupportedException,
       ConstraintError
   {
-    return LWJGLTestContext.makeContextWithOpenGL3_X();
+    return LWJGLTestContext.makeContextWithOpenGL3_0();
   }
 }

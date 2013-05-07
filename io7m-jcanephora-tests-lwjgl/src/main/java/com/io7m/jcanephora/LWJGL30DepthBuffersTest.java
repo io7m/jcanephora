@@ -43,7 +43,7 @@ public final class LWJGL30DepthBuffersTest extends DepthBuffersContract
 
   @Override public boolean isGLSupported()
   {
-    return LWJGLTestContext.isOpenGL3Supported();
+    return LWJGLTestContext.isOpenGL30Supported();
   }
 
   @Override public @Nonnull FramebufferReference makeFramebufferWithDepth(
@@ -129,6 +129,6 @@ public final class LWJGL30DepthBuffersTest extends DepthBuffersContract
       GLUnsupportedException,
       ConstraintError
   {
-    return LWJGLTestContext.makeContextWithOpenGL3_X();
+    return LWJGLTestContext.makeContextWithOpenGL3_0();
   }
 }

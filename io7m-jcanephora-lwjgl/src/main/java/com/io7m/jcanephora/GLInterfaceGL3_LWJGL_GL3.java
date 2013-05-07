@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -27,6 +27,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GL30;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -82,7 +83,9 @@ import com.io7m.jtensors.VectorReadable4F;
      */
 
     this.state.draw_buffers =
-      LWJGL_GLES2Functions.framebufferGetDrawBuffersActual(this.state, this.log);
+      LWJGL_GLES2Functions.framebufferGetDrawBuffersActual(
+        this.state,
+        this.log);
 
     /**
      * Initialize various constants.
@@ -100,6 +103,17 @@ import com.io7m.jtensors.VectorReadable4F;
     GLError.check(this);
     this.version = LWJGL_GLES2Functions.metaParseVersion(v);
     this.version_is_es = LWJGL_GLES2Functions.metaVersionIsES(v);
+
+    /**
+     * OpenGL 3.1 removed the default vertex array object.
+     */
+
+    if ((this.version.first.intValue() >= 3)
+      && (this.version.second.intValue() >= 1)) {
+      final int a = GL30.glGenVertexArrays();
+      GL30.glBindVertexArray(a);
+      GLError.check(this);
+    }
   }
 
   @Override public ArrayBuffer arrayBufferAllocate(
@@ -753,7 +767,8 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    return LWJGL_GL3Functions.framebufferDrawValidate(this.state, framebuffer);
+    return LWJGL_GL3Functions
+      .framebufferDrawValidate(this.state, framebuffer);
   }
 
   @Override public @Nonnull
@@ -1087,7 +1102,10 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    LWJGL_GLES2Functions.programPutUniformTextureUnit(this.state, uniform, unit);
+    LWJGL_GLES2Functions.programPutUniformTextureUnit(
+      this.state,
+      uniform,
+      unit);
   }
 
   @Override public void programPutUniformVector2f(
@@ -1159,12 +1177,13 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return Renderbuffer.unsafeBrandColor(LWJGL_GLES2Functions.renderbufferAllocate(
-      this.state,
-      this.log,
-      RenderbufferType.RENDERBUFFER_COLOR_RGB_888,
-      width,
-      height));
+    return Renderbuffer.unsafeBrandColor(LWJGL_GLES2Functions
+      .renderbufferAllocate(
+        this.state,
+        this.log,
+        RenderbufferType.RENDERBUFFER_COLOR_RGB_888,
+        width,
+        height));
   }
 
   @Override public @Nonnull
@@ -1175,12 +1194,13 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return Renderbuffer.unsafeBrandColor(LWJGL_GLES2Functions.renderbufferAllocate(
-      this.state,
-      this.log,
-      RenderbufferType.RENDERBUFFER_COLOR_RGBA_8888,
-      width,
-      height));
+    return Renderbuffer.unsafeBrandColor(LWJGL_GLES2Functions
+      .renderbufferAllocate(
+        this.state,
+        this.log,
+        RenderbufferType.RENDERBUFFER_COLOR_RGBA_8888,
+        width,
+        height));
   }
 
   @Override public void renderbufferDelete(
@@ -1889,7 +1909,10 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    LWJGL_GLES2Functions.textureCubeStaticDelete(this.state, this.log, texture);
+    LWJGL_GLES2Functions.textureCubeStaticDelete(
+      this.state,
+      this.log,
+      texture);
   }
 
   @Override public boolean textureCubeStaticIsBound(
@@ -1898,7 +1921,10 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return LWJGL_GLES2Functions.textureCubeStaticIsBound(this.state, unit, texture);
+    return LWJGL_GLES2Functions.textureCubeStaticIsBound(
+      this.state,
+      unit,
+      texture);
   }
 
   @Override public void textureCubeStaticUnbind(

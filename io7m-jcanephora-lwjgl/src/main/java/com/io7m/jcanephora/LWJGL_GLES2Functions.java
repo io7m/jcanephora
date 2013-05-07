@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -698,7 +698,8 @@ final class LWJGL_GLES2Functions
     final int index_id = indices.getGLName();
     final int index_count = (int) indices.getRange().getInterval();
     final int mode_gl = LWJGL_GLTypeConversions.primitiveToGL(mode);
-    final int type = LWJGL_GLTypeConversions.unsignedTypeToGL(indices.getType());
+    final int type =
+      LWJGL_GLTypeConversions.unsignedTypeToGL(indices.getType());
 
     GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, index_id);
     GL11.glDrawElements(mode_gl, index_count, type, 0L);
@@ -1237,7 +1238,9 @@ final class LWJGL_GLES2Functions
       throws GLException
   {
     final int max =
-      LWJGL_GLES2Functions.contextGetInteger(state, GL30.GL_MAX_COLOR_ATTACHMENTS);
+      LWJGL_GLES2Functions.contextGetInteger(
+        state,
+        GL30.GL_MAX_COLOR_ATTACHMENTS);
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -1308,7 +1311,11 @@ final class LWJGL_GLES2Functions
       type = GLUnsignedType.TYPE_UNSIGNED_INT;
     }
 
-    return LWJGL_GLES2Functions.indexBufferAllocateType(state, log, type, indices);
+    return LWJGL_GLES2Functions.indexBufferAllocateType(
+      state,
+      log,
+      type,
+      indices);
   }
 
   static @Nonnull IndexBuffer indexBufferAllocateType(
@@ -2194,8 +2201,10 @@ final class LWJGL_GLES2Functions
     Constraints.constrainNotNull(depth_fail, "Depth fail operation");
     Constraints.constrainNotNull(pass, "Pass operation");
 
-    final int sfail = LWJGL_GLTypeConversions.stencilOperationToGL(stencil_fail);
-    final int dfail = LWJGL_GLTypeConversions.stencilOperationToGL(depth_fail);
+    final int sfail =
+      LWJGL_GLTypeConversions.stencilOperationToGL(stencil_fail);
+    final int dfail =
+      LWJGL_GLTypeConversions.stencilOperationToGL(depth_fail);
     final int dpass = LWJGL_GLTypeConversions.stencilOperationToGL(pass);
     GL20.glStencilOpSeparate(
       LWJGL_GLTypeConversions.faceSelectionToGL(faces),
