@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -18,18 +18,18 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jlog.Log;
-import com.io7m.jvvfs.FilesystemAPI;
+import com.io7m.jvvfs.FSCapabilityAll;
 import com.io7m.jvvfs.PathVirtual;
 
 public final class TestContext
 {
-  private final @Nonnull FilesystemAPI    fs;
+  private final @Nonnull FSCapabilityAll  fs;
   private final @Nonnull GLImplementation gi;
   private final @Nonnull Log              log;
   private final @Nonnull PathVirtual      shader_path;
 
   public TestContext(
-    final @Nonnull FilesystemAPI fs,
+    final @Nonnull FSCapabilityAll fs,
     final @Nonnull GLImplementation gi,
     final @Nonnull Log log,
     final @Nonnull PathVirtual shader_path)
@@ -40,7 +40,7 @@ public final class TestContext
     this.shader_path = shader_path;
   }
 
-  public FilesystemAPI getFilesystem()
+  public FSCapabilityAll getFilesystem()
   {
     return this.fs;
   }

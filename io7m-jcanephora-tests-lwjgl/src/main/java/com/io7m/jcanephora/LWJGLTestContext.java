@@ -27,8 +27,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jaux.functional.Pair;
 import com.io7m.jlog.Log;
+import com.io7m.jvvfs.FSCapabilityAll;
 import com.io7m.jvvfs.Filesystem;
-import com.io7m.jvvfs.FilesystemAPI;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
 
@@ -140,12 +140,12 @@ public final class LWJGLTestContext
     throw new UnreachableCodeException();
   }
 
-  private static FilesystemAPI getFS(
+  private static FSCapabilityAll getFS(
     final Log log)
   {
     try {
-      final Filesystem fs = new Filesystem(log);
-      fs.mountUnsafeClasspathItem(TestContext.class, new PathVirtual("/"));
+      final FSCapabilityAll fs = Filesystem.makeWithoutArchiveDirectory(log);
+      fs.mountClasspathArchive(TestContext.class, PathVirtual.ROOT);
       return fs;
     } catch (final FilesystemError e) {
       throw new java.lang.RuntimeException(e);
@@ -282,7 +282,7 @@ public final class LWJGLTestContext
   {
     final Log log =
       LWJGLTestContext.getLog(LWJGLTestContext.LOG_DESTINATION_OPENGL_ES_2_0);
-    final FilesystemAPI fs = LWJGLTestContext.getFS(log);
+    final FSCapabilityAll fs = LWJGLTestContext.getFS(log);
     final GLImplementation gi =
       LWJGLTestContext.makeImplementationWithOpenGL_ES2(log);
     return new TestContext(fs, gi, log, ShaderPaths.getShaderPath(2, 0, true));
@@ -295,7 +295,7 @@ public final class LWJGLTestContext
   {
     final Log log =
       LWJGLTestContext.getLog(LWJGLTestContext.LOG_DESTINATION_OPENGL_3_X);
-    final FilesystemAPI fs = LWJGLTestContext.getFS(log);
+    final FSCapabilityAll fs = LWJGLTestContext.getFS(log);
     final GLImplementation gi =
       LWJGLTestContext.makeImplementationWithOpenGL_3_X(log);
     return new TestContext(
@@ -312,7 +312,7 @@ public final class LWJGLTestContext
   {
     final Log log =
       LWJGLTestContext.getLog(LWJGLTestContext.LOG_DESTINATION_OPENGL_3_0);
-    final FilesystemAPI fs = LWJGLTestContext.getFS(log);
+    final FSCapabilityAll fs = LWJGLTestContext.getFS(log);
     final GLImplementation gi =
       LWJGLTestContext.makeImplementationWithOpenGL_3_0(log);
     return new TestContext(
@@ -329,7 +329,7 @@ public final class LWJGLTestContext
   {
     final Log log =
       LWJGLTestContext.getLog(LWJGLTestContext.LOG_DESTINATION_OPENGL_2_1);
-    final FilesystemAPI fs = LWJGLTestContext.getFS(log);
+    final FSCapabilityAll fs = LWJGLTestContext.getFS(log);
     final GLImplementation gi =
       LWJGLTestContext.makeImplementationWithOpenGL_2_1(log);
     return new TestContext(

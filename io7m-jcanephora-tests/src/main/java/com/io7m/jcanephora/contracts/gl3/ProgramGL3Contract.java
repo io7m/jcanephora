@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -26,7 +26,7 @@ import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.contracts.common.ProgramContract;
-import com.io7m.jvvfs.FilesystemAPI;
+import com.io7m.jvvfs.FSCapabilityAll;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
 
@@ -41,15 +41,15 @@ public abstract class ProgramGL3Contract extends ProgramContract
   {
     final TestContext tc = this.newTestContext();
     final GLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
 
     final PathVirtual path = tc.getShaderPath();
     final Program p = new Program("program", tc.getLog());
 
-    p.addVertexShader(new PathVirtual(path + "/simple.v"));
-    p.addFragmentShader(new PathVirtual(path + "/simple.f"));
+    p.addVertexShader(path.appendName("simple.v"));
+    p.addFragmentShader(path.appendName("simple.f"));
     p.compile(fs, gl);
-    p.addFragmentShader(new PathVirtual(path + "/func.f"));
+    p.addFragmentShader(path.appendName("func.f"));
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
     p.delete(gl);
@@ -64,14 +64,14 @@ public abstract class ProgramGL3Contract extends ProgramContract
   {
     final TestContext tc = this.newTestContext();
     final GLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
     final PathVirtual path = tc.getShaderPath();
 
     final Program p = new Program("program", tc.getLog());
-    p.addVertexShader(new PathVirtual(path + "/simple.v"));
-    p.addFragmentShader(new PathVirtual(path + "/simple.f"));
+    p.addVertexShader(path.appendName("simple.v"));
+    p.addFragmentShader(path.appendName("simple.f"));
     p.compile(fs, gl);
-    p.addVertexShader(new PathVirtual(path + "/func.v"));
+    p.addVertexShader(path.appendName("func.v"));
     p.compile(fs, gl);
     Assert.assertFalse(p.requiresCompilation(fs, gl));
     p.delete(gl);

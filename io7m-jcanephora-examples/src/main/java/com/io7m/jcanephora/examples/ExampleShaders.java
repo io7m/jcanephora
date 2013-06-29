@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -46,6 +46,7 @@ import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorI2F;
 import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jvvfs.FilesystemError;
+import com.io7m.jvvfs.PathVirtual;
 
 /**
  * Example program that draws a blended triangle to the screen, with an
@@ -93,12 +94,12 @@ public final class ExampleShaders implements Example
       this.gl.vertexShaderCompile(
         "color",
         config.getFilesystem().openFile(
-          "/com/io7m/jcanephora/examples/color.v"));
+          PathVirtual.ofString("/com/io7m/jcanephora/examples/color.v")));
     this.shader_fragment =
       this.gl.fragmentShaderCompile(
         "color",
         config.getFilesystem().openFile(
-          "/com/io7m/jcanephora/examples/color.f"));
+          PathVirtual.ofString("/com/io7m/jcanephora/examples/color.f")));
 
     this.gl.vertexShaderAttach(this.shader_program, this.shader_vertex);
     this.gl.fragmentShaderAttach(this.shader_program, this.shader_fragment);

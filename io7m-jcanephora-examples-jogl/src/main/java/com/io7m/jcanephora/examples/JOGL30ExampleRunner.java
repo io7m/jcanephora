@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -108,9 +108,8 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
       "false");
     this.log = new Log(p, "com.io7m.jcanephora.examples", "main");
 
-    this.filesystem = new Filesystem(this.log);
-    this.filesystem.mountUnsafeClasspathItem(Example.class, new PathVirtual(
-      "/"));
+    this.filesystem = Filesystem.makeWithoutArchiveDirectory(this.log);
+    this.filesystem.mountClasspathArchive(Example.class, PathVirtual.ROOT);
 
     final GLProfile profile = GLProfile.getDefault();
     final GLCapabilities requested_caps = new GLCapabilities(profile);
@@ -426,14 +425,6 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
     } catch (final Throwable x) {
       JOGL30ExampleRunner.fatal(x);
     }
-  }
-
-  @SuppressWarnings("deprecation") @Deprecated @Override public
-    void
-    keyTyped(
-      final KeyEvent e)
-  {
-    // Nothing
   }
 
   @Override public void reshape(

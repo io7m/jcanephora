@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -28,7 +28,7 @@ import javax.annotation.Nonnull;
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jlog.Log;
-import com.io7m.jvvfs.FilesystemAPI;
+import com.io7m.jvvfs.FSCapabilityRead;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
 
@@ -194,11 +194,11 @@ public final class Program extends GLResourceDeletable implements
    *           Iff a compilation error occurs.
    */
 
-  @SuppressWarnings("resource") @Override public
-    <G extends GLShaders & GLMeta>
+  @Override public
+    <G extends GLShaders & GLMeta, F extends FSCapabilityRead>
     void
     compile(
-      final @Nonnull FilesystemAPI fs,
+      final @Nonnull F fs,
       final @Nonnull G gl)
       throws ConstraintError,
         GLCompileException
@@ -250,7 +250,7 @@ public final class Program extends GLResourceDeletable implements
         .entrySet()) {
         final PathVirtual path = e.getKey();
         final VertexShaderEntry shader = e.getValue();
-        final long time = fs.modificationTime(path);
+        final long time = fs.getModificationTime(path).getTimeInMillis();
 
         if (time != shader.last_modified) {
           InputStream stream = null;
@@ -290,7 +290,7 @@ public final class Program extends GLResourceDeletable implements
         .entrySet()) {
         final PathVirtual path = e.getKey();
         final FragmentShaderEntry shader = e.getValue();
-        final long time = fs.modificationTime(path);
+        final long time = fs.getModificationTime(path).getTimeInMillis();
 
         if (time != shader.last_modified) {
           InputStream stream = null;
@@ -640,8 +640,8 @@ public final class Program extends GLResourceDeletable implements
    *           </ul>
    */
 
-  @Override public boolean requiresCompilation(
-    final @Nonnull FilesystemAPI fs,
+  @Override public <F extends FSCapabilityRead> boolean requiresCompilation(
+    final @Nonnull F fs,
     final @Nonnull GLShaders gl)
     throws FilesystemError,
       ConstraintError
@@ -662,7 +662,7 @@ public final class Program extends GLResourceDeletable implements
       final PathVirtual path = e.getKey();
       final VertexShaderEntry shader = e.getValue();
 
-      final long time = fs.modificationTime(path);
+      final long time = fs.getModificationTime(path).getTimeInMillis();
       if (time != shader.last_modified) {
         return true;
       }
@@ -673,7 +673,7 @@ public final class Program extends GLResourceDeletable implements
       final PathVirtual path = e.getKey();
       final FragmentShaderEntry shader = e.getValue();
 
-      final long time = fs.modificationTime(path);
+      final long time = fs.getModificationTime(path).getTimeInMillis();
       if (time != shader.last_modified) {
         return true;
       }

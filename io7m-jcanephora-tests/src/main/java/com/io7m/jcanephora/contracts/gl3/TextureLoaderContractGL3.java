@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -39,8 +39,9 @@ import com.io7m.jcanephora.TextureType;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.contracts.common.TextureLoaderTestContract;
-import com.io7m.jvvfs.FilesystemAPI;
+import com.io7m.jvvfs.FSCapabilityAll;
 import com.io7m.jvvfs.FilesystemError;
+import com.io7m.jvvfs.PathVirtual;
 
 public abstract class TextureLoaderContractGL3 implements
   TextureLoaderTestContract
@@ -289,12 +290,13 @@ public abstract class TextureLoaderContractGL3 implements
         IOException
   {
     final TestContext tc = this.newTestContext();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
     final GLTextures2DStaticGL3 gl = this.getGLTextures2DStaticGL3(tc);
     final TextureLoader loader = this.makeTextureLoader();
 
     final InputStream stream =
-      fs.openFile("/com/io7m/jcanephora/images/reference_8_grey.png");
+      fs.openFile(PathVirtual
+        .ofString("/com/io7m/jcanephora/images/reference_8_grey.png"));
 
     final Texture2DStatic texture =
       loader.load2DStaticInferredGLES2(
@@ -339,7 +341,7 @@ public abstract class TextureLoaderContractGL3 implements
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
 
     Assume.assumeTrue(gi.getGL3().isSome());
 
@@ -347,7 +349,8 @@ public abstract class TextureLoaderContractGL3 implements
     final TextureLoader loader = this.makeTextureLoader();
 
     final InputStream stream =
-      fs.openFile("/com/io7m/jcanephora/images/reference_8_grey.png");
+      fs.openFile(PathVirtual
+        .ofString("/com/io7m/jcanephora/images/reference_8_grey.png"));
 
     final Texture2DStatic texture =
       loader.load2DStaticInferredGL3(
@@ -390,14 +393,15 @@ public abstract class TextureLoaderContractGL3 implements
         IOException
   {
     final TestContext tc = this.newTestContext();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
 
     final GLTextures2DStaticGL3 gl = this.getGLTextures2DStaticGL3(tc);
     final TextureLoader loader = this.makeTextureLoader();
 
     for (final TextureType type : TextureType.getES2Types()) {
       final InputStream stream =
-        fs.openFile("/com/io7m/jcanephora/images/reference_8_grey.png");
+        fs.openFile(PathVirtual
+          .ofString("/com/io7m/jcanephora/images/reference_8_grey.png"));
 
       final Texture2DStatic texture =
         TextureLoaderContractGL3.convertES2(gl, loader, type, stream);
@@ -437,7 +441,7 @@ public abstract class TextureLoaderContractGL3 implements
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
 
     Assume.assumeTrue(gi.getGL3().isSome());
 
@@ -446,7 +450,8 @@ public abstract class TextureLoaderContractGL3 implements
 
     for (final TextureType type : TextureType.values()) {
       final InputStream stream =
-        fs.openFile("/com/io7m/jcanephora/images/reference_8_grey.png");
+        fs.openFile(PathVirtual
+          .ofString("/com/io7m/jcanephora/images/reference_8_grey.png"));
 
       final Texture2DStatic texture =
         TextureLoaderContractGL3.convertGL3(gl, loader, type, stream);
@@ -484,13 +489,14 @@ public abstract class TextureLoaderContractGL3 implements
         IOException
   {
     final TestContext tc = this.newTestContext();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
 
     final GLTextures2DStaticGL3 gl = this.getGLTextures2DStaticGL3(tc);
     final TextureLoader loader = this.makeTextureLoader();
 
     final InputStream stream =
-      fs.openFile("/com/io7m/jcanephora/images/reference_8_index.png");
+      fs.openFile(PathVirtual
+        .ofString("/com/io7m/jcanephora/images/reference_8_index.png"));
     final Texture2DStatic texture =
       loader.load2DStaticInferredGLES2(
         gl,
@@ -534,7 +540,7 @@ public abstract class TextureLoaderContractGL3 implements
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
 
     Assume.assumeTrue(gi.getGL3().isSome());
 
@@ -542,7 +548,8 @@ public abstract class TextureLoaderContractGL3 implements
     final TextureLoader loader = this.makeTextureLoader();
 
     final InputStream stream =
-      fs.openFile("/com/io7m/jcanephora/images/reference_8_index.png");
+      fs.openFile(PathVirtual
+        .ofString("/com/io7m/jcanephora/images/reference_8_index.png"));
     final Texture2DStatic texture =
       loader.load2DStaticInferredGL3(
         gl,
@@ -586,13 +593,14 @@ public abstract class TextureLoaderContractGL3 implements
         IOException
   {
     final TestContext tc = this.newTestContext();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
     final GLTextures2DStaticGL3 gl = this.getGLTextures2DStaticGL3(tc);
     final TextureLoader loader = this.makeTextureLoader();
 
     for (final TextureType type : TextureType.getES2Types()) {
       final InputStream stream =
-        fs.openFile("/com/io7m/jcanephora/images/reference_8_index.png");
+        fs.openFile(PathVirtual
+          .ofString("/com/io7m/jcanephora/images/reference_8_index.png"));
 
       final Texture2DStatic texture =
         TextureLoaderContractGL3.convertES2(gl, loader, type, stream);
@@ -632,7 +640,7 @@ public abstract class TextureLoaderContractGL3 implements
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
 
     Assume.assumeTrue(gi.getGL3().isSome());
 
@@ -641,7 +649,8 @@ public abstract class TextureLoaderContractGL3 implements
 
     for (final TextureType type : TextureType.values()) {
       final InputStream stream =
-        fs.openFile("/com/io7m/jcanephora/images/reference_8_index.png");
+        fs.openFile(PathVirtual
+          .ofString("/com/io7m/jcanephora/images/reference_8_index.png"));
 
       final Texture2DStatic texture =
         TextureLoaderContractGL3.convertGL3(gl, loader, type, stream);
@@ -677,12 +686,13 @@ public abstract class TextureLoaderContractGL3 implements
       IOException
   {
     final TestContext tc = this.newTestContext();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
     final GLTextures2DStaticGL3 gl = this.getGLTextures2DStaticGL3(tc);
     final TextureLoader loader = this.makeTextureLoader();
 
     final InputStream stream =
-      fs.openFile("/com/io7m/jcanephora/images/reference_mono.png");
+      fs.openFile(PathVirtual
+        .ofString("/com/io7m/jcanephora/images/reference_mono.png"));
     final Texture2DStatic texture =
       loader.load2DStaticInferredGLES2(
         gl,
@@ -726,13 +736,14 @@ public abstract class TextureLoaderContractGL3 implements
         IOException
   {
     final TestContext tc = this.newTestContext();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
     final GLTextures2DStaticGL3 gl = this.getGLTextures2DStaticGL3(tc);
     final TextureLoader loader = this.makeTextureLoader();
 
     for (final TextureType type : TextureType.getES2Types()) {
       final InputStream stream =
-        fs.openFile("/com/io7m/jcanephora/images/reference_mono.png");
+        fs.openFile(PathVirtual
+          .ofString("/com/io7m/jcanephora/images/reference_mono.png"));
 
       final Texture2DStatic texture =
         TextureLoaderContractGL3.convertES2(gl, loader, type, stream);
@@ -772,7 +783,7 @@ public abstract class TextureLoaderContractGL3 implements
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
 
     Assume.assumeTrue(gi.getGL3().isSome());
 
@@ -781,7 +792,8 @@ public abstract class TextureLoaderContractGL3 implements
 
     for (final TextureType type : TextureType.values()) {
       final InputStream stream =
-        fs.openFile("/com/io7m/jcanephora/images/reference_mono.png");
+        fs.openFile(PathVirtual
+          .ofString("/com/io7m/jcanephora/images/reference_mono.png"));
 
       final Texture2DStatic texture =
         TextureLoaderContractGL3.convertGL3(gl, loader, type, stream);
@@ -819,12 +831,13 @@ public abstract class TextureLoaderContractGL3 implements
         IOException
   {
     final TestContext tc = this.newTestContext();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
     final GLTextures2DStaticGL3 gl = this.getGLTextures2DStaticGL3(tc);
     final TextureLoader loader = this.makeTextureLoader();
 
     final InputStream stream =
-      fs.openFile("/com/io7m/jcanephora/images/reference_8888_4.png");
+      fs.openFile(PathVirtual
+        .ofString("/com/io7m/jcanephora/images/reference_8888_4.png"));
     final Texture2DStatic texture =
       loader.load2DStaticInferredGLES2(
         gl,
@@ -868,7 +881,7 @@ public abstract class TextureLoaderContractGL3 implements
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
 
     Assume.assumeTrue(gi.getGL3().isSome());
 
@@ -876,7 +889,8 @@ public abstract class TextureLoaderContractGL3 implements
     final TextureLoader loader = this.makeTextureLoader();
 
     final InputStream stream =
-      fs.openFile("/com/io7m/jcanephora/images/reference_8888_4.png");
+      fs.openFile(PathVirtual
+        .ofString("/com/io7m/jcanephora/images/reference_8888_4.png"));
     final Texture2DStatic texture =
       loader.load2DStaticInferredGLES2(
         gl,
@@ -919,12 +933,13 @@ public abstract class TextureLoaderContractGL3 implements
         IOException
   {
     final TestContext tc = this.newTestContext();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
     final GLTextures2DStaticGL3 gl = this.getGLTextures2DStaticGL3(tc);
     final TextureLoader loader = this.makeTextureLoader();
 
     final InputStream stream =
-      fs.openFile("/com/io7m/jcanephora/images/reference_888_3.png");
+      fs.openFile(PathVirtual
+        .ofString("/com/io7m/jcanephora/images/reference_888_3.png"));
     final Texture2DStatic texture =
       loader.load2DStaticInferredGLES2(
         gl,
@@ -968,7 +983,7 @@ public abstract class TextureLoaderContractGL3 implements
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
 
     Assume.assumeTrue(gi.getGL3().isSome());
 
@@ -976,7 +991,8 @@ public abstract class TextureLoaderContractGL3 implements
     final TextureLoader loader = this.makeTextureLoader();
 
     final InputStream stream =
-      fs.openFile("/com/io7m/jcanephora/images/reference_888_3.png");
+      fs.openFile(PathVirtual
+        .ofString("/com/io7m/jcanephora/images/reference_888_3.png"));
     final Texture2DStatic texture =
       loader.load2DStaticInferredGLES2(
         gl,
@@ -1019,13 +1035,14 @@ public abstract class TextureLoaderContractGL3 implements
         IOException
   {
     final TestContext tc = this.newTestContext();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
     final GLTextures2DStaticGL3 gl = this.getGLTextures2DStaticGL3(tc);
     final TextureLoader loader = this.makeTextureLoader();
 
     for (final TextureType type : TextureType.getES2Types()) {
       final InputStream stream =
-        fs.openFile("/com/io7m/jcanephora/images/reference_888_3.png");
+        fs.openFile(PathVirtual
+          .ofString("/com/io7m/jcanephora/images/reference_888_3.png"));
 
       final Texture2DStatic texture =
         TextureLoaderContractGL3.convertES2(gl, loader, type, stream);
@@ -1064,7 +1081,7 @@ public abstract class TextureLoaderContractGL3 implements
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
 
     Assume.assumeTrue(gi.getGL3().isSome());
 
@@ -1073,7 +1090,8 @@ public abstract class TextureLoaderContractGL3 implements
 
     for (final TextureType type : TextureType.values()) {
       final InputStream stream =
-        fs.openFile("/com/io7m/jcanephora/images/reference_888_3.png");
+        fs.openFile(PathVirtual
+          .ofString("/com/io7m/jcanephora/images/reference_888_3.png"));
 
       final Texture2DStatic texture =
         TextureLoaderContractGL3.convertGL3(gl, loader, type, stream);
@@ -1111,13 +1129,14 @@ public abstract class TextureLoaderContractGL3 implements
         IOException
   {
     final TestContext tc = this.newTestContext();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
     final GLTextures2DStaticGL3 gl = this.getGLTextures2DStaticGL3(tc);
     final TextureLoader loader = this.makeTextureLoader();
 
     for (final TextureType type : TextureType.getES2Types()) {
       final InputStream stream =
-        fs.openFile("/com/io7m/jcanephora/images/reference_8888_4.png");
+        fs.openFile(PathVirtual
+          .ofString("/com/io7m/jcanephora/images/reference_8888_4.png"));
 
       final Texture2DStatic texture =
         TextureLoaderContractGL3.convertES2(gl, loader, type, stream);
@@ -1156,7 +1175,7 @@ public abstract class TextureLoaderContractGL3 implements
   {
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
 
     Assume.assumeTrue(gi.getGL3().isSome());
 
@@ -1165,7 +1184,8 @@ public abstract class TextureLoaderContractGL3 implements
 
     for (final TextureType type : TextureType.values()) {
       final InputStream stream =
-        fs.openFile("/com/io7m/jcanephora/images/reference_8888_4.png");
+        fs.openFile(PathVirtual
+          .ofString("/com/io7m/jcanephora/images/reference_8888_4.png"));
 
       final Texture2DStatic texture =
         TextureLoaderContractGL3.convertGL3(gl, loader, type, stream);
