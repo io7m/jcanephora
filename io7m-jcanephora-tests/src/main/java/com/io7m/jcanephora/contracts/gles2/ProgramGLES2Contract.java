@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -29,9 +29,8 @@ import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.contracts.common.TestContract;
-import com.io7m.jvvfs.FilesystemAPI;
+import com.io7m.jvvfs.FSCapabilityAll;
 import com.io7m.jvvfs.FilesystemError;
-import com.io7m.jvvfs.PathVirtual;
 
 public abstract class ProgramGLES2Contract implements TestContract
 {
@@ -62,12 +61,12 @@ public abstract class ProgramGLES2Contract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
 
     final Program p = new Program("program", tc.getLog());
-    p.addVertexShader(new PathVirtual(tc.getShaderPath() + "/simple.v"));
-    p.addFragmentShader(new PathVirtual(tc.getShaderPath() + "/simple.f"));
-    p.addFragmentShader(new PathVirtual(tc.getShaderPath() + "/func.f"));
+    p.addVertexShader(tc.getShaderPath().appendName("simple.v"));
+    p.addFragmentShader(tc.getShaderPath().appendName("simple.f"));
+    p.addFragmentShader(tc.getShaderPath().appendName("func.f"));
     p.compile(fs, gl);
   }
 
@@ -93,12 +92,12 @@ public abstract class ProgramGLES2Contract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final GLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final FilesystemAPI fs = tc.getFilesystem();
+    final FSCapabilityAll fs = tc.getFilesystem();
 
     final Program p = new Program("program", tc.getLog());
-    p.addVertexShader(new PathVirtual(tc.getShaderPath() + "/simple.v"));
-    p.addVertexShader(new PathVirtual(tc.getShaderPath() + "/func.v"));
-    p.addFragmentShader(new PathVirtual(tc.getShaderPath() + "/simple.f"));
+    p.addVertexShader(tc.getShaderPath().appendName("simple.v"));
+    p.addVertexShader(tc.getShaderPath().appendName("func.v"));
+    p.addFragmentShader(tc.getShaderPath().appendName("simple.f"));
     p.compile(fs, gl);
   }
 }

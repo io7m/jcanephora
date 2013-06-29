@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -117,17 +117,17 @@ public final class ExampleFBO implements Example
      */
 
     this.program_uv = new Program("uv", config.getLog());
-    this.program_uv.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/examples/uv.v"));
-    this.program_uv.addFragmentShader(new PathVirtual(
-      "/com/io7m/jcanephora/examples/uv.f"));
+    this.program_uv.addVertexShader(PathVirtual
+      .ofString("/com/io7m/jcanephora/examples/uv.v"));
+    this.program_uv.addFragmentShader(PathVirtual
+      .ofString("/com/io7m/jcanephora/examples/uv.f"));
     this.program_uv.compile(config.getFilesystem(), this.gl);
 
     this.program_color = new Program("color", config.getLog());
-    this.program_color.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/examples/color.v"));
-    this.program_color.addFragmentShader(new PathVirtual(
-      "/com/io7m/jcanephora/examples/color.f"));
+    this.program_color.addVertexShader(PathVirtual
+      .ofString("/com/io7m/jcanephora/examples/color.v"));
+    this.program_color.addFragmentShader(PathVirtual
+      .ofString("/com/io7m/jcanephora/examples/color.f"));
     this.program_color.compile(config.getFilesystem(), this.gl);
 
     /**

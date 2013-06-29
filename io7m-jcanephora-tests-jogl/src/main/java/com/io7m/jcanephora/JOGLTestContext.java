@@ -26,8 +26,8 @@ import javax.media.opengl.GLProfile;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jlog.Log;
+import com.io7m.jvvfs.FSCapabilityAll;
 import com.io7m.jvvfs.Filesystem;
-import com.io7m.jvvfs.FilesystemAPI;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
 import com.jogamp.common.util.VersionNumber;
@@ -81,12 +81,12 @@ public final class JOGLTestContext
     return context;
   }
 
-  private static FilesystemAPI getFS(
+  private static FSCapabilityAll getFS(
     final Log log)
   {
     try {
-      final Filesystem fs = new Filesystem(log);
-      fs.mountUnsafeClasspathItem(TestContext.class, new PathVirtual("/"));
+      final Filesystem fs = Filesystem.makeWithoutArchiveDirectory(log);
+      fs.mountClasspathArchive(TestContext.class, PathVirtual.ROOT);
       return fs;
     } catch (final FilesystemError e) {
       throw new java.lang.RuntimeException(e);
@@ -124,7 +124,7 @@ public final class JOGLTestContext
   {
     final Log log =
       JOGLTestContext.getLog(JOGLTestContext.LOG_DESTINATION_OPENGL_ES_2_0);
-    final FilesystemAPI fs = JOGLTestContext.getFS(log);
+    final FSCapabilityAll fs = JOGLTestContext.getFS(log);
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GLES2));
@@ -140,7 +140,7 @@ public final class JOGLTestContext
   {
     final Log log =
       JOGLTestContext.getLog(JOGLTestContext.LOG_DESTINATION_OPENGL_3_X);
-    final FilesystemAPI fs = JOGLTestContext.getFS(log);
+    final FSCapabilityAll fs = JOGLTestContext.getFS(log);
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GL3));
@@ -160,7 +160,7 @@ public final class JOGLTestContext
   {
     final Log log =
       JOGLTestContext.getLog(JOGLTestContext.LOG_DESTINATION_OPENGL_2_1);
-    final FilesystemAPI fs = JOGLTestContext.getFS(log);
+    final FSCapabilityAll fs = JOGLTestContext.getFS(log);
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GL2));

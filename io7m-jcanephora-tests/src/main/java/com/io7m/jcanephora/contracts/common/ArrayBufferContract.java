@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -45,7 +45,7 @@ import com.io7m.jcanephora.ProgramReference;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.UsageHint;
 import com.io7m.jcanephora.VertexShader;
-import com.io7m.jvvfs.FilesystemAPI;
+import com.io7m.jvvfs.FSCapabilityAll;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
 
@@ -53,7 +53,7 @@ public abstract class ArrayBufferContract implements TestContract
 {
   @SuppressWarnings("resource") static ProgramReference makeProgram(
     final GLShaders gl,
-    final FilesystemAPI filesystem,
+    final FSCapabilityAll filesystem,
     final PathVirtual vertex_shader,
     final PathVirtual fragment_shader)
     throws GLException,
@@ -91,11 +91,11 @@ public abstract class ArrayBufferContract implements TestContract
       GLCompileException,
       IOException
   {
-    final FilesystemAPI fs = context.getFilesystem();
+    final FSCapabilityAll fs = context.getFilesystem();
     final PathVirtual path = context.getShaderPath();
 
-    final PathVirtual vss = new PathVirtual(path + "/position.v");
-    final PathVirtual fss = new PathVirtual(path + "/simple.f");
+    final PathVirtual vss = PathVirtual.ofString(path + "/position.v");
+    final PathVirtual fss = PathVirtual.ofString(path + "/simple.f");
     final ProgramReference pr =
       ArrayBufferContract.makeProgram(shaders, fs, vss, fss);
     return pr;

@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -53,7 +53,7 @@ import com.io7m.jcanephora.UsageHint;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorI2F;
 import com.io7m.jtensors.VectorReadable2I;
-import com.io7m.jvvfs.FilesystemAPI;
+import com.io7m.jvvfs.FSCapabilityAll;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
 
@@ -81,7 +81,7 @@ public final class ExampleTexturedQuadImage implements Example
   private int                           frame         = 0;
   private int                           texture_index = 0;
 
-  @SuppressWarnings("resource") public ExampleTexturedQuadImage(
+  public ExampleTexturedQuadImage(
     final @Nonnull ExampleConfig config)
     throws ConstraintError,
       GLException,
@@ -99,10 +99,10 @@ public final class ExampleTexturedQuadImage implements Example
      */
 
     this.program = new Program("uv", config.getLog());
-    this.program.addVertexShader(new PathVirtual(
-      "/com/io7m/jcanephora/examples/uv.v"));
-    this.program.addFragmentShader(new PathVirtual(
-      "/com/io7m/jcanephora/examples/uv.f"));
+    this.program.addVertexShader(PathVirtual
+      .ofString(("/com/io7m/jcanephora/examples/uv.v")));
+    this.program.addFragmentShader(PathVirtual
+      .ofString(("/com/io7m/jcanephora/examples/uv.f")));
     this.program.compile(config.getFilesystem(), this.gl);
 
     /**
@@ -118,14 +118,14 @@ public final class ExampleTexturedQuadImage implements Example
     this.textures = new Texture2DStatic[TextureType.getES2Types().length];
 
     final TextureLoader loader = config.getTextureLoader();
-    final FilesystemAPI filesystem = config.getFilesystem();
+    final FSCapabilityAll filesystem = config.getFilesystem();
 
     for (int index = 0; index < this.textures.length; ++index) {
       final TextureType type = TextureType.values()[index];
 
       final InputStream stream =
-        filesystem
-          .openFile("/com/io7m/jcanephora/examples/reference_8888_4.png");
+        filesystem.openFile(PathVirtual
+          .ofString("/com/io7m/jcanephora/examples/reference_8888_4.png"));
 
       switch (type) {
         case TEXTURE_TYPE_DEPTH_16_2BPP:
