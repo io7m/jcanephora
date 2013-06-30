@@ -60,7 +60,7 @@
     <dependency>
       <groupId>com.io7m.jvvfs.core</groupId>
       <artifactId>io7m-jvvfs-core</artifactId>
-      <version>[3.0.0-SNAPSHOT, 4.0.0)</version>
+      <version>[3.0.0, 4.0.0)</version>
     </dependency>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
