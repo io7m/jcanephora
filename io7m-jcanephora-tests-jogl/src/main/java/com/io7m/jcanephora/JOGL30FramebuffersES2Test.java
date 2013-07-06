@@ -24,7 +24,7 @@ public final class JOGL30FramebuffersES2Test extends FramebuffersES2Contract
 {
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL3Supported();
+    return JOGLTestContext.isOpenGL30Supported();
   }
 
   @Override public @Nonnull TestContext newTestContext()
@@ -32,6 +32,6 @@ public final class JOGL30FramebuffersES2Test extends FramebuffersES2Contract
       GLUnsupportedException,
       ConstraintError
   {
-    return JOGLTestContext.makeContextWithOpenGL3_X();
+    return JOGLTestContext.makeContextWithOpenGL3_0();
   }
 }

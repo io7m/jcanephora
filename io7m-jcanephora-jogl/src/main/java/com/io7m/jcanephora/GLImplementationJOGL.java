@@ -71,7 +71,32 @@ public final class GLImplementationJOGL implements GLImplementation
       return;
     }
 
+    /**
+     * Context is OpenGL 3.n, where n >= 1?
+     */
+
+    if (context.isGL3()) {
+      log.debug("Context is GL3, creating OpenGL >= 3.1 interface");
+      this.gl_3 = new GLInterfaceGL3_JOGL_GL3(context, log);
+      this.gl_2 = null;
+      this.gl_es2 = null;
+      return;
+    }
+
+    /**
+     * Context is either 2.1 or 3.0.
+     */
+
     if (context.isGL2()) {
+      if (context.getGLVersionNumber().getMajor() == 3) {
+        log
+          .debug("Context is GL2 but version is 3.0, creating OpenGL >= 3.1 interface");
+        this.gl_3 = new GLInterfaceGL3_JOGL_GL3(context, log);
+        this.gl_2 = null;
+        this.gl_es2 = null;
+        return;
+      }
+
       if (context.hasFullFBOSupport() == false) {
 
         /**
@@ -106,14 +131,6 @@ public final class GLImplementationJOGL implements GLImplementation
       log.debug("Context is GL2, creating OpenGL 2.1 interface");
       this.gl_2 = new GLInterfaceGL2_JOGL_GL21(context, log);
       this.gl_3 = null;
-      this.gl_es2 = null;
-      return;
-    }
-
-    if (context.isGL3()) {
-      log.debug("Context is GL3, creating OpenGL >= 3.1 interface");
-      this.gl_3 = new GLInterfaceGL3_JOGL_GL3(context, log);
-      this.gl_2 = null;
       this.gl_es2 = null;
       return;
     }
