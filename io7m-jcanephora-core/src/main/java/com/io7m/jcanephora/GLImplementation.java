@@ -26,29 +26,37 @@ import com.io7m.jaux.functional.Option;
 public interface GLImplementation
 {
   /**
+   * <p>
    * Return a reference to the OpenGL 2.1 interface provided by the
    * implementation, or <code>None</code> if it is not supported.
+   * </p>
    */
 
   @Nonnull Option<GLInterfaceGL2> getGL2();
 
   /**
+   * <p>
    * Return a reference to the OpenGL 3.* interface provided by the
    * implementation, or <code>None</code> if it is not supported.
+   * </p>
    */
 
   @Nonnull Option<GLInterfaceGL3> getGL3();
 
   /**
+   * <p>
    * Return a reference to the interface representing the common subset of
    * OpenGL 3.*, OpenGL ES2, and OpenGL 2.1.
+   * </p>
    */
 
   @Nonnull GLInterfaceCommon getGLCommon();
 
   /**
+   * <p>
    * Return a reference to the OpenGL ES2 interface provided by the
    * implementation, or <code>None</code> if it is not supported.
+   * </p>
    */
 
   @Nonnull Option<GLInterfaceGLES2> getGLES2();
