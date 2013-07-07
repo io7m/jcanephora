@@ -41,7 +41,7 @@ public final class JOGL30ArrayBufferTest extends ArrayBufferContract
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL3Supported();
+    return JOGLTestContext.isOpenGL30Supported();
   }
 
   @Override public @Nonnull TestContext newTestContext()
@@ -49,6 +49,6 @@ public final class JOGL30ArrayBufferTest extends ArrayBufferContract
       GLUnsupportedException,
       ConstraintError
   {
-    return JOGLTestContext.makeContextWithOpenGL3_X();
+    return JOGLTestContext.makeContextWithOpenGL3_0();
   }
 }
