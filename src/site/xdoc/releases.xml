@@ -379,6 +379,366 @@
               <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-0.9.3.zip">io7m-jcanephora-0.9.3.zip</a>
             </td>
           </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">78548</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-lwjgl-0.9.4.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-lwjgl-0.9.4.jar">io7m-jcanephora-lwjgl-0.9.4.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">250016</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-tests-0.9.4.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-tests-0.9.4.jar">io7m-jcanephora-tests-0.9.4.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">129383</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-core-0.9.4.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-core-0.9.4.jar">io7m-jcanephora-core-0.9.4.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">11441</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-program-0.9.4.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-program-0.9.4.jar">io7m-jcanephora-program-0.9.4.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">39313</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-texload-imageio-0.9.4-javadoc.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-texload-imageio-0.9.4-javadoc.jar">io7m-jcanephora-texload-imageio-0.9.4-javadoc.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">7342</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-program-0.9.4-sources.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-program-0.9.4-sources.jar">io7m-jcanephora-program-0.9.4-sources.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">676677</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-tests-lwjgl-0.9.4-javadoc.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-tests-lwjgl-0.9.4-javadoc.jar">io7m-jcanephora-tests-lwjgl-0.9.4-javadoc.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">22731</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-examples-jogl-0.9.4.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-examples-jogl-0.9.4.jar">io7m-jcanephora-examples-jogl-0.9.4.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">36764</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-lwjgl-0.9.4-sources.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-lwjgl-0.9.4-sources.jar">io7m-jcanephora-lwjgl-0.9.4-sources.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">158319</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-tests-jogl-0.9.4-sources.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-tests-jogl-0.9.4-sources.jar">io7m-jcanephora-tests-jogl-0.9.4-sources.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">169121</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-core-0.9.4-sources.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-core-0.9.4-sources.jar">io7m-jcanephora-core-0.9.4-sources.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">72531</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-examples-0.9.4-javadoc.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-examples-0.9.4-javadoc.jar">io7m-jcanephora-examples-0.9.4-javadoc.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">100519</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-lwjgl-0.9.4-javadoc.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-lwjgl-0.9.4-javadoc.jar">io7m-jcanephora-lwjgl-0.9.4-javadoc.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">36887</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-jogl-0.9.4-javadoc.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-jogl-0.9.4-javadoc.jar">io7m-jcanephora-jogl-0.9.4-javadoc.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">151669</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-tests-jogl-0.9.4.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-tests-jogl-0.9.4.jar">io7m-jcanephora-tests-jogl-0.9.4.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">45643</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-examples-0.9.4-sources.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-examples-0.9.4-sources.jar">io7m-jcanephora-examples-0.9.4-sources.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">6487</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-examples-jogl-0.9.4-sources.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-examples-jogl-0.9.4-sources.jar">io7m-jcanephora-examples-jogl-0.9.4-sources.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">10251</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-texload-imageio-0.9.4.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-texload-imageio-0.9.4.jar">io7m-jcanephora-texload-imageio-0.9.4.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">3585</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-examples-lwjgl-0.9.4.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-examples-lwjgl-0.9.4.jar">io7m-jcanephora-examples-lwjgl-0.9.4.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">25348</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-framebuffer-0.9.4-sources.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-framebuffer-0.9.4-sources.jar">io7m-jcanephora-framebuffer-0.9.4-sources.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">39044</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-jogl-0.9.4-sources.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-jogl-0.9.4-sources.jar">io7m-jcanephora-jogl-0.9.4-sources.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">153953</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-tests-lwjgl-0.9.4.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-tests-lwjgl-0.9.4.jar">io7m-jcanephora-tests-lwjgl-0.9.4.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">681033</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-core-0.9.4-javadoc.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-core-0.9.4-javadoc.jar">io7m-jcanephora-core-0.9.4-javadoc.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">159900</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-tests-lwjgl-0.9.4-sources.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-tests-lwjgl-0.9.4-sources.jar">io7m-jcanephora-tests-lwjgl-0.9.4-sources.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">49485</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-program-0.9.4-javadoc.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-program-0.9.4-javadoc.jar">io7m-jcanephora-program-0.9.4-javadoc.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">180896</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-tests-0.9.4-sources.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-tests-0.9.4-sources.jar">io7m-jcanephora-tests-0.9.4-sources.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">443186</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-tests-0.9.4-javadoc.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-tests-0.9.4-javadoc.jar">io7m-jcanephora-tests-0.9.4-javadoc.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">3911</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-texload-imageio-0.9.4-sources.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-texload-imageio-0.9.4-sources.jar">io7m-jcanephora-texload-imageio-0.9.4-sources.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">82792</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-jogl-0.9.4.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-jogl-0.9.4.jar">io7m-jcanephora-jogl-0.9.4.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">671428</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-tests-jogl-0.9.4-javadoc.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-tests-jogl-0.9.4-javadoc.jar">io7m-jcanephora-tests-jogl-0.9.4-javadoc.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">70080</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-framebuffer-0.9.4.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-framebuffer-0.9.4.jar">io7m-jcanephora-framebuffer-0.9.4.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">58358</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-examples-0.9.4.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-examples-0.9.4.jar">io7m-jcanephora-examples-0.9.4.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">164293</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-framebuffer-0.9.4-javadoc.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-framebuffer-0.9.4-javadoc.jar">io7m-jcanephora-framebuffer-0.9.4-javadoc.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">40331</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-examples-jogl-0.9.4-javadoc.jar.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-examples-jogl-0.9.4-javadoc.jar">io7m-jcanephora-examples-jogl-0.9.4-javadoc.jar</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">3059826</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-0.9.4-documentation.zip.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-0.9.4-documentation.zip">io7m-jcanephora-0.9.4-documentation.zip</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">1115937</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-0.9.4.zip.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-0.9.4.zip">io7m-jcanephora-0.9.4.zip</a>
+            </td>
+          </tr>
         </tbody>
       </table>
     </section>
@@ -406,6 +766,19 @@
             </td>
             <td class="page_table_column">
               <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-0.9.3-documentation.zip">io7m-jcanephora-0.9.3-documentation.zip</a>
+            </td>
+          </tr>
+          <tr class="page_table_row">
+            <td class="page_table_column">2013-07-06</td>
+            <td class="page_table_column">3059826</td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-0.9.4-documentation.zip.asc">asc</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://io7m.com/software/jcanephora/doc/0.9.4/d1.xhtml">io7m-jcanephora 0.9.4</a>
+            </td>
+            <td class="page_table_column">
+              <a class="page_link_file" href="http://distribution.io7m.com/jcanephora/io7m-jcanephora-0.9.4-documentation.zip">io7m-jcanephora-0.9.4-documentation.zip</a>
             </td>
           </tr>
         </tbody>
