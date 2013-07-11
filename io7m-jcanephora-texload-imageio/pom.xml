@@ -55,7 +55,7 @@
     <dependency>
       <groupId>com.io7m.jcanephora.core</groupId>
       <artifactId>io7m-jcanephora-core</artifactId>
-      <version>0.9.4</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
