@@ -55,27 +55,27 @@
     <dependency>
       <groupId>com.io7m.jcanephora.core</groupId>
       <artifactId>io7m-jcanephora-core</artifactId>
-      <version>0.9.4</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.io7m.jcanephora.tests</groupId>
       <artifactId>io7m-jcanephora-tests</artifactId>
-      <version>0.9.4</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.io7m.jcanephora.texload-imageio</groupId>
       <artifactId>io7m-jcanephora-texload-imageio</artifactId>
-      <version>0.9.4</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.io7m.jcanephora.program</groupId>
       <artifactId>io7m-jcanephora-program</artifactId>
-      <version>0.9.4</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.io7m.jcanephora.lwjgl</groupId>
       <artifactId>io7m-jcanephora-lwjgl</artifactId>
-      <version>0.9.4</version>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
