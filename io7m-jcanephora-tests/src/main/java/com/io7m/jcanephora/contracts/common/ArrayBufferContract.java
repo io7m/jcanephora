@@ -33,6 +33,7 @@ import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferDescriptor;
 import com.io7m.jcanephora.ArrayBufferWritableData;
+import com.io7m.jcanephora.CursorWritable3f;
 import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.GLArrayBuffers;
 import com.io7m.jcanephora.GLCompileException;
@@ -1123,5 +1124,97 @@ public abstract class ArrayBufferContract implements TestContract
     final ArrayBufferWritableData data = new ArrayBufferWritableData(a);
     gl.arrayBufferBind(b);
     gl.arrayBufferUpdate(a, data);
+  }
+
+  /**
+   * Ad-hoc test to ensure that a suspected problem was not actually a bug in
+   * the buffer implementation.
+   */
+
+  @Test public final void testArrayBufferGridTest()
+    throws ConstraintError,
+      GLException,
+      GLUnsupportedException,
+      GLUnsupportedException
+  {
+    final TestContext tc = this.newTestContext();
+    final GLArrayBuffers gl = this.getGLArrayBuffers(tc);
+
+    try {
+      final int x = 8;
+      final int z = 8;
+      final int y = 0;
+
+      final long expected0 =
+        ArrayBufferContract.testArrayBufferGridElementsRequired(x, z);
+      final long expected1 =
+        ArrayBufferContract.testArrayBufferGridElementsRequiredActual(x, z);
+
+      System.out.println("expected0 : " + expected0);
+      System.out.println("expected1 : " + expected1);
+
+      final ArrayBufferDescriptor d =
+        new ArrayBufferDescriptor(
+          new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+            "position",
+            GLScalarType.TYPE_FLOAT,
+            3) });
+
+      final ArrayBuffer a =
+        gl.arrayBufferAllocate(expected1, d, UsageHint.USAGE_STATIC_READ);
+
+      final ArrayBufferWritableData array_map =
+        new ArrayBufferWritableData(a);
+
+      final CursorWritable3f pc = array_map.getCursor3f("position");
+      for (int cx = -x; cx <= x; ++cx) {
+        pc.put3f(cx, y, -z);
+        pc.put3f(cx, y, z);
+      }
+      for (int cz = -z; cz <= z; ++cz) {
+        pc.put3f(-z, y, cz);
+        pc.put3f(x, y, cz);
+      }
+
+      gl.arrayBufferUpdate(a, array_map);
+
+    } catch (final Throwable e) {
+      Assert.fail(e.getMessage());
+    }
+  }
+
+  private static long testArrayBufferGridElementsRequired(
+    final int x,
+    final int z)
+  {
+    final long x_pos_points = x * 2;
+    final long x_neg_points = x * 2;
+    final long x_0_points = 2;
+    final long x_points = x_0_points + x_neg_points + x_pos_points;
+
+    final long z_pos_points = z * 2;
+    final long z_neg_points = z * 2;
+    final long z_0_points = 2;
+    final long z_points = z_0_points + z_neg_points + z_pos_points;
+
+    return x_points + z_points;
+  }
+
+  private static long testArrayBufferGridElementsRequiredActual(
+    final int x,
+    final int z)
+  {
+    long c = 0;
+
+    for (int cx = -x; cx <= x; ++cx) {
+      ++c;
+      ++c;
+    }
+    for (int cz = -z; cz <= z; ++cz) {
+      ++c;
+      ++c;
+    }
+
+    return c;
   }
 }
