@@ -101,7 +101,10 @@ import com.io7m.jtensors.VectorReadable4F;
      */
 
     this.state.draw_buffers =
-      JOGL_GLES2Functions.framebufferGetDrawBuffersActual(g, this.state, this.log);
+      JOGL_GLES2Functions.framebufferGetDrawBuffersActual(
+        g,
+        this.state,
+        this.log);
 
     /**
      * Initialize various constants.
@@ -171,7 +174,8 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return JOGL_GLES2Functions.arrayBufferIsBound(this.contextGetGL2GL3(), id);
+    return JOGL_GLES2Functions
+      .arrayBufferIsBound(this.contextGetGL2GL3(), id);
   }
 
   @Override public ByteBuffer arrayBufferMapRead(
@@ -237,7 +241,10 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    JOGL_GLES2Functions.arrayBufferUpdate(this.contextGetGL2GL3(), buffer, data);
+    JOGL_GLES2Functions.arrayBufferUpdate(
+      this.contextGetGL2GL3(),
+      buffer,
+      data);
   }
 
   @Override public void blendingDisable()
@@ -401,7 +408,12 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    JOGL_GLES2Functions.colorBufferClear4f(this.contextGetGL2GL3(), r, g, b, a);
+    JOGL_GLES2Functions.colorBufferClear4f(
+      this.contextGetGL2GL3(),
+      r,
+      g,
+      b,
+      a);
   }
 
   @Override public void colorBufferClearV3f(
@@ -494,7 +506,10 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    JOGL_GL3Functions.depthBufferClear(this.contextGetGL2GL3(), this.state, depth);
+    JOGL_GL3Functions.depthBufferClear(
+      this.contextGetGL2GL3(),
+      this.state,
+      depth);
   }
 
   @Override public void depthBufferDisable()
@@ -532,14 +547,18 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    JOGL_GL3Functions.depthBufferWriteDisable(this.contextGetGL2GL3(), this.state);
+    JOGL_GL3Functions.depthBufferWriteDisable(
+      this.contextGetGL2GL3(),
+      this.state);
   }
 
   @Override public void depthBufferWriteEnable()
     throws ConstraintError,
       GLException
   {
-    JOGL_GL3Functions.depthBufferWriteEnable(this.contextGetGL2GL3(), this.state);
+    JOGL_GL3Functions.depthBufferWriteEnable(
+      this.contextGetGL2GL3(),
+      this.state);
   }
 
   @Override public boolean depthBufferWriteIsEnabled()
@@ -633,7 +652,8 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    return JOGL_GL3Functions.framebufferDrawAnyIsBound(this.contextGetGL2GL3());
+    return JOGL_GL3Functions.framebufferDrawAnyIsBound(this
+      .contextGetGL2GL3());
   }
 
   @Override public void framebufferDrawAttachColorRenderbuffer(
@@ -791,7 +811,9 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    JOGL_GL3Functions.framebufferDrawBind(this.contextGetGL2GL3(), framebuffer);
+    JOGL_GL3Functions.framebufferDrawBind(
+      this.contextGetGL2GL3(),
+      framebuffer);
   }
 
   @Override public boolean framebufferDrawIsBound(
@@ -937,7 +959,10 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    JOGL_GLES2Functions.indexBufferUpdate(this.contextGetGL2GL3(), buffer, data);
+    JOGL_GLES2Functions.indexBufferUpdate(
+      this.contextGetGL2GL3(),
+      buffer,
+      data);
   }
 
   @Override public void logicOperationsDisable()
@@ -951,7 +976,9 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    JOGL_GL3Functions.logicOperationsEnable(this.contextGetGL2GL3(), operation);
+    JOGL_GL3Functions.logicOperationsEnable(
+      this.contextGetGL2GL3(),
+      operation);
   }
 
   @Override public boolean logicOperationsEnabled()
@@ -1040,7 +1067,10 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    JOGL_GL3Functions.polygonSetMode(this.contextGetGL2GL3(), this.state, mode);
+    JOGL_GL3Functions.polygonSetMode(
+      this.contextGetGL2GL3(),
+      this.state,
+      mode);
   }
 
   @Override public void polygonSmoothingDisable()
@@ -1058,7 +1088,8 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public boolean polygonSmoothingIsEnabled()
     throws GLException
   {
-    return JOGL_GL3Functions.polygonSmoothingIsEnabled(this.contextGetGL2GL3());
+    return JOGL_GL3Functions.polygonSmoothingIsEnabled(this
+      .contextGetGL2GL3());
   }
 
   @Override public void programActivate(
@@ -1298,13 +1329,14 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return Renderbuffer.unsafeBrandColor(JOGL_GLES2Functions.renderbufferAllocate(
-      this.contextGetGL2GL3(),
-      this.state,
-      this.log,
-      RenderbufferType.RENDERBUFFER_COLOR_RGB_888,
-      width,
-      height));
+    return Renderbuffer.unsafeBrandColor(JOGL_GLES2Functions
+      .renderbufferAllocate(
+        this.contextGetGL2GL3(),
+        this.state,
+        this.log,
+        RenderbufferType.RENDERBUFFER_COLOR_RGB_888,
+        width,
+        height));
   }
 
   @Override public @Nonnull
@@ -1315,13 +1347,14 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return Renderbuffer.unsafeBrandColor(JOGL_GLES2Functions.renderbufferAllocate(
-      this.contextGetGL2GL3(),
-      this.state,
-      this.log,
-      RenderbufferType.RENDERBUFFER_COLOR_RGBA_8888,
-      width,
-      height));
+    return Renderbuffer.unsafeBrandColor(JOGL_GLES2Functions
+      .renderbufferAllocate(
+        this.contextGetGL2GL3(),
+        this.state,
+        this.log,
+        RenderbufferType.RENDERBUFFER_COLOR_RGBA_8888,
+        width,
+        height));
   }
 
   @Override public void renderbufferDelete(
@@ -1382,7 +1415,8 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    JOGL_GL3Functions.stencilBufferEnable(this.contextGetGL2GL3(), this.state);
+    JOGL_GL3Functions
+      .stencilBufferEnable(this.contextGetGL2GL3(), this.state);
   }
 
   @Override public void stencilBufferFunction(
@@ -1421,7 +1455,10 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    JOGL_GLES2Functions.stencilBufferMask(this.contextGetGL2GL3(), faces, mask);
+    JOGL_GLES2Functions.stencilBufferMask(
+      this.contextGetGL2GL3(),
+      faces,
+      mask);
   }
 
   @Override public void stencilBufferOperation(
@@ -1721,8 +1758,10 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    JOGL_GLES2Functions
-      .texture2DStaticBind(this.contextGetGL2GL3(), unit, texture);
+    JOGL_GLES2Functions.texture2DStaticBind(
+      this.contextGetGL2GL3(),
+      unit,
+      texture);
   }
 
   @Override public void texture2DStaticDelete(
@@ -1943,7 +1982,8 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    JOGL_GLES2Functions.textureCubeStaticUnbind(this.contextGetGL2GL3(), unit);
+    JOGL_GLES2Functions
+      .textureCubeStaticUnbind(this.contextGetGL2GL3(), unit);
   }
 
   @Override public void textureCubeStaticUpdate(
@@ -2021,6 +2061,9 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    JOGL_GLES2Functions.viewportSet(this.contextGetGL2GL3(), position, dimensions);
+    JOGL_GLES2Functions.viewportSet(
+      this.contextGetGL2GL3(),
+      position,
+      dimensions);
   }
 }

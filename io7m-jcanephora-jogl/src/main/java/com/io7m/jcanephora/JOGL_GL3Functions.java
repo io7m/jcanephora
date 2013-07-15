@@ -1391,8 +1391,9 @@ final class JOGL_GL3Functions
   {
     Constraints.constrainNotNull(faces, "Face selection");
 
-    gl
-      .glStencilMaskSeparate(JOGL_GLTypeConversions.faceSelectionToGL(faces), mask);
+    gl.glStencilMaskSeparate(
+      JOGL_GLTypeConversions.faceSelectionToGL(faces),
+      mask);
     JOGL_GLES2Functions.checkError(gl);
   }
 
@@ -1410,7 +1411,8 @@ final class JOGL_GL3Functions
     Constraints.constrainNotNull(depth_fail, "Depth fail operation");
     Constraints.constrainNotNull(pass, "Pass operation");
 
-    final int sfail = JOGL_GLTypeConversions.stencilOperationToGL(stencil_fail);
+    final int sfail =
+      JOGL_GLTypeConversions.stencilOperationToGL(stencil_fail);
     final int dfail = JOGL_GLTypeConversions.stencilOperationToGL(depth_fail);
     final int dpass = JOGL_GLTypeConversions.stencilOperationToGL(pass);
     gl.glStencilOpSeparate(

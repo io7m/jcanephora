@@ -97,34 +97,6 @@ public final class LWJGLTestContext
 
   private static Pbuffer       buffer = null;
 
-  static Pbuffer makePbuffer(
-    final Profile want)
-    throws LWJGLException
-  {
-    final PixelFormat pixel_format = new PixelFormat(8, 24, 8);
-    final ContextAttribs attribs =
-      new ContextAttribs(want.version_major, want.version_minor);
-
-    ContextAttribs attribs_w;
-    if (want.version_es) {
-      attribs_w = attribs.withProfileES(want.version_es);
-    } else {
-      attribs_w = attribs;
-    }
-
-    final Pbuffer pbuffer =
-      new Pbuffer(
-        want.width,
-        want.height,
-        pixel_format,
-        null,
-        null,
-        attribs_w);
-
-    pbuffer.makeCurrent();
-    return pbuffer;
-  }
-
   static Pbuffer createOffscreenDisplay(
     final Profile want)
   {
@@ -159,6 +131,39 @@ public final class LWJGLTestContext
   {
     final Properties properties = new Properties();
     return new Log(properties, "com.io7m.jcanephora", destination);
+  }
+
+  /**
+   * Return <code>true</code> iff the created context is exactly OpenGL 2.1.
+   */
+
+  @SuppressWarnings("boxing") public static boolean isOpenGL21Supported()
+  {
+    try {
+      final Pbuffer pb =
+        LWJGLTestContext.makePbuffer(LWJGLTestContext.PROFILE_OPENGL_2_1);
+
+      final String version = GL11.glGetString(GL11.GL_VERSION);
+      final Pair<Integer, Integer> p =
+        LWJGL_GLES2Functions.metaParseVersion(version);
+
+      final boolean correct =
+        ((p.first == 2) && (p.second == 1) && (LWJGL_GLES2Functions
+          .metaVersionIsES(version) == false));
+
+      if (correct) {
+        System.err.println("Context " + version + " is 2.1");
+      } else {
+        System.err.println("Context " + version + " is not 2.1");
+      }
+
+      pb.releaseContext();
+      pb.destroy();
+      return correct;
+    } catch (final LWJGLException e) {
+      e.printStackTrace();
+      return false;
+    }
   }
 
   /**
@@ -228,39 +233,6 @@ public final class LWJGLTestContext
   }
 
   /**
-   * Return <code>true</code> iff the created context is exactly OpenGL 2.1.
-   */
-
-  @SuppressWarnings("boxing") public static boolean isOpenGL21Supported()
-  {
-    try {
-      final Pbuffer pb =
-        LWJGLTestContext.makePbuffer(LWJGLTestContext.PROFILE_OPENGL_2_1);
-
-      final String version = GL11.glGetString(GL11.GL_VERSION);
-      final Pair<Integer, Integer> p =
-        LWJGL_GLES2Functions.metaParseVersion(version);
-
-      final boolean correct =
-        ((p.first == 2) && (p.second == 1) && (LWJGL_GLES2Functions
-          .metaVersionIsES(version) == false));
-
-      if (correct) {
-        System.err.println("Context " + version + " is 2.1");
-      } else {
-        System.err.println("Context " + version + " is not 2.1");
-      }
-
-      pb.releaseContext();
-      pb.destroy();
-      return correct;
-    } catch (final LWJGLException e) {
-      e.printStackTrace();
-      return false;
-    }
-  }
-
-  /**
    * Return <code>true</code> iff the created context is exactly OpenGL ES2.
    */
 
@@ -288,21 +260,21 @@ public final class LWJGLTestContext
     return new TestContext(fs, gi, log, ShaderPaths.getShaderPath(2, 0, true));
   }
 
-  public static TestContext makeContextWithOpenGL3_X()
+  public static TestContext makeContextWithOpenGL21_X()
     throws GLException,
       GLUnsupportedException,
       ConstraintError
   {
     final Log log =
-      LWJGLTestContext.getLog(LWJGLTestContext.LOG_DESTINATION_OPENGL_3_X);
+      LWJGLTestContext.getLog(LWJGLTestContext.LOG_DESTINATION_OPENGL_2_1);
     final FSCapabilityAll fs = LWJGLTestContext.getFS(log);
     final GLImplementation gi =
-      LWJGLTestContext.makeImplementationWithOpenGL_3_X(log);
+      LWJGLTestContext.makeImplementationWithOpenGL_2_1(log);
     return new TestContext(
       fs,
       gi,
       log,
-      ShaderPaths.getShaderPath(3, 1, false));
+      ShaderPaths.getShaderPath(2, 1, false));
   }
 
   public static TestContext makeContextWithOpenGL3_0()
@@ -322,21 +294,31 @@ public final class LWJGLTestContext
       ShaderPaths.getShaderPath(3, 0, false));
   }
 
-  public static TestContext makeContextWithOpenGL21_X()
+  public static TestContext makeContextWithOpenGL3_X()
     throws GLException,
       GLUnsupportedException,
       ConstraintError
   {
     final Log log =
-      LWJGLTestContext.getLog(LWJGLTestContext.LOG_DESTINATION_OPENGL_2_1);
+      LWJGLTestContext.getLog(LWJGLTestContext.LOG_DESTINATION_OPENGL_3_X);
     final FSCapabilityAll fs = LWJGLTestContext.getFS(log);
     final GLImplementation gi =
-      LWJGLTestContext.makeImplementationWithOpenGL_2_1(log);
+      LWJGLTestContext.makeImplementationWithOpenGL_3_X(log);
     return new TestContext(
       fs,
       gi,
       log,
-      ShaderPaths.getShaderPath(2, 1, false));
+      ShaderPaths.getShaderPath(3, 1, false));
+  }
+
+  public static GLImplementation makeImplementationWithOpenGL_2_1(
+    final Log log)
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    LWJGLTestContext.openContext(LWJGLTestContext.PROFILE_OPENGL_2_1);
+    return new GLImplementationLWJGL(log);
   }
 
   public static GLImplementation makeImplementationWithOpenGL_3_0(
@@ -359,16 +341,6 @@ public final class LWJGLTestContext
     return new GLImplementationLWJGL(log);
   }
 
-  public static GLImplementation makeImplementationWithOpenGL_2_1(
-    final Log log)
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError
-  {
-    LWJGLTestContext.openContext(LWJGLTestContext.PROFILE_OPENGL_2_1);
-    return new GLImplementationLWJGL(log);
-  }
-
   public static GLImplementation makeImplementationWithOpenGL_ES2(
     final Log log)
     throws GLException,
@@ -377,6 +349,34 @@ public final class LWJGLTestContext
   {
     LWJGLTestContext.openContext(LWJGLTestContext.PROFILE_OPENGL_ES_2_0);
     return new GLImplementationLWJGL(log);
+  }
+
+  static Pbuffer makePbuffer(
+    final Profile want)
+    throws LWJGLException
+  {
+    final PixelFormat pixel_format = new PixelFormat(8, 24, 8);
+    final ContextAttribs attribs =
+      new ContextAttribs(want.version_major, want.version_minor);
+
+    ContextAttribs attribs_w;
+    if (want.version_es) {
+      attribs_w = attribs.withProfileES(want.version_es);
+    } else {
+      attribs_w = attribs;
+    }
+
+    final Pbuffer pbuffer =
+      new Pbuffer(
+        want.width,
+        want.height,
+        pixel_format,
+        null,
+        null,
+        attribs_w);
+
+    pbuffer.makeCurrent();
+    return pbuffer;
   }
 
   private static Pbuffer openContext(

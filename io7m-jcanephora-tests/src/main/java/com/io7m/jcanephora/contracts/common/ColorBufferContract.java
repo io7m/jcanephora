@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -39,6 +39,46 @@ public abstract class ColorBufferContract implements TestContract
 
   public abstract GLColorBuffer getGLColorBuffer(
     final @Nonnull TestContext context);
+
+  @Test public final void testColorBufferClear()
+    throws ConstraintError,
+      GLException,
+      GLUnsupportedException
+  {
+    final TestContext tc = this.newTestContext();
+    final GLColorBuffer gl = this.getGLColorBuffer(tc);
+
+    gl.colorBufferClear3f(1.0f, 0.0f, 0.0f);
+    gl.colorBufferClear4f(1.0f, 0.0f, 0.0f, 1.0f);
+    gl.colorBufferClearV3f(new VectorI3F(1.0f, 0.0f, 0.0f));
+    gl.colorBufferClearV4f(new VectorI4F(0.0f, 1.0f, 1.0f, 1.0f));
+  }
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testColorBufferClearV3Null()
+      throws ConstraintError,
+        GLException,
+        GLUnsupportedException
+  {
+    final TestContext tc = this.newTestContext();
+    final GLColorBuffer gl = this.getGLColorBuffer(tc);
+
+    gl.colorBufferClearV3f(null);
+  }
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testColorBufferClearV4Null()
+      throws ConstraintError,
+        GLException,
+        GLUnsupportedException
+  {
+    final TestContext tc = this.newTestContext();
+    final GLColorBuffer gl = this.getGLColorBuffer(tc);
+
+    gl.colorBufferClearV4f(null);
+  }
 
   /**
    * Color masking works.
@@ -133,45 +173,5 @@ public abstract class ColorBufferContract implements TestContract
       Assert.assertFalse(b);
       Assert.assertFalse(a);
     }
-  }
-
-  @Test public final void testColorBufferClear()
-    throws ConstraintError,
-      GLException,
-      GLUnsupportedException
-  {
-    final TestContext tc = this.newTestContext();
-    final GLColorBuffer gl = this.getGLColorBuffer(tc);
-
-    gl.colorBufferClear3f(1.0f, 0.0f, 0.0f);
-    gl.colorBufferClear4f(1.0f, 0.0f, 0.0f, 1.0f);
-    gl.colorBufferClearV3f(new VectorI3F(1.0f, 0.0f, 0.0f));
-    gl.colorBufferClearV4f(new VectorI4F(0.0f, 1.0f, 1.0f, 1.0f));
-  }
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testColorBufferClearV3Null()
-      throws ConstraintError,
-        GLException,
-        GLUnsupportedException
-  {
-    final TestContext tc = this.newTestContext();
-    final GLColorBuffer gl = this.getGLColorBuffer(tc);
-
-    gl.colorBufferClearV3f(null);
-  }
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testColorBufferClearV4Null()
-      throws ConstraintError,
-        GLException,
-        GLUnsupportedException
-  {
-    final TestContext tc = this.newTestContext();
-    final GLColorBuffer gl = this.getGLColorBuffer(tc);
-
-    gl.colorBufferClearV4f(null);
   }
 }

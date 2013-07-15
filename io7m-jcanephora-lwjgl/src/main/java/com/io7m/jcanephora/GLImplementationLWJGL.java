@@ -36,47 +36,6 @@ import com.io7m.jlog.Log;
 
 public final class GLImplementationLWJGL implements GLImplementation
 {
-  private static boolean isGLES2(
-    final @Nonnull String version)
-  {
-    if (LWJGL_GLES2Functions.metaVersionIsES(version)) {
-      final Pair<Integer, Integer> p =
-        LWJGL_GLES2Functions.metaParseVersion(version);
-      return p.first.intValue() == 2;
-    }
-
-    return false;
-  }
-
-  private static boolean isGL2(
-    final @Nonnull String version)
-  {
-    if (LWJGL_GLES2Functions.metaVersionIsES(version) == false) {
-      final Pair<Integer, Integer> p =
-        LWJGL_GLES2Functions.metaParseVersion(version);
-      return (p.first.intValue() == 2) && (p.second.intValue() == 1);
-    }
-
-    return false;
-  }
-
-  private static boolean isGL3(
-    final @Nonnull String version)
-  {
-    if (LWJGL_GLES2Functions.metaVersionIsES(version) == false) {
-      final Pair<Integer, Integer> p =
-        LWJGL_GLES2Functions.metaParseVersion(version);
-      return (p.first.intValue() >= 3) && (p.second.intValue() >= 0);
-    }
-
-    return false;
-  }
-
-  private final @Nonnull Log              log;
-  private final @Nonnull GLInterfaceGLES2 gl_es2;
-  private final @Nonnull GLInterfaceGL3   gl_3;
-  private final @Nonnull GLInterfaceGL2   gl_2;
-
   static void checkFBOSupport(
     final @Nonnull Log log,
     final @Nonnull Set<String> extensions)
@@ -109,6 +68,62 @@ public final class GLImplementationLWJGL implements GLImplementation
       log.debug("ARB_framebuffer_object supported");
     }
   }
+
+  private static Set<String> getExtensionsGL21_30()
+  {
+    final String eraw = GL11.glGetString(GL11.GL_EXTENSIONS);
+    final String[] exts = eraw.split(" ");
+    final TreeSet<String> ext_set = new TreeSet<String>();
+
+    for (final String e : exts) {
+      ext_set.add(e);
+    }
+
+    return ext_set;
+  }
+
+  private static boolean isGL2(
+    final @Nonnull String version)
+  {
+    if (LWJGL_GLES2Functions.metaVersionIsES(version) == false) {
+      final Pair<Integer, Integer> p =
+        LWJGL_GLES2Functions.metaParseVersion(version);
+      return (p.first.intValue() == 2) && (p.second.intValue() == 1);
+    }
+
+    return false;
+  }
+
+  private static boolean isGL3(
+    final @Nonnull String version)
+  {
+    if (LWJGL_GLES2Functions.metaVersionIsES(version) == false) {
+      final Pair<Integer, Integer> p =
+        LWJGL_GLES2Functions.metaParseVersion(version);
+      return (p.first.intValue() >= 3) && (p.second.intValue() >= 0);
+    }
+
+    return false;
+  }
+
+  private static boolean isGLES2(
+    final @Nonnull String version)
+  {
+    if (LWJGL_GLES2Functions.metaVersionIsES(version)) {
+      final Pair<Integer, Integer> p =
+        LWJGL_GLES2Functions.metaParseVersion(version);
+      return p.first.intValue() == 2;
+    }
+
+    return false;
+  }
+
+  private final @Nonnull Log              log;
+  private final @Nonnull GLInterfaceGLES2 gl_es2;
+
+  private final @Nonnull GLInterfaceGL3   gl_3;
+
+  private final @Nonnull GLInterfaceGL2   gl_2;
 
   /**
    * Construct an implementation assuming that the LWJGL library has already
@@ -166,17 +181,12 @@ public final class GLImplementationLWJGL implements GLImplementation
       "At least OpenGL 2.1 or OpenGL ES2 is required");
   }
 
-  private static Set<String> getExtensionsGL21_30()
+  @Override public @Nonnull Option<GLInterfaceGL2> getGL2()
   {
-    final String eraw = GL11.glGetString(GL11.GL_EXTENSIONS);
-    final String[] exts = eraw.split(" ");
-    final TreeSet<String> ext_set = new TreeSet<String>();
-
-    for (final String e : exts) {
-      ext_set.add(e);
+    if (this.gl_2 != null) {
+      return new Option.Some<GLInterfaceGL2>(this.gl_2);
     }
-
-    return ext_set;
+    return new Option.None<GLInterfaceGL2>();
   }
 
   @Override public @Nonnull Option<GLInterfaceGL3> getGL3()
@@ -185,14 +195,6 @@ public final class GLImplementationLWJGL implements GLImplementation
       return new Option.Some<GLInterfaceGL3>(this.gl_3);
     }
     return new Option.None<GLInterfaceGL3>();
-  }
-
-  @Override public @Nonnull Option<GLInterfaceGL2> getGL2()
-  {
-    if (this.gl_2 != null) {
-      return new Option.Some<GLInterfaceGL2>(this.gl_2);
-    }
-    return new Option.None<GLInterfaceGL2>();
   }
 
   @Override public @Nonnull GLInterfaceCommon getGLCommon()

@@ -82,7 +82,9 @@ import com.io7m.jtensors.VectorReadable4F;
      */
 
     this.state.draw_buffers =
-      LWJGL_GLES2Functions.framebufferGetDrawBuffersActual(this.state, this.log);
+      LWJGL_GLES2Functions.framebufferGetDrawBuffersActual(
+        this.state,
+        this.log);
 
     /**
      * Initialize various constants.
@@ -753,7 +755,8 @@ import com.io7m.jtensors.VectorReadable4F;
     throws GLException,
       ConstraintError
   {
-    return LWJGL_GL3Functions.framebufferDrawValidate(this.state, framebuffer);
+    return LWJGL_GL3Functions
+      .framebufferDrawValidate(this.state, framebuffer);
   }
 
   @Override public @Nonnull
@@ -1087,7 +1090,10 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    LWJGL_GLES2Functions.programPutUniformTextureUnit(this.state, uniform, unit);
+    LWJGL_GLES2Functions.programPutUniformTextureUnit(
+      this.state,
+      uniform,
+      unit);
   }
 
   @Override public void programPutUniformVector2f(
@@ -1159,12 +1165,13 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return Renderbuffer.unsafeBrandColor(LWJGL_GLES2Functions.renderbufferAllocate(
-      this.state,
-      this.log,
-      RenderbufferType.RENDERBUFFER_COLOR_RGB_888,
-      width,
-      height));
+    return Renderbuffer.unsafeBrandColor(LWJGL_GLES2Functions
+      .renderbufferAllocate(
+        this.state,
+        this.log,
+        RenderbufferType.RENDERBUFFER_COLOR_RGB_888,
+        width,
+        height));
   }
 
   @Override public @Nonnull
@@ -1175,12 +1182,13 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return Renderbuffer.unsafeBrandColor(LWJGL_GLES2Functions.renderbufferAllocate(
-      this.state,
-      this.log,
-      RenderbufferType.RENDERBUFFER_COLOR_RGBA_8888,
-      width,
-      height));
+    return Renderbuffer.unsafeBrandColor(LWJGL_GLES2Functions
+      .renderbufferAllocate(
+        this.state,
+        this.log,
+        RenderbufferType.RENDERBUFFER_COLOR_RGBA_8888,
+        width,
+        height));
   }
 
   @Override public void renderbufferDelete(
@@ -1737,7 +1745,10 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    LWJGL_GLES2Functions.textureCubeStaticDelete(this.state, this.log, texture);
+    LWJGL_GLES2Functions.textureCubeStaticDelete(
+      this.state,
+      this.log,
+      texture);
   }
 
   @Override public boolean textureCubeStaticIsBound(
@@ -1746,7 +1757,10 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return LWJGL_GLES2Functions.textureCubeStaticIsBound(this.state, unit, texture);
+    return LWJGL_GLES2Functions.textureCubeStaticIsBound(
+      this.state,
+      unit,
+      texture);
   }
 
   @Override public void textureCubeStaticUnbind(

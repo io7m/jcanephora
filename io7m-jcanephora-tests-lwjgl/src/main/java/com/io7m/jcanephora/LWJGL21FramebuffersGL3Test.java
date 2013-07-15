@@ -23,6 +23,14 @@ import com.io7m.jcanephora.contracts.gl3.FramebuffersGL3Contract;
 
 public final class LWJGL21FramebuffersGL3Test extends FramebuffersGL3Contract
 {
+  @Override public GLInterfaceGL2 getGLInterface(
+    final TestContext context)
+  {
+    final Some<GLInterfaceGL2> some =
+      (Some<GLInterfaceGL2>) context.getGLImplementation().getGL2();
+    return some.value;
+  }
+
   @Override public boolean isGLSupported()
   {
     return LWJGLTestContext.isOpenGL21Supported();
@@ -34,13 +42,5 @@ public final class LWJGL21FramebuffersGL3Test extends FramebuffersGL3Contract
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL21_X();
-  }
-
-  @Override public GLInterfaceGL2 getGLInterface(
-    final TestContext context)
-  {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) context.getGLImplementation().getGL2();
-    return some.value;
   }
 }

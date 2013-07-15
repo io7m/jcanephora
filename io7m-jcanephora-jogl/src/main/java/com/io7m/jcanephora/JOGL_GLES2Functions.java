@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -735,7 +735,8 @@ final class JOGL_GLES2Functions
     final int index_id = indices.getGLName();
     final int index_count = (int) indices.getRange().getInterval();
     final int mode_gl = JOGL_GLTypeConversions.primitiveToGL(mode);
-    final int type = JOGL_GLTypeConversions.unsignedTypeToGL(indices.getType());
+    final int type =
+      JOGL_GLTypeConversions.unsignedTypeToGL(indices.getType());
 
     gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, index_id);
     gl.glDrawElements(mode_gl, index_count, type, 0L);
@@ -1348,7 +1349,10 @@ final class JOGL_GLES2Functions
     throws GLException
   {
     final int max =
-      JOGL_GLES2Functions.contextGetInteger(gl, state, GL2ES2.GL_MAX_DRAW_BUFFERS);
+      JOGL_GLES2Functions.contextGetInteger(
+        gl,
+        state,
+        GL2ES2.GL_MAX_DRAW_BUFFERS);
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -1831,7 +1835,10 @@ final class JOGL_GLES2Functions
       "Program not deleted");
 
     final int active =
-      JOGL_GLES2Functions.contextGetInteger(gl, state, GL2ES2.GL_CURRENT_PROGRAM);
+      JOGL_GLES2Functions.contextGetInteger(
+        gl,
+        state,
+        GL2ES2.GL_CURRENT_PROGRAM);
     JOGL_GLES2Functions.checkError(gl);
     return active == program.getGLName();
   }
@@ -2307,8 +2314,9 @@ final class JOGL_GLES2Functions
   {
     Constraints.constrainNotNull(faces, "Face selection");
 
-    gl
-      .glStencilMaskSeparate(JOGL_GLTypeConversions.faceSelectionToGL(faces), mask);
+    gl.glStencilMaskSeparate(
+      JOGL_GLTypeConversions.faceSelectionToGL(faces),
+      mask);
     JOGL_GLES2Functions.checkError(gl);
   }
 
@@ -2326,7 +2334,8 @@ final class JOGL_GLES2Functions
     Constraints.constrainNotNull(depth_fail, "Depth fail operation");
     Constraints.constrainNotNull(pass, "Pass operation");
 
-    final int sfail = JOGL_GLTypeConversions.stencilOperationToGL(stencil_fail);
+    final int sfail =
+      JOGL_GLTypeConversions.stencilOperationToGL(stencil_fail);
     final int dfail = JOGL_GLTypeConversions.stencilOperationToGL(depth_fail);
     final int dpass = JOGL_GLTypeConversions.stencilOperationToGL(pass);
     gl.glStencilOpSeparate(
@@ -2801,8 +2810,10 @@ final class JOGL_GLES2Functions
     final @Nonnull GLStateCache state)
     throws GLException
   {
-    return JOGL_GLES2Functions
-      .contextGetInteger(gl, state, GL.GL_MAX_TEXTURE_SIZE);
+    return JOGL_GLES2Functions.contextGetInteger(
+      gl,
+      state,
+      GL.GL_MAX_TEXTURE_SIZE);
   }
 
   static TextureUnit[] textureGetUnitsActual(
