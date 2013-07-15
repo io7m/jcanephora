@@ -1551,6 +1551,47 @@ public abstract class ProgramContract implements TestContract
   }
 
   /**
+   * Structs in GLSL programs are reported predictably.
+   */
+
+  @Test public final void testShaderStruct()
+    throws ConstraintError,
+      GLException,
+      GLUnsupportedException,
+      FilesystemError,
+      GLCompileException
+  {
+    final TestContext tc = this.newTestContext();
+    final GLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    final FSCapabilityAll fs = tc.getFilesystem();
+    final PathVirtual path = tc.getShaderPath();
+
+    final Program p = new Program("program", tc.getLog());
+    p.addVertexShader(PathVirtual.ofString(path + "/simple.v"));
+    p.addFragmentShader(PathVirtual.ofString(path + "/struct.f"));
+    p.compile(fs, gl);
+    Assert.assertFalse(p.requiresCompilation(fs, gl));
+
+    {
+      final ProgramUniform u = p.getUniform("color.red");
+      Assert.assertNotNull(u);
+      Assert.assertEquals(GLType.Type.TYPE_FLOAT, u.getType());
+    }
+
+    {
+      final ProgramUniform u = p.getUniform("color.green");
+      Assert.assertNotNull(u);
+      Assert.assertEquals(GLType.Type.TYPE_FLOAT, u.getType());
+    }
+
+    {
+      final ProgramUniform u = p.getUniform("color.blue");
+      Assert.assertNotNull(u);
+      Assert.assertEquals(GLType.Type.TYPE_FLOAT, u.getType());
+    }
+  }
+
+  /**
    * Deleting a vertex shader twice fails.
    * 
    * @throws GLException
