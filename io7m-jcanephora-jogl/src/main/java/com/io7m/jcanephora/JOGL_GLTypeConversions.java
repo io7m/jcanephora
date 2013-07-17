@@ -18,6 +18,7 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES2;
+import javax.media.opengl.GL2ES3;
 import javax.media.opengl.GL2GL3;
 
 import com.io7m.jaux.UnreachableCodeException;
@@ -61,9 +62,9 @@ final class JOGL_GLTypeConversions
     switch (e) {
       case GL.GL_FUNC_ADD:
         return BlendEquationGL3.BLEND_EQUATION_ADD;
-      case GL2GL3.GL_MAX:
+      case GL2ES3.GL_MAX:
         return BlendEquationGL3.BLEND_EQUATION_MAXIMUM;
-      case GL2GL3.GL_MIN:
+      case GL2ES3.GL_MIN:
         return BlendEquationGL3.BLEND_EQUATION_MINIMUM;
       case GL.GL_FUNC_REVERSE_SUBTRACT:
         return BlendEquationGL3.BLEND_EQUATION_REVERSE_SUBTRACT;
@@ -81,9 +82,9 @@ final class JOGL_GLTypeConversions
       case BLEND_EQUATION_ADD:
         return GL.GL_FUNC_ADD;
       case BLEND_EQUATION_MAXIMUM:
-        return GL2GL3.GL_MAX;
+        return GL2ES3.GL_MAX;
       case BLEND_EQUATION_MINIMUM:
-        return GL2GL3.GL_MIN;
+        return GL2ES3.GL_MIN;
       case BLEND_EQUATION_REVERSE_SUBTRACT:
         return GL.GL_FUNC_REVERSE_SUBTRACT;
       case BLEND_EQUATION_SUBTRACT:
@@ -709,7 +710,7 @@ final class JOGL_GLTypeConversions
       case TEXTURE_TYPE_DEPTH_24_4BPP:
         return GL.GL_DEPTH_COMPONENT24;
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
-        return GL2GL3.GL_DEPTH_COMPONENT32F;
+        return GL2ES3.GL_DEPTH_COMPONENT32F;
       case TEXTURE_TYPE_DEPTH_32_4BPP:
         return GL.GL_DEPTH_COMPONENT32;
     }
@@ -982,23 +983,23 @@ final class JOGL_GLTypeConversions
     final int hint)
   {
     switch (hint) {
-      case GL2GL3.GL_DYNAMIC_COPY:
+      case GL2ES3.GL_DYNAMIC_COPY:
         return UsageHint.USAGE_DYNAMIC_COPY;
       case GL.GL_DYNAMIC_DRAW:
         return UsageHint.USAGE_DYNAMIC_DRAW;
-      case GL2GL3.GL_DYNAMIC_READ:
+      case GL2ES3.GL_DYNAMIC_READ:
         return UsageHint.USAGE_DYNAMIC_READ;
-      case GL2GL3.GL_STATIC_COPY:
+      case GL2ES3.GL_STATIC_COPY:
         return UsageHint.USAGE_STATIC_COPY;
       case GL.GL_STATIC_DRAW:
         return UsageHint.USAGE_STATIC_DRAW;
-      case GL2GL3.GL_STATIC_READ:
+      case GL2ES3.GL_STATIC_READ:
         return UsageHint.USAGE_STATIC_READ;
-      case GL2GL3.GL_STREAM_COPY:
+      case GL2ES3.GL_STREAM_COPY:
         return UsageHint.USAGE_STREAM_COPY;
       case GL2ES2.GL_STREAM_DRAW:
         return UsageHint.USAGE_STREAM_DRAW;
-      case GL2GL3.GL_STREAM_READ:
+      case GL2ES3.GL_STREAM_READ:
         return UsageHint.USAGE_STREAM_READ;
     }
 
@@ -1010,23 +1011,23 @@ final class JOGL_GLTypeConversions
   {
     switch (hint) {
       case USAGE_DYNAMIC_COPY:
-        return GL2GL3.GL_DYNAMIC_COPY;
+        return GL2ES3.GL_DYNAMIC_COPY;
       case USAGE_DYNAMIC_DRAW:
         return GL.GL_DYNAMIC_DRAW;
       case USAGE_DYNAMIC_READ:
-        return GL2GL3.GL_DYNAMIC_READ;
+        return GL2ES3.GL_DYNAMIC_READ;
       case USAGE_STATIC_COPY:
-        return GL2GL3.GL_STATIC_COPY;
+        return GL2ES3.GL_STATIC_COPY;
       case USAGE_STATIC_DRAW:
         return GL.GL_STATIC_DRAW;
       case USAGE_STATIC_READ:
-        return GL2GL3.GL_STATIC_READ;
+        return GL2ES3.GL_STATIC_READ;
       case USAGE_STREAM_COPY:
-        return GL2GL3.GL_STREAM_COPY;
+        return GL2ES3.GL_STREAM_COPY;
       case USAGE_STREAM_DRAW:
         return GL2ES2.GL_STREAM_DRAW;
       case USAGE_STREAM_READ:
-        return GL2GL3.GL_STREAM_READ;
+        return GL2ES3.GL_STREAM_READ;
     }
 
     throw new UnreachableCodeException();

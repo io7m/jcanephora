@@ -39,14 +39,17 @@ import com.io7m.jtensors.VectorReadable3F;
 import com.io7m.jtensors.VectorReadable4F;
 
 /**
- * A class implementing GLInterface that uses only non-deprecated features of
- * OpenGL 3.0, using JOGL as the backend.
- * 
+ * <p>
+ * A class implementing {@link GLInterfaceGL3} that uses only non-deprecated
+ * features of OpenGL 3.*, using JOGL as the backend.
+ * </p>
+ * <p>
  * A {@link javax.media.opengl.GLContext} is used to construct the interface,
- * and therefore the <code>GLInterface_JOGL30</code> interface has the same
- * thread safe/unsafe behaviour.
- * 
- * The <code>GLInterface_JOGL30</code> implementation does not call
+ * and therefore the <code>GLInterfaceGL3_JOGL_GL3</code> interface has the
+ * same thread safe/unsafe behaviour.
+ * </p>
+ * <p>
+ * The <code>GLInterfaceGL3_JOGL_GL3</code> implementation does not call
  * {@link javax.media.opengl.GLContext#makeCurrent()} or
  * {@link javax.media.opengl.GLContext#release()}, so these calls must be made
  * by the programmer when necessary (typically, programs call
@@ -54,6 +57,7 @@ import com.io7m.jtensors.VectorReadable4F;
  * and then call {@link javax.media.opengl.GLContext#release()} at the end of
  * the frame). The JOGL library can also optionally manage this via the
  * {@link javax.media.opengl.GLAutoDrawable} interface.
+ * </p>
  */
 
 @NotThreadSafe final class GLInterfaceGL3_JOGL_GL3 implements GLInterfaceGL3

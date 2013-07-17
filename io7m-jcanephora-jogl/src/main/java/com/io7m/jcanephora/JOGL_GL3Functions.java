@@ -22,6 +22,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES2;
+import javax.media.opengl.GL2ES3;
 import javax.media.opengl.GL2GL3;
 
 import com.io7m.jaux.Constraints;
@@ -318,7 +319,7 @@ final class JOGL_GL3Functions
       {
         final IntBuffer cache = state.getIntegerCache();
         gl.glGetFramebufferAttachmentParameteriv(
-          GL2GL3.GL_DRAW_FRAMEBUFFER,
+          GL2ES3.GL_DRAW_FRAMEBUFFER,
           GL.GL_DEPTH_ATTACHMENT,
           GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
           cache);
@@ -334,9 +335,9 @@ final class JOGL_GL3Functions
 
       final IntBuffer cache = state.getIntegerCache();
       gl.glGetFramebufferAttachmentParameteriv(
-        GL2GL3.GL_DRAW_FRAMEBUFFER,
+        GL2ES3.GL_DRAW_FRAMEBUFFER,
         GL.GL_DEPTH_ATTACHMENT,
-        GL2GL3.GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE,
+        GL2ES3.GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE,
         cache);
       JOGL_GLES2Functions.checkError(gl);
       return cache.get(0);
@@ -461,7 +462,7 @@ final class JOGL_GL3Functions
   static boolean framebufferDrawAnyIsBound(
     final @Nonnull GL2ES2 gl)
   {
-    final int bound = gl.getBoundFramebuffer(GL2GL3.GL_DRAW_FRAMEBUFFER);
+    final int bound = gl.getBoundFramebuffer(GL2ES3.GL_DRAW_FRAMEBUFFER);
     final int default_fb = gl.getDefaultDrawFramebuffer();
     return bound != default_fb;
   }
@@ -503,7 +504,7 @@ final class JOGL_GL3Functions
     }
 
     gl.glFramebufferRenderbuffer(
-      GL2GL3.GL_DRAW_FRAMEBUFFER,
+      GL2ES3.GL_DRAW_FRAMEBUFFER,
       GL.GL_COLOR_ATTACHMENT0,
       GL.GL_RENDERBUFFER,
       renderbuffer.getGLName());
@@ -550,7 +551,7 @@ final class JOGL_GL3Functions
     }
 
     gl.glFramebufferRenderbuffer(
-      GL2GL3.GL_DRAW_FRAMEBUFFER,
+      GL2ES3.GL_DRAW_FRAMEBUFFER,
       GL.GL_COLOR_ATTACHMENT0 + point.getIndex(),
       GL.GL_RENDERBUFFER,
       renderbuffer.getGLName());
@@ -593,7 +594,7 @@ final class JOGL_GL3Functions
     }
 
     gl.glFramebufferTexture2D(
-      GL2GL3.GL_DRAW_FRAMEBUFFER,
+      GL2ES3.GL_DRAW_FRAMEBUFFER,
       GL.GL_COLOR_ATTACHMENT0,
       GL.GL_TEXTURE_2D,
       texture.getGLName(),
@@ -641,7 +642,7 @@ final class JOGL_GL3Functions
     }
 
     gl.glFramebufferTexture2D(
-      GL2GL3.GL_DRAW_FRAMEBUFFER,
+      GL2ES3.GL_DRAW_FRAMEBUFFER,
       GL.GL_COLOR_ATTACHMENT0 + point.getIndex(),
       GL.GL_TEXTURE_2D,
       texture.getGLName(),
@@ -689,7 +690,7 @@ final class JOGL_GL3Functions
 
     final int gface = JOGL_GLTypeConversions.cubeFaceToGL(face);
     gl.glFramebufferTexture2D(
-      GL2GL3.GL_DRAW_FRAMEBUFFER,
+      GL2ES3.GL_DRAW_FRAMEBUFFER,
       GL.GL_COLOR_ATTACHMENT0,
       gface,
       texture.getGLName(),
@@ -742,7 +743,7 @@ final class JOGL_GL3Functions
     }
 
     gl.glFramebufferTexture2D(
-      GL2GL3.GL_DRAW_FRAMEBUFFER,
+      GL2ES3.GL_DRAW_FRAMEBUFFER,
       GL.GL_COLOR_ATTACHMENT0 + point.getIndex(),
       JOGL_GLTypeConversions.cubeFaceToGL(face),
       texture.getGLName(),
@@ -790,7 +791,7 @@ final class JOGL_GL3Functions
     }
 
     gl.glFramebufferRenderbuffer(
-      GL2GL3.GL_DRAW_FRAMEBUFFER,
+      GL2ES3.GL_DRAW_FRAMEBUFFER,
       GL.GL_DEPTH_ATTACHMENT,
       GL.GL_RENDERBUFFER,
       renderbuffer.getGLName());
@@ -839,8 +840,8 @@ final class JOGL_GL3Functions
     }
 
     gl.glFramebufferRenderbuffer(
-      GL2GL3.GL_DRAW_FRAMEBUFFER,
-      GL2GL3.GL_DEPTH_STENCIL_ATTACHMENT,
+      GL2ES3.GL_DRAW_FRAMEBUFFER,
+      GL2ES3.GL_DEPTH_STENCIL_ATTACHMENT,
       GL.GL_RENDERBUFFER,
       renderbuffer.getGLName());
     JOGL_GLES2Functions.checkError(gl);
@@ -882,7 +883,7 @@ final class JOGL_GL3Functions
     }
 
     gl.glFramebufferTexture2D(
-      GL2GL3.GL_DRAW_FRAMEBUFFER,
+      GL2ES3.GL_DRAW_FRAMEBUFFER,
       GL.GL_DEPTH_ATTACHMENT,
       GL.GL_TEXTURE_2D,
       texture.getGLName(),
@@ -930,7 +931,7 @@ final class JOGL_GL3Functions
     }
 
     gl.glFramebufferRenderbuffer(
-      GL2GL3.GL_DRAW_FRAMEBUFFER,
+      GL2ES3.GL_DRAW_FRAMEBUFFER,
       GL.GL_STENCIL_ATTACHMENT,
       GL.GL_RENDERBUFFER,
       renderbuffer.getGLName());
@@ -948,7 +949,7 @@ final class JOGL_GL3Functions
       buffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
 
-    gl.glBindFramebuffer(GL2GL3.GL_DRAW_FRAMEBUFFER, buffer.getGLName());
+    gl.glBindFramebuffer(GL2ES3.GL_DRAW_FRAMEBUFFER, buffer.getGLName());
     JOGL_GLES2Functions.checkError(gl);
   }
 
@@ -962,7 +963,7 @@ final class JOGL_GL3Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
 
-    final int bound = gl.getBoundFramebuffer(GL2GL3.GL_DRAW_FRAMEBUFFER);
+    final int bound = gl.getBoundFramebuffer(GL2ES3.GL_DRAW_FRAMEBUFFER);
     return bound == framebuffer.getGLName();
   }
 
@@ -1025,7 +1026,7 @@ final class JOGL_GL3Functions
     final @Nonnull GL2ES2 gl)
     throws GLException
   {
-    gl.glBindFramebuffer(GL2GL3.GL_DRAW_FRAMEBUFFER, 0);
+    gl.glBindFramebuffer(GL2ES3.GL_DRAW_FRAMEBUFFER, 0);
     JOGL_GLES2Functions.checkError(gl);
   }
 
@@ -1045,7 +1046,7 @@ final class JOGL_GL3Functions
       "Framebuffer is bound");
 
     final int status =
-      gl.glCheckFramebufferStatus(GL2GL3.GL_DRAW_FRAMEBUFFER);
+      gl.glCheckFramebufferStatus(GL2ES3.GL_DRAW_FRAMEBUFFER);
     JOGL_GLES2Functions.checkError(gl);
 
     return JOGL_GLTypeConversions.framebufferStatusFromGL(status);
@@ -1316,7 +1317,7 @@ final class JOGL_GL3Functions
       {
         final IntBuffer c0 = state.getIntegerCache();
         gl.glGetFramebufferAttachmentParameteriv(
-          GL2GL3.GL_DRAW_FRAMEBUFFER,
+          GL2ES3.GL_DRAW_FRAMEBUFFER,
           GL.GL_STENCIL_ATTACHMENT,
           GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
           c0);
@@ -1341,8 +1342,8 @@ final class JOGL_GL3Functions
       {
         final IntBuffer c0 = state.getIntegerCache();
         gl.glGetFramebufferAttachmentParameteriv(
-          GL2GL3.GL_DRAW_FRAMEBUFFER,
-          GL2GL3.GL_DEPTH_STENCIL_ATTACHMENT,
+          GL2ES3.GL_DRAW_FRAMEBUFFER,
+          GL2ES3.GL_DEPTH_STENCIL_ATTACHMENT,
           GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
           c0);
         JOGL_GLES2Functions.checkError(gl);
