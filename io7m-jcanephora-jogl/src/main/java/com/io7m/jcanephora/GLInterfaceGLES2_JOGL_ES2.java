@@ -39,14 +39,17 @@ import com.io7m.jtensors.VectorReadable3F;
 import com.io7m.jtensors.VectorReadable4F;
 
 /**
- * A class implementing <code>GLInterfaceES2</code> that exposes only the
+ * <p>
+ * A class implementing {@link GLInterfaceGLES2} that exposes only the
  * features of OpenGL ES2, using an OpenGL ES 2.0 context on JOGL.
- * 
+ * </p>
+ * <p>
  * A {@link javax.media.opengl.GLContext} is used to construct the interface,
- * and therefore the <code>GLInterfaceES2_JOGLES2</code> interface has the
+ * and therefore the <code>GLInterfaceGLES2_JOGL_ES2</code> interface has the
  * same thread safe/unsafe behaviour.
- * 
- * The <code>GLInterfaceES2_JOGLES2</code> implementation does not call
+ * </p>
+ * <p>
+ * The <code>GLInterfaceGLES2_JOGL_ES2</code> implementation does not call
  * {@link javax.media.opengl.GLContext#makeCurrent()} or
  * {@link javax.media.opengl.GLContext#release()}, so these calls must be made
  * by the programmer when necessary (typically, programs call
@@ -54,6 +57,7 @@ import com.io7m.jtensors.VectorReadable4F;
  * and then call {@link javax.media.opengl.GLContext#release()} at the end of
  * the frame). The JOGL library can also optionally manage this via the
  * {@link javax.media.opengl.GLAutoDrawable} interface.
+ * </p>
  */
 
 @NotThreadSafe final class GLInterfaceGLES2_JOGL_ES2 implements
