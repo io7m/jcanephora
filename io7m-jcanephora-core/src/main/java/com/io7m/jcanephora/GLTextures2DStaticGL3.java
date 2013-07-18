@@ -16,7 +16,6 @@
 
 package com.io7m.jcanephora;
 
-
 /**
  * Type-safe interface to the 2D texture API exposed by all OpenGL 3.*
  * implementations.

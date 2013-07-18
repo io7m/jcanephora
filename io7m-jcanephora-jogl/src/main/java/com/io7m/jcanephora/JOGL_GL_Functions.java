@@ -1811,6 +1811,89 @@ final class JOGL_GL_Functions
     return gl.isGLES();
   }
 
+  static Renderbuffer<?> renderbufferAllocate(
+    final @Nonnull GL gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull RenderbufferType type,
+    final int width,
+    final int height)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(type, "Renderbuffer type");
+    Constraints.constrainRange(width, 1, Integer.MAX_VALUE);
+    Constraints.constrainRange(height, 1, Integer.MAX_VALUE);
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("renderbuffer: allocate ");
+      state.log_text.append(width);
+      state.log_text.append("x");
+      state.log_text.append(height);
+      state.log_text.append(" ");
+      state.log_text.append(type);
+      log.debug(state.log_text.toString());
+    }
+
+    final IntBuffer cache = state.getIntegerCache();
+    gl.glGenRenderbuffers(1, cache);
+    JOGL_GL_Functions.checkError(gl);
+    final int id = cache.get(0);
+
+    final int gtype = JOGL_GLTypeConversions.renderbufferTypeToGL(type);
+
+    gl.glBindRenderbuffer(GL.GL_RENDERBUFFER, id);
+    JOGL_GL_Functions.checkError(gl);
+    gl.glRenderbufferStorage(GL.GL_RENDERBUFFER, gtype, width, height);
+    JOGL_GL_Functions.checkError(gl);
+    gl.glBindRenderbuffer(GL.GL_RENDERBUFFER, 0);
+    JOGL_GL_Functions.checkError(gl);
+
+    /**
+     * The phantom type is set to RenderableColor here and then deliberately
+     * discarded. The caller will cast to the correct type.
+     */
+
+    final Renderbuffer<?> r =
+      new Renderbuffer<RenderableColor>(type, id, width, height);
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("renderbuffer: allocated ");
+      state.log_text.append(r);
+      log.debug(state.log_text.toString());
+    }
+
+    return r;
+  }
+
+  static void renderbufferDelete(
+    final @Nonnull GL gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull Renderbuffer<?> buffer)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(buffer, "Renderbuffer");
+    Constraints.constrainArbitrary(
+      buffer.resourceIsDeleted() == false,
+      "Renderbuffer not deleted");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("renderbuffer: delete ");
+      state.log_text.append(buffer);
+      log.debug(state.log_text.toString());
+    }
+
+    final IntBuffer cache = state.getIntegerCache();
+    cache.put(0, buffer.getGLName());
+    gl.glDeleteRenderbuffers(1, cache);
+    buffer.resourceSetDeleted();
+    JOGL_GL_Functions.checkError(gl);
+  }
+
   static void scissorDisable(
     final @Nonnull GL gl)
     throws GLException
@@ -2149,88 +2232,5 @@ final class JOGL_GL_Functions
       dimensions.getXI(),
       dimensions.getYI());
     JOGL_GL_Functions.checkError(gl);
-  }
-
-  static Renderbuffer<?> renderbufferAllocate(
-    final @Nonnull GL gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull RenderbufferType type,
-    final int width,
-    final int height)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(type, "Renderbuffer type");
-    Constraints.constrainRange(width, 1, Integer.MAX_VALUE);
-    Constraints.constrainRange(height, 1, Integer.MAX_VALUE);
-  
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("renderbuffer: allocate ");
-      state.log_text.append(width);
-      state.log_text.append("x");
-      state.log_text.append(height);
-      state.log_text.append(" ");
-      state.log_text.append(type);
-      log.debug(state.log_text.toString());
-    }
-  
-    final IntBuffer cache = state.getIntegerCache();
-    gl.glGenRenderbuffers(1, cache);
-    checkError(gl);
-    final int id = cache.get(0);
-  
-    final int gtype = JOGL_GLTypeConversions.renderbufferTypeToGL(type);
-  
-    gl.glBindRenderbuffer(GL.GL_RENDERBUFFER, id);
-    checkError(gl);
-    gl.glRenderbufferStorage(GL.GL_RENDERBUFFER, gtype, width, height);
-    checkError(gl);
-    gl.glBindRenderbuffer(GL.GL_RENDERBUFFER, 0);
-    checkError(gl);
-  
-    /**
-     * The phantom type is set to RenderableColor here and then deliberately
-     * discarded. The caller will cast to the correct type.
-     */
-  
-    final Renderbuffer<?> r =
-      new Renderbuffer<RenderableColor>(type, id, width, height);
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("renderbuffer: allocated ");
-      state.log_text.append(r);
-      log.debug(state.log_text.toString());
-    }
-  
-    return r;
-  }
-
-  static void renderbufferDelete(
-    final @Nonnull GL gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull Renderbuffer<?> buffer)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(buffer, "Renderbuffer");
-    Constraints.constrainArbitrary(
-      buffer.resourceIsDeleted() == false,
-      "Renderbuffer not deleted");
-  
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("renderbuffer: delete ");
-      state.log_text.append(buffer);
-      log.debug(state.log_text.toString());
-    }
-  
-    final IntBuffer cache = state.getIntegerCache();
-    cache.put(0, buffer.getGLName());
-    gl.glDeleteRenderbuffers(1, cache);
-    buffer.resourceSetDeleted();
-    checkError(gl);
   }
 }

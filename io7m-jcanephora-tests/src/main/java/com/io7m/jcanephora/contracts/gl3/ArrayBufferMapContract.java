@@ -56,6 +56,33 @@ public abstract class ArrayBufferMapContract implements TestContract
     TestContext tc);
 
   /**
+   * Trying to map an out-of-range area in a buffer is an error.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferMapOutOfRange()
+      throws ConstraintError,
+        GLException,
+        GLUnsupportedException
+  {
+    final TestContext tc = this.newTestContext();
+    final GLArrayBuffers ga = this.getGLArrayBuffers(tc);
+    final GLArrayBuffersMapped gm = this.getGLArrayBuffersMapped(tc);
+
+    final ArrayBufferDescriptor d =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_SHORT,
+          1) });
+    final ArrayBuffer a =
+      ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
+
+    gm.arrayBufferMapReadUntypedRange(a, new RangeInclusive(11, 11));
+  }
+
+  /**
    * Mapping a buffer works.
    */
 
@@ -98,6 +125,43 @@ public abstract class ArrayBufferMapContract implements TestContract
         for (int index = 0; index < 10; ++index) {
           Assert.assertEquals(index, s.get(index));
         }
+      } finally {
+        gm.arrayBufferUnmap(a);
+      }
+    } finally {
+      if (a != null) {
+        ga.arrayBufferDelete(a);
+      }
+    }
+  }
+
+  /**
+   * A mapped buffer has the correct range.
+   */
+
+  @Test public final void testArrayBufferMapRange()
+    throws ConstraintError,
+      GLException,
+      GLUnsupportedException
+  {
+    final TestContext tc = this.newTestContext();
+    final GLArrayBuffers ga = this.getGLArrayBuffers(tc);
+    final GLArrayBuffersMapped gm = this.getGLArrayBuffersMapped(tc);
+
+    final ArrayBufferDescriptor d =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          GLScalarType.TYPE_SHORT,
+          1) });
+    final ArrayBuffer a =
+      ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
+
+    try {
+      try {
+        final ByteBuffer b =
+          gm.arrayBufferMapReadUntypedRange(a, new RangeInclusive(5, 8));
+        Assert.assertEquals(4 * 2, b.capacity());
       } finally {
         gm.arrayBufferUnmap(a);
       }
@@ -405,69 +469,5 @@ public abstract class ArrayBufferMapContract implements TestContract
         ga.arrayBufferDelete(a);
       }
     }
-  }
-
-  /**
-   * A mapped buffer has the correct range.
-   */
-
-  @Test public final void testArrayBufferMapRange()
-    throws ConstraintError,
-      GLException,
-      GLUnsupportedException
-  {
-    final TestContext tc = this.newTestContext();
-    final GLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final GLArrayBuffersMapped gm = this.getGLArrayBuffersMapped(tc);
-
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
-          "position",
-          GLScalarType.TYPE_SHORT,
-          1) });
-    final ArrayBuffer a =
-      ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
-
-    try {
-      try {
-        final ByteBuffer b =
-          gm.arrayBufferMapReadUntypedRange(a, new RangeInclusive(5, 8));
-        Assert.assertEquals(4 * 2, b.capacity());
-      } finally {
-        gm.arrayBufferUnmap(a);
-      }
-    } finally {
-      if (a != null) {
-        ga.arrayBufferDelete(a);
-      }
-    }
-  }
-
-  /**
-   * Trying to map an out-of-range area in a buffer is an error.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testArrayBufferMapOutOfRange()
-      throws ConstraintError,
-        GLException,
-        GLUnsupportedException
-  {
-    final TestContext tc = this.newTestContext();
-    final GLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final GLArrayBuffersMapped gm = this.getGLArrayBuffersMapped(tc);
-
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
-          "position",
-          GLScalarType.TYPE_SHORT,
-          1) });
-    final ArrayBuffer a =
-      ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
-
-    gm.arrayBufferMapReadUntypedRange(a, new RangeInclusive(11, 11));
   }
 }
