@@ -39,14 +39,6 @@ public final class JOGL3pRasterizationTest extends
     return some.value;
   }
 
-  @Override public GLRasterization getGLRasterization(
-    final TestContext tc)
-  {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
-    return some.value;
-  }
-
   @Override public boolean isGLSupported()
   {
     return JOGLTestContext.isOpenGL3pSupported();

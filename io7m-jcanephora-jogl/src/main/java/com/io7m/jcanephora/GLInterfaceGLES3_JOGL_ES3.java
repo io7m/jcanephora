@@ -981,16 +981,6 @@ import com.io7m.jtensors.VectorReadable4F;
     return JOGL_GL_Functions.metaIsES(this.contextGetGL3());
   }
 
-  @Override public int pointGetMaximumWidth()
-  {
-    return this.state.point_max_width;
-  }
-
-  @Override public int pointGetMinimumWidth()
-  {
-    return this.state.point_min_width;
-  }
-
   @Override public void programActivate(
     final @Nonnull ProgramReference program)
     throws ConstraintError,

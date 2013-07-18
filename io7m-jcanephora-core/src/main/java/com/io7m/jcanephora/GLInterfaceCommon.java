@@ -34,7 +34,6 @@ public interface GLInterfaceCommon extends
   GLFramebuffersCommon,
   GLIndexBuffers,
   GLMeta,
-  GLRasterization,
   GLRenderbuffersCommon,
   GLScissor,
   GLShaders,
