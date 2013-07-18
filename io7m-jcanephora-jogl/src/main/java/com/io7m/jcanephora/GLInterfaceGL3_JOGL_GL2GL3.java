@@ -182,7 +182,7 @@ import com.io7m.jtensors.VectorReadable4F;
     return JOGL_GL_Functions.arrayBufferIsBound(this.context.getGL(), id);
   }
 
-  @Override public ByteBuffer arrayBufferMapRead(
+  @Override public ByteBuffer arrayBufferMapReadUntyped(
     final @Nonnull ArrayBuffer id)
     throws GLException,
       ConstraintError
@@ -194,7 +194,7 @@ import com.io7m.jtensors.VectorReadable4F;
       id);
   }
 
-  @Override public @Nonnull ByteBuffer arrayBufferMapReadRange(
+  @Override public @Nonnull ByteBuffer arrayBufferMapReadUntypedRange(
     final @Nonnull ArrayBuffer id,
     final @Nonnull RangeInclusive range)
     throws GLException,
