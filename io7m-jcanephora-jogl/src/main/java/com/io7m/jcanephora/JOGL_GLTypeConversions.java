@@ -337,10 +337,32 @@ final class JOGL_GLTypeConversions
         return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_READ_BUFFER;
       case GL.GL_FRAMEBUFFER_UNSUPPORTED:
         return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_UNSUPPORTED;
-
     }
 
     return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_UNKNOWN;
+  }
+
+  static int framebufferStatusToGL(
+    final @Nonnull FramebufferStatus status)
+  {
+    switch (status) {
+      case FRAMEBUFFER_STATUS_COMPLETE:
+        return GL.GL_FRAMEBUFFER_COMPLETE;
+      case FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_ATTACHMENT:
+        return GL.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT;
+      case FRAMEBUFFER_STATUS_ERROR_MISSING_IMAGE_ATTACHMENT:
+        return GL.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT;
+      case FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_DRAW_BUFFER:
+        return GL2GL3.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER;
+      case FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_READ_BUFFER:
+        return GL2GL3.GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER;
+      case FRAMEBUFFER_STATUS_ERROR_UNSUPPORTED:
+        return GL.GL_FRAMEBUFFER_UNSUPPORTED;
+      case FRAMEBUFFER_STATUS_ERROR_UNKNOWN:
+        return -1;
+    }
+
+    throw new UnreachableCodeException();
   }
 
   static final LogicOperation logicOpFromGL(
