@@ -24,17 +24,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jaux.functional.Option;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.BlendEquationGLES2;
 import com.io7m.jcanephora.BlendFunction;
 import com.io7m.jcanephora.GLBlendingCommon;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLImplementation;
-import com.io7m.jcanephora.GLInterfaceGL2;
-import com.io7m.jcanephora.GLInterfaceGL3;
-import com.io7m.jcanephora.GLInterfaceGLES2;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.contracts.common.TestContract;
@@ -45,48 +39,7 @@ public abstract class BlendingGLES2Contract implements TestContract
     final @Nonnull TestContext context)
   {
     final GLImplementation gi = context.getGLImplementation();
-
-    final Option<GLInterfaceGL3> opt3 = gi.getGL3();
-    switch (opt3.type) {
-      case OPTION_NONE:
-      {
-        break;
-      }
-      case OPTION_SOME:
-      {
-        final Some<GLInterfaceGL3> some = (Option.Some<GLInterfaceGL3>) opt3;
-        return some.value;
-      }
-    }
-
-    final Option<GLInterfaceGL2> opt2 = gi.getGL2();
-    switch (opt2.type) {
-      case OPTION_NONE:
-      {
-        break;
-      }
-      case OPTION_SOME:
-      {
-        final Some<GLInterfaceGL2> some = (Option.Some<GLInterfaceGL2>) opt2;
-        return some.value;
-      }
-    }
-
-    final Option<GLInterfaceGLES2> optes2 = gi.getGLES2();
-    switch (optes2.type) {
-      case OPTION_NONE:
-      {
-        break;
-      }
-      case OPTION_SOME:
-      {
-        final Some<GLInterfaceGLES2> some =
-          (Option.Some<GLInterfaceGLES2>) optes2;
-        return some.value;
-      }
-    }
-
-    throw new UnreachableCodeException();
+    return gi.getGLCommon();
   }
 
   @Before public final void checkSupport()
