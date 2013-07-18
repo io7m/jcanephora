@@ -1262,30 +1262,6 @@ import com.io7m.jtensors.VectorReadable4F;
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateDepth32(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      GLException
-  {
-    return LWJGL_GLES2Functions.texture2DStaticAllocate(
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureType.TEXTURE_TYPE_DEPTH_32_4BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
   @Override public @Nonnull Texture2DStatic texture2DStaticAllocateDepth32f(
     final @Nonnull String name,
     final int width,

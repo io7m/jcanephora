@@ -1384,7 +1384,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return JOGL_GL_Functions.texture2DStaticAllocate(
+    return JOGL_GLES3_Functions.texture2DStaticAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
@@ -1409,7 +1409,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return JOGL_GL_Functions.texture2DStaticAllocate(
+    return JOGL_GLES3_Functions.texture2DStaticAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
@@ -1417,31 +1417,6 @@ import com.io7m.jtensors.VectorReadable4F;
       width,
       height,
       TextureType.TEXTURE_TYPE_DEPTH_24_4BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateDepth32(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      GLException
-  {
-    return JOGL_GL_Functions.texture2DStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureType.TEXTURE_TYPE_DEPTH_32_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
@@ -1459,7 +1434,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return JOGL_GL_Functions.texture2DStaticAllocate(
+    return JOGL_GLES3_Functions.texture2DStaticAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
@@ -1484,7 +1459,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return JOGL_GL_Functions.texture2DStaticAllocate(
+    return JOGL_GLES3_Functions.texture2DStaticAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
@@ -1509,7 +1484,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return JOGL_GL_Functions.texture2DStaticAllocate(
+    return JOGL_GLES3_Functions.texture2DStaticAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
@@ -1534,7 +1509,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return JOGL_GL_Functions.texture2DStaticAllocate(
+    return JOGL_GLES3_Functions.texture2DStaticAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
@@ -1559,7 +1534,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return JOGL_GL_Functions.texture2DStaticAllocate(
+    return JOGL_GLES3_Functions.texture2DStaticAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
@@ -1584,7 +1559,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return JOGL_GL_Functions.texture2DStaticAllocate(
+    return JOGL_GLES3_Functions.texture2DStaticAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
@@ -1609,7 +1584,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return JOGL_GL_Functions.texture2DStaticAllocate(
+    return JOGL_GLES3_Functions.texture2DStaticAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
@@ -1634,7 +1609,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return JOGL_GL_Functions.texture2DStaticAllocate(
+    return JOGL_GLES3_Functions.texture2DStaticAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
@@ -1696,7 +1671,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    JOGL_GL_Functions.texture2DStaticUpdate(this.contextGetGL3(), data);
+    JOGL_GLES3_Functions.texture2DStaticUpdate(this.contextGetGL3(), data);
   }
 
   @Override public @Nonnull
@@ -1712,7 +1687,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return JOGL_GL_Functions.textureCubeStaticAllocate(
+    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
@@ -1739,40 +1714,13 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return JOGL_GL_Functions.textureCubeStaticAllocate(
+    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
       name,
       size,
       TextureType.TEXTURE_TYPE_DEPTH_24_4BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    TextureCubeStatic
-    textureCubeStaticAllocateDepth32(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        GLException
-  {
-    return JOGL_GL_Functions.textureCubeStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureType.TEXTURE_TYPE_DEPTH_32_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -1793,7 +1741,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return JOGL_GL_Functions.textureCubeStaticAllocate(
+    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
@@ -1818,38 +1766,13 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return JOGL_GL_Functions.textureCubeStaticAllocate(
+    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
       name,
       size,
       TextureType.TEXTURE_TYPE_R_8_1BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG88(
-    final @Nonnull String name,
-    final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      GLException
-  {
-    return JOGL_GL_Functions.textureCubeStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureType.TEXTURE_TYPE_RG_88_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -1870,7 +1793,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return JOGL_GL_Functions.textureCubeStaticAllocate(
+    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
@@ -1897,7 +1820,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return JOGL_GL_Functions.textureCubeStaticAllocate(
+    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
@@ -1924,7 +1847,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return JOGL_GL_Functions.textureCubeStaticAllocate(
+    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
@@ -1951,7 +1874,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return JOGL_GL_Functions.textureCubeStaticAllocate(
+    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
@@ -1978,7 +1901,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return JOGL_GL_Functions.textureCubeStaticAllocate(
+    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
       this.contextGetGL3(),
       this.state,
       this.log,
@@ -2043,7 +1966,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    JOGL_GL_Functions.textureCubeStaticUpdate(
+    JOGL_GLES3_Functions.textureCubeStaticUpdate(
       this.contextGetGL3(),
       face,
       data);

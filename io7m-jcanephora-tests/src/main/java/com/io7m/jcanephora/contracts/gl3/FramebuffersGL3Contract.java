@@ -50,8 +50,8 @@ import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLFramebuffersGL3;
 import com.io7m.jcanephora.GLRenderbuffersGL3;
-import com.io7m.jcanephora.GLTextures2DStaticGL3;
-import com.io7m.jcanephora.GLTexturesCubeStaticGL2;
+import com.io7m.jcanephora.GLTextures2DStaticCommon;
+import com.io7m.jcanephora.GLTexturesCubeStaticCommon;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.RenderableColor;
 import com.io7m.jcanephora.RenderbufferUsable;
@@ -65,11 +65,11 @@ import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.contracts.common.TestContract;
 
-public abstract class FramebuffersGL3Contract<G extends GLFramebuffersGL3 & GLTextures2DStaticGL3 & GLTexturesCubeStaticGL2 & GLRenderbuffersGL3> implements
+public abstract class FramebuffersGL3Contract<G extends GLFramebuffersGL3 & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon & GLRenderbuffersGL3> implements
   TestContract
 {
   private static @Nonnull
-    <G extends GLFramebuffersGL3 & GLTextures2DStaticGL3 & GLTexturesCubeStaticGL2 & GLRenderbuffersGL3>
+    <G extends GLFramebuffersGL3 & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon & GLRenderbuffersGL3>
     Framebuffer
     makeAssumingSuccess(
       final FramebufferConfigurationGL3 config,

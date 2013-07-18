@@ -85,13 +85,6 @@ public enum TextureType
   TEXTURE_TYPE_DEPTH_24_4BPP,
 
   /**
-   * 32 bit depth component texture with integer components, four bytes per
-   * pixel.
-   */
-
-  TEXTURE_TYPE_DEPTH_32_4BPP,
-
-  /**
    * 32 bit depth component texture with floating point components, four bytes
    * per pixel.
    */
@@ -166,7 +159,6 @@ public enum TextureType
         return 2;
       case TEXTURE_TYPE_RGB_888_3BPP:
         return 3;
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       case TEXTURE_TYPE_RGBA_8888_4BPP:
@@ -194,7 +186,6 @@ public enum TextureType
         return 2;
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
       case TEXTURE_TYPE_R_8_1BPP:
         return 1;
@@ -209,7 +200,6 @@ public enum TextureType
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
       {
         return false;
       }
@@ -234,7 +224,6 @@ public enum TextureType
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
       {
         return true;
       }
@@ -264,7 +253,6 @@ public enum TextureType
       case TEXTURE_TYPE_RG_88_2BPP:
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
       case TEXTURE_TYPE_R_8_1BPP:
         return false;
       case TEXTURE_TYPE_DEPTH_32F_4BPP:

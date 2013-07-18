@@ -27,19 +27,31 @@ import com.io7m.jaux.Constraints.ConstraintError;
 public interface GLTextures2DStaticCommon
 {
   /**
+   * <p>
    * Allocate an RGB texture of width <code>width</code> and height
    * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGB_565_2BPP}
    * for the precise format of the texture.
-   * 
+   * </p>
+   * <p>
    * The texture is wrapped around the <code>s</code> axis using the wrapping
    * mode <code>wrap_s</code>, with the OpenGL default being
-   * <code>TEXTURE_WRAP_REPEAT</code>. The texture is wrapped around the
-   * <code>t</code> axis using the wrapping mode <code>wrap_t</code>, with the
-   * OpenGL default being <code>TEXTURE_WRAP_REPEAT</code>. The texture is
-   * scaled up using the minification filter <code>min_filter</code>, with the
-   * OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture is
-   * scaled down using the magnification filter <code>mag_filter</code>, with
-   * the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * </p>
+   * <p>
+   * The texture is wrapped around the <code>t</code> axis using the wrapping
+   * mode <code>wrap_t</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * </p>
+   * <p>
+   * The texture is scaled down using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
+   * <code>TEXURE_FILTER_LINEAR</code>.
+   * </p>
+   * <p>
+   * The texture is scaled up using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
+   * <code>TEXTURE_FILTER_LINEAR</code>.
+   * </p>
    * 
    * @param name
    *          The name of the texture.
@@ -85,19 +97,31 @@ public interface GLTextures2DStaticCommon
       GLException;
 
   /**
+   * <p>
    * Allocate an RGB texture of width <code>width</code> and height
    * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGB_888_3BPP}
    * for the precise format of the texture.
-   * 
+   * </p>
+   * <p>
    * The texture is wrapped around the <code>s</code> axis using the wrapping
    * mode <code>wrap_s</code>, with the OpenGL default being
-   * <code>TEXTURE_WRAP_REPEAT</code>. The texture is wrapped around the
-   * <code>t</code> axis using the wrapping mode <code>wrap_t</code>, with the
-   * OpenGL default being <code>TEXTURE_WRAP_REPEAT</code>. The texture is
-   * scaled up using the minification filter <code>min_filter</code>, with the
-   * OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture is
-   * scaled down using the magnification filter <code>mag_filter</code>, with
-   * the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * </p>
+   * <p>
+   * The texture is wrapped around the <code>t</code> axis using the wrapping
+   * mode <code>wrap_t</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * </p>
+   * <p>
+   * The texture is scaled down using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
+   * <code>TEXURE_FILTER_LINEAR</code>.
+   * </p>
+   * <p>
+   * The texture is scaled up using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
+   * <code>TEXTURE_FILTER_LINEAR</code>.
+   * </p>
    * 
    * @see TextureType#TEXTURE_TYPE_RGB_888_3BPP
    * 
@@ -145,19 +169,31 @@ public interface GLTextures2DStaticCommon
       GLException;
 
   /**
+   * <p>
    * Allocate an RGBA texture of width <code>width</code> and height
    * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGBA_4444_2BPP}
    * for the precise format of the texture.
-   * 
+   * </p>
+   * <p>
    * The texture is wrapped around the <code>s</code> axis using the wrapping
    * mode <code>wrap_s</code>, with the OpenGL default being
-   * <code>TEXTURE_WRAP_REPEAT</code>. The texture is wrapped around the
-   * <code>t</code> axis using the wrapping mode <code>wrap_t</code>, with the
-   * OpenGL default being <code>TEXTURE_WRAP_REPEAT</code>. The texture is
-   * scaled up using the minification filter <code>min_filter</code>, with the
-   * OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture is
-   * scaled down using the magnification filter <code>mag_filter</code>, with
-   * the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * </p>
+   * <p>
+   * The texture is wrapped around the <code>t</code> axis using the wrapping
+   * mode <code>wrap_t</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * </p>
+   * <p>
+   * The texture is scaled down using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
+   * <code>TEXURE_FILTER_LINEAR</code>.
+   * </p>
+   * <p>
+   * The texture is scaled up using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
+   * <code>TEXTURE_FILTER_LINEAR</code>.
+   * </p>
    * 
    * @param name
    *          The name of the texture.
@@ -203,19 +239,31 @@ public interface GLTextures2DStaticCommon
       GLException;
 
   /**
+   * <p>
    * Allocate an RGBA texture of width <code>width</code> and height
    * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGBA_5551_2BPP}
    * for the precise format of the texture.
-   * 
+   * </p>
+   * <p>
    * The texture is wrapped around the <code>s</code> axis using the wrapping
    * mode <code>wrap_s</code>, with the OpenGL default being
-   * <code>TEXTURE_WRAP_REPEAT</code>. The texture is wrapped around the
-   * <code>t</code> axis using the wrapping mode <code>wrap_t</code>, with the
-   * OpenGL default being <code>TEXTURE_WRAP_REPEAT</code>. The texture is
-   * scaled up using the minification filter <code>min_filter</code>, with the
-   * OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture is
-   * scaled down using the magnification filter <code>mag_filter</code>, with
-   * the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * </p>
+   * <p>
+   * The texture is wrapped around the <code>t</code> axis using the wrapping
+   * mode <code>wrap_t</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * </p>
+   * <p>
+   * The texture is scaled down using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
+   * <code>TEXURE_FILTER_LINEAR</code>.
+   * </p>
+   * <p>
+   * The texture is scaled up using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
+   * <code>TEXTURE_FILTER_LINEAR</code>.
+   * </p>
    * 
    * @param name
    *          The name of the texture.
@@ -261,19 +309,31 @@ public interface GLTextures2DStaticCommon
       GLException;
 
   /**
+   * <p>
    * Allocate an RGBA texture of width <code>width</code> and height
    * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGBA_8888_4BPP}
    * for the precise format of the texture.
-   * 
+   * </p>
+   * <p>
    * The texture is wrapped around the <code>s</code> axis using the wrapping
    * mode <code>wrap_s</code>, with the OpenGL default being
-   * <code>TEXTURE_WRAP_REPEAT</code>. The texture is wrapped around the
-   * <code>t</code> axis using the wrapping mode <code>wrap_t</code>, with the
-   * OpenGL default being <code>TEXTURE_WRAP_REPEAT</code>. The texture is
-   * scaled up using the minification filter <code>min_filter</code>, with the
-   * OpenGL default being <code>TEXURE_FILTER_LINEAR</code>. The texture is
-   * scaled down using the magnification filter <code>mag_filter</code>, with
-   * the OpenGL default being <code>TEXTURE_FILTER_LINEAR</code>.
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * </p>
+   * <p>
+   * The texture is wrapped around the <code>t</code> axis using the wrapping
+   * mode <code>wrap_t</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * </p>
+   * <p>
+   * The texture is scaled down using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
+   * <code>TEXURE_FILTER_LINEAR</code>.
+   * </p>
+   * <p>
+   * The texture is scaled up using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
+   * <code>TEXTURE_FILTER_LINEAR</code>.
+   * </p>
    * 
    * @param name
    *          The name of the texture.
