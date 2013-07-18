@@ -114,7 +114,6 @@ public abstract class TextureLoaderContractGL3 implements
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
       case TEXTURE_TYPE_RG_88_2BPP:
       case TEXTURE_TYPE_R_8_1BPP:
       {
@@ -238,17 +237,6 @@ public abstract class TextureLoaderContractGL3 implements
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
       {
         return loader.load2DStaticDepth32f(
-          gl,
-          TextureWrapS.TEXTURE_WRAP_REPEAT,
-          TextureWrapT.TEXTURE_WRAP_REPEAT,
-          TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-          TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
-          stream,
-          type.toString());
-      }
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
-      {
-        return loader.load2DStaticDepth32(
           gl,
           TextureWrapS.TEXTURE_WRAP_REPEAT,
           TextureWrapT.TEXTURE_WRAP_REPEAT,

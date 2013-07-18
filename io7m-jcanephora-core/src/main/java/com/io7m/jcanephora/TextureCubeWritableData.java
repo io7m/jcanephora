@@ -126,7 +126,6 @@ public final class TextureCubeWritableData
       case TEXTURE_TYPE_R_8_1BPP:
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
       {
         Constraints
           .constrainArbitrary(
@@ -179,13 +178,6 @@ public final class TextureCubeWritableData
           "Number of texture components is 1 and components are integers");
         break;
       }
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
-      {
-        return new ByteBufferTextureCursorWritable1i_1_32(
-          this.target_data,
-          this.source_area,
-          this.source_area);
-      }
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       {
         return new ByteBufferTextureCursorWritable1i_1_16(
@@ -234,7 +226,6 @@ public final class TextureCubeWritableData
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
       {
         Constraints.constrainArbitrary(
           false,
@@ -261,7 +252,6 @@ public final class TextureCubeWritableData
     switch (this.texture.getType()) {
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
       case TEXTURE_TYPE_RGBA_4444_2BPP:
       case TEXTURE_TYPE_RGBA_5551_2BPP:
@@ -329,7 +319,6 @@ public final class TextureCubeWritableData
       }
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
       case TEXTURE_TYPE_R_8_1BPP:
       case TEXTURE_TYPE_RG_88_2BPP:

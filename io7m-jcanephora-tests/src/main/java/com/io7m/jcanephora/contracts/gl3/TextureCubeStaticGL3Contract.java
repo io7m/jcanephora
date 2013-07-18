@@ -620,20 +620,6 @@ public abstract class TextureCubeStaticGL3Contract implements TestContract
           Assert.assertEquals(tx.getType(), t);
           break;
         }
-        case TEXTURE_TYPE_DEPTH_32_4BPP:
-        {
-          final TextureCubeStatic tx =
-            gl.textureCubeStaticAllocateDepth32(
-              t.toString(),
-              128,
-              TextureWrapR.TEXTURE_WRAP_REPEAT,
-              TextureWrapS.TEXTURE_WRAP_REPEAT,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-          Assert.assertEquals(tx.getType(), t);
-          break;
-        }
         case TEXTURE_TYPE_DEPTH_32F_4BPP:
         {
           final TextureCubeStatic tx =

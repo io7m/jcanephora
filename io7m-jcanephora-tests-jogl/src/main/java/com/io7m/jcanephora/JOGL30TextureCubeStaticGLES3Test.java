@@ -20,12 +20,12 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option.Some;
-import com.io7m.jcanephora.contracts.gl3.Texture2DStaticGL3Contract;
+import com.io7m.jcanephora.contracts.gles3.TextureCubeStaticGLES3Contract;
 
-public final class JOGL3pTexture2DStaticTest extends
-  Texture2DStaticGL3Contract
+public final class JOGL30TextureCubeStaticGLES3Test extends
+  TextureCubeStaticGLES3Contract
 {
-  @Override public GLTextures2DStaticGL3 getGLTexture2DStaticGL3(
+  @Override public GLTexturesCubeStaticGLES3 getGLTextureCubeStaticGLES3(
     final TestContext tc)
   {
     final Some<GLInterfaceGL3> some =
@@ -43,7 +43,7 @@ public final class JOGL3pTexture2DStaticTest extends
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL3pSupported();
+    return JOGLTestContext.isOpenGL30Supported();
   }
 
   @Override public @Nonnull TestContext newTestContext()
@@ -51,6 +51,6 @@ public final class JOGL3pTexture2DStaticTest extends
       GLUnsupportedException,
       ConstraintError
   {
-    return JOGLTestContext.makeContextWithOpenGL3_p();
+    return JOGLTestContext.makeContextWithOpenGL3_0();
   }
 }

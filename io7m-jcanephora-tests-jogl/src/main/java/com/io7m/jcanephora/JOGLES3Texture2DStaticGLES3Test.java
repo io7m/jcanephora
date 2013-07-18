@@ -13,18 +13,19 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option.Some;
-import com.io7m.jcanephora.contracts.gl3.TextureCubeStaticGL3Contract;
+import com.io7m.jcanephora.contracts.gles3.Texture2DStaticGLES3Contract;
 
-public final class JOGLES3TextureCubeStaticTest extends
-  TextureCubeStaticGL3Contract
+public final class JOGLES3Texture2DStaticGLES3Test extends
+  Texture2DStaticGLES3Contract
 {
-  @Override public GLTexturesCubeStaticGL3 getGLTextureCubeStaticGL3(
+  @Override public GLTextures2DStaticGLES3 getGLTexture2DStaticGLES3(
     final TestContext tc)
   {
     final Some<GLInterfaceGLES3> some =

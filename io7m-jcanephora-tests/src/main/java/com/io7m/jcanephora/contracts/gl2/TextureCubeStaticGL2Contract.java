@@ -569,7 +569,6 @@ public abstract class TextureCubeStaticGL2Contract implements TestContract
         case TEXTURE_TYPE_R_8_1BPP:
         case TEXTURE_TYPE_DEPTH_16_2BPP:
         case TEXTURE_TYPE_DEPTH_24_4BPP:
-        case TEXTURE_TYPE_DEPTH_32_4BPP:
         case TEXTURE_TYPE_DEPTH_32F_4BPP:
           break;
       }

@@ -129,52 +129,6 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_DEPTH_32_4BPP}.
-   * </p>
-   * 
-   * @param gl
-   *          The OpenGL interface to use.
-   * @param wrap_s
-   *          The texture wrapping mode on the S axis.
-   * @param wrap_t
-   *          The texture wrapping mode on the T axis.
-   * @param min_filter
-   *          The minification filter to use.
-   * @param mag_filter
-   *          The magnification filter to use.
-   * @param stream
-   *          The input stream from which to read image data.
-   * @param name
-   *          The name of the resulting texture.
-   * 
-   * @throws ConstraintError
-   *           Iff any of the parameters are <code>null</code>.
-   * @throws GLException
-   *           Iff an internal OpenGL error occurs.
-   * @throws IOException
-   *           Iff an I/O error occurs whilst reading the image.
-   */
-
-  public @Nonnull Texture2DStatic load2DStaticDepth32(
-    final @Nonnull GLTextures2DStaticGL3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
-    throws ConstraintError,
-      GLException,
-      IOException;
-
-  /**
-   * <p>
-   * Load an OpenGL texture from the stream <code>stream</code>. The texture
-   * will be constructed using the given parameters, and named
-   * <code>name</code>.
-   * </p>
-   * <p>
-   * The resulting texture will be of type
    * {@link TextureType#TEXTURE_TYPE_DEPTH_32F_4BPP}.
    * </p>
    * 

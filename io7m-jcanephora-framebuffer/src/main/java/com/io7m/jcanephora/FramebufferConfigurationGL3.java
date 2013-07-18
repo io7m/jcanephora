@@ -49,7 +49,7 @@ public interface FramebufferConfigurationGL3
    */
 
   @Nonnull
-    <G extends GLFramebuffersGL3 & GLTextures2DStaticGL3 & GLTexturesCubeStaticGL2 & GLRenderbuffersGL3>
+    <G extends GLFramebuffersGL3 & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon & GLRenderbuffersGL3>
     Indeterminate<Framebuffer, FramebufferStatus>
     make(
       @Nonnull G gl)

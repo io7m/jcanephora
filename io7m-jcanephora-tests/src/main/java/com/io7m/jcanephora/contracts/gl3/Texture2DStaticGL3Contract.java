@@ -13,6 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora.contracts.gl3;
 
 import org.junit.Assert;
@@ -581,20 +582,6 @@ public abstract class Texture2DStaticGL3Contract implements TestContract
         {
           final Texture2DStatic tx =
             gl.texture2DStaticAllocateDepth24(
-              t.toString(),
-              128,
-              128,
-              TextureWrapS.TEXTURE_WRAP_REPEAT,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-          Assert.assertEquals(tx.getType(), t);
-          break;
-        }
-        case TEXTURE_TYPE_DEPTH_32_4BPP:
-        {
-          final Texture2DStatic tx =
-            gl.texture2DStaticAllocateDepth32(
               t.toString(),
               128,
               128,
