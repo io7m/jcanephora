@@ -29,6 +29,7 @@ import javax.media.opengl.GLContext;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
@@ -169,7 +170,7 @@ import com.io7m.jtensors.VectorReadable4F;
     return JOGL_GL_Functions.arrayBufferIsBound(this.contextGetGL3(), id);
   }
 
-  @Override public ByteBuffer arrayBufferMapRead(
+  @Override public ByteBuffer arrayBufferMapReadUntyped(
     final @Nonnull ArrayBuffer id)
     throws GLException,
       ConstraintError
@@ -2112,5 +2113,33 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     JOGL_GL_Functions.viewportSet(this.contextGetGL3(), position, dimensions);
+  }
+
+  @Override public @Nonnull ByteBuffer arrayBufferMapReadUntypedRange(
+    final @Nonnull ArrayBuffer id,
+    final @Nonnull RangeInclusive range)
+    throws GLException,
+      ConstraintError
+  {
+    return JOGL_GL_Functions.arrayBufferMapReadRange(
+      this.context.getGL(),
+      this.state,
+      this.log,
+      id,
+      range);
+  }
+
+  @Override public @Nonnull IndexBufferReadableMap indexBufferMapReadRange(
+    final @Nonnull IndexBuffer id,
+    final @Nonnull RangeInclusive range)
+    throws GLException,
+      ConstraintError
+  {
+    return JOGL_GL_Functions.indexBufferMapReadRange(
+      this.context.getGL(),
+      this.state,
+      this.log,
+      id,
+      range);
   }
 }
