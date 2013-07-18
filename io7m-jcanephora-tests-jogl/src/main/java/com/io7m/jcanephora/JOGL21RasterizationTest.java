@@ -39,14 +39,6 @@ public final class JOGL21RasterizationTest extends
     return some.value;
   }
 
-  @Override public GLProgramPointSizeControl getGLProgramPointSizeControl(
-    final TestContext tc)
-  {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
-  }
-
   @Override public GLRasterization getGLRasterization(
     final TestContext tc)
   {

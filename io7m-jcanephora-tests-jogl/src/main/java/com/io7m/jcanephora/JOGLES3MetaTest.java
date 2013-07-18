@@ -13,24 +13,34 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-
 package com.io7m.jcanephora;
 
-/**
- * <p>
- * The interface exposed by OpenGL ES2 implementations.
- * </p>
- */
+import javax.annotation.Nonnull;
 
-public interface GLInterfaceGLES2 extends
-  GLInterfaceCommon,
-  GLExtensionsGLES2,
-  GLFramebuffersGLES2,
-  GLRenderbuffersGLES2,
-  GLTexturesCubeStaticGLES2,
-  GLTextures2DStaticGLES2
+import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option.Some;
+import com.io7m.jcanephora.contracts.common.MetaContract;
+
+public final class JOGLES3MetaTest extends MetaContract
 {
-  /*
-   * All functions defined in the superinterfaces.
-   */
+  @Override public GLMeta getGLMeta(
+    final TestContext tc)
+  {
+    final Some<GLInterfaceGLES3> some =
+      (Some<GLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
+    return some.value;
+  }
+
+  @Override public boolean isGLSupported()
+  {
+    return JOGLTestContext.isOpenGLES3Supported();
+  }
+
+  @Override public @Nonnull TestContext newTestContext()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    return JOGLTestContext.makeContextWithOpenGL_ES3();
+  }
 }

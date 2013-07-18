@@ -13,11 +13,14 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 /**
- * The interface exposed by the common subset of OpenGL 3.*, OpenGL 2.1, and
- * OpenGL ES2 implementations.
+ * <p>
+ * The interface exposed by the common subset of OpenGL 3.*, OpenGL 2.1,
+ * OpenGL ES2, and OpenGL ES3 implementations.
+ * </p>
  */
 
 public interface GLInterfaceCommon extends

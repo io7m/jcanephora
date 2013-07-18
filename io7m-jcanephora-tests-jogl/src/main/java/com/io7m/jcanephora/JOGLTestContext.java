@@ -36,12 +36,14 @@ import com.jogamp.common.util.VersionNumber;
 public final class JOGLTestContext
 {
   private static GLOffscreenAutoDrawable buffer;
+  static final String                    LOG_DESTINATION_OPENGL_ES_3_0;
   static final String                    LOG_DESTINATION_OPENGL_ES_2_0;
   static final String                    LOG_DESTINATION_OPENGL_3_0;
   static final String                    LOG_DESTINATION_OPENGL_3_p;
   static final String                    LOG_DESTINATION_OPENGL_2_1;
 
   static {
+    LOG_DESTINATION_OPENGL_ES_3_0 = "jogl_es_3_0-test";
     LOG_DESTINATION_OPENGL_ES_2_0 = "jogl_es_2_0-test";
     LOG_DESTINATION_OPENGL_3_0 = "jogl_3_0-test";
     LOG_DESTINATION_OPENGL_3_p = "jogl_3_p-test";
@@ -202,6 +204,23 @@ public final class JOGLTestContext
     return false;
   }
 
+  /**
+   * Return <code>true</code> if the implementation supports OpenGL ES3.
+   */
+
+  public static boolean isOpenGLES3Supported()
+  {
+    if (GLProfile.isAvailable(GLProfile.GLES3)) {
+      System.err
+        .println("isOpenGLES3Supported: available: GLES3 profile available");
+      return true;
+    }
+
+    System.err
+      .println("isOpenGLES3Supported: unavailable: GLES3 profile not available");
+    return false;
+  }
+
   public static TestContext makeContextWithOpenGL_ES2()
     throws GLException,
       GLUnsupportedException,
@@ -216,6 +235,31 @@ public final class JOGLTestContext
     final GLImplementation gi = new GLImplementationJOGL(ctx, log);
 
     return new TestContext(fs, gi, log, ShaderPaths.getShaderPath(2, 0, true));
+  }
+
+  public static TestContext makeContextWithOpenGL_ES3()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    final Log log =
+      JOGLTestContext.getLog(JOGLTestContext.LOG_DESTINATION_OPENGL_ES_3_0);
+    final FSCapabilityAll fs = JOGLTestContext.getFS(log);
+
+    final GLContext ctx =
+      JOGLTestContext.getContext(GLProfile.get(GLProfile.GLES3));
+    final GLImplementation gi = new GLImplementationJOGL(ctx, log);
+
+    final VersionNumber version = ctx.getGLVersionNumber();
+    if (version.getMajor() != 3) {
+      throw new GLUnsupportedException("GLES3 profile "
+        + version
+        + " is not 3.*");
+    }
+
+    final PathVirtual shader_path =
+      ShaderPaths.getShaderPath(version.getMajor(), version.getMinor(), true);
+    return new TestContext(fs, gi, log, shader_path);
   }
 
   public static TestContext makeContextWithOpenGL2_1()

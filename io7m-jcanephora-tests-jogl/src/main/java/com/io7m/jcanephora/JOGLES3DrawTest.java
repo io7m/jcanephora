@@ -13,29 +13,35 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option.Some;
-import com.io7m.jcanephora.contracts.gl3.FramebuffersGL3Contract;
+import com.io7m.jcanephora.contracts.common.DrawContract;
 
-public final class JOGL21FramebuffersGL3Test extends
-  FramebuffersGL3Contract<GLInterfaceGL2>
+public final class JOGLES3DrawTest extends DrawContract
 {
-  @Override public GLInterfaceGL2 getGLInterface(
+  @Override public @Nonnull GLDraw getGLDraw(
     final TestContext context)
   {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) context.getGLImplementation().getGL2();
+    final Some<GLInterfaceGLES3> some =
+      (Some<GLInterfaceGLES3>) context.getGLImplementation().getGLES3();
+    return some.value;
+  }
+
+  @Override public @Nonnull GLIndexBuffers getGLIndexBuffers(
+    final TestContext context)
+  {
+    final Some<GLInterfaceGLES3> some =
+      (Some<GLInterfaceGLES3>) context.getGLImplementation().getGLES3();
     return some.value;
   }
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL21WithExtensionsSupported();
+    return JOGLTestContext.isOpenGLES3Supported();
   }
 
   @Override public @Nonnull TestContext newTestContext()
@@ -43,6 +49,6 @@ public final class JOGL21FramebuffersGL3Test extends
       GLUnsupportedException,
       ConstraintError
   {
-    return JOGLTestContext.makeContextWithOpenGL2_1();
+    return JOGLTestContext.makeContextWithOpenGL_ES3();
   }
 }

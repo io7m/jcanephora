@@ -17,11 +17,15 @@
 package com.io7m.jcanephora;
 
 /**
+ * <p>
  * The interface exposed by OpenGL 3.* implementations.
+ * </p>
  */
 
 public interface GLInterfaceGL3 extends
   GLInterfaceGL2,
+  GLArrayBuffersMapped,
+  GLIndexBuffersMapped,
   GLTexturesCubeStaticGL3
 {
   /*

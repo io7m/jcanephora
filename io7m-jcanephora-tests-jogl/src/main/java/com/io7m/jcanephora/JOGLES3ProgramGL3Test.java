@@ -18,38 +18,13 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
-import com.io7m.jcanephora.contracts.gl3.ArrayBufferMapContract;
+import com.io7m.jcanephora.contracts.gl3.ProgramGL3Contract;
 
-public final class JOGL21ArrayBufferMapTest extends ArrayBufferMapContract
+public final class JOGLES3ProgramGL3Test extends ProgramGL3Contract
 {
-  @Override public GLArrayBuffers getGLArrayBuffers(
-    final TestContext tc)
-  {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
-  }
-
-  @Override public GLArrayBuffersMapped getGLArrayBuffersMapped(
-    final TestContext tc)
-  {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
-  }
-
-  @Override public GLErrorCodes getGLErrorCodes(
-    final TestContext tc)
-  {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
-  }
-
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL21WithExtensionsSupported();
+    return JOGLTestContext.isOpenGLES3Supported();
   }
 
   @Override public @Nonnull TestContext newTestContext()
@@ -57,6 +32,6 @@ public final class JOGL21ArrayBufferMapTest extends ArrayBufferMapContract
       GLUnsupportedException,
       ConstraintError
   {
-    return JOGLTestContext.makeContextWithOpenGL2_1();
+    return JOGLTestContext.makeContextWithOpenGL_ES3();
   }
 }

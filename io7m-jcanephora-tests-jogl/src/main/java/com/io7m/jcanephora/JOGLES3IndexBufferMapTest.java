@@ -21,51 +21,51 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.gl3.IndexBufferMapContract;
 
-public final class JOGL21IndexBufferMapTest extends IndexBufferMapContract
+public final class JOGLES3IndexBufferMapTest extends IndexBufferMapContract
 {
   @Override public GLArrayBuffers getGLArrayBuffers(
     final TestContext tc)
   {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
+    final Some<GLInterfaceGLES3> some =
+      (Some<GLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
     return some.value;
   }
 
   @Override public GLArrayBuffersMapped getGLArrayBuffersMapped(
     final TestContext tc)
   {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
+    final Some<GLInterfaceGLES3> some =
+      (Some<GLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
     return some.value;
   }
 
   @Override public GLErrorCodes getGLErrorCodes(
     final TestContext tc)
   {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
+    final Some<GLInterfaceGLES3> some =
+      (Some<GLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
     return some.value;
   }
 
   @Override public GLIndexBuffers getGLIndexBuffers(
     final TestContext tc)
   {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
+    final Some<GLInterfaceGLES3> some =
+      (Some<GLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
     return some.value;
   }
 
   @Override public GLIndexBuffersMapped getGLIndexBuffersMapped(
     final TestContext tc)
   {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
+    final Some<GLInterfaceGLES3> some =
+      (Some<GLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
     return some.value;
   }
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL21WithExtensionsSupported();
+    return JOGLTestContext.isOpenGLES3Supported();
   }
 
   @Override public @Nonnull TestContext newTestContext()
@@ -73,6 +73,6 @@ public final class JOGL21IndexBufferMapTest extends IndexBufferMapContract
       GLUnsupportedException,
       ConstraintError
   {
-    return JOGLTestContext.makeContextWithOpenGL2_1();
+    return JOGLTestContext.makeContextWithOpenGL_ES3();
   }
 }
