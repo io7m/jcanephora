@@ -1059,6 +1059,33 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     }
 
     {
+      final Option<GLInterfaceGLES3> gles3opt = gi.getGLES3();
+      switch (gles3opt.type) {
+        case OPTION_NONE:
+        {
+          break;
+        }
+        case OPTION_SOME:
+        {
+          final Some<GLInterfaceGLES3> some =
+            (Some<GLInterfaceGLES3>) gles3opt;
+          final GLInterfaceGLES3 gl = some.value;
+          final WorkingBuffers buffers = new WorkingBuffers(gl, gl, gl, gl);
+
+          try {
+            return this.makeGL3(buffers, gl);
+          } catch (final GLException e) {
+            buffers.emergencyCleanup();
+            throw e;
+          } catch (final ConstraintError e) {
+            buffers.emergencyCleanup();
+            throw e;
+          }
+        }
+      }
+    }
+
+    {
       final Option<GLInterfaceGLES2> gles2opt = gi.getGLES2();
       switch (gles2opt.type) {
         case OPTION_NONE:
@@ -1176,11 +1203,14 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
    * @throws GLException
    */
 
-  private Indeterminate<Framebuffer, FramebufferStatus> makeGL3(
-    final @Nonnull WorkingBuffers buffers,
-    final @Nonnull GLInterfaceGL2 gl)
-    throws GLException,
-      ConstraintError
+  private
+    <G extends GLFramebuffersGL3 & GLRenderbuffersGL3 & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon>
+    Indeterminate<Framebuffer, FramebufferStatus>
+    makeGL3(
+      final @Nonnull WorkingBuffers buffers,
+      final @Nonnull G gl)
+      throws GLException,
+        ConstraintError
   {
     buffers.framebuffer = gl.framebufferAllocate();
     this.allocateColorBuffers_GL3(buffers, gl);
