@@ -1210,7 +1210,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return Renderbuffer.unsafeBrandDepthStencil(JOGL_GL2ES2_Functions
+    return Renderbuffer.unsafeBrandDepthStencil(JOGL_GL_Functions
       .renderbufferAllocate(
         this.contextGetGL2(),
         this.state,
@@ -1228,7 +1228,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return Renderbuffer.unsafeBrandColor(JOGL_GL2ES2_Functions
+    return Renderbuffer.unsafeBrandColor(JOGL_GL_Functions
       .renderbufferAllocate(
         this.contextGetGL2(),
         this.state,
@@ -1246,7 +1246,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return Renderbuffer.unsafeBrandColor(JOGL_GL2ES2_Functions
+    return Renderbuffer.unsafeBrandColor(JOGL_GL_Functions
       .renderbufferAllocate(
         this.contextGetGL2(),
         this.state,
@@ -1261,7 +1261,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    JOGL_GL2ES2_Functions.renderbufferDelete(
+    JOGL_GL_Functions.renderbufferDelete(
       this.contextGetGL2(),
       this.state,
       this.log,

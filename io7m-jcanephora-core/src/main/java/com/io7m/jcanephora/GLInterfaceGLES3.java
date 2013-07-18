@@ -23,14 +23,17 @@ package com.io7m.jcanephora;
  */
 
 public interface GLInterfaceGLES3 extends
-  GLInterfaceCommon,
   GLArrayBuffersMapped,
   GLBlendingGL3,
   GLFramebuffersGL3,
   GLIndexBuffersMapped,
+  GLInterfaceCommon,
   GLRenderbuffersGL3,
-  GLTexturesCubeStaticGLES3,
-  GLTextures2DStaticGLES3
+  GLRenderbuffersGLES2,
+  GLTextures2DStaticGLES2,
+  GLTextures2DStaticGLES3,
+  GLTexturesCubeStaticGLES2,
+  GLTexturesCubeStaticGLES3
 {
   /*
    * All functions defined in the superinterfaces.
