@@ -23,6 +23,34 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 public class JOGLTestContextTest
 {
+  @SuppressWarnings("static-method") @Test public void testGL_ES2()
+  {
+    System.out.println("GL_ES2: " + JOGLTestContext.isOpenGLES2Supported());
+  }
+
+  @SuppressWarnings("static-method") @Test public void testGL_ES2_Open()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    Assume.assumeTrue(JOGLTestContext.isOpenGLES2Supported());
+    final TestContext gi = JOGLTestContext.makeContextWithOpenGL_ES2();
+  }
+
+  @SuppressWarnings("static-method") @Test public void testGL_ES3()
+  {
+    System.out.println("GL_ES3: " + JOGLTestContext.isOpenGLES3Supported());
+  }
+
+  @SuppressWarnings("static-method") @Test public void testGL_ES3_Open()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    Assume.assumeTrue(JOGLTestContext.isOpenGLES3Supported());
+    final TestContext gi = JOGLTestContext.makeContextWithOpenGL_ES3();
+  }
+
   @SuppressWarnings("static-method") @Test public void testGL2_1()
   {
     System.out.println("GL2_1: "
@@ -64,33 +92,5 @@ public class JOGLTestContextTest
   {
     Assume.assumeTrue(JOGLTestContext.isOpenGL3pSupported());
     final TestContext gi = JOGLTestContext.makeContextWithOpenGL3_p();
-  }
-
-  @SuppressWarnings("static-method") @Test public void testGL_ES2()
-  {
-    System.out.println("GL_ES2: " + JOGLTestContext.isOpenGLES2Supported());
-  }
-
-  @SuppressWarnings("static-method") @Test public void testGL_ES2_Open()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError
-  {
-    Assume.assumeTrue(JOGLTestContext.isOpenGLES2Supported());
-    final TestContext gi = JOGLTestContext.makeContextWithOpenGL_ES2();
-  }
-
-  @SuppressWarnings("static-method") @Test public void testGL_ES3()
-  {
-    System.out.println("GL_ES3: " + JOGLTestContext.isOpenGLES3Supported());
-  }
-
-  @SuppressWarnings("static-method") @Test public void testGL_ES3_Open()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError
-  {
-    Assume.assumeTrue(JOGLTestContext.isOpenGLES3Supported());
-    final TestContext gi = JOGLTestContext.makeContextWithOpenGL_ES3();
   }
 }

@@ -177,6 +177,19 @@ import com.io7m.jtensors.VectorReadable4F;
     return LWJGL_GL3Functions.arrayBufferMapRead(this.state, this.log, id);
   }
 
+  @Override public @Nonnull ByteBuffer arrayBufferMapReadUntypedRange(
+    @Nonnull final ArrayBuffer id,
+    @Nonnull final RangeInclusive range)
+    throws GLException,
+      ConstraintError
+  {
+    return LWJGL_GL3Functions.arrayBufferMapReadRange(
+      this.state,
+      this.log,
+      id,
+      range);
+  }
+
   @Override public ArrayBufferWritableMap arrayBufferMapWrite(
     final @Nonnull ArrayBuffer id)
     throws GLException,
@@ -830,6 +843,19 @@ import com.io7m.jtensors.VectorReadable4F;
     return LWJGL_GL3Functions.indexBufferMapRead(
 
     this.state, this.log, id);
+  }
+
+  @Override public @Nonnull IndexBufferReadableMap indexBufferMapReadRange(
+    @Nonnull final IndexBuffer id,
+    @Nonnull final RangeInclusive range)
+    throws GLException,
+      ConstraintError
+  {
+    return LWJGL_GL3Functions.indexBufferMapReadRange(
+      this.state,
+      this.log,
+      id,
+      range);
   }
 
   @Override public IndexBufferWritableMap indexBufferMapWrite(
@@ -1921,31 +1947,5 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     LWJGL_GLES2Functions.viewportSet(position, dimensions);
-  }
-
-  @Override public @Nonnull ByteBuffer arrayBufferMapReadUntypedRange(
-    @Nonnull final ArrayBuffer id,
-    @Nonnull final RangeInclusive range)
-    throws GLException,
-      ConstraintError
-  {
-    return LWJGL_GL3Functions.arrayBufferMapReadRange(
-      this.state,
-      this.log,
-      id,
-      range);
-  }
-
-  @Override public @Nonnull IndexBufferReadableMap indexBufferMapReadRange(
-    @Nonnull final IndexBuffer id,
-    @Nonnull final RangeInclusive range)
-    throws GLException,
-      ConstraintError
-  {
-    return LWJGL_GL3Functions.indexBufferMapReadRange(
-      this.state,
-      this.log,
-      id,
-      range);
   }
 }

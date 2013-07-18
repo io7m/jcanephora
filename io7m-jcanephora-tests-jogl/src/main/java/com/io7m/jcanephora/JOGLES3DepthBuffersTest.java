@@ -51,7 +51,8 @@ public final class JOGLES3DepthBuffersTest extends DepthBuffersContract
     throws ConstraintError,
       GLException
   {
-    final Some<GLInterfaceGLES3> some = (Some<GLInterfaceGLES3>) gi.getGLES3();
+    final Some<GLInterfaceGLES3> some =
+      (Some<GLInterfaceGLES3>) gi.getGLES3();
     final GLInterfaceGLES3 g = some.value;
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
@@ -93,7 +94,8 @@ public final class JOGLES3DepthBuffersTest extends DepthBuffersContract
     throws ConstraintError,
       GLException
   {
-    final Some<GLInterfaceGLES3> some = (Some<GLInterfaceGLES3>) gi.getGLES3();
+    final Some<GLInterfaceGLES3> some =
+      (Some<GLInterfaceGLES3>) gi.getGLES3();
     final GLInterfaceGLES3 g = some.value;
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 

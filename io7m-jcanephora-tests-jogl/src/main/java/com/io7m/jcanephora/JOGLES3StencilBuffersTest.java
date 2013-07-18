@@ -53,7 +53,8 @@ public final class JOGLES3StencilBuffersTest extends StencilBuffersContract
       throws ConstraintError,
         GLException
   {
-    final Some<GLInterfaceGLES3> some = (Some<GLInterfaceGLES3>) gi.getGLES3();
+    final Some<GLInterfaceGLES3> some =
+      (Some<GLInterfaceGLES3>) gi.getGLES3();
     final GLInterfaceGLES3 g = some.value;
 
     final FramebufferReference fb = g.framebufferAllocate();
@@ -77,7 +78,8 @@ public final class JOGLES3StencilBuffersTest extends StencilBuffersContract
     throws ConstraintError,
       GLException
   {
-    final Some<GLInterfaceGLES3> some = (Some<GLInterfaceGLES3>) gi.getGLES3();
+    final Some<GLInterfaceGLES3> some =
+      (Some<GLInterfaceGLES3>) gi.getGLES3();
     final GLInterfaceGLES3 g = some.value;
 
     final FramebufferReference fb = g.framebufferAllocate();

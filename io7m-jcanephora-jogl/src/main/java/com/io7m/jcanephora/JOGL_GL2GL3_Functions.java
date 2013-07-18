@@ -235,6 +235,40 @@ final class JOGL_GL2GL3_Functions
     return t;
   }
 
+  static void texture2DStaticUpdate(
+    final @Nonnull GL gl,
+    final @Nonnull Texture2DWritableData data)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(data, "Texture data");
+
+    final AreaInclusive area = data.targetArea();
+    final Texture2DStatic texture = data.getTexture();
+
+    final TextureType type = texture.getType();
+    final int x_offset = (int) area.getRangeX().getLower();
+    final int y_offset = (int) area.getRangeY().getLower();
+    final int width = (int) area.getRangeX().getInterval();
+    final int height = (int) area.getRangeY().getInterval();
+    final TextureSpec spec = JOGL_TextureSpecs.getGL3TextureSpec(type);
+    final ByteBuffer buffer = data.targetData();
+
+    gl.glBindTexture(GL.GL_TEXTURE_2D, texture.getGLName());
+    gl.glTexSubImage2D(
+      GL.GL_TEXTURE_2D,
+      0,
+      x_offset,
+      y_offset,
+      width,
+      height,
+      spec.format,
+      spec.type,
+      buffer);
+    gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
   static @Nonnull TextureCubeStatic textureCubeStaticAllocate(
     final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
@@ -350,40 +384,6 @@ final class JOGL_GL2GL3_Functions
     }
 
     return t;
-  }
-
-  static void texture2DStaticUpdate(
-    final @Nonnull GL gl,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(data, "Texture data");
-
-    final AreaInclusive area = data.targetArea();
-    final Texture2DStatic texture = data.getTexture();
-
-    final TextureType type = texture.getType();
-    final int x_offset = (int) area.getRangeX().getLower();
-    final int y_offset = (int) area.getRangeY().getLower();
-    final int width = (int) area.getRangeX().getInterval();
-    final int height = (int) area.getRangeY().getInterval();
-    final TextureSpec spec = JOGL_TextureSpecs.getGL3TextureSpec(type);
-    final ByteBuffer buffer = data.targetData();
-
-    gl.glBindTexture(GL.GL_TEXTURE_2D, texture.getGLName());
-    gl.glTexSubImage2D(
-      GL.GL_TEXTURE_2D,
-      0,
-      x_offset,
-      y_offset,
-      width,
-      height,
-      spec.format,
-      spec.type,
-      buffer);
-    gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
-    JOGL_GL_Functions.checkError(gl);
   }
 
   static void textureCubeStaticUpdate(

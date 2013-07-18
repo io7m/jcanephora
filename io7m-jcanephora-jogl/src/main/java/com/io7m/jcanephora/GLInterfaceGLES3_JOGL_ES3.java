@@ -182,6 +182,20 @@ import com.io7m.jtensors.VectorReadable4F;
       id);
   }
 
+  @Override public @Nonnull ByteBuffer arrayBufferMapReadUntypedRange(
+    final @Nonnull ArrayBuffer id,
+    final @Nonnull RangeInclusive range)
+    throws GLException,
+      ConstraintError
+  {
+    return JOGL_GL_Functions.arrayBufferMapReadRange(
+      this.context.getGL(),
+      this.state,
+      this.log,
+      id,
+      range);
+  }
+
   @Override public ArrayBufferWritableMap arrayBufferMapWrite(
     final @Nonnull ArrayBuffer id)
     throws GLException,
@@ -909,6 +923,20 @@ import com.io7m.jtensors.VectorReadable4F;
       id);
   }
 
+  @Override public @Nonnull IndexBufferReadableMap indexBufferMapReadRange(
+    final @Nonnull IndexBuffer id,
+    final @Nonnull RangeInclusive range)
+    throws GLException,
+      ConstraintError
+  {
+    return JOGL_GL_Functions.indexBufferMapReadRange(
+      this.context.getGL(),
+      this.state,
+      this.log,
+      id,
+      range);
+  }
+
   @Override public IndexBufferWritableMap indexBufferMapWrite(
     final @Nonnull IndexBuffer id)
     throws GLException,
@@ -1193,6 +1221,24 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public @Nonnull
+    Renderbuffer<RenderableDepth>
+    renderbufferAllocateDepth16(
+      final int width,
+      final int height)
+      throws ConstraintError,
+        GLException
+  {
+    return Renderbuffer.unsafeBrandDepth(JOGL_GL_Functions
+      .renderbufferAllocate(
+        this.context.getGL(),
+        this.state,
+        this.log,
+        RenderbufferType.RENDERBUFFER_DEPTH_16,
+        width,
+        height));
+  }
+
+  @Override public @Nonnull
     Renderbuffer<RenderableDepthStencil>
     renderbufferAllocateDepth24Stencil8(
       final int width,
@@ -1206,6 +1252,24 @@ import com.io7m.jtensors.VectorReadable4F;
         this.state,
         this.log,
         RenderbufferType.RENDERBUFFER_DEPTH_24_STENCIL_8,
+        width,
+        height));
+  }
+
+  @Override public @Nonnull
+    Renderbuffer<RenderableColor>
+    renderbufferAllocateRGB565(
+      final int width,
+      final int height)
+      throws ConstraintError,
+        GLException
+  {
+    return Renderbuffer.unsafeBrandColor(JOGL_GL_Functions
+      .renderbufferAllocate(
+        this.context.getGL(),
+        this.state,
+        this.log,
+        RenderbufferType.RENDERBUFFER_COLOR_RGB_565,
         width,
         height));
   }
@@ -1230,6 +1294,42 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public @Nonnull
     Renderbuffer<RenderableColor>
+    renderbufferAllocateRGBA4444(
+      final int width,
+      final int height)
+      throws ConstraintError,
+        GLException
+  {
+    return Renderbuffer.unsafeBrandColor(JOGL_GL_Functions
+      .renderbufferAllocate(
+        this.context.getGL(),
+        this.state,
+        this.log,
+        RenderbufferType.RENDERBUFFER_COLOR_RGBA_4444,
+        width,
+        height));
+  }
+
+  @Override public @Nonnull
+    Renderbuffer<RenderableColor>
+    renderbufferAllocateRGBA5551(
+      final int width,
+      final int height)
+      throws ConstraintError,
+        GLException
+  {
+    return Renderbuffer.unsafeBrandColor(JOGL_GL_Functions
+      .renderbufferAllocate(
+        this.context.getGL(),
+        this.state,
+        this.log,
+        RenderbufferType.RENDERBUFFER_COLOR_RGBA_5551,
+        width,
+        height));
+  }
+
+  @Override public @Nonnull
+    Renderbuffer<RenderableColor>
     renderbufferAllocateRGBA8888(
       final int width,
       final int height)
@@ -1242,6 +1342,24 @@ import com.io7m.jtensors.VectorReadable4F;
         this.state,
         this.log,
         RenderbufferType.RENDERBUFFER_COLOR_RGBA_8888,
+        width,
+        height));
+  }
+
+  @Override public @Nonnull
+    Renderbuffer<RenderableStencil>
+    renderbufferAllocateStencil8(
+      final int width,
+      final int height)
+      throws ConstraintError,
+        GLException
+  {
+    return Renderbuffer.unsafeBrandStencil(JOGL_GL_Functions
+      .renderbufferAllocate(
+        this.context.getGL(),
+        this.state,
+        this.log,
+        RenderbufferType.RENDERBUFFER_STENCIL_8,
         width,
         height));
   }
@@ -2026,123 +2144,5 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     JOGL_GL_Functions.viewportSet(this.contextGetGL3(), position, dimensions);
-  }
-
-  @Override public @Nonnull ByteBuffer arrayBufferMapReadUntypedRange(
-    final @Nonnull ArrayBuffer id,
-    final @Nonnull RangeInclusive range)
-    throws GLException,
-      ConstraintError
-  {
-    return JOGL_GL_Functions.arrayBufferMapReadRange(
-      this.context.getGL(),
-      this.state,
-      this.log,
-      id,
-      range);
-  }
-
-  @Override public @Nonnull IndexBufferReadableMap indexBufferMapReadRange(
-    final @Nonnull IndexBuffer id,
-    final @Nonnull RangeInclusive range)
-    throws GLException,
-      ConstraintError
-  {
-    return JOGL_GL_Functions.indexBufferMapReadRange(
-      this.context.getGL(),
-      this.state,
-      this.log,
-      id,
-      range);
-  }
-
-  @Override public @Nonnull
-    Renderbuffer<RenderableDepth>
-    renderbufferAllocateDepth16(
-      final int width,
-      final int height)
-      throws ConstraintError,
-        GLException
-  {
-    return Renderbuffer.unsafeBrandDepth(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.context.getGL(),
-        this.state,
-        this.log,
-        RenderbufferType.RENDERBUFFER_DEPTH_16,
-        width,
-        height));
-  }
-
-  @Override public @Nonnull
-    Renderbuffer<RenderableColor>
-    renderbufferAllocateRGB565(
-      final int width,
-      final int height)
-      throws ConstraintError,
-        GLException
-  {
-    return Renderbuffer.unsafeBrandColor(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.context.getGL(),
-        this.state,
-        this.log,
-        RenderbufferType.RENDERBUFFER_COLOR_RGB_565,
-        width,
-        height));
-  }
-
-  @Override public @Nonnull
-    Renderbuffer<RenderableColor>
-    renderbufferAllocateRGBA4444(
-      final int width,
-      final int height)
-      throws ConstraintError,
-        GLException
-  {
-    return Renderbuffer.unsafeBrandColor(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.context.getGL(),
-        this.state,
-        this.log,
-        RenderbufferType.RENDERBUFFER_COLOR_RGBA_4444,
-        width,
-        height));
-  }
-
-  @Override public @Nonnull
-    Renderbuffer<RenderableColor>
-    renderbufferAllocateRGBA5551(
-      final int width,
-      final int height)
-      throws ConstraintError,
-        GLException
-  {
-    return Renderbuffer.unsafeBrandColor(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.context.getGL(),
-        this.state,
-        this.log,
-        RenderbufferType.RENDERBUFFER_COLOR_RGBA_5551,
-        width,
-        height));
-  }
-
-  @Override public @Nonnull
-    Renderbuffer<RenderableStencil>
-    renderbufferAllocateStencil8(
-      final int width,
-      final int height)
-      throws ConstraintError,
-        GLException
-  {
-    return Renderbuffer.unsafeBrandStencil(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.context.getGL(),
-        this.state,
-        this.log,
-        RenderbufferType.RENDERBUFFER_STENCIL_8,
-        width,
-        height));
   }
 }
