@@ -17,7 +17,9 @@
 package com.io7m.jcanephora;
 
 /**
+ * <p>
  * The interface exposed by OpenGL ES2 implementations.
+ * </p>
  */
 
 public interface GLInterfaceGLES2 extends

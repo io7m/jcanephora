@@ -13,6 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora.contracts.gl3;
 
 import javax.annotation.Nonnull;
@@ -48,10 +49,9 @@ import com.io7m.jcanephora.FramebufferDrawBuffer;
 import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLFramebuffersGL3;
-import com.io7m.jcanephora.GLInterfaceGL2;
 import com.io7m.jcanephora.GLRenderbuffersGL3;
-import com.io7m.jcanephora.GLTextures2DStaticGL3;
-import com.io7m.jcanephora.GLTexturesCubeStaticGL2;
+import com.io7m.jcanephora.GLTextures2DStaticCommon;
+import com.io7m.jcanephora.GLTexturesCubeStaticCommon;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.RenderableColor;
 import com.io7m.jcanephora.RenderbufferUsable;
@@ -65,10 +65,11 @@ import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.contracts.common.TestContract;
 
-public abstract class FramebuffersGL3Contract implements TestContract
+public abstract class FramebuffersGL3Contract<G extends GLFramebuffersGL3 & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon & GLRenderbuffersGL3> implements
+  TestContract
 {
   private static @Nonnull
-    <G extends GLFramebuffersGL3 & GLTextures2DStaticGL3 & GLTexturesCubeStaticGL2 & GLRenderbuffersGL3>
+    <G extends GLFramebuffersGL3 & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon & GLRenderbuffersGL3>
     Framebuffer
     makeAssumingSuccess(
       final FramebufferConfigurationGL3 config,
@@ -90,7 +91,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  public abstract GLInterfaceGL2 getGLInterface(
+  public abstract G getGLInterface(
     TestContext context);
 
   /**
@@ -109,7 +110,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceGL2 gl = this.getGLInterface(tc);
+    final G gl = this.getGLInterface(tc);
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -138,7 +139,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       GLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceGL2 gl = this.getGLInterface(tc);
+    final G gl = this.getGLInterface(tc);
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -196,7 +197,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       GLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceGL2 gl = this.getGLInterface(tc);
+    final G gl = this.getGLInterface(tc);
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -269,7 +270,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       GLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceGL2 gl = this.getGLInterface(tc);
+    final G gl = this.getGLInterface(tc);
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -347,7 +348,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       GLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceGL2 gl = this.getGLInterface(tc);
+    final G gl = this.getGLInterface(tc);
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -405,7 +406,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       GLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceGL2 gl = this.getGLInterface(tc);
+    final G gl = this.getGLInterface(tc);
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -478,7 +479,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       GLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceGL2 gl = this.getGLInterface(tc);
+    final G gl = this.getGLInterface(tc);
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -556,7 +557,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       GLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceGL2 gl = this.getGLInterface(tc);
+    final G gl = this.getGLInterface(tc);
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -596,7 +597,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceGL2 gl = this.getGLInterface(tc);
+    final G gl = this.getGLInterface(tc);
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -655,7 +656,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceGL2 gl = this.getGLInterface(tc);
+    final G gl = this.getGLInterface(tc);
 
     final FramebufferConfigurationGL3 config =
       new FramebufferConfigurationGL3Actual(128, 256);
@@ -672,7 +673,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceGL2 gl = this.getGLInterface(tc);
+    final G gl = this.getGLInterface(tc);
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -770,7 +771,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceGL2 gl = this.getGLInterface(tc);
+    final G gl = this.getGLInterface(tc);
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -861,7 +862,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceGL2 gl = this.getGLInterface(tc);
+    final G gl = this.getGLInterface(tc);
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -952,7 +953,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceGL2 gl = this.getGLInterface(tc);
+    final G gl = this.getGLInterface(tc);
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -1047,7 +1048,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceGL2 gl = this.getGLInterface(tc);
+    final G gl = this.getGLInterface(tc);
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -1143,7 +1144,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceGL2 gl = this.getGLInterface(tc);
+    final G gl = this.getGLInterface(tc);
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -1245,7 +1246,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceGL2 gl = this.getGLInterface(tc);
+    final G gl = this.getGLInterface(tc);
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -1371,7 +1372,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceGL2 gl = this.getGLInterface(tc);
+    final G gl = this.getGLInterface(tc);
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -1485,7 +1486,7 @@ public abstract class FramebuffersGL3Contract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceGL2 gl = this.getGLInterface(tc);
+    final G gl = this.getGLInterface(tc);
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();

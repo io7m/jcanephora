@@ -31,6 +31,7 @@ import org.lwjgl.opengl.GL30;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 import com.io7m.jaux.functional.Pair;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
@@ -168,12 +169,25 @@ import com.io7m.jtensors.VectorReadable4F;
     return LWJGL_GLES2Functions.arrayBufferIsBound(id);
   }
 
-  @Override public ByteBuffer arrayBufferMapRead(
+  @Override public ByteBuffer arrayBufferMapReadUntyped(
     final @Nonnull ArrayBuffer id)
     throws GLException,
       ConstraintError
   {
     return LWJGL_GL3Functions.arrayBufferMapRead(this.state, this.log, id);
+  }
+
+  @Override public @Nonnull ByteBuffer arrayBufferMapReadUntypedRange(
+    @Nonnull final ArrayBuffer id,
+    @Nonnull final RangeInclusive range)
+    throws GLException,
+      ConstraintError
+  {
+    return LWJGL_GL3Functions.arrayBufferMapReadRange(
+      this.state,
+      this.log,
+      id,
+      range);
   }
 
   @Override public ArrayBufferWritableMap arrayBufferMapWrite(
@@ -831,6 +845,19 @@ import com.io7m.jtensors.VectorReadable4F;
     this.state, this.log, id);
   }
 
+  @Override public @Nonnull IndexBufferReadableMap indexBufferMapReadRange(
+    @Nonnull final IndexBuffer id,
+    @Nonnull final RangeInclusive range)
+    throws GLException,
+      ConstraintError
+  {
+    return LWJGL_GL3Functions.indexBufferMapReadRange(
+      this.state,
+      this.log,
+      id,
+      range);
+  }
+
   @Override public IndexBufferWritableMap indexBufferMapWrite(
     final @Nonnull IndexBuffer id)
     throws GLException,
@@ -917,34 +944,6 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public boolean metaIsES()
   {
     return this.version_is_es;
-  }
-
-  @Override public int pointGetMaximumWidth()
-  {
-    return this.state.point_max_width;
-  }
-
-  @Override public int pointGetMinimumWidth()
-  {
-    return this.state.point_min_width;
-  }
-
-  @Override public final void pointProgramSizeControlDisable()
-    throws GLException
-  {
-    LWJGL_GL3Functions.pointProgramSizeControlDisable();
-  }
-
-  @Override public final void pointProgramSizeControlEnable()
-    throws GLException
-  {
-    LWJGL_GL3Functions.pointProgramSizeControlEnable();
-  }
-
-  @Override public final boolean pointProgramSizeControlIsEnabled()
-    throws GLException
-  {
-    return LWJGL_GL3Functions.pointProgramSizeControlIsEnabled();
   }
 
   @Override public @Nonnull PolygonMode polygonGetMode()
@@ -1351,30 +1350,6 @@ import com.io7m.jtensors.VectorReadable4F;
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateDepth32(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      GLException
-  {
-    return LWJGL_GLES2Functions.texture2DStaticAllocate(
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureType.TEXTURE_TYPE_DEPTH_32_4BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
   @Override public @Nonnull Texture2DStatic texture2DStaticAllocateDepth32f(
     final @Nonnull String name,
     final int width,
@@ -1658,32 +1633,6 @@ import com.io7m.jtensors.VectorReadable4F;
       name,
       size,
       TextureType.TEXTURE_TYPE_DEPTH_24_4BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    TextureCubeStatic
-    textureCubeStaticAllocateDepth32(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        GLException
-  {
-    return LWJGL_GLES2Functions.textureCubeStaticAllocate(
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureType.TEXTURE_TYPE_DEPTH_32_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,

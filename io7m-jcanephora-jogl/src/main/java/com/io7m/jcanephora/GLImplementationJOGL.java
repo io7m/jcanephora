@@ -34,6 +34,7 @@ public final class GLImplementationJOGL implements GLImplementation
   private final @Nonnull Log              log;
   private final @Nonnull GLContext        context;
   private final @Nonnull GLInterfaceGLES2 gl_es2;
+  private final @Nonnull GLInterfaceGLES3 gl_es3;
   private final @Nonnull GLInterfaceGL3   gl_3;
   private final @Nonnull GLInterfaceGL2   gl_2;
 
@@ -63,9 +64,19 @@ public final class GLImplementationJOGL implements GLImplementation
 
     log.debug("Context is " + context.getGLVersion());
 
+    if (context.isGLES3()) {
+      log.debug("Context is GLES3 - creating GLES3 interface");
+      this.gl_es3 = new GLInterfaceGLES3_JOGL_ES3(context, log);
+      this.gl_es2 = null;
+      this.gl_2 = null;
+      this.gl_3 = null;
+      return;
+    }
+
     if (context.isGLES2()) {
       log.debug("Context is GLES2 - creating GLES2 interface");
       this.gl_es2 = new GLInterfaceGLES2_JOGL_ES2(context, log);
+      this.gl_es3 = null;
       this.gl_2 = null;
       this.gl_3 = null;
       return;
@@ -77,9 +88,10 @@ public final class GLImplementationJOGL implements GLImplementation
 
     if (context.isGL3()) {
       log.debug("Context is GL3, creating OpenGL >= 3.1 interface");
-      this.gl_3 = new GLInterfaceGL3_JOGL_GL3(context, log);
+      this.gl_3 = new GLInterfaceGL3_JOGL_GL2GL3(context, log);
       this.gl_2 = null;
       this.gl_es2 = null;
+      this.gl_es3 = null;
       return;
     }
 
@@ -91,9 +103,10 @@ public final class GLImplementationJOGL implements GLImplementation
       if (context.getGLVersionNumber().getMajor() == 3) {
         log
           .debug("Context is GL2 but version is 3.0, creating OpenGL >= 3.1 interface");
-        this.gl_3 = new GLInterfaceGL3_JOGL_GL3(context, log);
+        this.gl_3 = new GLInterfaceGL3_JOGL_GL2GL3(context, log);
         this.gl_2 = null;
         this.gl_es2 = null;
+        this.gl_es3 = null;
         return;
       }
 
@@ -132,6 +145,7 @@ public final class GLImplementationJOGL implements GLImplementation
       this.gl_2 = new GLInterfaceGL2_JOGL_GL21(context, log);
       this.gl_3 = null;
       this.gl_es2 = null;
+      this.gl_es3 = null;
       return;
     }
 
@@ -157,6 +171,9 @@ public final class GLImplementationJOGL implements GLImplementation
 
   @Override public @Nonnull GLInterfaceCommon getGLCommon()
   {
+    if (this.gl_es3 != null) {
+      return this.gl_es3;
+    }
     if (this.gl_es2 != null) {
       return this.gl_es2;
     }
@@ -176,5 +193,13 @@ public final class GLImplementationJOGL implements GLImplementation
       return new Option.Some<GLInterfaceGLES2>(this.gl_es2);
     }
     return new Option.None<GLInterfaceGLES2>();
+  }
+
+  @Override public @Nonnull Option<GLInterfaceGLES3> getGLES3()
+  {
+    if (this.gl_es3 != null) {
+      return new Option.Some<GLInterfaceGLES3>(this.gl_es3);
+    }
+    return new Option.None<GLInterfaceGLES3>();
   }
 }

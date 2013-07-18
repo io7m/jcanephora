@@ -21,6 +21,7 @@ import java.nio.ByteBuffer;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 
 /**
  * Simplified interface to memory-mapped array buffers.
@@ -29,9 +30,15 @@ import com.io7m.jaux.Constraints.ConstraintError;
 public interface GLArrayBuffersMapped
 {
   /**
+   * <p>
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped read-only. The buffer should be unmapped
    * after use with {@link GLInterfaceGL3#arrayBufferUnmap(ArrayBuffer)}.
+   * </p>
+   * <p>
+   * The "untyped" in the name refers to the fact that the mapped buffer is
+   * returned as a simple byte array.
+   * </p>
    * 
    * @param id
    *          The buffer.
@@ -47,17 +54,57 @@ public interface GLArrayBuffersMapped
    *           </ul>
    */
 
-  @Nonnull ByteBuffer arrayBufferMapRead(
+  @Nonnull ByteBuffer arrayBufferMapReadUntyped(
     final @Nonnull ArrayBuffer id)
     throws GLException,
       ConstraintError;
 
   /**
+   * <p>
+   * Map the buffer referenced by <code>id</code> into the program's address
+   * space. The buffer is mapped read-only. Only elements in the range
+   * described by <code>range</code> will be mapped. The buffer should be
+   * unmapped after use with
+   * {@link GLInterfaceGL3#arrayBufferUnmap(ArrayBuffer)}.
+   * </p>
+   * <p>
+   * The "untyped" in the name refers to the fact that the mapped buffer is
+   * returned as a simple byte array.
+   * </p>
+   * 
+   * @param id
+   *          The buffer.
+   * @param range
+   *          The range (in elements) of elements to map.
+   * @return A readable byte buffer.
+   * @throws GLException
+   *           Iff an OpenGL exception occurs.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>id == null || range == null</code>.</li>
+   *           <li><code>id</code> does not refer to a valid buffer (possible
+   *           if the buffer has already been deleted).</li>
+   *           <li><code>range</code> is not included in
+   *           <code>id.getRange()</code>.
+   *           </ul>
+   * @see RangeInclusive#isIncludedIn(RangeInclusive)
+   */
+
+  @Nonnull ByteBuffer arrayBufferMapReadUntypedRange(
+    final @Nonnull ArrayBuffer id,
+    final @Nonnull RangeInclusive range)
+    throws GLException,
+      ConstraintError;
+
+  /**
+   * <p>
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped write-only. The buffer should be unmapped
    * after use with {@link GLInterfaceGL3#arrayBufferUnmap(ArrayBuffer)}. The
    * previous contents of the buffer are discarded before mapping, to prevent
    * pipeline stalls.
+   * </p>
    * 
    * @param id
    *          The buffer.
@@ -79,7 +126,9 @@ public interface GLArrayBuffersMapped
       ConstraintError;
 
   /**
+   * <p>
    * Unmap the array buffer specified by <code>id</code>.
+   * </p>
    * 
    * @param id
    *          The array buffer.

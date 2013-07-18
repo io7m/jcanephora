@@ -226,10 +226,11 @@ public final class Program extends GLResourceDeletable implements
           "at least one fragment shader is required");
       }
       if (this.fragment_shaders.size() > 1) {
-        if (gl.metaIsES() && (gl.metaGetVersionMajor() == 2)) {
+        final int vm = gl.metaGetVersionMajor();
+        if (gl.metaIsES() && ((vm >= 2) && (vm <= 3))) {
           throw new GLCompileException(
             "<none>",
-            "ES2 forbids multiple fragment shader attachments");
+            "ES2/ES3 forbids multiple fragment shader attachments");
         }
       }
 

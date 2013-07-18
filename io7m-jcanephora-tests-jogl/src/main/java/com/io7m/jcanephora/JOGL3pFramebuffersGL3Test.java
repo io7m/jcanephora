@@ -13,44 +13,29 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option.Some;
-import com.io7m.jcanephora.contracts.gl3.ArrayBufferWritableMapContract;
+import com.io7m.jcanephora.contracts.gl3.FramebuffersGL3Contract;
 
-public final class JOGL21ArrayBufferWritableMapTest extends
-  ArrayBufferWritableMapContract
+public final class JOGL3pFramebuffersGL3Test extends
+  FramebuffersGL3Contract<GLInterfaceGL3>
 {
-  @Override public GLArrayBuffers getGLArrayBuffers(
-    final TestContext tc)
+  @Override public GLInterfaceGL3 getGLInterface(
+    final TestContext context)
   {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
-  }
-
-  @Override public GLArrayBuffersMapped getGLArrayBuffersMapped(
-    final TestContext tc)
-  {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
-  }
-
-  @Override public GLErrorCodes getGLErrorCodes(
-    final TestContext tc)
-  {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) context.getGLImplementation().getGL3();
     return some.value;
   }
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGL21WithExtensionsSupported();
+    return JOGLTestContext.isOpenGL3pSupported();
   }
 
   @Override public @Nonnull TestContext newTestContext()
@@ -58,6 +43,6 @@ public final class JOGL21ArrayBufferWritableMapTest extends
       GLUnsupportedException,
       ConstraintError
   {
-    return JOGLTestContext.makeContextWithOpenGL2_1();
+    return JOGLTestContext.makeContextWithOpenGL3_p();
   }
 }

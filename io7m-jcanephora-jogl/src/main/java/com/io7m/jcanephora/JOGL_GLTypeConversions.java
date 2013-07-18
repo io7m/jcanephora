@@ -13,11 +13,13 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES2;
+import javax.media.opengl.GL2ES3;
 import javax.media.opengl.GL2GL3;
 
 import com.io7m.jaux.UnreachableCodeException;
@@ -61,9 +63,9 @@ final class JOGL_GLTypeConversions
     switch (e) {
       case GL.GL_FUNC_ADD:
         return BlendEquationGL3.BLEND_EQUATION_ADD;
-      case GL2GL3.GL_MAX:
+      case GL2ES3.GL_MAX:
         return BlendEquationGL3.BLEND_EQUATION_MAXIMUM;
-      case GL2GL3.GL_MIN:
+      case GL2ES3.GL_MIN:
         return BlendEquationGL3.BLEND_EQUATION_MINIMUM;
       case GL.GL_FUNC_REVERSE_SUBTRACT:
         return BlendEquationGL3.BLEND_EQUATION_REVERSE_SUBTRACT;
@@ -81,9 +83,9 @@ final class JOGL_GLTypeConversions
       case BLEND_EQUATION_ADD:
         return GL.GL_FUNC_ADD;
       case BLEND_EQUATION_MAXIMUM:
-        return GL2GL3.GL_MAX;
+        return GL2ES3.GL_MAX;
       case BLEND_EQUATION_MINIMUM:
-        return GL2GL3.GL_MIN;
+        return GL2ES3.GL_MIN;
       case BLEND_EQUATION_REVERSE_SUBTRACT:
         return GL.GL_FUNC_REVERSE_SUBTRACT;
       case BLEND_EQUATION_SUBTRACT:
@@ -335,10 +337,32 @@ final class JOGL_GLTypeConversions
         return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_READ_BUFFER;
       case GL.GL_FRAMEBUFFER_UNSUPPORTED:
         return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_UNSUPPORTED;
-
     }
 
     return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_UNKNOWN;
+  }
+
+  static int framebufferStatusToGL(
+    final @Nonnull FramebufferStatus status)
+  {
+    switch (status) {
+      case FRAMEBUFFER_STATUS_COMPLETE:
+        return GL.GL_FRAMEBUFFER_COMPLETE;
+      case FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_ATTACHMENT:
+        return GL.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT;
+      case FRAMEBUFFER_STATUS_ERROR_MISSING_IMAGE_ATTACHMENT:
+        return GL.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT;
+      case FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_DRAW_BUFFER:
+        return GL2GL3.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER;
+      case FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_READ_BUFFER:
+        return GL2GL3.GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER;
+      case FRAMEBUFFER_STATUS_ERROR_UNSUPPORTED:
+        return GL.GL_FRAMEBUFFER_UNSUPPORTED;
+      case FRAMEBUFFER_STATUS_ERROR_UNKNOWN:
+        return -1;
+    }
+
+    throw new UnreachableCodeException();
   }
 
   static final LogicOperation logicOpFromGL(
@@ -664,85 +688,6 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static int textureTypeToFormatGL(
-    final @Nonnull TextureType type)
-  {
-    switch (type) {
-      case TEXTURE_TYPE_R_8_1BPP:
-        return GL2ES2.GL_RED;
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_8888_4BPP:
-        return GL.GL_RGBA;
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_888_3BPP:
-        return GL.GL_RGB;
-      case TEXTURE_TYPE_RG_88_2BPP:
-        return GL2ES2.GL_RG;
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-        return GL2ES2.GL_DEPTH_COMPONENT;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  static int textureTypeToInternalFormatGL(
-    final @Nonnull TextureType type)
-  {
-    switch (type) {
-      case TEXTURE_TYPE_R_8_1BPP:
-        return GL2ES2.GL_RED;
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_8888_4BPP:
-        return GL.GL_RGBA;
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_888_3BPP:
-        return GL.GL_RGB;
-      case TEXTURE_TYPE_RG_88_2BPP:
-        return GL2ES2.GL_RG;
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-        return GL.GL_DEPTH_COMPONENT16;
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-        return GL.GL_DEPTH_COMPONENT24;
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-        return GL2GL3.GL_DEPTH_COMPONENT32F;
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
-        return GL.GL_DEPTH_COMPONENT32;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  static int textureTypeToTypeGL(
-    final @Nonnull TextureType type)
-  {
-    switch (type) {
-      case TEXTURE_TYPE_R_8_1BPP:
-      case TEXTURE_TYPE_RG_88_2BPP:
-      case TEXTURE_TYPE_RGBA_8888_4BPP:
-      case TEXTURE_TYPE_RGB_888_3BPP:
-        return GL.GL_UNSIGNED_BYTE;
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-        return GL.GL_UNSIGNED_SHORT_4_4_4_4;
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-        return GL.GL_UNSIGNED_SHORT_5_5_5_1;
-      case TEXTURE_TYPE_RGB_565_2BPP:
-        return GL.GL_UNSIGNED_SHORT_5_6_5;
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-        return GL.GL_UNSIGNED_SHORT;
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-        return GL.GL_UNSIGNED_INT;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
   static final @Nonnull TextureWrapR textureWrapRFromGL(
     final int wrap)
   {
@@ -982,23 +927,23 @@ final class JOGL_GLTypeConversions
     final int hint)
   {
     switch (hint) {
-      case GL2GL3.GL_DYNAMIC_COPY:
+      case GL2ES3.GL_DYNAMIC_COPY:
         return UsageHint.USAGE_DYNAMIC_COPY;
       case GL.GL_DYNAMIC_DRAW:
         return UsageHint.USAGE_DYNAMIC_DRAW;
-      case GL2GL3.GL_DYNAMIC_READ:
+      case GL2ES3.GL_DYNAMIC_READ:
         return UsageHint.USAGE_DYNAMIC_READ;
-      case GL2GL3.GL_STATIC_COPY:
+      case GL2ES3.GL_STATIC_COPY:
         return UsageHint.USAGE_STATIC_COPY;
       case GL.GL_STATIC_DRAW:
         return UsageHint.USAGE_STATIC_DRAW;
-      case GL2GL3.GL_STATIC_READ:
+      case GL2ES3.GL_STATIC_READ:
         return UsageHint.USAGE_STATIC_READ;
-      case GL2GL3.GL_STREAM_COPY:
+      case GL2ES3.GL_STREAM_COPY:
         return UsageHint.USAGE_STREAM_COPY;
       case GL2ES2.GL_STREAM_DRAW:
         return UsageHint.USAGE_STREAM_DRAW;
-      case GL2GL3.GL_STREAM_READ:
+      case GL2ES3.GL_STREAM_READ:
         return UsageHint.USAGE_STREAM_READ;
     }
 
@@ -1010,23 +955,23 @@ final class JOGL_GLTypeConversions
   {
     switch (hint) {
       case USAGE_DYNAMIC_COPY:
-        return GL2GL3.GL_DYNAMIC_COPY;
+        return GL2ES3.GL_DYNAMIC_COPY;
       case USAGE_DYNAMIC_DRAW:
         return GL.GL_DYNAMIC_DRAW;
       case USAGE_DYNAMIC_READ:
-        return GL2GL3.GL_DYNAMIC_READ;
+        return GL2ES3.GL_DYNAMIC_READ;
       case USAGE_STATIC_COPY:
-        return GL2GL3.GL_STATIC_COPY;
+        return GL2ES3.GL_STATIC_COPY;
       case USAGE_STATIC_DRAW:
         return GL.GL_STATIC_DRAW;
       case USAGE_STATIC_READ:
-        return GL2GL3.GL_STATIC_READ;
+        return GL2ES3.GL_STATIC_READ;
       case USAGE_STREAM_COPY:
-        return GL2GL3.GL_STREAM_COPY;
+        return GL2ES3.GL_STREAM_COPY;
       case USAGE_STREAM_DRAW:
         return GL2ES2.GL_STREAM_DRAW;
       case USAGE_STREAM_READ:
-        return GL2GL3.GL_STREAM_READ;
+        return GL2ES3.GL_STREAM_READ;
     }
 
     throw new UnreachableCodeException();

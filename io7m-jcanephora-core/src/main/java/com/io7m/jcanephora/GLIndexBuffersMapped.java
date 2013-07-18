@@ -19,6 +19,7 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 
 /**
  * Simplified interface to memory-mapped index buffers.
@@ -27,11 +28,13 @@ import com.io7m.jaux.Constraints.ConstraintError;
 public interface GLIndexBuffersMapped
 {
   /**
+   * <p>
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped read-only. The buffer should be unmapped
    * after use with {@link GLInterfaceGL3#indexBufferUnmap(IndexBuffer)}. Note
    * that the type of indices in the buffer is given by
    * <code>id.getType()</code>.
+   * </p>
    * 
    * @param id
    *          The buffer.
@@ -53,12 +56,49 @@ public interface GLIndexBuffersMapped
       ConstraintError;
 
   /**
+   * <p>
+   * Map the buffer referenced by <code>id</code> into the program's address
+   * space. The buffer is mapped read-only. Only elements in the range
+   * described by <code>range</code> will be mapped. The buffer should be
+   * unmapped after use with
+   * {@link GLInterfaceGL3#indexBufferUnmap(IndexBuffer)}. Note that the type
+   * of indices in the buffer is given by <code>id.getType()</code>.
+   * </p>
+   * 
+   * @param id
+   *          The buffer.
+   * @param range
+   *          The range (in elements) of elements to map.
+   * @return A readable byte buffer.
+   * @throws GLException
+   *           Iff an OpenGL exception occurs.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>id == null || range == null</code> .</li>
+   *           <li><code>id</code> does not refer to a valid buffer (possible
+   *           if the buffer has already been deleted).</li>
+   *           <li><code>range</code> is not included in
+   *           <code>id.getRange()</code>.
+   *           </ul>
+   * @see RangeInclusive#isIncludedIn(RangeInclusive)
+   */
+
+  public @Nonnull IndexBufferReadableMap indexBufferMapReadRange(
+    final @Nonnull IndexBuffer id,
+    final @Nonnull RangeInclusive range)
+    throws GLException,
+      ConstraintError;
+
+  /**
+   * <p>
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped write-only. The buffer should be unmapped
    * after use with {@link GLInterfaceGL3#indexBufferUnmap(IndexBuffer)}. Note
    * that the type of indices in the buffer is given by
    * <code>id.getType()</code>. The previous contents of the buffer are
    * discarded to prevent pipeline stalls.
+   * </p>
    * 
    * @param id
    *          The buffer.
@@ -80,7 +120,9 @@ public interface GLIndexBuffersMapped
       ConstraintError;
 
   /**
+   * <p>
    * Unmap the index buffer specified by <code>id</code>.
+   * </p>
    * 
    * @param id
    *          The index buffer.
