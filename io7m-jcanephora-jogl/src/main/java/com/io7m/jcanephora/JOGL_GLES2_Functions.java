@@ -22,7 +22,6 @@ import java.nio.IntBuffer;
 import javax.annotation.Nonnull;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES2;
-import javax.media.opengl.GL2GL3;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -31,105 +30,11 @@ import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 
 /**
- * Functions that are only usable on a strictly GL2 or GL3 context.
+ * Functions that are only usable on a strictly ES2 context.
  */
 
-final class JOGL_GL2GL3_Functions
+final class JOGL_GLES2_Functions
 {
-  static void logicOperationsDisable(
-    final @Nonnull GL2GL3 gl)
-    throws GLException
-  {
-    gl.glDisable(GL.GL_COLOR_LOGIC_OP);
-    JOGL_GL_Functions.checkError(gl);
-  }
-
-  static void logicOperationsEnable(
-    final @Nonnull GL2GL3 gl,
-    final @Nonnull LogicOperation operation)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(operation, "Logic operation");
-    gl.glEnable(GL.GL_COLOR_LOGIC_OP);
-    gl.glLogicOp(JOGL_GLTypeConversions.logicOpToGL(operation));
-    JOGL_GL_Functions.checkError(gl);
-  }
-
-  static boolean logicOperationsEnabled(
-    final @Nonnull GL2GL3 gl)
-    throws GLException
-  {
-    final boolean e = gl.glIsEnabled(GL.GL_COLOR_LOGIC_OP);
-    JOGL_GL_Functions.checkError(gl);
-    return e;
-  }
-
-  static void pointProgramSizeControlDisable(
-    final @Nonnull GL2GL3 gl)
-    throws GLException
-  {
-    gl.glDisable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
-    JOGL_GL_Functions.checkError(gl);
-  }
-
-  static void pointProgramSizeControlEnable(
-    final @Nonnull GL2GL3 gl)
-    throws GLException
-  {
-    gl.glEnable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
-    JOGL_GL_Functions.checkError(gl);
-  }
-
-  static boolean pointProgramSizeControlIsEnabled(
-    final @Nonnull GL2GL3 gl)
-    throws GLException
-  {
-    final boolean e = gl.glIsEnabled(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
-    JOGL_GL_Functions.checkError(gl);
-    return e;
-  }
-
-  static void polygonSetMode(
-    final @Nonnull GL2GL3 gl,
-    final @Nonnull GLStateCache cache,
-    final @Nonnull PolygonMode mode)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(mode, "Polygon mode");
-
-    final int im = JOGL_GLTypeConversions.polygonModeToGL(mode);
-    gl.glPolygonMode(GL.GL_FRONT_AND_BACK, im);
-    JOGL_GL_Functions.checkError(gl);
-    cache.polygon_mode = mode;
-  }
-
-  static void polygonSmoothingDisable(
-    final @Nonnull GL2GL3 gl)
-    throws GLException
-  {
-    gl.glDisable(GL2GL3.GL_POLYGON_SMOOTH);
-    JOGL_GL_Functions.checkError(gl);
-  }
-
-  static void polygonSmoothingEnable(
-    final @Nonnull GL2GL3 gl)
-    throws GLException
-  {
-    gl.glEnable(GL2GL3.GL_POLYGON_SMOOTH);
-    JOGL_GL_Functions.checkError(gl);
-  }
-
-  static boolean polygonSmoothingIsEnabled(
-    final @Nonnull GL2GL3 gl)
-    throws GLException
-  {
-    final boolean e = gl.glIsEnabled(GL2GL3.GL_POLYGON_SMOOTH);
-    JOGL_GL_Functions.checkError(gl);
-    return e;
-  }
-
   static @Nonnull Texture2DStatic texture2DStaticAllocate(
     final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
@@ -157,7 +62,7 @@ final class JOGL_GL2GL3_Functions
     if (log.enabled(Level.LOG_DEBUG)) {
       final int bytes = height * (type.bytesPerPixel() * width);
       state.log_text.setLength(0);
-      state.log_text.append("texture-2D-static (gl2/gl3): allocate \"");
+      state.log_text.append("texture-2D-static (es2): allocate \"");
       state.log_text.append(name);
       state.log_text.append("\" ");
       state.log_text.append(type);
@@ -199,7 +104,7 @@ final class JOGL_GL2GL3_Functions
       JOGL_GLTypeConversions.textureFilterMagToGL(mag_filter));
     JOGL_GL_Functions.checkError(gl);
 
-    final TextureSpec spec = JOGL_TextureSpecs.getGL3TextureSpec(type);
+    final TextureSpec spec = JOGL_TextureSpecs.getGLES2TextureSpec(type);
     gl.glTexImage2D(
       GL.GL_TEXTURE_2D,
       0,
@@ -227,12 +132,46 @@ final class JOGL_GL2GL3_Functions
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
-      state.log_text.append("texture-2D-static (gl2/gl3): allocated ");
+      state.log_text.append("texture-2D-static (es2): allocated ");
       state.log_text.append(t);
       log.debug(state.log_text.toString());
     }
 
     return t;
+  }
+
+  static void texture2DStaticUpdate(
+    final @Nonnull GL gl,
+    final @Nonnull Texture2DWritableData data)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(data, "Texture data");
+
+    final AreaInclusive area = data.targetArea();
+    final Texture2DStatic texture = data.getTexture();
+
+    final TextureType type = texture.getType();
+    final int x_offset = (int) area.getRangeX().getLower();
+    final int y_offset = (int) area.getRangeY().getLower();
+    final int width = (int) area.getRangeX().getInterval();
+    final int height = (int) area.getRangeY().getInterval();
+    final TextureSpec spec = JOGL_TextureSpecs.getGLES2TextureSpec(type);
+    final ByteBuffer buffer = data.targetData();
+
+    gl.glBindTexture(GL.GL_TEXTURE_2D, texture.getGLName());
+    gl.glTexSubImage2D(
+      GL.GL_TEXTURE_2D,
+      0,
+      x_offset,
+      y_offset,
+      width,
+      height,
+      spec.format,
+      spec.type,
+      buffer);
+    gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static @Nonnull TextureCubeStatic textureCubeStaticAllocate(
@@ -262,7 +201,7 @@ final class JOGL_GL2GL3_Functions
     if (log.enabled(Level.LOG_DEBUG)) {
       final int bytes = size * (type.bytesPerPixel() * size) * 6;
       state.log_text.setLength(0);
-      state.log_text.append("texture-cube-static (gl2/gl3): allocate \"");
+      state.log_text.append("texture-cube-static (es2): allocate \"");
       state.log_text.append(name);
       state.log_text.append("\" ");
       state.log_text.append(type);
@@ -309,11 +248,9 @@ final class JOGL_GL2GL3_Functions
       JOGL_GLTypeConversions.textureFilterMagToGL(mag_filter));
     JOGL_GL_Functions.checkError(gl);
 
-    final TextureSpec spec = JOGL_TextureSpecs.getGL3TextureSpec(type);
-
+    final TextureSpec spec = JOGL_TextureSpecs.getGLES2TextureSpec(type);
     for (final CubeMapFace face : CubeMapFace.values()) {
       final int gface = JOGL_GLTypeConversions.cubeFaceToGL(face);
-
       gl.glTexImage2D(
         gface,
         0,
@@ -344,46 +281,12 @@ final class JOGL_GL2GL3_Functions
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
-      state.log_text.append("texture-cube-static (gl2/gl3): allocated ");
+      state.log_text.append("texture-cube-static (es2): allocated ");
       state.log_text.append(t);
       log.debug(state.log_text.toString());
     }
 
     return t;
-  }
-
-  static void texture2DStaticUpdate(
-    final @Nonnull GL gl,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(data, "Texture data");
-
-    final AreaInclusive area = data.targetArea();
-    final Texture2DStatic texture = data.getTexture();
-
-    final TextureType type = texture.getType();
-    final int x_offset = (int) area.getRangeX().getLower();
-    final int y_offset = (int) area.getRangeY().getLower();
-    final int width = (int) area.getRangeX().getInterval();
-    final int height = (int) area.getRangeY().getInterval();
-    final TextureSpec spec = JOGL_TextureSpecs.getGL3TextureSpec(type);
-    final ByteBuffer buffer = data.targetData();
-
-    gl.glBindTexture(GL.GL_TEXTURE_2D, texture.getGLName());
-    gl.glTexSubImage2D(
-      GL.GL_TEXTURE_2D,
-      0,
-      x_offset,
-      y_offset,
-      width,
-      height,
-      spec.format,
-      spec.type,
-      buffer);
-    gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
-    JOGL_GL_Functions.checkError(gl);
   }
 
   static void textureCubeStaticUpdate(
@@ -404,7 +307,7 @@ final class JOGL_GL2GL3_Functions
     final int y_offset = (int) area.getRangeY().getLower();
     final int width = (int) area.getRangeX().getInterval();
     final int height = (int) area.getRangeY().getInterval();
-    final TextureSpec spec = JOGL_TextureSpecs.getGL3TextureSpec(type);
+    final TextureSpec spec = JOGL_TextureSpecs.getGLES2TextureSpec(type);
     final ByteBuffer buffer = data.targetData();
     final int gface = JOGL_GLTypeConversions.cubeFaceToGL(face);
 

@@ -1324,7 +1324,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return JOGL_GL_Functions.texture2DStaticAllocate(
+    return JOGL_GLES2_Functions.texture2DStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1349,7 +1349,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return JOGL_GL_Functions.texture2DStaticAllocate(
+    return JOGL_GLES2_Functions.texture2DStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1374,7 +1374,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return JOGL_GL_Functions.texture2DStaticAllocate(
+    return JOGL_GLES2_Functions.texture2DStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1399,7 +1399,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return JOGL_GL_Functions.texture2DStaticAllocate(
+    return JOGL_GLES2_Functions.texture2DStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1424,7 +1424,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    return JOGL_GL_Functions.texture2DStaticAllocate(
+    return JOGL_GLES2_Functions.texture2DStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1488,7 +1488,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    JOGL_GL_Functions.texture2DStaticUpdate(this.contextGetGLES2(), data);
+    JOGL_GLES2_Functions.texture2DStaticUpdate(this.contextGetGLES2(), data);
   }
 
   @Override public @Nonnull
@@ -1504,7 +1504,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return JOGL_GL_Functions.textureCubeStaticAllocate(
+    return JOGL_GLES2_Functions.textureCubeStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1531,7 +1531,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return JOGL_GL_Functions.textureCubeStaticAllocate(
+    return JOGL_GLES2_Functions.textureCubeStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1558,7 +1558,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return JOGL_GL_Functions.textureCubeStaticAllocate(
+    return JOGL_GLES2_Functions.textureCubeStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1585,7 +1585,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return JOGL_GL_Functions.textureCubeStaticAllocate(
+    return JOGL_GLES2_Functions.textureCubeStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1612,7 +1612,7 @@ import com.io7m.jtensors.VectorReadable4F;
       throws ConstraintError,
         GLException
   {
-    return JOGL_GL_Functions.textureCubeStaticAllocate(
+    return JOGL_GLES2_Functions.textureCubeStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -1668,9 +1668,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    JOGL_GL_Functions.textureCubeStaticUnbind(
-      this.contextGetGLES2(),
-      unit);
+    JOGL_GL_Functions.textureCubeStaticUnbind(this.contextGetGLES2(), unit);
   }
 
   @Override public void textureCubeStaticUpdate(
@@ -1679,7 +1677,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       GLException
   {
-    JOGL_GL_Functions.textureCubeStaticUpdate(
+    JOGL_GLES2_Functions.textureCubeStaticUpdate(
       this.contextGetGLES2(),
       face,
       data);

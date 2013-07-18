@@ -13,36 +13,37 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option.Some;
-import com.io7m.jcanephora.contracts.gl3.Texture2DStaticGL3Contract;
+import com.io7m.jcanephora.contracts.gles3.Texture2DStaticGLES3Contract;
 
-public final class JOGLES3Texture2DStaticTest extends
-  Texture2DStaticGL3Contract
+public final class JOGL30Texture2DStaticGLES3Test extends
+  Texture2DStaticGLES3Contract
 {
-  @Override public GLTextures2DStaticGL3 getGLTexture2DStaticGL3(
+  @Override public GLTextures2DStaticGLES3 getGLTexture2DStaticGLES3(
     final TestContext tc)
   {
-    final Some<GLInterfaceGLES3> some =
-      (Some<GLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
     return some.value;
   }
 
   @Override public GLTextureUnits getGLTextureUnits(
     final TestContext tc)
   {
-    final Some<GLInterfaceGLES3> some =
-      (Some<GLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
     return some.value;
   }
 
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGLES3Supported();
+    return JOGLTestContext.isOpenGL30Supported();
   }
 
   @Override public @Nonnull TestContext newTestContext()
@@ -50,6 +51,6 @@ public final class JOGLES3Texture2DStaticTest extends
       GLUnsupportedException,
       ConstraintError
   {
-    return JOGLTestContext.makeContextWithOpenGL_ES3();
+    return JOGLTestContext.makeContextWithOpenGL3_0();
   }
 }
