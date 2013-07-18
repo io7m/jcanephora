@@ -23,7 +23,6 @@ import javax.annotation.Nonnull;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GL2ES3;
-import javax.media.opengl.GL2GL3;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -159,22 +158,52 @@ final class JOGL_GL_Functions
       ConstraintError
   {
     Constraints.constrainNotNull(id, "Array buffer");
+    return JOGL_GL_Functions.arrayBufferMapReadRange(
+      gl,
+      state,
+      log,
+      id,
+      id.getRange());
+  }
+
+  static ByteBuffer arrayBufferMapReadRange(
+    final @Nonnull GL gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull ArrayBuffer id,
+    final @Nonnull RangeInclusive range)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(id, "Array buffer");
     Constraints.constrainArbitrary(
       id.resourceIsDeleted() == false,
       "Array buffer not deleted");
+    Constraints.constrainNotNull(range, "Range");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
       state.log_text.append("array-buffer: map ");
       state.log_text.append(id);
+      state.log_text.append(" range ");
+      state.log_text.append(range);
       log.debug(state.log_text.toString());
     }
 
     gl.glBindBuffer(GL.GL_ARRAY_BUFFER, id.getGLName());
     JOGL_GL_Functions.checkError(gl);
+
+    final long offset = range.getLower() * id.getElementSizeBytes();
+    final long length = range.getInterval() * id.getElementSizeBytes();
+
     final ByteBuffer b =
-      gl.glMapBuffer(GL.GL_ARRAY_BUFFER, GL2GL3.GL_READ_ONLY);
+      gl.glMapBufferRange(
+        GL.GL_ARRAY_BUFFER,
+        offset,
+        length,
+        GL.GL_MAP_READ_BIT);
     JOGL_GL_Functions.checkError(gl);
+
     gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
     JOGL_GL_Functions.checkError(gl);
 
@@ -198,11 +227,14 @@ final class JOGL_GL_Functions
       state.log_text.setLength(0);
       state.log_text.append("array-buffer: map ");
       state.log_text.append(id);
+      state.log_text.append(" range ");
+      state.log_text.append(id.getRange());
       log.debug(state.log_text.toString());
     }
 
     gl.glBindBuffer(GL.GL_ARRAY_BUFFER, id.getGLName());
     JOGL_GL_Functions.checkError(gl);
+
     gl.glBufferData(
       GL.GL_ARRAY_BUFFER,
       id.getSizeBytes(),
@@ -210,8 +242,18 @@ final class JOGL_GL_Functions
       GL2ES2.GL_STREAM_DRAW);
     JOGL_GL_Functions.checkError(gl);
 
-    final ByteBuffer b = gl.glMapBuffer(GL.GL_ARRAY_BUFFER, GL.GL_WRITE_ONLY);
+    final RangeInclusive range = id.getRange();
+    final long offset = range.getLower() * id.getElementSizeBytes();
+    final long length = range.getInterval() * id.getElementSizeBytes();
+
+    final ByteBuffer b =
+      gl.glMapBufferRange(
+        GL.GL_ARRAY_BUFFER,
+        offset,
+        length,
+        GL.GL_MAP_WRITE_BIT);
     JOGL_GL_Functions.checkError(gl);
+
     gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
     JOGL_GL_Functions.checkError(gl);
 
@@ -1556,11 +1598,29 @@ final class JOGL_GL_Functions
     JOGL_GL_Functions.checkError(gl);
   }
 
-  static IndexBufferReadableMap indexBufferMapRead(
+  static @Nonnull IndexBufferReadableMap indexBufferMapRead(
     final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull IndexBuffer id)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(id, "Index buffer");
+    return JOGL_GL_Functions.indexBufferMapReadRange(
+      gl,
+      state,
+      log,
+      id,
+      id.getRange());
+  }
+
+  static IndexBufferReadableMap indexBufferMapReadRange(
+    final @Nonnull GL gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull IndexBuffer id,
+    final @Nonnull RangeInclusive range)
     throws GLException,
       ConstraintError
   {
@@ -1568,6 +1628,7 @@ final class JOGL_GL_Functions
     Constraints.constrainArbitrary(
       id.resourceIsDeleted() == false,
       "Index buffer not deleted");
+    Constraints.constrainNotNull(range, "Range");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -1578,9 +1639,18 @@ final class JOGL_GL_Functions
 
     gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
     JOGL_GL_Functions.checkError(gl);
+
+    final long offset = range.getLower() * id.getElementSizeBytes();
+    final long length = range.getInterval() * id.getElementSizeBytes();
+
     final ByteBuffer b =
-      gl.glMapBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, GL2GL3.GL_READ_ONLY);
+      gl.glMapBufferRange(
+        GL.GL_ELEMENT_ARRAY_BUFFER,
+        offset,
+        length,
+        GL.GL_MAP_READ_BIT);
     JOGL_GL_Functions.checkError(gl);
+
     gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
     JOGL_GL_Functions.checkError(gl);
 
@@ -1616,9 +1686,18 @@ final class JOGL_GL_Functions
       GL2ES2.GL_STREAM_DRAW);
     JOGL_GL_Functions.checkError(gl);
 
+    final RangeInclusive range = id.getRange();
+    final long offset = range.getLower() * id.getElementSizeBytes();
+    final long length = range.getInterval() * id.getElementSizeBytes();
+
     final ByteBuffer b =
-      gl.glMapBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, GL.GL_WRITE_ONLY);
+      gl.glMapBufferRange(
+        GL.GL_ELEMENT_ARRAY_BUFFER,
+        offset,
+        length,
+        GL.GL_MAP_WRITE_BIT);
     JOGL_GL_Functions.checkError(gl);
+
     gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
     JOGL_GL_Functions.checkError(gl);
 
