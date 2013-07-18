@@ -13,6 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
@@ -30,6 +31,7 @@ import org.lwjgl.opengl.GL30;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 
@@ -59,6 +61,52 @@ final class LWJGL_GL3Functions
     final ByteBuffer b =
       GL15.glMapBuffer(GL15.GL_ARRAY_BUFFER, GL15.GL_READ_ONLY, null);
     LWJGL_GLES2Functions.checkError();
+    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+    LWJGL_GLES2Functions.checkError();
+
+    return b;
+  }
+
+  static ByteBuffer arrayBufferMapReadRange(
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull ArrayBuffer id,
+    final @Nonnull RangeInclusive range)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(id, "Array buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Array buffer not deleted");
+
+    Constraints.constrainNotNull(range, "Range");
+    Constraints.constrainArbitrary(
+      range.isIncludedIn(id.getRange()),
+      "Mapped range included in buffer range");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("array-buffer: map ");
+      state.log_text.append(id);
+      log.debug(state.log_text.toString());
+    }
+
+    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, id.getGLName());
+    LWJGL_GLES2Functions.checkError();
+
+    final long offset = range.getLower() * id.getElementSizeBytes();
+    final long length = range.getInterval() * id.getElementSizeBytes();
+
+    final ByteBuffer b =
+      GL30.glMapBufferRange(
+        GL15.GL_ARRAY_BUFFER,
+        offset,
+        length,
+        GL30.GL_MAP_READ_BIT,
+        null);
+    LWJGL_GLES2Functions.checkError();
+
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     LWJGL_GLES2Functions.checkError();
 
@@ -861,9 +909,57 @@ final class LWJGL_GL3Functions
 
     GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
     LWJGL_GLES2Functions.checkError();
+
     final ByteBuffer b =
       GL15.glMapBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, GL15.GL_READ_ONLY, null);
     LWJGL_GLES2Functions.checkError();
+
+    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+    LWJGL_GLES2Functions.checkError();
+
+    return new IndexBufferReadableMap(id, b);
+  }
+
+  static IndexBufferReadableMap indexBufferMapReadRange(
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull IndexBuffer id,
+    final @Nonnull RangeInclusive range)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(id, "Index buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Index buffer not deleted");
+
+    Constraints.constrainNotNull(range, "Range");
+    Constraints.constrainArbitrary(
+      range.isIncludedIn(id.getRange()),
+      "Mapped range included in buffer range");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("index-buffer: map ");
+      state.log_text.append(id);
+      log.debug(state.log_text.toString());
+    }
+
+    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
+    LWJGL_GLES2Functions.checkError();
+
+    final long offset = range.getLower() * id.getElementSizeBytes();
+    final long length = range.getInterval() * id.getElementSizeBytes();
+
+    final ByteBuffer b =
+      GL30.glMapBufferRange(
+        GL15.GL_ELEMENT_ARRAY_BUFFER,
+        offset,
+        length,
+        GL30.GL_MAP_READ_BIT,
+        null);
+    LWJGL_GLES2Functions.checkError();
+
     GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
     LWJGL_GLES2Functions.checkError();
 

@@ -17,24 +17,24 @@
 package com.io7m.jcanephora;
 
 /**
+ * <p>
  * The interface exposed by OpenGL 2.1 implementations.
- * 
+ * </p>
+ * <p>
  * Note that this interface represents as much of the non-deprecated ("core")
  * interface to OpenGL 3.0 is as possible to obtain on an OpenGL 2.1
  * implementation (via the use of extensions, and by rejecting the
  * fixed-function pipeline).
+ * </p>
  */
 
 public interface GLInterfaceGL2 extends
   GLInterfaceCommon,
-  GLArrayBuffersMapped,
   GLBlendingGL3,
   GLFramebuffersGL3,
-  GLIndexBuffersMapped,
   GLLogic,
   GLPolygonModes,
   GLPolygonSmoothing,
-  GLProgramPointSizeControl,
   GLRenderbuffersGL3,
   GLTexturesCubeStaticGL2,
   GLTextures2DStaticGL3

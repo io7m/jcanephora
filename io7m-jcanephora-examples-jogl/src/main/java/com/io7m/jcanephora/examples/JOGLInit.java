@@ -17,6 +17,7 @@ package com.io7m.jcanephora.examples;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
+import javax.media.opengl.GL2GL3;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
@@ -89,7 +90,7 @@ public final class JOGLInit
         g2.glLoadIdentity();
         g2.glTranslated(0, 0, -1);
 
-        g2.glBegin(GL2.GL_QUADS);
+        g2.glBegin(GL2GL3.GL_QUADS);
         {
           g2.glVertex2d(this.quad_x, this.quad_y + 10);
           g2.glVertex2d(this.quad_x, this.quad_y);

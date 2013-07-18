@@ -120,9 +120,7 @@ public final class GLImplementationLWJGL implements GLImplementation
 
   private final @Nonnull Log              log;
   private final @Nonnull GLInterfaceGLES2 gl_es2;
-
   private final @Nonnull GLInterfaceGL3   gl_3;
-
   private final @Nonnull GLInterfaceGL2   gl_2;
 
   /**
@@ -218,5 +216,10 @@ public final class GLImplementationLWJGL implements GLImplementation
       return new Option.Some<GLInterfaceGLES2>(this.gl_es2);
     }
     return new Option.None<GLInterfaceGLES2>();
+  }
+
+  @Override public @Nonnull Option<GLInterfaceGLES3> getGLES3()
+  {
+    return new Option.None<GLInterfaceGLES3>();
   }
 }

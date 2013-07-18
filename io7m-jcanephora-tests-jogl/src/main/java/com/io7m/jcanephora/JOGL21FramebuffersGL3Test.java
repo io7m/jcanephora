@@ -13,6 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
@@ -21,7 +22,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.gl3.FramebuffersGL3Contract;
 
-public final class JOGL21FramebuffersGL3Test extends FramebuffersGL3Contract
+public final class JOGL21FramebuffersGL3Test extends
+  FramebuffersGL3Contract<GLInterfaceGL2>
 {
   @Override public GLInterfaceGL2 getGLInterface(
     final TestContext context)

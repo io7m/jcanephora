@@ -17,11 +17,14 @@
 package com.io7m.jcanephora;
 
 /**
+ * <p>
  * Type-safe interface to the cube map texture API exposed by OpenGL ES2.
- * 
+ * </p>
+ * <p>
  * The textures are manipulated using the standard <code>glTexImage2D</code>
  * family of functions, internally and the functions are intended for use with
  * textures that are not frequently updated.
+ * </p>
  */
 
 public interface GLTexturesCubeStaticGLES2 extends GLTexturesCubeStaticCommon
