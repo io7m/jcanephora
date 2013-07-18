@@ -181,6 +181,11 @@ final class JOGL_GL_Functions
       "Array buffer not deleted");
     Constraints.constrainNotNull(range, "Range");
 
+    Constraints.constrainNotNull(range, "Range");
+    Constraints.constrainArbitrary(
+      range.isIncludedIn(id.getRange()),
+      "Mapped range included in buffer range");
+
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
       state.log_text.append("array-buffer: map ");

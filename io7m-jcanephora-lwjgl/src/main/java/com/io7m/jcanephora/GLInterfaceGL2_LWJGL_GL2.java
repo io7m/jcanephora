@@ -18,7 +18,6 @@ package com.io7m.jcanephora;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.Map;
 
@@ -156,24 +155,6 @@ import com.io7m.jtensors.VectorReadable4F;
     return LWJGL_GLES2Functions.arrayBufferIsBound(id);
   }
 
-  @Override public ByteBuffer arrayBufferMapRead(
-    final @Nonnull ArrayBuffer id)
-    throws GLException,
-      ConstraintError
-  {
-    return LWJGL_GL3Functions.arrayBufferMapRead(this.state, this.log, id);
-  }
-
-  @Override public ArrayBufferWritableMap arrayBufferMapWrite(
-    final @Nonnull ArrayBuffer id)
-    throws GLException,
-      ConstraintError
-  {
-    return LWJGL_GL3Functions.arrayBufferMapWrite(
-
-    this.state, this.log, id);
-  }
-
   @Override public void arrayBufferUnbind()
     throws GLException,
       ConstraintError
@@ -191,16 +172,6 @@ import com.io7m.jtensors.VectorReadable4F;
     LWJGL_GLES2Functions.arrayBufferUnbindVertexAttribute(
 
     buffer, buffer_attribute, program_attribute);
-  }
-
-  @Override public void arrayBufferUnmap(
-    final @Nonnull ArrayBuffer id)
-    throws ConstraintError,
-      GLException
-  {
-    LWJGL_GL3Functions.arrayBufferUnmap(
-
-    this.state, this.log, id);
   }
 
   @Override public void arrayBufferUpdate(
@@ -809,36 +780,6 @@ import com.io7m.jtensors.VectorReadable4F;
     this.state, this.log, id);
   }
 
-  @Override public IndexBufferReadableMap indexBufferMapRead(
-    final @Nonnull IndexBuffer id)
-    throws GLException,
-      ConstraintError
-  {
-    return LWJGL_GL3Functions.indexBufferMapRead(
-
-    this.state, this.log, id);
-  }
-
-  @Override public IndexBufferWritableMap indexBufferMapWrite(
-    final @Nonnull IndexBuffer id)
-    throws GLException,
-      ConstraintError
-  {
-    return LWJGL_GL3Functions.indexBufferMapWrite(
-
-    this.state, this.log, id);
-  }
-
-  @Override public void indexBufferUnmap(
-    final @Nonnull IndexBuffer id)
-    throws ConstraintError,
-      GLException
-  {
-    LWJGL_GL3Functions.indexBufferUnmap(
-
-    this.state, this.log, id);
-  }
-
   @Override public void indexBufferUpdate(
     final @Nonnull IndexBuffer buffer,
     final @Nonnull IndexBufferWritableData data)
@@ -915,24 +856,6 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public int pointGetMinimumWidth()
   {
     return this.state.point_min_width;
-  }
-
-  @Override public final void pointProgramSizeControlDisable()
-    throws GLException
-  {
-    LWJGL_GL3Functions.pointProgramSizeControlDisable();
-  }
-
-  @Override public final void pointProgramSizeControlEnable()
-    throws GLException
-  {
-    LWJGL_GL3Functions.pointProgramSizeControlEnable();
-  }
-
-  @Override public final boolean pointProgramSizeControlIsEnabled()
-    throws GLException
-  {
-    return LWJGL_GL3Functions.pointProgramSizeControlIsEnabled();
   }
 
   @Override public @Nonnull PolygonMode polygonGetMode()
