@@ -690,7 +690,6 @@ final class LWJGL_GLTypeConversions
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
         return GL11.GL_DEPTH_COMPONENT;
     }
 
@@ -722,8 +721,6 @@ final class LWJGL_GLTypeConversions
          * least LWJGL 2.8.4, so this apparent magic number is necessary.
          */
         return 0x8CAC;
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
-        return GL14.GL_DEPTH_COMPONENT32;
     }
 
     throw new UnreachableCodeException();
@@ -747,7 +744,6 @@ final class LWJGL_GLTypeConversions
       case TEXTURE_TYPE_DEPTH_16_2BPP:
         return GL11.GL_UNSIGNED_SHORT;
       case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
         return GL11.GL_UNSIGNED_INT;
     }

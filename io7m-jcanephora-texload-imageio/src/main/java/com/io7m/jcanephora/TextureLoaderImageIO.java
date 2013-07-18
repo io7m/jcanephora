@@ -97,7 +97,6 @@ public final class TextureLoaderImageIO implements TextureLoader
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
       case TEXTURE_TYPE_RG_88_2BPP:
       case TEXTURE_TYPE_R_8_1BPP:
         throw new UnreachableCodeException();
@@ -140,15 +139,6 @@ public final class TextureLoaderImageIO implements TextureLoader
           mag_filter);
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
         return gl.texture2DStaticAllocateDepth32f(
-          name,
-          width,
-          height,
-          wrap_s,
-          wrap_t,
-          min_filter,
-          mag_filter);
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
-        return gl.texture2DStaticAllocateDepth32(
           name,
           width,
           height,
@@ -702,7 +692,6 @@ public final class TextureLoaderImageIO implements TextureLoader
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_DEPTH_32_4BPP:
       case TEXTURE_TYPE_RG_88_2BPP:
       case TEXTURE_TYPE_R_8_1BPP:
       {
@@ -750,7 +739,6 @@ public final class TextureLoaderImageIO implements TextureLoader
         switch (type) {
           case TEXTURE_TYPE_DEPTH_16_2BPP:
           case TEXTURE_TYPE_DEPTH_24_4BPP:
-          case TEXTURE_TYPE_DEPTH_32_4BPP:
           {
             TextureLoaderImageIO.convertRGBToR8_1Generic(image, data);
             return;
@@ -856,37 +844,6 @@ public final class TextureLoaderImageIO implements TextureLoader
     return TextureLoaderImageIO.load2DStaticSpecificImage_GL3(
       gl,
       TextureType.TEXTURE_TYPE_DEPTH_24_4BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter,
-      TextureLoaderImageIO.getBufferedImage(stream),
-      name);
-  }
-
-  @Override public @Nonnull Texture2DStatic load2DStaticDepth32(
-    final @Nonnull GLTextures2DStaticGL3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
-    throws ConstraintError,
-      GLException,
-      IOException
-  {
-    TextureLoaderImageIO.checkConstraints(
-      gl,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter,
-      stream,
-      name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3(
-      gl,
-      TextureType.TEXTURE_TYPE_DEPTH_32_4BPP,
       wrap_s,
       wrap_t,
       min_filter,

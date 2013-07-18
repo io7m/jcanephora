@@ -29,8 +29,8 @@ public interface GLInterfaceGLES3 extends
   GLFramebuffersGL3,
   GLIndexBuffersMapped,
   GLRenderbuffersGL3,
-  GLTexturesCubeStaticGL3,
-  GLTextures2DStaticGL3
+  GLTexturesCubeStaticGLES3,
+  GLTextures2DStaticGLES3
 {
   /*
    * All functions defined in the superinterfaces.
