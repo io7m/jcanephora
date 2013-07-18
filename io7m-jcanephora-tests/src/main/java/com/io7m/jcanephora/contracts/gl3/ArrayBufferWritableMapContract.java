@@ -173,7 +173,7 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
 
     gm.arrayBufferUnmap(a);
 
-    final ByteBuffer b = gm.arrayBufferMapRead(a);
+    final ByteBuffer b = gm.arrayBufferMapReadUntyped(a);
     final FloatBuffer fb = b.asFloatBuffer();
     final ContextRelative rc = new AlmostEqualFloat.ContextRelative();
 
@@ -250,7 +250,7 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
 
     gm.arrayBufferUnmap(a);
 
-    final ByteBuffer b = gm.arrayBufferMapRead(a);
+    final ByteBuffer b = gm.arrayBufferMapReadUntyped(a);
     final FloatBuffer fb = b.asFloatBuffer();
     final ContextRelative rc = new AlmostEqualFloat.ContextRelative();
 
@@ -387,7 +387,7 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
 
     gm.arrayBufferUnmap(a);
 
-    final ByteBuffer b = gm.arrayBufferMapRead(a);
+    final ByteBuffer b = gm.arrayBufferMapReadUntyped(a);
     final FloatBuffer fb = b.asFloatBuffer();
     final ContextRelative rc = new AlmostEqualFloat.ContextRelative();
 
@@ -458,7 +458,7 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
 
     gm.arrayBufferUnmap(a);
 
-    final ByteBuffer b = gm.arrayBufferMapRead(a);
+    final ByteBuffer b = gm.arrayBufferMapReadUntyped(a);
     final FloatBuffer fb = b.asFloatBuffer();
     final ContextRelative rc = new AlmostEqualFloat.ContextRelative();
 

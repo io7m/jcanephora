@@ -28,11 +28,13 @@ import com.io7m.jaux.RangeInclusive;
 public interface GLIndexBuffersMapped
 {
   /**
+   * <p>
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped read-only. The buffer should be unmapped
    * after use with {@link GLInterfaceGL3#indexBufferUnmap(IndexBuffer)}. Note
    * that the type of indices in the buffer is given by
    * <code>id.getType()</code>.
+   * </p>
    * 
    * @param id
    *          The buffer.
@@ -54,12 +56,14 @@ public interface GLIndexBuffersMapped
       ConstraintError;
 
   /**
+   * <p>
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped read-only. Only elements in the range
    * described by <code>range</code> will be mapped. The buffer should be
    * unmapped after use with
    * {@link GLInterfaceGL3#indexBufferUnmap(IndexBuffer)}. Note that the type
    * of indices in the buffer is given by <code>id.getType()</code>.
+   * </p>
    * 
    * @param id
    *          The buffer.
@@ -87,12 +91,14 @@ public interface GLIndexBuffersMapped
       ConstraintError;
 
   /**
+   * <p>
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped write-only. The buffer should be unmapped
    * after use with {@link GLInterfaceGL3#indexBufferUnmap(IndexBuffer)}. Note
    * that the type of indices in the buffer is given by
    * <code>id.getType()</code>. The previous contents of the buffer are
    * discarded to prevent pipeline stalls.
+   * </p>
    * 
    * @param id
    *          The buffer.
@@ -114,7 +120,9 @@ public interface GLIndexBuffersMapped
       ConstraintError;
 
   /**
+   * <p>
    * Unmap the index buffer specified by <code>id</code>.
+   * </p>
    * 
    * @param id
    *          The index buffer.

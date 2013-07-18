@@ -30,9 +30,15 @@ import com.io7m.jaux.RangeInclusive;
 public interface GLArrayBuffersMapped
 {
   /**
+   * <p>
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped read-only. The buffer should be unmapped
    * after use with {@link GLInterfaceGL3#arrayBufferUnmap(ArrayBuffer)}.
+   * </p>
+   * <p>
+   * The "untyped" in the name refers to the fact that the mapped buffer is
+   * returned as a simple byte array.
+   * </p>
    * 
    * @param id
    *          The buffer.
@@ -48,17 +54,23 @@ public interface GLArrayBuffersMapped
    *           </ul>
    */
 
-  @Nonnull ByteBuffer arrayBufferMapRead(
+  @Nonnull ByteBuffer arrayBufferMapReadUntyped(
     final @Nonnull ArrayBuffer id)
     throws GLException,
       ConstraintError;
 
   /**
+   * <p>
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped read-only. Only elements in the range
    * described by <code>range</code> will be mapped. The buffer should be
    * unmapped after use with
    * {@link GLInterfaceGL3#arrayBufferUnmap(ArrayBuffer)}.
+   * </p>
+   * <p>
+   * The "untyped" in the name refers to the fact that the mapped buffer is
+   * returned as a simple byte array.
+   * </p>
    * 
    * @param id
    *          The buffer.
@@ -79,18 +91,20 @@ public interface GLArrayBuffersMapped
    * @see RangeInclusive#isIncludedIn(RangeInclusive)
    */
 
-  @Nonnull ByteBuffer arrayBufferMapReadRange(
+  @Nonnull ByteBuffer arrayBufferMapReadUntypedRange(
     final @Nonnull ArrayBuffer id,
     final @Nonnull RangeInclusive range)
     throws GLException,
       ConstraintError;
 
   /**
+   * <p>
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped write-only. The buffer should be unmapped
    * after use with {@link GLInterfaceGL3#arrayBufferUnmap(ArrayBuffer)}. The
    * previous contents of the buffer are discarded before mapping, to prevent
    * pipeline stalls.
+   * </p>
    * 
    * @param id
    *          The buffer.
@@ -112,7 +126,9 @@ public interface GLArrayBuffersMapped
       ConstraintError;
 
   /**
+   * <p>
    * Unmap the array buffer specified by <code>id</code>.
+   * </p>
    * 
    * @param id
    *          The array buffer.
