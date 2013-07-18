@@ -217,4 +217,9 @@ public final class GLImplementationLWJGL implements GLImplementation
     }
     return new Option.None<GLInterfaceGLES2>();
   }
+
+  @Override public @Nonnull Option<GLInterfaceGLES3> getGLES3()
+  {
+    return new Option.None<GLInterfaceGLES3>();
+  }
 }

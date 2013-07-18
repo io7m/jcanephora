@@ -31,6 +31,7 @@ import org.lwjgl.opengl.GL30;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 import com.io7m.jaux.functional.Pair;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
@@ -168,7 +169,7 @@ import com.io7m.jtensors.VectorReadable4F;
     return LWJGL_GLES2Functions.arrayBufferIsBound(id);
   }
 
-  @Override public ByteBuffer arrayBufferMapRead(
+  @Override public ByteBuffer arrayBufferMapReadUntyped(
     final @Nonnull ArrayBuffer id)
     throws GLException,
       ConstraintError
@@ -927,24 +928,6 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public int pointGetMinimumWidth()
   {
     return this.state.point_min_width;
-  }
-
-  @Override public final void pointProgramSizeControlDisable()
-    throws GLException
-  {
-    LWJGL_GL3Functions.pointProgramSizeControlDisable();
-  }
-
-  @Override public final void pointProgramSizeControlEnable()
-    throws GLException
-  {
-    LWJGL_GL3Functions.pointProgramSizeControlEnable();
-  }
-
-  @Override public final boolean pointProgramSizeControlIsEnabled()
-    throws GLException
-  {
-    return LWJGL_GL3Functions.pointProgramSizeControlIsEnabled();
   }
 
   @Override public @Nonnull PolygonMode polygonGetMode()
@@ -1998,5 +1981,31 @@ import com.io7m.jtensors.VectorReadable4F;
       GLException
   {
     LWJGL_GLES2Functions.viewportSet(position, dimensions);
+  }
+
+  @Override public @Nonnull ByteBuffer arrayBufferMapReadUntypedRange(
+    @Nonnull final ArrayBuffer id,
+    @Nonnull final RangeInclusive range)
+    throws GLException,
+      ConstraintError
+  {
+    return LWJGL_GL3Functions.arrayBufferMapReadRange(
+      this.state,
+      this.log,
+      id,
+      range);
+  }
+
+  @Override public @Nonnull IndexBufferReadableMap indexBufferMapReadRange(
+    @Nonnull final IndexBuffer id,
+    @Nonnull final RangeInclusive range)
+    throws GLException,
+      ConstraintError
+  {
+    return LWJGL_GL3Functions.indexBufferMapReadRange(
+      this.state,
+      this.log,
+      id,
+      range);
   }
 }
