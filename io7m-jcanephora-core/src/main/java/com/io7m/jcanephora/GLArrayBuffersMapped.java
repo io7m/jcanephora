@@ -21,6 +21,7 @@ import java.nio.ByteBuffer;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
 
 /**
  * Simplified interface to memory-mapped array buffers.
@@ -49,6 +50,38 @@ public interface GLArrayBuffersMapped
 
   @Nonnull ByteBuffer arrayBufferMapRead(
     final @Nonnull ArrayBuffer id)
+    throws GLException,
+      ConstraintError;
+
+  /**
+   * Map the buffer referenced by <code>id</code> into the program's address
+   * space. The buffer is mapped read-only. Only elements in the range
+   * described by <code>range</code> will be mapped. The buffer should be
+   * unmapped after use with
+   * {@link GLInterfaceGL3#arrayBufferUnmap(ArrayBuffer)}.
+   * 
+   * @param id
+   *          The buffer.
+   * @param range
+   *          The range (in elements) of elements to map.
+   * @return A readable byte buffer.
+   * @throws GLException
+   *           Iff an OpenGL exception occurs.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>id == null || range == null</code>.</li>
+   *           <li><code>id</code> does not refer to a valid buffer (possible
+   *           if the buffer has already been deleted).</li>
+   *           <li><code>range</code> is not included in
+   *           <code>id.getRange()</code>.
+   *           </ul>
+   * @see RangeInclusive#isIncludedIn(RangeInclusive)
+   */
+
+  @Nonnull ByteBuffer arrayBufferMapReadRange(
+    final @Nonnull ArrayBuffer id,
+    final @Nonnull RangeInclusive range)
     throws GLException,
       ConstraintError;
 

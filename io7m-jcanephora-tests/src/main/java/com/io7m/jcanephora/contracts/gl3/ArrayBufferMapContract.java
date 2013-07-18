@@ -79,7 +79,11 @@ public abstract class ArrayBufferMapContract implements TestContract
     try {
       try {
         final ArrayBufferWritableMap b = gm.arrayBufferMapWrite(a);
-        final ShortBuffer s = b.getByteBuffer().asShortBuffer();
+
+        final ByteBuffer bb = b.getByteBuffer();
+        Assert.assertEquals(20, bb.capacity());
+
+        final ShortBuffer s = bb.asShortBuffer();
         for (int index = 0; index < 10; ++index) {
           s.put(index, (short) index);
         }
