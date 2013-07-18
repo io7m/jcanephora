@@ -13,24 +13,32 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-
 package com.io7m.jcanephora;
 
-/**
- * <p>
- * The interface exposed by OpenGL ES2 implementations.
- * </p>
- */
+import org.junit.Assert;
+import org.junit.Test;
 
-public interface GLInterfaceGLES2 extends
-  GLInterfaceCommon,
-  GLExtensionsGLES2,
-  GLFramebuffersGLES2,
-  GLRenderbuffersGLES2,
-  GLTexturesCubeStaticGLES2,
-  GLTextures2DStaticGLES2
+import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jcanephora.GLType.Type;
+
+public final class JOGLES3TypeTest
 {
-  /*
-   * All functions defined in the superinterfaces.
+  /**
+   * ∀t. typeFromGL(typeToGL(t)) = t.
    */
+
+  @SuppressWarnings("static-method") @Test public void testTypeBijection()
+  {
+    for (final Type u : GLType.Type.values()) {
+      Assert
+        .assertEquals(JOGL_GLTypeConversions
+          .typeFromGL(JOGL_GLTypeConversions.typeToGL(u)), u);
+    }
+  }
+
+  @SuppressWarnings("static-method") @Test(
+    expected = UnreachableCodeException.class) public void testTypeFailure()
+  {
+    JOGL_GLTypeConversions.typeFromGL(-1);
+  }
 }

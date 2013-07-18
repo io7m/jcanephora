@@ -46,7 +46,7 @@ public interface GLImplementation
   /**
    * <p>
    * Return a reference to the interface representing the common subset of
-   * OpenGL 3.*, OpenGL ES2, and OpenGL 2.1.
+   * OpenGL 3.*, OpenGL ES2, OpenGL ES3, and OpenGL 2.1.
    * </p>
    */
 
@@ -60,4 +60,13 @@ public interface GLImplementation
    */
 
   @Nonnull Option<GLInterfaceGLES2> getGLES2();
+
+  /**
+   * <p>
+   * Return a reference to the OpenGL ES3 interface provided by the
+   * implementation, or <code>None</code> if it is not supported.
+   * </p>
+   */
+
+  @Nonnull Option<GLInterfaceGLES3> getGLES3();
 }

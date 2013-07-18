@@ -120,9 +120,7 @@ public final class GLImplementationLWJGL implements GLImplementation
 
   private final @Nonnull Log              log;
   private final @Nonnull GLInterfaceGLES2 gl_es2;
-
   private final @Nonnull GLInterfaceGL3   gl_3;
-
   private final @Nonnull GLInterfaceGL2   gl_2;
 
   /**

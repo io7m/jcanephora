@@ -13,40 +13,32 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES2;
+import javax.media.opengl.GL2ES3;
+import javax.media.opengl.GL2GL3;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
-import com.io7m.jcanephora.GLType.Type;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
-import com.io7m.jtensors.MatrixReadable3x3F;
-import com.io7m.jtensors.MatrixReadable4x4F;
-import com.io7m.jtensors.VectorReadable2F;
 import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jtensors.VectorReadable3F;
 import com.io7m.jtensors.VectorReadable4F;
-import com.jogamp.common.nio.Buffers;
 import com.jogamp.common.util.VersionNumber;
 
-final class JOGL_GLES2Functions
+final class JOGL_GL_Functions
 {
   static final @Nonnull ArrayBuffer arrayBufferAllocate(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull Log log,
     final @Nonnull GLStateCache state,
     final long elements,
@@ -95,12 +87,12 @@ final class JOGL_GLES2Functions
       log.debug(state.log_text.toString());
     }
 
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     return new ArrayBuffer(id, elements, descriptor);
   }
 
   static void arrayBufferBind(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull ArrayBuffer buffer)
     throws GLException,
       ConstraintError
@@ -111,67 +103,11 @@ final class JOGL_GLES2Functions
       "Array buffer not deleted");
 
     gl.glBindBuffer(GL.GL_ARRAY_BUFFER, buffer.getGLName());
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
-  static void arrayBufferBindVertexAttribute(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull ArrayBuffer buffer,
-    final @Nonnull ArrayBufferAttribute buffer_attribute,
-    final @Nonnull ProgramAttribute program_attribute)
-    throws GLException,
-      ConstraintError
-  {
-    Constraints.constrainNotNull(buffer, "Array buffer");
-    Constraints.constrainArbitrary(
-      buffer.resourceIsDeleted() == false,
-      "Array buffer not deleted");
-
-    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
-    Constraints.constrainNotNull(program_attribute, "Program attribute");
-
-    final boolean bound = JOGL_GLES2Functions.arrayBufferIsBound(gl, buffer);
-    Constraints.constrainArbitrary(bound, "Buffer is bound");
-
-    final ArrayBufferDescriptor d = buffer.getDescriptor();
-    final ArrayBufferAttribute dba =
-      d.getAttribute(buffer_attribute.getName());
-
-    final boolean same_array = dba == buffer_attribute;
-    Constraints.constrainArbitrary(
-      same_array,
-      "Buffer attribute belongs to the array buffer");
-
-    final boolean same_type =
-      dba.getType().shaderTypeConvertible(
-        dba.getElements(),
-        program_attribute.getType());
-    Constraints.constrainArbitrary(
-      same_type,
-      "Buffer attribute is of the same type as the program attribute");
-
-    final int program_attrib_id = program_attribute.getLocation();
-    final int count = buffer_attribute.getElements();
-    final int type =
-      JOGL_GLTypeConversions.scalarTypeToGL(buffer_attribute.getType());
-    final boolean normalized = false;
-    final int stride = (int) buffer.getElementSizeBytes();
-    final int offset = d.getAttributeOffset(buffer_attribute.getName());
-
-    gl.glEnableVertexAttribArray(program_attrib_id);
-    JOGL_GLES2Functions.checkError(gl);
-    gl.glVertexAttribPointer(
-      program_attrib_id,
-      count,
-      type,
-      normalized,
-      stride,
-      offset);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void arrayBufferDelete(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull Log log,
     final @Nonnull GLStateCache state,
     final @Nonnull ArrayBuffer id)
@@ -195,11 +131,11 @@ final class JOGL_GLES2Functions
 
     gl.glDeleteBuffers(1, cache);
     id.resourceSetDeleted();
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static boolean arrayBufferIsBound(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull ArrayBuffer id)
     throws ConstraintError,
       GLException
@@ -210,52 +146,114 @@ final class JOGL_GLES2Functions
       "Array buffer not deleted");
 
     final int b = gl.glGetBoundBuffer(GL.GL_ARRAY_BUFFER);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     return b == id.getGLName();
   }
 
-  static void arrayBufferUnbind(
-    final @Nonnull GL2ES2 gl)
-    throws GLException
-  {
-    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
-  static void arrayBufferUnbindVertexAttribute(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull ArrayBuffer buffer,
-    final @Nonnull ArrayBufferAttribute buffer_attribute,
-    final @Nonnull ProgramAttribute program_attribute)
+  static ByteBuffer arrayBufferMapRead(
+    final @Nonnull GL gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull ArrayBuffer id)
     throws GLException,
       ConstraintError
   {
-    Constraints.constrainNotNull(buffer, "Array buffer");
+    Constraints.constrainNotNull(id, "Array buffer");
     Constraints.constrainArbitrary(
-      buffer.resourceIsDeleted() == false,
+      id.resourceIsDeleted() == false,
       "Array buffer not deleted");
 
-    final boolean bound = JOGL_GLES2Functions.arrayBufferIsBound(gl, buffer);
-    Constraints.constrainArbitrary(bound, "Buffer is bound");
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("array-buffer: map ");
+      state.log_text.append(id);
+      log.debug(state.log_text.toString());
+    }
 
-    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
-    Constraints.constrainNotNull(program_attribute, "Program attribute");
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, id.getGLName());
+    JOGL_GL_Functions.checkError(gl);
+    final ByteBuffer b =
+      gl.glMapBuffer(GL.GL_ARRAY_BUFFER, GL2GL3.GL_READ_ONLY);
+    JOGL_GL_Functions.checkError(gl);
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
+    JOGL_GL_Functions.checkError(gl);
 
-    final ArrayBufferDescriptor d = buffer.getDescriptor();
-    final ArrayBufferAttribute ba =
-      d.getAttribute(buffer_attribute.getName());
+    return b;
+  }
 
-    final boolean same_array = ba == buffer_attribute;
+  static ArrayBufferWritableMap arrayBufferMapWrite(
+    final @Nonnull GL gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull ArrayBuffer id)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(id, "Array buffer");
     Constraints.constrainArbitrary(
-      same_array,
-      "Buffer attribute belongs to the array buffer");
+      id.resourceIsDeleted() == false,
+      "Array buffer not deleted");
 
-    gl.glDisableVertexAttribArray(program_attribute.getLocation());
-    JOGL_GLES2Functions.checkError(gl);
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("array-buffer: map ");
+      state.log_text.append(id);
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, id.getGLName());
+    JOGL_GL_Functions.checkError(gl);
+    gl.glBufferData(
+      GL.GL_ARRAY_BUFFER,
+      id.getSizeBytes(),
+      null,
+      GL2ES2.GL_STREAM_DRAW);
+    JOGL_GL_Functions.checkError(gl);
+
+    final ByteBuffer b = gl.glMapBuffer(GL.GL_ARRAY_BUFFER, GL.GL_WRITE_ONLY);
+    JOGL_GL_Functions.checkError(gl);
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
+    JOGL_GL_Functions.checkError(gl);
+
+    return new ArrayBufferWritableMap(id, b);
+  }
+
+  static void arrayBufferUnbind(
+    final @Nonnull GL gl)
+    throws GLException
+  {
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void arrayBufferUnmap(
+    final @Nonnull GL gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull ArrayBuffer id)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(id, "Array buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Array buffer not deleted");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("array-buffer: unmap ");
+      state.log_text.append(id);
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, id.getGLName());
+    gl.glUnmapBuffer(GL.GL_ARRAY_BUFFER);
+    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void arrayBufferUpdate(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull ArrayBuffer buffer,
     final @Nonnull ArrayBufferWritableData data)
     throws GLException,
@@ -268,7 +266,7 @@ final class JOGL_GLES2Functions
       buffer.resourceIsDeleted() == false,
       "Array buffer not deleted");
 
-    final boolean bound = JOGL_GLES2Functions.arrayBufferIsBound(gl, buffer);
+    final boolean bound = JOGL_GL_Functions.arrayBufferIsBound(gl, buffer);
     Constraints.constrainArbitrary(bound, "Buffer is bound");
 
     gl.glBufferSubData(
@@ -276,25 +274,25 @@ final class JOGL_GLES2Functions
       data.getTargetDataOffset(),
       data.getTargetDataSize(),
       data.getTargetData());
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void blendingDisable(
-    final @Nonnull GL2ES2 gl)
+    final @Nonnull GL gl)
     throws GLException
   {
     gl.glDisable(GL.GL_BLEND);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void blendingEnable(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull BlendFunction source_factor,
     final @Nonnull BlendFunction destination_factor)
     throws ConstraintError,
       GLException
   {
-    JOGL_GLES2Functions.blendingEnableSeparate(
+    JOGL_GL_Functions.blendingEnableSeparate(
       gl,
       source_factor,
       source_factor,
@@ -303,7 +301,7 @@ final class JOGL_GLES2Functions
   }
 
   static void blendingEnableSeparate(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull BlendFunction source_rgb_factor,
     final @Nonnull BlendFunction source_alpha_factor,
     final @Nonnull BlendFunction destination_rgb_factor,
@@ -311,7 +309,7 @@ final class JOGL_GLES2Functions
     throws ConstraintError,
       GLException
   {
-    JOGL_GLES2Functions.blendingEnableSeparateWithEquationSeparateES2(
+    JOGL_GL_Functions.blendingEnableSeparateWithEquationSeparateES2(
       gl,
       source_rgb_factor,
       source_alpha_factor,
@@ -321,8 +319,49 @@ final class JOGL_GLES2Functions
       BlendEquationGLES2.BLEND_EQUATION_ADD);
   }
 
+  static void blendingEnableSeparateWithEquationSeparate(
+    final @Nonnull GL gl,
+    final @Nonnull BlendFunction source_rgb_factor,
+    final @Nonnull BlendFunction source_alpha_factor,
+    final @Nonnull BlendFunction destination_rgb_factor,
+    final @Nonnull BlendFunction destination_alpha_factor,
+    final @Nonnull BlendEquationGL3 equation_rgb,
+    final @Nonnull BlendEquationGL3 equation_alpha)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(source_rgb_factor, "Source RGB factor");
+    Constraints.constrainNotNull(source_alpha_factor, "Source alpha factor");
+    Constraints.constrainNotNull(
+      destination_rgb_factor,
+      "Destination RGB factor");
+    Constraints.constrainNotNull(
+      destination_alpha_factor,
+      "Destination alpha factor");
+    Constraints.constrainNotNull(equation_rgb, "Equation RGB");
+    Constraints.constrainNotNull(equation_alpha, "Equation alpha");
+
+    Constraints.constrainArbitrary(
+      destination_rgb_factor != BlendFunction.BLEND_SOURCE_ALPHA_SATURATE,
+      "Destination RGB factor not SOURCE_ALPHA_SATURATE");
+    Constraints.constrainArbitrary(
+      destination_alpha_factor != BlendFunction.BLEND_SOURCE_ALPHA_SATURATE,
+      "Destination alpha factor not SOURCE_ALPHA_SATURATE");
+
+    gl.glEnable(GL.GL_BLEND);
+    gl.glBlendEquationSeparate(
+      JOGL_GLTypeConversions.blendEquationToGL(equation_rgb),
+      JOGL_GLTypeConversions.blendEquationToGL(equation_alpha));
+    gl.glBlendFuncSeparate(
+      JOGL_GLTypeConversions.blendFunctionToGL(source_rgb_factor),
+      JOGL_GLTypeConversions.blendFunctionToGL(destination_rgb_factor),
+      JOGL_GLTypeConversions.blendFunctionToGL(source_alpha_factor),
+      JOGL_GLTypeConversions.blendFunctionToGL(destination_alpha_factor));
+    JOGL_GL_Functions.checkError(gl);
+  }
+
   static void blendingEnableSeparateWithEquationSeparateES2(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull BlendFunction source_rgb_factor,
     final @Nonnull BlendFunction source_alpha_factor,
     final @Nonnull BlendFunction destination_rgb_factor,
@@ -359,18 +398,18 @@ final class JOGL_GLES2Functions
       JOGL_GLTypeConversions.blendFunctionToGL(destination_rgb_factor),
       JOGL_GLTypeConversions.blendFunctionToGL(source_alpha_factor),
       JOGL_GLTypeConversions.blendFunctionToGL(destination_alpha_factor));
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
-  static void blendingEnableWithEquationES2(
-    final @Nonnull GL2ES2 gl,
+  static void blendingEnableWithEquation(
+    final @Nonnull GL gl,
     final @Nonnull BlendFunction source_factor,
     final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquationGLES2 equation)
+    final @Nonnull BlendEquationGL3 equation)
     throws ConstraintError,
       GLException
   {
-    JOGL_GLES2Functions.blendingEnableSeparateWithEquationSeparateES2(
+    JOGL_GL_Functions.blendingEnableSeparateWithEquationSeparate(
       gl,
       source_factor,
       source_factor,
@@ -380,8 +419,45 @@ final class JOGL_GLES2Functions
       equation);
   }
 
+  static void blendingEnableWithEquationES2(
+    final @Nonnull GL gl,
+    final @Nonnull BlendFunction source_factor,
+    final @Nonnull BlendFunction destination_factor,
+    final @Nonnull BlendEquationGLES2 equation)
+    throws ConstraintError,
+      GLException
+  {
+    JOGL_GL_Functions.blendingEnableSeparateWithEquationSeparateES2(
+      gl,
+      source_factor,
+      source_factor,
+      destination_factor,
+      destination_factor,
+      equation,
+      equation);
+  }
+
+  static void blendingEnableWithEquationSeparate(
+    final @Nonnull GL gl,
+    final @Nonnull BlendFunction source_factor,
+    final @Nonnull BlendFunction destination_factor,
+    final @Nonnull BlendEquationGL3 equation_rgb,
+    final @Nonnull BlendEquationGL3 equation_alpha)
+    throws ConstraintError,
+      GLException
+  {
+    JOGL_GL_Functions.blendingEnableSeparateWithEquationSeparate(
+      gl,
+      source_factor,
+      source_factor,
+      destination_factor,
+      destination_factor,
+      equation_rgb,
+      equation_alpha);
+  }
+
   static void blendingEnableWithEquationSeparateES2(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull BlendFunction source_factor,
     final @Nonnull BlendFunction destination_factor,
     final @Nonnull BlendEquationGLES2 equation_rgb,
@@ -389,7 +465,7 @@ final class JOGL_GLES2Functions
     throws ConstraintError,
       GLException
   {
-    JOGL_GLES2Functions.blendingEnableSeparateWithEquationSeparateES2(
+    JOGL_GL_Functions.blendingEnableSeparateWithEquationSeparateES2(
       gl,
       source_factor,
       source_factor,
@@ -400,18 +476,18 @@ final class JOGL_GLES2Functions
   }
 
   static boolean blendingIsEnabled(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state)
     throws GLException
   {
     final IntBuffer cache = state.getIntegerCache();
     gl.glGetIntegerv(GL.GL_BLEND, cache);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     return cache.get(0) == GL.GL_TRUE;
   }
 
   static void checkError(
-    final @Nonnull GL2ES2 gl)
+    final @Nonnull GL gl)
     throws GLException
   {
     final int code = gl.glGetError();
@@ -422,7 +498,7 @@ final class JOGL_GLES2Functions
   }
 
   static void colorBufferClear3f(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final float r,
     final float g,
     final float b)
@@ -430,11 +506,11 @@ final class JOGL_GLES2Functions
   {
     gl.glClearColor(r, g, b, 1.0f);
     gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void colorBufferClear4f(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final float r,
     final float g,
     final float b,
@@ -443,17 +519,17 @@ final class JOGL_GLES2Functions
   {
     gl.glClearColor(r, g, b, a);
     gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void colorBufferClearV3f(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull VectorReadable3F color)
     throws ConstraintError,
       GLException
   {
     Constraints.constrainNotNull(color, "Color vector");
-    JOGL_GLES2Functions.colorBufferClear3f(
+    JOGL_GL_Functions.colorBufferClear3f(
       gl,
       color.getXF(),
       color.getYF(),
@@ -461,13 +537,13 @@ final class JOGL_GLES2Functions
   }
 
   static void colorBufferClearV4f(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull VectorReadable4F color)
     throws ConstraintError,
       GLException
   {
     Constraints.constrainNotNull(color, "Color vector");
-    JOGL_GLES2Functions.colorBufferClear4f(
+    JOGL_GL_Functions.colorBufferClear4f(
       gl,
       color.getXF(),
       color.getYF(),
@@ -476,7 +552,7 @@ final class JOGL_GLES2Functions
   }
 
   static void colorBufferMask(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final boolean r,
     final boolean g,
     final boolean b,
@@ -484,104 +560,78 @@ final class JOGL_GLES2Functions
     throws GLException
   {
     gl.glColorMask(r, g, b, a);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   private static final ByteBuffer colorBufferMaskStatus(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state)
     throws GLException
   {
     final ByteBuffer cache = state.getColorMaskCache();
     gl.glGetBooleanv(GL.GL_COLOR_WRITEMASK, cache);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     return cache;
   }
 
   static boolean colorBufferMaskStatusAlpha(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state)
     throws GLException
   {
-    final int a = JOGL_GLES2Functions.colorBufferMaskStatus(gl, state).get(3);
+    final int a = JOGL_GL_Functions.colorBufferMaskStatus(gl, state).get(3);
     return a != 0;
   }
 
   static boolean colorBufferMaskStatusBlue(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state)
     throws GLException
   {
-    final int b = JOGL_GLES2Functions.colorBufferMaskStatus(gl, state).get(2);
+    final int b = JOGL_GL_Functions.colorBufferMaskStatus(gl, state).get(2);
     return b != 0;
   }
 
   static boolean colorBufferMaskStatusGreen(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state)
     throws GLException
   {
-    final int g = JOGL_GLES2Functions.colorBufferMaskStatus(gl, state).get(1);
+    final int g = JOGL_GL_Functions.colorBufferMaskStatus(gl, state).get(1);
     return g != 0;
   }
 
   static boolean colorBufferMaskStatusRed(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state)
     throws GLException
   {
-    final int r = JOGL_GLES2Functions.colorBufferMaskStatus(gl, state).get(0);
+    final int r = JOGL_GL_Functions.colorBufferMaskStatus(gl, state).get(0);
     return r != 0;
   }
 
   static int contextGetInteger(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final int name)
     throws GLException
   {
     final IntBuffer cache = state.getIntegerCache();
     gl.glGetIntegerv(name, cache);
-    JOGL_GLES2Functions.checkError(gl);
-    return cache.get(0);
-  }
-
-  static int contextGetProgramInteger(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final int program,
-    final int name)
-    throws GLException
-  {
-    final IntBuffer cache = state.getIntegerCache();
-    gl.glGetProgramiv(program, name, cache);
-    JOGL_GLES2Functions.checkError(gl);
-    return cache.get(0);
-  }
-
-  static int contextGetShaderInteger(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final int program,
-    final int name)
-    throws GLException
-  {
-    final IntBuffer cache = state.getIntegerCache();
-    gl.glGetShaderiv(program, name, cache);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     return cache.get(0);
   }
 
   static void cullingDisable(
-    final @Nonnull GL2ES2 gl)
+    final @Nonnull GL gl)
     throws GLException
   {
     gl.glDisable(GL.GL_CULL_FACE);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void cullingEnable(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull FaceSelection faces,
     final @Nonnull FaceWindingOrder order)
     throws ConstraintError,
@@ -596,46 +646,46 @@ final class JOGL_GLES2Functions
     gl.glEnable(GL.GL_CULL_FACE);
     gl.glCullFace(fi);
     gl.glFrontFace(oi);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static boolean cullingIsEnabled(
-    final @Nonnull GL2ES2 gl)
+    final @Nonnull GL gl)
     throws GLException
   {
     final boolean e = gl.glIsEnabled(GL.GL_CULL_FACE);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     return e;
   }
 
   static void depthBufferClear(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final float depth)
     throws GLException,
       ConstraintError
   {
     Constraints.constrainRange(
-      JOGL_GLES2Functions.depthBufferGetBits(gl, state),
+      JOGL_GL_Functions.depthBufferGetBits(gl, state),
       1,
       Integer.MAX_VALUE,
       "Depth buffer bits available");
 
     gl.glClearDepth(depth);
     gl.glClear(GL.GL_DEPTH_BUFFER_BIT);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void depthBufferDisable(
-    final @Nonnull GL2ES2 gl)
+    final @Nonnull GL gl)
     throws GLException
   {
     gl.glDisable(GL.GL_DEPTH_TEST);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void depthBufferEnable(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull DepthFunction function)
     throws ConstraintError,
@@ -643,7 +693,7 @@ final class JOGL_GLES2Functions
   {
     Constraints.constrainNotNull(function, "Depth function");
     Constraints.constrainRange(
-      JOGL_GLES2Functions.depthBufferGetBits(gl, state),
+      JOGL_GL_Functions.depthBufferGetBits(gl, state),
       1,
       Integer.MAX_VALUE,
       "Depth buffer bits available");
@@ -651,76 +701,76 @@ final class JOGL_GLES2Functions
     final int d = JOGL_GLTypeConversions.depthFunctionToGL(function);
     gl.glEnable(GL.GL_DEPTH_TEST);
     gl.glDepthFunc(d);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static int depthBufferGetBits(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state)
     throws GLException
   {
     final int bits =
-      JOGL_GLES2Functions.contextGetInteger(gl, state, GL.GL_DEPTH_BITS);
-    JOGL_GLES2Functions.checkError(gl);
+      JOGL_GL_Functions.contextGetInteger(gl, state, GL.GL_DEPTH_BITS);
+    JOGL_GL_Functions.checkError(gl);
     return bits;
   }
 
   static boolean depthBufferIsEnabled(
-    final @Nonnull GL2ES2 gl)
+    final @Nonnull GL gl)
     throws GLException
   {
     final boolean e = gl.glIsEnabled(GL.GL_DEPTH_TEST);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     return e;
   }
 
   static void depthBufferWriteDisable(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state)
     throws ConstraintError,
       GLException
   {
     Constraints.constrainRange(
-      JOGL_GLES2Functions.depthBufferGetBits(gl, state),
+      JOGL_GL_Functions.depthBufferGetBits(gl, state),
       1,
       Integer.MAX_VALUE,
       "Depth buffer bits available");
 
     gl.glDepthMask(false);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void depthBufferWriteEnable(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state)
     throws ConstraintError,
       GLException
   {
     Constraints.constrainRange(
-      JOGL_GLES2Functions.depthBufferGetBits(gl, state),
+      JOGL_GL_Functions.depthBufferGetBits(gl, state),
       1,
       Integer.MAX_VALUE,
       "Depth buffer bits available");
 
     gl.glDepthMask(true);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static boolean depthBufferWriteIsEnabled(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state)
     throws GLException
   {
     final ByteBuffer cache = state.getDepthMaskCache();
     gl.glGetBooleanv(GL.GL_DEPTH_WRITEMASK, cache);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
 
     final IntBuffer bi = cache.asIntBuffer();
     return bi.get(0) == 1;
   }
 
   static void drawElements(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull Primitives mode,
     final @Nonnull IndexBuffer indices)
     throws ConstraintError,
@@ -740,132 +790,11 @@ final class JOGL_GLES2Functions
 
     gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, index_id);
     gl.glDrawElements(mode_gl, index_count, type, 0L);
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
-  static void fragmentShaderAttach(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull ProgramReference program,
-    final @Nonnull FragmentShader shader)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(program, "Program ID");
-    Constraints.constrainArbitrary(
-      program.resourceIsDeleted() == false,
-      "Program not deleted");
-
-    Constraints.constrainNotNull(shader, "Fragment shader");
-    Constraints.constrainArbitrary(
-      shader.resourceIsDeleted() == false,
-      "Fragment shader not deleted");
-
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("fragment-shader: attach ");
-      state.log_text.append(program);
-      state.log_text.append(" ");
-      state.log_text.append(shader);
-      log.debug(state.log_text.toString());
-    }
-
-    gl.glAttachShader(program.getGLName(), shader.getGLName());
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
-  static FragmentShader fragmentShaderCompile(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull String name,
-    final @Nonnull InputStream stream)
-    throws ConstraintError,
-      GLCompileException,
-      IOException,
-      GLException
-  {
-    Constraints.constrainNotNull(name, "Shader name");
-    Constraints.constrainNotNull(stream, "input stream");
-
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("fragment-shader: compile \"");
-      state.log_text.append(name);
-      state.log_text.append("\"");
-      log.debug(state.log_text.toString());
-    }
-
-    final int id = gl.glCreateShader(GL2ES2.GL_FRAGMENT_SHADER);
-    JOGL_GLES2Functions.checkError(gl);
-
-    final ArrayList<Integer> lengths = new ArrayList<Integer>();
-    final ArrayList<String> lines = new ArrayList<String>();
-    JOGL_GLES2Functions.shaderReadSource(stream, lines, lengths);
-    final String[] line_array = new String[lines.size()];
-    final IntBuffer line_lengths = Buffers.newDirectIntBuffer(lines.size());
-
-    for (int index = 0; index < lines.size(); ++index) {
-      line_array[index] = lines.get(index);
-      final int len = line_array[index].length();
-      line_lengths.put(index, len);
-    }
-
-    gl.glShaderSource(id, line_array.length, line_array, line_lengths);
-    JOGL_GLES2Functions.checkError(gl);
-    gl.glCompileShader(id);
-    JOGL_GLES2Functions.checkError(gl);
-    final int status =
-      JOGL_GLES2Functions.contextGetShaderInteger(
-        gl,
-        state,
-        id,
-        GL2ES2.GL_COMPILE_STATUS);
-    JOGL_GLES2Functions.checkError(gl);
-
-    if (status == 0) {
-      final ByteBuffer log_buffer = Buffers.newDirectByteBuffer(8192);
-      final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
-      gl.glGetShaderInfoLog(id, 8192, buffer_length, log_buffer);
-      JOGL_GLES2Functions.checkError(gl);
-
-      final byte raw[] = new byte[log_buffer.remaining()];
-      log_buffer.get(raw);
-      final String text = new String(raw);
-      throw new GLCompileException(name, text);
-    }
-
-    return new FragmentShader(id, name);
-  }
-
-  static void fragmentShaderDelete(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull FragmentShader id)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(id, "Fragment shader");
-    Constraints.constrainArbitrary(
-      id.resourceIsDeleted() == false,
-      "Fragment shader not deleted");
-
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("fragment-shader: delete ");
-      state.log_text.append(id);
-      log.debug(state.log_text.toString());
-    }
-
-    gl.glDeleteShader(id.getGLName());
-    id.resourceSetDeleted();
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static @Nonnull FramebufferReference framebufferAllocate(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log)
     throws ConstraintError,
@@ -873,7 +802,7 @@ final class JOGL_GLES2Functions
   {
     final IntBuffer cache = state.getIntegerCache();
     gl.glGenFramebuffers(1, cache);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     final int id = cache.get(0);
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -887,7 +816,7 @@ final class JOGL_GLES2Functions
   }
 
   static void framebufferDelete(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference buffer)
@@ -909,12 +838,12 @@ final class JOGL_GLES2Functions
     final IntBuffer cache = state.getIntegerCache();
     cache.put(0, buffer.getGLName());
     gl.glDeleteFramebuffers(1, cache);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     buffer.resourceSetDeleted();
   }
 
   static boolean framebufferDrawAnyIsBound(
-    final @Nonnull GL2ES2 gl)
+    final @Nonnull GL gl)
   {
     final int bound = gl.getBoundFramebuffer(GL.GL_FRAMEBUFFER);
     final int default_fb = gl.getDefaultDrawFramebuffer();
@@ -922,7 +851,7 @@ final class JOGL_GLES2Functions
   }
 
   static void framebufferDrawAttachColorRenderbuffer(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
@@ -936,7 +865,7 @@ final class JOGL_GLES2Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      JOGL_GLES2Functions.framebufferDrawIsBound(gl, framebuffer),
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
@@ -962,11 +891,58 @@ final class JOGL_GLES2Functions
       GL.GL_COLOR_ATTACHMENT0,
       GL.GL_RENDERBUFFER,
       renderbuffer.getGLName());
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void framebufferDrawAttachColorRenderbufferAt(
+    final @Nonnull GL gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull FramebufferColorAttachmentPoint point,
+    final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(point, "Attachment point");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
+    Constraints.constrainArbitrary(
+      renderbuffer.resourceIsDeleted() == false,
+      "Renderbuffer not deleted");
+    Constraints.constrainArbitrary(
+      renderbuffer.getType().isColorRenderable(),
+      "Renderbuffer is color renderable");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(renderbuffer);
+      state.log_text.append(" at color attachment ");
+      state.log_text.append(point);
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glFramebufferRenderbuffer(
+      GL2ES3.GL_DRAW_FRAMEBUFFER,
+      GL.GL_COLOR_ATTACHMENT0 + point.getIndex(),
+      GL.GL_RENDERBUFFER,
+      renderbuffer.getGLName());
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void framebufferDrawAttachColorTexture2D(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
@@ -979,7 +955,7 @@ final class JOGL_GLES2Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      JOGL_GLES2Functions.framebufferDrawIsBound(gl, framebuffer),
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(texture, "Texture");
@@ -1006,11 +982,59 @@ final class JOGL_GLES2Functions
       GL.GL_TEXTURE_2D,
       texture.getGLName(),
       0);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void framebufferDrawAttachColorTexture2DAt(
+    final @Nonnull GL gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull FramebufferColorAttachmentPoint point,
+    final @Nonnull Texture2DStaticUsable texture)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(point, "Attachment point");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+    Constraints.constrainArbitrary(
+      texture.getType().isColorRenderable(),
+      "Texture is color renderable");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(texture);
+      state.log_text.append(" at color attachment ");
+      state.log_text.append(point);
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glFramebufferTexture2D(
+      GL2ES3.GL_DRAW_FRAMEBUFFER,
+      GL.GL_COLOR_ATTACHMENT0 + point.getIndex(),
+      GL.GL_TEXTURE_2D,
+      texture.getGLName(),
+      0);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void framebufferDrawAttachColorTextureCube(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
@@ -1024,7 +1048,7 @@ final class JOGL_GLES2Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      JOGL_GLES2Functions.framebufferDrawIsBound(gl, framebuffer),
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(texture, "Texture");
@@ -1054,11 +1078,64 @@ final class JOGL_GLES2Functions
       gface,
       texture.getGLName(),
       0);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void framebufferDrawAttachColorTextureCubeAt(
+    final @Nonnull GL gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull FramebufferColorAttachmentPoint point,
+    final @Nonnull TextureCubeStaticUsable texture,
+    final @Nonnull CubeMapFace face)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(point, "Attachment point");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+    Constraints.constrainArbitrary(
+      texture.getType().isColorRenderable(),
+      "Texture is color renderable");
+
+    Constraints.constrainNotNull(face, "Cube map face");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(texture);
+      state.log_text.append(" face ");
+      state.log_text.append(face);
+      state.log_text.append(" at color attachment ");
+      state.log_text.append(point);
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glFramebufferTexture2D(
+      GL2ES3.GL_DRAW_FRAMEBUFFER,
+      GL.GL_COLOR_ATTACHMENT0 + point.getIndex(),
+      JOGL_GLTypeConversions.cubeFaceToGL(face),
+      texture.getGLName(),
+      0);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void framebufferDrawAttachDepthRenderbuffer(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
@@ -1072,7 +1149,7 @@ final class JOGL_GLES2Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      JOGL_GLES2Functions.framebufferDrawIsBound(gl, framebuffer),
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
@@ -1101,7 +1178,7 @@ final class JOGL_GLES2Functions
       GL.GL_DEPTH_ATTACHMENT,
       GL.GL_RENDERBUFFER,
       renderbuffer.getGLName());
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   /**
@@ -1109,7 +1186,7 @@ final class JOGL_GLES2Functions
    */
 
   static void framebufferDrawAttachDepthStencilRenderbuffer(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
@@ -1123,7 +1200,7 @@ final class JOGL_GLES2Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      JOGL_GLES2Functions.framebufferDrawIsBound(gl, framebuffer),
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
@@ -1159,11 +1236,11 @@ final class JOGL_GLES2Functions
       GL.GL_STENCIL_ATTACHMENT,
       GL.GL_RENDERBUFFER,
       renderbuffer.getGLName());
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void framebufferDrawAttachDepthTexture2D(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
@@ -1176,7 +1253,7 @@ final class JOGL_GLES2Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      JOGL_GLES2Functions.framebufferDrawIsBound(gl, framebuffer),
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(texture, "Texture");
@@ -1203,11 +1280,11 @@ final class JOGL_GLES2Functions
       GL.GL_TEXTURE_2D,
       texture.getGLName(),
       0);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void framebufferDrawAttachStencilRenderbuffer(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
@@ -1221,7 +1298,7 @@ final class JOGL_GLES2Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      JOGL_GLES2Functions.framebufferDrawIsBound(gl, framebuffer),
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
@@ -1250,11 +1327,11 @@ final class JOGL_GLES2Functions
       GL.GL_STENCIL_ATTACHMENT,
       GL.GL_RENDERBUFFER,
       renderbuffer.getGLName());
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void framebufferDrawBind(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull FramebufferReference buffer)
     throws ConstraintError,
       GLException
@@ -1265,11 +1342,11 @@ final class JOGL_GLES2Functions
       "Framebuffer not deleted");
 
     gl.glBindFramebuffer(GL.GL_FRAMEBUFFER, buffer.getGLName());
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static boolean framebufferDrawIsBound(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull FramebufferReference framebuffer)
     throws ConstraintError
   {
@@ -1283,15 +1360,15 @@ final class JOGL_GLES2Functions
   }
 
   static void framebufferDrawUnbind(
-    final @Nonnull GL2ES2 gl)
+    final @Nonnull GL gl)
     throws GLException
   {
     gl.glBindFramebuffer(GL.GL_FRAMEBUFFER, 0);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static @Nonnull FramebufferStatus framebufferDrawValidate(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull FramebufferReference framebuffer)
     throws GLException,
       ConstraintError
@@ -1302,11 +1379,11 @@ final class JOGL_GLES2Functions
       framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
     Constraints.constrainArbitrary(
-      JOGL_GLES2Functions.framebufferDrawIsBound(gl, framebuffer),
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
       "Framebuffer is bound");
 
     final int status = gl.glCheckFramebufferStatus(GL.GL_FRAMEBUFFER);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
 
     return JOGL_GLTypeConversions.framebufferStatusFromGL(status);
   }
@@ -1314,13 +1391,13 @@ final class JOGL_GLES2Functions
   static @Nonnull
     FramebufferColorAttachmentPoint[]
     framebufferGetAttachmentPointsActual(
-      final @Nonnull GL2ES2 gl,
+      final @Nonnull GL gl,
       final @Nonnull GLStateCache state,
       final @Nonnull Log log)
       throws GLException
   {
     final int max =
-      JOGL_GLES2Functions.contextGetInteger(
+      JOGL_GL_Functions.contextGetInteger(
         gl,
         state,
         GL2ES2.GL_MAX_COLOR_ATTACHMENTS);
@@ -1343,13 +1420,13 @@ final class JOGL_GLES2Functions
   }
 
   static @Nonnull FramebufferDrawBuffer[] framebufferGetDrawBuffersActual(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log)
     throws GLException
   {
     final int max =
-      JOGL_GLES2Functions.contextGetInteger(
+      JOGL_GL_Functions.contextGetInteger(
         gl,
         state,
         GL2ES2.GL_MAX_DRAW_BUFFERS);
@@ -1371,7 +1448,7 @@ final class JOGL_GLES2Functions
   }
 
   static IndexBuffer indexBufferAllocate(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull ArrayBuffer buffer,
@@ -1393,7 +1470,7 @@ final class JOGL_GLES2Functions
       type = GLUnsignedType.TYPE_UNSIGNED_INT;
     }
 
-    return JOGL_GLES2Functions.indexBufferAllocateType(
+    return JOGL_GL_Functions.indexBufferAllocateType(
       gl,
       state,
       log,
@@ -1402,7 +1479,7 @@ final class JOGL_GLES2Functions
   }
 
   static @Nonnull IndexBuffer indexBufferAllocateType(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull GLUnsignedType type,
@@ -1430,17 +1507,17 @@ final class JOGL_GLES2Functions
 
     final IntBuffer cache = state.getIntegerCache();
     gl.glGenBuffers(1, cache);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
 
     final int id = cache.get(0);
     gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     gl.glBufferData(
       GL.GL_ELEMENT_ARRAY_BUFFER,
       bytes_total,
       null,
       GL2ES2.GL_STREAM_DRAW);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -1453,7 +1530,7 @@ final class JOGL_GLES2Functions
   }
 
   static void indexBufferDelete(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull IndexBuffer id)
@@ -1476,11 +1553,106 @@ final class JOGL_GLES2Functions
     cache.put(0, id.getGLName());
     gl.glDeleteBuffers(1, cache);
     id.resourceSetDeleted();
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static IndexBufferReadableMap indexBufferMapRead(
+    final @Nonnull GL gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull IndexBuffer id)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(id, "Index buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Index buffer not deleted");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("index-buffer: map ");
+      state.log_text.append(id);
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
+    JOGL_GL_Functions.checkError(gl);
+    final ByteBuffer b =
+      gl.glMapBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, GL2GL3.GL_READ_ONLY);
+    JOGL_GL_Functions.checkError(gl);
+    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
+    JOGL_GL_Functions.checkError(gl);
+
+    return new IndexBufferReadableMap(id, b);
+  }
+
+  static IndexBufferWritableMap indexBufferMapWrite(
+    final @Nonnull GL gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull IndexBuffer id)
+    throws GLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(id, "Index buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Index buffer not deleted");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("index-buffer: map ");
+      state.log_text.append(id);
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
+    JOGL_GL_Functions.checkError(gl);
+    gl.glBufferData(
+      GL.GL_ELEMENT_ARRAY_BUFFER,
+      id.getSizeBytes(),
+      null,
+      GL2ES2.GL_STREAM_DRAW);
+    JOGL_GL_Functions.checkError(gl);
+
+    final ByteBuffer b =
+      gl.glMapBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, GL.GL_WRITE_ONLY);
+    JOGL_GL_Functions.checkError(gl);
+    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
+    JOGL_GL_Functions.checkError(gl);
+
+    return new IndexBufferWritableMap(id, b);
+  }
+
+  static void indexBufferUnmap(
+    final @Nonnull GL gl,
+    final @Nonnull GLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull IndexBuffer id)
+    throws ConstraintError,
+      GLException
+  {
+    Constraints.constrainNotNull(id, "Index buffer");
+    Constraints.constrainArbitrary(
+      id.resourceIsDeleted() == false,
+      "Index buffer not deleted");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("index-buffer: unmap ");
+      state.log_text.append(id);
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
+    gl.glUnmapBuffer(GL.GL_ELEMENT_ARRAY_BUFFER);
+    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void indexBufferUpdate(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull IndexBuffer buffer,
     final @Nonnull IndexBufferWritableData data)
     throws GLException,
@@ -1499,673 +1671,72 @@ final class JOGL_GLES2Functions
       data.getTargetDataOffset(),
       data.getTargetDataSize(),
       data.getTargetData());
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static int metaGetError(
-    final @Nonnull GL2ES2 gl)
+    final @Nonnull GL gl)
   {
     return gl.glGetError();
   }
 
   static String metaGetRenderer(
-    final @Nonnull GL2ES2 gl)
+    final @Nonnull GL gl)
     throws GLException
   {
     final String x = gl.glGetString(GL.GL_RENDERER);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     return x;
   }
 
   static String metaGetVendor(
-    final @Nonnull GL2ES2 gl)
+    final @Nonnull GL gl)
     throws GLException
   {
     final String x = gl.glGetString(GL.GL_VENDOR);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     return x;
   }
 
   static String metaGetVersion(
-    final @Nonnull GL2ES2 gl)
+    final @Nonnull GL gl)
     throws GLException
   {
     final String x = gl.glGetString(GL.GL_VERSION);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     return x;
   }
 
   static int metaGetVersionMajor(
-    final GL2ES2 gl)
+    final GL gl)
   {
     final VersionNumber number = gl.getContext().getGLVersionNumber();
     return number.getMajor();
   }
 
   static int metaGetVersionMinor(
-    final GL2ES2 gl)
+    final GL gl)
   {
     final VersionNumber number = gl.getContext().getGLVersionNumber();
     return number.getMinor();
   }
 
   static boolean metaIsES(
-    final GL2ES2 gl)
+    final GL gl)
   {
     return gl.isGLES();
   }
 
-  static void programActivate(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull ProgramReference program)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(program, "Program ID");
-    Constraints.constrainArbitrary(
-      program.resourceIsDeleted() == false,
-      "Program not deleted");
-
-    gl.glUseProgram(program.getGLName());
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
-  static ProgramReference programCreate(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull String name)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(name, "Program name");
-
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("program: create \"");
-      state.log_text.append(name);
-      state.log_text.append("\"");
-      log.debug(state.log_text.toString());
-    }
-
-    final int id = gl.glCreateProgram();
-    if (id == 0) {
-      throw new GLException(0, "glCreateProgram failed");
-    }
-    JOGL_GLES2Functions.checkError(gl);
-
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("program: created ");
-      state.log_text.append(id);
-      log.debug(state.log_text.toString());
-    }
-
-    return new ProgramReference(id, name);
-  }
-
-  static void programDeactivate(
-    final @Nonnull GL2ES2 gl)
-    throws GLException
-  {
-    gl.glUseProgram(0);
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
-  static void programDelete(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull ProgramReference program)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(program, "Program");
-    Constraints.constrainArbitrary(
-      program.resourceIsDeleted() == false,
-      "Program not deleted");
-
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("program: delete ");
-      state.log_text.append(program);
-      log.debug(state.log_text.toString());
-    }
-
-    gl.glDeleteProgram(program.getGLName());
-    program.resourceSetDeleted();
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
-  static void programGetAttributes(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull ProgramReference program,
-    final @Nonnull Map<String, ProgramAttribute> out)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(program, "Program ID");
-    Constraints.constrainArbitrary(
-      program.resourceIsDeleted() == false,
-      "Program not deleted");
-    Constraints.constrainNotNull(out, "Output map");
-
-    final int id = program.getGLName();
-    final int max =
-      JOGL_GLES2Functions.contextGetProgramInteger(
-        gl,
-        state,
-        program.getGLName(),
-        GL2ES2.GL_ACTIVE_ATTRIBUTES);
-    final int length =
-      JOGL_GLES2Functions.contextGetProgramInteger(
-        gl,
-        state,
-        program.getGLName(),
-        GL2ES2.GL_ACTIVE_ATTRIBUTE_MAX_LENGTH);
-
-    final ByteBuffer buffer_name = Buffers.newDirectByteBuffer(length);
-    final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
-    final IntBuffer buffer_size = Buffers.newDirectIntBuffer(1);
-    final IntBuffer buffer_type = Buffers.newDirectIntBuffer(1);
-
-    /*
-     * Note: some drivers will return built-in attributes here (such as
-     * "gl_Vertex") but their locations are -1, so must be explicitly ignored.
-     */
-
-    for (int index = 0; index < max; ++index) {
-      buffer_length.rewind();
-      buffer_size.rewind();
-      buffer_type.rewind();
-      buffer_name.rewind();
-
-      gl.glGetActiveAttrib(
-        id,
-        index,
-        length,
-        buffer_length,
-        buffer_size,
-        buffer_type,
-        buffer_name);
-      JOGL_GLES2Functions.checkError(gl);
-
-      final int type_raw = buffer_type.get(0);
-      final GLType.Type type = JOGL_GLTypeConversions.typeFromGL(type_raw);
-
-      final int name_length = buffer_length.get(0);
-      final byte temp_buffer[] = new byte[name_length];
-      buffer_name.get(temp_buffer);
-      final String name = new String(temp_buffer);
-
-      final int location = gl.glGetAttribLocation(id, name);
-      JOGL_GLES2Functions.checkError(gl);
-
-      if (location == -1) {
-        if (log.enabled(Level.LOG_DEBUG)) {
-          state.log_text.setLength(0);
-          state.log_text.append("driver returned active attribute \"");
-          state.log_text.append(name);
-          state.log_text.append("\" with location -1, ignoring");
-          log.debug(state.log_text.toString());
-        }
-        continue;
-      }
-
-      assert out.containsKey(name) == false;
-      out.put(
-        name,
-        new ProgramAttribute(program, index, location, name, type));
-    }
-  }
-
-  static int programGetMaximumActiveAttributes(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull Log log)
-    throws GLException
-  {
-    final int max =
-      JOGL_GLES2Functions.contextGetInteger(
-        gl,
-        state,
-        GL2ES2.GL_MAX_VERTEX_ATTRIBS);
-
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("implementation supports ");
-      state.log_text.append(max);
-      state.log_text.append(" active attributes");
-      log.debug(state.log_text.toString());
-    }
-
-    return max;
-  }
-
-  static void programGetUniforms(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull ProgramReference program,
-    final @Nonnull Map<String, ProgramUniform> out)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(program, "Program ID");
-    Constraints.constrainArbitrary(
-      program.resourceIsDeleted() == false,
-      "Program not deleted");
-    Constraints.constrainNotNull(out, "Output map");
-
-    final int id = program.getGLName();
-    final int max =
-      JOGL_GLES2Functions.contextGetProgramInteger(
-        gl,
-        state,
-        id,
-        GL2ES2.GL_ACTIVE_UNIFORMS);
-    final int length =
-      JOGL_GLES2Functions.contextGetProgramInteger(
-        gl,
-        state,
-        id,
-        GL2ES2.GL_ACTIVE_UNIFORM_MAX_LENGTH);
-    JOGL_GLES2Functions.checkError(gl);
-
-    final ByteBuffer buffer_name = Buffers.newDirectByteBuffer(length);
-    final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
-    final IntBuffer buffer_size = Buffers.newDirectIntBuffer(1);
-    final IntBuffer buffer_type = Buffers.newDirectIntBuffer(1);
-
-    for (int index = 0; index < max; ++index) {
-      buffer_length.rewind();
-      buffer_size.rewind();
-      buffer_type.rewind();
-      buffer_name.rewind();
-
-      gl.glGetActiveUniform(
-        id,
-        index,
-        length,
-        buffer_length,
-        buffer_size,
-        buffer_type,
-        buffer_name);
-      JOGL_GLES2Functions.checkError(gl);
-
-      final int type_raw = buffer_type.get(0);
-      final GLType.Type type = JOGL_GLTypeConversions.typeFromGL(type_raw);
-
-      final int name_length = buffer_length.get(0);
-      final byte temp_buffer[] = new byte[name_length];
-      buffer_name.get(temp_buffer);
-      final String name = new String(temp_buffer);
-
-      final int location = gl.glGetUniformLocation(id, name);
-      JOGL_GLES2Functions.checkError(gl);
-
-      if (location == -1) {
-        if (log.enabled(Level.LOG_DEBUG)) {
-          state.log_text.setLength(0);
-          state.log_text.append("driver returned active uniform \"");
-          state.log_text.append(name);
-          state.log_text.append("\" with location -1, ignoring");
-          log.debug(state.log_text.toString());
-        }
-        continue;
-      }
-
-      assert (out.containsKey(name) == false);
-      out.put(name, new ProgramUniform(program, index, location, name, type));
-    }
-  }
-
-  static boolean programIsActive(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull ProgramReference program)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(program, "Program ID");
-    Constraints.constrainArbitrary(
-      program.resourceIsDeleted() == false,
-      "Program not deleted");
-
-    final int active =
-      JOGL_GLES2Functions.contextGetInteger(
-        gl,
-        state,
-        GL2ES2.GL_CURRENT_PROGRAM);
-    JOGL_GLES2Functions.checkError(gl);
-    return active == program.getGLName();
-  }
-
-  static void programLink(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull ProgramReference program)
-    throws ConstraintError,
-      GLCompileException,
-      GLException
-  {
-    Constraints.constrainNotNull(program, "Program ID");
-    Constraints.constrainArbitrary(
-      program.resourceIsDeleted() == false,
-      "Program not deleted");
-
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("program: link ");
-      state.log_text.append(program);
-      log.debug(state.log_text.toString());
-    }
-
-    gl.glLinkProgram(program.getGLName());
-    JOGL_GLES2Functions.checkError(gl);
-
-    final int status =
-      JOGL_GLES2Functions.contextGetProgramInteger(
-        gl,
-        state,
-        program.getGLName(),
-        GL2ES2.GL_LINK_STATUS);
-
-    if (status == 0) {
-      final ByteBuffer buffer = Buffers.newDirectByteBuffer(8192);
-      final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
-      gl
-        .glGetProgramInfoLog(program.getGLName(), 8192, buffer_length, buffer);
-      JOGL_GLES2Functions.checkError(gl);
-
-      final byte raw[] = new byte[buffer.remaining()];
-      buffer.get(raw);
-      final String text = new String(raw);
-      throw new GLCompileException(program.getName(), text);
-    }
-
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
-  static void programPutUniformFloat(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull ProgramUniform uniform,
-    final float value)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(uniform, "Uniform");
-    Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT,
-      "Uniform type is float");
-    Constraints.constrainArbitrary(
-      JOGL_GLES2Functions.programIsActive(gl, state, uniform.getProgram()),
-      "Program for uniform is active");
-
-    gl.glUniform1f(uniform.getLocation(), value);
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
-  static void programPutUniformMatrix3x3f(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull MatrixReadable3x3F matrix)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(matrix, "Matrix");
-    Constraints.constrainNotNull(uniform, "Uniform");
-    Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_MATRIX_3,
-      "Uniform type is mat3");
-    Constraints.constrainArbitrary(
-      JOGL_GLES2Functions.programIsActive(gl, state, uniform.getProgram()),
-      "Program for uniform is active");
-
-    gl.glUniformMatrix3fv(
-      uniform.getLocation(),
-      1,
-      false,
-      matrix.getFloatBuffer());
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
-  static void programPutUniformMatrix4x4f(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull MatrixReadable4x4F matrix)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(matrix, "Matrix");
-    Constraints.constrainNotNull(uniform, "Uniform");
-    Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_MATRIX_4,
-      "Uniform type is mat4");
-    Constraints.constrainArbitrary(
-      JOGL_GLES2Functions.programIsActive(gl, state, uniform.getProgram()),
-      "Program for uniform is active");
-
-    gl.glUniformMatrix4fv(
-      uniform.getLocation(),
-      1,
-      false,
-      matrix.getFloatBuffer());
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
-  static void programPutUniformTextureUnit(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull TextureUnit unit)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(uniform, "Uniform");
-    Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_SAMPLER_2D,
-      "Uniform type is sampler_2d");
-    Constraints.constrainArbitrary(
-      JOGL_GLES2Functions.programIsActive(gl, state, uniform.getProgram()),
-      "Program for uniform is active");
-
-    gl.glUniform1i(uniform.getLocation(), unit.getIndex());
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
-  static void programPutUniformVector2f(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable2F vector)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(vector, "Vatrix");
-    Constraints.constrainNotNull(uniform, "Uniform");
-    Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_VECTOR_2,
-      "Uniform type is vec2");
-    Constraints.constrainArbitrary(
-      JOGL_GLES2Functions.programIsActive(gl, state, uniform.getProgram()),
-      "Program for uniform is active");
-
-    gl.glUniform2f(uniform.getLocation(), vector.getXF(), vector.getYF());
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
-  static void programPutUniformVector2i(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable2I vector)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(vector, "Vatrix");
-    Constraints.constrainNotNull(uniform, "Uniform");
-    Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_INTEGER_VECTOR_2,
-      "Uniform type is vec2");
-    Constraints.constrainArbitrary(
-      JOGL_GLES2Functions.programIsActive(gl, state, uniform.getProgram()),
-      "Program for uniform is active");
-
-    gl.glUniform2i(uniform.getLocation(), vector.getXI(), vector.getYI());
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
-  static void programPutUniformVector3f(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable3F vector)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(vector, "Vatrix");
-    Constraints.constrainNotNull(uniform, "Uniform");
-    Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_VECTOR_3,
-      "Uniform type is vec3");
-    Constraints.constrainArbitrary(
-      JOGL_GLES2Functions.programIsActive(gl, state, uniform.getProgram()),
-      "Program for uniform is active");
-
-    gl.glUniform3f(
-      uniform.getLocation(),
-      vector.getXF(),
-      vector.getYF(),
-      vector.getZF());
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
-  static void programPutUniformVector4f(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable4F vector)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(vector, "Vatrix");
-    Constraints.constrainNotNull(uniform, "Uniform");
-    Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_VECTOR_4,
-      "Uniform type is vec4");
-    Constraints.constrainArbitrary(
-      JOGL_GLES2Functions.programIsActive(gl, state, uniform.getProgram()),
-      "Program for uniform is active");
-
-    gl.glUniform4f(
-      uniform.getLocation(),
-      vector.getXF(),
-      vector.getYF(),
-      vector.getZF(),
-      vector.getWF());
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
-  static Renderbuffer<?> renderbufferAllocate(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull RenderbufferType type,
-    final int width,
-    final int height)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(type, "Renderbuffer type");
-    Constraints.constrainRange(width, 1, Integer.MAX_VALUE);
-    Constraints.constrainRange(height, 1, Integer.MAX_VALUE);
-
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("renderbuffer: allocate ");
-      state.log_text.append(width);
-      state.log_text.append("x");
-      state.log_text.append(height);
-      state.log_text.append(" ");
-      state.log_text.append(type);
-      log.debug(state.log_text.toString());
-    }
-
-    final IntBuffer cache = state.getIntegerCache();
-    gl.glGenRenderbuffers(1, cache);
-    JOGL_GLES2Functions.checkError(gl);
-    final int id = cache.get(0);
-
-    final int gtype = JOGL_GLTypeConversions.renderbufferTypeToGL(type);
-
-    gl.glBindRenderbuffer(GL.GL_RENDERBUFFER, id);
-    JOGL_GLES2Functions.checkError(gl);
-    gl.glRenderbufferStorage(GL.GL_RENDERBUFFER, gtype, width, height);
-    JOGL_GLES2Functions.checkError(gl);
-    gl.glBindRenderbuffer(GL.GL_RENDERBUFFER, 0);
-    JOGL_GLES2Functions.checkError(gl);
-
-    /**
-     * The phantom type is set to RenderableColor here and then deliberately
-     * discarded. The caller will cast to the correct type.
-     */
-
-    final Renderbuffer<?> r =
-      new Renderbuffer<RenderableColor>(type, id, width, height);
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("renderbuffer: allocated ");
-      state.log_text.append(r);
-      log.debug(state.log_text.toString());
-    }
-
-    return r;
-  }
-
-  static void renderbufferDelete(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull Renderbuffer<?> buffer)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(buffer, "Renderbuffer");
-    Constraints.constrainArbitrary(
-      buffer.resourceIsDeleted() == false,
-      "Renderbuffer not deleted");
-
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("renderbuffer: delete ");
-      state.log_text.append(buffer);
-      log.debug(state.log_text.toString());
-    }
-
-    final IntBuffer cache = state.getIntegerCache();
-    cache.put(0, buffer.getGLName());
-    gl.glDeleteRenderbuffers(1, cache);
-    buffer.resourceSetDeleted();
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
   static void scissorDisable(
-    final @Nonnull GL2ES2 gl)
+    final @Nonnull GL gl)
     throws GLException
   {
     gl.glDisable(GL.GL_SCISSOR_TEST);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void scissorEnable(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull VectorReadable2I position,
     final @Nonnull VectorReadable2I dimensions)
     throws ConstraintError,
@@ -2190,164 +1761,81 @@ final class JOGL_GLES2Functions
       position.getYI(),
       dimensions.getXI(),
       dimensions.getYI());
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static boolean scissorIsEnabled(
-    final @Nonnull GL2ES2 gl)
+    final @Nonnull GL gl)
     throws GLException
   {
     final boolean e = gl.glIsEnabled(GL.GL_SCISSOR_TEST);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     return e;
   }
 
-  private static final void shaderReadSource(
-    final @Nonnull InputStream stream,
-    final @Nonnull ArrayList<String> lines,
-    final @Nonnull ArrayList<Integer> lengths)
-    throws IOException
-  {
-    final BufferedReader reader =
-      new BufferedReader(new InputStreamReader(stream));
-
-    for (;;) {
-      final String line = reader.readLine();
-      if (line == null) {
-        break;
-      }
-      lines.add(line + "\n");
-      lengths.add(Integer.valueOf(line.length() + 1));
-    }
-
-    assert (lines.size() == lengths.size());
-  }
-
   static void stencilBufferClear(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final int stencil)
     throws GLException,
       ConstraintError
   {
     Constraints.constrainRange(
-      JOGL_GLES2Functions.stencilBufferGetBits(gl, state),
+      JOGL_GL_Functions.stencilBufferGetBits(gl, state),
       1,
       Integer.MAX_VALUE,
       "Stencil buffer bits available");
 
     gl.glClearStencil(stencil);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void stencilBufferDisable(
-    final @Nonnull GL2ES2 gl)
+    final @Nonnull GL gl)
     throws GLException
   {
     gl.glDisable(GL.GL_STENCIL_TEST);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void stencilBufferEnable(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state)
     throws ConstraintError,
       GLException
   {
     Constraints.constrainRange(
-      JOGL_GLES2Functions.stencilBufferGetBits(gl, state),
+      JOGL_GL_Functions.stencilBufferGetBits(gl, state),
       1,
       Integer.MAX_VALUE,
       "Stencil buffer bits available");
 
     gl.glEnable(GL.GL_STENCIL_TEST);
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
-  static void stencilBufferFunction(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull FaceSelection faces,
-    final @Nonnull StencilFunction function,
-    final int reference,
-    final int mask)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(faces, "Face selection");
-    Constraints.constrainNotNull(function, "Stencil function");
-
-    final int func = JOGL_GLTypeConversions.stencilFunctionToGL(function);
-    gl.glStencilFuncSeparate(
-      JOGL_GLTypeConversions.faceSelectionToGL(faces),
-      func,
-      reference,
-      mask);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static int stencilBufferGetBits(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state)
     throws GLException
   {
     final int bits =
-      JOGL_GLES2Functions.contextGetInteger(gl, state, GL.GL_STENCIL_BITS);
-    JOGL_GLES2Functions.checkError(gl);
+      JOGL_GL_Functions.contextGetInteger(gl, state, GL.GL_STENCIL_BITS);
+    JOGL_GL_Functions.checkError(gl);
     return bits;
   }
 
   static boolean stencilBufferIsEnabled(
-    final @Nonnull GL2ES2 gl)
+    final @Nonnull GL gl)
     throws GLException
   {
     final boolean e = gl.glIsEnabled(GL.GL_STENCIL_TEST);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     return e;
   }
 
-  static void stencilBufferMask(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull FaceSelection faces,
-    final int mask)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(faces, "Face selection");
-
-    gl.glStencilMaskSeparate(
-      JOGL_GLTypeConversions.faceSelectionToGL(faces),
-      mask);
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
-  static void stencilBufferOperation(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull FaceSelection faces,
-    final @Nonnull StencilOperation stencil_fail,
-    final @Nonnull StencilOperation depth_fail,
-    final @Nonnull StencilOperation pass)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(faces, "Face selection");
-    Constraints.constrainNotNull(stencil_fail, "Stencil fail operation");
-    Constraints.constrainNotNull(depth_fail, "Depth fail operation");
-    Constraints.constrainNotNull(pass, "Pass operation");
-
-    final int sfail =
-      JOGL_GLTypeConversions.stencilOperationToGL(stencil_fail);
-    final int dfail = JOGL_GLTypeConversions.stencilOperationToGL(depth_fail);
-    final int dpass = JOGL_GLTypeConversions.stencilOperationToGL(pass);
-    gl.glStencilOpSeparate(
-      JOGL_GLTypeConversions.faceSelectionToGL(faces),
-      sfail,
-      dfail,
-      dpass);
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
   static @Nonnull Texture2DStatic texture2DStaticAllocate(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull String name,
@@ -2389,31 +1877,31 @@ final class JOGL_GLES2Functions
 
     final IntBuffer cache = state.getIntegerCache();
     gl.glGenTextures(1, cache);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     final int texture_id = cache.get(0);
 
     gl.glBindTexture(GL.GL_TEXTURE_2D, texture_id);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     gl.glTexParameteri(
       GL.GL_TEXTURE_2D,
       GL.GL_TEXTURE_WRAP_S,
       JOGL_GLTypeConversions.textureWrapSToGL(wrap_s));
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     gl.glTexParameteri(
       GL.GL_TEXTURE_2D,
       GL.GL_TEXTURE_WRAP_T,
       JOGL_GLTypeConversions.textureWrapTToGL(wrap_t));
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     gl.glTexParameteri(
       GL.GL_TEXTURE_2D,
       GL.GL_TEXTURE_MIN_FILTER,
       JOGL_GLTypeConversions.textureFilterMinToGL(min_filter));
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     gl.glTexParameteri(
       GL.GL_TEXTURE_2D,
       GL.GL_TEXTURE_MAG_FILTER,
       JOGL_GLTypeConversions.textureFilterMagToGL(mag_filter));
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
 
     final int internal =
       JOGL_GLTypeConversions.textureTypeToInternalFormatGL(type);
@@ -2431,7 +1919,7 @@ final class JOGL_GLES2Functions
       itype,
       null);
     gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
 
     final Texture2DStatic t =
       new Texture2DStatic(
@@ -2456,7 +1944,7 @@ final class JOGL_GLES2Functions
   }
 
   static void texture2DStaticBind(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull TextureUnit unit,
     final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
@@ -2470,11 +1958,11 @@ final class JOGL_GLES2Functions
 
     gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
     gl.glBindTexture(GL.GL_TEXTURE_2D, texture.getGLName());
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void texture2DStaticDelete(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull Texture2DStatic texture)
@@ -2496,13 +1984,13 @@ final class JOGL_GLES2Functions
     final IntBuffer cache = state.getIntegerCache();
     cache.put(0, texture.getGLName());
     gl.glDeleteTextures(1, cache);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
 
     texture.resourceSetDeleted();
   }
 
   static boolean texture2DStaticIsBound(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull TextureUnit unit,
     final @Nonnull Texture2DStaticUsable texture)
@@ -2520,13 +2008,13 @@ final class JOGL_GLES2Functions
     final IntBuffer cache = state.getIntegerCache();
     gl.glGetIntegerv(GL.GL_TEXTURE_BINDING_2D, cache);
     final int e = cache.get(0);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
 
     return e == texture.getGLName();
   }
 
   static void texture2DStaticUnbind(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull TextureUnit unit)
     throws ConstraintError,
       GLException
@@ -2535,11 +2023,11 @@ final class JOGL_GLES2Functions
 
     gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
     gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void texture2DStaticUpdate(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull Texture2DWritableData data)
     throws ConstraintError,
       GLException
@@ -2570,11 +2058,11 @@ final class JOGL_GLES2Functions
       gl_type,
       buffer);
     gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static @Nonnull TextureCubeStatic textureCubeStaticAllocate(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull String name,
@@ -2616,36 +2104,36 @@ final class JOGL_GLES2Functions
 
     final IntBuffer cache = state.getIntegerCache();
     gl.glGenTextures(1, cache);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     final int texture_id = cache.get(0);
 
     gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, texture_id);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL.GL_TEXTURE_WRAP_S,
       JOGL_GLTypeConversions.textureWrapSToGL(wrap_s));
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL.GL_TEXTURE_WRAP_T,
       JOGL_GLTypeConversions.textureWrapTToGL(wrap_t));
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL2ES2.GL_TEXTURE_WRAP_R,
       JOGL_GLTypeConversions.textureWrapRToGL(wrap_r));
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL.GL_TEXTURE_MIN_FILTER,
       JOGL_GLTypeConversions.textureFilterMinToGL(min_filter));
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
     gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL.GL_TEXTURE_MAG_FILTER,
       JOGL_GLTypeConversions.textureFilterMagToGL(mag_filter));
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
 
     final int internal =
       JOGL_GLTypeConversions.textureTypeToInternalFormatGL(type);
@@ -2656,11 +2144,11 @@ final class JOGL_GLES2Functions
       final int gface = JOGL_GLTypeConversions.cubeFaceToGL(face);
 
       gl.glTexImage2D(gface, 0, internal, size, size, 0, format, itype, null);
-      JOGL_GLES2Functions.checkError(gl);
+      JOGL_GL_Functions.checkError(gl);
     }
 
     gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
 
     final TextureCubeStatic t =
       new TextureCubeStatic(
@@ -2685,7 +2173,7 @@ final class JOGL_GLES2Functions
   }
 
   static void textureCubeStaticBind(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull TextureUnit unit,
     final @Nonnull TextureCubeStaticUsable texture)
     throws GLException,
@@ -2699,11 +2187,11 @@ final class JOGL_GLES2Functions
 
     gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
     gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, texture.getGLName());
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void textureCubeStaticDelete(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log,
     final @Nonnull TextureCubeStatic texture)
@@ -2725,13 +2213,13 @@ final class JOGL_GLES2Functions
     final IntBuffer cache = state.getIntegerCache();
     cache.put(0, texture.getGLName());
     gl.glDeleteTextures(1, cache);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
 
     texture.resourceSetDeleted();
   }
 
   static boolean textureCubeStaticIsBound(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull TextureUnit unit,
     final @Nonnull TextureCubeStaticUsable texture)
@@ -2749,13 +2237,13 @@ final class JOGL_GLES2Functions
     final IntBuffer cache = state.getIntegerCache();
     gl.glGetIntegerv(GL.GL_TEXTURE_BINDING_CUBE_MAP, cache);
     final int e = cache.get(0);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
 
     return e == texture.getGLName();
   }
 
   static void textureCubeStaticUnbind(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull TextureUnit unit)
     throws ConstraintError,
       GLException
@@ -2764,11 +2252,11 @@ final class JOGL_GLES2Functions
 
     gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
     gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void textureCubeStaticUpdate(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull CubeMapFace face,
     final @Nonnull TextureCubeWritableData data)
     throws ConstraintError,
@@ -2802,28 +2290,28 @@ final class JOGL_GLES2Functions
       gl_type,
       buffer);
     gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static int textureGetMaximumSize(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state)
     throws GLException
   {
-    return JOGL_GLES2Functions.contextGetInteger(
+    return JOGL_GL_Functions.contextGetInteger(
       gl,
       state,
       GL.GL_MAX_TEXTURE_SIZE);
   }
 
   static TextureUnit[] textureGetUnitsActual(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull GLStateCache state,
     final @Nonnull Log log)
     throws GLException
   {
     final int max =
-      JOGL_GLES2Functions.contextGetInteger(
+      JOGL_GL_Functions.contextGetInteger(
         gl,
         state,
         GL2ES2.GL_MAX_TEXTURE_IMAGE_UNITS);
@@ -2844,129 +2332,8 @@ final class JOGL_GLES2Functions
     return u;
   }
 
-  static void vertexShaderAttach(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull ProgramReference program,
-    final @Nonnull VertexShader shader)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(program, "Program ID");
-    Constraints.constrainArbitrary(
-      program.resourceIsDeleted() == false,
-      "Program not deleted");
-
-    Constraints.constrainNotNull(shader, "Vertex shader");
-    Constraints.constrainArbitrary(
-      shader.resourceIsDeleted() == false,
-      "Vertex shader not deleted");
-
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("vertex-shader: attach ");
-      state.log_text.append(program);
-      state.log_text.append(" ");
-      state.log_text.append(shader);
-      log.debug(state.log_text.toString());
-    }
-
-    gl.glAttachShader(program.getGLName(), shader.getGLName());
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
-  static VertexShader vertexShaderCompile(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull String name,
-    final @Nonnull InputStream stream)
-    throws ConstraintError,
-      GLCompileException,
-      IOException,
-      GLException
-  {
-    Constraints.constrainNotNull(name, "Shader name");
-    Constraints.constrainNotNull(stream, "input stream");
-
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("vertex-shader: compile \"");
-      state.log_text.append(name);
-      state.log_text.append("\"");
-      log.debug(state.log_text.toString());
-    }
-
-    final int id = gl.glCreateShader(GL2ES2.GL_VERTEX_SHADER);
-    JOGL_GLES2Functions.checkError(gl);
-
-    final ArrayList<Integer> lengths = new ArrayList<Integer>();
-    final ArrayList<String> lines = new ArrayList<String>();
-    JOGL_GLES2Functions.shaderReadSource(stream, lines, lengths);
-    final String[] line_array = new String[lines.size()];
-    final IntBuffer line_lengths = Buffers.newDirectIntBuffer(lines.size());
-
-    for (int index = 0; index < lines.size(); ++index) {
-      line_array[index] = lines.get(index);
-      final int len = line_array[index].length();
-      line_lengths.put(index, len);
-    }
-
-    gl.glShaderSource(id, line_array.length, line_array, line_lengths);
-    JOGL_GLES2Functions.checkError(gl);
-    gl.glCompileShader(id);
-    JOGL_GLES2Functions.checkError(gl);
-    final int status =
-      JOGL_GLES2Functions.contextGetShaderInteger(
-        gl,
-        state,
-        id,
-        GL2ES2.GL_COMPILE_STATUS);
-    JOGL_GLES2Functions.checkError(gl);
-
-    if (status == 0) {
-      final ByteBuffer log_buffer = Buffers.newDirectByteBuffer(8192);
-      final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
-      gl.glGetShaderInfoLog(id, 8192, buffer_length, log_buffer);
-      JOGL_GLES2Functions.checkError(gl);
-
-      final byte raw[] = new byte[log_buffer.remaining()];
-      log_buffer.get(raw);
-      final String text = new String(raw);
-      throw new GLCompileException(name, text);
-    }
-
-    return new VertexShader(id, name);
-  }
-
-  static void vertexShaderDelete(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull VertexShader id)
-    throws ConstraintError,
-      GLException
-  {
-    Constraints.constrainNotNull(id, "Vertex shader");
-    Constraints.constrainArbitrary(
-      id.resourceIsDeleted() == false,
-      "Vertex shader not deleted");
-
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("vertex-shader: delete ");
-      state.log_text.append(id);
-      log.debug(state.log_text.toString());
-    }
-
-    gl.glDeleteShader(id.getGLName());
-    id.resourceSetDeleted();
-    JOGL_GLES2Functions.checkError(gl);
-  }
-
   static void viewportSet(
-    final @Nonnull GL2ES2 gl,
+    final @Nonnull GL gl,
     final @Nonnull VectorReadable2I position,
     final @Nonnull VectorReadable2I dimensions)
     throws ConstraintError,
@@ -2990,6 +2357,6 @@ final class JOGL_GLES2Functions
       position.getYI(),
       dimensions.getXI(),
       dimensions.getYI());
-    JOGL_GLES2Functions.checkError(gl);
+    JOGL_GL_Functions.checkError(gl);
   }
 }

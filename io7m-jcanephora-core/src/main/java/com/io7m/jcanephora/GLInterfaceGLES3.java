@@ -18,17 +18,19 @@ package com.io7m.jcanephora;
 
 /**
  * <p>
- * The interface exposed by OpenGL ES2 implementations.
+ * The interface exposed by OpenGL ES3 implementations.
  * </p>
  */
 
-public interface GLInterfaceGLES2 extends
+public interface GLInterfaceGLES3 extends
   GLInterfaceCommon,
-  GLExtensionsGLES2,
-  GLFramebuffersGLES2,
-  GLRenderbuffersGLES2,
-  GLTexturesCubeStaticGLES2,
-  GLTextures2DStaticGLES2
+  GLArrayBuffersMapped,
+  GLBlendingGL3,
+  GLFramebuffersGL3,
+  GLIndexBuffersMapped,
+  GLRenderbuffersGL3,
+  GLTexturesCubeStaticGL3,
+  GLTextures2DStaticGL3
 {
   /*
    * All functions defined in the superinterfaces.

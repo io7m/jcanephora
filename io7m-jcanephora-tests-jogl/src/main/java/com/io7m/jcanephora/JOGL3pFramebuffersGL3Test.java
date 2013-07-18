@@ -16,21 +16,33 @@
 
 package com.io7m.jcanephora;
 
-/**
- * <p>
- * The interface exposed by OpenGL ES2 implementations.
- * </p>
- */
+import javax.annotation.Nonnull;
 
-public interface GLInterfaceGLES2 extends
-  GLInterfaceCommon,
-  GLExtensionsGLES2,
-  GLFramebuffersGLES2,
-  GLRenderbuffersGLES2,
-  GLTexturesCubeStaticGLES2,
-  GLTextures2DStaticGLES2
+import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option.Some;
+import com.io7m.jcanephora.contracts.gl3.FramebuffersGL3Contract;
+
+public final class JOGL3pFramebuffersGL3Test extends
+  FramebuffersGL3Contract<GLInterfaceGL3>
 {
-  /*
-   * All functions defined in the superinterfaces.
-   */
+  @Override public GLInterfaceGL3 getGLInterface(
+    final TestContext context)
+  {
+    final Some<GLInterfaceGL3> some =
+      (Some<GLInterfaceGL3>) context.getGLImplementation().getGL3();
+    return some.value;
+  }
+
+  @Override public boolean isGLSupported()
+  {
+    return JOGLTestContext.isOpenGL3pSupported();
+  }
+
+  @Override public @Nonnull TestContext newTestContext()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    return JOGLTestContext.makeContextWithOpenGL3_p();
+  }
 }

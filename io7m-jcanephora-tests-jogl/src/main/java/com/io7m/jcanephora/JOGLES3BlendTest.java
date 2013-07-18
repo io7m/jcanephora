@@ -13,24 +13,25 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-
 package com.io7m.jcanephora;
 
-/**
- * <p>
- * The interface exposed by OpenGL ES2 implementations.
- * </p>
- */
+import javax.annotation.Nonnull;
 
-public interface GLInterfaceGLES2 extends
-  GLInterfaceCommon,
-  GLExtensionsGLES2,
-  GLFramebuffersGLES2,
-  GLRenderbuffersGLES2,
-  GLTexturesCubeStaticGLES2,
-  GLTextures2DStaticGLES2
+import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.contracts.gles2.BlendingGLES2Contract;
+
+public final class JOGLES3BlendTest extends BlendingGLES2Contract
 {
-  /*
-   * All functions defined in the superinterfaces.
-   */
+  @Override public boolean isGLSupported()
+  {
+    return JOGLTestContext.isOpenGLES3Supported();
+  }
+
+  @Override public @Nonnull TestContext newTestContext()
+    throws GLException,
+      GLUnsupportedException,
+      ConstraintError
+  {
+    return JOGLTestContext.makeContextWithOpenGL_ES3();
+  }
 }
