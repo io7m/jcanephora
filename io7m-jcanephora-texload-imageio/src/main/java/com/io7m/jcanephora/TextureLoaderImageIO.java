@@ -537,11 +537,15 @@ public final class TextureLoaderImageIO implements TextureLoader
     return converted;
   }
 
-  private static BufferedImage getBufferedImage(
+  private static @Nonnull BufferedImage getBufferedImage(
     final @Nonnull InputStream stream)
     throws IOException
   {
-    return ImageIO.read(stream);
+    final BufferedImage r = ImageIO.read(stream);
+    if (r == null) {
+      throw new IOException("Unknown image format");
+    }
+    return r;
   }
 
   private static @Nonnull TextureType inferTextureTypeES2(

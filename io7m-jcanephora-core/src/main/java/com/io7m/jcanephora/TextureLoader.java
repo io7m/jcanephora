@@ -60,7 +60,8 @@ public interface TextureLoader
    * @throws GLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
-   *           Iff an I/O error occurs whilst reading the image.
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
    */
 
   public @Nonnull Texture2DStatic load2DStaticDepth16(
@@ -106,7 +107,8 @@ public interface TextureLoader
    * @throws GLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
-   *           Iff an I/O error occurs whilst reading the image.
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
    */
 
   public @Nonnull Texture2DStatic load2DStaticDepth24(
@@ -152,7 +154,8 @@ public interface TextureLoader
    * @throws GLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
-   *           Iff an I/O error occurs whilst reading the image.
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
    */
 
   public @Nonnull Texture2DStatic load2DStaticDepth32f(
@@ -195,7 +198,8 @@ public interface TextureLoader
    * @throws GLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
-   *           Iff an I/O error occurs whilst reading the image.
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
    */
 
   public @Nonnull Texture2DStatic load2DStaticInferredGL3(
@@ -245,7 +249,8 @@ public interface TextureLoader
    * @throws GLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
-   *           Iff an I/O error occurs whilst reading the image.
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
    */
 
   public @Nonnull Texture2DStatic load2DStaticInferredGLES2(
@@ -291,7 +296,8 @@ public interface TextureLoader
    * @throws GLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
-   *           Iff an I/O error occurs whilst reading the image.
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
    */
 
   public @Nonnull Texture2DStatic load2DStaticR8(
@@ -337,7 +343,8 @@ public interface TextureLoader
    * @throws GLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
-   *           Iff an I/O error occurs whilst reading the image.
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
    */
 
   public @Nonnull Texture2DStatic load2DStaticRG88(
@@ -383,7 +390,8 @@ public interface TextureLoader
    * @throws GLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
-   *           Iff an I/O error occurs whilst reading the image.
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGB565(
@@ -429,7 +437,8 @@ public interface TextureLoader
    * @throws GLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
-   *           Iff an I/O error occurs whilst reading the image.
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGB888(
@@ -475,7 +484,8 @@ public interface TextureLoader
    * @throws GLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
-   *           Iff an I/O error occurs whilst reading the image.
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGBA4444(
@@ -521,7 +531,8 @@ public interface TextureLoader
    * @throws GLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
-   *           Iff an I/O error occurs whilst reading the image.
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGBA5551(
@@ -567,7 +578,8 @@ public interface TextureLoader
    * @throws GLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
-   *           Iff an I/O error occurs whilst reading the image.
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGBA8888(
