@@ -8,7 +8,7 @@
   <artifactId>io7m-jcanephora-texload-imageio</artifactId>
   <name>io7m-jcanephora-texload-imageio</name>
   <description>Implementation of the TextureLoading interface using Java ImageIO</description>
-  <version>0.9.6</version>
+  <version>0.9.7</version>
   <url>http://mvn.io7m.com/jcanephora-texload-imageio</url>
   <packaging>jar</packaging>
 
