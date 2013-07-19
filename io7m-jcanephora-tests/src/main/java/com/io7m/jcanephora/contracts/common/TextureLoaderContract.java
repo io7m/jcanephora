@@ -610,4 +610,41 @@ public abstract class TextureLoaderContract implements
       stream.close();
     }
   }
+
+  /**
+   * Trying to load something of an unknown image format raises an I/O error.
+   * 
+   * @throws GLException
+   * @throws ConstraintError
+   * @throws FilesystemError
+   * @throws IOException
+   */
+
+  @SuppressWarnings("resource") @Test(expected = IOException.class) public final
+    void
+    testNonexistent()
+      throws GLException,
+        GLUnsupportedException,
+        ConstraintError,
+        FilesystemError,
+        IOException
+  {
+    final TestContext tc = this.newTestContext();
+    final FSCapabilityAll fs = tc.getFilesystem();
+    final GLTextures2DStaticCommon gl = this.getGLTextures2DStaticCommon(tc);
+    final TextureLoader loader = this.makeTextureLoader();
+
+    final InputStream stream =
+      fs.openFile(PathVirtual
+        .ofString("/com/io7m/jcanephora/images/not-an-image.txt"));
+
+    loader.load2DStaticInferredGLES2(
+      gl,
+      TextureWrapS.TEXTURE_WRAP_REPEAT,
+      TextureWrapT.TEXTURE_WRAP_REPEAT,
+      TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+      TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
+      stream,
+      "image");
+  }
 }
