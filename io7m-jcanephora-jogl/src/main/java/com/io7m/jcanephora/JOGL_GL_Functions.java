@@ -2029,10 +2029,52 @@ final class JOGL_GL_Functions
     final @Nonnull GLStateCache state)
     throws GLException
   {
-    final int bits =
-      JOGL_GL_Functions.contextGetInteger(gl, state, GL.GL_STENCIL_BITS);
-    JOGL_GL_Functions.checkError(gl);
-    return bits;
+    /**
+     * If a framebuffer is bound, check to see if there's a stencil
+     * attachment.
+     */
+
+    if (JOGL_GL_Functions.framebufferDrawAnyIsBound(gl)) {
+
+      {
+        final IntBuffer cache = state.getIntegerCache();
+        cache.rewind();
+        gl.glGetFramebufferAttachmentParameteriv(
+          GL2ES3.GL_DRAW_FRAMEBUFFER,
+          GL.GL_STENCIL_ATTACHMENT,
+          GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
+          cache);
+        JOGL_GL_Functions.checkError(gl);
+        if (cache.get(0) == GL.GL_NONE) {
+          return 0;
+        }
+      }
+
+      /**
+       * If there's a stencil attachment, check the size of it.
+       */
+
+      {
+        final IntBuffer cache = state.getIntegerCache();
+        cache.rewind();
+        gl.glGetFramebufferAttachmentParameteriv(
+          GL2ES3.GL_DRAW_FRAMEBUFFER,
+          GL.GL_STENCIL_ATTACHMENT,
+          GL2ES3.GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE,
+          cache);
+        JOGL_GL_Functions.checkError(gl);
+        return cache.get(0);
+      }
+    }
+
+    /**
+     * Otherwise, check the capabilities of the OpenGL context for the
+     * capabilities of the default framebuffer.
+     */
+
+    final GLContext context = gl.getContext();
+    final GLDrawable drawable = context.getGLDrawable();
+    return drawable.getChosenGLCapabilities().getStencilBits();
   }
 
   static boolean stencilBufferIsEnabled(
