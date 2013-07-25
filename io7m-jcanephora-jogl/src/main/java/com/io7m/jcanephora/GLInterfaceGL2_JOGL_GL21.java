@@ -609,8 +609,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public boolean framebufferDrawAnyIsBound()
-    throws GLException,
-      ConstraintError
+    throws GLException
   {
     return JOGL_GL_Functions.framebufferDrawAnyIsBound(this.contextGetGL2());
   }
@@ -800,8 +799,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public void framebufferDrawUnbind()
-    throws GLException,
-      ConstraintError
+    throws GLException
   {
     JOGL_GL_Functions.framebufferDrawUnbind(this.contextGetGL2());
   }

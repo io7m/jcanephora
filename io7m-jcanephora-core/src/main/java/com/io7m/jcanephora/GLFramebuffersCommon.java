@@ -63,8 +63,7 @@ public interface GLFramebuffersCommon
    */
 
   boolean framebufferDrawAnyIsBound()
-    throws GLException,
-      ConstraintError;
+    throws GLException;
 
   /**
    * Attach the given color renderbuffer <code>renderbuffer</code> to the
@@ -290,8 +289,7 @@ public interface GLFramebuffersCommon
    */
 
   void framebufferDrawUnbind()
-    throws GLException,
-      ConstraintError;
+    throws GLException;
 
   /**
    * Determine the validity of the framebuffer <code>framebuffer</code>.
