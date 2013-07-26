@@ -1172,22 +1172,22 @@ final class LWJGL_GLES2Functions
   }
 
   static void framebufferDrawBind(
-    final @Nonnull FramebufferReference buffer)
+    final @Nonnull FramebufferReferenceUsable framebuffer)
     throws ConstraintError,
       JCGLException
   {
-    Constraints.constrainNotNull(buffer, "Framebuffer");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
     Constraints.constrainArbitrary(
-      buffer.resourceIsDeleted() == false,
+      framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
 
-    GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER, buffer.getGLName());
+    GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER, framebuffer.getGLName());
     LWJGL_GLES2Functions.checkError();
   }
 
   static boolean framebufferDrawIsBound(
     final @Nonnull JCGLStateCache state,
-    final @Nonnull FramebufferReference framebuffer)
+    final @Nonnull FramebufferReferenceUsable framebuffer)
     throws JCGLException,
       ConstraintError
   {
@@ -1211,7 +1211,7 @@ final class LWJGL_GLES2Functions
 
   static @Nonnull FramebufferStatus framebufferDrawValidate(
     final @Nonnull JCGLStateCache state,
-    final @Nonnull FramebufferReference framebuffer)
+    final @Nonnull FramebufferReferenceUsable framebuffer)
     throws JCGLException,
       ConstraintError
   {

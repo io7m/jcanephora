@@ -26,7 +26,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  */
 
 @Immutable public final class FramebufferReference extends
-  JCGLResourceDeletable implements JCGLName
+  JCGLResourceDeletable implements FramebufferReferenceUsable
 {
   private final int value;
 
