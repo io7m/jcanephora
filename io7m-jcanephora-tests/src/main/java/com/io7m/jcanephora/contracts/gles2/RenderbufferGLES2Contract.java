@@ -13,11 +13,12 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora.contracts.gles2;
 
+import javax.annotation.Nonnull;
+
 import org.junit.Assert;
-import org.junit.Assume;
-import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -28,24 +29,21 @@ import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.RenderbufferType;
 import com.io7m.jcanephora.TestContext;
-import com.io7m.jcanephora.contracts.common.TestContract;
+import com.io7m.jcanephora.contracts.RenderbufferContract;
 
-public abstract class RenderbufferGLES2Contract implements TestContract
+public abstract class RenderbufferGLES2Contract extends
+  RenderbufferContract<GLRenderbuffersGLES2>
 {
-  @Before public final void checkSupport()
+  @Override public final Renderbuffer<?> allocateAnything(
+    final @Nonnull GLRenderbuffersGLES2 r)
+    throws GLException,
+      ConstraintError
   {
-    Assume.assumeTrue(this.isGLSupported());
+    return r.renderbufferAllocateRGB565(128, 128);
   }
-
-  public abstract GLRenderbuffersGLES2 getGLRenderbuffers(
-    TestContext tc);
 
   /**
    * Allocating all of the renderbuffer types works.
-   * 
-   * @throws ConstraintError
-   * @throws GLException
-   *           , GLUnsupportedException
    */
 
   @Test public void testRenderbufferAllocate()
@@ -59,7 +57,7 @@ public abstract class RenderbufferGLES2Contract implements TestContract
     final int width = 128;
     final int height = 128;
 
-    for (final RenderbufferType t : RenderbufferType.getES2Types()) {
+    for (final RenderbufferType t : RenderbufferType.getGLES2Types()) {
       Renderbuffer<?> rb = null;
 
       switch (t) {
@@ -85,56 +83,10 @@ public abstract class RenderbufferGLES2Contract implements TestContract
       }
 
       assert rb != null;
+      Assert.assertEquals(t, rb.getType());
       Assert.assertFalse(rb.resourceIsDeleted());
       gr.renderbufferDelete(rb);
       Assert.assertTrue(rb.resourceIsDeleted());
     }
-  }
-
-  /**
-   * Deleting a renderbuffer works.
-   * 
-   * @throws ConstraintError
-   * @throws GLException
-   *           , GLUnsupportedException
-   */
-
-  @Test public void testRenderbufferDelete()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError
-  {
-    final TestContext tc = this.newTestContext();
-    final GLRenderbuffersGLES2 gr = this.getGLRenderbuffers(tc);
-
-    final Renderbuffer<?> rb = gr.renderbufferAllocateRGB565(128, 128);
-    Assert.assertFalse(rb.resourceIsDeleted());
-    gr.renderbufferDelete(rb);
-    Assert.assertTrue(rb.resourceIsDeleted());
-  }
-
-  /**
-   * Deleting a renderbuffer twice fails.
-   * 
-   * @throws ConstraintError
-   * @throws GLException
-   *           , GLUnsupportedException
-   */
-
-  @Test(expected = ConstraintError.class) public
-    void
-    testRenderbufferDeleteTwice()
-      throws GLException,
-        GLUnsupportedException,
-        ConstraintError
-  {
-    final TestContext tc = this.newTestContext();
-    final GLRenderbuffersGLES2 gr = this.getGLRenderbuffers(tc);
-
-    final Renderbuffer<?> rb = gr.renderbufferAllocateRGB565(128, 128);
-    Assert.assertFalse(rb.resourceIsDeleted());
-    gr.renderbufferDelete(rb);
-    Assert.assertTrue(rb.resourceIsDeleted());
-    gr.renderbufferDelete(rb);
   }
 }

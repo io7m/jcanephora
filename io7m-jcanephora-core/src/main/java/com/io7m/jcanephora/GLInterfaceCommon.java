@@ -38,9 +38,9 @@ public interface GLInterfaceCommon extends
   GLScissor,
   GLShaders,
   GLStencilBuffer,
+  GLTextureUnits,
   GLTextures2DStaticCommon,
   GLTexturesCubeStaticCommon,
-  GLTextureUnits,
   GLViewport
 {
   /*

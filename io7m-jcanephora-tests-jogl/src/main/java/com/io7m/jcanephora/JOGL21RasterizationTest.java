@@ -21,7 +21,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option.Some;
 
 public final class JOGL21RasterizationTest extends
-  com.io7m.jcanephora.contracts.gl3.RasterizationContract
+  com.io7m.jcanephora.contracts.RasterizationContract
 {
   @Override public GLPolygonModes getGLPolygonModes(
     final TestContext tc)

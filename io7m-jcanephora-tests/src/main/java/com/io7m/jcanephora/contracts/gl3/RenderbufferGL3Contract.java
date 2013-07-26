@@ -13,11 +13,12 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora.contracts.gl3;
 
+import javax.annotation.Nonnull;
+
 import org.junit.Assert;
-import org.junit.Assume;
-import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -27,17 +28,18 @@ import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.RenderbufferType;
 import com.io7m.jcanephora.TestContext;
-import com.io7m.jcanephora.contracts.common.TestContract;
+import com.io7m.jcanephora.contracts.RenderbufferContract;
 
-public abstract class RenderbufferGL3Contract implements TestContract
+public abstract class RenderbufferGL3Contract extends
+  RenderbufferContract<GLRenderbuffersGL3>
 {
-  @Before public final void checkSupport()
+  @Override public Renderbuffer<?> allocateAnything(
+    final @Nonnull GLRenderbuffersGL3 gl)
+    throws GLException,
+      ConstraintError
   {
-    Assume.assumeTrue(this.isGLSupported());
+    return gl.renderbufferAllocateRGB888(128, 128);
   }
-
-  public abstract GLRenderbuffersGL3 getGLRenderbuffers(
-    TestContext tc);
 
   /**
    * Allocating all of the renderbuffer types works.
@@ -85,50 +87,4 @@ public abstract class RenderbufferGL3Contract implements TestContract
       }
     }
   }
-
-  /**
-   * Deleting a renderbuffer works.
-   * 
-   * @throws ConstraintError
-   * @throws GLException
-   */
-
-  @Test public void testRenderbufferDelete()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError
-  {
-    final TestContext tc = this.newTestContext();
-    final GLRenderbuffersGL3 gr = this.getGLRenderbuffers(tc);
-
-    final Renderbuffer<?> rb = gr.renderbufferAllocateRGB888(128, 128);
-    Assert.assertFalse(rb.resourceIsDeleted());
-    gr.renderbufferDelete(rb);
-    Assert.assertTrue(rb.resourceIsDeleted());
-  }
-
-  /**
-   * Deleting a renderbuffer twice fails.
-   * 
-   * @throws ConstraintError
-   * @throws GLException
-   */
-
-  @Test(expected = ConstraintError.class) public
-    void
-    testRenderbufferDeleteTwice()
-      throws GLException,
-        GLUnsupportedException,
-        ConstraintError
-  {
-    final TestContext tc = this.newTestContext();
-    final GLRenderbuffersGL3 gr = this.getGLRenderbuffers(tc);
-
-    final Renderbuffer<?> rb = gr.renderbufferAllocateRGB888(128, 128);
-    Assert.assertFalse(rb.resourceIsDeleted());
-    gr.renderbufferDelete(rb);
-    Assert.assertTrue(rb.resourceIsDeleted());
-    gr.renderbufferDelete(rb);
-  }
-
 }

@@ -29,15 +29,15 @@ package com.io7m.jcanephora;
  */
 
 public interface GLInterfaceGL2 extends
-  GLInterfaceCommon,
   GLBlendingGL3,
   GLFramebuffersGL3,
+  GLInterfaceCommon,
   GLLogic,
   GLPolygonModes,
   GLPolygonSmoothing,
-  GLRenderbuffersGL3,
-  GLTexturesCubeStaticGL2,
-  GLTextures2DStaticGL3
+  GLRenderbuffersGL2,
+  GLTextures2DStaticGL2,
+  GLTexturesCubeStaticGL2
 {
   /*
    * All functions defined in the superinterfaces.

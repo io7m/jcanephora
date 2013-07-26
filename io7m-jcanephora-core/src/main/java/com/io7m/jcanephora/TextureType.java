@@ -92,32 +92,76 @@ public enum TextureType
   TEXTURE_TYPE_DEPTH_32F_4BPP;
 
   /**
-   * The subset of texture types supported by ES2
+   * Retrieve the set of the 2D texture types supported by all OpenGL and
+   * OpenGL ES implementations.
    */
 
-  static final @Nonnull TextureType[] ES2_TYPES;
-
-  static {
-    ES2_TYPES =
-      new TextureType[] {
-    TEXTURE_TYPE_RGBA_8888_4BPP,
-    TEXTURE_TYPE_RGBA_5551_2BPP,
-    TEXTURE_TYPE_RGBA_4444_2BPP,
-    TEXTURE_TYPE_RGB_888_3BPP,
-    TEXTURE_TYPE_RGB_565_2BPP };
+  public static Set<TextureType> get2DTypesCommon()
+  {
+    return EnumSet.of(TEXTURE_TYPE_RGBA_8888_4BPP, TEXTURE_TYPE_RGB_888_3BPP);
   }
 
   /**
-   * Retrieve a list of the texture types supported by ES2
+   * Retrieve the set of the 2D texture types supported by OpenGL 2.1.
    */
 
-  public static @Nonnull TextureType[] getES2Types()
+  public static @Nonnull Set<TextureType> get2DTypesGL2()
   {
-    final TextureType[] est = new TextureType[TextureType.ES2_TYPES.length];
-    for (int index = 0; index < TextureType.ES2_TYPES.length; ++index) {
-      est[index] = TextureType.ES2_TYPES[index];
-    }
-    return est;
+    return TextureType.get2DTypesCommon();
+  }
+
+  /**
+   * Retrieve the set of the 2D texture types supported by 3.0.
+   */
+
+  public static @Nonnull Set<TextureType> get2DTypesGL3()
+  {
+    return TextureType.get2DTypesGL3ES3();
+  }
+
+  /**
+   * Retrieve the common set of the 2D texture types supported by both GL 3.*
+   * and ES 3.*.
+   */
+
+  public static @Nonnull Set<TextureType> get2DTypesGL3ES3()
+  {
+    return EnumSet.of(
+      TEXTURE_TYPE_RGBA_8888_4BPP,
+      TEXTURE_TYPE_RGB_888_3BPP,
+      TEXTURE_TYPE_RG_88_2BPP,
+      TEXTURE_TYPE_R_8_1BPP,
+      TEXTURE_TYPE_DEPTH_16_2BPP,
+      TEXTURE_TYPE_DEPTH_24_4BPP,
+      TEXTURE_TYPE_DEPTH_32F_4BPP);
+  }
+
+  /**
+   * Retrieve the set of the 2D texture types supported by ES2.
+   */
+
+  public static @Nonnull Set<TextureType> get2DTypesGLES2()
+  {
+    return EnumSet.of(
+      TEXTURE_TYPE_RGBA_8888_4BPP,
+      TEXTURE_TYPE_RGBA_5551_2BPP,
+      TEXTURE_TYPE_RGBA_4444_2BPP,
+      TEXTURE_TYPE_RGB_888_3BPP,
+      TEXTURE_TYPE_RGB_565_2BPP);
+  }
+
+  /**
+   * Retrieve the set of the 2D texture types supported by ES 3.0.
+   */
+
+  public static @Nonnull Set<TextureType> get2DTypesGLES3()
+  {
+    final Set<TextureType> s0 = TextureType.get2DTypesGL3ES3();
+    final Set<TextureType> s1 = TextureType.get2DTypesGLES2();
+    final EnumSet<TextureType> sn = EnumSet.noneOf(TextureType.class);
+    sn.addAll(s0);
+    sn.addAll(s1);
+    return sn;
   }
 
   /**
@@ -261,4 +305,77 @@ public enum TextureType
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Retrieve the set of the cube texture types supported by all OpenGL and
+   * OpenGL ES implementations.
+   */
+
+  public static Set<TextureType> getCubeTypesCommon()
+  {
+    return EnumSet.of(TEXTURE_TYPE_RGBA_8888_4BPP, TEXTURE_TYPE_RGB_888_3BPP);
+  }
+
+  /**
+   * Retrieve the set of the cube texture types supported by OpenGL 2.1.
+   */
+
+  public static @Nonnull Set<TextureType> getCubeTypesGL2()
+  {
+    return TextureType.getCubeTypesCommon();
+  }
+
+  /**
+   * Retrieve the set of the cube texture types supported by 3.0.
+   */
+
+  public static @Nonnull Set<TextureType> getCubeTypesGL3()
+  {
+    return TextureType.getCubeTypesGL3ES3();
+  }
+
+  /**
+   * Retrieve the common set of the cube texture types supported by GL 3.* and
+   * ES 3.*.
+   */
+
+  public static @Nonnull Set<TextureType> getCubeTypesGL3ES3()
+  {
+    return EnumSet.of(
+      TEXTURE_TYPE_RGBA_8888_4BPP,
+      TEXTURE_TYPE_RGB_888_3BPP,
+      TEXTURE_TYPE_R_8_1BPP,
+      TEXTURE_TYPE_DEPTH_16_2BPP,
+      TEXTURE_TYPE_DEPTH_24_4BPP,
+      TEXTURE_TYPE_DEPTH_32F_4BPP);
+  }
+
+  /**
+   * Retrieve the set of the cube texture types supported by ES2.
+   */
+
+  public static @Nonnull Set<TextureType> getCubeTypesGLES2()
+  {
+    return EnumSet.of(
+      TEXTURE_TYPE_RGBA_8888_4BPP,
+      TEXTURE_TYPE_RGBA_5551_2BPP,
+      TEXTURE_TYPE_RGBA_4444_2BPP,
+      TEXTURE_TYPE_RGB_888_3BPP,
+      TEXTURE_TYPE_RGB_565_2BPP);
+  }
+
+  /**
+   * Retrieve the set of the cube texture types supported by ES 3.0.
+   */
+
+  public static @Nonnull Set<TextureType> getCubeTypesGLES3()
+  {
+    final Set<TextureType> s0 = TextureType.getCubeTypesGL3ES3();
+    final Set<TextureType> s1 = TextureType.getCubeTypesGLES2();
+    final EnumSet<TextureType> sn = EnumSet.noneOf(TextureType.class);
+    sn.addAll(s0);
+    sn.addAll(s1);
+    return sn;
+  }
+
 }

@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option.Some;
-import com.io7m.jcanephora.contracts.common.DrawContract;
+import com.io7m.jcanephora.contracts.DrawContract;
 
 public final class JOGL3pDrawTest extends DrawContract
 {

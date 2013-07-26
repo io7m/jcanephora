@@ -21,7 +21,7 @@ import org.junit.Assert;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option.Some;
-import com.io7m.jcanephora.contracts.common.StencilBuffersContract;
+import com.io7m.jcanephora.contracts.StencilBuffersContract;
 
 public final class JOGL30StencilBuffersTest extends StencilBuffersContract
 {

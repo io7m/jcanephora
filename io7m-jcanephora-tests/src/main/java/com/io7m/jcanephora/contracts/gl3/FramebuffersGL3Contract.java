@@ -63,7 +63,7 @@ import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
-import com.io7m.jcanephora.contracts.common.TestContract;
+import com.io7m.jcanephora.contracts.TestContract;
 
 public abstract class FramebuffersGL3Contract<G extends GLFramebuffersGL3 & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon & GLRenderbuffersGL3> implements
   TestContract
