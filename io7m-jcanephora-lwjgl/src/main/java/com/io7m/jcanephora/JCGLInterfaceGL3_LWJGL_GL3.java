@@ -128,7 +128,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public void arrayBufferBind(
-    final @Nonnull ArrayBuffer buffer)
+    final @Nonnull ArrayBufferUsable buffer)
     throws JCGLException,
       ConstraintError
   {
@@ -136,7 +136,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public void arrayBufferBindVertexAttribute(
-    final @Nonnull ArrayBuffer buffer,
+    final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
@@ -157,7 +157,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public boolean arrayBufferIsBound(
-    final @Nonnull ArrayBuffer id)
+    final @Nonnull ArrayBufferUsable id)
     throws ConstraintError,
       JCGLException
   {
@@ -165,7 +165,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public ByteBuffer arrayBufferMapReadUntyped(
-    final @Nonnull ArrayBuffer id)
+    final @Nonnull ArrayBufferUsable id)
     throws JCGLException,
       ConstraintError
   {
@@ -173,8 +173,8 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public @Nonnull ByteBuffer arrayBufferMapReadUntypedRange(
-    @Nonnull final ArrayBuffer id,
-    @Nonnull final RangeInclusive range)
+    final @Nonnull ArrayBufferUsable id,
+    final @Nonnull RangeInclusive range)
     throws JCGLException,
       ConstraintError
   {
@@ -203,25 +203,24 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public void arrayBufferUnbindVertexAttribute(
-    final @Nonnull ArrayBuffer buffer,
+    final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError
   {
     LWJGL_GLES2Functions.arrayBufferUnbindVertexAttribute(
-
-    buffer, buffer_attribute, program_attribute);
+      buffer,
+      buffer_attribute,
+      program_attribute);
   }
 
   @Override public void arrayBufferUnmap(
-    final @Nonnull ArrayBuffer id)
+    final @Nonnull ArrayBufferUsable id)
     throws ConstraintError,
       JCGLException
   {
-    LWJGL_GL3Functions.arrayBufferUnmap(
-
-    this.state, this.log, id);
+    LWJGL_GL3Functions.arrayBufferUnmap(this.state, this.log, id);
   }
 
   @Override public void arrayBufferUpdate(
@@ -751,8 +750,8 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public
     void
     framebufferDrawSetBuffers(
-      @Nonnull final FramebufferReference framebuffer,
-      @Nonnull final Map<FramebufferDrawBuffer, FramebufferColorAttachmentPoint> mappings)
+      final @Nonnull FramebufferReference framebuffer,
+      final @Nonnull Map<FramebufferDrawBuffer, FramebufferColorAttachmentPoint> mappings)
       throws JCGLException,
         ConstraintError
   {
@@ -797,14 +796,16 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public IndexBuffer indexBufferAllocate(
-    final @Nonnull ArrayBuffer buffer,
+    final @Nonnull ArrayBufferUsable buffer,
     final int indices)
     throws JCGLException,
       ConstraintError
   {
     return LWJGL_GLES2Functions.indexBufferAllocate(
-
-    this.state, this.log, buffer, indices);
+      this.state,
+      this.log,
+      buffer,
+      indices);
   }
 
   @Override public @Nonnull IndexBuffer indexBufferAllocateType(
@@ -814,8 +815,10 @@ import com.io7m.jtensors.VectorReadable4F;
       ConstraintError
   {
     return LWJGL_GLES2Functions.indexBufferAllocateType(
-
-    this.state, this.log, type, indices);
+      this.state,
+      this.log,
+      type,
+      indices);
   }
 
   @Override public void indexBufferDelete(
@@ -823,24 +826,20 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       JCGLException
   {
-    LWJGL_GLES2Functions.indexBufferDelete(
-
-    this.state, this.log, id);
+    LWJGL_GLES2Functions.indexBufferDelete(this.state, this.log, id);
   }
 
   @Override public IndexBufferReadableMap indexBufferMapRead(
-    final @Nonnull IndexBuffer id)
+    final @Nonnull IndexBufferUsable id)
     throws JCGLException,
       ConstraintError
   {
-    return LWJGL_GL3Functions.indexBufferMapRead(
-
-    this.state, this.log, id);
+    return LWJGL_GL3Functions.indexBufferMapRead(this.state, this.log, id);
   }
 
   @Override public @Nonnull IndexBufferReadableMap indexBufferMapReadRange(
-    @Nonnull final IndexBuffer id,
-    @Nonnull final RangeInclusive range)
+    final @Nonnull IndexBufferUsable id,
+    final @Nonnull RangeInclusive range)
     throws JCGLException,
       ConstraintError
   {
@@ -856,19 +855,15 @@ import com.io7m.jtensors.VectorReadable4F;
     throws JCGLException,
       ConstraintError
   {
-    return LWJGL_GL3Functions.indexBufferMapWrite(
-
-    this.state, this.log, id);
+    return LWJGL_GL3Functions.indexBufferMapWrite(this.state, this.log, id);
   }
 
   @Override public void indexBufferUnmap(
-    final @Nonnull IndexBuffer id)
+    final @Nonnull IndexBufferUsable id)
     throws ConstraintError,
       JCGLException
   {
-    LWJGL_GL3Functions.indexBufferUnmap(
-
-    this.state, this.log, id);
+    LWJGL_GL3Functions.indexBufferUnmap(this.state, this.log, id);
   }
 
   @Override public void indexBufferUpdate(

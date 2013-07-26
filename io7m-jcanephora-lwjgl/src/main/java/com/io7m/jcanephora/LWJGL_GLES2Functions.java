@@ -105,7 +105,7 @@ final class LWJGL_GLES2Functions
   }
 
   static void arrayBufferBind(
-    final @Nonnull ArrayBuffer buffer)
+    final @Nonnull ArrayBufferUsable buffer)
     throws JCGLException,
       ConstraintError
   {
@@ -119,7 +119,7 @@ final class LWJGL_GLES2Functions
   }
 
   static void arrayBufferBindVertexAttribute(
-    final @Nonnull ArrayBuffer buffer,
+    final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
@@ -197,7 +197,7 @@ final class LWJGL_GLES2Functions
   }
 
   static boolean arrayBufferIsBound(
-    final @Nonnull ArrayBuffer id)
+    final @Nonnull ArrayBufferUsable id)
     throws ConstraintError,
       JCGLException
   {
@@ -219,7 +219,7 @@ final class LWJGL_GLES2Functions
   }
 
   static void arrayBufferUnbindVertexAttribute(
-    final @Nonnull ArrayBuffer buffer,
+    final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
@@ -1292,7 +1292,7 @@ final class LWJGL_GLES2Functions
   static IndexBuffer indexBufferAllocate(
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull ArrayBuffer buffer,
+    final @Nonnull ArrayBufferUsable buffer,
     final int indices)
     throws JCGLException,
       ConstraintError
