@@ -212,8 +212,12 @@ public final class Program extends JCGLResourceDeletable implements
           "<none>",
           "at least one vertex shader is required");
       }
+
+      final JCGLVersion v = gl.metaGetVersion();
+
       if (this.vertex_shaders.size() > 1) {
-        if (gl.metaIsES() && (gl.metaGetVersionMajor() == 2)) {
+        if (v.isES()
+          && ((v.getVersionMajor() >= 2) && (v.getVersionMajor() <= 3))) {
           throw new JCGLCompileException(
             "<none>",
             "ES2 forbids multiple vertex shader attachments");
@@ -226,8 +230,8 @@ public final class Program extends JCGLResourceDeletable implements
           "at least one fragment shader is required");
       }
       if (this.fragment_shaders.size() > 1) {
-        final int vm = gl.metaGetVersionMajor();
-        if (gl.metaIsES() && ((vm >= 2) && (vm <= 3))) {
+        if (v.isES()
+          && ((v.getVersionMajor() >= 2) && (v.getVersionMajor() <= 3))) {
           throw new JCGLCompileException(
             "<none>",
             "ES2/ES3 forbids multiple fragment shader attachments");

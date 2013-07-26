@@ -13,6 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora.contracts;
 
 import org.junit.Assert;
@@ -24,6 +25,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLMeta;
 import com.io7m.jcanephora.JCGLUnsupportedException;
+import com.io7m.jcanephora.JCGLVersion;
 import com.io7m.jcanephora.TestContext;
 
 public abstract class MetaContract implements TestContract
@@ -45,7 +47,7 @@ public abstract class MetaContract implements TestContract
     final JCGLMeta gl = this.getGLMeta(tc);
 
     final String vn = gl.metaGetVendor();
-    final String vr = gl.metaGetVersion();
+    final JCGLVersion vr = gl.metaGetVersion();
     final String r = gl.metaGetRenderer();
 
     Assert.assertNotNull(vn);
@@ -56,8 +58,8 @@ public abstract class MetaContract implements TestContract
     System.out.println("Version       : " + vr);
     System.out.println("Renderer      : " + r);
 
-    System.out.println("Version major : " + gl.metaGetVersionMajor());
-    System.out.println("Version minor : " + gl.metaGetVersionMinor());
-    System.out.println("isES          : " + gl.metaIsES());
+    System.out.println("Version major : " + vr.getVersionMajor());
+    System.out.println("Version minor : " + vr.getVersionMinor());
+    System.out.println("isES          : " + vr.isES());
   }
 }
