@@ -16,88 +16,11 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
-
 /**
  * Type-safe interface to the renderbuffer API exposed by OpenGL 3.*.
  */
 
-public interface GLRenderbuffersGL3 extends GLRenderbuffersCommon
+public interface GLRenderbuffersGL3 extends GLRenderbuffersGL3ES3
 {
-  /**
-   * Allocate a packed depth/stencil renderbuffer.
-   * 
-   * See {@link RenderbufferType#RENDERBUFFER_DEPTH_24_STENCIL_8} for the
-   * precise format.
-   * 
-   * @return A freshly allocated renderbuffer.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>1 <= width <= Integer.MAX_VALUE == false</code></li>
-   *           <li><code>1 <= height <= Integer.MAX_VALUE == false</code></li>
-   *           <li>
-   *           <code>renderbufferSupportsDepth24Stencil8() == false</code></li>
-   *           </ul>
-   * @throws GLException
-   *           Iff an OpenGL exception occurs.
-   */
-
-  @Nonnull
-    Renderbuffer<RenderableDepthStencil>
-    renderbufferAllocateDepth24Stencil8(
-      final int width,
-      final int height)
-      throws ConstraintError,
-        GLException;
-
-  /**
-   * Allocate a color renderbuffer.
-   * 
-   * See {@link RenderbufferType#RENDERBUFFER_COLOR_RGB_888} for the precise
-   * format.
-   * 
-   * @return A freshly allocated renderbuffer.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>1 <= width <= Integer.MAX_VALUE == false</code></li>
-   *           <li><code>1 <= height <= Integer.MAX_VALUE == false</code></li>
-   *           <li><code>renderbufferSupportsRGB888() == false</code></li>
-   *           </ul>
-   * @throws GLException
-   *           Iff an OpenGL exception occurs.
-   */
-
-  @Nonnull Renderbuffer<RenderableColor> renderbufferAllocateRGB888(
-    final int width,
-    final int height)
-    throws ConstraintError,
-      GLException;
-
-  /**
-   * Allocate a color renderbuffer.
-   * 
-   * See {@link RenderbufferType#RENDERBUFFER_COLOR_RGBA_8888} for the precise
-   * format.
-   * 
-   * @return A freshly allocated renderbuffer.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>1 <= width <= Integer.MAX_VALUE == false</code></li>
-   *           <li><code>1 <= height <= Integer.MAX_VALUE == false</code></li>
-   *           <li><code>renderbufferSupportsRGBA8888() == false</code></li>
-   *           </ul>
-   * @throws GLException
-   *           Iff an OpenGL exception occurs.
-   */
-
-  @Nonnull Renderbuffer<RenderableColor> renderbufferAllocateRGBA8888(
-    final int width,
-    final int height)
-    throws ConstraintError,
-      GLException;
+  // No extra functions.
 }

@@ -23,7 +23,7 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jaux.functional.Option.Some;
-import com.io7m.jcanephora.contracts.gl3.LogicOpContract;
+import com.io7m.jcanephora.contracts.LogicOpContract;
 
 public final class JOGL3pLogicOperationTest extends LogicOpContract
 {

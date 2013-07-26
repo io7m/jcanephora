@@ -18,7 +18,7 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts.common.ProgramContract;
+import com.io7m.jcanephora.contracts.ProgramContract;
 
 public final class LWJGL3xProgramTest extends ProgramContract
 {

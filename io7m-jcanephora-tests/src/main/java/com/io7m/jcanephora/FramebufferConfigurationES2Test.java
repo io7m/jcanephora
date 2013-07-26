@@ -31,8 +31,8 @@ public final class FramebufferConfigurationES2Test
   @SuppressWarnings("static-method") @Test public void testBestRGB2DNulls()
     throws ConstraintError
   {
-    final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2Actual(128, 256);
+    final FramebufferConfigurationGL3ES2 config =
+      new FramebufferConfigurationGL3ES2Actual(128, 256);
     config.requestNoDepth();
     config.requestNoStencil();
 
@@ -90,8 +90,8 @@ public final class FramebufferConfigurationES2Test
   @SuppressWarnings("static-method") @Test public void testBestRGBA2DNulls()
     throws ConstraintError
   {
-    final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2Actual(128, 256);
+    final FramebufferConfigurationGL3ES2 config =
+      new FramebufferConfigurationGL3ES2Actual(128, 256);
     config.requestNoDepth();
     config.requestNoStencil();
 
@@ -151,8 +151,8 @@ public final class FramebufferConfigurationES2Test
     testBestRGBACubeNulls()
       throws ConstraintError
   {
-    final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2Actual(128, 256);
+    final FramebufferConfigurationGL3ES2 config =
+      new FramebufferConfigurationGL3ES2Actual(128, 256);
     config.requestNoDepth();
     config.requestNoStencil();
 
@@ -225,8 +225,8 @@ public final class FramebufferConfigurationES2Test
   @SuppressWarnings("static-method") @Test public void testBestRGBCubeNulls()
     throws ConstraintError
   {
-    final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2Actual(128, 256);
+    final FramebufferConfigurationGL3ES2 config =
+      new FramebufferConfigurationGL3ES2Actual(128, 256);
     config.requestNoDepth();
     config.requestNoStencil();
 
@@ -299,8 +299,8 @@ public final class FramebufferConfigurationES2Test
   @SuppressWarnings("static-method") @Test public void testCubeSizeFails()
     throws ConstraintError
   {
-    final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2Actual(128, 256);
+    final FramebufferConfigurationGL3ES2 config =
+      new FramebufferConfigurationGL3ES2Actual(128, 256);
     int rejected = 0;
 
     try {
@@ -331,51 +331,51 @@ public final class FramebufferConfigurationES2Test
   @SuppressWarnings("static-method") @Test public void testEquals()
     throws ConstraintError
   {
-    final FramebufferConfigurationGLES2 c0 =
-      new FramebufferConfigurationGLES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 c0 =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
 
     Assert.assertFalse(c0.equals(null));
     Assert.assertFalse(c0.equals(Integer.valueOf(23)));
     Assert.assertTrue(c0.equals(c0));
 
     {
-      final FramebufferConfigurationGLES2 c1 =
-        new FramebufferConfigurationGLES2Actual(128, 129);
+      final FramebufferConfigurationGL3ES2 c1 =
+        new FramebufferConfigurationGL3ES2Actual(128, 129);
       Assert.assertFalse(c0.equals(c1));
     }
 
     {
-      final FramebufferConfigurationGLES2 c1 =
-        new FramebufferConfigurationGLES2Actual(127, 128);
+      final FramebufferConfigurationGL3ES2 c1 =
+        new FramebufferConfigurationGL3ES2Actual(127, 128);
       Assert.assertFalse(c0.equals(c1));
     }
 
     {
-      final FramebufferConfigurationGLES2 c1 =
-        new FramebufferConfigurationGLES2Actual(128, 128);
+      final FramebufferConfigurationGL3ES2 c1 =
+        new FramebufferConfigurationGL3ES2Actual(128, 128);
       c1.requestBestRGBAColorRenderbuffer();
       Assert.assertFalse(c0.equals(c1));
     }
 
     {
-      final FramebufferConfigurationGLES2 c1 =
-        new FramebufferConfigurationGLES2Actual(128, 128);
+      final FramebufferConfigurationGL3ES2 c1 =
+        new FramebufferConfigurationGL3ES2Actual(128, 128);
       c1.requestNoDepth();
       c1.requestNoStencil();
-      final FramebufferConfigurationGLES2 c2 =
-        new FramebufferConfigurationGLES2Actual(128, 128);
+      final FramebufferConfigurationGL3ES2 c2 =
+        new FramebufferConfigurationGL3ES2Actual(128, 128);
       c2.requestDepthRenderbuffer();
       c2.requestNoStencil();
       Assert.assertFalse(c1.equals(c2));
     }
 
     {
-      final FramebufferConfigurationGLES2 c1 =
-        new FramebufferConfigurationGLES2Actual(128, 128);
+      final FramebufferConfigurationGL3ES2 c1 =
+        new FramebufferConfigurationGL3ES2Actual(128, 128);
       c1.requestNoDepth();
       c1.requestNoStencil();
-      final FramebufferConfigurationGLES2 c2 =
-        new FramebufferConfigurationGLES2Actual(128, 128);
+      final FramebufferConfigurationGL3ES2 c2 =
+        new FramebufferConfigurationGL3ES2Actual(128, 128);
       c2.requestNoDepth();
       c2.requestStencilRenderbuffer();
       Assert.assertFalse(c1.equals(c2));
@@ -385,10 +385,10 @@ public final class FramebufferConfigurationES2Test
   @SuppressWarnings("static-method") @Test public void testHashCode()
     throws ConstraintError
   {
-    final FramebufferConfigurationGLES2 c0 =
-      new FramebufferConfigurationGLES2Actual(128, 128);
-    final FramebufferConfigurationGLES2 c1 =
-      new FramebufferConfigurationGLES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 c0 =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 c1 =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
 
     c0.requestNoDepth();
     c0.requestNoStencil();
@@ -412,8 +412,8 @@ public final class FramebufferConfigurationES2Test
   @SuppressWarnings("static-method") @Test public void testIdentities()
     throws ConstraintError
   {
-    final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2Actual(128, 256);
+    final FramebufferConfigurationGL3ES2 config =
+      new FramebufferConfigurationGL3ES2Actual(128, 256);
 
     Assert.assertEquals(128, config.getWidth());
     Assert.assertEquals(256, config.getHeight());
@@ -422,12 +422,12 @@ public final class FramebufferConfigurationES2Test
   @SuppressWarnings("static-method") @Test public void testString()
     throws ConstraintError
   {
-    final FramebufferConfigurationGLES2 c0 =
-      new FramebufferConfigurationGLES2Actual(128, 256);
-    final FramebufferConfigurationGLES2 c1 =
-      new FramebufferConfigurationGLES2Actual(128, 256);
-    final FramebufferConfigurationGLES2 c2 =
-      new FramebufferConfigurationGLES2Actual(128, 300);
+    final FramebufferConfigurationGL3ES2 c0 =
+      new FramebufferConfigurationGL3ES2Actual(128, 256);
+    final FramebufferConfigurationGL3ES2 c1 =
+      new FramebufferConfigurationGL3ES2Actual(128, 256);
+    final FramebufferConfigurationGL3ES2 c2 =
+      new FramebufferConfigurationGL3ES2Actual(128, 300);
 
     Assert.assertEquals(c0.toString(), c0.toString());
     Assert.assertEquals(c0.toString(), c1.toString());
@@ -444,7 +444,7 @@ public final class FramebufferConfigurationES2Test
     expected = ConstraintError.class) public void testZeroHeight()
     throws ConstraintError
   {
-    new FramebufferConfigurationGLES2Actual(256, 0);
+    new FramebufferConfigurationGL3ES2Actual(256, 0);
   }
 
   /**
@@ -457,6 +457,6 @@ public final class FramebufferConfigurationES2Test
     expected = ConstraintError.class) public void testZeroWidth()
     throws ConstraintError
   {
-    new FramebufferConfigurationGLES2Actual(0, 256);
+    new FramebufferConfigurationGL3ES2Actual(0, 256);
   }
 }

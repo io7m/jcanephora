@@ -22,16 +22,12 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
  * <p>
- * Type-safe interface to the cube map texture API exposed by OpenGL ES 3.*.
- * </p>
- * <p>
- * The textures are manipulated using the standard <code>glTexImageCube</code>
- * family of functions, internally and the functions are intended for use with
- * textures that are not frequently updated.
+ * Type-safe interface to the set of cube texture types guaranteed to be
+ * supported by OpenGL 3.*.
  * </p>
  */
 
-public interface GLTexturesCubeStaticGL3 extends GLTexturesCubeStaticGLES3
+public interface GLTexturesCubeStaticGL3 extends GLTexturesCubeStaticGL3ES3
 {
   /**
    * <p>

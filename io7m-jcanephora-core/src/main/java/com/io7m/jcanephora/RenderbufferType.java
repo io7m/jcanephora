@@ -16,6 +16,9 @@
 
 package com.io7m.jcanephora;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.UnreachableCodeException;
@@ -76,33 +79,56 @@ public enum RenderbufferType
   RENDERBUFFER_COLOR_RGB_888;
 
   /**
-   * The subset of renderbuffer types supported by ES2
+   * The subset of renderbuffer types supported by both OpenGL 3.* and ES 3.*.
    */
 
-  static final @Nonnull RenderbufferType[] ES2_TYPES;
-
-  static {
-    ES2_TYPES =
-      new RenderbufferType[] {
-    RENDERBUFFER_DEPTH_16,
-    RENDERBUFFER_STENCIL_8,
-    RENDERBUFFER_COLOR_RGBA_5551,
-    RENDERBUFFER_COLOR_RGBA_4444,
-    RENDERBUFFER_COLOR_RGB_565 };
+  public static @Nonnull Set<RenderbufferType> getGL3ES3Types()
+  {
+    return EnumSet.of(
+      RENDERBUFFER_DEPTH_24_STENCIL_8,
+      RENDERBUFFER_COLOR_RGBA_8888,
+      RENDERBUFFER_COLOR_RGB_888);
   }
 
   /**
-   * Retrieve a list of the texture types supported by ES2
+   * The subset of renderbuffer types supported by OpenGL 3.*.
    */
 
-  public static @Nonnull RenderbufferType[] getES2Types()
+  public static @Nonnull Set<RenderbufferType> getGL3Types()
   {
-    final RenderbufferType[] est =
-      new RenderbufferType[RenderbufferType.ES2_TYPES.length];
-    for (int index = 0; index < RenderbufferType.ES2_TYPES.length; ++index) {
-      est[index] = RenderbufferType.ES2_TYPES[index];
-    }
-    return est;
+    return EnumSet.of(
+      RENDERBUFFER_DEPTH_24_STENCIL_8,
+      RENDERBUFFER_COLOR_RGBA_8888,
+      RENDERBUFFER_COLOR_RGB_888);
+  }
+
+  /**
+   * The subset of renderbuffer types supported by OpenGL ES2.
+   */
+
+  public static @Nonnull Set<RenderbufferType> getGLES2Types()
+  {
+    return EnumSet.of(
+      RENDERBUFFER_DEPTH_16,
+      RENDERBUFFER_STENCIL_8,
+      RENDERBUFFER_COLOR_RGBA_5551,
+      RENDERBUFFER_COLOR_RGBA_4444,
+      RENDERBUFFER_COLOR_RGB_565);
+  }
+
+  /**
+   * The set of renderbuffer types supported by ES 3.*.
+   */
+
+  public static @Nonnull Set<RenderbufferType> getGLES3Types()
+  {
+    final Set<RenderbufferType> e0 = RenderbufferType.getGLES2Types();
+    final Set<RenderbufferType> e1 = RenderbufferType.getGL3Types();
+    final EnumSet<RenderbufferType> s0 =
+      EnumSet.noneOf(RenderbufferType.class);
+    s0.addAll(e0);
+    s0.addAll(e1);
+    return s0;
   }
 
   /**

@@ -21,7 +21,7 @@ import org.junit.Assert;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option.Some;
-import com.io7m.jcanephora.contracts.common.DepthBuffersContract;
+import com.io7m.jcanephora.contracts.DepthBuffersContract;
 
 public final class LWJGL30DepthBuffersTest extends DepthBuffersContract
 {

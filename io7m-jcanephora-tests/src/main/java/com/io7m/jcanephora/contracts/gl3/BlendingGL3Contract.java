@@ -27,7 +27,7 @@ import com.io7m.jcanephora.GLBlendingGL3;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
-import com.io7m.jcanephora.contracts.common.TestContract;
+import com.io7m.jcanephora.contracts.TestContract;
 
 public abstract class BlendingGL3Contract implements TestContract
 {
