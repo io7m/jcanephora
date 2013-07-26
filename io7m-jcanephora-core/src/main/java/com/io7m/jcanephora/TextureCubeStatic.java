@@ -26,7 +26,7 @@ import com.io7m.jaux.RangeInclusive;
  * Cube-map "static" texture type.
  */
 
-public final class TextureCubeStatic extends GLResourceDeletable implements
+public final class TextureCubeStatic extends JCGLResourceDeletable implements
   TextureCubeStaticUsable
 {
   private final int                                 id;

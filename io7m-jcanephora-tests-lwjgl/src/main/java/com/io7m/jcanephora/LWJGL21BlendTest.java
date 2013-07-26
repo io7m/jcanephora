@@ -28,8 +28,8 @@ public final class LWJGL21BlendTest extends BlendingGLES2Contract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL21_X();

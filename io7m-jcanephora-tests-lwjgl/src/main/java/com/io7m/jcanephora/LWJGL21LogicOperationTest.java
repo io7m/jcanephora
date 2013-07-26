@@ -27,11 +27,11 @@ import com.io7m.jcanephora.contracts.LogicOpContract;
 
 public final class LWJGL21LogicOperationTest extends LogicOpContract
 {
-  @Override public GLLogic getGLLogic(
+  @Override public JCGLLogic getGLLogic(
     final TestContext tc)
   {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
+    final Some<JCGLInterfaceGL2> some =
+      (Some<JCGLInterfaceGL2>) tc.getGLImplementation().getGL2();
     return some.value;
   }
 
@@ -41,8 +41,8 @@ public final class LWJGL21LogicOperationTest extends LogicOpContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL21_X();

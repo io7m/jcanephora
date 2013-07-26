@@ -28,8 +28,8 @@ public final class LWJGL3xFramebuffersES2Test extends FramebuffersES2Contract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL3_X();

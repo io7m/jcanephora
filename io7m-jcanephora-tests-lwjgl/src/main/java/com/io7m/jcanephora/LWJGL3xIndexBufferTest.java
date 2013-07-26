@@ -23,19 +23,19 @@ import com.io7m.jcanephora.contracts.IndexBufferContract;
 
 public final class LWJGL3xIndexBufferTest extends IndexBufferContract
 {
-  @Override public GLArrayBuffers getGLArrayBuffers(
+  @Override public JCGLArrayBuffers getGLArrayBuffers(
     final TestContext tc)
   {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    final Some<JCGLInterfaceGL3> some =
+      (Some<JCGLInterfaceGL3>) tc.getGLImplementation().getGL3();
     return some.value;
   }
 
-  @Override public GLIndexBuffers getGLIndexBuffers(
+  @Override public JCGLIndexBuffers getGLIndexBuffers(
     final TestContext tc)
   {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    final Some<JCGLInterfaceGL3> some =
+      (Some<JCGLInterfaceGL3>) tc.getGLImplementation().getGL3();
     return some.value;
   }
 
@@ -45,8 +45,8 @@ public final class LWJGL3xIndexBufferTest extends IndexBufferContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL3_X();

@@ -28,8 +28,8 @@ public final class JOGLES2ProgramTest extends ProgramContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL_ES2();

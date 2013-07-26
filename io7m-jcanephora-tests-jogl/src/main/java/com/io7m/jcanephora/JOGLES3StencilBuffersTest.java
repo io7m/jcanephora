@@ -25,19 +25,19 @@ import com.io7m.jcanephora.contracts.StencilBuffersContract;
 
 public final class JOGLES3StencilBuffersTest extends StencilBuffersContract
 {
-  @Override public GLFramebuffersCommon getGLFramebuffers(
+  @Override public JCGLFramebuffersCommon getGLFramebuffers(
     final TestContext tc)
   {
-    final Some<GLInterfaceGLES3> some =
-      (Some<GLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
+    final Some<JCGLInterfaceGLES3> some =
+      (Some<JCGLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
     return some.value;
   }
 
-  @Override public GLStencilBuffer getGLStencilBuffer(
+  @Override public JCGLStencilBuffer getGLStencilBuffer(
     final TestContext tc)
   {
-    final Some<GLInterfaceGLES3> some =
-      (Some<GLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
+    final Some<JCGLInterfaceGLES3> some =
+      (Some<JCGLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
     return some.value;
   }
 
@@ -49,13 +49,13 @@ public final class JOGLES3StencilBuffersTest extends StencilBuffersContract
   @Override public @Nonnull
     FramebufferReference
     makeFramebufferWithoutStencil(
-      @Nonnull final GLImplementation gi)
+      @Nonnull final JCGLImplementation gi)
       throws ConstraintError,
-        GLException
+        JCGLException
   {
-    final Some<GLInterfaceGLES3> some =
-      (Some<GLInterfaceGLES3>) gi.getGLES3();
-    final GLInterfaceGLES3 g = some.value;
+    final Some<JCGLInterfaceGLES3> some =
+      (Some<JCGLInterfaceGLES3>) gi.getGLES3();
+    final JCGLInterfaceGLES3 g = some.value;
 
     final FramebufferReference fb = g.framebufferAllocate();
     final Renderbuffer<RenderableColor> cb =
@@ -74,13 +74,13 @@ public final class JOGLES3StencilBuffersTest extends StencilBuffersContract
   }
 
   @Override public @Nonnull FramebufferReference makeFramebufferWithStencil(
-    @Nonnull final GLImplementation gi)
+    @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
-    final Some<GLInterfaceGLES3> some =
-      (Some<GLInterfaceGLES3>) gi.getGLES3();
-    final GLInterfaceGLES3 g = some.value;
+    final Some<JCGLInterfaceGLES3> some =
+      (Some<JCGLInterfaceGLES3>) gi.getGLES3();
+    final JCGLInterfaceGLES3 g = some.value;
 
     final FramebufferReference fb = g.framebufferAllocate();
     final Renderbuffer<RenderableDepthStencil> db =
@@ -102,8 +102,8 @@ public final class JOGLES3StencilBuffersTest extends StencilBuffersContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL_ES3();

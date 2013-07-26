@@ -42,7 +42,7 @@ public class ArrayBufferWritableDataTest
     throws ConstraintError
   {
     final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[1];
-    ab[0] = new ArrayBufferAttribute("color", GLScalarType.TYPE_FLOAT, 2);
+    ab[0] = new ArrayBufferAttribute("color", JCGLScalarType.TYPE_FLOAT, 2);
     final ArrayBufferDescriptor type = new ArrayBufferDescriptor(ab);
     final ArrayBuffer array = new ArrayBuffer(1, 4, type);
     return array;
@@ -52,7 +52,7 @@ public class ArrayBufferWritableDataTest
     throws ConstraintError
   {
     final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[1];
-    ab[0] = new ArrayBufferAttribute("color", GLScalarType.TYPE_FLOAT, 3);
+    ab[0] = new ArrayBufferAttribute("color", JCGLScalarType.TYPE_FLOAT, 3);
     final ArrayBufferDescriptor type = new ArrayBufferDescriptor(ab);
     final ArrayBuffer array = new ArrayBuffer(1, 4, type);
     return array;
@@ -62,7 +62,7 @@ public class ArrayBufferWritableDataTest
     throws ConstraintError
   {
     final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[1];
-    ab[0] = new ArrayBufferAttribute("color", GLScalarType.TYPE_FLOAT, 4);
+    ab[0] = new ArrayBufferAttribute("color", JCGLScalarType.TYPE_FLOAT, 4);
     final ArrayBufferDescriptor type = new ArrayBufferDescriptor(ab);
     final ArrayBuffer array = new ArrayBuffer(1, 4, type);
     return array;
@@ -81,7 +81,7 @@ public class ArrayBufferWritableDataTest
 
     try {
       final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[1];
-      ab[0] = new ArrayBufferAttribute("color", GLScalarType.TYPE_FLOAT, 4);
+      ab[0] = new ArrayBufferAttribute("color", JCGLScalarType.TYPE_FLOAT, 4);
       final ArrayBufferDescriptor type = new ArrayBufferDescriptor(ab);
       final ArrayBuffer array = new ArrayBuffer(1, 4, type);
       data = new ArrayBufferWritableData(array);
@@ -106,7 +106,7 @@ public class ArrayBufferWritableDataTest
 
     try {
       final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[1];
-      ab[0] = new ArrayBufferAttribute("color", GLScalarType.TYPE_INT, 2);
+      ab[0] = new ArrayBufferAttribute("color", JCGLScalarType.TYPE_INT, 2);
       final ArrayBufferDescriptor type = new ArrayBufferDescriptor(ab);
       final ArrayBuffer array = new ArrayBuffer(1, 4, type);
       data = new ArrayBufferWritableData(array);
@@ -160,7 +160,7 @@ public class ArrayBufferWritableDataTest
 
     try {
       final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[1];
-      ab[0] = new ArrayBufferAttribute("color", GLScalarType.TYPE_FLOAT, 4);
+      ab[0] = new ArrayBufferAttribute("color", JCGLScalarType.TYPE_FLOAT, 4);
       final ArrayBufferDescriptor type = new ArrayBufferDescriptor(ab);
       final ArrayBuffer array = new ArrayBuffer(1, 4, type);
       data = new ArrayBufferWritableData(array);
@@ -185,7 +185,7 @@ public class ArrayBufferWritableDataTest
 
     try {
       final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[1];
-      ab[0] = new ArrayBufferAttribute("color", GLScalarType.TYPE_INT, 3);
+      ab[0] = new ArrayBufferAttribute("color", JCGLScalarType.TYPE_INT, 3);
       final ArrayBufferDescriptor type = new ArrayBufferDescriptor(ab);
       final ArrayBuffer array = new ArrayBuffer(1, 4, type);
       data = new ArrayBufferWritableData(array);
@@ -239,7 +239,7 @@ public class ArrayBufferWritableDataTest
 
     try {
       final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[1];
-      ab[0] = new ArrayBufferAttribute("color", GLScalarType.TYPE_FLOAT, 3);
+      ab[0] = new ArrayBufferAttribute("color", JCGLScalarType.TYPE_FLOAT, 3);
       final ArrayBufferDescriptor type = new ArrayBufferDescriptor(ab);
       final ArrayBuffer array = new ArrayBuffer(1, 4, type);
       data = new ArrayBufferWritableData(array);
@@ -264,7 +264,7 @@ public class ArrayBufferWritableDataTest
 
     try {
       final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[1];
-      ab[0] = new ArrayBufferAttribute("color", GLScalarType.TYPE_INT, 4);
+      ab[0] = new ArrayBufferAttribute("color", JCGLScalarType.TYPE_INT, 4);
       final ArrayBufferDescriptor type = new ArrayBufferDescriptor(ab);
       final ArrayBuffer array = new ArrayBuffer(1, 4, type);
       data = new ArrayBufferWritableData(array);

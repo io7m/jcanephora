@@ -26,8 +26,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * An immutable reference to a fragment shader.
  */
 
-@Immutable public final class FragmentShader extends GLResourceDeletable implements
-  GLName
+@Immutable public final class FragmentShader extends JCGLResourceDeletable implements
+  JCGLName
 {
   private final int             id;
   private final @Nonnull String name;

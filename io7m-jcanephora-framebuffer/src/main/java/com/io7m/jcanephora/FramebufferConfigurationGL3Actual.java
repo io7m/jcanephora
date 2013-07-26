@@ -109,19 +109,19 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
         new HashMap<FramebufferColorAttachmentPoint, AttachmentColor>();
     }
 
-      <G extends GLFramebuffersGL3 & GLRenderbuffersGL3 & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon>
+      <G extends JCGLFramebuffersGL3 & JCGLRenderbuffersGL3 & JCGLTextures2DStaticCommon & JCGLTexturesCubeStaticCommon>
       void
       emergencyCleanup(
         final @Nonnull G gl)
         throws ConstraintError,
-          GLException
+          JCGLException
     {
-      GLException saved = null;
+      JCGLException saved = null;
 
       if (this.framebuffer != null) {
         try {
           gl.framebufferDelete(this.framebuffer);
-        } catch (final GLException e) {
+        } catch (final JCGLException e) {
           saved = e;
         }
       }
@@ -220,17 +220,17 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   /**
    * Attach all allocated buffers to the current framebuffer on OpenGL 3.0.
    * 
-   * @throws GLException
+   * @throws JCGLException
    * @throws ConstraintError
    */
 
   private static
-    <G extends GLRenderbuffersGL3 & GLFramebuffersGL3>
+    <G extends JCGLRenderbuffersGL3 & JCGLFramebuffersGL3>
     void
     attachBuffers(
       final @Nonnull WorkingBuffers buffers,
       final @Nonnull G gl)
-      throws GLException,
+      throws JCGLException,
         ConstraintError
   {
     gl.framebufferDrawBind(buffers.framebuffer);
@@ -242,8 +242,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
   private static void attachColorBuffers(
     final WorkingBuffers buffers,
-    final GLFramebuffersGL3 gl)
-    throws GLException,
+    final JCGLFramebuffersGL3 gl)
+    throws JCGLException,
       ConstraintError
   {
     for (final Entry<FramebufferColorAttachmentPoint, AttachmentColor> e : buffers.attachments_color
@@ -326,8 +326,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
   private static void attachDepthBuffers_GL3(
     final WorkingBuffers buffers,
-    final GLFramebuffersGL3 gl)
-    throws GLException,
+    final JCGLFramebuffersGL3 gl)
+    throws JCGLException,
       ConstraintError
   {
     if (buffers.attachment_depth != null) {
@@ -367,12 +367,12 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   }
 
   private static
-    <G extends GLRenderbuffersGL3 & GLFramebuffersGL3>
+    <G extends JCGLRenderbuffersGL3 & JCGLFramebuffersGL3>
     void
     attachStencilBuffers(
       final WorkingBuffers buffers,
       final G gl)
-      throws GLException,
+      throws JCGLException,
         ConstraintError
   {
     if (buffers.attachment_stencil != null) {
@@ -486,8 +486,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   }
 
   private @Nonnull AttachmentColorRenderbuffer allocateBestRGBARenderbuffer(
-    final @Nonnull GLRenderbuffersGL3 gl)
-    throws GLException,
+    final @Nonnull JCGLRenderbuffersGL3 gl)
+    throws JCGLException,
       ConstraintError
   {
     return new AttachmentColorRenderbuffer(gl.renderbufferAllocateRGBA8888(
@@ -496,10 +496,10 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   }
 
   private @Nonnull AttachmentColorTexture2DStatic allocateBestRGBATexture2D(
-    final @Nonnull GLTextures2DStaticCommon gl,
+    final @Nonnull JCGLTextures2DStaticCommon gl,
     final @Nonnull String name,
     final @Nonnull ColorRequest req)
-    throws GLException,
+    throws JCGLException,
       ConstraintError
   {
     return new AttachmentColorTexture2DStatic(
@@ -516,10 +516,10 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private @Nonnull
     AttachmentColorTextureCubeStatic
     allocateBestRGBATextureCube(
-      final @Nonnull GLTexturesCubeStaticCommon gl,
+      final @Nonnull JCGLTexturesCubeStaticCommon gl,
       final @Nonnull String name,
       final @Nonnull ColorRequest req)
-      throws GLException,
+      throws JCGLException,
         ConstraintError
   {
     return new AttachmentColorTextureCubeStatic(
@@ -534,8 +534,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   }
 
   private @Nonnull AttachmentColorRenderbuffer allocateBestRGBRenderbuffer(
-    final @Nonnull GLRenderbuffersGL3 gl)
-    throws GLException,
+    final @Nonnull JCGLRenderbuffersGL3 gl)
+    throws JCGLException,
       ConstraintError
   {
     return new AttachmentColorRenderbuffer(gl.renderbufferAllocateRGB888(
@@ -544,10 +544,10 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   }
 
   private @Nonnull AttachmentColorTexture2DStatic allocateBestRGBTexture2D(
-    final @Nonnull GLTextures2DStaticCommon gl,
+    final @Nonnull JCGLTextures2DStaticCommon gl,
     final @Nonnull String name,
     final @Nonnull ColorRequest req)
-    throws GLException,
+    throws JCGLException,
       ConstraintError
   {
     return new AttachmentColorTexture2DStatic(
@@ -564,10 +564,10 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private @Nonnull
     AttachmentColorTextureCubeStatic
     allocateBestRGBTextureCube(
-      final @Nonnull GLTexturesCubeStaticCommon gl,
+      final @Nonnull JCGLTexturesCubeStaticCommon gl,
       final @Nonnull String name,
       final @Nonnull ColorRequest req)
-      throws GLException,
+      throws JCGLException,
         ConstraintError
   {
     return new AttachmentColorTextureCubeStatic(
@@ -582,12 +582,12 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   }
 
   private
-    <G extends GLRenderbuffersGL3 & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon>
+    <G extends JCGLRenderbuffersGL3 & JCGLTextures2DStaticCommon & JCGLTexturesCubeStaticCommon>
     void
     allocateColorBuffers(
       final @Nonnull WorkingBuffers buffers,
       final @Nonnull G gl)
-      throws GLException,
+      throws JCGLException,
         ConstraintError
   {
     for (final Entry<FramebufferColorAttachmentPoint, ColorRequest> e : this.want_color
@@ -661,10 +661,10 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     }
   }
 
-  private <G extends GLRenderbuffersGL3> void allocateDepthStencil(
+  private <G extends JCGLRenderbuffersGL3> void allocateDepthStencil(
     final @Nonnull WorkingBuffers buffers,
     final @Nonnull G gl)
-    throws GLException,
+    throws JCGLException,
       ConstraintError
   {
     switch (this.want_stencil) {
@@ -788,11 +788,11 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   }
 
   @Override public @Nonnull
-    <G extends GLFramebuffersGL3 & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon & GLRenderbuffersGL3>
+    <G extends JCGLFramebuffersGL3 & JCGLTextures2DStaticCommon & JCGLTexturesCubeStaticCommon & JCGLRenderbuffersGL3>
     Indeterminate<Framebuffer, FramebufferStatus>
     make(
       final @Nonnull G gl)
-      throws GLException,
+      throws JCGLException,
         ConstraintError
   {
     final WorkingBuffers buffers = new WorkingBuffers();
@@ -1237,12 +1237,12 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
    */
 
   private
-    <G extends GLFramebuffersGL3 & GLRenderbuffersGL3 & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon>
+    <G extends JCGLFramebuffersGL3 & JCGLRenderbuffersGL3 & JCGLTextures2DStaticCommon & JCGLTexturesCubeStaticCommon>
     Indeterminate<Framebuffer, FramebufferStatus>
     validateAndMakeState(
       final @Nonnull WorkingBuffers buffers,
       final @Nonnull G gl)
-      throws GLException,
+      throws JCGLException,
         ConstraintError
   {
     final FramebufferStatus status =

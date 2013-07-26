@@ -23,19 +23,19 @@ import com.io7m.jcanephora.contracts.IndexBufferContract;
 
 public final class LWJGLES2IndexBufferTest extends IndexBufferContract
 {
-  @Override public GLArrayBuffers getGLArrayBuffers(
+  @Override public JCGLArrayBuffers getGLArrayBuffers(
     final TestContext tc)
   {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    final Some<JCGLInterfaceGLES2> some =
+      (Some<JCGLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
     return some.value;
   }
 
-  @Override public GLIndexBuffers getGLIndexBuffers(
+  @Override public JCGLIndexBuffers getGLIndexBuffers(
     final TestContext tc)
   {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    final Some<JCGLInterfaceGLES2> some =
+      (Some<JCGLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
     return some.value;
   }
 
@@ -45,8 +45,8 @@ public final class LWJGLES2IndexBufferTest extends IndexBufferContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL_ES2();

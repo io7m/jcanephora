@@ -28,8 +28,8 @@ public final class JOGL21ProgramTest extends ProgramContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL2_1();

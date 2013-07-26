@@ -23,11 +23,11 @@ import com.io7m.jcanephora.contracts.ScissorContract;
 
 public final class LWJGLES2ScissorTest extends ScissorContract
 {
-  @Override public GLScissor getGLScissor(
+  @Override public JCGLScissor getGLScissor(
     final TestContext tc)
   {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    final Some<JCGLInterfaceGLES2> some =
+      (Some<JCGLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
     return some.value;
   }
 
@@ -37,8 +37,8 @@ public final class LWJGLES2ScissorTest extends ScissorContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL_ES2();

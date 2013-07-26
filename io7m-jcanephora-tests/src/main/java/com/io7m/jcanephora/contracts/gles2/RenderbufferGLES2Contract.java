@@ -23,20 +23,20 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLRenderbuffersGLES2;
-import com.io7m.jcanephora.GLUnsupportedException;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRenderbuffersGLES2;
+import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.RenderbufferType;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.contracts.RenderbufferContract;
 
 public abstract class RenderbufferGLES2Contract extends
-  RenderbufferContract<GLRenderbuffersGLES2>
+  RenderbufferContract<JCGLRenderbuffersGLES2>
 {
   @Override public final Renderbuffer<?> allocateAnything(
-    final @Nonnull GLRenderbuffersGLES2 r)
-    throws GLException,
+    final @Nonnull JCGLRenderbuffersGLES2 r)
+    throws JCGLException,
       ConstraintError
   {
     return r.renderbufferAllocateRGB565(128, 128);
@@ -47,12 +47,12 @@ public abstract class RenderbufferGLES2Contract extends
    */
 
   @Test public void testRenderbufferAllocate()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLRenderbuffersGLES2 gr = this.getGLRenderbuffers(tc);
+    final JCGLRenderbuffersGLES2 gr = this.getGLRenderbuffers(tc);
 
     final int width = 128;
     final int height = 128;
