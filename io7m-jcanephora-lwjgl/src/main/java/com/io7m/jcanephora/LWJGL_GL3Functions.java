@@ -40,7 +40,7 @@ final class LWJGL_GL3Functions
   static ByteBuffer arrayBufferMapRead(
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull ArrayBuffer id)
+    final @Nonnull ArrayBufferUsable id)
     throws JCGLException,
       ConstraintError
   {
@@ -70,7 +70,7 @@ final class LWJGL_GL3Functions
   static ByteBuffer arrayBufferMapReadRange(
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull ArrayBuffer id,
+    final @Nonnull ArrayBufferUsable id,
     final @Nonnull RangeInclusive range)
     throws ConstraintError,
       JCGLException
@@ -152,7 +152,7 @@ final class LWJGL_GL3Functions
   static void arrayBufferUnmap(
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull ArrayBuffer id)
+    final @Nonnull ArrayBufferUsable id)
     throws ConstraintError,
       JCGLException
   {
@@ -777,22 +777,22 @@ final class LWJGL_GL3Functions
   }
 
   static void framebufferDrawBind(
-    final @Nonnull FramebufferReference buffer)
+    final @Nonnull FramebufferReferenceUsable framebuffer)
     throws ConstraintError,
       JCGLException
   {
-    Constraints.constrainNotNull(buffer, "Framebuffer");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
     Constraints.constrainArbitrary(
-      buffer.resourceIsDeleted() == false,
+      framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
 
-    GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER, buffer.getGLName());
+    GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER, framebuffer.getGLName());
     LWJGL_GLES2Functions.checkError();
   }
 
   static boolean framebufferDrawIsBound(
     final @Nonnull JCGLStateCache state,
-    final @Nonnull FramebufferReference framebuffer)
+    final @Nonnull FramebufferReferenceUsable framebuffer)
     throws JCGLException,
       ConstraintError
   {
@@ -869,7 +869,7 @@ final class LWJGL_GL3Functions
 
   static @Nonnull FramebufferStatus framebufferDrawValidate(
     final @Nonnull JCGLStateCache state,
-    final @Nonnull FramebufferReference framebuffer)
+    final @Nonnull FramebufferReferenceUsable framebuffer)
     throws JCGLException,
       ConstraintError
   {
@@ -891,7 +891,7 @@ final class LWJGL_GL3Functions
   static IndexBufferReadableMap indexBufferMapRead(
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull IndexBuffer id)
+    final @Nonnull IndexBufferUsable id)
     throws JCGLException,
       ConstraintError
   {
@@ -923,7 +923,7 @@ final class LWJGL_GL3Functions
   static IndexBufferReadableMap indexBufferMapReadRange(
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull IndexBuffer id,
+    final @Nonnull IndexBufferUsable id,
     final @Nonnull RangeInclusive range)
     throws ConstraintError,
       JCGLException
@@ -1006,7 +1006,7 @@ final class LWJGL_GL3Functions
   static void indexBufferUnmap(
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull IndexBuffer id)
+    final @Nonnull IndexBufferUsable id)
     throws ConstraintError,
       JCGLException
   {
