@@ -23,21 +23,24 @@ import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
+ * <p>
  * Immutable attribute descriptor for an array buffer.
- * 
+ * </p>
+ * <p>
  * If array buffers are considered as arrays of records, this type represents
  * a single field of the type of the record used.
+ * </p>
  */
 
 @Immutable public final class ArrayBufferAttribute
 {
   private @Nonnull final String       name;
-  private @Nonnull final GLScalarType type;
+  private @Nonnull final JCGLScalarType type;
   private final int                   elements;
 
   public ArrayBufferAttribute(
     final @Nonnull String name,
-    final @Nonnull GLScalarType type,
+    final @Nonnull JCGLScalarType type,
     final int elements)
     throws ConstraintError
   {
@@ -49,6 +52,32 @@ import com.io7m.jaux.Constraints.ConstraintError;
         1,
         Integer.MAX_VALUE,
         "Element size");
+  }
+
+  @Override public boolean equals(
+    final Object obj)
+  {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (this.getClass() != obj.getClass()) {
+      return false;
+    }
+    final ArrayBufferAttribute other =
+      (ArrayBufferAttribute) obj;
+    if (this.elements != other.elements) {
+      return false;
+    }
+    if (!this.name.equals(other.name)) {
+      return false;
+    }
+    if (this.type != other.type) {
+      return false;
+    }
+    return true;
   }
 
   /**
@@ -73,8 +102,31 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * Retrieve the type of the attribute.
    */
 
-  @Nonnull GLScalarType getType()
+  @Nonnull JCGLScalarType getType()
   {
     return this.type;
+  }
+
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + this.elements;
+    result = (prime * result) + this.name.hashCode();
+    result = (prime * result) + this.type.hashCode();
+    return result;
+  }
+
+  @Override public String toString()
+  {
+    final StringBuilder builder = new StringBuilder();
+    builder.append("[ArrayBufferAttributeDescriptor ");
+    builder.append(this.name);
+    builder.append(" ");
+    builder.append(this.type);
+    builder.append(" ");
+    builder.append(this.elements);
+    builder.append("]");
+    return builder.toString();
   }
 }

@@ -35,7 +35,7 @@ public class ArrayBufferDescriptorTest
     new ArrayBufferDescriptor(
       new ArrayBufferAttribute[] { new ArrayBufferAttribute(
         "position",
-        GLScalarType.TYPE_FLOAT,
+        JCGLScalarType.TYPE_FLOAT,
         0) });
   }
 
@@ -52,7 +52,7 @@ public class ArrayBufferDescriptorTest
     new ArrayBufferDescriptor(
       new ArrayBufferAttribute[] { new ArrayBufferAttribute(
         null,
-        GLScalarType.TYPE_FLOAT,
+        JCGLScalarType.TYPE_FLOAT,
         3) });
   }
 
@@ -70,8 +70,8 @@ public class ArrayBufferDescriptorTest
     ArrayBufferAttribute an = null;
 
     try {
-      ap = new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 3);
-      an = new ArrayBufferAttribute("position", GLScalarType.TYPE_INT, 4);
+      ap = new ArrayBufferAttribute("position", JCGLScalarType.TYPE_FLOAT, 3);
+      an = new ArrayBufferAttribute("position", JCGLScalarType.TYPE_INT, 4);
     } catch (final Exception e) {
       Assert.fail(e.getMessage());
     }
@@ -89,18 +89,18 @@ public class ArrayBufferDescriptorTest
       throws ConstraintError
   {
     final ArrayBufferAttribute ap =
-      new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 3);
+      new ArrayBufferAttribute("position", JCGLScalarType.TYPE_FLOAT, 3);
     final ArrayBufferAttribute an =
-      new ArrayBufferAttribute("normal", GLScalarType.TYPE_FLOAT, 3);
+      new ArrayBufferAttribute("normal", JCGLScalarType.TYPE_FLOAT, 3);
     final ArrayBufferAttribute au =
-      new ArrayBufferAttribute("uv", GLScalarType.TYPE_FLOAT, 2);
+      new ArrayBufferAttribute("uv", JCGLScalarType.TYPE_FLOAT, 2);
 
     final ArrayBufferDescriptor a =
       new ArrayBufferDescriptor(new ArrayBufferAttribute[] { ap, an, au });
 
     Assert.assertEquals(0, a.getAttributeOffset("position"));
     Assert.assertEquals(
-      GLScalarType.TYPE_FLOAT,
+      JCGLScalarType.TYPE_FLOAT,
       a.getAttributeType("position"));
     Assert.assertEquals(3, a.getAttributeElements("position"));
     Assert.assertEquals(0, a.getElementOffset("position", 0));
@@ -109,14 +109,14 @@ public class ArrayBufferDescriptorTest
 
     Assert.assertEquals(3 * 4, a.getAttributeOffset("normal"));
     Assert
-      .assertEquals(GLScalarType.TYPE_FLOAT, a.getAttributeType("normal"));
+      .assertEquals(JCGLScalarType.TYPE_FLOAT, a.getAttributeType("normal"));
     Assert.assertEquals(3, a.getAttributeElements("normal"));
     Assert.assertEquals((3 * 4) + 0, a.getElementOffset("normal", 0));
     Assert.assertEquals((3 * 4) + 4, a.getElementOffset("normal", 1));
     Assert.assertEquals((3 * 4) + 8, a.getElementOffset("normal", 2));
 
     Assert.assertEquals(6 * 4, a.getAttributeOffset("uv"));
-    Assert.assertEquals(GLScalarType.TYPE_FLOAT, a.getAttributeType("uv"));
+    Assert.assertEquals(JCGLScalarType.TYPE_FLOAT, a.getAttributeType("uv"));
     Assert.assertEquals(2, a.getAttributeElements("uv"));
     Assert.assertEquals((6 * 4) + 0, a.getElementOffset("uv", 0));
     Assert.assertEquals((6 * 4) + 4, a.getElementOffset("uv", 1));
@@ -133,7 +133,7 @@ public class ArrayBufferDescriptorTest
 
     try {
       final ArrayBufferAttribute ap =
-        new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 3);
+        new ArrayBufferAttribute("position", JCGLScalarType.TYPE_FLOAT, 3);
       a = new ArrayBufferDescriptor(new ArrayBufferAttribute[] { ap });
     } catch (final Exception e) {
       Assert.fail(e.getMessage());

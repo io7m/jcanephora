@@ -26,8 +26,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * An immutable reference to a vertex shader.
  */
 
-@Immutable public final class VertexShader extends GLResourceDeletable implements
-  GLName
+@Immutable public final class VertexShader extends JCGLResourceDeletable implements
+  JCGLName
 {
   private final int             id;
   private final @Nonnull String name;

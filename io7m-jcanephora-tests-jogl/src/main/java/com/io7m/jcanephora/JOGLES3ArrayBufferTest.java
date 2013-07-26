@@ -23,19 +23,19 @@ import com.io7m.jcanephora.contracts.ArrayBufferContract;
 
 public final class JOGLES3ArrayBufferTest extends ArrayBufferContract
 {
-  @Override public @Nonnull GLArrayBuffers getGLArrayBuffers(
+  @Override public @Nonnull JCGLArrayBuffers getGLArrayBuffers(
     @Nonnull final TestContext context)
   {
-    final Some<GLInterfaceGLES3> some =
-      (Some<GLInterfaceGLES3>) context.getGLImplementation().getGLES3();
+    final Some<JCGLInterfaceGLES3> some =
+      (Some<JCGLInterfaceGLES3>) context.getGLImplementation().getGLES3();
     return some.value;
   }
 
-  @Override public @Nonnull GLShaders getGLPrograms(
+  @Override public @Nonnull JCGLShaders getGLPrograms(
     @Nonnull final TestContext context)
   {
-    final Some<GLInterfaceGLES3> some =
-      (Some<GLInterfaceGLES3>) context.getGLImplementation().getGLES3();
+    final Some<JCGLInterfaceGLES3> some =
+      (Some<JCGLInterfaceGLES3>) context.getGLImplementation().getGLES3();
     return some.value;
   }
 
@@ -45,8 +45,8 @@ public final class JOGLES3ArrayBufferTest extends ArrayBufferContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL_ES3();

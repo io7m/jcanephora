@@ -23,7 +23,7 @@ import javax.media.opengl.GL2ES3;
 import javax.media.opengl.GL2GL3;
 
 import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jcanephora.GLType.Type;
+import com.io7m.jcanephora.JCGLType.Type;
 
 final class JOGL_GLTypeConversions
 {
@@ -540,31 +540,31 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final @Nonnull GLScalarType scalarTypeFromGL(
+  static final @Nonnull JCGLScalarType scalarTypeFromGL(
     final int type)
   {
     switch (type) {
       case GL.GL_BYTE:
-        return GLScalarType.TYPE_BYTE;
+        return JCGLScalarType.TYPE_BYTE;
       case GL.GL_UNSIGNED_BYTE:
-        return GLScalarType.TYPE_UNSIGNED_BYTE;
+        return JCGLScalarType.TYPE_UNSIGNED_BYTE;
       case GL.GL_SHORT:
-        return GLScalarType.TYPE_SHORT;
+        return JCGLScalarType.TYPE_SHORT;
       case GL.GL_UNSIGNED_SHORT:
-        return GLScalarType.TYPE_UNSIGNED_SHORT;
+        return JCGLScalarType.TYPE_UNSIGNED_SHORT;
       case GL2ES2.GL_INT:
-        return GLScalarType.TYPE_INT;
+        return JCGLScalarType.TYPE_INT;
       case GL.GL_UNSIGNED_INT:
-        return GLScalarType.TYPE_UNSIGNED_INT;
+        return JCGLScalarType.TYPE_UNSIGNED_INT;
       case GL.GL_FLOAT:
-        return GLScalarType.TYPE_FLOAT;
+        return JCGLScalarType.TYPE_FLOAT;
     }
 
     throw new UnreachableCodeException();
   }
 
   static final int scalarTypeToGL(
-    final @Nonnull GLScalarType type)
+    final @Nonnull JCGLScalarType type)
   {
     switch (type) {
       case TYPE_BYTE:
@@ -872,23 +872,23 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final @Nonnull GLUnsignedType unsignedTypeFromGL(
+  static final @Nonnull JCGLUnsignedType unsignedTypeFromGL(
     final int type)
   {
     switch (type) {
       case GL.GL_UNSIGNED_BYTE:
-        return GLUnsignedType.TYPE_UNSIGNED_BYTE;
+        return JCGLUnsignedType.TYPE_UNSIGNED_BYTE;
       case GL.GL_UNSIGNED_SHORT:
-        return GLUnsignedType.TYPE_UNSIGNED_SHORT;
+        return JCGLUnsignedType.TYPE_UNSIGNED_SHORT;
       case GL.GL_UNSIGNED_INT:
-        return GLUnsignedType.TYPE_UNSIGNED_INT;
+        return JCGLUnsignedType.TYPE_UNSIGNED_INT;
     }
 
     throw new UnreachableCodeException();
   }
 
   static final int unsignedTypeToGL(
-    final @Nonnull GLUnsignedType type)
+    final @Nonnull JCGLUnsignedType type)
   {
     switch (type) {
       case TYPE_UNSIGNED_BYTE:

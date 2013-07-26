@@ -25,10 +25,10 @@ import com.io7m.jcanephora.ArrayBufferWritableData;
 import com.io7m.jcanephora.CursorWritable2f;
 import com.io7m.jcanephora.CursorWritable4f;
 import com.io7m.jcanephora.CursorWritableIndex;
-import com.io7m.jcanephora.GLCompileException;
-import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterfaceCommon;
-import com.io7m.jcanephora.GLScalarType;
+import com.io7m.jcanephora.JCGLCompileException;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLInterfaceCommon;
+import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.Primitives;
@@ -59,7 +59,7 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleTexturedQuadAnimatedNoise implements Example
 {
-  private final GLInterfaceCommon       gl;
+  private final JCGLInterfaceCommon       gl;
   private final ArrayBufferDescriptor   array_type;
   private final ArrayBuffer             array;
   private final ArrayBufferWritableData array_data;
@@ -77,8 +77,8 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
   public ExampleTexturedQuadAnimatedNoise(
     final @Nonnull ExampleConfig config)
     throws ConstraintError,
-      GLException,
-      GLCompileException
+      JCGLException,
+      JCGLCompileException
   {
     this.config = config;
     this.matrix_modelview = new MatrixM4x4F();
@@ -134,8 +134,8 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
      */
 
     final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[2];
-    ab[0] = new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 4);
-    ab[1] = new ArrayBufferAttribute("uv", GLScalarType.TYPE_FLOAT, 2);
+    ab[0] = new ArrayBufferAttribute("position", JCGLScalarType.TYPE_FLOAT, 4);
+    ab[1] = new ArrayBufferAttribute("uv", JCGLScalarType.TYPE_FLOAT, 2);
     this.array_type = new ArrayBufferDescriptor(ab);
     this.array =
       this.gl.arrayBufferAllocate(
@@ -200,8 +200,8 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
   }
 
   @Override public void display()
-    throws GLException,
-      GLCompileException,
+    throws JCGLException,
+      JCGLCompileException,
       ConstraintError
   {
     this.gl.colorBufferClear3f(0.15f, 0.15f, 0.15f);
@@ -330,9 +330,9 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
   @Override public void reshape(
     final @Nonnull VectorReadable2I position,
     final @Nonnull VectorReadable2I size)
-    throws GLException,
+    throws JCGLException,
       ConstraintError,
-      GLCompileException
+      JCGLCompileException
   {
     ProjectionMatrix.makeOrthographic(
       this.matrix_projection,
@@ -347,9 +347,9 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
   }
 
   @Override public void shutdown()
-    throws GLException,
+    throws JCGLException,
       ConstraintError,
-      GLCompileException
+      JCGLCompileException
   {
     this.has_shut_down = true;
     this.gl.arrayBufferDelete(this.array);

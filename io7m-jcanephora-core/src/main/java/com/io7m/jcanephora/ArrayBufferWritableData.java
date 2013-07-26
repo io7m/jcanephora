@@ -131,7 +131,7 @@ public final class ArrayBufferWritableData
       a.getElements() == 2,
       "Attribute has two elements");
     Constraints.constrainArbitrary(
-      a.getType() == GLScalarType.TYPE_FLOAT,
+      a.getType() == JCGLScalarType.TYPE_FLOAT,
       "Attribute elements are of type float");
 
     return new ByteBufferCursorWritable2f(
@@ -173,7 +173,7 @@ public final class ArrayBufferWritableData
       a.getElements() == 3,
       "Attribute has three elements");
     Constraints.constrainArbitrary(
-      a.getType() == GLScalarType.TYPE_FLOAT,
+      a.getType() == JCGLScalarType.TYPE_FLOAT,
       "Attribute elements are of type float");
 
     return new ByteBufferCursorWritable3f(
@@ -215,7 +215,7 @@ public final class ArrayBufferWritableData
       a.getElements() == 4,
       "Attribute has four elements");
     Constraints.constrainArbitrary(
-      a.getType() == GLScalarType.TYPE_FLOAT,
+      a.getType() == JCGLScalarType.TYPE_FLOAT,
       "Attribute elements are of type float");
 
     return new ByteBufferCursorWritable4f(

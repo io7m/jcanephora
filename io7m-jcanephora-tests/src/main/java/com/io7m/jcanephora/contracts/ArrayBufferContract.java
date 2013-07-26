@@ -36,12 +36,12 @@ import com.io7m.jcanephora.ArrayBufferDescriptor;
 import com.io7m.jcanephora.ArrayBufferWritableData;
 import com.io7m.jcanephora.CursorWritable3f;
 import com.io7m.jcanephora.FragmentShader;
-import com.io7m.jcanephora.GLArrayBuffers;
-import com.io7m.jcanephora.GLCompileException;
-import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLScalarType;
-import com.io7m.jcanephora.GLShaders;
-import com.io7m.jcanephora.GLUnsupportedException;
+import com.io7m.jcanephora.JCGLArrayBuffers;
+import com.io7m.jcanephora.JCGLCompileException;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLScalarType;
+import com.io7m.jcanephora.JCGLShaders;
+import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramReference;
 import com.io7m.jcanephora.TestContext;
@@ -54,14 +54,14 @@ import com.io7m.jvvfs.PathVirtual;
 public abstract class ArrayBufferContract implements TestContract
 {
   @SuppressWarnings("resource") static ProgramReference makeProgram(
-    final GLShaders gl,
+    final JCGLShaders gl,
     final FSCapabilityAll filesystem,
     final PathVirtual vertex_shader,
     final PathVirtual fragment_shader)
-    throws GLException,
+    throws JCGLException,
       ConstraintError,
       FilesystemError,
-      GLCompileException,
+      JCGLCompileException,
       IOException
   {
     final ProgramReference pr = gl.programCreate("program");
@@ -86,11 +86,11 @@ public abstract class ArrayBufferContract implements TestContract
 
   private static @Nonnull ProgramReference makeStandardPositionProgram(
     final @Nonnull TestContext context,
-    final @Nonnull GLShaders shaders)
+    final @Nonnull JCGLShaders shaders)
     throws ConstraintError,
-      GLException,
+      JCGLException,
       FilesystemError,
-      GLCompileException,
+      JCGLCompileException,
       IOException
   {
     final FSCapabilityAll fs = context.getFilesystem();
@@ -143,10 +143,10 @@ public abstract class ArrayBufferContract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  public abstract @Nonnull GLArrayBuffers getGLArrayBuffers(
+  public abstract @Nonnull JCGLArrayBuffers getGLArrayBuffers(
     final @Nonnull TestContext context);
 
-  public abstract @Nonnull GLShaders getGLPrograms(
+  public abstract @Nonnull JCGLShaders getGLPrograms(
     final @Nonnull TestContext context);
 
   /**
@@ -155,11 +155,11 @@ public abstract class ArrayBufferContract implements TestContract
 
   @Test public final void testArrayBufferAllocate()
     throws ConstraintError,
-      GLException,
-      GLUnsupportedException
+      JCGLException,
+      JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers gl = this.getGLArrayBuffers(tc);
+    final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
     ArrayBuffer a = null;
 
@@ -168,7 +168,7 @@ public abstract class ArrayBufferContract implements TestContract
         new ArrayBufferDescriptor(
           new ArrayBufferAttribute[] { new ArrayBufferAttribute(
             "position",
-            GLScalarType.TYPE_FLOAT,
+            JCGLScalarType.TYPE_FLOAT,
             3) });
 
       a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
@@ -191,17 +191,17 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferAllocateZeroElements()
       throws ConstraintError,
-        GLException,
-        GLUnsupportedException
+        JCGLException,
+        JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers gl = this.getGLArrayBuffers(tc);
+    final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
           "position",
-          GLScalarType.TYPE_FLOAT,
+          JCGLScalarType.TYPE_FLOAT,
           3) });
 
     gl.arrayBufferAllocate(0, d, UsageHint.USAGE_STATIC_DRAW);
@@ -215,17 +215,17 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferBindDeleted()
       throws ConstraintError,
-        GLException,
-        GLUnsupportedException
+        JCGLException,
+        JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers gl = this.getGLArrayBuffers(tc);
+    final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
           "position",
-          GLScalarType.TYPE_SHORT,
+          JCGLScalarType.TYPE_SHORT,
           1) });
     final ArrayBuffer a =
       gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
@@ -244,17 +244,17 @@ public abstract class ArrayBufferContract implements TestContract
 
   @Test public final void testArrayBufferBinding()
     throws ConstraintError,
-      GLException,
-      GLUnsupportedException
+      JCGLException,
+      JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers gl = this.getGLArrayBuffers(tc);
+    final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
           "position",
-          GLScalarType.TYPE_SHORT,
+          JCGLScalarType.TYPE_SHORT,
           1) });
     final ArrayBuffer a =
       gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
@@ -268,7 +268,7 @@ public abstract class ArrayBufferContract implements TestContract
   /**
    * Attempting to bind a vertex attribute with a deleted array fails.
    * 
-   * @throws GLException
+   * @throws JCGLException
    *           , GLUnsupportedException
    * @throws ConstraintError
    */
@@ -276,18 +276,18 @@ public abstract class ArrayBufferContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testArrayBufferBindVertexAttributeDeletedArray()
-      throws GLException,
-        GLUnsupportedException,
+      throws JCGLException,
+        JCGLUnsupportedException,
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers gl = this.getGLArrayBuffers(tc);
+    final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
           "position",
-          GLScalarType.TYPE_SHORT,
+          JCGLScalarType.TYPE_SHORT,
           1) });
     final ArrayBuffer a =
       gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
@@ -298,7 +298,7 @@ public abstract class ArrayBufferContract implements TestContract
   /**
    * Attempting to bind a vertex attribute with a null array fails.
    * 
-   * @throws GLException
+   * @throws JCGLException
    *           , GLUnsupportedException
    * @throws ConstraintError
    */
@@ -306,12 +306,12 @@ public abstract class ArrayBufferContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testArrayBufferBindVertexAttributeNullArray()
-      throws GLException,
-        GLUnsupportedException,
+      throws JCGLException,
+        JCGLUnsupportedException,
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers gl = this.getGLArrayBuffers(tc);
+    final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
     gl.arrayBufferBindVertexAttribute(null, null, null);
   }
@@ -319,7 +319,7 @@ public abstract class ArrayBufferContract implements TestContract
   /**
    * Attempting to bind a vertex attribute with a null attribute fails.
    * 
-   * @throws GLException
+   * @throws JCGLException
    *           , GLUnsupportedException
    * @throws ConstraintError
    */
@@ -327,18 +327,18 @@ public abstract class ArrayBufferContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testArrayBufferBindVertexAttributeNullAttribute()
-      throws GLException,
-        GLUnsupportedException,
+      throws JCGLException,
+        JCGLUnsupportedException,
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers gl = this.getGLArrayBuffers(tc);
+    final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
           "position",
-          GLScalarType.TYPE_SHORT,
+          JCGLScalarType.TYPE_SHORT,
           1) });
     final ArrayBuffer a =
       gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
@@ -349,7 +349,7 @@ public abstract class ArrayBufferContract implements TestContract
    * Attempting to bind a vertex attribute with a null program attribute
    * fails.
    * 
-   * @throws GLException
+   * @throws JCGLException
    *           , GLUnsupportedException
    * @throws ConstraintError
    */
@@ -357,18 +357,18 @@ public abstract class ArrayBufferContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testArrayBufferBindVertexAttributeNullProgramAttribute()
-      throws GLException,
-        GLUnsupportedException,
+      throws JCGLException,
+        JCGLUnsupportedException,
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers gl = this.getGLArrayBuffers(tc);
+    final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
           "position",
-          GLScalarType.TYPE_SHORT,
+          JCGLScalarType.TYPE_SHORT,
           1) });
     final ArrayBuffer a =
       gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
@@ -378,25 +378,25 @@ public abstract class ArrayBufferContract implements TestContract
   /**
    * Binding a vertex attribute works.
    * 
-   * @throws GLException
+   * @throws JCGLException
    *           , GLUnsupportedException
    * @throws ConstraintError
    * @throws FilesystemError
    * @throws IOException
-   * @throws GLCompileException
+   * @throws JCGLCompileException
    */
 
   @Test public final void testArrayBufferBindVertexAttributeOK()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError,
-      GLCompileException,
+      JCGLCompileException,
       IOException,
       FilesystemError
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final GLShaders gp = this.getGLPrograms(tc);
+    final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
+    final JCGLShaders gp = this.getGLPrograms(tc);
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
@@ -410,7 +410,7 @@ public abstract class ArrayBufferContract implements TestContract
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
           "position",
-          GLScalarType.TYPE_FLOAT,
+          JCGLScalarType.TYPE_FLOAT,
           3) });
     final ArrayBuffer a =
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
@@ -427,16 +427,16 @@ public abstract class ArrayBufferContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testArrayBufferBindVertexAttributeWrongArray()
-      throws GLException,
-        GLUnsupportedException,
+      throws JCGLException,
+        JCGLUnsupportedException,
         ConstraintError,
-        GLCompileException,
+        JCGLCompileException,
         IOException,
         FilesystemError
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final GLShaders gp = this.getGLPrograms(tc);
+    final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
+    final JCGLShaders gp = this.getGLPrograms(tc);
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
@@ -450,13 +450,13 @@ public abstract class ArrayBufferContract implements TestContract
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
           "position",
-          GLScalarType.TYPE_FLOAT,
+          JCGLScalarType.TYPE_FLOAT,
           3) });
     final ArrayBufferDescriptor d1 =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
           "position",
-          GLScalarType.TYPE_FLOAT,
+          JCGLScalarType.TYPE_FLOAT,
           3) });
 
     final ArrayBuffer a =
@@ -470,27 +470,27 @@ public abstract class ArrayBufferContract implements TestContract
    * Binding a vertex attribute that doesn't have the same type as the program
    * attribute fails.
    * 
-   * @throws GLException
+   * @throws JCGLException
    *           , GLUnsupportedException
    * @throws ConstraintError
    * @throws FilesystemError
    * @throws IOException
-   * @throws GLCompileException
+   * @throws JCGLCompileException
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testArrayBufferBindVertexAttributeWrongType()
-      throws GLException,
-        GLUnsupportedException,
+      throws JCGLException,
+        JCGLUnsupportedException,
         ConstraintError,
-        GLCompileException,
+        JCGLCompileException,
         IOException,
         FilesystemError
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final GLShaders gp = this.getGLPrograms(tc);
+    final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
+    final JCGLShaders gp = this.getGLPrograms(tc);
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
@@ -504,7 +504,7 @@ public abstract class ArrayBufferContract implements TestContract
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
           "position",
-          GLScalarType.TYPE_INT,
+          JCGLScalarType.TYPE_INT,
           3) });
 
     final ArrayBuffer a =
@@ -522,17 +522,17 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferDeletedIsBound()
       throws ConstraintError,
-        GLException,
-        GLUnsupportedException
+        JCGLException,
+        JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers ga = this.getGLArrayBuffers(tc);
+    final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
           "position",
-          GLScalarType.TYPE_SHORT,
+          JCGLScalarType.TYPE_SHORT,
           1) });
     final ArrayBuffer a =
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
@@ -549,11 +549,11 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferDeleteDouble()
       throws ConstraintError,
-        GLException,
-        GLUnsupportedException
+        JCGLException,
+        JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers gl = this.getGLArrayBuffers(tc);
+    final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
     ArrayBuffer a = null;
 
@@ -562,7 +562,7 @@ public abstract class ArrayBufferContract implements TestContract
         new ArrayBufferDescriptor(
           new ArrayBufferAttribute[] { new ArrayBufferAttribute(
             "position",
-            GLScalarType.TYPE_FLOAT,
+            JCGLScalarType.TYPE_FLOAT,
             3) });
 
       a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
@@ -582,11 +582,11 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferDeleteNull()
       throws ConstraintError,
-        GLException,
-        GLUnsupportedException
+        JCGLException,
+        JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers gl = this.getGLArrayBuffers(tc);
+    final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
     gl.arrayBufferDelete(null);
   }
@@ -595,7 +595,7 @@ public abstract class ArrayBufferContract implements TestContract
    * Array buffer offsets are correct.
    * 
    * @throws ConstraintError
-   * @throws GLException
+   * @throws JCGLException
    *           , GLUnsupportedException
    */
 
@@ -603,17 +603,17 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferElementOffset()
       throws ConstraintError,
-        GLException,
-        GLUnsupportedException
+        JCGLException,
+        JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers gl = this.getGLArrayBuffers(tc);
+    final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
     final ArrayBufferDescriptor d =
       new ArrayBufferDescriptor(new ArrayBufferAttribute[] {
-        new ArrayBufferAttribute("position", GLScalarType.TYPE_SHORT, 3),
-        new ArrayBufferAttribute("normal", GLScalarType.TYPE_SHORT, 3),
-        new ArrayBufferAttribute("color", GLScalarType.TYPE_SHORT, 3), });
+        new ArrayBufferAttribute("position", JCGLScalarType.TYPE_SHORT, 3),
+        new ArrayBufferAttribute("normal", JCGLScalarType.TYPE_SHORT, 3),
+        new ArrayBufferAttribute("color", JCGLScalarType.TYPE_SHORT, 3), });
     ArrayBuffer a = null;
 
     try {
@@ -636,12 +636,12 @@ public abstract class ArrayBufferContract implements TestContract
 
   @Test public final void testArrayBufferGridTest()
     throws ConstraintError,
-      GLException,
-      GLUnsupportedException,
-      GLUnsupportedException
+      JCGLException,
+      JCGLUnsupportedException,
+      JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers gl = this.getGLArrayBuffers(tc);
+    final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
     try {
       final int x = 8;
@@ -660,7 +660,7 @@ public abstract class ArrayBufferContract implements TestContract
         new ArrayBufferDescriptor(
           new ArrayBufferAttribute[] { new ArrayBufferAttribute(
             "position",
-            GLScalarType.TYPE_FLOAT,
+            JCGLScalarType.TYPE_FLOAT,
             3) });
 
       final ArrayBuffer a =
@@ -694,11 +694,11 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferNullIsBound()
       throws ConstraintError,
-        GLException,
-        GLUnsupportedException
+        JCGLException,
+        JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers gl = this.getGLArrayBuffers(tc);
+    final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
     gl.arrayBufferIsBound(null);
   }
@@ -706,10 +706,10 @@ public abstract class ArrayBufferContract implements TestContract
   /**
    * Unbinding a vertex attribute for a deleted array fails.
    * 
-   * @throws GLException
+   * @throws JCGLException
    *           , GLUnsupportedException
    * @throws ConstraintError
-   * @throws GLCompileException
+   * @throws JCGLCompileException
    * @throws IOException
    * @throws FilesystemError
    */
@@ -717,16 +717,16 @@ public abstract class ArrayBufferContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testArrayBufferUnbindVertexAttributeDeleted()
-      throws GLException,
-        GLUnsupportedException,
+      throws JCGLException,
+        JCGLUnsupportedException,
         ConstraintError,
-        GLCompileException,
+        JCGLCompileException,
         IOException,
         FilesystemError
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final GLShaders gp = this.getGLPrograms(tc);
+    final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
+    final JCGLShaders gp = this.getGLPrograms(tc);
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
@@ -740,7 +740,7 @@ public abstract class ArrayBufferContract implements TestContract
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
           "position",
-          GLScalarType.TYPE_FLOAT,
+          JCGLScalarType.TYPE_FLOAT,
           3) });
 
     final ArrayBuffer a =
@@ -755,27 +755,27 @@ public abstract class ArrayBufferContract implements TestContract
   /**
    * Unbinding a vertex attribute with a null attribute fails.
    * 
-   * @throws GLException
+   * @throws JCGLException
    *           , GLUnsupportedException
    * @throws ConstraintError
    * @throws FilesystemError
-   * @throws GLCompileException
+   * @throws JCGLCompileException
    * @throws IOException
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testArrayBufferUnbindVertexAttributeNull()
-      throws GLException,
-        GLUnsupportedException,
+      throws JCGLException,
+        JCGLUnsupportedException,
         ConstraintError,
         FilesystemError,
-        GLCompileException,
+        JCGLCompileException,
         IOException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final GLShaders gp = this.getGLPrograms(tc);
+    final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
+    final JCGLShaders gp = this.getGLPrograms(tc);
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
@@ -789,7 +789,7 @@ public abstract class ArrayBufferContract implements TestContract
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
           "position",
-          GLScalarType.TYPE_FLOAT,
+          JCGLScalarType.TYPE_FLOAT,
           3) });
     final ArrayBuffer a =
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
@@ -802,27 +802,27 @@ public abstract class ArrayBufferContract implements TestContract
   /**
    * Unbinding a vertex attribute with a null array fails.
    * 
-   * @throws GLException
-   * @throws GLUnsupportedException
+   * @throws JCGLException
+   * @throws JCGLUnsupportedException
    * @throws ConstraintError
    * @throws FilesystemError
-   * @throws GLCompileException
+   * @throws JCGLCompileException
    * @throws IOException
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testArrayBufferUnbindVertexAttributeNullArray()
-      throws GLException,
-        GLUnsupportedException,
+      throws JCGLException,
+        JCGLUnsupportedException,
         ConstraintError,
         FilesystemError,
-        GLCompileException,
+        JCGLCompileException,
         IOException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final GLShaders gp = this.getGLPrograms(tc);
+    final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
+    final JCGLShaders gp = this.getGLPrograms(tc);
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
@@ -836,7 +836,7 @@ public abstract class ArrayBufferContract implements TestContract
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
           "position",
-          GLScalarType.TYPE_FLOAT,
+          JCGLScalarType.TYPE_FLOAT,
           3) });
     final ArrayBuffer a =
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
@@ -849,27 +849,27 @@ public abstract class ArrayBufferContract implements TestContract
   /**
    * Unbinding a vertex attribute with a null program attribute fails.
    * 
-   * @throws GLException
-   * @throws GLUnsupportedException
+   * @throws JCGLException
+   * @throws JCGLUnsupportedException
    * @throws ConstraintError
    * @throws FilesystemError
-   * @throws GLCompileException
+   * @throws JCGLCompileException
    * @throws IOException
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testArrayBufferUnbindVertexAttributeNullProgram()
-      throws GLException,
-        GLUnsupportedException,
+      throws JCGLException,
+        JCGLUnsupportedException,
         ConstraintError,
         FilesystemError,
-        GLCompileException,
+        JCGLCompileException,
         IOException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final GLShaders gp = this.getGLPrograms(tc);
+    final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
+    final JCGLShaders gp = this.getGLPrograms(tc);
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
@@ -883,7 +883,7 @@ public abstract class ArrayBufferContract implements TestContract
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
           "position",
-          GLScalarType.TYPE_FLOAT,
+          JCGLScalarType.TYPE_FLOAT,
           3) });
     final ArrayBuffer a =
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
@@ -897,24 +897,24 @@ public abstract class ArrayBufferContract implements TestContract
    * Unbinding a bound vertex attribute works.
    * 
    * @throws ConstraintError
-   * @throws GLException
-   * @throws GLUnsupportedException
+   * @throws JCGLException
+   * @throws JCGLUnsupportedException
    * @throws FilesystemError
-   * @throws GLCompileException
+   * @throws JCGLCompileException
    * @throws IOException
    */
 
   @Test public final void testArrayBufferUnbindVertexAttributeOK()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError,
       FilesystemError,
-      GLCompileException,
+      JCGLCompileException,
       IOException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final GLShaders gp = this.getGLPrograms(tc);
+    final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
+    final JCGLShaders gp = this.getGLPrograms(tc);
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
@@ -928,7 +928,7 @@ public abstract class ArrayBufferContract implements TestContract
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
           "position",
-          GLScalarType.TYPE_FLOAT,
+          JCGLScalarType.TYPE_FLOAT,
           3) });
     final ArrayBuffer a =
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
@@ -941,27 +941,27 @@ public abstract class ArrayBufferContract implements TestContract
   /**
    * Unbinding a vertex attribute with an unbound array fails.
    * 
-   * @throws GLException
-   * @throws GLUnsupportedException
+   * @throws JCGLException
+   * @throws JCGLUnsupportedException
    * @throws ConstraintError
    * @throws FilesystemError
-   * @throws GLCompileException
+   * @throws JCGLCompileException
    * @throws IOException
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testArrayBufferUnbindVertexAttributeUnbound()
-      throws GLException,
-        GLUnsupportedException,
+      throws JCGLException,
+        JCGLUnsupportedException,
         ConstraintError,
         FilesystemError,
-        GLCompileException,
+        JCGLCompileException,
         IOException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final GLShaders gp = this.getGLPrograms(tc);
+    final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
+    final JCGLShaders gp = this.getGLPrograms(tc);
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
@@ -975,7 +975,7 @@ public abstract class ArrayBufferContract implements TestContract
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
           "position",
-          GLScalarType.TYPE_FLOAT,
+          JCGLScalarType.TYPE_FLOAT,
           3) });
     final ArrayBuffer a =
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
@@ -990,10 +990,10 @@ public abstract class ArrayBufferContract implements TestContract
    * Unbinding a vertex attribute that does not belong to the given array
    * fails.
    * 
-   * @throws GLException
-   * @throws GLUnsupportedException
+   * @throws JCGLException
+   * @throws JCGLUnsupportedException
    * @throws ConstraintError
-   * @throws GLCompileException
+   * @throws JCGLCompileException
    * @throws IOException
    * @throws FilesystemError
    */
@@ -1001,16 +1001,16 @@ public abstract class ArrayBufferContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testArrayBufferUnbindVertexAttributeWrongArray()
-      throws GLException,
-        GLUnsupportedException,
+      throws JCGLException,
+        JCGLUnsupportedException,
         ConstraintError,
-        GLCompileException,
+        JCGLCompileException,
         IOException,
         FilesystemError
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final GLShaders gp = this.getGLPrograms(tc);
+    final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
+    final JCGLShaders gp = this.getGLPrograms(tc);
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
@@ -1024,13 +1024,13 @@ public abstract class ArrayBufferContract implements TestContract
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
           "position",
-          GLScalarType.TYPE_FLOAT,
+          JCGLScalarType.TYPE_FLOAT,
           3) });
     final ArrayBufferDescriptor d1 =
       new ArrayBufferDescriptor(
         new ArrayBufferAttribute[] { new ArrayBufferAttribute(
           "position",
-          GLScalarType.TYPE_FLOAT,
+          JCGLScalarType.TYPE_FLOAT,
           3) });
 
     final ArrayBuffer a =
@@ -1047,11 +1047,11 @@ public abstract class ArrayBufferContract implements TestContract
 
   @Test public final void testArrayBufferUpdateComplete()
     throws ConstraintError,
-      GLException,
-      GLUnsupportedException
+      JCGLException,
+      JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers gl = this.getGLArrayBuffers(tc);
+    final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
     ArrayBuffer a = null;
 
@@ -1060,7 +1060,7 @@ public abstract class ArrayBufferContract implements TestContract
         new ArrayBufferDescriptor(
           new ArrayBufferAttribute[] { new ArrayBufferAttribute(
             "position",
-            GLScalarType.TYPE_FLOAT,
+            JCGLScalarType.TYPE_FLOAT,
             3) });
 
       a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
@@ -1081,11 +1081,11 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferUpdateDeletedFails()
       throws ConstraintError,
-        GLException,
-        GLUnsupportedException
+        JCGLException,
+        JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers gl = this.getGLArrayBuffers(tc);
+    final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
     ArrayBuffer a = null;
 
@@ -1094,7 +1094,7 @@ public abstract class ArrayBufferContract implements TestContract
         new ArrayBufferDescriptor(
           new ArrayBufferAttribute[] { new ArrayBufferAttribute(
             "position",
-            GLScalarType.TYPE_FLOAT,
+            JCGLScalarType.TYPE_FLOAT,
             3) });
 
       a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
@@ -1114,11 +1114,11 @@ public abstract class ArrayBufferContract implements TestContract
 
   @Test public final void testArrayBufferUpdatePartial()
     throws ConstraintError,
-      GLException,
-      GLUnsupportedException
+      JCGLException,
+      JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers gl = this.getGLArrayBuffers(tc);
+    final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
     ArrayBuffer a = null;
 
@@ -1127,7 +1127,7 @@ public abstract class ArrayBufferContract implements TestContract
         new ArrayBufferDescriptor(
           new ArrayBufferAttribute[] { new ArrayBufferAttribute(
             "position",
-            GLScalarType.TYPE_FLOAT,
+            JCGLScalarType.TYPE_FLOAT,
             3) });
 
       a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
@@ -1149,11 +1149,11 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferUpdateUnboundFails()
       throws ConstraintError,
-        GLException,
-        GLUnsupportedException
+        JCGLException,
+        JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers gl = this.getGLArrayBuffers(tc);
+    final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
     ArrayBuffer a = null;
 
@@ -1162,7 +1162,7 @@ public abstract class ArrayBufferContract implements TestContract
         new ArrayBufferDescriptor(
           new ArrayBufferAttribute[] { new ArrayBufferAttribute(
             "position",
-            GLScalarType.TYPE_FLOAT,
+            JCGLScalarType.TYPE_FLOAT,
             3) });
 
       a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
@@ -1183,12 +1183,12 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferUpdateWrongBindingFails()
       throws ConstraintError,
-        GLException,
-        GLUnsupportedException,
-        GLUnsupportedException
+        JCGLException,
+        JCGLUnsupportedException,
+        JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLArrayBuffers gl = this.getGLArrayBuffers(tc);
+    final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
     ArrayBuffer a = null;
     ArrayBuffer b = null;
@@ -1198,7 +1198,7 @@ public abstract class ArrayBufferContract implements TestContract
         new ArrayBufferDescriptor(
           new ArrayBufferAttribute[] { new ArrayBufferAttribute(
             "position",
-            GLScalarType.TYPE_FLOAT,
+            JCGLScalarType.TYPE_FLOAT,
             3) });
 
       a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);

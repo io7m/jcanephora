@@ -97,7 +97,7 @@ public final class ArrayBufferWritableMap
       a.getElements() == 2,
       "Attribute is of type Vector2f");
     Constraints.constrainArbitrary(
-      a.getType() == GLScalarType.TYPE_FLOAT,
+      a.getType() == JCGLScalarType.TYPE_FLOAT,
       "Attribute is of type Vector2f");
 
     return new ByteBufferCursorWritable2f(
@@ -136,7 +136,7 @@ public final class ArrayBufferWritableMap
       a.getElements() == 3,
       "Attribute is of type Vector3f");
     Constraints.constrainArbitrary(
-      a.getType() == GLScalarType.TYPE_FLOAT,
+      a.getType() == JCGLScalarType.TYPE_FLOAT,
       "Attribute is of type Vector3f");
 
     return new ByteBufferCursorWritable3f(

@@ -26,19 +26,19 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.BlendEquationGLES2;
 import com.io7m.jcanephora.BlendFunction;
-import com.io7m.jcanephora.GLBlendingCommon;
-import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLImplementation;
-import com.io7m.jcanephora.GLUnsupportedException;
+import com.io7m.jcanephora.JCGLBlendingCommon;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLImplementation;
+import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.contracts.TestContract;
 
 public abstract class BlendingGLES2Contract implements TestContract
 {
-  static GLBlendingCommon getGLBlending(
+  static JCGLBlendingCommon getGLBlending(
     final @Nonnull TestContext context)
   {
-    final GLImplementation gi = context.getGLImplementation();
+    final JCGLImplementation gi = context.getGLImplementation();
     return gi.getGLCommon();
   }
 
@@ -52,12 +52,12 @@ public abstract class BlendingGLES2Contract implements TestContract
    */
 
   @Test public final void testBlendDisabled()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
+    final JCGLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
 
     gl.blendingDisable();
     Assert.assertFalse(gl.blendingIsEnabled());
@@ -66,12 +66,12 @@ public abstract class BlendingGLES2Contract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testBlendEnableWithEquationSeparateTargetNotSaturate()
-      throws GLException,
-        GLUnsupportedException,
+      throws JCGLException,
+        JCGLUnsupportedException,
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
+    final JCGLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
 
     gl.blendingEnableWithEquationSeparateES2(
       BlendFunction.BLEND_ONE,
@@ -85,12 +85,12 @@ public abstract class BlendingGLES2Contract implements TestContract
    */
 
   @Test public final void testBlendFunctions()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
+    final JCGLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
     // final Log log = this.getLog();
 
     for (final BlendFunction source : BlendFunction.values()) {
@@ -116,12 +116,12 @@ public abstract class BlendingGLES2Contract implements TestContract
    */
 
   @Test public final void testBlendFunctionSeparateWithEquation()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
+    final JCGLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
 
     for (final BlendFunction source : BlendFunction.values()) {
       for (final BlendFunction target : BlendFunction.values()) {
@@ -144,12 +144,12 @@ public abstract class BlendingGLES2Contract implements TestContract
    */
 
   @Test public final void testBlendFunctionSeparateWithEquationSeparate()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
+    final JCGLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
 
     for (final BlendFunction source : BlendFunction.values()) {
       for (final BlendFunction target : BlendFunction.values()) {
@@ -178,12 +178,12 @@ public abstract class BlendingGLES2Contract implements TestContract
    */
 
   @Test public final void testBlendFunctionsSeparateWithEquationSeparate()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
+    final JCGLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
     // final Log log = this.getLog();
 
     for (final BlendFunction rgb_source : BlendFunction.values()) {
@@ -243,12 +243,12 @@ public abstract class BlendingGLES2Contract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testBlendFunctionTargetNotSaturate()
-      throws GLException,
-        GLUnsupportedException,
+      throws JCGLException,
+        JCGLUnsupportedException,
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
+    final JCGLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
 
     gl.blendingEnable(
       BlendFunction.BLEND_ONE,
@@ -258,12 +258,12 @@ public abstract class BlendingGLES2Contract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testBlendFunctionWithEquationTargetNotSaturate()
-      throws GLException,
-        GLUnsupportedException,
+      throws JCGLException,
+        JCGLUnsupportedException,
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
+    final JCGLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
 
     gl.blendingEnableWithEquationES2(
       BlendFunction.BLEND_ONE,
@@ -275,12 +275,12 @@ public abstract class BlendingGLES2Contract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testBlendSeparateWithEquationSeparateTargetNotSaturate0()
-      throws GLException,
-        GLUnsupportedException,
+      throws JCGLException,
+        JCGLUnsupportedException,
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
+    final JCGLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
 
     gl.blendingEnableSeparateWithEquationSeparateES2(
       BlendFunction.BLEND_ONE,
@@ -294,12 +294,12 @@ public abstract class BlendingGLES2Contract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testBlendSeparateWithEquationSeparateTargetNotSaturate1()
-      throws GLException,
-        GLUnsupportedException,
+      throws JCGLException,
+        JCGLUnsupportedException,
         ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
+    final JCGLBlendingCommon gl = BlendingGLES2Contract.getGLBlending(tc);
 
     gl.blendingEnableSeparateWithEquationSeparateES2(
       BlendFunction.BLEND_ONE,

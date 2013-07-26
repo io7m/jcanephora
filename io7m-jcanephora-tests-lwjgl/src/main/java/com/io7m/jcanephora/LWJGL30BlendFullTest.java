@@ -23,11 +23,11 @@ import com.io7m.jcanephora.contracts.gl3.BlendingGL3Contract;
 
 public final class LWJGL30BlendFullTest extends BlendingGL3Contract
 {
-  @Override public GLBlendingGL3 getGLBlendingGL3(
+  @Override public JCGLBlendingGL3 getGLBlendingGL3(
     final TestContext tc)
   {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    final Some<JCGLInterfaceGL3> some =
+      (Some<JCGLInterfaceGL3>) tc.getGLImplementation().getGL3();
     return some.value;
   }
 
@@ -37,8 +37,8 @@ public final class LWJGL30BlendFullTest extends BlendingGL3Contract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL3_0();

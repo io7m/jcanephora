@@ -23,8 +23,8 @@ import javax.annotation.Nonnull;
  */
 
 public interface RenderbufferUsable<K extends RenderbufferKind> extends
-  GLName,
-  GLResourceUsable
+  JCGLName,
+  JCGLResourceUsable
 {
   /**
    * Retrieve the height of the buffer.

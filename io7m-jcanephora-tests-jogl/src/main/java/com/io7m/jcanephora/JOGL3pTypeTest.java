@@ -19,7 +19,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jcanephora.GLType.Type;
+import com.io7m.jcanephora.JCGLType.Type;
 
 public final class JOGL3pTypeTest
 {
@@ -29,7 +29,7 @@ public final class JOGL3pTypeTest
 
   @SuppressWarnings("static-method") @Test public void testTypeBijection()
   {
-    for (final Type u : GLType.Type.values()) {
+    for (final Type u : JCGLType.Type.values()) {
       Assert
         .assertEquals(JOGL_GLTypeConversions
           .typeFromGL(JOGL_GLTypeConversions.typeToGL(u)), u);
