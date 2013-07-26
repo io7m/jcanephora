@@ -1433,12 +1433,20 @@ final class LWJGL_GLES2Functions
     return x;
   }
 
-  static String metaGetVersion()
+  static @Nonnull JCGLVersion metaGetVersion()
     throws JCGLException
   {
     final String x = GL11.glGetString(GL11.GL_VERSION);
     LWJGL_GLES2Functions.checkError();
-    return x;
+
+    final Pair<Integer, Integer> p = LWJGL_GLES2Functions.metaParseVersion(x);
+
+    return new JCGLVersion(
+      p.first.intValue(),
+      p.second.intValue(),
+      0,
+      LWJGL_GLES2Functions.metaVersionIsES(x),
+      x);
   }
 
   static Pair<Integer, Integer> metaParseVersion(
