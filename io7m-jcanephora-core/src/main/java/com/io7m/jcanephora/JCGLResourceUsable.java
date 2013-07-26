@@ -16,39 +16,15 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.RangeInclusive;
-
 /**
- * A read-only interface to the {@link ArrayBuffer} type that allows use of
- * the type but not mutation and/or deletion of the contents.
+ * An object containing OpenGL resources that can be deleted.
  */
 
-public interface IndexBufferUsable extends JCGLResourceUsable, JCGLName
+public interface JCGLResourceUsable
 {
   /**
-   * Retrieve the size in bytes of each element.
+   * Return <code>true</code> iff the given resource has been deleted.
    */
 
-  public long getElementSizeBytes();
-
-  /**
-   * Retrieve the valid range of elements.
-   */
-
-  public @Nonnull RangeInclusive getRange();
-
-  /**
-   * Retrieve the total size in bytes of the allocated buffer.
-   */
-
-  public long getSizeBytes();
-
-  /**
-   * Retrieve the type of the elements in the buffer.
-   */
-
-  public @Nonnull JCGLUnsignedType getType();
-
+  boolean resourceIsDeleted();
 }
