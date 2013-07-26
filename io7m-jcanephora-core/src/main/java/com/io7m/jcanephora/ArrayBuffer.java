@@ -78,11 +78,7 @@ import com.io7m.jaux.RangeInclusive;
     return true;
   }
 
-  /**
-   * Retrieve the descriptor that describes the types of values in the array.
-   */
-
-  public @Nonnull ArrayBufferDescriptor getDescriptor()
+  @Override public @Nonnull ArrayBufferDescriptor getDescriptor()
   {
     return this.descriptor;
   }

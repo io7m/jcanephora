@@ -26,8 +26,14 @@ import com.io7m.jaux.RangeInclusive;
  * the type but not mutation and/or deletion of the contents.
  */
 
-public interface ArrayBufferUsable
+public interface ArrayBufferUsable extends JCGLResourceUsable, JCGLName
 {
+  /**
+   * Retrieve the array buffer's {@link ArrayBufferDescriptor}.
+   */
+
+  public @Nonnull ArrayBufferDescriptor getDescriptor();
+
   /**
    * Return the offset in bytes of the element at <code>index</code>.
    * 
@@ -38,26 +44,26 @@ public interface ArrayBufferUsable
    *           <code>0 <= index < this.getRange().getUpper() == false</code>
    */
 
-  long getElementOffset(
-    int index)
+  public long getElementOffset(
+    final int index)
     throws ConstraintError;
 
   /**
    * Retrieve the size in bytes of a single element in the buffer.
    */
 
-  long getElementSizeBytes();
+  public long getElementSizeBytes();
 
   /**
    * Retrieve the valid range of elements.
    */
 
-  @Nonnull RangeInclusive getRange();
+  public @Nonnull RangeInclusive getRange();
 
   /**
    * Return the total size in bytes of the allocated buffer.
    */
 
-  long getSizeBytes();
+  public long getSizeBytes();
 
 }

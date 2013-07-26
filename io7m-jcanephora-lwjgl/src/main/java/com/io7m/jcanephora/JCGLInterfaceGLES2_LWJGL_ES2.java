@@ -202,7 +202,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public void arrayBufferBind(
-    final @Nonnull ArrayBuffer buffer)
+    final @Nonnull ArrayBufferUsable buffer)
     throws JCGLException,
       ConstraintError
   {
@@ -210,7 +210,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public void arrayBufferBindVertexAttribute(
-    final @Nonnull ArrayBuffer buffer,
+    final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
@@ -232,7 +232,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public boolean arrayBufferIsBound(
-    final @Nonnull ArrayBuffer id)
+    final @Nonnull ArrayBufferUsable id)
     throws ConstraintError,
       JCGLException
   {
@@ -247,7 +247,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public void arrayBufferUnbindVertexAttribute(
-    final @Nonnull ArrayBuffer buffer,
+    final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
@@ -721,7 +721,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public IndexBuffer indexBufferAllocate(
-    final @Nonnull ArrayBuffer buffer,
+    final @Nonnull ArrayBufferUsable buffer,
     final int indices)
     throws JCGLException,
       ConstraintError

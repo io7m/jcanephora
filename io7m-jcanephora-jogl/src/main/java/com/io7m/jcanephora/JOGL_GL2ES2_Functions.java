@@ -45,7 +45,7 @@ final class JOGL_GL2ES2_Functions
 {
   static void arrayBufferBindVertexAttribute(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull ArrayBuffer buffer,
+    final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
@@ -101,7 +101,7 @@ final class JOGL_GL2ES2_Functions
 
   static void arrayBufferUnbindVertexAttribute(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull ArrayBuffer buffer,
+    final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,

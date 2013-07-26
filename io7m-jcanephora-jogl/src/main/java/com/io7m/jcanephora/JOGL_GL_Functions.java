@@ -94,7 +94,7 @@ final class JOGL_GL_Functions
 
   static void arrayBufferBind(
     final @Nonnull GL gl,
-    final @Nonnull ArrayBuffer buffer)
+    final @Nonnull ArrayBufferUsable buffer)
     throws JCGLException,
       ConstraintError
   {
@@ -137,7 +137,7 @@ final class JOGL_GL_Functions
 
   static boolean arrayBufferIsBound(
     final @Nonnull GL gl,
-    final @Nonnull ArrayBuffer id)
+    final @Nonnull ArrayBufferUsable id)
     throws ConstraintError,
       JCGLException
   {
@@ -155,7 +155,7 @@ final class JOGL_GL_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull ArrayBuffer id)
+    final @Nonnull ArrayBufferUsable id)
     throws JCGLException,
       ConstraintError
   {
@@ -172,7 +172,7 @@ final class JOGL_GL_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull ArrayBuffer id,
+    final @Nonnull ArrayBufferUsable id,
     final @Nonnull RangeInclusive range)
     throws JCGLException,
       ConstraintError
@@ -279,7 +279,7 @@ final class JOGL_GL_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull ArrayBuffer id)
+    final @Nonnull ArrayBufferUsable id)
     throws ConstraintError,
       JCGLException
   {
@@ -1541,7 +1541,7 @@ final class JOGL_GL_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull ArrayBuffer buffer,
+    final @Nonnull ArrayBufferUsable buffer,
     final int indices)
     throws JCGLException,
       ConstraintError
@@ -1650,7 +1650,7 @@ final class JOGL_GL_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull IndexBuffer id)
+    final @Nonnull IndexBufferUsable id)
     throws ConstraintError,
       JCGLException
   {
@@ -1667,7 +1667,7 @@ final class JOGL_GL_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull IndexBuffer id,
+    final @Nonnull IndexBufferUsable id,
     final @Nonnull RangeInclusive range)
     throws JCGLException,
       ConstraintError
@@ -1756,7 +1756,7 @@ final class JOGL_GL_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull IndexBuffer id)
+    final @Nonnull IndexBufferUsable id)
     throws ConstraintError,
       JCGLException
   {
