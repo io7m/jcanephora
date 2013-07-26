@@ -23,13 +23,13 @@ import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.gl3.FramebuffersGL3Contract;
 
 public final class LWJGL3xFramebuffersGL3Test extends
-  FramebuffersGL3Contract<GLInterfaceGL3>
+  FramebuffersGL3Contract<JCGLInterfaceGL3>
 {
-  @Override public GLInterfaceGL3 getGLInterface(
+  @Override public JCGLInterfaceGL3 getGLInterface(
     final TestContext context)
   {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) context.getGLImplementation().getGL3();
+    final Some<JCGLInterfaceGL3> some =
+      (Some<JCGLInterfaceGL3>) context.getGLImplementation().getGL3();
     return some.value;
   }
 
@@ -39,8 +39,8 @@ public final class LWJGL3xFramebuffersGL3Test extends
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL3_X();

@@ -46,10 +46,10 @@ import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
 import com.io7m.jcanephora.FramebufferConfigurationGL3ES2;
 import com.io7m.jcanephora.FramebufferConfigurationGL3ES2Actual;
 import com.io7m.jcanephora.FramebufferStatus;
-import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLImplementation;
-import com.io7m.jcanephora.GLInterfaceCommon;
-import com.io7m.jcanephora.GLUnsupportedException;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLImplementation;
+import com.io7m.jcanephora.JCGLInterfaceCommon;
+import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.RenderableColor;
 import com.io7m.jcanephora.RenderbufferUsable;
 import com.io7m.jcanephora.TestContext;
@@ -66,8 +66,8 @@ public abstract class FramebuffersES2Contract implements TestContract
 {
   private static @Nonnull Framebuffer makeAssumingSuccess(
     final FramebufferConfigurationGL3ES2 config,
-    final GLImplementation gi)
-    throws GLException,
+    final JCGLImplementation gi)
+    throws JCGLException,
       ConstraintError
   {
     final Indeterminate<Framebuffer, FramebufferStatus> result =
@@ -90,12 +90,12 @@ public abstract class FramebuffersES2Contract implements TestContract
 
   @Test public void testColorRGBARenderbuffersBest()
     throws ConstraintError,
-      GLException,
-      GLUnsupportedException
+      JCGLException,
+      JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceCommon gl = gi.getGLCommon();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -147,12 +147,12 @@ public abstract class FramebuffersES2Contract implements TestContract
 
   @Test public void testColorRGBATexture2DBest()
     throws ConstraintError,
-      GLException,
-      GLUnsupportedException
+      JCGLException,
+      JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceCommon gl = gi.getGLCommon();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -217,12 +217,12 @@ public abstract class FramebuffersES2Contract implements TestContract
 
   @Test public void testColorRGBATextureCubeBest()
     throws ConstraintError,
-      GLException,
-      GLUnsupportedException
+      JCGLException,
+      JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceCommon gl = gi.getGLCommon();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -292,12 +292,12 @@ public abstract class FramebuffersES2Contract implements TestContract
 
   @Test public void testColorRGBRenderbuffersBest()
     throws ConstraintError,
-      GLException,
-      GLUnsupportedException
+      JCGLException,
+      JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceCommon gl = gi.getGLCommon();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -349,12 +349,12 @@ public abstract class FramebuffersES2Contract implements TestContract
 
   @Test public void testColorRGBTexture2DBest()
     throws ConstraintError,
-      GLException,
-      GLUnsupportedException
+      JCGLException,
+      JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceCommon gl = gi.getGLCommon();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -419,12 +419,12 @@ public abstract class FramebuffersES2Contract implements TestContract
 
   @Test public void testColorRGBTextureCubeBest()
     throws ConstraintError,
-      GLException,
-      GLUnsupportedException
+      JCGLException,
+      JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceCommon gl = gi.getGLCommon();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
 
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
@@ -494,12 +494,12 @@ public abstract class FramebuffersES2Contract implements TestContract
 
   @Test public void testDelete()
     throws ConstraintError,
-      GLException,
-      GLUnsupportedException
+      JCGLException,
+      JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceCommon gl = gi.getGLCommon();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
 
     final FramebufferConfigurationGL3ES2 config =
       new FramebufferConfigurationGL3ES2Actual(128, 256);
@@ -524,18 +524,18 @@ public abstract class FramebuffersES2Contract implements TestContract
    * Requesting a depth renderbuffer works.
    * 
    * @throws ConstraintError
-   * @throws GLException
+   * @throws JCGLException
    *           , GLUnsupportedException
    */
 
   @Test public void testDepthRenderbuffer()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceCommon gl = gi.getGLCommon();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
 
     final FramebufferConfigurationGL3ES2 config =
       new FramebufferConfigurationGL3ES2Actual(128, 256);
@@ -598,12 +598,12 @@ public abstract class FramebuffersES2Contract implements TestContract
   }
 
   @Test(expected = ConstraintError.class) public void testEmptyFails()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLImplementation gi = tc.getGLImplementation();
+    final JCGLImplementation gi = tc.getGLImplementation();
 
     final FramebufferConfigurationGL3ES2 config =
       new FramebufferConfigurationGL3ES2Actual(128, 256);
@@ -617,19 +617,19 @@ public abstract class FramebuffersES2Contract implements TestContract
    * Requesting to share a color renderbuffer results in the correct shared
    * renderbuffer attachment.
    * 
-   * @throws GLException
-   * @throws GLUnsupportedException
+   * @throws JCGLException
+   * @throws JCGLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public void testSharedColorRenderbufferRGB()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceCommon gl = gi.getGLCommon();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
 
@@ -707,19 +707,19 @@ public abstract class FramebuffersES2Contract implements TestContract
    * Requesting to share a color renderbuffer results in the correct shared
    * renderbuffer attachment.
    * 
-   * @throws GLException
-   * @throws GLUnsupportedException
+   * @throws JCGLException
+   * @throws JCGLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public void testSharedColorRenderbufferRGBA()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceCommon gl = gi.getGLCommon();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
 
@@ -797,19 +797,19 @@ public abstract class FramebuffersES2Contract implements TestContract
    * Requesting to share a color 2D texture results in the correct shared 2D
    * texture attachment.
    * 
-   * @throws GLException
-   * @throws GLUnsupportedException
+   * @throws JCGLException
+   * @throws JCGLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public void testSharedColorTexture2D()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceCommon gl = gi.getGLCommon();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
 
@@ -889,19 +889,19 @@ public abstract class FramebuffersES2Contract implements TestContract
    * Requesting to share a color cube texture results in the correct shared
    * cube texture attachment.
    * 
-   * @throws GLException
-   * @throws GLUnsupportedException
+   * @throws JCGLException
+   * @throws JCGLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public void testSharedColorTextureCube()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceCommon gl = gi.getGLCommon();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
 
@@ -982,18 +982,18 @@ public abstract class FramebuffersES2Contract implements TestContract
    * Requesting to share a depth attachment results in the correct shared
    * depth attachment.
    * 
-   * @throws GLException
-   * @throws GLUnsupportedException
+   * @throws JCGLException
+   * @throws JCGLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public void testSharedDepth()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLImplementation gi = tc.getGLImplementation();
+    final JCGLImplementation gi = tc.getGLImplementation();
 
     /**
      * Create initial framebuffer.
@@ -1080,19 +1080,19 @@ public abstract class FramebuffersES2Contract implements TestContract
    * Requesting to share an already-shared color renderbuffer results in the
    * correct shared renderbuffer attachment.
    * 
-   * @throws GLException
-   * @throws GLUnsupportedException
+   * @throws JCGLException
+   * @throws JCGLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public void testSharedSharedColorRenderbufferRGBA()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceCommon gl = gi.getGLCommon();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
 
@@ -1204,18 +1204,18 @@ public abstract class FramebuffersES2Contract implements TestContract
    * Requesting to share a stencil attachment results in the correct shared
    * stencil attachment.
    * 
-   * @throws GLException
-   * @throws GLUnsupportedException
+   * @throws JCGLException
+   * @throws JCGLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public void testSharedStencil()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLImplementation gi = tc.getGLImplementation();
+    final JCGLImplementation gi = tc.getGLImplementation();
 
     /**
      * Create initial framebuffer.
@@ -1315,18 +1315,18 @@ public abstract class FramebuffersES2Contract implements TestContract
    * Requesting a stencil renderbuffer works.
    * 
    * @throws ConstraintError
-   * @throws GLException
+   * @throws JCGLException
    *           , GLUnsupportedException
    */
 
   @Test public void testStencilRenderbuffer()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLImplementation gi = tc.getGLImplementation();
-    final GLInterfaceCommon gl = gi.getGLCommon();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
 
     final FramebufferConfigurationGL3ES2 config =
       new FramebufferConfigurationGL3ES2Actual(128, 256);

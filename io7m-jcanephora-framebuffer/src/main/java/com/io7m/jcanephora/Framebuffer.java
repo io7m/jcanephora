@@ -35,7 +35,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
  * A created framebuffer, with all associated textures and/or renderbuffers.
  */
 
-public final class Framebuffer extends GLResourceDeletable implements
+public final class Framebuffer extends JCGLResourceDeletable implements
   FramebufferUsable
 {
   private final @Nonnull FramebufferReference                                  framebuffer;
@@ -100,12 +100,12 @@ public final class Framebuffer extends GLResourceDeletable implements
   }
 
   public
-    <G extends GLRenderbuffersCommon & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon & GLFramebuffersCommon>
+    <G extends JCGLRenderbuffersCommon & JCGLTextures2DStaticCommon & JCGLTexturesCubeStaticCommon & JCGLFramebuffersCommon>
     void
     delete(
       final @Nonnull G gl)
       throws ConstraintError,
-        GLException
+        JCGLException
   {
     for (final AttachmentColor c : this.color_attachments.values()) {
       switch (c.type) {

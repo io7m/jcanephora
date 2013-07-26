@@ -23,19 +23,19 @@ import com.io7m.jcanephora.contracts.ArrayBufferContract;
 
 public final class JOGLES2ArrayBufferTest extends ArrayBufferContract
 {
-  @Override public @Nonnull GLArrayBuffers getGLArrayBuffers(
+  @Override public @Nonnull JCGLArrayBuffers getGLArrayBuffers(
     @Nonnull final TestContext context)
   {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) context.getGLImplementation().getGLES2();
+    final Some<JCGLInterfaceGLES2> some =
+      (Some<JCGLInterfaceGLES2>) context.getGLImplementation().getGLES2();
     return some.value;
   }
 
-  @Override public @Nonnull GLShaders getGLPrograms(
+  @Override public @Nonnull JCGLShaders getGLPrograms(
     @Nonnull final TestContext context)
   {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) context.getGLImplementation().getGLES2();
+    final Some<JCGLInterfaceGLES2> some =
+      (Some<JCGLInterfaceGLES2>) context.getGLImplementation().getGLES2();
     return some.value;
   }
 
@@ -45,8 +45,8 @@ public final class JOGLES2ArrayBufferTest extends ArrayBufferContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL_ES2();

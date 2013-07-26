@@ -25,19 +25,19 @@ import com.io7m.jcanephora.contracts.StencilBuffersContract;
 
 public final class LWJGL21StencilBuffersTest extends StencilBuffersContract
 {
-  @Override public GLFramebuffersCommon getGLFramebuffers(
+  @Override public JCGLFramebuffersCommon getGLFramebuffers(
     final TestContext tc)
   {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
+    final Some<JCGLInterfaceGL2> some =
+      (Some<JCGLInterfaceGL2>) tc.getGLImplementation().getGL2();
     return some.value;
   }
 
-  @Override public GLStencilBuffer getGLStencilBuffer(
+  @Override public JCGLStencilBuffer getGLStencilBuffer(
     final TestContext tc)
   {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
+    final Some<JCGLInterfaceGL2> some =
+      (Some<JCGLInterfaceGL2>) tc.getGLImplementation().getGL2();
     return some.value;
   }
 
@@ -49,12 +49,12 @@ public final class LWJGL21StencilBuffersTest extends StencilBuffersContract
   @Override public @Nonnull
     FramebufferReference
     makeFramebufferWithoutStencil(
-      @Nonnull final GLImplementation gi)
+      @Nonnull final JCGLImplementation gi)
       throws ConstraintError,
-        GLException
+        JCGLException
   {
-    final Some<GLInterfaceGL2> some = (Some<GLInterfaceGL2>) gi.getGL2();
-    final GLInterfaceGL2 g = some.value;
+    final Some<JCGLInterfaceGL2> some = (Some<JCGLInterfaceGL2>) gi.getGL2();
+    final JCGLInterfaceGL2 g = some.value;
 
     final FramebufferReference fb = g.framebufferAllocate();
     final Renderbuffer<RenderableColor> cb =
@@ -73,12 +73,12 @@ public final class LWJGL21StencilBuffersTest extends StencilBuffersContract
   }
 
   @Override public @Nonnull FramebufferReference makeFramebufferWithStencil(
-    @Nonnull final GLImplementation gi)
+    @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
-    final Some<GLInterfaceGL2> some = (Some<GLInterfaceGL2>) gi.getGL2();
-    final GLInterfaceGL2 g = some.value;
+    final Some<JCGLInterfaceGL2> some = (Some<JCGLInterfaceGL2>) gi.getGL2();
+    final JCGLInterfaceGL2 g = some.value;
 
     final FramebufferReference fb = g.framebufferAllocate();
     final Renderbuffer<RenderableDepthStencil> db =
@@ -100,8 +100,8 @@ public final class LWJGL21StencilBuffersTest extends StencilBuffersContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL21_X();

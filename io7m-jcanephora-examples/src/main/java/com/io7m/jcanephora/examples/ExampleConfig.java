@@ -17,7 +17,7 @@ package com.io7m.jcanephora.examples;
 
 import javax.annotation.Nonnull;
 
-import com.io7m.jcanephora.GLImplementation;
+import com.io7m.jcanephora.JCGLImplementation;
 import com.io7m.jcanephora.TextureLoader;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.VectorM2I;
@@ -26,7 +26,7 @@ import com.io7m.jvvfs.FSCapabilityAll;
 
 final class ExampleConfig
 {
-  private final @Nonnull GLImplementation gl_implementation;
+  private final @Nonnull JCGLImplementation gl_implementation;
   private final @Nonnull Log              log;
   private final @Nonnull FSCapabilityAll  filesystem;
   private final @Nonnull TextureLoader    texture_loader;
@@ -34,7 +34,7 @@ final class ExampleConfig
   private final @Nonnull VectorM2I        window_size;
 
   public ExampleConfig(
-    final @Nonnull GLImplementation gl,
+    final @Nonnull JCGLImplementation gl,
     final @Nonnull TextureLoader texture_loader,
     final @Nonnull Log log,
     final @Nonnull FSCapabilityAll filesystem,
@@ -54,7 +54,7 @@ final class ExampleConfig
     return this.filesystem;
   }
 
-  @Nonnull GLImplementation getGL()
+  @Nonnull JCGLImplementation getGL()
   {
     return this.gl_implementation;
   }

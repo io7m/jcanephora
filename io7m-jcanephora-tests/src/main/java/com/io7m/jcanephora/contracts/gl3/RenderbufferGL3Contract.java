@@ -22,20 +22,20 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLRenderbuffersGL3;
-import com.io7m.jcanephora.GLUnsupportedException;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRenderbuffersGL3;
+import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.RenderbufferType;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.contracts.RenderbufferContract;
 
 public abstract class RenderbufferGL3Contract extends
-  RenderbufferContract<GLRenderbuffersGL3>
+  RenderbufferContract<JCGLRenderbuffersGL3>
 {
   @Override public Renderbuffer<?> allocateAnything(
-    final @Nonnull GLRenderbuffersGL3 gl)
-    throws GLException,
+    final @Nonnull JCGLRenderbuffersGL3 gl)
+    throws JCGLException,
       ConstraintError
   {
     return gl.renderbufferAllocateRGB888(128, 128);
@@ -45,16 +45,16 @@ public abstract class RenderbufferGL3Contract extends
    * Allocating all of the renderbuffer types works.
    * 
    * @throws ConstraintError
-   * @throws GLException
+   * @throws JCGLException
    */
 
   @Test public void testRenderbufferAllocate()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLRenderbuffersGL3 gr = this.getGLRenderbuffers(tc);
+    final JCGLRenderbuffersGL3 gr = this.getGLRenderbuffers(tc);
 
     final int width = 128;
     final int height = 128;

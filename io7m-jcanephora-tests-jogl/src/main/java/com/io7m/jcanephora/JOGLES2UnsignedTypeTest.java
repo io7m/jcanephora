@@ -30,7 +30,7 @@ public final class JOGLES2UnsignedTypeTest
     void
     testUnsignedBijection()
   {
-    for (final GLUnsignedType u : GLUnsignedType.values()) {
+    for (final JCGLUnsignedType u : JCGLUnsignedType.values()) {
       Assert.assertEquals(JOGL_GLTypeConversions
         .unsignedTypeFromGL(JOGL_GLTypeConversions.unsignedTypeToGL(u)), u);
     }

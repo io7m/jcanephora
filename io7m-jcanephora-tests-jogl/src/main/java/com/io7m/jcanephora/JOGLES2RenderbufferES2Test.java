@@ -24,11 +24,11 @@ import com.io7m.jcanephora.contracts.gles2.RenderbufferGLES2Contract;
 public final class JOGLES2RenderbufferES2Test extends
   RenderbufferGLES2Contract
 {
-  @Override public GLRenderbuffersGLES2 getGLRenderbuffers(
+  @Override public JCGLRenderbuffersGLES2 getGLRenderbuffers(
     final TestContext tc)
   {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    final Some<JCGLInterfaceGLES2> some =
+      (Some<JCGLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
     return some.value;
   }
 
@@ -38,8 +38,8 @@ public final class JOGLES2RenderbufferES2Test extends
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL_ES2();

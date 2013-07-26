@@ -32,7 +32,7 @@ public final class ProgramUniform
 {
   private final int                       index;
   private final int                       location;
-  private final @Nonnull GLType.Type      type;
+  private final @Nonnull JCGLType.Type      type;
   private final @Nonnull String           name;
   private final @Nonnull ProgramReference program;
 
@@ -41,7 +41,7 @@ public final class ProgramUniform
     final int index,
     final int location,
     final @CheckForNull String name,
-    final @Nonnull GLType.Type type)
+    final @Nonnull JCGLType.Type type)
     throws ConstraintError
   {
     this.program = Constraints.constrainNotNull(program, "Program");
@@ -90,7 +90,7 @@ public final class ProgramUniform
    * Retrieve the OpenGL type of the uniform.
    */
 
-  public @Nonnull GLType.Type getType()
+  public @Nonnull JCGLType.Type getType()
   {
     return this.type;
   }

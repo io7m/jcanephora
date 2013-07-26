@@ -26,7 +26,7 @@ import com.io7m.jaux.RangeInclusive;
  * 2D "static" texture type.
  */
 
-public final class Texture2DStatic extends GLResourceDeletable implements
+public final class Texture2DStatic extends JCGLResourceDeletable implements
   Texture2DStaticUsable
 {
   private final int                                 id;

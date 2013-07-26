@@ -29,7 +29,7 @@ public class ArrayBufferTest
     try {
       final ArrayBufferAttribute[] at = new ArrayBufferAttribute[1];
       at[0] =
-        new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 3);
+        new ArrayBufferAttribute("position", JCGLScalarType.TYPE_FLOAT, 3);
       ArrayBufferTest.type = new ArrayBufferDescriptor(at);
     } catch (final ConstraintError e) {
       throw new UnreachableCodeException();

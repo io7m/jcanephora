@@ -23,19 +23,19 @@ import com.io7m.jaux.functional.Option.Some;
 public final class LWJGL30RasterizationTest extends
   com.io7m.jcanephora.contracts.RasterizationContract
 {
-  @Override public GLPolygonModes getGLPolygonModes(
+  @Override public JCGLPolygonModes getGLPolygonModes(
     final TestContext tc)
   {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    final Some<JCGLInterfaceGL3> some =
+      (Some<JCGLInterfaceGL3>) tc.getGLImplementation().getGL3();
     return some.value;
   }
 
-  @Override public GLPolygonSmoothing getGLPolygonSmoothing(
+  @Override public JCGLPolygonSmoothing getGLPolygonSmoothing(
     final TestContext tc)
   {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    final Some<JCGLInterfaceGL3> some =
+      (Some<JCGLInterfaceGL3>) tc.getGLImplementation().getGL3();
     return some.value;
   }
 
@@ -45,8 +45,8 @@ public final class LWJGL30RasterizationTest extends
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL3_0();

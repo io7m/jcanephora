@@ -222,8 +222,8 @@ public final class JOGLTestContext
   }
 
   public static TestContext makeContextWithOpenGL_ES2()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final Log log =
@@ -232,14 +232,14 @@ public final class JOGLTestContext
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GLES2));
-    final GLImplementation gi = new GLImplementationJOGL(ctx, log);
+    final JCGLImplementation gi = new JCGLImplementationJOGL(ctx, log);
 
     return new TestContext(fs, gi, log, ShaderPaths.getShaderPath(2, 0, true));
   }
 
   public static TestContext makeContextWithOpenGL_ES3()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final Log log =
@@ -248,11 +248,11 @@ public final class JOGLTestContext
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GLES3));
-    final GLImplementation gi = new GLImplementationJOGL(ctx, log);
+    final JCGLImplementation gi = new JCGLImplementationJOGL(ctx, log);
 
     final VersionNumber version = ctx.getGLVersionNumber();
     if (version.getMajor() != 3) {
-      throw new GLUnsupportedException("GLES3 profile "
+      throw new JCGLUnsupportedException("GLES3 profile "
         + version
         + " is not 3.*");
     }
@@ -263,8 +263,8 @@ public final class JOGLTestContext
   }
 
   public static TestContext makeContextWithOpenGL2_1()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final Log log =
@@ -273,7 +273,7 @@ public final class JOGLTestContext
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GL2));
-    final GLImplementation gi = new GLImplementationJOGL(ctx, log);
+    final JCGLImplementation gi = new JCGLImplementationJOGL(ctx, log);
 
     final VersionNumber version = ctx.getGLVersionNumber();
     final PathVirtual shader_path =
@@ -283,8 +283,8 @@ public final class JOGLTestContext
   }
 
   public static TestContext makeContextWithOpenGL3_0()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final Log log =
@@ -293,11 +293,11 @@ public final class JOGLTestContext
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GL2));
-    final GLImplementation gi = new GLImplementationJOGL(ctx, log);
+    final JCGLImplementation gi = new JCGLImplementationJOGL(ctx, log);
 
     final VersionNumber version = ctx.getGLVersionNumber();
     if (version.getMajor() != 3) {
-      throw new GLUnsupportedException("GL2 profile is not 3.0!");
+      throw new JCGLUnsupportedException("GL2 profile is not 3.0!");
     }
 
     final PathVirtual shader_path =
@@ -307,8 +307,8 @@ public final class JOGLTestContext
   }
 
   public static TestContext makeContextWithOpenGL3_p()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final Log log =
@@ -317,16 +317,16 @@ public final class JOGLTestContext
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GL3));
-    final GLImplementation gi = new GLImplementationJOGL(ctx, log);
+    final JCGLImplementation gi = new JCGLImplementationJOGL(ctx, log);
 
     final VersionNumber version = ctx.getGLVersionNumber();
     if (version.getMajor() != 3) {
-      throw new GLUnsupportedException("GL3 profile "
+      throw new JCGLUnsupportedException("GL3 profile "
         + version
         + " is not 3.p");
     }
     if (version.getMinor() == 0) {
-      throw new GLUnsupportedException("GL3 profile "
+      throw new JCGLUnsupportedException("GL3 profile "
         + version
         + " is not 3.p");
     }
