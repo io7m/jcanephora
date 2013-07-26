@@ -1825,33 +1825,18 @@ final class JOGL_GL_Functions
     return x;
   }
 
-  static String metaGetVersion(
+  static JCGLVersion metaGetVersion(
     final @Nonnull GL gl)
-    throws JCGLException
   {
-    final String x = gl.glGetString(GL.GL_VERSION);
-    JOGL_GL_Functions.checkError(gl);
-    return x;
-  }
-
-  static int metaGetVersionMajor(
-    final GL gl)
-  {
-    final VersionNumber number = gl.getContext().getGLVersionNumber();
-    return number.getMajor();
-  }
-
-  static int metaGetVersionMinor(
-    final GL gl)
-  {
-    final VersionNumber number = gl.getContext().getGLVersionNumber();
-    return number.getMinor();
-  }
-
-  static boolean metaIsES(
-    final GL gl)
-  {
-    return gl.isGLES();
+    final GLContext context = gl.getContext();
+    final VersionNumber vn = context.getGLVersionNumber();
+    final String text = context.getGLVersion();
+    return new JCGLVersion(
+      vn.getMajor(),
+      vn.getMinor(),
+      vn.getSub(),
+      context.isGLES(),
+      text);
   }
 
   static Renderbuffer<?> renderbufferAllocate(
