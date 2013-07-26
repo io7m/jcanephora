@@ -27,7 +27,7 @@ import com.io7m.jaux.functional.Indeterminate;
  * 3.0).
  */
 
-public interface FramebufferConfigurationGLES2
+public interface FramebufferConfigurationGL3ES2
 {
   /**
    * Retrieve the height of the resulting framebuffer.

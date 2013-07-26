@@ -13,27 +13,28 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option.Some;
-import com.io7m.jcanephora.contracts.gl3.RenderbufferGL3Contract;
+import com.io7m.jcanephora.contracts.gles3.RenderbufferGLES3Contract;
 
-public final class LWJGL21RenderbufferTest extends RenderbufferGL3Contract
+public final class JOGLES3RenderbufferTest extends RenderbufferGLES3Contract
 {
-  @Override public GLRenderbuffersGL3 getGLRenderbuffers(
+  @Override public GLRenderbuffersGLES3 getGLRenderbuffers(
     final TestContext tc)
   {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) tc.getGLImplementation().getGL2();
+    final Some<GLInterfaceGLES3> some =
+      (Some<GLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
     return some.value;
   }
 
   @Override public boolean isGLSupported()
   {
-    return LWJGLTestContext.isOpenGL21Supported();
+    return JOGLTestContext.isOpenGLES3Supported();
   }
 
   @Override public @Nonnull TestContext newTestContext()
@@ -41,6 +42,6 @@ public final class LWJGL21RenderbufferTest extends RenderbufferGL3Contract
       GLUnsupportedException,
       ConstraintError
   {
-    return LWJGLTestContext.makeContextWithOpenGL21_X();
+    return JOGLTestContext.makeContextWithOpenGL_ES3();
   }
 }

@@ -16,33 +16,12 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
+/**
+ * Type-safe interface to the renderbuffer API exposed by OpenGL 2.1 with the
+ * appropriate extensions to make it 3.0 compatible.
+ */
 
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
-import com.io7m.jcanephora.contracts.gl3.FramebuffersGL3Contract;
-
-public final class JOGL21FramebuffersGL3Test extends
-  FramebuffersGL3Contract<GLInterfaceGL2>
+public interface GLRenderbuffersGL2 extends GLRenderbuffersGL3ES3
 {
-  @Override public GLInterfaceGL2 getGLInterface(
-    final TestContext context)
-  {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) context.getGLImplementation().getGL2();
-    return some.value;
-  }
-
-  @Override public boolean isGLSupported()
-  {
-    return JOGLTestContext.isOpenGL21WithExtensionsSupported();
-  }
-
-  @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
-      ConstraintError
-  {
-    return JOGLTestContext.makeContextWithOpenGL2_1();
-  }
+  // No extra functions.
 }

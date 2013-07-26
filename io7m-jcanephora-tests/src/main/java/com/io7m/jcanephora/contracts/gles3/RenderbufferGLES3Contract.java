@@ -14,7 +14,7 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.contracts.gles2;
+package com.io7m.jcanephora.contracts.gles3;
 
 import javax.annotation.Nonnull;
 
@@ -22,24 +22,23 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLRenderbuffersGLES2;
+import com.io7m.jcanephora.GLRenderbuffersGLES3;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.RenderbufferType;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.contracts.RenderbufferContract;
 
-public abstract class RenderbufferGLES2Contract extends
-  RenderbufferContract<GLRenderbuffersGLES2>
+public abstract class RenderbufferGLES3Contract extends
+  RenderbufferContract<GLRenderbuffersGLES3>
 {
   @Override public final Renderbuffer<?> allocateAnything(
-    final @Nonnull GLRenderbuffersGLES2 r)
+    final @Nonnull GLRenderbuffersGLES3 r)
     throws GLException,
       ConstraintError
   {
-    return r.renderbufferAllocateRGB565(128, 128);
+    return r.renderbufferAllocateRGB888(128, 128);
   }
 
   /**
@@ -52,34 +51,55 @@ public abstract class RenderbufferGLES2Contract extends
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLRenderbuffersGLES2 gr = this.getGLRenderbuffers(tc);
+    final GLRenderbuffersGLES3 gr = this.getGLRenderbuffers(tc);
 
     final int width = 128;
     final int height = 128;
 
-    for (final RenderbufferType t : RenderbufferType.getGLES2Types()) {
+    for (final RenderbufferType t : RenderbufferType.getGLES3Types()) {
       Renderbuffer<?> rb = null;
 
       switch (t) {
         case RENDERBUFFER_COLOR_RGBA_4444:
+        {
           rb = gr.renderbufferAllocateRGBA4444(width, height);
           break;
+        }
         case RENDERBUFFER_COLOR_RGBA_5551:
+        {
           rb = gr.renderbufferAllocateRGBA5551(width, height);
           break;
+        }
         case RENDERBUFFER_COLOR_RGB_565:
+        {
           rb = gr.renderbufferAllocateRGB565(width, height);
           break;
+        }
         case RENDERBUFFER_DEPTH_16:
+        {
           rb = gr.renderbufferAllocateDepth16(width, height);
           break;
+        }
         case RENDERBUFFER_STENCIL_8:
+        {
           rb = gr.renderbufferAllocateStencil8(width, height);
           break;
+        }
         case RENDERBUFFER_DEPTH_24_STENCIL_8:
+        {
+          rb = gr.renderbufferAllocateDepth24Stencil8(width, height);
+          break;
+        }
         case RENDERBUFFER_COLOR_RGBA_8888:
+        {
+          rb = gr.renderbufferAllocateRGBA8888(width, height);
+          break;
+        }
         case RENDERBUFFER_COLOR_RGB_888:
-          throw new UnreachableCodeException();
+        {
+          rb = gr.renderbufferAllocateRGB888(width, height);
+          break;
+        }
       }
 
       assert rb != null;

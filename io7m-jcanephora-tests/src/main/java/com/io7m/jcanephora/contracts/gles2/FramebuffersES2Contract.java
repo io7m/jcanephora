@@ -43,8 +43,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 import com.io7m.jcanephora.CubeMapFace;
 import com.io7m.jcanephora.Framebuffer;
 import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
-import com.io7m.jcanephora.FramebufferConfigurationGLES2;
-import com.io7m.jcanephora.FramebufferConfigurationGLES2Actual;
+import com.io7m.jcanephora.FramebufferConfigurationGL3ES2;
+import com.io7m.jcanephora.FramebufferConfigurationGL3ES2Actual;
 import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLImplementation;
@@ -65,7 +65,7 @@ import com.io7m.jcanephora.contracts.TestContract;
 public abstract class FramebuffersES2Contract implements TestContract
 {
   private static @Nonnull Framebuffer makeAssumingSuccess(
-    final FramebufferConfigurationGLES2 config,
+    final FramebufferConfigurationGL3ES2 config,
     final GLImplementation gi)
     throws GLException,
       ConstraintError
@@ -100,8 +100,8 @@ public abstract class FramebuffersES2Contract implements TestContract
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
 
-    final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2Actual(128, 256);
+    final FramebufferConfigurationGL3ES2 config =
+      new FramebufferConfigurationGL3ES2Actual(128, 256);
 
     config.requestNoDepth();
     config.requestNoStencil();
@@ -157,8 +157,8 @@ public abstract class FramebuffersES2Contract implements TestContract
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
 
-    final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2Actual(128, 256);
+    final FramebufferConfigurationGL3ES2 config =
+      new FramebufferConfigurationGL3ES2Actual(128, 256);
 
     config.requestNoDepth();
     config.requestNoStencil();
@@ -227,8 +227,8 @@ public abstract class FramebuffersES2Contract implements TestContract
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
 
-    final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 config =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
 
     config.requestNoDepth();
     config.requestNoStencil();
@@ -302,8 +302,8 @@ public abstract class FramebuffersES2Contract implements TestContract
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
 
-    final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2Actual(128, 256);
+    final FramebufferConfigurationGL3ES2 config =
+      new FramebufferConfigurationGL3ES2Actual(128, 256);
 
     config.requestNoDepth();
     config.requestNoStencil();
@@ -359,8 +359,8 @@ public abstract class FramebuffersES2Contract implements TestContract
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
 
-    final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2Actual(128, 256);
+    final FramebufferConfigurationGL3ES2 config =
+      new FramebufferConfigurationGL3ES2Actual(128, 256);
 
     config.requestNoDepth();
     config.requestNoStencil();
@@ -429,8 +429,8 @@ public abstract class FramebuffersES2Contract implements TestContract
     final FramebufferColorAttachmentPoint[] points =
       gl.framebufferGetColorAttachmentPoints();
 
-    final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 config =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
 
     config.requestNoDepth();
     config.requestNoStencil();
@@ -501,8 +501,8 @@ public abstract class FramebuffersES2Contract implements TestContract
     final GLImplementation gi = tc.getGLImplementation();
     final GLInterfaceCommon gl = gi.getGLCommon();
 
-    final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2Actual(128, 256);
+    final FramebufferConfigurationGL3ES2 config =
+      new FramebufferConfigurationGL3ES2Actual(128, 256);
 
     config.requestNoDepth();
     config.requestNoStencil();
@@ -537,8 +537,8 @@ public abstract class FramebuffersES2Contract implements TestContract
     final GLImplementation gi = tc.getGLImplementation();
     final GLInterfaceCommon gl = gi.getGLCommon();
 
-    final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2Actual(128, 256);
+    final FramebufferConfigurationGL3ES2 config =
+      new FramebufferConfigurationGL3ES2Actual(128, 256);
 
     config.requestBestRGBAColorRenderbuffer();
     config.requestNoStencil();
@@ -605,8 +605,8 @@ public abstract class FramebuffersES2Contract implements TestContract
     final TestContext tc = this.newTestContext();
     final GLImplementation gi = tc.getGLImplementation();
 
-    final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2Actual(128, 256);
+    final FramebufferConfigurationGL3ES2 config =
+      new FramebufferConfigurationGL3ES2Actual(128, 256);
 
     config.requestNoDepth();
     config.requestNoStencil();
@@ -637,8 +637,8 @@ public abstract class FramebuffersES2Contract implements TestContract
      * Create initial framebuffer.
      */
 
-    final FramebufferConfigurationGLES2 fb0_config =
-      new FramebufferConfigurationGLES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 fb0_config =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
     fb0_config.requestBestRGBColorRenderbuffer();
 
     final Framebuffer fb0 =
@@ -670,8 +670,8 @@ public abstract class FramebuffersES2Contract implements TestContract
      * Create framebuffer that shares the color attachment of fb0.
      */
 
-    final FramebufferConfigurationGLES2 fb1_config =
-      new FramebufferConfigurationGLES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 fb1_config =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
     fb1_config.requestSharedColor(fb0, points[0]);
 
     final Framebuffer fb1 =
@@ -727,8 +727,8 @@ public abstract class FramebuffersES2Contract implements TestContract
      * Create initial framebuffer.
      */
 
-    final FramebufferConfigurationGLES2 fb0_config =
-      new FramebufferConfigurationGLES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 fb0_config =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
     fb0_config.requestBestRGBAColorRenderbuffer();
 
     final Framebuffer fb0 =
@@ -760,8 +760,8 @@ public abstract class FramebuffersES2Contract implements TestContract
      * Create framebuffer that shares the color attachment of fb0.
      */
 
-    final FramebufferConfigurationGLES2 fb1_config =
-      new FramebufferConfigurationGLES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 fb1_config =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
     fb1_config.requestSharedColor(fb0, points[0]);
 
     final Framebuffer fb1 =
@@ -817,8 +817,8 @@ public abstract class FramebuffersES2Contract implements TestContract
      * Create initial framebuffer.
      */
 
-    final FramebufferConfigurationGLES2 fb0_config =
-      new FramebufferConfigurationGLES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 fb0_config =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
     fb0_config.requestBestRGBAColorTexture2D(
       TextureWrapS.TEXTURE_WRAP_REPEAT,
       TextureWrapT.TEXTURE_WRAP_REPEAT,
@@ -853,8 +853,8 @@ public abstract class FramebuffersES2Contract implements TestContract
      * Create framebuffer that shares the color attachment of fb0.
      */
 
-    final FramebufferConfigurationGLES2 fb1_config =
-      new FramebufferConfigurationGLES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 fb1_config =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
     fb1_config.requestSharedColor(fb0, points[0]);
 
     final Framebuffer fb1 =
@@ -909,8 +909,8 @@ public abstract class FramebuffersES2Contract implements TestContract
      * Create initial framebuffer.
      */
 
-    final FramebufferConfigurationGLES2 fb0_config =
-      new FramebufferConfigurationGLES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 fb0_config =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
     fb0_config.requestBestRGBAColorTextureCube(
       TextureWrapR.TEXTURE_WRAP_REPEAT,
       TextureWrapS.TEXTURE_WRAP_REPEAT,
@@ -946,8 +946,8 @@ public abstract class FramebuffersES2Contract implements TestContract
      * Create framebuffer that shares the color attachment of fb0.
      */
 
-    final FramebufferConfigurationGLES2 fb1_config =
-      new FramebufferConfigurationGLES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 fb1_config =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
     fb1_config.requestSharedColor(fb0, points[0]);
 
     final Framebuffer fb1 =
@@ -999,8 +999,8 @@ public abstract class FramebuffersES2Contract implements TestContract
      * Create initial framebuffer.
      */
 
-    final FramebufferConfigurationGLES2 fb0_config =
-      new FramebufferConfigurationGLES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 fb0_config =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
     fb0_config.requestBestRGBAColorRenderbuffer();
     fb0_config.requestDepthRenderbuffer();
 
@@ -1036,8 +1036,8 @@ public abstract class FramebuffersES2Contract implements TestContract
      * Create framebuffer that shares the depth attachment of fb0.
      */
 
-    final FramebufferConfigurationGLES2 fb1_config =
-      new FramebufferConfigurationGLES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 fb1_config =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
     fb1_config.requestBestRGBAColorRenderbuffer();
     fb1_config.requestSharedDepth(fb0);
 
@@ -1100,8 +1100,8 @@ public abstract class FramebuffersES2Contract implements TestContract
      * Create initial framebuffer.
      */
 
-    final FramebufferConfigurationGLES2 fb0_config =
-      new FramebufferConfigurationGLES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 fb0_config =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
     fb0_config.requestBestRGBAColorRenderbuffer();
 
     final Framebuffer fb0 =
@@ -1132,8 +1132,8 @@ public abstract class FramebuffersES2Contract implements TestContract
      * Create framebuffer that shares the color attachment of fb0.
      */
 
-    final FramebufferConfigurationGLES2 fb1_config =
-      new FramebufferConfigurationGLES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 fb1_config =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
     fb1_config.requestSharedColor(fb0, points[0]);
 
     final Framebuffer fb1 =
@@ -1168,8 +1168,8 @@ public abstract class FramebuffersES2Contract implements TestContract
      * Create framebuffer that shares the shared color attachment of fb1.
      */
 
-    final FramebufferConfigurationGLES2 fb2_config =
-      new FramebufferConfigurationGLES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 fb2_config =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
     fb2_config.requestSharedColor(fb1, points[0]);
 
     final Framebuffer fb2 =
@@ -1221,8 +1221,8 @@ public abstract class FramebuffersES2Contract implements TestContract
      * Create initial framebuffer.
      */
 
-    final FramebufferConfigurationGLES2 fb0_config =
-      new FramebufferConfigurationGLES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 fb0_config =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
     fb0_config.requestBestRGBAColorRenderbuffer();
     fb0_config.requestDepthRenderbuffer();
 
@@ -1271,8 +1271,8 @@ public abstract class FramebuffersES2Contract implements TestContract
      * Create framebuffer that shares the stencil attachment of fb0.
      */
 
-    final FramebufferConfigurationGLES2 fb1_config =
-      new FramebufferConfigurationGLES2Actual(128, 128);
+    final FramebufferConfigurationGL3ES2 fb1_config =
+      new FramebufferConfigurationGL3ES2Actual(128, 128);
     fb1_config.requestBestRGBAColorRenderbuffer();
     fb1_config.requestSharedStencil(fb0);
 
@@ -1328,8 +1328,8 @@ public abstract class FramebuffersES2Contract implements TestContract
     final GLImplementation gi = tc.getGLImplementation();
     final GLInterfaceCommon gl = gi.getGLCommon();
 
-    final FramebufferConfigurationGLES2 config =
-      new FramebufferConfigurationGLES2Actual(128, 256);
+    final FramebufferConfigurationGL3ES2 config =
+      new FramebufferConfigurationGL3ES2Actual(128, 256);
 
     config.requestBestRGBAColorRenderbuffer();
     config.requestNoDepth();
