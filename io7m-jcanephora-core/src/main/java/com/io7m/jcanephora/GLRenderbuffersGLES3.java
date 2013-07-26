@@ -13,13 +13,16 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-package com.io7m.jcanephora.contracts.common;
 
-import javax.annotation.Nonnull;
+package com.io7m.jcanephora;
 
-import com.io7m.jcanephora.TextureLoader;
+/**
+ * Type-safe interface to the renderbuffer API exposed by OpenGL ES 3.*.
+ */
 
-public interface TextureLoaderTestContract extends TestContract
+public interface GLRenderbuffersGLES3 extends
+  GLRenderbuffersGL3ES3,
+  GLRenderbuffersGLES2
 {
-  @Nonnull TextureLoader makeTextureLoader();
+  // No extra functions.
 }

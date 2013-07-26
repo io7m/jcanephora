@@ -35,7 +35,7 @@ public interface GLInterfaceGL2 extends
   GLLogic,
   GLPolygonModes,
   GLPolygonSmoothing,
-  GLRenderbuffersGL3,
+  GLRenderbuffersGL2,
   GLTextures2DStaticGL2,
   GLTexturesCubeStaticGL2
 {

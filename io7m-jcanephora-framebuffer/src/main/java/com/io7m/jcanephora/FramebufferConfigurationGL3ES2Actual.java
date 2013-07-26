@@ -43,13 +43,13 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilAsDepthStencil;
 import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
 /**
- * Instructions to create an ES2 compatible framebuffer configuration (using
- * OpenGL 3.0 features if available, but guaranteed to work on both ES2 and
- * 3.0).
+ * Instructions to create a framebuffer configuration that will behave
+ * identically on OpenGL ES2, OpenGL ES3, and OpenGL 3.0 (using
+ * version-specific features of each, if necessary).
  */
 
-@NotThreadSafe public final class FramebufferConfigurationGLES2Actual implements
-  FramebufferConfigurationGLES2
+@NotThreadSafe public final class FramebufferConfigurationGL3ES2Actual implements
+  FramebufferConfigurationGL3ES2
 {
   private static enum RequestColor
   {
@@ -223,11 +223,11 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   {
     gl.framebufferDrawBind(buffers.framebuffer);
 
-    FramebufferConfigurationGLES2Actual.attachColorBuffers(buffers, gl);
-    FramebufferConfigurationGLES2Actual.attachDepthBuffers_ES2_DS(
+    FramebufferConfigurationGL3ES2Actual.attachColorBuffers(buffers, gl);
+    FramebufferConfigurationGL3ES2Actual.attachDepthBuffers_ES2_DS(
       buffers,
       extension);
-    FramebufferConfigurationGLES2Actual.attachStencilBuffers(buffers, gl);
+    FramebufferConfigurationGL3ES2Actual.attachStencilBuffers(buffers, gl);
   }
 
   /**
@@ -245,9 +245,9 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   {
     gl.framebufferDrawBind(buffers.framebuffer);
 
-    FramebufferConfigurationGLES2Actual.attachColorBuffers(buffers, gl);
-    FramebufferConfigurationGLES2Actual.attachDepthBuffers_GL3(buffers, gl);
-    FramebufferConfigurationGLES2Actual.attachStencilBuffers(buffers, gl);
+    FramebufferConfigurationGL3ES2Actual.attachColorBuffers(buffers, gl);
+    FramebufferConfigurationGL3ES2Actual.attachDepthBuffers_GL3(buffers, gl);
+    FramebufferConfigurationGL3ES2Actual.attachStencilBuffers(buffers, gl);
   }
 
   private static void attachColorBuffers(
@@ -487,7 +487,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
    *           Iff <code>width &lt; 1 || height &lt; 1</code>
    */
 
-  public FramebufferConfigurationGLES2Actual(
+  public FramebufferConfigurationGL3ES2Actual(
     final int width,
     final int height)
     throws ConstraintError
@@ -521,8 +521,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     return gl.renderbufferAllocateRGBA4444(this.width, this.height);
   }
 
-  private Renderbuffer<RenderableColor> allocateBestRGBARenderbuffer_GL3(
-    final @Nonnull GLRenderbuffersGL3 gl)
+  private Renderbuffer<RenderableColor> allocateBestRGBARenderbuffer_GL3ES3(
+    final @Nonnull GLRenderbuffersGL3ES3 gl)
     throws ConstraintError,
       GLException
   {
@@ -569,8 +569,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     return gl.renderbufferAllocateRGB565(this.width, this.height);
   }
 
-  private Renderbuffer<RenderableColor> allocateBestRGBRenderbuffer_GL3(
-    final @Nonnull GLRenderbuffersGL3 gl)
+  private Renderbuffer<RenderableColor> allocateBestRGBRenderbuffer_GL3ES3(
+    final @Nonnull GLRenderbuffersGL3ES3 gl)
     throws ConstraintError,
       GLException
   {
@@ -639,7 +639,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
       }
       case WANT_COLOR_RGBA_TEXTURE_2D:
       {
-        FramebufferConfigurationGLES2Actual.makeTexture2DName(buffers);
+        FramebufferConfigurationGL3ES2Actual.makeTexture2DName(buffers);
         buffers.attachment_color =
           new AttachmentColorTexture2DStatic(this.allocateBestRGBATexture2D(
             gl,
@@ -648,7 +648,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
       }
       case WANT_COLOR_RGBA_TEXTURE_CUBE:
       {
-        FramebufferConfigurationGLES2Actual.makeTextureCubeName(buffers);
+        FramebufferConfigurationGL3ES2Actual.makeTextureCubeName(buffers);
         buffers.attachment_color =
           new AttachmentColorTextureCubeStatic(
             this.allocateBestRGBATextureCube(gl, buffers.text),
@@ -657,7 +657,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
       }
       case WANT_COLOR_RGB_TEXTURE_2D:
       {
-        FramebufferConfigurationGLES2Actual.makeTexture2DName(buffers);
+        FramebufferConfigurationGL3ES2Actual.makeTexture2DName(buffers);
         buffers.attachment_color =
           new AttachmentColorTexture2DStatic(this.allocateBestRGBTexture2D(
             gl,
@@ -666,7 +666,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
       }
       case WANT_COLOR_RGB_TEXTURE_CUBE:
       {
-        FramebufferConfigurationGLES2Actual.makeTextureCubeName(buffers);
+        FramebufferConfigurationGL3ES2Actual.makeTextureCubeName(buffers);
         buffers.attachment_color =
           new AttachmentColorTextureCubeStatic(
             this.allocateBestRGBTextureCube(gl, buffers.text),
@@ -690,34 +690,34 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
    */
 
   private
-    <G extends GLRenderbuffersGL3 & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon>
+    <G extends GLRenderbuffersGL3ES3 & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon>
     void
-    allocateColorBuffers_GL3(
+    allocateColorBuffers_GL3ES3(
       final @Nonnull WorkingBuffers buffers,
       final @Nonnull G gl)
       throws GLException,
         ConstraintError
   {
-    FramebufferConfigurationGLES2Actual.makeTexture2DName(buffers);
+    FramebufferConfigurationGL3ES2Actual.makeTexture2DName(buffers);
 
     switch (this.want_color) {
       case WANT_COLOR_RGBA_RENDERBUFFER:
       {
         buffers.attachment_color =
           new AttachmentColorRenderbuffer(
-            this.allocateBestRGBARenderbuffer_GL3(gl));
+            this.allocateBestRGBARenderbuffer_GL3ES3(gl));
         break;
       }
       case WANT_COLOR_RGB_RENDERBUFFER:
       {
         buffers.attachment_color =
           new AttachmentColorRenderbuffer(
-            this.allocateBestRGBRenderbuffer_GL3(gl));
+            this.allocateBestRGBRenderbuffer_GL3ES3(gl));
         break;
       }
       case WANT_COLOR_RGBA_TEXTURE_2D:
       {
-        FramebufferConfigurationGLES2Actual.makeTexture2DName(buffers);
+        FramebufferConfigurationGL3ES2Actual.makeTexture2DName(buffers);
         buffers.attachment_color =
           new AttachmentColorTexture2DStatic(this.allocateBestRGBATexture2D(
             gl,
@@ -726,7 +726,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
       }
       case WANT_COLOR_RGBA_TEXTURE_CUBE:
       {
-        FramebufferConfigurationGLES2Actual.makeTextureCubeName(buffers);
+        FramebufferConfigurationGL3ES2Actual.makeTextureCubeName(buffers);
         buffers.attachment_color =
           new AttachmentColorTextureCubeStatic(
             this.allocateBestRGBATextureCube(gl, buffers.text),
@@ -735,7 +735,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
       }
       case WANT_COLOR_RGB_TEXTURE_2D:
       {
-        FramebufferConfigurationGLES2Actual.makeTexture2DName(buffers);
+        FramebufferConfigurationGL3ES2Actual.makeTexture2DName(buffers);
         buffers.attachment_color =
           new AttachmentColorTexture2DStatic(this.allocateBestRGBTexture2D(
             gl,
@@ -744,7 +744,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
       }
       case WANT_COLOR_RGB_TEXTURE_CUBE:
       {
-        FramebufferConfigurationGLES2Actual.makeTextureCubeName(buffers);
+        FramebufferConfigurationGL3ES2Actual.makeTextureCubeName(buffers);
         buffers.attachment_color =
           new AttachmentColorTextureCubeStatic(
             this.allocateBestRGBTextureCube(gl, buffers.text),
@@ -839,14 +839,11 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   /**
    * Allocate a depth/stencil buffer using the packed depth/stencil format, if
    * requested.
-   * 
-   * @throws ConstraintError
-   * @throws GLException
    */
 
-  private void allocateDepthStencil_GL3(
+  private void allocateDepthStencil_GL3ES3(
     final @Nonnull WorkingBuffers buffers,
-    final @Nonnull GLRenderbuffersGL3 gl)
+    final @Nonnull GLRenderbuffersGL3ES3 gl)
     throws GLException,
       ConstraintError
   {
@@ -918,8 +915,8 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     if (this.getClass() != obj.getClass()) {
       return false;
     }
-    final FramebufferConfigurationGLES2Actual other =
-      (FramebufferConfigurationGLES2Actual) obj;
+    final FramebufferConfigurationGL3ES2Actual other =
+      (FramebufferConfigurationGL3ES2Actual) obj;
     if (this.height != other.height) {
       return false;
     }
@@ -1046,7 +1043,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
             new WorkingBuffers(gl2, gl2, gl2, gl2);
 
           try {
-            return this.makeGL3(buffers, gl2);
+            return this.makeGL2(buffers, gl2);
           } catch (final GLException e) {
             buffers.emergencyCleanup();
             throw e;
@@ -1073,7 +1070,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
           final WorkingBuffers buffers = new WorkingBuffers(gl, gl, gl, gl);
 
           try {
-            return this.makeGL3(buffers, gl);
+            return this.makeGLES3(buffers, gl);
           } catch (final GLException e) {
             buffers.emergencyCleanup();
             throw e;
@@ -1113,6 +1110,32 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     }
 
     throw new UnreachableCodeException();
+  }
+
+  private @Nonnull Indeterminate<Framebuffer, FramebufferStatus> makeGLES3(
+    final @Nonnull WorkingBuffers buffers,
+    final @Nonnull GLInterfaceGLES3 gl)
+    throws GLException,
+      ConstraintError
+  {
+    buffers.framebuffer = gl.framebufferAllocate();
+    this.allocateColorBuffers_GL3ES3(buffers, gl);
+    this.allocateDepthStencil_GL3ES3(buffers, gl);
+    FramebufferConfigurationGL3ES2Actual.attachBuffers_GL3(buffers, gl);
+    return this.validateAndMakeState(buffers, gl);
+  }
+
+  private @Nonnull Indeterminate<Framebuffer, FramebufferStatus> makeGL2(
+    final @Nonnull WorkingBuffers buffers,
+    final @Nonnull GLInterfaceGL2 gl)
+    throws GLException,
+      ConstraintError
+  {
+    buffers.framebuffer = gl.framebufferAllocate();
+    this.allocateColorBuffers_GL3ES3(buffers, gl);
+    this.allocateDepthStencil_GL3ES3(buffers, gl);
+    FramebufferConfigurationGL3ES2Actual.attachBuffers_GL3(buffers, gl);
+    return this.validateAndMakeState(buffers, gl);
   }
 
   private Indeterminate<Framebuffer, FramebufferStatus> makeES2(
@@ -1168,7 +1191,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   {
     this.allocateColorBuffers_ES2(buffers, gl);
     this.allocateDepthStencil_ES2(buffers, extension);
-    FramebufferConfigurationGLES2Actual.attachBuffers_ES2(
+    FramebufferConfigurationGL3ES2Actual.attachBuffers_ES2(
       buffers,
       gl,
       extension);
@@ -1192,7 +1215,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     this.allocateColorBuffers_ES2(buffers, gl);
     this.allocateDepth_ES2(buffers, gl);
     this.allocateStencil_ES2(buffers, gl);
-    FramebufferConfigurationGLES2Actual.attachBuffers_ES2(buffers, gl, null);
+    FramebufferConfigurationGL3ES2Actual.attachBuffers_ES2(buffers, gl, null);
     return this.validateAndMakeState(buffers, gl);
   }
 
@@ -1213,9 +1236,9 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
         ConstraintError
   {
     buffers.framebuffer = gl.framebufferAllocate();
-    this.allocateColorBuffers_GL3(buffers, gl);
-    this.allocateDepthStencil_GL3(buffers, gl);
-    FramebufferConfigurationGLES2Actual.attachBuffers_GL3(buffers, gl);
+    this.allocateColorBuffers_GL3ES3(buffers, gl);
+    this.allocateDepthStencil_GL3ES3(buffers, gl);
+    FramebufferConfigurationGL3ES2Actual.attachBuffers_GL3(buffers, gl);
     return this.validateAndMakeState(buffers, gl);
   }
 

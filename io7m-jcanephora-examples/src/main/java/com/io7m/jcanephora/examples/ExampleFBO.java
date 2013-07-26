@@ -33,8 +33,8 @@ import com.io7m.jcanephora.CursorWritable4f;
 import com.io7m.jcanephora.CursorWritableIndex;
 import com.io7m.jcanephora.Framebuffer;
 import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
-import com.io7m.jcanephora.FramebufferConfigurationGLES2;
-import com.io7m.jcanephora.FramebufferConfigurationGLES2Actual;
+import com.io7m.jcanephora.FramebufferConfigurationGL3ES2;
+import com.io7m.jcanephora.FramebufferConfigurationGL3ES2Actual;
 import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.GLCompileException;
 import com.io7m.jcanephora.GLException;
@@ -97,7 +97,7 @@ public final class ExampleFBO implements Example
   private int                                     framebuffer_width;
   private int                                     framebuffer_height;
   private final int                               framebuffer_divisor = 8;
-  private final FramebufferConfigurationGLES2     framebuffer_config;
+  private final FramebufferConfigurationGL3ES2     framebuffer_config;
 
   public ExampleFBO(
     final @Nonnull ExampleConfig config)
@@ -157,7 +157,7 @@ public final class ExampleFBO implements Example
      */
 
     this.framebuffer_config =
-      new FramebufferConfigurationGLES2Actual(
+      new FramebufferConfigurationGL3ES2Actual(
         this.framebuffer_width,
         this.framebuffer_height);
 

@@ -120,8 +120,8 @@ public enum TextureType
   }
 
   /**
-   * Retrieve the common set of the 2D texture types supported by GL 3.* and
-   * ES 3.*.
+   * Retrieve the common set of the 2D texture types supported by both GL 3.*
+   * and ES 3.*.
    */
 
   public static @Nonnull Set<TextureType> get2DTypesGL3ES3()
