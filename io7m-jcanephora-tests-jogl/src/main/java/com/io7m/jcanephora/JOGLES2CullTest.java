@@ -23,11 +23,11 @@ import com.io7m.jcanephora.contracts.CullContract;
 
 public final class JOGLES2CullTest extends CullContract
 {
-  @Override public GLCull getGLCull(
+  @Override public JCGLCull getGLCull(
     final TestContext context)
   {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) context.getGLImplementation().getGLES2();
+    final Some<JCGLInterfaceGLES2> some =
+      (Some<JCGLInterfaceGLES2>) context.getGLImplementation().getGLES2();
     return some.value;
   }
 
@@ -37,8 +37,8 @@ public final class JOGLES2CullTest extends CullContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL_ES2();

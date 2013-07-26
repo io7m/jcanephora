@@ -23,11 +23,11 @@ import com.io7m.jcanephora.contracts.ColorBufferContract;
 
 public final class JOGL3pColorBufferTest extends ColorBufferContract
 {
-  @Override public GLColorBuffer getGLColorBuffer(
+  @Override public JCGLColorBuffer getGLColorBuffer(
     final TestContext context)
   {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) context.getGLImplementation().getGL3();
+    final Some<JCGLInterfaceGL3> some =
+      (Some<JCGLInterfaceGL3>) context.getGLImplementation().getGL3();
     return some.value;
   }
 
@@ -37,8 +37,8 @@ public final class JOGL3pColorBufferTest extends ColorBufferContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL3_p();

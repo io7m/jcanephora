@@ -27,7 +27,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  */
 
 @Immutable public final class Renderbuffer<K extends RenderbufferKind> extends
-  GLResourceDeletable implements RenderbufferUsable<K>
+  JCGLResourceDeletable implements RenderbufferUsable<K>
 {
   /**
    * Unsafe operation for branding a renderbuffer <code>r</code> with the

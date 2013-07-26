@@ -34,12 +34,12 @@ final class ByteBufferCursorReadableIndex extends BufferCursor implements
   CursorReadableIndex
 {
   private final @Nonnull ByteBuffer     target_data;
-  private final @Nonnull GLUnsignedType type;
+  private final @Nonnull JCGLUnsignedType type;
 
   ByteBufferCursorReadableIndex(
     final @Nonnull ByteBuffer target_data,
     final @Nonnull RangeInclusive range,
-    final @Nonnull GLUnsignedType type)
+    final @Nonnull JCGLUnsignedType type)
   {
     super(range, 0, type.getSizeBytes());
     this.target_data = target_data;

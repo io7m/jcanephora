@@ -20,9 +20,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLTextures2DStaticGLES3;
-import com.io7m.jcanephora.GLUnsupportedException;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLTextures2DStaticGLES3;
+import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilterMagnification;
@@ -33,19 +33,19 @@ import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.contracts.Texture2DStaticContract;
 
 public abstract class Texture2DStaticGLES3Contract extends
-  Texture2DStaticContract<GLTextures2DStaticGLES3>
+  Texture2DStaticContract<JCGLTextures2DStaticGLES3>
 {
   /**
    * Textures have the correct type.
    */
 
   @Test public final void testTextureTypes()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTextures2DStaticGLES3 gl = this.getGLTexture2DStatic(tc);
+    final JCGLTextures2DStaticGLES3 gl = this.getGLTexture2DStatic(tc);
 
     for (final TextureType t : TextureType.get2DTypesGLES3()) {
       switch (t) {

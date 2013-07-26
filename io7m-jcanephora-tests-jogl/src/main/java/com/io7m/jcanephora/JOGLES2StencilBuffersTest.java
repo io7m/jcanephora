@@ -27,19 +27,19 @@ import com.io7m.jcanephora.contracts.StencilBuffersContract;
 
 public final class JOGLES2StencilBuffersTest extends StencilBuffersContract
 {
-  @Override public GLFramebuffersCommon getGLFramebuffers(
+  @Override public JCGLFramebuffersCommon getGLFramebuffers(
     final TestContext tc)
   {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    final Some<JCGLInterfaceGLES2> some =
+      (Some<JCGLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
     return some.value;
   }
 
-  @Override public GLStencilBuffer getGLStencilBuffer(
+  @Override public JCGLStencilBuffer getGLStencilBuffer(
     final TestContext tc)
   {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    final Some<JCGLInterfaceGLES2> some =
+      (Some<JCGLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
     return some.value;
   }
 
@@ -51,13 +51,13 @@ public final class JOGLES2StencilBuffersTest extends StencilBuffersContract
   @Override public @Nonnull
     FramebufferReference
     makeFramebufferWithoutStencil(
-      @Nonnull final GLImplementation gi)
+      @Nonnull final JCGLImplementation gi)
       throws ConstraintError,
-        GLException
+        JCGLException
   {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) gi.getGLES2();
-    final GLInterfaceGLES2 g = some.value;
+    final Some<JCGLInterfaceGLES2> some =
+      (Some<JCGLInterfaceGLES2>) gi.getGLES2();
+    final JCGLInterfaceGLES2 g = some.value;
     final FramebufferReference fb = g.framebufferAllocate();
 
     g.framebufferDrawBind(fb);
@@ -75,13 +75,13 @@ public final class JOGLES2StencilBuffersTest extends StencilBuffersContract
   }
 
   @Override public @Nonnull FramebufferReference makeFramebufferWithStencil(
-    @Nonnull final GLImplementation gi)
+    @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) gi.getGLES2();
-    final GLInterfaceGLES2 g = some.value;
+    final Some<JCGLInterfaceGLES2> some =
+      (Some<JCGLInterfaceGLES2>) gi.getGLES2();
+    final JCGLInterfaceGLES2 g = some.value;
     final FramebufferReference fb = g.framebufferAllocate();
 
     g.framebufferDrawBind(fb);
@@ -89,12 +89,12 @@ public final class JOGLES2StencilBuffersTest extends StencilBuffersContract
       g.renderbufferAllocateRGBA4444(128, 128);
     g.framebufferDrawAttachColorRenderbuffer(fb, cb);
 
-    final Option<GLExtensionPackedDepthStencil> e =
+    final Option<JCGLExtensionPackedDepthStencil> e =
       g.extensionPackedDepthStencil().extensionGetSupport();
 
     if (e.type == Type.OPTION_SOME) {
-      final GLExtensionPackedDepthStencil ex =
-        ((Some<GLExtensionPackedDepthStencil>) e).value;
+      final JCGLExtensionPackedDepthStencil ex =
+        ((Some<JCGLExtensionPackedDepthStencil>) e).value;
       final Renderbuffer<RenderableDepthStencil> db =
         ex.renderbufferAllocateDepth24Stencil8(128, 128);
       ex.framebufferDrawAttachDepthStencilRenderbuffer(fb, db);
@@ -114,8 +114,8 @@ public final class JOGLES2StencilBuffersTest extends StencilBuffersContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL_ES2();

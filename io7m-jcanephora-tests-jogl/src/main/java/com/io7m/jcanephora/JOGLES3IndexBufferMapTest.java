@@ -23,43 +23,43 @@ import com.io7m.jcanephora.contracts.IndexBufferMapContract;
 
 public final class JOGLES3IndexBufferMapTest extends IndexBufferMapContract
 {
-  @Override public GLArrayBuffers getGLArrayBuffers(
+  @Override public JCGLArrayBuffers getGLArrayBuffers(
     final TestContext tc)
   {
-    final Some<GLInterfaceGLES3> some =
-      (Some<GLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
+    final Some<JCGLInterfaceGLES3> some =
+      (Some<JCGLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
     return some.value;
   }
 
-  @Override public GLArrayBuffersMapped getGLArrayBuffersMapped(
+  @Override public JCGLArrayBuffersMapped getGLArrayBuffersMapped(
     final TestContext tc)
   {
-    final Some<GLInterfaceGLES3> some =
-      (Some<GLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
+    final Some<JCGLInterfaceGLES3> some =
+      (Some<JCGLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
     return some.value;
   }
 
-  @Override public GLErrorCodes getGLErrorCodes(
+  @Override public JCGLErrorCodes getGLErrorCodes(
     final TestContext tc)
   {
-    final Some<GLInterfaceGLES3> some =
-      (Some<GLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
+    final Some<JCGLInterfaceGLES3> some =
+      (Some<JCGLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
     return some.value;
   }
 
-  @Override public GLIndexBuffers getGLIndexBuffers(
+  @Override public JCGLIndexBuffers getGLIndexBuffers(
     final TestContext tc)
   {
-    final Some<GLInterfaceGLES3> some =
-      (Some<GLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
+    final Some<JCGLInterfaceGLES3> some =
+      (Some<JCGLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
     return some.value;
   }
 
-  @Override public GLIndexBuffersMapped getGLIndexBuffersMapped(
+  @Override public JCGLIndexBuffersMapped getGLIndexBuffersMapped(
     final TestContext tc)
   {
-    final Some<GLInterfaceGLES3> some =
-      (Some<GLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
+    final Some<JCGLInterfaceGLES3> some =
+      (Some<JCGLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
     return some.value;
   }
 
@@ -69,8 +69,8 @@ public final class JOGLES3IndexBufferMapTest extends IndexBufferMapContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL_ES3();

@@ -24,13 +24,13 @@ import com.io7m.jvvfs.PathVirtual;
 public final class TestContext
 {
   private final @Nonnull FSCapabilityAll  fs;
-  private final @Nonnull GLImplementation gi;
+  private final @Nonnull JCGLImplementation gi;
   private final @Nonnull Log              log;
   private final @Nonnull PathVirtual      shader_path;
 
   public TestContext(
     final @Nonnull FSCapabilityAll fs,
-    final @Nonnull GLImplementation gi,
+    final @Nonnull JCGLImplementation gi,
     final @Nonnull Log log,
     final @Nonnull PathVirtual shader_path)
   {
@@ -45,7 +45,7 @@ public final class TestContext
     return this.fs;
   }
 
-  public GLImplementation getGLImplementation()
+  public JCGLImplementation getGLImplementation()
   {
     return this.gi;
   }

@@ -49,6 +49,6 @@ public interface IndexBufferUsable
    * Retrieve the type of the elements in the buffer.
    */
 
-  @Nonnull GLUnsignedType getType();
+  @Nonnull JCGLUnsignedType getType();
 
 }

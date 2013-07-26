@@ -38,7 +38,7 @@ final class JOGL_GL2GL3_Functions
 {
   static void logicOperationsDisable(
     final @Nonnull GL2GL3 gl)
-    throws GLException
+    throws JCGLException
   {
     gl.glDisable(GL.GL_COLOR_LOGIC_OP);
     JOGL_GL_Functions.checkError(gl);
@@ -48,7 +48,7 @@ final class JOGL_GL2GL3_Functions
     final @Nonnull GL2GL3 gl,
     final @Nonnull LogicOperation operation)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(operation, "Logic operation");
     gl.glEnable(GL.GL_COLOR_LOGIC_OP);
@@ -58,7 +58,7 @@ final class JOGL_GL2GL3_Functions
 
   static boolean logicOperationsEnabled(
     final @Nonnull GL2GL3 gl)
-    throws GLException
+    throws JCGLException
   {
     final boolean e = gl.glIsEnabled(GL.GL_COLOR_LOGIC_OP);
     JOGL_GL_Functions.checkError(gl);
@@ -67,10 +67,10 @@ final class JOGL_GL2GL3_Functions
 
   static void polygonSetMode(
     final @Nonnull GL2GL3 gl,
-    final @Nonnull GLStateCache cache,
+    final @Nonnull JCGLStateCache cache,
     final @Nonnull PolygonMode mode)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(mode, "Polygon mode");
 
@@ -82,7 +82,7 @@ final class JOGL_GL2GL3_Functions
 
   static void polygonSmoothingDisable(
     final @Nonnull GL2GL3 gl)
-    throws GLException
+    throws JCGLException
   {
     gl.glDisable(GL2GL3.GL_POLYGON_SMOOTH);
     JOGL_GL_Functions.checkError(gl);
@@ -90,7 +90,7 @@ final class JOGL_GL2GL3_Functions
 
   static void polygonSmoothingEnable(
     final @Nonnull GL2GL3 gl)
-    throws GLException
+    throws JCGLException
   {
     gl.glEnable(GL2GL3.GL_POLYGON_SMOOTH);
     JOGL_GL_Functions.checkError(gl);
@@ -98,7 +98,7 @@ final class JOGL_GL2GL3_Functions
 
   static boolean polygonSmoothingIsEnabled(
     final @Nonnull GL2GL3 gl)
-    throws GLException
+    throws JCGLException
   {
     final boolean e = gl.glIsEnabled(GL2GL3.GL_POLYGON_SMOOTH);
     JOGL_GL_Functions.checkError(gl);
@@ -107,7 +107,7 @@ final class JOGL_GL2GL3_Functions
 
   static @Nonnull Texture2DStatic texture2DStaticAllocate(
     final @Nonnull GL gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull String name,
     final int width,
@@ -118,7 +118,7 @@ final class JOGL_GL2GL3_Functions
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(name, "Name");
     Constraints.constrainRange(width, 2, Integer.MAX_VALUE, "Width");
@@ -214,7 +214,7 @@ final class JOGL_GL2GL3_Functions
     final @Nonnull GL gl,
     final @Nonnull Texture2DWritableData data)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(data, "Texture data");
 
@@ -246,7 +246,7 @@ final class JOGL_GL2GL3_Functions
 
   static @Nonnull TextureCubeStatic textureCubeStaticAllocate(
     final @Nonnull GL gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull String name,
     final int size,
@@ -257,7 +257,7 @@ final class JOGL_GL2GL3_Functions
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(name, "Name");
     Constraints.constrainRange(size, 2, Integer.MAX_VALUE, "Size");
@@ -366,7 +366,7 @@ final class JOGL_GL2GL3_Functions
     final @Nonnull CubeMapFace face,
     final @Nonnull TextureCubeWritableData data)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(face, "Cube map face");
     Constraints.constrainNotNull(data, "Texture data");

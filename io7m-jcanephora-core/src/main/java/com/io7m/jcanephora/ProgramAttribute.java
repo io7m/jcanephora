@@ -33,7 +33,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 {
   private final int                       index;
   private final int                       location;
-  private final @Nonnull GLType.Type      type;
+  private final @Nonnull JCGLType.Type      type;
   private final @Nonnull String           name;
   private final @Nonnull ProgramReference program;
 
@@ -42,7 +42,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     final int index,
     final int location,
     final @CheckForNull String name,
-    final @Nonnull GLType.Type type)
+    final @Nonnull JCGLType.Type type)
     throws ConstraintError
   {
     this.program = Constraints.constrainNotNull(program, "Program");
@@ -94,7 +94,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * Retrieve the OpenGL type of the attribute.
    */
 
-  public @Nonnull GLType.Type getType()
+  public @Nonnull JCGLType.Type getType()
   {
     return this.type;
   }
