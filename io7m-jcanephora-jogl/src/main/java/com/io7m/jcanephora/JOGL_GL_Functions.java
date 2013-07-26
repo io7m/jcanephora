@@ -1422,22 +1422,22 @@ final class JOGL_GL_Functions
 
   static void framebufferDrawBind(
     final @Nonnull GL gl,
-    final @Nonnull FramebufferReference buffer)
+    final @Nonnull FramebufferReferenceUsable framebuffer)
     throws ConstraintError,
       JCGLException
   {
-    Constraints.constrainNotNull(buffer, "Framebuffer");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
     Constraints.constrainArbitrary(
-      buffer.resourceIsDeleted() == false,
+      framebuffer.resourceIsDeleted() == false,
       "Framebuffer not deleted");
 
-    gl.glBindFramebuffer(GL.GL_FRAMEBUFFER, buffer.getGLName());
+    gl.glBindFramebuffer(GL.GL_FRAMEBUFFER, framebuffer.getGLName());
     JOGL_GL_Functions.checkError(gl);
   }
 
   static boolean framebufferDrawIsBound(
     final @Nonnull GL gl,
-    final @Nonnull FramebufferReference framebuffer)
+    final @Nonnull FramebufferReferenceUsable framebuffer)
     throws ConstraintError
   {
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
@@ -1459,7 +1459,7 @@ final class JOGL_GL_Functions
 
   static @Nonnull FramebufferStatus framebufferDrawValidate(
     final @Nonnull GL gl,
-    final @Nonnull FramebufferReference framebuffer)
+    final @Nonnull FramebufferReferenceUsable framebuffer)
     throws JCGLException,
       ConstraintError
   {

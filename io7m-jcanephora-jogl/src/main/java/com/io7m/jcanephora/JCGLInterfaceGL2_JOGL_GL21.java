@@ -766,7 +766,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public void framebufferDrawBind(
-    final @Nonnull FramebufferReference framebuffer)
+    final @Nonnull FramebufferReferenceUsable framebuffer)
     throws JCGLException,
       ConstraintError
   {
@@ -774,7 +774,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public boolean framebufferDrawIsBound(
-    final @Nonnull FramebufferReference framebuffer)
+    final @Nonnull FramebufferReferenceUsable framebuffer)
     throws JCGLException,
       ConstraintError
   {
@@ -806,7 +806,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public @Nonnull FramebufferStatus framebufferDrawValidate(
-    final @Nonnull FramebufferReference framebuffer)
+    final @Nonnull FramebufferReferenceUsable framebuffer)
     throws JCGLException,
       ConstraintError
   {
