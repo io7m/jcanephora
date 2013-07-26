@@ -25,7 +25,7 @@ import com.io7m.jcanephora.GLInterfaceCommon;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.TestContext;
-import com.io7m.jcanephora.contracts.common.ProgramContract;
+import com.io7m.jcanephora.contracts.ProgramContract;
 import com.io7m.jvvfs.FSCapabilityAll;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;

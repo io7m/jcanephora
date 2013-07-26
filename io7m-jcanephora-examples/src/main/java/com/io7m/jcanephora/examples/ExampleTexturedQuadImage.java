@@ -115,7 +115,7 @@ public final class ExampleTexturedQuadImage implements Example
      * Load a texture from an image file.
      */
 
-    this.textures = new Texture2DStatic[TextureType.getES2Types().length];
+    this.textures = new Texture2DStatic[TextureType.get2DTypesGLES2().size()];
 
     final TextureLoader loader = config.getTextureLoader();
     final FSCapabilityAll filesystem = config.getFilesystem();
@@ -133,53 +133,17 @@ public final class ExampleTexturedQuadImage implements Example
         case TEXTURE_TYPE_DEPTH_32F_4BPP:
         case TEXTURE_TYPE_R_8_1BPP:
         case TEXTURE_TYPE_RG_88_2BPP:
+        case TEXTURE_TYPE_RGBA_4444_2BPP:
+        case TEXTURE_TYPE_RGBA_5551_2BPP:
+        case TEXTURE_TYPE_RGB_565_2BPP:
         {
           stream.close();
           throw new UnreachableCodeException();
-        }
-        case TEXTURE_TYPE_RGBA_4444_2BPP:
-        {
-          this.textures[index] =
-            loader.load2DStaticRGBA4444(
-              this.gl,
-              TextureWrapS.TEXTURE_WRAP_REPEAT,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-              TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
-              stream,
-              type.toString());
-          break;
-        }
-        case TEXTURE_TYPE_RGBA_5551_2BPP:
-        {
-          this.textures[index] =
-            loader.load2DStaticRGBA5551(
-              this.gl,
-              TextureWrapS.TEXTURE_WRAP_REPEAT,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-              TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
-              stream,
-              type.toString());
-          break;
         }
         case TEXTURE_TYPE_RGBA_8888_4BPP:
         {
           this.textures[index] =
             loader.load2DStaticRGBA8888(
-              this.gl,
-              TextureWrapS.TEXTURE_WRAP_REPEAT,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-              TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
-              stream,
-              type.toString());
-          break;
-        }
-        case TEXTURE_TYPE_RGB_565_2BPP:
-        {
-          this.textures[index] =
-            loader.load2DStaticRGB565(
               this.gl,
               TextureWrapS.TEXTURE_WRAP_REPEAT,
               TextureWrapT.TEXTURE_WRAP_REPEAT,

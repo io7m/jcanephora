@@ -18,12 +18,8 @@ package com.io7m.jcanephora;
 
 /**
  * <p>
- * Type-safe interface to the cube map texture API exposed by OpenGL 2.1.
- * </p>
- * <p>
- * The textures are manipulated using the standard <code>glTexImage2D</code>
- * family of functions, internally and the functions are intended for use with
- * textures that are not frequently updated.
+ * Type-safe interface to the set of cube texture types guaranteed to be
+ * supported by OpenGL 2.1.
  * </p>
  */
 

@@ -17,11 +17,13 @@
 package com.io7m.jcanephora;
 
 /**
- * Type-safe interface to the 2D texture API exposed by all OpenGL 3.*
- * implementations.
+ * <p>
+ * Type-safe interface to the set of 2D texture types guaranteed to be
+ * supported by OpenGL 3.*.
+ * </p>
  */
 
-public interface GLTextures2DStaticGL3 extends GLTextures2DStaticGLES3
+public interface GLTextures2DStaticGL3 extends GLTextures2DStaticGL3ES3
 {
-
+  // See superinterface.s
 }

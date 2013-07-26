@@ -23,7 +23,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jaux.functional.Option.Type;
-import com.io7m.jcanephora.contracts.common.StencilBuffersContract;
+import com.io7m.jcanephora.contracts.StencilBuffersContract;
 
 public final class LWJGLES2StencilBuffersTest extends StencilBuffersContract
 {
