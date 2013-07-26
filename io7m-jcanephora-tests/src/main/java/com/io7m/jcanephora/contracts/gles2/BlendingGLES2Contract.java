@@ -31,7 +31,7 @@ import com.io7m.jcanephora.GLException;
 import com.io7m.jcanephora.GLImplementation;
 import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
-import com.io7m.jcanephora.contracts.common.TestContract;
+import com.io7m.jcanephora.contracts.TestContract;
 
 public abstract class BlendingGLES2Contract implements TestContract
 {

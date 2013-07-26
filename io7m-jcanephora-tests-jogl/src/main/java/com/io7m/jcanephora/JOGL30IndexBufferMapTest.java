@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option.Some;
-import com.io7m.jcanephora.contracts.gl3.IndexBufferMapContract;
+import com.io7m.jcanephora.contracts.IndexBufferMapContract;
 
 public final class JOGL30IndexBufferMapTest extends IndexBufferMapContract
 {

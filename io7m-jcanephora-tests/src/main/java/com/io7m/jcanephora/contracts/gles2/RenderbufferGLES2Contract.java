@@ -13,6 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora.contracts.gles2;
 
 import org.junit.Assert;
@@ -28,7 +29,7 @@ import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.RenderbufferType;
 import com.io7m.jcanephora.TestContext;
-import com.io7m.jcanephora.contracts.common.TestContract;
+import com.io7m.jcanephora.contracts.TestContract;
 
 public abstract class RenderbufferGLES2Contract implements TestContract
 {

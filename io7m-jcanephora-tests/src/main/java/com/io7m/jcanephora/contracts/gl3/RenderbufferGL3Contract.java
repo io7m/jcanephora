@@ -27,7 +27,7 @@ import com.io7m.jcanephora.GLUnsupportedException;
 import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.RenderbufferType;
 import com.io7m.jcanephora.TestContext;
-import com.io7m.jcanephora.contracts.common.TestContract;
+import com.io7m.jcanephora.contracts.TestContract;
 
 public abstract class RenderbufferGL3Contract implements TestContract
 {

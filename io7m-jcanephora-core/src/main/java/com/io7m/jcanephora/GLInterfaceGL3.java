@@ -23,9 +23,16 @@ package com.io7m.jcanephora;
  */
 
 public interface GLInterfaceGL3 extends
-  GLInterfaceGL2,
   GLArrayBuffersMapped,
+  GLBlendingGL3,
+  GLFramebuffersGL3,
   GLIndexBuffersMapped,
+  GLInterfaceCommon,
+  GLLogic,
+  GLPolygonModes,
+  GLPolygonSmoothing,
+  GLRenderbuffersGL3,
+  GLTextures2DStaticGL3,
   GLTexturesCubeStaticGL3
 {
   /*

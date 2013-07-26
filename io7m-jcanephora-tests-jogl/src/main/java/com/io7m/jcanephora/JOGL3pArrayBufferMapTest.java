@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option.Some;
-import com.io7m.jcanephora.contracts.gl3.ArrayBufferMapContract;
+import com.io7m.jcanephora.contracts.ArrayBufferMapContract;
 
 public final class JOGL3pArrayBufferMapTest extends ArrayBufferMapContract
 {
