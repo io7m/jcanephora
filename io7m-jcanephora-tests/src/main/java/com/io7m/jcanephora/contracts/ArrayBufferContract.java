@@ -53,7 +53,7 @@ import com.io7m.jvvfs.PathVirtual;
 
 public abstract class ArrayBufferContract implements TestContract
 {
-  @SuppressWarnings("resource") static ProgramReference makeProgram(
+  static ProgramReference makeProgram(
     final JCGLShaders gl,
     final FSCapabilityAll filesystem,
     final PathVirtual vertex_shader,
