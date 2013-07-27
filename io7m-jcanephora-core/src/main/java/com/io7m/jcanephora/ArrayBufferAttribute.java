@@ -95,4 +95,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
     return true;
   }
 
+  public @Nonnull String getName()
+  {
+    return this.descriptor.getName();
+  }
 }

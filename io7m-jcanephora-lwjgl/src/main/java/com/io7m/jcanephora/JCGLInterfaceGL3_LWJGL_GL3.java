@@ -137,7 +137,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void arrayBufferBindVertexAttribute(
     final @Nonnull ArrayBufferUsable buffer,
-    final @Nonnull ArrayBufferAttributeDescriptor buffer_attribute,
+    final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError
@@ -205,7 +205,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public void arrayBufferUnbindVertexAttribute(
     final @Nonnull ArrayBufferUsable buffer,
-    final @Nonnull ArrayBufferAttributeDescriptor buffer_attribute,
+    final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError

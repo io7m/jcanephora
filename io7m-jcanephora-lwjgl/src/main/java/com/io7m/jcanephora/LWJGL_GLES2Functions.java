@@ -120,7 +120,7 @@ final class LWJGL_GLES2Functions
   static void arrayBufferBindVertexAttribute(
     final @Nonnull JCGLStateCache state,
     final @Nonnull ArrayBufferUsable buffer,
-    final @Nonnull ArrayBufferAttributeDescriptor buffer_attribute,
+    final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError
@@ -137,40 +137,59 @@ final class LWJGL_GLES2Functions
     Constraints.constrainArbitrary(bound, "Buffer is bound");
 
     Constraints.constrainArbitrary(
+      buffer_attribute.getArray().equals(buffer),
+      "Array attribute belongs to the given array");
+
+    Constraints.constrainArbitrary(
       LWJGL_GLES2Functions.programIsActive(
         state,
         program_attribute.getProgram()),
       "Program for program attribute is not active");
 
-    final ArrayBufferTypeDescriptor d = buffer.getDescriptor();
-    final ArrayBufferAttributeDescriptor dba =
-      d.getAttribute(buffer_attribute.getName());
+    final ArrayBufferAttributeDescriptor buffer_attribute_type =
+      buffer_attribute.getDescriptor();
 
-    final boolean same_array = dba == buffer_attribute;
-    Constraints.constrainArbitrary(
-      same_array,
-      "Buffer attribute belongs to the array buffer");
+    final JCGLScalarType buffer_attribute_gl_type =
+      buffer_attribute_type.getType();
+    final int buffer_attribute_elements = buffer_attribute_type.getElements();
 
-    final boolean same_type =
-      dba.getType().shaderTypeConvertible(
-        dba.getElements(),
+    final boolean convertible =
+      buffer_attribute_gl_type.shaderTypeConvertible(
+        buffer_attribute_elements,
         program_attribute.getType());
-    Constraints.constrainArbitrary(
-      same_type,
-      "Buffer attribute is of the same type as the program attribute");
+
+    if (convertible == false) {
+      final StringBuilder b = new StringBuilder();
+      b.append("Array buffer attribute '");
+      b.append(buffer_attribute_type.getName());
+      b.append("' is of type ");
+      b.append(buffer_attribute_gl_type);
+      b.append(" with ");
+      b.append(buffer_attribute_elements);
+      b.append(" elements, but the program attribute '");
+      b.append(program_attribute.getName());
+      b.append("' is of type ");
+      b.append(program_attribute.getType());
+      b.append(", which is incompatible");
+      Constraints.constrainArbitrary(convertible, b.toString());
+    }
 
     final int program_attrib_id = program_attribute.getLocation();
-    final int count = buffer_attribute.getElements();
+
     final int type =
-      LWJGL_GLTypeConversions.scalarTypeToGL(buffer_attribute.getType());
+      LWJGL_GLTypeConversions.scalarTypeToGL(buffer_attribute_gl_type);
     final boolean normalized = false;
     final int stride = (int) buffer.getElementSizeBytes();
-    final int offset = d.getAttributeOffset(buffer_attribute.getName());
+    final int offset =
+      buffer
+        .getType()
+        .getTypeDescriptor()
+        .getAttributeOffset(buffer_attribute.getName());
 
     GL20.glEnableVertexAttribArray(program_attrib_id);
     GL20.glVertexAttribPointer(
       program_attrib_id,
-      count,
+      buffer_attribute_elements,
       type,
       normalized,
       stride,
@@ -227,7 +246,7 @@ final class LWJGL_GLES2Functions
   static void arrayBufferUnbindVertexAttribute(
     final @Nonnull JCGLStateCache state,
     final @Nonnull ArrayBufferUsable buffer,
-    final @Nonnull ArrayBufferAttributeDescriptor buffer_attribute,
+    final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError
@@ -236,7 +255,6 @@ final class LWJGL_GLES2Functions
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
       "Array buffer not deleted");
-
     Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
     Constraints.constrainNotNull(program_attribute, "Program attribute");
 
@@ -244,19 +262,14 @@ final class LWJGL_GLES2Functions
     Constraints.constrainArbitrary(bound, "Buffer is bound");
 
     Constraints.constrainArbitrary(
+      buffer_attribute.getArray().equals(buffer),
+      "Array attribute belongs to the given array");
+
+    Constraints.constrainArbitrary(
       LWJGL_GLES2Functions.programIsActive(
         state,
         program_attribute.getProgram()),
       "Program for program attribute is not active");
-
-    final ArrayBufferTypeDescriptor d = buffer.getDescriptor();
-    final ArrayBufferAttributeDescriptor ba =
-      d.getAttribute(buffer_attribute.getName());
-
-    final boolean same_array = ba == buffer_attribute;
-    Constraints.constrainArbitrary(
-      same_array,
-      "Buffer attribute belongs to the array buffer");
 
     GL20.glDisableVertexAttribArray(program_attribute.getLocation());
     LWJGL_GLES2Functions.checkError();

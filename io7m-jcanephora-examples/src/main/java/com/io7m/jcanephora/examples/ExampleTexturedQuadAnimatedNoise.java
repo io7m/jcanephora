@@ -19,18 +19,19 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.ArrayBuffer;
+import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
 import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
 import com.io7m.jcanephora.ArrayBufferWritableData;
 import com.io7m.jcanephora.CursorWritable2f;
 import com.io7m.jcanephora.CursorWritable4f;
 import com.io7m.jcanephora.CursorWritableIndex;
+import com.io7m.jcanephora.IndexBuffer;
+import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.JCGLCompileException;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
 import com.io7m.jcanephora.JCGLScalarType;
-import com.io7m.jcanephora.IndexBuffer;
-import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.Primitives;
 import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.ProgramAttribute;
@@ -60,19 +61,19 @@ import com.io7m.jvvfs.PathVirtual;
 public final class ExampleTexturedQuadAnimatedNoise implements Example
 {
   private final JCGLInterfaceCommon       gl;
-  private final ArrayBufferTypeDescriptor   array_type;
-  private final ArrayBuffer             array;
-  private final ArrayBufferWritableData array_data;
-  private final Program                 program;
-  private final MatrixM4x4F             matrix_projection;
-  private final MatrixM4x4F             matrix_modelview;
-  private final IndexBuffer             indices;
-  private final IndexBufferWritableData indices_data;
-  private final ExampleConfig           config;
-  private boolean                       has_shut_down;
-  private final Texture2DStatic         texture;
-  private final Texture2DWritableData   texture_update;
-  private final TextureUnit[]           texture_units;
+  private final ArrayBufferTypeDescriptor array_type;
+  private final ArrayBuffer               array;
+  private final ArrayBufferWritableData   array_data;
+  private final Program                   program;
+  private final MatrixM4x4F               matrix_projection;
+  private final MatrixM4x4F               matrix_modelview;
+  private final IndexBuffer               indices;
+  private final IndexBufferWritableData   indices_data;
+  private final ExampleConfig             config;
+  private boolean                         has_shut_down;
+  private final Texture2DStatic           texture;
+  private final Texture2DWritableData     texture_update;
+  private final TextureUnit[]             texture_units;
 
   public ExampleTexturedQuadAnimatedNoise(
     final @Nonnull ExampleConfig config)
@@ -133,9 +134,15 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
      * Then, use this descriptor to allocate an array.
      */
 
-    final ArrayBufferAttributeDescriptor[] ab = new ArrayBufferAttributeDescriptor[2];
-    ab[0] = new ArrayBufferAttributeDescriptor("position", JCGLScalarType.TYPE_FLOAT, 4);
-    ab[1] = new ArrayBufferAttributeDescriptor("uv", JCGLScalarType.TYPE_FLOAT, 2);
+    final ArrayBufferAttributeDescriptor[] ab =
+      new ArrayBufferAttributeDescriptor[2];
+    ab[0] =
+      new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        4);
+    ab[1] =
+      new ArrayBufferAttributeDescriptor("uv", JCGLScalarType.TYPE_FLOAT, 2);
     this.array_type = new ArrayBufferTypeDescriptor(ab);
     this.array =
       this.gl.arrayBufferAllocate(
@@ -299,9 +306,8 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
        * Get references to the array buffer's vertex attributes.
        */
 
-      final ArrayBufferAttributeDescriptor b_pos =
-        this.array_type.getAttribute("position");
-      final ArrayBufferAttributeDescriptor b_uv = this.array_type.getAttribute("uv");
+      final ArrayBufferAttribute b_pos = this.array.getAttribute("position");
+      final ArrayBufferAttribute b_uv = this.array.getAttribute("uv");
 
       /**
        * Bind the array buffer, and associate program vertex attribute inputs

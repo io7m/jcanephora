@@ -29,10 +29,22 @@ import com.io7m.jaux.RangeInclusive;
 public interface ArrayBufferUsable extends JCGLResourceUsable, JCGLName
 {
   /**
-   * Retrieve the array buffer's {@link ArrayBufferTypeDescriptor}.
+   * Retrieve the attribute named <code>name</code>.
+   * 
+   * @param name
+   *          The name of the attribute.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>name == null</code></li>
+   *           <li>No attribute named <code>name</code> exists in the
+   *           descriptor.</li>
+   *           </ul>
    */
 
-  public @Nonnull ArrayBufferTypeDescriptor getDescriptor();
+  public @Nonnull ArrayBufferAttribute getAttribute(
+    final @Nonnull String name)
+    throws ConstraintError;
 
   /**
    * Return the offset in bytes of the element at <code>index</code>.
@@ -65,5 +77,27 @@ public interface ArrayBufferUsable extends JCGLResourceUsable, JCGLName
    */
 
   public long getSizeBytes();
+
+  /**
+   * Retrieve the array buffer's {@link ArrayBufferType}.
+   */
+
+  public @Nonnull ArrayBufferType getType();
+
+  /**
+   * Return <code>true</code> iff an attribute named <code>name</code> exists.
+   * 
+   * @param name
+   *          The name of the attribute.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>name == null</code></li>
+   *           </ul>
+   */
+
+  public boolean hasAttribute(
+    final @Nonnull String name)
+    throws ConstraintError;
 
 }

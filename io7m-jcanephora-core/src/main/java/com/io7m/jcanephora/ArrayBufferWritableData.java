@@ -124,7 +124,8 @@ public final class ArrayBufferWritableData
     final @Nonnull String attribute_name)
     throws ConstraintError
   {
-    final ArrayBufferTypeDescriptor d = this.buffer.getDescriptor();
+    final ArrayBufferTypeDescriptor d =
+      this.buffer.getType().getTypeDescriptor();
     final ArrayBufferAttributeDescriptor a = d.getAttribute(attribute_name);
 
     Constraints.constrainArbitrary(
@@ -166,7 +167,8 @@ public final class ArrayBufferWritableData
     final @Nonnull String attribute_name)
     throws ConstraintError
   {
-    final ArrayBufferTypeDescriptor d = this.buffer.getDescriptor();
+    final ArrayBufferTypeDescriptor d =
+      this.buffer.getType().getTypeDescriptor();
     final ArrayBufferAttributeDescriptor a = d.getAttribute(attribute_name);
 
     Constraints.constrainArbitrary(
@@ -208,7 +210,8 @@ public final class ArrayBufferWritableData
     final @Nonnull String attribute_name)
     throws ConstraintError
   {
-    final ArrayBufferTypeDescriptor d = this.buffer.getDescriptor();
+    final ArrayBufferTypeDescriptor d =
+      this.buffer.getType().getTypeDescriptor();
     final ArrayBufferAttributeDescriptor a = d.getAttribute(attribute_name);
 
     Constraints.constrainArbitrary(

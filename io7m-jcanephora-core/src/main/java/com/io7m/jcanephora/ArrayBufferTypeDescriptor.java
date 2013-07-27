@@ -17,7 +17,9 @@
 package com.io7m.jcanephora;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
@@ -39,7 +41,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 {
   private final @Nonnull ArrayBufferAttributeDescriptor attributes[];
   private final int                                     offsets[];
-  private final @Nonnull HashMap<String, Integer>       indices;
+  private final @Nonnull HashMap<String, Integer>       indices_by_name;
   private final int                                     stride;
 
   public ArrayBufferTypeDescriptor(
@@ -55,17 +57,17 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
     this.attributes = new ArrayBufferAttributeDescriptor[attributes.length];
     this.offsets = new int[attributes.length];
-    this.indices = new HashMap<String, Integer>();
+    this.indices_by_name = new HashMap<String, Integer>();
 
     int bytes = 0;
     for (int index = 0; index < attributes.length; ++index) {
       final ArrayBufferAttributeDescriptor a = attributes[index];
       Constraints.constrainNotNull(a, "Array attribute");
 
-      if (this.indices.containsKey(a.getName())) {
+      if (this.indices_by_name.containsKey(a.getName())) {
         Constraints.constrainArbitrary(false, "Attribute names are unique");
       } else {
-        this.indices.put(a.getName(), Integer.valueOf(index));
+        this.indices_by_name.put(a.getName(), Integer.valueOf(index));
       }
 
       this.attributes[index] =
@@ -103,6 +105,15 @@ import com.io7m.jaux.Constraints.ConstraintError;
   }
 
   /**
+   * Retrieve the set of names of all attributes in the type.
+   */
+
+  public @Nonnull Set<String> getAttributeNames()
+  {
+    return Collections.unmodifiableSet(this.indices_by_name.keySet());
+  }
+
+  /**
    * Retrieve the attribute named <code>name</code>.
    * 
    * @param name
@@ -125,7 +136,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
       this.hasAttribute(name),
       "Attribute name exists");
 
-    final Integer index = this.indices.get(name);
+    final Integer index = this.indices_by_name.get(name);
     return this.attributes[index.intValue()];
   }
 
@@ -175,7 +186,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
       this.hasAttribute(name),
       "Attribute name exists");
 
-    final Integer index = this.indices.get(name);
+    final Integer index = this.indices_by_name.get(name);
     return this.offsets[index.intValue()];
   }
 
@@ -259,7 +270,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     throws ConstraintError
   {
     Constraints.constrainNotNull(name, "Attribute name");
-    return this.indices.containsKey(name);
+    return this.indices_by_name.containsKey(name);
   }
 
   @Override public int hashCode()

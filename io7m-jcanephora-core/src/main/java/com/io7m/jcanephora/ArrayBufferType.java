@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora;
 
+import java.util.HashMap;
+
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 
@@ -30,8 +32,9 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 @Immutable public final class ArrayBufferType
 {
-  private final @Nonnull ArrayBuffer               array;
-  private final @Nonnull ArrayBufferTypeDescriptor descriptor;
+  private final @Nonnull ArrayBuffer                           array;
+  private final @Nonnull ArrayBufferTypeDescriptor             descriptor;
+  private final @Nonnull HashMap<String, ArrayBufferAttribute> attributes;
 
   ArrayBufferType(
     final @Nonnull ArrayBuffer array,
@@ -41,6 +44,13 @@ import com.io7m.jaux.Constraints.ConstraintError;
     this.array = Constraints.constrainNotNull(array, "Array buffer");
     this.descriptor =
       Constraints.constrainNotNull(descriptor, "Type descriptor");
+    this.attributes = new HashMap<String, ArrayBufferAttribute>();
+
+    for (final String name : descriptor.getAttributeNames()) {
+      this.attributes.put(
+        name,
+        new ArrayBufferAttribute(array, descriptor.getAttribute(name)));
+    }
   }
 
   @Override public boolean equals(
@@ -75,12 +85,56 @@ import com.io7m.jaux.Constraints.ConstraintError;
   }
 
   /**
+   * Retrieve the attribute named <code>name</code>.
+   * 
+   * @param name
+   *          The name of the attribute.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>name == null</code></li>
+   *           <li>No attribute named <code>name</code> exists in the
+   *           descriptor.</li>
+   *           </ul>
+   */
+
+  public @Nonnull ArrayBufferAttribute getAttribute(
+    final @Nonnull String name)
+    throws ConstraintError
+  {
+    Constraints.constrainArbitrary(
+      this.hasAttribute(name),
+      "Array has attribute");
+    return this.attributes.get(name);
+  }
+
+  /**
    * Retrieve the type descriptor associated with this type.
    */
 
   public @Nonnull ArrayBufferTypeDescriptor getTypeDescriptor()
   {
     return this.descriptor;
+  }
+
+  /**
+   * Return <code>true</code> iff an attribute named <code>name</code> exists.
+   * 
+   * @param name
+   *          The name of the attribute.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>name == null</code></li>
+   *           </ul>
+   */
+
+  public boolean hasAttribute(
+    final @Nonnull String name)
+    throws ConstraintError
+  {
+    Constraints.constrainNotNull(name, "Attribute name");
+    return this.attributes.containsKey(name);
   }
 
   @Override public int hashCode()

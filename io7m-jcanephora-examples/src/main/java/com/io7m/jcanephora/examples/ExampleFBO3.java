@@ -24,6 +24,7 @@ import com.io7m.jaux.functional.Indeterminate.Failure;
 import com.io7m.jaux.functional.Indeterminate.Success;
 import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.ArrayBuffer;
+import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
 import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
 import com.io7m.jcanephora.ArrayBufferWritableData;
@@ -38,13 +39,13 @@ import com.io7m.jcanephora.FramebufferConfigurationGL3;
 import com.io7m.jcanephora.FramebufferConfigurationGL3Actual;
 import com.io7m.jcanephora.FramebufferDrawBuffer;
 import com.io7m.jcanephora.FramebufferStatus;
+import com.io7m.jcanephora.IndexBuffer;
+import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.JCGLCompileException;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLImplementation;
 import com.io7m.jcanephora.JCGLInterfaceGL3;
 import com.io7m.jcanephora.JCGLScalarType;
-import com.io7m.jcanephora.IndexBuffer;
-import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.Primitives;
 import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.ProgramAttribute;
@@ -73,14 +74,14 @@ public final class ExampleFBO3 implements Example
     Z_AXIS = new VectorI3F(0.0f, 0.0f, 1.0f);
   }
 
-  private final JCGLImplementation                  gl_implementation;
-  private final JCGLInterfaceGL3                    gl;
+  private final JCGLImplementation                gl_implementation;
+  private final JCGLInterfaceGL3                  gl;
   private boolean                                 supported;
 
   private final Texture2DStaticUsable             texture;
   private final Framebuffer                       framebuffer;
   private boolean                                 has_shut_down;
-  private final ArrayBufferTypeDescriptor             textured_quad_type;
+  private final ArrayBufferTypeDescriptor         textured_quad_type;
   private final ArrayBuffer                       textured_quad;
   private final ArrayBufferWritableData           textured_quad_data;
   private final IndexBuffer                       indices;
@@ -94,7 +95,7 @@ public final class ExampleFBO3 implements Example
   private final FramebufferColorAttachmentPoint[] framebuffer_color_points;
   private final Context                           context;
   private float                                   current_angle       = 0.0f;
-  private ArrayBufferTypeDescriptor                   color_quad_type;
+  private ArrayBufferTypeDescriptor               color_quad_type;
   private ArrayBuffer                             color_quad;
   private final ArrayBufferWritableData           color_quad_data;
 
@@ -298,10 +299,15 @@ public final class ExampleFBO3 implements Example
      */
 
     {
-      final ArrayBufferAttributeDescriptor[] ab = new ArrayBufferAttributeDescriptor[2];
+      final ArrayBufferAttributeDescriptor[] ab =
+        new ArrayBufferAttributeDescriptor[2];
       ab[0] =
-        new ArrayBufferAttributeDescriptor("position", JCGLScalarType.TYPE_FLOAT, 4);
-      ab[1] = new ArrayBufferAttributeDescriptor("uv", JCGLScalarType.TYPE_FLOAT, 2);
+        new ArrayBufferAttributeDescriptor(
+          "position",
+          JCGLScalarType.TYPE_FLOAT,
+          4);
+      ab[1] =
+        new ArrayBufferAttributeDescriptor("uv", JCGLScalarType.TYPE_FLOAT, 2);
       this.textured_quad_type = new ArrayBufferTypeDescriptor(ab);
       this.textured_quad =
         this.gl.arrayBufferAllocate(
@@ -311,10 +317,18 @@ public final class ExampleFBO3 implements Example
     }
 
     {
-      final ArrayBufferAttributeDescriptor[] ab = new ArrayBufferAttributeDescriptor[2];
+      final ArrayBufferAttributeDescriptor[] ab =
+        new ArrayBufferAttributeDescriptor[2];
       ab[0] =
-        new ArrayBufferAttributeDescriptor("position", JCGLScalarType.TYPE_FLOAT, 4);
-      ab[1] = new ArrayBufferAttributeDescriptor("color", JCGLScalarType.TYPE_FLOAT, 4);
+        new ArrayBufferAttributeDescriptor(
+          "position",
+          JCGLScalarType.TYPE_FLOAT,
+          4);
+      ab[1] =
+        new ArrayBufferAttributeDescriptor(
+          "color",
+          JCGLScalarType.TYPE_FLOAT,
+          4);
       this.color_quad_type = new ArrayBufferTypeDescriptor(ab);
       this.color_quad =
         this.gl.arrayBufferAllocate(
@@ -493,10 +507,9 @@ public final class ExampleFBO3 implements Example
        * Get references to the array buffer's vertex attributes.
        */
 
-      final ArrayBufferAttributeDescriptor b_pos =
-        this.textured_quad_type.getAttribute("position");
-      final ArrayBufferAttributeDescriptor b_uv =
-        this.textured_quad_type.getAttribute("uv");
+      final ArrayBufferAttribute b_pos =
+        this.textured_quad.getAttribute("position");
+      final ArrayBufferAttribute b_uv = this.textured_quad.getAttribute("uv");
 
       /**
        * Bind the array buffer, and associate program vertex attribute inputs
@@ -598,10 +611,10 @@ public final class ExampleFBO3 implements Example
          * Get references to the array buffer's vertex attributes.
          */
 
-        final ArrayBufferAttributeDescriptor b_pos =
-          this.color_quad_type.getAttribute("position");
-        final ArrayBufferAttributeDescriptor b_col =
-          this.color_quad_type.getAttribute("color");
+        final ArrayBufferAttribute b_pos =
+          this.color_quad.getAttribute("position");
+        final ArrayBufferAttribute b_col =
+          this.color_quad.getAttribute("color");
 
         /**
          * Bind the array buffer, and associate program vertex attribute

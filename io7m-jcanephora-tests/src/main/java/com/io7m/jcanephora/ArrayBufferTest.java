@@ -13,6 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import org.junit.Assert;
@@ -27,9 +28,13 @@ public class ArrayBufferTest
 
   static {
     try {
-      final ArrayBufferAttributeDescriptor[] at = new ArrayBufferAttributeDescriptor[1];
+      final ArrayBufferAttributeDescriptor[] at =
+        new ArrayBufferAttributeDescriptor[1];
       at[0] =
-        new ArrayBufferAttributeDescriptor("position", JCGLScalarType.TYPE_FLOAT, 3);
+        new ArrayBufferAttributeDescriptor(
+          "position",
+          JCGLScalarType.TYPE_FLOAT,
+          3);
       ArrayBufferTest.type = new ArrayBufferTypeDescriptor(at);
     } catch (final ConstraintError e) {
       throw new UnreachableCodeException();
@@ -75,7 +80,8 @@ public class ArrayBufferTest
     final ArrayBuffer tu0 = ArrayBufferTest.makeArrayBuffer(1);
 
     Assert.assertEquals(1, tu0.getGLName());
-    Assert.assertTrue(tu0.getDescriptor() == ArrayBufferTest.type);
+    Assert
+      .assertTrue(tu0.getType().getTypeDescriptor() == ArrayBufferTest.type);
     Assert.assertEquals(0, tu0.getRange().getLower());
     Assert.assertEquals(7, tu0.getRange().getUpper());
     Assert.assertEquals(3 * 4, tu0.getElementSizeBytes());
