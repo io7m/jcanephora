@@ -32,13 +32,13 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * </p>
  */
 
-@Immutable public final class ArrayBufferAttribute
+@Immutable public final class ArrayBufferAttributeDescriptor
 {
   private @Nonnull final String       name;
   private @Nonnull final JCGLScalarType type;
   private final int                   elements;
 
-  public ArrayBufferAttribute(
+  public ArrayBufferAttributeDescriptor(
     final @Nonnull String name,
     final @Nonnull JCGLScalarType type,
     final int elements)
@@ -66,8 +66,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
     if (this.getClass() != obj.getClass()) {
       return false;
     }
-    final ArrayBufferAttribute other =
-      (ArrayBufferAttribute) obj;
+    final ArrayBufferAttributeDescriptor other =
+      (ArrayBufferAttributeDescriptor) obj;
     if (this.elements != other.elements) {
       return false;
     }

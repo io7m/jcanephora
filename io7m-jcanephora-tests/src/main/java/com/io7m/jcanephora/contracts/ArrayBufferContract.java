@@ -31,8 +31,8 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
 import com.io7m.jcanephora.ArrayBuffer;
-import com.io7m.jcanephora.ArrayBufferAttribute;
-import com.io7m.jcanephora.ArrayBufferDescriptor;
+import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
+import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
 import com.io7m.jcanephora.ArrayBufferWritableData;
 import com.io7m.jcanephora.CursorWritable3f;
 import com.io7m.jcanephora.FragmentShader;
@@ -164,9 +164,9 @@ public abstract class ArrayBufferContract implements TestContract
     ArrayBuffer a = null;
 
     try {
-      final ArrayBufferDescriptor d =
-        new ArrayBufferDescriptor(
-          new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+      final ArrayBufferTypeDescriptor d =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
             "position",
             JCGLScalarType.TYPE_FLOAT,
             3) });
@@ -197,9 +197,9 @@ public abstract class ArrayBufferContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_FLOAT,
           3) });
@@ -221,9 +221,9 @@ public abstract class ArrayBufferContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_SHORT,
           1) });
@@ -250,9 +250,9 @@ public abstract class ArrayBufferContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_SHORT,
           1) });
@@ -279,9 +279,9 @@ public abstract class ArrayBufferContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_SHORT,
           1) });
@@ -322,9 +322,9 @@ public abstract class ArrayBufferContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_SHORT,
           1) });
@@ -348,9 +348,9 @@ public abstract class ArrayBufferContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_SHORT,
           1) });
@@ -385,9 +385,9 @@ public abstract class ArrayBufferContract implements TestContract
     gp.programGetAttributes(pr, attributes);
 
     final ProgramAttribute pa = attributes.get("position");
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_FLOAT,
           3) });
@@ -425,15 +425,15 @@ public abstract class ArrayBufferContract implements TestContract
     gp.programGetAttributes(pr, attributes);
 
     final ProgramAttribute pa = attributes.get("position");
-    final ArrayBufferDescriptor d0 =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d0 =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_FLOAT,
           3) });
-    final ArrayBufferDescriptor d1 =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d1 =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_FLOAT,
           3) });
@@ -476,15 +476,15 @@ public abstract class ArrayBufferContract implements TestContract
     gp.programGetAttributes(pr0, attributes);
 
     final ProgramAttribute pa = attributes.get("position");
-    final ArrayBufferDescriptor d0 =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d0 =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_FLOAT,
           3) });
-    final ArrayBufferDescriptor d1 =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d1 =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_FLOAT,
           3) });
@@ -525,9 +525,9 @@ public abstract class ArrayBufferContract implements TestContract
     gp.programGetAttributes(pr, attributes);
 
     final ProgramAttribute pa = attributes.get("position");
-    final ArrayBufferDescriptor d0 =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d0 =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_INT,
           3) });
@@ -553,9 +553,9 @@ public abstract class ArrayBufferContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_SHORT,
           1) });
@@ -583,9 +583,9 @@ public abstract class ArrayBufferContract implements TestContract
     ArrayBuffer a = null;
 
     try {
-      final ArrayBufferDescriptor d =
-        new ArrayBufferDescriptor(
-          new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+      final ArrayBufferTypeDescriptor d =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
             "position",
             JCGLScalarType.TYPE_FLOAT,
             3) });
@@ -630,11 +630,11 @@ public abstract class ArrayBufferContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(new ArrayBufferAttribute[] {
-        new ArrayBufferAttribute("position", JCGLScalarType.TYPE_SHORT, 3),
-        new ArrayBufferAttribute("normal", JCGLScalarType.TYPE_SHORT, 3),
-        new ArrayBufferAttribute("color", JCGLScalarType.TYPE_SHORT, 3), });
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] {
+        new ArrayBufferAttributeDescriptor("position", JCGLScalarType.TYPE_SHORT, 3),
+        new ArrayBufferAttributeDescriptor("normal", JCGLScalarType.TYPE_SHORT, 3),
+        new ArrayBufferAttributeDescriptor("color", JCGLScalarType.TYPE_SHORT, 3), });
     ArrayBuffer a = null;
 
     try {
@@ -677,9 +677,9 @@ public abstract class ArrayBufferContract implements TestContract
       System.out.println("expected0 : " + expected0);
       System.out.println("expected1 : " + expected1);
 
-      final ArrayBufferDescriptor d =
-        new ArrayBufferDescriptor(
-          new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+      final ArrayBufferTypeDescriptor d =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
             "position",
             JCGLScalarType.TYPE_FLOAT,
             3) });
@@ -750,9 +750,9 @@ public abstract class ArrayBufferContract implements TestContract
     gp.programGetAttributes(pr, attributes);
 
     final ProgramAttribute pa = attributes.get("position");
-    final ArrayBufferDescriptor d0 =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d0 =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_FLOAT,
           3) });
@@ -792,9 +792,9 @@ public abstract class ArrayBufferContract implements TestContract
     gp.programGetAttributes(pr, attributes);
 
     final ProgramAttribute pa = attributes.get("position");
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_FLOAT,
           3) });
@@ -832,9 +832,9 @@ public abstract class ArrayBufferContract implements TestContract
     gp.programGetAttributes(pr, attributes);
 
     final ProgramAttribute pa = attributes.get("position");
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_FLOAT,
           3) });
@@ -872,9 +872,9 @@ public abstract class ArrayBufferContract implements TestContract
     gp.programGetAttributes(pr, attributes);
 
     final ProgramAttribute pa = attributes.get("position");
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_FLOAT,
           3) });
@@ -912,9 +912,9 @@ public abstract class ArrayBufferContract implements TestContract
     gp.programGetAttributes(pr, attributes);
 
     final ProgramAttribute pa = attributes.get("position");
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_FLOAT,
           3) });
@@ -952,9 +952,9 @@ public abstract class ArrayBufferContract implements TestContract
     gp.programGetAttributes(pr, attributes);
 
     final ProgramAttribute pa = attributes.get("position");
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_FLOAT,
           3) });
@@ -994,15 +994,15 @@ public abstract class ArrayBufferContract implements TestContract
     gp.programGetAttributes(pr, attributes);
 
     final ProgramAttribute pa = attributes.get("position");
-    final ArrayBufferDescriptor d0 =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d0 =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_FLOAT,
           3) });
-    final ArrayBufferDescriptor d1 =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d1 =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_FLOAT,
           3) });
@@ -1030,9 +1030,9 @@ public abstract class ArrayBufferContract implements TestContract
     ArrayBuffer a = null;
 
     try {
-      final ArrayBufferDescriptor d =
-        new ArrayBufferDescriptor(
-          new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+      final ArrayBufferTypeDescriptor d =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
             "position",
             JCGLScalarType.TYPE_FLOAT,
             3) });
@@ -1064,9 +1064,9 @@ public abstract class ArrayBufferContract implements TestContract
     ArrayBuffer a = null;
 
     try {
-      final ArrayBufferDescriptor d =
-        new ArrayBufferDescriptor(
-          new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+      final ArrayBufferTypeDescriptor d =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
             "position",
             JCGLScalarType.TYPE_FLOAT,
             3) });
@@ -1097,9 +1097,9 @@ public abstract class ArrayBufferContract implements TestContract
     ArrayBuffer a = null;
 
     try {
-      final ArrayBufferDescriptor d =
-        new ArrayBufferDescriptor(
-          new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+      final ArrayBufferTypeDescriptor d =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
             "position",
             JCGLScalarType.TYPE_FLOAT,
             3) });
@@ -1132,9 +1132,9 @@ public abstract class ArrayBufferContract implements TestContract
     ArrayBuffer a = null;
 
     try {
-      final ArrayBufferDescriptor d =
-        new ArrayBufferDescriptor(
-          new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+      final ArrayBufferTypeDescriptor d =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
             "position",
             JCGLScalarType.TYPE_FLOAT,
             3) });
@@ -1168,9 +1168,9 @@ public abstract class ArrayBufferContract implements TestContract
     ArrayBuffer b = null;
 
     try {
-      final ArrayBufferDescriptor d =
-        new ArrayBufferDescriptor(
-          new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+      final ArrayBufferTypeDescriptor d =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
             "position",
             JCGLScalarType.TYPE_FLOAT,
             3) });

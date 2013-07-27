@@ -29,10 +29,10 @@ import com.io7m.jaux.RangeInclusive;
 public interface ArrayBufferUsable extends JCGLResourceUsable, JCGLName
 {
   /**
-   * Retrieve the array buffer's {@link ArrayBufferDescriptor}.
+   * Retrieve the array buffer's {@link ArrayBufferTypeDescriptor}.
    */
 
-  public @Nonnull ArrayBufferDescriptor getDescriptor();
+  public @Nonnull ArrayBufferTypeDescriptor getDescriptor();
 
   /**
    * Return the offset in bytes of the element at <code>index</code>.

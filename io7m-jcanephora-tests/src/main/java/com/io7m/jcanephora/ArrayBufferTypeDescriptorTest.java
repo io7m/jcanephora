@@ -13,6 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import org.junit.Assert;
@@ -20,7 +21,7 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 
-public class ArrayBufferDescriptorTest
+public class ArrayBufferTypeDescriptorTest
 {
   /**
    * Trying to pass an attribute without any elements fails.
@@ -32,8 +33,8 @@ public class ArrayBufferDescriptorTest
     testDescriptorAttributeElementsZero()
       throws ConstraintError
   {
-    new ArrayBufferDescriptor(
-      new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    new ArrayBufferTypeDescriptor(
+      new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
         "position",
         JCGLScalarType.TYPE_FLOAT,
         0) });
@@ -49,8 +50,8 @@ public class ArrayBufferDescriptorTest
     testDescriptorAttributeNameNull()
       throws ConstraintError
   {
-    new ArrayBufferDescriptor(
-      new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    new ArrayBufferTypeDescriptor(
+      new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
         null,
         JCGLScalarType.TYPE_FLOAT,
         3) });
@@ -66,17 +67,17 @@ public class ArrayBufferDescriptorTest
     testDescriptorAttributeNamesNotUnique()
       throws ConstraintError
   {
-    ArrayBufferAttribute ap = null;
-    ArrayBufferAttribute an = null;
+    ArrayBufferAttributeDescriptor ap = null;
+    ArrayBufferAttributeDescriptor an = null;
 
     try {
-      ap = new ArrayBufferAttribute("position", JCGLScalarType.TYPE_FLOAT, 3);
-      an = new ArrayBufferAttribute("position", JCGLScalarType.TYPE_INT, 4);
+      ap = new ArrayBufferAttributeDescriptor("position", JCGLScalarType.TYPE_FLOAT, 3);
+      an = new ArrayBufferAttributeDescriptor("position", JCGLScalarType.TYPE_INT, 4);
     } catch (final Exception e) {
       Assert.fail(e.getMessage());
     }
 
-    new ArrayBufferDescriptor(new ArrayBufferAttribute[] { ap, an });
+    new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] { ap, an });
   }
 
   /**
@@ -88,15 +89,15 @@ public class ArrayBufferDescriptorTest
     testDescriptorAttributeOffsetsSizes()
       throws ConstraintError
   {
-    final ArrayBufferAttribute ap =
-      new ArrayBufferAttribute("position", JCGLScalarType.TYPE_FLOAT, 3);
-    final ArrayBufferAttribute an =
-      new ArrayBufferAttribute("normal", JCGLScalarType.TYPE_FLOAT, 3);
-    final ArrayBufferAttribute au =
-      new ArrayBufferAttribute("uv", JCGLScalarType.TYPE_FLOAT, 2);
+    final ArrayBufferAttributeDescriptor ap =
+      new ArrayBufferAttributeDescriptor("position", JCGLScalarType.TYPE_FLOAT, 3);
+    final ArrayBufferAttributeDescriptor an =
+      new ArrayBufferAttributeDescriptor("normal", JCGLScalarType.TYPE_FLOAT, 3);
+    final ArrayBufferAttributeDescriptor au =
+      new ArrayBufferAttributeDescriptor("uv", JCGLScalarType.TYPE_FLOAT, 2);
 
-    final ArrayBufferDescriptor a =
-      new ArrayBufferDescriptor(new ArrayBufferAttribute[] { ap, an, au });
+    final ArrayBufferTypeDescriptor a =
+      new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] { ap, an, au });
 
     Assert.assertEquals(0, a.getAttributeOffset("position"));
     Assert.assertEquals(
@@ -108,8 +109,9 @@ public class ArrayBufferDescriptorTest
     Assert.assertEquals(8, a.getElementOffset("position", 2));
 
     Assert.assertEquals(3 * 4, a.getAttributeOffset("normal"));
-    Assert
-      .assertEquals(JCGLScalarType.TYPE_FLOAT, a.getAttributeType("normal"));
+    Assert.assertEquals(
+      JCGLScalarType.TYPE_FLOAT,
+      a.getAttributeType("normal"));
     Assert.assertEquals(3, a.getAttributeElements("normal"));
     Assert.assertEquals((3 * 4) + 0, a.getElementOffset("normal", 0));
     Assert.assertEquals((3 * 4) + 4, a.getElementOffset("normal", 1));
@@ -124,17 +126,43 @@ public class ArrayBufferDescriptorTest
     Assert.assertEquals(8 * 4, a.getSize());
   }
 
+  /**
+   * Trying to pass an null array of attributes fails.
+   */
+
+  @SuppressWarnings({ "unused", "static-method" }) @Test(
+    expected = ConstraintError.class) public
+    void
+    testDescriptorAttributesNull()
+      throws ConstraintError
+  {
+    new ArrayBufferTypeDescriptor(null);
+  }
+
+  /**
+   * Trying to pass an array of null attributes fails.
+   */
+
+  @SuppressWarnings({ "unused", "static-method" }) @Test(
+    expected = ConstraintError.class) public
+    void
+    testDescriptorAttributesNullElements()
+      throws ConstraintError
+  {
+    new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] { null });
+  }
+
   @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
     void
     testDescriptorElementOffsetOutOfRange()
       throws ConstraintError
   {
-    ArrayBufferDescriptor a = null;
+    ArrayBufferTypeDescriptor a = null;
 
     try {
-      final ArrayBufferAttribute ap =
-        new ArrayBufferAttribute("position", JCGLScalarType.TYPE_FLOAT, 3);
-      a = new ArrayBufferDescriptor(new ArrayBufferAttribute[] { ap });
+      final ArrayBufferAttributeDescriptor ap =
+        new ArrayBufferAttributeDescriptor("position", JCGLScalarType.TYPE_FLOAT, 3);
+      a = new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] { ap });
     } catch (final Exception e) {
       Assert.fail(e.getMessage());
     }
@@ -151,6 +179,6 @@ public class ArrayBufferDescriptorTest
     expected = ConstraintError.class) public void testDescriptorNone()
     throws ConstraintError
   {
-    new ArrayBufferDescriptor(new ArrayBufferAttribute[] {});
+    new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] {});
   }
 }

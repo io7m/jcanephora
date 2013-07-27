@@ -25,21 +25,24 @@ import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * Immutable descriptor for an array buffer.
- * 
+ * <p>
+ * Immutable type descriptor for an array buffer.
+ * </p>
+ * <p>
  * If array buffers are considered as arrays of records, this type represents
  * the type of the record.
+ * </p>
  */
 
-@Immutable public final class ArrayBufferDescriptor
+@Immutable public final class ArrayBufferTypeDescriptor
 {
-  private final ArrayBufferAttribute     attributes[];
-  private final int                      offsets[];
-  private final HashMap<String, Integer> indices;
-  private final int                      stride;
+  private final @Nonnull ArrayBufferAttributeDescriptor     attributes[];
+  private final int                               offsets[];
+  private final @Nonnull HashMap<String, Integer> indices;
+  private final int                               stride;
 
-  public ArrayBufferDescriptor(
-    final @Nonnull ArrayBufferAttribute[] attributes)
+  public ArrayBufferTypeDescriptor(
+    final @Nonnull ArrayBufferAttributeDescriptor[] attributes)
     throws ConstraintError
   {
     Constraints.constrainNotNull(attributes, "Buffer attributes");
@@ -49,13 +52,14 @@ import com.io7m.jaux.Constraints.ConstraintError;
       Integer.MAX_VALUE,
       "Number of attributes");
 
-    this.attributes = new ArrayBufferAttribute[attributes.length];
+    this.attributes = new ArrayBufferAttributeDescriptor[attributes.length];
     this.offsets = new int[attributes.length];
     this.indices = new HashMap<String, Integer>();
 
     int bytes = 0;
     for (int index = 0; index < attributes.length; ++index) {
-      final ArrayBufferAttribute a = attributes[index];
+      final ArrayBufferAttributeDescriptor a = attributes[index];
+      Constraints.constrainNotNull(a, "Array attribute");
 
       if (this.indices.containsKey(a.getName())) {
         Constraints.constrainArbitrary(false, "Attribute names are unique");
@@ -64,7 +68,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
       }
 
       this.attributes[index] =
-        new ArrayBufferAttribute(a.getName(), a.getType(), a.getElements());
+        new ArrayBufferAttributeDescriptor(a.getName(), a.getType(), a.getElements());
       this.offsets[index] = bytes;
 
       final int size = a.getType().getSizeBytes();
@@ -89,10 +93,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
    *           </ul>
    */
 
-  public @Nonnull ArrayBufferAttribute getAttribute(
+  public @Nonnull ArrayBufferAttributeDescriptor getAttribute(
     final @Nonnull String name)
     throws ConstraintError
   {
+    Constraints.constrainNotNull(name, "Attribute name");
     Constraints.constrainArbitrary(
       this.hasAttribute(name),
       "Attribute name exists");
@@ -119,7 +124,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     final @Nonnull String name)
     throws ConstraintError
   {
-    final ArrayBufferAttribute a = this.getAttribute(name);
+    final ArrayBufferAttributeDescriptor a = this.getAttribute(name);
     return a.getElements();
   }
 
@@ -142,6 +147,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     final @Nonnull String name)
     throws ConstraintError
   {
+    Constraints.constrainNotNull(name, "Attribute name");
     Constraints.constrainArbitrary(
       this.hasAttribute(name),
       "Attribute name exists");
@@ -168,7 +174,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     final @Nonnull String name)
     throws ConstraintError
   {
-    final ArrayBufferAttribute a = this.getAttribute(name);
+    final ArrayBufferAttributeDescriptor a = this.getAttribute(name);
     return a.getType();
   }
 
@@ -196,7 +202,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     final int element)
     throws ConstraintError
   {
-    final ArrayBufferAttribute a = this.getAttribute(name);
+    final ArrayBufferAttributeDescriptor a = this.getAttribute(name);
     Constraints.constrainLessThan(element, a.getElements());
 
     final int base = this.getAttributeOffset(name);
