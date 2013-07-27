@@ -43,7 +43,7 @@ final class JOGL_GL_Functions
     final @Nonnull Log log,
     final @Nonnull JCGLStateCache state,
     final long elements,
-    final @Nonnull ArrayBufferDescriptor descriptor,
+    final @Nonnull ArrayBufferTypeDescriptor descriptor,
     final @Nonnull UsageHint usage)
     throws JCGLException,
       ConstraintError

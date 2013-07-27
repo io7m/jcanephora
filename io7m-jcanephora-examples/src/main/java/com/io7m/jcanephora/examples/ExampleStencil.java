@@ -20,17 +20,18 @@ import javax.annotation.Nonnull;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
-import com.io7m.jcanephora.ArrayBufferDescriptor;
+import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
+import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
 import com.io7m.jcanephora.ArrayBufferWritableData;
 import com.io7m.jcanephora.CursorWritable4f;
 import com.io7m.jcanephora.CursorWritableIndex;
 import com.io7m.jcanephora.FaceSelection;
+import com.io7m.jcanephora.IndexBuffer;
+import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.JCGLCompileException;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
 import com.io7m.jcanephora.JCGLScalarType;
-import com.io7m.jcanephora.IndexBuffer;
-import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.Primitives;
 import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.ProgramAttribute;
@@ -52,21 +53,21 @@ import com.io7m.jvvfs.PathVirtual;
 public final class ExampleStencil implements Example
 {
   private final JCGLInterfaceCommon       gl;
-  private final ArrayBufferDescriptor   array_type;
-  private final ArrayBuffer             array;
-  private final ArrayBufferWritableData array_data;
-  private final Program                 program;
-  private final MatrixM4x4F             matrix_projection;
-  private final MatrixM4x4F             matrix_modelview;
-  private final IndexBuffer             triangle_indices;
-  private final IndexBufferWritableData triangle_indices_data;
-  private final ExampleConfig           config;
-  private boolean                       has_shut_down;
-  private final IndexBuffer             quad_indices;
-  private final IndexBufferWritableData quad_indices_data;
-  private final VectorM2F               translation  = new VectorM2F();
-  private int                           time         = 0;
-  private static final int              STENCIL_MASK = 0xFF;
+  private final ArrayBufferTypeDescriptor array_type;
+  private final ArrayBuffer               array;
+  private final ArrayBufferWritableData   array_data;
+  private final Program                   program;
+  private final MatrixM4x4F               matrix_projection;
+  private final MatrixM4x4F               matrix_modelview;
+  private final IndexBuffer               triangle_indices;
+  private final IndexBufferWritableData   triangle_indices_data;
+  private final ExampleConfig             config;
+  private boolean                         has_shut_down;
+  private final IndexBuffer               quad_indices;
+  private final IndexBufferWritableData   quad_indices_data;
+  private final VectorM2F                 translation  = new VectorM2F();
+  private int                             time         = 0;
+  private static final int                STENCIL_MASK = 0xFF;
 
   public ExampleStencil(
     final @Nonnull ExampleConfig config)
@@ -86,10 +87,19 @@ public final class ExampleStencil implements Example
       .ofString(("/com/io7m/jcanephora/examples/color.f")));
     this.program.compile(config.getFilesystem(), this.gl);
 
-    final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[2];
-    ab[0] = new ArrayBufferAttribute("position", JCGLScalarType.TYPE_FLOAT, 4);
-    ab[1] = new ArrayBufferAttribute("color", JCGLScalarType.TYPE_FLOAT, 4);
-    this.array_type = new ArrayBufferDescriptor(ab);
+    final ArrayBufferAttributeDescriptor[] ab =
+      new ArrayBufferAttributeDescriptor[2];
+    ab[0] =
+      new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        4);
+    ab[1] =
+      new ArrayBufferAttributeDescriptor(
+        "color",
+        JCGLScalarType.TYPE_FLOAT,
+        4);
+    this.array_type = new ArrayBufferTypeDescriptor(ab);
     this.array =
       this.gl.arrayBufferAllocate(
         3,
@@ -184,16 +194,14 @@ public final class ExampleStencil implements Example
       final ProgramAttribute p_col =
         this.program.getAttribute("vertex_color");
 
-      final ArrayBufferAttribute b_pos =
-        this.array_type.getAttribute("position");
-      final ArrayBufferAttribute b_col =
-        this.array_type.getAttribute("color");
+      final ArrayBufferAttribute b_pos = this.array.getAttribute("position");
+      final ArrayBufferAttribute b_col = this.array.getAttribute("color");
 
       this.gl.programPutUniformMatrix4x4f(u_proj, this.matrix_projection);
 
       this.gl.arrayBufferBind(this.array);
-      this.gl.arrayBufferBindVertexAttribute(this.array, b_pos, p_pos);
-      this.gl.arrayBufferBindVertexAttribute(this.array, b_col, p_col);
+      this.gl.arrayBufferBindVertexAttribute(b_pos, p_pos);
+      this.gl.arrayBufferBindVertexAttribute(b_col, p_col);
 
       final int width = this.config.getWindowSize().getXI();
       final int height = this.config.getWindowSize().getYI();

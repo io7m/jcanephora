@@ -13,13 +13,13 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jcanephora.JCGLType.Type;
 
 public final class JOGL3pTypeTest
 {
@@ -29,7 +29,7 @@ public final class JOGL3pTypeTest
 
   @SuppressWarnings("static-method") @Test public void testTypeBijection()
   {
-    for (final Type u : JCGLType.Type.values()) {
+    for (final JCGLType u : JCGLType.values()) {
       Assert
         .assertEquals(JOGL_GLTypeConversions
           .typeFromGL(JOGL_GLTypeConversions.typeToGL(u)), u);

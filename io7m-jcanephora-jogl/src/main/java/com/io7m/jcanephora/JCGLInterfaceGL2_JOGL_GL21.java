@@ -128,7 +128,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public ArrayBuffer arrayBufferAllocate(
     final long elements,
-    final @Nonnull ArrayBufferDescriptor descriptor,
+    final @Nonnull ArrayBufferTypeDescriptor descriptor,
     final @Nonnull UsageHint usage)
     throws JCGLException,
       ConstraintError
@@ -151,7 +151,6 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public void arrayBufferBindVertexAttribute(
-    final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
@@ -159,7 +158,7 @@ import com.io7m.jtensors.VectorReadable4F;
   {
     JOGL_GL2ES2_Functions.arrayBufferBindVertexAttribute(
       this.contextGetGL2(),
-      buffer,
+      this.state,
       buffer_attribute,
       program_attribute);
   }
@@ -192,7 +191,6 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public void arrayBufferUnbindVertexAttribute(
-    final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
@@ -200,7 +198,7 @@ import com.io7m.jtensors.VectorReadable4F;
   {
     JOGL_GL2ES2_Functions.arrayBufferUnbindVertexAttribute(
       this.contextGetGL2(),
-      buffer,
+      this.state,
       buffer_attribute,
       program_attribute);
   }

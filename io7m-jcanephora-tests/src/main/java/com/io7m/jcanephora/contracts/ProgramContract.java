@@ -32,7 +32,6 @@ import com.io7m.jcanephora.JCGLInterfaceCommon;
 import com.io7m.jcanephora.JCGLMeta;
 import com.io7m.jcanephora.JCGLShaders;
 import com.io7m.jcanephora.JCGLType;
-import com.io7m.jcanephora.JCGLType.Type;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.ProgramAttribute;
@@ -349,7 +348,7 @@ public abstract class ProgramContract implements TestContract
     assert a != null;
     Assert.assertEquals(p.getID(), a.getProgram());
 
-    Assert.assertEquals(JCGLType.Type.TYPE_FLOAT_VECTOR_4, a.getType());
+    Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_4, a.getType());
     Assert.assertEquals("vertex", a.getName());
   }
 
@@ -1148,7 +1147,7 @@ public abstract class ProgramContract implements TestContract
     assert u != null;
     Assert.assertEquals(p.getID(), u.getProgram());
 
-    Assert.assertEquals(JCGLType.Type.TYPE_FLOAT, u.getType());
+    Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
     Assert.assertEquals("alpha", u.getName());
   }
 
@@ -1176,48 +1175,48 @@ public abstract class ProgramContract implements TestContract
 
     {
       final ProgramUniform u = p.getUniform("float_0");
-      Assert.assertEquals(Type.TYPE_FLOAT, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
       gl.programPutUniformFloat(u, 1.0f);
     }
 
     {
       final ProgramUniform u = p.getUniform("mat3_0");
-      Assert.assertEquals(Type.TYPE_FLOAT_MATRIX_3, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_FLOAT_MATRIX_3, u.getType());
       final MatrixM3x3F m = new MatrixM3x3F();
       gl.programPutUniformMatrix3x3f(u, m);
     }
 
     {
       final ProgramUniform u = p.getUniform("mat4_0");
-      Assert.assertEquals(Type.TYPE_FLOAT_MATRIX_4, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_FLOAT_MATRIX_4, u.getType());
       final MatrixM4x4F m = new MatrixM4x4F();
       gl.programPutUniformMatrix4x4f(u, m);
     }
 
     {
       final ProgramUniform u = p.getUniform("vec2_0");
-      Assert.assertEquals(Type.TYPE_FLOAT_VECTOR_2, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_2, u.getType());
       final VectorI2F v = new VectorI2F(1.0f, 2.0f);
       gl.programPutUniformVector2f(u, v);
     }
 
     {
       final ProgramUniform u = p.getUniform("vec2_1");
-      Assert.assertEquals(Type.TYPE_INTEGER_VECTOR_2, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_INTEGER_VECTOR_2, u.getType());
       final VectorI2I v = new VectorI2I(1, 2);
       gl.programPutUniformVector2i(u, v);
     }
 
     {
       final ProgramUniform u = p.getUniform("vec3_0");
-      Assert.assertEquals(Type.TYPE_FLOAT_VECTOR_3, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_3, u.getType());
       final VectorI3F v = new VectorI3F(1.0f, 2.0f, 3.0f);
       gl.programPutUniformVector3f(u, v);
     }
 
     {
       final ProgramUniform u = p.getUniform("vec4_0");
-      Assert.assertEquals(Type.TYPE_FLOAT_VECTOR_4, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_4, u.getType());
       final VectorI4F v = new VectorI4F(1.0f, 2.0f, 3.0f, 4.0f);
       gl.programPutUniformVector4f(u, v);
     }
@@ -1225,7 +1224,7 @@ public abstract class ProgramContract implements TestContract
     {
       final TextureUnit[] units = gl.textureGetUnits();
       final ProgramUniform u = p.getUniform("sampler");
-      Assert.assertEquals(Type.TYPE_SAMPLER_2D, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_SAMPLER_2D, u.getType());
       gl.programPutUniformTextureUnit(u, units[0]);
     }
   }
@@ -1340,7 +1339,7 @@ public abstract class ProgramContract implements TestContract
 
     {
       final ProgramUniform u = p.getUniform("float_0");
-      Assert.assertEquals(Type.TYPE_FLOAT, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
       final VectorI2F v = new VectorI2F(1.0f, 2.0f);
       gl.programPutUniformVector2f(u, v);
     }
@@ -1362,7 +1361,7 @@ public abstract class ProgramContract implements TestContract
 
     {
       final ProgramUniform u = p.getUniform("vec2_0");
-      Assert.assertEquals(Type.TYPE_FLOAT_VECTOR_2, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_2, u.getType());
       gl.programPutUniformFloat(u, 1.0f);
     }
   }
@@ -1383,7 +1382,7 @@ public abstract class ProgramContract implements TestContract
 
     {
       final ProgramUniform u = p.getUniform("float_0");
-      Assert.assertEquals(Type.TYPE_FLOAT, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
       final MatrixM3x3F m = new MatrixM3x3F();
       gl.programPutUniformMatrix3x3f(u, m);
     }
@@ -1405,7 +1404,7 @@ public abstract class ProgramContract implements TestContract
 
     {
       final ProgramUniform u = p.getUniform("float_0");
-      Assert.assertEquals(Type.TYPE_FLOAT, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
       final MatrixM4x4F m = new MatrixM4x4F();
       gl.programPutUniformMatrix4x4f(u, m);
     }
@@ -1426,7 +1425,7 @@ public abstract class ProgramContract implements TestContract
 
     {
       final ProgramUniform u = p.getUniform("float_0");
-      Assert.assertEquals(Type.TYPE_FLOAT, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
       final TextureUnit[] units = gl.textureGetUnits();
       gl.programPutUniformTextureUnit(u, units[0]);
     }
@@ -1448,7 +1447,7 @@ public abstract class ProgramContract implements TestContract
 
     {
       final ProgramUniform u = p.getUniform("float_0");
-      Assert.assertEquals(Type.TYPE_FLOAT, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
       final VectorReadable2F v = new VectorI2F(1.0f, 1.0f);
       gl.programPutUniformVector2f(u, v);
     }
@@ -1470,7 +1469,7 @@ public abstract class ProgramContract implements TestContract
 
     {
       final ProgramUniform u = p.getUniform("float_0");
-      Assert.assertEquals(Type.TYPE_FLOAT, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
       final VectorI2I v = new VectorI2I(1, 2);
       gl.programPutUniformVector2i(u, v);
     }
@@ -1492,7 +1491,7 @@ public abstract class ProgramContract implements TestContract
 
     {
       final ProgramUniform u = p.getUniform("float_0");
-      Assert.assertEquals(Type.TYPE_FLOAT, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
       final VectorReadable3F v = new VectorI3F(1.0f, 1.0f, 1.0f);
       gl.programPutUniformVector3f(u, v);
     }
@@ -1513,7 +1512,7 @@ public abstract class ProgramContract implements TestContract
 
     {
       final ProgramUniform u = p.getUniform("float_0");
-      Assert.assertEquals(Type.TYPE_FLOAT, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
       final VectorReadable4F v = new VectorI4F(1.0f, 1.0f, 1.0f, 1.0f);
       gl.programPutUniformVector4f(u, v);
     }
@@ -1575,30 +1574,24 @@ public abstract class ProgramContract implements TestContract
     {
       final ProgramUniform u = p.getUniform("color.red");
       Assert.assertNotNull(u);
-      Assert.assertEquals(JCGLType.Type.TYPE_FLOAT, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
     }
 
     {
       final ProgramUniform u = p.getUniform("color.green");
       Assert.assertNotNull(u);
-      Assert.assertEquals(JCGLType.Type.TYPE_FLOAT, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
     }
 
     {
       final ProgramUniform u = p.getUniform("color.blue");
       Assert.assertNotNull(u);
-      Assert.assertEquals(JCGLType.Type.TYPE_FLOAT, u.getType());
+      Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
     }
   }
 
   /**
    * Deleting a vertex shader twice fails.
-   * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
-   * @throws FilesystemError
-   * @throws IOException
-   * @throws JCGLCompileException
    */
 
   @Test(expected = ConstraintError.class) public final
