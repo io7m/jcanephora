@@ -13,18 +13,17 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jcanephora.JCGLType.Type;
-
 public final class GLScalarTypeTest
 {
   private static boolean convertibleLoudly(
     final JCGLScalarType st,
-    final Type t,
+    final JCGLType t,
     final int count)
   {
     final StringBuilder b = new StringBuilder();
@@ -52,7 +51,7 @@ public final class GLScalarTypeTest
         case TYPE_UNSIGNED_SHORT:
         {
           for (int count = 1; count <= 4; ++count) {
-            for (final Type t : JCGLType.Type.values()) {
+            for (final JCGLType t : JCGLType.values()) {
               Assert.assertFalse(GLScalarTypeTest.convertibleLoudly(
                 st,
                 t,
@@ -63,7 +62,7 @@ public final class GLScalarTypeTest
         }
         case TYPE_FLOAT:
         {
-          for (final Type t : JCGLType.Type.values()) {
+          for (final JCGLType t : JCGLType.values()) {
             switch (t) {
               case TYPE_FLOAT:
               {
@@ -163,7 +162,7 @@ public final class GLScalarTypeTest
         }
         case TYPE_INT:
         {
-          for (final Type t : JCGLType.Type.values()) {
+          for (final JCGLType t : JCGLType.values()) {
             switch (t) {
               case TYPE_INTEGER:
               {
