@@ -16,29 +16,29 @@
 
 package com.io7m.jcanephora;
 
-import org.junit.Assert;
-import org.junit.Test;
+/**
+ * Type-safe OpenGL shader types.
+ */
 
-import com.io7m.jaux.UnreachableCodeException;
-
-public final class JOGLES2TypeTest
+public enum JCGLType
 {
-  /**
-   * ∀t. typeFromGL(typeToGL(t)) = t.
-   */
-
-  @SuppressWarnings("static-method") @Test public void testTypeBijection()
-  {
-    for (final JCGLType u : JCGLType.values()) {
-      Assert
-        .assertEquals(JOGL_GLTypeConversions
-          .typeFromGL(JOGL_GLTypeConversions.typeToGL(u)), u);
-    }
-  }
-
-  @SuppressWarnings("static-method") @Test(
-    expected = UnreachableCodeException.class) public void testTypeFailure()
-  {
-    JOGL_GLTypeConversions.typeFromGL(-1);
-  }
+  TYPE_FLOAT,
+  TYPE_FLOAT_VECTOR_2,
+  TYPE_FLOAT_VECTOR_3,
+  TYPE_FLOAT_VECTOR_4,
+  TYPE_INTEGER,
+  TYPE_INTEGER_VECTOR_2,
+  TYPE_INTEGER_VECTOR_3,
+  TYPE_INTEGER_VECTOR_4,
+  TYPE_BOOLEAN,
+  TYPE_BOOLEAN_VECTOR_2,
+  TYPE_BOOLEAN_VECTOR_3,
+  TYPE_BOOLEAN_VECTOR_4,
+  TYPE_FLOAT_MATRIX_2,
+  TYPE_FLOAT_MATRIX_3,
+  TYPE_FLOAT_MATRIX_4,
+  TYPE_SAMPLER_2D,
+  TYPE_SAMPLER_3D,
+  TYPE_SAMPLER_CUBE,
+  TYPE_SAMPLER_2D_SHADOW
 }

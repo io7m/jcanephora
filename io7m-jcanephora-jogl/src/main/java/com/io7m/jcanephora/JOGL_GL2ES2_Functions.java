@@ -30,7 +30,6 @@ import javax.media.opengl.GL2ES2;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.JCGLType.Type;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
@@ -401,7 +400,7 @@ final class JOGL_GL2ES2_Functions
       JOGL_GL_Functions.checkError(gl);
 
       final int type_raw = buffer_type.get(0);
-      final JCGLType.Type type = JOGL_GLTypeConversions.typeFromGL(type_raw);
+      final JCGLType type = JOGL_GLTypeConversions.typeFromGL(type_raw);
 
       final int name_length = buffer_length.get(0);
       final byte temp_buffer[] = new byte[name_length];
@@ -504,7 +503,7 @@ final class JOGL_GL2ES2_Functions
       JOGL_GL_Functions.checkError(gl);
 
       final int type_raw = buffer_type.get(0);
-      final JCGLType.Type type = JOGL_GLTypeConversions.typeFromGL(type_raw);
+      final JCGLType type = JOGL_GLTypeConversions.typeFromGL(type_raw);
 
       final int name_length = buffer_length.get(0);
       final byte temp_buffer[] = new byte[name_length];
@@ -608,7 +607,7 @@ final class JOGL_GL2ES2_Functions
   {
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT,
+      uniform.getType() == JCGLType.TYPE_FLOAT,
       "Uniform type is float");
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
@@ -629,7 +628,7 @@ final class JOGL_GL2ES2_Functions
     Constraints.constrainNotNull(matrix, "Matrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_MATRIX_3,
+      uniform.getType() == JCGLType.TYPE_FLOAT_MATRIX_3,
       "Uniform type is mat3");
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
@@ -654,7 +653,7 @@ final class JOGL_GL2ES2_Functions
     Constraints.constrainNotNull(matrix, "Matrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_MATRIX_4,
+      uniform.getType() == JCGLType.TYPE_FLOAT_MATRIX_4,
       "Uniform type is mat4");
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
@@ -678,7 +677,7 @@ final class JOGL_GL2ES2_Functions
   {
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_SAMPLER_2D,
+      uniform.getType() == JCGLType.TYPE_SAMPLER_2D,
       "Uniform type is sampler_2d");
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
@@ -699,7 +698,7 @@ final class JOGL_GL2ES2_Functions
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_VECTOR_2,
+      uniform.getType() == JCGLType.TYPE_FLOAT_VECTOR_2,
       "Uniform type is vec2");
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
@@ -720,7 +719,7 @@ final class JOGL_GL2ES2_Functions
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_INTEGER_VECTOR_2,
+      uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_2,
       "Uniform type is vec2");
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
@@ -741,7 +740,7 @@ final class JOGL_GL2ES2_Functions
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_VECTOR_3,
+      uniform.getType() == JCGLType.TYPE_FLOAT_VECTOR_3,
       "Uniform type is vec3");
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
@@ -766,7 +765,7 @@ final class JOGL_GL2ES2_Functions
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_VECTOR_4,
+      uniform.getType() == JCGLType.TYPE_FLOAT_VECTOR_4,
       "Uniform type is vec4");
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
