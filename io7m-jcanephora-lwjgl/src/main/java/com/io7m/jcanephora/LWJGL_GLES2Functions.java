@@ -55,7 +55,7 @@ final class LWJGL_GLES2Functions
     final @Nonnull Log log,
     final @Nonnull JCGLStateCache state,
     final long elements,
-    final @Nonnull ArrayBufferDescriptor descriptor,
+    final @Nonnull ArrayBufferTypeDescriptor descriptor,
     final @Nonnull UsageHint usage)
     throws JCGLException,
       ConstraintError
@@ -120,7 +120,7 @@ final class LWJGL_GLES2Functions
   static void arrayBufferBindVertexAttribute(
     final @Nonnull JCGLStateCache state,
     final @Nonnull ArrayBufferUsable buffer,
-    final @Nonnull ArrayBufferAttribute buffer_attribute,
+    final @Nonnull ArrayBufferAttributeDescriptor buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError
@@ -142,8 +142,8 @@ final class LWJGL_GLES2Functions
         program_attribute.getProgram()),
       "Program for program attribute is not active");
 
-    final ArrayBufferDescriptor d = buffer.getDescriptor();
-    final ArrayBufferAttribute dba =
+    final ArrayBufferTypeDescriptor d = buffer.getDescriptor();
+    final ArrayBufferAttributeDescriptor dba =
       d.getAttribute(buffer_attribute.getName());
 
     final boolean same_array = dba == buffer_attribute;
@@ -227,7 +227,7 @@ final class LWJGL_GLES2Functions
   static void arrayBufferUnbindVertexAttribute(
     final @Nonnull JCGLStateCache state,
     final @Nonnull ArrayBufferUsable buffer,
-    final @Nonnull ArrayBufferAttribute buffer_attribute,
+    final @Nonnull ArrayBufferAttributeDescriptor buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError
@@ -249,8 +249,8 @@ final class LWJGL_GLES2Functions
         program_attribute.getProgram()),
       "Program for program attribute is not active");
 
-    final ArrayBufferDescriptor d = buffer.getDescriptor();
-    final ArrayBufferAttribute ba =
+    final ArrayBufferTypeDescriptor d = buffer.getDescriptor();
+    final ArrayBufferAttributeDescriptor ba =
       d.getAttribute(buffer_attribute.getName());
 
     final boolean same_array = ba == buffer_attribute;

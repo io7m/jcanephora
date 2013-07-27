@@ -32,13 +32,13 @@ import com.io7m.jaux.RangeInclusive;
   ArrayBufferUsable
 {
   private final int                            value;
-  private final @Nonnull ArrayBufferDescriptor descriptor;
+  private final @Nonnull ArrayBufferTypeDescriptor descriptor;
   private final RangeInclusive                 range;
 
   ArrayBuffer(
     final int value,
     final long elements,
-    final @Nonnull ArrayBufferDescriptor descriptor)
+    final @Nonnull ArrayBufferTypeDescriptor descriptor)
     throws ConstraintError
   {
     this.value =
@@ -78,7 +78,7 @@ import com.io7m.jaux.RangeInclusive;
     return true;
   }
 
-  @Override public @Nonnull ArrayBufferDescriptor getDescriptor()
+  @Override public @Nonnull ArrayBufferTypeDescriptor getDescriptor()
   {
     return this.descriptor;
   }

@@ -19,8 +19,8 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.ArrayBuffer;
-import com.io7m.jcanephora.ArrayBufferAttribute;
-import com.io7m.jcanephora.ArrayBufferDescriptor;
+import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
+import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
 import com.io7m.jcanephora.ArrayBufferWritableData;
 import com.io7m.jcanephora.CursorWritable4f;
 import com.io7m.jcanephora.CursorWritableIndex;
@@ -48,7 +48,7 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleTriangle implements Example
 {
-  private final ArrayBufferDescriptor   array_type;
+  private final ArrayBufferTypeDescriptor   array_type;
   private final ArrayBuffer             array;
   private final ArrayBufferWritableData array_data;
   private final Program                 program;
@@ -93,10 +93,10 @@ public final class ExampleTriangle implements Example
      * Then, use this descriptor to allocate an array on the GPU.
      */
 
-    final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[2];
-    ab[0] = new ArrayBufferAttribute("position", JCGLScalarType.TYPE_FLOAT, 4);
-    ab[1] = new ArrayBufferAttribute("color", JCGLScalarType.TYPE_FLOAT, 4);
-    this.array_type = new ArrayBufferDescriptor(ab);
+    final ArrayBufferAttributeDescriptor[] ab = new ArrayBufferAttributeDescriptor[2];
+    ab[0] = new ArrayBufferAttributeDescriptor("position", JCGLScalarType.TYPE_FLOAT, 4);
+    ab[1] = new ArrayBufferAttributeDescriptor("color", JCGLScalarType.TYPE_FLOAT, 4);
+    this.array_type = new ArrayBufferTypeDescriptor(ab);
     this.array =
       this.gl.arrayBufferAllocate(
         3,
@@ -222,9 +222,9 @@ public final class ExampleTriangle implements Example
        * Get references to the array buffer's vertex attributes.
        */
 
-      final ArrayBufferAttribute b_pos =
+      final ArrayBufferAttributeDescriptor b_pos =
         this.array_type.getAttribute("position");
-      final ArrayBufferAttribute b_col =
+      final ArrayBufferAttributeDescriptor b_col =
         this.array_type.getAttribute("color");
 
       /**

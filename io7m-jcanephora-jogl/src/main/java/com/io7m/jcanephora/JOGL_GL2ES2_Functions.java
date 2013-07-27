@@ -46,7 +46,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull ArrayBufferUsable buffer,
-    final @Nonnull ArrayBufferAttribute buffer_attribute,
+    final @Nonnull ArrayBufferAttributeDescriptor buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError
@@ -69,8 +69,8 @@ final class JOGL_GL2ES2_Functions
         program_attribute.getProgram()),
       "Program for program attribute is not active");
 
-    final ArrayBufferDescriptor d = buffer.getDescriptor();
-    final ArrayBufferAttribute dba =
+    final ArrayBufferTypeDescriptor d = buffer.getDescriptor();
+    final ArrayBufferAttributeDescriptor dba =
       d.getAttribute(buffer_attribute.getName());
 
     final boolean same_array = dba == buffer_attribute;
@@ -110,7 +110,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull ArrayBufferUsable buffer,
-    final @Nonnull ArrayBufferAttribute buffer_attribute,
+    final @Nonnull ArrayBufferAttributeDescriptor buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError
@@ -132,8 +132,8 @@ final class JOGL_GL2ES2_Functions
         program_attribute.getProgram()),
       "Program for program attribute is not active");
 
-    final ArrayBufferDescriptor d = buffer.getDescriptor();
-    final ArrayBufferAttribute ba =
+    final ArrayBufferTypeDescriptor d = buffer.getDescriptor();
+    final ArrayBufferAttributeDescriptor ba =
       d.getAttribute(buffer_attribute.getName());
 
     final boolean same_array = ba == buffer_attribute;

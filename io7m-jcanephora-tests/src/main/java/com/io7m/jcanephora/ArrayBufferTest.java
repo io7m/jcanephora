@@ -23,14 +23,14 @@ import com.io7m.jaux.UnreachableCodeException;
 
 public class ArrayBufferTest
 {
-  private static ArrayBufferDescriptor type;
+  private static ArrayBufferTypeDescriptor type;
 
   static {
     try {
-      final ArrayBufferAttribute[] at = new ArrayBufferAttribute[1];
+      final ArrayBufferAttributeDescriptor[] at = new ArrayBufferAttributeDescriptor[1];
       at[0] =
-        new ArrayBufferAttribute("position", JCGLScalarType.TYPE_FLOAT, 3);
-      ArrayBufferTest.type = new ArrayBufferDescriptor(at);
+        new ArrayBufferAttributeDescriptor("position", JCGLScalarType.TYPE_FLOAT, 3);
+      ArrayBufferTest.type = new ArrayBufferTypeDescriptor(at);
     } catch (final ConstraintError e) {
       throw new UnreachableCodeException();
     }
