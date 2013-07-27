@@ -22,10 +22,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.GLCompileException;
-import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLInterfaceCommon;
-import com.io7m.jcanephora.GLUnsupportedException;
+import com.io7m.jcanephora.JCGLCompileException;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLInterfaceCommon;
+import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.contracts.TestContract;
@@ -42,25 +42,25 @@ public abstract class ProgramGLES2Contract implements TestContract
   /**
    * Attaching two fragment shaders on ES2, fails.
    * 
-   * @throws GLException
-   * @throws GLUnsupportedException
+   * @throws JCGLException
+   * @throws JCGLUnsupportedException
    * @throws FilesystemError
    * @throws IOException
-   * @throws GLCompileException
+   * @throws JCGLCompileException
    */
 
-  @Test(expected = GLCompileException.class) public final
+  @Test(expected = JCGLCompileException.class) public final
     void
     testTwoFragmentShaders()
       throws ConstraintError,
-        GLException,
-        GLUnsupportedException,
+        JCGLException,
+        JCGLUnsupportedException,
         FilesystemError,
-        GLCompileException,
+        JCGLCompileException,
         IOException
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     final FSCapabilityAll fs = tc.getFilesystem();
 
     final Program p = new Program("program", tc.getLog());
@@ -73,25 +73,25 @@ public abstract class ProgramGLES2Contract implements TestContract
   /**
    * Attaching two vertex shaders on ES2, fails.
    * 
-   * @throws GLException
-   * @throws GLUnsupportedException
+   * @throws JCGLException
+   * @throws JCGLUnsupportedException
    * @throws FilesystemError
    * @throws IOException
-   * @throws GLCompileException
+   * @throws JCGLCompileException
    */
 
-  @Test(expected = GLCompileException.class) public final
+  @Test(expected = JCGLCompileException.class) public final
     void
     testTwoVertexShaders()
       throws ConstraintError,
-        GLException,
-        GLUnsupportedException,
+        JCGLException,
+        JCGLUnsupportedException,
         FilesystemError,
-        GLCompileException,
+        JCGLCompileException,
         IOException
   {
     final TestContext tc = this.newTestContext();
-    final GLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     final FSCapabilityAll fs = tc.getFilesystem();
 
     final Program p = new Program("program", tc.getLog());

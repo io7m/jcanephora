@@ -25,30 +25,30 @@ import com.io7m.jaux.RangeInclusive;
  * the type but not mutation and/or deletion of the contents.
  */
 
-public interface IndexBufferUsable
+public interface IndexBufferUsable extends JCGLResourceUsable, JCGLName
 {
   /**
    * Retrieve the size in bytes of each element.
    */
 
-  long getElementSizeBytes();
+  public long getElementSizeBytes();
 
   /**
    * Retrieve the valid range of elements.
    */
 
-  @Nonnull RangeInclusive getRange();
+  public @Nonnull RangeInclusive getRange();
 
   /**
    * Retrieve the total size in bytes of the allocated buffer.
    */
 
-  long getSizeBytes();
+  public long getSizeBytes();
 
   /**
    * Retrieve the type of the elements in the buffer.
    */
 
-  @Nonnull GLUnsignedType getType();
+  public @Nonnull JCGLUnsignedType getType();
 
 }

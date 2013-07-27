@@ -34,7 +34,7 @@ public class IndexBufferWritableDataTest
       new IndexBuffer(
         1,
         new RangeInclusive(0, 3),
-        GLUnsignedType.TYPE_UNSIGNED_BYTE);
+        JCGLUnsignedType.TYPE_UNSIGNED_BYTE);
     final IndexBufferWritableData data = new IndexBufferWritableData(indices);
 
     Assert.assertEquals(0, data.getTargetDataOffset());
@@ -63,7 +63,7 @@ public class IndexBufferWritableDataTest
       new IndexBuffer(
         1,
         new RangeInclusive(0, 3),
-        GLUnsignedType.TYPE_UNSIGNED_INT);
+        JCGLUnsignedType.TYPE_UNSIGNED_INT);
     final IndexBufferWritableData data = new IndexBufferWritableData(indices);
 
     Assert.assertEquals(0, data.getTargetDataOffset());
@@ -92,7 +92,7 @@ public class IndexBufferWritableDataTest
       new IndexBuffer(
         1,
         new RangeInclusive(0, 3),
-        GLUnsignedType.TYPE_UNSIGNED_SHORT);
+        JCGLUnsignedType.TYPE_UNSIGNED_SHORT);
     final IndexBufferWritableData data = new IndexBufferWritableData(indices);
 
     Assert.assertEquals(0, data.getTargetDataOffset());
@@ -124,7 +124,7 @@ public class IndexBufferWritableDataTest
         new IndexBuffer(
           1,
           new RangeInclusive(0, 7),
-          GLUnsignedType.TYPE_UNSIGNED_BYTE);
+          JCGLUnsignedType.TYPE_UNSIGNED_BYTE);
       final IndexBufferWritableData data =
         new IndexBufferWritableData(indices);
 
@@ -149,7 +149,7 @@ public class IndexBufferWritableDataTest
         new IndexBuffer(
           1,
           new RangeInclusive(0, 7),
-          GLUnsignedType.TYPE_UNSIGNED_SHORT);
+          JCGLUnsignedType.TYPE_UNSIGNED_SHORT);
       final IndexBufferWritableData data =
         new IndexBufferWritableData(indices);
 
@@ -169,7 +169,7 @@ public class IndexBufferWritableDataTest
       new IndexBuffer(
         1,
         new RangeInclusive(0, 7),
-        GLUnsignedType.TYPE_UNSIGNED_BYTE);
+        JCGLUnsignedType.TYPE_UNSIGNED_BYTE);
     final IndexBufferWritableData data =
       new IndexBufferWritableData(indices, new RangeInclusive(2, 5));
 
@@ -196,7 +196,7 @@ public class IndexBufferWritableDataTest
       new IndexBuffer(
         1,
         new RangeInclusive(0, 7),
-        GLUnsignedType.TYPE_UNSIGNED_INT);
+        JCGLUnsignedType.TYPE_UNSIGNED_INT);
     final IndexBufferWritableData data =
       new IndexBufferWritableData(indices, new RangeInclusive(2, 5));
 
@@ -223,7 +223,7 @@ public class IndexBufferWritableDataTest
       new IndexBuffer(
         1,
         new RangeInclusive(0, 7),
-        GLUnsignedType.TYPE_UNSIGNED_SHORT);
+        JCGLUnsignedType.TYPE_UNSIGNED_SHORT);
     final IndexBufferWritableData data =
       new IndexBufferWritableData(indices, new RangeInclusive(2, 5));
 

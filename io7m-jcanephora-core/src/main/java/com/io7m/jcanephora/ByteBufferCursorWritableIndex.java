@@ -34,12 +34,12 @@ final class ByteBufferCursorWritableIndex extends BufferCursor implements
   CursorWritableIndex
 {
   private final @Nonnull ByteBuffer     target_data;
-  private final @Nonnull GLUnsignedType type;
+  private final @Nonnull JCGLUnsignedType type;
 
   ByteBufferCursorWritableIndex(
     final @Nonnull ByteBuffer target_data,
     final @Nonnull RangeInclusive range,
-    final @Nonnull GLUnsignedType type)
+    final @Nonnull JCGLUnsignedType type)
   {
     super(range, 0, type.getSizeBytes());
     this.target_data = target_data;

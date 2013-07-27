@@ -23,11 +23,11 @@ import com.io7m.jcanephora.contracts.ViewportContract;
 
 public final class LWJGL30ViewportTest extends ViewportContract
 {
-  @Override public GLViewport getGLViewport(
+  @Override public JCGLViewport getGLViewport(
     final TestContext tc)
   {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    final Some<JCGLInterfaceGL3> some =
+      (Some<JCGLInterfaceGL3>) tc.getGLImplementation().getGL3();
     return some.value;
   }
 
@@ -37,8 +37,8 @@ public final class LWJGL30ViewportTest extends ViewportContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL3_0();

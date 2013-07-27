@@ -90,15 +90,15 @@ public interface CompilableProgram
    *           <li><code>fs == null</code>.</li>
    *           <li><code>gl == null</code>.</li>
    *           </ul>
-   * @throws GLCompileException
+   * @throws JCGLCompileException
    *           Iff a compilation error occurs.
    */
 
-  <G extends GLShaders & GLMeta, F extends FSCapabilityRead> void compile(
+  <G extends JCGLShaders & JCGLMeta, F extends FSCapabilityRead> void compile(
     final @Nonnull F fs,
     final @Nonnull G gl)
     throws ConstraintError,
-      GLCompileException;
+      JCGLCompileException;
 
   /**
    * Remove the fragment shader referenced by <code>path</code> from the
@@ -114,15 +114,15 @@ public interface CompilableProgram
    *           <li><code>path == null</code>.</li>
    *           <li><code>gl == null</code>.</li>
    *           </ul>
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void removeFragmentShader(
     final @Nonnull PathVirtual path,
-    final @Nonnull GLShaders gl)
+    final @Nonnull JCGLShaders gl)
     throws ConstraintError,
-      GLException;
+      JCGLException;
 
   /**
    * Remove the vertex shader referenced by <code>path</code> from the
@@ -138,15 +138,15 @@ public interface CompilableProgram
    *           <li><code>path == null</code>.</li>
    *           <li><code>gl == null</code>.</li>
    *           </ul>
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void removeVertexShader(
     final @Nonnull PathVirtual path,
-    final @Nonnull GLShaders gl)
+    final @Nonnull JCGLShaders gl)
     throws ConstraintError,
-      GLException;
+      JCGLException;
 
   /**
    * Returns <code>true</code> iff the program requires compilation.
@@ -168,7 +168,7 @@ public interface CompilableProgram
 
   <F extends FSCapabilityRead> boolean requiresCompilation(
     final @Nonnull F fs,
-    final @Nonnull GLShaders gl)
+    final @Nonnull JCGLShaders gl)
     throws FilesystemError,
       ConstraintError;
 }

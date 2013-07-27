@@ -37,7 +37,7 @@ import com.io7m.jvvfs.PathVirtual;
  * recompilation and graceful handling of compilation errors.
  */
 
-public final class Program extends GLResourceDeletable implements
+public final class Program extends JCGLResourceDeletable implements
   CompilableProgram,
   UsableProgram
 {
@@ -95,16 +95,16 @@ public final class Program extends GLResourceDeletable implements
    *          An OpenGL interface.
    * @throws ConstraintError
    *           Iff <code>gl == null</code> or one of the constraints for
-   *           {@link GLShaders#programActivate(ProgramReference)} does not
+   *           {@link JCGLShaders#programActivate(ProgramReference)} does not
    *           hold.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   @Override public void activate(
-    final @Nonnull GLShaders gl)
+    final @Nonnull JCGLShaders gl)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
 
@@ -190,45 +190,49 @@ public final class Program extends GLResourceDeletable implements
    *           <li><code>fs == null</code>.</li>
    *           <li><code>gl == null</code>.</li>
    *           </ul>
-   * @throws GLCompileException
+   * @throws JCGLCompileException
    *           Iff a compilation error occurs.
    */
 
   @Override public
-    <G extends GLShaders & GLMeta, F extends FSCapabilityRead>
+    <G extends JCGLShaders & JCGLMeta, F extends FSCapabilityRead>
     void
     compile(
       final @Nonnull F fs,
       final @Nonnull G gl)
       throws ConstraintError,
-        GLCompileException
+        JCGLCompileException
   {
     Constraints.constrainNotNull(fs, "Filesystem");
     Constraints.constrainNotNull(gl, "OpenGL interface");
 
     try {
       if (this.vertex_shaders.size() == 0) {
-        throw new GLCompileException(
+        throw new JCGLCompileException(
           "<none>",
           "at least one vertex shader is required");
       }
+
+      final JCGLVersion v = gl.metaGetVersion();
+
       if (this.vertex_shaders.size() > 1) {
-        if (gl.metaIsES() && (gl.metaGetVersionMajor() == 2)) {
-          throw new GLCompileException(
+        if (v.isES()
+          && ((v.getVersionMajor() >= 2) && (v.getVersionMajor() <= 3))) {
+          throw new JCGLCompileException(
             "<none>",
             "ES2 forbids multiple vertex shader attachments");
         }
       }
 
       if (this.fragment_shaders.size() == 0) {
-        throw new GLCompileException(
+        throw new JCGLCompileException(
           "<none>",
           "at least one fragment shader is required");
       }
       if (this.fragment_shaders.size() > 1) {
-        final int vm = gl.metaGetVersionMajor();
-        if (gl.metaIsES() && ((vm >= 2) && (vm <= 3))) {
-          throw new GLCompileException(
+        if (v.isES()
+          && ((v.getVersionMajor() >= 2) && (v.getVersionMajor() <= 3))) {
+          throw new JCGLCompileException(
             "<none>",
             "ES2/ES3 forbids multiple fragment shader attachments");
         }
@@ -349,11 +353,11 @@ public final class Program extends GLResourceDeletable implements
       gl.programDeactivate();
 
     } catch (final FilesystemError e) {
-      throw new GLCompileException(this.name, e.getMessage());
+      throw new JCGLCompileException(this.name, e.getMessage());
     } catch (final IOException e) {
-      throw new GLCompileException(this.name, e.getMessage());
-    } catch (final GLException e) {
-      throw new GLCompileException(this.name, e.getMessage());
+      throw new JCGLCompileException(this.name, e.getMessage());
+    } catch (final JCGLException e) {
+      throw new JCGLCompileException(this.name, e.getMessage());
     }
   }
 
@@ -364,14 +368,14 @@ public final class Program extends GLResourceDeletable implements
    * @param gl
    * @throws ConstraintError
    *           Iff <code>gl == null</code>.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   @Override public void deactivate(
-    final @Nonnull GLShaders gl)
+    final @Nonnull JCGLShaders gl)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
 
@@ -391,16 +395,16 @@ public final class Program extends GLResourceDeletable implements
    *          An OpenGL interface.
    * @throws ConstraintError
    *           Iff <code>gl == null</code>.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   public void delete(
-    final @Nonnull GLShaders gl)
+    final @Nonnull JCGLShaders gl)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
-    GLException error = null;
+    JCGLException error = null;
 
     for (final Entry<PathVirtual, VertexShaderEntry> e : this.vertex_shaders
       .entrySet()) {
@@ -409,7 +413,7 @@ public final class Program extends GLResourceDeletable implements
         if (v.shader != null) {
           gl.vertexShaderDelete(v.shader);
         }
-      } catch (final GLException x) {
+      } catch (final JCGLException x) {
         error = x;
       }
     }
@@ -421,7 +425,7 @@ public final class Program extends GLResourceDeletable implements
         if (f.shader != null) {
           gl.fragmentShaderDelete(f.shader);
         }
-      } catch (final GLException x) {
+      } catch (final JCGLException x) {
         error = x;
       }
     }
@@ -430,7 +434,7 @@ public final class Program extends GLResourceDeletable implements
       if (this.program != null) {
         gl.programDelete(this.program);
       }
-    } catch (final GLException x) {
+    } catch (final JCGLException x) {
       error = x;
     }
 
@@ -531,15 +535,15 @@ public final class Program extends GLResourceDeletable implements
    * 
    * @param gl
    *          An OpenGL interface.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    * @throws ConstraintError
    *           Iff <code>gl == null</code>.
    */
 
   public boolean isActive(
-    final @Nonnull GLShaders gl)
-    throws GLException,
+    final @Nonnull JCGLShaders gl)
+    throws JCGLException,
       ConstraintError
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
@@ -563,15 +567,15 @@ public final class Program extends GLResourceDeletable implements
    *           <li><code>path == null</code>.</li>
    *           <li><code>gl == null</code>.</li>
    *           </ul>
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   @Override public void removeFragmentShader(
     final @Nonnull PathVirtual path,
-    final @Nonnull GLShaders gl)
+    final @Nonnull JCGLShaders gl)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(path, "path");
 
@@ -600,15 +604,15 @@ public final class Program extends GLResourceDeletable implements
    *           <li><code>path == null</code>.</li>
    *           <li><code>gl == null</code>.</li>
    *           </ul>
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   @Override public void removeVertexShader(
     final @Nonnull PathVirtual path,
-    final @Nonnull GLShaders gl)
+    final @Nonnull JCGLShaders gl)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(path, "path");
 
@@ -643,7 +647,7 @@ public final class Program extends GLResourceDeletable implements
 
   @Override public <F extends FSCapabilityRead> boolean requiresCompilation(
     final @Nonnull F fs,
-    final @Nonnull GLShaders gl)
+    final @Nonnull JCGLShaders gl)
     throws FilesystemError,
       ConstraintError
   {

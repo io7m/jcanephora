@@ -32,7 +32,7 @@ public class ByteBufferCursorWritableIndexTest
     throws ConstraintError
   {
     final int element_count = 4;
-    final GLUnsignedType type = GLUnsignedType.TYPE_UNSIGNED_BYTE;
+    final JCGLUnsignedType type = JCGLUnsignedType.TYPE_UNSIGNED_BYTE;
     final int element_size = type.getSizeBytes();
 
     final ByteBuffer data =
@@ -59,7 +59,7 @@ public class ByteBufferCursorWritableIndexTest
     throws ConstraintError
   {
     final int element_count = 4;
-    final GLUnsignedType type = GLUnsignedType.TYPE_UNSIGNED_INT;
+    final JCGLUnsignedType type = JCGLUnsignedType.TYPE_UNSIGNED_INT;
     final int element_size = type.getSizeBytes();
 
     final ByteBuffer data =
@@ -87,7 +87,7 @@ public class ByteBufferCursorWritableIndexTest
     throws ConstraintError
   {
     final int element_count = 4;
-    final GLUnsignedType type = GLUnsignedType.TYPE_UNSIGNED_SHORT;
+    final JCGLUnsignedType type = JCGLUnsignedType.TYPE_UNSIGNED_SHORT;
     final int element_size = type.getSizeBytes();
 
     final ByteBuffer data =

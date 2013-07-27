@@ -24,7 +24,7 @@ import com.io7m.jaux.RangeInclusive;
  * Methods common to all OpenGL buffer types.
  */
 
-public interface Buffer extends GLName
+public interface Buffer extends JCGLName
 {
   /**
    * Return the size in bytes of individual elements in the array.

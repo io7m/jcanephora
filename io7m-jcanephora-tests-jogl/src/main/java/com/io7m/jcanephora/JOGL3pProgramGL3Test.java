@@ -28,8 +28,8 @@ public final class JOGL3pProgramGL3Test extends ProgramGL3Contract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL3_p();

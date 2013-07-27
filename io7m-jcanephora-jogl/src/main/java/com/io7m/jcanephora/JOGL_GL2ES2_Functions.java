@@ -30,7 +30,6 @@ import javax.media.opengl.GL2ES2;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.GLType.Type;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
@@ -45,10 +44,11 @@ final class JOGL_GL2ES2_Functions
 {
   static void arrayBufferBindVertexAttribute(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull ArrayBuffer buffer,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
-    throws GLException,
+    throws JCGLException,
       ConstraintError
   {
     Constraints.constrainNotNull(buffer, "Array buffer");
@@ -61,6 +61,13 @@ final class JOGL_GL2ES2_Functions
 
     final boolean bound = JOGL_GL_Functions.arrayBufferIsBound(gl, buffer);
     Constraints.constrainArbitrary(bound, "Buffer is bound");
+
+    Constraints.constrainArbitrary(
+      JOGL_GL2ES2_Functions.programIsActive(
+        gl,
+        state,
+        program_attribute.getProgram()),
+      "Program for program attribute is not active");
 
     final ArrayBufferDescriptor d = buffer.getDescriptor();
     final ArrayBufferAttribute dba =
@@ -101,22 +108,29 @@ final class JOGL_GL2ES2_Functions
 
   static void arrayBufferUnbindVertexAttribute(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull ArrayBuffer buffer,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
-    throws GLException,
+    throws JCGLException,
       ConstraintError
   {
     Constraints.constrainNotNull(buffer, "Array buffer");
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
       "Array buffer not deleted");
+    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
+    Constraints.constrainNotNull(program_attribute, "Program attribute");
 
     final boolean bound = JOGL_GL_Functions.arrayBufferIsBound(gl, buffer);
     Constraints.constrainArbitrary(bound, "Buffer is bound");
 
-    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
-    Constraints.constrainNotNull(program_attribute, "Program attribute");
+    Constraints.constrainArbitrary(
+      JOGL_GL2ES2_Functions.programIsActive(
+        gl,
+        state,
+        program_attribute.getProgram()),
+      "Program for program attribute is not active");
 
     final ArrayBufferDescriptor d = buffer.getDescriptor();
     final ArrayBufferAttribute ba =
@@ -133,10 +147,10 @@ final class JOGL_GL2ES2_Functions
 
   static int contextGetProgramInteger(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final int program,
     final int name)
-    throws GLException
+    throws JCGLException
   {
     final IntBuffer cache = state.getIntegerCache();
     gl.glGetProgramiv(program, name, cache);
@@ -146,10 +160,10 @@ final class JOGL_GL2ES2_Functions
 
   static int contextGetShaderInteger(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final int program,
     final int name)
-    throws GLException
+    throws JCGLException
   {
     final IntBuffer cache = state.getIntegerCache();
     gl.glGetShaderiv(program, name, cache);
@@ -159,12 +173,12 @@ final class JOGL_GL2ES2_Functions
 
   static void fragmentShaderAttach(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull ProgramReference program,
     final @Nonnull FragmentShader shader)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
@@ -191,14 +205,14 @@ final class JOGL_GL2ES2_Functions
 
   static FragmentShader fragmentShaderCompile(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull String name,
     final @Nonnull InputStream stream)
     throws ConstraintError,
-      GLCompileException,
+      JCGLCompileException,
       IOException,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(name, "Shader name");
     Constraints.constrainNotNull(stream, "input stream");
@@ -247,7 +261,7 @@ final class JOGL_GL2ES2_Functions
       final byte raw[] = new byte[log_buffer.remaining()];
       log_buffer.get(raw);
       final String text = new String(raw);
-      throw new GLCompileException(name, text);
+      throw new JCGLCompileException(name, text);
     }
 
     return new FragmentShader(id, name);
@@ -255,11 +269,11 @@ final class JOGL_GL2ES2_Functions
 
   static void fragmentShaderDelete(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FragmentShader id)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(id, "Fragment shader");
     Constraints.constrainArbitrary(
@@ -280,11 +294,11 @@ final class JOGL_GL2ES2_Functions
 
   static ProgramReference programCreate(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull String name)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(name, "Program name");
 
@@ -298,7 +312,7 @@ final class JOGL_GL2ES2_Functions
 
     final int id = gl.glCreateProgram();
     if (id == 0) {
-      throw new GLException(0, "glCreateProgram failed");
+      throw new JCGLException(0, "glCreateProgram failed");
     }
     JOGL_GL_Functions.checkError(gl);
 
@@ -314,7 +328,7 @@ final class JOGL_GL2ES2_Functions
 
   static void programDeactivate(
     final @Nonnull GL2ES2 gl)
-    throws GLException
+    throws JCGLException
   {
     gl.glUseProgram(0);
     JOGL_GL_Functions.checkError(gl);
@@ -322,11 +336,11 @@ final class JOGL_GL2ES2_Functions
 
   static void programDelete(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull ProgramReference program)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(program, "Program");
     Constraints.constrainArbitrary(
@@ -347,12 +361,12 @@ final class JOGL_GL2ES2_Functions
 
   static void programGetAttributes(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull ProgramReference program,
     final @Nonnull Map<String, ProgramAttribute> out)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
@@ -401,7 +415,7 @@ final class JOGL_GL2ES2_Functions
       JOGL_GL_Functions.checkError(gl);
 
       final int type_raw = buffer_type.get(0);
-      final GLType.Type type = JOGL_GLTypeConversions.typeFromGL(type_raw);
+      final JCGLType type = JOGL_GLTypeConversions.typeFromGL(type_raw);
 
       final int name_length = buffer_length.get(0);
       final byte temp_buffer[] = new byte[name_length];
@@ -431,9 +445,9 @@ final class JOGL_GL2ES2_Functions
 
   static int programGetMaximumActiveAttributes(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull Log log)
-    throws GLException
+    throws JCGLException
   {
     final int max =
       JOGL_GL_Functions.contextGetInteger(
@@ -454,12 +468,12 @@ final class JOGL_GL2ES2_Functions
 
   static void programGetUniforms(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull ProgramReference program,
     final @Nonnull Map<String, ProgramUniform> out)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
@@ -504,7 +518,7 @@ final class JOGL_GL2ES2_Functions
       JOGL_GL_Functions.checkError(gl);
 
       final int type_raw = buffer_type.get(0);
-      final GLType.Type type = JOGL_GLTypeConversions.typeFromGL(type_raw);
+      final JCGLType type = JOGL_GLTypeConversions.typeFromGL(type_raw);
 
       final int name_length = buffer_length.get(0);
       final byte temp_buffer[] = new byte[name_length];
@@ -532,10 +546,10 @@ final class JOGL_GL2ES2_Functions
 
   static boolean programIsActive(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramReference program)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
@@ -553,12 +567,12 @@ final class JOGL_GL2ES2_Functions
 
   static void programLink(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull ProgramReference program)
     throws ConstraintError,
-      GLCompileException,
-      GLException
+      JCGLCompileException,
+      JCGLException
   {
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
@@ -592,7 +606,7 @@ final class JOGL_GL2ES2_Functions
       final byte raw[] = new byte[buffer.remaining()];
       buffer.get(raw);
       final String text = new String(raw);
-      throw new GLCompileException(program.getName(), text);
+      throw new JCGLCompileException(program.getName(), text);
     }
 
     JOGL_GL_Functions.checkError(gl);
@@ -600,15 +614,15 @@ final class JOGL_GL2ES2_Functions
 
   static void programPutUniformFloat(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final float value)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT,
+      uniform.getType() == JCGLType.TYPE_FLOAT,
       "Uniform type is float");
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
@@ -620,16 +634,16 @@ final class JOGL_GL2ES2_Functions
 
   static void programPutUniformMatrix3x3f(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixReadable3x3F matrix)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(matrix, "Matrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_MATRIX_3,
+      uniform.getType() == JCGLType.TYPE_FLOAT_MATRIX_3,
       "Uniform type is mat3");
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
@@ -645,16 +659,16 @@ final class JOGL_GL2ES2_Functions
 
   static void programPutUniformMatrix4x4f(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixReadable4x4F matrix)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(matrix, "Matrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_MATRIX_4,
+      uniform.getType() == JCGLType.TYPE_FLOAT_MATRIX_4,
       "Uniform type is mat4");
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
@@ -670,15 +684,15 @@ final class JOGL_GL2ES2_Functions
 
   static void programPutUniformTextureUnit(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull TextureUnit unit)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_SAMPLER_2D,
+      uniform.getType() == JCGLType.TYPE_SAMPLER_2D,
       "Uniform type is sampler_2d");
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
@@ -690,16 +704,16 @@ final class JOGL_GL2ES2_Functions
 
   static void programPutUniformVector2f(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable2F vector)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_VECTOR_2,
+      uniform.getType() == JCGLType.TYPE_FLOAT_VECTOR_2,
       "Uniform type is vec2");
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
@@ -711,16 +725,16 @@ final class JOGL_GL2ES2_Functions
 
   static void programPutUniformVector2i(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable2I vector)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_INTEGER_VECTOR_2,
+      uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_2,
       "Uniform type is vec2");
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
@@ -732,16 +746,16 @@ final class JOGL_GL2ES2_Functions
 
   static void programPutUniformVector3f(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable3F vector)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_VECTOR_3,
+      uniform.getType() == JCGLType.TYPE_FLOAT_VECTOR_3,
       "Uniform type is vec3");
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
@@ -757,16 +771,16 @@ final class JOGL_GL2ES2_Functions
 
   static void programPutUniformVector4f(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4F vector)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_VECTOR_4,
+      uniform.getType() == JCGLType.TYPE_FLOAT_VECTOR_4,
       "Uniform type is vec4");
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
@@ -809,7 +823,7 @@ final class JOGL_GL2ES2_Functions
     final int reference,
     final int mask)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(faces, "Face selection");
     Constraints.constrainNotNull(function, "Stencil function");
@@ -828,7 +842,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull FaceSelection faces,
     final int mask)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(faces, "Face selection");
 
@@ -845,7 +859,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull StencilOperation depth_fail,
     final @Nonnull StencilOperation pass)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(faces, "Face selection");
     Constraints.constrainNotNull(stencil_fail, "Stencil fail operation");
@@ -866,12 +880,12 @@ final class JOGL_GL2ES2_Functions
 
   static void vertexShaderAttach(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull ProgramReference program,
     final @Nonnull VertexShader shader)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
@@ -898,14 +912,14 @@ final class JOGL_GL2ES2_Functions
 
   static VertexShader vertexShaderCompile(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull String name,
     final @Nonnull InputStream stream)
     throws ConstraintError,
-      GLCompileException,
+      JCGLCompileException,
       IOException,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(name, "Shader name");
     Constraints.constrainNotNull(stream, "input stream");
@@ -954,7 +968,7 @@ final class JOGL_GL2ES2_Functions
       final byte raw[] = new byte[log_buffer.remaining()];
       log_buffer.get(raw);
       final String text = new String(raw);
-      throw new GLCompileException(name, text);
+      throw new JCGLCompileException(name, text);
     }
 
     return new VertexShader(id, name);
@@ -962,11 +976,11 @@ final class JOGL_GL2ES2_Functions
 
   static void vertexShaderDelete(
     final @Nonnull GL2ES2 gl,
-    final @Nonnull GLStateCache state,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull VertexShader id)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     Constraints.constrainNotNull(id, "Vertex shader");
     Constraints.constrainArbitrary(

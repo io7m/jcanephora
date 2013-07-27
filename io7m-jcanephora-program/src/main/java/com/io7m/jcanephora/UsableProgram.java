@@ -33,16 +33,16 @@ public interface UsableProgram
    *          An OpenGL interface.
    * @throws ConstraintError
    *           Iff <code>gl == null</code> or one of the constraints for
-   *           {@link GLShaders#programActivate(ProgramReference)} does not
+   *           {@link JCGLShaders#programActivate(ProgramReference)} does not
    *           hold.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void activate(
-    final @Nonnull GLShaders gl)
+    final @Nonnull JCGLShaders gl)
     throws ConstraintError,
-      GLException;
+      JCGLException;
 
   /**
    * Deactivate the current program. If the current program is not active, the
@@ -51,12 +51,12 @@ public interface UsableProgram
    * @param gl
    * @throws ConstraintError
    *           Iff <code>gl == null</code>.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void deactivate(
-    final @Nonnull GLShaders gl)
+    final @Nonnull JCGLShaders gl)
     throws ConstraintError,
-      GLException;
+      JCGLException;
 }

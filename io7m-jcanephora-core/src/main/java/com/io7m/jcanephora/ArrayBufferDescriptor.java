@@ -164,7 +164,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
    *           </ul>
    */
 
-  public GLScalarType getAttributeType(
+  public JCGLScalarType getAttributeType(
     final @Nonnull String name)
     throws ConstraintError
   {

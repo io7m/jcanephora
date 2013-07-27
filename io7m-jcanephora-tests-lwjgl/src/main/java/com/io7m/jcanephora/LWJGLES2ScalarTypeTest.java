@@ -28,7 +28,7 @@ public final class LWJGLES2ScalarTypeTest
 
   @SuppressWarnings("static-method") @Test public void testScalarBijection()
   {
-    for (final GLScalarType t : GLScalarType.values()) {
+    for (final JCGLScalarType t : JCGLScalarType.values()) {
       Assert.assertEquals(LWJGL_GLTypeConversions
         .scalarTypeFromGL(LWJGL_GLTypeConversions.scalarTypeToGL(t)), t);
     }

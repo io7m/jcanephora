@@ -23,11 +23,11 @@ import com.io7m.jcanephora.contracts.MetaContract;
 
 public final class JOGLES2MetaTest extends MetaContract
 {
-  @Override public GLMeta getGLMeta(
+  @Override public JCGLMeta getGLMeta(
     final TestContext tc)
   {
-    final Some<GLInterfaceGLES2> some =
-      (Some<GLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    final Some<JCGLInterfaceGLES2> some =
+      (Some<JCGLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
     return some.value;
   }
 
@@ -37,8 +37,8 @@ public final class JOGLES2MetaTest extends MetaContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL_ES2();

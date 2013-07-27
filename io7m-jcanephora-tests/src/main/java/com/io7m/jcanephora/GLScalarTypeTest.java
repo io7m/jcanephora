@@ -13,18 +13,17 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jcanephora.GLType.Type;
-
 public final class GLScalarTypeTest
 {
   private static boolean convertibleLoudly(
-    final GLScalarType st,
-    final Type t,
+    final JCGLScalarType st,
+    final JCGLType t,
     final int count)
   {
     final StringBuilder b = new StringBuilder();
@@ -43,7 +42,7 @@ public final class GLScalarTypeTest
     void
     testScalarConvertible()
   {
-    for (final GLScalarType st : GLScalarType.values()) {
+    for (final JCGLScalarType st : JCGLScalarType.values()) {
       switch (st) {
         case TYPE_SHORT:
         case TYPE_BYTE:
@@ -52,7 +51,7 @@ public final class GLScalarTypeTest
         case TYPE_UNSIGNED_SHORT:
         {
           for (int count = 1; count <= 4; ++count) {
-            for (final Type t : GLType.Type.values()) {
+            for (final JCGLType t : JCGLType.values()) {
               Assert.assertFalse(GLScalarTypeTest.convertibleLoudly(
                 st,
                 t,
@@ -63,7 +62,7 @@ public final class GLScalarTypeTest
         }
         case TYPE_FLOAT:
         {
-          for (final Type t : GLType.Type.values()) {
+          for (final JCGLType t : JCGLType.values()) {
             switch (t) {
               case TYPE_FLOAT:
               {
@@ -163,7 +162,7 @@ public final class GLScalarTypeTest
         }
         case TYPE_INT:
         {
-          for (final Type t : GLType.Type.values()) {
+          for (final JCGLType t : JCGLType.values()) {
             switch (t) {
               case TYPE_INTEGER:
               {
@@ -267,15 +266,15 @@ public final class GLScalarTypeTest
 
   @SuppressWarnings("static-method") @Test public void testScalarSizes()
   {
-    Assert.assertEquals(1, GLScalarType.TYPE_BYTE.getSizeBytes());
-    Assert.assertEquals(1, GLScalarType.TYPE_UNSIGNED_BYTE.getSizeBytes());
+    Assert.assertEquals(1, JCGLScalarType.TYPE_BYTE.getSizeBytes());
+    Assert.assertEquals(1, JCGLScalarType.TYPE_UNSIGNED_BYTE.getSizeBytes());
 
-    Assert.assertEquals(2, GLScalarType.TYPE_SHORT.getSizeBytes());
-    Assert.assertEquals(2, GLScalarType.TYPE_UNSIGNED_SHORT.getSizeBytes());
+    Assert.assertEquals(2, JCGLScalarType.TYPE_SHORT.getSizeBytes());
+    Assert.assertEquals(2, JCGLScalarType.TYPE_UNSIGNED_SHORT.getSizeBytes());
 
-    Assert.assertEquals(4, GLScalarType.TYPE_INT.getSizeBytes());
-    Assert.assertEquals(4, GLScalarType.TYPE_UNSIGNED_INT.getSizeBytes());
+    Assert.assertEquals(4, JCGLScalarType.TYPE_INT.getSizeBytes());
+    Assert.assertEquals(4, JCGLScalarType.TYPE_UNSIGNED_INT.getSizeBytes());
 
-    Assert.assertEquals(4, GLScalarType.TYPE_FLOAT.getSizeBytes());
+    Assert.assertEquals(4, JCGLScalarType.TYPE_FLOAT.getSizeBytes());
   }
 }

@@ -25,19 +25,19 @@ import com.io7m.jcanephora.contracts.gles3.TextureCubeStaticGLES3Contract;
 public final class JOGLES3TextureCubeStaticGLES3Test extends
   TextureCubeStaticGLES3Contract
 {
-  @Override public GLTexturesCubeStaticGLES3 getGLTextureCubeStatic(
+  @Override public JCGLTexturesCubeStaticGLES3 getGLTextureCubeStatic(
     final TestContext tc)
   {
-    final Some<GLInterfaceGLES3> some =
-      (Some<GLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
+    final Some<JCGLInterfaceGLES3> some =
+      (Some<JCGLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
     return some.value;
   }
 
-  @Override public GLTextureUnits getGLTextureUnits(
+  @Override public JCGLTextureUnits getGLTextureUnits(
     final TestContext tc)
   {
-    final Some<GLInterfaceGLES3> some =
-      (Some<GLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
+    final Some<JCGLInterfaceGLES3> some =
+      (Some<JCGLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
     return some.value;
   }
 
@@ -47,8 +47,8 @@ public final class JOGLES3TextureCubeStaticGLES3Test extends
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL_ES3();

@@ -30,7 +30,7 @@ public final class LWJGL30UnsignedTypeTest
     void
     testUnsignedBijection()
   {
-    for (final GLUnsignedType u : GLUnsignedType.values()) {
+    for (final JCGLUnsignedType u : JCGLUnsignedType.values()) {
       Assert.assertEquals(LWJGL_GLTypeConversions
         .unsignedTypeFromGL(LWJGL_GLTypeConversions.unsignedTypeToGL(u)), u);
     }

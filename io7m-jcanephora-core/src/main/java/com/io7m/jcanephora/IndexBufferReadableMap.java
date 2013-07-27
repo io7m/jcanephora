@@ -36,11 +36,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 public final class IndexBufferReadableMap
 {
-  private final @Nonnull IndexBuffer buffer;
-  private final @Nonnull ByteBuffer  map;
+  private final @Nonnull IndexBufferUsable buffer;
+  private final @Nonnull ByteBuffer        map;
 
   IndexBufferReadableMap(
-    final @Nonnull IndexBuffer id,
+    final @Nonnull IndexBufferUsable id,
     final @Nonnull ByteBuffer map)
     throws ConstraintError
   {

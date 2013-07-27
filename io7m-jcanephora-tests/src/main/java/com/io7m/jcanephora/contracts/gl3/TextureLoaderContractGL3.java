@@ -28,9 +28,9 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLTextures2DStaticGL3;
-import com.io7m.jcanephora.GLUnsupportedException;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLTextures2DStaticGL3;
+import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilterMagnification;
@@ -45,7 +45,7 @@ import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
 
 public abstract class TextureLoaderContractGL3<T extends TextureLoader> extends
-  TextureLoaderContract<GLTextures2DStaticGL3, T>
+  TextureLoaderContract<JCGLTextures2DStaticGL3, T>
 {
   @Before public final void checkSupport()
   {
@@ -54,12 +54,12 @@ public abstract class TextureLoaderContractGL3<T extends TextureLoader> extends
 
   private void loadSpecific(
     final @Nonnull FSCapabilityRead fs,
-    final @Nonnull GLTextures2DStaticGL3 gl,
+    final @Nonnull JCGLTextures2DStaticGL3 gl,
     final @Nonnull T tl,
     final @Nonnull String path)
     throws FilesystemError,
       ConstraintError,
-      GLException,
+      JCGLException,
       IOException
   {
     for (final TextureType tt : TextureType.get2DTypesGL3()) {
@@ -217,45 +217,45 @@ public abstract class TextureLoaderContractGL3<T extends TextureLoader> extends
   }
 
   @Test public final void testTextureTypesGreyscaleToSpecific()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError,
       IOException,
       FilesystemError
   {
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
-    final GLTextures2DStaticGL3 gl = this.getGLTextures(tc);
+    final JCGLTextures2DStaticGL3 gl = this.getGLTextures(tc);
     final T tl = this.makeTextureLoader(gl);
     final String path = "/com/io7m/jcanephora/images/reference_8_grey.png";
     this.loadSpecific(fs, gl, tl, path);
   }
 
   @Test public final void testTextureTypesIndexedToSpecific()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError,
       IOException,
       FilesystemError
   {
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
-    final GLTextures2DStaticGL3 gl = this.getGLTextures(tc);
+    final JCGLTextures2DStaticGL3 gl = this.getGLTextures(tc);
     final T tl = this.makeTextureLoader(gl);
     final String path = "/com/io7m/jcanephora/images/reference_8_index.png";
     this.loadSpecific(fs, gl, tl, path);
   }
 
   @Test public final void testTextureTypesInferredGreyscale()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError,
       IOException,
       FilesystemError
   {
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
-    final GLTextures2DStaticGL3 gl = this.getGLTextures(tc);
+    final JCGLTextures2DStaticGL3 gl = this.getGLTextures(tc);
     final T tl = this.makeTextureLoader(gl);
 
     final InputStream stream =
@@ -293,15 +293,15 @@ public abstract class TextureLoaderContractGL3<T extends TextureLoader> extends
   }
 
   @Test public final void testTextureTypesInferredIndexed()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError,
       IOException,
       FilesystemError
   {
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
-    final GLTextures2DStaticGL3 gl = this.getGLTextures(tc);
+    final JCGLTextures2DStaticGL3 gl = this.getGLTextures(tc);
     final T tl = this.makeTextureLoader(gl);
 
     final InputStream stream =
@@ -339,15 +339,15 @@ public abstract class TextureLoaderContractGL3<T extends TextureLoader> extends
   }
 
   @Test public final void testTextureTypesInferredMono()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError,
       IOException,
       FilesystemError
   {
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
-    final GLTextures2DStaticGL3 gl = this.getGLTextures(tc);
+    final JCGLTextures2DStaticGL3 gl = this.getGLTextures(tc);
     final T tl = this.makeTextureLoader(gl);
 
     final InputStream stream =
@@ -387,15 +387,15 @@ public abstract class TextureLoaderContractGL3<T extends TextureLoader> extends
   @Test(expected = IOException.class) public final
     void
     testTextureTypesInferredNotAnImage()
-      throws GLException,
-        GLUnsupportedException,
+      throws JCGLException,
+        JCGLUnsupportedException,
         ConstraintError,
         IOException,
         FilesystemError
   {
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
-    final GLTextures2DStaticGL3 gl = this.getGLTextures(tc);
+    final JCGLTextures2DStaticGL3 gl = this.getGLTextures(tc);
     final T tl = this.makeTextureLoader(gl);
 
     final InputStream stream =
@@ -415,15 +415,15 @@ public abstract class TextureLoaderContractGL3<T extends TextureLoader> extends
   }
 
   @Test public final void testTextureTypesInferredRGB()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError,
       IOException,
       FilesystemError
   {
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
-    final GLTextures2DStaticGL3 gl = this.getGLTextures(tc);
+    final JCGLTextures2DStaticGL3 gl = this.getGLTextures(tc);
     final T tl = this.makeTextureLoader(gl);
 
     final InputStream stream =
@@ -461,15 +461,15 @@ public abstract class TextureLoaderContractGL3<T extends TextureLoader> extends
   }
 
   @Test public final void testTextureTypesInferredRGBA()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError,
       IOException,
       FilesystemError
   {
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
-    final GLTextures2DStaticGL3 gl = this.getGLTextures(tc);
+    final JCGLTextures2DStaticGL3 gl = this.getGLTextures(tc);
     final T tl = this.makeTextureLoader(gl);
 
     final InputStream stream =
@@ -507,15 +507,15 @@ public abstract class TextureLoaderContractGL3<T extends TextureLoader> extends
   }
 
   @Test public final void testTextureTypesInvalidToSpecific()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError,
       FilesystemError,
       IOException
   {
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
-    final GLTextures2DStaticGL3 gl = this.getGLTextures(tc);
+    final JCGLTextures2DStaticGL3 gl = this.getGLTextures(tc);
     final T tl = this.makeTextureLoader(gl);
     final String path = "/com/io7m/jcanephora/images/not-an-image.txt";
     int io_exception_count = 0;
@@ -668,45 +668,45 @@ public abstract class TextureLoaderContractGL3<T extends TextureLoader> extends
   }
 
   @Test public final void testTextureTypesMonoToSpecific()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError,
       IOException,
       FilesystemError
   {
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
-    final GLTextures2DStaticGL3 gl = this.getGLTextures(tc);
+    final JCGLTextures2DStaticGL3 gl = this.getGLTextures(tc);
     final T tl = this.makeTextureLoader(gl);
     final String path = "/com/io7m/jcanephora/images/reference_mono.png";
     this.loadSpecific(fs, gl, tl, path);
   }
 
   @Test public final void testTextureTypesRGBAToSpecific()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError,
       IOException,
       FilesystemError
   {
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
-    final GLTextures2DStaticGL3 gl = this.getGLTextures(tc);
+    final JCGLTextures2DStaticGL3 gl = this.getGLTextures(tc);
     final T tl = this.makeTextureLoader(gl);
     final String path = "/com/io7m/jcanephora/images/reference_8888_4.png";
     this.loadSpecific(fs, gl, tl, path);
   }
 
   @Test public final void testTextureTypesRGBToSpecific()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError,
       IOException,
       FilesystemError
   {
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
-    final GLTextures2DStaticGL3 gl = this.getGLTextures(tc);
+    final JCGLTextures2DStaticGL3 gl = this.getGLTextures(tc);
     final T tl = this.makeTextureLoader(gl);
     final String path = "/com/io7m/jcanephora/images/reference_888_3.png";
     this.loadSpecific(fs, gl, tl, path);

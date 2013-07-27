@@ -38,11 +38,11 @@ import com.io7m.jcanephora.FramebufferConfigurationGL3;
 import com.io7m.jcanephora.FramebufferConfigurationGL3Actual;
 import com.io7m.jcanephora.FramebufferDrawBuffer;
 import com.io7m.jcanephora.FramebufferStatus;
-import com.io7m.jcanephora.GLCompileException;
-import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLImplementation;
-import com.io7m.jcanephora.GLInterfaceGL3;
-import com.io7m.jcanephora.GLScalarType;
+import com.io7m.jcanephora.JCGLCompileException;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLImplementation;
+import com.io7m.jcanephora.JCGLInterfaceGL3;
+import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.Primitives;
@@ -73,8 +73,8 @@ public final class ExampleFBO3 implements Example
     Z_AXIS = new VectorI3F(0.0f, 0.0f, 1.0f);
   }
 
-  private final GLImplementation                  gl_implementation;
-  private final GLInterfaceGL3                    gl;
+  private final JCGLImplementation                  gl_implementation;
+  private final JCGLInterfaceGL3                    gl;
   private boolean                                 supported;
 
   private final Texture2DStaticUsable             texture;
@@ -107,8 +107,8 @@ public final class ExampleFBO3 implements Example
   public ExampleFBO3(
     final @Nonnull ExampleConfig config)
     throws ConstraintError,
-      GLException,
-      GLCompileException
+      JCGLException,
+      JCGLCompileException
   {
     this.config = config;
     this.context = new MatrixM4x4F.Context();
@@ -126,7 +126,7 @@ public final class ExampleFBO3 implements Example
     switch (this.gl_implementation.getGL3().type) {
       case OPTION_SOME:
         this.gl =
-          ((Some<GLInterfaceGL3>) this.gl_implementation.getGL3()).value;
+          ((Some<JCGLInterfaceGL3>) this.gl_implementation.getGL3()).value;
         this.supported = true;
         break;
       case OPTION_NONE:
@@ -250,7 +250,7 @@ public final class ExampleFBO3 implements Example
     if (result.isFailure()) {
       final Failure<Framebuffer, FramebufferStatus> failure =
         (Failure<Framebuffer, FramebufferStatus>) result;
-      throw new GLException(0, "Could not create framebuffer: "
+      throw new JCGLException(0, "Could not create framebuffer: "
         + failure.value);
     }
 
@@ -300,8 +300,8 @@ public final class ExampleFBO3 implements Example
     {
       final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[2];
       ab[0] =
-        new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 4);
-      ab[1] = new ArrayBufferAttribute("uv", GLScalarType.TYPE_FLOAT, 2);
+        new ArrayBufferAttribute("position", JCGLScalarType.TYPE_FLOAT, 4);
+      ab[1] = new ArrayBufferAttribute("uv", JCGLScalarType.TYPE_FLOAT, 2);
       this.textured_quad_type = new ArrayBufferDescriptor(ab);
       this.textured_quad =
         this.gl.arrayBufferAllocate(
@@ -313,8 +313,8 @@ public final class ExampleFBO3 implements Example
     {
       final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[2];
       ab[0] =
-        new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 4);
-      ab[1] = new ArrayBufferAttribute("color", GLScalarType.TYPE_FLOAT, 4);
+        new ArrayBufferAttribute("position", JCGLScalarType.TYPE_FLOAT, 4);
+      ab[1] = new ArrayBufferAttribute("color", JCGLScalarType.TYPE_FLOAT, 4);
       this.color_quad_type = new ArrayBufferDescriptor(ab);
       this.color_quad =
         this.gl.arrayBufferAllocate(
@@ -395,8 +395,8 @@ public final class ExampleFBO3 implements Example
   }
 
   @Override public void display()
-    throws GLException,
-      GLCompileException,
+    throws JCGLException,
+      JCGLCompileException,
       ConstraintError
   {
     if (this.supported) {
@@ -412,7 +412,7 @@ public final class ExampleFBO3 implements Example
 
   private void drawActualScene()
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     this.gl.colorBufferClear3f(0.15f, 0.3f, 0.2f);
 
@@ -525,7 +525,7 @@ public final class ExampleFBO3 implements Example
 
   private void drawFramebufferScene()
     throws ConstraintError,
-      GLException
+      JCGLException
   {
     final int width = this.config.getWindowSize().getXI();
     final int height = this.config.getWindowSize().getYI();
@@ -632,9 +632,9 @@ public final class ExampleFBO3 implements Example
   @Override public void reshape(
     final @Nonnull VectorReadable2I position,
     final @Nonnull VectorReadable2I size)
-    throws GLException,
+    throws JCGLException,
       ConstraintError,
-      GLCompileException
+      JCGLCompileException
   {
     if (this.supported) {
       this.gl.viewportSet(position, size);
@@ -647,9 +647,9 @@ public final class ExampleFBO3 implements Example
   }
 
   @Override public void shutdown()
-    throws GLException,
+    throws JCGLException,
       ConstraintError,
-      GLCompileException
+      JCGLCompileException
   {
     if (this.supported) {
       this.has_shut_down = true;

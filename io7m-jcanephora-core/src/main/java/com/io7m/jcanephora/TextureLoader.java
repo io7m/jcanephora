@@ -57,7 +57,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -65,7 +65,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticDepth16(
-    final @Nonnull GLTextures2DStaticGL3ES3 gl,
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -73,7 +73,7 @@ public interface TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      GLException,
+      JCGLException,
       IOException;
 
   /**
@@ -104,7 +104,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -112,7 +112,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticDepth24(
-    final @Nonnull GLTextures2DStaticGL3ES3 gl,
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -120,7 +120,7 @@ public interface TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      GLException,
+      JCGLException,
       IOException;
 
   /**
@@ -151,7 +151,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -159,7 +159,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticDepth32f(
-    final @Nonnull GLTextures2DStaticGL3ES3 gl,
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -167,7 +167,7 @@ public interface TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      GLException,
+      JCGLException,
       IOException;
 
   /**
@@ -202,7 +202,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -210,7 +210,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticInferredCommon(
-    final @Nonnull GLTextures2DStaticCommon gl,
+    final @Nonnull JCGLTextures2DStaticCommon gl,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -218,7 +218,7 @@ public interface TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      GLException,
+      JCGLException,
       IOException;
 
   /**
@@ -246,7 +246,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -254,7 +254,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticInferredGL3ES3(
-    final @Nonnull GLTextures2DStaticGL3ES3 gl,
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -262,7 +262,7 @@ public interface TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      GLException,
+      JCGLException,
       IOException;
 
   /**
@@ -290,7 +290,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -298,7 +298,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticInferredGLES2(
-    final @Nonnull GLTextures2DStaticGLES2 gl,
+    final @Nonnull JCGLTextures2DStaticGLES2 gl,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -306,7 +306,7 @@ public interface TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      GLException,
+      JCGLException,
       IOException;
 
   /**
@@ -337,7 +337,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -345,7 +345,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticR8(
-    final @Nonnull GLTextures2DStaticGL3ES3 gl,
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -353,7 +353,7 @@ public interface TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      GLException,
+      JCGLException,
       IOException;
 
   /**
@@ -384,7 +384,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -392,7 +392,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticRG88(
-    final @Nonnull GLTextures2DStaticGL3ES3 gl,
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -400,7 +400,7 @@ public interface TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      GLException,
+      JCGLException,
       IOException;
 
   /**
@@ -431,7 +431,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -439,7 +439,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGB565(
-    final @Nonnull GLTextures2DStaticGLES2 gl,
+    final @Nonnull JCGLTextures2DStaticGLES2 gl,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -447,7 +447,7 @@ public interface TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      GLException,
+      JCGLException,
       IOException;
 
   /**
@@ -478,7 +478,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -486,7 +486,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGB888(
-    final @Nonnull GLTextures2DStaticCommon gl,
+    final @Nonnull JCGLTextures2DStaticCommon gl,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -494,7 +494,7 @@ public interface TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      GLException,
+      JCGLException,
       IOException;
 
   /**
@@ -525,7 +525,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -533,7 +533,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGBA4444(
-    final @Nonnull GLTextures2DStaticGLES2 gl,
+    final @Nonnull JCGLTextures2DStaticGLES2 gl,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -541,7 +541,7 @@ public interface TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      GLException,
+      JCGLException,
       IOException;
 
   /**
@@ -572,7 +572,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -580,7 +580,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGBA5551(
-    final @Nonnull GLTextures2DStaticGLES2 gl,
+    final @Nonnull JCGLTextures2DStaticGLES2 gl,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -588,7 +588,7 @@ public interface TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      GLException,
+      JCGLException,
       IOException;
 
   /**
@@ -619,7 +619,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -627,7 +627,7 @@ public interface TextureLoader
    */
 
   public @Nonnull Texture2DStatic load2DStaticRGBA8888(
-    final @Nonnull GLTextures2DStaticCommon gl,
+    final @Nonnull JCGLTextures2DStaticCommon gl,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -635,6 +635,6 @@ public interface TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      GLException,
+      JCGLException,
       IOException;
 }
