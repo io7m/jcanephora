@@ -118,6 +118,7 @@ final class LWJGL_GLES2Functions
   }
 
   static void arrayBufferBindVertexAttribute(
+    final @Nonnull JCGLStateCache state,
     final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
@@ -134,6 +135,12 @@ final class LWJGL_GLES2Functions
 
     final boolean bound = LWJGL_GLES2Functions.arrayBufferIsBound(buffer);
     Constraints.constrainArbitrary(bound, "Buffer is bound");
+
+    Constraints.constrainArbitrary(
+      LWJGL_GLES2Functions.programIsActive(
+        state,
+        program_attribute.getProgram()),
+      "Program for program attribute is not active");
 
     final ArrayBufferDescriptor d = buffer.getDescriptor();
     final ArrayBufferAttribute dba =
@@ -218,6 +225,7 @@ final class LWJGL_GLES2Functions
   }
 
   static void arrayBufferUnbindVertexAttribute(
+    final @Nonnull JCGLStateCache state,
     final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
@@ -229,11 +237,17 @@ final class LWJGL_GLES2Functions
       buffer.resourceIsDeleted() == false,
       "Array buffer not deleted");
 
+    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
+    Constraints.constrainNotNull(program_attribute, "Program attribute");
+
     final boolean bound = LWJGL_GLES2Functions.arrayBufferIsBound(buffer);
     Constraints.constrainArbitrary(bound, "Buffer is bound");
 
-    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
-    Constraints.constrainNotNull(program_attribute, "Program attribute");
+    Constraints.constrainArbitrary(
+      LWJGL_GLES2Functions.programIsActive(
+        state,
+        program_attribute.getProgram()),
+      "Program for program attribute is not active");
 
     final ArrayBufferDescriptor d = buffer.getDescriptor();
     final ArrayBufferAttribute ba =

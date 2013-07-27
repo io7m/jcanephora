@@ -93,6 +93,8 @@ public interface JCGLArrayBuffers
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
+   *           <li>{@link #arrayBufferIsBound(ArrayBufferUsable)} is
+   *           <tt>false</tt> for <tt>buffer</tt></li>
    *           <li><code>buffer == null</code></li>
    *           <li><code>buffer_attribute == null</code></li>
    *           <li><code>program_attribute == null</code></li>

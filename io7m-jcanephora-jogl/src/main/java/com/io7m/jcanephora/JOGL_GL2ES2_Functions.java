@@ -44,6 +44,7 @@ final class JOGL_GL2ES2_Functions
 {
   static void arrayBufferBindVertexAttribute(
     final @Nonnull GL2ES2 gl,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
@@ -60,6 +61,13 @@ final class JOGL_GL2ES2_Functions
 
     final boolean bound = JOGL_GL_Functions.arrayBufferIsBound(gl, buffer);
     Constraints.constrainArbitrary(bound, "Buffer is bound");
+
+    Constraints.constrainArbitrary(
+      JOGL_GL2ES2_Functions.programIsActive(
+        gl,
+        state,
+        program_attribute.getProgram()),
+      "Program for program attribute is not active");
 
     final ArrayBufferDescriptor d = buffer.getDescriptor();
     final ArrayBufferAttribute dba =
@@ -100,6 +108,7 @@ final class JOGL_GL2ES2_Functions
 
   static void arrayBufferUnbindVertexAttribute(
     final @Nonnull GL2ES2 gl,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
@@ -110,12 +119,18 @@ final class JOGL_GL2ES2_Functions
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
       "Array buffer not deleted");
+    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
+    Constraints.constrainNotNull(program_attribute, "Program attribute");
 
     final boolean bound = JOGL_GL_Functions.arrayBufferIsBound(gl, buffer);
     Constraints.constrainArbitrary(bound, "Buffer is bound");
 
-    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
-    Constraints.constrainNotNull(program_attribute, "Program attribute");
+    Constraints.constrainArbitrary(
+      JOGL_GL2ES2_Functions.programIsActive(
+        gl,
+        state,
+        program_attribute.getProgram()),
+      "Program for program attribute is not active");
 
     final ArrayBufferDescriptor d = buffer.getDescriptor();
     final ArrayBufferAttribute ba =

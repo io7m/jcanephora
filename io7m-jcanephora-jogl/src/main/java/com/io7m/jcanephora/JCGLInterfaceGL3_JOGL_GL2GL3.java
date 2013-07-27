@@ -159,7 +159,7 @@ import com.io7m.jtensors.VectorReadable4F;
   {
     JOGL_GL2ES2_Functions.arrayBufferBindVertexAttribute(this.context
       .getGL()
-      .getGL2ES2(), buffer, buffer_attribute, program_attribute);
+      .getGL2ES2(), this.state, buffer, buffer_attribute, program_attribute);
   }
 
   @Override public void arrayBufferDelete(
@@ -236,7 +236,7 @@ import com.io7m.jtensors.VectorReadable4F;
   {
     JOGL_GL2ES2_Functions.arrayBufferUnbindVertexAttribute(this.context
       .getGL()
-      .getGL2ES2(), buffer, buffer_attribute, program_attribute);
+      .getGL2ES2(), this.state, buffer, buffer_attribute, program_attribute);
   }
 
   @Override public void arrayBufferUnmap(

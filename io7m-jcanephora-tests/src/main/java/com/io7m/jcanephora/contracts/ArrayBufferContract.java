@@ -267,10 +267,6 @@ public abstract class ArrayBufferContract implements TestContract
 
   /**
    * Attempting to bind a vertex attribute with a deleted array fails.
-   * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
-   * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -297,10 +293,6 @@ public abstract class ArrayBufferContract implements TestContract
 
   /**
    * Attempting to bind a vertex attribute with a null array fails.
-   * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
-   * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -318,10 +310,6 @@ public abstract class ArrayBufferContract implements TestContract
 
   /**
    * Attempting to bind a vertex attribute with a null attribute fails.
-   * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
-   * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -348,10 +336,6 @@ public abstract class ArrayBufferContract implements TestContract
   /**
    * Attempting to bind a vertex attribute with a null program attribute
    * fails.
-   * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
-   * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -377,13 +361,6 @@ public abstract class ArrayBufferContract implements TestContract
 
   /**
    * Binding a vertex attribute works.
-   * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
-   * @throws ConstraintError
-   * @throws FilesystemError
-   * @throws IOException
-   * @throws JCGLCompileException
    */
 
   @Test public final void testArrayBufferBindVertexAttributeOK()
@@ -400,6 +377,8 @@ public abstract class ArrayBufferContract implements TestContract
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
+
+    gp.programActivate(pr);
 
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
@@ -467,15 +446,61 @@ public abstract class ArrayBufferContract implements TestContract
   }
 
   /**
+   * Trying to bind an array attribute to a program attribute when the program
+   * that owns the attribute is not active, is an error.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferBindVertexAttributeWrongProgram()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError,
+        JCGLCompileException,
+        IOException,
+        FilesystemError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
+    final JCGLShaders gp = this.getGLPrograms(tc);
+
+    final ProgramReference pr0 =
+      ArrayBufferContract.makeStandardPositionProgram(tc, gp);
+    final ProgramReference pr1 =
+      ArrayBufferContract.makeStandardPositionProgram(tc, gp);
+
+    gp.programActivate(pr0);
+
+    final Map<String, ProgramAttribute> attributes =
+      new HashMap<String, ProgramAttribute>();
+    gp.programGetAttributes(pr0, attributes);
+
+    final ProgramAttribute pa = attributes.get("position");
+    final ArrayBufferDescriptor d0 =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          JCGLScalarType.TYPE_FLOAT,
+          3) });
+    final ArrayBufferDescriptor d1 =
+      new ArrayBufferDescriptor(
+        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+          "position",
+          JCGLScalarType.TYPE_FLOAT,
+          3) });
+
+    final ArrayBuffer a =
+      ga.arrayBufferAllocate(10, d1, UsageHint.USAGE_STATIC_DRAW);
+
+    gp.programActivate(pr1);
+
+    ga.arrayBufferBind(a);
+    ga.arrayBufferBindVertexAttribute(a, d0.getAttribute("position"), pa);
+  }
+
+  /**
    * Binding a vertex attribute that doesn't have the same type as the program
    * attribute fails.
-   * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
-   * @throws ConstraintError
-   * @throws FilesystemError
-   * @throws IOException
-   * @throws JCGLCompileException
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -593,10 +618,6 @@ public abstract class ArrayBufferContract implements TestContract
 
   /**
    * Array buffer offsets are correct.
-   * 
-   * @throws ConstraintError
-   * @throws JCGLException
-   *           , GLUnsupportedException
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -705,13 +726,6 @@ public abstract class ArrayBufferContract implements TestContract
 
   /**
    * Unbinding a vertex attribute for a deleted array fails.
-   * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
-   * @throws ConstraintError
-   * @throws JCGLCompileException
-   * @throws IOException
-   * @throws FilesystemError
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -754,13 +768,6 @@ public abstract class ArrayBufferContract implements TestContract
 
   /**
    * Unbinding a vertex attribute with a null attribute fails.
-   * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
-   * @throws ConstraintError
-   * @throws FilesystemError
-   * @throws JCGLCompileException
-   * @throws IOException
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -801,13 +808,6 @@ public abstract class ArrayBufferContract implements TestContract
 
   /**
    * Unbinding a vertex attribute with a null array fails.
-   * 
-   * @throws JCGLException
-   * @throws JCGLUnsupportedException
-   * @throws ConstraintError
-   * @throws FilesystemError
-   * @throws JCGLCompileException
-   * @throws IOException
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -848,13 +848,6 @@ public abstract class ArrayBufferContract implements TestContract
 
   /**
    * Unbinding a vertex attribute with a null program attribute fails.
-   * 
-   * @throws JCGLException
-   * @throws JCGLUnsupportedException
-   * @throws ConstraintError
-   * @throws FilesystemError
-   * @throws JCGLCompileException
-   * @throws IOException
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -895,13 +888,6 @@ public abstract class ArrayBufferContract implements TestContract
 
   /**
    * Unbinding a bound vertex attribute works.
-   * 
-   * @throws ConstraintError
-   * @throws JCGLException
-   * @throws JCGLUnsupportedException
-   * @throws FilesystemError
-   * @throws JCGLCompileException
-   * @throws IOException
    */
 
   @Test public final void testArrayBufferUnbindVertexAttributeOK()
@@ -918,6 +904,8 @@ public abstract class ArrayBufferContract implements TestContract
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
+
+    gp.programActivate(pr);
 
     final Map<String, ProgramAttribute> attributes =
       new HashMap<String, ProgramAttribute>();
@@ -940,13 +928,6 @@ public abstract class ArrayBufferContract implements TestContract
 
   /**
    * Unbinding a vertex attribute with an unbound array fails.
-   * 
-   * @throws JCGLException
-   * @throws JCGLUnsupportedException
-   * @throws ConstraintError
-   * @throws FilesystemError
-   * @throws JCGLCompileException
-   * @throws IOException
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -989,13 +970,6 @@ public abstract class ArrayBufferContract implements TestContract
   /**
    * Unbinding a vertex attribute that does not belong to the given array
    * fails.
-   * 
-   * @throws JCGLException
-   * @throws JCGLUnsupportedException
-   * @throws ConstraintError
-   * @throws JCGLCompileException
-   * @throws IOException
-   * @throws FilesystemError
    */
 
   @Test(expected = ConstraintError.class) public final
