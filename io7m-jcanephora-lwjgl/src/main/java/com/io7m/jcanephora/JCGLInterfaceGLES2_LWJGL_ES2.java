@@ -217,8 +217,10 @@ import com.io7m.jtensors.VectorReadable4F;
       ConstraintError
   {
     LWJGL_GLES2Functions.arrayBufferBindVertexAttribute(
-
-    buffer, buffer_attribute, program_attribute);
+      this.state,
+      buffer,
+      buffer_attribute,
+      program_attribute);
   }
 
   @Override public void arrayBufferDelete(
@@ -254,8 +256,10 @@ import com.io7m.jtensors.VectorReadable4F;
       ConstraintError
   {
     LWJGL_GLES2Functions.arrayBufferUnbindVertexAttribute(
-
-    buffer, buffer_attribute, program_attribute);
+      this.state,
+      buffer,
+      buffer_attribute,
+      program_attribute);
   }
 
   @Override public void arrayBufferUpdate(

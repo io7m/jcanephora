@@ -223,6 +223,7 @@ import com.io7m.jtensors.VectorReadable4F;
   {
     JOGL_GL2ES2_Functions.arrayBufferBindVertexAttribute(
       this.contextGetGLES2(),
+      this.state,
       buffer,
       buffer_attribute,
       program_attribute);
@@ -264,6 +265,7 @@ import com.io7m.jtensors.VectorReadable4F;
   {
     JOGL_GL2ES2_Functions.arrayBufferUnbindVertexAttribute(
       this.contextGetGLES2(),
+      this.state,
       buffer,
       buffer_attribute,
       program_attribute);
