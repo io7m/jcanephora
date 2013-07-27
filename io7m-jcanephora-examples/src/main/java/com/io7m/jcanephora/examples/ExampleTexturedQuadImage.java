@@ -354,8 +354,8 @@ public final class ExampleTexturedQuadImage implements Example
        */
 
       this.gl.arrayBufferBind(this.array);
-      this.gl.arrayBufferBindVertexAttribute(this.array, b_pos, p_pos);
-      this.gl.arrayBufferBindVertexAttribute(this.array, b_uv, p_uv);
+      this.gl.arrayBufferBindVertexAttribute(b_pos, p_pos);
+      this.gl.arrayBufferBindVertexAttribute(b_uv, p_uv);
 
       /**
        * Draw primitives, using the array buffer and the given index buffer.

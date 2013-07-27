@@ -200,8 +200,8 @@ public final class ExampleStencil implements Example
       this.gl.programPutUniformMatrix4x4f(u_proj, this.matrix_projection);
 
       this.gl.arrayBufferBind(this.array);
-      this.gl.arrayBufferBindVertexAttribute(this.array, b_pos, p_pos);
-      this.gl.arrayBufferBindVertexAttribute(this.array, b_col, p_col);
+      this.gl.arrayBufferBindVertexAttribute(b_pos, p_pos);
+      this.gl.arrayBufferBindVertexAttribute(b_col, p_col);
 
       final int width = this.config.getWindowSize().getXI();
       final int height = this.config.getWindowSize().getYI();

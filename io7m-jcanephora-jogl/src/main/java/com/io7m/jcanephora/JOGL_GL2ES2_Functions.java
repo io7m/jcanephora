@@ -45,19 +45,19 @@ final class JOGL_GL2ES2_Functions
   static void arrayBufferBindVertexAttribute(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError
   {
+    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
+    Constraints.constrainNotNull(program_attribute, "Program attribute");
+
+    final ArrayBufferUsable buffer = buffer_attribute.getArray();
     Constraints.constrainNotNull(buffer, "Array buffer");
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
       "Array buffer not deleted");
-
-    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
-    Constraints.constrainNotNull(program_attribute, "Program attribute");
 
     final boolean bound = JOGL_GL_Functions.arrayBufferIsBound(gl, buffer);
     Constraints.constrainArbitrary(bound, "Buffer is bound");
@@ -129,18 +129,21 @@ final class JOGL_GL2ES2_Functions
   static void arrayBufferUnbindVertexAttribute(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError
   {
+
+    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
+    Constraints.constrainNotNull(program_attribute, "Program attribute");
+
+    final ArrayBufferUsable buffer = buffer_attribute.getArray();
+
     Constraints.constrainNotNull(buffer, "Array buffer");
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
       "Array buffer not deleted");
-    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
-    Constraints.constrainNotNull(program_attribute, "Program attribute");
 
     final boolean bound = JOGL_GL_Functions.arrayBufferIsBound(gl, buffer);
     Constraints.constrainArbitrary(bound, "Buffer is bound");

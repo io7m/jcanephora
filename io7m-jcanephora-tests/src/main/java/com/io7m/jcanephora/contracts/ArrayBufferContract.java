@@ -288,24 +288,7 @@ public abstract class ArrayBufferContract implements TestContract
     final ArrayBuffer a =
       gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
     gl.arrayBufferDelete(a);
-    gl.arrayBufferBindVertexAttribute(a, null, null);
-  }
-
-  /**
-   * Attempting to bind a vertex attribute with a null array fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testArrayBufferBindVertexAttributeNullArray()
-      throws JCGLException,
-        JCGLUnsupportedException,
-        ConstraintError
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
-
-    gl.arrayBufferBindVertexAttribute(null, null, null);
+    gl.arrayBufferBindVertexAttribute(null, null);
   }
 
   /**
@@ -330,7 +313,7 @@ public abstract class ArrayBufferContract implements TestContract
           1) });
     final ArrayBuffer a =
       gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
-    gl.arrayBufferBindVertexAttribute(a, null, null);
+    gl.arrayBufferBindVertexAttribute(null, null);
   }
 
   /**
@@ -357,7 +340,7 @@ public abstract class ArrayBufferContract implements TestContract
     final ArrayBuffer a =
       gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
-    gl.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), null);
+    gl.arrayBufferBindVertexAttribute(a.getAttribute("position"), null);
   }
 
   /**
@@ -396,7 +379,7 @@ public abstract class ArrayBufferContract implements TestContract
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), pa);
+    ga.arrayBufferBindVertexAttribute(a.getAttribute("position"), pa);
   }
 
   /**
@@ -406,7 +389,7 @@ public abstract class ArrayBufferContract implements TestContract
 
   @Test(expected = ConstraintError.class) public final
     void
-    testArrayBufferBindVertexAttributeWrongArray()
+    testArrayBufferBindVertexAttributeWrongArrayBound()
       throws JCGLException,
         JCGLUnsupportedException,
         ConstraintError,
@@ -439,7 +422,7 @@ public abstract class ArrayBufferContract implements TestContract
       ga.arrayBufferAllocate(10, d0, UsageHint.USAGE_STATIC_DRAW);
 
     ga.arrayBufferBind(a0);
-    ga.arrayBufferBindVertexAttribute(a0, a1.getAttribute("position"), pa);
+    ga.arrayBufferBindVertexAttribute(a1.getAttribute("position"), pa);
   }
 
   /**
@@ -485,7 +468,7 @@ public abstract class ArrayBufferContract implements TestContract
 
     gp.programActivate(pr1);
     ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), pa);
+    ga.arrayBufferBindVertexAttribute(a.getAttribute("position"), pa);
   }
 
   /**
@@ -526,7 +509,7 @@ public abstract class ArrayBufferContract implements TestContract
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), pa);
+    ga.arrayBufferBindVertexAttribute(a.getAttribute("position"), pa);
   }
 
   /**
@@ -760,9 +743,9 @@ public abstract class ArrayBufferContract implements TestContract
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), pa);
+    ga.arrayBufferBindVertexAttribute(a.getAttribute("position"), pa);
     ga.arrayBufferDelete(a);
-    ga.arrayBufferUnbindVertexAttribute(a, a.getAttribute("position"), pa);
+    ga.arrayBufferUnbindVertexAttribute(a.getAttribute("position"), pa);
   }
 
   /**
@@ -801,48 +784,8 @@ public abstract class ArrayBufferContract implements TestContract
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), pa);
-    ga.arrayBufferUnbindVertexAttribute(a, null, pa);
-  }
-
-  /**
-   * Unbinding a vertex attribute with a null array fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testArrayBufferUnbindVertexAttributeNullArray()
-      throws JCGLException,
-        JCGLUnsupportedException,
-        ConstraintError,
-        FilesystemError,
-        JCGLCompileException,
-        IOException
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final JCGLShaders gp = this.getGLPrograms(tc);
-
-    final ProgramReference pr =
-      ArrayBufferContract.makeStandardPositionProgram(tc, gp);
-
-    final Map<String, ProgramAttribute> attributes =
-      new HashMap<String, ProgramAttribute>();
-    gp.programGetAttributes(pr, attributes);
-
-    final ProgramAttribute pa = attributes.get("position");
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_FLOAT,
-          3) });
-    final ArrayBuffer a =
-      ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
-
-    ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), pa);
-    ga.arrayBufferUnbindVertexAttribute(null, a.getAttribute("position"), pa);
+    ga.arrayBufferBindVertexAttribute(a.getAttribute("position"), pa);
+    ga.arrayBufferUnbindVertexAttribute(null, pa);
   }
 
   /**
@@ -881,8 +824,8 @@ public abstract class ArrayBufferContract implements TestContract
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), pa);
-    ga.arrayBufferUnbindVertexAttribute(a, a.getAttribute("position"), null);
+    ga.arrayBufferBindVertexAttribute(a.getAttribute("position"), pa);
+    ga.arrayBufferUnbindVertexAttribute(a.getAttribute("position"), null);
   }
 
   /**
@@ -921,8 +864,8 @@ public abstract class ArrayBufferContract implements TestContract
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), pa);
-    ga.arrayBufferUnbindVertexAttribute(a, a.getAttribute("position"), pa);
+    ga.arrayBufferBindVertexAttribute(a.getAttribute("position"), pa);
+    ga.arrayBufferUnbindVertexAttribute(a.getAttribute("position"), pa);
   }
 
   /**
@@ -961,53 +904,9 @@ public abstract class ArrayBufferContract implements TestContract
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), pa);
+    ga.arrayBufferBindVertexAttribute(a.getAttribute("position"), pa);
     ga.arrayBufferUnbind();
-    ga.arrayBufferUnbindVertexAttribute(a, a.getAttribute("position"), pa);
-  }
-
-  /**
-   * Unbinding a vertex attribute that does not belong to the given array
-   * fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testArrayBufferUnbindVertexAttributeWrongArray()
-      throws JCGLException,
-        JCGLUnsupportedException,
-        ConstraintError,
-        JCGLCompileException,
-        IOException,
-        FilesystemError
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final JCGLShaders gp = this.getGLPrograms(tc);
-
-    final ProgramReference pr =
-      ArrayBufferContract.makeStandardPositionProgram(tc, gp);
-
-    final Map<String, ProgramAttribute> attributes =
-      new HashMap<String, ProgramAttribute>();
-    gp.programGetAttributes(pr, attributes);
-
-    final ProgramAttribute pa = attributes.get("position");
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_FLOAT,
-          3) });
-
-    final ArrayBuffer a0 =
-      ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
-    final ArrayBuffer a1 =
-      ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
-
-    ga.arrayBufferBind(a0);
-    ga.arrayBufferBindVertexAttribute(a0, a0.getAttribute("position"), pa);
-    ga.arrayBufferUnbindVertexAttribute(a1, a0.getAttribute("position"), pa);
+    ga.arrayBufferUnbindVertexAttribute(a.getAttribute("position"), pa);
   }
 
   /**

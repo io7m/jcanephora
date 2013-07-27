@@ -119,19 +119,20 @@ final class LWJGL_GLES2Functions
 
   static void arrayBufferBindVertexAttribute(
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError
   {
+    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
+    Constraints.constrainNotNull(program_attribute, "Program attribute");
+
+    final ArrayBufferUsable buffer = buffer_attribute.getArray();
+
     Constraints.constrainNotNull(buffer, "Array buffer");
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
       "Array buffer not deleted");
-
-    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
-    Constraints.constrainNotNull(program_attribute, "Program attribute");
 
     final boolean bound = LWJGL_GLES2Functions.arrayBufferIsBound(buffer);
     Constraints.constrainArbitrary(bound, "Buffer is bound");
@@ -245,18 +246,19 @@ final class LWJGL_GLES2Functions
 
   static void arrayBufferUnbindVertexAttribute(
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError
   {
+    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
+    Constraints.constrainNotNull(program_attribute, "Program attribute");
+
+    final ArrayBufferUsable buffer = buffer_attribute.getArray();
     Constraints.constrainNotNull(buffer, "Array buffer");
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
       "Array buffer not deleted");
-    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
-    Constraints.constrainNotNull(program_attribute, "Program attribute");
 
     final boolean bound = LWJGL_GLES2Functions.arrayBufferIsBound(buffer);
     Constraints.constrainArbitrary(bound, "Buffer is bound");

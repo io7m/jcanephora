@@ -276,8 +276,8 @@ public final class ExampleShaders implements Example
        */
 
       this.gl.arrayBufferBind(this.array);
-      this.gl.arrayBufferBindVertexAttribute(this.array, b_pos, p_pos);
-      this.gl.arrayBufferBindVertexAttribute(this.array, b_col, p_col);
+      this.gl.arrayBufferBindVertexAttribute(b_pos, p_pos);
+      this.gl.arrayBufferBindVertexAttribute(b_col, p_col);
 
       /**
        * Draw primitives, using the array buffer and the given index buffer.

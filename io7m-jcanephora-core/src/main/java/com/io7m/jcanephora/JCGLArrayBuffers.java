@@ -32,7 +32,7 @@ public interface JCGLArrayBuffers
    * buffer will be used in the manner specified by <code>usage</code>.
    * 
    * @param elements
-   *          The number of elements in the buffer.
+   *          The number of elements in the array buffer.
    * @param descriptor
    *          A value describing the type of elements held in the buffer.
    * @param usage
@@ -80,22 +80,22 @@ public interface JCGLArrayBuffers
       ConstraintError;
 
   /**
-   * Enable the array attribute <code>buffer_attribute</code> for buffer
-   * <code>buffer</code> to the program attribute
-   * <code>program_attribute</code>.
+   * Enable and bind the array attribute <code>buffer_attribute</code> to the
+   * program attribute <code>program_attribute</code>.
    * 
-   * @param buffer
-   *          The array buffer.
    * @param buffer_attribute
-   *          The buffer attribute for the given buffer.
+   *          The array buffer attribute for the given array buffer.
    * @param program_attribute
    *          The program attribute.
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
-   *           <li>{@link #arrayBufferIsBound(ArrayBufferUsable)} is
-   *           <tt>false</tt> for <tt>buffer</tt></li>
-   *           <li><code>buffer == null</code></li>
+   *           <li>The array that owns <code>buffer_attribute</code> is not
+   *           bound.</li>
+   *           <li>The array that owns <code>buffer_attribute</code> is
+   *           deleted.</li>
+   *           <li>The type of <code>buffer_attribute</code> is incompatible
+   *           with <code>program_attribute</code>.</li>
    *           <li><code>buffer_attribute == null</code></li>
    *           <li><code>program_attribute == null</code></li>
    *           </ul>
@@ -104,7 +104,6 @@ public interface JCGLArrayBuffers
    */
 
   public void arrayBufferBindVertexAttribute(
-    final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
@@ -167,20 +166,20 @@ public interface JCGLArrayBuffers
       ConstraintError;
 
   /**
-   * Disable the array attribute <code>buffer_attribute</code> for buffer
-   * <code>buffer</code> for the program attribute
-   * <code>program_attribute</code>.
+   * Disable the array attribute <code>buffer_attribute</code> for the program
+   * attribute <code>program_attribute</code>.
    * 
-   * @param buffer
-   *          The array buffer.
    * @param buffer_attribute
-   *          The buffer attribute for the given buffer.
+   *          The array buffer attribute for the given buffer.
    * @param program_attribute
    *          The program attribute.
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
-   *           <li><code>buffer == null</code></li>
+   *           <li>The array that owns <code>buffer_attribute</code> is not
+   *           bound.</li>
+   *           <li>The array that owns <code>buffer_attribute</code> is
+   *           deleted.</li>
    *           <li><code>buffer_attribute == null</code></li>
    *           <li><code>program_attribute == null</code></li>
    *           </ul>
@@ -189,7 +188,6 @@ public interface JCGLArrayBuffers
    */
 
   public void arrayBufferUnbindVertexAttribute(
-    final @Nonnull ArrayBufferUsable buffer,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
