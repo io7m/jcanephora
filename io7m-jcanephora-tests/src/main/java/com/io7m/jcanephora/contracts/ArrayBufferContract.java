@@ -175,7 +175,7 @@ public abstract class ArrayBufferContract implements TestContract
       Assert.assertEquals(12, a.getElementSizeBytes());
       Assert.assertEquals(10, a.getRange().getInterval());
       Assert.assertEquals(120, a.getSizeBytes());
-      Assert.assertEquals(d, a.getDescriptor());
+      Assert.assertEquals(d, a.getType().getTypeDescriptor());
     } finally {
       if (a != null) {
         gl.arrayBufferDelete(a);
@@ -356,7 +356,8 @@ public abstract class ArrayBufferContract implements TestContract
           1) });
     final ArrayBuffer a =
       gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
-    gl.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), null);
+
+    gl.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), null);
   }
 
   /**
@@ -395,7 +396,7 @@ public abstract class ArrayBufferContract implements TestContract
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), pa);
+    ga.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), pa);
   }
 
   /**
@@ -431,18 +432,14 @@ public abstract class ArrayBufferContract implements TestContract
           "position",
           JCGLScalarType.TYPE_FLOAT,
           3) });
-    final ArrayBufferTypeDescriptor d1 =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_FLOAT,
-          3) });
 
-    final ArrayBuffer a =
-      ga.arrayBufferAllocate(10, d1, UsageHint.USAGE_STATIC_DRAW);
+    final ArrayBuffer a0 =
+      ga.arrayBufferAllocate(10, d0, UsageHint.USAGE_STATIC_DRAW);
+    final ArrayBuffer a1 =
+      ga.arrayBufferAllocate(10, d0, UsageHint.USAGE_STATIC_DRAW);
 
-    ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, d0.getAttribute("position"), pa);
+    ga.arrayBufferBind(a0);
+    ga.arrayBufferBindVertexAttribute(a0, a1.getAttribute("position"), pa);
   }
 
   /**
@@ -476,13 +473,7 @@ public abstract class ArrayBufferContract implements TestContract
     gp.programGetAttributes(pr0, attributes);
 
     final ProgramAttribute pa = attributes.get("position");
-    final ArrayBufferTypeDescriptor d0 =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_FLOAT,
-          3) });
-    final ArrayBufferTypeDescriptor d1 =
+    final ArrayBufferTypeDescriptor d =
       new ArrayBufferTypeDescriptor(
         new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
@@ -490,12 +481,11 @@ public abstract class ArrayBufferContract implements TestContract
           3) });
 
     final ArrayBuffer a =
-      ga.arrayBufferAllocate(10, d1, UsageHint.USAGE_STATIC_DRAW);
+      ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     gp.programActivate(pr1);
-
     ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, d0.getAttribute("position"), pa);
+    ga.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), pa);
   }
 
   /**
@@ -525,7 +515,7 @@ public abstract class ArrayBufferContract implements TestContract
     gp.programGetAttributes(pr, attributes);
 
     final ProgramAttribute pa = attributes.get("position");
-    final ArrayBufferTypeDescriptor d0 =
+    final ArrayBufferTypeDescriptor d =
       new ArrayBufferTypeDescriptor(
         new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
@@ -533,10 +523,10 @@ public abstract class ArrayBufferContract implements TestContract
           3) });
 
     final ArrayBuffer a =
-      ga.arrayBufferAllocate(10, d0, UsageHint.USAGE_STATIC_DRAW);
+      ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, d0.getAttribute("position"), pa);
+    ga.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), pa);
   }
 
   /**
@@ -632,9 +622,18 @@ public abstract class ArrayBufferContract implements TestContract
 
     final ArrayBufferTypeDescriptor d =
       new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] {
-        new ArrayBufferAttributeDescriptor("position", JCGLScalarType.TYPE_SHORT, 3),
-        new ArrayBufferAttributeDescriptor("normal", JCGLScalarType.TYPE_SHORT, 3),
-        new ArrayBufferAttributeDescriptor("color", JCGLScalarType.TYPE_SHORT, 3), });
+        new ArrayBufferAttributeDescriptor(
+          "position",
+          JCGLScalarType.TYPE_SHORT,
+          3),
+        new ArrayBufferAttributeDescriptor(
+          "normal",
+          JCGLScalarType.TYPE_SHORT,
+          3),
+        new ArrayBufferAttributeDescriptor(
+          "color",
+          JCGLScalarType.TYPE_SHORT,
+          3), });
     ArrayBuffer a = null;
 
     try {
@@ -750,7 +749,7 @@ public abstract class ArrayBufferContract implements TestContract
     gp.programGetAttributes(pr, attributes);
 
     final ProgramAttribute pa = attributes.get("position");
-    final ArrayBufferTypeDescriptor d0 =
+    final ArrayBufferTypeDescriptor d =
       new ArrayBufferTypeDescriptor(
         new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
@@ -758,12 +757,12 @@ public abstract class ArrayBufferContract implements TestContract
           3) });
 
     final ArrayBuffer a =
-      ga.arrayBufferAllocate(10, d0, UsageHint.USAGE_STATIC_DRAW);
+      ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, d0.getAttribute("position"), pa);
+    ga.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), pa);
     ga.arrayBufferDelete(a);
-    ga.arrayBufferUnbindVertexAttribute(a, d0.getAttribute("position"), pa);
+    ga.arrayBufferUnbindVertexAttribute(a, a.getAttribute("position"), pa);
   }
 
   /**
@@ -802,7 +801,7 @@ public abstract class ArrayBufferContract implements TestContract
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), pa);
+    ga.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), pa);
     ga.arrayBufferUnbindVertexAttribute(a, null, pa);
   }
 
@@ -842,8 +841,8 @@ public abstract class ArrayBufferContract implements TestContract
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), pa);
-    ga.arrayBufferUnbindVertexAttribute(null, d.getAttribute("position"), pa);
+    ga.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), pa);
+    ga.arrayBufferUnbindVertexAttribute(null, a.getAttribute("position"), pa);
   }
 
   /**
@@ -882,8 +881,8 @@ public abstract class ArrayBufferContract implements TestContract
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), pa);
-    ga.arrayBufferUnbindVertexAttribute(a, d.getAttribute("position"), null);
+    ga.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), pa);
+    ga.arrayBufferUnbindVertexAttribute(a, a.getAttribute("position"), null);
   }
 
   /**
@@ -922,8 +921,8 @@ public abstract class ArrayBufferContract implements TestContract
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), pa);
-    ga.arrayBufferUnbindVertexAttribute(a, d.getAttribute("position"), pa);
+    ga.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), pa);
+    ga.arrayBufferUnbindVertexAttribute(a, a.getAttribute("position"), pa);
   }
 
   /**
@@ -962,9 +961,9 @@ public abstract class ArrayBufferContract implements TestContract
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
     ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, d.getAttribute("position"), pa);
+    ga.arrayBufferBindVertexAttribute(a, a.getAttribute("position"), pa);
     ga.arrayBufferUnbind();
-    ga.arrayBufferUnbindVertexAttribute(a, d.getAttribute("position"), pa);
+    ga.arrayBufferUnbindVertexAttribute(a, a.getAttribute("position"), pa);
   }
 
   /**
@@ -994,25 +993,21 @@ public abstract class ArrayBufferContract implements TestContract
     gp.programGetAttributes(pr, attributes);
 
     final ProgramAttribute pa = attributes.get("position");
-    final ArrayBufferTypeDescriptor d0 =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_FLOAT,
-          3) });
-    final ArrayBufferTypeDescriptor d1 =
+    final ArrayBufferTypeDescriptor d =
       new ArrayBufferTypeDescriptor(
         new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_FLOAT,
           3) });
 
-    final ArrayBuffer a =
-      ga.arrayBufferAllocate(10, d0, UsageHint.USAGE_STATIC_DRAW);
+    final ArrayBuffer a0 =
+      ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
+    final ArrayBuffer a1 =
+      ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
-    ga.arrayBufferBind(a);
-    ga.arrayBufferBindVertexAttribute(a, d0.getAttribute("position"), pa);
-    ga.arrayBufferUnbindVertexAttribute(a, d1.getAttribute("position"), pa);
+    ga.arrayBufferBind(a0);
+    ga.arrayBufferBindVertexAttribute(a0, a0.getAttribute("position"), pa);
+    ga.arrayBufferUnbindVertexAttribute(a1, a0.getAttribute("position"), pa);
   }
 
   /**

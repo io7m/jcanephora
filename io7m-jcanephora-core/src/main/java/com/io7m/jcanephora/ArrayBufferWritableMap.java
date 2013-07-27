@@ -90,7 +90,8 @@ public final class ArrayBufferWritableMap
     final @Nonnull String name)
     throws ConstraintError
   {
-    final ArrayBufferTypeDescriptor d = this.getArrayBuffer().getDescriptor();
+    final ArrayBufferTypeDescriptor d =
+      this.buffer.getType().getTypeDescriptor();
     final ArrayBufferAttributeDescriptor a = d.getAttribute(name);
 
     Constraints.constrainArbitrary(
@@ -129,7 +130,8 @@ public final class ArrayBufferWritableMap
     final @Nonnull String name)
     throws ConstraintError
   {
-    final ArrayBufferTypeDescriptor d = this.getArrayBuffer().getDescriptor();
+    final ArrayBufferTypeDescriptor d =
+      this.buffer.getType().getTypeDescriptor();
     final ArrayBufferAttributeDescriptor a = d.getAttribute(name);
 
     Constraints.constrainArbitrary(

@@ -31,9 +31,9 @@ import com.io7m.jaux.RangeInclusive;
   Buffer,
   ArrayBufferUsable
 {
-  private final int                                value;
-  private final @Nonnull ArrayBufferTypeDescriptor descriptor;
-  private final RangeInclusive                     range;
+  private final int                      value;
+  private final @Nonnull ArrayBufferType type;
+  private final RangeInclusive           range;
 
   ArrayBuffer(
     final int value,
@@ -55,8 +55,10 @@ import com.io7m.jaux.RangeInclusive;
         Integer.MAX_VALUE,
         "Buffer elements") - 1);
 
-    this.descriptor =
-      Constraints.constrainNotNull(descriptor, "Buffer descriptor");
+    this.type =
+      new ArrayBufferType(this, Constraints.constrainNotNull(
+        descriptor,
+        "Buffer descriptor"));
   }
 
   @Override public boolean equals(
@@ -78,9 +80,11 @@ import com.io7m.jaux.RangeInclusive;
     return true;
   }
 
-  @Override public @Nonnull ArrayBufferTypeDescriptor getDescriptor()
+  @Override public @Nonnull ArrayBufferAttribute getAttribute(
+    final @Nonnull String name)
+    throws ConstraintError
   {
-    return this.descriptor;
+    return this.type.getAttribute(name);
   }
 
   @Override public long getElementOffset(
@@ -93,7 +97,7 @@ import com.io7m.jaux.RangeInclusive;
 
   @Override public long getElementSizeBytes()
   {
-    return this.descriptor.getSize();
+    return this.type.getTypeDescriptor().getSize();
   }
 
   @Override public int getGLName()
@@ -108,7 +112,19 @@ import com.io7m.jaux.RangeInclusive;
 
   @Override public long getSizeBytes()
   {
-    return this.descriptor.getSize() * this.range.getInterval();
+    return this.type.getTypeDescriptor().getSize() * this.range.getInterval();
+  }
+
+  @Override public @Nonnull ArrayBufferType getType()
+  {
+    return this.type;
+  }
+
+  @Override public boolean hasAttribute(
+    final @Nonnull String name)
+    throws ConstraintError
+  {
+    return this.type.hasAttribute(name);
   }
 
   @Override public int hashCode()
@@ -129,7 +145,6 @@ import com.io7m.jaux.RangeInclusive;
     builder.append(" ");
     builder.append(this.getSizeBytes());
     builder.append("]");
-
     return builder.toString();
   }
 }
