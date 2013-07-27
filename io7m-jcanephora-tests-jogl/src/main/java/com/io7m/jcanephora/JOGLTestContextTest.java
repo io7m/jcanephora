@@ -34,7 +34,7 @@ public class JOGLTestContextTest
       ConstraintError
   {
     Assume.assumeTrue(JOGLTestContext.isOpenGLES2Supported());
-    final TestContext gi = JOGLTestContext.makeContextWithOpenGL_ES2();
+    JOGLTestContext.makeContextWithOpenGL_ES2();
   }
 
   @SuppressWarnings("static-method") @Test public void testGL_ES3()
@@ -48,7 +48,7 @@ public class JOGLTestContextTest
       ConstraintError
   {
     Assume.assumeTrue(JOGLTestContext.isOpenGLES3Supported());
-    final TestContext gi = JOGLTestContext.makeContextWithOpenGL_ES3();
+    JOGLTestContext.makeContextWithOpenGL_ES3();
   }
 
   @SuppressWarnings("static-method") @Test public void testGL2_1()
@@ -63,7 +63,7 @@ public class JOGLTestContextTest
       ConstraintError
   {
     Assume.assumeTrue(JOGLTestContext.isOpenGL21WithExtensionsSupported());
-    final TestContext gi = JOGLTestContext.makeContextWithOpenGL2_1();
+    JOGLTestContext.makeContextWithOpenGL2_1();
   }
 
   @SuppressWarnings("static-method") @Test public void testGL3_0()
@@ -77,7 +77,7 @@ public class JOGLTestContextTest
       ConstraintError
   {
     Assume.assumeTrue(JOGLTestContext.isOpenGL30Supported());
-    final TestContext gi = JOGLTestContext.makeContextWithOpenGL3_0();
+    JOGLTestContext.makeContextWithOpenGL3_0();
   }
 
   @SuppressWarnings("static-method") @Test public void testGL3_p()
@@ -91,6 +91,6 @@ public class JOGLTestContextTest
       ConstraintError
   {
     Assume.assumeTrue(JOGLTestContext.isOpenGL3pSupported());
-    final TestContext gi = JOGLTestContext.makeContextWithOpenGL3_p();
+    JOGLTestContext.makeContextWithOpenGL3_p();
   }
 }

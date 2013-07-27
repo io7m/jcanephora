@@ -22,8 +22,8 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.ArrayBuffer;
-import com.io7m.jcanephora.ArrayBufferAttribute;
-import com.io7m.jcanephora.ArrayBufferDescriptor;
+import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
+import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
 import com.io7m.jcanephora.CursorReadableIndex;
 import com.io7m.jcanephora.CursorWritableIndex;
 import com.io7m.jcanephora.JCGLArrayBuffers;
@@ -128,9 +128,9 @@ public abstract class IndexBufferMapContract implements TestContract
     final JCGLIndexBuffers gi = this.getGLIndexBuffers(tc);
     final JCGLIndexBuffersMapped gm = this.getGLIndexBuffersMapped(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_BYTE,
           1) });
@@ -176,9 +176,9 @@ public abstract class IndexBufferMapContract implements TestContract
     final JCGLIndexBuffers gi = this.getGLIndexBuffers(tc);
     final JCGLIndexBuffersMapped gm = this.getGLIndexBuffersMapped(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_BYTE,
           1) });
@@ -224,9 +224,9 @@ public abstract class IndexBufferMapContract implements TestContract
     final JCGLIndexBuffers gi = this.getGLIndexBuffers(tc);
     final JCGLIndexBuffersMapped gm = this.getGLIndexBuffersMapped(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_BYTE,
           1) });

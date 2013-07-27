@@ -40,7 +40,6 @@ import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
 import com.io7m.jaux.functional.Pair;
-import com.io7m.jcanephora.JCGLType.Type;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
@@ -56,7 +55,7 @@ final class LWJGL_GLES2Functions
     final @Nonnull Log log,
     final @Nonnull JCGLStateCache state,
     final long elements,
-    final @Nonnull ArrayBufferDescriptor descriptor,
+    final @Nonnull ArrayBufferTypeDescriptor descriptor,
     final @Nonnull UsageHint usage)
     throws JCGLException,
       ConstraintError
@@ -119,52 +118,79 @@ final class LWJGL_GLES2Functions
   }
 
   static void arrayBufferBindVertexAttribute(
-    final @Nonnull ArrayBufferUsable buffer,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError
   {
+    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
+    Constraints.constrainNotNull(program_attribute, "Program attribute");
+
+    final ArrayBufferUsable buffer = buffer_attribute.getArray();
+
     Constraints.constrainNotNull(buffer, "Array buffer");
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
       "Array buffer not deleted");
 
-    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
-    Constraints.constrainNotNull(program_attribute, "Program attribute");
-
     final boolean bound = LWJGL_GLES2Functions.arrayBufferIsBound(buffer);
     Constraints.constrainArbitrary(bound, "Buffer is bound");
 
-    final ArrayBufferDescriptor d = buffer.getDescriptor();
-    final ArrayBufferAttribute dba =
-      d.getAttribute(buffer_attribute.getName());
-
-    final boolean same_array = dba == buffer_attribute;
     Constraints.constrainArbitrary(
-      same_array,
-      "Buffer attribute belongs to the array buffer");
+      buffer_attribute.getArray().equals(buffer),
+      "Array attribute belongs to the given array");
 
-    final boolean same_type =
-      dba.getType().shaderTypeConvertible(
-        dba.getElements(),
+    Constraints.constrainArbitrary(
+      LWJGL_GLES2Functions.programIsActive(
+        state,
+        program_attribute.getProgram()),
+      "Program for program attribute is not active");
+
+    final ArrayBufferAttributeDescriptor buffer_attribute_type =
+      buffer_attribute.getDescriptor();
+
+    final JCGLScalarType buffer_attribute_gl_type =
+      buffer_attribute_type.getType();
+    final int buffer_attribute_elements = buffer_attribute_type.getElements();
+
+    final boolean convertible =
+      buffer_attribute_gl_type.shaderTypeConvertible(
+        buffer_attribute_elements,
         program_attribute.getType());
-    Constraints.constrainArbitrary(
-      same_type,
-      "Buffer attribute is of the same type as the program attribute");
+
+    if (convertible == false) {
+      final StringBuilder b = new StringBuilder();
+      b.append("Array buffer attribute '");
+      b.append(buffer_attribute_type.getName());
+      b.append("' is of type ");
+      b.append(buffer_attribute_gl_type);
+      b.append(" with ");
+      b.append(buffer_attribute_elements);
+      b.append(" elements, but the program attribute '");
+      b.append(program_attribute.getName());
+      b.append("' is of type ");
+      b.append(program_attribute.getType());
+      b.append(", which is incompatible");
+      Constraints.constrainArbitrary(convertible, b.toString());
+    }
 
     final int program_attrib_id = program_attribute.getLocation();
-    final int count = buffer_attribute.getElements();
+
     final int type =
-      LWJGL_GLTypeConversions.scalarTypeToGL(buffer_attribute.getType());
+      LWJGL_GLTypeConversions.scalarTypeToGL(buffer_attribute_gl_type);
     final boolean normalized = false;
     final int stride = (int) buffer.getElementSizeBytes();
-    final int offset = d.getAttributeOffset(buffer_attribute.getName());
+    final int offset =
+      buffer
+        .getType()
+        .getTypeDescriptor()
+        .getAttributeOffset(buffer_attribute.getName());
 
     GL20.glEnableVertexAttribArray(program_attrib_id);
     GL20.glVertexAttribPointer(
       program_attrib_id,
-      count,
+      buffer_attribute_elements,
       type,
       normalized,
       stride,
@@ -219,12 +245,16 @@ final class LWJGL_GLES2Functions
   }
 
   static void arrayBufferUnbindVertexAttribute(
-    final @Nonnull ArrayBufferUsable buffer,
+    final @Nonnull JCGLStateCache state,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError
   {
+    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
+    Constraints.constrainNotNull(program_attribute, "Program attribute");
+
+    final ArrayBufferUsable buffer = buffer_attribute.getArray();
     Constraints.constrainNotNull(buffer, "Array buffer");
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
@@ -233,17 +263,15 @@ final class LWJGL_GLES2Functions
     final boolean bound = LWJGL_GLES2Functions.arrayBufferIsBound(buffer);
     Constraints.constrainArbitrary(bound, "Buffer is bound");
 
-    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
-    Constraints.constrainNotNull(program_attribute, "Program attribute");
-
-    final ArrayBufferDescriptor d = buffer.getDescriptor();
-    final ArrayBufferAttribute ba =
-      d.getAttribute(buffer_attribute.getName());
-
-    final boolean same_array = ba == buffer_attribute;
     Constraints.constrainArbitrary(
-      same_array,
-      "Buffer attribute belongs to the array buffer");
+      buffer_attribute.getArray().equals(buffer),
+      "Array attribute belongs to the given array");
+
+    Constraints.constrainArbitrary(
+      LWJGL_GLES2Functions.programIsActive(
+        state,
+        program_attribute.getProgram()),
+      "Program for program attribute is not active");
 
     GL20.glDisableVertexAttribArray(program_attribute.getLocation());
     LWJGL_GLES2Functions.checkError();
@@ -1597,7 +1625,7 @@ final class LWJGL_GLES2Functions
       LWJGL_GLES2Functions.checkError();
 
       final int type_raw = buffer_type.get(0);
-      final JCGLType.Type type = LWJGL_GLTypeConversions.typeFromGL(type_raw);
+      final JCGLType type = LWJGL_GLTypeConversions.typeFromGL(type_raw);
 
       final int name_length = buffer_length.get(0);
       final byte temp_buffer[] = new byte[name_length];
@@ -1691,7 +1719,7 @@ final class LWJGL_GLES2Functions
       LWJGL_GLES2Functions.checkError();
 
       final int type_raw = buffer_type.get(0);
-      final JCGLType.Type type = LWJGL_GLTypeConversions.typeFromGL(type_raw);
+      final JCGLType type = LWJGL_GLTypeConversions.typeFromGL(type_raw);
 
       final int name_length = buffer_length.get(0);
       final byte temp_buffer[] = new byte[name_length];
@@ -1788,7 +1816,7 @@ final class LWJGL_GLES2Functions
   {
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT,
+      uniform.getType() == JCGLType.TYPE_FLOAT,
       "Uniform type is float");
     Constraints.constrainArbitrary(
       LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),
@@ -1809,7 +1837,7 @@ final class LWJGL_GLES2Functions
     Constraints.constrainNotNull(matrix, "Matrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_MATRIX_3,
+      uniform.getType() == JCGLType.TYPE_FLOAT_MATRIX_3,
       "Uniform type is mat3");
     Constraints.constrainArbitrary(
       LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),
@@ -1833,7 +1861,7 @@ final class LWJGL_GLES2Functions
     Constraints.constrainNotNull(matrix, "Matrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_MATRIX_4,
+      uniform.getType() == JCGLType.TYPE_FLOAT_MATRIX_4,
       "Uniform type is mat4");
     Constraints.constrainArbitrary(
       LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),
@@ -1856,7 +1884,7 @@ final class LWJGL_GLES2Functions
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainNotNull(unit, "Texture unit");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_SAMPLER_2D,
+      uniform.getType() == JCGLType.TYPE_SAMPLER_2D,
       "Uniform type is sampler_2d");
     Constraints.constrainArbitrary(
       LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),
@@ -1877,7 +1905,7 @@ final class LWJGL_GLES2Functions
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_VECTOR_2,
+      uniform.getType() == JCGLType.TYPE_FLOAT_VECTOR_2,
       "Uniform type is vec2");
     Constraints.constrainArbitrary(
       LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),
@@ -1898,7 +1926,7 @@ final class LWJGL_GLES2Functions
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_INTEGER_VECTOR_2,
+      uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_2,
       "Uniform type is vec2");
     Constraints.constrainArbitrary(
       LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),
@@ -1919,7 +1947,7 @@ final class LWJGL_GLES2Functions
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_VECTOR_3,
+      uniform.getType() == JCGLType.TYPE_FLOAT_VECTOR_3,
       "Uniform type is vec3");
     Constraints.constrainArbitrary(
       LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),
@@ -1944,7 +1972,7 @@ final class LWJGL_GLES2Functions
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == Type.TYPE_FLOAT_VECTOR_4,
+      uniform.getType() == JCGLType.TYPE_FLOAT_VECTOR_4,
       "Uniform type is vec4");
     Constraints.constrainArbitrary(
       LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),

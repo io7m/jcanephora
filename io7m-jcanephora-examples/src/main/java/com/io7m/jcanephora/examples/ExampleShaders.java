@@ -24,17 +24,18 @@ import javax.annotation.Nonnull;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
-import com.io7m.jcanephora.ArrayBufferDescriptor;
+import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
+import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
 import com.io7m.jcanephora.ArrayBufferWritableData;
 import com.io7m.jcanephora.CursorWritable4f;
 import com.io7m.jcanephora.CursorWritableIndex;
 import com.io7m.jcanephora.FragmentShader;
+import com.io7m.jcanephora.IndexBuffer;
+import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.JCGLCompileException;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
 import com.io7m.jcanephora.JCGLScalarType;
-import com.io7m.jcanephora.IndexBuffer;
-import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.Primitives;
 import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramReference;
@@ -55,8 +56,8 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleShaders implements Example
 {
-  private final JCGLInterfaceCommon             gl;
-  private final ArrayBufferDescriptor         array_type;
+  private final JCGLInterfaceCommon           gl;
+  private final ArrayBufferTypeDescriptor     array_type;
   private final ArrayBuffer                   array;
   private final ArrayBufferWritableData       array_data;
   private final MatrixM4x4F                   matrix_projection;
@@ -127,10 +128,19 @@ public final class ExampleShaders implements Example
      * Then, use this descriptor to allocate an array.
      */
 
-    final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[2];
-    ab[0] = new ArrayBufferAttribute("position", JCGLScalarType.TYPE_FLOAT, 4);
-    ab[1] = new ArrayBufferAttribute("color", JCGLScalarType.TYPE_FLOAT, 4);
-    this.array_type = new ArrayBufferDescriptor(ab);
+    final ArrayBufferAttributeDescriptor[] ab =
+      new ArrayBufferAttributeDescriptor[2];
+    ab[0] =
+      new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        4);
+    ab[1] =
+      new ArrayBufferAttributeDescriptor(
+        "color",
+        JCGLScalarType.TYPE_FLOAT,
+        4);
+    this.array_type = new ArrayBufferTypeDescriptor(ab);
     this.array =
       this.gl.arrayBufferAllocate(
         3,
@@ -257,10 +267,8 @@ public final class ExampleShaders implements Example
        * Get references to the array buffer's vertex attributes.
        */
 
-      final ArrayBufferAttribute b_pos =
-        this.array_type.getAttribute("position");
-      final ArrayBufferAttribute b_col =
-        this.array_type.getAttribute("color");
+      final ArrayBufferAttribute b_pos = this.array.getAttribute("position");
+      final ArrayBufferAttribute b_col = this.array.getAttribute("color");
 
       /**
        * Bind the array buffer, and associate program vertex attribute inputs
@@ -268,8 +276,8 @@ public final class ExampleShaders implements Example
        */
 
       this.gl.arrayBufferBind(this.array);
-      this.gl.arrayBufferBindVertexAttribute(this.array, b_pos, p_pos);
-      this.gl.arrayBufferBindVertexAttribute(this.array, b_col, p_col);
+      this.gl.arrayBufferBindVertexAttribute(b_pos, p_pos);
+      this.gl.arrayBufferBindVertexAttribute(b_col, p_col);
 
       /**
        * Draw primitives, using the array buffer and the given index buffer.

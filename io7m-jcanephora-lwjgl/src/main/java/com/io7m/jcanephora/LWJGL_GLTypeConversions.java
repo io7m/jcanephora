@@ -26,7 +26,6 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jcanephora.JCGLType.Type;
 
 final class LWJGL_GLTypeConversions
 {
@@ -841,55 +840,55 @@ final class LWJGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final @Nonnull Type typeFromGL(
+  static final @Nonnull JCGLType typeFromGL(
     final int type)
   {
     switch (type) {
       case GL20.GL_BOOL:
-        return Type.TYPE_BOOLEAN;
+        return JCGLType.TYPE_BOOLEAN;
       case GL20.GL_BOOL_VEC2:
-        return Type.TYPE_BOOLEAN_VECTOR_2;
+        return JCGLType.TYPE_BOOLEAN_VECTOR_2;
       case GL20.GL_BOOL_VEC3:
-        return Type.TYPE_BOOLEAN_VECTOR_3;
+        return JCGLType.TYPE_BOOLEAN_VECTOR_3;
       case GL20.GL_BOOL_VEC4:
-        return Type.TYPE_BOOLEAN_VECTOR_4;
+        return JCGLType.TYPE_BOOLEAN_VECTOR_4;
       case GL11.GL_FLOAT:
-        return Type.TYPE_FLOAT;
+        return JCGLType.TYPE_FLOAT;
       case GL20.GL_FLOAT_MAT2:
-        return Type.TYPE_FLOAT_MATRIX_2;
+        return JCGLType.TYPE_FLOAT_MATRIX_2;
       case GL20.GL_FLOAT_MAT3:
-        return Type.TYPE_FLOAT_MATRIX_3;
+        return JCGLType.TYPE_FLOAT_MATRIX_3;
       case GL20.GL_FLOAT_MAT4:
-        return Type.TYPE_FLOAT_MATRIX_4;
+        return JCGLType.TYPE_FLOAT_MATRIX_4;
       case GL20.GL_FLOAT_VEC2:
-        return Type.TYPE_FLOAT_VECTOR_2;
+        return JCGLType.TYPE_FLOAT_VECTOR_2;
       case GL20.GL_FLOAT_VEC3:
-        return Type.TYPE_FLOAT_VECTOR_3;
+        return JCGLType.TYPE_FLOAT_VECTOR_3;
       case GL20.GL_FLOAT_VEC4:
-        return Type.TYPE_FLOAT_VECTOR_4;
+        return JCGLType.TYPE_FLOAT_VECTOR_4;
       case GL11.GL_INT:
-        return Type.TYPE_INTEGER;
+        return JCGLType.TYPE_INTEGER;
       case GL20.GL_INT_VEC2:
-        return Type.TYPE_INTEGER_VECTOR_2;
+        return JCGLType.TYPE_INTEGER_VECTOR_2;
       case GL20.GL_INT_VEC3:
-        return Type.TYPE_INTEGER_VECTOR_3;
+        return JCGLType.TYPE_INTEGER_VECTOR_3;
       case GL20.GL_INT_VEC4:
-        return Type.TYPE_INTEGER_VECTOR_4;
+        return JCGLType.TYPE_INTEGER_VECTOR_4;
       case GL20.GL_SAMPLER_2D:
-        return Type.TYPE_SAMPLER_2D;
+        return JCGLType.TYPE_SAMPLER_2D;
       case GL20.GL_SAMPLER_2D_SHADOW:
-        return Type.TYPE_SAMPLER_2D_SHADOW;
+        return JCGLType.TYPE_SAMPLER_2D_SHADOW;
       case GL20.GL_SAMPLER_3D:
-        return Type.TYPE_SAMPLER_3D;
+        return JCGLType.TYPE_SAMPLER_3D;
       case GL20.GL_SAMPLER_CUBE:
-        return Type.TYPE_SAMPLER_CUBE;
+        return JCGLType.TYPE_SAMPLER_CUBE;
     }
 
     throw new UnreachableCodeException();
   }
 
   static final int typeToGL(
-    final @Nonnull Type type)
+    final @Nonnull JCGLType type)
   {
     switch (type) {
       case TYPE_BOOLEAN:

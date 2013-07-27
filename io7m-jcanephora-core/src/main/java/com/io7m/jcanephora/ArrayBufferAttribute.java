@@ -24,34 +24,53 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
  * <p>
- * Immutable attribute descriptor for an array buffer.
- * </p>
- * <p>
- * If array buffers are considered as arrays of records, this type represents
- * a single field of the type of the record used.
+ * An array buffer attribute associated with a specific array.
  * </p>
  */
 
 @Immutable public final class ArrayBufferAttribute
 {
-  private @Nonnull final String       name;
-  private @Nonnull final JCGLScalarType type;
-  private final int                   elements;
+  private final @Nonnull ArrayBuffer                    array;
+  private final @Nonnull ArrayBufferAttributeDescriptor descriptor;
 
-  public ArrayBufferAttribute(
-    final @Nonnull String name,
-    final @Nonnull JCGLScalarType type,
-    final int elements)
+  ArrayBufferAttribute(
+    final @Nonnull ArrayBuffer array,
+    final @Nonnull ArrayBufferAttributeDescriptor descriptor)
     throws ConstraintError
   {
-    this.name = Constraints.constrainNotNull(name, "Element name");
-    this.type = Constraints.constrainNotNull(type, "Element type");
-    this.elements =
-      Constraints.constrainRange(
-        elements,
-        1,
-        Integer.MAX_VALUE,
-        "Element size");
+    this.array = Constraints.constrainNotNull(array, "Array buffer");
+    this.descriptor =
+      Constraints.constrainNotNull(descriptor, "Attribute descriptor");
+  }
+
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + this.array.hashCode();
+    result = (prime * result) + this.descriptor.hashCode();
+    return result;
+  }
+
+  @Override public String toString()
+  {
+    final StringBuilder builder = new StringBuilder();
+    builder.append("[ArrayBufferAttribute ");
+    builder.append(this.array);
+    builder.append(" ");
+    builder.append(this.descriptor);
+    builder.append("]");
+    return builder.toString();
+  }
+
+  public @Nonnull ArrayBufferUsable getArray()
+  {
+    return this.array;
+  }
+
+  public @Nonnull ArrayBufferAttributeDescriptor getDescriptor()
+  {
+    return this.descriptor;
   }
 
   @Override public boolean equals(
@@ -66,67 +85,18 @@ import com.io7m.jaux.Constraints.ConstraintError;
     if (this.getClass() != obj.getClass()) {
       return false;
     }
-    final ArrayBufferAttribute other =
-      (ArrayBufferAttribute) obj;
-    if (this.elements != other.elements) {
+    final ArrayBufferAttribute other = (ArrayBufferAttribute) obj;
+    if (!this.array.equals(other.array)) {
       return false;
     }
-    if (!this.name.equals(other.name)) {
-      return false;
-    }
-    if (this.type != other.type) {
+    if (!this.descriptor.equals(other.descriptor)) {
       return false;
     }
     return true;
   }
 
-  /**
-   * Retrieve the number of elements in the attribute.
-   */
-
-  int getElements()
+  public @Nonnull String getName()
   {
-    return this.elements;
-  }
-
-  /**
-   * Retrieve the name of the attribute.
-   */
-
-  @Nonnull String getName()
-  {
-    return this.name;
-  }
-
-  /**
-   * Retrieve the type of the attribute.
-   */
-
-  @Nonnull JCGLScalarType getType()
-  {
-    return this.type;
-  }
-
-  @Override public int hashCode()
-  {
-    final int prime = 31;
-    int result = 1;
-    result = (prime * result) + this.elements;
-    result = (prime * result) + this.name.hashCode();
-    result = (prime * result) + this.type.hashCode();
-    return result;
-  }
-
-  @Override public String toString()
-  {
-    final StringBuilder builder = new StringBuilder();
-    builder.append("[ArrayBufferAttributeDescriptor ");
-    builder.append(this.name);
-    builder.append(" ");
-    builder.append(this.type);
-    builder.append(" ");
-    builder.append(this.elements);
-    builder.append("]");
-    return builder.toString();
+    return this.descriptor.getName();
   }
 }
