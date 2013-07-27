@@ -21,42 +21,26 @@ import javax.annotation.concurrent.Immutable;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
 
 /**
- * A immutable reference to an allocated array buffer.
+ * <p>
+ * An array buffer type associated with a specific array.
+ * </p>
  */
 
-@Immutable public final class ArrayBuffer extends JCGLResourceDeletable implements
-  Buffer,
-  ArrayBufferUsable
+@Immutable public final class ArrayBufferType
 {
-  private final int                                value;
+  private final @Nonnull ArrayBuffer               array;
   private final @Nonnull ArrayBufferTypeDescriptor descriptor;
-  private final RangeInclusive                     range;
 
-  ArrayBuffer(
-    final int value,
-    final long elements,
+  ArrayBufferType(
+    final @Nonnull ArrayBuffer array,
     final @Nonnull ArrayBufferTypeDescriptor descriptor)
     throws ConstraintError
   {
-    this.value =
-      Constraints.constrainRange(
-        value,
-        1,
-        Integer.MAX_VALUE,
-        "Buffer ID value");
-
-    this.range =
-      new RangeInclusive(0, Constraints.constrainRange(
-        elements,
-        1,
-        Integer.MAX_VALUE,
-        "Buffer elements") - 1);
-
+    this.array = Constraints.constrainNotNull(array, "Array buffer");
     this.descriptor =
-      Constraints.constrainNotNull(descriptor, "Buffer descriptor");
+      Constraints.constrainNotNull(descriptor, "Type descriptor");
   }
 
   @Override public boolean equals(
@@ -71,65 +55,52 @@ import com.io7m.jaux.RangeInclusive;
     if (this.getClass() != obj.getClass()) {
       return false;
     }
-    final ArrayBuffer other = (ArrayBuffer) obj;
-    if (this.value != other.value) {
+    final ArrayBufferType other = (ArrayBufferType) obj;
+    if (!this.array.equals(other.array)) {
+      return false;
+    }
+    if (!this.descriptor.equals(other.descriptor)) {
       return false;
     }
     return true;
   }
 
-  @Override public @Nonnull ArrayBufferTypeDescriptor getDescriptor()
+  /**
+   * Retrieve the array buffer associated with this type.
+   */
+
+  public @Nonnull ArrayBufferUsable getArrayBuffer()
+  {
+    return this.array;
+  }
+
+  /**
+   * Retrieve the type descriptor associated with this type.
+   */
+
+  public @Nonnull ArrayBufferTypeDescriptor getTypeDescriptor()
   {
     return this.descriptor;
-  }
-
-  @Override public long getElementOffset(
-    final int index)
-    throws ConstraintError
-  {
-    return Constraints.constrainRange(index, 0, this.range.getUpper())
-      * this.getElementSizeBytes();
-  }
-
-  @Override public long getElementSizeBytes()
-  {
-    return this.descriptor.getSize();
-  }
-
-  @Override public int getGLName()
-  {
-    return this.value;
-  }
-
-  @Override public @Nonnull RangeInclusive getRange()
-  {
-    return this.range;
-  }
-
-  @Override public long getSizeBytes()
-  {
-    return this.descriptor.getSize() * this.range.getInterval();
   }
 
   @Override public int hashCode()
   {
     final int prime = 31;
     int result = 1;
-    result = (prime * result) + this.value;
+    result = (prime * result) + this.array.hashCode();
+    result = (prime * result) + this.descriptor.hashCode();
     return result;
   }
 
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("[ArrayBuffer ");
-    builder.append(this.getGLName());
+    builder.append("[ArrayBufferType ");
+    builder.append(this.array);
     builder.append(" ");
-    builder.append(this.range);
-    builder.append(" ");
-    builder.append(this.getSizeBytes());
+    builder.append(this.descriptor);
     builder.append("]");
-
     return builder.toString();
   }
+
 }

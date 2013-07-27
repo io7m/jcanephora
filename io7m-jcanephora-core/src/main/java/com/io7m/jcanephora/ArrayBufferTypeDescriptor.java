@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.annotation.Nonnull;
@@ -36,10 +37,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 @Immutable public final class ArrayBufferTypeDescriptor
 {
-  private final @Nonnull ArrayBufferAttributeDescriptor     attributes[];
-  private final int                               offsets[];
-  private final @Nonnull HashMap<String, Integer> indices;
-  private final int                               stride;
+  private final @Nonnull ArrayBufferAttributeDescriptor attributes[];
+  private final int                                     offsets[];
+  private final @Nonnull HashMap<String, Integer>       indices;
+  private final int                                     stride;
 
   public ArrayBufferTypeDescriptor(
     final @Nonnull ArrayBufferAttributeDescriptor[] attributes)
@@ -68,7 +69,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
       }
 
       this.attributes[index] =
-        new ArrayBufferAttributeDescriptor(a.getName(), a.getType(), a.getElements());
+        new ArrayBufferAttributeDescriptor(
+          a.getName(),
+          a.getType(),
+          a.getElements());
       this.offsets[index] = bytes;
 
       final int size = a.getType().getSizeBytes();
@@ -77,6 +81,25 @@ import com.io7m.jaux.Constraints.ConstraintError;
     }
 
     this.stride = bytes;
+  }
+
+  @Override public boolean equals(
+    final Object obj)
+  {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (this.getClass() != obj.getClass()) {
+      return false;
+    }
+    final ArrayBufferTypeDescriptor other = (ArrayBufferTypeDescriptor) obj;
+    if (!Arrays.equals(this.attributes, other.attributes)) {
+      return false;
+    }
+    return true;
   }
 
   /**
@@ -237,5 +260,22 @@ import com.io7m.jaux.Constraints.ConstraintError;
   {
     Constraints.constrainNotNull(name, "Attribute name");
     return this.indices.containsKey(name);
+  }
+
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + Arrays.hashCode(this.attributes);
+    return result;
+  }
+
+  @Override public String toString()
+  {
+    final StringBuilder builder = new StringBuilder();
+    builder.append("[ArrayBufferTypeDescriptor ");
+    builder.append(Arrays.toString(this.attributes));
+    builder.append("]");
+    return builder.toString();
   }
 }
