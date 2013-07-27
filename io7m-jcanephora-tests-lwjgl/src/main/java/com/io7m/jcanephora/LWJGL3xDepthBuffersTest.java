@@ -25,19 +25,19 @@ import com.io7m.jcanephora.contracts.DepthBuffersContract;
 
 public final class LWJGL3xDepthBuffersTest extends DepthBuffersContract
 {
-  @Override public @Nonnull GLDepthBuffer getGLDepthBuffer(
+  @Override public @Nonnull JCGLDepthBuffer getGLDepthBuffer(
     @Nonnull final TestContext tc)
   {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    final Some<JCGLInterfaceGL3> some =
+      (Some<JCGLInterfaceGL3>) tc.getGLImplementation().getGL3();
     return some.value;
   }
 
-  @Override public @Nonnull GLFramebuffersCommon getGLFramebuffers(
+  @Override public @Nonnull JCGLFramebuffersCommon getGLFramebuffers(
     @Nonnull final TestContext tc)
   {
-    final Some<GLInterfaceGL3> some =
-      (Some<GLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    final Some<JCGLInterfaceGL3> some =
+      (Some<JCGLInterfaceGL3>) tc.getGLImplementation().getGL3();
     return some.value;
   }
 
@@ -47,12 +47,12 @@ public final class LWJGL3xDepthBuffersTest extends DepthBuffersContract
   }
 
   @Override public @Nonnull FramebufferReference makeFramebufferWithDepth(
-    @Nonnull final GLImplementation gi)
+    @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
-    final Some<GLInterfaceGL3> some = (Some<GLInterfaceGL3>) gi.getGL3();
-    final GLInterfaceGL3 g = some.value;
+    final Some<JCGLInterfaceGL3> some = (Some<JCGLInterfaceGL3>) gi.getGL3();
+    final JCGLInterfaceGL3 g = some.value;
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
     final FramebufferReference fb = g.framebufferAllocate();
@@ -89,12 +89,12 @@ public final class LWJGL3xDepthBuffersTest extends DepthBuffersContract
   }
 
   @Override public @Nonnull FramebufferReference makeFramebufferWithoutDepth(
-    @Nonnull final GLImplementation gi)
+    @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
-      GLException
+      JCGLException
   {
-    final Some<GLInterfaceGL3> some = (Some<GLInterfaceGL3>) gi.getGL3();
-    final GLInterfaceGL3 g = some.value;
+    final Some<JCGLInterfaceGL3> some = (Some<JCGLInterfaceGL3>) gi.getGL3();
+    final JCGLInterfaceGL3 g = some.value;
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
     final FramebufferReference fb = g.framebufferAllocate();
@@ -125,8 +125,8 @@ public final class LWJGL3xDepthBuffersTest extends DepthBuffersContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL3_X();

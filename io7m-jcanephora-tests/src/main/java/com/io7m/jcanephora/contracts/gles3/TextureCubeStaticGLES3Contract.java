@@ -21,9 +21,9 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jcanephora.GLException;
-import com.io7m.jcanephora.GLTexturesCubeStaticGLES3;
-import com.io7m.jcanephora.GLUnsupportedException;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLTexturesCubeStaticGLES3;
+import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.TextureCubeStatic;
 import com.io7m.jcanephora.TextureFilterMagnification;
@@ -35,19 +35,19 @@ import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.contracts.TextureCubeStaticContract;
 
 public abstract class TextureCubeStaticGLES3Contract extends
-  TextureCubeStaticContract<GLTexturesCubeStaticGLES3>
+  TextureCubeStaticContract<JCGLTexturesCubeStaticGLES3>
 {
   /**
    * Textures have the correct type.
    */
 
   @Test public final void testTextureTypes()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final GLTexturesCubeStaticGLES3 gl = this.getGLTextureCubeStatic(tc);
+    final JCGLTexturesCubeStaticGLES3 gl = this.getGLTextureCubeStatic(tc);
 
     for (final TextureType t : TextureType.getCubeTypesGLES3()) {
       switch (t) {

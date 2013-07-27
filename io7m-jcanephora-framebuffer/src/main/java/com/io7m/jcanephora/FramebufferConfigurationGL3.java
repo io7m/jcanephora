@@ -44,16 +44,16 @@ public interface FramebufferConfigurationGL3
    * 
    * @throws ConstraintError
    *           Iff <code>gi == null</code>.
-   * @throws GLException
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   @Nonnull
-    <G extends GLFramebuffersGL3 & GLTextures2DStaticCommon & GLTexturesCubeStaticCommon & GLRenderbuffersGL3>
+    <G extends JCGLFramebuffersGL3 & JCGLTextures2DStaticCommon & JCGLTexturesCubeStaticCommon & JCGLRenderbuffersGL3>
     Indeterminate<Framebuffer, FramebufferStatus>
     make(
       @Nonnull G gl)
-      throws GLException,
+      throws JCGLException,
         ConstraintError;
 
   /**

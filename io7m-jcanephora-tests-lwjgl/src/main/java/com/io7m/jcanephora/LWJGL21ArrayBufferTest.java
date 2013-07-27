@@ -23,19 +23,19 @@ import com.io7m.jcanephora.contracts.ArrayBufferContract;
 
 public final class LWJGL21ArrayBufferTest extends ArrayBufferContract
 {
-  @Override public @Nonnull GLArrayBuffers getGLArrayBuffers(
+  @Override public @Nonnull JCGLArrayBuffers getGLArrayBuffers(
     @Nonnull final TestContext context)
   {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) context.getGLImplementation().getGL2();
+    final Some<JCGLInterfaceGL2> some =
+      (Some<JCGLInterfaceGL2>) context.getGLImplementation().getGL2();
     return some.value;
   }
 
-  @Override public @Nonnull GLShaders getGLPrograms(
+  @Override public @Nonnull JCGLShaders getGLPrograms(
     @Nonnull final TestContext context)
   {
-    final Some<GLInterfaceGL2> some =
-      (Some<GLInterfaceGL2>) context.getGLImplementation().getGL2();
+    final Some<JCGLInterfaceGL2> some =
+      (Some<JCGLInterfaceGL2>) context.getGLImplementation().getGL2();
     return some.value;
   }
 
@@ -45,8 +45,8 @@ public final class LWJGL21ArrayBufferTest extends ArrayBufferContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws GLException,
-      GLUnsupportedException,
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError
   {
     return LWJGLTestContext.makeContextWithOpenGL21_X();

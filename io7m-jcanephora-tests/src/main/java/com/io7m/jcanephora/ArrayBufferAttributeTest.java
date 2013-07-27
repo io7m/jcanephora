@@ -29,7 +29,7 @@ public class ArrayBufferAttributeTest
     expected = ConstraintError.class) public void testAttributeElementsZero()
     throws ConstraintError
   {
-    new ArrayBufferAttribute("position", GLScalarType.TYPE_FLOAT, 0);
+    new ArrayBufferAttribute("position", JCGLScalarType.TYPE_FLOAT, 0);
   }
 
   /**
@@ -40,6 +40,6 @@ public class ArrayBufferAttributeTest
     expected = ConstraintError.class) public void testAttributeNameNull()
     throws ConstraintError
   {
-    new ArrayBufferAttribute(null, GLScalarType.TYPE_FLOAT, 2);
+    new ArrayBufferAttribute(null, JCGLScalarType.TYPE_FLOAT, 2);
   }
 }

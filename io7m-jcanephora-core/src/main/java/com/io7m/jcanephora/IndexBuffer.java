@@ -27,18 +27,18 @@ import com.io7m.jaux.RangeInclusive;
  * An immutable reference to an allocated index buffer.
  */
 
-@Immutable public final class IndexBuffer extends GLResourceDeletable implements
+@Immutable public final class IndexBuffer extends JCGLResourceDeletable implements
   Buffer,
   IndexBufferUsable
 {
   private final int            value;
-  private final GLUnsignedType type;
+  private final JCGLUnsignedType type;
   private final RangeInclusive range;
 
   IndexBuffer(
     final int value,
     final @Nonnull RangeInclusive range,
-    final GLUnsignedType type)
+    final JCGLUnsignedType type)
     throws ConstraintError
   {
     this.value =
@@ -81,7 +81,7 @@ import com.io7m.jaux.RangeInclusive;
     return this.getElementSizeBytes() * this.range.getInterval();
   }
 
-  @Override public @Nonnull GLUnsignedType getType()
+  @Override public @Nonnull JCGLUnsignedType getType()
   {
     return this.type;
   }
