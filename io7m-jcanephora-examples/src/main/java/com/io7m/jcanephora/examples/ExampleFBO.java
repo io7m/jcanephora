@@ -24,7 +24,8 @@ import com.io7m.jaux.functional.Indeterminate.Failure;
 import com.io7m.jaux.functional.Indeterminate.Success;
 import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
-import com.io7m.jcanephora.ArrayBufferDescriptor;
+import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
+import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
 import com.io7m.jcanephora.ArrayBufferWritableData;
 import com.io7m.jcanephora.AttachmentColor;
 import com.io7m.jcanephora.AttachmentColor.AttachmentColorTexture2DStatic;
@@ -36,13 +37,13 @@ import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
 import com.io7m.jcanephora.FramebufferConfigurationGL3ES2;
 import com.io7m.jcanephora.FramebufferConfigurationGL3ES2Actual;
 import com.io7m.jcanephora.FramebufferStatus;
+import com.io7m.jcanephora.IndexBuffer;
+import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.JCGLCompileException;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLImplementation;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
 import com.io7m.jcanephora.JCGLScalarType;
-import com.io7m.jcanephora.IndexBuffer;
-import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.Primitives;
 import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.ProgramAttribute;
@@ -71,12 +72,12 @@ public final class ExampleFBO implements Example
     Z_AXIS = new VectorI3F(0.0f, 0.0f, 1.0f);
   }
 
-  private final JCGLImplementation                  gli;
-  private final JCGLInterfaceCommon                 gl;
+  private final JCGLImplementation                gli;
+  private final JCGLInterfaceCommon               gl;
   private final Texture2DStaticUsable             texture;
   private final Framebuffer                       framebuffer;
   private boolean                                 has_shut_down;
-  private final ArrayBufferDescriptor             textured_quad_type;
+  private final ArrayBufferTypeDescriptor         textured_quad_type;
   private final ArrayBuffer                       textured_quad;
   private final ArrayBufferWritableData           textured_quad_data;
   private final IndexBuffer                       indices;
@@ -90,14 +91,14 @@ public final class ExampleFBO implements Example
   private final FramebufferColorAttachmentPoint[] framebuffer_color_points;
   private final Context                           context;
   private float                                   current_angle       = 0.0f;
-  private ArrayBufferDescriptor                   color_quad_type;
+  private ArrayBufferTypeDescriptor               color_quad_type;
   private ArrayBuffer                             color_quad;
   private final ArrayBufferWritableData           color_quad_data;
 
   private int                                     framebuffer_width;
   private int                                     framebuffer_height;
   private final int                               framebuffer_divisor = 8;
-  private final FramebufferConfigurationGL3ES2     framebuffer_config;
+  private final FramebufferConfigurationGL3ES2    framebuffer_config;
 
   public ExampleFBO(
     final @Nonnull ExampleConfig config)
@@ -247,11 +248,16 @@ public final class ExampleFBO implements Example
      */
 
     {
-      final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[2];
+      final ArrayBufferAttributeDescriptor[] ab =
+        new ArrayBufferAttributeDescriptor[2];
       ab[0] =
-        new ArrayBufferAttribute("position", JCGLScalarType.TYPE_FLOAT, 4);
-      ab[1] = new ArrayBufferAttribute("uv", JCGLScalarType.TYPE_FLOAT, 2);
-      this.textured_quad_type = new ArrayBufferDescriptor(ab);
+        new ArrayBufferAttributeDescriptor(
+          "position",
+          JCGLScalarType.TYPE_FLOAT,
+          4);
+      ab[1] =
+        new ArrayBufferAttributeDescriptor("uv", JCGLScalarType.TYPE_FLOAT, 2);
+      this.textured_quad_type = new ArrayBufferTypeDescriptor(ab);
       this.textured_quad =
         this.gl.arrayBufferAllocate(
           4,
@@ -260,11 +266,19 @@ public final class ExampleFBO implements Example
     }
 
     {
-      final ArrayBufferAttribute[] ab = new ArrayBufferAttribute[2];
+      final ArrayBufferAttributeDescriptor[] ab =
+        new ArrayBufferAttributeDescriptor[2];
       ab[0] =
-        new ArrayBufferAttribute("position", JCGLScalarType.TYPE_FLOAT, 4);
-      ab[1] = new ArrayBufferAttribute("color", JCGLScalarType.TYPE_FLOAT, 4);
-      this.color_quad_type = new ArrayBufferDescriptor(ab);
+        new ArrayBufferAttributeDescriptor(
+          "position",
+          JCGLScalarType.TYPE_FLOAT,
+          4);
+      ab[1] =
+        new ArrayBufferAttributeDescriptor(
+          "color",
+          JCGLScalarType.TYPE_FLOAT,
+          4);
+      this.color_quad_type = new ArrayBufferTypeDescriptor(ab);
       this.color_quad =
         this.gl.arrayBufferAllocate(
           4,
@@ -441,9 +455,8 @@ public final class ExampleFBO implements Example
        */
 
       final ArrayBufferAttribute b_pos =
-        this.textured_quad_type.getAttribute("position");
-      final ArrayBufferAttribute b_uv =
-        this.textured_quad_type.getAttribute("uv");
+        this.textured_quad.getAttribute("position");
+      final ArrayBufferAttribute b_uv = this.textured_quad.getAttribute("uv");
 
       /**
        * Bind the array buffer, and associate program vertex attribute inputs
@@ -451,9 +464,8 @@ public final class ExampleFBO implements Example
        */
 
       this.gl.arrayBufferBind(this.textured_quad);
-      this.gl
-        .arrayBufferBindVertexAttribute(this.textured_quad, b_pos, p_pos);
-      this.gl.arrayBufferBindVertexAttribute(this.textured_quad, b_uv, p_uv);
+      this.gl.arrayBufferBindVertexAttribute(b_pos, p_pos);
+      this.gl.arrayBufferBindVertexAttribute(b_uv, p_uv);
 
       /**
        * Draw primitives, using the array buffer and the given index buffer.
@@ -546,9 +558,9 @@ public final class ExampleFBO implements Example
          */
 
         final ArrayBufferAttribute b_pos =
-          this.color_quad_type.getAttribute("position");
+          this.color_quad.getAttribute("position");
         final ArrayBufferAttribute b_col =
-          this.color_quad_type.getAttribute("color");
+          this.color_quad.getAttribute("color");
 
         /**
          * Bind the array buffer, and associate program vertex attribute
@@ -556,8 +568,8 @@ public final class ExampleFBO implements Example
          */
 
         this.gl.arrayBufferBind(this.color_quad);
-        this.gl.arrayBufferBindVertexAttribute(this.color_quad, b_pos, p_pos);
-        this.gl.arrayBufferBindVertexAttribute(this.color_quad, b_col, p_col);
+        this.gl.arrayBufferBindVertexAttribute(b_pos, p_pos);
+        this.gl.arrayBufferBindVertexAttribute(b_col, p_col);
 
         /**
          * Draw primitives, using the array buffer and the given index buffer.

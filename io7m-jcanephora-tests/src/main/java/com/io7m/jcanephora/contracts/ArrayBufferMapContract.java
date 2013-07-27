@@ -26,8 +26,8 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
 import com.io7m.jcanephora.ArrayBuffer;
-import com.io7m.jcanephora.ArrayBufferAttribute;
-import com.io7m.jcanephora.ArrayBufferDescriptor;
+import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
+import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
 import com.io7m.jcanephora.ArrayBufferWritableMap;
 import com.io7m.jcanephora.JCGLArrayBuffers;
 import com.io7m.jcanephora.JCGLArrayBuffersMapped;
@@ -69,9 +69,9 @@ public abstract class ArrayBufferMapContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLArrayBuffersMapped gm = this.getGLArrayBuffersMapped(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_SHORT,
           1) });
@@ -94,9 +94,9 @@ public abstract class ArrayBufferMapContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLArrayBuffersMapped gm = this.getGLArrayBuffersMapped(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_SHORT,
           1) });
@@ -147,9 +147,9 @@ public abstract class ArrayBufferMapContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLArrayBuffersMapped gm = this.getGLArrayBuffersMapped(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_SHORT,
           1) });
@@ -186,9 +186,9 @@ public abstract class ArrayBufferMapContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLArrayBuffersMapped gm = this.getGLArrayBuffersMapped(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_SHORT,
           1) });
@@ -224,9 +224,9 @@ public abstract class ArrayBufferMapContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLArrayBuffersMapped gm = this.getGLArrayBuffersMapped(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_SHORT,
           1) });
@@ -253,9 +253,9 @@ public abstract class ArrayBufferMapContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLArrayBuffersMapped gm = this.getGLArrayBuffersMapped(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_SHORT,
           1) });
@@ -295,9 +295,9 @@ public abstract class ArrayBufferMapContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLArrayBuffersMapped gm = this.getGLArrayBuffersMapped(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_SHORT,
           1) });
@@ -320,9 +320,9 @@ public abstract class ArrayBufferMapContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLArrayBuffersMapped gm = this.getGLArrayBuffersMapped(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_SHORT,
           1) });
@@ -359,9 +359,9 @@ public abstract class ArrayBufferMapContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLArrayBuffersMapped gm = this.getGLArrayBuffersMapped(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_SHORT,
           1) });
@@ -387,9 +387,9 @@ public abstract class ArrayBufferMapContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLArrayBuffersMapped gm = this.getGLArrayBuffersMapped(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_SHORT,
           1) });
@@ -412,9 +412,9 @@ public abstract class ArrayBufferMapContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLArrayBuffersMapped gm = this.getGLArrayBuffersMapped(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_SHORT,
           1) });
@@ -442,9 +442,9 @@ public abstract class ArrayBufferMapContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLArrayBuffersMapped gm = this.getGLArrayBuffersMapped(tc);
 
-    final ArrayBufferDescriptor d =
-      new ArrayBufferDescriptor(
-        new ArrayBufferAttribute[] { new ArrayBufferAttribute(
+    final ArrayBufferTypeDescriptor d =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_SHORT,
           1) });
