@@ -98,19 +98,6 @@ import com.io7m.jcanephora.JCGLType;
     return result;
   }
 
-  @Override public String toString()
-  {
-    final StringBuilder builder = new StringBuilder();
-    builder.append("[JCGPFragmentShaderOutput ");
-    builder.append(this.name);
-    builder.append(" ");
-    builder.append(this.type);
-    builder.append(" ");
-    builder.append(this.layout);
-    builder.append("]");
-    return builder.toString();
-  }
-
   @Override public @Nonnull String toGLSL(
     final @Nonnull JCGLSLVersionNumber version,
     final @Nonnull JCGLApi api)
@@ -128,5 +115,18 @@ import com.io7m.jcanephora.JCGLType;
     }
 
     return "";
+  }
+
+  @Override public String toString()
+  {
+    final StringBuilder builder = new StringBuilder();
+    builder.append("[JCGPFragmentShaderOutput ");
+    builder.append(this.name);
+    builder.append(" ");
+    builder.append(this.type);
+    builder.append(" ");
+    builder.append(this.layout);
+    builder.append("]");
+    return builder.toString();
   }
 }

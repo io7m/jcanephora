@@ -163,40 +163,6 @@ abstract class JCGPUnit
       this.uniforms.put(input.getName(), input);
     }
 
-    /**
-     * Retrieve the set of explicitly declared fragment shader inputs from the
-     * current unit.
-     */
-
-    public final @Nonnull
-      Map<String, JCGPFragmentShaderInput>
-      getDeclaredInputs()
-    {
-      return Collections.unmodifiableMap(this.inputs);
-    }
-
-    /**
-     * Retrieve the set of explicitly declared fragment shader outputs from
-     * the current unit.
-     */
-
-    public @Nonnull
-      Map<String, JCGPFragmentShaderOutput>
-      getDeclaredOutputs()
-    {
-      return Collections.unmodifiableMap(this.outputs);
-    }
-
-    /**
-     * Retrieve the set of explicitly declared fragment shader uniform inputs
-     * from the current unit.
-     */
-
-    public @Nonnull Map<String, JCGPUniform> getDeclaredUniformInputs()
-    {
-      return Collections.unmodifiableMap(this.uniforms);
-    }
-
     @Override protected void evaluateActual(
       final @Nonnull JCGPCompilationContext context,
       final @Nonnull ArrayList<String> output)
@@ -231,6 +197,40 @@ abstract class JCGPUnit
       }
 
       this.source.sourceGet(context, output);
+    }
+
+    /**
+     * Retrieve the set of explicitly declared fragment shader inputs from the
+     * current unit.
+     */
+
+    public final @Nonnull
+      Map<String, JCGPFragmentShaderInput>
+      getDeclaredInputs()
+    {
+      return Collections.unmodifiableMap(this.inputs);
+    }
+
+    /**
+     * Retrieve the set of explicitly declared fragment shader outputs from
+     * the current unit.
+     */
+
+    public @Nonnull
+      Map<String, JCGPFragmentShaderOutput>
+      getDeclaredOutputs()
+    {
+      return Collections.unmodifiableMap(this.outputs);
+    }
+
+    /**
+     * Retrieve the set of explicitly declared fragment shader uniform inputs
+     * from the current unit.
+     */
+
+    public @Nonnull Map<String, JCGPUniform> getDeclaredUniformInputs()
+    {
+      return Collections.unmodifiableMap(this.uniforms);
     }
   }
 
@@ -394,36 +394,6 @@ abstract class JCGPUnit
       this.uniforms.put(input.getName(), input);
     }
 
-    /**
-     * Retrieve the set of explicitly declared vertex shader inputs from the
-     * current unit.
-     */
-
-    public @Nonnull Map<String, JCGPVertexShaderInput> getDeclaredInputs()
-    {
-      return Collections.unmodifiableMap(this.inputs);
-    }
-
-    /**
-     * Retrieve the set of explicitly declared vertex shader outputs from the
-     * current unit.
-     */
-
-    public @Nonnull Map<String, JCGPVertexShaderOutput> getDeclaredOutputs()
-    {
-      return Collections.unmodifiableMap(this.outputs);
-    }
-
-    /**
-     * Retrieve the set of explicitly declared vertex shader uniform inputs
-     * from the current unit.
-     */
-
-    public @Nonnull Map<String, JCGPUniform> getDeclaredUniformInputs()
-    {
-      return Collections.unmodifiableMap(this.uniforms);
-    }
-
     @Override protected void evaluateActual(
       final @Nonnull JCGPCompilationContext context,
       final @Nonnull ArrayList<String> output)
@@ -453,6 +423,36 @@ abstract class JCGPUnit
 
       this.source.sourceGet(context, output);
     }
+
+    /**
+     * Retrieve the set of explicitly declared vertex shader inputs from the
+     * current unit.
+     */
+
+    public @Nonnull Map<String, JCGPVertexShaderInput> getDeclaredInputs()
+    {
+      return Collections.unmodifiableMap(this.inputs);
+    }
+
+    /**
+     * Retrieve the set of explicitly declared vertex shader outputs from the
+     * current unit.
+     */
+
+    public @Nonnull Map<String, JCGPVertexShaderOutput> getDeclaredOutputs()
+    {
+      return Collections.unmodifiableMap(this.outputs);
+    }
+
+    /**
+     * Retrieve the set of explicitly declared vertex shader uniform inputs
+     * from the current unit.
+     */
+
+    public @Nonnull Map<String, JCGPUniform> getDeclaredUniformInputs()
+    {
+      return Collections.unmodifiableMap(this.uniforms);
+    }
   }
 
   static enum Type
@@ -475,11 +475,68 @@ abstract class JCGPUnit
     }
   }
 
+  @SuppressWarnings("synthetic-access") public static @Nonnull
+    JCGPUnitFragmentShader
+    makeFragmentShader(
+      final @Nonnull String name,
+      final @Nonnull JCGPSource source,
+      final @Nonnull List<String> imports,
+      final @CheckForNull JCGPVersionRange<JCGLApiKindES> versions_es,
+      final @CheckForNull JCGPVersionRange<JCGLApiKindFull> versions_full)
+      throws ConstraintError
+  {
+    return new JCGPUnitFragmentShader(
+      name,
+      source,
+      imports,
+      versions_es,
+      versions_full);
+  }
+
+  @SuppressWarnings("synthetic-access") public static @Nonnull
+    JCGPUnitGeneric
+    makeGeneric(
+      final @Nonnull String name,
+      final @Nonnull JCGPSource source,
+      final @Nonnull List<String> imports,
+      final @CheckForNull JCGPVersionRange<JCGLApiKindES> versions_es,
+      final @CheckForNull JCGPVersionRange<JCGLApiKindFull> versions_full)
+      throws ConstraintError
+  {
+    return new JCGPUnitGeneric(
+      name,
+      source,
+      imports,
+      versions_es,
+      versions_full);
+  }
+
+  @SuppressWarnings("synthetic-access") public static @Nonnull
+    JCGPUnitVertexShader
+    makeVertexShader(
+      final @Nonnull String name,
+      final @Nonnull JCGPSource source,
+      final @Nonnull List<String> imports,
+      final @CheckForNull JCGPVersionRange<JCGLApiKindES> versions_es,
+      final @CheckForNull JCGPVersionRange<JCGLApiKindFull> versions_full)
+      throws ConstraintError
+  {
+    return new JCGPUnitVertexShader(
+      name,
+      source,
+      imports,
+      versions_es,
+      versions_full);
+  }
+
   protected final @Nonnull String                               name;
   private final @Nonnull List<String>                           imports;
   private final @CheckForNull JCGPVersionRange<JCGLApiKindES>   versions_es;
+
   private final @CheckForNull JCGPVersionRange<JCGLApiKindFull> versions_full;
+
   private final @Nonnull Type                                   type;
+
   protected final @Nonnull JCGPSource                           source;
 
   private JCGPUnit(
@@ -546,59 +603,5 @@ abstract class JCGPUnit
     getVersionRangeFull()
   {
     return this.versions_full;
-  }
-
-  @SuppressWarnings("synthetic-access") public static @Nonnull
-    JCGPUnitGeneric
-    makeGeneric(
-      final @Nonnull String name,
-      final @Nonnull JCGPSource source,
-      final @Nonnull List<String> imports,
-      final @CheckForNull JCGPVersionRange<JCGLApiKindES> versions_es,
-      final @CheckForNull JCGPVersionRange<JCGLApiKindFull> versions_full)
-      throws ConstraintError
-  {
-    return new JCGPUnitGeneric(
-      name,
-      source,
-      imports,
-      versions_es,
-      versions_full);
-  }
-
-  @SuppressWarnings("synthetic-access") public static @Nonnull
-    JCGPUnitFragmentShader
-    makeFragmentShader(
-      final @Nonnull String name,
-      final @Nonnull JCGPSource source,
-      final @Nonnull List<String> imports,
-      final @CheckForNull JCGPVersionRange<JCGLApiKindES> versions_es,
-      final @CheckForNull JCGPVersionRange<JCGLApiKindFull> versions_full)
-      throws ConstraintError
-  {
-    return new JCGPUnitFragmentShader(
-      name,
-      source,
-      imports,
-      versions_es,
-      versions_full);
-  }
-
-  @SuppressWarnings("synthetic-access") public static @Nonnull
-    JCGPUnitVertexShader
-    makeVertexShader(
-      final @Nonnull String name,
-      final @Nonnull JCGPSource source,
-      final @Nonnull List<String> imports,
-      final @CheckForNull JCGPVersionRange<JCGLApiKindES> versions_es,
-      final @CheckForNull JCGPVersionRange<JCGLApiKindFull> versions_full)
-      throws ConstraintError
-  {
-    return new JCGPUnitVertexShader(
-      name,
-      source,
-      imports,
-      versions_es,
-      versions_full);
   }
 }
