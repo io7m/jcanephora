@@ -29,7 +29,9 @@ import com.io7m.jcanephora.JCGLApiKindES;
 import com.io7m.jcanephora.JCGLApiKindFull;
 import com.io7m.jcanephora.JCGLCompileException;
 import com.io7m.jcanephora.JCGLSLVersionNumber;
+import com.io7m.jcanephora.JCGLType;
 import com.io7m.jcanephora.JCGLUnsupportedException;
+import com.io7m.jcanephora.gpuprogram.JCGPUnit.JCGPUnitVertexShader;
 
 public class JCGPCompilationTest
 {
@@ -72,7 +74,7 @@ public class JCGPCompilationTest
         version_es);
 
     final JCGPUnit u1 =
-      new JCGPUnit.JCGPUnitGeneric(
+      JCGPUnit.makeGeneric(
         "unit1",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -80,7 +82,7 @@ public class JCGPCompilationTest
         version_full);
 
     final JCGPUnit u2 =
-      new JCGPUnit.JCGPUnitGeneric(
+      JCGPUnit.makeGeneric(
         "unit2",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -91,8 +93,8 @@ public class JCGPCompilationTest
     unit0_imports.add("unit1");
     unit0_imports.add("unit2");
 
-    final JCGPUnit u0 =
-      new JCGPUnit.JCGPUnitFragmentShader(
+    final JCGPUnit.JCGPUnitFragmentShader u0 =
+      JCGPUnit.makeFragmentShader(
         "unit0",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         unit0_imports,
@@ -149,14 +151,14 @@ public class JCGPCompilationTest
     unit1_imports.add("unit0");
 
     final JCGPUnit u0 =
-      new JCGPUnit.JCGPUnitFragmentShader(
+      JCGPUnit.makeFragmentShader(
         "unit0",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         unit0_imports,
         version_es,
         version_full);
     final JCGPUnit u1 =
-      new JCGPUnit.JCGPUnitGeneric(
+      JCGPUnit.makeGeneric(
         "unit1",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         unit1_imports,
@@ -206,7 +208,7 @@ public class JCGPCompilationTest
     dependencies.add("c");
 
     final JCGPUnit u0 =
-      new JCGPUnit.JCGPUnitFragmentShader(
+      JCGPUnit.makeFragmentShader(
         "unit0",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         dependencies,
@@ -253,14 +255,14 @@ public class JCGPCompilationTest
     unit0_imports.add("unit1");
 
     final JCGPUnit u0 =
-      new JCGPUnit.JCGPUnitFragmentShader(
+      JCGPUnit.makeFragmentShader(
         "unit0",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         unit0_imports,
         version_es,
         version_full);
     final JCGPUnit u1 =
-      new JCGPUnit.JCGPUnitVertexShader(
+      JCGPUnit.makeVertexShader(
         "unit1",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -440,7 +442,7 @@ public class JCGPCompilationTest
         version_es);
 
     final JCGPUnit u0 =
-      new JCGPUnit.JCGPUnitFragmentShader(
+      JCGPUnit.makeFragmentShader(
         "unit0",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -469,11 +471,11 @@ public class JCGPCompilationTest
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
         new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 10, 0));
+        new JCGLSLVersionNumber(3, 0, 0));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
         new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 10, 0));
+        new JCGLSLVersionNumber(4, 30, 0));
 
     final JCGPCompilation cp =
       JCGPCompilation.newProgramFullAndES(
@@ -483,7 +485,7 @@ public class JCGPCompilationTest
         version_es);
 
     final JCGPUnit u1 =
-      new JCGPUnit.JCGPUnitGeneric(
+      JCGPUnit.makeGeneric(
         "unit1",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -491,7 +493,7 @@ public class JCGPCompilationTest
         version_full);
 
     final JCGPUnit u2 =
-      new JCGPUnit.JCGPUnitGeneric(
+      JCGPUnit.makeGeneric(
         "unit2",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -502,23 +504,53 @@ public class JCGPCompilationTest
     unit0_imports.add("unit1");
     unit0_imports.add("unit2");
 
-    final JCGPUnit u0 =
-      new JCGPUnit.JCGPUnitVertexShader(
+    final JCGPUnitVertexShader u0 =
+      JCGPUnit.makeVertexShader(
         "unit0",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        new JCGPStringSource("void main() { gl_Position = vec4(0,0,0,1); }"),
         unit0_imports,
         version_es,
         version_full);
+
+    u0.declareInput(JCGPVertexShaderInput.make(
+      JCGLType.TYPE_FLOAT_VECTOR_4,
+      "input0"));
+    u0.declareInput(JCGPVertexShaderInput.make(
+      JCGLType.TYPE_FLOAT_VECTOR_4,
+      "input1"));
+    u0.declareInput(JCGPVertexShaderInput.make(
+      JCGLType.TYPE_FLOAT_VECTOR_4,
+      "input2"));
+
+    u0.declareOutput(JCGPVertexShaderOutput.make(
+      JCGLType.TYPE_FLOAT_VECTOR_4,
+      "output0"));
+    u0.declareOutput(JCGPVertexShaderOutput.make(
+      JCGLType.TYPE_FLOAT_VECTOR_4,
+      "output1"));
+    u0.declareOutput(JCGPVertexShaderOutput.make(
+      JCGLType.TYPE_FLOAT_VECTOR_4,
+      "output2"));
+
+    u0.declareUniformInput(JCGPUniform.make(
+      JCGLType.TYPE_FLOAT_VECTOR_4,
+      "uniform0"));
+    u0.declareUniformInput(JCGPUniform.make(
+      JCGLType.TYPE_FLOAT_VECTOR_4,
+      "uniform1"));
+    u0.declareUniformInput(JCGPUniform.make(
+      JCGLType.TYPE_FLOAT_VECTOR_4,
+      "uniform2"));
 
     cp.compilationUnitAdd(u0);
     cp.compilationUnitAdd(u1);
     cp.compilationUnitAdd(u2);
 
     final ArrayList<String> output = new ArrayList<String>();
-    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
+    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(3, 30, 0);
 
     cp.compilationSetDebugging(true);
-    cp.generateVertexShaderSource(version, JCGLApi.JCGL_ES, output);
+    cp.generateVertexShaderSource(version, JCGLApi.JCGL_FULL, output);
 
     for (final String line : output) {
       System.out.println(line);
@@ -560,14 +592,14 @@ public class JCGPCompilationTest
     unit1_imports.add("unit0");
 
     final JCGPUnit u0 =
-      new JCGPUnit.JCGPUnitVertexShader(
+      JCGPUnit.makeVertexShader(
         "unit0",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         unit0_imports,
         version_es,
         version_full);
     final JCGPUnit u1 =
-      new JCGPUnit.JCGPUnitGeneric(
+      JCGPUnit.makeGeneric(
         "unit1",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         unit1_imports,
@@ -617,7 +649,7 @@ public class JCGPCompilationTest
     dependencies.add("c");
 
     final JCGPUnit u0 =
-      new JCGPUnit.JCGPUnitVertexShader(
+      JCGPUnit.makeVertexShader(
         "unit0",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         dependencies,
@@ -664,14 +696,14 @@ public class JCGPCompilationTest
     unit0_imports.add("unit1");
 
     final JCGPUnit u0 =
-      new JCGPUnit.JCGPUnitVertexShader(
+      JCGPUnit.makeVertexShader(
         "unit0",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         unit0_imports,
         version_es,
         version_full);
     final JCGPUnit u1 =
-      new JCGPUnit.JCGPUnitFragmentShader(
+      JCGPUnit.makeFragmentShader(
         "unit1",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -851,7 +883,7 @@ public class JCGPCompilationTest
         version_es);
 
     final JCGPUnit u0 =
-      new JCGPUnit.JCGPUnitVertexShader(
+      JCGPUnit.makeVertexShader(
         "unit0",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -1110,7 +1142,7 @@ public class JCGPCompilationTest
         program_version);
 
     final JCGPUnit u0 =
-      new JCGPUnit.JCGPUnitFragmentShader(
+      JCGPUnit.makeFragmentShader(
         "unit0",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -1118,7 +1150,7 @@ public class JCGPCompilationTest
         unit_version);
 
     final JCGPUnit u1 =
-      new JCGPUnit.JCGPUnitFragmentShader(
+      JCGPUnit.makeFragmentShader(
         "unit1",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -1157,7 +1189,7 @@ public class JCGPCompilationTest
         program_version);
 
     final JCGPUnit u0 =
-      new JCGPUnit.JCGPUnitFragmentShader(
+      JCGPUnit.makeFragmentShader(
         "unit0",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -1208,7 +1240,7 @@ public class JCGPCompilationTest
       JCGPCompilation.newProgramES(TestData.getLog(), "name", version);
 
     final JCGPUnit u =
-      new JCGPUnit.JCGPUnitGeneric(
+      JCGPUnit.makeGeneric(
         "unit",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -1245,21 +1277,21 @@ public class JCGPCompilationTest
         program_version);
 
     final JCGPUnit u0 =
-      new JCGPUnit.JCGPUnitGeneric(
+      JCGPUnit.makeGeneric(
         "unit0",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         null,
         unit_version);
     final JCGPUnit u1 =
-      new JCGPUnit.JCGPUnitGeneric(
+      JCGPUnit.makeGeneric(
         "unit1",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         null,
         unit_version);
     final JCGPUnit u2 =
-      new JCGPUnit.JCGPUnitGeneric(
+      JCGPUnit.makeGeneric(
         "unit2",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -1309,7 +1341,7 @@ public class JCGPCompilationTest
         program_version);
 
     final JCGPUnit u =
-      new JCGPUnit.JCGPUnitGeneric(
+      JCGPUnit.makeGeneric(
         "unit",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -1347,7 +1379,7 @@ public class JCGPCompilationTest
         program_version);
 
     final JCGPUnit u =
-      new JCGPUnit.JCGPUnitGeneric(
+      JCGPUnit.makeGeneric(
         "unit",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -1385,7 +1417,7 @@ public class JCGPCompilationTest
         program_version);
 
     final JCGPUnit u =
-      new JCGPUnit.JCGPUnitGeneric(
+      JCGPUnit.makeGeneric(
         "unit",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -1421,7 +1453,7 @@ public class JCGPCompilationTest
         .newProgramES(TestData.getLog(), "name", program_version);
 
     final JCGPUnit u =
-      new JCGPUnit.JCGPUnitGeneric(
+      JCGPUnit.makeGeneric(
         "unit",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -1457,7 +1489,7 @@ public class JCGPCompilationTest
         .newProgramES(TestData.getLog(), "name", program_version);
 
     final JCGPUnit u =
-      new JCGPUnit.JCGPUnitGeneric(
+      JCGPUnit.makeGeneric(
         "unit",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -1493,7 +1525,7 @@ public class JCGPCompilationTest
         .newProgramES(TestData.getLog(), "name", program_version);
 
     final JCGPUnit u =
-      new JCGPUnit.JCGPUnitGeneric(
+      JCGPUnit.makeGeneric(
         "unit",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -1530,7 +1562,7 @@ public class JCGPCompilationTest
         program_version);
 
     final JCGPUnit u =
-      new JCGPUnit.JCGPUnitGeneric(
+      JCGPUnit.makeGeneric(
         "unit",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -1568,7 +1600,7 @@ public class JCGPCompilationTest
         program_version);
 
     final JCGPUnit u0 =
-      new JCGPUnit.JCGPUnitVertexShader(
+      JCGPUnit.makeVertexShader(
         "unit0",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -1576,7 +1608,7 @@ public class JCGPCompilationTest
         unit_version);
 
     final JCGPUnit u1 =
-      new JCGPUnit.JCGPUnitVertexShader(
+      JCGPUnit.makeVertexShader(
         "unit1",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
@@ -1615,7 +1647,7 @@ public class JCGPCompilationTest
         program_version);
 
     final JCGPUnit u0 =
-      new JCGPUnit.JCGPUnitVertexShader(
+      JCGPUnit.makeVertexShader(
         "unit0",
         JCGPCompilationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),

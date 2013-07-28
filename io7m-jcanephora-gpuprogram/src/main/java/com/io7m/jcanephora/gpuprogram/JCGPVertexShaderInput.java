@@ -131,6 +131,7 @@ import com.io7m.jcanephora.JCGLUnsupportedException;
     b.append(this.type.getName());
     b.append(" ");
     b.append(this.name);
+    b.append(";");
     return b.toString();
   }
 
