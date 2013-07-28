@@ -1471,7 +1471,9 @@ final class LWJGL_GLES2Functions
     return new JCGLVersion(new JCGLVersionNumber(
       p.first.intValue(),
       p.second.intValue(),
-      0), LWJGL_GLES2Functions.metaVersionIsES(x), x);
+      0), LWJGL_GLES2Functions.metaVersionIsES(x)
+      ? JCGLApi.JCGL_ES
+      : JCGLApi.JCGL_FULL, x);
   }
 
   static Pair<Integer, Integer> metaParseVersion(

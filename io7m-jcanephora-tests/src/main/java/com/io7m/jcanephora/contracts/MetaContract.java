@@ -60,6 +60,6 @@ public abstract class MetaContract implements TestContract
 
     System.out.println("Version major : " + vr.getVersionMajor());
     System.out.println("Version minor : " + vr.getVersionMinor());
-    System.out.println("isES          : " + vr.isES());
+    System.out.println("API           : " + vr.getAPI());
   }
 }
