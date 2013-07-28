@@ -14,46 +14,39 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.gpuprogram;
+
+import java.util.ArrayList;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
+
+import com.io7m.jaux.Constraints;
+import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * Type-safe OpenGL shader types.
+ * <p>
+ * An implementation of a source backed by a single string. When evaluated,
+ * the implementation simply returns the contents of the given string.
+ * </p>
  */
 
-public enum JCGLType
+@Immutable public final class JCGPStringSource implements JCGPSource
 {
-  TYPE_FLOAT("float"),
-  TYPE_FLOAT_VECTOR_2("vec2"),
-  TYPE_FLOAT_VECTOR_3("vec3"),
-  TYPE_FLOAT_VECTOR_4("vec4"),
-  TYPE_INTEGER("int"),
-  TYPE_INTEGER_VECTOR_2("ivec2"),
-  TYPE_INTEGER_VECTOR_3("ivec3"),
-  TYPE_INTEGER_VECTOR_4("ivec4"),
-  TYPE_BOOLEAN("bool"),
-  TYPE_BOOLEAN_VECTOR_2("bvec2"),
-  TYPE_BOOLEAN_VECTOR_3("bvec3"),
-  TYPE_BOOLEAN_VECTOR_4("bvec4"),
-  TYPE_FLOAT_MATRIX_2("mat2"),
-  TYPE_FLOAT_MATRIX_3("mat3"),
-  TYPE_FLOAT_MATRIX_4("mat4"),
-  TYPE_SAMPLER_2D("sampler2D"),
-  TYPE_SAMPLER_3D("sampler3D"),
-  TYPE_SAMPLER_CUBE("samplerCube"),
-  TYPE_SAMPLER_2D_SHADOW("sampler2DShadow");
+  private final @Nonnull String source;
 
-  private final @Nonnull String name;
-
-  private JCGLType(
-    final @Nonnull String name)
+  public JCGPStringSource(
+    final @Nonnull String source)
+    throws ConstraintError
   {
-    this.name = name;
+    this.source = Constraints.constrainNotNull(source, "String");
   }
 
-  public @Nonnull String getName()
+  @Override public void sourceGet(
+    final @Nonnull JCGPCompilationContext context,
+    final @Nonnull ArrayList<String> output)
+    throws Exception
   {
-    return this.name;
+    output.add(this.source);
   }
 }

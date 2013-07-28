@@ -45,17 +45,6 @@ import com.io7m.jlog.Log;
 
 final class TestData
 {
-  static @Nonnull String slurpFile(
-    final @Nonnull File file)
-    throws FileNotFoundException
-  {
-    final Scanner scanner = new Scanner(file, "UTF-8");
-    scanner.useDelimiter("\\A");
-    final String contents = scanner.next();
-    scanner.close();
-    return contents;
-  }
-
   static class TemporaryDirectory
   {
     private final @Nonnull File file;
@@ -327,6 +316,17 @@ final class TestData
     final @Nonnull String file)
   {
     return "/com/io7m/jcanephora/gpuprogram/" + file;
+  }
+
+  static @Nonnull String slurpFile(
+    final @Nonnull File file)
+    throws FileNotFoundException
+  {
+    final Scanner scanner = new Scanner(file, "UTF-8");
+    scanner.useDelimiter("\\A");
+    final String contents = scanner.next();
+    scanner.close();
+    return contents;
   }
 
   /**
