@@ -128,7 +128,7 @@ import com.io7m.jcanephora.JCGLVersionNumber;
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("[GPUProgramVersionRange ");
+    builder.append("[JCGPVersionRange ");
     builder.append(this.lower);
     builder.append(" ");
     builder.append(this.upper);

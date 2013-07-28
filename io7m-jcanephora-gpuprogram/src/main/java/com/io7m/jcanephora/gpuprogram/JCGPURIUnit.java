@@ -27,6 +27,7 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.JCGLApi;
 import com.io7m.jcanephora.JCGLApiKindES;
 import com.io7m.jcanephora.JCGLApiKindFull;
 import com.io7m.jcanephora.JCGLCompileException;
@@ -57,7 +58,7 @@ public final class JCGPURIUnit extends JCGPSourceUnit
 
   @Override public @Nonnull String sourceEvaluateActual(
     final @Nonnull JCGLVersionNumber version,
-    final boolean es)
+    final @Nonnull JCGLApi api)
     throws JCGLUnsupportedException,
       JCGLCompileException
   {
