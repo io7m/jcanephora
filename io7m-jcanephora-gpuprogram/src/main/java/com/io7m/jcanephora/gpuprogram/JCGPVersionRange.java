@@ -22,7 +22,7 @@ import javax.annotation.concurrent.Immutable;
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.JCGLApiKind;
-import com.io7m.jcanephora.JCGLVersionNumber;
+import com.io7m.jcanephora.JCGLSLVersionNumber;
 
 /**
  * An inclusive version range.
@@ -30,12 +30,12 @@ import com.io7m.jcanephora.JCGLVersionNumber;
 
 @Immutable public final class JCGPVersionRange<G extends JCGLApiKind>
 {
-  private final @Nonnull JCGLVersionNumber lower;
-  private final @Nonnull JCGLVersionNumber upper;
+  private final @Nonnull JCGLSLVersionNumber lower;
+  private final @Nonnull JCGLSLVersionNumber upper;
 
   public JCGPVersionRange(
-    final @Nonnull JCGLVersionNumber lower,
-    final @Nonnull JCGLVersionNumber upper)
+    final @Nonnull JCGLSLVersionNumber lower,
+    final @Nonnull JCGLSLVersionNumber upper)
     throws ConstraintError
   {
     this.lower = Constraints.constrainNotNull(lower, "Lower bound");
@@ -72,7 +72,7 @@ import com.io7m.jcanephora.JCGLVersionNumber;
    * Retrieve the inclusive lower bound of this version range.
    */
 
-  public @Nonnull JCGLVersionNumber getLowerBound()
+  public @Nonnull JCGLSLVersionNumber getLowerBound()
   {
     return this.lower;
   }
@@ -81,7 +81,7 @@ import com.io7m.jcanephora.JCGLVersionNumber;
    * Retrieve the inclusive upper bound of this version range.
    */
 
-  public @Nonnull JCGLVersionNumber getUpperBound()
+  public @Nonnull JCGLSLVersionNumber getUpperBound()
   {
     return this.upper;
   }
@@ -101,7 +101,7 @@ import com.io7m.jcanephora.JCGLVersionNumber;
    */
 
   public boolean includes(
-    final @Nonnull JCGLVersionNumber v)
+    final @Nonnull JCGLSLVersionNumber v)
   {
     return (v.compareTo(this.lower) >= 0) && (v.compareTo(this.upper) <= 0);
   }
