@@ -1827,16 +1827,15 @@ final class JOGL_GL_Functions
 
   static JCGLVersion metaGetVersion(
     final @Nonnull GL gl)
+    throws ConstraintError
   {
     final GLContext context = gl.getContext();
     final VersionNumber vn = context.getGLVersionNumber();
     final String text = context.getGLVersion();
-    return new JCGLVersion(
+    return new JCGLVersion(new JCGLVersionNumber(
       vn.getMajor(),
       vn.getMinor(),
-      vn.getSub(),
-      context.isGLES(),
-      text);
+      vn.getSub()), context.isGLES(), text);
   }
 
   static Renderbuffer<?> renderbufferAllocate(

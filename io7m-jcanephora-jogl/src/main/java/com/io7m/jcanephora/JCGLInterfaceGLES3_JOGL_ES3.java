@@ -66,6 +66,7 @@ import com.io7m.jtensors.VectorReadable4F;
   private final @Nonnull Log            log;
   private final @Nonnull GLContext      context;
   private final @Nonnull JCGLStateCache state;
+  private final @Nonnull JCGLVersion    version;
 
   JCGLInterfaceGLES3_JOGL_ES3(
     final @Nonnull GLContext context,
@@ -110,6 +111,8 @@ import com.io7m.jtensors.VectorReadable4F;
         g,
         this.state,
         this.log);
+
+    this.version = JOGL_GL_Functions.metaGetVersion(g);
   }
 
   @Override public ArrayBuffer arrayBufferAllocate(
@@ -987,7 +990,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public @Nonnull JCGLVersion metaGetVersion()
     throws JCGLException
   {
-    return JOGL_GL_Functions.metaGetVersion(this.context.getGL());
+    return this.version;
   }
 
   @Override public void programActivate(
