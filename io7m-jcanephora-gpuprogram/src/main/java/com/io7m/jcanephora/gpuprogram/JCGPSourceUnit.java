@@ -24,6 +24,7 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.JCGLApi;
 import com.io7m.jcanephora.JCGLApiKindES;
 import com.io7m.jcanephora.JCGLApiKindFull;
 import com.io7m.jcanephora.JCGLCompileException;
@@ -85,30 +86,38 @@ public abstract class JCGPSourceUnit
 
   public final @Nonnull String sourceEvaluate(
     final @Nonnull JCGLVersionNumber version,
-    final boolean es)
+    final @Nonnull JCGLApi api)
     throws JCGLUnsupportedException,
       JCGLCompileException,
       ConstraintError
   {
     Constraints.constrainNotNull(version, "Version");
+    Constraints.constrainNotNull(api, "API");
 
-    if (es) {
-      if (this.versions_es == null) {
-        throw this.unsupportedVersion(version, es);
+    switch (api) {
+      case JCGL_ES:
+      {
+        if (this.versions_es == null) {
+          throw this.unsupportedVersion(version, api);
+        }
+        if (this.versions_es.includes(version) == false) {
+          throw this.unsupportedVersion(version, api);
+        }
+        break;
       }
-      if (this.versions_es.includes(version) == false) {
-        throw this.unsupportedVersion(version, es);
-      }
-    } else {
-      if (this.versions_full == null) {
-        throw this.unsupportedVersion(version, es);
-      }
-      if (this.versions_full.includes(version) == false) {
-        throw this.unsupportedVersion(version, es);
+      case JCGL_FULL:
+      {
+        if (this.versions_full == null) {
+          throw this.unsupportedVersion(version, api);
+        }
+        if (this.versions_full.includes(version) == false) {
+          throw this.unsupportedVersion(version, api);
+        }
+        break;
       }
     }
 
-    return this.sourceEvaluateActual(version, es);
+    return this.sourceEvaluateActual(version, api);
   }
 
   /**
@@ -122,7 +131,7 @@ public abstract class JCGPSourceUnit
 
   protected abstract @Nonnull String sourceEvaluateActual(
     final @Nonnull JCGLVersionNumber version,
-    final boolean es)
+    final @Nonnull JCGLApi api)
     throws JCGLUnsupportedException,
       JCGLCompileException;
 
@@ -159,21 +168,25 @@ public abstract class JCGPSourceUnit
 
   private @Nonnull JCGLUnsupportedException unsupportedVersion(
     final @Nonnull JCGLVersionNumber version,
-    final boolean es)
+    final @Nonnull JCGLApi api)
   {
     final StringBuilder b = new StringBuilder();
     b.append("Source unit ");
     b.append(this.name);
-    b.append(" does not support OpenGL ");
-    b.append(es ? "ES" : "");
+    b.append(" does not support ");
+    b.append(api.getName());
     b.append(" version ");
     b.append(version);
     b.append(". Supported versions are:");
     if (this.versions_es != null) {
-      b.append(" ES ");
+      b.append(" ");
+      b.append(api.getName());
+      b.append(" ");
       b.append(this.versions_es.toRangeNotation());
     }
     if (this.versions_full != null) {
+      b.append(" ");
+      b.append(api.getName());
       b.append(" ");
       b.append(this.versions_full.toRangeNotation());
     }

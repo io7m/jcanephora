@@ -25,13 +25,12 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.JCGLApi;
 import com.io7m.jcanephora.JCGLApiKindES;
 import com.io7m.jcanephora.JCGLApiKindFull;
 import com.io7m.jcanephora.JCGLCompileException;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.JCGLVersionNumber;
-import com.io7m.jcanephora.gpuprogram.JCGPFileUnit;
-import com.io7m.jcanephora.gpuprogram.JCGPVersionRange;
 
 public class JCGPFileUnitTest
 {
@@ -58,16 +57,16 @@ public class JCGPFileUnitTest
         new JCGLVersionNumber(2, 0, 0),
         new JCGLVersionNumber(3, 0, 0));
     final JCGPVersionRange<JCGLApiKindFull> v_full =
-      new JCGPVersionRange<JCGLApiKindFull>(new JCGLVersionNumber(
-        2,
-        1,
-        0), new JCGLVersionNumber(4, 3, 0));
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLVersionNumber(2, 1, 0),
+        new JCGLVersionNumber(4, 3, 0));
     final String name = "com.io7m.unit";
     final LinkedList<String> imports = new LinkedList<String>();
-    final JCGPFileUnit u = new JCGPFileUnit(name, imports, v_es, v_full, ufile);
+    final JCGPFileUnit u =
+      new JCGPFileUnit(name, imports, v_es, v_full, ufile);
 
     System.err.println("Evaluating file: " + ufile);
-    u.sourceEvaluate(new JCGLVersionNumber(1, 0, 0), true);
+    u.sourceEvaluate(new JCGLVersionNumber(1, 0, 0), JCGLApi.JCGL_ES);
   }
 
   /**
@@ -89,16 +88,16 @@ public class JCGPFileUnitTest
     final File ufile = new File(td, "data/example.v");
 
     final JCGPVersionRange<JCGLApiKindFull> v_full =
-      new JCGPVersionRange<JCGLApiKindFull>(new JCGLVersionNumber(
-        2,
-        1,
-        0), new JCGLVersionNumber(4, 3, 0));
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLVersionNumber(2, 1, 0),
+        new JCGLVersionNumber(4, 3, 0));
     final String name = "com.io7m.unit";
     final LinkedList<String> imports = new LinkedList<String>();
-    final JCGPFileUnit u = new JCGPFileUnit(name, imports, null, v_full, ufile);
+    final JCGPFileUnit u =
+      new JCGPFileUnit(name, imports, null, v_full, ufile);
 
     System.err.println("Evaluating file: " + ufile);
-    u.sourceEvaluate(new JCGLVersionNumber(1, 0, 0), true);
+    u.sourceEvaluate(new JCGLVersionNumber(1, 0, 0), JCGLApi.JCGL_ES);
   }
 
   /**
@@ -124,16 +123,16 @@ public class JCGPFileUnitTest
         new JCGLVersionNumber(2, 0, 0),
         new JCGLVersionNumber(3, 0, 0));
     final JCGPVersionRange<JCGLApiKindFull> v_full =
-      new JCGPVersionRange<JCGLApiKindFull>(new JCGLVersionNumber(
-        2,
-        1,
-        0), new JCGLVersionNumber(4, 3, 0));
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLVersionNumber(2, 1, 0),
+        new JCGLVersionNumber(4, 3, 0));
     final String name = "com.io7m.unit";
     final LinkedList<String> imports = new LinkedList<String>();
-    final JCGPFileUnit u = new JCGPFileUnit(name, imports, v_es, v_full, ufile);
+    final JCGPFileUnit u =
+      new JCGPFileUnit(name, imports, v_es, v_full, ufile);
 
     System.err.println("Evaluating File: " + ufile);
-    u.sourceEvaluate(new JCGLVersionNumber(1, 0, 0), false);
+    u.sourceEvaluate(new JCGLVersionNumber(1, 0, 0), JCGLApi.JCGL_FULL);
   }
 
   /**
@@ -163,7 +162,7 @@ public class JCGPFileUnitTest
     final JCGPFileUnit u = new JCGPFileUnit(name, imports, v_es, null, ufile);
 
     System.err.println("Evaluating file: " + ufile);
-    u.sourceEvaluate(new JCGLVersionNumber(1, 0, 0), false);
+    u.sourceEvaluate(new JCGLVersionNumber(1, 0, 0), JCGLApi.JCGL_FULL);
   }
 
   /**
@@ -186,17 +185,17 @@ public class JCGPFileUnitTest
         new JCGLVersionNumber(2, 0, 0),
         new JCGLVersionNumber(3, 0, 0));
     final JCGPVersionRange<JCGLApiKindFull> v_full =
-      new JCGPVersionRange<JCGLApiKindFull>(new JCGLVersionNumber(
-        2,
-        1,
-        0), new JCGLVersionNumber(4, 3, 0));
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLVersionNumber(2, 1, 0),
+        new JCGLVersionNumber(4, 3, 0));
     final String name = "com.io7m.unit";
     final LinkedList<String> imports = new LinkedList<String>();
-    final JCGPFileUnit u = new JCGPFileUnit(name, imports, v_es, v_full, ufile);
+    final JCGPFileUnit u =
+      new JCGPFileUnit(name, imports, v_es, v_full, ufile);
 
     System.err.println("Evaluating file: " + ufile);
     final String text =
-      u.sourceEvaluate(new JCGLVersionNumber(2, 1, 0), false);
+      u.sourceEvaluate(new JCGLVersionNumber(2, 1, 0), JCGLApi.JCGL_FULL);
 
     Assert.assertEquals(contents, text);
   }
@@ -223,17 +222,17 @@ public class JCGPFileUnitTest
         new JCGLVersionNumber(2, 0, 0),
         new JCGLVersionNumber(3, 0, 0));
     final JCGPVersionRange<JCGLApiKindFull> v_full =
-      new JCGPVersionRange<JCGLApiKindFull>(new JCGLVersionNumber(
-        2,
-        1,
-        0), new JCGLVersionNumber(4, 3, 0));
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLVersionNumber(2, 1, 0),
+        new JCGLVersionNumber(4, 3, 0));
     final String name = "com.io7m.unit";
     final LinkedList<String> imports = new LinkedList<String>();
-    final JCGPFileUnit u = new JCGPFileUnit(name, imports, v_es, v_full, ufile);
+    final JCGPFileUnit u =
+      new JCGPFileUnit(name, imports, v_es, v_full, ufile);
 
     System.err.println("Evaluating file: " + ufile);
     final String text =
-      u.sourceEvaluate(new JCGLVersionNumber(2, 1, 0), true);
+      u.sourceEvaluate(new JCGLVersionNumber(2, 1, 0), JCGLApi.JCGL_ES);
 
     Assert.assertEquals(contents, text);
   }
@@ -252,10 +251,9 @@ public class JCGPFileUnitTest
       new JCGPVersionRange<JCGLApiKindES>(
         new JCGLVersionNumber(2, 0, 0),
         new JCGLVersionNumber(3, 0, 0)),
-      new JCGPVersionRange<JCGLApiKindFull>(new JCGLVersionNumber(
-        2,
-        1,
-        0), new JCGLVersionNumber(4, 3, 0)),
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLVersionNumber(2, 1, 0),
+        new JCGLVersionNumber(4, 3, 0)),
       new File("nonexistent.txt"));
   }
 
@@ -289,10 +287,9 @@ public class JCGPFileUnitTest
       new JCGPVersionRange<JCGLApiKindES>(
         new JCGLVersionNumber(2, 0, 0),
         new JCGLVersionNumber(3, 0, 0)),
-      new JCGPVersionRange<JCGLApiKindFull>(new JCGLVersionNumber(
-        2,
-        1,
-        0), new JCGLVersionNumber(4, 3, 0)),
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLVersionNumber(2, 1, 0),
+        new JCGLVersionNumber(4, 3, 0)),
       new File("nonexistent.txt"));
   }
 
@@ -310,10 +307,9 @@ public class JCGPFileUnitTest
       new JCGPVersionRange<JCGLApiKindES>(
         new JCGLVersionNumber(2, 0, 0),
         new JCGLVersionNumber(3, 0, 0)),
-      new JCGPVersionRange<JCGLApiKindFull>(new JCGLVersionNumber(
-        2,
-        1,
-        0), new JCGLVersionNumber(4, 3, 0)),
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLVersionNumber(2, 1, 0),
+        new JCGLVersionNumber(4, 3, 0)),
       null);
   }
 
@@ -329,10 +325,9 @@ public class JCGPFileUnitTest
         new JCGLVersionNumber(2, 0, 0),
         new JCGLVersionNumber(3, 0, 0));
     final JCGPVersionRange<JCGLApiKindFull> v_full =
-      new JCGPVersionRange<JCGLApiKindFull>(new JCGLVersionNumber(
-        2,
-        1,
-        0), new JCGLVersionNumber(4, 3, 0));
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLVersionNumber(2, 1, 0),
+        new JCGLVersionNumber(4, 3, 0));
     final String name = "com.io7m.unit";
     final LinkedList<String> imports = new LinkedList<String>();
     final File source = new File("nonexistent.txt");

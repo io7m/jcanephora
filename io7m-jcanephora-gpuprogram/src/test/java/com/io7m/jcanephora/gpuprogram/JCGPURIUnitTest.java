@@ -27,13 +27,12 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.JCGLApi;
 import com.io7m.jcanephora.JCGLApiKindES;
 import com.io7m.jcanephora.JCGLApiKindFull;
 import com.io7m.jcanephora.JCGLCompileException;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.JCGLVersionNumber;
-import com.io7m.jcanephora.gpuprogram.JCGPURIUnit;
-import com.io7m.jcanephora.gpuprogram.JCGPVersionRange;
 
 public class JCGPURIUnitTest
 {
@@ -61,16 +60,16 @@ public class JCGPURIUnitTest
         new JCGLVersionNumber(2, 0, 0),
         new JCGLVersionNumber(3, 0, 0));
     final JCGPVersionRange<JCGLApiKindFull> v_full =
-      new JCGPVersionRange<JCGLApiKindFull>(new JCGLVersionNumber(
-        2,
-        1,
-        0), new JCGLVersionNumber(4, 3, 0));
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLVersionNumber(2, 1, 0),
+        new JCGLVersionNumber(4, 3, 0));
     final String name = "com.io7m.unit";
     final LinkedList<String> imports = new LinkedList<String>();
-    final JCGPURIUnit u = new JCGPURIUnit(name, imports, v_es, v_full, source);
+    final JCGPURIUnit u =
+      new JCGPURIUnit(name, imports, v_es, v_full, source);
 
     System.err.println("Evaluating URI: " + source);
-    u.sourceEvaluate(new JCGLVersionNumber(1, 0, 0), true);
+    u.sourceEvaluate(new JCGLVersionNumber(1, 0, 0), JCGLApi.JCGL_ES);
   }
 
   /**
@@ -93,16 +92,16 @@ public class JCGPURIUnitTest
     final URI source = ufile.toURI();
 
     final JCGPVersionRange<JCGLApiKindFull> v_full =
-      new JCGPVersionRange<JCGLApiKindFull>(new JCGLVersionNumber(
-        2,
-        1,
-        0), new JCGLVersionNumber(4, 3, 0));
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLVersionNumber(2, 1, 0),
+        new JCGLVersionNumber(4, 3, 0));
     final String name = "com.io7m.unit";
     final LinkedList<String> imports = new LinkedList<String>();
-    final JCGPURIUnit u = new JCGPURIUnit(name, imports, null, v_full, source);
+    final JCGPURIUnit u =
+      new JCGPURIUnit(name, imports, null, v_full, source);
 
     System.err.println("Evaluating URI: " + source);
-    u.sourceEvaluate(new JCGLVersionNumber(1, 0, 0), true);
+    u.sourceEvaluate(new JCGLVersionNumber(1, 0, 0), JCGLApi.JCGL_ES);
   }
 
   /**
@@ -129,16 +128,16 @@ public class JCGPURIUnitTest
         new JCGLVersionNumber(2, 0, 0),
         new JCGLVersionNumber(3, 0, 0));
     final JCGPVersionRange<JCGLApiKindFull> v_full =
-      new JCGPVersionRange<JCGLApiKindFull>(new JCGLVersionNumber(
-        2,
-        1,
-        0), new JCGLVersionNumber(4, 3, 0));
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLVersionNumber(2, 1, 0),
+        new JCGLVersionNumber(4, 3, 0));
     final String name = "com.io7m.unit";
     final LinkedList<String> imports = new LinkedList<String>();
-    final JCGPURIUnit u = new JCGPURIUnit(name, imports, v_es, v_full, source);
+    final JCGPURIUnit u =
+      new JCGPURIUnit(name, imports, v_es, v_full, source);
 
     System.err.println("Evaluating URI: " + source);
-    u.sourceEvaluate(new JCGLVersionNumber(1, 0, 0), false);
+    u.sourceEvaluate(new JCGLVersionNumber(1, 0, 0), JCGLApi.JCGL_FULL);
   }
 
   /**
@@ -169,7 +168,7 @@ public class JCGPURIUnitTest
     final JCGPURIUnit u = new JCGPURIUnit(name, imports, v_es, null, source);
 
     System.err.println("Evaluating URI: " + source);
-    u.sourceEvaluate(new JCGLVersionNumber(1, 0, 0), false);
+    u.sourceEvaluate(new JCGLVersionNumber(1, 0, 0), JCGLApi.JCGL_FULL);
   }
 
   /**
@@ -193,17 +192,17 @@ public class JCGPURIUnitTest
         new JCGLVersionNumber(2, 0, 0),
         new JCGLVersionNumber(3, 0, 0));
     final JCGPVersionRange<JCGLApiKindFull> v_full =
-      new JCGPVersionRange<JCGLApiKindFull>(new JCGLVersionNumber(
-        2,
-        1,
-        0), new JCGLVersionNumber(4, 3, 0));
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLVersionNumber(2, 1, 0),
+        new JCGLVersionNumber(4, 3, 0));
     final String name = "com.io7m.unit";
     final LinkedList<String> imports = new LinkedList<String>();
-    final JCGPURIUnit u = new JCGPURIUnit(name, imports, v_es, v_full, source);
+    final JCGPURIUnit u =
+      new JCGPURIUnit(name, imports, v_es, v_full, source);
 
     System.err.println("Evaluating URI: " + source);
     final String text =
-      u.sourceEvaluate(new JCGLVersionNumber(2, 1, 0), false);
+      u.sourceEvaluate(new JCGLVersionNumber(2, 1, 0), JCGLApi.JCGL_ES);
 
     Assert.assertEquals(contents, text);
   }
@@ -231,17 +230,17 @@ public class JCGPURIUnitTest
         new JCGLVersionNumber(2, 0, 0),
         new JCGLVersionNumber(3, 0, 0));
     final JCGPVersionRange<JCGLApiKindFull> v_full =
-      new JCGPVersionRange<JCGLApiKindFull>(new JCGLVersionNumber(
-        2,
-        1,
-        0), new JCGLVersionNumber(4, 3, 0));
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLVersionNumber(2, 1, 0),
+        new JCGLVersionNumber(4, 3, 0));
     final String name = "com.io7m.unit";
     final LinkedList<String> imports = new LinkedList<String>();
-    final JCGPURIUnit u = new JCGPURIUnit(name, imports, v_es, v_full, source);
+    final JCGPURIUnit u =
+      new JCGPURIUnit(name, imports, v_es, v_full, source);
 
     System.err.println("Evaluating URI: " + source);
     final String text =
-      u.sourceEvaluate(new JCGLVersionNumber(2, 1, 0), true);
+      u.sourceEvaluate(new JCGLVersionNumber(2, 1, 0), JCGLApi.JCGL_ES);
 
     Assert.assertEquals(contents, text);
   }
@@ -261,10 +260,9 @@ public class JCGPURIUnitTest
       new JCGPVersionRange<JCGLApiKindES>(
         new JCGLVersionNumber(2, 0, 0),
         new JCGLVersionNumber(3, 0, 0)),
-      new JCGPVersionRange<JCGLApiKindFull>(new JCGLVersionNumber(
-        2,
-        1,
-        0), new JCGLVersionNumber(4, 3, 0)),
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLVersionNumber(2, 1, 0),
+        new JCGLVersionNumber(4, 3, 0)),
       new URI("http://reference.io7m.com"));
   }
 
@@ -300,10 +298,9 @@ public class JCGPURIUnitTest
       new JCGPVersionRange<JCGLApiKindES>(
         new JCGLVersionNumber(2, 0, 0),
         new JCGLVersionNumber(3, 0, 0)),
-      new JCGPVersionRange<JCGLApiKindFull>(new JCGLVersionNumber(
-        2,
-        1,
-        0), new JCGLVersionNumber(4, 3, 0)),
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLVersionNumber(2, 1, 0),
+        new JCGLVersionNumber(4, 3, 0)),
       new URI("http://reference.io7m.com"));
   }
 
@@ -321,10 +318,9 @@ public class JCGPURIUnitTest
       new JCGPVersionRange<JCGLApiKindES>(
         new JCGLVersionNumber(2, 0, 0),
         new JCGLVersionNumber(3, 0, 0)),
-      new JCGPVersionRange<JCGLApiKindFull>(new JCGLVersionNumber(
-        2,
-        1,
-        0), new JCGLVersionNumber(4, 3, 0)),
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLVersionNumber(2, 1, 0),
+        new JCGLVersionNumber(4, 3, 0)),
       null);
   }
 
@@ -341,15 +337,15 @@ public class JCGPURIUnitTest
         new JCGLVersionNumber(2, 0, 0),
         new JCGLVersionNumber(3, 0, 0));
     final JCGPVersionRange<JCGLApiKindFull> v_full =
-      new JCGPVersionRange<JCGLApiKindFull>(new JCGLVersionNumber(
-        2,
-        1,
-        0), new JCGLVersionNumber(4, 3, 0));
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLVersionNumber(2, 1, 0),
+        new JCGLVersionNumber(4, 3, 0));
     final String name = "com.io7m.unit";
     final LinkedList<String> imports = new LinkedList<String>();
     final URI source = new URI("http://reference.io7m.com");
 
-    final JCGPURIUnit u = new JCGPURIUnit(name, imports, v_es, v_full, source);
+    final JCGPURIUnit u =
+      new JCGPURIUnit(name, imports, v_es, v_full, source);
 
     Assert.assertEquals(v_es, u.sourceESVersionRange());
     Assert.assertEquals(v_full, u.sourceFullVersionRange());
