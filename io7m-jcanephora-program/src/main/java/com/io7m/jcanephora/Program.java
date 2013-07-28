@@ -216,7 +216,7 @@ public final class Program extends JCGLResourceDeletable implements
       final JCGLVersion v = gl.metaGetVersion();
 
       if (this.vertex_shaders.size() > 1) {
-        if (v.isES()
+        if ((v.getAPI() == JCGLApi.JCGL_ES)
           && ((v.getVersionMajor() >= 2) && (v.getVersionMajor() <= 3))) {
           throw new JCGLCompileException(
             "<none>",
@@ -230,7 +230,7 @@ public final class Program extends JCGLResourceDeletable implements
           "at least one fragment shader is required");
       }
       if (this.fragment_shaders.size() > 1) {
-        if (v.isES()
+        if ((v.getAPI() == JCGLApi.JCGL_ES)
           && ((v.getVersionMajor() >= 2) && (v.getVersionMajor() <= 3))) {
           throw new JCGLCompileException(
             "<none>",

@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
 /**
  * An enumerated type with the values representing the various subsets of the
  * OpenGL API.
@@ -24,8 +26,22 @@ package com.io7m.jcanephora;
 public enum JCGLApi
 {
   /** The "full" OpenGL API, as implemented by most consumer GPUs. */
-  JCGL_FULL,
+  JCGL_FULL("OpenGL"),
 
   /** The "ES" profile, as implemented by most embedded systems. */
-  JCGL_ES
+  JCGL_ES("OpenGL ES");
+
+  private final @Nonnull String name;
+
+  private JCGLApi(
+    final @Nonnull String name)
+  {
+    assert name != null;
+    this.name = name;
+  }
+
+  public @Nonnull String getName()
+  {
+    return this.name;
+  }
 }

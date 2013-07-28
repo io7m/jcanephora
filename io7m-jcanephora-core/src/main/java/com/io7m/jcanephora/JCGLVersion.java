@@ -29,18 +29,18 @@ import com.io7m.jaux.Constraints.ConstraintError;
 @Immutable public final class JCGLVersion
 {
   private final @Nonnull JCGLVersionNumber number;
-  private final boolean                    es;
+  private final @Nonnull JCGLApi           api;
   private final @Nonnull String            text;
 
   JCGLVersion(
     final @Nonnull JCGLVersionNumber number,
-    final boolean es,
+    final @Nonnull JCGLApi api,
     final @Nonnull String text)
     throws ConstraintError
   {
     this.number = Constraints.constrainNotNull(number, "Number");
     this.text = Constraints.constrainNotNull(text, "Text");
-    this.es = es;
+    this.api = Constraints.constrainNotNull(api, "API");
   }
 
   @Override public boolean equals(
@@ -56,7 +56,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
       return false;
     }
     final JCGLVersion other = (JCGLVersion) obj;
-    if (this.es != other.es) {
+    if (this.api != other.api) {
       return false;
     }
     if (!this.number.equals(other.number)) {
@@ -69,7 +69,20 @@ import com.io7m.jaux.Constraints.ConstraintError;
   }
 
   /**
+   * <p>
+   * Retrieve the API of the current implementation.
+   * </p>
+   */
+
+  public @Nonnull JCGLApi getAPI()
+  {
+    return this.api;
+  }
+
+  /**
+   * <p>
    * Retrieve the version number as a {@link JCGLVersionNumber} structure.
+   * </p>
    */
 
   public @Nonnull JCGLVersionNumber getNumber()
@@ -126,21 +139,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
   {
     final int prime = 31;
     int result = 1;
-    result = (prime * result) + (this.es ? 1231 : 1237);
+    result = (prime * result) + this.api.hashCode();
     result = (prime * result) + this.number.hashCode();
     result = (prime * result) + this.text.hashCode();
     return result;
-  }
-
-  /**
-   * <p>
-   * Return <code>true</code> if the implementation is OpenGL ES.
-   * </p>
-   */
-
-  public boolean isES()
-  {
-    return this.es;
   }
 
   @Override public String toString()
@@ -153,7 +155,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     builder.append(".");
     builder.append(this.getVersionMicro());
     builder.append(" ");
-    builder.append(this.es ? "ES" : "");
+    builder.append(this.api.getName());
     builder.append(" [");
     builder.append(this.text);
     builder.append("]]");
