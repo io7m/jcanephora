@@ -123,6 +123,7 @@ import com.io7m.jcanephora.JCGLType;
       b.append(this.type.getName());
       b.append(" ");
       b.append(this.getName());
+      b.append(";");
       return b.toString();
     }
 

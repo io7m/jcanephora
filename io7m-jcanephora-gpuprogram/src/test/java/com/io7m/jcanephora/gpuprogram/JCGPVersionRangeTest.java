@@ -147,6 +147,23 @@ public class JCGPVersionRangeTest
   }
 
   /**
+   * Inclusion is correct.
+   */
+
+  @SuppressWarnings({ "static-method" }) @Test public
+    void
+    testIncludeSpecific()
+      throws ConstraintError
+  {
+    final JCGLSLVersionNumber vlow = new JCGLSLVersionNumber(0, 0, 0);
+    final JCGLSLVersionNumber vhigh = new JCGLSLVersionNumber(4, 30, 0);
+    final JCGPVersionRange<JCGLApiKindFull> vr0 =
+      new JCGPVersionRange<JCGLApiKindFull>(vlow, vhigh);
+
+    Assert.assertTrue(vr0.includes(new JCGLSLVersionNumber(3, 30, 0)));
+  }
+
+  /**
    * Passing a higher lower bound than the upper bound fails.
    */
 

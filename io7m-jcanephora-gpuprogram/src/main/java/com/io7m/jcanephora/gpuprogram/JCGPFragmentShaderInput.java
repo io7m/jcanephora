@@ -38,7 +38,6 @@ import com.io7m.jcanephora.JCGLUnsupportedException;
   }
 
   private final @Nonnull JCGLType type;
-
   private final @Nonnull String   name;
 
   private JCGPFragmentShaderInput(

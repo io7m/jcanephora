@@ -41,7 +41,7 @@ abstract class JCGPUnit
     private final @Nonnull Map<String, JCGPFragmentShaderOutput> outputs;
     private final @Nonnull Map<String, JCGPUniform>              uniforms;
 
-    @SuppressWarnings("synthetic-access") JCGPUnitFragmentShader(
+    @SuppressWarnings("synthetic-access") private JCGPUnitFragmentShader(
       final @Nonnull String name,
       final @Nonnull JCGPSource source,
       final @Nonnull List<String> imports,
@@ -236,7 +236,7 @@ abstract class JCGPUnit
 
   static final class JCGPUnitGeneric extends JCGPUnit
   {
-    @SuppressWarnings("synthetic-access") JCGPUnitGeneric(
+    @SuppressWarnings("synthetic-access") private JCGPUnitGeneric(
       final @Nonnull String name,
       final @Nonnull JCGPSource source,
       final @Nonnull List<String> imports,
@@ -272,7 +272,7 @@ abstract class JCGPUnit
     private final @Nonnull Map<String, JCGPVertexShaderOutput> outputs;
     private final @Nonnull Map<String, JCGPUniform>            uniforms;
 
-    @SuppressWarnings("synthetic-access") JCGPUnitVertexShader(
+    @SuppressWarnings("synthetic-access") private JCGPUnitVertexShader(
       final @Nonnull String name,
       final @Nonnull JCGPSource source,
       final @Nonnull List<String> imports,
@@ -546,5 +546,59 @@ abstract class JCGPUnit
     getVersionRangeFull()
   {
     return this.versions_full;
+  }
+
+  @SuppressWarnings("synthetic-access") public static @Nonnull
+    JCGPUnitGeneric
+    makeGeneric(
+      final @Nonnull String name,
+      final @Nonnull JCGPSource source,
+      final @Nonnull List<String> imports,
+      final @CheckForNull JCGPVersionRange<JCGLApiKindES> versions_es,
+      final @CheckForNull JCGPVersionRange<JCGLApiKindFull> versions_full)
+      throws ConstraintError
+  {
+    return new JCGPUnitGeneric(
+      name,
+      source,
+      imports,
+      versions_es,
+      versions_full);
+  }
+
+  @SuppressWarnings("synthetic-access") public static @Nonnull
+    JCGPUnitFragmentShader
+    makeFragmentShader(
+      final @Nonnull String name,
+      final @Nonnull JCGPSource source,
+      final @Nonnull List<String> imports,
+      final @CheckForNull JCGPVersionRange<JCGLApiKindES> versions_es,
+      final @CheckForNull JCGPVersionRange<JCGLApiKindFull> versions_full)
+      throws ConstraintError
+  {
+    return new JCGPUnitFragmentShader(
+      name,
+      source,
+      imports,
+      versions_es,
+      versions_full);
+  }
+
+  @SuppressWarnings("synthetic-access") public static @Nonnull
+    JCGPUnitVertexShader
+    makeVertexShader(
+      final @Nonnull String name,
+      final @Nonnull JCGPSource source,
+      final @Nonnull List<String> imports,
+      final @CheckForNull JCGPVersionRange<JCGLApiKindES> versions_es,
+      final @CheckForNull JCGPVersionRange<JCGLApiKindFull> versions_full)
+      throws ConstraintError
+  {
+    return new JCGPUnitVertexShader(
+      name,
+      source,
+      imports,
+      versions_es,
+      versions_full);
   }
 }

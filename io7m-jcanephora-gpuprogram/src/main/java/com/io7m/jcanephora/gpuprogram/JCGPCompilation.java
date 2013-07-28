@@ -293,7 +293,7 @@ import com.io7m.jlog.Log;
         if (this.v_full == null) {
           this.compilationLacksVersionSupport(version, api, message);
         }
-        if (this.v_full.includes(version)) {
+        if (this.v_full.includes(version) == false) {
           this.compilationLacksVersionSupport(version, api, message);
         }
         break;
@@ -469,6 +469,10 @@ import com.io7m.jlog.Log;
     this.compilationCheckVersion(version, api);
     this.compilationCheckImports(this.unit_fragment_main);
 
+    if (this.debugging) {
+      output.add("// main: " + this.unit_fragment_main.getName());
+    }
+
     JCGPCompilation.compilationGenerateVersion(version, api, output);
     this.compilationEvaluate(this.unit_fragment_main, version, api, output);
   }
@@ -493,6 +497,10 @@ import com.io7m.jlog.Log;
 
     this.compilationCheckVersion(version, api);
     this.compilationCheckImports(this.unit_vertex_main);
+
+    if (this.debugging) {
+      output.add("// main: " + this.unit_vertex_main.getName());
+    }
 
     JCGPCompilation.compilationGenerateVersion(version, api, output);
     this.compilationEvaluate(this.unit_vertex_main, version, api, output);
