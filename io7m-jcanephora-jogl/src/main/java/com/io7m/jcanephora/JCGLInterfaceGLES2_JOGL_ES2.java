@@ -130,9 +130,10 @@ import com.io7m.jtensors.VectorReadable4F;
     }
   }
 
-  final @Nonnull Log                                                           log;
-  final @Nonnull GLContext                                                     context;
-  final @Nonnull JCGLStateCache                                                state;
+  private final @Nonnull Log                                                   log;
+  private final @Nonnull GLContext                                             context;
+  private final @Nonnull JCGLStateCache                                        state;
+  private final @Nonnull JCGLVersion                                           version;
 
   private final @Nonnull JCGLExtensionSupport<JCGLExtensionPackedDepthStencil> ext_packed_depth_stencil_support;
   private final @Nonnull JCGLExtensionPackedDepthStencil                       ext_packed_depth_stencil;
@@ -188,6 +189,8 @@ import com.io7m.jtensors.VectorReadable4F;
       this.state.point_max_width = cache.get();
       JCGLError.check(this);
     }
+
+    this.version = JOGL_GL_Functions.metaGetVersion(g);
   }
 
   @Override public ArrayBuffer arrayBufferAllocate(
@@ -863,7 +866,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public @Nonnull JCGLVersion metaGetVersion()
     throws JCGLException
   {
-    return JOGL_GL_Functions.metaGetVersion(this.context.getGL());
+    return this.version;
   }
 
   @Override public void programActivate(

@@ -68,6 +68,7 @@ import com.io7m.jtensors.VectorReadable4F;
   private final @Nonnull Log            log;
   private final @Nonnull GLContext      context;
   private final @Nonnull JCGLStateCache state;
+  private final @Nonnull JCGLVersion    version;
 
   JCGLInterfaceGL2_JOGL_GL21(
     final @Nonnull GLContext context,
@@ -124,6 +125,8 @@ import com.io7m.jtensors.VectorReadable4F;
       this.state.point_max_width = cache.get();
       JCGLError.check(this);
     }
+
+    this.version = JOGL_GL_Functions.metaGetVersion(g);
   }
 
   @Override public ArrayBuffer arrayBufferAllocate(
@@ -923,7 +926,7 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public @Nonnull JCGLVersion metaGetVersion()
     throws JCGLException
   {
-    return JOGL_GL_Functions.metaGetVersion(this.contextGetGL2());
+    return this.version;
   }
 
   @Override public @Nonnull PolygonMode polygonGetMode()
