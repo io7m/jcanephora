@@ -36,6 +36,26 @@ public interface JCGPGeneratorAPI
 {
   /**
    * <p>
+   * Enable or disable debugging.
+   * </p>
+   * <p>
+   * When debugging is enabled, comments may be placed into GLSL source.
+   * </p>
+   */
+
+  public void generatorDebuggingEnable(
+    boolean on);
+
+  /**
+   * <p>
+   * Return <tt>true</tt> if debugging is currently enabled.
+   * </p>
+   */
+
+  public boolean generatorDebuggingIsEnabled();
+
+  /**
+   * <p>
    * Generate GLSL source code for a fragment shader, compatible with version
    * <tt>version</tt> and API <tt>api</tt>.
    * </p>
@@ -103,26 +123,6 @@ public interface JCGPGeneratorAPI
       throws JCGLCompileException,
         ConstraintError,
         JCGLUnsupportedException;
-
-  /**
-   * <p>
-   * Return <tt>true</tt> if debugging is currently enabled.
-   * </p>
-   */
-
-  public boolean generatorIsDebugging();
-
-  /**
-   * <p>
-   * Enable or disable debugging.
-   * </p>
-   * <p>
-   * When debugging is enabled, comments may be placed into GLSL source.
-   * </p>
-   */
-
-  public void generatorSetDebugging(
-    boolean on);
 
   /**
    * <p>

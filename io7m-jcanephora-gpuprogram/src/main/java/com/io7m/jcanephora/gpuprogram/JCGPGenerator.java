@@ -304,6 +304,17 @@ import com.io7m.jlog.Log;
     }
   }
 
+  @Override public void generatorDebuggingEnable(
+    final boolean on)
+  {
+    this.debugging = on;
+  }
+
+  @Override public boolean generatorDebuggingIsEnabled()
+  {
+    return this.debugging;
+  }
+
   @Override public @Nonnull
     JCGPGeneratedSource<JCGLShaderKindFragment>
     generatorGenerateFragmentShader(
@@ -384,11 +395,6 @@ import com.io7m.jlog.Log;
       JCGLShaderType.JCGL_VERTEX_SHADER);
   }
 
-  @Override public boolean generatorIsDebugging()
-  {
-    return this.debugging;
-  }
-
   private void generatorLacksVersionSupport(
     final @Nonnull JCGLSLVersionNumber version,
     final @Nonnull JCGLApi api,
@@ -408,12 +414,6 @@ import com.io7m.jlog.Log;
     message.append(".\n");
     this.generatorShowRequires(message);
     throw new JCGLUnsupportedException(message.toString());
-  }
-
-  @Override public void generatorSetDebugging(
-    final boolean on)
-  {
-    this.debugging = on;
   }
 
   private void generatorShowRequires(
