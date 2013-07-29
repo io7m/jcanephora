@@ -293,7 +293,9 @@ final class TestData
       properties.load(stream);
       return new Log(properties, "com.io7m.jcanephora", "tests");
     } finally {
-      stream.close();
+      if (stream != null) {
+        stream.close();
+      }
     }
   }
 
