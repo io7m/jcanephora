@@ -24,6 +24,19 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 public interface JCGPSource
 {
+  /**
+   * Return <tt>true</tt> if the source has changed since the last call to
+   * {@link #sourceGet(JCGPGeneratorContext, ArrayList)}.
+   */
+
+  public boolean sourceChanged()
+    throws Exception,
+      ConstraintError;
+
+  /**
+   * Retrieve the current contents of this source.
+   */
+
   public void sourceGet(
     final @Nonnull JCGPGeneratorContext context,
     final @Nonnull ArrayList<String> output)

@@ -38,12 +38,19 @@ import com.io7m.jaux.Constraints.ConstraintError;
 @Immutable public final class JCGPFileSource implements JCGPSource
 {
   private final @Nonnull File source;
+  private long                last_get = Long.MIN_VALUE;
 
   public JCGPFileSource(
     final @Nonnull File source)
     throws ConstraintError
   {
     this.source = Constraints.constrainNotNull(source, "File");
+  }
+
+  @Override public boolean sourceChanged()
+  {
+    final long last_m = this.source.lastModified();
+    return last_m != this.last_get;
   }
 
   @Override public void sourceGet(
@@ -55,6 +62,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     Constraints.constrainNotNull(context, "Compilation context");
     Constraints.constrainNotNull(output, "Output array");
 
+    this.last_get = this.source.lastModified();
     BufferedReader reader = null;
 
     try {

@@ -158,4 +158,14 @@ public interface JCGPGeneratorAPI
   public void generatorUnitRemove(
     final @Nonnull String unit)
     throws ConstraintError;
+
+  /**
+   * <p>
+   * Return <tt>true</tt> iff the generator would produce different source if
+   * asked to generate now (that is, at least one of the source units has been
+   * modified in some way since the last generation).
+   * </p>
+   */
+
+  public boolean generatorUnitsUpdated();
 }
