@@ -51,31 +51,6 @@ public class JCGPFileSourceTest
     Assert.assertEquals(5, output.size());
   }
 
-  @SuppressWarnings("static-method") @Test public void testFileChanged()
-    throws ConstraintError,
-      Exception
-  {
-    final File td = TestData.getTestDataDirectory();
-    final File file = new File(new File(td, "data"), "example.v");
-    Assert.assertTrue(file.isFile());
-
-    final JCGPFileSource fs = new JCGPFileSource(file);
-    Assert.assertTrue(fs.sourceChanged());
-    file.setLastModified(100);
-    Assert.assertTrue(fs.sourceChanged());
-
-    final JCGPGeneratorContext context =
-      new JCGPGeneratorContext(
-        new JCGLSLVersionNumber(1, 0, 0),
-        JCGLApi.JCGL_ES);
-    final ArrayList<String> output = new ArrayList<String>();
-
-    fs.sourceGet(context, output);
-    Assert.assertFalse(fs.sourceChanged());
-    file.setLastModified(100000);
-    Assert.assertTrue(fs.sourceChanged());
-  }
-
   @SuppressWarnings("static-method") @Test(
     expected = FileNotFoundException.class) public void testFileNonexistent()
     throws ConstraintError,

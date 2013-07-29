@@ -16,14 +16,14 @@
 
 package com.io7m.jcanephora.gpuprogram;
 
-import java.util.ArrayList;
-
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.JCGLApi;
 import com.io7m.jcanephora.JCGLCompileException;
 import com.io7m.jcanephora.JCGLSLVersionNumber;
+import com.io7m.jcanephora.JCGLShaderKindFragment;
+import com.io7m.jcanephora.JCGLShaderKindVertex;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 
 /**
@@ -37,15 +37,14 @@ public interface JCGPGeneratorAPI
   /**
    * <p>
    * Generate GLSL source code for a fragment shader, compatible with version
-   * <tt>version</tt> and API <tt>api</tt>, writing the lines of output to
-   * <tt>output</tt>.
+   * <tt>version</tt> and API <tt>api</tt>.
    * </p>
    * 
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
    *           <li>
-   *           <code>version == null || api == null || output == null</code></li>
+   *           <code>version == null || api == null</code></li>
    *           </ul>
    * @throws JCGLCompileException
    *           Iff any of the following hold:
@@ -61,26 +60,26 @@ public interface JCGPGeneratorAPI
    *           version.
    */
 
-  public void generatorGenerateFragmentShader(
-    final @Nonnull JCGLSLVersionNumber version,
-    final @Nonnull JCGLApi api,
-    final @Nonnull ArrayList<String> output)
-    throws JCGLCompileException,
-      ConstraintError,
-      JCGLUnsupportedException;
+  public @Nonnull
+    JCGPGeneratedSource<JCGLShaderKindFragment>
+    generatorGenerateFragmentShader(
+      final @Nonnull JCGLSLVersionNumber version,
+      final @Nonnull JCGLApi api)
+      throws JCGLCompileException,
+        ConstraintError,
+        JCGLUnsupportedException;
 
   /**
    * <p>
    * Generate GLSL source code for a vertex shader, compatible with version
-   * <tt>version</tt> and API <tt>api</tt>, writing the lines of output to
-   * <tt>output</tt>.
+   * <tt>version</tt> and API <tt>api</tt>.
    * </p>
    * 
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
    *           <li>
-   *           <code>version == null || api == null || output == null</code></li>
+   *           <code>version == null || api == null</code></li>
    *           </ul>
    * @throws JCGLCompileException
    *           Iff any of the following hold:
@@ -96,13 +95,14 @@ public interface JCGPGeneratorAPI
    *           version.
    */
 
-  public void generatorGenerateVertexShader(
-    final @Nonnull JCGLSLVersionNumber version,
-    final @Nonnull JCGLApi api,
-    final @Nonnull ArrayList<String> output)
-    throws JCGLCompileException,
-      ConstraintError,
-      JCGLUnsupportedException;
+  public @Nonnull
+    JCGPGeneratedSource<JCGLShaderKindVertex>
+    generatorGenerateVertexShader(
+      final @Nonnull JCGLSLVersionNumber version,
+      final @Nonnull JCGLApi api)
+      throws JCGLCompileException,
+        ConstraintError,
+        JCGLUnsupportedException;
 
   /**
    * <p>

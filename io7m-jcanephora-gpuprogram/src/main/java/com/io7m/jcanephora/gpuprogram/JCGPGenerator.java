@@ -33,6 +33,9 @@ import com.io7m.jcanephora.JCGLApiKindES;
 import com.io7m.jcanephora.JCGLApiKindFull;
 import com.io7m.jcanephora.JCGLCompileException;
 import com.io7m.jcanephora.JCGLSLVersionNumber;
+import com.io7m.jcanephora.JCGLShaderKindFragment;
+import com.io7m.jcanephora.JCGLShaderKindVertex;
+import com.io7m.jcanephora.JCGLShaderType;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.gpuprogram.JCGPUnit.JCGPUnitFragmentShader;
 import com.io7m.jcanephora.gpuprogram.JCGPUnit.JCGPUnitVertexShader;
@@ -298,17 +301,17 @@ import com.io7m.jlog.Log;
     }
   }
 
-  @Override public void generatorGenerateFragmentShader(
-    final @Nonnull JCGLSLVersionNumber version,
-    final @Nonnull JCGLApi api,
-    final @Nonnull ArrayList<String> output)
-    throws JCGLCompileException,
-      ConstraintError,
-      JCGLUnsupportedException
+  @Override public @Nonnull
+    JCGPGeneratedSource<JCGLShaderKindFragment>
+    generatorGenerateFragmentShader(
+      final @Nonnull JCGLSLVersionNumber version,
+      final @Nonnull JCGLApi api)
+      throws JCGLCompileException,
+        ConstraintError,
+        JCGLUnsupportedException
   {
     Constraints.constrainNotNull(version, "Version");
     Constraints.constrainNotNull(api, "API");
-    Constraints.constrainNotNull(output, "Output");
 
     if (this.unit_fragment_main == null) {
       throw new JCGLCompileException(
@@ -320,6 +323,7 @@ import com.io7m.jlog.Log;
     assert this.unit_fragment_main != null;
     this.generatorCheckImports(this.unit_fragment_main);
 
+    final ArrayList<String> output = new ArrayList<String>(32);
     if (this.debugging) {
       output.add("// main: " + this.unit_fragment_main.getName());
     }
@@ -330,19 +334,25 @@ import com.io7m.jlog.Log;
       version,
       api,
       output);
+
+    return new JCGPGeneratedSource<JCGLShaderKindFragment>(
+      output,
+      version,
+      api,
+      JCGLShaderType.JCGL_FRAGMENT_SHADER);
   }
 
-  @Override public void generatorGenerateVertexShader(
-    final @Nonnull JCGLSLVersionNumber version,
-    final @Nonnull JCGLApi api,
-    final @Nonnull ArrayList<String> output)
-    throws JCGLCompileException,
-      ConstraintError,
-      JCGLUnsupportedException
+  @Override public @Nonnull
+    JCGPGeneratedSource<JCGLShaderKindVertex>
+    generatorGenerateVertexShader(
+      final @Nonnull JCGLSLVersionNumber version,
+      final @Nonnull JCGLApi api)
+      throws JCGLCompileException,
+        ConstraintError,
+        JCGLUnsupportedException
   {
     Constraints.constrainNotNull(version, "Version");
     Constraints.constrainNotNull(api, "API");
-    Constraints.constrainNotNull(output, "Output");
 
     if (this.unit_vertex_main == null) {
       throw new JCGLCompileException(
@@ -354,12 +364,19 @@ import com.io7m.jlog.Log;
     assert this.unit_vertex_main != null;
     this.generatorCheckImports(this.unit_vertex_main);
 
+    final ArrayList<String> output = new ArrayList<String>(32);
     if (this.debugging) {
       output.add("// main: " + this.unit_vertex_main.getName());
     }
 
     JCGPGenerator.generatorGenerateVersion(version, api, output);
     this.generatorSourceEvaluate(this.unit_vertex_main, version, api, output);
+
+    return new JCGPGeneratedSource<JCGLShaderKindVertex>(
+      output,
+      version,
+      api,
+      JCGLShaderType.JCGL_VERTEX_SHADER);
   }
 
   @Override public boolean generatorIsDebugging()

@@ -30,22 +30,6 @@ import com.io7m.jcanephora.JCGLSLVersionNumber;
 
 public class JCGPURISourceTest
 {
-  @SuppressWarnings("static-method") @Test public void testChanged()
-    throws ConstraintError,
-      Exception
-  {
-    final File td = TestData.getTestDataDirectory();
-    final File ufile = new File(new File(td, "data"), "example.v");
-    final URI uri = ufile.toURI();
-
-    final JCGPURISource fs = new JCGPURISource(uri);
-    Assert.assertFalse(fs.sourceChanged());
-    fs.sourceAlwaysChanged(true);
-    Assert.assertTrue(fs.sourceChanged());
-    fs.sourceAlwaysChanged(false);
-    Assert.assertFalse(fs.sourceChanged());
-  }
-
   @SuppressWarnings("static-method") @Test public void testFileEvaluate()
     throws ConstraintError,
       Exception

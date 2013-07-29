@@ -38,42 +38,12 @@ import com.io7m.jaux.Constraints.ConstraintError;
 @Immutable public final class JCGPURISource implements JCGPSource
 {
   private final @Nonnull URI source;
-  private boolean            always;
 
   public JCGPURISource(
     final @Nonnull URI source)
     throws ConstraintError
   {
     this.source = Constraints.constrainNotNull(source, "URI");
-    this.always = false;
-  }
-
-  /**
-   * <p>
-   * Because there is obviously no protocol-independent way to know if data at
-   * a given URI has changed without fetching it, the programmer must simply
-   * assume that either the data has always changed, or the data has never
-   * changed. This method sets the return value of {@link #sourceChanged()}.
-   * </p>
-   * <p>
-   * Essentially,
-   * <code>∀b. s.sourceAlwaysChanged(b) => s.sourceChanged() == b</code>
-   * </p>
-   * <p>
-   * The default is not to check, as this may potentially be a very expensive
-   * and blocking operation.
-   * </p>
-   */
-
-  public void sourceAlwaysChanged(
-    final boolean always_changed)
-  {
-    this.always = always_changed;
-  }
-
-  @Override public boolean sourceChanged()
-  {
-    return this.always;
   }
 
   @Override public void sourceGet(

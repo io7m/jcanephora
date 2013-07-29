@@ -27,23 +27,6 @@ import com.io7m.jcanephora.JCGLSLVersionNumber;
 
 public class JCGPStringSourceTest
 {
-  @SuppressWarnings("static-method") @Test public void testChanged()
-    throws ConstraintError,
-      Exception
-  {
-    final JCGPStringSource fs = new JCGPStringSource("hello");
-    Assert.assertFalse(fs.sourceChanged());
-
-    final JCGPGeneratorContext context =
-      new JCGPGeneratorContext(
-        new JCGLSLVersionNumber(1, 0, 0),
-        JCGLApi.JCGL_ES);
-    final ArrayList<String> output = new ArrayList<String>();
-    fs.sourceGet(context, output);
-
-    Assert.assertFalse(fs.sourceChanged());
-  }
-
   @SuppressWarnings("static-method") @Test public void testFileEvaluate()
     throws ConstraintError,
       Exception
