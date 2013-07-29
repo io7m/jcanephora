@@ -53,6 +53,15 @@ import com.io7m.jvvfs.PathVirtual;
     this.path = Constraints.constrainNotNull(path, "Path");
   }
 
+  @Override public boolean sourceChangedSince(
+    final @Nonnull Calendar since)
+    throws Exception,
+      ConstraintError
+  {
+    final Calendar lm = this.filesystem.getModificationTime(this.path);
+    return lm.after(since);
+  }
+
   @Override public void sourceGet(
     final @Nonnull JCGPGeneratorContext context,
     final @Nonnull ArrayList<String> output)
@@ -78,14 +87,5 @@ import com.io7m.jvvfs.PathVirtual;
         reader.close();
       }
     }
-  }
-
-  @Override public boolean sourceChangedSince(
-    final @Nonnull Calendar since)
-    throws Exception,
-      ConstraintError
-  {
-    final Calendar lm = this.filesystem.getModificationTime(this.path);
-    return lm.after(since);
   }
 }

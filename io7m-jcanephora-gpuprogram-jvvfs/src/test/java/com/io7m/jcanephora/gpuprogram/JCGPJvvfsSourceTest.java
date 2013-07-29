@@ -17,7 +17,9 @@
 package com.io7m.jcanephora.gpuprogram;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Properties;
+import java.util.TimeZone;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,6 +35,39 @@ import com.io7m.jvvfs.PathVirtual;
 
 public class JCGPJvvfsSourceTest
 {
+  private static Log makeLog()
+  {
+    final Properties props = new Properties();
+    return new Log(props, "com.io7m.jcanephora.gpuprogram", "tests");
+  }
+
+  @SuppressWarnings("static-method") @Test public void testFileChanged()
+    throws ConstraintError,
+      Exception
+  {
+    final Filesystem fs =
+      Filesystem.makeWithoutArchiveDirectory(JCGPJvvfsSourceTest.makeLog());
+    fs.mountClasspathArchive(JCGPJvvfsSourceTest.class, PathVirtual.ROOT);
+
+    final PathVirtual path =
+      PathVirtual.ofString("/com/io7m/jcanephora/gpuprogram/jvvfs/example.v");
+
+    final JCGPJvvfsSource s = new JCGPJvvfsSource(fs, path);
+
+    final Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+    Assert.assertFalse(s.sourceChangedSince(c));
+
+    final JCGPGeneratorContext context =
+      new JCGPGeneratorContext(
+        new JCGLSLVersionNumber(1, 0, 0),
+        JCGLApi.JCGL_ES);
+    final ArrayList<String> output = new ArrayList<String>();
+    s.sourceGet(context, output);
+    Assert.assertFalse(s.sourceChangedSince(c));
+    fs.updateModificationTime(path, Calendar.getInstance());
+    Assert.assertTrue(s.sourceChangedSince(c));
+  }
+
   @SuppressWarnings("static-method") @Test public void testFileEvaluate()
     throws ConstraintError,
       Exception
@@ -59,12 +94,6 @@ public class JCGPJvvfsSourceTest
     Assert.assertEquals("  gl_Position = vec4(1, 2, 3, 1);", output.get(3));
     Assert.assertEquals("}", output.get(4));
     Assert.assertEquals(5, output.size());
-  }
-
-  private static Log makeLog()
-  {
-    final Properties props = new Properties();
-    return new Log(props, "com.io7m.jcanephora.gpuprogram", "tests");
   }
 
   @SuppressWarnings("static-method") @Test(expected = FilesystemError.class) public
@@ -94,4 +123,5 @@ public class JCGPJvvfsSourceTest
       throw e;
     }
   }
+
 }
