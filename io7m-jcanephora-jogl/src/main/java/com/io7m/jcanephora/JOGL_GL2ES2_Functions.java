@@ -374,7 +374,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull ProgramReference program,
+    final @Nonnull ProgramReferenceUsable program,
     final @Nonnull Map<String, ProgramAttribute> out)
     throws ConstraintError,
       JCGLException
@@ -481,7 +481,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull ProgramReference program,
+    final @Nonnull ProgramReferenceUsable program,
     final @Nonnull Map<String, ProgramUniform> out)
     throws ConstraintError,
       JCGLException
@@ -558,7 +558,7 @@ final class JOGL_GL2ES2_Functions
   static boolean programIsActive(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramReference program)
+    final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError,
       JCGLException
   {

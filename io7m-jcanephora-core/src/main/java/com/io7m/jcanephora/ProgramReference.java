@@ -27,7 +27,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  */
 
 @Immutable public final class ProgramReference extends JCGLResourceDeletable implements
-  JCGLName
+  ProgramReferenceUsable
 {
   private final int             id;
   private final @Nonnull String name;

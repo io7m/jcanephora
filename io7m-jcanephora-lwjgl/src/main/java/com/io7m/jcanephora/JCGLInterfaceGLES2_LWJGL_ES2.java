@@ -786,7 +786,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public void programActivate(
-    final @Nonnull ProgramReference program)
+    final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError,
       JCGLException
   {
@@ -798,9 +798,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       JCGLException
   {
-    return LWJGL_GLES2Functions.programCreate(
-
-    this.state, this.log, name);
+    return LWJGL_GLES2Functions.programCreate(this.state, this.log, name);
   }
 
   @Override public void programDeactivate()
@@ -814,49 +812,49 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       JCGLException
   {
-    LWJGL_GLES2Functions.programDelete(
-
-    this.state, this.log, program);
+    LWJGL_GLES2Functions.programDelete(this.state, this.log, program);
   }
 
   @Override public void programGetAttributes(
-    final @Nonnull ProgramReference program,
+    final @Nonnull ProgramReferenceUsable program,
     final @Nonnull Map<String, ProgramAttribute> out)
     throws ConstraintError,
       JCGLException
   {
     LWJGL_GLES2Functions.programGetAttributes(
-
-    this.state, this.log, program, out);
+      this.state,
+      this.log,
+      program,
+      out);
   }
 
   @Override public int programGetMaximumActiveAttributes()
     throws JCGLException
   {
     return LWJGL_GLES2Functions.programGetMaximumActiveAttributes(
-
-    this.state, this.log);
+      this.state,
+      this.log);
   }
 
   @Override public void programGetUniforms(
-    final @Nonnull ProgramReference program,
+    final @Nonnull ProgramReferenceUsable program,
     final @Nonnull Map<String, ProgramUniform> out)
     throws ConstraintError,
       JCGLException
   {
     LWJGL_GLES2Functions.programGetUniforms(
-
-    this.state, this.log, program, out);
+      this.state,
+      this.log,
+      program,
+      out);
   }
 
   @Override public boolean programIsActive(
-    final @Nonnull ProgramReference program)
+    final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError,
       JCGLException
   {
-    return LWJGL_GLES2Functions.programIsActive(
-
-    this.state, program);
+    return LWJGL_GLES2Functions.programIsActive(this.state, program);
   }
 
   @Override public void programLink(
@@ -865,9 +863,7 @@ import com.io7m.jtensors.VectorReadable4F;
       JCGLCompileException,
       JCGLException
   {
-    LWJGL_GLES2Functions.programLink(
-
-    this.state, this.log, program);
+    LWJGL_GLES2Functions.programLink(this.state, this.log, program);
   }
 
   @Override public void programPutUniformFloat(
@@ -876,9 +872,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       JCGLException
   {
-    LWJGL_GLES2Functions.programPutUniformFloat(
-
-    this.state, uniform, value);
+    LWJGL_GLES2Functions.programPutUniformFloat(this.state, uniform, value);
   }
 
   @Override public void programPutUniformMatrix3x3f(
@@ -888,8 +882,9 @@ import com.io7m.jtensors.VectorReadable4F;
       JCGLException
   {
     LWJGL_GLES2Functions.programPutUniformMatrix3x3f(
-
-    this.state, uniform, matrix);
+      this.state,
+      uniform,
+      matrix);
   }
 
   @Override public void programPutUniformMatrix4x4f(

@@ -1489,7 +1489,7 @@ final class LWJGL_GLES2Functions
   }
 
   static void programActivate(
-    final @Nonnull ProgramReference program)
+    final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError,
       JCGLException
   {
@@ -1571,7 +1571,7 @@ final class LWJGL_GLES2Functions
   static void programGetAttributes(
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull ProgramReference program,
+    final @Nonnull ProgramReferenceUsable program,
     final @Nonnull Map<String, ProgramAttribute> out)
     throws ConstraintError,
       JCGLException
@@ -1666,10 +1666,9 @@ final class LWJGL_GLES2Functions
   }
 
   static void programGetUniforms(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull ProgramReference program,
+    final @Nonnull ProgramReferenceUsable program,
     final @Nonnull Map<String, ProgramUniform> out)
     throws ConstraintError,
       JCGLException
@@ -1737,9 +1736,8 @@ final class LWJGL_GLES2Functions
   }
 
   static boolean programIsActive(
-
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramReference program)
+    final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError,
       JCGLException
   {
@@ -1755,7 +1753,6 @@ final class LWJGL_GLES2Functions
   }
 
   static void programLink(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull ProgramReference program)
@@ -1798,7 +1795,6 @@ final class LWJGL_GLES2Functions
   }
 
   static void programPutUniformFloat(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final float value)
@@ -1818,7 +1814,6 @@ final class LWJGL_GLES2Functions
   }
 
   static void programPutUniformMatrix3x3f(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixReadable3x3F matrix)
@@ -1842,7 +1837,6 @@ final class LWJGL_GLES2Functions
   }
 
   static void programPutUniformMatrix4x4f(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixReadable4x4F matrix)
@@ -1886,7 +1880,6 @@ final class LWJGL_GLES2Functions
   }
 
   static void programPutUniformVector2f(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable2F vector)
@@ -1907,7 +1900,6 @@ final class LWJGL_GLES2Functions
   }
 
   static void programPutUniformVector2i(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable2I vector)
@@ -1928,7 +1920,6 @@ final class LWJGL_GLES2Functions
   }
 
   static void programPutUniformVector3f(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable3F vector)
@@ -1953,7 +1944,6 @@ final class LWJGL_GLES2Functions
   }
 
   static void programPutUniformVector4f(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4F vector)

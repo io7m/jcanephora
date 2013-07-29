@@ -868,7 +868,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public void programActivate(
-    final @Nonnull ProgramReference program)
+    final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError,
       JCGLException
   {
@@ -914,7 +914,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public void programGetAttributes(
-    final @Nonnull ProgramReference program,
+    final @Nonnull ProgramReferenceUsable program,
     final @Nonnull Map<String, ProgramAttribute> out)
     throws ConstraintError,
       JCGLException
@@ -937,7 +937,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public void programGetUniforms(
-    final @Nonnull ProgramReference program,
+    final @Nonnull ProgramReferenceUsable program,
     final @Nonnull Map<String, ProgramUniform> out)
     throws ConstraintError,
       JCGLException
@@ -951,7 +951,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public boolean programIsActive(
-    final @Nonnull ProgramReference program)
+    final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError,
       JCGLException
   {
