@@ -272,7 +272,7 @@ public final class Program extends JCGLResourceDeletable implements
               if (line == null) {
                 break;
               }
-              lines.add(line);
+              lines.add(line + "\n");
             }
 
             final VertexShader new_shader =
@@ -318,7 +318,7 @@ public final class Program extends JCGLResourceDeletable implements
               if (line == null) {
                 break;
               }
-              lines.add(line);
+              lines.add(line + "\n");
             }
 
             final FragmentShader new_shader =
