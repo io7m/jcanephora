@@ -16,9 +16,14 @@
 
 package com.io7m.jcanephora.gpuprogram;
 
+import java.util.ArrayList;
+
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.JCGLApi;
+import com.io7m.jcanephora.JCGLCompileException;
+import com.io7m.jcanephora.JCGLSLVersionNumber;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 
 /**
@@ -29,6 +34,76 @@ import com.io7m.jcanephora.JCGLUnsupportedException;
 
 public interface JCGPCompilationInterface
 {
+  /**
+   * <p>
+   * Generate GLSL source code for a fragment shader, compatible with version
+   * <tt>version</tt> and API <tt>api</tt>, writing the lines of output to
+   * <tt>output</tt>.
+   * </p>
+   * 
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li>
+   *           <code>version == null || api == null || output == null</code></li>
+   *           </ul>
+   * @throws JCGLCompileException
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li>An I/O error occurs whilst evaluating a unit.</li>
+   *           <li>No unit provided a main function for the fragment shader.</li>
+   *           <li>Two or more units imported each other in a manner that was
+   *           cyclic.</li>
+   *           <li>At least one unit imported a nonexistent unit.</li>
+   *           </ul>
+   * @throws JCGLUnsupportedException
+   *           Iff the compilation cannot produce GLSL code for the requested
+   *           version.
+   */
+
+  public void compilationGenerateFragmentShader(
+    final @Nonnull JCGLSLVersionNumber version,
+    final @Nonnull JCGLApi api,
+    final @Nonnull ArrayList<String> output)
+    throws JCGLCompileException,
+      ConstraintError,
+      JCGLUnsupportedException;
+
+  /**
+   * <p>
+   * Generate GLSL source code for a vertex shader, compatible with version
+   * <tt>version</tt> and API <tt>api</tt>, writing the lines of output to
+   * <tt>output</tt>.
+   * </p>
+   * 
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li>
+   *           <code>version == null || api == null || output == null</code></li>
+   *           </ul>
+   * @throws JCGLCompileException
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li>An I/O error occurs whilst evaluating a unit.</li>
+   *           <li>No unit provided a main function for the vertex shader.</li>
+   *           <li>Two or more units imported each other in a manner that was
+   *           cyclic.</li>
+   *           <li>At least one unit imported a nonexistent unit.</li>
+   *           </ul>
+   * @throws JCGLUnsupportedException
+   *           Iff the compilation cannot produce GLSL code for the requested
+   *           version.
+   */
+
+  public void compilationGenerateVertexShader(
+    final @Nonnull JCGLSLVersionNumber version,
+    final @Nonnull JCGLApi api,
+    final @Nonnull ArrayList<String> output)
+    throws JCGLCompileException,
+      ConstraintError,
+      JCGLUnsupportedException;
+
   /**
    * <p>
    * Return <tt>true</tt> if debugging is currently enabled.
@@ -84,5 +159,4 @@ public interface JCGPCompilationInterface
   public void compilationUnitRemove(
     final @Nonnull String unit)
     throws ConstraintError;
-
 }
