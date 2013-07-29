@@ -75,7 +75,7 @@ public abstract class ProgramContract implements TestContract
       if (line == null) {
         break;
       }
-      lines.add(line);
+      lines.add(line + "\n");
     }
     reader.close();
     return lines;

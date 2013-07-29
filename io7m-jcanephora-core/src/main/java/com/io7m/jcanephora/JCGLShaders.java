@@ -62,8 +62,9 @@ public interface JCGLShaders
 
   /**
    * Read a GLSL fragment shader from the lines of GLSL source code given in
-   * <code>lines</code>. The program will be named <code>name</code> in any
-   * error messages.
+   * <code>lines</code>. Each line must be terminated with an end-of-line
+   * terminator (GLSL accepts both LF and CRLF as EOL tokens). The program
+   * will be named <code>name</code> in any error messages.
    * 
    * @param name
    *          The name of the program.
@@ -530,8 +531,9 @@ public interface JCGLShaders
 
   /**
    * Read a GLSL vertex shader from the lines of GLSL source code given in
-   * <code>lines</code>. The program will be named <code>name</code> in any
-   * error messages.
+   * <code>lines</code>. Each line must be terminated with an end-of-line
+   * terminator (GLSL accepts both LF and CRLF as EOL tokens). The program
+   * will be named <code>name</code> in any error messages.
    * 
    * @param name
    *          The name of the program.

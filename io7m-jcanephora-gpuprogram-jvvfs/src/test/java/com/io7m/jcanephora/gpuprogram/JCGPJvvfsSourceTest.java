@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.gpuprogram;
 
 import java.util.ArrayList;
+import java.util.Properties;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,6 +25,7 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.JCGLApi;
 import com.io7m.jcanephora.JCGLSLVersionNumber;
+import com.io7m.jlog.Log;
 import com.io7m.jvvfs.Filesystem;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.FilesystemError.Code;
@@ -36,13 +38,14 @@ public class JCGPJvvfsSourceTest
       Exception
   {
     final Filesystem fs =
-      Filesystem.makeWithoutArchiveDirectory(TestData.getLog());
-    fs.mountClasspathArchive(JCGPSource.class, PathVirtual.ROOT);
+      Filesystem.makeWithoutArchiveDirectory(JCGPJvvfsSourceTest.makeLog());
+    fs.mountClasspathArchive(JCGPJvvfsSourceTest.class, PathVirtual.ROOT);
 
     final JCGPJvvfsSource s =
       new JCGPJvvfsSource(
         fs,
-        PathVirtual.ofString("/com/io7m/jcanephora/gpuprogram/example.v"));
+        PathVirtual
+          .ofString("/com/io7m/jcanephora/gpuprogram/jvvfs/example.v"));
     final JCGPCompilationContext context =
       new JCGPCompilationContext(
         new JCGLSLVersionNumber(1, 0, 0),
@@ -58,6 +61,12 @@ public class JCGPJvvfsSourceTest
     Assert.assertEquals(5, output.size());
   }
 
+  private static Log makeLog()
+  {
+    final Properties props = new Properties();
+    return new Log(props, "com.io7m.jcanephora.gpuprogram", "tests");
+  }
+
   @SuppressWarnings("static-method") @Test(expected = FilesystemError.class) public
     void
     testFileNonexistent()
@@ -66,8 +75,8 @@ public class JCGPJvvfsSourceTest
   {
     try {
       final Filesystem fs =
-        Filesystem.makeWithoutArchiveDirectory(TestData.getLog());
-      fs.mountClasspathArchive(JCGPSource.class, PathVirtual.ROOT);
+        Filesystem.makeWithoutArchiveDirectory(JCGPJvvfsSourceTest.makeLog());
+      fs.mountClasspathArchive(JCGPJvvfsSourceTest.class, PathVirtual.ROOT);
 
       final JCGPJvvfsSource s =
         new JCGPJvvfsSource(
