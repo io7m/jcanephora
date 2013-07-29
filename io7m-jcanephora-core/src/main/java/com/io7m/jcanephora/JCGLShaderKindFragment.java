@@ -14,23 +14,13 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.gpuprogram;
+package com.io7m.jcanephora;
 
-import java.util.ArrayList;
+/**
+ * A reflection of the {@link JCGLShaderType} values at the type-level.
+ */
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
-
-public interface JCGPSource
+public interface JCGLShaderKindFragment extends JCGLShaderKind
 {
-  /**
-   * Retrieve the current contents of this source.
-   */
-
-  public void sourceGet(
-    final @Nonnull JCGPGeneratorContext context,
-    final @Nonnull ArrayList<String> output)
-    throws Exception,
-      ConstraintError;
+  // No value-level representation.
 }

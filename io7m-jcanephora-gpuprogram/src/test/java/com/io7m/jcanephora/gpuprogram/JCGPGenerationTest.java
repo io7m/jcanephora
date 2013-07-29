@@ -19,7 +19,9 @@ package com.io7m.jcanephora.gpuprogram;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -29,6 +31,9 @@ import com.io7m.jcanephora.JCGLApiKindES;
 import com.io7m.jcanephora.JCGLApiKindFull;
 import com.io7m.jcanephora.JCGLCompileException;
 import com.io7m.jcanephora.JCGLSLVersionNumber;
+import com.io7m.jcanephora.JCGLShaderKindFragment;
+import com.io7m.jcanephora.JCGLShaderKindVertex;
+import com.io7m.jcanephora.JCGLShaderType;
 import com.io7m.jcanephora.JCGLType;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.gpuprogram.JCGPUnit.JCGPUnitVertexShader;
@@ -105,12 +110,17 @@ public class JCGPGenerationTest
     cp.generatorUnitAdd(u1);
     cp.generatorUnitAdd(u2);
 
-    final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
 
     cp.generatorSetDebugging(true);
-    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES, output);
+    final JCGPGeneratedSource<JCGLShaderKindFragment> r =
+      cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES);
 
+    Assert.assertEquals(version, r.getVersion());
+    Assert.assertEquals(JCGLApi.JCGL_ES, r.getApi());
+    Assert.assertEquals(JCGLShaderType.JCGL_FRAGMENT_SHADER, r.getType());
+
+    final List<String> output = r.getLines();
     for (final String line : output) {
       System.out.println(line);
     }
@@ -170,7 +180,7 @@ public class JCGPGenerationTest
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
-    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES);
   }
 
   /**
@@ -219,7 +229,7 @@ public class JCGPGenerationTest
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
-    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES);
   }
 
   /**
@@ -274,7 +284,7 @@ public class JCGPGenerationTest
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
-    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES);
   }
 
   /**
@@ -308,7 +318,7 @@ public class JCGPGenerationTest
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
-    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES);
   }
 
   /**
@@ -340,44 +350,8 @@ public class JCGPGenerationTest
         version_es);
 
     final ArrayList<String> output = new ArrayList<String>();
-    cp.generatorGenerateFragmentShader(
-      new JCGLSLVersionNumber(0, 0, 0),
-      null,
-      output);
-  }
-
-  /**
-   * Generating fragment shaders with a null output fails.
-   */
-
-  @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
-    void
-    testGenerateFragmentShaderSourceNullOutput()
-      throws ConstraintError,
-        IOException,
-        JCGLCompileException,
-        JCGLUnsupportedException
-  {
-    final JCGPVersionRange<JCGLApiKindES> version_es =
-      new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
-    final JCGPVersionRange<JCGLApiKindFull> version_full =
-      new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
-
-    final JCGPGenerator cp =
-      JCGPGenerator.newProgramFullAndES(
-        TestData.getLog(),
-        "name",
-        version_full,
-        version_es);
-
-    cp.generatorGenerateFragmentShader(
-      new JCGLSLVersionNumber(0, 0, 0),
-      JCGLApi.JCGL_ES,
-      null);
+    cp
+      .generatorGenerateFragmentShader(new JCGLSLVersionNumber(0, 0, 0), null);
   }
 
   /**
@@ -409,7 +383,7 @@ public class JCGPGenerationTest
         version_es);
 
     final ArrayList<String> output = new ArrayList<String>();
-    cp.generatorGenerateFragmentShader(null, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateFragmentShader(null, JCGLApi.JCGL_ES);
   }
 
   /**
@@ -453,7 +427,7 @@ public class JCGPGenerationTest
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(3, 0, 0);
-    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES);
   }
 
   /**
@@ -546,12 +520,17 @@ public class JCGPGenerationTest
     cp.generatorUnitAdd(u1);
     cp.generatorUnitAdd(u2);
 
-    final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(3, 30, 0);
 
     cp.generatorSetDebugging(true);
-    cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_FULL, output);
+    final JCGPGeneratedSource<JCGLShaderKindVertex> r =
+      cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_FULL);
 
+    Assert.assertEquals(version, r.getVersion());
+    Assert.assertEquals(JCGLApi.JCGL_FULL, r.getApi());
+    Assert.assertEquals(JCGLShaderType.JCGL_VERTEX_SHADER, r.getType());
+
+    final List<String> output = r.getLines();
     for (final String line : output) {
       System.out.println(line);
     }
@@ -611,7 +590,7 @@ public class JCGPGenerationTest
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
-    cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES);
   }
 
   /**
@@ -660,7 +639,7 @@ public class JCGPGenerationTest
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
-    cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES);
   }
 
   /**
@@ -715,7 +694,7 @@ public class JCGPGenerationTest
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
-    cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES);
   }
 
   /**
@@ -749,7 +728,7 @@ public class JCGPGenerationTest
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
-    cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES);
   }
 
   /**
@@ -781,44 +760,7 @@ public class JCGPGenerationTest
         version_es);
 
     final ArrayList<String> output = new ArrayList<String>();
-    cp.generatorGenerateVertexShader(
-      new JCGLSLVersionNumber(0, 0, 0),
-      null,
-      output);
-  }
-
-  /**
-   * Generating vertex shaders with a null output fails.
-   */
-
-  @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
-    void
-    testGenerateVertexShaderSourceNullOutput()
-      throws ConstraintError,
-        IOException,
-        JCGLCompileException,
-        JCGLUnsupportedException
-  {
-    final JCGPVersionRange<JCGLApiKindES> version_es =
-      new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
-    final JCGPVersionRange<JCGLApiKindFull> version_full =
-      new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
-
-    final JCGPGenerator cp =
-      JCGPGenerator.newProgramFullAndES(
-        TestData.getLog(),
-        "name",
-        version_full,
-        version_es);
-
-    cp.generatorGenerateVertexShader(
-      new JCGLSLVersionNumber(0, 0, 0),
-      JCGLApi.JCGL_ES,
-      null);
+    cp.generatorGenerateVertexShader(new JCGLSLVersionNumber(0, 0, 0), null);
   }
 
   /**
@@ -850,7 +792,7 @@ public class JCGPGenerationTest
         version_es);
 
     final ArrayList<String> output = new ArrayList<String>();
-    cp.generatorGenerateVertexShader(null, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateVertexShader(null, JCGLApi.JCGL_ES);
   }
 
   /**
@@ -894,7 +836,7 @@ public class JCGPGenerationTest
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(3, 0, 0);
-    cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES);
   }
 
   /**
