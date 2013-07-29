@@ -16,7 +16,6 @@
 
 package com.io7m.jcanephora;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.List;
@@ -603,7 +602,6 @@ import com.io7m.jtensors.VectorReadable4F;
     final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
-      IOException,
       JCGLException
   {
     return JOGL_GL2ES2_Functions.fragmentShaderCompile(this.context
@@ -1913,7 +1911,6 @@ import com.io7m.jtensors.VectorReadable4F;
     final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
-      IOException,
       JCGLException
   {
     return JOGL_GL2ES2_Functions.vertexShaderCompile(this.context

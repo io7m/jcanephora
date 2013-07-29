@@ -16,7 +16,6 @@
 
 package com.io7m.jcanephora;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -80,8 +79,6 @@ public interface JCGLShaders
    *           </ul>
    * @throws JCGLCompileException
    *           Iff a compilation error occurs.
-   * @throws IOException
-   *           Iff an i/o error occurs whilst reading the stream.
    * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
@@ -91,7 +88,6 @@ public interface JCGLShaders
     final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
-      IOException,
       JCGLException;
 
   /**
@@ -549,8 +545,6 @@ public interface JCGLShaders
    *           </ul>
    * @throws JCGLCompileException
    *           Iff a compilation error occurs.
-   * @throws IOException
-   *           Iff an i/o error occurs whilst reading the stream.
    * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
@@ -560,7 +554,6 @@ public interface JCGLShaders
     final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
-      IOException,
       JCGLException;
 
   /**
