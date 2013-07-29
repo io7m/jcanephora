@@ -16,10 +16,14 @@
 
 package com.io7m.jcanephora.gpuprogram;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -428,6 +432,59 @@ public class JCGPGenerationTest
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(3, 0, 0);
     cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES);
+  }
+
+  /**
+   * When units are modified, the generator knows.
+   */
+
+  @SuppressWarnings("static-method") @Test public
+    void
+    testGenerateUpdatedUnits()
+      throws ConstraintError,
+        IOException,
+        JCGLCompileException,
+        JCGLUnsupportedException
+  {
+    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 10, 0);
+    final JCGPVersionRange<JCGLApiKindES> version_es =
+      new JCGPVersionRange<JCGLApiKindES>(
+        new JCGLSLVersionNumber(0, 0, 0),
+        version);
+    final JCGPVersionRange<JCGLApiKindFull> version_full =
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLSLVersionNumber(0, 0, 0),
+        version);
+
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
+        TestData.getLog(),
+        "name",
+        version_full,
+        version_es);
+
+    final File td = TestData.getTestDataDirectory();
+    final File file = new File(new File(td, "data"), "example.v");
+
+    final JCGPUnit.JCGPUnitFragmentShader u0 =
+      JCGPUnit.makeFragmentShader(
+        "unit0",
+        new JCGPFileSource(file),
+        new LinkedList<String>(),
+        version_es,
+        version_full);
+
+    cp.generatorUnitAdd(u0);
+    cp.generatorSetDebugging(true);
+    Assert.assertFalse(cp.generatorUnitsUpdated());
+    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES);
+    Assert.assertFalse(cp.generatorUnitsUpdated());
+
+    file.setLastModified(Calendar
+      .getInstance(TimeZone.getTimeZone("UTC"))
+      .getTimeInMillis()
+      + TimeUnit.MILLISECONDS.convert(10, TimeUnit.SECONDS));
+    Assert.assertTrue(cp.generatorUnitsUpdated());
   }
 
   /**
@@ -1575,5 +1632,4 @@ public class JCGPGenerationTest
     cp.generatorUnitRemove(u0.getName());
     cp.generatorUnitAdd(u0);
   }
-
 }
