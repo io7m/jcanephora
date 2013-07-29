@@ -504,26 +504,19 @@ public interface JCGLShaders
       JCGLException;
 
   /**
-   * Read a GLSL vertex shader from the lines of GLSL source code given in
-   * <code>lines</code>. The program will be named <code>name</code> in any
-   * error messages.
+   * Attach the vertex shader <code>shader</code> to the program referenced by
+   * <code>program</code>.
    * 
-   * @param name
-   *          The name of the program.
-   * @param lines
-   *          A list of lines of GLSL source code.
-   * @return A reference to the compiled vertex shader.
+   * @param program
+   *          The target program.
+   * @param shader
+   *          The vertex shader.
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>lines == null</code></li>
-   *           <li><code>∃n. lines.get(n) == null</code></li>
+   *           <li><code>program == null</code></li>
+   *           <li><code>shader == null</code></li>
    *           </ul>
-   * @throws JCGLCompileException
-   *           Iff a compilation error occurs.
-   * @throws IOException
-   *           Iff an i/o error occurs whilst reading the stream.
    * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
