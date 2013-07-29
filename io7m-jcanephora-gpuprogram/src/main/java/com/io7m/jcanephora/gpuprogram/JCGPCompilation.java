@@ -335,6 +335,64 @@ import com.io7m.jlog.Log;
     unit.evaluate(context, output);
   }
 
+  @Override public void compilationGenerateFragmentShader(
+    final @Nonnull JCGLSLVersionNumber version,
+    final @Nonnull JCGLApi api,
+    final @Nonnull ArrayList<String> output)
+    throws JCGLCompileException,
+      ConstraintError,
+      JCGLUnsupportedException
+  {
+    Constraints.constrainNotNull(version, "Version");
+    Constraints.constrainNotNull(api, "API");
+    Constraints.constrainNotNull(output, "Output");
+
+    if (this.unit_fragment_main == null) {
+      throw new JCGLCompileException(
+        "<none>",
+        "No unit provided a main function for the fragment shader.");
+    }
+
+    this.compilationCheckVersion(version, api);
+    this.compilationCheckImports(this.unit_fragment_main);
+
+    if (this.debugging) {
+      output.add("// main: " + this.unit_fragment_main.getName());
+    }
+
+    JCGPCompilation.compilationGenerateVersion(version, api, output);
+    this.compilationEvaluate(this.unit_fragment_main, version, api, output);
+  }
+
+  @Override public void compilationGenerateVertexShader(
+    final @Nonnull JCGLSLVersionNumber version,
+    final @Nonnull JCGLApi api,
+    final @Nonnull ArrayList<String> output)
+    throws JCGLCompileException,
+      ConstraintError,
+      JCGLUnsupportedException
+  {
+    Constraints.constrainNotNull(version, "Version");
+    Constraints.constrainNotNull(api, "API");
+    Constraints.constrainNotNull(output, "Output");
+
+    if (this.unit_vertex_main == null) {
+      throw new JCGLCompileException(
+        "<none>",
+        "No unit provided a main function for the vertex shader.");
+    }
+
+    this.compilationCheckVersion(version, api);
+    this.compilationCheckImports(this.unit_vertex_main);
+
+    if (this.debugging) {
+      output.add("// main: " + this.unit_vertex_main.getName());
+    }
+
+    JCGPCompilation.compilationGenerateVersion(version, api, output);
+    this.compilationEvaluate(this.unit_vertex_main, version, api, output);
+  }
+
   @Override public boolean compilationIsDebugging()
   {
     return this.debugging;
@@ -446,64 +504,6 @@ import com.io7m.jlog.Log;
     if (this.units.containsKey(unit)) {
       this.units.remove(unit);
     }
-  }
-
-  void generateFragmentShaderSource(
-    final @Nonnull JCGLSLVersionNumber version,
-    final @Nonnull JCGLApi api,
-    final @Nonnull ArrayList<String> output)
-    throws JCGLCompileException,
-      ConstraintError,
-      JCGLUnsupportedException
-  {
-    Constraints.constrainNotNull(version, "Version");
-    Constraints.constrainNotNull(api, "API");
-    Constraints.constrainNotNull(output, "Output");
-
-    if (this.unit_fragment_main == null) {
-      throw new JCGLCompileException(
-        "<none>",
-        "No unit provided a main function for the fragment shader.");
-    }
-
-    this.compilationCheckVersion(version, api);
-    this.compilationCheckImports(this.unit_fragment_main);
-
-    if (this.debugging) {
-      output.add("// main: " + this.unit_fragment_main.getName());
-    }
-
-    JCGPCompilation.compilationGenerateVersion(version, api, output);
-    this.compilationEvaluate(this.unit_fragment_main, version, api, output);
-  }
-
-  void generateVertexShaderSource(
-    final @Nonnull JCGLSLVersionNumber version,
-    final @Nonnull JCGLApi api,
-    final @Nonnull ArrayList<String> output)
-    throws JCGLCompileException,
-      ConstraintError,
-      JCGLUnsupportedException
-  {
-    Constraints.constrainNotNull(version, "Version");
-    Constraints.constrainNotNull(api, "API");
-    Constraints.constrainNotNull(output, "Output");
-
-    if (this.unit_vertex_main == null) {
-      throw new JCGLCompileException(
-        "<none>",
-        "No unit provided a main function for the vertex shader.");
-    }
-
-    this.compilationCheckVersion(version, api);
-    this.compilationCheckImports(this.unit_vertex_main);
-
-    if (this.debugging) {
-      output.add("// main: " + this.unit_vertex_main.getName());
-    }
-
-    JCGPCompilation.compilationGenerateVersion(version, api, output);
-    this.compilationEvaluate(this.unit_vertex_main, version, api, output);
   }
 
   private void unitCheckTypes(
