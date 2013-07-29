@@ -16,13 +16,9 @@
 
 package com.io7m.jcanephora;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -226,14 +222,13 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull String name,
-    final @Nonnull InputStream stream)
+    final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
-      IOException,
       JCGLException
   {
     Constraints.constrainNotNull(name, "Shader name");
-    Constraints.constrainNotNull(stream, "input stream");
+    Constraints.constrainNotNull(lines, "Source lines");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -246,13 +241,11 @@ final class JOGL_GL2ES2_Functions
     final int id = gl.glCreateShader(GL2ES2.GL_FRAGMENT_SHADER);
     JOGL_GL_Functions.checkError(gl);
 
-    final ArrayList<Integer> lengths = new ArrayList<Integer>();
-    final ArrayList<String> lines = new ArrayList<String>();
-    JOGL_GL2ES2_Functions.shaderReadSource(stream, lines, lengths);
     final String[] line_array = new String[lines.size()];
     final IntBuffer line_lengths = Buffers.newDirectIntBuffer(lines.size());
-
     for (int index = 0; index < lines.size(); ++index) {
+      final String line = lines.get(index);
+      Constraints.constrainNotNull(line, "Source line");
       line_array[index] = lines.get(index);
       final int len = line_array[index].length();
       line_lengths.put(index, len);
@@ -813,27 +806,6 @@ final class JOGL_GL2ES2_Functions
     JOGL_GL_Functions.checkError(gl);
   }
 
-  private static final void shaderReadSource(
-    final @Nonnull InputStream stream,
-    final @Nonnull ArrayList<String> lines,
-    final @Nonnull ArrayList<Integer> lengths)
-    throws IOException
-  {
-    final BufferedReader reader =
-      new BufferedReader(new InputStreamReader(stream));
-
-    for (;;) {
-      final String line = reader.readLine();
-      if (line == null) {
-        break;
-      }
-      lines.add(line + "\n");
-      lengths.add(Integer.valueOf(line.length() + 1));
-    }
-
-    assert (lines.size() == lengths.size());
-  }
-
   static void stencilBufferFunction(
     final @Nonnull GL2ES2 gl,
     final @Nonnull FaceSelection faces,
@@ -933,14 +905,13 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull String name,
-    final @Nonnull InputStream stream)
+    final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
-      IOException,
       JCGLException
   {
     Constraints.constrainNotNull(name, "Shader name");
-    Constraints.constrainNotNull(stream, "input stream");
+    Constraints.constrainNotNull(lines, "Input lines");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -953,13 +924,11 @@ final class JOGL_GL2ES2_Functions
     final int id = gl.glCreateShader(GL2ES2.GL_VERTEX_SHADER);
     JOGL_GL_Functions.checkError(gl);
 
-    final ArrayList<Integer> lengths = new ArrayList<Integer>();
-    final ArrayList<String> lines = new ArrayList<String>();
-    JOGL_GL2ES2_Functions.shaderReadSource(stream, lines, lengths);
     final String[] line_array = new String[lines.size()];
     final IntBuffer line_lengths = Buffers.newDirectIntBuffer(lines.size());
-
     for (int index = 0; index < lines.size(); ++index) {
+      final String line = lines.get(index);
+      Constraints.constrainNotNull(line, "Source line");
       line_array[index] = lines.get(index);
       final int len = line_array[index].length();
       line_lengths.put(index, len);

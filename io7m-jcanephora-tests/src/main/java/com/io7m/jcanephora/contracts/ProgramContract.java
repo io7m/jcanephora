@@ -13,10 +13,15 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora.contracts;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
 import org.junit.Assert;
@@ -55,6 +60,27 @@ import com.io7m.jvvfs.PathVirtual;
 
 public abstract class ProgramContract implements TestContract
 {
+  static List<String> readLines(
+    final FSCapabilityAll filesystem,
+    final PathVirtual path)
+    throws FilesystemError,
+      ConstraintError,
+      IOException
+  {
+    final BufferedReader reader =
+      new BufferedReader(new InputStreamReader(filesystem.openFile(path)));
+    final ArrayList<String> lines = new ArrayList<String>();
+    for (;;) {
+      final String line = reader.readLine();
+      if (line == null) {
+        break;
+      }
+      lines.add(line);
+    }
+    reader.close();
+    return lines;
+  }
+
   private final static
     <G extends JCGLShaders & JCGLMeta>
     Program
@@ -81,12 +107,6 @@ public abstract class ProgramContract implements TestContract
 
   /**
    * Deleting a fragment shader twice fails.
-   * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
-   * @throws FilesystemError
-   * @throws IOException
-   * @throws JCGLCompileException
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -106,7 +126,9 @@ public abstract class ProgramContract implements TestContract
     final FragmentShader fr =
       gl.fragmentShaderCompile(
         "frag",
-        fs.openFile(tc.getShaderPath().appendName("simple.f")));
+        ProgramContract.readLines(
+          fs,
+          tc.getShaderPath().appendName("simple.f")));
 
     gl.fragmentShaderDelete(fr);
     gl.fragmentShaderDelete(fr);
@@ -142,9 +164,6 @@ public abstract class ProgramContract implements TestContract
 
   /**
    * Adding a nonexistent shader does not fail.
-   * 
-   * @throws JCGLUnsupportedException
-   * @throws JCGLException
    */
 
   @Test public final void testProgramAddFragmentShaderNonexistent()
@@ -160,9 +179,6 @@ public abstract class ProgramContract implements TestContract
 
   /**
    * Adding a shader causes the program to require compilation.
-   * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
    */
 
   @SuppressWarnings("boxing") @Test public final
@@ -215,8 +231,6 @@ public abstract class ProgramContract implements TestContract
   /**
    * Adding a shader twice does nothing.
    * 
-   * @throws JCGLUnsupportedException
-   * @throws JCGLException
    */
 
   @Test public final void testProgramAddFragmentShaderTwice()
@@ -234,8 +248,6 @@ public abstract class ProgramContract implements TestContract
   /**
    * Adding a nonexistent shader does not fail.
    * 
-   * @throws JCGLUnsupportedException
-   * @throws JCGLException
    */
 
   @Test public final void testProgramAddVertexShaderNonexistent()
@@ -253,8 +265,6 @@ public abstract class ProgramContract implements TestContract
    * Adding a shader to an uncompiled program preserves the compilation
    * requirement.
    * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
    */
 
   @SuppressWarnings("boxing") @Test public final
@@ -307,8 +317,6 @@ public abstract class ProgramContract implements TestContract
   /**
    * Adding a shader twice does nothing.
    * 
-   * @throws JCGLUnsupportedException
-   * @throws JCGLException
    */
 
   @Test public final void testProgramAddVertexShaderTwice()
@@ -355,9 +363,6 @@ public abstract class ProgramContract implements TestContract
   /**
    * Check that the number of available vertex attributes is sane.
    * 
-   * @throws ConstraintError
-   * @throws JCGLException
-   *           , GLUnsupportedException
    */
 
   @Test public final void testProgramAttributes()
@@ -403,8 +408,6 @@ public abstract class ProgramContract implements TestContract
   /**
    * A nonexistent shader causes a compilation error.
    * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
    */
 
   @Test(expected = JCGLCompileException.class) public final
@@ -437,10 +440,6 @@ public abstract class ProgramContract implements TestContract
   /**
    * Compiling an invalid fragment shader fails.
    * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
-   * @throws FilesystemError
-   * @throws JCGLCompileException
    */
 
   @Test(expected = JCGLCompileException.class) public final
@@ -449,7 +448,6 @@ public abstract class ProgramContract implements TestContract
       throws ConstraintError,
         JCGLException,
         JCGLUnsupportedException,
-        FilesystemError,
         JCGLCompileException
   {
     final TestContext tc = this.newTestContext();
@@ -466,10 +464,6 @@ public abstract class ProgramContract implements TestContract
   /**
    * Compiling an invalid vertex shader fails.
    * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
-   * @throws FilesystemError
-   * @throws JCGLCompileException
    */
 
   @Test(expected = JCGLCompileException.class) public final
@@ -478,7 +472,6 @@ public abstract class ProgramContract implements TestContract
       throws ConstraintError,
         JCGLException,
         JCGLUnsupportedException,
-        FilesystemError,
         JCGLCompileException
   {
     final TestContext tc = this.newTestContext();
@@ -496,8 +489,6 @@ public abstract class ProgramContract implements TestContract
    * Compiling a program without a fragment shader fails (in order to comply
    * with GLSL ES 1.0 restrictions).
    * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
    */
 
   @Test(expected = JCGLCompileException.class) public final
@@ -530,8 +521,6 @@ public abstract class ProgramContract implements TestContract
    * Compiling a program without a vertex shader fails (in order to comply
    * with GLSL ES 1.0 restrictions).
    * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
    */
 
   @Test(expected = JCGLCompileException.class) public final
@@ -586,8 +575,6 @@ public abstract class ProgramContract implements TestContract
   /**
    * A nonexistent shader causes a compilation error.
    * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
    */
 
   @Test(expected = JCGLCompileException.class) public final
@@ -637,8 +624,6 @@ public abstract class ProgramContract implements TestContract
   /**
    * New program requires compilation.
    * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
    */
 
   @SuppressWarnings("boxing") @Test public final
@@ -753,8 +738,6 @@ public abstract class ProgramContract implements TestContract
    * A change in modification time for a fragment shader requires
    * recompilation.
    * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
    */
 
   @Test public final void testProgramFragmentShaderTimeRequiresCompilation()
@@ -786,9 +769,6 @@ public abstract class ProgramContract implements TestContract
   /**
    * Linking a program with inconsistent varying parameters fails.
    * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
-   * @throws IOException
    */
 
   @Test(expected = JCGLCompileException.class) public final
@@ -797,8 +777,7 @@ public abstract class ProgramContract implements TestContract
       throws ConstraintError,
         JCGLCompileException,
         JCGLException,
-        JCGLUnsupportedException,
-        IOException
+        JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
@@ -812,11 +791,11 @@ public abstract class ProgramContract implements TestContract
       final VertexShader v =
         gl.vertexShaderCompile(
           "vertex",
-          fs.openFile(path.appendName("varying0.v")));
+          ProgramContract.readLines(fs, path.appendName("varying0.v")));
       final FragmentShader f =
         gl.fragmentShaderCompile(
           "frag",
-          fs.openFile(path.appendName("varying1.f")));
+          ProgramContract.readLines(fs, path.appendName("varying1.f")));
       gl.fragmentShaderAttach(pr, f);
       gl.vertexShaderAttach(pr, v);
     } catch (final Exception e) {
@@ -847,8 +826,6 @@ public abstract class ProgramContract implements TestContract
    * Retrieving an attribute for a program that's not yet compiled returns
    * null.
    * 
-   * @throws JCGLUnsupportedException
-   * @throws JCGLException
    */
 
   @Test public final void testProgramNotCompiledAttribute()
@@ -865,8 +842,6 @@ public abstract class ProgramContract implements TestContract
   /**
    * Retrieving the ID of a program that's not yet compiled returns null.
    * 
-   * @throws JCGLUnsupportedException
-   * @throws JCGLException
    */
 
   @Test public final void testProgramNotCompiledIDNull()
@@ -883,8 +858,6 @@ public abstract class ProgramContract implements TestContract
   /**
    * Retrieving a uniform for a program that's not yet compiled returns null.
    * 
-   * @throws JCGLUnsupportedException
-   * @throws JCGLException
    */
 
   @Test public final void testProgramNotCompiledUniform()
@@ -901,11 +874,6 @@ public abstract class ProgramContract implements TestContract
   /**
    * Adding a deleted fragment shader fails.
    * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
-   * @throws FilesystemError
-   * @throws IOException
-   * @throws JCGLCompileException
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -927,7 +895,7 @@ public abstract class ProgramContract implements TestContract
     final FragmentShader fr =
       gl.fragmentShaderCompile(
         "frag",
-        fs.openFile(path.appendName("simple.f")));
+        ProgramContract.readLines(fs, path.appendName("simple.f")));
 
     gl.fragmentShaderDelete(fr);
     gl.fragmentShaderAttach(pr, fr);
@@ -936,11 +904,6 @@ public abstract class ProgramContract implements TestContract
   /**
    * Adding a fragment shader to a deleted program fails.
    * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
-   * @throws FilesystemError
-   * @throws IOException
-   * @throws JCGLCompileException
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -962,7 +925,7 @@ public abstract class ProgramContract implements TestContract
     final FragmentShader fr =
       gl.fragmentShaderCompile(
         "frag",
-        fs.openFile(path.appendName("simple.f")));
+        ProgramContract.readLines(fs, path.appendName("simple.f")));
 
     gl.fragmentShaderDelete(fr);
     gl.fragmentShaderAttach(pr, fr);
@@ -971,11 +934,6 @@ public abstract class ProgramContract implements TestContract
   /**
    * Adding a deleted vertex shader fails.
    * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
-   * @throws FilesystemError
-   * @throws IOException
-   * @throws JCGLCompileException
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -997,7 +955,7 @@ public abstract class ProgramContract implements TestContract
     final VertexShader vr =
       gl.vertexShaderCompile(
         "vertex",
-        fs.openFile(path.appendName("simple.v")));
+        ProgramContract.readLines(fs, path.appendName("simple.v")));
 
     gl.vertexShaderDelete(vr);
     gl.vertexShaderAttach(pr, vr);
@@ -1006,11 +964,6 @@ public abstract class ProgramContract implements TestContract
   /**
    * Adding a vertex shader to a deleted program fails.
    * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
-   * @throws FilesystemError
-   * @throws IOException
-   * @throws JCGLCompileException
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -1032,7 +985,7 @@ public abstract class ProgramContract implements TestContract
     final VertexShader vr =
       gl.vertexShaderCompile(
         "vertex",
-        fs.openFile(path.appendName("simple.v")));
+        ProgramContract.readLines(fs, path.appendName("simple.v")));
 
     gl.vertexShaderDelete(vr);
     gl.vertexShaderAttach(pr, vr);
@@ -1154,18 +1107,12 @@ public abstract class ProgramContract implements TestContract
   /**
    * Program uniforms work.
    * 
-   * @throws ConstraintError
-   * @throws JCGLException
-   *           , GLUnsupportedException
-   * @throws FilesystemError
-   * @throws JCGLCompileException
    */
 
   @Test public final void testProgramUniforms()
     throws JCGLException,
       JCGLUnsupportedException,
       ConstraintError,
-      FilesystemError,
       JCGLCompileException
   {
     final TestContext tc = this.newTestContext();
@@ -1232,18 +1179,12 @@ public abstract class ProgramContract implements TestContract
   /**
    * Null program uniforms fail.
    * 
-   * @throws ConstraintError
-   * @throws JCGLException
-   *           , GLUnsupportedException
-   * @throws FilesystemError
-   * @throws JCGLCompileException
    */
 
   @Test public final void testProgramUniformsNullFails()
     throws JCGLException,
       JCGLUnsupportedException,
       ConstraintError,
-      FilesystemError,
       JCGLCompileException
   {
     final TestContext tc = this.newTestContext();
@@ -1520,9 +1461,6 @@ public abstract class ProgramContract implements TestContract
 
   /**
    * A change in modification time for a vertex shader requires recompilation.
-   * 
-   * @throws JCGLException
-   *           , GLUnsupportedException
    */
 
   @Test public final void testProgramVertexShaderTimeRequiresCompilation()
@@ -1612,7 +1550,7 @@ public abstract class ProgramContract implements TestContract
     final VertexShader vr =
       gl.vertexShaderCompile(
         "vertex",
-        fs.openFile(path.appendName("simple.v")));
+        ProgramContract.readLines(fs, path.appendName("simple.v")));
 
     gl.vertexShaderDelete(vr);
     gl.vertexShaderDelete(vr);

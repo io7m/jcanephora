@@ -17,8 +17,8 @@
 package com.io7m.jcanephora;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -598,7 +598,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public FragmentShader fragmentShaderCompile(
     final @Nonnull String name,
-    final @Nonnull InputStream stream)
+    final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
       IOException,
@@ -609,7 +609,7 @@ import com.io7m.jtensors.VectorReadable4F;
       this.state,
       this.log,
       name,
-      stream);
+      lines);
   }
 
   @Override public void fragmentShaderDelete(
@@ -2095,7 +2095,7 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public VertexShader vertexShaderCompile(
     final @Nonnull String name,
-    final @Nonnull InputStream stream)
+    final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
       IOException,
@@ -2106,7 +2106,7 @@ import com.io7m.jtensors.VectorReadable4F;
       this.state,
       this.log,
       name,
-      stream);
+      lines);
   }
 
   @Override public void vertexShaderDelete(
