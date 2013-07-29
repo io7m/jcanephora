@@ -17,9 +17,9 @@
 package com.io7m.jcanephora;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -547,15 +547,17 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public FragmentShader fragmentShaderCompile(
     final @Nonnull String name,
-    final @Nonnull InputStream stream)
+    final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
       IOException,
       JCGLException
   {
     return LWJGL_GLES2Functions.fragmentShaderCompile(
-
-    this.state, this.log, name, stream);
+      this.state,
+      this.log,
+      name,
+      lines);
   }
 
   @Override public void fragmentShaderDelete(
@@ -563,9 +565,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       JCGLException
   {
-    LWJGL_GLES2Functions.fragmentShaderDelete(
-
-    this.state, this.log, id);
+    LWJGL_GLES2Functions.fragmentShaderDelete(this.state, this.log, id);
   }
 
   @Override public @Nonnull FramebufferReference framebufferAllocate()
@@ -1740,15 +1740,17 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public VertexShader vertexShaderCompile(
     final @Nonnull String name,
-    final @Nonnull InputStream stream)
+    final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
       IOException,
       JCGLException
   {
     return LWJGL_GLES2Functions.vertexShaderCompile(
-
-    this.state, this.log, name, stream);
+      this.state,
+      this.log,
+      name,
+      lines);
   }
 
   @Override public void vertexShaderDelete(
@@ -1756,9 +1758,7 @@ import com.io7m.jtensors.VectorReadable4F;
     throws ConstraintError,
       JCGLException
   {
-    LWJGL_GLES2Functions.vertexShaderDelete(
-
-    this.state, this.log, id);
+    LWJGL_GLES2Functions.vertexShaderDelete(this.state, this.log, id);
   }
 
   @Override public void viewportSet(

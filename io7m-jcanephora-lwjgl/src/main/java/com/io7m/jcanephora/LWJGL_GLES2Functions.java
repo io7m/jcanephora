@@ -15,13 +15,9 @@
  */
 package com.io7m.jcanephora;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -767,18 +763,16 @@ final class LWJGL_GLES2Functions
   }
 
   static FragmentShader fragmentShaderCompile(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull String name,
-    final @Nonnull InputStream stream)
+    final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
-      IOException,
       JCGLException
   {
     Constraints.constrainNotNull(name, "Shader name");
-    Constraints.constrainNotNull(stream, "input stream");
+    Constraints.constrainNotNull(lines, "Input lines");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -791,13 +785,11 @@ final class LWJGL_GLES2Functions
     final int id = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
     LWJGL_GLES2Functions.checkError();
 
-    final ArrayList<Integer> lengths = new ArrayList<Integer>();
-    final ArrayList<String> lines = new ArrayList<String>();
-    LWJGL_GLES2Functions.shaderReadSource(stream, lines, lengths);
     final String[] line_array = new String[lines.size()];
-
     for (int index = 0; index < lines.size(); ++index) {
-      line_array[index] = lines.get(index);
+      final String line = lines.get(index);
+      Constraints.constrainNotNull(line, "Source line");
+      line_array[index] = line;
     }
 
     GL20.glShaderSource(id, line_array);
@@ -2107,29 +2099,7 @@ final class LWJGL_GLES2Functions
     return e;
   }
 
-  private static final void shaderReadSource(
-    final @Nonnull InputStream stream,
-    final @Nonnull ArrayList<String> lines,
-    final @Nonnull ArrayList<Integer> lengths)
-    throws IOException
-  {
-    final BufferedReader reader =
-      new BufferedReader(new InputStreamReader(stream));
-
-    for (;;) {
-      final String line = reader.readLine();
-      if (line == null) {
-        break;
-      }
-      lines.add(line + "\n");
-      lengths.add(Integer.valueOf(line.length() + 1));
-    }
-
-    assert (lines.size() == lengths.size());
-  }
-
   static void stencilBufferClear(
-
     final @Nonnull JCGLStateCache state,
     final int stencil)
     throws JCGLException,
@@ -2767,18 +2737,16 @@ final class LWJGL_GLES2Functions
   }
 
   static VertexShader vertexShaderCompile(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull String name,
-    final @Nonnull InputStream stream)
+    final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
-      IOException,
       JCGLException
   {
     Constraints.constrainNotNull(name, "Shader name");
-    Constraints.constrainNotNull(stream, "input stream");
+    Constraints.constrainNotNull(lines, "Input lines");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -2791,13 +2759,11 @@ final class LWJGL_GLES2Functions
     final int id = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);
     LWJGL_GLES2Functions.checkError();
 
-    final ArrayList<Integer> lengths = new ArrayList<Integer>();
-    final ArrayList<String> lines = new ArrayList<String>();
-    LWJGL_GLES2Functions.shaderReadSource(stream, lines, lengths);
     final String[] line_array = new String[lines.size()];
-
     for (int index = 0; index < lines.size(); ++index) {
-      line_array[index] = lines.get(index);
+      final String line = lines.get(index);
+      Constraints.constrainNotNull(line, "Source line");
+      line_array[index] = line;
     }
 
     GL20.glShaderSource(id, line_array);

@@ -16,9 +16,12 @@
 
 package com.io7m.jcanephora.contracts;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -53,6 +56,27 @@ import com.io7m.jvvfs.PathVirtual;
 
 public abstract class ArrayBufferContract implements TestContract
 {
+  static List<String> readLines(
+    final FSCapabilityAll filesystem,
+    final PathVirtual path)
+    throws FilesystemError,
+      ConstraintError,
+      IOException
+  {
+    final BufferedReader reader =
+      new BufferedReader(new InputStreamReader(filesystem.openFile(path)));
+    final ArrayList<String> lines = new ArrayList<String>();
+    for (;;) {
+      final String line = reader.readLine();
+      if (line == null) {
+        break;
+      }
+      lines.add(line);
+    }
+    reader.close();
+    return lines;
+  }
+
   static ProgramReference makeProgram(
     final JCGLShaders gl,
     final FSCapabilityAll filesystem,
@@ -67,16 +91,18 @@ public abstract class ArrayBufferContract implements TestContract
     final ProgramReference pr = gl.programCreate("program");
 
     if (vertex_shader != null) {
-      final InputStream vss = filesystem.openFile(vertex_shader);
-      final VertexShader vs = gl.vertexShaderCompile("vertex", vss);
-      vss.close();
+      final VertexShader vs =
+        gl.vertexShaderCompile(
+          "vertex",
+          ArrayBufferContract.readLines(filesystem, vertex_shader));
       gl.vertexShaderAttach(pr, vs);
     }
 
     if (fragment_shader != null) {
-      final InputStream fss = filesystem.openFile(fragment_shader);
-      final FragmentShader fs = gl.fragmentShaderCompile("fragment", fss);
-      fss.close();
+      final FragmentShader fs =
+        gl.fragmentShaderCompile(
+          "fragment",
+          ArrayBufferContract.readLines(filesystem, fragment_shader));
       gl.fragmentShaderAttach(pr, fs);
     }
 
