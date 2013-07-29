@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.gpuprogram;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -232,6 +233,15 @@ abstract class JCGPUnit
     {
       return Collections.unmodifiableMap(this.uniforms);
     }
+
+    @Override public boolean updatedSince(
+      final @Nonnull Calendar since)
+      throws ConstraintError,
+        Exception
+    {
+      Constraints.constrainNotNull(since, "Since");
+      return this.source.sourceChangedSince(since);
+    }
   }
 
   static final class JCGPUnitGeneric extends JCGPUnit
@@ -263,6 +273,15 @@ abstract class JCGPUnit
         output.add("// unit: " + this.getName());
       }
       this.source.sourceGet(context, output);
+    }
+
+    @Override public boolean updatedSince(
+      final @Nonnull Calendar since)
+      throws ConstraintError,
+        Exception
+    {
+      Constraints.constrainNotNull(since, "Since");
+      return this.source.sourceChangedSince(since);
     }
   }
 
@@ -453,6 +472,15 @@ abstract class JCGPUnit
     {
       return Collections.unmodifiableMap(this.uniforms);
     }
+
+    @Override public boolean updatedSince(
+      final @Nonnull Calendar since)
+      throws ConstraintError,
+        Exception
+    {
+      Constraints.constrainNotNull(since, "Since");
+      return this.source.sourceChangedSince(since);
+    }
   }
 
   static enum Type
@@ -532,11 +560,8 @@ abstract class JCGPUnit
   protected final @Nonnull String                               name;
   private final @Nonnull List<String>                           imports;
   private final @CheckForNull JCGPVersionRange<JCGLApiKindES>   versions_es;
-
   private final @CheckForNull JCGPVersionRange<JCGLApiKindFull> versions_full;
-
   private final @Nonnull Type                                   type;
-
   protected final @Nonnull JCGPSource                           source;
 
   private JCGPUnit(
@@ -604,4 +629,9 @@ abstract class JCGPUnit
   {
     return this.versions_full;
   }
+
+  public abstract boolean updatedSince(
+    final @Nonnull Calendar since)
+    throws ConstraintError,
+      Exception;
 }

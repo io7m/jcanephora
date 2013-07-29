@@ -43,6 +43,24 @@ public class JCGPVersionOutputTest
       JCGLApi.JCGL_FULL);
   }
 
+  @SuppressWarnings("static-method") @Test(
+    expected = JCGLUnsupportedException.class) public void testInvalid2()
+    throws JCGLUnsupportedException
+  {
+    JCGPVersionOutput.toGLSL(
+      new JCGLSLVersionNumber(3, 20, 0),
+      JCGLApi.JCGL_FULL);
+  }
+
+  @SuppressWarnings("static-method") @Test(
+    expected = JCGLUnsupportedException.class) public void testInvalid3()
+    throws JCGLUnsupportedException
+  {
+    JCGPVersionOutput.toGLSL(
+      new JCGLSLVersionNumber(4, 39, 0),
+      JCGLApi.JCGL_FULL);
+  }
+
   @SuppressWarnings("static-method") @Test public void testValidStrings()
     throws JCGLUnsupportedException
   {

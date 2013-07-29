@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.gpuprogram;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.annotation.Nonnull;
 
@@ -24,6 +25,15 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 public interface JCGPSource
 {
+  /**
+   * Return <tt>true</tt> if the source has changed since <tt>since</tt>.
+   */
+
+  public boolean sourceChangedSince(
+    final @Nonnull Calendar since)
+    throws Exception,
+      ConstraintError;
+
   /**
    * Retrieve the current contents of this source.
    */

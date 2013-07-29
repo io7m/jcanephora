@@ -21,6 +21,7 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
@@ -38,12 +39,44 @@ import com.io7m.jaux.Constraints.ConstraintError;
 @Immutable public final class JCGPURISource implements JCGPSource
 {
   private final @Nonnull URI source;
+  private boolean            always;
 
   public JCGPURISource(
     final @Nonnull URI source)
     throws ConstraintError
   {
     this.source = Constraints.constrainNotNull(source, "URI");
+    this.always = false;
+  }
+
+  /**
+   * <p>
+   * Because there is obviously no protocol-independent way to know if data at
+   * a given URI has changed without fetching it, the programmer must simply
+   * assume that either the data has always changed, or the data has never
+   * changed. The default is not to check, as this may potentially be a very
+   * expensive and blocking operation.
+   * </p>
+   * <p>
+   * This method sets the return value of {@link #sourceChanged()}.
+   * Essentially,
+   * <code>∀b t. s.sourceAlwaysChanged(b) => s.sourceChangedSince(t) == b</code>
+   * </p>
+   * <p>
+   * 
+   * </p>
+   */
+
+  public void sourceAlwaysChanged(
+    final boolean always_changed)
+  {
+    this.always = always_changed;
+  }
+
+  @Override public boolean sourceChangedSince(
+    final @Nonnull Calendar since)
+  {
+    return this.always;
   }
 
   @Override public void sourceGet(

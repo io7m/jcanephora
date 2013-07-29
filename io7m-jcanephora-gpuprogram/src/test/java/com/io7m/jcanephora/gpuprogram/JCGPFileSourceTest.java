@@ -19,6 +19,8 @@ package com.io7m.jcanephora.gpuprogram;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,6 +31,24 @@ import com.io7m.jcanephora.JCGLSLVersionNumber;
 
 public class JCGPFileSourceTest
 {
+  @SuppressWarnings("static-method") @Test public void testFileChanged()
+    throws ConstraintError,
+      Exception
+  {
+    final File td = TestData.getTestDataDirectory();
+    final File file = new File(new File(td, "data"), "example.v");
+    Assert.assertTrue(file.isFile());
+
+    final Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+    c.setTimeInMillis(10000);
+
+    final JCGPFileSource fs = new JCGPFileSource(file);
+    file.setLastModified(10000);
+    Assert.assertFalse(fs.sourceChangedSince(c));
+    file.setLastModified(20000);
+    Assert.assertTrue(fs.sourceChangedSince(c));
+  }
+
   @SuppressWarnings("static-method") @Test public void testFileEvaluate()
     throws ConstraintError,
       Exception

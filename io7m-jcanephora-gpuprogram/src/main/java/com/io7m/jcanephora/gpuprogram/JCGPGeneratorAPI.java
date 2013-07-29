@@ -165,7 +165,12 @@ public interface JCGPGeneratorAPI
    * asked to generate now (that is, at least one of the source units has been
    * modified in some way since the last generation).
    * </p>
+   * 
+   * @throws JCGLCompileException
+   *           Iff an error occurs during checking of units.
    */
 
-  public boolean generatorUnitsUpdated();
+  public boolean generatorUnitsUpdated()
+    throws ConstraintError,
+      JCGLCompileException;
 }

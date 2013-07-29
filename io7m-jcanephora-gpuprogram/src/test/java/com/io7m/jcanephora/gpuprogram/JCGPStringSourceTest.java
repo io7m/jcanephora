@@ -17,6 +17,8 @@
 package com.io7m.jcanephora.gpuprogram;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,6 +29,26 @@ import com.io7m.jcanephora.JCGLSLVersionNumber;
 
 public class JCGPStringSourceTest
 {
+  @SuppressWarnings("static-method") @Test public void testChanged()
+    throws ConstraintError,
+      Exception
+  {
+    final Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+    c.setTimeInMillis(10000);
+
+    final JCGPStringSource fs = new JCGPStringSource("hello");
+    Assert.assertFalse(fs.sourceChangedSince(c));
+
+    final JCGPGeneratorContext context =
+      new JCGPGeneratorContext(
+        new JCGLSLVersionNumber(1, 0, 0),
+        JCGLApi.JCGL_ES);
+    final ArrayList<String> output = new ArrayList<String>();
+    fs.sourceGet(context, output);
+
+    Assert.assertFalse(fs.sourceChangedSince(c));
+  }
+
   @SuppressWarnings("static-method") @Test public void testFileEvaluate()
     throws ConstraintError,
       Exception

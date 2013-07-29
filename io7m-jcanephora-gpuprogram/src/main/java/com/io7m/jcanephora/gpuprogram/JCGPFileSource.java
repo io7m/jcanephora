@@ -20,6 +20,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
@@ -44,6 +46,14 @@ import com.io7m.jaux.Constraints.ConstraintError;
     throws ConstraintError
   {
     this.source = Constraints.constrainNotNull(source, "File");
+  }
+
+  @Override public boolean sourceChangedSince(
+    final @Nonnull Calendar since)
+  {
+    final Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+    c.setTimeInMillis(this.source.lastModified());
+    return c.after(since);
   }
 
   @Override public void sourceGet(

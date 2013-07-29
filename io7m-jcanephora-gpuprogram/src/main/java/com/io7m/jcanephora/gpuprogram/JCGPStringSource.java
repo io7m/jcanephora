@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.gpuprogram;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
@@ -40,6 +41,12 @@ import com.io7m.jaux.Constraints.ConstraintError;
     throws ConstraintError
   {
     this.source = Constraints.constrainNotNull(source, "String");
+  }
+
+  @Override public boolean sourceChangedSince(
+    final @Nonnull Calendar since)
+  {
+    return false;
   }
 
   @Override public void sourceGet(
