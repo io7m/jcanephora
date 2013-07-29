@@ -330,15 +330,6 @@ public abstract class ArrayBufferContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
-
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_SHORT,
-          1) });
-    final ArrayBuffer a =
-      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
     gl.arrayBufferBindVertexAttribute(null, null);
   }
 
