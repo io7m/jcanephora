@@ -92,6 +92,12 @@ import com.io7m.jcanephora.VertexShader;
 
       return new JCGPProgram(p, uniforms, attributes);
     } finally {
+
+      /**
+       * Note that shaders can be deleted after being linked into a program,
+       * preventing any possibility of leaking them later.
+       */
+
       if (v != null) {
         gl.vertexShaderDelete(v);
       }
