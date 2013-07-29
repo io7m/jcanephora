@@ -116,7 +116,7 @@ public class JCGPGenerationTest
 
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
 
-    cp.generatorSetDebugging(true);
+    cp.generatorDebuggingEnable(true);
     final JCGPGeneratedSource<JCGLShaderKindFragment> r =
       cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES);
 
@@ -475,7 +475,7 @@ public class JCGPGenerationTest
         version_full);
 
     cp.generatorUnitAdd(u0);
-    cp.generatorSetDebugging(true);
+    cp.generatorDebuggingEnable(true);
     Assert.assertFalse(cp.generatorUnitsUpdated());
     cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES);
     Assert.assertFalse(cp.generatorUnitsUpdated());
@@ -579,7 +579,7 @@ public class JCGPGenerationTest
 
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(3, 30, 0);
 
-    cp.generatorSetDebugging(true);
+    cp.generatorDebuggingEnable(true);
     final JCGPGeneratedSource<JCGLShaderKindVertex> r =
       cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_FULL);
 
