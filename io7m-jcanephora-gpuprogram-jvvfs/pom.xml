@@ -8,7 +8,7 @@
   <artifactId>io7m-jcanephora-gpuprogram-jvvfs</artifactId>
   <name>io7m-jcanephora-gpuprogram-jvvfs</name>
   <description>High-level shading program API (Jvvfs integration)</description>
-  <version>0.9.8</version>
+  <version>0.9.9</version>
   <url>http://mvn.io7m.com/jcanephora-gpuprogram-jvvfs</url>
   <packaging>jar</packaging>
 

@@ -8,7 +8,7 @@
   <artifactId>io7m-jcanephora-gpuprogram</artifactId>
   <name>io7m-jcanephora-gpuprogram</name>
   <description>High-level shading program API</description>
-  <version>0.9.8</version>
+  <version>0.9.9</version>
   <url>http://mvn.io7m.com/jcanephora-gpuprogram</url>
   <packaging>jar</packaging>
 
