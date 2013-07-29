@@ -39,8 +39,7 @@ import com.io7m.jlog.Log;
 
 /**
  * <p>
- * A single compilation that will produce a shading language program as
- * output.
+ * A generator that will produce GLSL source as output.
  * </p>
  * <p>
  * Values of this type cannot be manipulated by multiple threads without
@@ -48,8 +47,7 @@ import com.io7m.jlog.Log;
  * </p>
  */
 
-@NotThreadSafe public final class JCGPCompilation implements
-  JCGPCompilationInterface
+@NotThreadSafe public final class JCGPGenerator implements JCGPGeneratorAPI
 {
   private static @Nonnull JCGLCompileException checkFailureImportCyclic(
     final @Nonnull JCGPUnit unit,
@@ -94,7 +92,7 @@ import com.io7m.jlog.Log;
     return new JCGLCompileException(import_name, message.toString());
   }
 
-  private static void compilationGenerateVersion(
+  private static void generatorGenerateVersion(
     final @Nonnull JCGLSLVersionNumber version,
     final @Nonnull JCGLApi api,
     final @Nonnull ArrayList<String> output)
@@ -104,7 +102,7 @@ import com.io7m.jlog.Log;
   }
 
   /**
-   * Construct a new empty compilation, that will produce a program called
+   * Construct a new empty generator, that will produce a program called
    * <tt>name</tt>, that will run on the range of OpenGL ES versions given by
    * <tt>v</tt>.
    * 
@@ -112,17 +110,17 @@ import com.io7m.jlog.Log;
    *           Iff <code>name == null || v == null</code>.
    */
 
-  public static @Nonnull JCGPCompilationInterface newProgramES(
+  public static @Nonnull JCGPGeneratorAPI newProgramES(
     final @Nonnull Log log,
     final @Nonnull String name,
     final @Nonnull JCGPVersionRange<JCGLApiKindES> v)
     throws ConstraintError
   {
-    return new JCGPCompilation(log, name, null, v);
+    return new JCGPGenerator(log, name, null, v);
   }
 
   /**
-   * Construct a new empty compilation, that will produce a program called
+   * Construct a new empty generator, that will produce a program called
    * <tt>name</tt>, that will will run on the range of desktop OpenGL versions
    * given by <tt>v</tt>.
    * 
@@ -130,17 +128,17 @@ import com.io7m.jlog.Log;
    *           Iff <code>name == null || v == null</code>.
    */
 
-  public static @Nonnull JCGPCompilationInterface newProgramFull(
+  public static @Nonnull JCGPGeneratorAPI newProgramFull(
     final @Nonnull Log log,
     final @Nonnull String name,
     final @Nonnull JCGPVersionRange<JCGLApiKindFull> v)
     throws ConstraintError
   {
-    return new JCGPCompilation(log, name, v, null);
+    return new JCGPGenerator(log, name, v, null);
   }
 
   /**
-   * Construct a new empty compilation, that will produce a program called
+   * Construct a new empty generator, that will produce a program called
    * <tt>name</tt>, that will will run on the range of OpenGL ES versions
    * given by <tt>v_es</tt> and the range of OpenGL desktop versions given by
    * <tt>v_full</tt>.
@@ -150,7 +148,7 @@ import com.io7m.jlog.Log;
    *           .
    */
 
-  public static @Nonnull JCGPCompilation newProgramFullAndES(
+  public static @Nonnull JCGPGenerator newProgramFullAndES(
     final @Nonnull Log log,
     final @Nonnull String name,
     final @Nonnull JCGPVersionRange<JCGLApiKindFull> v_full,
@@ -159,7 +157,7 @@ import com.io7m.jlog.Log;
   {
     Constraints.constrainNotNull(v_full, "Full version");
     Constraints.constrainNotNull(v_es, "ES version");
-    return new JCGPCompilation(log, name, v_full, v_es);
+    return new JCGPGenerator(log, name, v_full, v_es);
   }
 
   private static void unitShowSupports(
@@ -200,7 +198,7 @@ import com.io7m.jlog.Log;
   private final @Nonnull HashSet<String>                        cycle_cache;
   private boolean                                               debugging;
 
-  private JCGPCompilation(
+  private JCGPGenerator(
     final @Nonnull Log log,
     final @Nonnull String name,
     final @CheckForNull JCGPVersionRange<JCGLApiKindFull> v_full,
@@ -225,33 +223,32 @@ import com.io7m.jlog.Log;
    * Check for missing, cyclic, and/or duplicate imports.
    */
 
-  private void compilationCheckImports(
+  private void generatorCheckImports(
     final @Nonnull JCGPUnit unit)
     throws JCGLCompileException
   {
     this.cycle_cache.clear();
-    this.compilationCheckImportsActual(unit);
+    this.generatorCheckImportsActual(unit);
   }
 
-  private void compilationCheckImportsActual(
+  private void generatorCheckImportsActual(
     final @Nonnull JCGPUnit unit)
     throws JCGLCompileException
   {
     final List<String> imports = unit.getImports();
     for (final String import_name : imports) {
       if (this.cycle_cache.contains(import_name)) {
-        throw JCGPCompilation.checkFailureImportCyclic(unit, import_name);
+        throw JCGPGenerator.checkFailureImportCyclic(unit, import_name);
       }
       if (this.units.containsKey(import_name) == false) {
-        throw JCGPCompilation.checkFailureImportMissing(unit, import_name);
+        throw JCGPGenerator.checkFailureImportMissing(unit, import_name);
       }
 
       final JCGPUnit imported = this.units.get(import_name);
       switch (imported.getType()) {
         case UNIT_FRAGMENT_SHADER_MAIN:
         {
-          throw JCGPCompilation
-            .checkFailureImportedNonGeneric(unit, imported);
+          throw JCGPGenerator.checkFailureImportedNonGeneric(unit, imported);
         }
         case UNIT_GENERIC:
         {
@@ -259,18 +256,17 @@ import com.io7m.jlog.Log;
         }
         case UNIT_VERTEX_SHADER_MAIN:
         {
-          throw JCGPCompilation
-            .checkFailureImportedNonGeneric(unit, imported);
+          throw JCGPGenerator.checkFailureImportedNonGeneric(unit, imported);
         }
       }
 
       this.cycle_cache.add(import_name);
-      this.compilationCheckImportsActual(imported);
+      this.generatorCheckImportsActual(imported);
       this.cycle_cache.remove(import_name);
     }
   }
 
-  private void compilationCheckVersion(
+  private void generatorCheckVersion(
     final @Nonnull JCGLSLVersionNumber version,
     final @Nonnull JCGLApi api)
     throws JCGLUnsupportedException
@@ -281,61 +277,27 @@ import com.io7m.jlog.Log;
       case JCGL_ES:
       {
         if (this.v_es == null) {
-          this.compilationLacksVersionSupport(version, api, message);
+          this.generatorLacksVersionSupport(version, api, message);
         }
         if (this.v_es.includes(version) == false) {
-          this.compilationLacksVersionSupport(version, api, message);
+          this.generatorLacksVersionSupport(version, api, message);
         }
         break;
       }
       case JCGL_FULL:
       {
         if (this.v_full == null) {
-          this.compilationLacksVersionSupport(version, api, message);
+          this.generatorLacksVersionSupport(version, api, message);
         }
         if (this.v_full.includes(version) == false) {
-          this.compilationLacksVersionSupport(version, api, message);
+          this.generatorLacksVersionSupport(version, api, message);
         }
         break;
       }
     }
   }
 
-  private void compilationEvaluate(
-    final @Nonnull JCGPUnit unit,
-    final @Nonnull JCGLSLVersionNumber version,
-    final @Nonnull JCGLApi api,
-    final @Nonnull ArrayList<String> output)
-    throws ConstraintError,
-      JCGLCompileException
-  {
-    try {
-      final JCGPCompilationContext ctx =
-        new JCGPCompilationContext(version, api);
-      ctx.setDebugging(this.debugging);
-
-      this.compilationEvaluateActual(unit, ctx, output);
-    } catch (final Exception e) {
-      throw new JCGLCompileException(e, unit.getName(), e.getMessage());
-    }
-  }
-
-  private void compilationEvaluateActual(
-    final @Nonnull JCGPUnit unit,
-    final @Nonnull JCGPCompilationContext context,
-    final @Nonnull ArrayList<String> output)
-    throws ConstraintError,
-      Exception
-  {
-    for (final String import_name : unit.getImports()) {
-      final JCGPUnit imported = this.units.get(import_name);
-      this.compilationEvaluateActual(imported, context, output);
-    }
-
-    unit.evaluate(context, output);
-  }
-
-  @Override public void compilationGenerateFragmentShader(
+  @Override public void generatorGenerateFragmentShader(
     final @Nonnull JCGLSLVersionNumber version,
     final @Nonnull JCGLApi api,
     final @Nonnull ArrayList<String> output)
@@ -353,19 +315,23 @@ import com.io7m.jlog.Log;
         "No unit provided a main function for the fragment shader.");
     }
 
-    this.compilationCheckVersion(version, api);
+    this.generatorCheckVersion(version, api);
     assert this.unit_fragment_main != null;
-    this.compilationCheckImports(this.unit_fragment_main);
+    this.generatorCheckImports(this.unit_fragment_main);
 
     if (this.debugging) {
       output.add("// main: " + this.unit_fragment_main.getName());
     }
 
-    JCGPCompilation.compilationGenerateVersion(version, api, output);
-    this.compilationEvaluate(this.unit_fragment_main, version, api, output);
+    JCGPGenerator.generatorGenerateVersion(version, api, output);
+    this.generatorSourceEvaluate(
+      this.unit_fragment_main,
+      version,
+      api,
+      output);
   }
 
-  @Override public void compilationGenerateVertexShader(
+  @Override public void generatorGenerateVertexShader(
     final @Nonnull JCGLSLVersionNumber version,
     final @Nonnull JCGLApi api,
     final @Nonnull ArrayList<String> output)
@@ -383,24 +349,24 @@ import com.io7m.jlog.Log;
         "No unit provided a main function for the vertex shader.");
     }
 
-    this.compilationCheckVersion(version, api);
+    this.generatorCheckVersion(version, api);
     assert this.unit_vertex_main != null;
-    this.compilationCheckImports(this.unit_vertex_main);
+    this.generatorCheckImports(this.unit_vertex_main);
 
     if (this.debugging) {
       output.add("// main: " + this.unit_vertex_main.getName());
     }
 
-    JCGPCompilation.compilationGenerateVersion(version, api, output);
-    this.compilationEvaluate(this.unit_vertex_main, version, api, output);
+    JCGPGenerator.generatorGenerateVersion(version, api, output);
+    this.generatorSourceEvaluate(this.unit_vertex_main, version, api, output);
   }
 
-  @Override public boolean compilationIsDebugging()
+  @Override public boolean generatorIsDebugging()
   {
     return this.debugging;
   }
 
-  private void compilationLacksVersionSupport(
+  private void generatorLacksVersionSupport(
     final @Nonnull JCGLSLVersionNumber version,
     final @Nonnull JCGLApi api,
     final @Nonnull StringBuilder message)
@@ -417,17 +383,17 @@ import com.io7m.jlog.Log;
     message.append(".");
     message.append(version.getVersionMicro());
     message.append(".\n");
-    this.compilationShowRequires(message);
+    this.generatorShowRequires(message);
     throw new JCGLUnsupportedException(message.toString());
   }
 
-  @Override public void compilationSetDebugging(
+  @Override public void generatorSetDebugging(
     final boolean on)
   {
     this.debugging = on;
   }
 
-  private void compilationShowRequires(
+  private void generatorShowRequires(
     final @Nonnull StringBuilder output)
   {
     output.append("Compilation of program '");
@@ -448,7 +414,40 @@ import com.io7m.jlog.Log;
     }
   }
 
-  @Override public void compilationUnitAdd(
+  private void generatorSourceEvaluate(
+    final @Nonnull JCGPUnit unit,
+    final @Nonnull JCGLSLVersionNumber version,
+    final @Nonnull JCGLApi api,
+    final @Nonnull ArrayList<String> output)
+    throws ConstraintError,
+      JCGLCompileException
+  {
+    try {
+      final JCGPGeneratorContext ctx = new JCGPGeneratorContext(version, api);
+      ctx.setDebugging(this.debugging);
+
+      this.generatorSourceEvaluateActual(unit, ctx, output);
+    } catch (final Exception e) {
+      throw new JCGLCompileException(e, unit.getName(), e.getMessage());
+    }
+  }
+
+  private void generatorSourceEvaluateActual(
+    final @Nonnull JCGPUnit unit,
+    final @Nonnull JCGPGeneratorContext context,
+    final @Nonnull ArrayList<String> output)
+    throws ConstraintError,
+      Exception
+  {
+    for (final String import_name : unit.getImports()) {
+      final JCGPUnit imported = this.units.get(import_name);
+      this.generatorSourceEvaluateActual(imported, context, output);
+    }
+
+    unit.evaluate(context, output);
+  }
+
+  @Override public void generatorUnitAdd(
     final @Nonnull JCGPUnit unit)
     throws ConstraintError,
       JCGLUnsupportedException
@@ -485,7 +484,7 @@ import com.io7m.jlog.Log;
     this.units.put(unit.getName(), unit);
   }
 
-  @Override public void compilationUnitRemove(
+  @Override public void generatorUnitRemove(
     final @Nonnull String unit)
     throws ConstraintError
   {
@@ -542,8 +541,8 @@ import com.io7m.jlog.Log;
     message.append("Unit '");
     message.append(unit.getName());
     message.append("' lacks the required version support.\n");
-    this.compilationShowRequires(message);
-    JCGPCompilation.unitShowSupports(unit, message);
+    this.generatorShowRequires(message);
+    JCGPGenerator.unitShowSupports(unit, message);
     throw new JCGLUnsupportedException(message.toString());
   }
 

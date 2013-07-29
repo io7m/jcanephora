@@ -38,7 +38,6 @@ import com.io7m.jcanephora.JCGLType;
 
   private final @Nonnull String   name;
   private final @Nonnull JCGLType type;
-
   private final int               layout;
 
   private JCGPFragmentShaderOutput(
