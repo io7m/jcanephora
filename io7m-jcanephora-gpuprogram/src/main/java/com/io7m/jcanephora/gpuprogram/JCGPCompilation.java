@@ -354,6 +354,7 @@ import com.io7m.jlog.Log;
     }
 
     this.compilationCheckVersion(version, api);
+    assert this.unit_fragment_main != null;
     this.compilationCheckImports(this.unit_fragment_main);
 
     if (this.debugging) {
@@ -383,6 +384,7 @@ import com.io7m.jlog.Log;
     }
 
     this.compilationCheckVersion(version, api);
+    assert this.unit_vertex_main != null;
     this.compilationCheckImports(this.unit_vertex_main);
 
     if (this.debugging) {
