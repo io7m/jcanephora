@@ -28,11 +28,11 @@ import com.io7m.jcanephora.JCGLUnsupportedException;
 
 /**
  * <p>
- * The interface provided by compilers.
+ * The interface provided by generators.
  * </p>
  */
 
-public interface JCGPCompilationInterface
+public interface JCGPGeneratorAPI
 {
   /**
    * <p>
@@ -57,11 +57,11 @@ public interface JCGPCompilationInterface
    *           <li>At least one unit imported a nonexistent unit.</li>
    *           </ul>
    * @throws JCGLUnsupportedException
-   *           Iff the compilation cannot produce GLSL code for the requested
+   *           Iff the generator cannot produce GLSL code for the requested
    *           version.
    */
 
-  public void compilationGenerateFragmentShader(
+  public void generatorGenerateFragmentShader(
     final @Nonnull JCGLSLVersionNumber version,
     final @Nonnull JCGLApi api,
     final @Nonnull ArrayList<String> output)
@@ -92,11 +92,11 @@ public interface JCGPCompilationInterface
    *           <li>At least one unit imported a nonexistent unit.</li>
    *           </ul>
    * @throws JCGLUnsupportedException
-   *           Iff the compilation cannot produce GLSL code for the requested
+   *           Iff the generator cannot produce GLSL code for the requested
    *           version.
    */
 
-  public void compilationGenerateVertexShader(
+  public void generatorGenerateVertexShader(
     final @Nonnull JCGLSLVersionNumber version,
     final @Nonnull JCGLApi api,
     final @Nonnull ArrayList<String> output)
@@ -110,7 +110,7 @@ public interface JCGPCompilationInterface
    * </p>
    */
 
-  public boolean compilationIsDebugging();
+  public boolean generatorIsDebugging();
 
   /**
    * <p>
@@ -121,12 +121,12 @@ public interface JCGPCompilationInterface
    * </p>
    */
 
-  public void compilationSetDebugging(
+  public void generatorSetDebugging(
     boolean on);
 
   /**
    * <p>
-   * Add the unit <tt>unit</tt> to the compilation.
+   * Add the unit <tt>unit</tt> to the generator.
    * </p>
    * 
    * @throws ConstraintError
@@ -135,28 +135,27 @@ public interface JCGPCompilationInterface
    *           <li><code>unit == null</code></li>
    *           <li>A unit already exists named <code>unit.getName()</code></li>
    *           <li>The unit is a vertex shader main function, and the
-   *           compilation already has a vertex shader main function defined.</li>
+   *           generator already has a vertex shader main function defined.</li>
    *           <li>The unit is a fragment shader main function, and the
-   *           compilation already has a fragment shader main function
-   *           defined.</li>
+   *           generator already has a fragment shader main function defined.</li>
    *           </ul>
    * @throws JCGLUnsupportedException
    *           Iff the given unit does not provide an implementation for one
-   *           or more of the versions required by the compilation.
+   *           or more of the versions required by the generator.
    */
 
-  public void compilationUnitAdd(
+  public void generatorUnitAdd(
     final @Nonnull JCGPUnit unit)
     throws ConstraintError,
       JCGLUnsupportedException;
 
   /**
    * <p>
-   * Remove the unit named <tt>unit</tt> (if any) from the compilation.
+   * Remove the unit named <tt>unit</tt> (if any) from the generator.
    * </p>
    */
 
-  public void compilationUnitRemove(
+  public void generatorUnitRemove(
     final @Nonnull String unit)
     throws ConstraintError;
 }

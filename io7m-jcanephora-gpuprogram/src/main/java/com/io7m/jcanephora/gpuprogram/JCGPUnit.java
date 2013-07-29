@@ -164,7 +164,7 @@ abstract class JCGPUnit
     }
 
     @Override protected void evaluateActual(
-      final @Nonnull JCGPCompilationContext context,
+      final @Nonnull JCGPGeneratorContext context,
       final @Nonnull ArrayList<String> output)
       throws Exception,
         ConstraintError
@@ -254,7 +254,7 @@ abstract class JCGPUnit
     }
 
     @Override protected void evaluateActual(
-      final @Nonnull JCGPCompilationContext context,
+      final @Nonnull JCGPGeneratorContext context,
       final @Nonnull ArrayList<String> output)
       throws Exception,
         ConstraintError
@@ -395,7 +395,7 @@ abstract class JCGPUnit
     }
 
     @Override protected void evaluateActual(
-      final @Nonnull JCGPCompilationContext context,
+      final @Nonnull JCGPGeneratorContext context,
       final @Nonnull ArrayList<String> output)
       throws Exception,
         ConstraintError
@@ -560,7 +560,7 @@ abstract class JCGPUnit
   }
 
   final void evaluate(
-    final @Nonnull JCGPCompilationContext context,
+    final @Nonnull JCGPGeneratorContext context,
     final @Nonnull ArrayList<String> output)
     throws ConstraintError,
       Exception
@@ -571,7 +571,7 @@ abstract class JCGPUnit
   }
 
   protected abstract void evaluateActual(
-    final @Nonnull JCGPCompilationContext context,
+    final @Nonnull JCGPGeneratorContext context,
     final @Nonnull ArrayList<String> output)
     throws Exception,
       ConstraintError;

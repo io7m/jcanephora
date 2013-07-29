@@ -45,7 +45,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
   }
 
   @Override public void sourceGet(
-    final @Nonnull JCGPCompilationContext context,
+    final @Nonnull JCGPGeneratorContext context,
     final @Nonnull ArrayList<String> output)
     throws Exception,
       ConstraintError

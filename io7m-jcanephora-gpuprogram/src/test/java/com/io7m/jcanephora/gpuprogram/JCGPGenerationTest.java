@@ -33,7 +33,7 @@ import com.io7m.jcanephora.JCGLType;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.gpuprogram.JCGPUnit.JCGPUnitVertexShader;
 
-public class JCGPCompilationTest
+public class JCGPGenerationTest
 {
   private static final JCGPSource TEST_STRING_SOURCE;
 
@@ -66,8 +66,8 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 10, 0));
 
-    final JCGPCompilation cp =
-      JCGPCompilation.newProgramFullAndES(
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
         TestData.getLog(),
         "name",
         version_full,
@@ -76,7 +76,7 @@ public class JCGPCompilationTest
     final JCGPUnit u1 =
       JCGPUnit.makeGeneric(
         "unit1",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         version_es,
         version_full);
@@ -84,7 +84,7 @@ public class JCGPCompilationTest
     final JCGPUnit u2 =
       JCGPUnit.makeGeneric(
         "unit2",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         version_es,
         version_full);
@@ -96,20 +96,20 @@ public class JCGPCompilationTest
     final JCGPUnit.JCGPUnitFragmentShader u0 =
       JCGPUnit.makeFragmentShader(
         "unit0",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         unit0_imports,
         version_es,
         version_full);
 
-    cp.compilationUnitAdd(u0);
-    cp.compilationUnitAdd(u1);
-    cp.compilationUnitAdd(u2);
+    cp.generatorUnitAdd(u0);
+    cp.generatorUnitAdd(u1);
+    cp.generatorUnitAdd(u2);
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
 
-    cp.compilationSetDebugging(true);
-    cp.compilationGenerateFragmentShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorSetDebugging(true);
+    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES, output);
 
     for (final String line : output) {
       System.out.println(line);
@@ -138,8 +138,8 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    final JCGPCompilation cp =
-      JCGPCompilation.newProgramFullAndES(
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
         TestData.getLog(),
         "name",
         version_full,
@@ -153,24 +153,24 @@ public class JCGPCompilationTest
     final JCGPUnit u0 =
       JCGPUnit.makeFragmentShader(
         "unit0",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         unit0_imports,
         version_es,
         version_full);
     final JCGPUnit u1 =
       JCGPUnit.makeGeneric(
         "unit1",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         unit1_imports,
         version_es,
         version_full);
 
-    cp.compilationUnitAdd(u0);
-    cp.compilationUnitAdd(u1);
+    cp.generatorUnitAdd(u0);
+    cp.generatorUnitAdd(u1);
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
-    cp.compilationGenerateFragmentShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES, output);
   }
 
   /**
@@ -195,8 +195,8 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    final JCGPCompilation cp =
-      JCGPCompilation.newProgramFullAndES(
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
         TestData.getLog(),
         "name",
         version_full,
@@ -210,16 +210,16 @@ public class JCGPCompilationTest
     final JCGPUnit u0 =
       JCGPUnit.makeFragmentShader(
         "unit0",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         dependencies,
         version_es,
         version_full);
 
-    cp.compilationUnitAdd(u0);
+    cp.generatorUnitAdd(u0);
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
-    cp.compilationGenerateFragmentShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES, output);
   }
 
   /**
@@ -244,8 +244,8 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    final JCGPCompilation cp =
-      JCGPCompilation.newProgramFullAndES(
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
         TestData.getLog(),
         "name",
         version_full,
@@ -257,24 +257,24 @@ public class JCGPCompilationTest
     final JCGPUnit u0 =
       JCGPUnit.makeFragmentShader(
         "unit0",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         unit0_imports,
         version_es,
         version_full);
     final JCGPUnit u1 =
       JCGPUnit.makeVertexShader(
         "unit1",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         version_es,
         version_full);
 
-    cp.compilationUnitAdd(u0);
-    cp.compilationUnitAdd(u1);
+    cp.generatorUnitAdd(u0);
+    cp.generatorUnitAdd(u1);
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
-    cp.compilationGenerateFragmentShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES, output);
   }
 
   /**
@@ -299,8 +299,8 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    final JCGPCompilation cp =
-      JCGPCompilation.newProgramFullAndES(
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
         TestData.getLog(),
         "name",
         version_full,
@@ -308,7 +308,7 @@ public class JCGPCompilationTest
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
-    cp.compilationGenerateFragmentShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES, output);
   }
 
   /**
@@ -332,15 +332,15 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    final JCGPCompilation cp =
-      JCGPCompilation.newProgramFullAndES(
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
         TestData.getLog(),
         "name",
         version_full,
         version_es);
 
     final ArrayList<String> output = new ArrayList<String>();
-    cp.compilationGenerateFragmentShader(
+    cp.generatorGenerateFragmentShader(
       new JCGLSLVersionNumber(0, 0, 0),
       null,
       output);
@@ -367,14 +367,14 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    final JCGPCompilation cp =
-      JCGPCompilation.newProgramFullAndES(
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
         TestData.getLog(),
         "name",
         version_full,
         version_es);
 
-    cp.compilationGenerateFragmentShader(
+    cp.generatorGenerateFragmentShader(
       new JCGLSLVersionNumber(0, 0, 0),
       JCGLApi.JCGL_ES,
       null);
@@ -401,15 +401,15 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    final JCGPCompilation cp =
-      JCGPCompilation.newProgramFullAndES(
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
         TestData.getLog(),
         "name",
         version_full,
         version_es);
 
     final ArrayList<String> output = new ArrayList<String>();
-    cp.compilationGenerateFragmentShader(null, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateFragmentShader(null, JCGLApi.JCGL_ES, output);
   }
 
   /**
@@ -434,8 +434,8 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    final JCGPCompilation cp =
-      JCGPCompilation.newProgramFullAndES(
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
         TestData.getLog(),
         "name",
         version_full,
@@ -444,16 +444,16 @@ public class JCGPCompilationTest
     final JCGPUnit u0 =
       JCGPUnit.makeFragmentShader(
         "unit0",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         version_es,
         version_full);
 
-    cp.compilationUnitAdd(u0);
+    cp.generatorUnitAdd(u0);
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(3, 0, 0);
-    cp.compilationGenerateFragmentShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES, output);
   }
 
   /**
@@ -477,8 +477,8 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(4, 30, 0));
 
-    final JCGPCompilation cp =
-      JCGPCompilation.newProgramFullAndES(
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
         TestData.getLog(),
         "name",
         version_full,
@@ -487,7 +487,7 @@ public class JCGPCompilationTest
     final JCGPUnit u1 =
       JCGPUnit.makeGeneric(
         "unit1",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         version_es,
         version_full);
@@ -495,7 +495,7 @@ public class JCGPCompilationTest
     final JCGPUnit u2 =
       JCGPUnit.makeGeneric(
         "unit2",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         version_es,
         version_full);
@@ -542,15 +542,15 @@ public class JCGPCompilationTest
       JCGLType.TYPE_FLOAT_VECTOR_4,
       "uniform2"));
 
-    cp.compilationUnitAdd(u0);
-    cp.compilationUnitAdd(u1);
-    cp.compilationUnitAdd(u2);
+    cp.generatorUnitAdd(u0);
+    cp.generatorUnitAdd(u1);
+    cp.generatorUnitAdd(u2);
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(3, 30, 0);
 
-    cp.compilationSetDebugging(true);
-    cp.compilationGenerateVertexShader(version, JCGLApi.JCGL_FULL, output);
+    cp.generatorSetDebugging(true);
+    cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_FULL, output);
 
     for (final String line : output) {
       System.out.println(line);
@@ -579,8 +579,8 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    final JCGPCompilation cp =
-      JCGPCompilation.newProgramFullAndES(
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
         TestData.getLog(),
         "name",
         version_full,
@@ -594,24 +594,24 @@ public class JCGPCompilationTest
     final JCGPUnit u0 =
       JCGPUnit.makeVertexShader(
         "unit0",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         unit0_imports,
         version_es,
         version_full);
     final JCGPUnit u1 =
       JCGPUnit.makeGeneric(
         "unit1",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         unit1_imports,
         version_es,
         version_full);
 
-    cp.compilationUnitAdd(u0);
-    cp.compilationUnitAdd(u1);
+    cp.generatorUnitAdd(u0);
+    cp.generatorUnitAdd(u1);
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
-    cp.compilationGenerateVertexShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES, output);
   }
 
   /**
@@ -636,8 +636,8 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    final JCGPCompilation cp =
-      JCGPCompilation.newProgramFullAndES(
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
         TestData.getLog(),
         "name",
         version_full,
@@ -651,16 +651,16 @@ public class JCGPCompilationTest
     final JCGPUnit u0 =
       JCGPUnit.makeVertexShader(
         "unit0",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         dependencies,
         version_es,
         version_full);
 
-    cp.compilationUnitAdd(u0);
+    cp.generatorUnitAdd(u0);
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
-    cp.compilationGenerateVertexShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES, output);
   }
 
   /**
@@ -685,8 +685,8 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    final JCGPCompilation cp =
-      JCGPCompilation.newProgramFullAndES(
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
         TestData.getLog(),
         "name",
         version_full,
@@ -698,24 +698,24 @@ public class JCGPCompilationTest
     final JCGPUnit u0 =
       JCGPUnit.makeVertexShader(
         "unit0",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         unit0_imports,
         version_es,
         version_full);
     final JCGPUnit u1 =
       JCGPUnit.makeFragmentShader(
         "unit1",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         version_es,
         version_full);
 
-    cp.compilationUnitAdd(u0);
-    cp.compilationUnitAdd(u1);
+    cp.generatorUnitAdd(u0);
+    cp.generatorUnitAdd(u1);
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
-    cp.compilationGenerateVertexShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES, output);
   }
 
   /**
@@ -740,8 +740,8 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    final JCGPCompilation cp =
-      JCGPCompilation.newProgramFullAndES(
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
         TestData.getLog(),
         "name",
         version_full,
@@ -749,7 +749,7 @@ public class JCGPCompilationTest
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
-    cp.compilationGenerateVertexShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES, output);
   }
 
   /**
@@ -773,15 +773,15 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    final JCGPCompilation cp =
-      JCGPCompilation.newProgramFullAndES(
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
         TestData.getLog(),
         "name",
         version_full,
         version_es);
 
     final ArrayList<String> output = new ArrayList<String>();
-    cp.compilationGenerateVertexShader(
+    cp.generatorGenerateVertexShader(
       new JCGLSLVersionNumber(0, 0, 0),
       null,
       output);
@@ -808,14 +808,14 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    final JCGPCompilation cp =
-      JCGPCompilation.newProgramFullAndES(
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
         TestData.getLog(),
         "name",
         version_full,
         version_es);
 
-    cp.compilationGenerateVertexShader(
+    cp.generatorGenerateVertexShader(
       new JCGLSLVersionNumber(0, 0, 0),
       JCGLApi.JCGL_ES,
       null);
@@ -842,15 +842,15 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    final JCGPCompilation cp =
-      JCGPCompilation.newProgramFullAndES(
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
         TestData.getLog(),
         "name",
         version_full,
         version_es);
 
     final ArrayList<String> output = new ArrayList<String>();
-    cp.compilationGenerateVertexShader(null, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateVertexShader(null, JCGLApi.JCGL_ES, output);
   }
 
   /**
@@ -875,8 +875,8 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    final JCGPCompilation cp =
-      JCGPCompilation.newProgramFullAndES(
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
         TestData.getLog(),
         "name",
         version_full,
@@ -885,16 +885,16 @@ public class JCGPCompilationTest
     final JCGPUnit u0 =
       JCGPUnit.makeVertexShader(
         "unit0",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         version_es,
         version_full);
 
-    cp.compilationUnitAdd(u0);
+    cp.generatorUnitAdd(u0);
 
     final ArrayList<String> output = new ArrayList<String>();
     final JCGLSLVersionNumber version = new JCGLSLVersionNumber(3, 0, 0);
-    cp.compilationGenerateVertexShader(version, JCGLApi.JCGL_ES, output);
+    cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES, output);
   }
 
   /**
@@ -911,7 +911,7 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    JCGPCompilation.newProgramES(null, "name", version);
+    JCGPGenerator.newProgramES(null, "name", version);
   }
 
   /**
@@ -929,7 +929,7 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    JCGPCompilation.newProgramES(TestData.getLog(), null, version);
+    JCGPGenerator.newProgramES(TestData.getLog(), null, version);
   }
 
   /**
@@ -942,7 +942,7 @@ public class JCGPCompilationTest
       throws ConstraintError,
         IOException
   {
-    JCGPCompilation.newProgramES(TestData.getLog(), "name", null);
+    JCGPGenerator.newProgramES(TestData.getLog(), "name", null);
   }
 
   /**
@@ -964,7 +964,7 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    JCGPCompilation.newProgramFullAndES(
+    JCGPGenerator.newProgramFullAndES(
       TestData.getLog(),
       "name",
       version_full,
@@ -989,11 +989,7 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    JCGPCompilation.newProgramFullAndES(
-      null,
-      "name",
-      version_full,
-      version_es);
+    JCGPGenerator.newProgramFullAndES(null, "name", version_full, version_es);
   }
 
   /**
@@ -1011,7 +1007,7 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    JCGPCompilation.newProgramFullAndES(
+    JCGPGenerator.newProgramFullAndES(
       TestData.getLog(),
       "name",
       version_full,
@@ -1037,7 +1033,7 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    JCGPCompilation.newProgramFullAndES(
+    JCGPGenerator.newProgramFullAndES(
       TestData.getLog(),
       null,
       version_full,
@@ -1059,7 +1055,7 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    JCGPCompilation.newProgramFullAndES(
+    JCGPGenerator.newProgramFullAndES(
       TestData.getLog(),
       "name",
       null,
@@ -1080,7 +1076,7 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    JCGPCompilation.newProgramFull(null, "name", version);
+    JCGPGenerator.newProgramFull(null, "name", version);
   }
 
   /**
@@ -1098,7 +1094,7 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    JCGPCompilation.newProgramFull(TestData.getLog(), null, version);
+    JCGPGenerator.newProgramFull(TestData.getLog(), null, version);
   }
 
   /**
@@ -1111,7 +1107,7 @@ public class JCGPCompilationTest
       throws ConstraintError,
         IOException
   {
-    JCGPCompilation.newProgramFull(TestData.getLog(), "name", null);
+    JCGPGenerator.newProgramFull(TestData.getLog(), "name", null);
   }
 
   /**
@@ -1135,16 +1131,14 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(1, 0, 0),
         new JCGLSLVersionNumber(2, 0, 0));
 
-    final JCGPCompilationInterface cp =
-      JCGPCompilation.newProgramFull(
-        TestData.getLog(),
-        "name",
-        program_version);
+    final JCGPGeneratorAPI cp =
+      JCGPGenerator
+        .newProgramFull(TestData.getLog(), "name", program_version);
 
     final JCGPUnit u0 =
       JCGPUnit.makeFragmentShader(
         "unit0",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         null,
         unit_version);
@@ -1152,13 +1146,13 @@ public class JCGPCompilationTest
     final JCGPUnit u1 =
       JCGPUnit.makeFragmentShader(
         "unit1",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         null,
         unit_version);
 
-    cp.compilationUnitAdd(u0);
-    cp.compilationUnitAdd(u1);
+    cp.generatorUnitAdd(u0);
+    cp.generatorUnitAdd(u1);
   }
 
   /**
@@ -1182,23 +1176,21 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(1, 0, 0),
         new JCGLSLVersionNumber(2, 0, 0));
 
-    final JCGPCompilationInterface cp =
-      JCGPCompilation.newProgramFull(
-        TestData.getLog(),
-        "name",
-        program_version);
+    final JCGPGeneratorAPI cp =
+      JCGPGenerator
+        .newProgramFull(TestData.getLog(), "name", program_version);
 
     final JCGPUnit u0 =
       JCGPUnit.makeFragmentShader(
         "unit0",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         null,
         unit_version);
 
-    cp.compilationUnitAdd(u0);
-    cp.compilationUnitRemove(u0.getName());
-    cp.compilationUnitAdd(u0);
+    cp.generatorUnitAdd(u0);
+    cp.generatorUnitRemove(u0.getName());
+    cp.generatorUnitAdd(u0);
   }
 
   /**
@@ -1217,9 +1209,9 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    final JCGPCompilationInterface cp =
-      JCGPCompilation.newProgramES(TestData.getLog(), "name", version);
-    cp.compilationUnitAdd(null);
+    final JCGPGeneratorAPI cp =
+      JCGPGenerator.newProgramES(TestData.getLog(), "name", version);
+    cp.generatorUnitAdd(null);
   }
 
   /**
@@ -1236,17 +1228,17 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(1, 0, 0));
 
-    final JCGPCompilationInterface cp =
-      JCGPCompilation.newProgramES(TestData.getLog(), "name", version);
+    final JCGPGeneratorAPI cp =
+      JCGPGenerator.newProgramES(TestData.getLog(), "name", version);
 
     final JCGPUnit u =
       JCGPUnit.makeGeneric(
         "unit",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         version,
         null);
-    cp.compilationUnitAdd(u);
+    cp.generatorUnitAdd(u);
   }
 
   /**
@@ -1270,46 +1262,44 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(1, 0, 0),
         new JCGLSLVersionNumber(2, 0, 0));
 
-    final JCGPCompilationInterface cp =
-      JCGPCompilation.newProgramFull(
-        TestData.getLog(),
-        "name",
-        program_version);
+    final JCGPGeneratorAPI cp =
+      JCGPGenerator
+        .newProgramFull(TestData.getLog(), "name", program_version);
 
     final JCGPUnit u0 =
       JCGPUnit.makeGeneric(
         "unit0",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         null,
         unit_version);
     final JCGPUnit u1 =
       JCGPUnit.makeGeneric(
         "unit1",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         null,
         unit_version);
     final JCGPUnit u2 =
       JCGPUnit.makeGeneric(
         "unit2",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         null,
         unit_version);
 
-    cp.compilationUnitAdd(u0);
-    cp.compilationUnitAdd(u1);
-    cp.compilationUnitAdd(u2);
-    cp.compilationUnitRemove(u0.getName());
-    cp.compilationUnitRemove(u1.getName());
-    cp.compilationUnitRemove(u2.getName());
-    cp.compilationUnitAdd(u0);
-    cp.compilationUnitAdd(u1);
-    cp.compilationUnitAdd(u2);
-    cp.compilationUnitRemove(u0.getName());
-    cp.compilationUnitRemove(u1.getName());
-    cp.compilationUnitRemove(u2.getName());
+    cp.generatorUnitAdd(u0);
+    cp.generatorUnitAdd(u1);
+    cp.generatorUnitAdd(u2);
+    cp.generatorUnitRemove(u0.getName());
+    cp.generatorUnitRemove(u1.getName());
+    cp.generatorUnitRemove(u2.getName());
+    cp.generatorUnitAdd(u0);
+    cp.generatorUnitAdd(u1);
+    cp.generatorUnitAdd(u2);
+    cp.generatorUnitRemove(u0.getName());
+    cp.generatorUnitRemove(u1.getName());
+    cp.generatorUnitRemove(u2.getName());
   }
 
   /**
@@ -1334,20 +1324,18 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(3, 0, 0),
         new JCGLSLVersionNumber(4, 0, 0));
 
-    final JCGPCompilationInterface cp =
-      JCGPCompilation.newProgramFull(
-        TestData.getLog(),
-        "name",
-        program_version);
+    final JCGPGeneratorAPI cp =
+      JCGPGenerator
+        .newProgramFull(TestData.getLog(), "name", program_version);
 
     final JCGPUnit u =
       JCGPUnit.makeGeneric(
         "unit",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         unit_version,
         null);
-    cp.compilationUnitAdd(u);
+    cp.generatorUnitAdd(u);
   }
 
   /**
@@ -1372,20 +1360,18 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(0, 0, 0));
 
-    final JCGPCompilationInterface cp =
-      JCGPCompilation.newProgramFull(
-        TestData.getLog(),
-        "name",
-        program_version);
+    final JCGPGeneratorAPI cp =
+      JCGPGenerator
+        .newProgramFull(TestData.getLog(), "name", program_version);
 
     final JCGPUnit u =
       JCGPUnit.makeGeneric(
         "unit",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         null,
         unit_version);
-    cp.compilationUnitAdd(u);
+    cp.generatorUnitAdd(u);
   }
 
   /**
@@ -1410,20 +1396,18 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(3, 0, 0),
         new JCGLSLVersionNumber(4, 0, 0));
 
-    final JCGPCompilationInterface cp =
-      JCGPCompilation.newProgramFull(
-        TestData.getLog(),
-        "name",
-        program_version);
+    final JCGPGeneratorAPI cp =
+      JCGPGenerator
+        .newProgramFull(TestData.getLog(), "name", program_version);
 
     final JCGPUnit u =
       JCGPUnit.makeGeneric(
         "unit",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         null,
         unit_version);
-    cp.compilationUnitAdd(u);
+    cp.generatorUnitAdd(u);
   }
 
   /**
@@ -1448,18 +1432,17 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(3, 0, 0),
         new JCGLSLVersionNumber(4, 0, 0));
 
-    final JCGPCompilationInterface cp =
-      JCGPCompilation
-        .newProgramES(TestData.getLog(), "name", program_version);
+    final JCGPGeneratorAPI cp =
+      JCGPGenerator.newProgramES(TestData.getLog(), "name", program_version);
 
     final JCGPUnit u =
       JCGPUnit.makeGeneric(
         "unit",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         null,
         unit_version);
-    cp.compilationUnitAdd(u);
+    cp.generatorUnitAdd(u);
   }
 
   /**
@@ -1484,18 +1467,17 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(0, 0, 0),
         new JCGLSLVersionNumber(0, 0, 0));
 
-    final JCGPCompilationInterface cp =
-      JCGPCompilation
-        .newProgramES(TestData.getLog(), "name", program_version);
+    final JCGPGeneratorAPI cp =
+      JCGPGenerator.newProgramES(TestData.getLog(), "name", program_version);
 
     final JCGPUnit u =
       JCGPUnit.makeGeneric(
         "unit",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         unit_version,
         null);
-    cp.compilationUnitAdd(u);
+    cp.generatorUnitAdd(u);
   }
 
   /**
@@ -1520,18 +1502,17 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(3, 0, 0),
         new JCGLSLVersionNumber(4, 0, 0));
 
-    final JCGPCompilationInterface cp =
-      JCGPCompilation
-        .newProgramES(TestData.getLog(), "name", program_version);
+    final JCGPGeneratorAPI cp =
+      JCGPGenerator.newProgramES(TestData.getLog(), "name", program_version);
 
     final JCGPUnit u =
       JCGPUnit.makeGeneric(
         "unit",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         unit_version,
         null);
-    cp.compilationUnitAdd(u);
+    cp.generatorUnitAdd(u);
   }
 
   /**
@@ -1555,21 +1536,19 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(1, 0, 0),
         new JCGLSLVersionNumber(2, 0, 0));
 
-    final JCGPCompilationInterface cp =
-      JCGPCompilation.newProgramFull(
-        TestData.getLog(),
-        "name",
-        program_version);
+    final JCGPGeneratorAPI cp =
+      JCGPGenerator
+        .newProgramFull(TestData.getLog(), "name", program_version);
 
     final JCGPUnit u =
       JCGPUnit.makeGeneric(
         "unit",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         null,
         unit_version);
-    cp.compilationUnitAdd(u);
-    cp.compilationUnitAdd(u);
+    cp.generatorUnitAdd(u);
+    cp.generatorUnitAdd(u);
   }
 
   /**
@@ -1593,16 +1572,14 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(1, 0, 0),
         new JCGLSLVersionNumber(2, 0, 0));
 
-    final JCGPCompilationInterface cp =
-      JCGPCompilation.newProgramFull(
-        TestData.getLog(),
-        "name",
-        program_version);
+    final JCGPGeneratorAPI cp =
+      JCGPGenerator
+        .newProgramFull(TestData.getLog(), "name", program_version);
 
     final JCGPUnit u0 =
       JCGPUnit.makeVertexShader(
         "unit0",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         null,
         unit_version);
@@ -1610,13 +1587,13 @@ public class JCGPCompilationTest
     final JCGPUnit u1 =
       JCGPUnit.makeVertexShader(
         "unit1",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         null,
         unit_version);
 
-    cp.compilationUnitAdd(u0);
-    cp.compilationUnitAdd(u1);
+    cp.generatorUnitAdd(u0);
+    cp.generatorUnitAdd(u1);
   }
 
   /**
@@ -1640,23 +1617,21 @@ public class JCGPCompilationTest
         new JCGLSLVersionNumber(1, 0, 0),
         new JCGLSLVersionNumber(2, 0, 0));
 
-    final JCGPCompilationInterface cp =
-      JCGPCompilation.newProgramFull(
-        TestData.getLog(),
-        "name",
-        program_version);
+    final JCGPGeneratorAPI cp =
+      JCGPGenerator
+        .newProgramFull(TestData.getLog(), "name", program_version);
 
     final JCGPUnit u0 =
       JCGPUnit.makeVertexShader(
         "unit0",
-        JCGPCompilationTest.TEST_STRING_SOURCE,
+        JCGPGenerationTest.TEST_STRING_SOURCE,
         new LinkedList<String>(),
         null,
         unit_version);
 
-    cp.compilationUnitAdd(u0);
-    cp.compilationUnitRemove(u0.getName());
-    cp.compilationUnitAdd(u0);
+    cp.generatorUnitAdd(u0);
+    cp.generatorUnitRemove(u0.getName());
+    cp.generatorUnitAdd(u0);
   }
 
 }

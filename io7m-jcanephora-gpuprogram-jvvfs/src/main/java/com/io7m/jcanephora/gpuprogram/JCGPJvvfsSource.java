@@ -52,7 +52,7 @@ public final class JCGPJvvfsSource implements JCGPSource
   }
 
   @Override public void sourceGet(
-    final @Nonnull JCGPCompilationContext context,
+    final @Nonnull JCGPGeneratorContext context,
     final @Nonnull ArrayList<String> output)
     throws Exception,
       ConstraintError

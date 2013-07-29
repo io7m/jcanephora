@@ -39,8 +39,8 @@ public class JCGPURISourceTest
     final URI uri = ufile.toURI();
 
     final JCGPURISource fs = new JCGPURISource(uri);
-    final JCGPCompilationContext context =
-      new JCGPCompilationContext(
+    final JCGPGeneratorContext context =
+      new JCGPGeneratorContext(
         new JCGLSLVersionNumber(1, 0, 0),
         JCGLApi.JCGL_ES);
     final ArrayList<String> output = new ArrayList<String>();
@@ -64,8 +64,8 @@ public class JCGPURISourceTest
     final URI uri = ufile.toURI();
 
     final JCGPURISource fs = new JCGPURISource(uri);
-    final JCGPCompilationContext context =
-      new JCGPCompilationContext(
+    final JCGPGeneratorContext context =
+      new JCGPGeneratorContext(
         new JCGLSLVersionNumber(1, 0, 0),
         JCGLApi.JCGL_ES);
     final ArrayList<String> output = new ArrayList<String>();

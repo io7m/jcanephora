@@ -28,7 +28,7 @@ import com.io7m.jcanephora.JCGLSLVersionNumber;
 
 /**
  * <p>
- * The context of a compilation in progress.
+ * The context of a generation in progress.
  * </p>
  * <p>
  * Values of this type can be manipulated by multiple threads without explicit
@@ -36,13 +36,13 @@ import com.io7m.jcanephora.JCGLSLVersionNumber;
  * </p>
  */
 
-@ThreadSafe public final class JCGPCompilationContext
+@ThreadSafe public final class JCGPGeneratorContext
 {
   private final @Nonnull JCGLSLVersionNumber version;
   private final @Nonnull JCGLApi             api;
   private final @Nonnull AtomicBoolean       debugging;
 
-  public JCGPCompilationContext(
+  public JCGPGeneratorContext(
     final @Nonnull JCGLSLVersionNumber version,
     final @Nonnull JCGLApi api)
     throws ConstraintError
@@ -53,7 +53,7 @@ import com.io7m.jcanephora.JCGLSLVersionNumber;
   }
 
   /**
-   * Retrieve the OpenGL shading language API for which the compilation is
+   * Retrieve the OpenGL shading language API for which the generation is
    * occurring.
    */
 
@@ -63,7 +63,7 @@ import com.io7m.jcanephora.JCGLSLVersionNumber;
   }
 
   /**
-   * Retrieve the OpenGL shading language version for which the compilation is
+   * Retrieve the OpenGL shading language version for which the generation is
    * occurring.
    */
 

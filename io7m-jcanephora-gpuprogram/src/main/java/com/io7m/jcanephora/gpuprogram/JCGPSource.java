@@ -25,7 +25,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 public interface JCGPSource
 {
   public void sourceGet(
-    final @Nonnull JCGPCompilationContext context,
+    final @Nonnull JCGPGeneratorContext context,
     final @Nonnull ArrayList<String> output)
     throws Exception,
       ConstraintError;

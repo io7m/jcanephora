@@ -36,8 +36,8 @@ public class JCGPFileSourceTest
     final File td = TestData.getTestDataDirectory();
     final JCGPFileSource fs =
       new JCGPFileSource(new File(new File(td, "data"), "example.v"));
-    final JCGPCompilationContext context =
-      new JCGPCompilationContext(
+    final JCGPGeneratorContext context =
+      new JCGPGeneratorContext(
         new JCGLSLVersionNumber(1, 0, 0),
         JCGLApi.JCGL_ES);
     final ArrayList<String> output = new ArrayList<String>();
@@ -58,8 +58,8 @@ public class JCGPFileSourceTest
   {
     final File td = TestData.getTestDataDirectory();
     final JCGPFileSource fs = new JCGPFileSource(new File(td, "nonexistent"));
-    final JCGPCompilationContext context =
-      new JCGPCompilationContext(
+    final JCGPGeneratorContext context =
+      new JCGPGeneratorContext(
         new JCGLSLVersionNumber(1, 0, 0),
         JCGLApi.JCGL_ES);
     final ArrayList<String> output = new ArrayList<String>();
