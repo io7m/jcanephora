@@ -128,7 +128,7 @@ public interface JCGLShaders
    */
 
   void programActivate(
-    final @Nonnull ProgramReference program)
+    final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError,
       JCGLException;
 
@@ -200,7 +200,7 @@ public interface JCGLShaders
    */
 
   void programGetAttributes(
-    final @Nonnull ProgramReference program,
+    final @Nonnull ProgramReferenceUsable program,
     final @Nonnull Map<String, ProgramAttribute> out)
     throws ConstraintError,
       JCGLException;
@@ -237,7 +237,7 @@ public interface JCGLShaders
    */
 
   void programGetUniforms(
-    final @Nonnull ProgramReference program,
+    final @Nonnull ProgramReferenceUsable program,
     final @Nonnull Map<String, ProgramUniform> out)
     throws ConstraintError,
       JCGLException;
@@ -260,7 +260,7 @@ public interface JCGLShaders
    */
 
   boolean programIsActive(
-    final @Nonnull ProgramReference program)
+    final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError,
       JCGLException;
 

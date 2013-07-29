@@ -30,14 +30,14 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 public final class ProgramUniform
 {
-  private final int                       index;
-  private final int                       location;
-  private final @Nonnull JCGLType         type;
-  private final @Nonnull String           name;
-  private final @Nonnull ProgramReference program;
+  private final int                             index;
+  private final int                             location;
+  private final @Nonnull JCGLType               type;
+  private final @Nonnull String                 name;
+  private final @Nonnull ProgramReferenceUsable program;
 
   ProgramUniform(
-    final @Nonnull ProgramReference program,
+    final @Nonnull ProgramReferenceUsable program,
     final int index,
     final int location,
     final @CheckForNull String name,
@@ -81,7 +81,7 @@ public final class ProgramUniform
    * Retrieve a reference to the program to which the uniform belongs.
    */
 
-  public @Nonnull ProgramReference getProgram()
+  public @Nonnull ProgramReferenceUsable getProgram()
   {
     return this.program;
   }
