@@ -17,9 +17,11 @@
 package com.io7m.jcanephora.gpuprogram;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -27,7 +29,6 @@ import javax.annotation.concurrent.NotThreadSafe;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.UnimplementedCodeException;
 import com.io7m.jcanephora.JCGLApi;
 import com.io7m.jcanephora.JCGLApiKindES;
 import com.io7m.jcanephora.JCGLApiKindFull;
@@ -201,6 +202,7 @@ import com.io7m.jlog.Log;
   private final @Nonnull Log                                    log;
   private final @Nonnull HashSet<String>                        cycle_cache;
   private boolean                                               debugging;
+  private Calendar                                              generated_last;
 
   private JCGPGenerator(
     final @Nonnull Log log,
@@ -213,6 +215,7 @@ import com.io7m.jlog.Log;
 
     this.v_full = v_full;
     this.v_es = v_es;
+    this.generated_last = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 
     Constraints.constrainArbitrary(
       (v_full != null) || (v_es != null),
@@ -335,6 +338,7 @@ import com.io7m.jlog.Log;
       api,
       output);
 
+    this.generated_last = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
     return new JCGPGeneratedSource<JCGLShaderKindFragment>(
       output,
       version,
@@ -372,6 +376,7 @@ import com.io7m.jlog.Log;
     JCGPGenerator.generatorGenerateVersion(version, api, output);
     this.generatorSourceEvaluate(this.unit_vertex_main, version, api, output);
 
+    this.generated_last = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
     return new JCGPGeneratedSource<JCGLShaderKindVertex>(
       output,
       version,
@@ -526,8 +531,19 @@ import com.io7m.jlog.Log;
   }
 
   @Override public boolean generatorUnitsUpdated()
+    throws ConstraintError,
+      JCGLCompileException
   {
-    throw new UnimplementedCodeException();
+    try {
+      for (final JCGPUnit u : this.units.values()) {
+        if (u.updatedSince(this.generated_last)) {
+          return true;
+        }
+      }
+      return false;
+    } catch (final Exception e) {
+      throw new JCGLCompileException(e, "<none>", e.getMessage());
+    }
   }
 
   private void unitCheckTypes(

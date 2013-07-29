@@ -20,6 +20,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -30,6 +32,25 @@ import com.io7m.jcanephora.JCGLSLVersionNumber;
 
 public class JCGPURISourceTest
 {
+  @SuppressWarnings("static-method") @Test public void testChanged()
+    throws ConstraintError,
+      Exception
+  {
+    final File td = TestData.getTestDataDirectory();
+    final File ufile = new File(new File(td, "data"), "example.v");
+    final URI uri = ufile.toURI();
+
+    final Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+    c.setTimeInMillis(10000);
+
+    final JCGPURISource fs = new JCGPURISource(uri);
+    Assert.assertFalse(fs.sourceChangedSince(c));
+    fs.sourceAlwaysChanged(true);
+    Assert.assertTrue(fs.sourceChangedSince(c));
+    fs.sourceAlwaysChanged(false);
+    Assert.assertFalse(fs.sourceChangedSince(c));
+  }
+
   @SuppressWarnings("static-method") @Test public void testFileEvaluate()
     throws ConstraintError,
       Exception
@@ -71,4 +92,5 @@ public class JCGPURISourceTest
     final ArrayList<String> output = new ArrayList<String>();
     fs.sourceGet(context, output);
   }
+
 }

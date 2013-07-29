@@ -20,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
@@ -77,5 +78,14 @@ import com.io7m.jvvfs.PathVirtual;
         reader.close();
       }
     }
+  }
+
+  @Override public boolean sourceChangedSince(
+    final @Nonnull Calendar since)
+    throws Exception,
+      ConstraintError
+  {
+    final Calendar lm = this.filesystem.getModificationTime(this.path);
+    return lm.after(since);
   }
 }
