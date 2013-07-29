@@ -27,6 +27,7 @@ import javax.annotation.concurrent.NotThreadSafe;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.UnimplementedCodeException;
 import com.io7m.jcanephora.JCGLApi;
 import com.io7m.jcanephora.JCGLApiKindES;
 import com.io7m.jcanephora.JCGLApiKindFull;
@@ -505,6 +506,11 @@ import com.io7m.jlog.Log;
     if (this.units.containsKey(unit)) {
       this.units.remove(unit);
     }
+  }
+
+  @Override public boolean generatorUnitsUpdated()
+  {
+    throw new UnimplementedCodeException();
   }
 
   private void unitCheckTypes(

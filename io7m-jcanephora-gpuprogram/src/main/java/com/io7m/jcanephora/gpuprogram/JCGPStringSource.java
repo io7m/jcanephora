@@ -42,6 +42,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
     this.source = Constraints.constrainNotNull(source, "String");
   }
 
+  @Override public boolean sourceChanged()
+  {
+    return false;
+  }
+
   @Override public void sourceGet(
     final @Nonnull JCGPGeneratorContext context,
     final @Nonnull ArrayList<String> output)

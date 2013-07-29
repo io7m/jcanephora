@@ -41,6 +41,7 @@ public final class JCGPJvvfsSource implements JCGPSource
 {
   private final @Nonnull FSCapabilityRead filesystem;
   private final @Nonnull PathVirtual      path;
+  private long                            last_get;
 
   public JCGPJvvfsSource(
     final @Nonnull FSCapabilityRead filesystem,
@@ -49,6 +50,7 @@ public final class JCGPJvvfsSource implements JCGPSource
   {
     this.filesystem = Constraints.constrainNotNull(filesystem, "Filesystem");
     this.path = Constraints.constrainNotNull(path, "Path");
+    this.last_get = Long.MIN_VALUE;
   }
 
   @Override public void sourceGet(
@@ -58,6 +60,9 @@ public final class JCGPJvvfsSource implements JCGPSource
       ConstraintError
   {
     Constraints.constrainNotNull(output, "Output array");
+
+    this.last_get =
+      this.filesystem.getModificationTime(this.path).getTimeInMillis();
 
     final InputStream stream = this.filesystem.openFile(this.path);
     BufferedReader reader = null;
@@ -76,6 +81,15 @@ public final class JCGPJvvfsSource implements JCGPSource
         reader.close();
       }
     }
+  }
+
+  @Override public boolean sourceChanged()
+    throws Exception,
+      ConstraintError
+  {
+    final long last_m =
+      this.filesystem.getModificationTime(this.path).getTimeInMillis();
+    return last_m != this.last_get;
   }
 
 }
