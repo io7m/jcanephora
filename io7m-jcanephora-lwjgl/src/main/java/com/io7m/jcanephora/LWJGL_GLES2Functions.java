@@ -43,7 +43,9 @@ import com.io7m.jtensors.MatrixReadable4x4F;
 import com.io7m.jtensors.VectorReadable2F;
 import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jtensors.VectorReadable3F;
+import com.io7m.jtensors.VectorReadable3I;
 import com.io7m.jtensors.VectorReadable4F;
+import com.io7m.jtensors.VectorReadable4I;
 
 final class LWJGL_GLES2Functions
 {
@@ -1445,6 +1447,21 @@ final class LWJGL_GLES2Functions
     return x;
   }
 
+  public static @Nonnull JCGLSLVersion metaGetSLVersion()
+    throws JCGLException,
+      ConstraintError
+  {
+    final String x = GL11.glGetString(GL20.GL_SHADING_LANGUAGE_VERSION);
+    LWJGL_GLES2Functions.checkError();
+    final Pair<Integer, Integer> p =
+      LWJGL_GLES2Functions.metaParseSLVersion(x);
+    return JCGLSLVersion.make(new JCGLSLVersionNumber(
+      p.first.intValue(),
+      p.second.intValue()), LWJGL_GLES2Functions.metaVersionIsES(x)
+      ? JCGLApi.JCGL_ES
+      : JCGLApi.JCGL_FULL, x);
+  }
+
   static String metaGetVendor()
     throws JCGLException
   {
@@ -1466,6 +1483,20 @@ final class LWJGL_GLES2Functions
       0), LWJGL_GLES2Functions.metaVersionIsES(x)
       ? JCGLApi.JCGL_ES
       : JCGLApi.JCGL_FULL, x);
+  }
+
+  static @Nonnull Pair<Integer, Integer> metaParseSLVersion(
+    final @Nonnull String v0)
+  {
+    final String v1 = v0.replaceFirst("^OpenGL ES GLSL ES ", "");
+    final StringTokenizer tdot = new StringTokenizer(v1, ".");
+    final String vmaj = tdot.nextToken();
+    final String rest = tdot.nextToken();
+    final StringTokenizer tspa = new StringTokenizer(rest, " ");
+    final String vmin = tspa.nextToken();
+    return new Pair<Integer, Integer>(
+      Integer.valueOf(vmaj),
+      Integer.valueOf(vmin));
   }
 
   static Pair<Integer, Integer> metaParseVersion(
@@ -1910,12 +1941,61 @@ final class LWJGL_GLES2Functions
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
       uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_2,
-      "Uniform type is vec2");
+      "Uniform type is ivec2");
     Constraints.constrainArbitrary(
       LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),
       "Program for uniform is active");
 
     GL20.glUniform2i(uniform.getLocation(), vector.getXI(), vector.getYI());
+    LWJGL_GLES2Functions.checkError();
+  }
+
+  static void programPutUniformVector3i(
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable3I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(vector, "Vatrix");
+    Constraints.constrainNotNull(uniform, "Uniform");
+    Constraints.constrainArbitrary(
+      uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_3,
+      "Uniform type is ivec3");
+    Constraints.constrainArbitrary(
+      LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),
+      "Program for uniform is active");
+
+    GL20.glUniform3i(
+      uniform.getLocation(),
+      vector.getXI(),
+      vector.getYI(),
+      vector.getZI());
+    LWJGL_GLES2Functions.checkError();
+  }
+
+  static void programPutUniformVector4i(
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable4I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(vector, "Vatrix");
+    Constraints.constrainNotNull(uniform, "Uniform");
+    Constraints.constrainArbitrary(
+      uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_4,
+      "Uniform type is ivec4");
+    Constraints.constrainArbitrary(
+      LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),
+      "Program for uniform is active");
+
+    GL20.glUniform4i(
+      uniform.getLocation(),
+      vector.getXI(),
+      vector.getYI(),
+      vector.getZI(),
+      vector.getWI());
     LWJGL_GLES2Functions.checkError();
   }
 

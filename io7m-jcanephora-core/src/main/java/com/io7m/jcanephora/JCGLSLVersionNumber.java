@@ -22,8 +22,7 @@ import javax.annotation.concurrent.Immutable;
 /**
  * <p>
  * A structure representing the version number of a given OpenGL shading
- * language implementation, broken into "major", "minor", and "micro"
- * components.
+ * language implementation, broken into "major" and "minor" components.
  * </p>
  */
 
@@ -32,16 +31,13 @@ import javax.annotation.concurrent.Immutable;
 {
   private final int version_major;
   private final int version_minor;
-  private final int version_micro;
 
   public JCGLSLVersionNumber(
     final int version_major,
-    final int version_minor,
-    final int version_micro)
+    final int version_minor)
   {
     this.version_major = version_major;
     this.version_minor = version_minor;
-    this.version_micro = version_micro;
   }
 
   @Override public int compareTo(
@@ -61,12 +57,6 @@ import javax.annotation.concurrent.Immutable;
       return -1;
     }
     if (this.version_minor > other.version_minor) {
-      return 1;
-    }
-    if (this.version_micro < other.version_micro) {
-      return -1;
-    }
-    if (this.version_micro > other.version_micro) {
       return 1;
     }
 
@@ -89,9 +79,6 @@ import javax.annotation.concurrent.Immutable;
     if (this.version_major != other.version_major) {
       return false;
     }
-    if (this.version_micro != other.version_micro) {
-      return false;
-    }
     if (this.version_minor != other.version_minor) {
       return false;
     }
@@ -108,15 +95,6 @@ import javax.annotation.concurrent.Immutable;
   }
 
   /**
-   * Retrieve the micro version of the implementation (typically zero).
-   */
-
-  public int getVersionMicro()
-  {
-    return this.version_micro;
-  }
-
-  /**
    * Retrieve the minor version of the implementation.
    */
 
@@ -130,7 +108,6 @@ import javax.annotation.concurrent.Immutable;
     final int prime = 31;
     int result = 1;
     result = (prime * result) + this.version_major;
-    result = (prime * result) + this.version_micro;
     result = (prime * result) + this.version_minor;
     return result;
   }
@@ -142,8 +119,6 @@ import javax.annotation.concurrent.Immutable;
     builder.append(this.version_major);
     builder.append(" ");
     builder.append(this.version_minor);
-    builder.append(" ");
-    builder.append(this.version_micro);
     builder.append("]");
     return builder.toString();
   }

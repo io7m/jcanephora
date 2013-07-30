@@ -19,8 +19,19 @@ package com.io7m.jcanephora.gpuprogram;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.ArrayBufferAttribute;
+import com.io7m.jcanephora.JCGLArrayBuffers;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLShaders;
+import com.io7m.jcanephora.TextureUnit;
+import com.io7m.jtensors.MatrixReadable3x3F;
+import com.io7m.jtensors.MatrixReadable4x4F;
+import com.io7m.jtensors.VectorReadable2F;
+import com.io7m.jtensors.VectorReadable2I;
+import com.io7m.jtensors.VectorReadable3F;
+import com.io7m.jtensors.VectorReadable3I;
+import com.io7m.jtensors.VectorReadable4F;
+import com.io7m.jtensors.VectorReadable4I;
 
 /**
  * <p>
@@ -28,30 +39,57 @@ import com.io7m.jcanephora.JCGLShaders;
  * </p>
  */
 
-public interface JCGPExecutionAPI
+public interface JCGPExecutionAPI<E extends Throwable>
 {
+  /**
+   * <p>
+   * Bind the attribute <tt>x</tt> to the program attribute named <tt>a</tt>.
+   * After this function has been called successfully, the attribute
+   * <tt>a</tt> will be assumed to have been assigned, for the purposes of
+   * validation with {@link #execValidate()}.
+   * </p>
+   * 
+   * @throws ConstraintError
+   *           Iff <tt>u</tt> does not exist in the given program, or for the
+   *           same reasons as
+   *           {@link JCGLArrayBuffers#arrayBufferBindVertexAttribute(ArrayBufferAttribute, com.io7m.jcanephora.ProgramAttribute)}
+   *           .
+   * @throws JCGLException
+   *           For the same reasons as
+   *           {@link JCGLArrayBuffers#arrayBufferBindVertexAttribute(ArrayBufferAttribute, com.io7m.jcanephora.ProgramAttribute)}
+   *           .
+   */
+
+  <G extends JCGLArrayBuffers & JCGLShaders> void execAttributeBind(
+    final @Nonnull G gl,
+    final @Nonnull String a,
+    final @Nonnull ArrayBufferAttribute x)
+    throws ConstraintError,
+      JCGLException;
+
   /**
    * <p>
    * Prepare to start executing the given program.
    * </p>
    * 
    * @throws ConstraintError
-   *           Iff <code>new_program == null || gl == null</code>.
+   *           Iff <code>p == null || gl == null</code>.
    * @throws JCGLException
    *           Iff the program cannot start, or an OpenGL error occurs.
    */
 
   public void execPrepare(
-    @Nonnull JCGLShaders gl,
-    @Nonnull JCGPProgram new_program)
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull JCGPProgram p)
     throws ConstraintError,
       JCGLException;
 
   /**
    * <p>
-   * Execute the {@link #execRunActual()} function with the program specified
-   * with {@link #start(JCGPProgram)} as the current program, after checking
-   * that all of the attributes and uniforms in the program have been bound.
+   * Execute an implementation-specific function with the program specified
+   * with {@link #execPrepare(JCGLShaders, JCGPProgram)} as the current
+   * program, after calling {@link #execValidate()} to check that the
+   * execution is correctly configured.
    * </p>
    * 
    * @throws ConstraintError
@@ -67,9 +105,288 @@ public interface JCGPExecutionAPI
    *           </ul>
    * @throws JCGLException
    *           Iff an OpenGL error occurs.
+   * @throws E
+   *           Iff the implementation-specific function provided by the user
+   *           raises <tt>E</tt>.
    */
 
   public void execRun(
-    @Nonnull JCGLShaders gl)
+    final @Nonnull JCGLShaders gl)
+    throws ConstraintError,
+      JCGLException,
+      E;
+
+  /**
+   * <p>
+   * Set the value of the uniform named <tt>u</tt> to the given value
+   * <tt>x</tt>. After this function has been called successfully, the uniform
+   * <tt>u</tt> will be assumed to have been assigned, for the purposes of
+   * validation with {@link #execValidate()}.
+   * </p>
+   * 
+   * @throws ConstraintError
+   *           Iff <tt>u</tt> does not exist in the given program, or for the
+   *           same reasons as
+   *           {@link JCGLShaders#programPutUniformFloat(com.io7m.jcanephora.ProgramUniform, float)}
+   *           .
+   * @throws JCGLException
+   *           For the same reasons as
+   *           {@link JCGLShaders#programPutUniformFloat(com.io7m.jcanephora.ProgramUniform, float)}
+   *           .
+   */
+
+  public void execUniformPutFloat(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    float x)
+    throws ConstraintError,
+      JCGLException;
+
+  /**
+   * <p>
+   * Set the value of the uniform named <tt>u</tt> to the given value
+   * <tt>x</tt>. After this function has been called successfully, the uniform
+   * <tt>u</tt> will be assumed to have been assigned, for the purposes of
+   * validation with {@link #execValidate()}.
+   * </p>
+   * 
+   * @throws ConstraintError
+   *           Iff <tt>u</tt> does not exist in the given program, or for the
+   *           same reasons as
+   *           {@link JCGLShaders#programPutUniformMatrix3x3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.MatrixReadable3x3F)}
+   *           .
+   * @throws JCGLException
+   *           For the same reasons as
+   *           {@link JCGLShaders#programPutUniformMatrix3x3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.MatrixReadable3x3F)}
+   *           .
+   */
+
+  public void execUniformPutMatrix3x3F(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    final @Nonnull MatrixReadable3x3F x)
+    throws ConstraintError,
+      JCGLException;
+
+/**
+       * <p>
+       * Set the value of the uniform named <tt>u</tt> to the given value
+       * <tt>x</tt>. After this function has been called successfully, the uniform
+       * <tt>u</tt> will be assumed to have been assigned, for the purposes of
+       * validation with {@link #execValidate()}.
+       * </p>
+       * 
+       * @throws ConstraintError
+       *           Iff <tt>u</tt> does not exist in the given program, or for the
+       *           same reasons as
+       *           {@link JCGLShaders#programPutUniformMatrix4x4f(com.io7m.jcanephora.ProgramUniform, MatrixReadable4x4F)
+       *           .
+       * @throws JCGLException
+       *           For the same reasons as
+       *           {@link JCGLShaders#programPutUniformMatrix4x4f(com.io7m.jcanephora.ProgramUniform, MatrixReadable4x4F)
+       *           .
+       */
+
+  public void execUniformPutMatrix4x4F(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    final @Nonnull MatrixReadable4x4F x)
+    throws ConstraintError,
+      JCGLException;
+
+  /**
+   * <p>
+   * Set the value of the uniform named <tt>u</tt> to the given value
+   * <tt>x</tt>. After this function has been called successfully, the uniform
+   * <tt>u</tt> will be assumed to have been assigned, for the purposes of
+   * validation with {@link #execValidate()}.
+   * </p>
+   * 
+   * @throws ConstraintError
+   *           Iff <tt>u</tt> does not exist in the given program, or for the
+   *           same reasons as
+   *           {@link JCGLShaders#programPutUniformTextureUnit(com.io7m.jcanephora.ProgramUniform, TextureUnit)}
+   *           .
+   * @throws JCGLException
+   *           For the same reasons as
+   *           {@link JCGLShaders#programPutUniformTextureUnit(com.io7m.jcanephora.ProgramUniform, TextureUnit)}
+   *           .
+   */
+
+  public void execUniformPutTextureUnit(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    final @Nonnull TextureUnit x)
+    throws ConstraintError,
+      JCGLException;
+
+  /**
+   * <p>
+   * Set the value of the uniform named <tt>u</tt> to the given value
+   * <tt>x</tt>. After this function has been called successfully, the uniform
+   * <tt>u</tt> will be assumed to have been assigned, for the purposes of
+   * validation with {@link #execValidate()}.
+   * </p>
+   * 
+   * @throws ConstraintError
+   *           Iff <tt>u</tt> does not exist in the given program, or for the
+   *           same reasons as
+   *           {@link JCGLShaders#programPutUniformVector2f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable2F)}
+   *           .
+   * @throws JCGLException
+   *           For the same reasons as
+   *           {@link JCGLShaders#programPutUniformVector2f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable2F)}
+   *           .
+   */
+
+  public void execUniformPutVector2F(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    final @Nonnull VectorReadable2F x)
+    throws ConstraintError,
+      JCGLException;
+
+  /**
+   * <p>
+   * Set the value of the uniform named <tt>u</tt> to the given value
+   * <tt>x</tt>. After this function has been called successfully, the uniform
+   * <tt>u</tt> will be assumed to have been assigned, for the purposes of
+   * validation with {@link #execValidate()}.
+   * </p>
+   * 
+   * @throws ConstraintError
+   *           Iff <tt>u</tt> does not exist in the given program, or for the
+   *           same reasons as
+   *           {@link JCGLShaders#programPutUniformVector2f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable2I)}
+   *           .
+   * @throws JCGLException
+   *           For the same reasons as
+   *           {@link JCGLShaders#programPutUniformVector2f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable2I)}
+   *           .
+   */
+
+  public void execUniformPutVector2I(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    final @Nonnull VectorReadable2I x)
+    throws ConstraintError,
+      JCGLException;
+
+  /**
+   * <p>
+   * Set the value of the uniform named <tt>u</tt> to the given value
+   * <tt>x</tt>. After this function has been called successfully, the uniform
+   * <tt>u</tt> will be assumed to have been assigned, for the purposes of
+   * validation with {@link #execValidate()}.
+   * </p>
+   * 
+   * @throws ConstraintError
+   *           Iff <tt>u</tt> does not exist in the given program, or for the
+   *           same reasons as
+   *           {@link JCGLShaders#programPutUniformVector3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable3F)}
+   *           .
+   * @throws JCGLException
+   *           For the same reasons as
+   *           {@link JCGLShaders#programPutUniformVector3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable3F)}
+   *           .
+   */
+
+  public void execUniformPutVector3F(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    final @Nonnull VectorReadable3F x)
+    throws ConstraintError,
+      JCGLException;
+
+  /**
+   * <p>
+   * Set the value of the uniform named <tt>u</tt> to the given value
+   * <tt>x</tt>. After this function has been called successfully, the uniform
+   * <tt>u</tt> will be assumed to have been assigned, for the purposes of
+   * validation with {@link #execValidate()}.
+   * </p>
+   * 
+   * @throws ConstraintError
+   *           Iff <tt>u</tt> does not exist in the given program, or for the
+   *           same reasons as
+   *           {@link JCGLShaders#programPutUniformVector3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable3I)}
+   *           .
+   * @throws JCGLException
+   *           For the same reasons as
+   *           {@link JCGLShaders#programPutUniformVector3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable3I)}
+   *           .
+   */
+
+  public void execUniformPutVector3I(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    final @Nonnull VectorReadable3I x)
+    throws ConstraintError,
+      JCGLException;
+
+  /**
+   * <p>
+   * Set the value of the uniform named <tt>u</tt> to the given value
+   * <tt>x</tt>. After this function has been called successfully, the uniform
+   * <tt>u</tt> will be assumed to have been assigned, for the purposes of
+   * validation with {@link #execValidate()}.
+   * </p>
+   * 
+   * @throws ConstraintError
+   *           Iff <tt>u</tt> does not exist in the given program, or for the
+   *           same reasons as
+   *           {@link JCGLShaders#programPutUniformVector3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4F)}
+   *           .
+   * @throws JCGLException
+   *           For the same reasons as
+   *           {@link JCGLShaders#programPutUniformVector3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4F)}
+   *           .
+   */
+
+  public void execUniformPutVector4F(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    final @Nonnull VectorReadable4F x)
+    throws ConstraintError,
+      JCGLException;
+
+  /**
+   * <p>
+   * Set the value of the uniform named <tt>u</tt> to the given value
+   * <tt>x</tt>. After this function has been called successfully, the uniform
+   * <tt>u</tt> will be assumed to have been assigned, for the purposes of
+   * validation with {@link #execValidate()}.
+   * </p>
+   * 
+   * @throws ConstraintError
+   *           Iff <tt>u</tt> does not exist in the given program, or for the
+   *           same reasons as
+   *           {@link JCGLShaders#programPutUniformVector3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4I)}
+   *           .
+   * @throws JCGLException
+   *           For the same reasons as
+   *           {@link JCGLShaders#programPutUniformVector3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4I)}
+   *           .
+   */
+
+  public void execUniformPutVector4I(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    final @Nonnull VectorReadable4I x)
+    throws ConstraintError,
+      JCGLException;
+
+  /**
+   * <p>
+   * Validate the current execution, checking that all uniforms and attributes
+   * have been assigned values.
+   * </p>
+   * 
+   * @throws ConstraintError
+   *           Iff there is an attribute or uniform that has not been assigned
+   *           a value.
+   */
+
+  public void execValidate()
     throws ConstraintError;
 }

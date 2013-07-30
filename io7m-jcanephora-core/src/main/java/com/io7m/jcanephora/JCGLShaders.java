@@ -27,7 +27,9 @@ import com.io7m.jtensors.MatrixReadable4x4F;
 import com.io7m.jtensors.VectorReadable2F;
 import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jtensors.VectorReadable3F;
+import com.io7m.jtensors.VectorReadable3I;
 import com.io7m.jtensors.VectorReadable4F;
+import com.io7m.jtensors.VectorReadable4I;
 
 /**
  * Type-safe interface to OpenGL shading programs.
@@ -486,6 +488,33 @@ public interface JCGLShaders
    *           <ul>
    *           <li><code>uniform == null</code>.</li>
    *           <li><code>vector == null</code>.</li>
+   *           <li><code>uniform.getType() != TYPE_INT_VECTOR_3</code>.</li>
+   *           <li>The program that <code>uniform</code> belongs to is not
+   *           active.</li>
+   *           </ul>
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void programPutUniformVector3i(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable3I vector)
+    throws ConstraintError,
+      JCGLException;
+
+  /**
+   * Upload the vector <code>vector</code> to the uniform <code>uniform</code>
+   * .
+   * 
+   * @param uniform
+   *          The uniform variable.
+   * @param vector
+   *          The vector.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>uniform == null</code>.</li>
+   *           <li><code>vector == null</code>.</li>
    *           <li><code>uniform.getType() != TYPE_FLOAT_VECTOR_4</code>.</li>
    *           <li>The program that <code>uniform</code> belongs to is not
    *           active.</li>
@@ -497,6 +526,33 @@ public interface JCGLShaders
   void programPutUniformVector4f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4F vector)
+    throws ConstraintError,
+      JCGLException;
+
+  /**
+   * Upload the vector <code>vector</code> to the uniform <code>uniform</code>
+   * .
+   * 
+   * @param uniform
+   *          The uniform variable.
+   * @param vector
+   *          The vector.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>uniform == null</code>.</li>
+   *           <li><code>vector == null</code>.</li>
+   *           <li><code>uniform.getType() != TYPE_INT_VECTOR_4</code>.</li>
+   *           <li>The program that <code>uniform</code> belongs to is not
+   *           active.</li>
+   *           </ul>
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void programPutUniformVector4i(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable4I vector)
     throws ConstraintError,
       JCGLException;
 

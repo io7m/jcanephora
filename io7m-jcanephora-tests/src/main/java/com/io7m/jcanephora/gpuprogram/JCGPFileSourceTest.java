@@ -18,7 +18,6 @@ package com.io7m.jcanephora.gpuprogram;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -30,25 +29,24 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.JCGLApi;
 import com.io7m.jcanephora.JCGLSLVersionNumber;
 
-public class JCGPURISourceTest
+public class JCGPFileSourceTest
 {
-  @SuppressWarnings("static-method") @Test public void testChanged()
+  @SuppressWarnings("static-method") @Test public void testFileChanged()
     throws ConstraintError,
       Exception
   {
     final File td = TestData.getTestDataDirectory();
-    final File ufile = new File(new File(td, "data"), "example.v");
-    final URI uri = ufile.toURI();
+    final File file = new File(new File(td, "data"), "example.v");
+    Assert.assertTrue(file.isFile());
 
     final Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
     c.setTimeInMillis(10000);
 
-    final JCGPURISource fs = new JCGPURISource(uri);
+    final JCGPFileSource fs = new JCGPFileSource(file);
+    file.setLastModified(10000);
     Assert.assertFalse(fs.sourceChangedSince(c));
-    fs.sourceAlwaysChanged(true);
+    file.setLastModified(20000);
     Assert.assertTrue(fs.sourceChangedSince(c));
-    fs.sourceAlwaysChanged(false);
-    Assert.assertFalse(fs.sourceChangedSince(c));
   }
 
   @SuppressWarnings("static-method") @Test public void testFileEvaluate()
@@ -56,14 +54,10 @@ public class JCGPURISourceTest
       Exception
   {
     final File td = TestData.getTestDataDirectory();
-    final File ufile = new File(new File(td, "data"), "example.v");
-    final URI uri = ufile.toURI();
-
-    final JCGPURISource fs = new JCGPURISource(uri);
+    final JCGPFileSource fs =
+      new JCGPFileSource(new File(new File(td, "data"), "example.v"));
     final JCGPGeneratorContext context =
-      new JCGPGeneratorContext(
-        new JCGLSLVersionNumber(1, 0, 0),
-        JCGLApi.JCGL_ES);
+      new JCGPGeneratorContext(new JCGLSLVersionNumber(1, 0), JCGLApi.JCGL_ES);
     final ArrayList<String> output = new ArrayList<String>();
     fs.sourceGet(context, output);
 
@@ -81,16 +75,10 @@ public class JCGPURISourceTest
       Exception
   {
     final File td = TestData.getTestDataDirectory();
-    final File ufile = new File(td, "nonexistent");
-    final URI uri = ufile.toURI();
-
-    final JCGPURISource fs = new JCGPURISource(uri);
+    final JCGPFileSource fs = new JCGPFileSource(new File(td, "nonexistent"));
     final JCGPGeneratorContext context =
-      new JCGPGeneratorContext(
-        new JCGLSLVersionNumber(1, 0, 0),
-        JCGLApi.JCGL_ES);
+      new JCGPGeneratorContext(new JCGLSLVersionNumber(1, 0), JCGLApi.JCGL_ES);
     final ArrayList<String> output = new ArrayList<String>();
     fs.sourceGet(context, output);
   }
-
 }

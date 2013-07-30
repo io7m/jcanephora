@@ -339,7 +339,7 @@ import com.io7m.jlog.Log;
 
     final ArrayList<String> output = new ArrayList<String>(32);
     if (this.debugging) {
-      output.add("// main: " + this.unit_fragment_main.getName());
+      output.add("// main: " + this.unit_fragment_main.getName() + "\n");
     }
 
     JCGPGenerator.generatorGenerateVersion(version, api, output);
@@ -381,7 +381,7 @@ import com.io7m.jlog.Log;
 
     final ArrayList<String> output = new ArrayList<String>(32);
     if (this.debugging) {
-      output.add("// main: " + this.unit_vertex_main.getName());
+      output.add("// main: " + this.unit_vertex_main.getName() + "\n");
     }
 
     JCGPGenerator.generatorGenerateVersion(version, api, output);
@@ -409,8 +409,6 @@ import com.io7m.jlog.Log;
     message.append(version.getVersionMajor());
     message.append(".");
     message.append(version.getVersionMinor());
-    message.append(".");
-    message.append(version.getVersionMicro());
     message.append(".\n");
     this.generatorShowRequires(message);
     throw new JCGLUnsupportedException(message.toString());

@@ -34,10 +34,10 @@ public final class JCGPVersionOutput
       case JCGL_ES:
       {
         if (version.getVersionMajor() == 3) {
-          return "#version 300";
+          return "#version 300\n";
         }
         if (version.getVersionMajor() == 1) {
-          return "#version 100";
+          return "#version 100\n";
         }
         throw new JCGLUnsupportedException(
           "Unrecognized shading language version " + version);
@@ -46,41 +46,41 @@ public final class JCGPVersionOutput
       {
         if (version.getVersionMajor() == 1) {
           if (version.getVersionMinor() == 10) {
-            return "#version 110";
+            return "#version 110\n";
           }
           if (version.getVersionMinor() == 20) {
-            return "#version 120";
+            return "#version 120\n";
           }
           if (version.getVersionMinor() == 30) {
-            return "#version 130";
+            return "#version 130\n";
           }
           if (version.getVersionMinor() == 40) {
-            return "#version 140";
+            return "#version 140\n";
           }
           if (version.getVersionMinor() == 50) {
-            return "#version 150";
+            return "#version 150\n";
           }
         }
         if (version.getVersionMajor() == 3) {
           if (version.getVersionMinor() == 30) {
-            return "#version 330";
+            return "#version 330\n";
           }
         }
         if (version.getVersionMajor() == 4) {
           if (version.getVersionMinor() == 0) {
-            return "#version 400";
+            return "#version 400\n";
           }
           if (version.getVersionMinor() == 10) {
-            return "#version 410";
+            return "#version 410\n";
           }
           if (version.getVersionMinor() == 20) {
-            return "#version 420";
+            return "#version 420\n";
           }
           if (version.getVersionMinor() == 30) {
-            return "#version 430";
+            return "#version 430\n";
           }
           if (version.getVersionMinor() == 40) {
-            return "#version 440";
+            return "#version 440\n";
           }
         }
 

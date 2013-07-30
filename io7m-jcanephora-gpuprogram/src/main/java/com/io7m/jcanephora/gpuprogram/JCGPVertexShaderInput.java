@@ -22,6 +22,7 @@ import javax.annotation.concurrent.Immutable;
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.JCGLApi;
+import com.io7m.jcanephora.JCGLSLVersion;
 import com.io7m.jcanephora.JCGLSLVersionNumber;
 import com.io7m.jcanephora.JCGLType;
 import com.io7m.jcanephora.JCGLUnsupportedException;
@@ -103,9 +104,9 @@ import com.io7m.jcanephora.JCGLUnsupportedException;
     switch (api) {
       case JCGL_ES:
       {
-        // GLSL ES 1.0 and earlier use "attribute" to declare vertex shader
+        // GLSL ES 1.00 and earlier use "attribute" to declare vertex shader
         // inputs.
-        if (version.getVersionMajor() <= 1) {
+        if (version.compareTo(JCGLSLVersion.GLSL_ES_100.getNumber()) <= 0) {
           b.append("attribute");
         } else {
           b.append("in");
@@ -114,12 +115,10 @@ import com.io7m.jcanephora.JCGLUnsupportedException;
       }
       case JCGL_FULL:
       {
-        // GLSL 1.2 and earlier use "attribute" to declare vertex shader
+        // GLSL 1.20 and earlier use "attribute" to declare vertex shader
         // inputs.
-        if (version.getVersionMajor() <= 1) {
-          if (version.getVersionMinor() <= 2) {
-            b.append("attribute");
-          }
+        if (version.compareTo(JCGLSLVersion.GLSL_120.getNumber()) <= 0) {
+          b.append("attribute");
         } else {
           b.append("in");
         }
@@ -131,14 +130,14 @@ import com.io7m.jcanephora.JCGLUnsupportedException;
     b.append(this.type.getName());
     b.append(" ");
     b.append(this.name);
-    b.append(";");
+    b.append(";\n");
     return b.toString();
   }
 
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("[JCGPVertexShaderInput  ");
+    builder.append("[JCGPVertexShaderInput ");
     builder.append(this.type);
     builder.append(" ");
     builder.append(this.name);

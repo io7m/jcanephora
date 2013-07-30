@@ -36,7 +36,9 @@ import com.io7m.jtensors.MatrixReadable4x4F;
 import com.io7m.jtensors.VectorReadable2F;
 import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jtensors.VectorReadable3F;
+import com.io7m.jtensors.VectorReadable3I;
 import com.io7m.jtensors.VectorReadable4F;
+import com.io7m.jtensors.VectorReadable4I;
 
 /**
  * An implementation of the GLES2 interface, running on an OpenGL ES2
@@ -130,6 +132,7 @@ import com.io7m.jtensors.VectorReadable4F;
   final @Nonnull Log                                                           log;
   final @Nonnull JCGLStateCache                                                state;
   private final @Nonnull JCGLVersion                                           version;
+  private final @Nonnull JCGLSLVersion                                         sl_version;
   private final @Nonnull JCGLExtensionSupport<JCGLExtensionPackedDepthStencil> ext_packed_depth_stencil_support;
   private final @Nonnull JCGLExtensionPackedDepthStencil                       ext_packed_depth_stencil;
 
@@ -183,6 +186,7 @@ import com.io7m.jtensors.VectorReadable4F;
      */
 
     this.version = LWJGL_GLES2Functions.metaGetVersion();
+    this.sl_version = LWJGL_GLES2Functions.metaGetSLVersion();
   }
 
   @Override public ArrayBuffer arrayBufferAllocate(
@@ -773,6 +777,12 @@ import com.io7m.jtensors.VectorReadable4F;
     return LWJGL_GLES2Functions.metaGetRenderer();
   }
 
+  @Override public @Nonnull JCGLSLVersion metaGetSLVersion()
+    throws JCGLException
+  {
+    return this.sl_version;
+  }
+
   @Override public String metaGetVendor()
     throws JCGLException
   {
@@ -894,8 +904,9 @@ import com.io7m.jtensors.VectorReadable4F;
       JCGLException
   {
     LWJGL_GLES2Functions.programPutUniformMatrix4x4f(
-
-    this.state, uniform, matrix);
+      this.state,
+      uniform,
+      matrix);
   }
 
   @Override public void programPutUniformTextureUnit(
@@ -905,8 +916,9 @@ import com.io7m.jtensors.VectorReadable4F;
       JCGLException
   {
     LWJGL_GLES2Functions.programPutUniformTextureUnit(
-
-    this.state, uniform, unit);
+      this.state,
+      uniform,
+      unit);
   }
 
   @Override public void programPutUniformVector2f(
@@ -916,8 +928,9 @@ import com.io7m.jtensors.VectorReadable4F;
       JCGLException
   {
     LWJGL_GLES2Functions.programPutUniformVector2f(
-
-    this.state, uniform, vector);
+      this.state,
+      uniform,
+      vector);
   }
 
   @Override public void programPutUniformVector2i(
@@ -927,8 +940,33 @@ import com.io7m.jtensors.VectorReadable4F;
       JCGLException
   {
     LWJGL_GLES2Functions.programPutUniformVector2i(
+      this.state,
+      uniform,
+      vector);
+  }
 
-    this.state, uniform, vector);
+  @Override public void programPutUniformVector3i(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable3I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    LWJGL_GLES2Functions.programPutUniformVector3i(
+      this.state,
+      uniform,
+      vector);
+  }
+
+  @Override public void programPutUniformVector4i(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable4I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    LWJGL_GLES2Functions.programPutUniformVector4i(
+      this.state,
+      uniform,
+      vector);
   }
 
   @Override public void programPutUniformVector3f(

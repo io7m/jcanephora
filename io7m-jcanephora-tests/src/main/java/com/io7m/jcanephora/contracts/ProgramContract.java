@@ -50,7 +50,9 @@ import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorI2F;
 import com.io7m.jtensors.VectorI2I;
 import com.io7m.jtensors.VectorI3F;
+import com.io7m.jtensors.VectorI3I;
 import com.io7m.jtensors.VectorI4F;
+import com.io7m.jtensors.VectorI4I;
 import com.io7m.jtensors.VectorReadable2F;
 import com.io7m.jtensors.VectorReadable3F;
 import com.io7m.jtensors.VectorReadable4F;
@@ -1413,6 +1415,50 @@ public abstract class ProgramContract implements TestContract
       Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
       final VectorI2I v = new VectorI2I(1, 2);
       gl.programPutUniformVector2i(u, v);
+    }
+  }
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramUniformTypeWrongVector3i()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError,
+        JCGLCompileException
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+
+    final Program p = ProgramContract.makeLargeShader(tc, gl);
+    p.activate(gl);
+
+    {
+      final ProgramUniform u = p.getUniform("float_0");
+      Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
+      final VectorI3I v = new VectorI3I(1, 2, 3);
+      gl.programPutUniformVector3i(u, v);
+    }
+  }
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramUniformTypeWrongVector4i()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError,
+        JCGLCompileException
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+
+    final Program p = ProgramContract.makeLargeShader(tc, gl);
+    p.activate(gl);
+
+    {
+      final ProgramUniform u = p.getUniform("float_0");
+      Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
+      final VectorI4I v = new VectorI4I(1, 2, 3, 4);
+      gl.programPutUniformVector4i(u, v);
     }
   }
 

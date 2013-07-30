@@ -22,6 +22,7 @@ import javax.annotation.concurrent.Immutable;
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.JCGLApi;
+import com.io7m.jcanephora.JCGLSLVersion;
 import com.io7m.jcanephora.JCGLSLVersionNumber;
 import com.io7m.jcanephora.JCGLType;
 
@@ -101,19 +102,65 @@ import com.io7m.jcanephora.JCGLType;
     final @Nonnull JCGLSLVersionNumber version,
     final @Nonnull JCGLApi api)
   {
-    if (version.getVersionMajor() > 2) {
-      final StringBuilder b = new StringBuilder();
-      b.append("(layout = ");
-      b.append(this.layout);
-      b.append(") out ");
-      b.append(this.type.getName());
-      b.append(" ");
-      b.append(this.getName());
-      b.append(";");
-      return b.toString();
+    switch (api) {
+      case JCGL_ES:
+      {
+        /**
+         * Only GLSL ES >= 3.0 supports fragment shader outputs.
+         */
+
+        if (version.compareTo(JCGLSLVersion.GLSL_ES_30.getNumber()) >= 0) {
+          return this.toGLSLActualWithLayout();
+        }
+        break;
+      }
+      case JCGL_FULL:
+      {
+        /**
+         * Only GLSL >= 1.30 supports fragment shader outputs.
+         */
+
+        if (version.compareTo(JCGLSLVersion.GLSL_130.getNumber()) >= 0) {
+
+          /**
+           * But only GLSL >= 3.30 exports explicit layouts in shaders.
+           */
+
+          if (version.compareTo(JCGLSLVersion.GLSL_330.getNumber()) >= 0) {
+            return this.toGLSLActualWithLayout();
+          }
+
+          return this.toGLSLActualWithoutLayout();
+        }
+        break;
+      }
     }
 
-    return "";
+    return "\n";
+  }
+
+  private String toGLSLActualWithLayout()
+  {
+    final StringBuilder b = new StringBuilder();
+    b.append("layout(location = ");
+    b.append(this.layout);
+    b.append(") out ");
+    b.append(this.type.getName());
+    b.append(" ");
+    b.append(this.getName());
+    b.append(";\n");
+    return b.toString();
+  }
+
+  private String toGLSLActualWithoutLayout()
+  {
+    final StringBuilder b = new StringBuilder();
+    b.append("out ");
+    b.append(this.type.getName());
+    b.append(" ");
+    b.append(this.getName());
+    b.append(";\n");
+    return b.toString();
   }
 
   @Override public String toString()

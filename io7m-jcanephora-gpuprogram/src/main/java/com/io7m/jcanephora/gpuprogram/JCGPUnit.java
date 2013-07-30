@@ -34,9 +34,9 @@ import com.io7m.jcanephora.JCGLApiKindES;
 import com.io7m.jcanephora.JCGLApiKindFull;
 import com.io7m.jcanephora.JCGLSLVersionNumber;
 
-abstract class JCGPUnit
+public abstract class JCGPUnit
 {
-  static final class JCGPUnitFragmentShader extends JCGPUnit
+  public static final class JCGPUnitFragmentShader extends JCGPUnit
   {
     private final @Nonnull Map<String, JCGPFragmentShaderInput>  inputs;
     private final @Nonnull Map<String, JCGPFragmentShaderOutput> outputs;
@@ -171,30 +171,33 @@ abstract class JCGPUnit
         ConstraintError
     {
       if (context.isDebugging()) {
-        output.add("// unit: " + this.getName());
+        output.add("// unit: " + this.getName() + "\n");
       }
 
       final JCGLSLVersionNumber v = context.getVersion();
       final JCGLApi a = context.getApi();
 
       for (final Entry<String, JCGPUniform> e : this.uniforms.entrySet()) {
+        if (context.isDebugging()) {
+          output.add("// declared uniform: " + e.getValue() + "\n");
+        }
         output.add(e.getValue().toGLSL(v, a));
       }
 
       for (final Entry<String, JCGPFragmentShaderInput> e : this.inputs
         .entrySet()) {
+        if (context.isDebugging()) {
+          output.add("// declared input: " + e.getValue() + "\n");
+        }
         output.add(e.getValue().toGLSL(v, a));
       }
 
-      /**
-       * Only OpenGL >= 2.1, and ES >= 3 support fragment shader outputs.
-       */
-
-      if (v.getVersionMajor() > 2) {
-        for (final Entry<String, JCGPFragmentShaderOutput> e : this.outputs
-          .entrySet()) {
-          output.add(e.getValue().toGLSL(v, a));
+      for (final Entry<String, JCGPFragmentShaderOutput> e : this.outputs
+        .entrySet()) {
+        if (context.isDebugging()) {
+          output.add("// declared output: " + e.getValue() + "\n");
         }
+        output.add(e.getValue().toGLSL(v, a));
       }
 
       this.source.sourceGet(context, output);
@@ -244,7 +247,7 @@ abstract class JCGPUnit
     }
   }
 
-  static final class JCGPUnitGeneric extends JCGPUnit
+  public static final class JCGPUnitGeneric extends JCGPUnit
   {
     @SuppressWarnings("synthetic-access") private JCGPUnitGeneric(
       final @Nonnull String name,
@@ -270,7 +273,7 @@ abstract class JCGPUnit
         ConstraintError
     {
       if (context.isDebugging()) {
-        output.add("// unit: " + this.getName());
+        output.add("// unit: " + this.getName() + "\n");
       }
       this.source.sourceGet(context, output);
     }
@@ -285,7 +288,7 @@ abstract class JCGPUnit
     }
   }
 
-  static final class JCGPUnitVertexShader extends JCGPUnit
+  public static final class JCGPUnitVertexShader extends JCGPUnit
   {
     private final @Nonnull Map<String, JCGPVertexShaderInput>  inputs;
     private final @Nonnull Map<String, JCGPVertexShaderOutput> outputs;
@@ -420,23 +423,32 @@ abstract class JCGPUnit
         ConstraintError
     {
       if (context.isDebugging()) {
-        output.add("// unit: " + this.getName());
+        output.add("// unit: " + this.getName() + "\n");
       }
 
       final JCGLSLVersionNumber v = context.getVersion();
       final JCGLApi a = context.getApi();
 
       for (final Entry<String, JCGPUniform> e : this.uniforms.entrySet()) {
+        if (context.isDebugging()) {
+          output.add("// declared uniform: " + e.getValue() + "\n");
+        }
         output.add(e.getValue().toGLSL(v, a));
       }
 
       for (final Entry<String, JCGPVertexShaderInput> e : this.inputs
         .entrySet()) {
+        if (context.isDebugging()) {
+          output.add("// declared input: " + e.getValue() + "\n");
+        }
         output.add(e.getValue().toGLSL(v, a));
       }
 
       for (final Entry<String, JCGPVertexShaderOutput> e : this.outputs
         .entrySet()) {
+        if (context.isDebugging()) {
+          output.add("// declared output: " + e.getValue() + "\n");
+        }
         output.add(e.getValue().toGLSL(v, a));
       }
 

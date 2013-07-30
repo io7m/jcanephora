@@ -1816,6 +1816,20 @@ final class JOGL_GL_Functions
     return x;
   }
 
+  static JCGLSLVersion metaGetSLVersion(
+    final @Nonnull GL gl)
+    throws ConstraintError
+  {
+    final GLContext context = gl.getContext();
+    final VersionNumber vn = context.getGLSLVersionNumber();
+    final String text = context.getGLVersion();
+
+    return JCGLSLVersion.make(
+      new JCGLSLVersionNumber(vn.getMajor(), vn.getMinor()),
+      context.isGLES() ? JCGLApi.JCGL_ES : JCGLApi.JCGL_FULL,
+      text);
+  }
+
   static String metaGetVendor(
     final @Nonnull GL gl)
     throws JCGLException

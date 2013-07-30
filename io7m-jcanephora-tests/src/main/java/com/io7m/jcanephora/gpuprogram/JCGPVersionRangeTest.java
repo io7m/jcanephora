@@ -32,10 +32,10 @@ public class JCGPVersionRangeTest
   @SuppressWarnings({ "static-method" }) @Test public void testEquals()
     throws ConstraintError
   {
-    final JCGLSLVersionNumber vlow0 = new JCGLSLVersionNumber(1, 0, 0);
-    final JCGLSLVersionNumber vlow1 = new JCGLSLVersionNumber(1, 0, 1);
-    final JCGLSLVersionNumber vhigh0 = new JCGLSLVersionNumber(2, 0, 0);
-    final JCGLSLVersionNumber vhigh1 = new JCGLSLVersionNumber(2, 0, 1);
+    final JCGLSLVersionNumber vlow0 = new JCGLSLVersionNumber(1, 0);
+    final JCGLSLVersionNumber vlow1 = new JCGLSLVersionNumber(1, 1);
+    final JCGLSLVersionNumber vhigh0 = new JCGLSLVersionNumber(2, 0);
+    final JCGLSLVersionNumber vhigh1 = new JCGLSLVersionNumber(2, 1);
 
     final JCGPVersionRange<JCGLApiKindFull> vr0 =
       new JCGPVersionRange<JCGLApiKindFull>(vlow0, vhigh0);
@@ -65,10 +65,10 @@ public class JCGPVersionRangeTest
   @SuppressWarnings({ "static-method" }) @Test public void testHashcode()
     throws ConstraintError
   {
-    final JCGLSLVersionNumber vlow0 = new JCGLSLVersionNumber(1, 0, 0);
-    final JCGLSLVersionNumber vlow1 = new JCGLSLVersionNumber(1, 0, 1);
-    final JCGLSLVersionNumber vhigh0 = new JCGLSLVersionNumber(2, 0, 0);
-    final JCGLSLVersionNumber vhigh1 = new JCGLSLVersionNumber(2, 0, 1);
+    final JCGLSLVersionNumber vlow0 = new JCGLSLVersionNumber(1, 0);
+    final JCGLSLVersionNumber vlow1 = new JCGLSLVersionNumber(1, 1);
+    final JCGLSLVersionNumber vhigh0 = new JCGLSLVersionNumber(2, 0);
+    final JCGLSLVersionNumber vhigh1 = new JCGLSLVersionNumber(2, 1);
 
     final JCGPVersionRange<JCGLApiKindFull> vr0 =
       new JCGPVersionRange<JCGLApiKindFull>(vlow0, vhigh0);
@@ -96,8 +96,8 @@ public class JCGPVersionRangeTest
   @SuppressWarnings({ "static-method" }) @Test public void testIdentities()
     throws ConstraintError
   {
-    final JCGLSLVersionNumber vlow = new JCGLSLVersionNumber(1, 0, 0);
-    final JCGLSLVersionNumber vhigh = new JCGLSLVersionNumber(2, 0, 0);
+    final JCGLSLVersionNumber vlow = new JCGLSLVersionNumber(1, 0);
+    final JCGLSLVersionNumber vhigh = new JCGLSLVersionNumber(2, 0);
     final JCGPVersionRange<JCGLApiKindFull> g =
       new JCGPVersionRange<JCGLApiKindFull>(vlow, vhigh);
     Assert.assertEquals(vlow, g.getLowerBound());
@@ -111,10 +111,10 @@ public class JCGPVersionRangeTest
   @SuppressWarnings({ "static-method" }) @Test public void testIncludes()
     throws ConstraintError
   {
-    final JCGLSLVersionNumber vlow0 = new JCGLSLVersionNumber(1, 0, 0);
-    final JCGLSLVersionNumber vlow1 = new JCGLSLVersionNumber(1, 0, 1);
-    final JCGLSLVersionNumber vhigh0 = new JCGLSLVersionNumber(2, 0, 0);
-    final JCGLSLVersionNumber vhigh1 = new JCGLSLVersionNumber(2, 0, 1);
+    final JCGLSLVersionNumber vlow0 = new JCGLSLVersionNumber(1, 0);
+    final JCGLSLVersionNumber vlow1 = new JCGLSLVersionNumber(1, 1);
+    final JCGLSLVersionNumber vhigh0 = new JCGLSLVersionNumber(2, 0);
+    final JCGLSLVersionNumber vhigh1 = new JCGLSLVersionNumber(2, 1);
 
     final JCGPVersionRange<JCGLApiKindFull> vr0 =
       new JCGPVersionRange<JCGLApiKindFull>(vlow0, vhigh0);
@@ -155,12 +155,12 @@ public class JCGPVersionRangeTest
     testIncludeSpecific()
       throws ConstraintError
   {
-    final JCGLSLVersionNumber vlow = new JCGLSLVersionNumber(0, 0, 0);
-    final JCGLSLVersionNumber vhigh = new JCGLSLVersionNumber(4, 30, 0);
+    final JCGLSLVersionNumber vlow = new JCGLSLVersionNumber(0, 0);
+    final JCGLSLVersionNumber vhigh = new JCGLSLVersionNumber(4, 30);
     final JCGPVersionRange<JCGLApiKindFull> vr0 =
       new JCGPVersionRange<JCGLApiKindFull>(vlow, vhigh);
 
-    Assert.assertTrue(vr0.includes(new JCGLSLVersionNumber(3, 30, 0)));
+    Assert.assertTrue(vr0.includes(new JCGLSLVersionNumber(3, 30)));
   }
 
   /**
@@ -172,8 +172,8 @@ public class JCGPVersionRangeTest
     throws ConstraintError
   {
     new JCGPVersionRange<JCGLApiKindFull>(
-      new JCGLSLVersionNumber(2, 0, 0),
-      new JCGLSLVersionNumber(1, 0, 0));
+      new JCGLSLVersionNumber(2, 0),
+      new JCGLSLVersionNumber(1, 0));
   }
 
   /**
@@ -184,10 +184,7 @@ public class JCGPVersionRangeTest
     expected = ConstraintError.class) public void testNullLower()
     throws ConstraintError
   {
-    new JCGPVersionRange<JCGLApiKindFull>(null, new JCGLSLVersionNumber(
-      1,
-      0,
-      0));
+    new JCGPVersionRange<JCGLApiKindFull>(null, new JCGLSLVersionNumber(1, 0));
   }
 
   /**
@@ -198,9 +195,7 @@ public class JCGPVersionRangeTest
     expected = ConstraintError.class) public void testNullUpper()
     throws ConstraintError
   {
-    new JCGPVersionRange<JCGLApiKindFull>(
-      new JCGLSLVersionNumber(1, 0, 0),
-      null);
+    new JCGPVersionRange<JCGLApiKindFull>(new JCGLSLVersionNumber(1, 0), null);
   }
 
   /**
@@ -210,10 +205,10 @@ public class JCGPVersionRangeTest
   @SuppressWarnings({ "static-method" }) @Test public void testToString()
     throws ConstraintError
   {
-    final JCGLSLVersionNumber vlow0 = new JCGLSLVersionNumber(1, 0, 0);
-    final JCGLSLVersionNumber vlow1 = new JCGLSLVersionNumber(1, 0, 1);
-    final JCGLSLVersionNumber vhigh0 = new JCGLSLVersionNumber(2, 0, 0);
-    final JCGLSLVersionNumber vhigh1 = new JCGLSLVersionNumber(2, 0, 1);
+    final JCGLSLVersionNumber vlow0 = new JCGLSLVersionNumber(1, 0);
+    final JCGLSLVersionNumber vlow1 = new JCGLSLVersionNumber(1, 1);
+    final JCGLSLVersionNumber vhigh0 = new JCGLSLVersionNumber(2, 0);
+    final JCGLSLVersionNumber vhigh1 = new JCGLSLVersionNumber(2, 1);
 
     final JCGPVersionRange<JCGLApiKindFull> vr0 =
       new JCGPVersionRange<JCGLApiKindFull>(vlow0, vhigh0);

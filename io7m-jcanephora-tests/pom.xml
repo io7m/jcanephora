@@ -68,6 +68,16 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.io7m.jcanephora.gpuprogram</groupId>
+      <artifactId>io7m-jcanephora-gpuprogram</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.jcanephora.gpuprogram.jvvfs</groupId>
+      <artifactId>io7m-jcanephora-gpuprogram-jvvfs</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>com.io7m.jcanephora.texload-imageio</groupId>
       <artifactId>io7m-jcanephora-texload-imageio</artifactId>
       <version>${project.version}</version>
