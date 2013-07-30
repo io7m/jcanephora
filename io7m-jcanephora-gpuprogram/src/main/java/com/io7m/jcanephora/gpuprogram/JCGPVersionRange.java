@@ -113,14 +113,10 @@ import com.io7m.jcanephora.JCGLSLVersionNumber;
     b.append(this.lower.getVersionMajor());
     b.append(".");
     b.append(this.lower.getVersionMinor());
-    b.append(".");
-    b.append(this.lower.getVersionMicro());
     b.append(", ");
     b.append(this.upper.getVersionMajor());
     b.append(".");
     b.append(this.upper.getVersionMinor());
-    b.append(".");
-    b.append(this.upper.getVersionMicro());
     b.append("]");
     return b.toString();
   }

@@ -40,9 +40,7 @@ public class JCGPStringSourceTest
     Assert.assertFalse(fs.sourceChangedSince(c));
 
     final JCGPGeneratorContext context =
-      new JCGPGeneratorContext(
-        new JCGLSLVersionNumber(1, 0, 0),
-        JCGLApi.JCGL_ES);
+      new JCGPGeneratorContext(new JCGLSLVersionNumber(1, 0), JCGLApi.JCGL_ES);
     final ArrayList<String> output = new ArrayList<String>();
     fs.sourceGet(context, output);
 
@@ -55,9 +53,7 @@ public class JCGPStringSourceTest
   {
     final JCGPStringSource fs = new JCGPStringSource("hello");
     final JCGPGeneratorContext context =
-      new JCGPGeneratorContext(
-        new JCGLSLVersionNumber(1, 0, 0),
-        JCGLApi.JCGL_ES);
+      new JCGPGeneratorContext(new JCGLSLVersionNumber(1, 0), JCGLApi.JCGL_ES);
     final ArrayList<String> output = new ArrayList<String>();
     fs.sourceGet(context, output);
 

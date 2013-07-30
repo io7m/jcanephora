@@ -44,6 +44,16 @@ public interface JCGLMeta
     throws JCGLException;
 
   /**
+   * Return the version string for the OpenGL shading language implementation.
+   * 
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  public @Nonnull JCGLSLVersion metaGetSLVersion()
+    throws JCGLException;
+
+  /**
    * Return the name of the OpenGL vendor.
    * 
    * @throws JCGLException

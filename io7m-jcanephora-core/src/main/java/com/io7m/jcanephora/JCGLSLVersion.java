@@ -31,19 +31,188 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 @Immutable public final class JCGLSLVersion
 {
-  private final @Nonnull JCGLVersionNumber number;
-  private final @Nonnull JCGLApi           api;
-  private final @Nonnull String            text;
+  /**
+   * GLSL ES 1.00, as published with OpenGL ES 2.0.
+   */
 
-  JCGLSLVersion(
-    final @Nonnull JCGLVersionNumber number,
+  public static final @Nonnull JCGLSLVersion GLSL_ES_100;
+
+  /**
+   * GLSL ES 3.0, as published with OpenGL ES 3.0.
+   */
+
+  public static final @Nonnull JCGLSLVersion GLSL_ES_30;
+
+  /**
+   * GLSL 1.10, as published with OpenGL 2.0.
+   */
+
+  public static final @Nonnull JCGLSLVersion GLSL_110;
+
+  /**
+   * GLSL 1.20, as published with OpenGL 2.1.
+   */
+
+  public static final @Nonnull JCGLSLVersion GLSL_120;
+
+  /**
+   * GLSL 1.30, as published with OpenGL 3.0.
+   */
+
+  public static final @Nonnull JCGLSLVersion GLSL_130;
+
+  /**
+   * GLSL 1.40, as published with OpenGL 3.1.
+   */
+
+  public static final @Nonnull JCGLSLVersion GLSL_140;
+
+  /**
+   * GLSL 1.50, as published with OpenGL 3.2.
+   */
+
+  public static final @Nonnull JCGLSLVersion GLSL_150;
+
+  /**
+   * GLSL 3.30, as published with OpenGL 3.3.
+   */
+
+  public static final @Nonnull JCGLSLVersion GLSL_330;
+
+  /**
+   * GLSL 4.0, as published with OpenGL 4.0.
+   */
+
+  public static final @Nonnull JCGLSLVersion GLSL_40;
+
+  /**
+   * GLSL 4.10, as published with OpenGL 4.1.
+   */
+
+  public static final @Nonnull JCGLSLVersion GLSL_410;
+
+  /**
+   * GLSL 4.20, as published with OpenGL 4.2.
+   */
+
+  public static final @Nonnull JCGLSLVersion GLSL_420;
+
+  /**
+   * GLSL 4.30, as published with OpenGL 4.3.
+   */
+
+  public static final @Nonnull JCGLSLVersion GLSL_430;
+
+  /**
+   * GLSL 4.40, as published with OpenGL 4.4.
+   */
+
+  public static final @Nonnull JCGLSLVersion GLSL_440;
+
+  static {
+    GLSL_ES_100 =
+      new JCGLSLVersion(
+        new JCGLSLVersionNumber(1, 0),
+        JCGLApi.JCGL_ES,
+        "OpenGL ES GLSL ES 1.00");
+
+    GLSL_ES_30 =
+      new JCGLSLVersion(
+        new JCGLSLVersionNumber(3, 0),
+        JCGLApi.JCGL_ES,
+        "OpenGL ES GLSL ES 3.0");
+
+    GLSL_110 =
+      new JCGLSLVersion(
+        new JCGLSLVersionNumber(1, 10),
+        JCGLApi.JCGL_FULL,
+        "1.10");
+
+    GLSL_120 =
+      new JCGLSLVersion(
+        new JCGLSLVersionNumber(1, 20),
+        JCGLApi.JCGL_FULL,
+        "1.20");
+
+    GLSL_130 =
+      new JCGLSLVersion(
+        new JCGLSLVersionNumber(1, 30),
+        JCGLApi.JCGL_FULL,
+        "1.30");
+
+    GLSL_140 =
+      new JCGLSLVersion(
+        new JCGLSLVersionNumber(1, 40),
+        JCGLApi.JCGL_FULL,
+        "1.40");
+
+    GLSL_150 =
+      new JCGLSLVersion(
+        new JCGLSLVersionNumber(1, 50),
+        JCGLApi.JCGL_FULL,
+        "1.50");
+
+    GLSL_330 =
+      new JCGLSLVersion(
+        new JCGLSLVersionNumber(3, 30),
+        JCGLApi.JCGL_FULL,
+        "3.30");
+
+    GLSL_40 =
+      new JCGLSLVersion(
+        new JCGLSLVersionNumber(4, 0),
+        JCGLApi.JCGL_FULL,
+        "4.0");
+
+    GLSL_410 =
+      new JCGLSLVersion(
+        new JCGLSLVersionNumber(4, 10),
+        JCGLApi.JCGL_FULL,
+        "4.10");
+
+    GLSL_420 =
+      new JCGLSLVersion(
+        new JCGLSLVersionNumber(4, 20),
+        JCGLApi.JCGL_FULL,
+        "4.20");
+
+    GLSL_430 =
+      new JCGLSLVersion(
+        new JCGLSLVersionNumber(4, 30),
+        JCGLApi.JCGL_FULL,
+        "4.30");
+
+    GLSL_440 =
+      new JCGLSLVersion(
+        new JCGLSLVersionNumber(4, 40),
+        JCGLApi.JCGL_FULL,
+        "4.40");
+  }
+
+  static @Nonnull JCGLSLVersion make(
+    final @Nonnull JCGLSLVersionNumber number,
     final @Nonnull JCGLApi api,
     final @Nonnull String text)
     throws ConstraintError
   {
-    this.number = Constraints.constrainNotNull(number, "Number");
-    this.text = Constraints.constrainNotNull(text, "Text");
-    this.api = Constraints.constrainNotNull(api, "API");
+    return new JCGLSLVersion(
+      Constraints.constrainNotNull(number, "Number"),
+      Constraints.constrainNotNull(api, "API"),
+      Constraints.constrainNotNull(text, "Text"));
+  }
+
+  private final @Nonnull JCGLSLVersionNumber number;
+  private final @Nonnull JCGLApi             api;
+  private final @Nonnull String              text;
+
+  private JCGLSLVersion(
+    final @Nonnull JCGLSLVersionNumber number,
+    final @Nonnull JCGLApi api,
+    final @Nonnull String text)
+  {
+    this.number = number;
+    this.text = text;
+    this.api = api;
   }
 
   @Override public boolean equals(
@@ -84,11 +253,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
   /**
    * <p>
-   * Retrieve the version number as a {@link JCGLVersionNumber} structure.
+   * Retrieve the version number as a {@link JCGLSLVersionNumber} structure.
    * </p>
    */
 
-  public @Nonnull JCGLVersionNumber getNumber()
+  public @Nonnull JCGLSLVersionNumber getNumber()
   {
     return this.number;
   }
@@ -114,17 +283,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
   public int getVersionMajor()
   {
     return this.number.getVersionMajor();
-  }
-
-  /**
-   * <p>
-   * Retrieve the micro version of the implementation (typically zero).
-   * </p>
-   */
-
-  public int getVersionMicro()
-  {
-    return this.number.getVersionMicro();
   }
 
   /**
@@ -155,8 +313,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
     builder.append(this.getVersionMajor());
     builder.append(".");
     builder.append(this.getVersionMinor());
-    builder.append(".");
-    builder.append(this.getVersionMicro());
     builder.append(" ");
     builder.append(this.api.getName());
     builder.append(" [");

@@ -34,7 +34,9 @@ import com.io7m.jtensors.MatrixReadable4x4F;
 import com.io7m.jtensors.VectorReadable2F;
 import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jtensors.VectorReadable3F;
+import com.io7m.jtensors.VectorReadable3I;
 import com.io7m.jtensors.VectorReadable4F;
+import com.io7m.jtensors.VectorReadable4I;
 
 /**
  * An implementation of the GL2 interface, running on an OpenGL 2.1
@@ -47,6 +49,7 @@ import com.io7m.jtensors.VectorReadable4F;
   private final @Nonnull Log            log;
   private final @Nonnull JCGLStateCache state;
   private final @Nonnull JCGLVersion    version;
+  private final @Nonnull JCGLSLVersion  sl_version;
 
   JCGLInterfaceGL2_LWJGL_GL2(
     final @Nonnull Log log)
@@ -95,6 +98,7 @@ import com.io7m.jtensors.VectorReadable4F;
     }
 
     this.version = LWJGL_GLES2Functions.metaGetVersion();
+    this.sl_version = LWJGL_GLES2Functions.metaGetSLVersion();
   }
 
   @Override public ArrayBuffer arrayBufferAllocate(
@@ -813,6 +817,12 @@ import com.io7m.jtensors.VectorReadable4F;
     return LWJGL_GLES2Functions.metaGetRenderer();
   }
 
+  @Override public @Nonnull JCGLSLVersion metaGetSLVersion()
+    throws JCGLException
+  {
+    return this.sl_version;
+  }
+
   @Override public String metaGetVendor()
     throws JCGLException
   {
@@ -993,8 +1003,9 @@ import com.io7m.jtensors.VectorReadable4F;
       JCGLException
   {
     LWJGL_GLES2Functions.programPutUniformVector2f(
-
-    this.state, uniform, vector);
+      this.state,
+      uniform,
+      vector);
   }
 
   @Override public void programPutUniformVector2i(
@@ -1004,8 +1015,33 @@ import com.io7m.jtensors.VectorReadable4F;
       JCGLException
   {
     LWJGL_GLES2Functions.programPutUniformVector2i(
+      this.state,
+      uniform,
+      vector);
+  }
 
-    this.state, uniform, vector);
+  @Override public void programPutUniformVector3i(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable3I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    LWJGL_GLES2Functions.programPutUniformVector3i(
+      this.state,
+      uniform,
+      vector);
+  }
+
+  @Override public void programPutUniformVector4i(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable4I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    LWJGL_GLES2Functions.programPutUniformVector4i(
+      this.state,
+      uniform,
+      vector);
   }
 
   @Override public void programPutUniformVector3f(
@@ -1015,8 +1051,9 @@ import com.io7m.jtensors.VectorReadable4F;
       JCGLException
   {
     LWJGL_GLES2Functions.programPutUniformVector3f(
-
-    this.state, uniform, vector);
+      this.state,
+      uniform,
+      vector);
   }
 
   @Override public void programPutUniformVector4f(
@@ -1026,8 +1063,9 @@ import com.io7m.jtensors.VectorReadable4F;
       JCGLException
   {
     LWJGL_GLES2Functions.programPutUniformVector4f(
-
-    this.state, uniform, vector);
+      this.state,
+      uniform,
+      vector);
   }
 
   @Override public @Nonnull

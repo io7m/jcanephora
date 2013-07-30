@@ -35,7 +35,9 @@ import com.io7m.jtensors.MatrixReadable4x4F;
 import com.io7m.jtensors.VectorReadable2F;
 import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jtensors.VectorReadable3F;
+import com.io7m.jtensors.VectorReadable3I;
 import com.io7m.jtensors.VectorReadable4F;
+import com.io7m.jtensors.VectorReadable4I;
 
 /**
  * <p>
@@ -133,6 +135,7 @@ import com.io7m.jtensors.VectorReadable4F;
   private final @Nonnull GLContext                                             context;
   private final @Nonnull JCGLStateCache                                        state;
   private final @Nonnull JCGLVersion                                           version;
+  private final @Nonnull JCGLSLVersion                                         sl_version;
 
   private final @Nonnull JCGLExtensionSupport<JCGLExtensionPackedDepthStencil> ext_packed_depth_stencil_support;
   private final @Nonnull JCGLExtensionPackedDepthStencil                       ext_packed_depth_stencil;
@@ -190,6 +193,7 @@ import com.io7m.jtensors.VectorReadable4F;
     }
 
     this.version = JOGL_GL_Functions.metaGetVersion(g);
+    this.sl_version = JOGL_GL_Functions.metaGetSLVersion(g);
   }
 
   @Override public ArrayBuffer arrayBufferAllocate(
@@ -855,6 +859,12 @@ import com.io7m.jtensors.VectorReadable4F;
     return JOGL_GL_Functions.metaGetRenderer(this.contextGetGLES2());
   }
 
+  @Override public @Nonnull JCGLSLVersion metaGetSLVersion()
+    throws JCGLException
+  {
+    return this.sl_version;
+  }
+
   @Override public String metaGetVendor()
     throws JCGLException
   {
@@ -1050,6 +1060,28 @@ import com.io7m.jtensors.VectorReadable4F;
       this.state,
       uniform,
       vector);
+  }
+
+  @Override public void programPutUniformVector3i(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable3I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    JOGL_GL2ES2_Functions.programPutUniformVector3i(this.context
+      .getGL()
+      .getGL2ES2(), this.state, uniform, vector);
+  }
+
+  @Override public void programPutUniformVector4i(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable4I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    JOGL_GL2ES2_Functions.programPutUniformVector4i(this.context
+      .getGL()
+      .getGL2ES2(), this.state, uniform, vector);
   }
 
   @Override public void programPutUniformVector3f(

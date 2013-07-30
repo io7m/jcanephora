@@ -59,7 +59,7 @@ public class JCGPJvvfsSourceTest
 
     final JCGPGeneratorContext context =
       new JCGPGeneratorContext(
-        new JCGLSLVersionNumber(1, 0, 0),
+        new JCGLSLVersionNumber(1, 10),
         JCGLApi.JCGL_ES);
     final ArrayList<String> output = new ArrayList<String>();
     s.sourceGet(context, output);
@@ -83,7 +83,7 @@ public class JCGPJvvfsSourceTest
           .ofString("/com/io7m/jcanephora/gpuprogram/jvvfs/example.v"));
     final JCGPGeneratorContext context =
       new JCGPGeneratorContext(
-        new JCGLSLVersionNumber(1, 0, 0),
+        new JCGLSLVersionNumber(1, 10),
         JCGLApi.JCGL_ES);
     final ArrayList<String> output = new ArrayList<String>();
     s.sourceGet(context, output);
@@ -114,7 +114,7 @@ public class JCGPJvvfsSourceTest
 
       final JCGPGeneratorContext context =
         new JCGPGeneratorContext(
-          new JCGLSLVersionNumber(1, 0, 0),
+          new JCGLSLVersionNumber(1, 10),
           JCGLApi.JCGL_ES);
       final ArrayList<String> output = new ArrayList<String>();
       s.sourceGet(context, output);

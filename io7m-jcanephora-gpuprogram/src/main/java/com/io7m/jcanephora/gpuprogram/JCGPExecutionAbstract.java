@@ -27,10 +27,21 @@ import javax.annotation.concurrent.NotThreadSafe;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.ArrayBufferAttribute;
+import com.io7m.jcanephora.JCGLArrayBuffers;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLShaders;
 import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramUniform;
+import com.io7m.jcanephora.TextureUnit;
+import com.io7m.jtensors.MatrixReadable3x3F;
+import com.io7m.jtensors.MatrixReadable4x4F;
+import com.io7m.jtensors.VectorReadable2F;
+import com.io7m.jtensors.VectorReadable2I;
+import com.io7m.jtensors.VectorReadable3F;
+import com.io7m.jtensors.VectorReadable3I;
+import com.io7m.jtensors.VectorReadable4F;
+import com.io7m.jtensors.VectorReadable4I;
 
 /**
  * <p>
@@ -46,8 +57,8 @@ import com.io7m.jcanephora.ProgramUniform;
  * </p>
  */
 
-@NotThreadSafe public abstract class JCGPExecutionAbstract implements
-  JCGPExecutionAPI
+@NotThreadSafe public abstract class JCGPExecutionAbstract<E extends Throwable> implements
+  JCGPExecutionAPI<E>
 {
   private @CheckForNull JCGPProgram                  program;
   private final @Nonnull HashSet<String>             assigned;
@@ -65,13 +76,62 @@ import com.io7m.jcanephora.ProgramUniform;
     this.missed_uniforms = new ArrayList<ProgramUniform>();
   }
 
+  @Override public final
+    <G extends JCGLArrayBuffers & JCGLShaders>
+    void
+    execAttributeBind(
+      final @Nonnull G gl,
+      final @Nonnull String a,
+      final @Nonnull ArrayBufferAttribute x)
+      throws ConstraintError,
+        JCGLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(a, "Attribute name");
+
+    final ProgramAttribute pa = this.program.getAttributes().get(a);
+    if (pa == null) {
+      this.execNonexistentAttribute(a);
+    }
+
+    this.assigned.add(a);
+  }
+
+  private final void execNonexistentAttribute(
+    final @Nonnull String a)
+    throws ConstraintError
+  {
+    this.message.setLength(0);
+    this.message.append("The program '");
+    this.message.append(this.program.getName());
+    this.message.append("' does not contain an attribute named '");
+    this.message.append(a);
+    this.message.append("', available attributes are: ");
+    this.message.append(this.program.getAttributes().values());
+    throw new ConstraintError(this.message.toString());
+  }
+
+  private final void execNonexistentUniform(
+    final String u)
+    throws ConstraintError
+  {
+    this.message.setLength(0);
+    this.message.append("The program '");
+    this.message.append(this.program.getName());
+    this.message.append("' does not contain a uniform named '");
+    this.message.append(u);
+    this.message.append("', available uniforms are: ");
+    this.message.append(this.program.getUniforms().values());
+    throw new ConstraintError(this.message.toString());
+  }
+
   @Override public final void execPrepare(
     final @Nonnull JCGLShaders gl,
     final @Nonnull JCGPProgram new_program)
     throws ConstraintError,
       JCGLException
   {
-    Constraints.constrainNotNull(gl, "Shader interface");
+    Constraints.constrainNotNull(gl, "OpenGL interface");
     this.program = Constraints.constrainNotNull(new_program, "Program");
     gl.programActivate(this.program.getProgram());
     this.preparing = true;
@@ -82,34 +142,229 @@ import com.io7m.jcanephora.ProgramUniform;
 
   @Override public final void execRun(
     final @Nonnull JCGLShaders gl)
-    throws ConstraintError
+    throws ConstraintError,
+      JCGLException,
+      E
   {
-    Constraints.constrainNotNull(gl, "Shader interface");
+    Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainArbitrary(
       this.preparing,
-      "Execution has been prepared");
+      "Execution is in the preparation stage");
 
     assert this.program != null;
-
     this.preparing = false;
     this.execValidate();
-    this.execRunActual();
+
+    try {
+      this.execRunActual();
+    } finally {
+      gl.programDeactivate();
+    }
   }
 
   /**
+   * <p>
    * A function containing OpenGL rendering instructions, executed with the
    * program specified with {@link #execPrepare(JCGLShaders, JCGPProgram)} as
    * the current program.
+   * </p>
    */
 
-  protected abstract void execRunActual();
+  protected abstract void execRunActual()
+    throws JCGLException,
+      E;
 
-  /**
-   * Validate the current execution, checking that all uniforms and attributes
-   * have been assigned values.
-   */
+  @Override public final void execUniformPutFloat(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    final float x)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(u, "Uniform name");
 
-  private final void execValidate()
+    final ProgramUniform pu = this.program.getUniforms().get(u);
+    if (pu == null) {
+      this.execNonexistentUniform(u);
+    }
+
+    gl.programPutUniformFloat(pu, x);
+    this.assigned.add(u);
+  }
+
+  @Override public final void execUniformPutMatrix3x3F(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    final @Nonnull MatrixReadable3x3F x)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(u, "Uniform name");
+
+    final ProgramUniform pu = this.program.getUniforms().get(u);
+    if (pu == null) {
+      this.execNonexistentUniform(u);
+    }
+
+    gl.programPutUniformMatrix3x3f(pu, x);
+    this.assigned.add(u);
+  }
+
+  @Override public final void execUniformPutMatrix4x4F(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    final @Nonnull MatrixReadable4x4F x)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(u, "Uniform name");
+
+    final ProgramUniform pu = this.program.getUniforms().get(u);
+    if (pu == null) {
+      this.execNonexistentUniform(u);
+    }
+
+    gl.programPutUniformMatrix4x4f(pu, x);
+    this.assigned.add(u);
+  }
+
+  @Override public final void execUniformPutTextureUnit(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    final @Nonnull TextureUnit x)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(u, "Uniform name");
+
+    final ProgramUniform pu = this.program.getUniforms().get(u);
+    if (pu == null) {
+      this.execNonexistentUniform(u);
+    }
+
+    gl.programPutUniformTextureUnit(pu, x);
+    this.assigned.add(u);
+  }
+
+  @Override public final void execUniformPutVector2F(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    final @Nonnull VectorReadable2F x)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(u, "Uniform name");
+
+    final ProgramUniform pu = this.program.getUniforms().get(u);
+    if (pu == null) {
+      this.execNonexistentUniform(u);
+    }
+
+    gl.programPutUniformVector2f(pu, x);
+    this.assigned.add(u);
+  }
+
+  @Override public final void execUniformPutVector2I(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    final @Nonnull VectorReadable2I x)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(u, "Uniform name");
+
+    final ProgramUniform pu = this.program.getUniforms().get(u);
+    if (pu == null) {
+      this.execNonexistentUniform(u);
+    }
+
+    gl.programPutUniformVector2i(pu, x);
+    this.assigned.add(u);
+  }
+
+  @Override public final void execUniformPutVector3F(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    final @Nonnull VectorReadable3F x)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(u, "Uniform name");
+
+    final ProgramUniform pu = this.program.getUniforms().get(u);
+    if (pu == null) {
+      this.execNonexistentUniform(u);
+    }
+
+    gl.programPutUniformVector3f(pu, x);
+    this.assigned.add(u);
+  }
+
+  @Override public final void execUniformPutVector3I(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    final @Nonnull VectorReadable3I x)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(u, "Uniform name");
+
+    final ProgramUniform pu = this.program.getUniforms().get(u);
+    if (pu == null) {
+      this.execNonexistentUniform(u);
+    }
+
+    gl.programPutUniformVector3i(pu, x);
+    this.assigned.add(u);
+  }
+
+  @Override public final void execUniformPutVector4F(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    final @Nonnull VectorReadable4F x)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(u, "Uniform name");
+
+    final ProgramUniform pu = this.program.getUniforms().get(u);
+    if (pu == null) {
+      this.execNonexistentUniform(u);
+    }
+
+    gl.programPutUniformVector4f(pu, x);
+    this.assigned.add(u);
+  }
+
+  @Override public final void execUniformPutVector4I(
+    final @Nonnull JCGLShaders gl,
+    final @Nonnull String u,
+    final @Nonnull VectorReadable4I x)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(u, "Uniform name");
+
+    final ProgramUniform pu = this.program.getUniforms().get(u);
+    if (pu == null) {
+      this.execNonexistentUniform(u);
+    }
+
+    gl.programPutUniformVector4i(pu, x);
+    this.assigned.add(u);
+  }
+
+  @Override public final void execValidate()
     throws ConstraintError
   {
     this.execValidateUniforms();
@@ -126,10 +381,12 @@ import com.io7m.jcanephora.ProgramUniform;
       if (this.missed_uniforms.isEmpty() == false) {
         this.message.append("Uniforms not assigned values: ");
         this.message.append(this.missed_uniforms.toString());
+        this.message.append("\n");
       }
       if (this.missed_attributes.isEmpty() == false) {
         this.message.append("Attributes not assigned values: ");
         this.message.append(this.missed_attributes.toString());
+        this.message.append("\n");
       }
       throw new ConstraintError(this.message.toString());
     }

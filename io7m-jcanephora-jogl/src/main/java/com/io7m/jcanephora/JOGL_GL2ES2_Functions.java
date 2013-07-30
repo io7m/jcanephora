@@ -33,7 +33,9 @@ import com.io7m.jtensors.MatrixReadable4x4F;
 import com.io7m.jtensors.VectorReadable2F;
 import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jtensors.VectorReadable3F;
+import com.io7m.jtensors.VectorReadable3I;
 import com.io7m.jtensors.VectorReadable4F;
+import com.io7m.jtensors.VectorReadable4I;
 import com.jogamp.common.nio.Buffers;
 
 final class JOGL_GL2ES2_Functions
@@ -746,12 +748,63 @@ final class JOGL_GL2ES2_Functions
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
       uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_2,
-      "Uniform type is vec2");
+      "Uniform type is ivec2");
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
       "Program for uniform is active");
 
     gl.glUniform2i(uniform.getLocation(), vector.getXI(), vector.getYI());
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void programPutUniformVector3i(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable3I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(vector, "Vatrix");
+    Constraints.constrainNotNull(uniform, "Uniform");
+    Constraints.constrainArbitrary(
+      uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_3,
+      "Uniform type is ivec3");
+    Constraints.constrainArbitrary(
+      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
+      "Program for uniform is active");
+
+    gl.glUniform3i(
+      uniform.getLocation(),
+      vector.getXI(),
+      vector.getYI(),
+      vector.getZI());
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void programPutUniformVector4i(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable4I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(vector, "Vatrix");
+    Constraints.constrainNotNull(uniform, "Uniform");
+    Constraints.constrainArbitrary(
+      uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_4,
+      "Uniform type is ivec4");
+    Constraints.constrainArbitrary(
+      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
+      "Program for uniform is active");
+
+    gl.glUniform4i(
+      uniform.getLocation(),
+      vector.getXI(),
+      vector.getYI(),
+      vector.getZI(),
+      vector.getWI());
     JOGL_GL_Functions.checkError(gl);
   }
 

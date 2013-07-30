@@ -29,18 +29,15 @@ public class JCGPVersionOutputTest
     expected = JCGLUnsupportedException.class) public void testInvalid0()
     throws JCGLUnsupportedException
   {
-    JCGPVersionOutput.toGLSL(
-      new JCGLSLVersionNumber(2, 0, 0),
-      JCGLApi.JCGL_ES);
+    JCGPVersionOutput.toGLSL(new JCGLSLVersionNumber(2, 0), JCGLApi.JCGL_ES);
   }
 
   @SuppressWarnings("static-method") @Test(
     expected = JCGLUnsupportedException.class) public void testInvalid1()
     throws JCGLUnsupportedException
   {
-    JCGPVersionOutput.toGLSL(
-      new JCGLSLVersionNumber(1, 0, 0),
-      JCGLApi.JCGL_FULL);
+    JCGPVersionOutput
+      .toGLSL(new JCGLSLVersionNumber(1, 0), JCGLApi.JCGL_FULL);
   }
 
   @SuppressWarnings("static-method") @Test(
@@ -48,7 +45,7 @@ public class JCGPVersionOutputTest
     throws JCGLUnsupportedException
   {
     JCGPVersionOutput.toGLSL(
-      new JCGLSLVersionNumber(3, 20, 0),
+      new JCGLSLVersionNumber(3, 20),
       JCGLApi.JCGL_FULL);
   }
 
@@ -57,52 +54,52 @@ public class JCGPVersionOutputTest
     throws JCGLUnsupportedException
   {
     JCGPVersionOutput.toGLSL(
-      new JCGLSLVersionNumber(4, 39, 0),
+      new JCGLSLVersionNumber(4, 39),
       JCGLApi.JCGL_FULL);
   }
 
   @SuppressWarnings("static-method") @Test public void testValidStrings()
     throws JCGLUnsupportedException
   {
-    Assert.assertEquals("#version 100", JCGPVersionOutput.toGLSL(
-      new JCGLSLVersionNumber(1, 0, 0),
+    Assert.assertEquals("#version 100\n", JCGPVersionOutput.toGLSL(
+      new JCGLSLVersionNumber(1, 0),
       JCGLApi.JCGL_ES));
-    Assert.assertEquals("#version 300", JCGPVersionOutput.toGLSL(
-      new JCGLSLVersionNumber(3, 0, 0),
+    Assert.assertEquals("#version 300\n", JCGPVersionOutput.toGLSL(
+      new JCGLSLVersionNumber(3, 0),
       JCGLApi.JCGL_ES));
 
-    Assert.assertEquals("#version 110", JCGPVersionOutput.toGLSL(
-      new JCGLSLVersionNumber(1, 10, 0),
+    Assert.assertEquals("#version 110\n", JCGPVersionOutput.toGLSL(
+      new JCGLSLVersionNumber(1, 10),
       JCGLApi.JCGL_FULL));
-    Assert.assertEquals("#version 120", JCGPVersionOutput.toGLSL(
-      new JCGLSLVersionNumber(1, 20, 0),
+    Assert.assertEquals("#version 120\n", JCGPVersionOutput.toGLSL(
+      new JCGLSLVersionNumber(1, 20),
       JCGLApi.JCGL_FULL));
-    Assert.assertEquals("#version 130", JCGPVersionOutput.toGLSL(
-      new JCGLSLVersionNumber(1, 30, 0),
+    Assert.assertEquals("#version 130\n", JCGPVersionOutput.toGLSL(
+      new JCGLSLVersionNumber(1, 30),
       JCGLApi.JCGL_FULL));
-    Assert.assertEquals("#version 140", JCGPVersionOutput.toGLSL(
-      new JCGLSLVersionNumber(1, 40, 0),
+    Assert.assertEquals("#version 140\n", JCGPVersionOutput.toGLSL(
+      new JCGLSLVersionNumber(1, 40),
       JCGLApi.JCGL_FULL));
-    Assert.assertEquals("#version 150", JCGPVersionOutput.toGLSL(
-      new JCGLSLVersionNumber(1, 50, 0),
+    Assert.assertEquals("#version 150\n", JCGPVersionOutput.toGLSL(
+      new JCGLSLVersionNumber(1, 50),
       JCGLApi.JCGL_FULL));
-    Assert.assertEquals("#version 330", JCGPVersionOutput.toGLSL(
-      new JCGLSLVersionNumber(3, 30, 0),
+    Assert.assertEquals("#version 330\n", JCGPVersionOutput.toGLSL(
+      new JCGLSLVersionNumber(3, 30),
       JCGLApi.JCGL_FULL));
-    Assert.assertEquals("#version 400", JCGPVersionOutput.toGLSL(
-      new JCGLSLVersionNumber(4, 0, 0),
+    Assert.assertEquals("#version 400\n", JCGPVersionOutput.toGLSL(
+      new JCGLSLVersionNumber(4, 0),
       JCGLApi.JCGL_FULL));
-    Assert.assertEquals("#version 410", JCGPVersionOutput.toGLSL(
-      new JCGLSLVersionNumber(4, 10, 0),
+    Assert.assertEquals("#version 410\n", JCGPVersionOutput.toGLSL(
+      new JCGLSLVersionNumber(4, 10),
       JCGLApi.JCGL_FULL));
-    Assert.assertEquals("#version 420", JCGPVersionOutput.toGLSL(
-      new JCGLSLVersionNumber(4, 20, 0),
+    Assert.assertEquals("#version 420\n", JCGPVersionOutput.toGLSL(
+      new JCGLSLVersionNumber(4, 20),
       JCGLApi.JCGL_FULL));
-    Assert.assertEquals("#version 430", JCGPVersionOutput.toGLSL(
-      new JCGLSLVersionNumber(4, 30, 0),
+    Assert.assertEquals("#version 430\n", JCGPVersionOutput.toGLSL(
+      new JCGLSLVersionNumber(4, 30),
       JCGLApi.JCGL_FULL));
-    Assert.assertEquals("#version 440", JCGPVersionOutput.toGLSL(
-      new JCGLSLVersionNumber(4, 40, 0),
+    Assert.assertEquals("#version 440\n", JCGPVersionOutput.toGLSL(
+      new JCGLSLVersionNumber(4, 40),
       JCGLApi.JCGL_FULL));
   }
 }

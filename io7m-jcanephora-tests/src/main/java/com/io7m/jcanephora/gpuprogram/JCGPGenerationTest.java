@@ -18,7 +18,6 @@ package com.io7m.jcanephora.gpuprogram;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -68,12 +67,12 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 10, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 10));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 10, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 10));
 
     final JCGPGenerator cp =
       JCGPGenerator.newProgramFullAndES(
@@ -114,7 +113,7 @@ public class JCGPGenerationTest
     cp.generatorUnitAdd(u1);
     cp.generatorUnitAdd(u2);
 
-    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
+    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0);
 
     cp.generatorDebuggingEnable(true);
     final JCGPGeneratedSource<JCGLShaderKindFragment> r =
@@ -145,12 +144,12 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     final JCGPGenerator cp =
       JCGPGenerator.newProgramFullAndES(
@@ -182,8 +181,7 @@ public class JCGPGenerationTest
     cp.generatorUnitAdd(u0);
     cp.generatorUnitAdd(u1);
 
-    final ArrayList<String> output = new ArrayList<String>();
-    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
+    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0);
     cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES);
   }
 
@@ -202,12 +200,12 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     final JCGPGenerator cp =
       JCGPGenerator.newProgramFullAndES(
@@ -231,8 +229,7 @@ public class JCGPGenerationTest
 
     cp.generatorUnitAdd(u0);
 
-    final ArrayList<String> output = new ArrayList<String>();
-    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
+    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0);
     cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES);
   }
 
@@ -251,12 +248,12 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     final JCGPGenerator cp =
       JCGPGenerator.newProgramFullAndES(
@@ -286,8 +283,7 @@ public class JCGPGenerationTest
     cp.generatorUnitAdd(u0);
     cp.generatorUnitAdd(u1);
 
-    final ArrayList<String> output = new ArrayList<String>();
-    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
+    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0);
     cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES);
   }
 
@@ -306,12 +302,12 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     final JCGPGenerator cp =
       JCGPGenerator.newProgramFullAndES(
@@ -320,8 +316,7 @@ public class JCGPGenerationTest
         version_full,
         version_es);
 
-    final ArrayList<String> output = new ArrayList<String>();
-    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
+    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0);
     cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES);
   }
 
@@ -339,12 +334,12 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     final JCGPGenerator cp =
       JCGPGenerator.newProgramFullAndES(
@@ -353,9 +348,7 @@ public class JCGPGenerationTest
         version_full,
         version_es);
 
-    final ArrayList<String> output = new ArrayList<String>();
-    cp
-      .generatorGenerateFragmentShader(new JCGLSLVersionNumber(0, 0, 0), null);
+    cp.generatorGenerateFragmentShader(new JCGLSLVersionNumber(0, 0), null);
   }
 
   /**
@@ -372,12 +365,12 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     final JCGPGenerator cp =
       JCGPGenerator.newProgramFullAndES(
@@ -386,7 +379,6 @@ public class JCGPGenerationTest
         version_full,
         version_es);
 
-    final ArrayList<String> output = new ArrayList<String>();
     cp.generatorGenerateFragmentShader(null, JCGLApi.JCGL_ES);
   }
 
@@ -405,12 +397,12 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     final JCGPGenerator cp =
       JCGPGenerator.newProgramFullAndES(
@@ -429,8 +421,7 @@ public class JCGPGenerationTest
 
     cp.generatorUnitAdd(u0);
 
-    final ArrayList<String> output = new ArrayList<String>();
-    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(3, 0, 0);
+    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(3, 0);
     cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES);
   }
 
@@ -446,14 +437,14 @@ public class JCGPGenerationTest
         JCGLCompileException,
         JCGLUnsupportedException
   {
-    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 10, 0);
+    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 10);
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
+        new JCGLSLVersionNumber(0, 0),
         version);
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
+        new JCGLSLVersionNumber(0, 0),
         version);
 
     final JCGPGenerator cp =
@@ -501,12 +492,12 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(3, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(3, 0));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(4, 30, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(4, 30));
 
     final JCGPGenerator cp =
       JCGPGenerator.newProgramFullAndES(
@@ -577,7 +568,7 @@ public class JCGPGenerationTest
     cp.generatorUnitAdd(u1);
     cp.generatorUnitAdd(u2);
 
-    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(3, 30, 0);
+    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(3, 30);
 
     cp.generatorDebuggingEnable(true);
     final JCGPGeneratedSource<JCGLShaderKindVertex> r =
@@ -608,12 +599,12 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     final JCGPGenerator cp =
       JCGPGenerator.newProgramFullAndES(
@@ -645,8 +636,7 @@ public class JCGPGenerationTest
     cp.generatorUnitAdd(u0);
     cp.generatorUnitAdd(u1);
 
-    final ArrayList<String> output = new ArrayList<String>();
-    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
+    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0);
     cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES);
   }
 
@@ -665,12 +655,12 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     final JCGPGenerator cp =
       JCGPGenerator.newProgramFullAndES(
@@ -694,8 +684,7 @@ public class JCGPGenerationTest
 
     cp.generatorUnitAdd(u0);
 
-    final ArrayList<String> output = new ArrayList<String>();
-    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
+    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0);
     cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES);
   }
 
@@ -714,12 +703,12 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     final JCGPGenerator cp =
       JCGPGenerator.newProgramFullAndES(
@@ -749,8 +738,7 @@ public class JCGPGenerationTest
     cp.generatorUnitAdd(u0);
     cp.generatorUnitAdd(u1);
 
-    final ArrayList<String> output = new ArrayList<String>();
-    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
+    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0);
     cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES);
   }
 
@@ -769,12 +757,12 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     final JCGPGenerator cp =
       JCGPGenerator.newProgramFullAndES(
@@ -783,8 +771,7 @@ public class JCGPGenerationTest
         version_full,
         version_es);
 
-    final ArrayList<String> output = new ArrayList<String>();
-    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0, 0);
+    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0);
     cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES);
   }
 
@@ -802,12 +789,12 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     final JCGPGenerator cp =
       JCGPGenerator.newProgramFullAndES(
@@ -816,8 +803,7 @@ public class JCGPGenerationTest
         version_full,
         version_es);
 
-    final ArrayList<String> output = new ArrayList<String>();
-    cp.generatorGenerateVertexShader(new JCGLSLVersionNumber(0, 0, 0), null);
+    cp.generatorGenerateVertexShader(new JCGLSLVersionNumber(0, 0), null);
   }
 
   /**
@@ -834,12 +820,12 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     final JCGPGenerator cp =
       JCGPGenerator.newProgramFullAndES(
@@ -848,7 +834,6 @@ public class JCGPGenerationTest
         version_full,
         version_es);
 
-    final ArrayList<String> output = new ArrayList<String>();
     cp.generatorGenerateVertexShader(null, JCGLApi.JCGL_ES);
   }
 
@@ -867,12 +852,12 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     final JCGPGenerator cp =
       JCGPGenerator.newProgramFullAndES(
@@ -891,8 +876,7 @@ public class JCGPGenerationTest
 
     cp.generatorUnitAdd(u0);
 
-    final ArrayList<String> output = new ArrayList<String>();
-    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(3, 0, 0);
+    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(3, 0);
     cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES);
   }
 
@@ -907,8 +891,8 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     JCGPGenerator.newProgramES(null, "name", version);
   }
@@ -925,8 +909,8 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     JCGPGenerator.newProgramES(TestData.getLog(), null, version);
   }
@@ -956,12 +940,12 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     JCGPGenerator.newProgramFullAndES(
       TestData.getLog(),
@@ -981,12 +965,12 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     JCGPGenerator.newProgramFullAndES(null, "name", version_full, version_es);
   }
@@ -1003,8 +987,8 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     JCGPGenerator.newProgramFullAndES(
       TestData.getLog(),
@@ -1025,12 +1009,12 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
     final JCGPVersionRange<JCGLApiKindFull> version_full =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     JCGPGenerator.newProgramFullAndES(
       TestData.getLog(),
@@ -1051,8 +1035,8 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version_es =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     JCGPGenerator.newProgramFullAndES(
       TestData.getLog(),
@@ -1072,8 +1056,8 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindFull> version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     JCGPGenerator.newProgramFull(null, "name", version);
   }
@@ -1090,8 +1074,8 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindFull> version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     JCGPGenerator.newProgramFull(TestData.getLog(), null, version);
   }
@@ -1122,13 +1106,13 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindFull> program_version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(1, 0, 0),
-        new JCGLSLVersionNumber(2, 0, 0));
+        new JCGLSLVersionNumber(1, 0),
+        new JCGLSLVersionNumber(2, 0));
 
     final JCGPVersionRange<JCGLApiKindFull> unit_version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(1, 0, 0),
-        new JCGLSLVersionNumber(2, 0, 0));
+        new JCGLSLVersionNumber(1, 0),
+        new JCGLSLVersionNumber(2, 0));
 
     final JCGPGeneratorAPI cp =
       JCGPGenerator
@@ -1167,13 +1151,13 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindFull> program_version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(1, 0, 0),
-        new JCGLSLVersionNumber(2, 0, 0));
+        new JCGLSLVersionNumber(1, 0),
+        new JCGLSLVersionNumber(2, 0));
 
     final JCGPVersionRange<JCGLApiKindFull> unit_version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(1, 0, 0),
-        new JCGLSLVersionNumber(2, 0, 0));
+        new JCGLSLVersionNumber(1, 0),
+        new JCGLSLVersionNumber(2, 0));
 
     final JCGPGeneratorAPI cp =
       JCGPGenerator
@@ -1205,8 +1189,8 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     final JCGPGeneratorAPI cp =
       JCGPGenerator.newProgramES(TestData.getLog(), "name", version);
@@ -1224,8 +1208,8 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> version =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(1, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 0));
 
     final JCGPGeneratorAPI cp =
       JCGPGenerator.newProgramES(TestData.getLog(), "name", version);
@@ -1253,13 +1237,13 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindFull> program_version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(1, 0, 0),
-        new JCGLSLVersionNumber(2, 0, 0));
+        new JCGLSLVersionNumber(1, 0),
+        new JCGLSLVersionNumber(2, 0));
 
     final JCGPVersionRange<JCGLApiKindFull> unit_version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(1, 0, 0),
-        new JCGLSLVersionNumber(2, 0, 0));
+        new JCGLSLVersionNumber(1, 0),
+        new JCGLSLVersionNumber(2, 0));
 
     final JCGPGeneratorAPI cp =
       JCGPGenerator
@@ -1315,13 +1299,13 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindFull> program_version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(1, 0, 0),
-        new JCGLSLVersionNumber(2, 0, 0));
+        new JCGLSLVersionNumber(1, 0),
+        new JCGLSLVersionNumber(2, 0));
 
     final JCGPVersionRange<JCGLApiKindES> unit_version =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(3, 0, 0),
-        new JCGLSLVersionNumber(4, 0, 0));
+        new JCGLSLVersionNumber(3, 0),
+        new JCGLSLVersionNumber(4, 0));
 
     final JCGPGeneratorAPI cp =
       JCGPGenerator
@@ -1351,13 +1335,13 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindFull> program_version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(1, 0, 0),
-        new JCGLSLVersionNumber(2, 0, 0));
+        new JCGLSLVersionNumber(1, 0),
+        new JCGLSLVersionNumber(2, 0));
 
     final JCGPVersionRange<JCGLApiKindFull> unit_version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(0, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(0, 0));
 
     final JCGPGeneratorAPI cp =
       JCGPGenerator
@@ -1387,13 +1371,13 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindFull> program_version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(1, 0, 0),
-        new JCGLSLVersionNumber(2, 0, 0));
+        new JCGLSLVersionNumber(1, 0),
+        new JCGLSLVersionNumber(2, 0));
 
     final JCGPVersionRange<JCGLApiKindFull> unit_version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(3, 0, 0),
-        new JCGLSLVersionNumber(4, 0, 0));
+        new JCGLSLVersionNumber(3, 0),
+        new JCGLSLVersionNumber(4, 0));
 
     final JCGPGeneratorAPI cp =
       JCGPGenerator
@@ -1423,13 +1407,13 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> program_version =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(1, 0, 0),
-        new JCGLSLVersionNumber(2, 0, 0));
+        new JCGLSLVersionNumber(1, 0),
+        new JCGLSLVersionNumber(2, 0));
 
     final JCGPVersionRange<JCGLApiKindFull> unit_version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(3, 0, 0),
-        new JCGLSLVersionNumber(4, 0, 0));
+        new JCGLSLVersionNumber(3, 0),
+        new JCGLSLVersionNumber(4, 0));
 
     final JCGPGeneratorAPI cp =
       JCGPGenerator.newProgramES(TestData.getLog(), "name", program_version);
@@ -1458,13 +1442,13 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> program_version =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(1, 0, 0),
-        new JCGLSLVersionNumber(2, 0, 0));
+        new JCGLSLVersionNumber(1, 0),
+        new JCGLSLVersionNumber(2, 0));
 
     final JCGPVersionRange<JCGLApiKindES> unit_version =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0, 0),
-        new JCGLSLVersionNumber(0, 0, 0));
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(0, 0));
 
     final JCGPGeneratorAPI cp =
       JCGPGenerator.newProgramES(TestData.getLog(), "name", program_version);
@@ -1493,13 +1477,13 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindES> program_version =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(1, 0, 0),
-        new JCGLSLVersionNumber(2, 0, 0));
+        new JCGLSLVersionNumber(1, 0),
+        new JCGLSLVersionNumber(2, 0));
 
     final JCGPVersionRange<JCGLApiKindES> unit_version =
       new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(3, 0, 0),
-        new JCGLSLVersionNumber(4, 0, 0));
+        new JCGLSLVersionNumber(3, 0),
+        new JCGLSLVersionNumber(4, 0));
 
     final JCGPGeneratorAPI cp =
       JCGPGenerator.newProgramES(TestData.getLog(), "name", program_version);
@@ -1527,13 +1511,13 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindFull> program_version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(1, 0, 0),
-        new JCGLSLVersionNumber(2, 0, 0));
+        new JCGLSLVersionNumber(1, 0),
+        new JCGLSLVersionNumber(2, 0));
 
     final JCGPVersionRange<JCGLApiKindFull> unit_version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(1, 0, 0),
-        new JCGLSLVersionNumber(2, 0, 0));
+        new JCGLSLVersionNumber(1, 0),
+        new JCGLSLVersionNumber(2, 0));
 
     final JCGPGeneratorAPI cp =
       JCGPGenerator
@@ -1563,13 +1547,13 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindFull> program_version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(1, 0, 0),
-        new JCGLSLVersionNumber(2, 0, 0));
+        new JCGLSLVersionNumber(1, 0),
+        new JCGLSLVersionNumber(2, 0));
 
     final JCGPVersionRange<JCGLApiKindFull> unit_version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(1, 0, 0),
-        new JCGLSLVersionNumber(2, 0, 0));
+        new JCGLSLVersionNumber(1, 0),
+        new JCGLSLVersionNumber(2, 0));
 
     final JCGPGeneratorAPI cp =
       JCGPGenerator
@@ -1608,13 +1592,13 @@ public class JCGPGenerationTest
   {
     final JCGPVersionRange<JCGLApiKindFull> program_version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(1, 0, 0),
-        new JCGLSLVersionNumber(2, 0, 0));
+        new JCGLSLVersionNumber(1, 0),
+        new JCGLSLVersionNumber(2, 0));
 
     final JCGPVersionRange<JCGLApiKindFull> unit_version =
       new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(1, 0, 0),
-        new JCGLSLVersionNumber(2, 0, 0));
+        new JCGLSLVersionNumber(1, 0),
+        new JCGLSLVersionNumber(2, 0));
 
     final JCGPGeneratorAPI cp =
       JCGPGenerator
