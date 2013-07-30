@@ -69,6 +69,9 @@ import com.io7m.jcanephora.VertexShader;
         JCGLException
   {
     Constraints.constrainNotNull(name, "Program name");
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(vertex_source, "Vertex shader source");
+    Constraints.constrainNotNull(fragment_source, "Fragment shader source");
 
     ProgramReference p = null;
     VertexShader v = null;
@@ -90,7 +93,7 @@ import com.io7m.jcanephora.VertexShader;
         new HashMap<String, ProgramAttribute>();
       gl.programGetAttributes(p, attributes);
 
-      return new JCGPProgram(p, uniforms, attributes);
+      return new JCGPProgram(name, p, uniforms, attributes);
     } finally {
 
       /**

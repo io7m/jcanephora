@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.gpuprogram;
 
+import java.util.Collections;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -25,6 +26,7 @@ import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramReference;
+import com.io7m.jcanephora.ProgramReferenceUsable;
 import com.io7m.jcanephora.ProgramUniform;
 
 /**
@@ -38,15 +40,54 @@ import com.io7m.jcanephora.ProgramUniform;
   private final @Nonnull ProgramReference              program;
   private final @Nonnull Map<String, ProgramUniform>   uniforms;
   private final @Nonnull Map<String, ProgramAttribute> attributes;
+  private final @Nonnull String                        name;
 
   JCGPProgram(
+    final @Nonnull String name,
     final @Nonnull ProgramReference p,
     final @Nonnull Map<String, ProgramUniform> uniforms,
     final @Nonnull Map<String, ProgramAttribute> attributes)
     throws ConstraintError
   {
+    this.name = Constraints.constrainNotNull(name, "Program name");
     this.program = Constraints.constrainNotNull(p, "Program");
     this.uniforms = Constraints.constrainNotNull(uniforms, "Uniforms");
     this.attributes = Constraints.constrainNotNull(attributes, "Attributes");
+  }
+
+  /**
+   * Retrieve the set of attributes for the program.
+   */
+
+  public @Nonnull Map<String, ProgramAttribute> getAttributes()
+  {
+    return Collections.unmodifiableMap(this.attributes);
+  }
+
+  /**
+   * Retrieve the name of the program.
+   */
+
+  public @Nonnull String getName()
+  {
+    return this.name;
+  }
+
+  /**
+   * Retrieve a reference to the actual program.
+   */
+
+  public @Nonnull ProgramReferenceUsable getProgram()
+  {
+    return this.program;
+  }
+
+  /**
+   * Retrieve the set of uniforms for the program.
+   */
+
+  public @Nonnull Map<String, ProgramUniform> getUniforms()
+  {
+    return Collections.unmodifiableMap(this.uniforms);
   }
 }
