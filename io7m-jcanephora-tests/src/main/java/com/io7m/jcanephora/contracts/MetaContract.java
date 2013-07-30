@@ -24,6 +24,7 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLMeta;
+import com.io7m.jcanephora.JCGLSLVersion;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.JCGLVersion;
 import com.io7m.jcanephora.TestContext;
@@ -49,6 +50,7 @@ public abstract class MetaContract implements TestContract
     final String vn = gl.metaGetVendor();
     final JCGLVersion vr = gl.metaGetVersion();
     final String r = gl.metaGetRenderer();
+    final JCGLSLVersion sv = gl.metaGetSLVersion();
 
     Assert.assertNotNull(vn);
     Assert.assertNotNull(vr);
@@ -61,5 +63,12 @@ public abstract class MetaContract implements TestContract
     System.out.println("Version major : " + vr.getVersionMajor());
     System.out.println("Version minor : " + vr.getVersionMinor());
     System.out.println("API           : " + vr.getAPI());
+
+    System.out.println("Shading language version major : "
+      + sv.getVersionMajor());
+    System.out.println("Shading language version minor : "
+      + sv.getVersionMinor());
+    System.out.println("Shading language API           : " + sv.getAPI());
+    System.out.println("Shading language version text  : " + sv.getText());
   }
 }

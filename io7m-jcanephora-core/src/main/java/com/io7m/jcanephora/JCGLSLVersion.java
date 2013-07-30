@@ -114,7 +114,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
       new JCGLSLVersion(
         new JCGLSLVersionNumber(1, 0),
         JCGLApi.JCGL_ES,
-        "OpenGL ES GLSL ES 1.00");
+        "OpenGL ES GLSL ES 1.0");
 
     GLSL_ES_30 =
       new JCGLSLVersion(
