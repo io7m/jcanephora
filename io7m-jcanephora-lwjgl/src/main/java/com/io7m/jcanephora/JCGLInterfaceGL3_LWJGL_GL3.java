@@ -101,7 +101,7 @@ import com.io7m.jtensors.VectorReadable4I;
     }
 
     this.version = LWJGL_GLES2Functions.metaGetVersion();
-    this.sl_version = LWJGL_GLES2Functions.metaGetSLVersion();
+    this.sl_version = LWJGL_GLES2Functions.metaGetSLVersion(log);
 
     /**
      * OpenGL 3.1 removed the default vertex array object.

@@ -98,7 +98,7 @@ import com.io7m.jtensors.VectorReadable4I;
     }
 
     this.version = LWJGL_GLES2Functions.metaGetVersion();
-    this.sl_version = LWJGL_GLES2Functions.metaGetSLVersion();
+    this.sl_version = LWJGL_GLES2Functions.metaGetSLVersion(log);
   }
 
   @Override public ArrayBuffer arrayBufferAllocate(

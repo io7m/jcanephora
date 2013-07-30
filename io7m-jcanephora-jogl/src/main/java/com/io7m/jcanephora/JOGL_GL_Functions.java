@@ -1817,17 +1817,33 @@ final class JOGL_GL_Functions
   }
 
   static JCGLSLVersion metaGetSLVersion(
+    final @Nonnull Log log,
     final @Nonnull GL gl)
     throws ConstraintError
   {
     final GLContext context = gl.getContext();
     final VersionNumber vn = context.getGLSLVersionNumber();
-    final String text = context.getGLVersion();
+    final String text = gl.glGetString(GL2ES2.GL_SHADING_LANGUAGE_VERSION);
 
-    return JCGLSLVersion.make(
-      new JCGLSLVersionNumber(vn.getMajor(), vn.getMinor()),
-      context.isGLES() ? JCGLApi.JCGL_ES : JCGLApi.JCGL_FULL,
-      text);
+    if (context.isGLES2() && (vn.getMajor() == 3)) {
+      final String vtext = gl.glGetString(GL.GL_VERSION);
+      if (vtext.contains("Mesa 9.1.")) {
+        final StringBuilder m = new StringBuilder();
+        m.append("quirk: GL_VERSION is '");
+        m.append(vtext);
+        m.append("' which lies about GLSL ES 3.0 support");
+        m.append(" - downgrading GLSL ES version to 1.0.");
+        log.debug(m.toString());
+        return JCGLSLVersion.GLSL_ES_100;
+      }
+    }
+
+    final JCGLSLVersionNumber gvn =
+      new JCGLSLVersionNumber(vn.getMajor(), vn.getMinor());
+    final JCGLApi api =
+      context.isGLES() ? JCGLApi.JCGL_ES : JCGLApi.JCGL_FULL;
+
+    return JCGLSLVersion.make(gvn, api, text);
   }
 
   static String metaGetVendor(

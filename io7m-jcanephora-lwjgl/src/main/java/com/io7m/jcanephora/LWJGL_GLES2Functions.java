@@ -1447,19 +1447,40 @@ final class LWJGL_GLES2Functions
     return x;
   }
 
-  public static @Nonnull JCGLSLVersion metaGetSLVersion()
+  public static @Nonnull JCGLSLVersion metaGetSLVersion(
+    final @Nonnull Log log)
     throws JCGLException,
       ConstraintError
   {
     final String x = GL11.glGetString(GL20.GL_SHADING_LANGUAGE_VERSION);
     LWJGL_GLES2Functions.checkError();
+
+    final boolean is_es = LWJGL_GLES2Functions.metaVersionIsES(x);
+    LWJGL_GLES2Functions.checkError();
+
+    final JCGLVersion v = LWJGL_GLES2Functions.metaGetVersion();
+    LWJGL_GLES2Functions.checkError();
+
+    final JCGLApi api = is_es ? JCGLApi.JCGL_ES : JCGLApi.JCGL_FULL;
+
+    if ((v.getVersionMajor() == 3) && is_es) {
+      if (v.getText().contains("Mesa 9.1.")) {
+        final StringBuilder m = new StringBuilder();
+        m.append("quirk: GL_VERSION is '");
+        m.append(v.getText());
+        m.append("' which lies about GLSL ES 3.0 support");
+        m.append(" - downgrading GLSL ES version to 1.0.");
+        log.debug(m.toString());
+        return JCGLSLVersion.GLSL_ES_100;
+      }
+    }
+
     final Pair<Integer, Integer> p =
       LWJGL_GLES2Functions.metaParseSLVersion(x);
+
     return JCGLSLVersion.make(new JCGLSLVersionNumber(
       p.first.intValue(),
-      p.second.intValue()), LWJGL_GLES2Functions.metaVersionIsES(x)
-      ? JCGLApi.JCGL_ES
-      : JCGLApi.JCGL_FULL, x);
+      p.second.intValue()), api, x);
   }
 
   static String metaGetVendor()

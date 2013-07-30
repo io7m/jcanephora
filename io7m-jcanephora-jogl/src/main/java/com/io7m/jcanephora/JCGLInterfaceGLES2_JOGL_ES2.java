@@ -193,7 +193,7 @@ import com.io7m.jtensors.VectorReadable4I;
     }
 
     this.version = JOGL_GL_Functions.metaGetVersion(g);
-    this.sl_version = JOGL_GL_Functions.metaGetSLVersion(g);
+    this.sl_version = JOGL_GL_Functions.metaGetSLVersion(log, g);
   }
 
   @Override public ArrayBuffer arrayBufferAllocate(
