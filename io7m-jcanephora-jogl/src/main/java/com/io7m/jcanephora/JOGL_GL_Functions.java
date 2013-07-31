@@ -1862,7 +1862,7 @@ final class JOGL_GL_Functions
     final GLContext context = gl.getContext();
     final VersionNumber vn = context.getGLVersionNumber();
     final String text = context.getGLVersion();
-    return new JCGLVersion(
+    return JCGLVersion.make(
       new JCGLVersionNumber(vn.getMajor(), vn.getMinor(), vn.getSub()),
       context.isGLES() ? JCGLApi.JCGL_ES : JCGLApi.JCGL_FULL,
       text);
