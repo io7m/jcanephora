@@ -74,7 +74,7 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
   private final Log                                                                 log;
   protected final GLWindow                                                          window;
   private final FPSAnimator                                                         animator;
-  private JCGLImplementationJOGL                                                      gl_implementation;
+  private JCGLImplementationJOGL                                                    gl_implementation;
   private final Filesystem                                                          filesystem;
   private final VectorM2I                                                           window_position;
   private final VectorM2I                                                           window_size;

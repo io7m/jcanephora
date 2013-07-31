@@ -8,7 +8,7 @@
   <artifactId>io7m-jcanephora-tests</artifactId>
   <name>io7m-jcanephora-tests</name>
   <description>Test contracts and cases</description>
-  <version>0.9.8</version>
+  <version>0.9.9</version>
   <url>http://mvn.io7m.com/jcanephora-tests</url>
   <packaging>jar</packaging>
 
@@ -55,6 +55,11 @@
     <dependency>
       <groupId>com.io7m.jcanephora.core</groupId>
       <artifactId>io7m-jcanephora-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.jcanephora.checkedexec</groupId>
+      <artifactId>io7m-jcanephora-checkedexec</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

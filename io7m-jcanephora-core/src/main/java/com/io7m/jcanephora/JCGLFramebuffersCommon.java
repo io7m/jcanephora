@@ -13,6 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
@@ -27,7 +28,9 @@ import com.io7m.jaux.Constraints.ConstraintError;
 public interface JCGLFramebuffersCommon
 {
   /**
+   * <p>
    * Allocate a new framebuffer.
+   * </p>
    * 
    * @return A freshly allocated framebuffer.
    */
@@ -37,7 +40,9 @@ public interface JCGLFramebuffersCommon
       ConstraintError;
 
   /**
+   * <p>
    * Delete the framebuffer <code>framebuffer</code>.
+   * </p>
    * 
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -55,8 +60,10 @@ public interface JCGLFramebuffersCommon
       ConstraintError;
 
   /**
+   * <p>
    * Return <code>true</code> iff any application-created draw framebuffer is
    * currently bound.
+   * </p>
    * 
    * @throws JCGLException
    *           Iff an OpenGL exception occurs.
@@ -66,13 +73,16 @@ public interface JCGLFramebuffersCommon
     throws JCGLException;
 
   /**
+   * <p>
    * Attach the given color renderbuffer <code>renderbuffer</code> to the
    * framebuffer <code>framebuffer</code>.
-   * 
+   * </p>
+   * <p>
    * The function will replace any existing color attachment at attachment
    * point <code>0</code>. On ES2 implementations, the only available
    * attachment point is <code>0</code>, so this will obviously replace the
    * only attached color buffer (if any).
+   * </p>
    * 
    * @see RenderbufferType#isColorRenderable()
    * @throws ConstraintError
@@ -97,13 +107,16 @@ public interface JCGLFramebuffersCommon
       ConstraintError;
 
   /**
+   * <p>
    * Attach the given color texture <code>texture</code> to the framebuffer
    * <code>framebuffer</code>.
-   * 
+   * </p>
+   * <p>
    * The function will replace any existing color attachment at attachment
    * point <code>0</code>. On ES2 implementations, the only available
    * attachment point is <code>0</code>, so this will obviously replace the
    * only attached color buffer (if any).
+   * </p>
    * 
    * @see TextureType#isColorRenderable()
    * @throws ConstraintError
@@ -128,13 +141,16 @@ public interface JCGLFramebuffersCommon
       ConstraintError;
 
   /**
+   * <p>
    * Attach the face <code>face</code> of the given color cube-map texture
    * <code>texture</code> to the framebuffer <code>framebuffer</code>.
-   * 
+   * </p>
+   * <p>
    * The function will replace any existing color attachment at attachment
    * point <code>0</code>. On ES2 implementations, the only available
    * attachment point is <code>0</code>, so this will obviously replace the
    * only attached color buffer (if any).
+   * </p>
    * 
    * @see TextureType#isColorRenderable()
    * @throws ConstraintError
@@ -161,10 +177,13 @@ public interface JCGLFramebuffersCommon
       ConstraintError;
 
   /**
+   * <p>
    * Attach the given depth renderbuffer <code>renderbuffer</code> to the
    * framebuffer <code>framebuffer</code>.
-   * 
+   * </p>
+   * <p>
    * The function will replace any existing depth attachment.
+   * </p>
    * 
    * @see RenderbufferType#isDepthRenderable()
    * @throws ConstraintError
@@ -189,10 +208,13 @@ public interface JCGLFramebuffersCommon
       ConstraintError;
 
   /**
+   * <p>
    * Attach the given depth texture <code>texture</code> to the framebuffer
    * <code>framebuffer</code>.
-   * 
+   * </p>
+   * <p>
    * The function will replace any existing depth attachment.
+   * </p>
    * 
    * @see TextureType#isDepthRenderable()
    * @throws ConstraintError
@@ -217,10 +239,13 @@ public interface JCGLFramebuffersCommon
       ConstraintError;
 
   /**
+   * <p>
    * Attach the given stencil renderbuffer <code>renderbuffer</code> to the
    * framebuffer <code>framebuffer</code>.
-   * 
+   * </p>
+   * <p>
    * The function will replace any existing stencil attachment.
+   * </p>
    * 
    * @see RenderbufferType#isStencilRenderable()
    * @throws ConstraintError
@@ -245,7 +270,9 @@ public interface JCGLFramebuffersCommon
       ConstraintError;
 
   /**
+   * <p>
    * Bind the given framebuffer <code>framebuffer</code> to the draw target.
+   * </p>
    * 
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -263,8 +290,10 @@ public interface JCGLFramebuffersCommon
       ConstraintError;
 
   /**
+   * <p>
    * Return <code>true</code> iff <code>framebuffer</code> is currently bound
    * to the draw target.
+   * </p>
    * 
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -282,7 +311,9 @@ public interface JCGLFramebuffersCommon
       ConstraintError;
 
   /**
+   * <p>
    * Unbind the current framebuffer from the draw target.
+   * </p>
    * 
    * @throws JCGLException
    *           Iff an OpenGL exception occurs.
@@ -292,7 +323,9 @@ public interface JCGLFramebuffersCommon
     throws JCGLException;
 
   /**
+   * <p>
    * Determine the validity of the framebuffer <code>framebuffer</code>.
+   * </p>
    * 
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -311,10 +344,13 @@ public interface JCGLFramebuffersCommon
       ConstraintError;
 
   /**
+   * <p>
    * Retrieve the available set of color attachment points for framebuffers.
-   * 
+   * </p>
+   * <p>
    * On ES2 implementations, the returned list will be a single item (as ES2
    * only allows single color attachments for framebuffers).
+   * </p>
    * 
    * @throws JCGLException
    *           Iff an OpenGL exception occurs.
@@ -327,10 +363,13 @@ public interface JCGLFramebuffersCommon
         ConstraintError;
 
   /**
+   * <p>
    * Retrieve the available set of draw buffers framebuffers.
-   * 
+   * </p>
+   * <p>
    * On ES2 implementations, the returned list will be a single item (as ES2
    * only allows a single color draw buffer).
+   * </p>
    * 
    * @throws JCGLException
    *           Iff an OpenGL exception occurs.

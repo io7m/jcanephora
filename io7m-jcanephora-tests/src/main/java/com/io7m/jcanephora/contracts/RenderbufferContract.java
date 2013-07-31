@@ -33,6 +33,11 @@ import com.io7m.jcanephora.TestContext;
 public abstract class RenderbufferContract<R extends JCGLRenderbuffersCommon> implements
   TestContract
 {
+  public abstract Renderbuffer<?> allocateAnything(
+    final @Nonnull R gl)
+    throws JCGLException,
+      ConstraintError;
+
   @Before public final void checkSupport()
   {
     Assume.assumeTrue(this.isGLSupported());
@@ -40,11 +45,6 @@ public abstract class RenderbufferContract<R extends JCGLRenderbuffersCommon> im
 
   public abstract R getGLRenderbuffers(
     TestContext tc);
-
-  public abstract Renderbuffer<?> allocateAnything(
-    final @Nonnull R gl)
-    throws JCGLException,
-      ConstraintError;
 
   /**
    * Deleting a renderbuffer works.

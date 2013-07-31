@@ -16,8 +16,10 @@
 
 package com.io7m.jcanephora;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -95,8 +97,8 @@ public final class Program extends JCGLResourceDeletable implements
    *          An OpenGL interface.
    * @throws ConstraintError
    *           Iff <code>gl == null</code> or one of the constraints for
-   *           {@link JCGLShaders#programActivate(ProgramReference)} does not
-   *           hold.
+   *           {@link JCGLShaders#programActivate(ProgramReferenceUsable)}
+   *           does not hold.
    * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
@@ -216,7 +218,7 @@ public final class Program extends JCGLResourceDeletable implements
       final JCGLVersion v = gl.metaGetVersion();
 
       if (this.vertex_shaders.size() > 1) {
-        if (v.isES()
+        if ((v.getAPI() == JCGLApi.JCGL_ES)
           && ((v.getVersionMajor() >= 2) && (v.getVersionMajor() <= 3))) {
           throw new JCGLCompileException(
             "<none>",
@@ -230,7 +232,7 @@ public final class Program extends JCGLResourceDeletable implements
           "at least one fragment shader is required");
       }
       if (this.fragment_shaders.size() > 1) {
-        if (v.isES()
+        if ((v.getAPI() == JCGLApi.JCGL_ES)
           && ((v.getVersionMajor() >= 2) && (v.getVersionMajor() <= 3))) {
           throw new JCGLCompileException(
             "<none>",
@@ -258,13 +260,23 @@ public final class Program extends JCGLResourceDeletable implements
         final long time = fs.getModificationTime(path).getTimeInMillis();
 
         if (time != shader.last_modified) {
-          InputStream stream = null;
+          BufferedReader reader = null;
+          final ArrayList<String> lines = new ArrayList<String>();
 
           try {
-            stream = fs.openFile(path);
+            reader =
+              new BufferedReader(new InputStreamReader(fs.openFile(path)));
+
+            for (;;) {
+              final String line = reader.readLine();
+              if (line == null) {
+                break;
+              }
+              lines.add(line + "\n");
+            }
 
             final VertexShader new_shader =
-              gl.vertexShaderCompile(path.toString(), stream);
+              gl.vertexShaderCompile(path.toString(), lines);
 
             if (shader.shader != null) {
               gl.vertexShaderDelete(shader.shader);
@@ -272,13 +284,9 @@ public final class Program extends JCGLResourceDeletable implements
             shader.last_modified = time;
             shader.shader = new_shader;
             gl.vertexShaderAttach(new_program, new_shader);
-
-            final InputStream alt = stream;
-            stream = null;
-            alt.close();
           } finally {
-            if (stream != null) {
-              stream.close();
+            if (reader != null) {
+              reader.close();
             }
           }
         } else {
@@ -298,13 +306,23 @@ public final class Program extends JCGLResourceDeletable implements
         final long time = fs.getModificationTime(path).getTimeInMillis();
 
         if (time != shader.last_modified) {
-          InputStream stream = null;
+          BufferedReader reader = null;
+          final ArrayList<String> lines = new ArrayList<String>();
 
           try {
-            stream = fs.openFile(path);
+            reader =
+              new BufferedReader(new InputStreamReader(fs.openFile(path)));
+
+            for (;;) {
+              final String line = reader.readLine();
+              if (line == null) {
+                break;
+              }
+              lines.add(line + "\n");
+            }
 
             final FragmentShader new_shader =
-              gl.fragmentShaderCompile(path.toString(), stream);
+              gl.fragmentShaderCompile(path.toString(), lines);
 
             if (shader.shader != null) {
               gl.fragmentShaderDelete(shader.shader);
@@ -312,13 +330,9 @@ public final class Program extends JCGLResourceDeletable implements
             shader.last_modified = time;
             shader.shader = new_shader;
             gl.fragmentShaderAttach(new_program, new_shader);
-
-            final InputStream alt = stream;
-            stream = null;
-            alt.close();
           } finally {
-            if (stream != null) {
-              stream.close();
+            if (reader != null) {
+              reader.close();
             }
           }
         } else {

@@ -314,155 +314,6 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   /**
-   * Convert any RGB/BGR image to an RGBA texture.
-   */
-
-  private static @Nonnull Texture2DWritableData convertBGRToRGBAGeneric(
-    final @Nonnull BufferedImage image,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final int width = image.getWidth();
-    final int height = image.getHeight();
-    final SpatialCursorWritable4i cursor = data.getCursor4i();
-
-    for (int y = 0; y < height; ++y) {
-      for (int x = 0; x < width; ++x) {
-        final int argb = image.getRGB(x, y);
-        final int a = 0xff;
-        final int r = (argb >> 16) & 0xff;
-        final int g = (argb >> 8) & 0xff;
-        final int b = argb & 0xff;
-        cursor.put4i(r, g, b, a);
-      }
-    }
-
-    return data;
-  }
-
-  /**
-   * Convert any RGB/BGR image to an RGB texture.
-   */
-
-  private static @Nonnull Texture2DWritableData convertBGRToRGBGeneric(
-    final @Nonnull BufferedImage image,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final int width = image.getWidth();
-    final int height = image.getHeight();
-    final SpatialCursorWritable3i cursor = data.getCursor3i();
-
-    for (int y = 0; y < height; ++y) {
-      for (int x = 0; x < width; ++x) {
-        final int argb = image.getRGB(x, y);
-        final int r = (argb >> 16) & 0xff;
-        final int g = (argb >> 8) & 0xff;
-        final int b = argb & 0xff;
-        cursor.put3i(r, g, b);
-      }
-    }
-
-    return data;
-  }
-
-  /**
-   * Convert a greyscale image to a single-channel red texture.
-   */
-
-  private static @Nonnull Texture2DWritableData convertGreyToR(
-    final @Nonnull BufferedImage image,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final int width = image.getWidth();
-    final int height = image.getHeight();
-    final SpatialCursorWritable1i cursor = data.getCursor1i();
-
-    for (int y = 0; y < height; ++y) {
-      for (int x = 0; x < width; ++x) {
-        final int argb = image.getRGB(x, y);
-        final int r = (argb >> 16) & 0xff;
-        cursor.put1i(r);
-      }
-    }
-
-    return data;
-  }
-
-  /**
-   * Convert a greyscale image to an RG texture.
-   */
-
-  private static @Nonnull Texture2DWritableData convertGreyToRG(
-    final @Nonnull BufferedImage image,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final int width = image.getWidth();
-    final int height = image.getHeight();
-    final SpatialCursorWritable2i cursor = data.getCursor2i();
-
-    for (int y = 0; y < height; ++y) {
-      for (int x = 0; x < width; ++x) {
-        final int argb = image.getRGB(x, y);
-        final int r = (argb >> 16) & 0xff;
-        cursor.put2i(r, r);
-      }
-    }
-
-    return data;
-  }
-
-  /**
-   * Convert a greyscale image to an RGB texture.
-   */
-
-  private static @Nonnull Texture2DWritableData convertGreyToRGB(
-    final @Nonnull BufferedImage image,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final int width = image.getWidth();
-    final int height = image.getHeight();
-    final SpatialCursorWritable3i cursor = data.getCursor3i();
-
-    for (int y = 0; y < height; ++y) {
-      for (int x = 0; x < width; ++x) {
-        final int argb = image.getRGB(x, y);
-        final int g = (argb >> 8) & 0xff;
-        cursor.put3i(g, g, g);
-      }
-    }
-
-    return data;
-  }
-
-  /**
-   * Convert a greyscale image to an RGBA texture.
-   */
-
-  private static @Nonnull Texture2DWritableData convertGreyToRGBA(
-    final @Nonnull BufferedImage image,
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError
-  {
-    final int width = image.getWidth();
-    final int height = image.getHeight();
-    final SpatialCursorWritable4i cursor = data.getCursor4i();
-
-    for (int y = 0; y < height; ++y) {
-      for (int x = 0; x < width; ++x) {
-        final int argb = image.getRGB(x, y);
-        final int g = (argb >> 8) & 0xff;
-        cursor.put4i(g, g, g, g);
-      }
-    }
-
-    return data;
-  }
-
-  /**
    * Convert an (A)RGB image to single channel floating point texture.
    * 
    * The red channel of the image is used as the source for the resulting
@@ -1015,19 +866,17 @@ public final class TextureLoaderImageIO implements TextureLoader
       name);
   }
 
-  @Override public @Nonnull
-    Texture2DStatic
-    load2DStaticInferredGL3ES3(
-      final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter,
-      final @Nonnull InputStream stream,
-      final @Nonnull String name)
-      throws ConstraintError,
-        JCGLException,
-        IOException
+  @Override public @Nonnull Texture2DStatic load2DStaticInferredGL3ES3(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException
   {
     Constraints.constrainNotNull(name, "Name");
     Constraints.constrainNotNull(stream, "Input stream");

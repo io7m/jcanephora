@@ -31,14 +31,14 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 @Immutable public final class ProgramAttribute
 {
-  private final int                       index;
-  private final int                       location;
-  private final @Nonnull JCGLType         type;
-  private final @Nonnull String           name;
-  private final @Nonnull ProgramReference program;
+  private final int                             index;
+  private final int                             location;
+  private final @Nonnull JCGLType               type;
+  private final @Nonnull String                 name;
+  private final @Nonnull ProgramReferenceUsable program;
 
   ProgramAttribute(
-    final @Nonnull ProgramReference program,
+    final @Nonnull ProgramReferenceUsable program,
     final int index,
     final int location,
     final @CheckForNull String name,
@@ -85,7 +85,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * Retrieve a reference to the program that owns the attribute.
    */
 
-  public @Nonnull ProgramReference getProgram()
+  public @Nonnull ProgramReferenceUsable getProgram()
   {
     return this.program;
   }

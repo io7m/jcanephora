@@ -16,29 +16,44 @@
 
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
 /**
  * Type-safe OpenGL shader types.
  */
 
 public enum JCGLType
 {
-  TYPE_FLOAT,
-  TYPE_FLOAT_VECTOR_2,
-  TYPE_FLOAT_VECTOR_3,
-  TYPE_FLOAT_VECTOR_4,
-  TYPE_INTEGER,
-  TYPE_INTEGER_VECTOR_2,
-  TYPE_INTEGER_VECTOR_3,
-  TYPE_INTEGER_VECTOR_4,
-  TYPE_BOOLEAN,
-  TYPE_BOOLEAN_VECTOR_2,
-  TYPE_BOOLEAN_VECTOR_3,
-  TYPE_BOOLEAN_VECTOR_4,
-  TYPE_FLOAT_MATRIX_2,
-  TYPE_FLOAT_MATRIX_3,
-  TYPE_FLOAT_MATRIX_4,
-  TYPE_SAMPLER_2D,
-  TYPE_SAMPLER_3D,
-  TYPE_SAMPLER_CUBE,
-  TYPE_SAMPLER_2D_SHADOW
+  TYPE_FLOAT("float"),
+  TYPE_FLOAT_VECTOR_2("vec2"),
+  TYPE_FLOAT_VECTOR_3("vec3"),
+  TYPE_FLOAT_VECTOR_4("vec4"),
+  TYPE_INTEGER("int"),
+  TYPE_INTEGER_VECTOR_2("ivec2"),
+  TYPE_INTEGER_VECTOR_3("ivec3"),
+  TYPE_INTEGER_VECTOR_4("ivec4"),
+  TYPE_BOOLEAN("bool"),
+  TYPE_BOOLEAN_VECTOR_2("bvec2"),
+  TYPE_BOOLEAN_VECTOR_3("bvec3"),
+  TYPE_BOOLEAN_VECTOR_4("bvec4"),
+  TYPE_FLOAT_MATRIX_2("mat2"),
+  TYPE_FLOAT_MATRIX_3("mat3"),
+  TYPE_FLOAT_MATRIX_4("mat4"),
+  TYPE_SAMPLER_2D("sampler2D"),
+  TYPE_SAMPLER_3D("sampler3D"),
+  TYPE_SAMPLER_CUBE("samplerCube"),
+  TYPE_SAMPLER_2D_SHADOW("sampler2DShadow");
+
+  private final @Nonnull String name;
+
+  private JCGLType(
+    final @Nonnull String name)
+  {
+    this.name = name;
+  }
+
+  public @Nonnull String getName()
+  {
+    return this.name;
+  }
 }

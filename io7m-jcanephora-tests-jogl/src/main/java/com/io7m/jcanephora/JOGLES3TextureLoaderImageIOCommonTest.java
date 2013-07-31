@@ -26,17 +26,17 @@ import com.io7m.jcanephora.contracts.common.TextureLoaderContractCommon;
 public final class JOGLES3TextureLoaderImageIOCommonTest extends
   TextureLoaderContractCommon<TextureLoaderImageIO>
 {
+  @Override public @Nonnull JCGLTextures2DStaticCommon getGLTextures(
+    final @Nonnull TestContext tc)
+  {
+    final Some<JCGLInterfaceGLES3> some =
+      (Option.Some<JCGLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
+    return some.value;
+  }
+
   @Override public boolean isGLSupported()
   {
     return JOGLTestContext.isOpenGLES3Supported();
-  }
-
-  @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
-      JCGLUnsupportedException,
-      ConstraintError
-  {
-    return JOGLTestContext.makeContextWithOpenGL_ES3();
   }
 
   @Override public @Nonnull TextureLoaderImageIO makeTextureLoader(
@@ -45,11 +45,11 @@ public final class JOGLES3TextureLoaderImageIOCommonTest extends
     return new TextureLoaderImageIO();
   }
 
-  @Override public @Nonnull JCGLTextures2DStaticCommon getGLTextures(
-    final @Nonnull TestContext tc)
+  @Override public @Nonnull TestContext newTestContext()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
   {
-    final Some<JCGLInterfaceGLES3> some =
-      (Option.Some<JCGLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
-    return some.value;
+    return JOGLTestContext.makeContextWithOpenGL_ES3();
   }
 }

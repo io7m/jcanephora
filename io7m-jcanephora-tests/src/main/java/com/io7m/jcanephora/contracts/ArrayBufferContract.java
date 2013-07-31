@@ -16,9 +16,12 @@
 
 package com.io7m.jcanephora.contracts;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -67,16 +70,18 @@ public abstract class ArrayBufferContract implements TestContract
     final ProgramReference pr = gl.programCreate("program");
 
     if (vertex_shader != null) {
-      final InputStream vss = filesystem.openFile(vertex_shader);
-      final VertexShader vs = gl.vertexShaderCompile("vertex", vss);
-      vss.close();
+      final VertexShader vs =
+        gl.vertexShaderCompile(
+          "vertex",
+          ArrayBufferContract.readLines(filesystem, vertex_shader));
       gl.vertexShaderAttach(pr, vs);
     }
 
     if (fragment_shader != null) {
-      final InputStream fss = filesystem.openFile(fragment_shader);
-      final FragmentShader fs = gl.fragmentShaderCompile("fragment", fss);
-      fss.close();
+      final FragmentShader fs =
+        gl.fragmentShaderCompile(
+          "fragment",
+          ArrayBufferContract.readLines(filesystem, fragment_shader));
       gl.fragmentShaderAttach(pr, fs);
     }
 
@@ -101,6 +106,27 @@ public abstract class ArrayBufferContract implements TestContract
     final ProgramReference pr =
       ArrayBufferContract.makeProgram(shaders, fs, vss, fss);
     return pr;
+  }
+
+  static List<String> readLines(
+    final FSCapabilityAll filesystem,
+    final PathVirtual path)
+    throws FilesystemError,
+      ConstraintError,
+      IOException
+  {
+    final BufferedReader reader =
+      new BufferedReader(new InputStreamReader(filesystem.openFile(path)));
+    final ArrayList<String> lines = new ArrayList<String>();
+    for (;;) {
+      final String line = reader.readLine();
+      if (line == null) {
+        break;
+      }
+      lines.add(line + "\n");
+    }
+    reader.close();
+    return lines;
   }
 
   private static long testArrayBufferGridElementsRequired(
@@ -304,15 +330,6 @@ public abstract class ArrayBufferContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
-
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_SHORT,
-          1) });
-    final ArrayBuffer a =
-      gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
     gl.arrayBufferBindVertexAttribute(null, null);
   }
 
