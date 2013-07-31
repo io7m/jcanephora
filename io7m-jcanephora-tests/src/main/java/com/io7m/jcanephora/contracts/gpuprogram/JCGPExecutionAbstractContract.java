@@ -78,134 +78,43 @@ import com.io7m.jtensors.VectorI4I;
 
 public abstract class JCGPExecutionAbstractContract implements TestContract
 {
-  private static @Nonnull JCGPProgram makeEmptyProgram(
-    final @Nonnull TestContext tc,
+  private static final class ExecCalled extends
+    JCGPExecutionAbstract<Throwable>
+  {
+    public boolean called;
+
+    public ExecCalled()
+    {
+      this.called = false;
+    }
+
+    @Override protected void execRunActual()
+      throws JCGLException,
+        Throwable
+    {
+      this.called = true;
+    }
+  }
+
+  private static @Nonnull ArrayBuffer makeArrayBuffer(
     final @Nonnull JCGLInterfaceCommon gl)
   {
     try {
-      final JCGLSLVersion want_version = gl.metaGetSLVersion();
+      final ArrayBufferAttributeDescriptor[] as =
+        new ArrayBufferAttributeDescriptor[3];
+      as[0] =
+        new ArrayBufferAttributeDescriptor("a0", JCGLScalarType.TYPE_FLOAT, 4);
+      as[1] =
+        new ArrayBufferAttributeDescriptor("a1", JCGLScalarType.TYPE_FLOAT, 4);
+      as[2] =
+        new ArrayBufferAttributeDescriptor("a2", JCGLScalarType.TYPE_FLOAT, 4);
 
-      final StringBuilder s = new StringBuilder();
-      s.append("void main (void)\n");
-      s.append("{\n");
-      s.append("  gl_Position = vec4(1, 2, 3, 1);\n");
-      s.append("}\n");
-
-      final JCGPSource vs_source = new JCGPStringSource(s.toString());
-
-      final JCGPVersionRange<JCGLApiKindES> versions_es =
-        new JCGPVersionRange<JCGLApiKindES>(
-          JCGLSLVersion.GLSL_ES_100.getNumber(),
-          JCGLSLVersion.GLSL_ES_30.getNumber());
-
-      final JCGPVersionRange<JCGLApiKindFull> versions_full =
-        new JCGPVersionRange<JCGLApiKindFull>(
-          JCGLSLVersion.GLSL_110.getNumber(),
-          JCGLSLVersion.GLSL_440.getNumber());
-
-      final JCGPUnitVertexShader v_unit =
-        JCGPUnit.makeVertexShader(
-          "v",
-          vs_source,
-          new LinkedList<String>(),
-          versions_es,
-          versions_full);
-
-      final JCGPSource source = new JCGPSource() {
-        @Override public boolean sourceChangedSince(
-          final @Nonnull Calendar since)
-          throws Exception,
-            ConstraintError
-        {
-          return false;
-        }
-
-        @Override public void sourceGet(
-          final @Nonnull JCGPGeneratorContext context,
-          final @Nonnull ArrayList<String> output)
-          throws Exception,
-            ConstraintError
-        {
-          final JCGLSLVersionNumber version = context.getVersion();
-          switch (context.getApi()) {
-            case JCGL_ES:
-            {
-              if (version.compareTo(JCGLSLVersion.GLSL_ES_100.getNumber()) <= 0) {
-                output.add("void main (void)\n");
-                output.add("{\n");
-                output.add("  gl_FragColor = vec4(1, 1, 1, 1);\n");
-                output.add("}\n");
-                return;
-              }
-              break;
-            }
-            case JCGL_FULL:
-            {
-              if (version.compareTo(JCGLSLVersion.GLSL_120.getNumber()) <= 0) {
-                output.add("void main (void)\n");
-                output.add("{\n");
-                output.add("  gl_FragColor = vec4(1, 1, 1, 1);\n");
-                output.add("}\n");
-                return;
-              }
-              break;
-            }
-          }
-
-          output.add("void main (void)\n");
-          output.add("{\n");
-          output.add("  out_frag = vec4(1, 1, 1, 1);\n");
-          output.add("}\n");
-        }
-      };
-
-      final JCGPUnitFragmentShader f_unit =
-        JCGPUnit.makeFragmentShader(
-          "f",
-          source,
-          new LinkedList<String>(),
-          versions_es,
-          versions_full);
-      f_unit.declareOutput(JCGPFragmentShaderOutput.make(
-        JCGLType.TYPE_FLOAT_VECTOR_4,
-        "out_frag",
-        0));
-
-      final JCGPGeneratorAPI gen =
-        JCGPGenerator.newProgramFullAndES(
-          tc.getLog(),
-          "p",
-          versions_full,
-          versions_es);
-
-      gen.generatorDebuggingEnable(true);
-      gen.generatorUnitAdd(v_unit);
-      gen.generatorUnitAdd(f_unit);
-
-      final JCGPGeneratedSource<JCGLShaderKindVertex> v_source =
-        gen.generatorGenerateVertexShader(
-          want_version.getNumber(),
-          want_version.getAPI());
-
-      for (final String line : v_source.getLines()) {
-        System.out.print(line);
-      }
-
-      final JCGPGeneratedSource<JCGLShaderKindFragment> f_source =
-        gen.generatorGenerateFragmentShader(
-          want_version.getNumber(),
-          want_version.getAPI());
-
-      for (final String line : f_source.getLines()) {
-        System.out.print(line);
-      }
-
-      final JCGPCompiler comp = JCGPCompiler.newCompiler();
-      return comp.compileProgram(gl, "p", v_source, f_source);
-    } catch (final JCGLCompileException e) {
-      throw new AssertionError(e);
-    } catch (final JCGLUnsupportedException e) {
-      throw new AssertionError(e);
+      final ArrayBufferTypeDescriptor descriptor =
+        new ArrayBufferTypeDescriptor(as);
+      return gl.arrayBufferAllocate(
+        3,
+        descriptor,
+        UsageHint.USAGE_STATIC_DRAW);
     } catch (final ConstraintError e) {
       throw new AssertionError(e);
     } catch (final JCGLException e) {
@@ -346,6 +255,141 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
       f_unit.declareUniformInput(JCGPUniform.make(
         JCGLType.TYPE_SAMPLER_2D,
         "ut"));
+
+      final JCGPGeneratorAPI gen =
+        JCGPGenerator.newProgramFullAndES(
+          tc.getLog(),
+          "p",
+          versions_full,
+          versions_es);
+
+      gen.generatorDebuggingEnable(true);
+      gen.generatorUnitAdd(v_unit);
+      gen.generatorUnitAdd(f_unit);
+
+      final JCGPGeneratedSource<JCGLShaderKindVertex> v_source =
+        gen.generatorGenerateVertexShader(
+          want_version.getNumber(),
+          want_version.getAPI());
+
+      for (final String line : v_source.getLines()) {
+        System.out.print(line);
+      }
+
+      final JCGPGeneratedSource<JCGLShaderKindFragment> f_source =
+        gen.generatorGenerateFragmentShader(
+          want_version.getNumber(),
+          want_version.getAPI());
+
+      for (final String line : f_source.getLines()) {
+        System.out.print(line);
+      }
+
+      final JCGPCompiler comp = JCGPCompiler.newCompiler();
+      return comp.compileProgram(gl, "p", v_source, f_source);
+    } catch (final JCGLCompileException e) {
+      throw new AssertionError(e);
+    } catch (final JCGLUnsupportedException e) {
+      throw new AssertionError(e);
+    } catch (final ConstraintError e) {
+      throw new AssertionError(e);
+    } catch (final JCGLException e) {
+      throw new AssertionError(e);
+    }
+  }
+
+  private static @Nonnull JCGPProgram makeEmptyProgram(
+    final @Nonnull TestContext tc,
+    final @Nonnull JCGLInterfaceCommon gl)
+  {
+    try {
+      final JCGLSLVersion want_version = gl.metaGetSLVersion();
+
+      final StringBuilder s = new StringBuilder();
+      s.append("void main (void)\n");
+      s.append("{\n");
+      s.append("  gl_Position = vec4(1, 2, 3, 1);\n");
+      s.append("}\n");
+
+      final JCGPSource vs_source = new JCGPStringSource(s.toString());
+
+      final JCGPVersionRange<JCGLApiKindES> versions_es =
+        new JCGPVersionRange<JCGLApiKindES>(
+          JCGLSLVersion.GLSL_ES_100.getNumber(),
+          JCGLSLVersion.GLSL_ES_30.getNumber());
+
+      final JCGPVersionRange<JCGLApiKindFull> versions_full =
+        new JCGPVersionRange<JCGLApiKindFull>(
+          JCGLSLVersion.GLSL_110.getNumber(),
+          JCGLSLVersion.GLSL_440.getNumber());
+
+      final JCGPUnitVertexShader v_unit =
+        JCGPUnit.makeVertexShader(
+          "v",
+          vs_source,
+          new LinkedList<String>(),
+          versions_es,
+          versions_full);
+
+      final JCGPSource source = new JCGPSource() {
+        @Override public boolean sourceChangedSince(
+          final @Nonnull Calendar since)
+          throws Exception,
+            ConstraintError
+        {
+          return false;
+        }
+
+        @Override public void sourceGet(
+          final @Nonnull JCGPGeneratorContext context,
+          final @Nonnull ArrayList<String> output)
+          throws Exception,
+            ConstraintError
+        {
+          final JCGLSLVersionNumber version = context.getVersion();
+          switch (context.getApi()) {
+            case JCGL_ES:
+            {
+              if (version.compareTo(JCGLSLVersion.GLSL_ES_100.getNumber()) <= 0) {
+                output.add("void main (void)\n");
+                output.add("{\n");
+                output.add("  gl_FragColor = vec4(1, 1, 1, 1);\n");
+                output.add("}\n");
+                return;
+              }
+              break;
+            }
+            case JCGL_FULL:
+            {
+              if (version.compareTo(JCGLSLVersion.GLSL_120.getNumber()) <= 0) {
+                output.add("void main (void)\n");
+                output.add("{\n");
+                output.add("  gl_FragColor = vec4(1, 1, 1, 1);\n");
+                output.add("}\n");
+                return;
+              }
+              break;
+            }
+          }
+
+          output.add("void main (void)\n");
+          output.add("{\n");
+          output.add("  out_frag = vec4(1, 1, 1, 1);\n");
+          output.add("}\n");
+        }
+      };
+
+      final JCGPUnitFragmentShader f_unit =
+        JCGPUnit.makeFragmentShader(
+          "f",
+          source,
+          new LinkedList<String>(),
+          versions_es,
+          versions_full);
+      f_unit.declareOutput(JCGPFragmentShaderOutput.make(
+        JCGLType.TYPE_FLOAT_VECTOR_4,
+        "out_frag",
+        0));
 
       final JCGPGeneratorAPI gen =
         JCGPGenerator.newProgramFullAndES(
@@ -552,21 +596,40 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  private static final class ExecCalled extends
-    JCGPExecutionAbstract<Throwable>
-  {
-    public boolean called;
+  /**
+   * Trying to bind a nonexistent attribute fails.
+   */
 
-    public ExecCalled()
-    {
-      this.called = false;
+  @Test(expected = ConstraintError.class) public final
+    void
+    testAttributeNonexistent()
+      throws Throwable
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    ExecCalled e = null;
+    ArrayBuffer a = null;
+    ArrayBufferAttribute a0 = null;
+
+    try {
+      final JCGPProgram p =
+        JCGPExecutionAbstractContract.makeEmptyProgram(tc, gl);
+
+      a = JCGPExecutionAbstractContract.makeArrayBuffer(gl);
+      a0 = a.getAttribute("a0");
+
+      e = new ExecCalled();
+      e.execPrepare(gl, p);
+    } catch (final Throwable x) {
+      Assert.fail(x.getMessage());
     }
 
-    @Override protected void execRunActual()
-      throws JCGLException,
-        Throwable
-    {
-      this.called = true;
+    try {
+      assert e != null;
+      e.execAttributeBind(gl, "nonexistent", a0);
+    } catch (final ConstraintError x) {
+      System.out.println(x);
+      throw x;
     }
   }
 
@@ -646,6 +709,148 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
   }
 
   /**
+   * Running a program without binding all of the attributes fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testRunMissedAttributes()
+      throws Throwable
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    ExecCalled e = null;
+    JCGPProgram p = null;
+
+    try {
+      p =
+        JCGPExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
+          tc,
+          gl);
+      e = new ExecCalled();
+      e.execPrepare(gl, p);
+      e.execUniformPutVector4I(gl, "u_integer4_0", new VectorI4I(1, 1, 1, 1));
+      e.execUniformPutVector4I(gl, "u_integer4_1", new VectorI4I(1, 1, 1, 1));
+      e.execUniformPutVector4I(gl, "u_integer4_2", new VectorI4I(1, 1, 1, 1));
+    } catch (final Throwable x) {
+      Assert.fail(x.getMessage());
+    }
+
+    try {
+      assert e != null;
+      Assert.assertFalse(e.called);
+      e.execRun(gl);
+    } catch (final ConstraintError x) {
+      System.out.println(x);
+      throw x;
+    }
+  }
+
+  /**
+   * Running a program with all of the attributes bound, and all of the
+   * uniforms assigned, works.
+   */
+
+  @Test public final void testRunMissedNone()
+    throws Throwable
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    ExecCalled e = null;
+    JCGPProgram p = null;
+    ArrayBuffer a = null;
+    ArrayBufferAttribute a0 = null;
+    ArrayBufferAttribute a1 = null;
+    ArrayBufferAttribute a2 = null;
+
+    try {
+      p =
+        JCGPExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
+          tc,
+          gl);
+      a = JCGPExecutionAbstractContract.makeArrayBuffer(gl);
+      a0 = a.getAttribute("a0");
+      a1 = a.getAttribute("a1");
+      a2 = a.getAttribute("a2");
+      e = new ExecCalled();
+      Assert.assertFalse(e.called);
+      e.execPrepare(gl, p);
+      e.execUniformPutVector4I(gl, "u_integer4_0", new VectorI4I(1, 1, 1, 1));
+      e.execUniformPutVector4I(gl, "u_integer4_1", new VectorI4I(1, 1, 1, 1));
+      e.execUniformPutVector4I(gl, "u_integer4_2", new VectorI4I(1, 1, 1, 1));
+      e.execAttributeBind(gl, "a0", a0);
+      e.execAttributeBind(gl, "a1", a1);
+      e.execAttributeBind(gl, "a2", a2);
+      e.execRun(gl);
+      Assert.assertTrue(e.called);
+    } catch (final Throwable x) {
+      Assert.fail(x.getMessage());
+    }
+  }
+
+  /**
+   * Running a program without binding all of the attributes fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testRunMissedSomeAttributes()
+      throws Throwable
+  {
+    try {
+      final TestContext tc = this.newTestContext();
+      final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+      final JCGPProgram p =
+        JCGPExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
+          tc,
+          gl);
+
+      final ArrayBuffer a = JCGPExecutionAbstractContract.makeArrayBuffer(gl);
+      final ArrayBufferAttribute a0 = a.getAttribute("a0");
+
+      final ExecCalled e = new ExecCalled();
+      Assert.assertFalse(e.called);
+      e.execPrepare(gl, p);
+      e.execUniformPutVector4I(gl, "u_integer4_0", new VectorI4I(1, 1, 1, 1));
+      e.execUniformPutVector4I(gl, "u_integer4_1", new VectorI4I(1, 1, 1, 1));
+      e.execUniformPutVector4I(gl, "u_integer4_2", new VectorI4I(1, 1, 1, 1));
+      e.execAttributeBind(gl, "a0", a0);
+      e.execRun(gl);
+    } catch (final ConstraintError e) {
+      System.out.println(e);
+      throw e;
+    }
+  }
+
+  /**
+   * Running a program without binding all of the uniforms fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testRunMissedUniforms()
+      throws Throwable
+  {
+    final ExecCalled ex = new ExecCalled();
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    final JCGPProgram p =
+      JCGPExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
+        tc,
+        gl);
+
+    try {
+      Assert.assertFalse(ex.called);
+      ex.execPrepare(gl, p);
+      ex.execRun(gl);
+    } catch (final ConstraintError e) {
+      System.out.println(e);
+      Assert.assertFalse(ex.called);
+      throw e;
+    }
+  }
+
+  /**
    * Calling {@link JCGPExecutionAbstract#execRun(JCGLShaders)} without
    * calling
    * {@link JCGPExecutionAbstract#execPrepare(JCGLShaders, JCGPProgram)} first
@@ -701,211 +906,6 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
   }
 
   /**
-   * Running a program without binding all of the uniforms fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testRunMissedUniforms()
-      throws Throwable
-  {
-    final ExecCalled ex = new ExecCalled();
-    final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final JCGPProgram p =
-      JCGPExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
-        tc,
-        gl);
-
-    try {
-      Assert.assertFalse(ex.called);
-      ex.execPrepare(gl, p);
-      ex.execRun(gl);
-    } catch (final ConstraintError e) {
-      System.out.println(e);
-      Assert.assertFalse(ex.called);
-      throw e;
-    }
-  }
-
-  /**
-   * Running a program without binding all of the attributes fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testRunMissedAttributes()
-      throws Throwable
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    ExecCalled e = null;
-    JCGPProgram p = null;
-
-    try {
-      p =
-        JCGPExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
-          tc,
-          gl);
-      e = new ExecCalled();
-      e.execPrepare(gl, p);
-      e.execUniformPutVector4I(gl, "u_integer4_0", new VectorI4I(1, 1, 1, 1));
-      e.execUniformPutVector4I(gl, "u_integer4_1", new VectorI4I(1, 1, 1, 1));
-      e.execUniformPutVector4I(gl, "u_integer4_2", new VectorI4I(1, 1, 1, 1));
-    } catch (final Throwable x) {
-      Assert.fail(x.getMessage());
-    }
-
-    try {
-      assert e != null;
-      Assert.assertFalse(e.called);
-      e.execRun(gl);
-    } catch (final ConstraintError x) {
-      System.out.println(x);
-      throw x;
-    }
-  }
-
-  /**
-   * Running a program without binding all of the attributes fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testRunMissedSomeAttributes()
-      throws Throwable
-  {
-    try {
-      final TestContext tc = this.newTestContext();
-      final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-      final JCGPProgram p =
-        JCGPExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
-          tc,
-          gl);
-
-      final ArrayBuffer a = JCGPExecutionAbstractContract.makeArrayBuffer(gl);
-      final ArrayBufferAttribute a0 = a.getAttribute("a0");
-
-      final ExecCalled e = new ExecCalled();
-      Assert.assertFalse(e.called);
-      e.execPrepare(gl, p);
-      e.execUniformPutVector4I(gl, "u_integer4_0", new VectorI4I(1, 1, 1, 1));
-      e.execUniformPutVector4I(gl, "u_integer4_1", new VectorI4I(1, 1, 1, 1));
-      e.execUniformPutVector4I(gl, "u_integer4_2", new VectorI4I(1, 1, 1, 1));
-      e.execAttributeBind(gl, "a0", a0);
-      e.execRun(gl);
-    } catch (final ConstraintError e) {
-      System.out.println(e);
-      throw e;
-    }
-  }
-
-  /**
-   * Running a program with all of the attributes bound, and all of the
-   * uniforms assigned, works.
-   */
-
-  @Test public final void testRunMissedNone()
-    throws Throwable
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    ExecCalled e = null;
-    JCGPProgram p = null;
-    ArrayBuffer a = null;
-    ArrayBufferAttribute a0 = null;
-    ArrayBufferAttribute a1 = null;
-    ArrayBufferAttribute a2 = null;
-
-    try {
-      p =
-        JCGPExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
-          tc,
-          gl);
-      a = JCGPExecutionAbstractContract.makeArrayBuffer(gl);
-      a0 = a.getAttribute("a0");
-      a1 = a.getAttribute("a1");
-      a2 = a.getAttribute("a2");
-      e = new ExecCalled();
-      Assert.assertFalse(e.called);
-      e.execPrepare(gl, p);
-      e.execUniformPutVector4I(gl, "u_integer4_0", new VectorI4I(1, 1, 1, 1));
-      e.execUniformPutVector4I(gl, "u_integer4_1", new VectorI4I(1, 1, 1, 1));
-      e.execUniformPutVector4I(gl, "u_integer4_2", new VectorI4I(1, 1, 1, 1));
-      e.execAttributeBind(gl, "a0", a0);
-      e.execAttributeBind(gl, "a1", a1);
-      e.execAttributeBind(gl, "a2", a2);
-      e.execRun(gl);
-      Assert.assertTrue(e.called);
-    } catch (final Throwable x) {
-      Assert.fail(x.getMessage());
-    }
-  }
-
-  /**
-   * Trying to bind a nonexistent attribute fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testAttributeNonexistent()
-      throws Throwable
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    ExecCalled e = null;
-    ArrayBuffer a = null;
-    ArrayBufferAttribute a0 = null;
-
-    try {
-      final JCGPProgram p =
-        JCGPExecutionAbstractContract.makeEmptyProgram(tc, gl);
-
-      a = JCGPExecutionAbstractContract.makeArrayBuffer(gl);
-      a0 = a.getAttribute("a0");
-
-      e = new ExecCalled();
-      e.execPrepare(gl, p);
-    } catch (final Throwable x) {
-      Assert.fail(x.getMessage());
-    }
-
-    try {
-      assert e != null;
-      e.execAttributeBind(gl, "nonexistent", a0);
-    } catch (final ConstraintError x) {
-      System.out.println(x);
-      throw x;
-    }
-  }
-
-  private static @Nonnull ArrayBuffer makeArrayBuffer(
-    final @Nonnull JCGLInterfaceCommon gl)
-  {
-    try {
-      final ArrayBufferAttributeDescriptor[] as =
-        new ArrayBufferAttributeDescriptor[3];
-      as[0] =
-        new ArrayBufferAttributeDescriptor("a0", JCGLScalarType.TYPE_FLOAT, 4);
-      as[1] =
-        new ArrayBufferAttributeDescriptor("a1", JCGLScalarType.TYPE_FLOAT, 4);
-      as[2] =
-        new ArrayBufferAttributeDescriptor("a2", JCGLScalarType.TYPE_FLOAT, 4);
-
-      final ArrayBufferTypeDescriptor descriptor =
-        new ArrayBufferTypeDescriptor(as);
-      return gl.arrayBufferAllocate(
-        3,
-        descriptor,
-        UsageHint.USAGE_STATIC_DRAW);
-    } catch (final ConstraintError e) {
-      throw new AssertionError(e);
-    } catch (final JCGLException e) {
-      throw new AssertionError(e);
-    }
-  }
-
-  /**
    * Assigning a nonexistent uniform fails.
    */
 
@@ -930,6 +930,40 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
     try {
       assert e != null;
       e.execUniformPutFloat(gl, "nonexistent", 23.0f);
+    } catch (final ConstraintError x) {
+      System.out.println(x);
+      throw x;
+    }
+  }
+
+  /**
+   * Assigning a nonexistent uniform fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testUniformNonexistentTextureUnit()
+      throws Throwable
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    ExecCalled e = null;
+    TextureUnit[] units = null;
+
+    try {
+      final JCGPProgram p =
+        JCGPExecutionAbstractContract.makeEmptyProgram(tc, gl);
+      e = new ExecCalled();
+      e.execPrepare(gl, p);
+      units = gl.textureGetUnits();
+    } catch (final Throwable x) {
+      Assert.fail(x.getMessage());
+    }
+
+    try {
+      assert units != null;
+      assert e != null;
+      e.execUniformPutTextureUnit(gl, "nonexistent", units[0]);
     } catch (final ConstraintError x) {
       System.out.println(x);
       throw x;
@@ -1066,41 +1100,6 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
 
   @Test(expected = ConstraintError.class) public final
     void
-    testUniformNonexistentVector4I()
-      throws Throwable
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    ExecCalled e = null;
-
-    try {
-      final JCGPProgram p =
-        JCGPExecutionAbstractContract.makeEmptyProgram(tc, gl);
-      e = new ExecCalled();
-      e.execPrepare(gl, p);
-    } catch (final Throwable x) {
-      Assert.fail(x.getMessage());
-    }
-
-    try {
-      assert e != null;
-      e.execUniformPutVector4I(gl, "nonexistent", new VectorI4I(
-        23,
-        23,
-        23,
-        23));
-    } catch (final ConstraintError x) {
-      System.out.println(x);
-      throw x;
-    }
-  }
-
-  /**
-   * Assigning a nonexistent uniform fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
     testUniformNonexistentVector4F()
       throws Throwable
   {
@@ -1136,28 +1135,29 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
 
   @Test(expected = ConstraintError.class) public final
     void
-    testUniformNonexistentTextureUnit()
+    testUniformNonexistentVector4I()
       throws Throwable
   {
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     ExecCalled e = null;
-    TextureUnit[] units = null;
 
     try {
       final JCGPProgram p =
         JCGPExecutionAbstractContract.makeEmptyProgram(tc, gl);
       e = new ExecCalled();
       e.execPrepare(gl, p);
-      units = gl.textureGetUnits();
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
     }
 
     try {
-      assert units != null;
       assert e != null;
-      e.execUniformPutTextureUnit(gl, "nonexistent", units[0]);
+      e.execUniformPutVector4I(gl, "nonexistent", new VectorI4I(
+        23,
+        23,
+        23,
+        23));
     } catch (final ConstraintError x) {
       System.out.println(x);
       throw x;

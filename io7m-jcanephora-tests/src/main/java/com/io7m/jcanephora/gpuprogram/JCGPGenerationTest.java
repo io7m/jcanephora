@@ -54,6 +54,67 @@ public class JCGPGenerationTest
   }
 
   /**
+   * Generating a fragment shader with incorrect input types fails.
+   */
+
+  @SuppressWarnings("static-method") @Test(
+    expected = JCGLCompileException.class) public
+    void
+    testGenerateFragmentIncorrectTypes()
+      throws ConstraintError,
+        IOException,
+        JCGLCompileException,
+        JCGLUnsupportedException
+  {
+    final JCGPVersionRange<JCGLApiKindES> version_es =
+      new JCGPVersionRange<JCGLApiKindES>(
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 10));
+    final JCGPVersionRange<JCGLApiKindFull> version_full =
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 10));
+
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
+        TestData.getLog(),
+        "name",
+        version_full,
+        version_es);
+
+    final JCGPUnit.JCGPUnitVertexShader uv =
+      JCGPUnit.makeVertexShader(
+        "unit_v",
+        JCGPGenerationTest.TEST_STRING_SOURCE,
+        new LinkedList<String>(),
+        version_es,
+        version_full);
+
+    final JCGPUnit.JCGPUnitFragmentShader uf =
+      JCGPUnit.makeFragmentShader(
+        "unit_f",
+        JCGPGenerationTest.TEST_STRING_SOURCE,
+        new LinkedList<String>(),
+        version_es,
+        version_full);
+
+    uv.declareOutput(JCGPVertexShaderOutput.make(
+      JCGLType.TYPE_BOOLEAN_VECTOR_4,
+      "f_vec"));
+    uf.declareInput(JCGPFragmentShaderInput.make(
+      JCGLType.TYPE_FLOAT_VECTOR_4,
+      "f_vec"));
+
+    cp.generatorUnitAdd(uv);
+    cp.generatorUnitAdd(uf);
+
+    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0);
+
+    cp.generatorDebuggingEnable(true);
+    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES);
+  }
+
+  /**
    * Generating fragment shaders works.
    */
 
@@ -476,6 +537,67 @@ public class JCGPGenerationTest
       .getTimeInMillis()
       + TimeUnit.MILLISECONDS.convert(10, TimeUnit.SECONDS));
     Assert.assertTrue(cp.generatorUnitsUpdated());
+  }
+
+  /**
+   * Generating a fragment shader with incorrect input types fails.
+   */
+
+  @SuppressWarnings("static-method") @Test(
+    expected = JCGLCompileException.class) public
+    void
+    testGenerateVertexIncorrectTypes()
+      throws ConstraintError,
+        IOException,
+        JCGLCompileException,
+        JCGLUnsupportedException
+  {
+    final JCGPVersionRange<JCGLApiKindES> version_es =
+      new JCGPVersionRange<JCGLApiKindES>(
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 10));
+    final JCGPVersionRange<JCGLApiKindFull> version_full =
+      new JCGPVersionRange<JCGLApiKindFull>(
+        new JCGLSLVersionNumber(0, 0),
+        new JCGLSLVersionNumber(1, 10));
+
+    final JCGPGenerator cp =
+      JCGPGenerator.newProgramFullAndES(
+        TestData.getLog(),
+        "name",
+        version_full,
+        version_es);
+
+    final JCGPUnit.JCGPUnitVertexShader uv =
+      JCGPUnit.makeVertexShader(
+        "unit_v",
+        JCGPGenerationTest.TEST_STRING_SOURCE,
+        new LinkedList<String>(),
+        version_es,
+        version_full);
+
+    final JCGPUnit.JCGPUnitFragmentShader uf =
+      JCGPUnit.makeFragmentShader(
+        "unit_f",
+        JCGPGenerationTest.TEST_STRING_SOURCE,
+        new LinkedList<String>(),
+        version_es,
+        version_full);
+
+    uv.declareOutput(JCGPVertexShaderOutput.make(
+      JCGLType.TYPE_BOOLEAN_VECTOR_4,
+      "f_vec"));
+    uf.declareInput(JCGPFragmentShaderInput.make(
+      JCGLType.TYPE_FLOAT_VECTOR_4,
+      "f_vec"));
+
+    cp.generatorUnitAdd(uv);
+    cp.generatorUnitAdd(uf);
+
+    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0);
+
+    cp.generatorDebuggingEnable(true);
+    cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES);
   }
 
   /**
@@ -1615,127 +1737,5 @@ public class JCGPGenerationTest
     cp.generatorUnitAdd(u0);
     cp.generatorUnitRemove(u0.getName());
     cp.generatorUnitAdd(u0);
-  }
-
-  /**
-   * Generating a fragment shader with incorrect input types fails.
-   */
-
-  @SuppressWarnings("static-method") @Test(
-    expected = JCGLCompileException.class) public
-    void
-    testGenerateFragmentIncorrectTypes()
-      throws ConstraintError,
-        IOException,
-        JCGLCompileException,
-        JCGLUnsupportedException
-  {
-    final JCGPVersionRange<JCGLApiKindES> version_es =
-      new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0),
-        new JCGLSLVersionNumber(1, 10));
-    final JCGPVersionRange<JCGLApiKindFull> version_full =
-      new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0),
-        new JCGLSLVersionNumber(1, 10));
-
-    final JCGPGenerator cp =
-      JCGPGenerator.newProgramFullAndES(
-        TestData.getLog(),
-        "name",
-        version_full,
-        version_es);
-
-    final JCGPUnit.JCGPUnitVertexShader uv =
-      JCGPUnit.makeVertexShader(
-        "unit_v",
-        JCGPGenerationTest.TEST_STRING_SOURCE,
-        new LinkedList<String>(),
-        version_es,
-        version_full);
-
-    final JCGPUnit.JCGPUnitFragmentShader uf =
-      JCGPUnit.makeFragmentShader(
-        "unit_f",
-        JCGPGenerationTest.TEST_STRING_SOURCE,
-        new LinkedList<String>(),
-        version_es,
-        version_full);
-
-    uv.declareOutput(JCGPVertexShaderOutput.make(
-      JCGLType.TYPE_BOOLEAN_VECTOR_4,
-      "f_vec"));
-    uf.declareInput(JCGPFragmentShaderInput.make(
-      JCGLType.TYPE_FLOAT_VECTOR_4,
-      "f_vec"));
-
-    cp.generatorUnitAdd(uv);
-    cp.generatorUnitAdd(uf);
-
-    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0);
-
-    cp.generatorDebuggingEnable(true);
-    cp.generatorGenerateFragmentShader(version, JCGLApi.JCGL_ES);
-  }
-
-  /**
-   * Generating a fragment shader with incorrect input types fails.
-   */
-
-  @SuppressWarnings("static-method") @Test(
-    expected = JCGLCompileException.class) public
-    void
-    testGenerateVertexIncorrectTypes()
-      throws ConstraintError,
-        IOException,
-        JCGLCompileException,
-        JCGLUnsupportedException
-  {
-    final JCGPVersionRange<JCGLApiKindES> version_es =
-      new JCGPVersionRange<JCGLApiKindES>(
-        new JCGLSLVersionNumber(0, 0),
-        new JCGLSLVersionNumber(1, 10));
-    final JCGPVersionRange<JCGLApiKindFull> version_full =
-      new JCGPVersionRange<JCGLApiKindFull>(
-        new JCGLSLVersionNumber(0, 0),
-        new JCGLSLVersionNumber(1, 10));
-
-    final JCGPGenerator cp =
-      JCGPGenerator.newProgramFullAndES(
-        TestData.getLog(),
-        "name",
-        version_full,
-        version_es);
-
-    final JCGPUnit.JCGPUnitVertexShader uv =
-      JCGPUnit.makeVertexShader(
-        "unit_v",
-        JCGPGenerationTest.TEST_STRING_SOURCE,
-        new LinkedList<String>(),
-        version_es,
-        version_full);
-
-    final JCGPUnit.JCGPUnitFragmentShader uf =
-      JCGPUnit.makeFragmentShader(
-        "unit_f",
-        JCGPGenerationTest.TEST_STRING_SOURCE,
-        new LinkedList<String>(),
-        version_es,
-        version_full);
-
-    uv.declareOutput(JCGPVertexShaderOutput.make(
-      JCGLType.TYPE_BOOLEAN_VECTOR_4,
-      "f_vec"));
-    uf.declareInput(JCGPFragmentShaderInput.make(
-      JCGLType.TYPE_FLOAT_VECTOR_4,
-      "f_vec"));
-
-    cp.generatorUnitAdd(uv);
-    cp.generatorUnitAdd(uf);
-
-    final JCGLSLVersionNumber version = new JCGLSLVersionNumber(1, 0);
-
-    cp.generatorDebuggingEnable(true);
-    cp.generatorGenerateVertexShader(version, JCGLApi.JCGL_ES);
   }
 }

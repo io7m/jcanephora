@@ -21,7 +21,6 @@ import javax.annotation.concurrent.Immutable;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.UnimplementedCodeException;
 import com.io7m.jcanephora.JCGLApi;
 import com.io7m.jcanephora.JCGLSLVersionNumber;
 import com.io7m.jcanephora.JCGLType;
@@ -99,7 +98,41 @@ import com.io7m.jcanephora.JCGLUnsupportedException;
     Constraints.constrainNotNull(version, "Version");
     Constraints.constrainNotNull(api, "API");
 
-    throw new UnimplementedCodeException();
+    final StringBuilder b = new StringBuilder();
+
+    switch (api) {
+      case JCGL_ES:
+      {
+        // GLSL ES 1.0 and earlier use "varying" to declare fragment shader
+        // inputs.
+        if (version.getVersionMajor() <= 1) {
+          b.append("varying");
+        } else {
+          b.append("in");
+        }
+        break;
+      }
+      case JCGL_FULL:
+      {
+        // GLSL 1.2 and earlier use "varying" to declare fragment shader
+        // inputs.
+        if (version.getVersionMajor() <= 1) {
+          if (version.getVersionMinor() <= 2) {
+            b.append("varying");
+          }
+        } else {
+          b.append("in");
+        }
+        break;
+      }
+    }
+
+    b.append(" ");
+    b.append(this.type.getName());
+    b.append(" ");
+    b.append(this.name);
+    b.append(";\n");
+    return b.toString();
   }
 
   @Override public String toString()

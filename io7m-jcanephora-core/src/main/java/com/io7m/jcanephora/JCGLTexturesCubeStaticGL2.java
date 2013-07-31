@@ -13,20 +13,18 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
-import org.junit.Assert;
-import org.junit.Test;
+/**
+ * <p>
+ * Type-safe interface to the set of cube texture types guaranteed to be
+ * supported by OpenGL 2.1.
+ * </p>
+ */
 
-public final class GLUnsignedTypeTest
+public interface JCGLTexturesCubeStaticGL2 extends
+  JCGLTexturesCubeStaticCommon
 {
-  @SuppressWarnings("static-method") @Test public void testUnsignedSizes()
-  {
-    Assert
-      .assertEquals(1, JCGLUnsignedType.TYPE_UNSIGNED_BYTE.getSizeBytes());
-    Assert.assertEquals(
-      2,
-      JCGLUnsignedType.TYPE_UNSIGNED_SHORT.getSizeBytes());
-    Assert.assertEquals(4, JCGLUnsignedType.TYPE_UNSIGNED_INT.getSizeBytes());
-  }
+  // No extra functions
 }

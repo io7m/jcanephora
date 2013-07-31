@@ -26,17 +26,17 @@ import com.io7m.jcanephora.contracts.gles2.TextureLoaderGLES2Contract;
 public final class JOGLES2TextureLoaderImageIOES2Test extends
   TextureLoaderGLES2Contract<TextureLoaderImageIO>
 {
+  @Override public @Nonnull JCGLInterfaceGLES2 getGLTextures(
+    final @Nonnull TestContext tc)
+  {
+    final Some<JCGLInterfaceGLES2> some =
+      (Option.Some<JCGLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    return some.value;
+  }
+
   @Override public boolean isGLSupported()
   {
     return JOGLTestContext.isOpenGLES2Supported();
-  }
-
-  @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
-      JCGLUnsupportedException,
-      ConstraintError
-  {
-    return JOGLTestContext.makeContextWithOpenGL_ES2();
   }
 
   @Override public @Nonnull TextureLoaderImageIO makeTextureLoader(
@@ -45,11 +45,11 @@ public final class JOGLES2TextureLoaderImageIOES2Test extends
     return new TextureLoaderImageIO();
   }
 
-  @Override public @Nonnull JCGLInterfaceGLES2 getGLTextures(
-    final @Nonnull TestContext tc)
+  @Override public @Nonnull TestContext newTestContext()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
   {
-    final Some<JCGLInterfaceGLES2> some =
-      (Option.Some<JCGLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
-    return some.value;
+    return JOGLTestContext.makeContextWithOpenGL_ES2();
   }
 }

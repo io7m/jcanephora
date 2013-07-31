@@ -22,12 +22,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.JCGLDraw;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLIndexBuffers;
 import com.io7m.jcanephora.JCGLUnsignedType;
 import com.io7m.jcanephora.JCGLUnsupportedException;
-import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.Primitives;
 import com.io7m.jcanephora.TestContext;
 

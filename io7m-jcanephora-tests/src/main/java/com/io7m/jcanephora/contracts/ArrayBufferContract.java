@@ -56,27 +56,6 @@ import com.io7m.jvvfs.PathVirtual;
 
 public abstract class ArrayBufferContract implements TestContract
 {
-  static List<String> readLines(
-    final FSCapabilityAll filesystem,
-    final PathVirtual path)
-    throws FilesystemError,
-      ConstraintError,
-      IOException
-  {
-    final BufferedReader reader =
-      new BufferedReader(new InputStreamReader(filesystem.openFile(path)));
-    final ArrayList<String> lines = new ArrayList<String>();
-    for (;;) {
-      final String line = reader.readLine();
-      if (line == null) {
-        break;
-      }
-      lines.add(line + "\n");
-    }
-    reader.close();
-    return lines;
-  }
-
   static ProgramReference makeProgram(
     final JCGLShaders gl,
     final FSCapabilityAll filesystem,
@@ -127,6 +106,27 @@ public abstract class ArrayBufferContract implements TestContract
     final ProgramReference pr =
       ArrayBufferContract.makeProgram(shaders, fs, vss, fss);
     return pr;
+  }
+
+  static List<String> readLines(
+    final FSCapabilityAll filesystem,
+    final PathVirtual path)
+    throws FilesystemError,
+      ConstraintError,
+      IOException
+  {
+    final BufferedReader reader =
+      new BufferedReader(new InputStreamReader(filesystem.openFile(path)));
+    final ArrayList<String> lines = new ArrayList<String>();
+    for (;;) {
+      final String line = reader.readLine();
+      if (line == null) {
+        break;
+      }
+      lines.add(line + "\n");
+    }
+    reader.close();
+    return lines;
   }
 
   private static long testArrayBufferGridElementsRequired(

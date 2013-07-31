@@ -1108,30 +1108,6 @@ import com.io7m.jtensors.VectorReadable4I;
       vector);
   }
 
-  @Override public void programPutUniformVector3i(
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable3I vector)
-    throws ConstraintError,
-      JCGLException
-  {
-    LWJGL_GLES2Functions.programPutUniformVector3i(
-      this.state,
-      uniform,
-      vector);
-  }
-
-  @Override public void programPutUniformVector4i(
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable4I vector)
-    throws ConstraintError,
-      JCGLException
-  {
-    LWJGL_GLES2Functions.programPutUniformVector4i(
-      this.state,
-      uniform,
-      vector);
-  }
-
   @Override public void programPutUniformVector3f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable3F vector)
@@ -1144,6 +1120,18 @@ import com.io7m.jtensors.VectorReadable4I;
       vector);
   }
 
+  @Override public void programPutUniformVector3i(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable3I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    LWJGL_GLES2Functions.programPutUniformVector3i(
+      this.state,
+      uniform,
+      vector);
+  }
+
   @Override public void programPutUniformVector4f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4F vector)
@@ -1151,6 +1139,18 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     LWJGL_GLES2Functions.programPutUniformVector4f(
+      this.state,
+      uniform,
+      vector);
+  }
+
+  @Override public void programPutUniformVector4i(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable4I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    LWJGL_GLES2Functions.programPutUniformVector4i(
       this.state,
       uniform,
       vector);
