@@ -206,4 +206,93 @@ public class ArrayBufferTypeDescriptorTest
   {
     new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] {});
   }
+
+  @SuppressWarnings({ "static-method" }) @Test public void testEquals()
+    throws ConstraintError
+  {
+    final ArrayBufferTypeDescriptor as0 =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+          "position",
+          JCGLScalarType.TYPE_FLOAT,
+          3) });
+
+    final ArrayBufferTypeDescriptor as1 =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+          "position",
+          JCGLScalarType.TYPE_FLOAT,
+          3) });
+
+    final ArrayBufferTypeDescriptor as2 =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+          "normal",
+          JCGLScalarType.TYPE_FLOAT,
+          3) });
+
+    Assert.assertTrue(as0.equals(as0));
+    Assert.assertTrue(as0.equals(as1));
+    Assert.assertFalse(as0.equals(null));
+    Assert.assertFalse(as0.equals(Integer.valueOf(23)));
+    Assert.assertFalse(as0.equals(as2));
+  }
+
+  @SuppressWarnings({ "static-method" }) @Test public void testHashcode()
+    throws ConstraintError
+  {
+    final ArrayBufferTypeDescriptor as0 =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+          "position",
+          JCGLScalarType.TYPE_FLOAT,
+          3) });
+
+    final ArrayBufferTypeDescriptor as1 =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+          "position",
+          JCGLScalarType.TYPE_FLOAT,
+          3) });
+
+    final ArrayBufferTypeDescriptor as2 =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+          "normal",
+          JCGLScalarType.TYPE_FLOAT,
+          3) });
+
+    Assert.assertTrue(as0.hashCode() == (as0.hashCode()));
+    Assert.assertTrue(as0.hashCode() == (as1.hashCode()));
+    Assert.assertFalse(as0.hashCode() == (as2.hashCode()));
+  }
+
+  @SuppressWarnings({ "static-method" }) @Test public void testToString()
+    throws ConstraintError
+  {
+    final ArrayBufferTypeDescriptor as0 =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+          "position",
+          JCGLScalarType.TYPE_FLOAT,
+          3) });
+
+    final ArrayBufferTypeDescriptor as1 =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+          "position",
+          JCGLScalarType.TYPE_FLOAT,
+          3) });
+
+    final ArrayBufferTypeDescriptor as2 =
+      new ArrayBufferTypeDescriptor(
+        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+          "normal",
+          JCGLScalarType.TYPE_FLOAT,
+          3) });
+
+    Assert.assertTrue(as0.toString().equals(as0.toString()));
+    Assert.assertTrue(as0.toString().equals(as1.toString()));
+    Assert.assertFalse(as0.toString().equals(as2.toString()));
+  }
 }

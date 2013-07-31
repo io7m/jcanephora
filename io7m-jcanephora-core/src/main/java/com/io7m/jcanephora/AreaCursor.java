@@ -17,24 +17,29 @@
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.NotThreadSafe;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
 
 /**
+ * <p>
  * Basic cursor implementation for seeking through an area.
- * 
+ * </p>
+ * <p>
  * The area is assumed to be comprised of elements of size
  * <code>element_bytes</code> bytes.
- * 
+ * </p>
+ * <p>
  * The cursor is instantiated with two areas: An "outer" area and an "inner"
  * area. The inner area is expected to be contained within the outer area (the
  * two may in fact be identical). The cursor is allowed to access elements in
  * the inner area, and will use the outer area to construct byte offsets.
+ * </p>
  */
 
-class AreaCursor implements SpatialCursor
+@NotThreadSafe class AreaCursor implements SpatialCursor
 {
   private final @Nonnull AreaInclusive area_outer;
   private final @Nonnull AreaInclusive area_inner;
@@ -67,12 +72,13 @@ class AreaCursor implements SpatialCursor
     if (0 > area_outer.getRangeY().getLower()) {
       throw new IllegalArgumentException("Outer Y lower bound is negative");
     }
-    if (0 > area_inner.getRangeX().getLower()) {
-      throw new IllegalArgumentException("Inner X lower bound is negative");
-    }
-    if (0 > area_inner.getRangeY().getLower()) {
-      throw new IllegalArgumentException("Inner Y lower bound is negative");
-    }
+
+    /**
+     * If the outer lower bound is not negative, and the inner bound is
+     * included within the outer bound, then the inner bounds cannot be
+     * negative.
+     */
+
     if (0 > element_bytes) {
       throw new IllegalArgumentException("element_bytes is negative");
     }
@@ -155,5 +161,67 @@ class AreaCursor implements SpatialCursor
     this.can_write =
       ((x >= range_x.getLower()) && (x <= range_x.getUpper()))
         && ((y >= range_y.getLower()) && (y <= range_y.getUpper()));
+  }
+
+  @Override public int hashCode()
+  {
+    final int p = 31;
+    int r = 1;
+    r = (p * r) + this.area_inner.hashCode();
+    r = (p * r) + this.area_outer.hashCode();
+    r = (p * r) + (int) (this.byte_offset ^ (this.byte_offset >>> 32));
+    r = (p * r) + (int) (this.element_bytes ^ (this.element_bytes >>> 32));
+    return r;
+  }
+
+  @Override public boolean equals(
+    final Object obj)
+  {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (this.getClass() != obj.getClass()) {
+      return false;
+    }
+    final AreaCursor other = (AreaCursor) obj;
+    if (!this.area_inner.equals(other.area_inner)) {
+      return false;
+    }
+    if (!this.area_outer.equals(other.area_outer)) {
+      return false;
+    }
+    if (this.byte_offset != other.byte_offset) {
+      return false;
+    }
+    if (this.element_bytes != other.element_bytes) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override public String toString()
+  {
+    final StringBuilder builder = new StringBuilder();
+    builder.append("[AreaCursor ");
+    builder.append(this.area_outer);
+    builder.append(" ");
+    builder.append(this.area_inner);
+    builder.append(" ");
+    builder.append(this.element_bytes);
+    builder.append(" ");
+    builder.append(this.element_x);
+    builder.append(" ");
+    builder.append(this.element_y);
+    builder.append(" ");
+    builder.append(this.byte_offset);
+    builder.append(" ");
+    builder.append(this.row_byte_span);
+    builder.append(" ");
+    builder.append(this.can_write);
+    builder.append("]");
+    return builder.toString();
   }
 }

@@ -32,15 +32,14 @@ import com.io7m.jaux.Constraints.ConstraintError;
   private final @Nonnull JCGLApi           api;
   private final @Nonnull String            text;
 
-  JCGLVersion(
+  private JCGLVersion(
     final @Nonnull JCGLVersionNumber number,
     final @Nonnull JCGLApi api,
     final @Nonnull String text)
-    throws ConstraintError
   {
-    this.number = Constraints.constrainNotNull(number, "Number");
-    this.text = Constraints.constrainNotNull(text, "Text");
-    this.api = Constraints.constrainNotNull(api, "API");
+    this.number = number;
+    this.text = text;
+    this.api = api;
   }
 
   @Override public boolean equals(
@@ -160,5 +159,17 @@ import com.io7m.jaux.Constraints.ConstraintError;
     builder.append(this.text);
     builder.append("]]");
     return builder.toString();
+  }
+
+  public static @Nonnull JCGLVersion make(
+    final @Nonnull JCGLVersionNumber number,
+    final @Nonnull JCGLApi api,
+    final @Nonnull String text)
+    throws ConstraintError
+  {
+    Constraints.constrainNotNull(number, "Number");
+    Constraints.constrainNotNull(text, "Text");
+    Constraints.constrainNotNull(api, "API");
+    return new JCGLVersion(number, api, text);
   }
 }
