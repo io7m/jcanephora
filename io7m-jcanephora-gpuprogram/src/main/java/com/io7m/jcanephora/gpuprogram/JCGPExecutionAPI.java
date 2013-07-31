@@ -168,24 +168,24 @@ public interface JCGPExecutionAPI<E extends Throwable>
     throws ConstraintError,
       JCGLException;
 
-/**
-       * <p>
-       * Set the value of the uniform named <tt>u</tt> to the given value
-       * <tt>x</tt>. After this function has been called successfully, the uniform
-       * <tt>u</tt> will be assumed to have been assigned, for the purposes of
-       * validation with {@link #execValidate()}.
-       * </p>
-       * 
-       * @throws ConstraintError
-       *           Iff <tt>u</tt> does not exist in the given program, or for the
-       *           same reasons as
-       *           {@link JCGLShaders#programPutUniformMatrix4x4f(com.io7m.jcanephora.ProgramUniform, MatrixReadable4x4F)
-       *           .
-       * @throws JCGLException
-       *           For the same reasons as
-       *           {@link JCGLShaders#programPutUniformMatrix4x4f(com.io7m.jcanephora.ProgramUniform, MatrixReadable4x4F)
-       *           .
-       */
+  /**
+   * <p>
+   * Set the value of the uniform named <tt>u</tt> to the given value
+   * <tt>x</tt>. After this function has been called successfully, the uniform
+   * <tt>u</tt> will be assumed to have been assigned, for the purposes of
+   * validation with {@link #execValidate()}.
+   * </p>
+   * 
+   * @throws ConstraintError
+   *           Iff <tt>u</tt> does not exist in the given program, or for the
+   *           same reasons as
+   *           {@link JCGLShaders#programPutUniformMatrix4x4f(com.io7m.jcanephora.ProgramUniform, MatrixReadable4x4F)}
+   *           .
+   * @throws JCGLException
+   *           For the same reasons as
+   *           {@link JCGLShaders#programPutUniformMatrix4x4f(com.io7m.jcanephora.ProgramUniform, MatrixReadable4x4F)}
+   *           .
+   */
 
   public void execUniformPutMatrix4x4F(
     final @Nonnull JCGLShaders gl,
@@ -257,11 +257,11 @@ public interface JCGPExecutionAPI<E extends Throwable>
    * @throws ConstraintError
    *           Iff <tt>u</tt> does not exist in the given program, or for the
    *           same reasons as
-   *           {@link JCGLShaders#programPutUniformVector2f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable2I)}
+   *           {@link JCGLShaders#programPutUniformVector2i(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable2I)}
    *           .
    * @throws JCGLException
    *           For the same reasons as
-   *           {@link JCGLShaders#programPutUniformVector2f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable2I)}
+   *           {@link JCGLShaders#programPutUniformVector2i(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable2I)}
    *           .
    */
 
@@ -309,11 +309,11 @@ public interface JCGPExecutionAPI<E extends Throwable>
    * @throws ConstraintError
    *           Iff <tt>u</tt> does not exist in the given program, or for the
    *           same reasons as
-   *           {@link JCGLShaders#programPutUniformVector3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable3I)}
+   *           {@link JCGLShaders#programPutUniformVector3i(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable3I)}
    *           .
    * @throws JCGLException
    *           For the same reasons as
-   *           {@link JCGLShaders#programPutUniformVector3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable3I)}
+   *           {@link JCGLShaders#programPutUniformVector3i(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable3I)}
    *           .
    */
 
@@ -335,11 +335,11 @@ public interface JCGPExecutionAPI<E extends Throwable>
    * @throws ConstraintError
    *           Iff <tt>u</tt> does not exist in the given program, or for the
    *           same reasons as
-   *           {@link JCGLShaders#programPutUniformVector3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4F)}
+   *           {@link JCGLShaders#programPutUniformVector4f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4F)}
    *           .
    * @throws JCGLException
    *           For the same reasons as
-   *           {@link JCGLShaders#programPutUniformVector3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4F)}
+   *           {@link JCGLShaders#programPutUniformVector4f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4F)}
    *           .
    */
 
@@ -361,11 +361,11 @@ public interface JCGPExecutionAPI<E extends Throwable>
    * @throws ConstraintError
    *           Iff <tt>u</tt> does not exist in the given program, or for the
    *           same reasons as
-   *           {@link JCGLShaders#programPutUniformVector3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4I)}
+   *           {@link JCGLShaders#programPutUniformVector4i(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4I)}
    *           .
    * @throws JCGLException
    *           For the same reasons as
-   *           {@link JCGLShaders#programPutUniformVector3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4I)}
+   *           {@link JCGLShaders#programPutUniformVector4i(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4I)}
    *           .
    */
 
