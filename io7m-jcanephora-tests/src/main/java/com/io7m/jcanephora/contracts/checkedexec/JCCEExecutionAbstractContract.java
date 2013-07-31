@@ -14,7 +14,7 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.contracts.gpuprogram;
+package com.io7m.jcanephora.contracts.checkedexec;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -49,10 +49,10 @@ import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.UsageHint;
+import com.io7m.jcanephora.checkedexec.JCCEExecutionAPI;
+import com.io7m.jcanephora.checkedexec.JCCEExecutionAbstract;
 import com.io7m.jcanephora.contracts.TestContract;
 import com.io7m.jcanephora.gpuprogram.JCGPCompiler;
-import com.io7m.jcanephora.gpuprogram.JCGPExecutionAPI;
-import com.io7m.jcanephora.gpuprogram.JCGPExecutionAbstract;
 import com.io7m.jcanephora.gpuprogram.JCGPFragmentShaderOutput;
 import com.io7m.jcanephora.gpuprogram.JCGPGeneratedSource;
 import com.io7m.jcanephora.gpuprogram.JCGPGenerator;
@@ -76,10 +76,10 @@ import com.io7m.jtensors.VectorI3I;
 import com.io7m.jtensors.VectorI4F;
 import com.io7m.jtensors.VectorI4I;
 
-public abstract class JCGPExecutionAbstractContract implements TestContract
+public abstract class JCCEExecutionAbstractContract implements TestContract
 {
   private static final class ExecCalled extends
-    JCGPExecutionAbstract<Throwable>
+    JCCEExecutionAbstract<Throwable>
   {
     public boolean called;
 
@@ -613,13 +613,13 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
 
     try {
       final JCGPProgram p =
-        JCGPExecutionAbstractContract.makeEmptyProgram(tc, gl);
+        JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
 
-      a = JCGPExecutionAbstractContract.makeArrayBuffer(gl);
+      a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
       a0 = a.getAttribute("a0");
 
       e = new ExecCalled();
-      e.execPrepare(gl, p);
+      e.execPrepare(gl, p.getProgram());
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
     }
@@ -639,18 +639,18 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     final JCGPProgram p =
-      JCGPExecutionAbstractContract.makeEmptyProgram(tc, gl);
+      JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
 
     final ExecCalled e = new ExecCalled();
     Assert.assertFalse(e.called);
-    e.execPrepare(gl, p);
+    e.execPrepare(gl, p.getProgram());
     e.execRun(gl);
     Assert.assertTrue(e.called);
   }
 
   /**
    * Passing <tt>null</tt> to
-   * {@link JCGPExecutionAbstract#execPrepare(JCGLShaders, JCGPProgram)}
+   * {@link JCCEExecutionAbstract#execPrepare(JCGLShaders, JCGPProgram)}
    * fails.
    */
 
@@ -664,10 +664,10 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     final JCGPProgram p =
-      JCGPExecutionAbstractContract.makeEmptyProgram(tc, gl);
+      JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
 
-    final JCGPExecutionAPI<Throwable> e =
-      new JCGPExecutionAbstract<Throwable>() {
+    final JCCEExecutionAPI<Throwable> e =
+      new JCCEExecutionAbstract<Throwable>() {
         @Override protected void execRunActual()
           throws JCGLException,
             Throwable
@@ -676,12 +676,12 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
         }
       };
 
-    e.execPrepare(null, p);
+    e.execPrepare(null, p.getProgram());
   }
 
   /**
    * Passing <tt>null</tt> to
-   * {@link JCGPExecutionAbstract#execPrepare(JCGLShaders, JCGPProgram)}
+   * {@link JCCEExecutionAbstract#execPrepare(JCGLShaders, JCGPProgram)}
    * fails.
    */
 
@@ -695,8 +695,8 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
 
-    final JCGPExecutionAPI<Throwable> e =
-      new JCGPExecutionAbstract<Throwable>() {
+    final JCCEExecutionAPI<Throwable> e =
+      new JCCEExecutionAbstract<Throwable>() {
         @Override protected void execRunActual()
           throws JCGLException,
             Throwable
@@ -724,11 +724,11 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
 
     try {
       p =
-        JCGPExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
+        JCCEExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
           tc,
           gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p);
+      e.execPrepare(gl, p.getProgram());
       e.execUniformPutVector4I(gl, "u_integer4_0", new VectorI4I(1, 1, 1, 1));
       e.execUniformPutVector4I(gl, "u_integer4_1", new VectorI4I(1, 1, 1, 1));
       e.execUniformPutVector4I(gl, "u_integer4_2", new VectorI4I(1, 1, 1, 1));
@@ -765,16 +765,16 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
 
     try {
       p =
-        JCGPExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
+        JCCEExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
           tc,
           gl);
-      a = JCGPExecutionAbstractContract.makeArrayBuffer(gl);
+      a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
       a0 = a.getAttribute("a0");
       a1 = a.getAttribute("a1");
       a2 = a.getAttribute("a2");
       e = new ExecCalled();
       Assert.assertFalse(e.called);
-      e.execPrepare(gl, p);
+      e.execPrepare(gl, p.getProgram());
       e.execUniformPutVector4I(gl, "u_integer4_0", new VectorI4I(1, 1, 1, 1));
       e.execUniformPutVector4I(gl, "u_integer4_1", new VectorI4I(1, 1, 1, 1));
       e.execUniformPutVector4I(gl, "u_integer4_2", new VectorI4I(1, 1, 1, 1));
@@ -801,16 +801,16 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
       final TestContext tc = this.newTestContext();
       final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
       final JCGPProgram p =
-        JCGPExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
+        JCCEExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
           tc,
           gl);
 
-      final ArrayBuffer a = JCGPExecutionAbstractContract.makeArrayBuffer(gl);
+      final ArrayBuffer a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
       final ArrayBufferAttribute a0 = a.getAttribute("a0");
 
       final ExecCalled e = new ExecCalled();
       Assert.assertFalse(e.called);
-      e.execPrepare(gl, p);
+      e.execPrepare(gl, p.getProgram());
       e.execUniformPutVector4I(gl, "u_integer4_0", new VectorI4I(1, 1, 1, 1));
       e.execUniformPutVector4I(gl, "u_integer4_1", new VectorI4I(1, 1, 1, 1));
       e.execUniformPutVector4I(gl, "u_integer4_2", new VectorI4I(1, 1, 1, 1));
@@ -835,13 +835,13 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     final JCGPProgram p =
-      JCGPExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
+      JCCEExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
         tc,
         gl);
 
     try {
       Assert.assertFalse(ex.called);
-      ex.execPrepare(gl, p);
+      ex.execPrepare(gl, p.getProgram());
       ex.execRun(gl);
     } catch (final ConstraintError e) {
       System.out.println(e);
@@ -851,9 +851,9 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
   }
 
   /**
-   * Calling {@link JCGPExecutionAbstract#execRun(JCGLShaders)} without
+   * Calling {@link JCCEExecutionAbstract#execRun(JCGLShaders)} without
    * calling
-   * {@link JCGPExecutionAbstract#execPrepare(JCGLShaders, JCGPProgram)} first
+   * {@link JCCEExecutionAbstract#execPrepare(JCGLShaders, JCGPProgram)} first
    * fails.
    */
 
@@ -865,8 +865,8 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
 
-    final JCGPExecutionAPI<Throwable> e =
-      new JCGPExecutionAbstract<Throwable>() {
+    final JCCEExecutionAPI<Throwable> e =
+      new JCCEExecutionAbstract<Throwable>() {
         @Override protected void execRunActual()
           throws JCGLException,
             Throwable
@@ -879,7 +879,7 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
   }
 
   /**
-   * Calling {@link JCGPExecutionAbstract#execRun(JCGLShaders)} with
+   * Calling {@link JCCEExecutionAbstract#execRun(JCGLShaders)} with
    * <tt>null</tt> fails.
    */
 
@@ -889,10 +889,10 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     final JCGPProgram p =
-      JCGPExecutionAbstractContract.makeEmptyProgram(tc, gl);
+      JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
 
-    final JCGPExecutionAPI<Throwable> e =
-      new JCGPExecutionAbstract<Throwable>() {
+    final JCCEExecutionAPI<Throwable> e =
+      new JCCEExecutionAbstract<Throwable>() {
         @Override protected void execRunActual()
           throws JCGLException,
             Throwable
@@ -901,7 +901,7 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
         }
       };
 
-    e.execPrepare(gl, p);
+    e.execPrepare(gl, p.getProgram());
     e.execRun(null);
   }
 
@@ -920,9 +920,9 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
 
     try {
       final JCGPProgram p =
-        JCGPExecutionAbstractContract.makeEmptyProgram(tc, gl);
+        JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p);
+      e.execPrepare(gl, p.getProgram());
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
     }
@@ -952,9 +952,9 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
 
     try {
       final JCGPProgram p =
-        JCGPExecutionAbstractContract.makeEmptyProgram(tc, gl);
+        JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p);
+      e.execPrepare(gl, p.getProgram());
       units = gl.textureGetUnits();
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
@@ -985,9 +985,9 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
 
     try {
       final JCGPProgram p =
-        JCGPExecutionAbstractContract.makeEmptyProgram(tc, gl);
+        JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p);
+      e.execPrepare(gl, p.getProgram());
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
     }
@@ -1016,9 +1016,9 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
 
     try {
       final JCGPProgram p =
-        JCGPExecutionAbstractContract.makeEmptyProgram(tc, gl);
+        JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p);
+      e.execPrepare(gl, p.getProgram());
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
     }
@@ -1047,9 +1047,9 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
 
     try {
       final JCGPProgram p =
-        JCGPExecutionAbstractContract.makeEmptyProgram(tc, gl);
+        JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p);
+      e.execPrepare(gl, p.getProgram());
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
     }
@@ -1078,9 +1078,9 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
 
     try {
       final JCGPProgram p =
-        JCGPExecutionAbstractContract.makeEmptyProgram(tc, gl);
+        JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p);
+      e.execPrepare(gl, p.getProgram());
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
     }
@@ -1109,9 +1109,9 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
 
     try {
       final JCGPProgram p =
-        JCGPExecutionAbstractContract.makeEmptyProgram(tc, gl);
+        JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p);
+      e.execPrepare(gl, p.getProgram());
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
     }
@@ -1144,9 +1144,9 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
 
     try {
       final JCGPProgram p =
-        JCGPExecutionAbstractContract.makeEmptyProgram(tc, gl);
+        JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p);
+      e.execPrepare(gl, p.getProgram());
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
     }
@@ -1179,14 +1179,14 @@ public abstract class JCGPExecutionAbstractContract implements TestContract
     TextureUnit[] units = null;
 
     try {
-      a = JCGPExecutionAbstractContract.makeArrayBuffer(gl);
+      a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
       a0 = a.getAttribute("a0");
       units = gl.textureGetUnits();
 
       final JCGPProgram p =
-        JCGPExecutionAbstractContract.makeComplicatedProgram(tc, gl);
+        JCCEExecutionAbstractContract.makeComplicatedProgram(tc, gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p);
+      e.execPrepare(gl, p.getProgram());
       e.execUniformPutVector2F(gl, "ufv2", new VectorI2F(23.0f, 23.0f));
       e
         .execUniformPutVector3F(

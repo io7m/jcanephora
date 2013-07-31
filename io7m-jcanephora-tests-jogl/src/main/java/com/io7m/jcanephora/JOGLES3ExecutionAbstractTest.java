@@ -19,10 +19,10 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts.gpuprogram.JCGPExecutionAbstractContract;
+import com.io7m.jcanephora.contracts.checkedexec.JCCEExecutionAbstractContract;
 
 public final class JOGLES3ExecutionAbstractTest extends
-  JCGPExecutionAbstractContract
+  JCCEExecutionAbstractContract
 {
   @Override public boolean isGLSupported()
   {

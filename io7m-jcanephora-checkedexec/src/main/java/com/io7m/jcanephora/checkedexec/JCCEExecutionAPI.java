@@ -14,7 +14,7 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.gpuprogram;
+package com.io7m.jcanephora.checkedexec;
 
 import javax.annotation.Nonnull;
 
@@ -23,6 +23,7 @@ import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.JCGLArrayBuffers;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLShaders;
+import com.io7m.jcanephora.ProgramReferenceUsable;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
@@ -39,7 +40,7 @@ import com.io7m.jtensors.VectorReadable4I;
  * </p>
  */
 
-public interface JCGPExecutionAPI<E extends Throwable>
+public interface JCCEExecutionAPI<E extends Throwable>
 {
   /**
    * <p>
@@ -80,7 +81,7 @@ public interface JCGPExecutionAPI<E extends Throwable>
 
   public void execPrepare(
     final @Nonnull JCGLShaders gl,
-    final @Nonnull JCGPProgram p)
+    final @Nonnull ProgramReferenceUsable p)
     throws ConstraintError,
       JCGLException;
 
