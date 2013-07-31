@@ -310,8 +310,9 @@ public final class ExampleShaders implements Example
       if (line == null) {
         break;
       }
-      lines.add(line);
+      lines.add(line + "\n");
     }
+    reader.close();
     return lines;
   }
 

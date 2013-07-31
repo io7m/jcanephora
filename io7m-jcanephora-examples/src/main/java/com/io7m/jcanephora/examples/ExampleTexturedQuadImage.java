@@ -21,7 +21,6 @@ import java.io.InputStream;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
@@ -116,14 +115,14 @@ public final class ExampleTexturedQuadImage implements Example
      * Load a texture from an image file.
      */
 
-    this.textures = new Texture2DStatic[TextureType.get2DTypesGLES2().size()];
+    this.textures =
+      new Texture2DStatic[TextureType.get2DTypesCommon().size()];
 
     final TextureLoader loader = config.getTextureLoader();
     final FSCapabilityAll filesystem = config.getFilesystem();
 
-    for (int index = 0; index < this.textures.length; ++index) {
-      final TextureType type = TextureType.values()[index];
-
+    int index = 0;
+    for (final TextureType type : TextureType.get2DTypesCommon()) {
       final InputStream stream =
         filesystem.openFile(PathVirtual
           .ofString("/com/io7m/jcanephora/examples/reference_8888_4.png"));
@@ -132,14 +131,13 @@ public final class ExampleTexturedQuadImage implements Example
         case TEXTURE_TYPE_DEPTH_16_2BPP:
         case TEXTURE_TYPE_DEPTH_24_4BPP:
         case TEXTURE_TYPE_DEPTH_32F_4BPP:
-        case TEXTURE_TYPE_R_8_1BPP:
-        case TEXTURE_TYPE_RG_88_2BPP:
         case TEXTURE_TYPE_RGBA_4444_2BPP:
         case TEXTURE_TYPE_RGBA_5551_2BPP:
         case TEXTURE_TYPE_RGB_565_2BPP:
+        case TEXTURE_TYPE_RG_88_2BPP:
+        case TEXTURE_TYPE_R_8_1BPP:
         {
-          stream.close();
-          throw new UnreachableCodeException();
+          break;
         }
         case TEXTURE_TYPE_RGBA_8888_4BPP:
         {
@@ -165,11 +163,11 @@ public final class ExampleTexturedQuadImage implements Example
               TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
               stream,
               type.toString());
-          break;
         }
       }
 
       stream.close();
+      ++index;
     }
 
     /**
