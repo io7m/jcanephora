@@ -64,8 +64,6 @@
     <module>io7m-jcanephora-examples-lwjgl</module>
     <module>io7m-jcanephora-examples</module>
     <module>io7m-jcanephora-framebuffer</module>
-    <module>io7m-jcanephora-gpuprogram-jvvfs</module>
-    <module>io7m-jcanephora-gpuprogram</module>
     <module>io7m-jcanephora-jogl</module>
     <module>io7m-jcanephora-lwjgl</module>
     <module>io7m-jcanephora-program</module>

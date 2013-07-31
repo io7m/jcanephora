@@ -16,9 +16,11 @@
 
 package com.io7m.jcanephora.contracts.checkedexec;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.LinkedList;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 
@@ -33,41 +35,22 @@ import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
 import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
-import com.io7m.jcanephora.JCGLApiKindES;
-import com.io7m.jcanephora.JCGLApiKindFull;
+import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.JCGLCompileException;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
-import com.io7m.jcanephora.JCGLSLVersion;
-import com.io7m.jcanephora.JCGLSLVersionNumber;
 import com.io7m.jcanephora.JCGLScalarType;
-import com.io7m.jcanephora.JCGLShaderKindFragment;
-import com.io7m.jcanephora.JCGLShaderKindVertex;
 import com.io7m.jcanephora.JCGLShaders;
-import com.io7m.jcanephora.JCGLType;
 import com.io7m.jcanephora.JCGLUnsupportedException;
+import com.io7m.jcanephora.ProgramReference;
 import com.io7m.jcanephora.ProgramReferenceUsable;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.UsageHint;
+import com.io7m.jcanephora.VertexShader;
 import com.io7m.jcanephora.checkedexec.JCCEExecutionAPI;
 import com.io7m.jcanephora.checkedexec.JCCEExecutionAbstract;
 import com.io7m.jcanephora.contracts.TestContract;
-import com.io7m.jcanephora.gpuprogram.JCGPCompiler;
-import com.io7m.jcanephora.gpuprogram.JCGPFragmentShaderOutput;
-import com.io7m.jcanephora.gpuprogram.JCGPGeneratedSource;
-import com.io7m.jcanephora.gpuprogram.JCGPGenerator;
-import com.io7m.jcanephora.gpuprogram.JCGPGeneratorAPI;
-import com.io7m.jcanephora.gpuprogram.JCGPGeneratorContext;
-import com.io7m.jcanephora.gpuprogram.JCGPProgram;
-import com.io7m.jcanephora.gpuprogram.JCGPSource;
-import com.io7m.jcanephora.gpuprogram.JCGPStringSource;
-import com.io7m.jcanephora.gpuprogram.JCGPUniform;
-import com.io7m.jcanephora.gpuprogram.JCGPUnit;
-import com.io7m.jcanephora.gpuprogram.JCGPUnit.JCGPUnitFragmentShader;
-import com.io7m.jcanephora.gpuprogram.JCGPUnit.JCGPUnitVertexShader;
-import com.io7m.jcanephora.gpuprogram.JCGPVersionRange;
-import com.io7m.jcanephora.gpuprogram.JCGPVertexShaderInput;
 import com.io7m.jtensors.MatrixM3x3F;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorI2F;
@@ -76,6 +59,9 @@ import com.io7m.jtensors.VectorI3F;
 import com.io7m.jtensors.VectorI3I;
 import com.io7m.jtensors.VectorI4F;
 import com.io7m.jtensors.VectorI4I;
+import com.io7m.jvvfs.FSCapabilityRead;
+import com.io7m.jvvfs.FilesystemError;
+import com.io7m.jvvfs.PathVirtual;
 
 public abstract class JCCEExecutionAbstractContract implements TestContract
 {
@@ -102,13 +88,28 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
   {
     try {
       final ArrayBufferAttributeDescriptor[] as =
-        new ArrayBufferAttributeDescriptor[3];
+        new ArrayBufferAttributeDescriptor[4];
+
       as[0] =
-        new ArrayBufferAttributeDescriptor("a0", JCGLScalarType.TYPE_FLOAT, 4);
+        new ArrayBufferAttributeDescriptor(
+          "a_vf2",
+          JCGLScalarType.TYPE_FLOAT,
+          2);
       as[1] =
-        new ArrayBufferAttributeDescriptor("a1", JCGLScalarType.TYPE_FLOAT, 4);
+        new ArrayBufferAttributeDescriptor(
+          "a_vf3",
+          JCGLScalarType.TYPE_FLOAT,
+          3);
       as[2] =
-        new ArrayBufferAttributeDescriptor("a2", JCGLScalarType.TYPE_FLOAT, 4);
+        new ArrayBufferAttributeDescriptor(
+          "a_vf4",
+          JCGLScalarType.TYPE_FLOAT,
+          4);
+      as[3] =
+        new ArrayBufferAttributeDescriptor(
+          "a_f",
+          JCGLScalarType.TYPE_FLOAT,
+          1);
 
       final ArrayBufferTypeDescriptor descriptor =
         new ArrayBufferTypeDescriptor(as);
@@ -123,473 +124,99 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     }
   }
 
-  private static @Nonnull JCGPProgram makeComplicatedProgram(
+  private static @Nonnull ProgramReferenceUsable makeProgram(
     final @Nonnull TestContext tc,
     final @Nonnull JCGLInterfaceCommon gl)
   {
     try {
-      final JCGLSLVersion want_version = gl.metaGetSLVersion();
+      final PathVirtual vsp = tc.getShaderPath().appendName("complex.v");
+      final PathVirtual fsp = tc.getShaderPath().appendName("simple.f");
 
-      final StringBuilder s = new StringBuilder();
-      s.append("void main (void)\n");
-      s.append("{\n");
-      s.append("  vec4  vf0 = vec4 (ufv2, 1, 1) + vec4 (ufv3, 1) + ufv4;\n");
-      s
-        .append("  ivec4 vi0 = ivec4 (uiv2, 1, 1) + ivec4 (uiv3, 1) + uiv4;\n");
-      s.append("  vec4  vf1 = vec4 (vi0);\n");
-      s.append("  vec4  vf2 = vec4 (uf, uf, uf, uf);\n");
-      s.append("  vec4  vf3 = vec4 (ufv3 * um3, 1);\n");
-      s.append("  vec4  vf4 = vec4 (ufv4 * um4);\n");
-      s.append("  gl_Position = a + vf0 + vf1 + vf2 + vf3 + vf4;\n");
-      s.append("}\n");
+      final List<String> vs_lines =
+        JCCEExecutionAbstractContract.readLines(tc.getFilesystem(), vsp);
+      final List<String> fs_lines =
+        JCCEExecutionAbstractContract.readLines(tc.getFilesystem(), fsp);
 
-      final JCGPSource vs_source = new JCGPStringSource(s.toString());
-
-      final JCGPVersionRange<JCGLApiKindES> versions_es =
-        new JCGPVersionRange<JCGLApiKindES>(
-          JCGLSLVersion.GLSL_ES_100.getNumber(),
-          JCGLSLVersion.GLSL_ES_30.getNumber());
-
-      final JCGPVersionRange<JCGLApiKindFull> versions_full =
-        new JCGPVersionRange<JCGLApiKindFull>(
-          JCGLSLVersion.GLSL_110.getNumber(),
-          JCGLSLVersion.GLSL_440.getNumber());
-
-      final JCGPUnitVertexShader v_unit =
-        JCGPUnit.makeVertexShader(
-          "v",
-          vs_source,
-          new LinkedList<String>(),
-          versions_es,
-          versions_full);
-      v_unit.declareInput(JCGPVertexShaderInput.make(
-        JCGLType.TYPE_FLOAT_VECTOR_4,
-        "a"));
-
-      v_unit.declareUniformInput(JCGPUniform.make(
-        JCGLType.TYPE_FLOAT_VECTOR_2,
-        "ufv2"));
-      v_unit.declareUniformInput(JCGPUniform.make(
-        JCGLType.TYPE_FLOAT_VECTOR_3,
-        "ufv3"));
-      v_unit.declareUniformInput(JCGPUniform.make(
-        JCGLType.TYPE_FLOAT_VECTOR_4,
-        "ufv4"));
-      v_unit.declareUniformInput(JCGPUniform.make(JCGLType.TYPE_FLOAT, "uf"));
-
-      v_unit.declareUniformInput(JCGPUniform.make(
-        JCGLType.TYPE_INTEGER_VECTOR_2,
-        "uiv2"));
-      v_unit.declareUniformInput(JCGPUniform.make(
-        JCGLType.TYPE_INTEGER_VECTOR_3,
-        "uiv3"));
-      v_unit.declareUniformInput(JCGPUniform.make(
-        JCGLType.TYPE_INTEGER_VECTOR_4,
-        "uiv4"));
-
-      v_unit.declareUniformInput(JCGPUniform.make(
-        JCGLType.TYPE_FLOAT_MATRIX_3,
-        "um3"));
-      v_unit.declareUniformInput(JCGPUniform.make(
-        JCGLType.TYPE_FLOAT_MATRIX_4,
-        "um4"));
-
-      final JCGPSource source = new JCGPSource() {
-        @Override public boolean sourceChangedSince(
-          final @Nonnull Calendar since)
-          throws Exception,
-            ConstraintError
-        {
-          throw new UnreachableCodeException();
-        }
-
-        @Override public void sourceGet(
-          final @Nonnull JCGPGeneratorContext context,
-          final @Nonnull ArrayList<String> output)
-          throws Exception,
-            ConstraintError
-        {
-          final JCGLSLVersionNumber version = context.getVersion();
-          switch (context.getApi()) {
-            case JCGL_ES:
-            {
-              if (version.compareTo(JCGLSLVersion.GLSL_ES_100.getNumber()) <= 0) {
-                output.add("void main (void)\n");
-                output.add("{\n");
-                output.add("  gl_FragColor = texture2D(ut, vec2(0, 0));\n");
-                output.add("}\n");
-                return;
-              }
-              break;
-            }
-            case JCGL_FULL:
-            {
-              if (version.compareTo(JCGLSLVersion.GLSL_120.getNumber()) <= 0) {
-                output.add("void main (void)\n");
-                output.add("{\n");
-                output.add("  gl_FragColor = texture2D(ut, vec2(0, 0));\n");
-                output.add("}\n");
-                return;
-              }
-              break;
-            }
-          }
-
-          output.add("void main (void)\n");
-          output.add("{\n");
-          output.add("  out_frag = texture2D(ut, vec2(0, 0));\n");
-          output.add("}\n");
-        }
-      };
-
-      final JCGPUnitFragmentShader f_unit =
-        JCGPUnit.makeFragmentShader(
-          "f",
-          source,
-          new LinkedList<String>(),
-          versions_es,
-          versions_full);
-      f_unit.declareOutput(JCGPFragmentShaderOutput.make(
-        JCGLType.TYPE_FLOAT_VECTOR_4,
-        "out_frag",
-        0));
-      f_unit.declareUniformInput(JCGPUniform.make(
-        JCGLType.TYPE_SAMPLER_2D,
-        "ut"));
-
-      final JCGPGeneratorAPI gen =
-        JCGPGenerator.newProgramFullAndES(
-          tc.getLog(),
-          "p",
-          versions_full,
-          versions_es);
-
-      gen.generatorDebuggingEnable(true);
-      gen.generatorUnitAdd(v_unit);
-      gen.generatorUnitAdd(f_unit);
-
-      final JCGPGeneratedSource<JCGLShaderKindVertex> v_source =
-        gen.generatorGenerateVertexShader(
-          want_version.getNumber(),
-          want_version.getAPI());
-
-      for (final String line : v_source.getLines()) {
-        System.out.print(line);
-      }
-
-      final JCGPGeneratedSource<JCGLShaderKindFragment> f_source =
-        gen.generatorGenerateFragmentShader(
-          want_version.getNumber(),
-          want_version.getAPI());
-
-      for (final String line : f_source.getLines()) {
-        System.out.print(line);
-      }
-
-      final JCGPCompiler comp = JCGPCompiler.newCompiler();
-      return comp.compileProgram(gl, "p", v_source, f_source);
-    } catch (final JCGLCompileException e) {
-      throw new AssertionError(e);
-    } catch (final JCGLUnsupportedException e) {
-      throw new AssertionError(e);
+      final ProgramReference p = gl.programCreate("p");
+      final VertexShader v = gl.vertexShaderCompile("v", vs_lines);
+      gl.vertexShaderAttach(p, v);
+      final FragmentShader f = gl.fragmentShaderCompile("f", fs_lines);
+      gl.fragmentShaderAttach(p, f);
+      gl.programLink(p);
+      gl.vertexShaderDelete(v);
+      gl.fragmentShaderDelete(f);
+      return p;
     } catch (final ConstraintError e) {
+      throw new AssertionError(e);
+    } catch (final FilesystemError e) {
+      throw new AssertionError(e);
+    } catch (final IOException e) {
+      throw new AssertionError(e);
+    } catch (final JCGLCompileException e) {
       throw new AssertionError(e);
     } catch (final JCGLException e) {
       throw new AssertionError(e);
     }
   }
 
-  private static @Nonnull JCGPProgram makeEmptyProgram(
-    final @Nonnull TestContext tc,
-    final @Nonnull JCGLInterfaceCommon gl)
+  private static @Nonnull
+    ProgramReferenceUsable
+    makeProgramWithFragmentUniforms(
+      final @Nonnull TestContext tc,
+      final @Nonnull JCGLInterfaceCommon gl)
   {
     try {
-      final JCGLSLVersion want_version = gl.metaGetSLVersion();
+      final PathVirtual vsp = tc.getShaderPath().appendName("complex.v");
+      final PathVirtual fsp = tc.getShaderPath().appendName("complex.f");
 
-      final StringBuilder s = new StringBuilder();
-      s.append("void main (void)\n");
-      s.append("{\n");
-      s.append("  gl_Position = vec4(1, 2, 3, 1);\n");
-      s.append("}\n");
+      final List<String> vs_lines =
+        JCCEExecutionAbstractContract.readLines(tc.getFilesystem(), vsp);
+      final List<String> fs_lines =
+        JCCEExecutionAbstractContract.readLines(tc.getFilesystem(), fsp);
 
-      final JCGPSource vs_source = new JCGPStringSource(s.toString());
-
-      final JCGPVersionRange<JCGLApiKindES> versions_es =
-        new JCGPVersionRange<JCGLApiKindES>(
-          JCGLSLVersion.GLSL_ES_100.getNumber(),
-          JCGLSLVersion.GLSL_ES_30.getNumber());
-
-      final JCGPVersionRange<JCGLApiKindFull> versions_full =
-        new JCGPVersionRange<JCGLApiKindFull>(
-          JCGLSLVersion.GLSL_110.getNumber(),
-          JCGLSLVersion.GLSL_440.getNumber());
-
-      final JCGPUnitVertexShader v_unit =
-        JCGPUnit.makeVertexShader(
-          "v",
-          vs_source,
-          new LinkedList<String>(),
-          versions_es,
-          versions_full);
-
-      final JCGPSource source = new JCGPSource() {
-        @Override public boolean sourceChangedSince(
-          final @Nonnull Calendar since)
-          throws Exception,
-            ConstraintError
-        {
-          return false;
-        }
-
-        @Override public void sourceGet(
-          final @Nonnull JCGPGeneratorContext context,
-          final @Nonnull ArrayList<String> output)
-          throws Exception,
-            ConstraintError
-        {
-          final JCGLSLVersionNumber version = context.getVersion();
-          switch (context.getApi()) {
-            case JCGL_ES:
-            {
-              if (version.compareTo(JCGLSLVersion.GLSL_ES_100.getNumber()) <= 0) {
-                output.add("void main (void)\n");
-                output.add("{\n");
-                output.add("  gl_FragColor = vec4(1, 1, 1, 1);\n");
-                output.add("}\n");
-                return;
-              }
-              break;
-            }
-            case JCGL_FULL:
-            {
-              if (version.compareTo(JCGLSLVersion.GLSL_120.getNumber()) <= 0) {
-                output.add("void main (void)\n");
-                output.add("{\n");
-                output.add("  gl_FragColor = vec4(1, 1, 1, 1);\n");
-                output.add("}\n");
-                return;
-              }
-              break;
-            }
-          }
-
-          output.add("void main (void)\n");
-          output.add("{\n");
-          output.add("  out_frag = vec4(1, 1, 1, 1);\n");
-          output.add("}\n");
-        }
-      };
-
-      final JCGPUnitFragmentShader f_unit =
-        JCGPUnit.makeFragmentShader(
-          "f",
-          source,
-          new LinkedList<String>(),
-          versions_es,
-          versions_full);
-      f_unit.declareOutput(JCGPFragmentShaderOutput.make(
-        JCGLType.TYPE_FLOAT_VECTOR_4,
-        "out_frag",
-        0));
-
-      final JCGPGeneratorAPI gen =
-        JCGPGenerator.newProgramFullAndES(
-          tc.getLog(),
-          "p",
-          versions_full,
-          versions_es);
-
-      gen.generatorDebuggingEnable(true);
-      gen.generatorUnitAdd(v_unit);
-      gen.generatorUnitAdd(f_unit);
-
-      final JCGPGeneratedSource<JCGLShaderKindVertex> v_source =
-        gen.generatorGenerateVertexShader(
-          want_version.getNumber(),
-          want_version.getAPI());
-
-      for (final String line : v_source.getLines()) {
-        System.out.print(line);
-      }
-
-      final JCGPGeneratedSource<JCGLShaderKindFragment> f_source =
-        gen.generatorGenerateFragmentShader(
-          want_version.getNumber(),
-          want_version.getAPI());
-
-      for (final String line : f_source.getLines()) {
-        System.out.print(line);
-      }
-
-      final JCGPCompiler comp = JCGPCompiler.newCompiler();
-      return comp.compileProgram(gl, "p", v_source, f_source);
-    } catch (final JCGLCompileException e) {
-      throw new AssertionError(e);
-    } catch (final JCGLUnsupportedException e) {
-      throw new AssertionError(e);
+      final ProgramReference p = gl.programCreate("p");
+      final VertexShader v = gl.vertexShaderCompile("v", vs_lines);
+      gl.vertexShaderAttach(p, v);
+      final FragmentShader f = gl.fragmentShaderCompile("f", fs_lines);
+      gl.fragmentShaderAttach(p, f);
+      gl.programLink(p);
+      gl.vertexShaderDelete(v);
+      gl.fragmentShaderDelete(f);
+      return p;
     } catch (final ConstraintError e) {
+      throw new AssertionError(e);
+    } catch (final FilesystemError e) {
+      throw new AssertionError(e);
+    } catch (final IOException e) {
+      throw new AssertionError(e);
+    } catch (final JCGLCompileException e) {
       throw new AssertionError(e);
     } catch (final JCGLException e) {
       throw new AssertionError(e);
     }
   }
 
-  private static @Nonnull JCGPProgram makeProgramWithAttributesAndUniforms(
-    final @Nonnull TestContext tc,
-    final @Nonnull JCGLInterfaceCommon gl)
+  private static @Nonnull List<String> readLines(
+    final @Nonnull FSCapabilityRead filesystem,
+    final @Nonnull PathVirtual path)
+    throws FilesystemError,
+      ConstraintError,
+      IOException
   {
-    try {
-      final JCGLSLVersion want_version = gl.metaGetSLVersion();
+    final ArrayList<String> lines = new ArrayList<String>();
+    final BufferedReader reader =
+      new BufferedReader(new InputStreamReader(filesystem.openFile(path)));
 
-      final StringBuilder s = new StringBuilder();
-      s.append("void main (void)\n");
-      s.append("{\n");
-      s.append("  vec4 xyz = vec4(0, 0, 0, 0);");
-      s.append("  vec4 v0  = vec4(u_integer4_0);");
-      s.append("  vec4 v1  = vec4(u_integer4_1);");
-      s.append("  vec4 v2  = vec4(u_integer4_2);");
-      s.append("  gl_Position = a0 + a1 + a2 + v0 + v1 + v2;\n");
-      s.append("}\n");
-
-      final JCGPSource vs_source = new JCGPStringSource(s.toString());
-
-      final JCGPVersionRange<JCGLApiKindES> versions_es =
-        new JCGPVersionRange<JCGLApiKindES>(
-          JCGLSLVersion.GLSL_ES_100.getNumber(),
-          JCGLSLVersion.GLSL_ES_30.getNumber());
-
-      final JCGPVersionRange<JCGLApiKindFull> versions_full =
-        new JCGPVersionRange<JCGLApiKindFull>(
-          JCGLSLVersion.GLSL_110.getNumber(),
-          JCGLSLVersion.GLSL_440.getNumber());
-
-      final JCGPUnitVertexShader v_unit =
-        JCGPUnit.makeVertexShader(
-          "v",
-          vs_source,
-          new LinkedList<String>(),
-          versions_es,
-          versions_full);
-      v_unit.declareInput(JCGPVertexShaderInput.make(
-        JCGLType.TYPE_FLOAT_VECTOR_4,
-        "a0"));
-      v_unit.declareInput(JCGPVertexShaderInput.make(
-        JCGLType.TYPE_FLOAT_VECTOR_4,
-        "a1"));
-      v_unit.declareInput(JCGPVertexShaderInput.make(
-        JCGLType.TYPE_FLOAT_VECTOR_4,
-        "a2"));
-
-      v_unit.declareUniformInput(JCGPUniform.make(
-        JCGLType.TYPE_INTEGER_VECTOR_4,
-        "u_integer4_0"));
-      v_unit.declareUniformInput(JCGPUniform.make(
-        JCGLType.TYPE_INTEGER_VECTOR_4,
-        "u_integer4_1"));
-      v_unit.declareUniformInput(JCGPUniform.make(
-        JCGLType.TYPE_INTEGER_VECTOR_4,
-        "u_integer4_2"));
-
-      final JCGPSource source = new JCGPSource() {
-        @Override public boolean sourceChangedSince(
-          final @Nonnull Calendar since)
-          throws Exception,
-            ConstraintError
-        {
-          throw new UnreachableCodeException();
-        }
-
-        @Override public void sourceGet(
-          final @Nonnull JCGPGeneratorContext context,
-          final @Nonnull ArrayList<String> output)
-          throws Exception,
-            ConstraintError
-        {
-          final JCGLSLVersionNumber version = context.getVersion();
-          switch (context.getApi()) {
-            case JCGL_ES:
-            {
-              if (version.compareTo(JCGLSLVersion.GLSL_ES_100.getNumber()) <= 0) {
-                output.add("void main (void)\n");
-                output.add("{\n");
-                output.add("  gl_FragColor = vec4(1, 1, 1, 1);\n");
-                output.add("}\n");
-                return;
-              }
-              break;
-            }
-            case JCGL_FULL:
-            {
-              if (version.compareTo(JCGLSLVersion.GLSL_120.getNumber()) <= 0) {
-                output.add("void main (void)\n");
-                output.add("{\n");
-                output.add("  gl_FragColor = vec4(1, 1, 1, 1);\n");
-                output.add("}\n");
-                return;
-              }
-              break;
-            }
-          }
-
-          output.add("void main (void)\n");
-          output.add("{\n");
-          output.add("  out_frag = vec4(1, 1, 1, 1);\n");
-          output.add("}\n");
-        }
-      };
-
-      final JCGPUnitFragmentShader f_unit =
-        JCGPUnit.makeFragmentShader(
-          "f",
-          source,
-          new LinkedList<String>(),
-          versions_es,
-          versions_full);
-      f_unit.declareOutput(JCGPFragmentShaderOutput.make(
-        JCGLType.TYPE_FLOAT_VECTOR_4,
-        "out_frag",
-        0));
-
-      final JCGPGeneratorAPI gen =
-        JCGPGenerator.newProgramFullAndES(
-          tc.getLog(),
-          "p",
-          versions_full,
-          versions_es);
-
-      gen.generatorDebuggingEnable(true);
-      gen.generatorUnitAdd(v_unit);
-      gen.generatorUnitAdd(f_unit);
-
-      final JCGPGeneratedSource<JCGLShaderKindVertex> v_source =
-        gen.generatorGenerateVertexShader(
-          want_version.getNumber(),
-          want_version.getAPI());
-
-      for (final String line : v_source.getLines()) {
-        System.out.print(line);
+    for (;;) {
+      final String line = reader.readLine();
+      if (line == null) {
+        break;
       }
-
-      final JCGPGeneratedSource<JCGLShaderKindFragment> f_source =
-        gen.generatorGenerateFragmentShader(
-          want_version.getNumber(),
-          want_version.getAPI());
-
-      for (final String line : f_source.getLines()) {
-        System.out.print(line);
-      }
-
-      final JCGPCompiler comp = JCGPCompiler.newCompiler();
-      return comp.compileProgram(gl, "p", v_source, f_source);
-    } catch (final JCGLCompileException e) {
-      throw new AssertionError(e);
-    } catch (final JCGLUnsupportedException e) {
-      throw new AssertionError(e);
-    } catch (final ConstraintError e) {
-      throw new AssertionError(e);
-    } catch (final JCGLException e) {
-      throw new AssertionError(e);
+      lines.add(line + "\n");
     }
+
+    reader.close();
+    return lines;
   }
 
   @Before public final void checkSupport()
@@ -613,14 +240,14 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     ArrayBufferAttribute a0 = null;
 
     try {
-      final JCGPProgram p =
-        JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgram(tc, gl);
 
       a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
-      a0 = a.getAttribute("a0");
+      a0 = a.getAttribute("a_vf2");
 
       e = new ExecCalled();
-      e.execPrepare(gl, p.getProgram());
+      e.execPrepare(gl, p);
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
     }
@@ -632,21 +259,6 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       System.out.println(x);
       throw x;
     }
-  }
-
-  @Test public final void testExecution()
-    throws Throwable
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final JCGPProgram p =
-      JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
-
-    final ExecCalled e = new ExecCalled();
-    Assert.assertFalse(e.called);
-    e.execPrepare(gl, p.getProgram());
-    e.execRun(gl);
-    Assert.assertTrue(e.called);
   }
 
   /**
@@ -664,8 +276,8 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final JCGPProgram p =
-      JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
+    final ProgramReferenceUsable p =
+      JCCEExecutionAbstractContract.makeProgram(tc, gl);
 
     final JCCEExecutionAPI<Throwable> e =
       new JCCEExecutionAbstract<Throwable>() {
@@ -677,7 +289,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
         }
       };
 
-    e.execPrepare(null, p.getProgram());
+    e.execPrepare(null, p);
   }
 
   /**
@@ -721,18 +333,21 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     ExecCalled e = null;
-    JCGPProgram p = null;
+    ProgramReferenceUsable p = null;
 
     try {
-      p =
-        JCCEExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
-          tc,
-          gl);
+      p = JCCEExecutionAbstractContract.makeProgram(tc, gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p.getProgram());
-      e.execUniformPutVector4I(gl, "u_integer4_0", new VectorI4I(1, 1, 1, 1));
-      e.execUniformPutVector4I(gl, "u_integer4_1", new VectorI4I(1, 1, 1, 1));
-      e.execUniformPutVector4I(gl, "u_integer4_2", new VectorI4I(1, 1, 1, 1));
+      Assert.assertFalse(e.called);
+      e.execPrepare(gl, p);
+      e.execUniformPutVector2F(gl, "u_vf2", new VectorI2F(1, 1));
+      e.execUniformPutVector3F(gl, "u_vf3", new VectorI3F(1, 1, 1));
+      e.execUniformPutVector4F(gl, "u_vf4", new VectorI4F(1, 1, 1, 1));
+      e.execUniformPutVector2I(gl, "u_vi2", new VectorI2I(1, 1));
+      e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(1, 1, 1));
+      e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(1, 1, 1, 1));
+      e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
+      e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
     }
@@ -758,30 +373,35 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     ExecCalled e = null;
-    JCGPProgram p = null;
+    ProgramReferenceUsable p = null;
     ArrayBuffer a = null;
-    ArrayBufferAttribute a0 = null;
-    ArrayBufferAttribute a1 = null;
-    ArrayBufferAttribute a2 = null;
+    ArrayBufferAttribute a_vf2 = null;
+    ArrayBufferAttribute a_vf3 = null;
+    ArrayBufferAttribute a_vf4 = null;
+    ArrayBufferAttribute a_f = null;
 
     try {
-      p =
-        JCCEExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
-          tc,
-          gl);
+      p = JCCEExecutionAbstractContract.makeProgram(tc, gl);
       a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
-      a0 = a.getAttribute("a0");
-      a1 = a.getAttribute("a1");
-      a2 = a.getAttribute("a2");
+      a_vf2 = a.getAttribute("a_vf2");
+      a_vf3 = a.getAttribute("a_vf3");
+      a_vf4 = a.getAttribute("a_vf4");
+      a_f = a.getAttribute("a_f");
       e = new ExecCalled();
       Assert.assertFalse(e.called);
-      e.execPrepare(gl, p.getProgram());
-      e.execUniformPutVector4I(gl, "u_integer4_0", new VectorI4I(1, 1, 1, 1));
-      e.execUniformPutVector4I(gl, "u_integer4_1", new VectorI4I(1, 1, 1, 1));
-      e.execUniformPutVector4I(gl, "u_integer4_2", new VectorI4I(1, 1, 1, 1));
-      e.execAttributeBind(gl, "a0", a0);
-      e.execAttributeBind(gl, "a1", a1);
-      e.execAttributeBind(gl, "a2", a2);
+      e.execPrepare(gl, p);
+      e.execUniformPutVector2F(gl, "u_vf2", new VectorI2F(1, 1));
+      e.execUniformPutVector3F(gl, "u_vf3", new VectorI3F(1, 1, 1));
+      e.execUniformPutVector4F(gl, "u_vf4", new VectorI4F(1, 1, 1, 1));
+      e.execUniformPutVector2I(gl, "u_vi2", new VectorI2I(1, 1));
+      e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(1, 1, 1));
+      e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(1, 1, 1, 1));
+      e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
+      e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
+      e.execAttributeBind(gl, "a_vf2", a_vf2);
+      e.execAttributeBind(gl, "a_vf3", a_vf3);
+      e.execAttributeBind(gl, "a_vf4", a_vf4);
+      e.execAttributeBind(gl, "a_f", a_f);
       e.execRun(gl);
       Assert.assertTrue(e.called);
     } catch (final Throwable x) {
@@ -798,28 +418,39 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     testRunMissedSomeAttributes()
       throws Throwable
   {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    ExecCalled e = null;
+    ProgramReferenceUsable p = null;
+    ArrayBuffer a = null;
+    ArrayBufferAttribute a0 = null;
+
     try {
-      final TestContext tc = this.newTestContext();
-      final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-      final JCGPProgram p =
-        JCCEExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
-          tc,
-          gl);
+      p = JCCEExecutionAbstractContract.makeProgram(tc, gl);
+      a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
+      a0 = a.getAttribute("a_f");
 
-      final ArrayBuffer a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
-      final ArrayBufferAttribute a0 = a.getAttribute("a0");
-
-      final ExecCalled e = new ExecCalled();
+      e = new ExecCalled();
       Assert.assertFalse(e.called);
-      e.execPrepare(gl, p.getProgram());
-      e.execUniformPutVector4I(gl, "u_integer4_0", new VectorI4I(1, 1, 1, 1));
-      e.execUniformPutVector4I(gl, "u_integer4_1", new VectorI4I(1, 1, 1, 1));
-      e.execUniformPutVector4I(gl, "u_integer4_2", new VectorI4I(1, 1, 1, 1));
+      e.execPrepare(gl, p);
+      e.execUniformPutVector2F(gl, "u_vf2", new VectorI2F(1, 1));
+      e.execUniformPutVector3F(gl, "u_vf3", new VectorI3F(1, 1, 1));
+      e.execUniformPutVector4F(gl, "u_vf4", new VectorI4F(1, 1, 1, 1));
+      e.execUniformPutVector2I(gl, "u_vi2", new VectorI2I(1, 1));
+      e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(1, 1, 1));
+      e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(1, 1, 1, 1));
+      e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
+      e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
+    } catch (final Throwable x) {
+      throw new AssertionError(x);
+    }
+
+    try {
       e.execAttributeBind(gl, "a0", a0);
       e.execRun(gl);
-    } catch (final ConstraintError e) {
-      System.out.println(e);
-      throw e;
+    } catch (final ConstraintError x) {
+      System.out.println(x);
+      throw x;
     }
   }
 
@@ -835,14 +466,12 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     final ExecCalled ex = new ExecCalled();
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final JCGPProgram p =
-      JCCEExecutionAbstractContract.makeProgramWithAttributesAndUniforms(
-        tc,
-        gl);
+    final ProgramReferenceUsable p =
+      JCCEExecutionAbstractContract.makeProgram(tc, gl);
 
     try {
       Assert.assertFalse(ex.called);
-      ex.execPrepare(gl, p.getProgram());
+      ex.execPrepare(gl, p);
       ex.execRun(gl);
     } catch (final ConstraintError e) {
       System.out.println(e);
@@ -889,8 +518,8 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final JCGPProgram p =
-      JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
+    final ProgramReferenceUsable p =
+      JCCEExecutionAbstractContract.makeProgram(tc, gl);
 
     final JCCEExecutionAPI<Throwable> e =
       new JCCEExecutionAbstract<Throwable>() {
@@ -902,7 +531,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
         }
       };
 
-    e.execPrepare(gl, p.getProgram());
+    e.execPrepare(gl, p);
     e.execRun(null);
   }
 
@@ -920,10 +549,10 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     ExecCalled e = null;
 
     try {
-      final JCGPProgram p =
-        JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgram(tc, gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p.getProgram());
+      e.execPrepare(gl, p);
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
     }
@@ -952,10 +581,10 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     TextureUnit[] units = null;
 
     try {
-      final JCGPProgram p =
-        JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgram(tc, gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p.getProgram());
+      e.execPrepare(gl, p);
       units = gl.textureGetUnits();
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
@@ -985,10 +614,10 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     ExecCalled e = null;
 
     try {
-      final JCGPProgram p =
-        JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgram(tc, gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p.getProgram());
+      e.execPrepare(gl, p);
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
     }
@@ -1016,10 +645,10 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     ExecCalled e = null;
 
     try {
-      final JCGPProgram p =
-        JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgram(tc, gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p.getProgram());
+      e.execPrepare(gl, p);
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
     }
@@ -1047,10 +676,10 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     ExecCalled e = null;
 
     try {
-      final JCGPProgram p =
-        JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgram(tc, gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p.getProgram());
+      e.execPrepare(gl, p);
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
     }
@@ -1078,10 +707,10 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     ExecCalled e = null;
 
     try {
-      final JCGPProgram p =
-        JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgram(tc, gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p.getProgram());
+      e.execPrepare(gl, p);
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
     }
@@ -1109,10 +738,10 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     ExecCalled e = null;
 
     try {
-      final JCGPProgram p =
-        JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgram(tc, gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p.getProgram());
+      e.execPrepare(gl, p);
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
     }
@@ -1144,10 +773,10 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     ExecCalled e = null;
 
     try {
-      final JCGPProgram p =
-        JCCEExecutionAbstractContract.makeEmptyProgram(tc, gl);
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgram(tc, gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p.getProgram());
+      e.execPrepare(gl, p);
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
     }
@@ -1166,7 +795,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
   }
 
   /**
-   * Assigning a uniforms of all types works.
+   * Assigning uniforms of all types works.
    */
 
   @Test public final void testUniforms()
@@ -1175,38 +804,49 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     ExecCalled e = null;
-    ArrayBuffer a = null;
-    ArrayBufferAttribute a0 = null;
     TextureUnit[] units = null;
+    ArrayBuffer a = null;
+    ArrayBufferAttribute a_vf2 = null;
+    ArrayBufferAttribute a_vf3 = null;
+    ArrayBufferAttribute a_vf4 = null;
+    ArrayBufferAttribute a_f = null;
 
     try {
-      a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
-      a0 = a.getAttribute("a0");
       units = gl.textureGetUnits();
 
-      final JCGPProgram p =
-        JCCEExecutionAbstractContract.makeComplicatedProgram(tc, gl);
+      a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
+      a_vf2 = a.getAttribute("a_vf2");
+      a_vf3 = a.getAttribute("a_vf3");
+      a_vf4 = a.getAttribute("a_vf4");
+      a_f = a.getAttribute("a_f");
+
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgramWithFragmentUniforms(tc, gl);
       e = new ExecCalled();
-      e.execPrepare(gl, p.getProgram());
-      e.execUniformPutVector2F(gl, "ufv2", new VectorI2F(23.0f, 23.0f));
-      e
-        .execUniformPutVector3F(
-          gl,
-          "ufv3",
-          new VectorI3F(23.0f, 23.0f, 23.0f));
-      e.execUniformPutVector4F(gl, "ufv4", new VectorI4F(
+      e.execPrepare(gl, p);
+      e.execUniformPutVector2F(gl, "u_vf2", new VectorI2F(23.0f, 23.0f));
+      e.execUniformPutVector3F(
+        gl,
+        "u_vf3",
+        new VectorI3F(23.0f, 23.0f, 23.0f));
+      e.execUniformPutVector4F(gl, "u_vf4", new VectorI4F(
         23.0f,
         23.0f,
         23.0f,
         23.0f));
-      e.execUniformPutVector2I(gl, "uiv2", new VectorI2I(23, 23));
-      e.execUniformPutVector3I(gl, "uiv3", new VectorI3I(23, 23, 23));
-      e.execUniformPutVector4I(gl, "uiv4", new VectorI4I(23, 23, 23, 23));
-      e.execUniformPutFloat(gl, "uf", 23.0f);
-      e.execUniformPutTextureUnit(gl, "ut", units[0]);
-      e.execUniformPutMatrix3x3F(gl, "um3", new MatrixM3x3F());
-      e.execUniformPutMatrix4x4F(gl, "um4", new MatrixM4x4F());
-      e.execAttributeBind(gl, "a", a0);
+      e.execUniformPutVector2I(gl, "u_vi2", new VectorI2I(23, 23));
+      e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
+      e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
+      e.execUniformPutFloat(gl, "u_f", 23.0f);
+      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+      e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
+      e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
+
+      e.execAttributeBind(gl, "a_vf2", a_vf2);
+      e.execAttributeBind(gl, "a_vf3", a_vf3);
+      e.execAttributeBind(gl, "a_vf4", a_vf4);
+      e.execAttributeBind(gl, "a_f", a_f);
+
       e.execRun(gl);
       Assert.assertTrue(e.called);
     } catch (final Throwable x) {
