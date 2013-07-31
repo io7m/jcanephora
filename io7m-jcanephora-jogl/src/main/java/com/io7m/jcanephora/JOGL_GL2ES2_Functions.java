@@ -16,13 +16,9 @@
 
 package com.io7m.jcanephora;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -37,7 +33,9 @@ import com.io7m.jtensors.MatrixReadable4x4F;
 import com.io7m.jtensors.VectorReadable2F;
 import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jtensors.VectorReadable3F;
+import com.io7m.jtensors.VectorReadable3I;
 import com.io7m.jtensors.VectorReadable4F;
+import com.io7m.jtensors.VectorReadable4I;
 import com.jogamp.common.nio.Buffers;
 
 final class JOGL_GL2ES2_Functions
@@ -226,14 +224,13 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull String name,
-    final @Nonnull InputStream stream)
+    final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
-      IOException,
       JCGLException
   {
     Constraints.constrainNotNull(name, "Shader name");
-    Constraints.constrainNotNull(stream, "input stream");
+    Constraints.constrainNotNull(lines, "Source lines");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -246,13 +243,11 @@ final class JOGL_GL2ES2_Functions
     final int id = gl.glCreateShader(GL2ES2.GL_FRAGMENT_SHADER);
     JOGL_GL_Functions.checkError(gl);
 
-    final ArrayList<Integer> lengths = new ArrayList<Integer>();
-    final ArrayList<String> lines = new ArrayList<String>();
-    JOGL_GL2ES2_Functions.shaderReadSource(stream, lines, lengths);
     final String[] line_array = new String[lines.size()];
     final IntBuffer line_lengths = Buffers.newDirectIntBuffer(lines.size());
-
     for (int index = 0; index < lines.size(); ++index) {
+      final String line = lines.get(index);
+      Constraints.constrainNotNull(line, "Source line");
       line_array[index] = lines.get(index);
       final int len = line_array[index].length();
       line_lengths.put(index, len);
@@ -381,7 +376,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull ProgramReference program,
+    final @Nonnull ProgramReferenceUsable program,
     final @Nonnull Map<String, ProgramAttribute> out)
     throws ConstraintError,
       JCGLException
@@ -488,7 +483,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull ProgramReference program,
+    final @Nonnull ProgramReferenceUsable program,
     final @Nonnull Map<String, ProgramUniform> out)
     throws ConstraintError,
       JCGLException
@@ -565,7 +560,7 @@ final class JOGL_GL2ES2_Functions
   static boolean programIsActive(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramReference program)
+    final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError,
       JCGLException
   {
@@ -753,7 +748,7 @@ final class JOGL_GL2ES2_Functions
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
       uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_2,
-      "Uniform type is vec2");
+      "Uniform type is ivec2");
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
       "Program for uniform is active");
@@ -787,6 +782,31 @@ final class JOGL_GL2ES2_Functions
     JOGL_GL_Functions.checkError(gl);
   }
 
+  static void programPutUniformVector3i(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable3I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(vector, "Vatrix");
+    Constraints.constrainNotNull(uniform, "Uniform");
+    Constraints.constrainArbitrary(
+      uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_3,
+      "Uniform type is ivec3");
+    Constraints.constrainArbitrary(
+      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
+      "Program for uniform is active");
+
+    gl.glUniform3i(
+      uniform.getLocation(),
+      vector.getXI(),
+      vector.getYI(),
+      vector.getZI());
+    JOGL_GL_Functions.checkError(gl);
+  }
+
   static void programPutUniformVector4f(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
@@ -813,25 +833,30 @@ final class JOGL_GL2ES2_Functions
     JOGL_GL_Functions.checkError(gl);
   }
 
-  private static final void shaderReadSource(
-    final @Nonnull InputStream stream,
-    final @Nonnull ArrayList<String> lines,
-    final @Nonnull ArrayList<Integer> lengths)
-    throws IOException
+  static void programPutUniformVector4i(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable4I vector)
+    throws ConstraintError,
+      JCGLException
   {
-    final BufferedReader reader =
-      new BufferedReader(new InputStreamReader(stream));
+    Constraints.constrainNotNull(vector, "Vatrix");
+    Constraints.constrainNotNull(uniform, "Uniform");
+    Constraints.constrainArbitrary(
+      uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_4,
+      "Uniform type is ivec4");
+    Constraints.constrainArbitrary(
+      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
+      "Program for uniform is active");
 
-    for (;;) {
-      final String line = reader.readLine();
-      if (line == null) {
-        break;
-      }
-      lines.add(line + "\n");
-      lengths.add(Integer.valueOf(line.length() + 1));
-    }
-
-    assert (lines.size() == lengths.size());
+    gl.glUniform4i(
+      uniform.getLocation(),
+      vector.getXI(),
+      vector.getYI(),
+      vector.getZI(),
+      vector.getWI());
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void stencilBufferFunction(
@@ -933,14 +958,13 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull String name,
-    final @Nonnull InputStream stream)
+    final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
-      IOException,
       JCGLException
   {
     Constraints.constrainNotNull(name, "Shader name");
-    Constraints.constrainNotNull(stream, "input stream");
+    Constraints.constrainNotNull(lines, "Input lines");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -953,13 +977,11 @@ final class JOGL_GL2ES2_Functions
     final int id = gl.glCreateShader(GL2ES2.GL_VERTEX_SHADER);
     JOGL_GL_Functions.checkError(gl);
 
-    final ArrayList<Integer> lengths = new ArrayList<Integer>();
-    final ArrayList<String> lines = new ArrayList<String>();
-    JOGL_GL2ES2_Functions.shaderReadSource(stream, lines, lengths);
     final String[] line_array = new String[lines.size()];
     final IntBuffer line_lengths = Buffers.newDirectIntBuffer(lines.size());
-
     for (int index = 0; index < lines.size(); ++index) {
+      final String line = lines.get(index);
+      Constraints.constrainNotNull(line, "Source line");
       line_array[index] = lines.get(index);
       final int len = line_array[index].length();
       line_lengths.put(index, len);

@@ -33,7 +33,7 @@ import com.io7m.jaux.UnreachableCodeException;
 final class ByteBufferCursorWritableIndex extends BufferCursor implements
   CursorWritableIndex
 {
-  private final @Nonnull ByteBuffer     target_data;
+  private final @Nonnull ByteBuffer       target_data;
   private final @Nonnull JCGLUnsignedType type;
 
   ByteBufferCursorWritableIndex(

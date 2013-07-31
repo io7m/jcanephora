@@ -23,10 +23,10 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class TestContext
 {
-  private final @Nonnull FSCapabilityAll  fs;
+  private final @Nonnull FSCapabilityAll    fs;
   private final @Nonnull JCGLImplementation gi;
-  private final @Nonnull Log              log;
-  private final @Nonnull PathVirtual      shader_path;
+  private final @Nonnull Log                log;
+  private final @Nonnull PathVirtual        shader_path;
 
   public TestContext(
     final @Nonnull FSCapabilityAll fs,

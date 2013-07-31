@@ -15,13 +15,9 @@
  */
 package com.io7m.jcanephora;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -47,7 +43,9 @@ import com.io7m.jtensors.MatrixReadable4x4F;
 import com.io7m.jtensors.VectorReadable2F;
 import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jtensors.VectorReadable3F;
+import com.io7m.jtensors.VectorReadable3I;
 import com.io7m.jtensors.VectorReadable4F;
+import com.io7m.jtensors.VectorReadable4I;
 
 final class LWJGL_GLES2Functions
 {
@@ -767,18 +765,16 @@ final class LWJGL_GLES2Functions
   }
 
   static FragmentShader fragmentShaderCompile(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull String name,
-    final @Nonnull InputStream stream)
+    final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
-      IOException,
       JCGLException
   {
     Constraints.constrainNotNull(name, "Shader name");
-    Constraints.constrainNotNull(stream, "input stream");
+    Constraints.constrainNotNull(lines, "Input lines");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -791,13 +787,11 @@ final class LWJGL_GLES2Functions
     final int id = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
     LWJGL_GLES2Functions.checkError();
 
-    final ArrayList<Integer> lengths = new ArrayList<Integer>();
-    final ArrayList<String> lines = new ArrayList<String>();
-    LWJGL_GLES2Functions.shaderReadSource(stream, lines, lengths);
     final String[] line_array = new String[lines.size()];
-
     for (int index = 0; index < lines.size(); ++index) {
-      line_array[index] = lines.get(index);
+      final String line = lines.get(index);
+      Constraints.constrainNotNull(line, "Source line");
+      line_array[index] = line;
     }
 
     GL20.glShaderSource(id, line_array);
@@ -1453,6 +1447,42 @@ final class LWJGL_GLES2Functions
     return x;
   }
 
+  public static @Nonnull JCGLSLVersion metaGetSLVersion(
+    final @Nonnull Log log)
+    throws JCGLException,
+      ConstraintError
+  {
+    final String x = GL11.glGetString(GL20.GL_SHADING_LANGUAGE_VERSION);
+    LWJGL_GLES2Functions.checkError();
+
+    final boolean is_es = LWJGL_GLES2Functions.metaVersionIsES(x);
+    LWJGL_GLES2Functions.checkError();
+
+    final JCGLVersion v = LWJGL_GLES2Functions.metaGetVersion();
+    LWJGL_GLES2Functions.checkError();
+
+    final JCGLApi api = is_es ? JCGLApi.JCGL_ES : JCGLApi.JCGL_FULL;
+
+    if ((v.getVersionMajor() == 3) && is_es) {
+      if (v.getText().contains("Mesa 9.1.")) {
+        final StringBuilder m = new StringBuilder();
+        m.append("quirk: GL_VERSION is '");
+        m.append(v.getText());
+        m.append("' which lies about GLSL ES 3.0 support");
+        m.append(" - downgrading GLSL ES version to 1.0.");
+        log.debug(m.toString());
+        return JCGLSLVersion.GLSL_ES_100;
+      }
+    }
+
+    final Pair<Integer, Integer> p =
+      LWJGL_GLES2Functions.metaParseSLVersion(x);
+
+    return JCGLSLVersion.make(new JCGLSLVersionNumber(
+      p.first.intValue(),
+      p.second.intValue()), api, x);
+  }
+
   static String metaGetVendor()
     throws JCGLException
   {
@@ -1462,19 +1492,32 @@ final class LWJGL_GLES2Functions
   }
 
   static @Nonnull JCGLVersion metaGetVersion()
-    throws JCGLException
+    throws JCGLException,
+      ConstraintError
   {
     final String x = GL11.glGetString(GL11.GL_VERSION);
     LWJGL_GLES2Functions.checkError();
-
     final Pair<Integer, Integer> p = LWJGL_GLES2Functions.metaParseVersion(x);
-
-    return new JCGLVersion(
+    return new JCGLVersion(new JCGLVersionNumber(
       p.first.intValue(),
       p.second.intValue(),
-      0,
-      LWJGL_GLES2Functions.metaVersionIsES(x),
-      x);
+      0), LWJGL_GLES2Functions.metaVersionIsES(x)
+      ? JCGLApi.JCGL_ES
+      : JCGLApi.JCGL_FULL, x);
+  }
+
+  static @Nonnull Pair<Integer, Integer> metaParseSLVersion(
+    final @Nonnull String v0)
+  {
+    final String v1 = v0.replaceFirst("^OpenGL ES GLSL ES ", "");
+    final StringTokenizer tdot = new StringTokenizer(v1, ".");
+    final String vmaj = tdot.nextToken();
+    final String rest = tdot.nextToken();
+    final StringTokenizer tspa = new StringTokenizer(rest, " ");
+    final String vmin = tspa.nextToken();
+    return new Pair<Integer, Integer>(
+      Integer.valueOf(vmaj),
+      Integer.valueOf(vmin));
   }
 
   static Pair<Integer, Integer> metaParseVersion(
@@ -1498,7 +1541,7 @@ final class LWJGL_GLES2Functions
   }
 
   static void programActivate(
-    final @Nonnull ProgramReference program)
+    final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError,
       JCGLException
   {
@@ -1580,7 +1623,7 @@ final class LWJGL_GLES2Functions
   static void programGetAttributes(
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull ProgramReference program,
+    final @Nonnull ProgramReferenceUsable program,
     final @Nonnull Map<String, ProgramAttribute> out)
     throws ConstraintError,
       JCGLException
@@ -1675,10 +1718,9 @@ final class LWJGL_GLES2Functions
   }
 
   static void programGetUniforms(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull ProgramReference program,
+    final @Nonnull ProgramReferenceUsable program,
     final @Nonnull Map<String, ProgramUniform> out)
     throws ConstraintError,
       JCGLException
@@ -1746,9 +1788,8 @@ final class LWJGL_GLES2Functions
   }
 
   static boolean programIsActive(
-
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramReference program)
+    final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError,
       JCGLException
   {
@@ -1764,7 +1805,6 @@ final class LWJGL_GLES2Functions
   }
 
   static void programLink(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull ProgramReference program)
@@ -1807,7 +1847,6 @@ final class LWJGL_GLES2Functions
   }
 
   static void programPutUniformFloat(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final float value)
@@ -1827,7 +1866,6 @@ final class LWJGL_GLES2Functions
   }
 
   static void programPutUniformMatrix3x3f(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixReadable3x3F matrix)
@@ -1851,7 +1889,6 @@ final class LWJGL_GLES2Functions
   }
 
   static void programPutUniformMatrix4x4f(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixReadable4x4F matrix)
@@ -1895,7 +1932,6 @@ final class LWJGL_GLES2Functions
   }
 
   static void programPutUniformVector2f(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable2F vector)
@@ -1916,7 +1952,6 @@ final class LWJGL_GLES2Functions
   }
 
   static void programPutUniformVector2i(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable2I vector)
@@ -1927,7 +1962,7 @@ final class LWJGL_GLES2Functions
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
       uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_2,
-      "Uniform type is vec2");
+      "Uniform type is ivec2");
     Constraints.constrainArbitrary(
       LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),
       "Program for uniform is active");
@@ -1937,7 +1972,6 @@ final class LWJGL_GLES2Functions
   }
 
   static void programPutUniformVector3f(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable3F vector)
@@ -1961,8 +1995,31 @@ final class LWJGL_GLES2Functions
     LWJGL_GLES2Functions.checkError();
   }
 
-  static void programPutUniformVector4f(
+  static void programPutUniformVector3i(
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable3I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(vector, "Vatrix");
+    Constraints.constrainNotNull(uniform, "Uniform");
+    Constraints.constrainArbitrary(
+      uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_3,
+      "Uniform type is ivec3");
+    Constraints.constrainArbitrary(
+      LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),
+      "Program for uniform is active");
 
+    GL20.glUniform3i(
+      uniform.getLocation(),
+      vector.getXI(),
+      vector.getYI(),
+      vector.getZI());
+    LWJGL_GLES2Functions.checkError();
+  }
+
+  static void programPutUniformVector4f(
     final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4F vector)
@@ -1984,6 +2041,31 @@ final class LWJGL_GLES2Functions
       vector.getYF(),
       vector.getZF(),
       vector.getWF());
+    LWJGL_GLES2Functions.checkError();
+  }
+
+  static void programPutUniformVector4i(
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable4I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(vector, "Vatrix");
+    Constraints.constrainNotNull(uniform, "Uniform");
+    Constraints.constrainArbitrary(
+      uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_4,
+      "Uniform type is ivec4");
+    Constraints.constrainArbitrary(
+      LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),
+      "Program for uniform is active");
+
+    GL20.glUniform4i(
+      uniform.getLocation(),
+      vector.getXI(),
+      vector.getYI(),
+      vector.getZI(),
+      vector.getWI());
     LWJGL_GLES2Functions.checkError();
   }
 
@@ -2108,29 +2190,7 @@ final class LWJGL_GLES2Functions
     return e;
   }
 
-  private static final void shaderReadSource(
-    final @Nonnull InputStream stream,
-    final @Nonnull ArrayList<String> lines,
-    final @Nonnull ArrayList<Integer> lengths)
-    throws IOException
-  {
-    final BufferedReader reader =
-      new BufferedReader(new InputStreamReader(stream));
-
-    for (;;) {
-      final String line = reader.readLine();
-      if (line == null) {
-        break;
-      }
-      lines.add(line + "\n");
-      lengths.add(Integer.valueOf(line.length() + 1));
-    }
-
-    assert (lines.size() == lengths.size());
-  }
-
   static void stencilBufferClear(
-
     final @Nonnull JCGLStateCache state,
     final int stencil)
     throws JCGLException,
@@ -2768,18 +2828,16 @@ final class LWJGL_GLES2Functions
   }
 
   static VertexShader vertexShaderCompile(
-
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull String name,
-    final @Nonnull InputStream stream)
+    final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
-      IOException,
       JCGLException
   {
     Constraints.constrainNotNull(name, "Shader name");
-    Constraints.constrainNotNull(stream, "input stream");
+    Constraints.constrainNotNull(lines, "Input lines");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -2792,13 +2850,11 @@ final class LWJGL_GLES2Functions
     final int id = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);
     LWJGL_GLES2Functions.checkError();
 
-    final ArrayList<Integer> lengths = new ArrayList<Integer>();
-    final ArrayList<String> lines = new ArrayList<String>();
-    LWJGL_GLES2Functions.shaderReadSource(stream, lines, lengths);
     final String[] line_array = new String[lines.size()];
-
     for (int index = 0; index < lines.size(); ++index) {
-      line_array[index] = lines.get(index);
+      final String line = lines.get(index);
+      Constraints.constrainNotNull(line, "Source line");
+      line_array[index] = line;
     }
 
     GL20.glShaderSource(id, line_array);

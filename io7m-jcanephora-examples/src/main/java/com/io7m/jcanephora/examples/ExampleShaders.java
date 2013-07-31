@@ -15,8 +15,13 @@
  */
 package com.io7m.jcanephora.examples;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -92,15 +97,11 @@ public final class ExampleShaders implements Example
 
     this.shader_program = this.gl.programCreate("color");
     this.shader_vertex =
-      this.gl.vertexShaderCompile(
-        "color",
-        config.getFilesystem().openFile(
-          PathVirtual.ofString("/com/io7m/jcanephora/examples/color.v")));
+      this.gl.vertexShaderCompile("color", this.readFileLines(PathVirtual
+        .ofString("/com/io7m/jcanephora/examples/color.v")));
     this.shader_fragment =
-      this.gl.fragmentShaderCompile(
-        "color",
-        config.getFilesystem().openFile(
-          PathVirtual.ofString("/com/io7m/jcanephora/examples/color.f")));
+      this.gl.fragmentShaderCompile("color", this.readFileLines(PathVirtual
+        .ofString("/com/io7m/jcanephora/examples/color.f")));
 
     this.gl.vertexShaderAttach(this.shader_program, this.shader_vertex);
     this.gl.fragmentShaderAttach(this.shader_program, this.shader_fragment);
@@ -292,6 +293,26 @@ public final class ExampleShaders implements Example
   @Override public boolean hasShutDown()
   {
     return this.has_shut_down;
+  }
+
+  private @Nonnull List<String> readFileLines(
+    final @Nonnull PathVirtual path)
+    throws FilesystemError,
+      ConstraintError,
+      IOException
+  {
+    final ArrayList<String> lines = new ArrayList<String>();
+    final InputStream f = this.config.getFilesystem().openFile(path);
+    final BufferedReader reader =
+      new BufferedReader(new InputStreamReader(f));
+    for (;;) {
+      final String line = reader.readLine();
+      if (line == null) {
+        break;
+      }
+      lines.add(line);
+    }
+    return lines;
   }
 
   @Override public void reshape(

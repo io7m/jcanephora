@@ -26,17 +26,17 @@ import com.io7m.jcanephora.contracts.gl3es3.TextureLoaderContractGL3ES3;
 public final class JOGL30TextureLoaderImageIOGL3Test extends
   TextureLoaderContractGL3ES3<TextureLoaderImageIO>
 {
+  @Override public @Nonnull JCGLTextures2DStaticGL3 getGLTextures(
+    final @Nonnull TestContext tc)
+  {
+    final Some<JCGLInterfaceGL3> some =
+      (Option.Some<JCGLInterfaceGL3>) tc.getGLImplementation().getGL3();
+    return some.value;
+  }
+
   @Override public boolean isGLSupported()
   {
     return JOGLTestContext.isOpenGL30Supported();
-  }
-
-  @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
-      JCGLUnsupportedException,
-      ConstraintError
-  {
-    return JOGLTestContext.makeContextWithOpenGL3_0();
   }
 
   @Override public @Nonnull TextureLoaderImageIO makeTextureLoader(
@@ -45,11 +45,11 @@ public final class JOGL30TextureLoaderImageIOGL3Test extends
     return new TextureLoaderImageIO();
   }
 
-  @Override public @Nonnull JCGLTextures2DStaticGL3 getGLTextures(
-    final @Nonnull TestContext tc)
+  @Override public @Nonnull TestContext newTestContext()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
   {
-    final Some<JCGLInterfaceGL3> some =
-      (Option.Some<JCGLInterfaceGL3>) tc.getGLImplementation().getGL3();
-    return some.value;
+    return JOGLTestContext.makeContextWithOpenGL3_0();
   }
 }

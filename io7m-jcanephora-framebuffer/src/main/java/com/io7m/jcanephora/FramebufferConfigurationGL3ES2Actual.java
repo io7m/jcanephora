@@ -79,11 +79,11 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
   private static class WorkingBuffers
   {
-    @CheckForNull FramebufferReference       framebuffer        = null;
-    @CheckForNull AttachmentColor            attachment_color   = null;
-    @CheckForNull AttachmentDepth            attachment_depth   = null;
-    @CheckForNull AttachmentStencil          attachment_stencil = null;
-    final @Nonnull StringBuilder             text;
+    @CheckForNull FramebufferReference         framebuffer        = null;
+    @CheckForNull AttachmentColor              attachment_color   = null;
+    @CheckForNull AttachmentDepth              attachment_depth   = null;
+    @CheckForNull AttachmentStencil            attachment_stencil = null;
+    final @Nonnull StringBuilder               text;
     private final JCGLRenderbuffersCommon      rb;
     private final JCGLFramebuffersCommon       fb;
     private final JCGLTextures2DStaticCommon   t2ds;
@@ -1112,32 +1112,6 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     throw new UnreachableCodeException();
   }
 
-  private @Nonnull Indeterminate<Framebuffer, FramebufferStatus> makeGLES3(
-    final @Nonnull WorkingBuffers buffers,
-    final @Nonnull JCGLInterfaceGLES3 gl)
-    throws JCGLException,
-      ConstraintError
-  {
-    buffers.framebuffer = gl.framebufferAllocate();
-    this.allocateColorBuffers_GL3ES3(buffers, gl);
-    this.allocateDepthStencil_GL3ES3(buffers, gl);
-    FramebufferConfigurationGL3ES2Actual.attachBuffers_GL3(buffers, gl);
-    return this.validateAndMakeState(buffers, gl);
-  }
-
-  private @Nonnull Indeterminate<Framebuffer, FramebufferStatus> makeGL2(
-    final @Nonnull WorkingBuffers buffers,
-    final @Nonnull JCGLInterfaceGL2 gl)
-    throws JCGLException,
-      ConstraintError
-  {
-    buffers.framebuffer = gl.framebufferAllocate();
-    this.allocateColorBuffers_GL3ES3(buffers, gl);
-    this.allocateDepthStencil_GL3ES3(buffers, gl);
-    FramebufferConfigurationGL3ES2Actual.attachBuffers_GL3(buffers, gl);
-    return this.validateAndMakeState(buffers, gl);
-  }
-
   private Indeterminate<Framebuffer, FramebufferStatus> makeES2(
     final @Nonnull WorkingBuffers buffers,
     final @Nonnull JCGLInterfaceGLES2 gl)
@@ -1219,6 +1193,19 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     return this.validateAndMakeState(buffers, gl);
   }
 
+  private @Nonnull Indeterminate<Framebuffer, FramebufferStatus> makeGL2(
+    final @Nonnull WorkingBuffers buffers,
+    final @Nonnull JCGLInterfaceGL2 gl)
+    throws JCGLException,
+      ConstraintError
+  {
+    buffers.framebuffer = gl.framebufferAllocate();
+    this.allocateColorBuffers_GL3ES3(buffers, gl);
+    this.allocateDepthStencil_GL3ES3(buffers, gl);
+    FramebufferConfigurationGL3ES2Actual.attachBuffers_GL3(buffers, gl);
+    return this.validateAndMakeState(buffers, gl);
+  }
+
   /**
    * Construct a framebuffer using OpenGL 3.0.
    * 
@@ -1234,6 +1221,19 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
       final @Nonnull G gl)
       throws JCGLException,
         ConstraintError
+  {
+    buffers.framebuffer = gl.framebufferAllocate();
+    this.allocateColorBuffers_GL3ES3(buffers, gl);
+    this.allocateDepthStencil_GL3ES3(buffers, gl);
+    FramebufferConfigurationGL3ES2Actual.attachBuffers_GL3(buffers, gl);
+    return this.validateAndMakeState(buffers, gl);
+  }
+
+  private @Nonnull Indeterminate<Framebuffer, FramebufferStatus> makeGLES3(
+    final @Nonnull WorkingBuffers buffers,
+    final @Nonnull JCGLInterfaceGLES3 gl)
+    throws JCGLException,
+      ConstraintError
   {
     buffers.framebuffer = gl.framebufferAllocate();
     this.allocateColorBuffers_GL3ES3(buffers, gl);

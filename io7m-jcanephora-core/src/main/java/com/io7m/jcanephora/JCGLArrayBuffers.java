@@ -58,7 +58,7 @@ public interface JCGLArrayBuffers
 
   /**
    * Bind the array buffer <code>buffer</code> for subsequent calls to
-   * {@link JCGLArrayBuffers#arrayBufferBindVertexAttribute(ArrayBufferUsable, ArrayBufferAttributeDescriptor, ProgramAttribute)}
+   * {@link JCGLArrayBuffers#arrayBufferBindVertexAttribute(ArrayBufferAttribute, ProgramAttribute)}
    * .
    * 
    * @param buffer

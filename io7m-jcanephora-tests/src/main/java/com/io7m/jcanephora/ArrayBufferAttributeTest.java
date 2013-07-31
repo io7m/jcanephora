@@ -24,86 +24,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
 public class ArrayBufferAttributeTest
 {
   /**
-   * Creating an attribute with a null array fails.
-   */
-
-  @SuppressWarnings({ "static-method", "unused" }) @Test(
-    expected = ConstraintError.class) public void testNullArray()
-    throws ConstraintError
-  {
-    ArrayBufferAttributeDescriptor descriptor = null;
-
-    try {
-      descriptor =
-        new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_FLOAT,
-          3);
-    } catch (final ConstraintError e) {
-      Assert.fail(e.getMessage());
-    }
-
-    new ArrayBufferAttribute(null, descriptor);
-  }
-
-  /**
-   * Creating an attribute with a null descriptor fails.
-   */
-
-  @SuppressWarnings({ "static-method", "unused" }) @Test(
-    expected = ConstraintError.class) public void testNullDescriptor()
-    throws ConstraintError
-  {
-    ArrayBuffer array = null;
-    ArrayBufferTypeDescriptor type_descriptor = null;
-
-    try {
-      type_descriptor =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
-      array = new ArrayBuffer(1, 1, type_descriptor);
-    } catch (final ConstraintError e) {
-      Assert.fail(e.getMessage());
-    }
-
-    new ArrayBufferAttribute(array, null);
-  }
-
-  /**
-   * Identities.
-   */
-
-  @SuppressWarnings({ "static-method" }) @Test public void testIdentities()
-  {
-    ArrayBuffer array = null;
-    ArrayBufferTypeDescriptor type_descriptor = null;
-    ArrayBufferAttributeDescriptor descriptor = null;
-    ArrayBufferAttribute attribute = null;
-
-    try {
-      type_descriptor =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
-      descriptor = type_descriptor.getAttribute("position");
-
-      array = new ArrayBuffer(1, 1, type_descriptor);
-      attribute = new ArrayBufferAttribute(array, descriptor);
-    } catch (final ConstraintError e) {
-      Assert.fail(e.getMessage());
-    }
-
-    assert attribute != null;
-    Assert.assertTrue(attribute.getArray() == array);
-    Assert.assertTrue(attribute.getDescriptor() == descriptor);
-  }
-
-  /**
    * equals, hashCode, and toString.
    */
 
@@ -168,5 +88,85 @@ public class ArrayBufferAttributeTest
       array0_attribute1.toString()));
     Assert.assertTrue(array0_attribute0.toString().equals(
       array0_attribute2.toString()));
+  }
+
+  /**
+   * Identities.
+   */
+
+  @SuppressWarnings({ "static-method" }) @Test public void testIdentities()
+  {
+    ArrayBuffer array = null;
+    ArrayBufferTypeDescriptor type_descriptor = null;
+    ArrayBufferAttributeDescriptor descriptor = null;
+    ArrayBufferAttribute attribute = null;
+
+    try {
+      type_descriptor =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+            "position",
+            JCGLScalarType.TYPE_FLOAT,
+            3) });
+      descriptor = type_descriptor.getAttribute("position");
+
+      array = new ArrayBuffer(1, 1, type_descriptor);
+      attribute = new ArrayBufferAttribute(array, descriptor);
+    } catch (final ConstraintError e) {
+      Assert.fail(e.getMessage());
+    }
+
+    assert attribute != null;
+    Assert.assertTrue(attribute.getArray() == array);
+    Assert.assertTrue(attribute.getDescriptor() == descriptor);
+  }
+
+  /**
+   * Creating an attribute with a null array fails.
+   */
+
+  @SuppressWarnings({ "static-method", "unused" }) @Test(
+    expected = ConstraintError.class) public void testNullArray()
+    throws ConstraintError
+  {
+    ArrayBufferAttributeDescriptor descriptor = null;
+
+    try {
+      descriptor =
+        new ArrayBufferAttributeDescriptor(
+          "position",
+          JCGLScalarType.TYPE_FLOAT,
+          3);
+    } catch (final ConstraintError e) {
+      Assert.fail(e.getMessage());
+    }
+
+    new ArrayBufferAttribute(null, descriptor);
+  }
+
+  /**
+   * Creating an attribute with a null descriptor fails.
+   */
+
+  @SuppressWarnings({ "static-method", "unused" }) @Test(
+    expected = ConstraintError.class) public void testNullDescriptor()
+    throws ConstraintError
+  {
+    ArrayBuffer array = null;
+    ArrayBufferTypeDescriptor type_descriptor = null;
+
+    try {
+      type_descriptor =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+            "position",
+            JCGLScalarType.TYPE_FLOAT,
+            3) });
+      array = new ArrayBuffer(1, 1, type_descriptor);
+    } catch (final ConstraintError e) {
+      Assert.fail(e.getMessage());
+    }
+
+    new ArrayBufferAttribute(array, null);
   }
 }

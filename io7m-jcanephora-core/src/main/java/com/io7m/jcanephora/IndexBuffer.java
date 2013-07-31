@@ -31,9 +31,9 @@ import com.io7m.jaux.RangeInclusive;
   Buffer,
   IndexBufferUsable
 {
-  private final int            value;
+  private final int              value;
   private final JCGLUnsignedType type;
-  private final RangeInclusive range;
+  private final RangeInclusive   range;
 
   IndexBuffer(
     final int value,

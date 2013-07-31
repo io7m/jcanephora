@@ -16,9 +16,8 @@
 
 package com.io7m.jcanephora;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -36,7 +35,9 @@ import com.io7m.jtensors.MatrixReadable4x4F;
 import com.io7m.jtensors.VectorReadable2F;
 import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jtensors.VectorReadable3F;
+import com.io7m.jtensors.VectorReadable3I;
 import com.io7m.jtensors.VectorReadable4F;
+import com.io7m.jtensors.VectorReadable4I;
 
 /**
  * <p>
@@ -66,6 +67,8 @@ import com.io7m.jtensors.VectorReadable4F;
   private final @Nonnull Log            log;
   private final @Nonnull GLContext      context;
   private final @Nonnull JCGLStateCache state;
+  private final @Nonnull JCGLVersion    version;
+  private final @Nonnull JCGLSLVersion  sl_version;
 
   JCGLInterfaceGLES3_JOGL_ES3(
     final @Nonnull GLContext context,
@@ -110,6 +113,9 @@ import com.io7m.jtensors.VectorReadable4F;
         g,
         this.state,
         this.log);
+
+    this.version = JOGL_GL_Functions.metaGetVersion(g);
+    this.sl_version = JOGL_GL_Functions.metaGetSLVersion(log, g);
   }
 
   @Override public ArrayBuffer arrayBufferAllocate(
@@ -595,10 +601,9 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public FragmentShader fragmentShaderCompile(
     final @Nonnull String name,
-    final @Nonnull InputStream stream)
+    final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
-      IOException,
       JCGLException
   {
     return JOGL_GL2ES2_Functions.fragmentShaderCompile(
@@ -606,7 +611,7 @@ import com.io7m.jtensors.VectorReadable4F;
       this.state,
       this.log,
       name,
-      stream);
+      lines);
   }
 
   @Override public void fragmentShaderDelete(
@@ -978,6 +983,12 @@ import com.io7m.jtensors.VectorReadable4F;
     return JOGL_GL_Functions.metaGetRenderer(this.contextGetGL3());
   }
 
+  @Override public @Nonnull JCGLSLVersion metaGetSLVersion()
+    throws JCGLException
+  {
+    return this.sl_version;
+  }
+
   @Override public String metaGetVendor()
     throws JCGLException
   {
@@ -987,11 +998,11 @@ import com.io7m.jtensors.VectorReadable4F;
   @Override public @Nonnull JCGLVersion metaGetVersion()
     throws JCGLException
   {
-    return JOGL_GL_Functions.metaGetVersion(this.context.getGL());
+    return this.version;
   }
 
   @Override public void programActivate(
-    final @Nonnull ProgramReference program)
+    final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError,
       JCGLException
   {
@@ -1037,7 +1048,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public void programGetAttributes(
-    final @Nonnull ProgramReference program,
+    final @Nonnull ProgramReferenceUsable program,
     final @Nonnull Map<String, ProgramAttribute> out)
     throws ConstraintError,
       JCGLException
@@ -1060,7 +1071,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public void programGetUniforms(
-    final @Nonnull ProgramReference program,
+    final @Nonnull ProgramReferenceUsable program,
     final @Nonnull Map<String, ProgramUniform> out)
     throws ConstraintError,
       JCGLException
@@ -1074,7 +1085,7 @@ import com.io7m.jtensors.VectorReadable4F;
   }
 
   @Override public boolean programIsActive(
-    final @Nonnull ProgramReference program)
+    final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError,
       JCGLException
   {
@@ -1188,6 +1199,17 @@ import com.io7m.jtensors.VectorReadable4F;
       vector);
   }
 
+  @Override public void programPutUniformVector3i(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable3I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    JOGL_GL2ES2_Functions.programPutUniformVector3i(this.context
+      .getGL()
+      .getGL2ES2(), this.state, uniform, vector);
+  }
+
   @Override public void programPutUniformVector4f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4F vector)
@@ -1199,6 +1221,17 @@ import com.io7m.jtensors.VectorReadable4F;
       this.state,
       uniform,
       vector);
+  }
+
+  @Override public void programPutUniformVector4i(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable4I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    JOGL_GL2ES2_Functions.programPutUniformVector4i(this.context
+      .getGL()
+      .getGL2ES2(), this.state, uniform, vector);
   }
 
   @Override public @Nonnull
@@ -2092,10 +2125,9 @@ import com.io7m.jtensors.VectorReadable4F;
 
   @Override public VertexShader vertexShaderCompile(
     final @Nonnull String name,
-    final @Nonnull InputStream stream)
+    final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
-      IOException,
       JCGLException
   {
     return JOGL_GL2ES2_Functions.vertexShaderCompile(
@@ -2103,7 +2135,7 @@ import com.io7m.jtensors.VectorReadable4F;
       this.state,
       this.log,
       name,
-      stream);
+      lines);
   }
 
   @Override public void vertexShaderDelete(
