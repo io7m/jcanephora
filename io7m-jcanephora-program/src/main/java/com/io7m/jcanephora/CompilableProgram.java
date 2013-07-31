@@ -94,11 +94,13 @@ public interface CompilableProgram
    *           Iff a compilation error occurs.
    */
 
-  <G extends JCGLShaders & JCGLMeta, F extends FSCapabilityRead> void compile(
-    final @Nonnull F fs,
-    final @Nonnull G gl)
-    throws ConstraintError,
-      JCGLCompileException;
+    <G extends JCGLShaders & JCGLMeta, F extends FSCapabilityRead>
+    void
+    compile(
+      final @Nonnull F fs,
+      final @Nonnull G gl)
+      throws ConstraintError,
+        JCGLCompileException;
 
   /**
    * Remove the fragment shader referenced by <code>path</code> from the

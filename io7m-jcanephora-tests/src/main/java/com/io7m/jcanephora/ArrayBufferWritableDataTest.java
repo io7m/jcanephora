@@ -41,8 +41,13 @@ public class ArrayBufferWritableDataTest
   private static ArrayBuffer makeArray4Color2()
     throws ConstraintError
   {
-    final ArrayBufferAttributeDescriptor[] ab = new ArrayBufferAttributeDescriptor[1];
-    ab[0] = new ArrayBufferAttributeDescriptor("color", JCGLScalarType.TYPE_FLOAT, 2);
+    final ArrayBufferAttributeDescriptor[] ab =
+      new ArrayBufferAttributeDescriptor[1];
+    ab[0] =
+      new ArrayBufferAttributeDescriptor(
+        "color",
+        JCGLScalarType.TYPE_FLOAT,
+        2);
     final ArrayBufferTypeDescriptor type = new ArrayBufferTypeDescriptor(ab);
     final ArrayBuffer array = new ArrayBuffer(1, 4, type);
     return array;
@@ -51,8 +56,13 @@ public class ArrayBufferWritableDataTest
   private static ArrayBuffer makeArray4Color3()
     throws ConstraintError
   {
-    final ArrayBufferAttributeDescriptor[] ab = new ArrayBufferAttributeDescriptor[1];
-    ab[0] = new ArrayBufferAttributeDescriptor("color", JCGLScalarType.TYPE_FLOAT, 3);
+    final ArrayBufferAttributeDescriptor[] ab =
+      new ArrayBufferAttributeDescriptor[1];
+    ab[0] =
+      new ArrayBufferAttributeDescriptor(
+        "color",
+        JCGLScalarType.TYPE_FLOAT,
+        3);
     final ArrayBufferTypeDescriptor type = new ArrayBufferTypeDescriptor(ab);
     final ArrayBuffer array = new ArrayBuffer(1, 4, type);
     return array;
@@ -61,8 +71,13 @@ public class ArrayBufferWritableDataTest
   private static ArrayBuffer makeArray4Color4()
     throws ConstraintError
   {
-    final ArrayBufferAttributeDescriptor[] ab = new ArrayBufferAttributeDescriptor[1];
-    ab[0] = new ArrayBufferAttributeDescriptor("color", JCGLScalarType.TYPE_FLOAT, 4);
+    final ArrayBufferAttributeDescriptor[] ab =
+      new ArrayBufferAttributeDescriptor[1];
+    ab[0] =
+      new ArrayBufferAttributeDescriptor(
+        "color",
+        JCGLScalarType.TYPE_FLOAT,
+        4);
     final ArrayBufferTypeDescriptor type = new ArrayBufferTypeDescriptor(ab);
     final ArrayBuffer array = new ArrayBuffer(1, 4, type);
     return array;
@@ -80,9 +95,15 @@ public class ArrayBufferWritableDataTest
     ArrayBufferWritableData data = null;
 
     try {
-      final ArrayBufferAttributeDescriptor[] ab = new ArrayBufferAttributeDescriptor[1];
-      ab[0] = new ArrayBufferAttributeDescriptor("color", JCGLScalarType.TYPE_FLOAT, 4);
-      final ArrayBufferTypeDescriptor type = new ArrayBufferTypeDescriptor(ab);
+      final ArrayBufferAttributeDescriptor[] ab =
+        new ArrayBufferAttributeDescriptor[1];
+      ab[0] =
+        new ArrayBufferAttributeDescriptor(
+          "color",
+          JCGLScalarType.TYPE_FLOAT,
+          4);
+      final ArrayBufferTypeDescriptor type =
+        new ArrayBufferTypeDescriptor(ab);
       final ArrayBuffer array = new ArrayBuffer(1, 4, type);
       data = new ArrayBufferWritableData(array);
     } catch (final ConstraintError e) {
@@ -105,9 +126,15 @@ public class ArrayBufferWritableDataTest
     ArrayBufferWritableData data = null;
 
     try {
-      final ArrayBufferAttributeDescriptor[] ab = new ArrayBufferAttributeDescriptor[1];
-      ab[0] = new ArrayBufferAttributeDescriptor("color", JCGLScalarType.TYPE_INT, 2);
-      final ArrayBufferTypeDescriptor type = new ArrayBufferTypeDescriptor(ab);
+      final ArrayBufferAttributeDescriptor[] ab =
+        new ArrayBufferAttributeDescriptor[1];
+      ab[0] =
+        new ArrayBufferAttributeDescriptor(
+          "color",
+          JCGLScalarType.TYPE_INT,
+          2);
+      final ArrayBufferTypeDescriptor type =
+        new ArrayBufferTypeDescriptor(ab);
       final ArrayBuffer array = new ArrayBuffer(1, 4, type);
       data = new ArrayBufferWritableData(array);
     } catch (final ConstraintError e) {
@@ -159,9 +186,15 @@ public class ArrayBufferWritableDataTest
     ArrayBufferWritableData data = null;
 
     try {
-      final ArrayBufferAttributeDescriptor[] ab = new ArrayBufferAttributeDescriptor[1];
-      ab[0] = new ArrayBufferAttributeDescriptor("color", JCGLScalarType.TYPE_FLOAT, 4);
-      final ArrayBufferTypeDescriptor type = new ArrayBufferTypeDescriptor(ab);
+      final ArrayBufferAttributeDescriptor[] ab =
+        new ArrayBufferAttributeDescriptor[1];
+      ab[0] =
+        new ArrayBufferAttributeDescriptor(
+          "color",
+          JCGLScalarType.TYPE_FLOAT,
+          4);
+      final ArrayBufferTypeDescriptor type =
+        new ArrayBufferTypeDescriptor(ab);
       final ArrayBuffer array = new ArrayBuffer(1, 4, type);
       data = new ArrayBufferWritableData(array);
     } catch (final ConstraintError e) {
@@ -184,9 +217,15 @@ public class ArrayBufferWritableDataTest
     ArrayBufferWritableData data = null;
 
     try {
-      final ArrayBufferAttributeDescriptor[] ab = new ArrayBufferAttributeDescriptor[1];
-      ab[0] = new ArrayBufferAttributeDescriptor("color", JCGLScalarType.TYPE_INT, 3);
-      final ArrayBufferTypeDescriptor type = new ArrayBufferTypeDescriptor(ab);
+      final ArrayBufferAttributeDescriptor[] ab =
+        new ArrayBufferAttributeDescriptor[1];
+      ab[0] =
+        new ArrayBufferAttributeDescriptor(
+          "color",
+          JCGLScalarType.TYPE_INT,
+          3);
+      final ArrayBufferTypeDescriptor type =
+        new ArrayBufferTypeDescriptor(ab);
       final ArrayBuffer array = new ArrayBuffer(1, 4, type);
       data = new ArrayBufferWritableData(array);
     } catch (final ConstraintError e) {
@@ -238,9 +277,15 @@ public class ArrayBufferWritableDataTest
     ArrayBufferWritableData data = null;
 
     try {
-      final ArrayBufferAttributeDescriptor[] ab = new ArrayBufferAttributeDescriptor[1];
-      ab[0] = new ArrayBufferAttributeDescriptor("color", JCGLScalarType.TYPE_FLOAT, 3);
-      final ArrayBufferTypeDescriptor type = new ArrayBufferTypeDescriptor(ab);
+      final ArrayBufferAttributeDescriptor[] ab =
+        new ArrayBufferAttributeDescriptor[1];
+      ab[0] =
+        new ArrayBufferAttributeDescriptor(
+          "color",
+          JCGLScalarType.TYPE_FLOAT,
+          3);
+      final ArrayBufferTypeDescriptor type =
+        new ArrayBufferTypeDescriptor(ab);
       final ArrayBuffer array = new ArrayBuffer(1, 4, type);
       data = new ArrayBufferWritableData(array);
     } catch (final ConstraintError e) {
@@ -263,9 +308,15 @@ public class ArrayBufferWritableDataTest
     ArrayBufferWritableData data = null;
 
     try {
-      final ArrayBufferAttributeDescriptor[] ab = new ArrayBufferAttributeDescriptor[1];
-      ab[0] = new ArrayBufferAttributeDescriptor("color", JCGLScalarType.TYPE_INT, 4);
-      final ArrayBufferTypeDescriptor type = new ArrayBufferTypeDescriptor(ab);
+      final ArrayBufferAttributeDescriptor[] ab =
+        new ArrayBufferAttributeDescriptor[1];
+      ab[0] =
+        new ArrayBufferAttributeDescriptor(
+          "color",
+          JCGLScalarType.TYPE_INT,
+          4);
+      final ArrayBufferTypeDescriptor type =
+        new ArrayBufferTypeDescriptor(ab);
       final ArrayBuffer array = new ArrayBuffer(1, 4, type);
       data = new ArrayBufferWritableData(array);
     } catch (final ConstraintError e) {

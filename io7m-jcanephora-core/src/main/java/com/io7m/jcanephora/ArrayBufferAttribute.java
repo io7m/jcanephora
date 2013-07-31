@@ -43,36 +43,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
       Constraints.constrainNotNull(descriptor, "Attribute descriptor");
   }
 
-  @Override public int hashCode()
-  {
-    final int prime = 31;
-    int result = 1;
-    result = (prime * result) + this.array.hashCode();
-    result = (prime * result) + this.descriptor.hashCode();
-    return result;
-  }
-
-  @Override public String toString()
-  {
-    final StringBuilder builder = new StringBuilder();
-    builder.append("[ArrayBufferAttribute ");
-    builder.append(this.array);
-    builder.append(" ");
-    builder.append(this.descriptor);
-    builder.append("]");
-    return builder.toString();
-  }
-
-  public @Nonnull ArrayBufferUsable getArray()
-  {
-    return this.array;
-  }
-
-  public @Nonnull ArrayBufferAttributeDescriptor getDescriptor()
-  {
-    return this.descriptor;
-  }
-
   @Override public boolean equals(
     final Object obj)
   {
@@ -95,8 +65,38 @@ import com.io7m.jaux.Constraints.ConstraintError;
     return true;
   }
 
+  public @Nonnull ArrayBufferUsable getArray()
+  {
+    return this.array;
+  }
+
+  public @Nonnull ArrayBufferAttributeDescriptor getDescriptor()
+  {
+    return this.descriptor;
+  }
+
   public @Nonnull String getName()
   {
     return this.descriptor.getName();
+  }
+
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + this.array.hashCode();
+    result = (prime * result) + this.descriptor.hashCode();
+    return result;
+  }
+
+  @Override public String toString()
+  {
+    final StringBuilder builder = new StringBuilder();
+    builder.append("[ArrayBufferAttribute ");
+    builder.append(this.array);
+    builder.append(" ");
+    builder.append(this.descriptor);
+    builder.append("]");
+    return builder.toString();
   }
 }

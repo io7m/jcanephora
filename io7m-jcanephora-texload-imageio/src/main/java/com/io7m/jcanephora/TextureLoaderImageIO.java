@@ -1015,19 +1015,17 @@ public final class TextureLoaderImageIO implements TextureLoader
       name);
   }
 
-  @Override public @Nonnull
-    Texture2DStatic
-    load2DStaticInferredGL3ES3(
-      final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter,
-      final @Nonnull InputStream stream,
-      final @Nonnull String name)
-      throws ConstraintError,
-        JCGLException,
-        IOException
+  @Override public @Nonnull Texture2DStatic load2DStaticInferredGL3ES3(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException
   {
     Constraints.constrainNotNull(name, "Name");
     Constraints.constrainNotNull(stream, "Input stream");

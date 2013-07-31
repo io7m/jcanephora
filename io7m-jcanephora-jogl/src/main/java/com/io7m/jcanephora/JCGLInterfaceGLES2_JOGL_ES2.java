@@ -1062,28 +1062,6 @@ import com.io7m.jtensors.VectorReadable4I;
       vector);
   }
 
-  @Override public void programPutUniformVector3i(
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable3I vector)
-    throws ConstraintError,
-      JCGLException
-  {
-    JOGL_GL2ES2_Functions.programPutUniformVector3i(this.context
-      .getGL()
-      .getGL2ES2(), this.state, uniform, vector);
-  }
-
-  @Override public void programPutUniformVector4i(
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable4I vector)
-    throws ConstraintError,
-      JCGLException
-  {
-    JOGL_GL2ES2_Functions.programPutUniformVector4i(this.context
-      .getGL()
-      .getGL2ES2(), this.state, uniform, vector);
-  }
-
   @Override public void programPutUniformVector3f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable3F vector)
@@ -1097,6 +1075,17 @@ import com.io7m.jtensors.VectorReadable4I;
       vector);
   }
 
+  @Override public void programPutUniformVector3i(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable3I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    JOGL_GL2ES2_Functions.programPutUniformVector3i(this.context
+      .getGL()
+      .getGL2ES2(), this.state, uniform, vector);
+  }
+
   @Override public void programPutUniformVector4f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4F vector)
@@ -1108,6 +1097,17 @@ import com.io7m.jtensors.VectorReadable4I;
       this.state,
       uniform,
       vector);
+  }
+
+  @Override public void programPutUniformVector4i(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable4I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    JOGL_GL2ES2_Functions.programPutUniformVector4i(this.context
+      .getGL()
+      .getGL2ES2(), this.state, uniform, vector);
   }
 
   @Override public @Nonnull

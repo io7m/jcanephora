@@ -54,6 +54,124 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
     Assume.assumeTrue(this.isGLSupported());
   }
 
+  private void loadSpecific(
+    final @Nonnull FSCapabilityRead fs,
+    final @Nonnull JCGLInterfaceCommon gl,
+    final @Nonnull T tl,
+    final @Nonnull String path)
+    throws FilesystemError,
+      ConstraintError,
+      JCGLException,
+      IOException
+  {
+    for (final TextureType tt : TextureType.get2DTypesCommon()) {
+      Texture2DStatic t = null;
+      final InputStream stream = fs.openFile(PathVirtual.ofString(path));
+
+      switch (tt) {
+        case TEXTURE_TYPE_RGBA_8888_4BPP:
+        {
+          t =
+            tl.load2DStaticRGBA8888(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+            t.getType());
+          break;
+        }
+        case TEXTURE_TYPE_RGB_888_3BPP:
+        {
+          t =
+            tl.load2DStaticRGB888(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGB_888_3BPP,
+            t.getType());
+          break;
+        }
+        case TEXTURE_TYPE_DEPTH_16_2BPP:
+        case TEXTURE_TYPE_DEPTH_24_4BPP:
+        case TEXTURE_TYPE_DEPTH_32F_4BPP:
+        case TEXTURE_TYPE_RGBA_4444_2BPP:
+        case TEXTURE_TYPE_RGBA_5551_2BPP:
+        case TEXTURE_TYPE_RGB_565_2BPP:
+        case TEXTURE_TYPE_RG_88_2BPP:
+        case TEXTURE_TYPE_R_8_1BPP:
+        {
+          stream.close();
+          throw new UnreachableCodeException();
+        }
+      }
+
+      assert t != null;
+      Assert.assertFalse(t.resourceIsDeleted());
+      Assert.assertEquals(256, t.getWidth());
+      Assert.assertEquals(256, t.getHeight());
+      Assert.assertEquals(
+        TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+        t.getMagnificationFilter());
+      Assert.assertEquals(
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        t.getMinificationFilter());
+      Assert.assertEquals("image", t.getName());
+      Assert.assertEquals(
+        TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        t.getWrapS());
+      Assert.assertEquals(TextureWrapT.TEXTURE_WRAP_REPEAT, t.getWrapT());
+
+      gl.texture2DStaticDelete(t);
+      Assert.assertTrue(t.resourceIsDeleted());
+
+      stream.close();
+    }
+  }
+
+  @Test public final void testTextureTypesGreyscaleToSpecific()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError,
+      IOException,
+      FilesystemError
+  {
+    final TestContext tc = this.newTestContext();
+    final FSCapabilityRead fs = tc.getFilesystem();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
+    final T tl = this.makeTextureLoader(gl);
+    final String path = "/com/io7m/jcanephora/images/reference_8_grey.png";
+    this.loadSpecific(fs, gl, tl, path);
+  }
+
+  @Test public final void testTextureTypesIndexedToSpecific()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError,
+      IOException,
+      FilesystemError
+  {
+    final TestContext tc = this.newTestContext();
+    final FSCapabilityRead fs = tc.getFilesystem();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
+    final T tl = this.makeTextureLoader(gl);
+    final String path = "/com/io7m/jcanephora/images/reference_8_index.png";
+    this.loadSpecific(fs, gl, tl, path);
+  }
+
   @Test public final void testTextureTypesInferredGreyscale()
     throws JCGLException,
       JCGLUnsupportedException,
@@ -320,86 +438,6 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
     stream.close();
   }
 
-  @Test public final void testTextureTypesGreyscaleToSpecific()
-    throws JCGLException,
-      JCGLUnsupportedException,
-      ConstraintError,
-      IOException,
-      FilesystemError
-  {
-    final TestContext tc = this.newTestContext();
-    final FSCapabilityRead fs = tc.getFilesystem();
-    final JCGLImplementation gi = tc.getGLImplementation();
-    final JCGLInterfaceCommon gl = gi.getGLCommon();
-    final T tl = this.makeTextureLoader(gl);
-    final String path = "/com/io7m/jcanephora/images/reference_8_grey.png";
-    this.loadSpecific(fs, gl, tl, path);
-  }
-
-  @Test public final void testTextureTypesRGBToSpecific()
-    throws JCGLException,
-      JCGLUnsupportedException,
-      ConstraintError,
-      IOException,
-      FilesystemError
-  {
-    final TestContext tc = this.newTestContext();
-    final FSCapabilityRead fs = tc.getFilesystem();
-    final JCGLImplementation gi = tc.getGLImplementation();
-    final JCGLInterfaceCommon gl = gi.getGLCommon();
-    final T tl = this.makeTextureLoader(gl);
-    final String path = "/com/io7m/jcanephora/images/reference_888_3.png";
-    this.loadSpecific(fs, gl, tl, path);
-  }
-
-  @Test public final void testTextureTypesRGBAToSpecific()
-    throws JCGLException,
-      JCGLUnsupportedException,
-      ConstraintError,
-      IOException,
-      FilesystemError
-  {
-    final TestContext tc = this.newTestContext();
-    final FSCapabilityRead fs = tc.getFilesystem();
-    final JCGLImplementation gi = tc.getGLImplementation();
-    final JCGLInterfaceCommon gl = gi.getGLCommon();
-    final T tl = this.makeTextureLoader(gl);
-    final String path = "/com/io7m/jcanephora/images/reference_8888_4.png";
-    this.loadSpecific(fs, gl, tl, path);
-  }
-
-  @Test public final void testTextureTypesIndexedToSpecific()
-    throws JCGLException,
-      JCGLUnsupportedException,
-      ConstraintError,
-      IOException,
-      FilesystemError
-  {
-    final TestContext tc = this.newTestContext();
-    final FSCapabilityRead fs = tc.getFilesystem();
-    final JCGLImplementation gi = tc.getGLImplementation();
-    final JCGLInterfaceCommon gl = gi.getGLCommon();
-    final T tl = this.makeTextureLoader(gl);
-    final String path = "/com/io7m/jcanephora/images/reference_8_index.png";
-    this.loadSpecific(fs, gl, tl, path);
-  }
-
-  @Test public final void testTextureTypesMonochromeToSpecific()
-    throws JCGLException,
-      JCGLUnsupportedException,
-      ConstraintError,
-      IOException,
-      FilesystemError
-  {
-    final TestContext tc = this.newTestContext();
-    final FSCapabilityRead fs = tc.getFilesystem();
-    final JCGLImplementation gi = tc.getGLImplementation();
-    final JCGLInterfaceCommon gl = gi.getGLCommon();
-    final T tl = this.makeTextureLoader(gl);
-    final String path = "/com/io7m/jcanephora/images/reference_mono.png";
-    this.loadSpecific(fs, gl, tl, path);
-  }
-
   @Test public final void testTextureTypesInvalidToSpecific()
     throws JCGLException,
       JCGLUnsupportedException,
@@ -477,89 +515,51 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
       io_exception_count);
   }
 
-  private void loadSpecific(
-    final @Nonnull FSCapabilityRead fs,
-    final @Nonnull JCGLInterfaceCommon gl,
-    final @Nonnull T tl,
-    final @Nonnull String path)
-    throws FilesystemError,
+  @Test public final void testTextureTypesMonochromeToSpecific()
+    throws JCGLException,
+      JCGLUnsupportedException,
       ConstraintError,
-      JCGLException,
-      IOException
+      IOException,
+      FilesystemError
   {
-    for (final TextureType tt : TextureType.get2DTypesCommon()) {
-      Texture2DStatic t = null;
-      final InputStream stream = fs.openFile(PathVirtual.ofString(path));
+    final TestContext tc = this.newTestContext();
+    final FSCapabilityRead fs = tc.getFilesystem();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
+    final T tl = this.makeTextureLoader(gl);
+    final String path = "/com/io7m/jcanephora/images/reference_mono.png";
+    this.loadSpecific(fs, gl, tl, path);
+  }
 
-      switch (tt) {
-        case TEXTURE_TYPE_RGBA_8888_4BPP:
-        {
-          t =
-            tl.load2DStaticRGBA8888(
-              gl,
-              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
-              stream,
-              "image");
+  @Test public final void testTextureTypesRGBAToSpecific()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError,
+      IOException,
+      FilesystemError
+  {
+    final TestContext tc = this.newTestContext();
+    final FSCapabilityRead fs = tc.getFilesystem();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
+    final T tl = this.makeTextureLoader(gl);
+    final String path = "/com/io7m/jcanephora/images/reference_8888_4.png";
+    this.loadSpecific(fs, gl, tl, path);
+  }
 
-          Assert.assertEquals(
-            TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
-            t.getType());
-          break;
-        }
-        case TEXTURE_TYPE_RGB_888_3BPP:
-        {
-          t =
-            tl.load2DStaticRGB888(
-              gl,
-              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
-              stream,
-              "image");
-
-          Assert.assertEquals(
-            TextureType.TEXTURE_TYPE_RGB_888_3BPP,
-            t.getType());
-          break;
-        }
-        case TEXTURE_TYPE_DEPTH_16_2BPP:
-        case TEXTURE_TYPE_DEPTH_24_4BPP:
-        case TEXTURE_TYPE_DEPTH_32F_4BPP:
-        case TEXTURE_TYPE_RGBA_4444_2BPP:
-        case TEXTURE_TYPE_RGBA_5551_2BPP:
-        case TEXTURE_TYPE_RGB_565_2BPP:
-        case TEXTURE_TYPE_RG_88_2BPP:
-        case TEXTURE_TYPE_R_8_1BPP:
-        {
-          stream.close();
-          throw new UnreachableCodeException();
-        }
-      }
-
-      assert t != null;
-      Assert.assertFalse(t.resourceIsDeleted());
-      Assert.assertEquals(256, t.getWidth());
-      Assert.assertEquals(256, t.getHeight());
-      Assert.assertEquals(
-        TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
-        t.getMagnificationFilter());
-      Assert.assertEquals(
-        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-        t.getMinificationFilter());
-      Assert.assertEquals("image", t.getName());
-      Assert.assertEquals(
-        TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
-        t.getWrapS());
-      Assert.assertEquals(TextureWrapT.TEXTURE_WRAP_REPEAT, t.getWrapT());
-
-      gl.texture2DStaticDelete(t);
-      Assert.assertTrue(t.resourceIsDeleted());
-
-      stream.close();
-    }
+  @Test public final void testTextureTypesRGBToSpecific()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError,
+      IOException,
+      FilesystemError
+  {
+    final TestContext tc = this.newTestContext();
+    final FSCapabilityRead fs = tc.getFilesystem();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
+    final T tl = this.makeTextureLoader(gl);
+    final String path = "/com/io7m/jcanephora/images/reference_888_3.png";
+    this.loadSpecific(fs, gl, tl, path);
   }
 }

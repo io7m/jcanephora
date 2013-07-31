@@ -1185,19 +1185,6 @@ import com.io7m.jtensors.VectorReadable4I;
       vector);
   }
 
-  @Override public void programPutUniformVector4i(
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable4I vector)
-    throws ConstraintError,
-      JCGLException
-  {
-    JOGL_GL2ES2_Functions.programPutUniformVector4i(
-      this.contextGetGL2(),
-      this.state,
-      uniform,
-      vector);
-  }
-
   @Override public void programPutUniformVector4f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4F vector)
@@ -1205,6 +1192,19 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     JOGL_GL2ES2_Functions.programPutUniformVector4f(
+      this.contextGetGL2(),
+      this.state,
+      uniform,
+      vector);
+  }
+
+  @Override public void programPutUniformVector4i(
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable4I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    JOGL_GL2ES2_Functions.programPutUniformVector4i(
       this.contextGetGL2(),
       this.state,
       uniform,

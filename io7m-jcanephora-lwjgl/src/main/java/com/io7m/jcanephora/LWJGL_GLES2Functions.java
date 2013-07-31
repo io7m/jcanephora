@@ -1971,55 +1971,6 @@ final class LWJGL_GLES2Functions
     LWJGL_GLES2Functions.checkError();
   }
 
-  static void programPutUniformVector3i(
-    final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable3I vector)
-    throws ConstraintError,
-      JCGLException
-  {
-    Constraints.constrainNotNull(vector, "Vatrix");
-    Constraints.constrainNotNull(uniform, "Uniform");
-    Constraints.constrainArbitrary(
-      uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_3,
-      "Uniform type is ivec3");
-    Constraints.constrainArbitrary(
-      LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),
-      "Program for uniform is active");
-
-    GL20.glUniform3i(
-      uniform.getLocation(),
-      vector.getXI(),
-      vector.getYI(),
-      vector.getZI());
-    LWJGL_GLES2Functions.checkError();
-  }
-
-  static void programPutUniformVector4i(
-    final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable4I vector)
-    throws ConstraintError,
-      JCGLException
-  {
-    Constraints.constrainNotNull(vector, "Vatrix");
-    Constraints.constrainNotNull(uniform, "Uniform");
-    Constraints.constrainArbitrary(
-      uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_4,
-      "Uniform type is ivec4");
-    Constraints.constrainArbitrary(
-      LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),
-      "Program for uniform is active");
-
-    GL20.glUniform4i(
-      uniform.getLocation(),
-      vector.getXI(),
-      vector.getYI(),
-      vector.getZI(),
-      vector.getWI());
-    LWJGL_GLES2Functions.checkError();
-  }
-
   static void programPutUniformVector3f(
     final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,
@@ -2041,6 +1992,30 @@ final class LWJGL_GLES2Functions
       vector.getXF(),
       vector.getYF(),
       vector.getZF());
+    LWJGL_GLES2Functions.checkError();
+  }
+
+  static void programPutUniformVector3i(
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable3I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(vector, "Vatrix");
+    Constraints.constrainNotNull(uniform, "Uniform");
+    Constraints.constrainArbitrary(
+      uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_3,
+      "Uniform type is ivec3");
+    Constraints.constrainArbitrary(
+      LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),
+      "Program for uniform is active");
+
+    GL20.glUniform3i(
+      uniform.getLocation(),
+      vector.getXI(),
+      vector.getYI(),
+      vector.getZI());
     LWJGL_GLES2Functions.checkError();
   }
 
@@ -2066,6 +2041,31 @@ final class LWJGL_GLES2Functions
       vector.getYF(),
       vector.getZF(),
       vector.getWF());
+    LWJGL_GLES2Functions.checkError();
+  }
+
+  static void programPutUniformVector4i(
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ProgramUniform uniform,
+    final @Nonnull VectorReadable4I vector)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(vector, "Vatrix");
+    Constraints.constrainNotNull(uniform, "Uniform");
+    Constraints.constrainArbitrary(
+      uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_4,
+      "Uniform type is ivec4");
+    Constraints.constrainArbitrary(
+      LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),
+      "Program for uniform is active");
+
+    GL20.glUniform4i(
+      uniform.getLocation(),
+      vector.getXI(),
+      vector.getYI(),
+      vector.getZI(),
+      vector.getWI());
     LWJGL_GLES2Functions.checkError();
   }
 

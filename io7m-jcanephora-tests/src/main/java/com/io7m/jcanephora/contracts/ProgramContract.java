@@ -62,6 +62,25 @@ import com.io7m.jvvfs.PathVirtual;
 
 public abstract class ProgramContract implements TestContract
 {
+  private final static
+    <G extends JCGLShaders & JCGLMeta>
+    Program
+    makeLargeShader(
+      final TestContext tc,
+      final G gl)
+      throws ConstraintError,
+        JCGLCompileException
+  {
+    final Program p = new Program("program", tc.getLog());
+
+    final PathVirtual path = tc.getShaderPath();
+    p.addVertexShader(PathVirtual.ofString(path + "/large.v"));
+    p.addFragmentShader(PathVirtual.ofString(path + "/texture.f"));
+    p.compile(tc.getFilesystem(), gl);
+
+    return p;
+  }
+
   static List<String> readLines(
     final FSCapabilityAll filesystem,
     final PathVirtual path)
@@ -81,25 +100,6 @@ public abstract class ProgramContract implements TestContract
     }
     reader.close();
     return lines;
-  }
-
-  private final static
-    <G extends JCGLShaders & JCGLMeta>
-    Program
-    makeLargeShader(
-      final TestContext tc,
-      final G gl)
-      throws ConstraintError,
-        JCGLCompileException
-  {
-    final Program p = new Program("program", tc.getLog());
-
-    final PathVirtual path = tc.getShaderPath();
-    p.addVertexShader(PathVirtual.ofString(path + "/large.v"));
-    p.addFragmentShader(PathVirtual.ofString(path + "/texture.f"));
-    p.compile(tc.getFilesystem(), gl);
-
-    return p;
   }
 
   @Before public final void checkSupport()
@@ -1420,50 +1420,6 @@ public abstract class ProgramContract implements TestContract
 
   @Test(expected = ConstraintError.class) public final
     void
-    testProgramUniformTypeWrongVector3i()
-      throws JCGLException,
-        JCGLUnsupportedException,
-        ConstraintError,
-        JCGLCompileException
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-
-    final Program p = ProgramContract.makeLargeShader(tc, gl);
-    p.activate(gl);
-
-    {
-      final ProgramUniform u = p.getUniform("float_0");
-      Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
-      final VectorI3I v = new VectorI3I(1, 2, 3);
-      gl.programPutUniformVector3i(u, v);
-    }
-  }
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testProgramUniformTypeWrongVector4i()
-      throws JCGLException,
-        JCGLUnsupportedException,
-        ConstraintError,
-        JCGLCompileException
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-
-    final Program p = ProgramContract.makeLargeShader(tc, gl);
-    p.activate(gl);
-
-    {
-      final ProgramUniform u = p.getUniform("float_0");
-      Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
-      final VectorI4I v = new VectorI4I(1, 2, 3, 4);
-      gl.programPutUniformVector4i(u, v);
-    }
-  }
-
-  @Test(expected = ConstraintError.class) public final
-    void
     testProgramUniformTypeWrongVector3f()
       throws JCGLException,
         JCGLUnsupportedException,
@@ -1486,6 +1442,28 @@ public abstract class ProgramContract implements TestContract
 
   @Test(expected = ConstraintError.class) public final
     void
+    testProgramUniformTypeWrongVector3i()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError,
+        JCGLCompileException
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+
+    final Program p = ProgramContract.makeLargeShader(tc, gl);
+    p.activate(gl);
+
+    {
+      final ProgramUniform u = p.getUniform("float_0");
+      Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
+      final VectorI3I v = new VectorI3I(1, 2, 3);
+      gl.programPutUniformVector3i(u, v);
+    }
+  }
+
+  @Test(expected = ConstraintError.class) public final
+    void
     testProgramUniformTypeWrongVector4f()
       throws JCGLException,
         JCGLUnsupportedException,
@@ -1502,6 +1480,28 @@ public abstract class ProgramContract implements TestContract
       Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
       final VectorReadable4F v = new VectorI4F(1.0f, 1.0f, 1.0f, 1.0f);
       gl.programPutUniformVector4f(u, v);
+    }
+  }
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramUniformTypeWrongVector4i()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError,
+        JCGLCompileException
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+
+    final Program p = ProgramContract.makeLargeShader(tc, gl);
+    p.activate(gl);
+
+    {
+      final ProgramUniform u = p.getUniform("float_0");
+      Assert.assertEquals(JCGLType.TYPE_FLOAT, u.getType());
+      final VectorI4I v = new VectorI4I(1, 2, 3, 4);
+      gl.programPutUniformVector4i(u, v);
     }
   }
 

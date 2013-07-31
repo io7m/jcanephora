@@ -77,26 +77,6 @@ public final class ExampleShaders implements Example
   private final Map<String, ProgramAttribute> program_attributes;
   private final Map<String, ProgramUniform>   program_uniforms;
 
-  private @Nonnull List<String> readFileLines(
-    final @Nonnull PathVirtual path)
-    throws FilesystemError,
-      ConstraintError,
-      IOException
-  {
-    final ArrayList<String> lines = new ArrayList<String>();
-    final InputStream f = this.config.getFilesystem().openFile(path);
-    final BufferedReader reader =
-      new BufferedReader(new InputStreamReader(f));
-    for (;;) {
-      final String line = reader.readLine();
-      if (line == null) {
-        break;
-      }
-      lines.add(line);
-    }
-    return lines;
-  }
-
   public ExampleShaders(
     final @Nonnull ExampleConfig config)
     throws ConstraintError,
@@ -313,6 +293,26 @@ public final class ExampleShaders implements Example
   @Override public boolean hasShutDown()
   {
     return this.has_shut_down;
+  }
+
+  private @Nonnull List<String> readFileLines(
+    final @Nonnull PathVirtual path)
+    throws FilesystemError,
+      ConstraintError,
+      IOException
+  {
+    final ArrayList<String> lines = new ArrayList<String>();
+    final InputStream f = this.config.getFilesystem().openFile(path);
+    final BufferedReader reader =
+      new BufferedReader(new InputStreamReader(f));
+    for (;;) {
+      final String line = reader.readLine();
+      if (line == null) {
+        break;
+      }
+      lines.add(line);
+    }
+    return lines;
   }
 
   @Override public void reshape(
