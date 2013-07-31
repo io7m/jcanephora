@@ -1498,7 +1498,7 @@ final class LWJGL_GLES2Functions
     final String x = GL11.glGetString(GL11.GL_VERSION);
     LWJGL_GLES2Functions.checkError();
     final Pair<Integer, Integer> p = LWJGL_GLES2Functions.metaParseVersion(x);
-    return new JCGLVersion(new JCGLVersionNumber(
+    return JCGLVersion.make(new JCGLVersionNumber(
       p.first.intValue(),
       p.second.intValue(),
       0), LWJGL_GLES2Functions.metaVersionIsES(x)
