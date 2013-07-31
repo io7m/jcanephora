@@ -176,8 +176,8 @@ import com.io7m.jtensors.VectorReadable4I;
   /**
    * <p>
    * A function containing OpenGL rendering instructions, executed with the
-   * program specified with {@link #execPrepare(JCGLShaders, JCGPProgram)} as
-   * the current program.
+   * program specified with {@link #execPrepare(JCGLShaders, ProgramReferenceUsable)}
+   * as the current program.
    * </p>
    */
 
