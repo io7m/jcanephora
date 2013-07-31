@@ -58,6 +58,7 @@
   </properties>
 
   <modules>
+    <module>io7m-jcanephora-checkedexec</module>
     <module>io7m-jcanephora-core</module>
     <module>io7m-jcanephora-examples-jogl</module>
     <module>io7m-jcanephora-examples-lwjgl</module>

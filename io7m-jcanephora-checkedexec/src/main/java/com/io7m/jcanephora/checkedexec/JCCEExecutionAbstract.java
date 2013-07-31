@@ -14,9 +14,10 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.gpuprogram;
+package com.io7m.jcanephora.checkedexec;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -32,6 +33,7 @@ import com.io7m.jcanephora.JCGLArrayBuffers;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLShaders;
 import com.io7m.jcanephora.ProgramAttribute;
+import com.io7m.jcanephora.ProgramReferenceUsable;
 import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jtensors.MatrixReadable3x3F;
@@ -45,11 +47,11 @@ import com.io7m.jtensors.VectorReadable4I;
 
 /**
  * <p>
- * An abstract implementation of the {@link JCGPExecutionAPI} interface.
+ * An abstract implementation of the {@link JCCEExecutionAPI} interface.
  * </p>
  * <p>
  * Implementations must complete the {@link #execRunActual()} function in
- * order to be usable as concrete {@link JCGPExecutionAPI} implementations.
+ * order to be usable as concrete {@link JCCEExecutionAPI} implementations.
  * </p>
  * <p>
  * Values of this type cannot be manipulated by multiple threads without
@@ -57,23 +59,27 @@ import com.io7m.jtensors.VectorReadable4I;
  * </p>
  */
 
-@NotThreadSafe public abstract class JCGPExecutionAbstract<E extends Throwable> implements
-  JCGPExecutionAPI<E>
+@NotThreadSafe public abstract class JCCEExecutionAbstract<E extends Throwable> implements
+  JCCEExecutionAPI<E>
 {
-  private @CheckForNull JCGPProgram                  program;
-  private final @Nonnull HashSet<String>             assigned;
-  private boolean                                    preparing;
-  private final @Nonnull StringBuilder               message;
-  private final @Nonnull ArrayList<ProgramUniform>   missed_uniforms;
-  private final @Nonnull ArrayList<ProgramAttribute> missed_attributes;
+  private @CheckForNull ProgramReferenceUsable         program;
+  private final @Nonnull HashSet<String>               assigned;
+  private boolean                                      preparing;
+  private final @Nonnull StringBuilder                 message;
+  private final @Nonnull ArrayList<ProgramUniform>     missed_uniforms;
+  private final @Nonnull ArrayList<ProgramAttribute>   missed_attributes;
+  private final @Nonnull Map<String, ProgramAttribute> program_attributes;
+  private final @Nonnull Map<String, ProgramUniform>   program_uniforms;
 
-  protected JCGPExecutionAbstract()
+  protected JCCEExecutionAbstract()
   {
     this.assigned = new HashSet<String>();
     this.preparing = false;
     this.message = new StringBuilder();
     this.missed_attributes = new ArrayList<ProgramAttribute>();
     this.missed_uniforms = new ArrayList<ProgramUniform>();
+    this.program_attributes = new HashMap<String, ProgramAttribute>();
+    this.program_uniforms = new HashMap<String, ProgramUniform>();
   }
 
   @Override public final
@@ -89,7 +95,7 @@ import com.io7m.jtensors.VectorReadable4I;
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(a, "Attribute name");
 
-    final ProgramAttribute pa = this.program.getAttributes().get(a);
+    final ProgramAttribute pa = this.program_attributes.get(a);
     if (pa == null) {
       this.execNonexistentAttribute(a);
     }
@@ -102,12 +108,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError
   {
     this.message.setLength(0);
-    this.message.append("The program '");
-    this.message.append(this.program.getName());
-    this.message.append("' does not contain an attribute named '");
+    this.message
+      .append("The current program does not contain an attribute named '");
     this.message.append(a);
     this.message.append("', available attributes are: ");
-    this.message.append(this.program.getAttributes().values());
+    this.message.append(this.program_attributes.values());
     throw new ConstraintError(this.message.toString());
   }
 
@@ -116,24 +121,30 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError
   {
     this.message.setLength(0);
-    this.message.append("The program '");
-    this.message.append(this.program.getName());
-    this.message.append("' does not contain a uniform named '");
+    this.message
+      .append("The current program does not contain a uniform named '");
     this.message.append(u);
     this.message.append("', available uniforms are: ");
-    this.message.append(this.program.getUniforms().values());
+    this.message.append(this.program_uniforms.values());
     throw new ConstraintError(this.message.toString());
   }
 
   @Override public final void execPrepare(
     final @Nonnull JCGLShaders gl,
-    final @Nonnull JCGPProgram new_program)
+    final @Nonnull ProgramReferenceUsable new_program)
     throws ConstraintError,
       JCGLException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     this.program = Constraints.constrainNotNull(new_program, "Program");
-    gl.programActivate(this.program.getProgram());
+
+    this.program_attributes.clear();
+    this.program_uniforms.clear();
+
+    gl.programGetAttributes(new_program, this.program_attributes);
+    gl.programGetUniforms(new_program, this.program_uniforms);
+
+    gl.programActivate(this.program);
     this.preparing = true;
     this.assigned.clear();
     this.missed_attributes.clear();
@@ -184,7 +195,7 @@ import com.io7m.jtensors.VectorReadable4I;
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
 
-    final ProgramUniform pu = this.program.getUniforms().get(u);
+    final ProgramUniform pu = this.program_uniforms.get(u);
     if (pu == null) {
       this.execNonexistentUniform(u);
     }
@@ -203,7 +214,7 @@ import com.io7m.jtensors.VectorReadable4I;
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
 
-    final ProgramUniform pu = this.program.getUniforms().get(u);
+    final ProgramUniform pu = this.program_uniforms.get(u);
     if (pu == null) {
       this.execNonexistentUniform(u);
     }
@@ -222,7 +233,7 @@ import com.io7m.jtensors.VectorReadable4I;
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
 
-    final ProgramUniform pu = this.program.getUniforms().get(u);
+    final ProgramUniform pu = this.program_uniforms.get(u);
     if (pu == null) {
       this.execNonexistentUniform(u);
     }
@@ -241,7 +252,7 @@ import com.io7m.jtensors.VectorReadable4I;
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
 
-    final ProgramUniform pu = this.program.getUniforms().get(u);
+    final ProgramUniform pu = this.program_uniforms.get(u);
     if (pu == null) {
       this.execNonexistentUniform(u);
     }
@@ -260,7 +271,7 @@ import com.io7m.jtensors.VectorReadable4I;
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
 
-    final ProgramUniform pu = this.program.getUniforms().get(u);
+    final ProgramUniform pu = this.program_uniforms.get(u);
     if (pu == null) {
       this.execNonexistentUniform(u);
     }
@@ -279,7 +290,7 @@ import com.io7m.jtensors.VectorReadable4I;
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
 
-    final ProgramUniform pu = this.program.getUniforms().get(u);
+    final ProgramUniform pu = this.program_uniforms.get(u);
     if (pu == null) {
       this.execNonexistentUniform(u);
     }
@@ -298,7 +309,7 @@ import com.io7m.jtensors.VectorReadable4I;
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
 
-    final ProgramUniform pu = this.program.getUniforms().get(u);
+    final ProgramUniform pu = this.program_uniforms.get(u);
     if (pu == null) {
       this.execNonexistentUniform(u);
     }
@@ -317,7 +328,7 @@ import com.io7m.jtensors.VectorReadable4I;
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
 
-    final ProgramUniform pu = this.program.getUniforms().get(u);
+    final ProgramUniform pu = this.program_uniforms.get(u);
     if (pu == null) {
       this.execNonexistentUniform(u);
     }
@@ -336,7 +347,7 @@ import com.io7m.jtensors.VectorReadable4I;
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
 
-    final ProgramUniform pu = this.program.getUniforms().get(u);
+    final ProgramUniform pu = this.program_uniforms.get(u);
     if (pu == null) {
       this.execNonexistentUniform(u);
     }
@@ -355,7 +366,7 @@ import com.io7m.jtensors.VectorReadable4I;
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
 
-    final ProgramUniform pu = this.program.getUniforms().get(u);
+    final ProgramUniform pu = this.program_uniforms.get(u);
     if (pu == null) {
       this.execNonexistentUniform(u);
     }
@@ -394,9 +405,8 @@ import com.io7m.jtensors.VectorReadable4I;
 
   private final void execValidateAttributes()
   {
-    final Map<String, ProgramAttribute> attributes =
-      this.program.getAttributes();
-    for (final Entry<String, ProgramAttribute> e : attributes.entrySet()) {
+    for (final Entry<String, ProgramAttribute> e : this.program_attributes
+      .entrySet()) {
       if (this.assigned.contains(e.getKey()) == false) {
         this.missed_attributes.add(e.getValue());
       }
@@ -405,8 +415,8 @@ import com.io7m.jtensors.VectorReadable4I;
 
   private final void execValidateUniforms()
   {
-    final Map<String, ProgramUniform> uniforms = this.program.getUniforms();
-    for (final Entry<String, ProgramUniform> e : uniforms.entrySet()) {
+    for (final Entry<String, ProgramUniform> e : this.program_uniforms
+      .entrySet()) {
       if (this.assigned.contains(e.getKey()) == false) {
         this.missed_uniforms.add(e.getValue());
       }

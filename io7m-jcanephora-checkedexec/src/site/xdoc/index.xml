@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document
+  xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>io7m-jcanephora-checkedexec</title>
+  </properties>
+
+  <body>
+    <subsection name="jcanephora-checkedexec">
+      The <var>jcanephora-checkedexec</var> package provides a very simple
+      abstraction over compiled shading language programs that ensures the
+      programmer has not forgotten to assign values to parameters at runtime.
+    </subsection>
+  </body>
+
+</document>
