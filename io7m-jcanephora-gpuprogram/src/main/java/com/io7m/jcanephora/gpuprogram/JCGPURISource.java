@@ -58,8 +58,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * expensive and blocking operation.
    * </p>
    * <p>
-   * This method sets the return value of {@link #sourceChanged()}.
-   * Essentially,
+   * This method sets the return value of
+   * {@link #sourceChangedSince(Calendar)}. Essentially,
    * <code>∀b t. s.sourceAlwaysChanged(b) => s.sourceChangedSince(t) == b</code>
    * </p>
    * <p>

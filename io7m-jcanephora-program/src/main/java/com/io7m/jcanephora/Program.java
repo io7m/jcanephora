@@ -97,8 +97,8 @@ public final class Program extends JCGLResourceDeletable implements
    *          An OpenGL interface.
    * @throws ConstraintError
    *           Iff <code>gl == null</code> or one of the constraints for
-   *           {@link JCGLShaders#programActivate(ProgramReference)} does not
-   *           hold.
+   *           {@link JCGLShaders#programActivate(ProgramReferenceUsable)}
+   *           does not hold.
    * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
