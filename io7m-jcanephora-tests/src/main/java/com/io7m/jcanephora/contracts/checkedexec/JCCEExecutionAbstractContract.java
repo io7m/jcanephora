@@ -46,6 +46,7 @@ import com.io7m.jcanephora.JCGLShaderKindVertex;
 import com.io7m.jcanephora.JCGLShaders;
 import com.io7m.jcanephora.JCGLType;
 import com.io7m.jcanephora.JCGLUnsupportedException;
+import com.io7m.jcanephora.ProgramReferenceUsable;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.UsageHint;
@@ -650,7 +651,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
 
   /**
    * Passing <tt>null</tt> to
-   * {@link JCCEExecutionAbstract#execPrepare(JCGLShaders, JCGPProgram)}
+   * {@link JCCEExecutionAbstract#execPrepare(JCGLShaders, ProgramReferenceUsable)}
    * fails.
    */
 
@@ -681,7 +682,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
 
   /**
    * Passing <tt>null</tt> to
-   * {@link JCCEExecutionAbstract#execPrepare(JCGLShaders, JCGPProgram)}
+   * {@link JCCEExecutionAbstract#execPrepare(JCGLShaders, ProgramReferenceUsable)}
    * fails.
    */
 
@@ -853,8 +854,8 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
   /**
    * Calling {@link JCCEExecutionAbstract#execRun(JCGLShaders)} without
    * calling
-   * {@link JCCEExecutionAbstract#execPrepare(JCGLShaders, JCGPProgram)} first
-   * fails.
+   * {@link JCCEExecutionAbstract#execPrepare(JCGLShaders, ProgramReferenceUsable)}
+   * first fails.
    */
 
   @Test(expected = ConstraintError.class) public final

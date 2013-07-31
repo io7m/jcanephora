@@ -88,8 +88,8 @@ public interface JCCEExecutionAPI<E extends Throwable>
   /**
    * <p>
    * Execute an implementation-specific function with the program specified
-   * with {@link #execPrepare(JCGLShaders, JCGPProgram)} as the current
-   * program, after calling {@link #execValidate()} to check that the
+   * with {@link #execPrepare(JCGLShaders, ProgramReferenceUsable)} as the
+   * current program, after calling {@link #execValidate()} to check that the
    * execution is correctly configured.
    * </p>
    * 
@@ -97,8 +97,9 @@ public interface JCCEExecutionAPI<E extends Throwable>
    *           Iff any of the following hold:
    *           <ul>
    *           <li><code>gl == null</code></li>
-   *           <li>The {@link #execPrepare(JCGLShaders, JCGPProgram)} method
-   *           has not been called.</li>
+   *           <li>The
+   *           {@link #execPrepare(JCGLShaders, ProgramReferenceUsable)}
+   *           method has not been called.</li>
    *           <li>At least one of the programs uniforms have not been
    *           assigned values.</li>
    *           <li>At least one of the programs attributes have not been
