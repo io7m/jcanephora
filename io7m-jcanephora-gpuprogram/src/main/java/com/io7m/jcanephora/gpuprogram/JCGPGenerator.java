@@ -21,6 +21,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TimeZone;
 
 import javax.annotation.CheckForNull;
@@ -95,6 +97,22 @@ import com.io7m.jlog.Log;
     message.append(import_name);
     message.append("'");
     return new JCGLCompileException(import_name, message.toString());
+  }
+
+  private static @Nonnull JCGLCompileException checkFailureIncompatibleTypes(
+    final @Nonnull JCGPFragmentShaderInput in,
+    final @Nonnull JCGPVertexShaderOutput out)
+  {
+    final StringBuilder message = new StringBuilder();
+    message.append("Type error: ");
+    message.append("The type of the vertex shader output '");
+    message.append(in.getName());
+    message.append("' is ");
+    message.append(in.getType());
+    message
+      .append(" but the type of the corresponding fragment shader input is ");
+    message.append(out.getType());
+    return new JCGLCompileException(in.getName(), message.toString());
   }
 
   private static void generatorGenerateVersion(
@@ -202,6 +220,7 @@ import com.io7m.jlog.Log;
   private final @Nonnull Log                                    log;
   private final @Nonnull HashSet<String>                        cycle_cache;
   private boolean                                               debugging;
+
   private Calendar                                              generated_last;
 
   private JCGPGenerator(
@@ -273,6 +292,28 @@ import com.io7m.jlog.Log;
     }
   }
 
+  private void generatorCheckInputOutputTypes()
+    throws JCGLCompileException
+  {
+    if ((this.unit_fragment_main != null) && (this.unit_vertex_main != null)) {
+      final Map<String, JCGPVertexShaderOutput> v_outs =
+        this.unit_vertex_main.getDeclaredOutputs();
+      final Map<String, JCGPFragmentShaderInput> f_ins =
+        this.unit_fragment_main.getDeclaredInputs();
+
+      for (final Entry<String, JCGPVertexShaderOutput> e : v_outs.entrySet()) {
+        final JCGPVertexShaderOutput out = e.getValue();
+        final String out_name = e.getKey();
+        final JCGPFragmentShaderInput in = f_ins.get(out_name);
+        if (in != null) {
+          if (in.getType() != out.getType()) {
+            throw JCGPGenerator.checkFailureIncompatibleTypes(in, out);
+          }
+        }
+      }
+    }
+  }
+
   private void generatorCheckVersion(
     final @Nonnull JCGLSLVersionNumber version,
     final @Nonnull JCGLApi api)
@@ -334,6 +375,7 @@ import com.io7m.jlog.Log;
     }
 
     this.generatorCheckVersion(version, api);
+    this.generatorCheckInputOutputTypes();
     assert this.unit_fragment_main != null;
     this.generatorCheckImports(this.unit_fragment_main);
 
@@ -376,6 +418,7 @@ import com.io7m.jlog.Log;
     }
 
     this.generatorCheckVersion(version, api);
+    this.generatorCheckInputOutputTypes();
     assert this.unit_vertex_main != null;
     this.generatorCheckImports(this.unit_vertex_main);
 
