@@ -111,8 +111,14 @@ import com.io7m.jtensors.VectorReadable4I;
     this.message
       .append("The current program does not contain an attribute named '");
     this.message.append(a);
-    this.message.append("', available attributes are: ");
-    this.message.append(this.program_attributes.values());
+    this.message.append("', available attributes are:\n");
+
+    for (final ProgramAttribute pa : this.program_attributes.values()) {
+      this.message.append("  ");
+      this.message.append(pa);
+      this.message.append("\n");
+    }
+
     throw new ConstraintError(this.message.toString());
   }
 
@@ -124,8 +130,14 @@ import com.io7m.jtensors.VectorReadable4I;
     this.message
       .append("The current program does not contain a uniform named '");
     this.message.append(u);
-    this.message.append("', available uniforms are: ");
-    this.message.append(this.program_uniforms.values());
+    this.message.append("', available uniforms are:\n");
+
+    for (final ProgramUniform pu : this.program_uniforms.values()) {
+      this.message.append("  ");
+      this.message.append(pu);
+      this.message.append("\n");
+    }
+
     throw new ConstraintError(this.message.toString());
   }
 
@@ -176,8 +188,9 @@ import com.io7m.jtensors.VectorReadable4I;
   /**
    * <p>
    * A function containing OpenGL rendering instructions, executed with the
-   * program specified with {@link #execPrepare(JCGLShaders, ProgramReferenceUsable)}
-   * as the current program.
+   * program specified with
+   * {@link #execPrepare(JCGLShaders, ProgramReferenceUsable)} as the current
+   * program.
    * </p>
    */
 
