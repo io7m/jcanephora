@@ -27,19 +27,19 @@ public interface Cursor
    * range of elements.
    */
 
-  boolean canWrite();
+  public boolean canWrite();
 
   /**
    * Return <code>true</code> iff there are more elements available.
    */
 
-  boolean hasNext();
+  public boolean hasNext();
 
   /**
    * Seek the cursor to the next element.
    */
 
-  void next();
+  public void next();
 
   /**
    * Seek the cursor to the index <code>index</code>.
@@ -48,6 +48,6 @@ public interface Cursor
    *          The element.
    */
 
-  void seekTo(
+  public void seekTo(
     long index);
 }
