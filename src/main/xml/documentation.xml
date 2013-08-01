@@ -2129,7 +2129,7 @@ g.drawElements(Primitives.PRIMITIVE_TRIANGLES, indices);
       <s:subsection>
         <s:subsection-title>Description</s:subsection-title>
         <s:paragraph>
-          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLShaders.html">JCGLShaders</s:link-external>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLShadersCommon.html">JCGLShaders</s:link-external>
           interface provides functions for allocating, compiling, linking,
           and using shading language programs.
         </s:paragraph>
@@ -2137,19 +2137,182 @@ g.drawElements(Primitives.PRIMITIVE_TRIANGLES, indices);
       <s:subsection>
         <s:subsection-title>Usage examples</s:subsection-title>
         <s:paragraph>
-          Example
+          To compile vertex and fragment shaders, simply pass in lists
+          of strings, with each string terminated with CRLF or LF
+          characters:
         </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Compiling shaders</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLShaders g;
+
+ArrayList<String> v_source = new ArrayList<String>();
+v_source.add("#version 330\n");
+v_source.add("in vec4 position;\n");
+v_source.add("void\n");
+v_source.add("main (void)\n");
+v_source.add("{\n");
+v_source.add("  gl_Position = position;\n");
+v_source.add("}\n");
+
+VertexShader v = g.vertexShaderCompile("example-v", v_source);
+
+ArrayList<String> f_source = new ArrayList<String>();
+f_source.add("#version 330\n");
+f_source.add("uniform vec4 color;\n");
+f_source.add("out vec4 color0;\n");
+f_source.add("void\n");
+f_source.add("main (void)\n");
+f_source.add("{\n");
+f_source.add("  color0 = color;\n");
+f_source.add("}\n");
+
+FragmentShader f = g.fragmentShaderCompiler("example-f", f_source);
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          To combine the shaders into a working program:
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Compiling shaders</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLShaders g;
+
+ProgramReference p = g.programCreateCommon("example", v, f);
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          The set of active uniforms (parameters) for the compiled
+          program can be accessed and assigned values:
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Program uniforms</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLShaders g;
+
+Map<String, ProgramUniform> uniforms = new HashMap<String, ProgramUniform>();
+g.programGetUniforms(p, uniforms);
+
+ProgramUniform p = uniforms.get("color");
+assert p != null;
+g.programActivate(p);
+p.programUniformPutVector4f(p, new VectorI4F(1.0f, 0.0f, 0.0f, 1.0f));
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          Attributes are accessed in the same manner, but data must be
+          supplied from
+          <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffers">array buffer attributes</s:link>
+          by first binding the array, and then binding the array attribute to
+          the given program attribute:
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Program uniforms</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLShaders gs;
+JCGLArrayBuffers ga;
+ArrayBuffer a;
+
+Map<String, ProgramAttribute> attributes = new HashMap<String, ProgramAttribute>();
+gs.programGetAttributes(p, attributes);
+
+ProgramAttribute pa = attributes.get("position");
+assert pa != null;
+
+// Assuming that the array has an attribute named "position".
+ArrayBufferAttribute aa = a.getAttribute("position");
+
+gs.programActivate(p);
+ga.arrayBufferBind(a);
+ga.arrayBufferBindVertexAttribute(aa, pa);
+]]></s:verbatim>
+        </s:formal-item>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
-          Version support
+          All of the supported OpenGL versions support the
+          compilation and loading of shaders, but every version
+          supports a different version of GLSL. OpenGL ES does
+          not support the attaching of multiple vertex and
+          fragment shaders to a single program, and therefore
+          the <s:term type="type">JCGLShaders</s:term> interface
+          does not either. Being able to attach multiple shaders
+          to a single program is of questionable utility when a
+          higher-level shading language is used to produce
+          monolithic GLSL source.
+        </s:paragraph>
+        <s:paragraph>
+          OpenGL 2.1 fragment shaders must, if not using multiple
+          outputs, assign a value to the built-in variable
+          <s:term type="variable">gl_FragColor</s:term>.
+          OpenGL 2.1 allows for multiple fragment shader outputs,
+          but they cannot be named (the programmer must assign
+          values to the built-in array variable
+          <s:term type="variable">gl_FragData</s:term>). In OpenGL
+          3.0, all fragment shader outputs must be named, as the
+          built-in variable <s:term type="variable">gl_FragColor</s:term>
+          is deprecated. The association of named outputs to
+          framebuffer draw buffers is assigned with the
+          <s:term type="variable">glBindFragDataLocation</s:term>
+          function. In OpenGL 3.3 and beyond, fragment shader outputs
+          can be assigned to draw buffers statically, with the use
+          of the <s:term type="keyword">layout</s:term> qualifier.
+          In OpenGL ES 2, fragment shaders cannot have multiple
+          outputs. In GLSL ES 3, the situation is the same as that
+          of OpenGL 3.3. If this seems like a mess, it's because
+          it is.
+        </s:paragraph>
+        <s:paragraph>
+          OpenGL ES2 places restrictions on the types of attributes
+          allowed. Specifically, it only allows the following types
+          <s:footnote>See "The OpenGL ES Shading Language 1.0.17", section 4.3.3.</s:footnote>:
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>ES2 attribute types</s:formal-item-title>
+          <s:list-unordered>
+            <s:list-item><s:term type="type">float</s:term></s:list-item>
+            <s:list-item><s:term type="type">vec2</s:term></s:list-item>
+            <s:list-item><s:term type="type">vec3</s:term></s:list-item>
+            <s:list-item><s:term type="type">vec4</s:term></s:list-item>
+            <s:list-item><s:term type="type">mat2</s:term></s:list-item>
+            <s:list-item><s:term type="type">mat3</s:term></s:list-item>
+            <s:list-item><s:term type="type">mat4</s:term></s:list-item>
+          </s:list-unordered>
+        </s:formal-item>
+        <s:paragraph>
+          There are likely far more compatibility problems than are
+          documented here: Programmers should assume that their GLSL
+          programs will not work across different versions of OpenGL.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Design/Rationale</s:subsection-title>
         <s:paragraph>
-          Design/Rationale
+          Versioning in OpenGL and GLSL is extremely poorly handled.
+          Each version of the OpenGL specification mandates one version
+          of GLSL and does not require vendors to support older versions.
+          The practical result of this is that at the time of writing,
+          thirteen (almost identical) shading language programs are required
+          to be provided and selected at run-time to match the current
+          OpenGL version, if the programmer wants to support all of the
+          possible versions of OpenGL. Most proprietary OpenGL drivers
+          will support the latest version of the major branch that the
+          hardware is capable of supporting, but it differs from vendor
+          to vendor whether or not the OpenGL driver will support older
+          GLSL versions.
+        </s:paragraph>
+        <s:paragraph>
+          After several abortive attempts to bring order to this mess
+          with various APIs, the <s:term type="package">jcanephora</s:term>
+          package settled on providing a simple interface to the bare
+          minimum functionality required to get a program compiled with
+          a single fragment and vertex shader. Programmers attempting
+          to write portable programs should use a higher level shading
+          language to produce a range of GLSL sources, and select the
+          correct one at runtime using information retrieved from the
+          <s:link target="com.io7m.jcanephora.100.by_interface.JCGLMeta">JCGLMeta</s:link>
+          interface.
         </s:paragraph>
       </s:subsection>
     </s:section>
