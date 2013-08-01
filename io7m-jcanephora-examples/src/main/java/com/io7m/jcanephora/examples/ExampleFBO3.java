@@ -383,9 +383,9 @@ public final class ExampleFBO3 implements Example
      */
 
     this.gl.arrayBufferBind(this.textured_quad);
-    this.gl.arrayBufferUpdate(this.textured_quad, this.textured_quad_data);
+    this.gl.arrayBufferUpdate(this.textured_quad_data);
     this.gl.arrayBufferBind(this.color_quad);
-    this.gl.arrayBufferUpdate(this.color_quad, this.color_quad_data);
+    this.gl.arrayBufferUpdate(this.color_quad_data);
 
     /**
      * Allocate and initialize an index buffer sufficient for two triangles.

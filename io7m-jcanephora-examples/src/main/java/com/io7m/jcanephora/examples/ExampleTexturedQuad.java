@@ -201,7 +201,7 @@ public final class ExampleTexturedQuad implements Example
      */
 
     this.gl.arrayBufferBind(this.array);
-    this.gl.arrayBufferUpdate(this.array, this.array_data);
+    this.gl.arrayBufferUpdate(this.array_data);
 
     /**
      * Allocate and initialize an index buffer sufficient for two triangles.

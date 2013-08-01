@@ -246,12 +246,11 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void arrayBufferUpdate(
-    final @Nonnull ArrayBuffer buffer,
     final @Nonnull ArrayBufferWritableData data)
     throws JCGLException,
       ConstraintError
   {
-    JOGL_GL_Functions.arrayBufferUpdate(this.contextGetGL3(), buffer, data);
+    JOGL_GL_Functions.arrayBufferUpdate(this.contextGetGL3(), data);
   }
 
   @Override public void blendingDisable()
