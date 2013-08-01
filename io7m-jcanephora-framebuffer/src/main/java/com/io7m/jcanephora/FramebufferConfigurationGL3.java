@@ -22,7 +22,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Indeterminate;
 
 /**
- * Instructions to create an OpenGL 3.0 compatible framebuffer.
+ * Instructions to create an OpenGL 3.* compatible framebuffer.
  */
 
 public interface FramebufferConfigurationGL3
