@@ -95,17 +95,17 @@ public final class ExampleShaders implements Example
      * them, and then link the program.
      */
 
-    this.shader_program = this.gl.programCreate("color");
     this.shader_vertex =
       this.gl.vertexShaderCompile("color", this.readFileLines(PathVirtual
         .ofString("/com/io7m/jcanephora/examples/color.v")));
     this.shader_fragment =
       this.gl.fragmentShaderCompile("color", this.readFileLines(PathVirtual
         .ofString("/com/io7m/jcanephora/examples/color.f")));
-
-    this.gl.vertexShaderAttach(this.shader_program, this.shader_vertex);
-    this.gl.fragmentShaderAttach(this.shader_program, this.shader_fragment);
-    this.gl.programLink(this.shader_program);
+    this.shader_program =
+      this.gl.programCreateCommon(
+        "color",
+        this.shader_vertex,
+        this.shader_fragment);
 
     /**
      * Obtain references to all of the program's uniform and attribute

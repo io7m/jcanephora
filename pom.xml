@@ -76,7 +76,6 @@
     <module>io7m-jcanephora-framebuffer</module>
     <module>io7m-jcanephora-jogl</module>
     <module>io7m-jcanephora-lwjgl</module>
-    <module>io7m-jcanephora-program</module>
     <module>io7m-jcanephora-tests-jogl</module>
     <module>io7m-jcanephora-tests-lwjgl</module>
     <module>io7m-jcanephora-tests</module>

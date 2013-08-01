@@ -13,6 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
@@ -31,7 +32,7 @@ public final class JOGL3pArrayBufferTest extends ArrayBufferContract
     return some.value;
   }
 
-  @Override public @Nonnull JCGLShaders getGLPrograms(
+  @Override public @Nonnull JCGLShadersCommon getGLPrograms(
     @Nonnull final TestContext context)
   {
     final Some<JCGLInterfaceGL3> some =
