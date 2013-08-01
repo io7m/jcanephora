@@ -38,7 +38,6 @@
 <file><source>./io7m-jcanephora-framebuffer/pom.xml</source><destName>io7m-jcanephora-framebuffer-1.0.0.pom</destName><outputDirectory>/</outputDirectory></file>
 <file><source>./io7m-jcanephora-jogl/pom.xml</source><destName>io7m-jcanephora-jogl-1.0.0.pom</destName><outputDirectory>/</outputDirectory></file>
 <file><source>./io7m-jcanephora-lwjgl/pom.xml</source><destName>io7m-jcanephora-lwjgl-1.0.0.pom</destName><outputDirectory>/</outputDirectory></file>
-<file><source>./io7m-jcanephora-program/pom.xml</source><destName>io7m-jcanephora-program-1.0.0.pom</destName><outputDirectory>/</outputDirectory></file>
 <file><source>./io7m-jcanephora-tests-jogl/pom.xml</source><destName>io7m-jcanephora-tests-jogl-1.0.0.pom</destName><outputDirectory>/</outputDirectory></file>
 <file><source>./io7m-jcanephora-tests-lwjgl/pom.xml</source><destName>io7m-jcanephora-tests-lwjgl-1.0.0.pom</destName><outputDirectory>/</outputDirectory></file>
 <file><source>./io7m-jcanephora-tests/pom.xml</source><destName>io7m-jcanephora-tests-1.0.0.pom</destName><outputDirectory>/</outputDirectory></file>

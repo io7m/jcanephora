@@ -483,17 +483,6 @@ import com.io7m.jtensors.VectorReadable4I;
     return code == GL11.GL_INVALID_OPERATION;
   }
 
-  @Override public void fragmentShaderAttach(
-    final @Nonnull ProgramReference program,
-    final @Nonnull FragmentShader shader)
-    throws ConstraintError,
-      JCGLException
-  {
-    LWJGL_GLES2Functions.fragmentShaderAttach(
-
-    this.state, this.log, program, shader);
-  }
-
   @Override public FragmentShader fragmentShaderCompile(
     final @Nonnull String name,
     final @Nonnull List<String> lines)
@@ -875,12 +864,20 @@ import com.io7m.jtensors.VectorReadable4I;
     LWJGL_GLES2Functions.programActivate(program);
   }
 
-  @Override public ProgramReference programCreate(
-    final @Nonnull String name)
+  @Override public ProgramReference programCreateCommon(
+    final @Nonnull String name,
+    final @Nonnull VertexShader v,
+    final @Nonnull FragmentShader f)
     throws ConstraintError,
-      JCGLException
+      JCGLException,
+      JCGLCompileException
   {
-    return LWJGL_GLES2Functions.programCreate(this.state, this.log, name);
+    return LWJGL_GLES2Functions.programCreateCommon(
+      this.state,
+      this.log,
+      name,
+      v,
+      f);
   }
 
   @Override public void programDeactivate()
@@ -894,9 +891,7 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    LWJGL_GLES2Functions.programDelete(
-
-    this.state, this.log, program);
+    LWJGL_GLES2Functions.programDelete(this.state, this.log, program);
   }
 
   @Override public void programGetAttributes(
@@ -906,16 +901,18 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     LWJGL_GLES2Functions.programGetAttributes(
-
-    this.state, this.log, program, out);
+      this.state,
+      this.log,
+      program,
+      out);
   }
 
   @Override public int programGetMaximumActiveAttributes()
     throws JCGLException
   {
     return LWJGL_GLES2Functions.programGetMaximumActiveAttributes(
-
-    this.state, this.log);
+      this.state,
+      this.log);
   }
 
   @Override public void programGetUniforms(
@@ -925,8 +922,10 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     LWJGL_GLES2Functions.programGetUniforms(
-
-    this.state, this.log, program, out);
+      this.state,
+      this.log,
+      program,
+      out);
   }
 
   @Override public boolean programIsActive(
@@ -934,20 +933,7 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    return LWJGL_GLES2Functions.programIsActive(
-
-    this.state, program);
-  }
-
-  @Override public void programLink(
-    final @Nonnull ProgramReference program)
-    throws ConstraintError,
-      JCGLCompileException,
-      JCGLException
-  {
-    LWJGL_GLES2Functions.programLink(
-
-    this.state, this.log, program);
+    return LWJGL_GLES2Functions.programIsActive(this.state, program);
   }
 
   @Override public void programPutUniformFloat(
@@ -956,9 +942,7 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    LWJGL_GLES2Functions.programPutUniformFloat(
-
-    this.state, uniform, value);
+    LWJGL_GLES2Functions.programPutUniformFloat(this.state, uniform, value);
   }
 
   @Override public void programPutUniformMatrix3x3f(
@@ -968,8 +952,9 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     LWJGL_GLES2Functions.programPutUniformMatrix3x3f(
-
-    this.state, uniform, matrix);
+      this.state,
+      uniform,
+      matrix);
   }
 
   @Override public void programPutUniformMatrix4x4f(
@@ -979,8 +964,9 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     LWJGL_GLES2Functions.programPutUniformMatrix4x4f(
-
-    this.state, uniform, matrix);
+      this.state,
+      uniform,
+      matrix);
   }
 
   @Override public void programPutUniformTextureUnit(
@@ -1423,18 +1409,6 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLException
   {
     return this.state.texture_units;
-  }
-
-  @Override public void vertexShaderAttach(
-    final @Nonnull ProgramReference program,
-    final @Nonnull VertexShader shader)
-    throws ConstraintError,
-      JCGLCompileException,
-      JCGLException
-  {
-    LWJGL_GLES2Functions.vertexShaderAttach(
-
-    this.state, this.log, program, shader);
   }
 
   @Override public VertexShader vertexShaderCompile(

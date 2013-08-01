@@ -16,6 +16,9 @@
 
 package com.io7m.jcanephora.examples;
 
+import java.io.IOException;
+import java.util.HashMap;
+
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -33,6 +36,7 @@ import com.io7m.jcanephora.AttachmentColor.AttachmentColorTexture2DStatic;
 import com.io7m.jcanephora.CursorWritable2f;
 import com.io7m.jcanephora.CursorWritable4f;
 import com.io7m.jcanephora.CursorWritableIndex;
+import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.Framebuffer;
 import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
 import com.io7m.jcanephora.FramebufferConfigurationGL3ES2;
@@ -46,10 +50,11 @@ import com.io7m.jcanephora.JCGLImplementation;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.Primitives;
-import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.ProgramAttribute;
+import com.io7m.jcanephora.ProgramReference;
 import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.ProjectionMatrix;
+import com.io7m.jcanephora.ShaderUtilities;
 import com.io7m.jcanephora.Texture2DStaticUsable;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
@@ -57,12 +62,14 @@ import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.UsageHint;
+import com.io7m.jcanephora.VertexShader;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.MatrixM4x4F.Context;
 import com.io7m.jtensors.VectorI2F;
 import com.io7m.jtensors.VectorI3F;
 import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jtensors.VectorReadable3F;
+import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleFBO implements Example
@@ -86,8 +93,8 @@ public final class ExampleFBO implements Example
   private final ExampleConfig                     config;
   private final MatrixM4x4F                       matrix_modelview;
   private final MatrixM4x4F                       matrix_projection;
-  private final Program                           program_uv;
-  private final Program                           program_color;
+  private final ProgramReference                  program_uv;
+  private final ProgramReference                  program_color;
   private final TextureUnit[]                     texture_units;
   private final FramebufferColorAttachmentPoint[] framebuffer_color_points;
   private final Context                           context;
@@ -100,12 +107,18 @@ public final class ExampleFBO implements Example
   private int                                     framebuffer_height;
   private final int                               framebuffer_divisor = 8;
   private final FramebufferConfigurationGL3ES2    framebuffer_config;
+  private HashMap<String, ProgramUniform>         program_color_uniforms;
+  private HashMap<String, ProgramAttribute>       program_color_attributes;
+  private HashMap<String, ProgramUniform>         program_uv_uniforms;
+  private HashMap<String, ProgramAttribute>       program_uv_attributes;
 
   public ExampleFBO(
     final @Nonnull ExampleConfig config)
     throws ConstraintError,
       JCGLException,
-      JCGLCompileException
+      JCGLCompileException,
+      IOException,
+      FilesystemError
   {
     this.config = config;
     this.gli = config.getGL();
@@ -118,19 +131,47 @@ public final class ExampleFBO implements Example
      * Initialize shaders.
      */
 
-    this.program_uv = new Program("uv", config.getLog());
-    this.program_uv.addVertexShader(PathVirtual
-      .ofString("/com/io7m/jcanephora/examples/uv.v"));
-    this.program_uv.addFragmentShader(PathVirtual
-      .ofString("/com/io7m/jcanephora/examples/uv.f"));
-    this.program_uv.compile(config.getFilesystem(), this.gl);
+    {
+      final VertexShader v =
+        this.gl.vertexShaderCompile(
+          "v",
+          ShaderUtilities.readLines(config.getFilesystem().openFile(
+            PathVirtual.ofString("/com/io7m/jcanephora/examples/color.v"))));
+      final FragmentShader f =
+        this.gl.fragmentShaderCompile(
+          "f",
+          ShaderUtilities.readLines(config.getFilesystem().openFile(
+            PathVirtual.ofString("/com/io7m/jcanephora/examples/color.f"))));
+      this.program_color = this.gl.programCreateCommon("color", v, f);
+      this.program_color_uniforms = new HashMap<String, ProgramUniform>();
+      this.program_color_attributes = new HashMap<String, ProgramAttribute>();
+      this.gl.programGetAttributes(
+        this.program_color,
+        this.program_color_attributes);
+      this.gl.programGetUniforms(
+        this.program_color,
+        this.program_color_uniforms);
+    }
 
-    this.program_color = new Program("color", config.getLog());
-    this.program_color.addVertexShader(PathVirtual
-      .ofString("/com/io7m/jcanephora/examples/color.v"));
-    this.program_color.addFragmentShader(PathVirtual
-      .ofString("/com/io7m/jcanephora/examples/color.f"));
-    this.program_color.compile(config.getFilesystem(), this.gl);
+    {
+      final VertexShader v =
+        this.gl.vertexShaderCompile(
+          "v",
+          ShaderUtilities.readLines(config.getFilesystem().openFile(
+            PathVirtual.ofString("/com/io7m/jcanephora/examples/uv.v"))));
+      final FragmentShader f =
+        this.gl.fragmentShaderCompile(
+          "f",
+          ShaderUtilities.readLines(config.getFilesystem().openFile(
+            PathVirtual.ofString("/com/io7m/jcanephora/examples/uv.f"))));
+      this.program_uv = this.gl.programCreateCommon("uv", v, f);
+      this.program_uv_uniforms = new HashMap<String, ProgramUniform>();
+      this.program_uv_attributes = new HashMap<String, ProgramAttribute>();
+      this.gl.programGetAttributes(
+        this.program_uv,
+        this.program_uv_attributes);
+      this.gl.programGetUniforms(this.program_uv, this.program_uv_uniforms);
+    }
 
     /**
      * Allocate and initialize a framebuffer using the high level
@@ -416,17 +457,18 @@ public final class ExampleFBO implements Example
      * inputs to the shader.
      */
 
-    this.program_uv.activate(this.gl);
+    this.gl.programActivate(this.program_uv);
     {
       /**
        * Get references to the program's uniform variable inputs.
        */
 
       final ProgramUniform u_proj =
-        this.program_uv.getUniform("matrix_projection");
+        this.program_uv_uniforms.get("matrix_projection");
       final ProgramUniform u_model =
-        this.program_uv.getUniform("matrix_modelview");
-      final ProgramUniform u_texture = this.program_uv.getUniform("texture");
+        this.program_uv_uniforms.get("matrix_modelview");
+      final ProgramUniform u_texture =
+        this.program_uv_uniforms.get("texture");
 
       /**
        * Upload the matrices to the uniform variable inputs.
@@ -448,8 +490,9 @@ public final class ExampleFBO implements Example
        */
 
       final ProgramAttribute p_pos =
-        this.program_uv.getAttribute("vertex_position");
-      final ProgramAttribute p_uv = this.program_uv.getAttribute("vertex_uv");
+        this.program_uv_attributes.get("vertex_position");
+      final ProgramAttribute p_uv =
+        this.program_uv_attributes.get("vertex_uv");
 
       /**
        * Get references to the array buffer's vertex attributes.
@@ -475,7 +518,7 @@ public final class ExampleFBO implements Example
       this.gl.drawElements(Primitives.PRIMITIVE_TRIANGLES, this.indices);
       this.gl.arrayBufferUnbind();
     }
-    this.program_uv.deactivate(this.gl);
+    this.gl.programDeactivate();
   }
 
   /**
@@ -527,16 +570,16 @@ public final class ExampleFBO implements Example
        * Switch to color shader, draw quad.
        */
 
-      this.program_color.activate(this.gl);
+      this.gl.programActivate(this.program_color);
       {
         /**
          * Get references to the program's uniform variable inputs.
          */
 
         final ProgramUniform u_proj =
-          this.program_color.getUniform("matrix_projection");
+          this.program_color_uniforms.get("matrix_projection");
         final ProgramUniform u_model =
-          this.program_color.getUniform("matrix_modelview");
+          this.program_color_uniforms.get("matrix_modelview");
 
         /**
          * Upload the matrices to the uniform variable inputs.
@@ -550,9 +593,9 @@ public final class ExampleFBO implements Example
          */
 
         final ProgramAttribute p_pos =
-          this.program_color.getAttribute("vertex_position");
+          this.program_color_attributes.get("vertex_position");
         final ProgramAttribute p_col =
-          this.program_color.getAttribute("vertex_color");
+          this.program_color_attributes.get("vertex_color");
 
         /**
          * Get references to the array buffer's vertex attributes.
@@ -579,7 +622,7 @@ public final class ExampleFBO implements Example
         this.gl.drawElements(Primitives.PRIMITIVE_TRIANGLES, this.indices);
         this.gl.arrayBufferUnbind();
       }
-      this.program_color.deactivate(this.gl);
+      this.gl.programDeactivate();
     }
     this.gl.framebufferDrawUnbind();
   }
@@ -614,7 +657,7 @@ public final class ExampleFBO implements Example
     this.gl.arrayBufferDelete(this.color_quad);
     this.gl.arrayBufferDelete(this.textured_quad);
     this.framebuffer.delete(this.gl);
-    this.program_color.delete(this.gl);
-    this.program_uv.delete(this.gl);
+    this.gl.programDelete(this.program_color);
+    this.gl.programDelete(this.program_uv);
   }
 }

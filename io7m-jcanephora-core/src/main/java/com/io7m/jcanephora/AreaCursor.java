@@ -98,82 +98,6 @@ import com.io7m.jaux.RangeInclusive;
     return this.can_write;
   }
 
-  protected final long getByteOffset()
-    throws ConstraintError
-  {
-    Constraints.constrainArbitrary(this.canWrite(), "Cursor is in range");
-    return this.byte_offset;
-  }
-
-  @Override public final long getElementX()
-    throws ConstraintError
-  {
-    Constraints.constrainArbitrary(this.canWrite(), "Cursor is in range");
-    return this.element_x;
-  }
-
-  @Override public final long getElementY()
-    throws ConstraintError
-  {
-    Constraints.constrainArbitrary(this.canWrite(), "Cursor is in range");
-    return this.element_y;
-  }
-
-  @Override public final void next()
-  {
-    final RangeInclusive range_x = this.area_inner.getRangeX();
-
-    long x = this.element_x;
-    long y = this.element_y;
-
-    if (x == range_x.getUpper()) {
-      x = range_x.getLower();
-      y = this.element_y + 1;
-    } else {
-      x = this.element_x + 1;
-      y = this.element_y;
-    }
-
-    this.uncheckedSeek(x, y);
-  }
-
-  @Override public final void seekTo(
-    final long x,
-    final long y)
-  {
-    this.uncheckedSeek(x, y);
-  }
-
-  final void uncheckedSeek(
-    final long x,
-    final long y)
-  {
-    final RangeInclusive range_x = this.area_inner.getRangeX();
-    final RangeInclusive range_y = this.area_inner.getRangeY();
-
-    this.element_x = x;
-    this.element_y = y;
-
-    this.byte_offset =
-      (this.element_y * this.row_byte_span)
-        + (this.element_x * this.element_bytes);
-
-    this.can_write =
-      ((x >= range_x.getLower()) && (x <= range_x.getUpper()))
-        && ((y >= range_y.getLower()) && (y <= range_y.getUpper()));
-  }
-
-  @Override public int hashCode()
-  {
-    final int p = 31;
-    int r = 1;
-    r = (p * r) + this.area_inner.hashCode();
-    r = (p * r) + this.area_outer.hashCode();
-    r = (p * r) + (int) (this.byte_offset ^ (this.byte_offset >>> 32));
-    r = (p * r) + (int) (this.element_bytes ^ (this.element_bytes >>> 32));
-    return r;
-  }
-
   @Override public boolean equals(
     final Object obj)
   {
@@ -202,6 +126,63 @@ import com.io7m.jaux.RangeInclusive;
     return true;
   }
 
+  protected final long getByteOffset()
+    throws ConstraintError
+  {
+    Constraints.constrainArbitrary(this.canWrite(), "Cursor is in range");
+    return this.byte_offset;
+  }
+
+  @Override public final long getElementX()
+    throws ConstraintError
+  {
+    Constraints.constrainArbitrary(this.canWrite(), "Cursor is in range");
+    return this.element_x;
+  }
+
+  @Override public final long getElementY()
+    throws ConstraintError
+  {
+    Constraints.constrainArbitrary(this.canWrite(), "Cursor is in range");
+    return this.element_y;
+  }
+
+  @Override public int hashCode()
+  {
+    final int p = 31;
+    int r = 1;
+    r = (p * r) + this.area_inner.hashCode();
+    r = (p * r) + this.area_outer.hashCode();
+    r = (p * r) + (int) (this.byte_offset ^ (this.byte_offset >>> 32));
+    r = (p * r) + (int) (this.element_bytes ^ (this.element_bytes >>> 32));
+    return r;
+  }
+
+  @Override public final void next()
+  {
+    final RangeInclusive range_x = this.area_inner.getRangeX();
+
+    long x = this.element_x;
+    long y = this.element_y;
+
+    if (x == range_x.getUpper()) {
+      x = range_x.getLower();
+      y = this.element_y + 1;
+    } else {
+      x = this.element_x + 1;
+      y = this.element_y;
+    }
+
+    this.uncheckedSeek(x, y);
+  }
+
+  @Override public final void seekTo(
+    final long x,
+    final long y)
+  {
+    this.uncheckedSeek(x, y);
+  }
+
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
@@ -223,5 +204,24 @@ import com.io7m.jaux.RangeInclusive;
     builder.append(this.can_write);
     builder.append("]");
     return builder.toString();
+  }
+
+  final void uncheckedSeek(
+    final long x,
+    final long y)
+  {
+    final RangeInclusive range_x = this.area_inner.getRangeX();
+    final RangeInclusive range_y = this.area_inner.getRangeY();
+
+    this.element_x = x;
+    this.element_y = y;
+
+    this.byte_offset =
+      (this.element_y * this.row_byte_span)
+        + (this.element_x * this.element_bytes);
+
+    this.can_write =
+      ((x >= range_x.getLower()) && (x <= range_x.getUpper()))
+        && ((y >= range_y.getLower()) && (y <= range_y.getUpper()));
   }
 }
