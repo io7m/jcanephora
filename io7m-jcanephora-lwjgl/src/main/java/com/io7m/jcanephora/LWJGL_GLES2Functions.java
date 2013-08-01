@@ -276,14 +276,13 @@ final class LWJGL_GLES2Functions
   }
 
   static void arrayBufferUpdate(
-    final @Nonnull ArrayBuffer buffer,
     final @Nonnull ArrayBufferWritableData data)
     throws JCGLException,
       ConstraintError
   {
-    Constraints.constrainNotNull(buffer, "Array buffer");
     Constraints.constrainNotNull(data, "Array data");
 
+    final ArrayBufferUsable buffer = data.getArrayBuffer();
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
       "Array buffer not deleted");

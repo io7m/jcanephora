@@ -699,7 +699,7 @@ public abstract class ArrayBufferContract implements TestContract
         pc.put3f(x, y, cz);
       }
 
-      gl.arrayBufferUpdate(a, array_map);
+      gl.arrayBufferUpdate(array_map);
 
     } catch (final Throwable e) {
       Assert.fail(e.getMessage());
@@ -955,7 +955,7 @@ public abstract class ArrayBufferContract implements TestContract
 
     final ArrayBufferWritableData data = new ArrayBufferWritableData(a);
     gl.arrayBufferBind(a);
-    gl.arrayBufferUpdate(a, data);
+    gl.arrayBufferUpdate(data);
   }
 
   /**
@@ -990,7 +990,7 @@ public abstract class ArrayBufferContract implements TestContract
     final ArrayBufferWritableData data = new ArrayBufferWritableData(a);
     gl.arrayBufferBind(a);
     gl.arrayBufferDelete(a);
-    gl.arrayBufferUpdate(a, data);
+    gl.arrayBufferUpdate(data);
   }
 
   /**
@@ -1023,7 +1023,7 @@ public abstract class ArrayBufferContract implements TestContract
     final ArrayBufferWritableData data =
       new ArrayBufferWritableData(a, new RangeInclusive(2, 8));
     gl.arrayBufferBind(a);
-    gl.arrayBufferUpdate(a, data);
+    gl.arrayBufferUpdate(data);
   }
 
   /**
@@ -1057,7 +1057,7 @@ public abstract class ArrayBufferContract implements TestContract
 
     final ArrayBufferWritableData data = new ArrayBufferWritableData(a);
     gl.arrayBufferUnbind();
-    gl.arrayBufferUpdate(a, data);
+    gl.arrayBufferUpdate(data);
   }
 
   /**
@@ -1094,6 +1094,6 @@ public abstract class ArrayBufferContract implements TestContract
 
     final ArrayBufferWritableData data = new ArrayBufferWritableData(a);
     gl.arrayBufferBind(b);
-    gl.arrayBufferUpdate(a, data);
+    gl.arrayBufferUpdate(data);
   }
 }
