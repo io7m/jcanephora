@@ -43,7 +43,7 @@ import com.io7m.jcanephora.JCGLArrayBuffers;
 import com.io7m.jcanephora.JCGLCompileException;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLScalarType;
-import com.io7m.jcanephora.JCGLShaders;
+import com.io7m.jcanephora.JCGLShadersCommon;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramReference;
@@ -57,7 +57,7 @@ import com.io7m.jvvfs.PathVirtual;
 public abstract class ArrayBufferContract implements TestContract
 {
   static ProgramReference makeProgram(
-    final JCGLShaders gl,
+    final JCGLShadersCommon gl,
     final FSCapabilityAll filesystem,
     final PathVirtual vertex_shader,
     final PathVirtual fragment_shader)
@@ -67,31 +67,22 @@ public abstract class ArrayBufferContract implements TestContract
       JCGLCompileException,
       IOException
   {
-    final ProgramReference pr = gl.programCreate("program");
+    final VertexShader vs =
+      gl.vertexShaderCompile(
+        "vertex",
+        ArrayBufferContract.readLines(filesystem, vertex_shader));
 
-    if (vertex_shader != null) {
-      final VertexShader vs =
-        gl.vertexShaderCompile(
-          "vertex",
-          ArrayBufferContract.readLines(filesystem, vertex_shader));
-      gl.vertexShaderAttach(pr, vs);
-    }
+    final FragmentShader fs =
+      gl.fragmentShaderCompile(
+        "fragment",
+        ArrayBufferContract.readLines(filesystem, fragment_shader));
 
-    if (fragment_shader != null) {
-      final FragmentShader fs =
-        gl.fragmentShaderCompile(
-          "fragment",
-          ArrayBufferContract.readLines(filesystem, fragment_shader));
-      gl.fragmentShaderAttach(pr, fs);
-    }
-
-    gl.programLink(pr);
-    return pr;
+    return gl.programCreateCommon("program", vs, fs);
   }
 
   private static @Nonnull ProgramReference makeStandardPositionProgram(
     final @Nonnull TestContext context,
-    final @Nonnull JCGLShaders shaders)
+    final @Nonnull JCGLShadersCommon shaders)
     throws ConstraintError,
       JCGLException,
       FilesystemError,
@@ -172,7 +163,7 @@ public abstract class ArrayBufferContract implements TestContract
   public abstract @Nonnull JCGLArrayBuffers getGLArrayBuffers(
     final @Nonnull TestContext context);
 
-  public abstract @Nonnull JCGLShaders getGLPrograms(
+  public abstract @Nonnull JCGLShadersCommon getGLPrograms(
     final @Nonnull TestContext context);
 
   /**
@@ -374,7 +365,7 @@ public abstract class ArrayBufferContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final JCGLShaders gp = this.getGLPrograms(tc);
+    final JCGLShadersCommon gp = this.getGLPrograms(tc);
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
@@ -416,7 +407,7 @@ public abstract class ArrayBufferContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final JCGLShaders gp = this.getGLPrograms(tc);
+    final JCGLShadersCommon gp = this.getGLPrograms(tc);
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
@@ -459,7 +450,7 @@ public abstract class ArrayBufferContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final JCGLShaders gp = this.getGLPrograms(tc);
+    final JCGLShadersCommon gp = this.getGLPrograms(tc);
 
     final ProgramReference pr0 =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
@@ -505,7 +496,7 @@ public abstract class ArrayBufferContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final JCGLShaders gp = this.getGLPrograms(tc);
+    final JCGLShadersCommon gp = this.getGLPrograms(tc);
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
@@ -739,7 +730,7 @@ public abstract class ArrayBufferContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final JCGLShaders gp = this.getGLPrograms(tc);
+    final JCGLShadersCommon gp = this.getGLPrograms(tc);
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
@@ -781,7 +772,7 @@ public abstract class ArrayBufferContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final JCGLShaders gp = this.getGLPrograms(tc);
+    final JCGLShadersCommon gp = this.getGLPrograms(tc);
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
@@ -821,7 +812,7 @@ public abstract class ArrayBufferContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final JCGLShaders gp = this.getGLPrograms(tc);
+    final JCGLShadersCommon gp = this.getGLPrograms(tc);
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
@@ -859,7 +850,7 @@ public abstract class ArrayBufferContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final JCGLShaders gp = this.getGLPrograms(tc);
+    final JCGLShadersCommon gp = this.getGLPrograms(tc);
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
@@ -901,7 +892,7 @@ public abstract class ArrayBufferContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final JCGLShaders gp = this.getGLPrograms(tc);
+    final JCGLShadersCommon gp = this.getGLPrograms(tc);
 
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);

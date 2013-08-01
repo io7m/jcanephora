@@ -187,38 +187,6 @@ final class JOGL_GL2ES2_Functions
     return cache.get(0);
   }
 
-  static void fragmentShaderAttach(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull JCGLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull ProgramReference program,
-    final @Nonnull FragmentShader shader)
-    throws ConstraintError,
-      JCGLException
-  {
-    Constraints.constrainNotNull(program, "Program ID");
-    Constraints.constrainArbitrary(
-      program.resourceIsDeleted() == false,
-      "Program not deleted");
-
-    Constraints.constrainNotNull(shader, "Fragment shader");
-    Constraints.constrainArbitrary(
-      shader.resourceIsDeleted() == false,
-      "Fragment shader not deleted");
-
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("fragment-shader: attach ");
-      state.log_text.append(program);
-      state.log_text.append(" ");
-      state.log_text.append(shader);
-      log.debug(state.log_text.toString());
-    }
-
-    gl.glAttachShader(program.getGLName(), shader.getGLName());
-    JOGL_GL_Functions.checkError(gl);
-  }
-
   static FragmentShader fragmentShaderCompile(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
@@ -305,21 +273,35 @@ final class JOGL_GL2ES2_Functions
     JOGL_GL_Functions.checkError(gl);
   }
 
-  static ProgramReference programCreate(
+  static ProgramReference programCreateCommon(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull String name)
+    final @Nonnull String name,
+    final @Nonnull VertexShader v,
+    final @Nonnull FragmentShader f)
     throws ConstraintError,
-      JCGLException
+      JCGLException,
+      JCGLCompileException
   {
     Constraints.constrainNotNull(name, "Program name");
+    Constraints.constrainNotNull(v, "Vertex shader");
+    Constraints.constrainNotNull(f, "Fragment shader");
+    Constraints.constrainArbitrary(
+      v.resourceIsDeleted() == false,
+      "Vertex shader not deleted");
+    Constraints.constrainArbitrary(
+      f.resourceIsDeleted() == false,
+      "Fragment shader not deleted");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
       state.log_text.append("program: create \"");
       state.log_text.append(name);
-      state.log_text.append("\"");
+      state.log_text.append("\" with ");
+      state.log_text.append(v);
+      state.log_text.append(" ");
+      state.log_text.append(f);
       log.debug(state.log_text.toString());
     }
 
@@ -327,6 +309,34 @@ final class JOGL_GL2ES2_Functions
     if (id == 0) {
       throw new JCGLException(0, "glCreateProgram failed");
     }
+    JOGL_GL_Functions.checkError(gl);
+
+    gl.glAttachShader(id, v.getGLName());
+    JOGL_GL_Functions.checkError(gl);
+    gl.glAttachShader(id, f.getGLName());
+    JOGL_GL_Functions.checkError(gl);
+    gl.glLinkProgram(id);
+    JOGL_GL_Functions.checkError(gl);
+
+    final int status =
+      JOGL_GL2ES2_Functions.contextGetProgramInteger(
+        gl,
+        state,
+        id,
+        GL2ES2.GL_LINK_STATUS);
+
+    if (status == 0) {
+      final ByteBuffer buffer = Buffers.newDirectByteBuffer(8192);
+      final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
+      gl.glGetProgramInfoLog(id, 8192, buffer_length, buffer);
+      JOGL_GL_Functions.checkError(gl);
+
+      final byte raw[] = new byte[buffer.remaining()];
+      buffer.get(raw);
+      final String text = new String(raw);
+      throw new JCGLCompileException(name, text);
+    }
+
     JOGL_GL_Functions.checkError(gl);
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -576,53 +586,6 @@ final class JOGL_GL2ES2_Functions
         GL2ES2.GL_CURRENT_PROGRAM);
     JOGL_GL_Functions.checkError(gl);
     return active == program.getGLName();
-  }
-
-  static void programLink(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull JCGLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull ProgramReference program)
-    throws ConstraintError,
-      JCGLCompileException,
-      JCGLException
-  {
-    Constraints.constrainNotNull(program, "Program ID");
-    Constraints.constrainArbitrary(
-      program.resourceIsDeleted() == false,
-      "Program not deleted");
-
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("program: link ");
-      state.log_text.append(program);
-      log.debug(state.log_text.toString());
-    }
-
-    gl.glLinkProgram(program.getGLName());
-    JOGL_GL_Functions.checkError(gl);
-
-    final int status =
-      JOGL_GL2ES2_Functions.contextGetProgramInteger(
-        gl,
-        state,
-        program.getGLName(),
-        GL2ES2.GL_LINK_STATUS);
-
-    if (status == 0) {
-      final ByteBuffer buffer = Buffers.newDirectByteBuffer(8192);
-      final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
-      gl
-        .glGetProgramInfoLog(program.getGLName(), 8192, buffer_length, buffer);
-      JOGL_GL_Functions.checkError(gl);
-
-      final byte raw[] = new byte[buffer.remaining()];
-      buffer.get(raw);
-      final String text = new String(raw);
-      throw new JCGLCompileException(program.getName(), text);
-    }
-
-    JOGL_GL_Functions.checkError(gl);
   }
 
   static void programPutUniformFloat(
@@ -918,38 +881,6 @@ final class JOGL_GL2ES2_Functions
       sfail,
       dfail,
       dpass);
-    JOGL_GL_Functions.checkError(gl);
-  }
-
-  static void vertexShaderAttach(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull JCGLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull ProgramReference program,
-    final @Nonnull VertexShader shader)
-    throws ConstraintError,
-      JCGLException
-  {
-    Constraints.constrainNotNull(program, "Program ID");
-    Constraints.constrainArbitrary(
-      program.resourceIsDeleted() == false,
-      "Program not deleted");
-
-    Constraints.constrainNotNull(shader, "Vertex shader");
-    Constraints.constrainArbitrary(
-      shader.resourceIsDeleted() == false,
-      "Vertex shader not deleted");
-
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("vertex-shader: attach ");
-      state.log_text.append(program);
-      state.log_text.append(" ");
-      state.log_text.append(shader);
-      log.debug(state.log_text.toString());
-    }
-
-    gl.glAttachShader(program.getGLName(), shader.getGLName());
     JOGL_GL_Functions.checkError(gl);
   }
 

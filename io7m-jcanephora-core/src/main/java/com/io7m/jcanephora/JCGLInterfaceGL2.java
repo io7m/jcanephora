@@ -13,25 +13,34 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
+/**
+ * <p>
+ * The interface exposed by OpenGL 2.1 implementations.
+ * </p>
+ * <p>
+ * Note that this interface represents as much of the non-deprecated ("core")
+ * interface to OpenGL 3.0 is as possible to obtain on an OpenGL 2.1
+ * implementation (via the use of extensions, and by rejecting the
+ * fixed-function pipeline).
+ * </p>
+ */
 
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts.ProgramContract;
-
-public final class LWJGL21ProgramTest extends ProgramContract
+public interface JCGLInterfaceGL2 extends
+  JCGLBlendingGL3,
+  JCGLFramebuffersGL3,
+  JCGLInterfaceCommon,
+  JCGLLogic,
+  JCGLPolygonModes,
+  JCGLPolygonSmoothing,
+  JCGLRenderbuffersGL2,
+  JCGLShadersGL2,
+  JCGLTextures2DStaticGL2,
+  JCGLTexturesCubeStaticGL2
 {
-  @Override public boolean isGLSupported()
-  {
-    return LWJGLTestContext.isOpenGL21Supported();
-  }
-
-  @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
-      JCGLUnsupportedException,
-      ConstraintError
-  {
-    return LWJGLTestContext.makeContextWithOpenGL21_X();
-  }
+  /*
+   * All functions defined in the superinterfaces.
+   */
 }

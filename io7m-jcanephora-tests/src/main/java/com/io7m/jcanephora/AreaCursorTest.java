@@ -23,6 +23,37 @@ import com.io7m.jaux.RangeInclusive;
 
 public class AreaCursorTest
 {
+  @SuppressWarnings("static-method") @Test public void testEquals()
+    throws ConstraintError
+  {
+    final AreaInclusive area0 =
+      new AreaInclusive(new RangeInclusive(0, 3), new RangeInclusive(0, 1));
+    final AreaInclusive area1 =
+      new AreaInclusive(new RangeInclusive(0, 4), new RangeInclusive(0, 1));
+    final AreaInclusive area2 =
+      new AreaInclusive(new RangeInclusive(0, 4), new RangeInclusive(0, 1));
+    final AreaInclusive area3 =
+      new AreaInclusive(new RangeInclusive(0, 4), new RangeInclusive(0, 2));
+
+    final AreaCursor c0 = new AreaCursor(area0, area0, 2);
+    final AreaCursor c1 = new AreaCursor(area1, area0, 2);
+    final AreaCursor c2 = new AreaCursor(area2, area0, 2);
+    final AreaCursor c3 = new AreaCursor(area3, area2, 2);
+    final AreaCursor c4 = new AreaCursor(area3, area2, 2);
+    final AreaCursor c5 = new AreaCursor(area3, area2, 3);
+
+    Assert.assertTrue(c0.equals(c0));
+    Assert.assertFalse(c0.equals(null));
+    Assert.assertFalse(c0.equals(Integer.valueOf(23)));
+    Assert.assertFalse(c0.equals(c1));
+    Assert.assertTrue(c1.equals(c2));
+    Assert.assertFalse(c2.equals(c3));
+
+    c4.seekTo(1, 0);
+    Assert.assertFalse(c3.equals(c4));
+    Assert.assertFalse(c3.equals(c5));
+  }
+
   @SuppressWarnings("static-method") @Test public void testFourByte()
     throws ConstraintError
   {
@@ -43,6 +74,35 @@ public class AreaCursorTest
     }
 
     Assert.assertFalse(c.canWrite());
+  }
+
+  @SuppressWarnings("static-method") @Test public void testHashcode()
+    throws ConstraintError
+  {
+    final AreaInclusive area0 =
+      new AreaInclusive(new RangeInclusive(0, 3), new RangeInclusive(0, 1));
+    final AreaInclusive area1 =
+      new AreaInclusive(new RangeInclusive(0, 4), new RangeInclusive(0, 1));
+    final AreaInclusive area2 =
+      new AreaInclusive(new RangeInclusive(0, 4), new RangeInclusive(0, 1));
+    final AreaInclusive area3 =
+      new AreaInclusive(new RangeInclusive(0, 4), new RangeInclusive(0, 2));
+
+    final AreaCursor c0 = new AreaCursor(area0, area0, 2);
+    final AreaCursor c1 = new AreaCursor(area1, area0, 2);
+    final AreaCursor c2 = new AreaCursor(area2, area0, 2);
+    final AreaCursor c3 = new AreaCursor(area3, area2, 2);
+    final AreaCursor c4 = new AreaCursor(area3, area2, 2);
+    final AreaCursor c5 = new AreaCursor(area3, area2, 3);
+
+    Assert.assertTrue(c0.hashCode() == (c0.hashCode()));
+    Assert.assertFalse(c0.hashCode() == (c1.hashCode()));
+    Assert.assertTrue(c1.hashCode() == (c2.hashCode()));
+    Assert.assertFalse(c2.hashCode() == (c3.hashCode()));
+
+    c4.seekTo(1, 0);
+    Assert.assertFalse(c3.hashCode() == (c4.hashCode()));
+    Assert.assertFalse(c3.hashCode() == (c5.hashCode()));
   }
 
   @SuppressWarnings({ "static-method", "unused" }) @Test(
@@ -357,59 +417,6 @@ public class AreaCursorTest
     Assert.assertFalse(c.canWrite());
   }
 
-  @SuppressWarnings("static-method") @Test public void testTwoByte()
-    throws ConstraintError
-  {
-    final AreaInclusive area =
-      new AreaInclusive(new RangeInclusive(0, 3), new RangeInclusive(0, 1));
-    final AreaCursor c = new AreaCursor(area, area, 2);
-
-    Assert.assertTrue(c.canWrite());
-    Assert.assertEquals(0, c.getByteOffset());
-
-    for (long y = 0; y <= 1; ++y) {
-      for (long x = 0; x <= 3; ++x) {
-        Assert.assertEquals(x, c.getElementX());
-        Assert.assertEquals(y, c.getElementY());
-        Assert.assertEquals((y * (4 * 2)) + (x * 2), c.getByteOffset());
-        c.next();
-      }
-    }
-
-    Assert.assertFalse(c.canWrite());
-  }
-
-  @SuppressWarnings("static-method") @Test public void testEquals()
-    throws ConstraintError
-  {
-    final AreaInclusive area0 =
-      new AreaInclusive(new RangeInclusive(0, 3), new RangeInclusive(0, 1));
-    final AreaInclusive area1 =
-      new AreaInclusive(new RangeInclusive(0, 4), new RangeInclusive(0, 1));
-    final AreaInclusive area2 =
-      new AreaInclusive(new RangeInclusive(0, 4), new RangeInclusive(0, 1));
-    final AreaInclusive area3 =
-      new AreaInclusive(new RangeInclusive(0, 4), new RangeInclusive(0, 2));
-
-    final AreaCursor c0 = new AreaCursor(area0, area0, 2);
-    final AreaCursor c1 = new AreaCursor(area1, area0, 2);
-    final AreaCursor c2 = new AreaCursor(area2, area0, 2);
-    final AreaCursor c3 = new AreaCursor(area3, area2, 2);
-    final AreaCursor c4 = new AreaCursor(area3, area2, 2);
-    final AreaCursor c5 = new AreaCursor(area3, area2, 3);
-
-    Assert.assertTrue(c0.equals(c0));
-    Assert.assertFalse(c0.equals(null));
-    Assert.assertFalse(c0.equals(Integer.valueOf(23)));
-    Assert.assertFalse(c0.equals(c1));
-    Assert.assertTrue(c1.equals(c2));
-    Assert.assertFalse(c2.equals(c3));
-
-    c4.seekTo(1, 0);
-    Assert.assertFalse(c3.equals(c4));
-    Assert.assertFalse(c3.equals(c5));
-  }
-
   @SuppressWarnings("static-method") @Test public void testToString()
     throws ConstraintError
   {
@@ -439,33 +446,26 @@ public class AreaCursorTest
     Assert.assertFalse(c3.toString().equals(c5.toString()));
   }
 
-  @SuppressWarnings("static-method") @Test public void testHashcode()
+  @SuppressWarnings("static-method") @Test public void testTwoByte()
     throws ConstraintError
   {
-    final AreaInclusive area0 =
+    final AreaInclusive area =
       new AreaInclusive(new RangeInclusive(0, 3), new RangeInclusive(0, 1));
-    final AreaInclusive area1 =
-      new AreaInclusive(new RangeInclusive(0, 4), new RangeInclusive(0, 1));
-    final AreaInclusive area2 =
-      new AreaInclusive(new RangeInclusive(0, 4), new RangeInclusive(0, 1));
-    final AreaInclusive area3 =
-      new AreaInclusive(new RangeInclusive(0, 4), new RangeInclusive(0, 2));
+    final AreaCursor c = new AreaCursor(area, area, 2);
 
-    final AreaCursor c0 = new AreaCursor(area0, area0, 2);
-    final AreaCursor c1 = new AreaCursor(area1, area0, 2);
-    final AreaCursor c2 = new AreaCursor(area2, area0, 2);
-    final AreaCursor c3 = new AreaCursor(area3, area2, 2);
-    final AreaCursor c4 = new AreaCursor(area3, area2, 2);
-    final AreaCursor c5 = new AreaCursor(area3, area2, 3);
+    Assert.assertTrue(c.canWrite());
+    Assert.assertEquals(0, c.getByteOffset());
 
-    Assert.assertTrue(c0.hashCode() == (c0.hashCode()));
-    Assert.assertFalse(c0.hashCode() == (c1.hashCode()));
-    Assert.assertTrue(c1.hashCode() == (c2.hashCode()));
-    Assert.assertFalse(c2.hashCode() == (c3.hashCode()));
+    for (long y = 0; y <= 1; ++y) {
+      for (long x = 0; x <= 3; ++x) {
+        Assert.assertEquals(x, c.getElementX());
+        Assert.assertEquals(y, c.getElementY());
+        Assert.assertEquals((y * (4 * 2)) + (x * 2), c.getByteOffset());
+        c.next();
+      }
+    }
 
-    c4.seekTo(1, 0);
-    Assert.assertFalse(c3.hashCode() == (c4.hashCode()));
-    Assert.assertFalse(c3.hashCode() == (c5.hashCode()));
+    Assert.assertFalse(c.canWrite());
   }
 
 }

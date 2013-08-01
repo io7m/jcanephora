@@ -17,6 +17,7 @@ package com.io7m.jcanephora.examples;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 
 import javax.annotation.Nonnull;
 
@@ -30,6 +31,7 @@ import com.io7m.jcanephora.BlendFunction;
 import com.io7m.jcanephora.CursorWritable2f;
 import com.io7m.jcanephora.CursorWritable4f;
 import com.io7m.jcanephora.CursorWritableIndex;
+import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.JCGLCompileException;
@@ -37,10 +39,11 @@ import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.Primitives;
-import com.io7m.jcanephora.Program;
 import com.io7m.jcanephora.ProgramAttribute;
+import com.io7m.jcanephora.ProgramReference;
 import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.ProjectionMatrix;
+import com.io7m.jcanephora.ShaderUtilities;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
@@ -50,6 +53,7 @@ import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.UsageHint;
+import com.io7m.jcanephora.VertexShader;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorI2F;
 import com.io7m.jtensors.VectorReadable2I;
@@ -65,21 +69,23 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleTexturedQuadImage implements Example
 {
-  private final JCGLInterfaceCommon       gl;
-  private final ArrayBufferTypeDescriptor array_type;
-  private final ArrayBuffer               array;
-  private final ArrayBufferWritableData   array_data;
-  private final Program                   program;
-  private final MatrixM4x4F               matrix_projection;
-  private final MatrixM4x4F               matrix_modelview;
-  private final IndexBuffer               indices;
-  private final IndexBufferWritableData   indices_data;
-  private final ExampleConfig             config;
-  private boolean                         has_shut_down;
-  private final Texture2DStatic           textures[];
-  private final TextureUnit[]             texture_units;
-  private int                             frame         = 0;
-  private int                             texture_index = 0;
+  private final JCGLInterfaceCommon         gl;
+  private final ArrayBufferTypeDescriptor   array_type;
+  private final ArrayBuffer                 array;
+  private final ArrayBufferWritableData     array_data;
+  private final ProgramReference            program;
+  private final MatrixM4x4F                 matrix_projection;
+  private final MatrixM4x4F                 matrix_modelview;
+  private final IndexBuffer                 indices;
+  private final IndexBufferWritableData     indices_data;
+  private final ExampleConfig               config;
+  private boolean                           has_shut_down;
+  private final Texture2DStatic             textures[];
+  private final TextureUnit[]               texture_units;
+  private int                               frame         = 0;
+  private int                               texture_index = 0;
+  private HashMap<String, ProgramUniform>   program_uniforms;
+  private HashMap<String, ProgramAttribute> program_attributes;
 
   public ExampleTexturedQuadImage(
     final @Nonnull ExampleConfig config)
@@ -98,12 +104,24 @@ public final class ExampleTexturedQuadImage implements Example
      * Initialize shaders.
      */
 
-    this.program = new Program("uv", config.getLog());
-    this.program.addVertexShader(PathVirtual
-      .ofString(("/com/io7m/jcanephora/examples/uv.v")));
-    this.program.addFragmentShader(PathVirtual
-      .ofString(("/com/io7m/jcanephora/examples/uv.f")));
-    this.program.compile(config.getFilesystem(), this.gl);
+    {
+      final VertexShader v =
+        this.gl.vertexShaderCompile(
+          "v",
+          ShaderUtilities.readLines(config.getFilesystem().openFile(
+            PathVirtual.ofString("/com/io7m/jcanephora/examples/uv.v"))));
+      final FragmentShader f =
+        this.gl.fragmentShaderCompile(
+          "f",
+          ShaderUtilities.readLines(config.getFilesystem().openFile(
+            PathVirtual.ofString("/com/io7m/jcanephora/examples/uv.f"))));
+      this.program = this.gl.programCreateCommon("color", v, f);
+
+      this.program_uniforms = new HashMap<String, ProgramUniform>();
+      this.program_attributes = new HashMap<String, ProgramAttribute>();
+      this.gl.programGetAttributes(this.program, this.program_attributes);
+      this.gl.programGetUniforms(this.program, this.program_uniforms);
+    }
 
     /**
      * Obtain access to the available texture units.
@@ -302,17 +320,17 @@ public final class ExampleTexturedQuadImage implements Example
      * inputs to the shader.
      */
 
-    this.program.activate(this.gl);
+    this.gl.programActivate(this.program);
     {
       /**
        * Get references to the program's uniform variable inputs.
        */
 
       final ProgramUniform u_proj =
-        this.program.getUniform("matrix_projection");
+        this.program_uniforms.get("matrix_projection");
       final ProgramUniform u_model =
-        this.program.getUniform("matrix_modelview");
-      final ProgramUniform u_texture = this.program.getUniform("texture");
+        this.program_uniforms.get("matrix_modelview");
+      final ProgramUniform u_texture = this.program_uniforms.get("texture");
 
       /**
        * Upload the matrices to the uniform variable inputs.
@@ -336,8 +354,8 @@ public final class ExampleTexturedQuadImage implements Example
        */
 
       final ProgramAttribute p_pos =
-        this.program.getAttribute("vertex_position");
-      final ProgramAttribute p_uv = this.program.getAttribute("vertex_uv");
+        this.program_attributes.get("vertex_position");
+      final ProgramAttribute p_uv = this.program_attributes.get("vertex_uv");
 
       /**
        * Get references to the array buffer's vertex attributes.
@@ -362,7 +380,7 @@ public final class ExampleTexturedQuadImage implements Example
       this.gl.drawElements(Primitives.PRIMITIVE_TRIANGLES, this.indices);
       this.gl.arrayBufferUnbind();
     }
-    this.program.deactivate(this.gl);
+    this.gl.programDeactivate();
 
     this.gl.blendingDisable();
   }
@@ -404,6 +422,6 @@ public final class ExampleTexturedQuadImage implements Example
       this.gl.texture2DStaticDelete(t);
     }
 
-    this.program.delete(this.gl);
+    this.gl.programDelete(this.program);
   }
 }

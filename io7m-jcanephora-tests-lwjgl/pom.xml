@@ -78,11 +78,6 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.io7m.jcanephora.program</groupId>
-      <artifactId>io7m-jcanephora-program</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
       <groupId>com.io7m.jcanephora.lwjgl</groupId>
       <artifactId>io7m-jcanephora-lwjgl</artifactId>
       <version>${project.version}</version>

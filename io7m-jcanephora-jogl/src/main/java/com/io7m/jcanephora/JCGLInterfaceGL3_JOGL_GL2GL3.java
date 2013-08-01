@@ -589,17 +589,6 @@ import com.io7m.jtensors.VectorReadable4I;
     return code == GL.GL_INVALID_OPERATION;
   }
 
-  @Override public void fragmentShaderAttach(
-    final @Nonnull ProgramReference program,
-    final @Nonnull FragmentShader shader)
-    throws ConstraintError,
-      JCGLException
-  {
-    JOGL_GL2ES2_Functions.fragmentShaderAttach(this.context
-      .getGL()
-      .getGL2ES2(), this.state, this.log, program, shader);
-  }
-
   @Override public @Nonnull FragmentShader fragmentShaderCompile(
     final @Nonnull String name,
     final @Nonnull List<String> lines)
@@ -1078,14 +1067,17 @@ import com.io7m.jtensors.VectorReadable4I;
     JCGLError.check(this);
   }
 
-  @Override public ProgramReference programCreate(
-    final @Nonnull String name)
+  @Override public ProgramReference programCreateCommon(
+    final @Nonnull String name,
+    final @Nonnull VertexShader v,
+    final @Nonnull FragmentShader f)
     throws ConstraintError,
-      JCGLException
+      JCGLException,
+      JCGLCompileException
   {
-    return JOGL_GL2ES2_Functions.programCreate(this.context
+    return JOGL_GL2ES2_Functions.programCreateCommon(this.context
       .getGL()
-      .getGL2ES2(), this.state, this.log, name);
+      .getGL2ES2(), this.state, this.log, name, v, f);
   }
 
   @Override public void programDeactivate()
@@ -1148,19 +1140,6 @@ import com.io7m.jtensors.VectorReadable4I;
     return JOGL_GL2ES2_Functions.programIsActive(this.context
       .getGL()
       .getGL2ES2(), this.state, program);
-  }
-
-  @Override public void programLink(
-    final @Nonnull ProgramReference program)
-    throws ConstraintError,
-      JCGLCompileException,
-      JCGLException
-  {
-    JOGL_GL2ES2_Functions.programLink(
-      this.context.getGL().getGL2ES2(),
-      this.state,
-      this.log,
-      program);
   }
 
   @Override public void programPutUniformFloat(
@@ -1920,21 +1899,6 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLException
   {
     return this.state.texture_units;
-  }
-
-  @Override public void vertexShaderAttach(
-    final @Nonnull ProgramReference program,
-    final @Nonnull VertexShader shader)
-    throws ConstraintError,
-      JCGLCompileException,
-      JCGLException
-  {
-    JOGL_GL2ES2_Functions.vertexShaderAttach(
-      this.context.getGL().getGL2ES2(),
-      this.state,
-      this.log,
-      program,
-      shader);
   }
 
   @Override public VertexShader vertexShaderCompile(
