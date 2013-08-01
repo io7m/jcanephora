@@ -731,38 +731,6 @@ final class LWJGL_GLES2Functions
     LWJGL_GLES2Functions.checkError();
   }
 
-  static void fragmentShaderAttach(
-
-    final @Nonnull JCGLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull ProgramReference program,
-    final @Nonnull FragmentShader shader)
-    throws ConstraintError,
-      JCGLException
-  {
-    Constraints.constrainNotNull(program, "Program ID");
-    Constraints.constrainArbitrary(
-      program.resourceIsDeleted() == false,
-      "Program not deleted");
-
-    Constraints.constrainNotNull(shader, "Fragment shader");
-    Constraints.constrainArbitrary(
-      shader.resourceIsDeleted() == false,
-      "Fragment shader not deleted");
-
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("fragment-shader: attach ");
-      state.log_text.append(program);
-      state.log_text.append(" ");
-      state.log_text.append(shader);
-      log.debug(state.log_text.toString());
-    }
-
-    GL20.glAttachShader(program.getGLName(), shader.getGLName());
-    LWJGL_GLES2Functions.checkError();
-  }
-
   static FragmentShader fragmentShaderCompile(
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
@@ -1553,21 +1521,34 @@ final class LWJGL_GLES2Functions
     LWJGL_GLES2Functions.checkError();
   }
 
-  static ProgramReference programCreate(
-
+  static ProgramReference programCreateCommon(
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull String name)
+    final @Nonnull String name,
+    final @Nonnull VertexShader v,
+    final @Nonnull FragmentShader f)
     throws ConstraintError,
-      JCGLException
+      JCGLException,
+      JCGLCompileException
   {
     Constraints.constrainNotNull(name, "Program name");
+    Constraints.constrainNotNull(v, "Vertex shader");
+    Constraints.constrainNotNull(f, "Fragment shader");
+    Constraints.constrainArbitrary(
+      v.resourceIsDeleted() == false,
+      "Vertex shader not deleted");
+    Constraints.constrainArbitrary(
+      f.resourceIsDeleted() == false,
+      "Fragment shader not deleted");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
       state.log_text.append("program: create \"");
       state.log_text.append(name);
-      state.log_text.append("\"");
+      state.log_text.append("\" with ");
+      state.log_text.append(v);
+      state.log_text.append(" ");
+      state.log_text.append(f);
       log.debug(state.log_text.toString());
     }
 
@@ -1575,6 +1556,33 @@ final class LWJGL_GLES2Functions
     if (id == 0) {
       throw new JCGLException(0, "glCreateProgram failed");
     }
+    LWJGL_GLES2Functions.checkError();
+
+    GL20.glAttachShader(id, v.getGLName());
+    LWJGL_GLES2Functions.checkError();
+    GL20.glAttachShader(id, f.getGLName());
+    LWJGL_GLES2Functions.checkError();
+    GL20.glLinkProgram(id);
+    LWJGL_GLES2Functions.checkError();
+
+    final int status =
+      LWJGL_GLES2Functions.contextGetProgramInteger(
+        state,
+        id,
+        GL20.GL_LINK_STATUS);
+
+    if (status == 0) {
+      final ByteBuffer buffer = BufferUtils.createByteBuffer(8192);
+      final IntBuffer buffer_length = BufferUtils.createIntBuffer(1);
+      GL20.glGetProgramInfoLog(id, buffer_length, buffer);
+      LWJGL_GLES2Functions.checkError();
+
+      final byte raw[] = new byte[buffer.remaining()];
+      buffer.get(raw);
+      final String text = new String(raw);
+      throw new JCGLCompileException(name, text);
+    }
+
     LWJGL_GLES2Functions.checkError();
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -1801,48 +1809,6 @@ final class LWJGL_GLES2Functions
       LWJGL_GLES2Functions.contextGetInteger(state, GL20.GL_CURRENT_PROGRAM);
     LWJGL_GLES2Functions.checkError();
     return active == program.getGLName();
-  }
-
-  static void programLink(
-    final @Nonnull JCGLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull ProgramReference program)
-    throws ConstraintError,
-      JCGLCompileException,
-      JCGLException
-  {
-    Constraints.constrainNotNull(program, "Program ID");
-    Constraints.constrainArbitrary(
-      program.resourceIsDeleted() == false,
-      "Program not deleted");
-
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("program: link ");
-      state.log_text.append(program);
-      log.debug(state.log_text.toString());
-    }
-
-    GL20.glLinkProgram(program.getGLName());
-    LWJGL_GLES2Functions.checkError();
-
-    final int status = LWJGL_GLES2Functions.contextGetProgramInteger(
-
-    state, program.getGLName(), GL20.GL_LINK_STATUS);
-
-    if (status == 0) {
-      final ByteBuffer buffer = BufferUtils.createByteBuffer(8192);
-      final IntBuffer buffer_length = BufferUtils.createIntBuffer(1);
-      GL20.glGetProgramInfoLog(program.getGLName(), buffer_length, buffer);
-      LWJGL_GLES2Functions.checkError();
-
-      final byte raw[] = new byte[buffer.remaining()];
-      buffer.get(raw);
-      final String text = new String(raw);
-      throw new JCGLCompileException(program.getName(), text);
-    }
-
-    LWJGL_GLES2Functions.checkError();
   }
 
   static void programPutUniformFloat(
@@ -2792,38 +2758,6 @@ final class LWJGL_GLES2Functions
     }
 
     return u;
-  }
-
-  static void vertexShaderAttach(
-
-    final @Nonnull JCGLStateCache state,
-    final @Nonnull Log log,
-    final @Nonnull ProgramReference program,
-    final @Nonnull VertexShader shader)
-    throws ConstraintError,
-      JCGLException
-  {
-    Constraints.constrainNotNull(program, "Program ID");
-    Constraints.constrainArbitrary(
-      program.resourceIsDeleted() == false,
-      "Program not deleted");
-
-    Constraints.constrainNotNull(shader, "Vertex shader");
-    Constraints.constrainArbitrary(
-      shader.resourceIsDeleted() == false,
-      "Vertex shader not deleted");
-
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("vertex-shader: attach ");
-      state.log_text.append(program);
-      state.log_text.append(" ");
-      state.log_text.append(shader);
-      log.debug(state.log_text.toString());
-    }
-
-    GL20.glAttachShader(program.getGLName(), shader.getGLName());
-    LWJGL_GLES2Functions.checkError();
   }
 
   static VertexShader vertexShaderCompile(

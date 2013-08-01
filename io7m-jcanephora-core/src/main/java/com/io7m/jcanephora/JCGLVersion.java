@@ -28,8 +28,21 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 @Immutable public final class JCGLVersion
 {
+  public static @Nonnull JCGLVersion make(
+    final @Nonnull JCGLVersionNumber number,
+    final @Nonnull JCGLApi api,
+    final @Nonnull String text)
+    throws ConstraintError
+  {
+    Constraints.constrainNotNull(number, "Number");
+    Constraints.constrainNotNull(text, "Text");
+    Constraints.constrainNotNull(api, "API");
+    return new JCGLVersion(number, api, text);
+  }
+
   private final @Nonnull JCGLVersionNumber number;
   private final @Nonnull JCGLApi           api;
+
   private final @Nonnull String            text;
 
   private JCGLVersion(
@@ -159,17 +172,5 @@ import com.io7m.jaux.Constraints.ConstraintError;
     builder.append(this.text);
     builder.append("]]");
     return builder.toString();
-  }
-
-  public static @Nonnull JCGLVersion make(
-    final @Nonnull JCGLVersionNumber number,
-    final @Nonnull JCGLApi api,
-    final @Nonnull String text)
-    throws ConstraintError
-  {
-    Constraints.constrainNotNull(number, "Number");
-    Constraints.constrainNotNull(text, "Text");
-    Constraints.constrainNotNull(api, "API");
-    return new JCGLVersion(number, api, text);
   }
 }

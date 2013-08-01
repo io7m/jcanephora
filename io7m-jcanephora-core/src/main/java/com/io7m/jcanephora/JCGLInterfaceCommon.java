@@ -13,25 +13,37 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
+/**
+ * <p>
+ * The interface exposed by the common subset of OpenGL 3.*, OpenGL 2.1,
+ * OpenGL ES2, and OpenGL ES3 implementations.
+ * </p>
+ */
 
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts.gl3.ProgramGL3Contract;
-
-public final class JOGL21ProgramGL2Test extends ProgramGL3Contract
+public interface JCGLInterfaceCommon extends
+  JCGLArrayBuffers,
+  JCGLBlendingCommon,
+  JCGLColorBuffer,
+  JCGLCull,
+  JCGLDepthBuffer,
+  JCGLDraw,
+  JCGLErrorCodes,
+  JCGLFramebuffersCommon,
+  JCGLIndexBuffers,
+  JCGLMeta,
+  JCGLRenderbuffersCommon,
+  JCGLScissor,
+  JCGLShadersCommon,
+  JCGLStencilBuffer,
+  JCGLTextureUnits,
+  JCGLTextures2DStaticCommon,
+  JCGLTexturesCubeStaticCommon,
+  JCGLViewport
 {
-  @Override public boolean isGLSupported()
-  {
-    return JOGLTestContext.isOpenGL21WithExtensionsSupported();
-  }
-
-  @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
-      JCGLUnsupportedException,
-      ConstraintError
-  {
-    return JOGLTestContext.makeContextWithOpenGL2_1();
-  }
+  /*
+   * All functions defined in the superinterfaces.
+   */
 }
