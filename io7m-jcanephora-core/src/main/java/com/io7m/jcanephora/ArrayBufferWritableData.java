@@ -100,6 +100,15 @@ public final class ArrayBufferWritableData
   }
 
   /**
+   * Retrieve the array buffer to which the given data will be uploaded.
+   */
+
+  public @Nonnull ArrayBufferUsable getArrayBuffer()
+  {
+    return this.buffer;
+  }
+
+  /**
    * Retrieve a cursor that may only point to elements of the attribute
    * <code>attribute_name</code> in the array data. The cursor interface
    * allows constant time access to any element and also minimizes the number
