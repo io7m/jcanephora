@@ -1318,54 +1318,289 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
       <s:subsection>
         <s:subsection-title>Description</s:subsection-title>
         <s:paragraph>
-          Description
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLArrayBuffers.html">JCGLArrayBuffers</s:link-external>
+          interface provides functions for allocating, populating,
+          and using array buffers. It provides a typed interface
+          to the <s:term type="function">glGenBuffers</s:term>,
+          <s:term type="function">glBufferData</s:term>, and
+          the various vertex attribute functions.
+        </s:paragraph>
+        <s:paragraph>
+          In <s:term type="package">jcanephora</s:term>, array
+          buffers are considered to be arrays of
+          <s:term type="term">elements</s:term> of a given
+          record <s:footnote>Or "struct" in C's terminology.</s:footnote>
+          type <s:term type="variable">T</s:term>.
+          The programmer describes the type <s:term type="variable">T</s:term>,
+          allocates an array of
+          <s:term type="variable">n</s:term> elements of
+          <s:term type="variable">T</s:term>, and then populates
+          the array with values via a typed cursor interface.
+          The type <s:term type="variable">T</s:term> is described
+          by constructing values of the
+          <s:link-external target="javadoc/com/io7m/jcanephora/ArrayBufferTypeDescriptor.html">ArrayBufferTypeDescriptor</s:link-external>
+          type, which is essentially an array of
+          <s:link-external target="javadoc/com/io7m/jcanephora/ArrayBufferAttributeDescriptor.html">ArrayBufferAttributeDescriptor</s:link-external>
+          values. See the usage examples for more information.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Usage examples</s:subsection-title>
         <s:paragraph>
-          Example
+          First, consider a fairly standard vertex type: A position
+          in world space consisting of four floating point
+          values representing the <s:term type="variable">(x, y, z, w)</s:term>
+          coordinates, a three-dimensional normal vector in
+          object space, and a set of two-dimensional
+          <s:term type="variable">(s, t)</s:term> texture coordinates. The
+          type descriptor for this type is declared as follows:
         </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Vertex type descriptor</s:formal-item-title>
+<s:verbatim><![CDATA[
+ArrayBufferAttributeDescriptor position =
+  new ArrayBufferAttributeDescriptor("position", JCGLScalarType.TYPE_FLOAT, 4);
+
+ArrayBufferAttributeDescriptor normal =
+  new ArrayBufferAttributeDescriptor("normal", JCGLScalarType.TYPE_FLOAT, 3);
+  
+ArrayBufferAttributeDescriptor texture =
+  new ArrayBufferAttributeDescriptor("texture", JCGLScalarType.TYPE_FLOAT, 2);
+
+ArrayBufferTypeDescriptor descriptor =
+  new ArrayBufferTypeDescriptor(
+    new ArrayBufferAttributeDescriptor[] {
+      position, normal, texture
+    }
+  );
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          The order of the elements in the array passed to the
+          <s:term type="type">ArrayBufferTypeDescriptor</s:term> constructor
+          is significant: the values of each field will be packed into
+          any array allocated using this type descriptor in the order specified
+          by the array of attributes. In the above example, the
+          <s:term type="constant">"position"</s:term> field is
+          <s:term type="expression">4 * 4 = 16</s:term> bytes in size, and
+          will be placed at <s:term type="expression">0</s:term> bytes past
+          the start of each element. The <s:term type="constant">"normal"</s:term>
+          field is
+          <s:term type="expression">3 * 4 = 12</s:term> bytes in size, and
+          will be placed at
+          <s:term type="expression">16</s:term> bytes past the start
+          of each element, because it will be placed directly after the
+          <s:term type="constant">"position"</s:term> field. Finally, the
+          <s:term type="constant">"texture"</s:term> field is
+          <s:term type="expression">2 * 4 = 8</s:term> bytes in size,
+          and will be placed at
+          <s:term type="expression">16 + 12 = 28</s:term> bytes past
+          the start of each element, because it will be placed directly
+          after the "position" and "normal" fields. The size of each
+          element in the array is therefore
+          <s:term type="expression">16 + 12 + 8 = 36</s:term> bytes. The
+          <s:term type="type">ArrayBufferTypeDescriptor</s:term> value
+          can be queried after construction to obtain these values, if
+          desired:
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Vertex sizes and offsets</s:formal-item-title>
+<s:verbatim><![CDATA[
+descriptor.getAttributeOffset("position") == 0
+
+descriptor.getAttributeOffset("normal") == 16
+
+descriptor.getAttributeOffset("texture") == 28
+
+descriptor.getSize() == 36
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          Then, to allocate an array that will hold <s:term type="constant">100</s:term>
+          elements of this type:
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Array allocation</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLArrayBuffers g;
+
+ArrayBuffer a = g.arrayBufferAllocate(100, descriptor, UsageHint.USAGE_STATIC_DRAW);
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          An array of elements is allocated on the GPU, and an immutable
+          reference to this array is returned. The array initially contains
+          no data, and must then be populated with data using the
+          <s:term type="package">jcanephora</s:term> equivalent of the
+          <s:term type="function">glBufferSubData</s:term> function. See
+          the <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffersMapped">JCGLArrayBuffersMapped</s:link>
+          interface for an alternative method of populating arrays on
+          more advanced OpenGL implementations. The
+          <s:term type="package">jcanephora</s:term>
+          package provides a typed "cursor" interface that provides a
+          safe and convenient way to get data into arrays, without any
+          risk of uploading incorrectly packed data, as is common for
+          most OpenGL programs. First, it's necessary to create a value
+          of type
+          <s:link-external target="javadoc/com/io7m/jcanephora/ArrayBufferWritableData.html">ArrayBufferWritableData</s:link-external>.
+          This allocates an array of bytes in the program's address space
+          that will be used to hold data that will be uploaded to the array
+          on the GPU:
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Array writable data</s:formal-item-title>
+<s:verbatim><![CDATA[
+ArrayWritableData ad = new ArrayBufferWritableData(a);
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          It's also possible to supply an inclusive range of elements
+          to the <s:term type="type">ArrayBufferWritableData</s:term> to
+          perform partial updates to array data. Then, it's necessary to
+          obtain access to cursors for each of the three attribute types
+          declared earlier. The type of cursor requested must match the
+          type of attribute exactly; the API will raise an exception if
+          the programmer asks for a three-element cursor to an attribute
+          that has four elements, for example.
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Array cursors</s:formal-item-title>
+<s:verbatim><![CDATA[
+Cursor4f cp = ad.getCursor4f("position");
+Cursor3f cn = ad.getCursor3f("normal");
+Cursor2f ct = ad.getCursor2f("texture");
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          Cursors traverse the array sequentially, with each new element
+          of data provided moving the cursor to the next array element.
+          Cursors are fully independent and so it is not necessary to
+          provide data to all of the fields above at once (it might be
+          desirable in some programs to provide all of the position data
+          first, then all of the normal data, and then all of the texture
+          coordinates, for example).
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Array cursor writing</s:formal-item-title>
+<s:verbatim><![CDATA[
+while (cp.hasNext()) {
+  cp.put4f(x, y, z, w);
+}
+
+while (cn.hasNext()) {
+  cn.put3f(nx, ny, nz);
+  ct.put2f(s, t);
+}
+
+assert cp.hasNext() == false;
+assert cn.hasNext() == false;
+assert ct.hasNext() == false;
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          Typically, data will be provided in a loop as shown above, but
+          it is also possible to seek cursors to specific elements in the
+          array. The API will raise exceptions if the programmer attempts
+          to write outside the bounds of the array. Finally, the data
+          is uploaded to the array on the GPU: 
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Array data upload</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLArrayBuffers g;
+
+g.arrayBufferUpdate(ad);
+]]></s:verbatim>
+        </s:formal-item>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
-          Version support
+          All versions of OpenGL support these functions, and appear
+          to behave identically.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Design/Rationale</s:subsection-title>
         <s:paragraph>
-          Design/Rationale
+          OpenGL's error-prone, untyped approach to array buffers
+          is categorically rejected and replaced with an approach
+          that emphasizes as much compile-time and runtime safety
+          as possible.
         </s:paragraph>
       </s:subsection>
     </s:section>
     
-    <s:section>
+    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffersMapped">
       <s:section-title>JCGLArrayBuffersMapped</s:section-title>
       <s:section-contents/>
       <s:subsection>
         <s:subsection-title>Description</s:subsection-title>
         <s:paragraph>
-          Description
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLArrayBuffersMapped.html">JCGLArrayBuffersMapped</s:link-external>
+          interface provides functions to map array buffers allocated
+          on the GPU to the address space of the client, in order to
+          be read or modified. This gives significant memory savings,
+          as it's not necessary to allocate an intermediate array of
+          data in order to modify an existing array buffer.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Usage examples</s:subsection-title>
         <s:paragraph>
-          Example
+          The
+          <s:link-external target="javadoc/com/io7m/jcanephora/ArrayBufferWritableMap.html">ArrayBufferWritableMap</s:link-external>
+          interface provides a more or less drop-in replacement for
+          the
+          <s:link-external target="javadoc/com/io7m/jcanephora/ArrayBufferWritableData.html">ArrayBufferWritableData</s:link-external>
+          interface. First, a writable map is obtained for an existing
+          array buffer <s:term type="variable">a</s:term> (note that
+          obtaining a writable map of an array buffer immediately
+          deletes any existing contents of the array buffer, to
+          prevent pipeline stalls on the GPU):
         </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Array map</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLArrayBuffersMapped g;
+
+map = g.arrayBufferMapWrite(a);
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          Then, the map is modified using the same cursor interface
+          as with the <s:term type="type">ArrayBufferWritableData</s:term>
+          type. The buffer should be unmapped after use:
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Array map</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLArrayBuffersMapped g;
+
+g.arrayBufferUnmap(a);
+]]></s:verbatim>
+        </s:formal-item>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
-          Version support
+          OpenGL ES 2 does not support mapping buffers. Some vendors
+          might provide extensions, but <s:term type="package">jcanephora</s:term>
+          doesn't use them (as they aren't guaranteed to be available).
+          OpenGL 2.1 does support mapping of buffers in some form, but
+          it is crippled to the point of being almost unusable, so it
+          is not exposed in <s:term type="package">jcanephora</s:term>
+          on 2.1 implementations. OpenGL ES 3 supports buffer mapping,
+          as does OpenGL 3.0 core and beyond, so it is available in
+          <s:term type="package">jcanephora</s:term> on those
+          implementations.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Design/Rationale</s:subsection-title>
         <s:paragraph>
-          Design/Rationale
+          See the <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffers">JCGLArrayBuffers</s:link>
+          interface.
         </s:paragraph>
       </s:subsection>
     </s:section>
@@ -1875,7 +2110,7 @@ g.drawElements(Primitives.PRIMITIVE_TRIANGLES, indices);
     </s:section>
 
     <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLShaders">
-      <s:section-title>JCGLScissor</s:section-title>
+      <s:section-title>JCGLShaders</s:section-title>
       <s:section-contents/>
       <s:subsection>
         <s:subsection-title>Description</s:subsection-title>
