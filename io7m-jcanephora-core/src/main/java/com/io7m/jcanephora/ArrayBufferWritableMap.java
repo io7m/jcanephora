@@ -49,7 +49,7 @@ public final class ArrayBufferWritableMap
    * Retrieve the array buffer for this map.
    */
 
-  public ArrayBuffer getArrayBuffer()
+  public @Nonnull ArrayBufferUsable getArrayBuffer()
   {
     return this.buffer;
   }

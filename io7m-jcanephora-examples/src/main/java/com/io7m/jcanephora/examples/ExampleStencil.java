@@ -123,7 +123,7 @@ public final class ExampleStencil implements Example
     }
 
     this.gl.arrayBufferBind(this.array);
-    this.gl.arrayBufferUpdate(this.array, this.array_data);
+    this.gl.arrayBufferUpdate(this.array_data);
 
     this.triangle_indices = this.gl.indexBufferAllocate(this.array, 3);
     this.triangle_indices_data =

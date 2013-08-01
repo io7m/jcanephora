@@ -225,12 +225,11 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void arrayBufferUpdate(
-    final @Nonnull ArrayBuffer buffer,
     final @Nonnull ArrayBufferWritableData data)
     throws JCGLException,
       ConstraintError
   {
-    LWJGL_GLES2Functions.arrayBufferUpdate(buffer, data);
+    LWJGL_GLES2Functions.arrayBufferUpdate(data);
   }
 
   @Override public void blendingDisable()

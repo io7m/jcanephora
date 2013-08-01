@@ -195,25 +195,24 @@ public interface JCGLArrayBuffers
 
   /**
    * Replace the contents (or part of the contents) of the array buffer
-   * <code>buffer</code> with <code>data</code>.
+   * associated with <code>data</code>. The function requires that
+   * <code>data.getArrayBuffer()</code> be bound.
    * 
-   * @param buffer
-   *          The array buffer.
    * @param data
    *          The data to upload.
    * 
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
-   *           <li><code>buffer == null</code></li>
    *           <li><code>data == null</code></li>
+   *           <li><code>data.getArrayBuffer()</code> is not bound.</li>
+   *           <li><code>data.getArrayBuffer()</code> is deleted.</li>
    *           </ul>
    * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   public void arrayBufferUpdate(
-    final @Nonnull ArrayBuffer buffer,
     final @Nonnull ArrayBufferWritableData data)
     throws JCGLException,
       ConstraintError;
