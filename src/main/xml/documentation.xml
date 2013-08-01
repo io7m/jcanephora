@@ -1308,6 +1308,728 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
     </s:section>
   </s:part>
 
+  <s:part xml:id="com.io7m.jcanephora.100.by_interface">
+    <s:part-title>jcanephora By Interface</s:part-title>
+    <s:part-contents/>
+    
+    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffers">
+      <s:section-title>JCGLArrayBuffers</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          Description
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Usage examples</s:subsection-title>
+        <s:paragraph>
+          Example
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          Version support
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          Design/Rationale
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+    
+    <s:section>
+      <s:section-title>JCGLArrayBuffersMapped</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          Description
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Usage examples</s:subsection-title>
+        <s:paragraph>
+          Example
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          Version support
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          Design/Rationale
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+
+    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLBlending">
+      <s:section-title>JCGLBlending</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLBlendingCommon.html">JCGLBlending</s:link-external>
+          interfaces provide functions for configuring framebuffer
+          color blending.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Usage examples</s:subsection-title>
+        <s:paragraph>
+          Example
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          Version support
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          Design/Rationale
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+
+    <s:section>
+      <s:section-title>JCGLColorBuffer</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLColorBuffer.html">JCGLColorBuffer</s:link-external>
+          interface defines some primitive operations on color buffers.
+          The interface essentially provides a more strongly-typed
+          and literal interface around the <s:term type="function">glClear</s:term>
+          and <s:term type="function">glColorMask</s:term> functions.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Usage examples</s:subsection-title>
+        <s:paragraph>
+          To clear the current color buffer to an opaque red:
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Color buffer clear</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLColorBuffers g;
+
+g.colorBufferClear3f(1.0f, 0.0f, 0.0f);
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          To discard all writes to the green channel of the current
+          color buffer:
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Color buffer mask</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLColorBuffers g;
+
+g.colorBufferMask(true, false, true, true);
+]]></s:verbatim>
+        </s:formal-item>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          All versions of OpenGL support these functions, and appear
+          to behave identically.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          The <s:term type="function">glClear</s:term> and
+          <s:term type="function">glColorMask</s:term> functions
+          are somewhat weakly typed. It's not really possible to
+          work out how to use them without checking the
+          documentation. The functions provided in the
+          <s:term type="package">JCGLColorBuffer</s:term> interface
+          are somewhat more self-documenting and are much more
+          difficult to use incorrectly.
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+
+    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLCull">
+      <s:section-title>JCGLCull</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLCull.html">JCGLCull</s:link-external>
+          interface provides functions for configuring back-face culling.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Usage examples</s:subsection-title>
+        <s:paragraph>
+          To enable back-face culling and to specify that front faces
+          are specified with a counter-clockwise winding order (the
+          OpenGL defaults):
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Culling</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLCull g;
+
+g.cullingEnable(
+  FaceSelection.FACE_CULL_BACK,
+  FaceWindingOrder.FRONT_FACE_COUNTER_CLOCKWISE);
+]]></s:verbatim>
+        </s:formal-item>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          The interface reflects the minimum supported by OpenGL ES2.
+          All other OpenGL versions support a (not commonly used)
+          superset of the functionality.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          In typical style, integer constants are replaced with
+          enumerated types, making it statically impossible to
+          pass nonsense values to the functions.
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+
+    <s:section>
+      <s:section-title>JCGLDepthBuffer</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLDepthBuffer.html">JCGLDepthBuffer</s:link-external>
+          interface defines some primitive operations on depth buffers.
+          The interface essentially provides a more strongly-typed
+          and literal interface around the <s:term type="function">glClear</s:term>,
+          <s:term type="function">glDepthMask</s:term>, and
+          <s:term type="function">glDepthFunc</s:term> functions.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Usage examples</s:subsection-title>
+        <s:paragraph>
+          To clear the current depth buffer to a value typical of the far clipping plane:
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Depth buffer clear</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLDepthBuffers g;
+
+g.depthBufferClear(1.0f);
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          To discard all writes to the depth buffer (note that this will
+          also prevent clearing of the depth buffer):
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Depth buffer mask</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLDepthBuffers g;
+
+g.depthBufferWriteDisable();
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          To enable the depth buffer and set the depth function such that
+          only depth values less than the current value in the depth buffer will
+          be written:
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Depth buffer enable</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLDepthBuffers g;
+
+g.depthBufferEnable(DepthFunction.DEPTH_LESS_THAN);
+]]></s:verbatim>
+        </s:formal-item>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          Obtaining the size of the current depth buffer is
+          incredibly platform-specific in some cases and there
+          are few guarantees about what kind of depth buffer will
+          be provided by implementations by default. The functions
+          otherwise behave identically on all OpenGL versions.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          The <s:term type="function">glClear</s:term> and
+          <s:term type="function">glDepthMask</s:term> functions
+          are somewhat weakly typed. It's not really possible to
+          work out how to use them without checking the
+          documentation. The functions provided in the
+          <s:term type="package">JCGLDepthBuffer</s:term> interface
+          are somewhat more self-documenting and are much more
+          difficult to use incorrectly. Integer constants are
+          replaced with enumerated types, making it statically
+          impossible to pass nonsense values to the functions. The
+          <s:term type="function">depthBufferGetBits()</s:term>
+          function abstracts over the various platform and
+          version-specific nonsense required to obtain the size
+          of the current depth buffer (different steps are required
+          on different OpenGL versions, and the steps are different
+          for windowing-system provided framebuffers and application
+          framebuffers, and in the case of the former can often be
+          entirely platform specific).
+        </s:paragraph>
+        <s:paragraph>
+          The <s:term type="package">JCGLDepthBuffer</s:term> functions
+          will raise exceptions when attempting to use them on framebuffer
+          configurations that don't have depth buffers: Failing early and
+          loudly is considered essential.
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+    
+    <s:section>
+      <s:section-title>JCGLDraw</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLDraw.html">JCGLDraw</s:link-external>
+          interface provides an abstraction around the
+          <s:term type="function">glDrawElements</s:term> function.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Usage examples</s:subsection-title>
+        <s:paragraph>
+          Assuming that an <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffers">array buffer</s:link>
+          is currently bound, and an
+          <s:link target="com.io7m.jcanephora.100.by_interface.JCGLIndexBuffers">index buffer</s:link>
+          has been populated with data, drawing an object is trivial:
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Drawing</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLDraw gd;
+IndexBuffers indices;
+
+g.drawElements(Primitives.PRIMITIVE_TRIANGLES, indices);
+]]></s:verbatim>
+        </s:formal-item>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          OpenGL ES2 supports somewhat fewer primitive types than
+          the other OpenGL profiles, but given that their use is
+          comparatively rare, the interface only exposes the common
+          subset of  primitive types available on all OpenGL versions.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          The <s:term type="package">JCGLDraw</s:term> interface
+          exposes the bare minimum required to get something onto
+          the screen. It is assumed that all arrays will be indexed
+          with an index buffer, as this seems to be universal
+          practice and obviously leads to large space savings
+          compared to non-indexed arrays.
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+
+    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLFramebuffers">
+      <s:section-title>JCGLFramebuffers</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLFramebuffersCommon.html">JCGLFramebuffers</s:link-external>
+          interfaces provide functions for allocating and configuring
+          framebuffers.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Usage examples</s:subsection-title>
+        <s:paragraph>
+          Example
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          Version support
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          Design/Rationale
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+
+    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLIndexBuffers">
+      <s:section-title>JCGLIndexBuffers</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLIndexBuffers.html">JCGLIndexBuffers</s:link-external>
+          interface provides functions to allocate and populate
+          index buffers.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Usage examples</s:subsection-title>
+        <s:paragraph>
+          Example
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          Version support
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          Design/Rationale
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+    
+    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLIndexBuffersMapped">
+      <s:section-title>JCGLIndexBuffersMapped</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLIndexBuffersMapped.html">JCGLIndexBuffersMapped</s:link-external>
+          interface provides functions to map index buffers into
+          the application's address space.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Usage examples</s:subsection-title>
+        <s:paragraph>
+          Example
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          Version support
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          Design/Rationale
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+    
+    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLLogic">
+      <s:section-title>JCGLLogic</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLLogic.html">JCGLLogic</s:link-external>
+          interface provides functions to perform logical operations
+          when drawing to the current framebuffer (such as XORing all
+          incoming color values with those already in the framebuffer).
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Usage examples</s:subsection-title>
+        <s:paragraph>
+          Example
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          The operations described by the interface are supported
+          by OpenGL 2.1 and beyond, but are not supported by any
+          version of OpenGL ES.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          In typical style, integer constants are replaced with
+          enumerated types, making it statically impossible to
+          pass nonsense values to the functions.
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+    
+    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLMeta">
+      <s:section-title>JCGLMeta</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLMeta.html">JCGLMeta</s:link-external>
+          interface provides functions to query the current
+          OpenGL implementation for various metadata.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Usage examples</s:subsection-title>
+        <s:paragraph>
+          Example
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          Version support
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          Design/Rationale
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+    
+    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLRenderbuffers">
+      <s:section-title>JCGLRenderbuffers</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLRenderbuffersCommon.html">JCGLRenderbuffers</s:link-external>
+          interfaces provide functions for allocating renderbuffers.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Usage examples</s:subsection-title>
+        <s:paragraph>
+          Example
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          Version support
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          Design/Rationale
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+
+    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLScissor">
+      <s:section-title>JCGLScissor</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLScissor.html">JCGLScissor</s:link-external>
+          interface provides functions for configuring the
+          scissor test.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Usage examples</s:subsection-title>
+        <s:paragraph>
+          Example
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          Version support
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          Design/Rationale
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+
+    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLShaders">
+      <s:section-title>JCGLScissor</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLShaders.html">JCGLShaders</s:link-external>
+          interface provides functions for allocating, compiling, linking,
+          and using shading language programs.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Usage examples</s:subsection-title>
+        <s:paragraph>
+          Example
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          Version support
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          Design/Rationale
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+
+    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLStencilBuffer">
+      <s:section-title>JCGLStencilBuffer</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLStencilBuffer.html">JCGLStencilBuffer</s:link-external>
+          interface provides functions for manipulating the current
+          stencil buffer.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Usage examples</s:subsection-title>
+        <s:paragraph>
+          Example
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          Version support
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          Design/Rationale
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+    
+    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLTextures2DStatic">
+      <s:section-title>JCGLTextures2DStatic</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLTextures2DStaticCommon.html">JCGLTextures2DStatic</s:link-external>
+          interfaces provide functions for allocating, loading,
+          and using 2D textures.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Usage examples</s:subsection-title>
+        <s:paragraph>
+          Example
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          Version support
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          Design/Rationale
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+
+    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLTexturesCubeStatic">
+      <s:section-title>JCGLTexturesCubeStatic</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLTexturesCubeStaticCommon.html">JCGLTexturesCubeStatic</s:link-external>
+          interfaces provide functions for allocating, loading,
+          and using cube map textures.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Usage examples</s:subsection-title>
+        <s:paragraph>
+          Example
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          Version support
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          Design/Rationale
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+
+    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLViewport">
+      <s:section-title>JCGLViewport</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLViewport.html">JCGLViewport</s:link-external>
+          interface provides functions for configuring the current
+          viewport transformation.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Usage examples</s:subsection-title>
+        <s:paragraph>
+          Example
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          Version support
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          Design/Rationale
+        </s:paragraph>
+      </s:subsection>
+    </s:section>
+  </s:part>
+
   <s:part>
     <s:part-title>API Reference</s:part-title>
     <s:part-contents/>
