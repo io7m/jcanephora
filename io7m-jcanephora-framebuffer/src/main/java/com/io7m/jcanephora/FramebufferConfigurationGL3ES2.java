@@ -22,9 +22,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Indeterminate;
 
 /**
- * Instructions to create an ES2 compatible framebuffer configuration (using
- * OpenGL 3.0 features if available, but guaranteed to work on both ES2 and
- * 3.0).
+ * Instructions to create framebuffer that will work on the common subset of
+ * OpenGL 2.1, OpenGL 3.*, OpenGL ES3, and OpenGL ES2.
  */
 
 public interface FramebufferConfigurationGL3ES2
@@ -51,7 +50,7 @@ public interface FramebufferConfigurationGL3ES2
    */
 
   @Nonnull Indeterminate<Framebuffer, FramebufferStatus> make(
-    @Nonnull JCGLImplementation gi)
+    final @Nonnull JCGLImplementation gi)
     throws JCGLException,
       ConstraintError;
 
@@ -97,10 +96,10 @@ public interface FramebufferConfigurationGL3ES2
    */
 
   void requestBestRGBAColorTexture2D(
-    @Nonnull TextureWrapS texture_wrap_s,
-    @Nonnull TextureWrapT texture_wrap_t,
-    @Nonnull TextureFilterMinification texture_min_filter,
-    @Nonnull TextureFilterMagnification texture_mag_filter)
+    final @Nonnull TextureWrapS texture_wrap_s,
+    final @Nonnull TextureWrapT texture_wrap_t,
+    final @Nonnull TextureFilterMinification texture_min_filter,
+    final @Nonnull TextureFilterMagnification texture_mag_filter)
     throws ConstraintError;
 
   /**
@@ -127,11 +126,11 @@ public interface FramebufferConfigurationGL3ES2
    */
 
   void requestBestRGBAColorTextureCube(
-    @Nonnull TextureWrapR texture_wrap_r,
-    @Nonnull TextureWrapS texture_wrap_s,
-    @Nonnull TextureWrapT texture_wrap_t,
-    @Nonnull TextureFilterMinification texture_min_filter,
-    @Nonnull TextureFilterMagnification texture_mag_filter)
+    final @Nonnull TextureWrapR texture_wrap_r,
+    final @Nonnull TextureWrapS texture_wrap_s,
+    final @Nonnull TextureWrapT texture_wrap_t,
+    final @Nonnull TextureFilterMinification texture_min_filter,
+    final @Nonnull TextureFilterMagnification texture_mag_filter)
     throws ConstraintError;
 
   /**
@@ -176,10 +175,10 @@ public interface FramebufferConfigurationGL3ES2
    */
 
   void requestBestRGBColorTexture2D(
-    @Nonnull TextureWrapS texture_wrap_s,
-    @Nonnull TextureWrapT texture_wrap_t,
-    @Nonnull TextureFilterMinification texture_min_filter,
-    @Nonnull TextureFilterMagnification texture_mag_filter)
+    final @Nonnull TextureWrapS texture_wrap_s,
+    final @Nonnull TextureWrapT texture_wrap_t,
+    final @Nonnull TextureFilterMinification texture_min_filter,
+    final @Nonnull TextureFilterMagnification texture_mag_filter)
     throws ConstraintError;
 
   /**
@@ -206,11 +205,11 @@ public interface FramebufferConfigurationGL3ES2
    */
 
   void requestBestRGBColorTextureCube(
-    @Nonnull TextureWrapR texture_wrap_r,
-    @Nonnull TextureWrapS texture_wrap_s,
-    @Nonnull TextureWrapT texture_wrap_t,
-    @Nonnull TextureFilterMinification texture_min_filter,
-    @Nonnull TextureFilterMagnification texture_mag_filter)
+    final @Nonnull TextureWrapR texture_wrap_r,
+    final @Nonnull TextureWrapS texture_wrap_s,
+    final @Nonnull TextureWrapT texture_wrap_t,
+    final @Nonnull TextureFilterMinification texture_min_filter,
+    final @Nonnull TextureFilterMagnification texture_mag_filter)
     throws ConstraintError;
 
   /**
@@ -261,8 +260,8 @@ public interface FramebufferConfigurationGL3ES2
    */
 
   void requestSharedColor(
-    @Nonnull FramebufferUsable framebuffer,
-    @Nonnull FramebufferColorAttachmentPoint attachment)
+    final @Nonnull FramebufferUsable framebuffer,
+    final @Nonnull FramebufferColorAttachmentPoint attachment)
     throws ConstraintError;
 
   /**
@@ -286,7 +285,7 @@ public interface FramebufferConfigurationGL3ES2
    */
 
   void requestSharedDepth(
-    @Nonnull Framebuffer framebuffer)
+    final @Nonnull Framebuffer framebuffer)
     throws ConstraintError;
 
   /**
@@ -310,7 +309,7 @@ public interface FramebufferConfigurationGL3ES2
    */
 
   void requestSharedStencil(
-    @Nonnull Framebuffer framebuffer)
+    final @Nonnull Framebuffer framebuffer)
     throws ConstraintError;
 
   /**
