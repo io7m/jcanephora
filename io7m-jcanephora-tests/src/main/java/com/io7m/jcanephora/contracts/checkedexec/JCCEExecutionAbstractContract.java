@@ -37,6 +37,7 @@ import com.io7m.jcanephora.JCGLCompileException;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
 import com.io7m.jcanephora.JCGLScalarType;
+import com.io7m.jcanephora.JCGLShadersCommon;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.ProgramReference;
 import com.io7m.jcanephora.ProgramReferenceUsable;
@@ -238,7 +239,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
 
   /**
    * Passing <tt>null</tt> to
-   * {@link JCCEExecutionAbstract#execPrepare(JCGLShaders, ProgramReferenceUsable)}
+   * {@link JCCEExecutionAbstract#execPrepare(JCGLShadersCommon, ProgramReferenceUsable)}
    * fails.
    */
 
@@ -269,7 +270,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
 
   /**
    * Passing <tt>null</tt> to
-   * {@link JCCEExecutionAbstract#execPrepare(JCGLShaders, ProgramReferenceUsable)}
+   * {@link JCCEExecutionAbstract#execPrepare(JCGLShadersCommon, ProgramReferenceUsable)}
    * fails.
    */
 
@@ -456,9 +457,9 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
   }
 
   /**
-   * Calling {@link JCCEExecutionAbstract#execRun(JCGLShaders)} without
+   * Calling {@link JCCEExecutionAbstract#execRun(JCGLShadersCommon)} without
    * calling
-   * {@link JCCEExecutionAbstract#execPrepare(JCGLShaders, ProgramReferenceUsable)}
+   * {@link JCCEExecutionAbstract#execPrepare(JCGLShadersCommon, ProgramReferenceUsable)}
    * first fails.
    */
 
@@ -484,7 +485,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
   }
 
   /**
-   * Calling {@link JCCEExecutionAbstract#execRun(JCGLShaders)} with
+   * Calling {@link JCCEExecutionAbstract#execRun(JCGLShadersCommon)} with
    * <tt>null</tt> fails.
    */
 
