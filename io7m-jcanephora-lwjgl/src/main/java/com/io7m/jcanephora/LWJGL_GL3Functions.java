@@ -19,6 +19,7 @@ package com.io7m.jcanephora;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Nonnull;
 
@@ -1110,6 +1111,111 @@ final class LWJGL_GL3Functions
     final boolean e = GL11.glIsEnabled(GL11.GL_POLYGON_SMOOTH);
     LWJGL_GLES2Functions.checkError();
     return e;
+  }
+
+  static @Nonnull ProgramReference programCreateWithOutputs(
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull String name,
+    final @Nonnull VertexShader v,
+    final @Nonnull FragmentShader f,
+    final @Nonnull Map<String, FramebufferDrawBuffer> outputs)
+    throws ConstraintError,
+      JCGLException,
+      JCGLCompileException
+  {
+    Constraints.constrainNotNull(name, "Program name");
+    Constraints.constrainNotNull(v, "Vertex shader");
+    Constraints.constrainNotNull(f, "Fragment shader");
+    Constraints.constrainNotNull(outputs, "Outputs");
+    Constraints.constrainArbitrary(
+      outputs.isEmpty() == false,
+      "Draw buffer mappings not empty");
+    Constraints.constrainLessThan(
+      outputs.size(),
+      state.draw_buffers.length,
+      "Draw buffer mapping count");
+
+    for (final Entry<String, FramebufferDrawBuffer> e : outputs.entrySet()) {
+      Constraints.constrainNotNull(e.getValue(), "Draw buffer");
+    }
+
+    Constraints.constrainArbitrary(
+      v.resourceIsDeleted() == false,
+      "Vertex shader not deleted");
+    Constraints.constrainArbitrary(
+      f.resourceIsDeleted() == false,
+      "Fragment shader not deleted");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("program: create \"");
+      state.log_text.append(name);
+      state.log_text.append("\" with ");
+      state.log_text.append(v);
+      state.log_text.append(" ");
+      state.log_text.append(f);
+      log.debug(state.log_text.toString());
+    }
+
+    final int id = GL20.glCreateProgram();
+    if (id == 0) {
+      throw new JCGLException(0, "glCreateProgram failed");
+    }
+    LWJGL_GLES2Functions.checkError();
+
+    GL20.glAttachShader(id, v.getGLName());
+    LWJGL_GLES2Functions.checkError();
+    GL20.glAttachShader(id, f.getGLName());
+    LWJGL_GLES2Functions.checkError();
+
+    for (final Entry<String, FramebufferDrawBuffer> e : outputs.entrySet()) {
+      final String output = e.getKey();
+      final FramebufferDrawBuffer buffer = e.getValue();
+      GL30.glBindFragDataLocation(id, buffer.getIndex(), output);
+      LWJGL_GLES2Functions.checkError();
+
+      if (log.enabled(Level.LOG_DEBUG)) {
+        state.log_text.setLength(0);
+        state.log_text.append("program: bound ");
+        state.log_text.append(output);
+        state.log_text.append(" to draw buffer ");
+        state.log_text.append(buffer);
+        log.debug(state.log_text.toString());
+      }
+    }
+
+    GL20.glLinkProgram(id);
+    LWJGL_GLES2Functions.checkError();
+
+    final int status =
+      LWJGL_GLES2Functions.contextGetProgramInteger(
+        state,
+        id,
+        GL20.GL_LINK_STATUS);
+
+    if (status == 0) {
+      final ByteBuffer buffer = BufferUtils.createByteBuffer(8192);
+      final IntBuffer buffer_length = BufferUtils.createIntBuffer(1);
+      GL20.glGetProgramInfoLog(id, buffer_length, buffer);
+      LWJGL_GLES2Functions.checkError();
+
+      final byte raw[] = new byte[buffer.remaining()];
+      buffer.get(raw);
+      final String text = new String(raw);
+      throw new JCGLCompileException(name, text);
+    }
+
+    LWJGL_GLES2Functions.checkError();
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("program: created ");
+      state.log_text.append(id);
+      log.debug(state.log_text.toString());
+    }
+
+    return new ProgramReference(id, name);
   }
 
   static int stencilBufferGetBits(
