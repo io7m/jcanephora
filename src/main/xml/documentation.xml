@@ -1552,7 +1552,7 @@ g.blendingEnable(
       </s:subsection>
     </s:section>
 
-    <s:section>
+    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLColorBuffer">
       <s:section-title>JCGLColorBuffer</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -1573,7 +1573,7 @@ g.blendingEnable(
         <s:formal-item kind="examples">
           <s:formal-item-title>Color buffer clear</s:formal-item-title>
 <s:verbatim><![CDATA[
-JCGLColorBuffers g;
+JCGLColorBuffer g;
 
 g.colorBufferClear3f(1.0f, 0.0f, 0.0f);
 ]]></s:verbatim>
@@ -1585,7 +1585,7 @@ g.colorBufferClear3f(1.0f, 0.0f, 0.0f);
         <s:formal-item kind="examples">
           <s:formal-item-title>Color buffer mask</s:formal-item-title>
 <s:verbatim><![CDATA[
-JCGLColorBuffers g;
+JCGLColorBuffer g;
 
 g.colorBufferMask(true, false, true, true);
 ]]></s:verbatim>
@@ -1659,7 +1659,7 @@ g.cullingEnable(
       </s:subsection>
     </s:section>
 
-    <s:section>
+    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLDepthBuffer">
       <s:section-title>JCGLDepthBuffer</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -1753,7 +1753,7 @@ g.depthBufferEnable(DepthFunction.DEPTH_LESS_THAN);
       </s:subsection>
     </s:section>
     
-    <s:section>
+    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLDraw">
       <s:section-title>JCGLDraw</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -2387,19 +2387,42 @@ ga.arrayBufferBindVertexAttribute(aa, pa);
       <s:subsection>
         <s:subsection-title>Usage examples</s:subsection-title>
         <s:paragraph>
-          Example
+          To clear the current stencil buffer:
+        </s:paragraph>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Stencil buffer clear</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLStencilBuffer g;
+
+g.stencilBufferClear(0);
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          See the referenced JavaDoc for the full range of functions. Most
+          of the functions will raise exceptions if the current framebuffer
+          configuration does not include a stencil buffer; this is considered
+          to be behaviour preferable to silently producing incorrect results.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
-          Version support
+          All versions of OpenGL support these functions, and appear to
+          behave identically.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Design/Rationale</s:subsection-title>
         <s:paragraph>
-          Design/Rationale
+          The various OpenGL functions are somewhat weakly typed,
+          and follow the usual OpenGL convention of using integer
+          constants rather than enumerations. It's not really possible to
+          work out how to use them without checking the
+          documentation. The functions provided in the
+          <s:term type="package">JCGLStencilBuffer</s:term> interface
+          are somewhat more self-documenting and are much more
+          difficult to use incorrectly
+          <s:footnote>Although some would argue that it's difficult to use the stencil buffer correctly in the first place!</s:footnote>.
         </s:paragraph>
       </s:subsection>
     </s:section>
