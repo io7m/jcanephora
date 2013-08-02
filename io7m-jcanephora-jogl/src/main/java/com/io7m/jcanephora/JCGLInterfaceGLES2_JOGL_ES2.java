@@ -824,12 +824,11 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void indexBufferUpdate(
-    final @Nonnull IndexBuffer buffer,
     final @Nonnull IndexBufferWritableData data)
     throws JCGLException,
       ConstraintError
   {
-    JOGL_GL_Functions.indexBufferUpdate(this.contextGetGLES2(), buffer, data);
+    JOGL_GL_Functions.indexBufferUpdate(this.contextGetGLES2(), data);
   }
 
   @Override public int metaGetError()

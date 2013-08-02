@@ -102,17 +102,14 @@ public interface JCGLIndexBuffers
 
   /**
    * Replace the contents (or part of the contents) of the index buffer
-   * <code>buffer</code> with <code>data</code>.
+   * <code>data.getIndexBuffer()</code> with <code>data</code>.
    * 
-   * @param buffer
-   *          The index buffer.
    * @param data
    *          The data to upload.
    * 
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
-   *           <li><code>buffer == null</code></li>
    *           <li><code>data == null</code></li>
    *           </ul>
    * @throws JCGLException
@@ -120,7 +117,6 @@ public interface JCGLIndexBuffers
    */
 
   public void indexBufferUpdate(
-    final @Nonnull IndexBuffer buffer,
     final @Nonnull IndexBufferWritableData data)
     throws JCGLException,
       ConstraintError;

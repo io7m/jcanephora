@@ -745,12 +745,11 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void indexBufferUpdate(
-    final @Nonnull IndexBuffer buffer,
     final @Nonnull IndexBufferWritableData data)
     throws JCGLException,
       ConstraintError
   {
-    LWJGL_GLES2Functions.indexBufferUpdate(buffer, data);
+    LWJGL_GLES2Functions.indexBufferUpdate(data);
   }
 
   @Override public int metaGetError()
