@@ -18,17 +18,26 @@ package com.io7m.jcanephora;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
+ * <p>
  * A reference to an active uniform variable for a program.
- * 
+ * </p>
+ * <p>
  * A uniform variable has a name, a location, and a type.
+ * </p>
+ * <p>
+ * The type is not final, to allow programs to make semantically distinct
+ * values type-incompatible via subclassing and/or the addition of phantom
+ * type parameters.
+ * </p>
  */
 
-public final class ProgramUniform
+@Immutable public class ProgramUniform
 {
   private final int                             index;
   private final int                             location;
@@ -62,7 +71,7 @@ public final class ProgramUniform
    * Retrieve the raw OpenGL 'location' of the uniform value.
    */
 
-  public int getLocation()
+  public final int getLocation()
   {
     return this.location;
   }
@@ -72,7 +81,7 @@ public final class ProgramUniform
    * declared in the respective shading program.
    */
 
-  public @CheckForNull String getName()
+  public final @CheckForNull String getName()
   {
     return this.name;
   }
@@ -81,7 +90,7 @@ public final class ProgramUniform
    * Retrieve a reference to the program to which the uniform belongs.
    */
 
-  public @Nonnull ProgramReferenceUsable getProgram()
+  public final @Nonnull ProgramReferenceUsable getProgram()
   {
     return this.program;
   }
@@ -90,7 +99,7 @@ public final class ProgramUniform
    * Retrieve the OpenGL type of the uniform.
    */
 
-  public @Nonnull JCGLType getType()
+  public final @Nonnull JCGLType getType()
   {
     return this.type;
   }
