@@ -2441,19 +2441,104 @@ g.stencilBufferClear(0);
       <s:subsection>
         <s:subsection-title>Usage examples</s:subsection-title>
         <s:paragraph>
-          Example
+          The <s:term type="type">JCGLTextures2DStatic</s:term> interface
+          is divided into several interfaces that expose functions that
+          will allocate textures of formats supported by the current
+          implementation. The interfaces only expose textures that are
+          <s:term type="emphasis">required</s:term> to be supported by
+          each version of the OpenGL specification. Unfortunately, OpenGL 2.1
+          does not require any particular formats, so it was necessary to
+          determine which are actually supported in practice and expose
+          those. The
+          <s:link-external target="javadoc/com/io7m/jcanephora/JCGLTextures2DStaticCommon.html">JCGLTextures2DStaticCommon</s:link-external>
+          interface exposes the tiny subset of texture types that are
+          supported on <s:term type="emphasis">all</s:term> OpenGL
+          versions.
         </s:paragraph>
+        <s:paragraph>
+          To allocate a <s:term type="expression">256 * 256</s:term>
+          RGBA texture, 8 bits per channel (four bytes per pixel),
+          with nearest-neighbour filtering and repeat wrapping around
+          both axes:
+        </s:paragraph>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Texture allocation</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLTextures2DStaticCommon g;
+
+Texture2DStatic t =
+  g.texture2DStaticAllocateRGBA8888(
+    "texture",
+    256,
+    256,
+    TextureWrapS.TEXTURE_WRAP_REPEAT,
+    TextureWrapT.TEXTURE_WRAP_REPEAT,
+    TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+    TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          A spatial cursor interface is provided to populate allocated
+          textures with data (an opaque blue in this example):
+        </s:paragraph>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Texture population</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLTextures2DStaticCommon g;
+
+Texture2DWritableData td = new Texture2DWritableData(t);
+SpatialCursorWritable4i c = td.getCursor4i();
+
+for (int y = 0; y < 256; ++y) {
+  for (int x = 0; x < 256; ++x) {
+    c.seekTo(x, y);
+    c.put4i(0, 0, 0xff, 0xff);
+  }
+}
+
+g.texture2DStaticUpdate(td);
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          In order to use textures in shaders, textures must be bound
+          to the OpenGL texture units. The current texture units are
+          obtained with the
+          <s:link-external target="javadoc/com/io7m/jcanephora/JCGLTextureUnits.html#textureGetUnits()">textureGetUnits()</s:link-external>
+          function. The textures can then be bound to the units and
+          the units passed to shaders via uniform parameters:
+        </s:paragraph>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Texture binding</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLTextures2DStaticCommon gt;
+JCGLTextureUnits gu;
+
+TextureUnit[] units = gu.textureUnitsGet();
+
+gt.texture2DStaticBind(units[0], t);
+]]></s:verbatim>
+        </s:formal-item>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
-          Version support
+          The common subset of textures that are supported by all
+          OpenGL implementations is vanishingly small.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Design/Rationale</s:subsection-title>
         <s:paragraph>
-          Design/Rationale
+          The OpenGL texture API is legacy-ridden and insane. The
+          sheer number of ways that the API can be used incorrectly
+          vastly outnumber the correct usage patterns. In fact, the
+          OpenGL ES 2 and OpenGL 3.0 specifications require mutually
+          incompatible parameters to be passed! The 
+          <s:term type="type">JCGLTextures2DStatic</s:term> interfaces
+          provide a sane and statically safe way to allocate and use
+          textures: The programmer is prevented at compile-time from
+          allocating a texture format that will not be supported on the
+          current implementation.
         </s:paragraph>
       </s:subsection>
     </s:section>
@@ -2472,19 +2557,23 @@ g.stencilBufferClear(0);
       <s:subsection>
         <s:subsection-title>Usage examples</s:subsection-title>
         <s:paragraph>
-          Example
+          Usage of the <s:term type="type">JCGLTexturesCubeStatic</s:term> interfaces
+          is mostly identical to the
+          <s:link target="com.io7m.jcanephora.100.by_interface.JCGLTextures2DStatic">JCGLTextures2DStatic</s:link>
+          interfaces, except that the programmer is typically required to
+          state the face of the cube to which the current operation applies.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
-          Version support
+          See <s:link target="com.io7m.jcanephora.100.by_interface.JCGLTextures2DStatic">JCGLTextures2DStatic</s:link>.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Design/Rationale</s:subsection-title>
         <s:paragraph>
-          Design/Rationale
+          See <s:link target="com.io7m.jcanephora.100.by_interface.JCGLTextures2DStatic">JCGLTextures2DStatic</s:link>.
         </s:paragraph>
       </s:subsection>
     </s:section>
