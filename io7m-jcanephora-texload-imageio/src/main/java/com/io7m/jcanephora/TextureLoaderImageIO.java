@@ -633,7 +633,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     }
   }
 
-  public static final @Nonnull TextureType textureTypeES2Map(
+  private static final @Nonnull TextureType textureTypeES2Map(
     final @Nonnull TextureType type)
   {
     switch (type) {

@@ -1153,7 +1153,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
         an error, and compilation errors are signalled immediately.
       </s:paragraph>
     </s:section>
-    <s:section>
+    <s:section xml:id="com.io7m.jcanephora.100.tutorial_framebuffer">
       <s:section-title>Framebuffers</s:section-title>
       <s:paragraph>
         This example demonstrates the use of framebuffer objects to implement
@@ -2677,22 +2677,48 @@ g.viewportSet(
       <s:subsection>
         <s:subsection-title>Description</s:subsection-title>
         <s:paragraph>
-          Description.
+          Due to incompatibilities
+          between various OpenGL versions, and due to differing
+          levels of hardware support for framebuffers, it can be
+          quite difficult to reliably construct framebuffer
+          configurations that will work on every implementation.
+          The <s:term type="type">Framebuffer</s:term> interface
+          provides functions to instantiate various framebuffer
+          configurations that are known to work everywhere,
+          based on somewhat abstract descriptions of the desired
+          functionality.
         </s:paragraph>
-      </s:subsection>
-
-      <s:subsection>
-        <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
-          Version support.
+          For example, OpenGL ES2 only requires implementations
+          to support the <s:term type="constant">RGB565</s:term>
+          renderable format. OpenGL 3.0 does not require implementations
+          to support this format, but does require them to support
+          the <s:term type="constant">RGB8</s:term> format. Therefore,
+          it's not actually possible to specify one format and know
+          without question that it will work on both OpenGL ES2 and
+          OpenGL 3.0.
         </s:paragraph>
-      </s:subsection>
-
-      <s:subsection>
-        <s:subsection-title>Design/Rationale</s:subsection-title>
         <s:paragraph>
-          Design/Rationale.
+          The <s:term type="type">Framebuffer</s:term> API attempts
+          to address these issues by allowing the programmer to
+          ask, for example, for a framebuffer with a single RGB renderbuffer
+          that will work on all OpenGL implementations. The programmer
+          is insulated from the actual format selected, and the API will
+          select whatever is the "best" format at runtime, based on the
+          current implementation.
         </s:paragraph>
+        <s:paragraph>
+          See the <s:link target="com.io7m.jcanephora.100.tutorial_framebuffer">Framebuffer tutorial</s:link>
+          for a concrete example, and the following documentation pages
+          for the actual interfaces:
+        </s:paragraph>
+        <s:formal-item kind="listing">
+          <s:formal-item-title>Framebuffer interfaces</s:formal-item-title>
+          <s:list-unordered>
+            <s:list-item><s:link-external target="javadoc/com/io7m/jcanephora/FramebufferConfigurationGL3ES2.html">FramebufferConfigurationGL3ES2</s:link-external></s:list-item>
+            <s:list-item><s:link-external target="javadoc/com/io7m/jcanephora/FramebufferConfigurationGL3.html">FramebufferConfigurationGL3</s:link-external></s:list-item>
+          </s:list-unordered>
+        </s:formal-item>
       </s:subsection>
 	  </s:section>
 
@@ -2703,21 +2729,23 @@ g.viewportSet(
       <s:subsection>
         <s:subsection-title>Description</s:subsection-title>
         <s:paragraph>
-          Description.
+          The <s:link-external target="javadoc/com/io7m/jcanephora/TextureLoader.html">TextureLoader</s:link-external>
+          interface defines a set of functions for loading images into
+          OpenGL textures from Java input streams. The functions can
+          convert arbitrary images into specific formats upon loading,
+          or can infer an appropriate texture type based on the loaded
+          image format.
         </s:paragraph>
       </s:subsection>
-
+      
       <s:subsection>
-        <s:subsection-title>Version support</s:subsection-title>
+        <s:subsection-title>Implementations</s:subsection-title>
         <s:paragraph>
-          Version support.
-        </s:paragraph>
-      </s:subsection>
-
-      <s:subsection>
-        <s:subsection-title>Design/Rationale</s:subsection-title>
-        <s:paragraph>
-          Design/Rationale.
+          Currently, an implementation based on Java's
+          <s:link-external target="http://docs.oracle.com/javase/6/docs/api/javax/imageio/ImageIO.html">ImageIO</s:link-external>
+          interface is provided. See the
+          <s:link-external target="javadoc/com/io7m/jcanephora/TextureLoaderImageIO.html">TextureLoaderImageIO</s:link-external>
+          documentation for details on how to instantiate that implementation.
         </s:paragraph>
       </s:subsection>
 	  </s:section>
@@ -2729,21 +2757,75 @@ g.viewportSet(
       <s:subsection>
         <s:subsection-title>Description</s:subsection-title>
         <s:paragraph>
-          Description.
+          The <s:link-external target="javadoc/com/io7m/jcanephora/checkedexec/JCCEExecutionAPI.html">JCCEExecution</s:link-external>
+          interface provides an interface with stronger checking
+          than the
+          <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLShaders">JCGLShaders</s:link>
+          interfaces. Essentially, it performs inexpensive runtime checks
+          to ensure that the programmer has not forgotten to assign
+          values to the current program's uniform parameters, and also
+          that the programmer has not forgotten to bind array buffer
+          attributes to the current program's attributes.
+        </s:paragraph>
+        <s:paragraph>
+          The described checks can be invaluable during development,
+          as shader interfaces often change (when uniforms and attributes
+          are renamed), and in typical OpenGL style, this usually leads
+          to silent failure and incorrect results rather than loudly-signalled
+          errors. The <s:term type="type">JCCEExecution</s:term> interface
+          eliminates those issues.
         </s:paragraph>
       </s:subsection>
-
+      
       <s:subsection>
-        <s:subsection-title>Version support</s:subsection-title>
+        <s:subsection-title>Usage</s:subsection-title>
         <s:paragraph>
-          Version support.
+          Typically, programs will extend the
+          <s:link-external target="javadoc/com/io7m/jcanephora/checkedexec/JCCEExecutionAbstract.html">JCCEExecutionAbstract</s:link-external>
+          type, filling in the one missing function that represents
+          the rendering operations that will be performed using the
+          current shader.
         </s:paragraph>
-      </s:subsection>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Checked execution</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLInterfaceCommon g;
+ProgramReferenceUsable p;
+ArrayBuffer a;
 
-      <s:subsection>
-        <s:subsection-title>Design/Rationale</s:subsection-title>
+JCCEExecutionAbstract<Throwable> e = new JCCEExecutionAbstract<Throwable>() {
+  @Override protected void execRunActual()
+    throws JCGLException,
+      Throwable
+  {
+    // Perform rendering operations.
+  }
+};
+
+e.execPrepare(g, p);
+e.execUniformPutVector2F(g, "u_vf2", new VectorI2F(1, 1));
+e.execUniformPutVector3F(g, "u_vf3", new VectorI3F(1, 1, 1));
+e.execUniformPutVector4F(g, "u_vf4", new VectorI4F(1, 1, 1, 1));
+e.execUniformPutVector2I(g, "u_vi2", new VectorI2I(1, 1));
+e.execUniformPutVector3I(g, "u_vi3", new VectorI3I(1, 1, 1));
+e.execUniformPutVector4I(g, "u_vi4", new VectorI4I(1, 1, 1, 1));
+e.execUniformPutMatrix3x3F(g, "u_m3", new MatrixM3x3F());
+e.execUniformPutMatrix4x4F(g, "u_m4", new MatrixM4x4F());
+e.execAttributeBind(g, "a_vf2", a.getAttribute("a_vf2"));
+e.execAttributeBind(g, "a_vf3", a.getAttribute("a_vf3"));
+e.execAttributeBind(g, "a_vf4", a.getAttribute("a_vf4"));
+e.execAttributeBind(g, "a_f", a.getAttribute("a_f"));
+e.execRun(g);
+]]></s:verbatim>
+        </s:formal-item>
         <s:paragraph>
-          Design/Rationale.
+          If any of the given uniforms or attributes do not exist,
+          or have incorrect types, or if the program contains uniforms
+          or attributes that have not been assigned values since the
+          last <s:term type="function">execPrepare(g)</s:term> call,
+          the <s:term type="function">execRun(g)</s:term>
+          function raises <s:term type="type">ConstraintError</s:term>
+          and the rendering function is not called.
         </s:paragraph>
       </s:subsection>
 	  </s:section>
