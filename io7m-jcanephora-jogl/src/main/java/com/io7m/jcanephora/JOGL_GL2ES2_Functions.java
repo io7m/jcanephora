@@ -199,6 +199,9 @@ final class JOGL_GL2ES2_Functions
   {
     Constraints.constrainNotNull(name, "Shader name");
     Constraints.constrainNotNull(lines, "Source lines");
+    Constraints.constrainArbitrary(
+      ShaderUtilities.isEmpty(lines) == false,
+      "Source lines not empty");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -214,8 +217,6 @@ final class JOGL_GL2ES2_Functions
     final String[] line_array = new String[lines.size()];
     final IntBuffer line_lengths = Buffers.newDirectIntBuffer(lines.size());
     for (int index = 0; index < lines.size(); ++index) {
-      final String line = lines.get(index);
-      Constraints.constrainNotNull(line, "Source line");
       line_array[index] = lines.get(index);
       final int len = line_array[index].length();
       line_lengths.put(index, len);
@@ -896,6 +897,9 @@ final class JOGL_GL2ES2_Functions
   {
     Constraints.constrainNotNull(name, "Shader name");
     Constraints.constrainNotNull(lines, "Input lines");
+    Constraints.constrainArbitrary(
+      ShaderUtilities.isEmpty(lines) == false,
+      "Source lines not empty");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -911,8 +915,6 @@ final class JOGL_GL2ES2_Functions
     final String[] line_array = new String[lines.size()];
     final IntBuffer line_lengths = Buffers.newDirectIntBuffer(lines.size());
     for (int index = 0; index < lines.size(); ++index) {
-      final String line = lines.get(index);
-      Constraints.constrainNotNull(line, "Source line");
       line_array[index] = lines.get(index);
       final int len = line_array[index].length();
       line_lengths.put(index, len);
