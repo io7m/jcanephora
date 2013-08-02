@@ -2657,6 +2657,98 @@ g.viewportSet(
     </s:section>
   </s:part>
 
+  <s:part xml:id="com.io7m.jcanephora.100.highlevel">
+    <s:part-title>High-level Interfaces</s:part-title>
+    <s:part-contents/>
+
+    <s:section xml:id="com.io7m.jcanephora.100.highlevel.overview">
+      <s:section-title>Overview</s:section-title>
+      <s:paragraph>
+        The <s:term type="package">jcanephora</s:term> package
+        also provides a number of optional higher-level APIs built
+        upon the <s:link target="com.io7m.jcanephora.100.core_interfaces">core interfaces</s:link>.
+      </s:paragraph>
+    </s:section>
+
+	  <s:section xml:id="com.io7m.jcanephora.100.highlevel.framebuffer">
+	    <s:section-title>Framebuffer API</s:section-title>
+	    <s:section-contents/>
+
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          Description.
+        </s:paragraph>
+      </s:subsection>
+
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          Version support.
+        </s:paragraph>
+      </s:subsection>
+
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          Design/Rationale.
+        </s:paragraph>
+      </s:subsection>
+	  </s:section>
+
+	  <s:section xml:id="com.io7m.jcanephora.100.highlevel.textureloader">
+	    <s:section-title>TextureLoader API</s:section-title>
+	    <s:section-contents/>
+
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          Description.
+        </s:paragraph>
+      </s:subsection>
+
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          Version support.
+        </s:paragraph>
+      </s:subsection>
+
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          Design/Rationale.
+        </s:paragraph>
+      </s:subsection>
+	  </s:section>
+	  
+	  <s:section xml:id="com.io7m.jcanephora.100.highlevel.checkedexec">
+	    <s:section-title>Execution API</s:section-title>
+	    <s:section-contents/>
+
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          Description.
+        </s:paragraph>
+      </s:subsection>
+
+      <s:subsection>
+        <s:subsection-title>Version support</s:subsection-title>
+        <s:paragraph>
+          Version support.
+        </s:paragraph>
+      </s:subsection>
+
+      <s:subsection>
+        <s:subsection-title>Design/Rationale</s:subsection-title>
+        <s:paragraph>
+          Design/Rationale.
+        </s:paragraph>
+      </s:subsection>
+	  </s:section>
+  </s:part>
+
   <s:part>
     <s:part-title>API Reference</s:part-title>
     <s:part-contents/>
