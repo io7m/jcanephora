@@ -24,12 +24,17 @@ import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
+ * <p>
  * An immutable reference to an active attribute variable for a program.
- * 
- * An attribute has a name, a location, and a type.
+ * </p>
+ * <p>
+ * The type is not final, to allow programs to make semantically distinct
+ * values type-incompatible via subclassing and/or the addition of phantom
+ * type parameters.
+ * </p>
  */
 
-@Immutable public final class ProgramAttribute
+@Immutable public class ProgramAttribute
 {
   private final int                             index;
   private final int                             location;
@@ -66,7 +71,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * Retrieve the raw OpenGL 'location' of the attribute.
    */
 
-  public int getLocation()
+  public final int getLocation()
   {
     return this.location;
   }
@@ -76,7 +81,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * declared in the respective shading program.
    */
 
-  public @CheckForNull String getName()
+  public final @CheckForNull String getName()
   {
     return this.name;
   }
@@ -85,7 +90,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * Retrieve a reference to the program that owns the attribute.
    */
 
-  public @Nonnull ProgramReferenceUsable getProgram()
+  public final @Nonnull ProgramReferenceUsable getProgram()
   {
     return this.program;
   }
@@ -94,7 +99,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * Retrieve the OpenGL type of the attribute.
    */
 
-  public @Nonnull JCGLType getType()
+  public final @Nonnull JCGLType getType()
   {
     return this.type;
   }
