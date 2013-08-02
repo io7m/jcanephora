@@ -1189,17 +1189,31 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
         The rest of the <s:term type="package">jcanephora</s:term>
         API is concerned with adding type safety to the functions that
         work on the other parts of the OpenGL pipeline. The
-        <s:link target="com.io7m.jcanephora.100.by_interface">by-interface</s:link>
+        <s:link target="com.io7m.jcanephora.100.core_interfaces">core interfaces</s:link>
         documentation details the rest of the API.
       </s:paragraph>
     </s:section>
   </s:part>
 
-  <s:part xml:id="com.io7m.jcanephora.100.by_interface">
-    <s:part-title>jcanephora By Interface</s:part-title>
+  <s:part xml:id="com.io7m.jcanephora.100.core_interfaces">
+    <s:part-title>jcanephora Core Interfaces</s:part-title>
     <s:part-contents/>
     
-    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffers">
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.overview">
+      <s:section-title>Overview</s:section-title>
+      <s:paragraph>
+        The <s:term type="package">jcanephora</s:term> package
+        is separated into a number of "core" interfaces, through which
+        all higher-level abstractions/interfaces work.
+      </s:paragraph>
+      <s:paragraph>
+        The various <s:term type="type">JCGLInterface*</s:term> types
+        are actually aggregations of these core interfaces into convenient
+        packages. See the included <s:link-external target="javadoc">JavaDoc</s:link-external> for the details of the combinations.
+      </s:paragraph>
+    </s:section>
+    
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLArrayBuffers">
       <s:section-title>JCGLArrayBuffers</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -1320,7 +1334,7 @@ ArrayBuffer a = g.arrayBufferAllocate(100, descriptor, UsageHint.USAGE_STATIC_DR
           no data, and must then be populated with data using the
           <s:term type="package">jcanephora</s:term> equivalent of the
           <s:term type="function">glBufferSubData</s:term> function. See
-          the <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffersMapped">JCGLArrayBuffersMapped</s:link>
+          the <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLArrayBuffersMapped">JCGLArrayBuffersMapped</s:link>
           interface for an alternative method of populating arrays on
           more advanced OpenGL implementations. The
           <s:term type="package">jcanephora</s:term>
@@ -1432,7 +1446,7 @@ g.arrayBufferUpdate(ad);
       </s:subsection>
     </s:section>
     
-    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffersMapped">
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLArrayBuffersMapped">
       <s:section-title>JCGLArrayBuffersMapped</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -1500,13 +1514,13 @@ g.arrayBufferUnmap(a);
       <s:subsection>
         <s:subsection-title>Design/Rationale</s:subsection-title>
         <s:paragraph>
-          See the <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffers">JCGLArrayBuffers</s:link>
+          See the <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLArrayBuffers">JCGLArrayBuffers</s:link>
           interface.
         </s:paragraph>
       </s:subsection>
     </s:section>
 
-    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLBlending">
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLBlending">
       <s:section-title>JCGLBlending</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -1552,7 +1566,7 @@ g.blendingEnable(
       </s:subsection>
     </s:section>
 
-    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLColorBuffer">
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLColorBuffer">
       <s:section-title>JCGLColorBuffer</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -1613,7 +1627,7 @@ g.colorBufferMask(true, false, true, true);
       </s:subsection>
     </s:section>
 
-    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLCull">
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLCull">
       <s:section-title>JCGLCull</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -1659,7 +1673,7 @@ g.cullingEnable(
       </s:subsection>
     </s:section>
 
-    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLDepthBuffer">
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLDepthBuffer">
       <s:section-title>JCGLDepthBuffer</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -1753,7 +1767,7 @@ g.depthBufferEnable(DepthFunction.DEPTH_LESS_THAN);
       </s:subsection>
     </s:section>
     
-    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLDraw">
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLDraw">
       <s:section-title>JCGLDraw</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -1767,9 +1781,9 @@ g.depthBufferEnable(DepthFunction.DEPTH_LESS_THAN);
       <s:subsection>
         <s:subsection-title>Usage examples</s:subsection-title>
         <s:paragraph>
-          Assuming that an <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffers">array buffer</s:link>
+          Assuming that an <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLArrayBuffers">array buffer</s:link>
           is currently bound, and an
-          <s:link target="com.io7m.jcanephora.100.by_interface.JCGLIndexBuffers">index buffer</s:link>
+          <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLIndexBuffers">index buffer</s:link>
           has been populated with data, drawing an object is trivial:
         </s:paragraph>
         <s:formal-item kind="examples">
@@ -1804,7 +1818,7 @@ g.drawElements(Primitives.PRIMITIVE_TRIANGLES, indices);
       </s:subsection>
     </s:section>
 
-    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLFramebuffers">
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLFramebuffers">
       <s:section-title>JCGLFramebuffers</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -1835,7 +1849,7 @@ g.drawElements(Primitives.PRIMITIVE_TRIANGLES, indices);
       </s:subsection>
     </s:section>
 
-    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLIndexBuffers">
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLIndexBuffers">
       <s:section-title>JCGLIndexBuffers</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -1856,7 +1870,7 @@ g.drawElements(Primitives.PRIMITIVE_TRIANGLES, indices);
         <s:paragraph>
           Index buffers are allocated and populated in a matter
           similar to
-          <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffers">array buffers</s:link>:
+          <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLArrayBuffers">array buffers</s:link>:
           An initial size is specified, and a cursor interface is
           used to insert values into the allocated buffer. Typically,
           there is an <s:term type="expression">n:1</s:term> relationship
@@ -1920,12 +1934,12 @@ gi.indexBufferUpdate(indices);
       <s:subsection>
         <s:subsection-title>Design/Rationale</s:subsection-title>
         <s:paragraph>
-          See <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffers">JCGLArrayBuffers</s:link>.
+          See <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLArrayBuffers">JCGLArrayBuffers</s:link>.
         </s:paragraph>
       </s:subsection>
     </s:section>
     
-    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLIndexBuffersMapped">
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLIndexBuffersMapped">
       <s:section-title>JCGLIndexBuffersMapped</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -1934,18 +1948,18 @@ gi.indexBufferUpdate(indices);
           The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLIndexBuffersMapped.html">JCGLIndexBuffersMapped</s:link-external>
           interface provides functions to map index buffers into
           the application's address space. It is to
-          <s:link target="com.io7m.jcanephora.100.by_interface.JCGLIndexBuffers">JCGLIndexBuffers</s:link>
+          <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLIndexBuffers">JCGLIndexBuffers</s:link>
           as
-          <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffersMapped">JCGLArrayBuffersMapped</s:link>
+          <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLArrayBuffersMapped">JCGLArrayBuffersMapped</s:link>
           is to
-          <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffers">JCGLArrayBuffers</s:link>.
+          <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLArrayBuffers">JCGLArrayBuffers</s:link>.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Usage examples</s:subsection-title>
         <s:paragraph>
           The interface provided is identical to the
-          <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffersMapped">JCGLArrayBuffersMapped</s:link>
+          <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLArrayBuffersMapped">JCGLArrayBuffersMapped</s:link>
           interface, modulo the buffer types. No extra usage
           information is given here.
         </s:paragraph>
@@ -1953,18 +1967,18 @@ gi.indexBufferUpdate(indices);
       <s:subsection>
         <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
-          See <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffersMapped">JCGLArrayBuffersMapped</s:link>.
+          See <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLArrayBuffersMapped">JCGLArrayBuffersMapped</s:link>.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Design/Rationale</s:subsection-title>
         <s:paragraph>
-          See <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffers">JCGLArrayBuffers</s:link>.
+          See <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLArrayBuffers">JCGLArrayBuffers</s:link>.
         </s:paragraph>
       </s:subsection>
     </s:section>
     
-    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLLogic">
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLLogic">
       <s:section-title>JCGLLogic</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -2009,7 +2023,7 @@ gl.logicOperationsEnable(LogicOperation.LOGIC_XOR);
       </s:subsection>
     </s:section>
     
-    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLMeta">
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLMeta">
       <s:section-title>JCGLMeta</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -2053,37 +2067,55 @@ JCGLSLVersion v = g.metaGetSLVersion();
       </s:subsection>
     </s:section>
     
-    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLRenderbuffers">
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLRenderbuffers">
       <s:section-title>JCGLRenderbuffers</s:section-title>
       <s:section-contents/>
       <s:subsection>
         <s:subsection-title>Description</s:subsection-title>
         <s:paragraph>
           The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLRenderbuffersCommon.html">JCGLRenderbuffers</s:link-external>
-          interfaces provide functions for allocating renderbuffers.
+          interfaces provide functions for allocating and
+          deleting renderbuffers.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Usage examples</s:subsection-title>
         <s:paragraph>
-          Example
+          The <s:term type="type">JCGLRenderbuffers</s:term> interfaces
+          are organized in a similar manner to the
+          <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLTextures2DStatic">JCGLTextures2DStatic</s:link>
+          interfaces in that the allocation functions are separated
+          into version-specific interfaces to statically prevent
+          the allocation of unsupported formats.
+        </s:paragraph>
+        <s:paragraph>
+          Given the opaque nature of renderbuffers, the interfaces
+          do not provide any functions beyond allocation and
+          deletion. Once allocated, renderbuffers are attached to
+          <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLFramebuffers">framebuffers</s:link>
+          for use, and do not support any other operations.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
-          Version support
+          All versions of OpenGL support these functions, but the
+          available renderbuffer formats differ. For example, OpenGL ES 2
+          and OpenGL 3.0 do not have a required renderable format in
+          common.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Design/Rationale</s:subsection-title>
         <s:paragraph>
-          Design/Rationale
+          See <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLTextures2DStatic">JCGLTextures2DStatic</s:link>,
+          as the design of the <s:term type="type">JCGLRenderbuffers</s:term>
+          interfaces mirror those of the texture interfaces.
         </s:paragraph>
       </s:subsection>
     </s:section>
 
-    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLScissor">
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLScissor">
       <s:section-title>JCGLScissor</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -2129,7 +2161,7 @@ g.scissorEnable(
       </s:subsection>
     </s:section>
 
-    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLShaders">
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLShaders">
       <s:section-title>JCGLShaders</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -2191,7 +2223,7 @@ ProgramReference p = g.programCreateCommon("example", v, f);
           Note that this assumes that the fragment shader in question
           only has a single output (which will automatically be mapped
           to draw buffer <s:term type="constant">0</s:term> by OpenGL).
-          See <s:link target="com.io7m.jcanephora.100.by_interface.JCGLShaders.version_support">version support</s:link>
+          See <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLShaders.version_support">version support</s:link>
           for details on the difficulties of writing shading programs
           with multiple outputs that will work consistently across
           OpenGL versions. With those issues understood, programs with
@@ -2258,7 +2290,7 @@ p.programUniformPutVector4f(p, new VectorI4F(1.0f, 0.0f, 0.0f, 1.0f));
         <s:paragraph>
           Attributes are accessed in the same manner, but data must be
           supplied from
-          <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffers">array buffer attributes</s:link>
+          <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLArrayBuffers">array buffer attributes</s:link>
           by first binding the array, and then binding the array attribute to
           the given program attribute:
         </s:paragraph>
@@ -2284,7 +2316,7 @@ ga.arrayBufferBindVertexAttribute(aa, pa);
 ]]></s:verbatim>
         </s:formal-item>
       </s:subsection>
-      <s:subsection xml:id="com.io7m.jcanephora.100.by_interface.JCGLShaders.version_support">
+      <s:subsection xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLShaders.version_support">
         <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
           All of the supported OpenGL versions support the
@@ -2367,13 +2399,13 @@ ga.arrayBufferBindVertexAttribute(aa, pa);
           to write portable programs should use a higher level shading
           language to produce a range of GLSL sources, and select the
           correct one at runtime using information retrieved from the
-          <s:link target="com.io7m.jcanephora.100.by_interface.JCGLMeta">JCGLMeta</s:link>
+          <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLMeta">JCGLMeta</s:link>
           interface.
         </s:paragraph>
       </s:subsection>
     </s:section>
 
-    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLStencilBuffer">
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLStencilBuffer">
       <s:section-title>JCGLStencilBuffer</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -2398,7 +2430,9 @@ g.stencilBufferClear(0);
 ]]></s:verbatim>
         </s:formal-item>
         <s:paragraph>
-          See the referenced JavaDoc for the full range of functions. Most
+          See the referenced 
+          <s:link-external target="javadoc/com/io7m/jcanephora/JCGLStencilBuffer.html">JavaDoc</s:link-external>
+          for the full range of functions. Most
           of the functions will raise exceptions if the current framebuffer
           configuration does not include a stencil buffer; this is considered
           to be behaviour preferable to silently producing incorrect results.
@@ -2427,7 +2461,7 @@ g.stencilBufferClear(0);
       </s:subsection>
     </s:section>
     
-    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLTextures2DStatic">
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLTextures2DStatic">
       <s:section-title>JCGLTextures2DStatic</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -2543,7 +2577,7 @@ gt.texture2DStaticBind(units[0], t);
       </s:subsection>
     </s:section>
 
-    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLTexturesCubeStatic">
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLTexturesCubeStatic">
       <s:section-title>JCGLTexturesCubeStatic</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -2559,7 +2593,7 @@ gt.texture2DStaticBind(units[0], t);
         <s:paragraph>
           Usage of the <s:term type="type">JCGLTexturesCubeStatic</s:term> interfaces
           is mostly identical to the
-          <s:link target="com.io7m.jcanephora.100.by_interface.JCGLTextures2DStatic">JCGLTextures2DStatic</s:link>
+          <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLTextures2DStatic">JCGLTextures2DStatic</s:link>
           interfaces, except that the programmer is typically required to
           state the face of the cube to which the current operation applies.
         </s:paragraph>
@@ -2567,18 +2601,18 @@ gt.texture2DStaticBind(units[0], t);
       <s:subsection>
         <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
-          See <s:link target="com.io7m.jcanephora.100.by_interface.JCGLTextures2DStatic">JCGLTextures2DStatic</s:link>.
+          See <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLTextures2DStatic">JCGLTextures2DStatic</s:link>.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Design/Rationale</s:subsection-title>
         <s:paragraph>
-          See <s:link target="com.io7m.jcanephora.100.by_interface.JCGLTextures2DStatic">JCGLTextures2DStatic</s:link>.
+          See <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLTextures2DStatic">JCGLTextures2DStatic</s:link>.
         </s:paragraph>
       </s:subsection>
     </s:section>
 
-    <s:section xml:id="com.io7m.jcanephora.100.by_interface.JCGLViewport">
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.JCGLViewport">
       <s:section-title>JCGLViewport</s:section-title>
       <s:section-contents/>
       <s:subsection>
@@ -2630,7 +2664,7 @@ g.viewportSet(
       <s:section-title>Javadoc</s:section-title>
       <s:paragraph>
         API documentation for the package is provided via the
-        included <s:link-external target="javadoc">Javadoc</s:link-external>.
+        included <s:link-external target="javadoc">JavaDoc</s:link-external>.
       </s:paragraph>
     </s:section>
   </s:part>
