@@ -354,7 +354,7 @@ public abstract class IndexBufferContract implements TestContract
     }
 
     final IndexBufferWritableData data = new IndexBufferWritableData(i);
-    gi.indexBufferUpdate(i, data);
+    gi.indexBufferUpdate(data);
   }
 
   /**
@@ -390,42 +390,7 @@ public abstract class IndexBufferContract implements TestContract
 
     final IndexBufferWritableData data = new IndexBufferWritableData(i);
     gi.indexBufferDelete(i);
-    gi.indexBufferUpdate(i, data);
-  }
-
-  /**
-   * Updating a null index buffer fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testIndexBufferUpdateNull()
-      throws ConstraintError,
-        JCGLException,
-        JCGLUnsupportedException
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
-    final JCGLIndexBuffers gi = this.getGLIndexBuffers(tc);
-
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_SHORT,
-          1) });
-    IndexBuffer i = null;
-    ArrayBuffer a = null;
-
-    try {
-      a = ga.arrayBufferAllocate(255, d, UsageHint.USAGE_STATIC_DRAW);
-      i = gi.indexBufferAllocate(a, 4);
-    } catch (final Throwable e) {
-      Assert.fail(e.getMessage());
-    }
-
-    final IndexBufferWritableData data = new IndexBufferWritableData(i);
-    gi.indexBufferUpdate(null, data);
+    gi.indexBufferUpdate(data);
   }
 
   /**
@@ -440,25 +405,8 @@ public abstract class IndexBufferContract implements TestContract
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
-    final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLIndexBuffers gi = this.getGLIndexBuffers(tc);
 
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_SHORT,
-          1) });
-    IndexBuffer i = null;
-    ArrayBuffer a = null;
-
-    try {
-      a = ga.arrayBufferAllocate(255, d, UsageHint.USAGE_STATIC_DRAW);
-      i = gi.indexBufferAllocate(a, 4);
-    } catch (final Throwable e) {
-      Assert.fail(e.getMessage());
-    }
-
-    gi.indexBufferUpdate(i, null);
+    gi.indexBufferUpdate(null);
   }
 }
