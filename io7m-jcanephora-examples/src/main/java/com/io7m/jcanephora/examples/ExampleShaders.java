@@ -197,7 +197,7 @@ public final class ExampleShaders implements Example
       ind_cursor.putIndex(2);
     }
 
-    this.gl.indexBufferUpdate(this.indices, this.indices_data);
+    this.gl.indexBufferUpdate(this.indices_data);
   }
 
   @Override public void display()

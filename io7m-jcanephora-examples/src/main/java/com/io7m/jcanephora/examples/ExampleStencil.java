@@ -161,9 +161,7 @@ public final class ExampleStencil implements Example
       ind_cursor.putIndex(2);
     }
 
-    this.gl.indexBufferUpdate(
-      this.triangle_indices,
-      this.triangle_indices_data);
+    this.gl.indexBufferUpdate(this.triangle_indices_data);
 
     this.quad_indices = this.gl.indexBufferAllocate(this.array, 6);
     this.quad_indices_data = new IndexBufferWritableData(this.quad_indices);
@@ -180,7 +178,7 @@ public final class ExampleStencil implements Example
       ind_cursor.putIndex(3);
     }
 
-    this.gl.indexBufferUpdate(this.quad_indices, this.quad_indices_data);
+    this.gl.indexBufferUpdate(this.quad_indices_data);
   }
 
   @Override public void display()

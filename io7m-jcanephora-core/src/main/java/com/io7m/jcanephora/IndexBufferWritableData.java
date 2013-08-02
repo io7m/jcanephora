@@ -112,6 +112,15 @@ public final class IndexBufferWritableData
   }
 
   /**
+   * Retrieve the index buffer to which this data belongs.
+   */
+
+  public @Nonnull IndexBufferUsable getIndexBuffer()
+  {
+    return this.buffer;
+  }
+
+  /**
    * Retrieve the data that will be used to update the array buffer.
    */
 

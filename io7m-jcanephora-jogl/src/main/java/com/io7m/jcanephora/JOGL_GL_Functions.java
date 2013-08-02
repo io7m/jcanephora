@@ -1779,14 +1779,13 @@ final class JOGL_GL_Functions
 
   static void indexBufferUpdate(
     final @Nonnull GL gl,
-    final @Nonnull IndexBuffer buffer,
     final @Nonnull IndexBufferWritableData data)
     throws JCGLException,
       ConstraintError
   {
-    Constraints.constrainNotNull(buffer, "Index buffer");
     Constraints.constrainNotNull(data, "Index data");
 
+    final IndexBufferUsable buffer = data.getIndexBuffer();
     Constraints.constrainArbitrary(
       buffer.resourceIsDeleted() == false,
       "Index buffer not deleted");
