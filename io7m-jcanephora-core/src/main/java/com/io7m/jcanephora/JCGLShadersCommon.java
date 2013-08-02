@@ -44,6 +44,7 @@ public interface JCGLShadersCommon
    * terminator (GLSL accepts both LF and CRLF as EOL tokens). The program
    * will be named <code>name</code> in any error messages.
    * 
+   * @see ShaderUtilities#isEmpty(List)
    * @param name
    *          The name of the program.
    * @param lines
@@ -54,7 +55,7 @@ public interface JCGLShadersCommon
    *           <ul>
    *           <li><code>name == null</code></li>
    *           <li><code>lines == null</code></li>
-   *           <li><code>∃n. lines.get(n) == null</code></li>
+   *           <li><code>ShaderUtilities.isEmpty(lines) == true</code></li>
    *           </ul>
    * @throws JCGLCompileException
    *           Iff a compilation error occurs.
@@ -544,6 +545,7 @@ public interface JCGLShadersCommon
    * terminator (GLSL accepts both LF and CRLF as EOL tokens). The program
    * will be named <code>name</code> in any error messages.
    * 
+   * @see ShaderUtilities#isEmpty(List)
    * @param name
    *          The name of the program.
    * @param lines
@@ -554,7 +556,7 @@ public interface JCGLShadersCommon
    *           <ul>
    *           <li><code>name == null</code></li>
    *           <li><code>lines == null</code></li>
-   *           <li><code>∃n. lines.get(n) == null</code></li>
+   *           <li><code>ShaderUtilities.isEmpty(lines) == true</code></li>
    *           </ul>
    * @throws JCGLCompileException
    *           Iff a compilation error occurs.
