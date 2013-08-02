@@ -88,6 +88,10 @@
           implementations as possible, with implementation-specific parts
           clearly indicated by the type system.
         </s:paragraph>
+        <s:formal-item kind="images">
+          <s:formal-item-title>OpenGL Versioning</s:formal-item-title>
+          <s:image source="venn.png">OpenGL versioning</s:image>
+        </s:formal-item>
         <s:paragraph>
           The package has backends
           for both <s:link-external target="http://www.jogamp.org">JOGL</s:link-external>
@@ -116,7 +120,7 @@
         The Maven POM files are the canonical source for the project's
         dependencies:
       </s:paragraph>
-      <s:formal-item>
+      <s:formal-item kind="listings">
         <s:formal-item-title>POM files</s:formal-item-title>
         <s:list-unordered>
 <s:list-item><s:link-external target="./io7m-jcanephora-core-1.0.0.pom">io7m-jcanephora-core-1.0.0.pom</s:link-external></s:list-item>
@@ -127,7 +131,6 @@
 <s:list-item><s:link-external target="./io7m-jcanephora-framebuffer-1.0.0.pom">io7m-jcanephora-framebuffer-1.0.0.pom</s:link-external></s:list-item>
 <s:list-item><s:link-external target="./io7m-jcanephora-jogl-1.0.0.pom">io7m-jcanephora-jogl-1.0.0.pom</s:link-external></s:list-item>
 <s:list-item><s:link-external target="./io7m-jcanephora-lwjgl-1.0.0.pom">io7m-jcanephora-lwjgl-1.0.0.pom</s:link-external></s:list-item>
-<s:list-item><s:link-external target="./io7m-jcanephora-program-1.0.0.pom">io7m-jcanephora-program-1.0.0.pom</s:link-external></s:list-item>
 <s:list-item><s:link-external target="./io7m-jcanephora-tests-1.0.0.pom">io7m-jcanephora-tests-1.0.0.pom</s:link-external></s:list-item>
 <s:list-item><s:link-external target="./io7m-jcanephora-tests-jogl-1.0.0.pom">io7m-jcanephora-tests-jogl-1.0.0.pom</s:link-external></s:list-item>
 <s:list-item><s:link-external target="./io7m-jcanephora-tests-lwjgl-1.0.0.pom">io7m-jcanephora-tests-lwjgl-1.0.0.pom</s:link-external></s:list-item>
@@ -139,7 +142,7 @@
         <s:term type="package">jcanephora</s:term> package requires at least
         one of the following:
       </s:paragraph>
-      <s:formal-item>
+      <s:formal-item kind="listings">
         <s:formal-item-title>OpenGL Requirements</s:formal-item-title>
         <s:list-unordered>
           <s:list-item>A GPU supporting OpenGL >= 3.0</s:list-item>
@@ -233,21 +236,7 @@
   <version>1.0.0</version>
 </dependency>]]></s:verbatim>
         </s:paragraph>
-        
-        <s:paragraph>
-          To use the optional 
-          <s:link-external target="./javadoc/com/io7m/jcanephora/Program.html">Program</s:link-external>
-          abstraction, include the
-          <s:term type="package">jcanephora-program</s:term> package:
-        </s:paragraph>
-        <s:paragraph>
-          <s:verbatim type="example"><![CDATA[<dependency>
-  <groupId>com.io7m.jcanephora.program</groupId>
-  <artifactId>io7m-jcanephora-program</artifactId>
-  <version>1.0.0</version>
-</dependency>]]></s:verbatim>
-        </s:paragraph>
-        
+
         <s:paragraph>
           To use the optional 
           <s:link-external target="./javadoc/com/io7m/jcanephora/JCCEExecutionAPI.html">Execution</s:link-external>
@@ -840,7 +829,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
   final @Nonnull TextureFilterMinification _,
   final @Nonnull TextureFilterMagnification _)
     throws ConstraintError,
-      GLException;]]></s:verbatim>
+      JCGLException;]]></s:verbatim>
         </s:formal-item>
         <s:paragraph>
           Even without the names of the function and the parameters,
@@ -911,7 +900,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
   final @Nonnull TextureFilterMinification min_filter,
   final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      GLException;]]></s:verbatim>
+      JCGLException;]]></s:verbatim>
         </s:formal-item>
         <s:paragraph>
           The function allocates a 2D RGBA texture with
@@ -979,21 +968,6 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
         to get access to the <s:term type="package">jcanephora</s:term>
         APIs.
       </s:paragraph>
-      <s:paragraph>
-        Beyond the APIs exposed by <s:term type="function">GLImplementation</s:term>,
-        the <s:term type="package">jcanephora</s:term> package also provides
-        various higher level abstractions, such as on-demand shader
-        compilation with
-        <s:link-external target="javadoc/com/io7m/jcanephora/Program.html">Program</s:link-external>,
-        matrix manipulation with
-        <s:link-external target="javadoc/com/io7m/jcanephora/ProjectionMatrix.html">ProjectionMatrix</s:link-external>,
-        implementation-independent framebuffer creation with
-        <s:link-external target="javadoc/com/io7m/jcanephora/FramebufferConfigurationGLES2.html">FramebufferConfigurationGLES2</s:link-external>
-        and
-        <s:link-external target="javadoc/com/io7m/jcanephora/FramebufferConfigurationGL3.html">FramebufferConfigurationGL3</s:link-external>,
-        See the <s:link-external target="javadoc/index.html">Javadoc</s:link-external>
-        for details.
-      </s:paragraph>
     </s:section>
     <s:section xml:id="com.io7m.jcanephora.100.tutorial_vbo">
       <s:section-title>Vertex Buffer Objects</s:section-title>
@@ -1018,7 +992,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
       </s:formal-item>
       <s:paragraph>
         The program creates a new shading language program with the
-        <s:link-external target="javadoc/com/io7m/jcanephora/Program.html">Program</s:link-external>
+        <s:link-external target="javadoc/com/io7m/jcanephora/JCGLShadersCommon.html">JCGLShadersCommon</s:link-external>
         interface. This interface gives easy and type-safe access to the uniform and
         attribute variables present in the program.
       </s:paragraph>
@@ -1026,7 +1000,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
         The program allocates an
         <s:link-external target="javadoc/com/io7m/jcanephora/ArrayBuffer.html">array buffer</s:link-external>
         by creating an explicit description of the type of its elements with an
-        <s:link-external target="javadoc/com/io7m/jcanephora/ArrayBufferDescriptor.html">ArrayBufferDescriptor</s:link-external>,
+        <s:link-external target="javadoc/com/io7m/jcanephora/ArrayBufferDescriptor.html">ArrayBufferTypeDescriptor</s:link-external>,
         and then allocating a given number of them.
       </s:paragraph>
       <s:paragraph>
@@ -1050,7 +1024,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
         for example, then there is no reason for the index buffer to use two or four-byte
         indices. This gives significant GPU memory savings whilst presenting a uniform
         interface to the programmer. It is also possible for the programmer to specify
-        index buffer types directly, but that is not shown here.
+        the types of indices directly, but that is not shown here.
       </s:paragraph>
       <s:paragraph>
         The program passes uniform values to the program over a simple and type-checked
@@ -1113,7 +1087,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
         type-unsafe and legacy-ridden <s:term type="function">glTexImage2D</s:term>,
         <s:term type="function">glTexSubImage2D</s:term>, and
         <s:term type="function">glTexParameter</s:term> interfaces
-        and instead exposes a simple allocation function that takes values of various
+        and instead exposes sets of allocation functions that take values of various
         <s:term type="keyword">enum</s:term> types specifying the exact properties of the
         texture to be allocated. The texture type information is stored (client side) along
         with the details of the allocated texture, allowing type-safe access to texture data
@@ -1139,7 +1113,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
       <s:paragraph>
         Finally, during rendering, the program binds the texture to a texture unit and
         uploads the name of the texture unit to the shading language program. Naturally,
-        all of these operations have increased type safety (it's not possible to upload
+        all of these operations have increased safety (it's not possible to upload
         an arbitrary integer to a program that expects a
         <s:term type="type">sampler2D</s:term> type, for example).
       </s:paragraph>
@@ -1148,9 +1122,9 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
       <s:section-title>Shaders</s:section-title>
       <s:paragraph>
         The
-        <s:link-external target="javadoc/com/io7m/jcanephora/Program.html">Program</s:link-external>
-        interface is actually a higher-level abstraction to a low-level shading
-        program interface.
+        <s:link-external target="javadoc/com/io7m/jcanephora/JCGLShadersCommon.html">JCGLShaders</s:link-external>
+        interface exposes a mindlessly simple interface to support the
+        compilation and use of shading language programs.
       </s:paragraph>
       <s:paragraph>
         Diverging from the convention of showing the C program
@@ -1167,20 +1141,16 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
 <s:verbatim><xi:include href="../../../io7m-jcanephora-examples/src/main/java/com/io7m/jcanephora/examples/ExampleShaders.java" parse="text"/></s:verbatim>
       </s:formal-item>
       <s:paragraph>
-        The
-        <s:link-external target="javadoc/com/io7m/jcanephora/Program.html">Program</s:link-external>
-        interface is recommended as it implements a wide array of safety
-        and convenience features:
+        As simple as it is, the
+        <s:link-external target="javadoc/com/io7m/jcanephora/JCGLShadersCommon.html">JCGLShaders</s:link-external>
+        implements further safety checks:
         Empty programs are rejected <s:footnote>
           Some OpenGL implementations cannot handle empty shading language
           programs, therefore they are automatically rejected by
           <s:term type="package">jcanephora</s:term> to ensure code stays
           platform-independent.
         </s:footnote>, attempting to upload data to inactive programs is
-        an error, shading programs are recompiled when their source
-        code is updated, compilation errors are signalled immediately and
-        do not damage internal state so that the program can continue running
-        using the previous shading program executable.
+        an error, and compilation errors are signalled immediately.
       </s:paragraph>
     </s:section>
     <s:section>
@@ -1218,93 +1188,10 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
       <s:paragraph>
         The rest of the <s:term type="package">jcanephora</s:term>
         API is concerned with adding type safety to the functions that
-        work on the other parts of the OpenGL pipeline. The following
-        table lists the <s:term type="package">jcanephora</s:term>
-        equivalents of OpenGL features.
+        work on the other parts of the OpenGL pipeline. The
+        <s:link target="com.io7m.jcanephora.100.by_interface">by-interface</s:link>
+        documentation details the rest of the API.
       </s:paragraph>
-      <s:formal-item kind="feature_mapping" type="feature_mapping">
-        <s:formal-item-title>Features</s:formal-item-title>
-        <s:table>
-          <s:table-summary>OpenGL/jcanephora feature mapping</s:table-summary>
-          <s:table-head>
-            <s:table-column-name>OpenGL</s:table-column-name>
-            <s:table-column-name>jcanephora</s:table-column-name>
-          </s:table-head>
-          <s:table-body>
-            <s:table-row>
-              <s:table-cell><s:term type="function">glBlendFunc</s:term></s:table-cell>
-              <s:table-cell>
-                <s:link-external target="javadoc/com/io7m/jcanephora/JCGLBlending.html">JCGLBlending</s:link-external>,
-                <s:link-external target="javadoc/com/io7m/jcanephora/JCGLBlendingEmbedded.html">JCGLBlendingEmbedded</s:link-external>
-              </s:table-cell>
-            </s:table-row>
-            <s:table-row>
-              <s:table-cell>Vertex buffer objects</s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/JCGLArrayBuffers.html">JCGLArrayBuffers</s:link-external></s:table-cell>
-            </s:table-row>
-            <s:table-row>
-              <s:table-cell>Mapped vertex buffer objects (glMapBuffer)</s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/JCGLArrayBuffersMapped.html">JCGLArrayBuffersMapped</s:link-external></s:table-cell>
-            </s:table-row>
-            <s:table-row>
-              <s:table-cell><s:term type="function">glClear</s:term></s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/JCGLColorBuffer.html">JCGLColorBuffer</s:link-external></s:table-cell>
-            </s:table-row>
-            <s:table-row>
-              <s:table-cell><s:term type="function">glCullFace</s:term></s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/JCGLCull.html">JCGLCull</s:link-external></s:table-cell>
-            </s:table-row>
-            <s:table-row>
-              <s:table-cell><s:term type="function">glDepthFunc</s:term></s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/JCGLDepthBuffer.html">JCGLDepthBuffer</s:link-external></s:table-cell>
-            </s:table-row>
-            <s:table-row>
-              <s:table-cell><s:term type="function">glDrawElements</s:term></s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/JCGLDraw.html">JCGLDraw</s:link-external></s:table-cell>
-            </s:table-row>
-            <s:table-row>
-              <s:table-cell><s:term type="function">glGetError</s:term></s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/JCGLMeta.html">JCGLMeta</s:link-external></s:table-cell>
-            </s:table-row>
-            <s:table-row>
-              <s:table-cell>Index buffer objects</s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/JCGLIndexBuffers.html">JCGLIndexBuffers</s:link-external></s:table-cell>
-            </s:table-row>
-            <s:table-row>
-              <s:table-cell>Mapped index buffer objects (glMapBuffer)</s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/JCGLIndexBuffersMapped.html">JCGLIndexBuffersMapped</s:link-external></s:table-cell>
-            </s:table-row>
-            <s:table-row>
-              <s:table-cell><s:term type="function">glLogicOp</s:term></s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/JCGLLogic.html">JCGLLogic</s:link-external></s:table-cell>
-            </s:table-row>
-            <s:table-row>
-              <s:table-cell><s:term type="function">glPolygonMode</s:term>, etc</s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/JCGLPolygonModes.html">JCGLPolygonModes</s:link-external></s:table-cell>
-            </s:table-row>
-            <s:table-row>
-              <s:table-cell><s:term type="function">glLineWidth</s:term>, etc</s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/JCGLRasterization.html">JCGLRasterization</s:link-external></s:table-cell>
-            </s:table-row>
-            <s:table-row>
-              <s:table-cell><s:term type="function">glScissor</s:term>, <s:term type="function">glScissor</s:term></s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/JCGLScissor.html">JCGLScissor</s:link-external></s:table-cell>
-            </s:table-row>
-            <s:table-row>
-              <s:table-cell><s:term type="function">glStencil</s:term>, <s:term type="function">glStencil</s:term></s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/JCGLStencilBuffer.html">JCGLStencilBuffer</s:link-external></s:table-cell>
-            </s:table-row>
-            <s:table-row>
-              <s:table-cell>Textures (<s:term type="function">glTexImage2D</s:term>)</s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/JCGLTextures2DStaticCommon.html">JCGLTextures2DStaticCommon</s:link-external></s:table-cell>
-            </s:table-row>
-            <s:table-row>
-              <s:table-cell><s:term type="function">glViewport</s:term></s:table-cell>
-              <s:table-cell><s:link-external target="javadoc/com/io7m/jcanephora/JCGLViewport.html">JCGLViewport</s:link-external></s:table-cell>
-            </s:table-row>
-          </s:table-body>
-        </s:table>
-      </s:formal-item>
     </s:section>
   </s:part>
 
