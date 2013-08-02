@@ -756,7 +756,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
           the interfaces to be self-documenting. Consider the following
           C function prototype:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Weakly typed C function</s:formal-item-title>
           <s:verbatim>void _ (GLsizei, GLuint *)</s:verbatim>
         </s:formal-item>
@@ -770,7 +770,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.]]>
           has read the documentation and worked out that the correct way to
           call the function is with the following sequence:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Weakly typed C calls</s:formal-item-title>
           <s:verbatim><![CDATA[GLuint texture;
 
@@ -794,7 +794,7 @@ checkGLErrors();]]></s:verbatim>
           experimentation, the developer might stumble onto the following
           sequence of calls:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Allocating a texture</s:formal-item-title>
           <s:verbatim><![CDATA[GLuint texture;
 void *data = makeTextureData();
@@ -818,7 +818,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
           Now consider the
           following <s:term type="package">jcanephora</s:term> function:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Texture allocation?</s:formal-item-title>
           <s:verbatim><![CDATA[public @Nonnull Texture2DStatic _(
   final @Nonnull String _,
@@ -889,7 +889,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
           <s:link-external target="javadoc/com/io7m/jcanephora/JCGLTextures2DStaticCommon.html">JCGLTextures2DStaticCommon</s:link-external>
           interface:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>texture2DStaticAllocateRGBA8888</s:formal-item-title>
           <s:verbatim><![CDATA[public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA8888(
   final @Nonnull String name,
@@ -978,7 +978,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
         in plain OpenGL. It creates buffers and then draws them to the screen
         using the fixed-function OpenGL pipeline.
       </s:paragraph>
-      <s:formal-item kind="example">
+      <s:formal-item kind="examples">
         <s:formal-item-title>Vertex buffers (C)</s:formal-item-title>
         <s:verbatim><xi:include href="../c/two-triangles.c" parse="text"/></s:verbatim>
       </s:formal-item>
@@ -986,7 +986,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
         The <s:term type="package">jcanephora</s:term> version demonstrates
         many of the package's convenience and safety features:
       </s:paragraph>
-      <s:formal-item kind="example">
+      <s:formal-item kind="examples">
         <s:formal-item-title>Vertex buffers (Java)</s:formal-item-title>
         <s:verbatim><xi:include href="../../../io7m-jcanephora-examples/src/main/java/com/io7m/jcanephora/examples/ExampleTriangle.java" parse="text"/></s:verbatim>
       </s:formal-item>
@@ -1052,7 +1052,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
         texture and displays it on a rectangle. The program uses the obsolete fixed-function
         pipeline for brevity, as previously mentioned.
       </s:paragraph>
-      <s:formal-item kind="example">
+      <s:formal-item kind="examples">
         <s:formal-item-title>Textures (C)</s:formal-item-title>
         <s:verbatim><xi:include href="../c/texture-simple.c" parse="text"/></s:verbatim>
       </s:formal-item>
@@ -1060,7 +1060,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
         The <s:term type="package">jcanephora</s:term> version again demonstrates
         many of the package's convenience and safety features:
       </s:paragraph>
-      <s:formal-item kind="example">
+      <s:formal-item kind="examples">
         <s:formal-item-title>Textures (Java)</s:formal-item-title>
 <s:verbatim><xi:include href="../../../io7m-jcanephora-examples/src/main/java/com/io7m/jcanephora/examples/ExampleTexturedQuad.java" parse="text"/></s:verbatim>
       </s:formal-item>
@@ -1136,7 +1136,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
         of loading a single triangle into a vertex buffer and drawing it with
         a GLSL shader, using the low-level shading language interface:
       </s:paragraph>
-      <s:formal-item kind="example">
+      <s:formal-item kind="examples">
         <s:formal-item-title>Shaders (Java)</s:formal-item-title>
 <s:verbatim><xi:include href="../../../io7m-jcanephora-examples/src/main/java/com/io7m/jcanephora/examples/ExampleShaders.java" parse="text"/></s:verbatim>
       </s:formal-item>
@@ -1162,7 +1162,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
         rendered using the contents of the framebuffer texture. This results
         in a simple "animated" texture.
       </s:paragraph>
-      <s:formal-item kind="example">
+      <s:formal-item kind="examples">
         <s:formal-item-title>Framebuffers (Java)</s:formal-item-title>
 <s:verbatim><xi:include href="../../../io7m-jcanephora-examples/src/main/java/com/io7m/jcanephora/examples/ExampleFBO.java" parse="text"/></s:verbatim>
       </s:formal-item>
@@ -1242,7 +1242,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
           <s:term type="variable">(s, t)</s:term> texture coordinates. The
           type descriptor for this type is declared as follows:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Vertex type descriptor</s:formal-item-title>
 <s:verbatim><![CDATA[
 ArrayBufferAttributeDescriptor position =
@@ -1290,7 +1290,7 @@ ArrayBufferTypeDescriptor descriptor =
           can be queried after construction to obtain these values, if
           desired:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Vertex sizes and offsets</s:formal-item-title>
 <s:verbatim><![CDATA[
 descriptor.getAttributeOffset("position") == 0
@@ -1306,7 +1306,7 @@ descriptor.getSize() == 36
           Then, to allocate an array that will hold <s:term type="constant">100</s:term>
           elements of this type:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Array allocation</s:formal-item-title>
 <s:verbatim><![CDATA[
 JCGLArrayBuffers g;
@@ -1334,7 +1334,7 @@ ArrayBuffer a = g.arrayBufferAllocate(100, descriptor, UsageHint.USAGE_STATIC_DR
           that will be used to hold data that will be uploaded to the array
           on the GPU:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Array writable data</s:formal-item-title>
 <s:verbatim><![CDATA[
 ArrayWritableData ad = new ArrayBufferWritableData(a);
@@ -1350,7 +1350,7 @@ ArrayWritableData ad = new ArrayBufferWritableData(a);
           the programmer asks for a three-element cursor to an attribute
           that has four elements, for example.
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Array cursors</s:formal-item-title>
 <s:verbatim><![CDATA[
 Cursor4f cp = ad.getCursor4f("position");
@@ -1367,7 +1367,7 @@ Cursor2f ct = ad.getCursor2f("texture");
           first, then all of the normal data, and then all of the texture
           coordinates, for example).
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Array cursor writing</s:formal-item-title>
 <s:verbatim><![CDATA[
 while (cp.hasNext()) {
@@ -1391,7 +1391,7 @@ assert ct.hasNext() == false;
           to write outside the bounds of the array. Finally, the data
           is uploaded to the array on the GPU: 
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Array data upload</s:formal-item-title>
 <s:verbatim><![CDATA[
 JCGLArrayBuffers g;
@@ -1460,7 +1460,7 @@ g.arrayBufferUpdate(ad);
           deletes any existing contents of the array buffer, to
           prevent pipeline stalls on the GPU):
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Array map</s:formal-item-title>
 <s:verbatim><![CDATA[
 JCGLArrayBuffersMapped g;
@@ -1473,7 +1473,7 @@ map = g.arrayBufferMapWrite(a);
           as with the <s:term type="type">ArrayBufferWritableData</s:term>
           type. The buffer should be unmapped after use:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Array map</s:formal-item-title>
 <s:verbatim><![CDATA[
 JCGLArrayBuffersMapped g;
@@ -1520,19 +1520,34 @@ g.arrayBufferUnmap(a);
       <s:subsection>
         <s:subsection-title>Usage examples</s:subsection-title>
         <s:paragraph>
-          Example
+          To enable blending, using the fairly typical
+          <s:term type="expression">color = (destination * source_alpha) + (source + (1.0 - source_alpha))</s:term>
+          blending equation:
         </s:paragraph>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Blending</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLBlendingCommon g;
+
+g.blendingEnable(
+  BlendFunction.BLEND_SOURCE_ALPHA,
+  BlendFunction.BLEND_ONE_MINUS_SOURCE_ALPHA);
+]]></s:verbatim>
+        </s:formal-item>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
-          Version support
+          OpenGL 3.* and ES2 differ in their support of blending. ES2 supports
+          somewhat fewer blending functions.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Design/Rationale</s:subsection-title>
         <s:paragraph>
-          Design/Rationale
+          In typical style, integer constants are replaced with
+          enumerated types, making it statically impossible to
+          pass nonsense values to the functions.
         </s:paragraph>
       </s:subsection>
     </s:section>
@@ -1555,7 +1570,7 @@ g.arrayBufferUnmap(a);
         <s:paragraph>
           To clear the current color buffer to an opaque red:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Color buffer clear</s:formal-item-title>
 <s:verbatim><![CDATA[
 JCGLColorBuffers g;
@@ -1567,7 +1582,7 @@ g.colorBufferClear3f(1.0f, 0.0f, 0.0f);
           To discard all writes to the green channel of the current
           color buffer:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Color buffer mask</s:formal-item-title>
 <s:verbatim><![CDATA[
 JCGLColorBuffers g;
@@ -1615,7 +1630,7 @@ g.colorBufferMask(true, false, true, true);
           are specified with a counter-clockwise winding order (the
           OpenGL defaults):
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Culling</s:formal-item-title>
 <s:verbatim><![CDATA[
 JCGLCull g;
@@ -1663,7 +1678,7 @@ g.cullingEnable(
         <s:paragraph>
           To clear the current depth buffer to a value typical of the far clipping plane:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Depth buffer clear</s:formal-item-title>
 <s:verbatim><![CDATA[
 JCGLDepthBuffers g;
@@ -1675,7 +1690,7 @@ g.depthBufferClear(1.0f);
           To discard all writes to the depth buffer (note that this will
           also prevent clearing of the depth buffer):
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Depth buffer mask</s:formal-item-title>
 <s:verbatim><![CDATA[
 JCGLDepthBuffers g;
@@ -1688,7 +1703,7 @@ g.depthBufferWriteDisable();
           only depth values less than the current value in the depth buffer will
           be written:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Depth buffer enable</s:formal-item-title>
 <s:verbatim><![CDATA[
 JCGLDepthBuffers g;
@@ -1757,7 +1772,7 @@ g.depthBufferEnable(DepthFunction.DEPTH_LESS_THAN);
           <s:link target="com.io7m.jcanephora.100.by_interface.JCGLIndexBuffers">index buffer</s:link>
           has been populated with data, drawing an object is trivial:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Drawing</s:formal-item-title>
 <s:verbatim><![CDATA[
 JCGLDraw gd;
@@ -1828,25 +1843,84 @@ g.drawElements(Primitives.PRIMITIVE_TRIANGLES, indices);
         <s:paragraph>
           The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLIndexBuffers.html">JCGLIndexBuffers</s:link-external>
           interface provides functions to allocate and populate
-          index buffers.
+          index buffers. Index buffers (sometimes known as element
+          buffers) are used to store indices of elements in
+          array buffers. Where an array buffer stores raw vertex
+          data, an index buffer stores a sequence of indices that
+          are used to extract lines and triangles from the raw
+          vertex data.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Usage examples</s:subsection-title>
         <s:paragraph>
-          Example
+          Index buffers are allocated and populated in a matter
+          similar to
+          <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffers">array buffers</s:link>:
+          An initial size is specified, and a cursor interface is
+          used to insert values into the allocated buffer. Typically,
+          there is an <s:term type="expression">n:1</s:term> relationship
+          between index buffers and array buffers. That is, at least
+          one index buffer is usually used per array buffer.
+        </s:paragraph>
+        <s:paragraph>
+          It is necessary to specify the type of indices in an index buffer.
+          For example, if an array buffer has fewer than
+          <s:term type="constant">256</s:term> elements then there
+          will never be a value greater than
+          <s:term type="constant">255</s:term> stored in the
+          corresponding index buffer, and therefore the indices of
+          the index buffer could be 8-bit bytes. If the array buffer
+          has fewer than <s:term type="constant">65536</s:term> elements,
+          then the indices of the index
+          buffer could be 16-bit bytes, and so on. It's therefore possible
+          to allocate an index buffer by passing it an array buffer as
+          a hint: The <s:term type="package">jcanephora</s:term> package
+          will pick the smallest type that could hold values to address
+          all elements of the given array buffer. It's also possible
+          to choose the types directly, if desired.
+        </s:paragraph>
+        <s:paragraph>
+          A simple example that allocates an index buffer with four
+          elements, given an existing array buffer, and populates it
+          with data:
+        </s:paragraph>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Index buffer usage</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLIndexBuffers gi;
+ArrayBuffer a;
+
+IndexBuffer indices = gi.indexBufferAllocate(a, 4);
+IndexBufferWritableData id = new IndexBufferWritableData(indices);
+CursorWritableIndex c = id.getCursor()
+
+c.putIndex(0);
+c.putIndex(1);
+c.putIndex(2);
+c.putIndex(3);
+
+gi.indexBufferUpdate(indices);
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          The
+          <s:link-external target="javadoc/com/io7m/jcanephora/CursorWritableIndex.html">CursorWritableIndex</s:link-external>
+          type insulates the programmer from having to deal with the
+          actual type of indices in the index buffer.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
-          Version support
+          All versions of OpenGL support these functions, and appear
+          to behave identically.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Design/Rationale</s:subsection-title>
         <s:paragraph>
-          Design/Rationale
+          See <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffers">JCGLArrayBuffers</s:link>.
         </s:paragraph>
       </s:subsection>
     </s:section>
@@ -1859,25 +1933,33 @@ g.drawElements(Primitives.PRIMITIVE_TRIANGLES, indices);
         <s:paragraph>
           The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLIndexBuffersMapped.html">JCGLIndexBuffersMapped</s:link-external>
           interface provides functions to map index buffers into
-          the application's address space.
+          the application's address space. It is to
+          <s:link target="com.io7m.jcanephora.100.by_interface.JCGLIndexBuffers">JCGLIndexBuffers</s:link>
+          as
+          <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffersMapped">JCGLArrayBuffersMapped</s:link>
+          is to
+          <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffers">JCGLArrayBuffers</s:link>.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Usage examples</s:subsection-title>
         <s:paragraph>
-          Example
+          The interface provided is identical to the
+          <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffersMapped">JCGLArrayBuffersMapped</s:link>
+          interface, modulo the buffer types. No extra usage
+          information is given here.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
-          Version support
+          See <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffersMapped">JCGLArrayBuffersMapped</s:link>.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Design/Rationale</s:subsection-title>
         <s:paragraph>
-          Design/Rationale
+          See <s:link target="com.io7m.jcanephora.100.by_interface.JCGLArrayBuffers">JCGLArrayBuffers</s:link>.
         </s:paragraph>
       </s:subsection>
     </s:section>
@@ -1897,8 +1979,17 @@ g.drawElements(Primitives.PRIMITIVE_TRIANGLES, indices);
       <s:subsection>
         <s:subsection-title>Usage examples</s:subsection-title>
         <s:paragraph>
-          Example
+          To specify that all incoming colors should be XORd with those
+          already in the framebuffer:
         </s:paragraph>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Logical operations</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLLogic gl;
+
+gl.logicOperationsEnable(LogicOperation.LOGIC_XOR);
+]]></s:verbatim>
+        </s:formal-item>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Version support</s:subsection-title>
@@ -1932,19 +2023,32 @@ g.drawElements(Primitives.PRIMITIVE_TRIANGLES, indices);
       <s:subsection>
         <s:subsection-title>Usage examples</s:subsection-title>
         <s:paragraph>
-          Example
+          To retrieve the current OpenGL shading language version
+          as a two-part number:
         </s:paragraph>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Shading language version</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLMeta g;
+
+JCGLSLVersion v = g.metaGetSLVersion();
+]]></s:verbatim>
+        </s:formal-item>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
-          Version support
+          All versions of OpenGL support these functions, and give
+          results appropriate to each version.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Design/Rationale</s:subsection-title>
         <s:paragraph>
-          Design/Rationale
+          For some reason, the OpenGL API carefully specifies the
+          formats of strings, and then has the programmer parse them.
+          If the format is known, why couldn't the values be returned
+          directly rather than require parsing?
         </s:paragraph>
       </s:subsection>
     </s:section>
@@ -1987,25 +2091,40 @@ g.drawElements(Primitives.PRIMITIVE_TRIANGLES, indices);
         <s:paragraph>
           The <s:link-external target="javadoc/com/io7m/jcanephora/JCGLScissor.html">JCGLScissor</s:link-external>
           interface provides functions for configuring the
-          scissor test.
+          scissor test. No fragments will be rasterized outside
+          of the area described by the 2D scissor region.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Usage examples</s:subsection-title>
         <s:paragraph>
-          Example
+          To specify that only the bottom-left
+          <s:term type="expression">32 * 32</s:term> pixels of
+          the viewport should be affected by rendering:
         </s:paragraph>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Scissor region</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLScissor g;
+
+g.scissorEnable(
+  new VectorI2I(0, 0),
+  new VectorI2I(31, 31));
+]]></s:verbatim>
+        </s:formal-item>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
-          Version support
+          All versions of OpenGL support these functions and appear
+          to behave identically.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Design/Rationale</s:subsection-title>
         <s:paragraph>
-          Design/Rationale
+          The interface exposed is slightly more compact than the
+          existing OpenGL API.
         </s:paragraph>
       </s:subsection>
     </s:section>
@@ -2028,7 +2147,7 @@ g.drawElements(Primitives.PRIMITIVE_TRIANGLES, indices);
           of strings, with each string terminated with CRLF or LF
           characters:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Compiling shaders</s:formal-item-title>
 <s:verbatim><![CDATA[
 JCGLShaders g;
@@ -2060,7 +2179,7 @@ FragmentShader f = g.fragmentShaderCompiler("example-f", f_source);
         <s:paragraph>
           To combine the shaders into a working program:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Compiling shaders</s:formal-item-title>
 <s:verbatim><![CDATA[
 JCGLShaders g;
@@ -2080,7 +2199,7 @@ ProgramReference p = g.programCreateCommon("example", v, f);
           <s:link-external target="javadoc/com/io7m/jcanephora/JCGLShadersGL3.html#programCreateWithOutputs(java.lang.String, com.io7m.jcanephora.VertexShader, com.io7m.jcanephora.FragmentShader, java.util.Map)">programCreateWithOutputs()</s:link-external>
           function, which is only exposed on OpenGL 3.* implementations:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Compiling shaders with multiple outputs</s:formal-item-title>
 <s:verbatim><![CDATA[
 JCGLShaders g;
@@ -2122,7 +2241,7 @@ ProgramReference p = g.programCreateCommon("example", v, f, outputs);
           The set of active uniforms (parameters) for the compiled
           program can be accessed and assigned values:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Program uniforms</s:formal-item-title>
 <s:verbatim><![CDATA[
 JCGLShaders g;
@@ -2143,7 +2262,7 @@ p.programUniformPutVector4f(p, new VectorI4F(1.0f, 0.0f, 0.0f, 1.0f));
           by first binding the array, and then binding the array attribute to
           the given program attribute:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>Program uniforms</s:formal-item-title>
 <s:verbatim><![CDATA[
 JCGLShaders gs;
@@ -2205,7 +2324,7 @@ ga.arrayBufferBindVertexAttribute(aa, pa);
           allowed. Specifically, it only allows the following types
           <s:footnote>See "The OpenGL ES Shading Language 1.0.17", section 4.3.3.</s:footnote>:
         </s:paragraph>
-        <s:formal-item kind="example">
+        <s:formal-item kind="examples">
           <s:formal-item-title>ES2 attribute types</s:formal-item-title>
           <s:list-unordered>
             <s:list-item><s:term type="type">float</s:term></s:list-item>
@@ -2361,21 +2480,34 @@ ga.arrayBufferBindVertexAttribute(aa, pa);
       <s:subsection>
         <s:subsection-title>Usage examples</s:subsection-title>
         <s:paragraph>
-          Example
+          To specify a <s:term type="expression">320 * 240</s:term>
+          viewport, with the origin at <s:term type="expression">(32, 64)</s:term>:
         </s:paragraph>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Viewport</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLViewport g;
+
+g.viewportSet(
+  new VectorI2I(32, 64),
+  new VectorI2I(640, 480));
+]]></s:verbatim>
+        </s:formal-item>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
-          Version support
+          All versions of OpenGL support these functions and appear
+          to behave identically.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Design/Rationale</s:subsection-title>
         <s:paragraph>
-          Design/Rationale
+          The interface exposed is slightly more compact than the
+          existing OpenGL API.
         </s:paragraph>
-      </s:subsection>
+      </s:subsection>>
     </s:section>
   </s:part>
 
@@ -2388,6 +2520,18 @@ ga.arrayBufferBindVertexAttribute(aa, pa);
         API documentation for the package is provided via the
         included <s:link-external target="javadoc">Javadoc</s:link-external>.
       </s:paragraph>
+    </s:section>
+  </s:part>
+  
+  <s:part>
+    <s:part-title>Listings</s:part-title>
+    <s:part-contents/>
+    <s:section>
+      <s:section-title>Listings</s:section-title>
+      <s:formal-item kind="listings_table">
+        <s:formal-item-title>List of examples</s:formal-item-title>
+        <s:formal-item-list kind="examples"/>
+      </s:formal-item>
     </s:section>
   </s:part>
 
