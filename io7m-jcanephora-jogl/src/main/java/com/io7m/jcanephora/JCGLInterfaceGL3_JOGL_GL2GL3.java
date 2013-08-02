@@ -1080,6 +1080,20 @@ import com.io7m.jtensors.VectorReadable4I;
       .getGL2ES2(), this.state, this.log, name, v, f);
   }
 
+  @Override public ProgramReference programCreateWithOutputs(
+    final @Nonnull String name,
+    final @Nonnull VertexShader v,
+    final @Nonnull FragmentShader f,
+    final @Nonnull Map<String, FramebufferDrawBuffer> outputs)
+    throws ConstraintError,
+      JCGLException,
+      JCGLCompileException
+  {
+    return JOGL_GL2GL3_Functions.programCreateWithOutputs(this.context
+      .getGL()
+      .getGL2GL3(), this.state, this.log, name, v, f, outputs);
+  }
+
   @Override public void programDeactivate()
     throws JCGLException
   {

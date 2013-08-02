@@ -16,15 +16,20 @@
 
 package com.io7m.jcanephora;
 
+import javax.annotation.concurrent.Immutable;
+
 /**
+ * <p>
  * An identifier for a draw buffer.
- * 
+ * </p>
+ * <p>
  * Any given framebuffer has at most <code>GL_MAX_DRAW_BUFFERS</code>. A
  * fragment shader writing to output <code>n</code> is conceptually writing to
  * draw buffer <code>n</code>.
+ * </p>
  */
 
-public final class FramebufferDrawBuffer implements
+@Immutable public final class FramebufferDrawBuffer implements
   Comparable<FramebufferDrawBuffer>
 {
   private final int index;

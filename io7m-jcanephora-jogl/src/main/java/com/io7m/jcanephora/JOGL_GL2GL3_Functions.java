@@ -18,6 +18,8 @@ package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Nonnull;
 import javax.media.opengl.GL;
@@ -29,6 +31,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.JOGL_TextureSpecs.TextureSpec;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
+import com.jogamp.common.nio.Buffers;
 
 /**
  * Functions that are only usable on a strictly GL2 or GL3 context.
@@ -103,6 +106,113 @@ final class JOGL_GL2GL3_Functions
     final boolean e = gl.glIsEnabled(GL2GL3.GL_POLYGON_SMOOTH);
     JOGL_GL_Functions.checkError(gl);
     return e;
+  }
+
+  static @Nonnull ProgramReference programCreateWithOutputs(
+    final @Nonnull GL2GL3 g,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull String name,
+    final @Nonnull VertexShader v,
+    final @Nonnull FragmentShader f,
+    final @Nonnull Map<String, FramebufferDrawBuffer> outputs)
+    throws ConstraintError,
+      JCGLException,
+      JCGLCompileException
+  {
+    Constraints.constrainNotNull(name, "Program name");
+    Constraints.constrainNotNull(v, "Vertex shader");
+    Constraints.constrainNotNull(f, "Fragment shader");
+    Constraints.constrainNotNull(outputs, "Outputs");
+    Constraints.constrainArbitrary(
+      outputs.isEmpty() == false,
+      "Draw buffer mappings not empty");
+    Constraints.constrainLessThan(
+      outputs.size(),
+      state.draw_buffers.length,
+      "Draw buffer mapping count");
+
+    for (final Entry<String, FramebufferDrawBuffer> e : outputs.entrySet()) {
+      Constraints.constrainNotNull(e.getValue(), "Draw buffer");
+    }
+
+    Constraints.constrainArbitrary(
+      v.resourceIsDeleted() == false,
+      "Vertex shader not deleted");
+    Constraints.constrainArbitrary(
+      f.resourceIsDeleted() == false,
+      "Fragment shader not deleted");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("program: create \"");
+      state.log_text.append(name);
+      state.log_text.append("\" with ");
+      state.log_text.append(v);
+      state.log_text.append(" ");
+      state.log_text.append(f);
+      log.debug(state.log_text.toString());
+    }
+
+    final int id = g.glCreateProgram();
+    if (id == 0) {
+      throw new JCGLException(0, "glCreateProgram failed");
+    }
+    JOGL_GL_Functions.checkError(g);
+
+    g.glAttachShader(id, v.getGLName());
+    JOGL_GL_Functions.checkError(g);
+    g.glAttachShader(id, f.getGLName());
+    JOGL_GL_Functions.checkError(g);
+
+    for (final Entry<String, FramebufferDrawBuffer> e : outputs.entrySet()) {
+      final String output = e.getKey();
+      final FramebufferDrawBuffer buffer = e.getValue();
+      g.glBindFragDataLocation(id, buffer.getIndex(), output);
+      JOGL_GL_Functions.checkError(g);
+
+      if (log.enabled(Level.LOG_DEBUG)) {
+        state.log_text.setLength(0);
+        state.log_text.append("program: bound output '");
+        state.log_text.append(output);
+        state.log_text.append("' to draw buffer ");
+        state.log_text.append(buffer);
+        log.debug(state.log_text.toString());
+      }
+    }
+
+    g.glLinkProgram(id);
+    JOGL_GL_Functions.checkError(g);
+
+    final int status =
+      JOGL_GL2ES2_Functions.contextGetProgramInteger(
+        g,
+        state,
+        id,
+        GL2ES2.GL_LINK_STATUS);
+
+    if (status == 0) {
+      final ByteBuffer buffer = Buffers.newDirectByteBuffer(8192);
+      final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
+      g.glGetProgramInfoLog(id, 8192, buffer_length, buffer);
+      JOGL_GL_Functions.checkError(g);
+
+      final byte raw[] = new byte[buffer.remaining()];
+      buffer.get(raw);
+      final String text = new String(raw);
+      throw new JCGLCompileException(name, text);
+    }
+
+    JOGL_GL_Functions.checkError(g);
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("program: created ");
+      state.log_text.append(id);
+      log.debug(state.log_text.toString());
+    }
+
+    return new ProgramReference(id, name);
   }
 
   static @Nonnull Texture2DStatic texture2DStaticAllocate(

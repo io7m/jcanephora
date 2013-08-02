@@ -970,6 +970,24 @@ import com.io7m.jtensors.VectorReadable4I;
       f);
   }
 
+  @Override public ProgramReference programCreateWithOutputs(
+    final @Nonnull String name,
+    final @Nonnull VertexShader v,
+    final @Nonnull FragmentShader f,
+    final @Nonnull Map<String, FramebufferDrawBuffer> outputs)
+    throws ConstraintError,
+      JCGLException,
+      JCGLCompileException
+  {
+    return LWJGL_GL3Functions.programCreateWithOutputs(
+      this.state,
+      this.log,
+      name,
+      v,
+      f,
+      outputs);
+  }
+
   @Override public void programDeactivate()
     throws JCGLException
   {

@@ -2182,6 +2182,56 @@ ProgramReference p = g.programCreateCommon("example", v, f);
 ]]></s:verbatim>
         </s:formal-item>
         <s:paragraph>
+          Note that this assumes that the fragment shader in question
+          only has a single output (which will automatically be mapped
+          to draw buffer <s:term type="constant">0</s:term> by OpenGL).
+          See <s:link target="com.io7m.jcanephora.100.by_interface.JCGLShaders.version_support">version support</s:link>
+          for details on the difficulties of writing shading programs
+          with multiple outputs that will work consistently across
+          OpenGL versions. With those issues understood, programs with
+          multiple named fragment shader outputs can be compiled with the
+          <s:link-external target="javadoc/com/io7m/jcanephora/JCGLShadersGL3.html#programCreateWithOutputs(java.lang.String, com.io7m.jcanephora.VertexShader, com.io7m.jcanephora.FragmentShader, java.util.Map)">programCreateWithOutputs()</s:link-external>
+          function, which is only exposed on OpenGL 3.* implementations:
+        </s:paragraph>
+        <s:formal-item kind="example">
+          <s:formal-item-title>Compiling shaders with multiple outputs</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLShaders g;
+
+ArrayList<String> f_source = new ArrayList<String>();
+f_source.add("#version 330\n");
+f_source.add("uniform vec4 color;\n");
+f_source.add("out vec4 output0;\n");
+f_source.add("out vec4 output1;\n");
+f_source.add("out vec4 output2;\n");
+f_source.add("out vec4 output3;\n");
+f_source.add("void\n");
+f_source.add("main (void)\n");
+f_source.add("{\n");
+f_source.add("  output0 = color;\n");
+f_source.add("  output1 = color.r;\n");
+f_source.add("  output2 = color.g;\n");
+f_source.add("  output3 = color.b;\n");
+f_source.add("}\n");
+
+FragmentShader f = g.fragmentShaderCompiler("example-f", f_source);
+
+Map<String, FramebufferDrawBuffer> outputs = new HashMap<String, FramebufferDrawBuffer>();
+outputs.put("output0", buffers[0]);
+outputs.put("output1", buffers[1]);
+outputs.put("output2", buffers[2]);
+outputs.put("output3", buffers[3]);
+
+ProgramReference p = g.programCreateCommon("example", v, f, outputs);
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          The function takes a parameter consisting of mappings
+          between output names and draw buffers (obtained with the
+          <s:link-external target="javadoc/com/io7m/jcanephora/JCGLFramebuffersCommon.html#framebufferGetDrawBuffers()">framebufferGetDrawBuffers()</s:link-external>
+          function).
+        </s:paragraph>
+        <s:paragraph>
           The set of active uniforms (parameters) for the compiled
           program can be accessed and assigned values:
         </s:paragraph>
@@ -2228,7 +2278,7 @@ ga.arrayBufferBindVertexAttribute(aa, pa);
 ]]></s:verbatim>
         </s:formal-item>
       </s:subsection>
-      <s:subsection>
+      <s:subsection xml:id="com.io7m.jcanephora.100.by_interface.JCGLShaders.version_support">
         <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
           All of the supported OpenGL versions support the
@@ -2259,9 +2309,9 @@ ga.arrayBufferBindVertexAttribute(aa, pa);
           can be assigned to draw buffers statically, with the use
           of the <s:term type="keyword">layout</s:term> qualifier.
           In OpenGL ES 2, fragment shaders cannot have multiple
-          outputs. In GLSL ES 3, the situation is the same as that
-          of OpenGL 3.3. If this seems like a mess, it's because
-          it is.
+          outputs. OpenGL ES 3 does not have
+          <s:term type="variable">glBindFragDataLocation</s:term>,
+          so outputs must be assigned statically.
         </s:paragraph>
         <s:paragraph>
           OpenGL ES2 places restrictions on the types of attributes
