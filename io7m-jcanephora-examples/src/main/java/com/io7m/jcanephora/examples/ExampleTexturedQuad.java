@@ -245,7 +245,7 @@ public final class ExampleTexturedQuad implements Example
       ind_cursor.putIndex(3);
     }
 
-    this.gl.indexBufferUpdate(this.indices, this.indices_data);
+    this.gl.indexBufferUpdate(this.indices_data);
   }
 
   @Override public void display()
