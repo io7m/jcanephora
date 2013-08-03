@@ -2820,8 +2820,10 @@ e.execRun(g);
         </s:formal-item>
         <s:paragraph>
           If any of the given uniforms or attributes do not exist,
-          or have incorrect types, or if the program contains uniforms
-          or attributes that have not been assigned values since the
+          or have incorrect types, the assignment calls will raise
+          <s:term type="type">ConstraintError</s:term>.
+          If the program contains uniforms or attributes that have
+          not been assigned values since the
           last <s:term type="function">execPrepare(g)</s:term> call,
           the <s:term type="function">execRun(g)</s:term>
           function raises <s:term type="type">ConstraintError</s:term>
