@@ -1832,19 +1832,323 @@ g.drawElements(Primitives.PRIMITIVE_TRIANGLES, indices);
       <s:subsection>
         <s:subsection-title>Usage examples</s:subsection-title>
         <s:paragraph>
-          Example
+          A <s:term type="term">framebuffer</s:term> in OpenGL is an
+          opaque structure with one or more <s:term type="term">attachments</s:term>.
+          Currently, attachments can either be
+          <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLTextures2DStatic">textures</s:link>
+          or
+          <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLRenderbuffers">renderbuffers</s:link>.
+          Textures are used when the result of rendering to a framebuffer is
+          going to be read back at some point, or perhaps used to texture
+          other objects. For example, some 3D engines implement so-called
+          "procedural textures" by rendering a generated pattern to a texture
+          and then applying that texture to objects in the scene. Renderbuffers
+          are essentially write-only; typically, the depth buffer in a framebuffer
+          configuration is provided as a renderbuffer, as the buffer is used
+          during rendering but the results are discarded at the end of each
+          rendering frame. Attachments are attached at specific points to
+          any given framebuffer: Framebuffers can have a 
+          <s:term type="term">depth</s:term> attachment, a
+          <s:term type="term">stencil</s:term> attachment, a
+          <s:term type="term">depth+stencil</s:term> attachment, and
+          an implementation-defined maximum number of
+          <s:term type="term">color</s:term> attachments.
         </s:paragraph>
+        <s:paragraph>
+          Allocating a new framebuffer is trivial:
+        </s:paragraph>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Framebuffer allocation</s:formal-item-title>
+<s:verbatim><![CDATA[
+JCGLFramebuffersCommon g;
+
+FramebufferReference f = g.framebufferAllocate();
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          Unfortunately, at this point, the process immediately becomes
+          OpenGL version-specific. There are a number of issues that
+          impede cross-version compatibility:
+        </s:paragraph>
+        <s:formal-item kind="listing">
+          <s:formal-item-title>Framebuffer version issues</s:formal-item-title>
+          <s:list-unordered>
+            <s:list-item>OpenGL ES2 permits <s:term type="emphasis">at most</s:term> one color attachment.</s:list-item>
+            <s:list-item>OpenGL 3.0 requires the implementation to support <s:term type="emphasis">at least</s:term> 8 color attachments
+              <s:footnote>
+                See <s:term type="constant">MAX_COLOR_ATTACHMENTS</s:term> in the state tables
+                of the OpenGL 3.0 specification (Table 6.51 - "Framebuffer dependent values", page 391).
+              </s:footnote>.
+            </s:list-item>
+            <s:list-item>
+              OpenGL ES2 actually forbids implementations from allowing
+              rendering to anything other than five specific renderable
+              buffer/texture formats
+                <s:footnote>
+                See the specification for <s:term type="function">glRenderbufferStorage</s:term> in
+                the OpenGL ES 2.0 specification. Page 111 states: "<s:term type="term">internalformat</s:term>
+                must be one of the color-renderable, depth-renderable, or stencil-renderable
+                formats described in table 4.5". Table 4.5 contains
+                <s:term type="constant">DEPTH_COMPONENT16</s:term>,
+                <s:term type="constant">RGBA4</s:term>,
+                <s:term type="constant">RBGA5_1</s:term>,
+                <s:term type="constant">RGB565</s:term>, and
+                <s:term type="constant">STENCIL_INDEX8</s:term>.
+              </s:footnote>.
+            </s:list-item>
+            <s:list-item>
+              None of the five specific renderbuffer formats allowed by OpenGL ES2,
+              are required to be available by any OpenGL 3.* implementations.
+            </s:list-item>
+            <s:list-item>
+              OpenGL 2.1 only supports framebuffers via a small set of extensions,
+              so the available rendering formats are more or less arbitrary and
+              implementation-specific. Most implementations support at least 4
+              color attachments.
+            </s:list-item>
+            <s:list-item>
+              Of the five formats allowed by OpenGL ES2, only
+              <s:term type="constant">DEPTH_COMPONENT16</s:term> is depth-renderable
+              and <s:term type="constant">STENCIL_INDEX8</s:term> is stencil-renderable.
+              However (and this is fairly major point): <s:term type="emphasis">The
+              vast majority of implementations do not support seperate depth and
+              stencil attachments!</s:term> To actually use framebuffers on real OpenGL
+              ES2 implementations, the programmer must use the ubiquitous
+              <s:link-external target="http://www.khronos.org/registry/gles/extensions/OES/OES_packed_depth_stencil.txt">OES_packed_depth_stencil</s:link-external>
+              extension.
+            </s:list-item>
+            <s:list-item>
+              OpenGL 3.* implementations typically do not support separate depth/stencil
+              attachments either, but the specification requires implementations to
+              provide <s:term type="constant">DEPTH24_STENCIL8</s:term> and
+              <s:term type="constant">DEPTH32F_STENCIL8</s:term> formats.
+            </s:list-item>
+            <s:list-item>
+              No known implementations support multiple depth, multiple stencil, or
+              multiple depth/stencil attachments, even though the API allows it.
+            </s:list-item>
+            <s:list-item>
+              OpenGL 3.* supports the idea of separate "draw" and "read" framebuffers.
+              OpenGL ES2 only supports "draw" framebuffers. The <s:term type="package">jcanephora</s:term>
+              currently only exposes the "draw" functionality, in any case.
+            </s:list-item>
+          </s:list-unordered>
+        </s:formal-item>
+        <s:paragraph>
+          It follows, from contradictory requirements above, that it's not actually
+          possible to have a single code path that can work on all OpenGL ES2, ES3,
+          2.1, and 3.* implementations. Essentially, the following logic is required:
+        </s:paragraph>
+        <s:formal-item kind="procedure">
+          <s:formal-item-title>Framebuffer approach</s:formal-item-title>
+          <s:list-ordered>
+            <s:list-item>
+              If multiple color buffers are required:
+              <s:list-ordered>
+                <s:list-item>
+                  If the implementation is ES2, give up.
+                </s:list-item>
+                <s:list-item>
+                  If the implementation is 3.* or ES3, allocate textures or
+                  renderbuffers in one of the color-renderable formats common
+                  to both.
+                </s:list-item>
+                <s:list-item>
+                  If the implementation is 2.1, allocate textures or
+                  renderbuffers in one of the color-renderable formats common
+                  to both 3.* or ES3, and hope for the best.
+                </s:list-item>
+              </s:list-ordered>
+            </s:list-item>
+            <s:list-item>
+              If a single color buffer is required:
+              <s:list-ordered>
+                <s:list-item>
+                  If the implementation is ES2, allocate a texture or renderbuffer
+                  of one of the two color-renderable formats required by ES2.
+                </s:list-item>
+                <s:list-item>
+                  If the implementation is 3.* or ES3, allocate textures or
+                  renderbuffers in one of the color-renderable formats common
+                  to both.
+                </s:list-item>
+                <s:list-item>
+                  If the implementation is 2.1, allocate textures or
+                  renderbuffers in one of the color-renderable formats common
+                  to both 3.* or ES3, and hope for the best.
+                </s:list-item>
+              </s:list-ordered>
+            </s:list-item>
+            <s:list-item>
+              If a depth or stencil buffer is required:
+              <s:list-ordered>
+                <s:list-item>
+                  If the implementation is ES2:
+                  <s:list-ordered>
+                    <s:list-item>
+                      If the <s:term type="constant">OES_packed_depth_stencil</s:term>
+                      extension is present, assume that the current implementation cannot
+                      handle separate depth/stencil attachments. Allocate a
+                      <s:term type="constant">DEPTH24_STENCIL8</s:term> texture or
+                      renderbuffer and attach it at the
+                      <s:term type="term">depth+stencil</s:term> attachment point.
+                    </s:list-item>
+                    <s:list-item>
+                      If the <s:term type="constant">OES_packed_depth_stencil</s:term>
+                      extension is not present, assume that the current implementation
+                      does support separate depth/stencil attachments. Allocate a
+                      texture or renderbuffer in a depth-renderable or stencil-renderable
+                      format and attach it to the
+                      <s:term type="term">depth</s:term> or <s:term type="term">stencil</s:term>
+                      attachment point, respectively.
+                    </s:list-item>
+                  </s:list-ordered>
+                </s:list-item>
+                <s:list-item>
+                  If the implementation is 3.* or ES3, assume that the implementation
+                  cannot handle separate depth/stencil attachments.
+                  Allocate a <s:term type="constant">DEPTH24_STENCIL8</s:term> texture or
+                  renderbuffer and attach it at the
+                  <s:term type="term">depth+stencil</s:term> attachment point.
+                </s:list-item>
+                <s:list-item>
+                  If the implementation is 2.1, , assume that the implementation
+                  cannot handle separate depth/stencil attachments. Try to allocate a
+                  <s:term type="constant">DEPTH24_STENCIL8</s:term> texture or
+                  renderbuffer and attach it at the
+                  <s:term type="term">depth+stencil</s:term> attachment point, and
+                  hope for the best.
+                </s:list-item>
+              </s:list-ordered>
+            </s:list-item>
+          </s:list-ordered>
+        </s:formal-item>
+        <s:paragraph>
+          The core framebuffer interfaces in <s:term type="package">jcanephora</s:term>
+          assume that the programmer is going to take something like the above approach
+          and deal with the compatibility issues. The high-level
+          <s:link target="com.io7m.jcanephora.100.highlevel.framebuffer">Framebuffer</s:link>
+          API assumes that the programmer doesn't want to deal with the issues, and
+          provides an API that uses the core interfaces to construct framebuffer
+          configurations that work everywhere. The rest of this usage documentation
+          describes the remaining core functions, assuming that the programmer has
+          acknowledged the above issues.
+        </s:paragraph>
+        <s:paragraph>
+          To attach allocated textures/buffers to a framebuffer, the API requires
+          the programmer to first obtain a list of the available attachment points:
+        </s:paragraph>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Framebuffer color attachment points</s:formal-item-title>
+          <s:verbatim><![CDATA[
+JCGLFramebuffersCommon g;
+
+FramebufferColorAttachmentPoint[] points = g.framebufferGetColorAttachmentPoints();
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          The programmer must pass values of type <s:term type="type">FramebufferColorAttachmentPoint</s:term>
+          to various attachment functions and is therefore statically prevented from
+          trying to use more color attachments than the OpenGL implementation allows.
+        </s:paragraph>
+        <s:paragraph>
+          After allocating a color and depth/stencil renderbuffer, the buffers must
+          be attached at the relevant attachment points:
+        </s:paragraph>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Framebuffer attachments</s:formal-item-title>
+          <s:verbatim><![CDATA[
+JCGLFramebuffersGL3 g;
+JCGLRenderbuffersGL3ES3 gr;
+
+FramebufferColorAttachmentPoint[] points = g.framebufferGetColorAttachmentPoints();
+Renderbuffer<RenderableDepthStencil> rd = gr.renderbufferAllocateDepth24Stencil8(640, 480);
+Renderbuffer<RenderableColor> rc = renderbufferAllocateRGB888(640, 480);
+
+FramebufferReference f = g.framebufferAllocate();
+g.framebufferDrawAttachColorRenderbufferAt(f, points[0], rc);
+g.framebufferDrawAttachDepthStencilRenderbuffer(f, rd);
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          It's then necessary to associate the framebuffer's draw buffers with
+          color attachments. That is, it's neccesary to state that if a fragment
+          shader writes to a given numbered buffer <s:term type="variable">B</s:term>
+          when the framebuffer is bound, then that data will be written to color
+          attachment <s:term type="variable">C</s:term>. As with color attachments,
+          the interface requires the programmer to obtain a list of the possible
+          draw buffers and then pass in a <s:term type="type">Map</s:term>
+          associating color attachments to draw buffers. The programmer is therefore
+          statically prevented from using more draw buffers than the implementation
+          can support:
+        </s:paragraph>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Framebuffer attachment/buffer mappings</s:formal-item-title>
+          <s:verbatim><![CDATA[
+JCGLFramebuffersGL3 g;
+FramebufferReference f;
+
+FramebufferDrawBuffer[] buffers = g.framebufferGetDrawBuffers();
+FramebufferColorAttachmentPoint[] points = g.framebufferGetColorAttachmentPoints();
+
+Map<FramebufferDrawBuffer, FramebufferColorAttachmentPoint> mappings =
+  new HashMap<FramebufferDrawBuffer, FramebufferColorAttachmentPoint>();
+mappings.put(buffers[0], points[0]);
+
+g.framebufferDrawSetBuffers(f, mappings);
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          Finally, the framebuffer configuration should be validated to ensure
+          that the configuration is correct and supported. If the
+          validation function returns any status other than
+          <s:term type="constant">FRAMEBUFFER_STATUS_COMPLETE</s:term>, then
+          the framebuffer is incorrectly constructed or unsupported by the
+          current implementation, and cannot be used.
+        </s:paragraph>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Framebuffer validation</s:formal-item-title>
+          <s:verbatim><![CDATA[
+JCGLFramebuffersGL3 g;
+FramebufferReference f;
+
+FramebufferStatus status = g.framebufferDrawValidate(f);
+if (status != FramebufferStatus.FRAMEBUFFER_STATUS_COMPLETE) {
+  // Handle failure...
+}
+]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          To render to the framebuffer, the framebuffer must be bound:
+        </s:paragraph>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Framebuffer binding</s:formal-item-title>
+          <s:verbatim><![CDATA[
+JCGLFramebuffersGL3 g;
+FramebufferReference f;
+
+g.framebufferDrawBind(f);
+{
+  // Perform rendering.
+}
+g.framebufferDrawUnbind(f);
+]]></s:verbatim>
+        </s:formal-item>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
-          Version support
+          See the usage information above for the various issues.
         </s:paragraph>
       </s:subsection>
       <s:subsection>
         <s:subsection-title>Design/Rationale</s:subsection-title>
         <s:paragraph>
-          Design/Rationale
+          The framebuffer API supported by all of the OpenGL versions is
+          chaotic, inconsistent, and contradictory. The 
+          <s:term type="package">jcanephora</s:term> package cannot fix
+          the contradictions, so it settles for providing type-safe wrappers
+          around the existing functions.
         </s:paragraph>
       </s:subsection>
     </s:section>
