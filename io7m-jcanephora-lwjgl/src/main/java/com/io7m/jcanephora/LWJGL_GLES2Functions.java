@@ -13,6 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
@@ -49,6 +50,15 @@ import com.io7m.jtensors.VectorReadable4I;
 
 final class LWJGL_GLES2Functions
 {
+  static void textureSetPackUnpackAlignment1()
+    throws JCGLException
+  {
+    GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
+    LWJGL_GLES2Functions.checkError();
+    GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
+    LWJGL_GLES2Functions.checkError();
+  }
+
   static final @Nonnull ArrayBuffer arrayBufferAllocate(
     final @Nonnull Log log,
     final @Nonnull JCGLStateCache state,
@@ -2346,6 +2356,8 @@ final class LWJGL_GLES2Functions
     final int format = LWJGL_GLTypeConversions.textureTypeToFormatGL(type);
     final int itype = LWJGL_GLTypeConversions.textureTypeToTypeGL(type);
 
+    LWJGL_GLES2Functions.textureSetPackUnpackAlignment1();
+
     GL11.glTexImage2D(
       GL11.GL_TEXTURE_2D,
       0,
@@ -2568,6 +2580,8 @@ final class LWJGL_GLES2Functions
       LWJGL_GLTypeConversions.textureTypeToInternalFormatGL(type);
     final int format = LWJGL_GLTypeConversions.textureTypeToFormatGL(type);
     final int itype = LWJGL_GLTypeConversions.textureTypeToTypeGL(type);
+
+    LWJGL_GLES2Functions.textureSetPackUnpackAlignment1();
 
     for (final CubeMapFace face : CubeMapFace.values()) {
       final int gface = LWJGL_GLTypeConversions.cubeFaceToGL(face);
