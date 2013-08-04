@@ -562,4 +562,34 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
     final String path = "/com/io7m/jcanephora/images/reference_888_3.png";
     this.loadSpecific(fs, gl, tl, path);
   }
+
+  @Test public final void testBug540405e7b9()
+    throws JCGLException,
+      IOException,
+      ConstraintError,
+      JCGLUnsupportedException,
+      FilesystemError
+  {
+    final TestContext tc = this.newTestContext();
+    final FSCapabilityRead fs = tc.getFilesystem();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
+    final T tl = this.makeTextureLoader(gl);
+    final String path = "/com/io7m/jcanephora/images/305x448.png";
+
+    final InputStream stream = fs.openFile(PathVirtual.ofString(path));
+    final Texture2DStatic t =
+      tl.load2DStaticInferredCommon(
+        gl,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
+        stream,
+        "texture");
+    stream.close();
+
+    Assert.assertEquals(448, t.getHeight());
+    Assert.assertEquals(305, t.getWidth());
+  }
 }

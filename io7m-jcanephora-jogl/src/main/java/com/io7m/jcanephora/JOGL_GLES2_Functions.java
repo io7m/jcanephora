@@ -105,6 +105,8 @@ final class JOGL_GLES2_Functions
     JOGL_GL_Functions.checkError(gl);
 
     final TextureSpec spec = JOGL_TextureSpecs.getGLES2TextureSpec(type);
+    JOGL_GL_Functions.textureSetPackUnpackAlignment1(gl);
+
     gl.glTexImage2D(
       GL.GL_TEXTURE_2D,
       0,
@@ -249,6 +251,8 @@ final class JOGL_GLES2_Functions
     JOGL_GL_Functions.checkError(gl);
 
     final TextureSpec spec = JOGL_TextureSpecs.getGLES2TextureSpec(type);
+    JOGL_GL_Functions.textureSetPackUnpackAlignment1(gl);
+
     for (final CubeMapFace face : CubeMapFace.values()) {
       final int gface = JOGL_GLTypeConversions.cubeFaceToGL(face);
       gl.glTexImage2D(
