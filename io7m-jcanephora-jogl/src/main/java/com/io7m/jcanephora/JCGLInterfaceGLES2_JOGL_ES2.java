@@ -491,13 +491,13 @@ import com.io7m.jtensors.VectorReadable4I;
       depth);
   }
 
-  @Override public void depthBufferDisable()
+  @Override public void depthBufferTestDisable()
     throws JCGLException
   {
     JOGL_GL_Functions.depthBufferDisable(this.contextGetGLES2());
   }
 
-  @Override public void depthBufferEnable(
+  @Override public void depthBufferTestEnable(
     final @Nonnull DepthFunction function)
     throws ConstraintError,
       JCGLException
@@ -516,7 +516,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.state);
   }
 
-  @Override public boolean depthBufferIsEnabled()
+  @Override public boolean depthBufferTestIsEnabled()
     throws JCGLException
   {
     return JOGL_GL_Functions.depthBufferIsEnabled(this.contextGetGLES2());

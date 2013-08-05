@@ -471,13 +471,13 @@ import com.io7m.jtensors.VectorReadable4I;
     LWJGL_GLES2Functions.depthBufferClear(this.state, depth);
   }
 
-  @Override public void depthBufferDisable()
+  @Override public void depthBufferTestDisable()
     throws JCGLException
   {
     LWJGL_GLES2Functions.depthBufferDisable();
   }
 
-  @Override public void depthBufferEnable(
+  @Override public void depthBufferTestEnable(
     final @Nonnull DepthFunction function)
     throws ConstraintError,
       JCGLException
@@ -493,7 +493,7 @@ import com.io7m.jtensors.VectorReadable4I;
     return LWJGL_GL3Functions.depthBufferGetBits(this.state);
   }
 
-  @Override public boolean depthBufferIsEnabled()
+  @Override public boolean depthBufferTestIsEnabled()
     throws JCGLException
   {
     return LWJGL_GLES2Functions.depthBufferIsEnabled();

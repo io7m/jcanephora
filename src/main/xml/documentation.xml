@@ -1713,7 +1713,7 @@ g.depthBufferWriteDisable();
 ]]></s:verbatim>
         </s:formal-item>
         <s:paragraph>
-          To enable the depth buffer and set the depth function such that
+          To enable depth testing and set the depth function such that
           only depth values less than the current value in the depth buffer will
           be written:
         </s:paragraph>
@@ -1722,7 +1722,7 @@ g.depthBufferWriteDisable();
 <s:verbatim><![CDATA[
 JCGLDepthBuffers g;
 
-g.depthBufferEnable(DepthFunction.DEPTH_LESS_THAN);
+g.depthBufferTestEnable(DepthFunction.DEPTH_LESS_THAN);
 ]]></s:verbatim>
         </s:formal-item>
       </s:subsection>
