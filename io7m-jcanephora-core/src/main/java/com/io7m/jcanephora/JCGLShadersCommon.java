@@ -113,6 +113,64 @@ public interface JCGLShadersCommon
       JCGLException;
 
   /**
+   * Bind the array attribute <code>array_attribute</code> to the program
+   * attribute <code>program_attribute</code>.
+   * 
+   * @param array_attribute
+   *          The array buffer attribute for the given array buffer.
+   * @param program_attribute
+   *          The program attribute.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>array_attribute == null</code></li>
+   *           <li><code>program_attribute == null</code></li>
+   *           <li>The array that owns <code>array_attribute</code> is not
+   *           bound.</li>
+   *           <li>The array that owns <code>array_attribute</code> is
+   *           deleted.</li>
+   *           <li>The type of <code>array_attribute</code> is incompatible
+   *           with <code>program_attribute</code>.</li>
+   *           </ul>
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  public void programAttributeArrayBind(
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull ArrayBufferAttribute array_attribute)
+    throws JCGLException,
+      ConstraintError;
+
+  /**
+   * Disable the array attribute <code>array_attribute</code> for the program
+   * attribute <code>program_attribute</code>.
+   * 
+   * @param array_attribute
+   *          The array buffer attribute for the given buffer.
+   * @param program_attribute
+   *          The program attribute.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>array_attribute == null</code></li>
+   *           <li><code>program_attribute == null</code></li>
+   *           <li>The array that owns <code>array_attribute</code> is not
+   *           bound.</li>
+   *           <li>The array that owns <code>array_attribute</code> is
+   *           deleted.</li>
+   *           </ul>
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  public void programAttributeArrayUnbind(
+    final @Nonnull ArrayBufferAttribute array_attribute,
+    final @Nonnull ProgramAttribute program_attribute)
+    throws JCGLException,
+      ConstraintError;
+
+  /**
    * <p>
    * Create a new empty program named <code>name</code>, attach <code>v</code>
    * as the vertex shader and <code>f</code> as the fragment shader, link the

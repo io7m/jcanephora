@@ -333,8 +333,8 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
        */
 
       this.gl.arrayBufferBind(this.array);
-      this.gl.arrayBufferBindVertexAttribute(b_pos, p_pos);
-      this.gl.arrayBufferBindVertexAttribute(b_uv, p_uv);
+      this.gl.programAttributeArrayBind(p_uv, b_uv);
+      this.gl.programAttributeArrayBind(p_pos, b_pos);
 
       /**
        * Draw primitives, using the array buffer and the given index buffer.

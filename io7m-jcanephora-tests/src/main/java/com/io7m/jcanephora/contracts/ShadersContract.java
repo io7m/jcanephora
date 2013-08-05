@@ -28,10 +28,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.ArrayBuffer;
+import com.io7m.jcanephora.ArrayBufferAttribute;
+import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
+import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
 import com.io7m.jcanephora.FragmentShader;
+import com.io7m.jcanephora.JCGLArrayBuffers;
 import com.io7m.jcanephora.JCGLCompileException;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
+import com.io7m.jcanephora.JCGLScalarType;
+import com.io7m.jcanephora.JCGLShadersCommon;
 import com.io7m.jcanephora.JCGLType;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.ProgramAttribute;
@@ -40,6 +47,7 @@ import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.ShaderUtilities;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.TextureUnit;
+import com.io7m.jcanephora.UsageHint;
 import com.io7m.jcanephora.VertexShader;
 import com.io7m.jtensors.MatrixM3x3F;
 import com.io7m.jtensors.MatrixM4x4F;
@@ -126,9 +134,255 @@ public abstract class ShadersContract implements TestContract
     }
   }
 
+  private static @Nonnull ProgramReference makeStandardPositionProgram(
+    final @Nonnull JCGLInterfaceCommon gl,
+    final @Nonnull FSCapabilityAll fs,
+    final @Nonnull PathVirtual sp)
+  {
+    FragmentShader f = null;
+    VertexShader v = null;
+
+    try {
+      f =
+        gl.fragmentShaderCompile(
+          "f",
+          ShaderUtilities.readLines(fs.openFile(sp.appendName("simple.f"))));
+      v =
+        gl
+          .vertexShaderCompile("v", ShaderUtilities.readLines(fs.openFile(sp
+            .appendName("position.v"))));
+
+      final ProgramReference p = gl.programCreateCommon("p", v, f);
+      gl.programActivate(p);
+      return p;
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+  }
+
   @Before public final void checkSupport()
   {
     Assume.assumeTrue(this.isGLSupported());
+  }
+
+  /**
+   * Unbinding a vertex attribute for a deleted array fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferUnbindVertexAttributeDeleted()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLArrayBuffers ga = tc.getGLImplementation().getGLCommon();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ArrayBufferAttribute aa;
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeStandardPositionProgram(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("position");
+      final ArrayBufferTypeDescriptor d =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+            "position",
+            JCGLScalarType.TYPE_FLOAT,
+            3) });
+
+      final ArrayBuffer a =
+        ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
+
+      aa = a.getAttribute("position");
+
+      ga.arrayBufferBind(a);
+      gp.programAttributeArrayBind(pa, aa);
+      ga.arrayBufferDelete(a);
+    } catch (final Throwable x) {
+      throw new AssertionError(x);
+    }
+
+    gp.programAttributeArrayUnbind(aa, pa);
+  }
+
+  /**
+   * Unbinding a vertex attribute with a null attribute fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferUnbindVertexAttributeNull()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLArrayBuffers ga = tc.getGLImplementation().getGLCommon();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeStandardPositionProgram(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("position");
+      final ArrayBufferTypeDescriptor d =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+            "position",
+            JCGLScalarType.TYPE_FLOAT,
+            3) });
+      final ArrayBuffer a =
+        ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
+
+      ga.arrayBufferBind(a);
+      final ArrayBufferAttribute aa = a.getAttribute("position");
+      gp.programAttributeArrayBind(pa, aa);
+    } catch (final Throwable x) {
+      throw new AssertionError(x);
+    }
+
+    gp.programAttributeArrayUnbind(null, pa);
+  }
+
+  /**
+   * Unbinding a vertex attribute with a null program attribute fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferUnbindVertexAttributeNullProgram()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLArrayBuffers ga = tc.getGLImplementation().getGLCommon();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ArrayBufferAttribute aa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeStandardPositionProgram(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      final ProgramAttribute pa = pr.getAttributes().get("position");
+      final ArrayBufferTypeDescriptor d =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+            "position",
+            JCGLScalarType.TYPE_FLOAT,
+            3) });
+      final ArrayBuffer a =
+        ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
+
+      ga.arrayBufferBind(a);
+      aa = a.getAttribute("position");
+      gp.programAttributeArrayBind(pa, aa);
+    } catch (final Throwable x) {
+      throw new AssertionError(x);
+    }
+
+    gp.programAttributeArrayUnbind(aa, null);
+  }
+
+  /**
+   * Unbinding a bound vertex attribute works.
+   */
+
+  @Test public final void testArrayBufferUnbindVertexAttributeOK()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLArrayBuffers ga = tc.getGLImplementation().getGLCommon();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ArrayBufferAttribute aa = null;
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeStandardPositionProgram(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("position");
+      final ArrayBufferTypeDescriptor d =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+            "position",
+            JCGLScalarType.TYPE_FLOAT,
+            3) });
+      final ArrayBuffer a =
+        ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
+
+      ga.arrayBufferBind(a);
+      aa = a.getAttribute("position");
+      gp.programAttributeArrayBind(pa, aa);
+    } catch (final Throwable x) {
+      throw new AssertionError(x);
+    }
+
+    gp.programAttributeArrayUnbind(aa, pa);
+  }
+
+  /**
+   * Unbinding a vertex attribute with an unbound array fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testArrayBufferUnbindVertexAttributeUnbound()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLArrayBuffers ga = tc.getGLImplementation().getGLCommon();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ArrayBufferAttribute aa = null;
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeStandardPositionProgram(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("position");
+      final ArrayBufferTypeDescriptor d =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+            "position",
+            JCGLScalarType.TYPE_FLOAT,
+            3) });
+      final ArrayBuffer a =
+        ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
+
+      ga.arrayBufferBind(a);
+      aa = a.getAttribute("position");
+      gp.programAttributeArrayBind(pa, aa);
+      ga.arrayBufferUnbind();
+    } catch (final Throwable x) {
+      throw new AssertionError(x);
+    }
+
+    gp.programAttributeArrayUnbind(aa, pa);
   }
 
   /**
@@ -262,6 +516,308 @@ public abstract class ShadersContract implements TestContract
     gl.fragmentShaderCompile(
       "name",
       ShaderUtilities.readLines(fs.openFile(sp.appendName("simple.f"))));
+  }
+
+  /**
+   * Attempting to bind a vertex attribute with a deleted array fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeBindArrayAttributeDeletedArray()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+    ArrayBufferAttribute aa = null;
+
+    try {
+      final ProgramReference p =
+        ShadersContract.makeComplexProgramWithAttributes(
+          gl,
+          tc.getFilesystem(),
+          tc.getShaderPath());
+
+      pa = p.getAttributes().get("a_vf4");
+
+      final ArrayBufferTypeDescriptor d =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+            "position",
+            JCGLScalarType.TYPE_FLOAT,
+            4) });
+      final ArrayBuffer a =
+        gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
+      aa = a.getAttribute("position");
+      gl.arrayBufferDelete(a);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    assert aa != null;
+    gl.programAttributeArrayBind(pa, aa);
+  }
+
+  /**
+   * Attempting to bind a vertex attribute with a null array attribute fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeBindArrayAttributeNullArrayAttribute()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference p =
+        ShadersContract.makeComplexProgramWithAttributes(
+          gl,
+          tc.getFilesystem(),
+          tc.getShaderPath());
+
+      pa = p.getAttributes().get("a_vf4");
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gl.programAttributeArrayBind(pa, null);
+  }
+
+  /**
+   * Attempting to bind a vertex attribute with a null program attribute
+   * fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeBindArrayAttributeNullProgramAttribute()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+
+    ArrayBufferAttribute aa = null;
+
+    try {
+      final ArrayBufferTypeDescriptor d =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+            "position",
+            JCGLScalarType.TYPE_FLOAT,
+            4) });
+      final ArrayBuffer a =
+        gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
+      aa = a.getAttribute("position");
+      gl.arrayBufferDelete(a);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert aa != null;
+    gl.programAttributeArrayBind(null, aa);
+  }
+
+  /**
+   * Binding a vertex attribute works.
+   */
+
+  @Test public final void testProgramAttributeBindArrayAttributeOK()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLArrayBuffers ga = tc.getGLImplementation().getGLCommon();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ArrayBufferAttribute aa = null;
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeStandardPositionProgram(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      gp.programActivate(pr);
+
+      pa = pr.getAttributes().get("position");
+      final ArrayBufferTypeDescriptor d =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+            "position",
+            JCGLScalarType.TYPE_FLOAT,
+            3) });
+      final ArrayBuffer a =
+        ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
+      aa = a.getAttribute("position");
+
+      ga.arrayBufferBind(a);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    gp.programAttributeArrayBind(pa, aa);
+  }
+
+  /**
+   * Binding a vertex attribute that doesn't belong to the given array buffer
+   * fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeBindArrayAttributeWrongArrayBound()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLArrayBuffers ga = tc.getGLImplementation().getGLCommon();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ArrayBufferAttribute aa1 = null;
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeStandardPositionProgram(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("position");
+      final ArrayBufferTypeDescriptor d0 =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+            "position",
+            JCGLScalarType.TYPE_FLOAT,
+            3) });
+
+      final ArrayBuffer a0 =
+        ga.arrayBufferAllocate(10, d0, UsageHint.USAGE_STATIC_DRAW);
+      final ArrayBuffer a1 =
+        ga.arrayBufferAllocate(10, d0, UsageHint.USAGE_STATIC_DRAW);
+
+      aa1 = a1.getAttribute("position");
+      ga.arrayBufferBind(a0);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    gp.programAttributeArrayBind(pa, aa1);
+  }
+
+  /**
+   * Trying to bind an array attribute to a program attribute when the program
+   * that owns the attribute is not active, is an error.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeBindArrayAttributeWrongProgram()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLArrayBuffers ga = tc.getGLImplementation().getGLCommon();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ArrayBufferAttribute aa = null;
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr0 =
+        ShadersContract.makeStandardPositionProgram(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+      final ProgramReference pr1 =
+        ShadersContract.makeStandardPositionProgram(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      gp.programActivate(pr0);
+
+      pa = pr0.getAttributes().get("position");
+      final ArrayBufferTypeDescriptor d =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+            "position",
+            JCGLScalarType.TYPE_FLOAT,
+            3) });
+
+      final ArrayBuffer a =
+        ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
+
+      aa = a.getAttribute("position");
+      gp.programActivate(pr1);
+      ga.arrayBufferBind(a);
+
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    gp.programAttributeArrayBind(pa, aa);
+  }
+
+  /**
+   * Binding a vertex attribute that doesn't have the same type as the program
+   * attribute fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeBindArrayAttributeWrongType()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLArrayBuffers ga = tc.getGLImplementation().getGLCommon();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ArrayBufferAttribute aa = null;
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeStandardPositionProgram(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("position");
+      final ArrayBufferTypeDescriptor d =
+        new ArrayBufferTypeDescriptor(
+          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
+            "position",
+            JCGLScalarType.TYPE_INT,
+            3) });
+
+      final ArrayBuffer a =
+        ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
+
+      aa = a.getAttribute("position");
+
+      ga.arrayBufferBind(a);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    gp.programAttributeArrayBind(pa, aa);
   }
 
   /**

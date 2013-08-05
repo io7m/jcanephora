@@ -51,15 +51,6 @@ import com.io7m.jtensors.VectorReadable4I;
 
 final class LWJGL_GLES2Functions
 {
-  static void textureSetPackUnpackAlignment1()
-    throws JCGLException
-  {
-    GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
-    LWJGL_GLES2Functions.checkError();
-    GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
-    LWJGL_GLES2Functions.checkError();
-  }
-
   static final @Nonnull ArrayBuffer arrayBufferAllocate(
     final @Nonnull Log log,
     final @Nonnull JCGLStateCache state,
@@ -126,87 +117,6 @@ final class LWJGL_GLES2Functions
     LWJGL_GLES2Functions.checkError();
   }
 
-  static void arrayBufferBindVertexAttribute(
-    final @Nonnull JCGLStateCache state,
-    final @Nonnull ArrayBufferAttribute buffer_attribute,
-    final @Nonnull ProgramAttribute program_attribute)
-    throws JCGLException,
-      ConstraintError
-  {
-    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
-    Constraints.constrainNotNull(program_attribute, "Program attribute");
-
-    final ArrayBufferUsable buffer = buffer_attribute.getArray();
-
-    Constraints.constrainNotNull(buffer, "Array buffer");
-    Constraints.constrainArbitrary(
-      buffer.resourceIsDeleted() == false,
-      "Array buffer not deleted");
-
-    final boolean bound = LWJGL_GLES2Functions.arrayBufferIsBound(buffer);
-    Constraints.constrainArbitrary(bound, "Buffer is bound");
-
-    Constraints.constrainArbitrary(
-      buffer_attribute.getArray().equals(buffer),
-      "Array attribute belongs to the given array");
-
-    Constraints.constrainArbitrary(
-      LWJGL_GLES2Functions.programIsActive(
-        state,
-        program_attribute.getProgram()),
-      "Program for program attribute is not active");
-
-    final ArrayBufferAttributeDescriptor buffer_attribute_type =
-      buffer_attribute.getDescriptor();
-
-    final JCGLScalarType buffer_attribute_gl_type =
-      buffer_attribute_type.getType();
-    final int buffer_attribute_elements = buffer_attribute_type.getElements();
-
-    final boolean convertible =
-      buffer_attribute_gl_type.shaderTypeConvertible(
-        buffer_attribute_elements,
-        program_attribute.getType());
-
-    if (convertible == false) {
-      final StringBuilder b = new StringBuilder();
-      b.append("Array buffer attribute '");
-      b.append(buffer_attribute_type.getName());
-      b.append("' is of type ");
-      b.append(buffer_attribute_gl_type);
-      b.append(" with ");
-      b.append(buffer_attribute_elements);
-      b.append(" elements, but the program attribute '");
-      b.append(program_attribute.getName());
-      b.append("' is of type ");
-      b.append(program_attribute.getType());
-      b.append(", which is incompatible");
-      Constraints.constrainArbitrary(convertible, b.toString());
-    }
-
-    final int program_attrib_id = program_attribute.getLocation();
-
-    final int type =
-      LWJGL_GLTypeConversions.scalarTypeToGL(buffer_attribute_gl_type);
-    final boolean normalized = false;
-    final int stride = (int) buffer.getElementSizeBytes();
-    final int offset =
-      buffer
-        .getType()
-        .getTypeDescriptor()
-        .getAttributeOffset(buffer_attribute.getName());
-
-    GL20.glEnableVertexAttribArray(program_attrib_id);
-    GL20.glVertexAttribPointer(
-      program_attrib_id,
-      buffer_attribute_elements,
-      type,
-      normalized,
-      stride,
-      offset);
-    LWJGL_GLES2Functions.checkError();
-  }
-
   static void arrayBufferDelete(
     final @Nonnull Log log,
     final @Nonnull JCGLStateCache state,
@@ -250,39 +160,6 @@ final class LWJGL_GLES2Functions
     throws JCGLException
   {
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-    LWJGL_GLES2Functions.checkError();
-  }
-
-  static void arrayBufferUnbindVertexAttribute(
-    final @Nonnull JCGLStateCache state,
-    final @Nonnull ArrayBufferAttribute buffer_attribute,
-    final @Nonnull ProgramAttribute program_attribute)
-    throws JCGLException,
-      ConstraintError
-  {
-    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
-    Constraints.constrainNotNull(program_attribute, "Program attribute");
-
-    final ArrayBufferUsable buffer = buffer_attribute.getArray();
-    Constraints.constrainNotNull(buffer, "Array buffer");
-    Constraints.constrainArbitrary(
-      buffer.resourceIsDeleted() == false,
-      "Array buffer not deleted");
-
-    final boolean bound = LWJGL_GLES2Functions.arrayBufferIsBound(buffer);
-    Constraints.constrainArbitrary(bound, "Buffer is bound");
-
-    Constraints.constrainArbitrary(
-      buffer_attribute.getArray().equals(buffer),
-      "Array attribute belongs to the given array");
-
-    Constraints.constrainArbitrary(
-      LWJGL_GLES2Functions.programIsActive(
-        state,
-        program_attribute.getProgram()),
-      "Program for program attribute is not active");
-
-    GL20.glDisableVertexAttribArray(program_attribute.getLocation());
     LWJGL_GLES2Functions.checkError();
   }
 
@@ -1529,6 +1406,120 @@ final class LWJGL_GLES2Functions
       "Program not deleted");
 
     GL20.glUseProgram(program.getGLName());
+    LWJGL_GLES2Functions.checkError();
+  }
+
+  static void programAttributeArrayBind(
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ArrayBufferAttribute buffer_attribute,
+    final @Nonnull ProgramAttribute program_attribute)
+    throws JCGLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
+    Constraints.constrainNotNull(program_attribute, "Program attribute");
+
+    final ArrayBufferUsable buffer = buffer_attribute.getArray();
+
+    Constraints.constrainNotNull(buffer, "Array buffer");
+    Constraints.constrainArbitrary(
+      buffer.resourceIsDeleted() == false,
+      "Array buffer not deleted");
+
+    final boolean bound = LWJGL_GLES2Functions.arrayBufferIsBound(buffer);
+    Constraints.constrainArbitrary(bound, "Buffer is bound");
+
+    Constraints.constrainArbitrary(
+      buffer_attribute.getArray().equals(buffer),
+      "Array attribute belongs to the given array");
+
+    Constraints.constrainArbitrary(
+      LWJGL_GLES2Functions.programIsActive(
+        state,
+        program_attribute.getProgram()),
+      "Program for program attribute is not active");
+
+    final ArrayBufferAttributeDescriptor buffer_attribute_type =
+      buffer_attribute.getDescriptor();
+
+    final JCGLScalarType buffer_attribute_gl_type =
+      buffer_attribute_type.getType();
+    final int buffer_attribute_elements = buffer_attribute_type.getElements();
+
+    final boolean convertible =
+      buffer_attribute_gl_type.shaderTypeConvertible(
+        buffer_attribute_elements,
+        program_attribute.getType());
+
+    if (convertible == false) {
+      final StringBuilder b = new StringBuilder();
+      b.append("Array buffer attribute '");
+      b.append(buffer_attribute_type.getName());
+      b.append("' is of type ");
+      b.append(buffer_attribute_gl_type);
+      b.append(" with ");
+      b.append(buffer_attribute_elements);
+      b.append(" elements, but the program attribute '");
+      b.append(program_attribute.getName());
+      b.append("' is of type ");
+      b.append(program_attribute.getType());
+      b.append(", which is incompatible");
+      Constraints.constrainArbitrary(convertible, b.toString());
+    }
+
+    final int program_attrib_id = program_attribute.getLocation();
+
+    final int type =
+      LWJGL_GLTypeConversions.scalarTypeToGL(buffer_attribute_gl_type);
+    final boolean normalized = false;
+    final int stride = (int) buffer.getElementSizeBytes();
+    final int offset =
+      buffer
+        .getType()
+        .getTypeDescriptor()
+        .getAttributeOffset(buffer_attribute.getName());
+
+    GL20.glEnableVertexAttribArray(program_attrib_id);
+    GL20.glVertexAttribPointer(
+      program_attrib_id,
+      buffer_attribute_elements,
+      type,
+      normalized,
+      stride,
+      offset);
+    LWJGL_GLES2Functions.checkError();
+  }
+
+  static void programAttributeArrayUnbind(
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ArrayBufferAttribute buffer_attribute,
+    final @Nonnull ProgramAttribute program_attribute)
+    throws JCGLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
+    Constraints.constrainNotNull(program_attribute, "Program attribute");
+
+    final ArrayBufferUsable buffer = buffer_attribute.getArray();
+    Constraints.constrainNotNull(buffer, "Array buffer");
+    Constraints.constrainArbitrary(
+      buffer.resourceIsDeleted() == false,
+      "Array buffer not deleted");
+
+    final boolean bound = LWJGL_GLES2Functions.arrayBufferIsBound(buffer);
+    Constraints.constrainArbitrary(bound, "Buffer is bound");
+
+    Constraints.constrainArbitrary(
+      buffer_attribute.getArray().equals(buffer),
+      "Array attribute belongs to the given array");
+
+    Constraints.constrainArbitrary(
+      LWJGL_GLES2Functions.programIsActive(
+        state,
+        program_attribute.getProgram()),
+      "Program for program attribute is not active");
+
+    GL20.glDisableVertexAttribArray(program_attribute.getLocation());
     LWJGL_GLES2Functions.checkError();
   }
 
@@ -2786,6 +2777,15 @@ final class LWJGL_GLES2Functions
     }
 
     return u;
+  }
+
+  static void textureSetPackUnpackAlignment1()
+    throws JCGLException
+  {
+    GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
+    LWJGL_GLES2Functions.checkError();
+    GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
+    LWJGL_GLES2Functions.checkError();
   }
 
   static VertexShader vertexShaderCompile(

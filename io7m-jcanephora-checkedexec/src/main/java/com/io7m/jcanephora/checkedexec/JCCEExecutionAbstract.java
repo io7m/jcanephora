@@ -94,7 +94,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.execNonexistentAttribute(a);
     }
 
-    gl.arrayBufferBindVertexAttribute(x, pa);
+    gl.programAttributeArrayBind(pa, x);
     this.assigned.add(a);
   }
 
