@@ -489,8 +489,8 @@ public final class ExampleFBO implements Example
        */
 
       this.gl.arrayBufferBind(this.textured_quad);
-      this.gl.arrayBufferBindVertexAttribute(b_pos, p_pos);
-      this.gl.arrayBufferBindVertexAttribute(b_uv, p_uv);
+      this.gl.programAttributeArrayBind(p_pos, b_pos);
+      this.gl.programAttributeArrayBind(p_uv, b_uv);
 
       /**
        * Draw primitives, using the array buffer and the given index buffer.
@@ -594,8 +594,8 @@ public final class ExampleFBO implements Example
          */
 
         this.gl.arrayBufferBind(this.color_quad);
-        this.gl.arrayBufferBindVertexAttribute(b_pos, p_pos);
-        this.gl.arrayBufferBindVertexAttribute(b_col, p_col);
+        this.gl.programAttributeArrayBind(p_col, b_col);
+        this.gl.programAttributeArrayBind(p_pos, b_pos);
 
         /**
          * Draw primitives, using the array buffer and the given index buffer.

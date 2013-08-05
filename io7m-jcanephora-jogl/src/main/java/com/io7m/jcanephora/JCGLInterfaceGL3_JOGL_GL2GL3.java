@@ -156,17 +156,6 @@ import com.io7m.jtensors.VectorReadable4I;
     JOGL_GL_Functions.arrayBufferBind(this.context.getGL(), buffer);
   }
 
-  @Override public void arrayBufferBindVertexAttribute(
-    final @Nonnull ArrayBufferAttribute buffer_attribute,
-    final @Nonnull ProgramAttribute program_attribute)
-    throws JCGLException,
-      ConstraintError
-  {
-    JOGL_GL2ES2_Functions.arrayBufferBindVertexAttribute(this.context
-      .getGL()
-      .getGL2ES2(), this.state, buffer_attribute, program_attribute);
-  }
-
   @Override public void arrayBufferDelete(
     final @Nonnull ArrayBuffer id)
     throws ConstraintError,
@@ -230,17 +219,6 @@ import com.io7m.jtensors.VectorReadable4I;
       ConstraintError
   {
     JOGL_GL_Functions.arrayBufferUnbind(this.context.getGL());
-  }
-
-  @Override public void arrayBufferUnbindVertexAttribute(
-    final @Nonnull ArrayBufferAttribute buffer_attribute,
-    final @Nonnull ProgramAttribute program_attribute)
-    throws JCGLException,
-      ConstraintError
-  {
-    JOGL_GL2ES2_Functions.arrayBufferUnbindVertexAttribute(this.context
-      .getGL()
-      .getGL2ES2(), this.state, buffer_attribute, program_attribute);
   }
 
   @Override public void arrayBufferUnmap(
@@ -518,6 +496,14 @@ import com.io7m.jtensors.VectorReadable4I;
       depth);
   }
 
+  @Override public int depthBufferGetBits()
+    throws JCGLException
+  {
+    return JOGL_GL_Functions.depthBufferGetBits(
+      this.context.getGL(),
+      this.state);
+  }
+
   @Override public void depthBufferTestDisable()
     throws JCGLException
   {
@@ -533,14 +519,6 @@ import com.io7m.jtensors.VectorReadable4I;
       this.context.getGL(),
       this.state,
       function);
-  }
-
-  @Override public int depthBufferGetBits()
-    throws JCGLException
-  {
-    return JOGL_GL_Functions.depthBufferGetBits(
-      this.context.getGL(),
-      this.state);
   }
 
   @Override public boolean depthBufferTestIsEnabled()
@@ -1064,6 +1042,28 @@ import com.io7m.jtensors.VectorReadable4I;
 
     gl.glUseProgram(program.getGLName());
     JCGLError.check(this);
+  }
+
+  @Override public void programAttributeArrayBind(
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull ArrayBufferAttribute array_attribute)
+    throws JCGLException,
+      ConstraintError
+  {
+    JOGL_GL2ES2_Functions.programAttributeArrayBind(this.context
+      .getGL()
+      .getGL2ES2(), this.state, program_attribute, array_attribute);
+  }
+
+  @Override public void programAttributeArrayUnbind(
+    final @Nonnull ArrayBufferAttribute array_attribute,
+    final @Nonnull ProgramAttribute program_attribute)
+    throws JCGLException,
+      ConstraintError
+  {
+    JOGL_GL2ES2_Functions.programAttributeArrayUnbind(this.context
+      .getGL()
+      .getGL2ES2(), this.state, program_attribute, array_attribute);
   }
 
   @Override public ProgramReference programCreateCommon(
