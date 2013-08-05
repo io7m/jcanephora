@@ -2574,16 +2574,17 @@ ProgramReference p = g.programCreateWithOutputs("example", v, f, outputs);
           function).
         </s:paragraph>
         <s:paragraph>
-          The set of active uniforms (parameters) for the compiled
-          program can be accessed and assigned values:
+          The program functions interrogate the compiled program when
+          it is created and produce a set of mappings from names
+          to active uniforms (parameters). A read-only view of these
+          can be accessed via the program reference:
         </s:paragraph>
         <s:formal-item kind="examples">
           <s:formal-item-title>Program uniforms</s:formal-item-title>
 <s:verbatim><![CDATA[
 JCGLShaders g;
 
-Map<String, ProgramUniform> uniforms = new HashMap<String, ProgramUniform>();
-g.programGetUniforms(p, uniforms);
+Map<String, ProgramUniform> uniforms = p.getUniforms();
 
 ProgramUniform p = uniforms.get("color");
 assert p != null;
@@ -2605,8 +2606,7 @@ JCGLShaders gs;
 JCGLArrayBuffers ga;
 ArrayBuffer a;
 
-Map<String, ProgramAttribute> attributes = new HashMap<String, ProgramAttribute>();
-gs.programGetAttributes(p, attributes);
+Map<String, ProgramAttribute> attributes = p.getAttributes();
 
 ProgramAttribute pa = attributes.get("position");
 assert pa != null;

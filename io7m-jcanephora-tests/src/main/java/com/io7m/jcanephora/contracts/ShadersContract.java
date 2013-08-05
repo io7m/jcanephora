@@ -18,7 +18,6 @@ package com.io7m.jcanephora.contracts;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -63,10 +62,7 @@ public abstract class ShadersContract implements TestContract
     throws AssertionError
   {
     try {
-      final HashMap<String, ProgramUniform> us =
-        new HashMap<String, ProgramUniform>();
-      gl.programGetUniforms(p, us);
-      final ProgramUniform u = us.get(name);
+      final ProgramUniform u = p.getUniforms().get(name);
       if (u == null) {
         throw new AssertionError("missing uniform " + name);
       }
@@ -284,9 +280,7 @@ public abstract class ShadersContract implements TestContract
 
     final ProgramReference p =
       ShadersContract.makeComplexProgramWithAttributes(gl, fs, sp);
-    final Map<String, ProgramAttribute> as =
-      new HashMap<String, ProgramAttribute>();
-    gl.programGetAttributes(p, as);
+    final Map<String, ProgramAttribute> as = p.getAttributes();
 
     Assert.assertTrue(as.containsKey("a_f"));
     Assert.assertEquals(JCGLType.TYPE_FLOAT, as.get("a_f").getType());
@@ -302,62 +296,6 @@ public abstract class ShadersContract implements TestContract
     Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_4, as
       .get("a_vf4")
       .getType());
-  }
-
-  /**
-   * Getting the attributes of a deleted program fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testProgramDeletedAttributes()
-      throws JCGLException,
-        JCGLUnsupportedException,
-        ConstraintError
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final FSCapabilityAll fs = tc.getFilesystem();
-    final PathVirtual sp = tc.getShaderPath();
-
-    final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
-    try {
-      gl.programDelete(p);
-    } catch (final Throwable x) {
-      throw new AssertionError(x);
-    }
-
-    final Map<String, ProgramAttribute> out =
-      new HashMap<String, ProgramAttribute>();
-    gl.programGetAttributes(p, out);
-  }
-
-  /**
-   * Getting the uniforms of a deleted program fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testProgramDeletedUniforms()
-      throws JCGLException,
-        JCGLUnsupportedException,
-        ConstraintError
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final FSCapabilityAll fs = tc.getFilesystem();
-    final PathVirtual sp = tc.getShaderPath();
-
-    final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
-    try {
-      gl.programDelete(p);
-    } catch (final Throwable x) {
-      throw new AssertionError(x);
-    }
-
-    final Map<String, ProgramUniform> out =
-      new HashMap<String, ProgramUniform>();
-    gl.programGetUniforms(p, out);
   }
 
   /**
@@ -1259,9 +1197,7 @@ public abstract class ShadersContract implements TestContract
     final PathVirtual sp = tc.getShaderPath();
 
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
-    final Map<String, ProgramUniform> us =
-      new HashMap<String, ProgramUniform>();
-    gl.programGetUniforms(p, us);
+    final Map<String, ProgramUniform> us = p.getUniforms();
 
     Assert.assertTrue(us.containsKey("u_float"));
     Assert.assertEquals(JCGLType.TYPE_FLOAT, us.get("u_float").getType());
@@ -1514,13 +1450,7 @@ public abstract class ShadersContract implements TestContract
     final FSCapabilityAll fs = tc.getFilesystem();
     final PathVirtual sp = tc.getShaderPath();
 
-    final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
-    final Map<String, ProgramUniform> u =
-      new HashMap<String, ProgramUniform>();
-    final Map<String, ProgramAttribute> a =
-      new HashMap<String, ProgramAttribute>();
-    gl.programGetUniforms(p, u);
-    gl.programGetAttributes(p, a);
+    ShadersContract.makeComplexProgram(gl, fs, sp);
   }
 
   /**

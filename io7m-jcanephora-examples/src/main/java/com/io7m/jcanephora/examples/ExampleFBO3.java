@@ -17,7 +17,6 @@
 package com.io7m.jcanephora.examples;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.annotation.Nonnull;
 
@@ -112,10 +111,6 @@ public final class ExampleFBO3 implements Example
   private final int                               framebuffer_divisor = 8;
   private final FramebufferConfigurationGL3       framebuffer_config;
   private final FramebufferDrawBuffer[]           framebuffer_draw_buffers;
-  private HashMap<String, ProgramUniform>         program_uv_uniforms;
-  private HashMap<String, ProgramAttribute>       program_uv_attributes;
-  private HashMap<String, ProgramUniform>         program_color_uniforms;
-  private HashMap<String, ProgramAttribute>       program_color_attributes;
 
   public ExampleFBO3(
     final @Nonnull ExampleConfig config)
@@ -183,14 +178,6 @@ public final class ExampleFBO3 implements Example
           ShaderUtilities.readLines(config.getFilesystem().openFile(
             PathVirtual.ofString("/com/io7m/jcanephora/examples/color.f"))));
       this.program_color = this.gl.programCreateCommon("color", v, f);
-      this.program_color_uniforms = new HashMap<String, ProgramUniform>();
-      this.program_color_attributes = new HashMap<String, ProgramAttribute>();
-      this.gl.programGetAttributes(
-        this.program_color,
-        this.program_color_attributes);
-      this.gl.programGetUniforms(
-        this.program_color,
-        this.program_color_uniforms);
     }
 
     {
@@ -205,12 +192,6 @@ public final class ExampleFBO3 implements Example
           ShaderUtilities.readLines(config.getFilesystem().openFile(
             PathVirtual.ofString("/com/io7m/jcanephora/examples/uv.f"))));
       this.program_uv = this.gl.programCreateCommon("uv", v, f);
-      this.program_uv_uniforms = new HashMap<String, ProgramUniform>();
-      this.program_uv_attributes = new HashMap<String, ProgramAttribute>();
-      this.gl.programGetAttributes(
-        this.program_uv,
-        this.program_uv_attributes);
-      this.gl.programGetUniforms(this.program_uv, this.program_uv_uniforms);
     }
 
     /**
@@ -517,11 +498,12 @@ public final class ExampleFBO3 implements Example
        */
 
       final ProgramUniform u_proj =
-        this.program_uv_uniforms.get("matrix_projection");
+
+      this.program_uv.getUniforms().get("matrix_projection");
       final ProgramUniform u_model =
-        this.program_uv_uniforms.get("matrix_modelview");
+        this.program_uv.getUniforms().get("matrix_modelview");
       final ProgramUniform u_texture =
-        this.program_uv_uniforms.get("texture");
+        this.program_uv.getUniforms().get("texture");
 
       /**
        * Upload the matrices to the uniform variable inputs.
@@ -543,9 +525,10 @@ public final class ExampleFBO3 implements Example
        */
 
       final ProgramAttribute p_pos =
-        this.program_uv_attributes.get("vertex_position");
+
+      this.program_uv.getAttributes().get("vertex_position");
       final ProgramAttribute p_uv =
-        this.program_uv_attributes.get("vertex_uv");
+        this.program_uv.getAttributes().get("vertex_uv");
 
       /**
        * Get references to the array buffer's vertex attributes.
@@ -630,9 +613,10 @@ public final class ExampleFBO3 implements Example
          */
 
         final ProgramUniform u_proj =
-          this.program_color_uniforms.get("matrix_projection");
+
+        this.program_color.getUniforms().get("matrix_projection");
         final ProgramUniform u_model =
-          this.program_color_uniforms.get("matrix_modelview");
+          this.program_color.getUniforms().get("matrix_modelview");
 
         /**
          * Upload the matrices to the uniform variable inputs.
@@ -646,9 +630,9 @@ public final class ExampleFBO3 implements Example
          */
 
         final ProgramAttribute p_pos =
-          this.program_color_attributes.get("vertex_position");
+          this.program_color.getAttributes().get("vertex_position");
         final ProgramAttribute p_col =
-          this.program_color_attributes.get("vertex_color");
+          this.program_color.getAttributes().get("vertex_color");
 
         /**
          * Get references to the array buffer's vertex attributes.
