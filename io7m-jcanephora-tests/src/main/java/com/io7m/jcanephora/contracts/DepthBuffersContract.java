@@ -95,10 +95,10 @@ public abstract class DepthBuffersContract implements TestContract
     Assert.assertTrue(gl.framebufferDrawIsBound(fb));
 
     for (final DepthFunction f : DepthFunction.values()) {
-      gd.depthBufferDisable();
-      Assert.assertFalse(gd.depthBufferIsEnabled());
-      gd.depthBufferEnable(f);
-      Assert.assertTrue(gd.depthBufferIsEnabled());
+      gd.depthBufferTestDisable();
+      Assert.assertFalse(gd.depthBufferTestIsEnabled());
+      gd.depthBufferTestEnable(f);
+      Assert.assertTrue(gd.depthBufferTestIsEnabled());
     }
   }
 
@@ -166,7 +166,7 @@ public abstract class DepthBuffersContract implements TestContract
     Assert.assertTrue(gl.framebufferDrawAnyIsBound());
     Assert.assertTrue(gl.framebufferDrawIsBound(fb));
 
-    gd.depthBufferEnable(DepthFunction.DEPTH_EQUAL);
+    gd.depthBufferTestEnable(DepthFunction.DEPTH_EQUAL);
   }
 
   @Test public void testDepthBufferWithoutDepthHasNoBits()
