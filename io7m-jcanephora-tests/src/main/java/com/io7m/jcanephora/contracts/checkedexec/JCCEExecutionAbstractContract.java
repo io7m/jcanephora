@@ -201,6 +201,38 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
   }
 
   /**
+   * Trying to bind an array attribute if the array isn't bound, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testAttributeArrayNotBound()
+      throws Throwable
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    ExecCalled e = null;
+    ProgramReferenceUsable p = null;
+    ArrayBuffer a = null;
+    ArrayBufferAttribute a_vf2 = null;
+
+    try {
+      p = JCCEExecutionAbstractContract.makeProgram(tc, gl);
+      a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
+      a_vf2 = a.getAttribute("a_vf2");
+      e = new ExecCalled();
+      Assert.assertFalse(e.called);
+      e.execPrepare(gl, p);
+      gl.arrayBufferUnbind();
+    } catch (final Throwable x) {
+      Assert.fail(x.getMessage());
+    }
+
+    assert e != null;
+    e.execAttributeBind(gl, "a_vf2", a_vf2);
+  }
+
+  /**
    * Trying to bind a nonexistent attribute fails.
    */
 
