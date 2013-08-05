@@ -821,6 +821,160 @@ public abstract class ShadersContract implements TestContract
   }
 
   /**
+   * Putting a value into an attribute of a deleted program, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeFloatDeleted()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_vf2");
+      gp.programActivate(pr);
+      gp.programDelete(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutFloat(pa, 1.0f);
+  }
+
+  /**
+   * Putting a value into an attribute of an inactive program, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeFloatInactive()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_vf2");
+      gp.programDeactivate();
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutFloat(pa, 1.0f);
+  }
+
+  /**
+   * Putting a value into an attribute of the wrong type, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeFloatWrongType()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_vf2");
+      gp.programActivate(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutFloat(pa, 1.0f);
+  }
+
+  /**
+   * Putting a value into an attribute of right wrong type, works.
+   */
+
+  @Test public final void testProgramAttributeFloatOK()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_f");
+      gp.programActivate(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutFloat(pa, 1.0f);
+  }
+
+  /**
+   * Putting a value into a null attribute, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeFloatNull()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+      gp.programActivate(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    gp.programAttributePutFloat(null, 1.0f);
+  }
+
+  /**
    * Fetching attributes works.
    */
 
@@ -1036,7 +1190,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_float");
     gl.programDelete(p);
-    gl.programPutUniformFloat(pu, 23.0f);
+    gl.programUniformPutFloat(pu, 23.0f);
   }
 
   /**
@@ -1057,7 +1211,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_mat3");
     gl.programDelete(p);
-    gl.programPutUniformMatrix3x3f(pu, new MatrixM3x3F());
+    gl.programUniformPutMatrix3x3f(pu, new MatrixM3x3F());
   }
 
   /**
@@ -1078,7 +1232,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_mat4");
     gl.programDelete(p);
-    gl.programPutUniformMatrix4x4f(pu, new MatrixM4x4F());
+    gl.programUniformPutMatrix4x4f(pu, new MatrixM4x4F());
   }
 
   /**
@@ -1099,7 +1253,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_vec2");
     gl.programDelete(p);
-    gl.programPutUniformVector2f(pu, new VectorI2F(1, 1));
+    gl.programUniformPutVector2f(pu, new VectorI2F(1, 1));
   }
 
   /**
@@ -1120,7 +1274,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_ivec2");
     gl.programDelete(p);
-    gl.programPutUniformVector2i(pu, new VectorI2I(1, 1));
+    gl.programUniformPutVector2i(pu, new VectorI2I(1, 1));
   }
 
   /**
@@ -1141,7 +1295,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_vec3");
     gl.programDelete(p);
-    gl.programPutUniformVector3f(pu, new VectorI3F(1, 1, 1));
+    gl.programUniformPutVector3f(pu, new VectorI3F(1, 1, 1));
   }
 
   /**
@@ -1162,7 +1316,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_ivec3");
     gl.programDelete(p);
-    gl.programPutUniformVector3i(pu, new VectorI3I(1, 1, 1));
+    gl.programUniformPutVector3i(pu, new VectorI3I(1, 1, 1));
   }
 
   /**
@@ -1183,7 +1337,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_vec4");
     gl.programDelete(p);
-    gl.programPutUniformVector4f(pu, new VectorI4F(1, 1, 1, 1));
+    gl.programUniformPutVector4f(pu, new VectorI4F(1, 1, 1, 1));
   }
 
   /**
@@ -1204,7 +1358,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_ivec4");
     gl.programDelete(p);
-    gl.programPutUniformVector4i(pu, new VectorI4I(1, 1, 1, 1));
+    gl.programUniformPutVector4i(pu, new VectorI4I(1, 1, 1, 1));
   }
 
   /**
@@ -1225,7 +1379,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_float");
     gl.programDeactivate();
-    gl.programPutUniformFloat(pu, 23.0f);
+    gl.programUniformPutFloat(pu, 23.0f);
   }
 
   /**
@@ -1246,7 +1400,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_mat3");
     gl.programDeactivate();
-    gl.programPutUniformMatrix3x3f(pu, new MatrixM3x3F());
+    gl.programUniformPutMatrix3x3f(pu, new MatrixM3x3F());
   }
 
   /**
@@ -1267,7 +1421,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_mat4");
     gl.programDeactivate();
-    gl.programPutUniformMatrix4x4f(pu, new MatrixM4x4F());
+    gl.programUniformPutMatrix4x4f(pu, new MatrixM4x4F());
   }
 
   /**
@@ -1288,7 +1442,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_vec2");
     gl.programDeactivate();
-    gl.programPutUniformVector2f(pu, new VectorI2F(1, 1));
+    gl.programUniformPutVector2f(pu, new VectorI2F(1, 1));
   }
 
   /**
@@ -1309,7 +1463,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_ivec2");
     gl.programDeactivate();
-    gl.programPutUniformVector2i(pu, new VectorI2I(1, 1));
+    gl.programUniformPutVector2i(pu, new VectorI2I(1, 1));
   }
 
   /**
@@ -1330,7 +1484,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_vec3");
     gl.programDeactivate();
-    gl.programPutUniformVector3f(pu, new VectorI3F(1, 1, 1));
+    gl.programUniformPutVector3f(pu, new VectorI3F(1, 1, 1));
   }
 
   /**
@@ -1351,7 +1505,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_ivec3");
     gl.programDeactivate();
-    gl.programPutUniformVector3i(pu, new VectorI3I(1, 1, 1));
+    gl.programUniformPutVector3i(pu, new VectorI3I(1, 1, 1));
   }
 
   /**
@@ -1372,7 +1526,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_vec4");
     gl.programDeactivate();
-    gl.programPutUniformVector4f(pu, new VectorI4F(1, 1, 1, 1));
+    gl.programUniformPutVector4f(pu, new VectorI4F(1, 1, 1, 1));
   }
 
   /**
@@ -1393,7 +1547,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_ivec4");
     gl.programDeactivate();
-    gl.programPutUniformVector4i(pu, new VectorI4I(1, 1, 1, 1));
+    gl.programUniformPutVector4i(pu, new VectorI4I(1, 1, 1, 1));
   }
 
   /**
@@ -1409,7 +1563,7 @@ public abstract class ShadersContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    gl.programPutUniformFloat(null, 23.0f);
+    gl.programUniformPutFloat(null, 23.0f);
   }
 
   /**
@@ -1425,7 +1579,7 @@ public abstract class ShadersContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    gl.programPutUniformMatrix3x3f(null, new MatrixM3x3F());
+    gl.programUniformPutMatrix3x3f(null, new MatrixM3x3F());
   }
 
   /**
@@ -1441,7 +1595,7 @@ public abstract class ShadersContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    gl.programPutUniformMatrix4x4f(null, new MatrixM4x4F());
+    gl.programUniformPutMatrix4x4f(null, new MatrixM4x4F());
   }
 
   /**
@@ -1458,7 +1612,7 @@ public abstract class ShadersContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     final TextureUnit[] units = gl.textureGetUnits();
-    gl.programPutUniformTextureUnit(null, units[0]);
+    gl.programUniformPutTextureUnit(null, units[0]);
   }
 
   /**
@@ -1474,7 +1628,7 @@ public abstract class ShadersContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    gl.programPutUniformVector2f(null, new VectorI2F(1, 1));
+    gl.programUniformPutVector2f(null, new VectorI2F(1, 1));
   }
 
   /**
@@ -1490,7 +1644,7 @@ public abstract class ShadersContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    gl.programPutUniformVector2i(null, new VectorI2I(1, 1));
+    gl.programUniformPutVector2i(null, new VectorI2I(1, 1));
   }
 
   /**
@@ -1506,7 +1660,7 @@ public abstract class ShadersContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    gl.programPutUniformVector3f(null, new VectorI3F(1, 1, 1));
+    gl.programUniformPutVector3f(null, new VectorI3F(1, 1, 1));
   }
 
   /**
@@ -1522,7 +1676,7 @@ public abstract class ShadersContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    gl.programPutUniformVector3i(null, new VectorI3I(1, 1, 1));
+    gl.programUniformPutVector3i(null, new VectorI3I(1, 1, 1));
   }
 
   /**
@@ -1538,7 +1692,7 @@ public abstract class ShadersContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    gl.programPutUniformVector4f(null, new VectorI4F(1, 1, 1, 1));
+    gl.programUniformPutVector4f(null, new VectorI4F(1, 1, 1, 1));
   }
 
   /**
@@ -1554,7 +1708,7 @@ public abstract class ShadersContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    gl.programPutUniformVector4i(null, new VectorI4I(1, 1, 1, 1));
+    gl.programUniformPutVector4i(null, new VectorI4I(1, 1, 1, 1));
   }
 
   /**
@@ -1572,7 +1726,7 @@ public abstract class ShadersContract implements TestContract
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_float");
-    gl.programPutUniformFloat(pu, 23.0f);
+    gl.programUniformPutFloat(pu, 23.0f);
   }
 
   /**
@@ -1590,7 +1744,7 @@ public abstract class ShadersContract implements TestContract
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_mat3");
-    gl.programPutUniformMatrix3x3f(pu, new MatrixM3x3F());
+    gl.programUniformPutMatrix3x3f(pu, new MatrixM3x3F());
   }
 
   /**
@@ -1608,7 +1762,7 @@ public abstract class ShadersContract implements TestContract
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_mat4");
-    gl.programPutUniformMatrix4x4f(pu, new MatrixM4x4F());
+    gl.programUniformPutMatrix4x4f(pu, new MatrixM4x4F());
   }
 
   /**
@@ -1627,7 +1781,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final TextureUnit[] units = gl.textureGetUnits();
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "sampler");
-    gl.programPutUniformTextureUnit(pu, units[0]);
+    gl.programUniformPutTextureUnit(pu, units[0]);
   }
 
   /**
@@ -1645,7 +1799,7 @@ public abstract class ShadersContract implements TestContract
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_vec2");
-    gl.programPutUniformVector2f(pu, new VectorI2F(1, 1));
+    gl.programUniformPutVector2f(pu, new VectorI2F(1, 1));
   }
 
   /**
@@ -1663,7 +1817,7 @@ public abstract class ShadersContract implements TestContract
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_ivec2");
-    gl.programPutUniformVector2i(pu, new VectorI2I(1, 1));
+    gl.programUniformPutVector2i(pu, new VectorI2I(1, 1));
   }
 
   /**
@@ -1681,7 +1835,7 @@ public abstract class ShadersContract implements TestContract
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_vec3");
-    gl.programPutUniformVector3f(pu, new VectorI3F(1, 1, 1));
+    gl.programUniformPutVector3f(pu, new VectorI3F(1, 1, 1));
   }
 
   /**
@@ -1699,7 +1853,7 @@ public abstract class ShadersContract implements TestContract
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_ivec3");
-    gl.programPutUniformVector3i(pu, new VectorI3I(1, 1, 1));
+    gl.programUniformPutVector3i(pu, new VectorI3I(1, 1, 1));
   }
 
   /**
@@ -1717,7 +1871,7 @@ public abstract class ShadersContract implements TestContract
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_vec4");
-    gl.programPutUniformVector4f(pu, new VectorI4F(1, 1, 1, 1));
+    gl.programUniformPutVector4f(pu, new VectorI4F(1, 1, 1, 1));
   }
 
   /**
@@ -1735,7 +1889,7 @@ public abstract class ShadersContract implements TestContract
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_ivec4");
-    gl.programPutUniformVector4i(pu, new VectorI4I(1, 1, 1, 1));
+    gl.programUniformPutVector4i(pu, new VectorI4I(1, 1, 1, 1));
   }
 
   /**
@@ -1808,7 +1962,7 @@ public abstract class ShadersContract implements TestContract
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_mat3");
-    gl.programPutUniformFloat(pu, 23.0f);
+    gl.programUniformPutFloat(pu, 23.0f);
   }
 
   /**
@@ -1828,7 +1982,7 @@ public abstract class ShadersContract implements TestContract
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_float");
-    gl.programPutUniformMatrix3x3f(pu, new MatrixM3x3F());
+    gl.programUniformPutMatrix3x3f(pu, new MatrixM3x3F());
   }
 
   /**
@@ -1848,7 +2002,7 @@ public abstract class ShadersContract implements TestContract
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_float");
-    gl.programPutUniformMatrix4x4f(pu, new MatrixM4x4F());
+    gl.programUniformPutMatrix4x4f(pu, new MatrixM4x4F());
   }
 
   /**
@@ -1869,7 +2023,7 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final TextureUnit[] units = gl.textureGetUnits();
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_mat3");
-    gl.programPutUniformTextureUnit(pu, units[0]);
+    gl.programUniformPutTextureUnit(pu, units[0]);
   }
 
   /**
@@ -1889,7 +2043,7 @@ public abstract class ShadersContract implements TestContract
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_float");
-    gl.programPutUniformVector2f(pu, new VectorI2F(1, 1));
+    gl.programUniformPutVector2f(pu, new VectorI2F(1, 1));
   }
 
   /**
@@ -1909,7 +2063,7 @@ public abstract class ShadersContract implements TestContract
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_float");
-    gl.programPutUniformVector2i(pu, new VectorI2I(1, 1));
+    gl.programUniformPutVector2i(pu, new VectorI2I(1, 1));
   }
 
   /**
@@ -1929,7 +2083,7 @@ public abstract class ShadersContract implements TestContract
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_float");
-    gl.programPutUniformVector3f(pu, new VectorI3F(1, 1, 1));
+    gl.programUniformPutVector3f(pu, new VectorI3F(1, 1, 1));
   }
 
   /**
@@ -1949,7 +2103,7 @@ public abstract class ShadersContract implements TestContract
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_float");
-    gl.programPutUniformVector3i(pu, new VectorI3I(1, 1, 1));
+    gl.programUniformPutVector3i(pu, new VectorI3I(1, 1, 1));
   }
 
   /**
@@ -1969,7 +2123,7 @@ public abstract class ShadersContract implements TestContract
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_float");
-    gl.programPutUniformVector4f(pu, new VectorI4F(1, 1, 1, 1));
+    gl.programUniformPutVector4f(pu, new VectorI4F(1, 1, 1, 1));
   }
 
   /**
@@ -1989,7 +2143,7 @@ public abstract class ShadersContract implements TestContract
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_float");
-    gl.programPutUniformVector4i(pu, new VectorI4I(1, 1, 1, 1));
+    gl.programUniformPutVector4i(pu, new VectorI4I(1, 1, 1, 1));
   }
 
   /**
