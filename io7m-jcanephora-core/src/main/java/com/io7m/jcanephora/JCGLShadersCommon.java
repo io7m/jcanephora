@@ -171,6 +171,33 @@ public interface JCGLShadersCommon
       ConstraintError;
 
   /**
+   * Set the value of the program attribute <code>program_attribute</code> to
+   * <code>x</code>. This essentially instructs OpenGL to behave as if it was
+   * reading from an array buffer where every element is equal to
+   * <code>x</code>.
+   * 
+   * @param program_attribute
+   *          The program attribute.
+   * @param x
+   *          The value.
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>program_attribute == null</code></li>
+   *           <li>The program that <code>program_attribute</code> belongs to
+   *           is not active.</li>
+   *           </ul>
+   */
+
+  public void programAttributePutFloat(
+    final @Nonnull ProgramAttribute program_attribute,
+    float x)
+    throws JCGLException,
+      ConstraintError;
+
+  /**
    * <p>
    * Create a new empty program named <code>name</code>, attach <code>v</code>
    * as the vertex shader and <code>f</code> as the fragment shader, link the
@@ -297,7 +324,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformFloat(
+  void programUniformPutFloat(
     final @Nonnull ProgramUniform uniform,
     final float value)
     throws ConstraintError,
@@ -324,7 +351,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformMatrix3x3f(
+  void programUniformPutMatrix3x3f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixReadable3x3F matrix)
     throws ConstraintError,
@@ -351,7 +378,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformMatrix4x4f(
+  void programUniformPutMatrix4x4f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixReadable4x4F matrix)
     throws ConstraintError,
@@ -378,7 +405,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformTextureUnit(
+  void programUniformPutTextureUnit(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull TextureUnit unit)
     throws ConstraintError,
@@ -405,7 +432,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformVector2f(
+  void programUniformPutVector2f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable2F vector)
     throws ConstraintError,
@@ -432,7 +459,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformVector2i(
+  void programUniformPutVector2i(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable2I vector)
     throws ConstraintError,
@@ -459,7 +486,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformVector3f(
+  void programUniformPutVector3f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable3F vector)
     throws ConstraintError,
@@ -486,7 +513,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformVector3i(
+  void programUniformPutVector3i(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable3I vector)
     throws ConstraintError,
@@ -513,7 +540,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformVector4f(
+  void programUniformPutVector4f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4F vector)
     throws ConstraintError,
@@ -540,7 +567,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformVector4i(
+  void programUniformPutVector4i(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4I vector)
     throws ConstraintError,

@@ -231,8 +231,8 @@ public final class ExampleTriangle implements Example
        * Upload the matrices to the uniform variable inputs.
        */
 
-      this.gl.programPutUniformMatrix4x4f(u_proj, this.matrix_projection);
-      this.gl.programPutUniformMatrix4x4f(u_model, this.matrix_modelview);
+      this.gl.programUniformPutMatrix4x4f(u_proj, this.matrix_projection);
+      this.gl.programUniformPutMatrix4x4f(u_model, this.matrix_modelview);
 
       /**
        * Get references to the program's vertex attribute inputs.

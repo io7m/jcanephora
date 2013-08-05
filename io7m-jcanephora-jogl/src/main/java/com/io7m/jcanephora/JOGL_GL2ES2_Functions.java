@@ -274,6 +274,42 @@ final class JOGL_GL2ES2_Functions
     JOGL_GL_Functions.checkError(gl);
   }
 
+  static void programAttributePutFloat(
+    final @Nonnull GL2ES2 g,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ProgramAttribute program_attribute,
+    final float x)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(program_attribute, "Program attribute");
+    Constraints.constrainArbitrary(
+      JOGL_GL2ES2_Functions.programIsActive(
+        g,
+        state,
+        program_attribute.getProgram()),
+      "Program for program attribute is not active");
+
+    final boolean convertible =
+      JCGLScalarType.TYPE_FLOAT.shaderTypeConvertible(
+        1,
+        program_attribute.getType());
+
+    if (convertible == false) {
+      final StringBuilder b = new StringBuilder();
+      b.append("The program attribute '");
+      b.append(program_attribute.getName());
+      b.append("' is of type ");
+      b.append(program_attribute.getType());
+      b.append(" but the given value is of type float");
+      Constraints.constrainArbitrary(false, b.toString());
+    }
+
+    final int program_attrib_id = program_attribute.getLocation();
+    g.glVertexAttrib1f(program_attrib_id, x);
+    JOGL_GL_Functions.checkError(g);
+  }
+
   static ProgramReference programCreateCommon(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
