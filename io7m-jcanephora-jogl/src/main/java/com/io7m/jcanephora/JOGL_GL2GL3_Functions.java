@@ -18,6 +18,7 @@ package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -212,7 +213,25 @@ final class JOGL_GL2GL3_Functions
       log.debug(state.log_text.toString());
     }
 
-    return new ProgramReference(id, name);
+    final Map<String, ProgramAttribute> attributes =
+      new HashMap<String, ProgramAttribute>();
+    final Map<String, ProgramUniform> uniforms =
+      new HashMap<String, ProgramUniform>();
+
+    final ProgramReference program =
+      new ProgramReference(id, name, uniforms, attributes);
+
+    JOGL_GL2ES2_Functions.programGetAttributes(
+      g,
+      state,
+      log,
+      program,
+      attributes);
+
+    JOGL_GL2ES2_Functions
+      .programGetUniforms(g, state, log, program, uniforms);
+
+    return program;
   }
 
   static @Nonnull Texture2DStatic texture2DStaticAllocate(

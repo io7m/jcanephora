@@ -16,7 +16,6 @@
 package com.io7m.jcanephora.examples;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.annotation.Nonnull;
 
@@ -56,19 +55,17 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleTriangle implements Example
 {
-  private final ArrayBufferTypeDescriptor         array_type;
-  private final ArrayBuffer                       array;
-  private final ArrayBufferWritableData           array_data;
-  private final ProgramReference                  program;
-  private final MatrixM4x4F                       matrix_projection;
-  private final MatrixM4x4F                       matrix_modelview;
-  private final IndexBuffer                       indices;
-  private final IndexBufferWritableData           indices_data;
-  private final ExampleConfig                     config;
-  private boolean                                 has_shut_down;
-  private final JCGLInterfaceCommon               gl;
-  private final HashMap<String, ProgramUniform>   program_uniforms;
-  private final HashMap<String, ProgramAttribute> program_attributes;
+  private final ArrayBufferTypeDescriptor array_type;
+  private final ArrayBuffer               array;
+  private final ArrayBufferWritableData   array_data;
+  private final ProgramReference          program;
+  private final MatrixM4x4F               matrix_projection;
+  private final MatrixM4x4F               matrix_modelview;
+  private final IndexBuffer               indices;
+  private final IndexBufferWritableData   indices_data;
+  private final ExampleConfig             config;
+  private boolean                         has_shut_down;
+  private final JCGLInterfaceCommon       gl;
 
   public ExampleTriangle(
     final @Nonnull ExampleConfig config)
@@ -99,11 +96,6 @@ public final class ExampleTriangle implements Example
           ShaderUtilities.readLines(config.getFilesystem().openFile(
             PathVirtual.ofString("/com/io7m/jcanephora/examples/color.f"))));
       this.program = this.gl.programCreateCommon("color", v, f);
-
-      this.program_uniforms = new HashMap<String, ProgramUniform>();
-      this.program_attributes = new HashMap<String, ProgramAttribute>();
-      this.gl.programGetAttributes(this.program, this.program_attributes);
-      this.gl.programGetUniforms(this.program, this.program_uniforms);
     }
 
     /**
@@ -231,9 +223,9 @@ public final class ExampleTriangle implements Example
        */
 
       final ProgramUniform u_proj =
-        this.program_uniforms.get("matrix_projection");
+        this.program.getUniforms().get("matrix_projection");
       final ProgramUniform u_model =
-        this.program_uniforms.get("matrix_modelview");
+        this.program.getUniforms().get("matrix_modelview");
 
       /**
        * Upload the matrices to the uniform variable inputs.
@@ -247,9 +239,9 @@ public final class ExampleTriangle implements Example
        */
 
       final ProgramAttribute p_pos =
-        this.program_attributes.get("vertex_position");
+        this.program.getAttributes().get("vertex_position");
       final ProgramAttribute p_col =
-        this.program_attributes.get("vertex_color");
+        this.program.getAttributes().get("vertex_color");
 
       /**
        * Get references to the array buffer's vertex attributes.

@@ -17,7 +17,6 @@
 package com.io7m.jcanephora.examples;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.annotation.Nonnull;
 
@@ -60,24 +59,22 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleStencil implements Example
 {
-  private final JCGLInterfaceCommon         gl;
-  private final ArrayBufferTypeDescriptor   array_type;
-  private final ArrayBuffer                 array;
-  private final ArrayBufferWritableData     array_data;
-  private final ProgramReference            program;
-  private final MatrixM4x4F                 matrix_projection;
-  private final MatrixM4x4F                 matrix_modelview;
-  private final IndexBuffer                 triangle_indices;
-  private final IndexBufferWritableData     triangle_indices_data;
-  private final ExampleConfig               config;
-  private boolean                           has_shut_down;
-  private final IndexBuffer                 quad_indices;
-  private final IndexBufferWritableData     quad_indices_data;
-  private final VectorM2F                   translation  = new VectorM2F();
-  private int                               time         = 0;
-  private HashMap<String, ProgramUniform>   program_uniforms;
-  private HashMap<String, ProgramAttribute> program_attributes;
-  private static final int                  STENCIL_MASK = 0xFF;
+  private final JCGLInterfaceCommon       gl;
+  private final ArrayBufferTypeDescriptor array_type;
+  private final ArrayBuffer               array;
+  private final ArrayBufferWritableData   array_data;
+  private final ProgramReference          program;
+  private final MatrixM4x4F               matrix_projection;
+  private final MatrixM4x4F               matrix_modelview;
+  private final IndexBuffer               triangle_indices;
+  private final IndexBufferWritableData   triangle_indices_data;
+  private final ExampleConfig             config;
+  private boolean                         has_shut_down;
+  private final IndexBuffer               quad_indices;
+  private final IndexBufferWritableData   quad_indices_data;
+  private final VectorM2F                 translation  = new VectorM2F();
+  private int                             time         = 0;
+  private static final int                STENCIL_MASK = 0xFF;
 
   public ExampleStencil(
     final @Nonnull ExampleConfig config)
@@ -104,11 +101,6 @@ public final class ExampleStencil implements Example
           ShaderUtilities.readLines(config.getFilesystem().openFile(
             PathVirtual.ofString("/com/io7m/jcanephora/examples/color.f"))));
       this.program = this.gl.programCreateCommon("color", v, f);
-
-      this.program_uniforms = new HashMap<String, ProgramUniform>();
-      this.program_attributes = new HashMap<String, ProgramAttribute>();
-      this.gl.programGetAttributes(this.program, this.program_attributes);
-      this.gl.programGetUniforms(this.program, this.program_uniforms);
     }
 
     final ArrayBufferAttributeDescriptor[] ab =
@@ -208,13 +200,13 @@ public final class ExampleStencil implements Example
     this.gl.programActivate(this.program);
     {
       final ProgramUniform u_proj =
-        this.program_uniforms.get("matrix_projection");
+        this.program.getUniforms().get("matrix_projection");
       final ProgramUniform u_model =
-        this.program_uniforms.get("matrix_modelview");
+        this.program.getUniforms().get("matrix_modelview");
       final ProgramAttribute p_pos =
-        this.program_attributes.get("vertex_position");
+        this.program.getAttributes().get("vertex_position");
       final ProgramAttribute p_col =
-        this.program_attributes.get("vertex_color");
+        this.program.getAttributes().get("vertex_color");
 
       final ArrayBufferAttribute b_pos = this.array.getAttribute("position");
       final ArrayBufferAttribute b_col = this.array.getAttribute("color");

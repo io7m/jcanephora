@@ -18,7 +18,6 @@ package com.io7m.jcanephora;
 
 import java.nio.IntBuffer;
 import java.util.List;
-import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.annotation.Nonnull;
@@ -820,38 +819,12 @@ import com.io7m.jtensors.VectorReadable4I;
     LWJGL_GLES2Functions.programDelete(this.state, this.log, program);
   }
 
-  @Override public void programGetAttributes(
-    final @Nonnull ProgramReferenceUsable program,
-    final @Nonnull Map<String, ProgramAttribute> out)
-    throws ConstraintError,
-      JCGLException
-  {
-    LWJGL_GLES2Functions.programGetAttributes(
-      this.state,
-      this.log,
-      program,
-      out);
-  }
-
   @Override public int programGetMaximumActiveAttributes()
     throws JCGLException
   {
     return LWJGL_GLES2Functions.programGetMaximumActiveAttributes(
       this.state,
       this.log);
-  }
-
-  @Override public void programGetUniforms(
-    final @Nonnull ProgramReferenceUsable program,
-    final @Nonnull Map<String, ProgramUniform> out)
-    throws ConstraintError,
-      JCGLException
-  {
-    LWJGL_GLES2Functions.programGetUniforms(
-      this.state,
-      this.log,
-      program,
-      out);
   }
 
   @Override public boolean programIsActive(

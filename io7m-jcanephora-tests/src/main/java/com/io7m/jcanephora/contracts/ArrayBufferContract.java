@@ -20,9 +20,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Nonnull;
 
@@ -372,11 +370,7 @@ public abstract class ArrayBufferContract implements TestContract
 
     gp.programActivate(pr);
 
-    final Map<String, ProgramAttribute> attributes =
-      new HashMap<String, ProgramAttribute>();
-    gp.programGetAttributes(pr, attributes);
-
-    final ProgramAttribute pa = attributes.get("position");
+    final ProgramAttribute pa = pr.getAttributes().get("position");
     final ArrayBufferTypeDescriptor d =
       new ArrayBufferTypeDescriptor(
         new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
@@ -412,11 +406,7 @@ public abstract class ArrayBufferContract implements TestContract
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
 
-    final Map<String, ProgramAttribute> attributes =
-      new HashMap<String, ProgramAttribute>();
-    gp.programGetAttributes(pr, attributes);
-
-    final ProgramAttribute pa = attributes.get("position");
+    final ProgramAttribute pa = pr.getAttributes().get("position");
     final ArrayBufferTypeDescriptor d0 =
       new ArrayBufferTypeDescriptor(
         new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
@@ -459,11 +449,7 @@ public abstract class ArrayBufferContract implements TestContract
 
     gp.programActivate(pr0);
 
-    final Map<String, ProgramAttribute> attributes =
-      new HashMap<String, ProgramAttribute>();
-    gp.programGetAttributes(pr0, attributes);
-
-    final ProgramAttribute pa = attributes.get("position");
+    final ProgramAttribute pa = pr0.getAttributes().get("position");
     final ArrayBufferTypeDescriptor d =
       new ArrayBufferTypeDescriptor(
         new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
@@ -501,11 +487,7 @@ public abstract class ArrayBufferContract implements TestContract
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
 
-    final Map<String, ProgramAttribute> attributes =
-      new HashMap<String, ProgramAttribute>();
-    gp.programGetAttributes(pr, attributes);
-
-    final ProgramAttribute pa = attributes.get("position");
+    final ProgramAttribute pa = pr.getAttributes().get("position");
     final ArrayBufferTypeDescriptor d =
       new ArrayBufferTypeDescriptor(
         new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
@@ -735,11 +717,7 @@ public abstract class ArrayBufferContract implements TestContract
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
 
-    final Map<String, ProgramAttribute> attributes =
-      new HashMap<String, ProgramAttribute>();
-    gp.programGetAttributes(pr, attributes);
-
-    final ProgramAttribute pa = attributes.get("position");
+    final ProgramAttribute pa = pr.getAttributes().get("position");
     final ArrayBufferTypeDescriptor d =
       new ArrayBufferTypeDescriptor(
         new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
@@ -777,11 +755,7 @@ public abstract class ArrayBufferContract implements TestContract
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
 
-    final Map<String, ProgramAttribute> attributes =
-      new HashMap<String, ProgramAttribute>();
-    gp.programGetAttributes(pr, attributes);
-
-    final ProgramAttribute pa = attributes.get("position");
+    final ProgramAttribute pa = pr.getAttributes().get("position");
     final ArrayBufferTypeDescriptor d =
       new ArrayBufferTypeDescriptor(
         new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
@@ -817,11 +791,7 @@ public abstract class ArrayBufferContract implements TestContract
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
 
-    final Map<String, ProgramAttribute> attributes =
-      new HashMap<String, ProgramAttribute>();
-    gp.programGetAttributes(pr, attributes);
-
-    final ProgramAttribute pa = attributes.get("position");
+    final ProgramAttribute pa = pr.getAttributes().get("position");
     final ArrayBufferTypeDescriptor d =
       new ArrayBufferTypeDescriptor(
         new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
@@ -857,11 +827,7 @@ public abstract class ArrayBufferContract implements TestContract
 
     gp.programActivate(pr);
 
-    final Map<String, ProgramAttribute> attributes =
-      new HashMap<String, ProgramAttribute>();
-    gp.programGetAttributes(pr, attributes);
-
-    final ProgramAttribute pa = attributes.get("position");
+    final ProgramAttribute pa = pr.getAttributes().get("position");
     final ArrayBufferTypeDescriptor d =
       new ArrayBufferTypeDescriptor(
         new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
@@ -897,11 +863,7 @@ public abstract class ArrayBufferContract implements TestContract
     final ProgramReference pr =
       ArrayBufferContract.makeStandardPositionProgram(tc, gp);
 
-    final Map<String, ProgramAttribute> attributes =
-      new HashMap<String, ProgramAttribute>();
-    gp.programGetAttributes(pr, attributes);
-
-    final ProgramAttribute pa = attributes.get("position");
+    final ProgramAttribute pa = pr.getAttributes().get("position");
     final ArrayBufferTypeDescriptor d =
       new ArrayBufferTypeDescriptor(
         new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
