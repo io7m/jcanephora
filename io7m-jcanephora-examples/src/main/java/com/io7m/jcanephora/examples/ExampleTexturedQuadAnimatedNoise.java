@@ -17,7 +17,6 @@
 package com.io7m.jcanephora.examples;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.annotation.Nonnull;
 
@@ -68,22 +67,20 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleTexturedQuadAnimatedNoise implements Example
 {
-  private final JCGLInterfaceCommon         gl;
-  private final ArrayBufferTypeDescriptor   array_type;
-  private final ArrayBuffer                 array;
-  private final ArrayBufferWritableData     array_data;
-  private final ProgramReference            program;
-  private final MatrixM4x4F                 matrix_projection;
-  private final MatrixM4x4F                 matrix_modelview;
-  private final IndexBuffer                 indices;
-  private final IndexBufferWritableData     indices_data;
-  private final ExampleConfig               config;
-  private boolean                           has_shut_down;
-  private final Texture2DStatic             texture;
-  private final Texture2DWritableData       texture_update;
-  private final TextureUnit[]               texture_units;
-  private HashMap<String, ProgramUniform>   program_uniforms;
-  private HashMap<String, ProgramAttribute> program_attributes;
+  private final JCGLInterfaceCommon       gl;
+  private final ArrayBufferTypeDescriptor array_type;
+  private final ArrayBuffer               array;
+  private final ArrayBufferWritableData   array_data;
+  private final ProgramReference          program;
+  private final MatrixM4x4F               matrix_projection;
+  private final MatrixM4x4F               matrix_modelview;
+  private final IndexBuffer               indices;
+  private final IndexBufferWritableData   indices_data;
+  private final ExampleConfig             config;
+  private boolean                         has_shut_down;
+  private final Texture2DStatic           texture;
+  private final Texture2DWritableData     texture_update;
+  private final TextureUnit[]             texture_units;
 
   public ExampleTexturedQuadAnimatedNoise(
     final @Nonnull ExampleConfig config)
@@ -114,11 +111,6 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
           ShaderUtilities.readLines(config.getFilesystem().openFile(
             PathVirtual.ofString("/com/io7m/jcanephora/examples/uv.f"))));
       this.program = this.gl.programCreateCommon("color", v, f);
-
-      this.program_uniforms = new HashMap<String, ProgramUniform>();
-      this.program_attributes = new HashMap<String, ProgramAttribute>();
-      this.gl.programGetAttributes(this.program, this.program_attributes);
-      this.gl.programGetUniforms(this.program, this.program_uniforms);
     }
 
     /**
@@ -298,10 +290,11 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
        */
 
       final ProgramUniform u_proj =
-        this.program_uniforms.get("matrix_projection");
+        this.program.getUniforms().get("matrix_projection");
       final ProgramUniform u_model =
-        this.program_uniforms.get("matrix_modelview");
-      final ProgramUniform u_texture = this.program_uniforms.get("texture");
+        this.program.getUniforms().get("matrix_modelview");
+      final ProgramUniform u_texture =
+        this.program.getUniforms().get("texture");
 
       /**
        * Upload the matrices to the uniform variable inputs.
@@ -323,8 +316,9 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
        */
 
       final ProgramAttribute p_pos =
-        this.program_attributes.get("vertex_position");
-      final ProgramAttribute p_uv = this.program_attributes.get("vertex_uv");
+        this.program.getAttributes().get("vertex_position");
+      final ProgramAttribute p_uv =
+        this.program.getAttributes().get("vertex_uv");
 
       /**
        * Get references to the array buffer's vertex attributes.

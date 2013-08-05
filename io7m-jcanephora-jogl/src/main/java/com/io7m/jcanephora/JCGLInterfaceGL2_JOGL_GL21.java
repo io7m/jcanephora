@@ -1009,20 +1009,6 @@ import com.io7m.jtensors.VectorReadable4I;
       program);
   }
 
-  @Override public void programGetAttributes(
-    final @Nonnull ProgramReferenceUsable program,
-    final @Nonnull Map<String, ProgramAttribute> out)
-    throws ConstraintError,
-      JCGLException
-  {
-    JOGL_GL2ES2_Functions.programGetAttributes(
-      this.contextGetGL2(),
-      this.state,
-      this.log,
-      program,
-      out);
-  }
-
   @Override public int programGetMaximumActiveAttributes()
     throws JCGLException
   {
@@ -1030,20 +1016,6 @@ import com.io7m.jtensors.VectorReadable4I;
       this.contextGetGL2(),
       this.state,
       this.log);
-  }
-
-  @Override public void programGetUniforms(
-    final @Nonnull ProgramReferenceUsable program,
-    final @Nonnull Map<String, ProgramUniform> out)
-    throws ConstraintError,
-      JCGLException
-  {
-    JOGL_GL2ES2_Functions.programGetUniforms(
-      this.contextGetGL2(),
-      this.state,
-      this.log,
-      program,
-      out);
   }
 
   @Override public boolean programIsActive(
