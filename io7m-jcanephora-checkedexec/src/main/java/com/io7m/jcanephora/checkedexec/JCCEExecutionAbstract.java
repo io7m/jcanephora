@@ -100,6 +100,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.execNonexistentAttribute(a);
     }
 
+    gl.arrayBufferBindVertexAttribute(x, pa);
     this.assigned.add(a);
   }
 
