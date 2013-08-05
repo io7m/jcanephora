@@ -20,9 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Nonnull;
 
@@ -61,21 +59,17 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleShaders implements Example
 {
-  private final JCGLInterfaceCommon           gl;
-  private final ArrayBufferTypeDescriptor     array_type;
-  private final ArrayBuffer                   array;
-  private final ArrayBufferWritableData       array_data;
-  private final MatrixM4x4F                   matrix_projection;
-  private final MatrixM4x4F                   matrix_modelview;
-  private final IndexBuffer                   indices;
-  private final IndexBufferWritableData       indices_data;
-  private final ExampleConfig                 config;
-  private boolean                             has_shut_down;
-  private final ProgramReference              shader_program;
-  private final VertexShader                  shader_vertex;
-  private final FragmentShader                shader_fragment;
-  private final Map<String, ProgramAttribute> program_attributes;
-  private final Map<String, ProgramUniform>   program_uniforms;
+  private final JCGLInterfaceCommon       gl;
+  private final ArrayBufferTypeDescriptor array_type;
+  private final ArrayBuffer               array;
+  private final ArrayBufferWritableData   array_data;
+  private final MatrixM4x4F               matrix_projection;
+  private final MatrixM4x4F               matrix_modelview;
+  private final IndexBuffer               indices;
+  private final IndexBufferWritableData   indices_data;
+  private final ExampleConfig             config;
+  private boolean                         has_shut_down;
+  private final ProgramReference          program;
 
   public ExampleShaders(
     final @Nonnull ExampleConfig config)
@@ -92,31 +86,22 @@ public final class ExampleShaders implements Example
 
     /**
      * Create a shader program. Compile vertex and fragment shaders, attach
-     * them, and then link the program.
+     * them, and then link the program. Note that the vertex and fragment
+     * shaders can be deleted after the program is created.
      */
 
-    this.shader_vertex =
-      this.gl.vertexShaderCompile("color", this.readFileLines(PathVirtual
-        .ofString("/com/io7m/jcanephora/examples/color.v")));
-    this.shader_fragment =
-      this.gl.fragmentShaderCompile("color", this.readFileLines(PathVirtual
-        .ofString("/com/io7m/jcanephora/examples/color.f")));
-    this.shader_program =
-      this.gl.programCreateCommon(
-        "color",
-        this.shader_vertex,
-        this.shader_fragment);
+    {
+      final VertexShader v =
+        this.gl.vertexShaderCompile("color", this.readFileLines(PathVirtual
+          .ofString("/com/io7m/jcanephora/examples/color.v")));
+      final FragmentShader f =
+        this.gl.fragmentShaderCompile("color", this.readFileLines(PathVirtual
+          .ofString("/com/io7m/jcanephora/examples/color.f")));
 
-    /**
-     * Obtain references to all of the program's uniform and attribute
-     * variables.
-     */
-
-    this.program_attributes = new HashMap<String, ProgramAttribute>();
-    this.program_uniforms = new HashMap<String, ProgramUniform>();
-    this.gl
-      .programGetAttributes(this.shader_program, this.program_attributes);
-    this.gl.programGetUniforms(this.shader_program, this.program_uniforms);
+      this.program = this.gl.programCreateCommon("color", v, f);
+      this.gl.vertexShaderDelete(v);
+      this.gl.fragmentShaderDelete(f);
+    }
 
     /**
      * Allocate an array buffer.
@@ -237,16 +222,16 @@ public final class ExampleShaders implements Example
      * inputs to the shader.
      */
 
-    this.gl.programActivate(this.shader_program);
+    this.gl.programActivate(this.program);
     {
       /**
        * Get references to the program's uniform variable inputs.
        */
 
       final ProgramUniform u_proj =
-        this.program_uniforms.get("matrix_projection");
+        this.program.getUniforms().get("matrix_projection");
       final ProgramUniform u_model =
-        this.program_uniforms.get("matrix_modelview");
+        this.program.getUniforms().get("matrix_modelview");
 
       /**
        * Upload the matrices to the uniform variable inputs.
@@ -260,9 +245,9 @@ public final class ExampleShaders implements Example
        */
 
       final ProgramAttribute p_pos =
-        this.program_attributes.get("vertex_position");
+        this.program.getAttributes().get("vertex_position");
       final ProgramAttribute p_col =
-        this.program_attributes.get("vertex_color");
+        this.program.getAttributes().get("vertex_color");
 
       /**
        * Get references to the array buffer's vertex attributes.
@@ -343,8 +328,6 @@ public final class ExampleShaders implements Example
     this.has_shut_down = true;
     this.gl.arrayBufferDelete(this.array);
     this.gl.indexBufferDelete(this.indices);
-    this.gl.vertexShaderDelete(this.shader_vertex);
-    this.gl.fragmentShaderDelete(this.shader_fragment);
-    this.gl.programDelete(this.shader_program);
+    this.gl.programDelete(this.program);
   }
 }

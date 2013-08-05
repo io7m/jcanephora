@@ -18,7 +18,6 @@ package com.io7m.jcanephora;
 
 import java.nio.IntBuffer;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -908,20 +907,6 @@ import com.io7m.jtensors.VectorReadable4I;
       program);
   }
 
-  @Override public void programGetAttributes(
-    final @Nonnull ProgramReferenceUsable program,
-    final @Nonnull Map<String, ProgramAttribute> out)
-    throws ConstraintError,
-      JCGLException
-  {
-    JOGL_GL2ES2_Functions.programGetAttributes(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      program,
-      out);
-  }
-
   @Override public int programGetMaximumActiveAttributes()
     throws JCGLException
   {
@@ -929,20 +914,6 @@ import com.io7m.jtensors.VectorReadable4I;
       this.contextGetGLES2(),
       this.state,
       this.log);
-  }
-
-  @Override public void programGetUniforms(
-    final @Nonnull ProgramReferenceUsable program,
-    final @Nonnull Map<String, ProgramUniform> out)
-    throws ConstraintError,
-      JCGLException
-  {
-    JOGL_GL2ES2_Functions.programGetUniforms(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      program,
-      out);
   }
 
   @Override public boolean programIsActive(

@@ -16,6 +16,9 @@
 
 package com.io7m.jcanephora;
 
+import java.util.Collections;
+import java.util.Map;
+
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 
@@ -29,17 +32,29 @@ import com.io7m.jaux.Constraints.ConstraintError;
 @Immutable public final class ProgramReference extends JCGLResourceDeletable implements
   ProgramReferenceUsable
 {
-  private final int             id;
-  private final @Nonnull String name;
+  private final int                                    id;
+  private final @Nonnull String                        name;
+  private final @Nonnull Map<String, ProgramUniform>   uniforms;
+  private final @Nonnull Map<String, ProgramAttribute> attributes;
 
   ProgramReference(
     final int id,
-    final @Nonnull String name)
+    final @Nonnull String name,
+    final @Nonnull Map<String, ProgramUniform> uniforms,
+    final @Nonnull Map<String, ProgramAttribute> attributes)
     throws ConstraintError
   {
     this.id =
       Constraints.constrainRange(id, 1, Integer.MAX_VALUE, "Program ID");
     this.name = Constraints.constrainNotNull(name, "Program name");
+    this.uniforms =
+      Collections.unmodifiableMap(Constraints.constrainNotNull(
+        uniforms,
+        "Uniforms"));
+    this.attributes =
+      Collections.unmodifiableMap(Constraints.constrainNotNull(
+        attributes,
+        "Attributes"));
   }
 
   @Override public boolean equals(
@@ -93,5 +108,15 @@ import com.io7m.jaux.Constraints.ConstraintError;
     builder.append(this.name);
     builder.append("\"]");
     return builder.toString();
+  }
+
+  @Override public Map<String, ProgramUniform> getUniforms()
+  {
+    return this.uniforms;
+  }
+
+  @Override public Map<String, ProgramAttribute> getAttributes()
+  {
+    return this.attributes;
   }
 }

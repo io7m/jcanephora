@@ -188,31 +188,6 @@ public interface JCGLShadersCommon
       JCGLException;
 
   /**
-   * Return all active attributes for the program <code>program</code> in
-   * <code>out</code>.
-   * 
-   * @param program
-   *          The program.
-   * @param out
-   *          The map to which attributes will be saved.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>program == null</code>.</li>
-   *           <li><code>program</code> does not refer to a valid program
-   *           (possible if the program has already been deleted).</li>
-   *           </ul>
-   * @throws JCGLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  void programGetAttributes(
-    final @Nonnull ProgramReferenceUsable program,
-    final @Nonnull Map<String, ProgramAttribute> out)
-    throws ConstraintError,
-      JCGLException;
-
-  /**
    * Return the implementation-specific maximum for the number of active
    * attributes.
    * 
@@ -222,32 +197,6 @@ public interface JCGLShadersCommon
 
   int programGetMaximumActiveAttributes()
     throws JCGLException;
-
-  /**
-   * Return all active attributes for the program <code>program</code> in
-   * <code>out</code>.
-   * 
-   * @param program
-   *          The program.
-   * @param out
-   *          The map to which attributes will be saved.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>program == null</code>.</li>
-   *           <li><code>program</code> does not refer to a valid program
-   *           (possible if the program has already been deleted).</li>
-   *           <li><code>map == null</code>.</li>
-   *           </ul>
-   * @throws JCGLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  void programGetUniforms(
-    final @Nonnull ProgramReferenceUsable program,
-    final @Nonnull Map<String, ProgramUniform> out)
-    throws ConstraintError,
-      JCGLException;
 
   /**
    * Return <code>true</code> iff the program referenced by
