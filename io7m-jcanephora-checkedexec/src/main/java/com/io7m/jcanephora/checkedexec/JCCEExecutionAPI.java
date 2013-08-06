@@ -67,24 +67,24 @@ public interface JCCEExecutionAPI<E extends Throwable>
     throws ConstraintError,
       JCGLException;
 
-/**
-     * <p>
-     * Set the value of the attribute named <tt>a</tt> to the given value
-     * <tt>x</tt>. After this function has been called successfully, the attribute
-     * <tt>a</tt> will be assumed to have been assigned, for the purposes of
-     * validation with {@link #execValidate()}.
-     * </p>
-     * 
-     * @throws ConstraintError
-     *           Iff <tt>u</tt> does not exist in the given program, or for the
-     *           same reasons as
-     *           {@link JCGLShadersCommon#programAttributePutFloat(com.io7m.jcanephora.ProgramAttribute, float)
-     *           .
-     * @throws JCGLException
-     *           For the same reasons as
-     *           {@link JCGLShadersCommon#programAttributePutFloat(com.io7m.jcanephora.ProgramAttribute, float)
-     *           .
-     */
+  /**
+   * <p>
+   * Set the value of the attribute named <tt>a</tt> to the given value
+   * <tt>x</tt>. After this function has been called successfully, the
+   * attribute <tt>a</tt> will be assumed to have been assigned, for the
+   * purposes of validation with {@link #execValidate()}.
+   * </p>
+   * 
+   * @throws ConstraintError
+   *           Iff <tt>u</tt> does not exist in the given program, or for the
+   *           same reasons as
+   *           {@link JCGLShadersCommon#programAttributePutFloat(com.io7m.jcanephora.ProgramAttribute, float)}
+   *           .
+   * @throws JCGLException
+   *           For the same reasons as
+   *           {@link JCGLShadersCommon#programAttributePutFloat(com.io7m.jcanephora.ProgramAttribute, float)}
+   *           .
+   */
 
   public void execAttributePutFloat(
     final @Nonnull JCGLShadersCommon gl,
@@ -93,22 +93,22 @@ public interface JCCEExecutionAPI<E extends Throwable>
     throws ConstraintError,
       JCGLException;
 
-/**
+  /**
    * <p>
    * Set the value of the attribute named <tt>a</tt> to the given value
-   * <tt>x</tt>. After this function has been called successfully, the attribute
-   * <tt>a</tt> will be assumed to have been assigned, for the purposes of
-   * validation with {@link #execValidate()}.
+   * <tt>x</tt>. After this function has been called successfully, the
+   * attribute <tt>a</tt> will be assumed to have been assigned, for the
+   * purposes of validation with {@link #execValidate()}.
    * </p>
    * 
    * @throws ConstraintError
    *           Iff <tt>u</tt> does not exist in the given program, or for the
    *           same reasons as
-   *           {@link JCGLShadersCommon#programAttributePutVector2f(com.io7m.jcanephora.ProgramAttribute, VectorReadable2F)
+   *           {@link JCGLShadersCommon#programAttributePutVector2f(com.io7m.jcanephora.ProgramAttribute, VectorReadable2F)}
    *           .
    * @throws JCGLException
    *           For the same reasons as
-   *           {@link JCGLShadersCommon#programAttributePutVector2f(com.io7m.jcanephora.ProgramAttribute, VectorReadable2F)
+   *           {@link JCGLShadersCommon#programAttributePutVector2f(com.io7m.jcanephora.ProgramAttribute, VectorReadable2F)}
    *           .
    */
 
@@ -119,22 +119,22 @@ public interface JCCEExecutionAPI<E extends Throwable>
     throws ConstraintError,
       JCGLException;
 
-/**
+  /**
    * <p>
    * Set the value of the attribute named <tt>a</tt> to the given value
-   * <tt>x</tt>. After this function has been called successfully, the attribute
-   * <tt>a</tt> will be assumed to have been assigned, for the purposes of
-   * validation with {@link #execValidate()}.
+   * <tt>x</tt>. After this function has been called successfully, the
+   * attribute <tt>a</tt> will be assumed to have been assigned, for the
+   * purposes of validation with {@link #execValidate()}.
    * </p>
    * 
    * @throws ConstraintError
    *           Iff <tt>u</tt> does not exist in the given program, or for the
    *           same reasons as
-   *           {@link JCGLShadersCommon#programAttributePutVector3f(com.io7m.jcanephora.ProgramAttribute, VectorReadable3F)
+   *           {@link JCGLShadersCommon#programAttributePutVector3f(com.io7m.jcanephora.ProgramAttribute, VectorReadable3F)}
    *           .
    * @throws JCGLException
    *           For the same reasons as
-   *           {@link JCGLShadersCommon#programAttributePutVector3f(com.io7m.jcanephora.ProgramAttribute, VectorReadable3F)
+   *           {@link JCGLShadersCommon#programAttributePutVector3f(com.io7m.jcanephora.ProgramAttribute, VectorReadable3F)}
    *           .
    */
 
@@ -145,22 +145,22 @@ public interface JCCEExecutionAPI<E extends Throwable>
     throws ConstraintError,
       JCGLException;
 
-/**
+  /**
    * <p>
    * Set the value of the attribute named <tt>a</tt> to the given value
-   * <tt>x</tt>. After this function has been called successfully, the attribute
-   * <tt>a</tt> will be assumed to have been assigned, for the purposes of
-   * validation with {@link #execValidate()}.
+   * <tt>x</tt>. After this function has been called successfully, the
+   * attribute <tt>a</tt> will be assumed to have been assigned, for the
+   * purposes of validation with {@link #execValidate()}.
    * </p>
    * 
    * @throws ConstraintError
    *           Iff <tt>u</tt> does not exist in the given program, or for the
    *           same reasons as
-   *           {@link JCGLShadersCommon#programAttributePutVector4f(com.io7m.jcanephora.ProgramAttribute, VectorReadable4F)
+   *           {@link JCGLShadersCommon#programAttributePutVector4f(com.io7m.jcanephora.ProgramAttribute, VectorReadable4F)}
    *           .
    * @throws JCGLException
    *           For the same reasons as
-   *           {@link JCGLShadersCommon#programAttributePutVector4f(com.io7m.jcanephora.ProgramAttribute, VectorReadable4F)
+   *           {@link JCGLShadersCommon#programAttributePutVector4f(com.io7m.jcanephora.ProgramAttribute, VectorReadable4F)}
    *           .
    */
 
