@@ -2098,16 +2098,6 @@ final class JOGL_GL_Functions
     return e;
   }
 
-  static void textureSetPackUnpackAlignment1(
-    final @Nonnull GL gl)
-    throws JCGLException
-  {
-    gl.glPixelStorei(GL.GL_PACK_ALIGNMENT, 1);
-    JOGL_GL_Functions.checkError(gl);
-    gl.glPixelStorei(GL.GL_UNPACK_ALIGNMENT, 1);
-    JOGL_GL_Functions.checkError(gl);
-  }
-
   static void texture2DStaticBind(
     final @Nonnull GL gl,
     final @Nonnull TextureUnit unit,
@@ -2311,6 +2301,16 @@ final class JOGL_GL_Functions
     }
 
     return u;
+  }
+
+  static void textureSetPackUnpackAlignment1(
+    final @Nonnull GL gl)
+    throws JCGLException
+  {
+    gl.glPixelStorei(GL.GL_PACK_ALIGNMENT, 1);
+    JOGL_GL_Functions.checkError(gl);
+    gl.glPixelStorei(GL.GL_UNPACK_ALIGNMENT, 1);
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void viewportSet(

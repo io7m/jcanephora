@@ -27,7 +27,6 @@ import javax.annotation.concurrent.NotThreadSafe;
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.ArrayBufferAttribute;
-import com.io7m.jcanephora.JCGLArrayBuffers;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLShadersCommon;
 import com.io7m.jcanephora.ProgramAttribute;
@@ -76,15 +75,12 @@ import com.io7m.jtensors.VectorReadable4I;
     this.missed_uniforms = new ArrayList<ProgramUniform>();
   }
 
-  @Override public final
-    <G extends JCGLArrayBuffers & JCGLShadersCommon>
-    void
-    execAttributeBind(
-      final @Nonnull G gl,
-      final @Nonnull String a,
-      final @Nonnull ArrayBufferAttribute x)
-      throws ConstraintError,
-        JCGLException
+  @Override public final void execAttributeBind(
+    final @Nonnull JCGLShadersCommon gl,
+    final @Nonnull String a,
+    final @Nonnull ArrayBufferAttribute x)
+    throws ConstraintError,
+      JCGLException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(a, "Attribute name");
@@ -94,7 +90,83 @@ import com.io7m.jtensors.VectorReadable4I;
       this.execNonexistentAttribute(a);
     }
 
-    gl.arrayBufferBindVertexAttribute(x, pa);
+    gl.programAttributeArrayBind(pa, x);
+    this.assigned.add(a);
+  }
+
+  @Override public final void execAttributePutFloat(
+    final @Nonnull JCGLShadersCommon gl,
+    final @Nonnull String a,
+    final float x)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(a, "Attribute name");
+
+    final ProgramAttribute pa = this.program.getAttributes().get(a);
+    if (pa == null) {
+      this.execNonexistentAttribute(a);
+    }
+
+    gl.programAttributePutFloat(pa, x);
+    this.assigned.add(a);
+  }
+
+  @Override public final void execAttributePutVector2F(
+    final @Nonnull JCGLShadersCommon gl,
+    final @Nonnull String a,
+    final @Nonnull VectorReadable2F x)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(a, "Attribute name");
+
+    final ProgramAttribute pa = this.program.getAttributes().get(a);
+    if (pa == null) {
+      this.execNonexistentAttribute(a);
+    }
+
+    gl.programAttributePutVector2f(pa, x);
+    this.assigned.add(a);
+  }
+
+  @Override public final void execAttributePutVector3F(
+    final @Nonnull JCGLShadersCommon gl,
+    final @Nonnull String a,
+    final @Nonnull VectorReadable3F x)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(a, "Attribute name");
+
+    final ProgramAttribute pa = this.program.getAttributes().get(a);
+    if (pa == null) {
+      this.execNonexistentAttribute(a);
+    }
+
+    gl.programAttributePutVector3f(pa, x);
+    this.assigned.add(a);
+  }
+
+  @Override public final void execAttributePutVector4F(
+    final @Nonnull JCGLShadersCommon gl,
+    final @Nonnull String a,
+    final @Nonnull VectorReadable4F x)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(a, "Attribute name");
+
+    final ProgramAttribute pa = this.program.getAttributes().get(a);
+    if (pa == null) {
+      this.execNonexistentAttribute(a);
+    }
+
+    gl.programAttributePutVector4f(pa, x);
     this.assigned.add(a);
   }
 
@@ -202,7 +274,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.execNonexistentUniform(u);
     }
 
-    gl.programPutUniformFloat(pu, x);
+    gl.programUniformPutFloat(pu, x);
     this.assigned.add(u);
   }
 
@@ -221,7 +293,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.execNonexistentUniform(u);
     }
 
-    gl.programPutUniformMatrix3x3f(pu, x);
+    gl.programUniformPutMatrix3x3f(pu, x);
     this.assigned.add(u);
   }
 
@@ -240,7 +312,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.execNonexistentUniform(u);
     }
 
-    gl.programPutUniformMatrix4x4f(pu, x);
+    gl.programUniformPutMatrix4x4f(pu, x);
     this.assigned.add(u);
   }
 
@@ -259,7 +331,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.execNonexistentUniform(u);
     }
 
-    gl.programPutUniformTextureUnit(pu, x);
+    gl.programUniformPutTextureUnit(pu, x);
     this.assigned.add(u);
   }
 
@@ -278,7 +350,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.execNonexistentUniform(u);
     }
 
-    gl.programPutUniformVector2f(pu, x);
+    gl.programUniformPutVector2f(pu, x);
     this.assigned.add(u);
   }
 
@@ -297,7 +369,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.execNonexistentUniform(u);
     }
 
-    gl.programPutUniformVector2i(pu, x);
+    gl.programUniformPutVector2i(pu, x);
     this.assigned.add(u);
   }
 
@@ -316,7 +388,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.execNonexistentUniform(u);
     }
 
-    gl.programPutUniformVector3f(pu, x);
+    gl.programUniformPutVector3f(pu, x);
     this.assigned.add(u);
   }
 
@@ -335,7 +407,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.execNonexistentUniform(u);
     }
 
-    gl.programPutUniformVector3i(pu, x);
+    gl.programUniformPutVector3i(pu, x);
     this.assigned.add(u);
   }
 
@@ -354,7 +426,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.execNonexistentUniform(u);
     }
 
-    gl.programPutUniformVector4f(pu, x);
+    gl.programUniformPutVector4f(pu, x);
     this.assigned.add(u);
   }
 
@@ -373,7 +445,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.execNonexistentUniform(u);
     }
 
-    gl.programPutUniformVector4i(pu, x);
+    gl.programUniformPutVector4i(pu, x);
     this.assigned.add(u);
   }
 
