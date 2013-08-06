@@ -2616,7 +2616,7 @@ ArrayBufferAttribute aa = a.getAttribute("position");
 
 gs.programActivate(p);
 ga.arrayBufferBind(a);
-ga.arrayBufferBindVertexAttribute(aa, pa);
+gs.programAttributeBindArray(pa, aa);
 ]]></s:verbatim>
         </s:formal-item>
       </s:subsection>

@@ -138,18 +138,6 @@ import com.io7m.jtensors.VectorReadable4I;
     LWJGL_GLES2Functions.arrayBufferBind(buffer);
   }
 
-  @Override public void arrayBufferBindVertexAttribute(
-    final @Nonnull ArrayBufferAttribute buffer_attribute,
-    final @Nonnull ProgramAttribute program_attribute)
-    throws JCGLException,
-      ConstraintError
-  {
-    LWJGL_GLES2Functions.arrayBufferBindVertexAttribute(
-      this.state,
-      buffer_attribute,
-      program_attribute);
-  }
-
   @Override public void arrayBufferDelete(
     final @Nonnull ArrayBuffer id)
     throws ConstraintError,
@@ -202,18 +190,6 @@ import com.io7m.jtensors.VectorReadable4I;
       ConstraintError
   {
     LWJGL_GLES2Functions.arrayBufferUnbind();
-  }
-
-  @Override public void arrayBufferUnbindVertexAttribute(
-    final @Nonnull ArrayBufferAttribute buffer_attribute,
-    final @Nonnull ProgramAttribute program_attribute)
-    throws JCGLException,
-      ConstraintError
-  {
-    LWJGL_GLES2Functions.arrayBufferUnbindVertexAttribute(
-      this.state,
-      buffer_attribute,
-      program_attribute);
   }
 
   @Override public void arrayBufferUnmap(
@@ -471,6 +447,12 @@ import com.io7m.jtensors.VectorReadable4I;
     LWJGL_GLES2Functions.depthBufferClear(this.state, depth);
   }
 
+  @Override public int depthBufferGetBits()
+    throws JCGLException
+  {
+    return LWJGL_GL3Functions.depthBufferGetBits(this.state);
+  }
+
   @Override public void depthBufferTestDisable()
     throws JCGLException
   {
@@ -485,12 +467,6 @@ import com.io7m.jtensors.VectorReadable4I;
     LWJGL_GLES2Functions.depthBufferEnable(
 
     this.state, function);
-  }
-
-  @Override public int depthBufferGetBits()
-    throws JCGLException
-  {
-    return LWJGL_GL3Functions.depthBufferGetBits(this.state);
   }
 
   @Override public boolean depthBufferTestIsEnabled()
@@ -953,6 +929,78 @@ import com.io7m.jtensors.VectorReadable4I;
     LWJGL_GLES2Functions.programActivate(program);
   }
 
+  @Override public void programAttributeArrayBind(
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull ArrayBufferAttribute array_attribute)
+    throws JCGLException,
+      ConstraintError
+  {
+    LWJGL_GLES2Functions.programAttributeArrayBind(
+      this.state,
+      array_attribute,
+      program_attribute);
+  }
+
+  @Override public void programAttributeArrayUnbind(
+    final @Nonnull ArrayBufferAttribute array_attribute,
+    final @Nonnull ProgramAttribute program_attribute)
+    throws JCGLException,
+      ConstraintError
+  {
+    LWJGL_GLES2Functions.programAttributeArrayUnbind(
+      this.state,
+      array_attribute,
+      program_attribute);
+  }
+
+  @Override public void programAttributePutFloat(
+    final @Nonnull ProgramAttribute program_attribute,
+    final float x)
+    throws JCGLException,
+      ConstraintError
+  {
+    LWJGL_GLES2Functions.programAttributePutFloat(
+      this.state,
+      program_attribute,
+      x);
+  }
+
+  @Override public void programAttributePutVector2f(
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull VectorReadable2F x)
+    throws JCGLException,
+      ConstraintError
+  {
+    LWJGL_GLES2Functions.programAttributePutVector2f(
+      this.state,
+      program_attribute,
+      x);
+  }
+
+  @Override public void programAttributePutVector3f(
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull VectorReadable3F x)
+    throws JCGLException,
+      ConstraintError
+  {
+    LWJGL_GLES2Functions.programAttributePutVector3f(
+      this.state,
+      program_attribute,
+      x);
+  }
+
+  @Override public void programAttributePutVector4f(
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull VectorReadable4F x)
+    throws JCGLException,
+      ConstraintError
+  {
+    LWJGL_GLES2Functions.programAttributePutVector4f(
+      this.state,
+      program_attribute,
+      x);
+  }
+
   @Override public ProgramReference programCreateCommon(
     final @Nonnull String name,
     final @Nonnull VertexShader v,
@@ -1017,7 +1065,7 @@ import com.io7m.jtensors.VectorReadable4I;
     return LWJGL_GLES2Functions.programIsActive(this.state, program);
   }
 
-  @Override public void programPutUniformFloat(
+  @Override public void programUniformPutFloat(
     final @Nonnull ProgramUniform uniform,
     final float value)
     throws ConstraintError,
@@ -1026,7 +1074,7 @@ import com.io7m.jtensors.VectorReadable4I;
     LWJGL_GLES2Functions.programPutUniformFloat(this.state, uniform, value);
   }
 
-  @Override public void programPutUniformMatrix3x3f(
+  @Override public void programUniformPutMatrix3x3f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixReadable3x3F matrix)
     throws ConstraintError,
@@ -1038,7 +1086,7 @@ import com.io7m.jtensors.VectorReadable4I;
       matrix);
   }
 
-  @Override public void programPutUniformMatrix4x4f(
+  @Override public void programUniformPutMatrix4x4f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixReadable4x4F matrix)
     throws ConstraintError,
@@ -1050,7 +1098,7 @@ import com.io7m.jtensors.VectorReadable4I;
       matrix);
   }
 
-  @Override public void programPutUniformTextureUnit(
+  @Override public void programUniformPutTextureUnit(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull TextureUnit unit)
     throws ConstraintError,
@@ -1062,7 +1110,7 @@ import com.io7m.jtensors.VectorReadable4I;
       unit);
   }
 
-  @Override public void programPutUniformVector2f(
+  @Override public void programUniformPutVector2f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable2F vector)
     throws ConstraintError,
@@ -1074,7 +1122,7 @@ import com.io7m.jtensors.VectorReadable4I;
       vector);
   }
 
-  @Override public void programPutUniformVector2i(
+  @Override public void programUniformPutVector2i(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable2I vector)
     throws ConstraintError,
@@ -1086,7 +1134,7 @@ import com.io7m.jtensors.VectorReadable4I;
       vector);
   }
 
-  @Override public void programPutUniformVector3f(
+  @Override public void programUniformPutVector3f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable3F vector)
     throws ConstraintError,
@@ -1098,7 +1146,7 @@ import com.io7m.jtensors.VectorReadable4I;
       vector);
   }
 
-  @Override public void programPutUniformVector3i(
+  @Override public void programUniformPutVector3i(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable3I vector)
     throws ConstraintError,
@@ -1110,7 +1158,7 @@ import com.io7m.jtensors.VectorReadable4I;
       vector);
   }
 
-  @Override public void programPutUniformVector4f(
+  @Override public void programUniformPutVector4f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4F vector)
     throws ConstraintError,
@@ -1122,7 +1170,7 @@ import com.io7m.jtensors.VectorReadable4I;
       vector);
   }
 
-  @Override public void programPutUniformVector4i(
+  @Override public void programUniformPutVector4i(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4I vector)
     throws ConstraintError,

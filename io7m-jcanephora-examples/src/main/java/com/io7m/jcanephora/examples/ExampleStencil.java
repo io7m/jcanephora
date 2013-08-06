@@ -211,11 +211,11 @@ public final class ExampleStencil implements Example
       final ArrayBufferAttribute b_pos = this.array.getAttribute("position");
       final ArrayBufferAttribute b_col = this.array.getAttribute("color");
 
-      this.gl.programPutUniformMatrix4x4f(u_proj, this.matrix_projection);
+      this.gl.programUniformPutMatrix4x4f(u_proj, this.matrix_projection);
 
       this.gl.arrayBufferBind(this.array);
-      this.gl.arrayBufferBindVertexAttribute(b_pos, p_pos);
-      this.gl.arrayBufferBindVertexAttribute(b_col, p_col);
+      this.gl.programAttributeArrayBind(p_col, b_col);
+      this.gl.programAttributeArrayBind(p_pos, b_pos);
 
       final int width = this.config.getWindowSize().getXI();
       final int height = this.config.getWindowSize().getYI();
@@ -273,7 +273,7 @@ public final class ExampleStencil implements Example
           this.matrix_modelview,
           this.translation);
 
-        this.gl.programPutUniformMatrix4x4f(u_model, this.matrix_modelview);
+        this.gl.programUniformPutMatrix4x4f(u_model, this.matrix_modelview);
         this.gl.drawElements(
           Primitives.PRIMITIVE_TRIANGLES,
           this.triangle_indices);
@@ -315,7 +315,7 @@ public final class ExampleStencil implements Example
           this.matrix_modelview,
           this.translation);
 
-        this.gl.programPutUniformMatrix4x4f(u_model, this.matrix_modelview);
+        this.gl.programUniformPutMatrix4x4f(u_model, this.matrix_modelview);
         this.gl.drawElements(
           Primitives.PRIMITIVE_TRIANGLES,
           this.quad_indices);

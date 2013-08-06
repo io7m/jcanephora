@@ -113,6 +113,183 @@ public interface JCGLShadersCommon
       JCGLException;
 
   /**
+   * Bind the array attribute <code>array_attribute</code> to the program
+   * attribute <code>program_attribute</code>.
+   * 
+   * @param array_attribute
+   *          The array buffer attribute for the given array buffer.
+   * @param program_attribute
+   *          The program attribute.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>array_attribute == null</code></li>
+   *           <li><code>program_attribute == null</code></li>
+   *           <li>The array that owns <code>array_attribute</code> is not
+   *           bound.</li>
+   *           <li>The array that owns <code>array_attribute</code> is
+   *           deleted.</li>
+   *           <li>The type of <code>array_attribute</code> is incompatible
+   *           with <code>program_attribute</code>.</li>
+   *           </ul>
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  public void programAttributeArrayBind(
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull ArrayBufferAttribute array_attribute)
+    throws JCGLException,
+      ConstraintError;
+
+  /**
+   * Disable the array attribute <code>array_attribute</code> for the program
+   * attribute <code>program_attribute</code>.
+   * 
+   * @param array_attribute
+   *          The array buffer attribute for the given buffer.
+   * @param program_attribute
+   *          The program attribute.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>array_attribute == null</code></li>
+   *           <li><code>program_attribute == null</code></li>
+   *           <li>The array that owns <code>array_attribute</code> is not
+   *           bound.</li>
+   *           <li>The array that owns <code>array_attribute</code> is
+   *           deleted.</li>
+   *           </ul>
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  public void programAttributeArrayUnbind(
+    final @Nonnull ArrayBufferAttribute array_attribute,
+    final @Nonnull ProgramAttribute program_attribute)
+    throws JCGLException,
+      ConstraintError;
+
+  /**
+   * Set the value of the program attribute <code>program_attribute</code> to
+   * <code>x</code>. This essentially instructs OpenGL to behave as if it was
+   * reading from an array buffer where every element is equal to
+   * <code>x</code>.
+   * 
+   * @param program_attribute
+   *          The program attribute.
+   * @param x
+   *          The value.
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>program_attribute == null</code></li>
+   *           <li>The type of <code>program_attribute</code> does not match
+   *           that of <code>x</code>.</li>
+   *           <li>The program that <code>program_attribute</code> belongs to
+   *           is not active.</li>
+   *           </ul>
+   */
+
+  public void programAttributePutFloat(
+    final @Nonnull ProgramAttribute program_attribute,
+    float x)
+    throws JCGLException,
+      ConstraintError;
+
+  /**
+   * Set the value of the program attribute <code>program_attribute</code> to
+   * <code>x</code>. This essentially instructs OpenGL to behave as if it was
+   * reading from an array buffer where every element is equal to
+   * <code>x</code>.
+   * 
+   * @param program_attribute
+   *          The program attribute.
+   * @param x
+   *          The value.
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>program_attribute == null</code></li>
+   *           <li><code>x == null</code></li>
+   *           <li>The type of <code>program_attribute</code> does not match
+   *           that of <code>x</code>.</li>
+   *           <li>The program that <code>program_attribute</code> belongs to
+   *           is not active.</li>
+   *           </ul>
+   */
+
+  public void programAttributePutVector2f(
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull VectorReadable2F x)
+    throws JCGLException,
+      ConstraintError;
+
+  /**
+   * Set the value of the program attribute <code>program_attribute</code> to
+   * <code>x</code>. This essentially instructs OpenGL to behave as if it was
+   * reading from an array buffer where every element is equal to
+   * <code>x</code>.
+   * 
+   * @param program_attribute
+   *          The program attribute.
+   * @param x
+   *          The value.
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>program_attribute == null</code></li>
+   *           <li><code>x == null</code></li>
+   *           <li>The type of <code>program_attribute</code> does not match
+   *           that of <code>x</code>.</li>
+   *           <li>The program that <code>program_attribute</code> belongs to
+   *           is not active.</li>
+   *           </ul>
+   */
+
+  public void programAttributePutVector3f(
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull VectorReadable3F x)
+    throws JCGLException,
+      ConstraintError;
+
+  /**
+   * Set the value of the program attribute <code>program_attribute</code> to
+   * <code>x</code>. This essentially instructs OpenGL to behave as if it was
+   * reading from an array buffer where every element is equal to
+   * <code>x</code>.
+   * 
+   * @param program_attribute
+   *          The program attribute.
+   * @param x
+   *          The value.
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>program_attribute == null</code></li>
+   *           <li><code>x == null</code></li>
+   *           <li>The type of <code>program_attribute</code> does not match
+   *           that of <code>x</code>.</li>
+   *           <li>The program that <code>program_attribute</code> belongs to
+   *           is not active.</li>
+   *           </ul>
+   */
+
+  public void programAttributePutVector4f(
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull VectorReadable4F x)
+    throws JCGLException,
+      ConstraintError;
+
+  /**
    * <p>
    * Create a new empty program named <code>name</code>, attach <code>v</code>
    * as the vertex shader and <code>f</code> as the fragment shader, link the
@@ -239,7 +416,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformFloat(
+  void programUniformPutFloat(
     final @Nonnull ProgramUniform uniform,
     final float value)
     throws ConstraintError,
@@ -266,7 +443,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformMatrix3x3f(
+  void programUniformPutMatrix3x3f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixReadable3x3F matrix)
     throws ConstraintError,
@@ -293,7 +470,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformMatrix4x4f(
+  void programUniformPutMatrix4x4f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixReadable4x4F matrix)
     throws ConstraintError,
@@ -320,7 +497,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformTextureUnit(
+  void programUniformPutTextureUnit(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull TextureUnit unit)
     throws ConstraintError,
@@ -347,7 +524,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformVector2f(
+  void programUniformPutVector2f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable2F vector)
     throws ConstraintError,
@@ -374,7 +551,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformVector2i(
+  void programUniformPutVector2i(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable2I vector)
     throws ConstraintError,
@@ -401,7 +578,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformVector3f(
+  void programUniformPutVector3f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable3F vector)
     throws ConstraintError,
@@ -428,7 +605,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformVector3i(
+  void programUniformPutVector3i(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable3I vector)
     throws ConstraintError,
@@ -455,7 +632,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformVector4f(
+  void programUniformPutVector4f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4F vector)
     throws ConstraintError,
@@ -482,7 +659,7 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  void programPutUniformVector4i(
+  void programUniformPutVector4i(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4I vector)
     throws ConstraintError,

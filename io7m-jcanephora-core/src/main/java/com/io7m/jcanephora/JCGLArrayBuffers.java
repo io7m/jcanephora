@@ -80,36 +80,6 @@ public interface JCGLArrayBuffers
       ConstraintError;
 
   /**
-   * Enable and bind the array attribute <code>buffer_attribute</code> to the
-   * program attribute <code>program_attribute</code>.
-   * 
-   * @param buffer_attribute
-   *          The array buffer attribute for the given array buffer.
-   * @param program_attribute
-   *          The program attribute.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li>The array that owns <code>buffer_attribute</code> is not
-   *           bound.</li>
-   *           <li>The array that owns <code>buffer_attribute</code> is
-   *           deleted.</li>
-   *           <li>The type of <code>buffer_attribute</code> is incompatible
-   *           with <code>program_attribute</code>.</li>
-   *           <li><code>buffer_attribute == null</code></li>
-   *           <li><code>program_attribute == null</code></li>
-   *           </ul>
-   * @throws JCGLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  public void arrayBufferBindVertexAttribute(
-    final @Nonnull ArrayBufferAttribute buffer_attribute,
-    final @Nonnull ProgramAttribute program_attribute)
-    throws JCGLException,
-      ConstraintError;
-
-  /**
    * Deletes the buffer referenced by <code>id</code>.
    * 
    * @param id
@@ -162,34 +132,6 @@ public interface JCGLArrayBuffers
    */
 
   public void arrayBufferUnbind()
-    throws JCGLException,
-      ConstraintError;
-
-  /**
-   * Disable the array attribute <code>buffer_attribute</code> for the program
-   * attribute <code>program_attribute</code>.
-   * 
-   * @param buffer_attribute
-   *          The array buffer attribute for the given buffer.
-   * @param program_attribute
-   *          The program attribute.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li>The array that owns <code>buffer_attribute</code> is not
-   *           bound.</li>
-   *           <li>The array that owns <code>buffer_attribute</code> is
-   *           deleted.</li>
-   *           <li><code>buffer_attribute == null</code></li>
-   *           <li><code>program_attribute == null</code></li>
-   *           </ul>
-   * @throws JCGLException
-   *           Iff an OpenGL error occurs.
-   */
-
-  public void arrayBufferUnbindVertexAttribute(
-    final @Nonnull ArrayBufferAttribute buffer_attribute,
-    final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError;
 

@@ -509,8 +509,8 @@ public final class ExampleFBO3 implements Example
        * Upload the matrices to the uniform variable inputs.
        */
 
-      this.gl.programPutUniformMatrix4x4f(u_proj, this.matrix_projection);
-      this.gl.programPutUniformMatrix4x4f(u_model, this.matrix_modelview);
+      this.gl.programUniformPutMatrix4x4f(u_proj, this.matrix_projection);
+      this.gl.programUniformPutMatrix4x4f(u_model, this.matrix_modelview);
 
       /**
        * Bind the framebuffer texture to the first available texture unit,
@@ -518,7 +518,7 @@ public final class ExampleFBO3 implements Example
        */
 
       this.gl.texture2DStaticBind(this.texture_units[0], this.texture);
-      this.gl.programPutUniformTextureUnit(u_texture, this.texture_units[0]);
+      this.gl.programUniformPutTextureUnit(u_texture, this.texture_units[0]);
 
       /**
        * Get references to the program's vertex attribute inputs.
@@ -544,8 +544,8 @@ public final class ExampleFBO3 implements Example
        */
 
       this.gl.arrayBufferBind(this.textured_quad);
-      this.gl.arrayBufferBindVertexAttribute(b_pos, p_pos);
-      this.gl.arrayBufferBindVertexAttribute(b_uv, p_uv);
+      this.gl.programAttributeArrayBind(p_uv, b_uv);
+      this.gl.programAttributeArrayBind(p_pos, b_pos);
 
       /**
        * Draw primitives, using the array buffer and the given index buffer.
@@ -622,8 +622,8 @@ public final class ExampleFBO3 implements Example
          * Upload the matrices to the uniform variable inputs.
          */
 
-        this.gl.programPutUniformMatrix4x4f(u_proj, this.matrix_projection);
-        this.gl.programPutUniformMatrix4x4f(u_model, this.matrix_modelview);
+        this.gl.programUniformPutMatrix4x4f(u_proj, this.matrix_projection);
+        this.gl.programUniformPutMatrix4x4f(u_model, this.matrix_modelview);
 
         /**
          * Get references to the program's vertex attribute inputs.
@@ -649,8 +649,8 @@ public final class ExampleFBO3 implements Example
          */
 
         this.gl.arrayBufferBind(this.color_quad);
-        this.gl.arrayBufferBindVertexAttribute(b_pos, p_pos);
-        this.gl.arrayBufferBindVertexAttribute(b_col, p_col);
+        this.gl.programAttributeArrayBind(p_col, b_col);
+        this.gl.programAttributeArrayBind(p_pos, b_pos);
 
         /**
          * Draw primitives, using the array buffer and the given index buffer.
