@@ -953,6 +953,54 @@ import com.io7m.jtensors.VectorReadable4I;
       program_attribute);
   }
 
+  @Override public void programAttributePutFloat(
+    final @Nonnull ProgramAttribute program_attribute,
+    final float x)
+    throws JCGLException,
+      ConstraintError
+  {
+    LWJGL_GLES2Functions.programAttributePutFloat(
+      this.state,
+      program_attribute,
+      x);
+  }
+
+  @Override public void programAttributePutVector2f(
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull VectorReadable2F x)
+    throws JCGLException,
+      ConstraintError
+  {
+    LWJGL_GLES2Functions.programAttributePutVector2f(
+      this.state,
+      program_attribute,
+      x);
+  }
+
+  @Override public void programAttributePutVector3f(
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull VectorReadable3F x)
+    throws JCGLException,
+      ConstraintError
+  {
+    LWJGL_GLES2Functions.programAttributePutVector3f(
+      this.state,
+      program_attribute,
+      x);
+  }
+
+  @Override public void programAttributePutVector4f(
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull VectorReadable4F x)
+    throws JCGLException,
+      ConstraintError
+  {
+    LWJGL_GLES2Functions.programAttributePutVector4f(
+      this.state,
+      program_attribute,
+      x);
+  }
+
   @Override public ProgramReference programCreateCommon(
     final @Nonnull String name,
     final @Nonnull VertexShader v,
@@ -1767,17 +1815,5 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     LWJGL_GLES2Functions.viewportSet(position, dimensions);
-  }
-
-  @Override public void programAttributePutFloat(
-    final @Nonnull ProgramAttribute program_attribute,
-    final float x)
-    throws JCGLException,
-      ConstraintError
-  {
-    LWJGL_GLES2Functions.programAttributePutFloat(
-      this.state,
-      program_attribute,
-      x);
   }
 }

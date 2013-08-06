@@ -842,7 +842,7 @@ public abstract class ShadersContract implements TestContract
           .getGLImplementation()
           .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
 
-      pa = pr.getAttributes().get("a_vf2");
+      pa = pr.getAttributes().get("a_f");
       gp.programActivate(pr);
       gp.programDelete(pr);
     } catch (final Throwable e) {
@@ -875,8 +875,65 @@ public abstract class ShadersContract implements TestContract
           .getGLImplementation()
           .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
 
-      pa = pr.getAttributes().get("a_vf2");
+      pa = pr.getAttributes().get("a_f");
       gp.programDeactivate();
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutFloat(pa, 1.0f);
+  }
+
+  /**
+   * Putting a value into a null attribute, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeFloatNullAttribute()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+      gp.programActivate(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    gp.programAttributePutFloat(null, 1.0f);
+  }
+
+  /**
+   * Putting a value into an attribute of the right type, works.
+   */
+
+  @Test public final void testProgramAttributeFloatOK()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_f");
+      gp.programActivate(pr);
     } catch (final Throwable e) {
       throw new AssertionError(e);
     }
@@ -918,63 +975,6 @@ public abstract class ShadersContract implements TestContract
   }
 
   /**
-   * Putting a value into an attribute of right wrong type, works.
-   */
-
-  @Test public final void testProgramAttributeFloatOK()
-    throws JCGLException,
-      JCGLUnsupportedException,
-      ConstraintError
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
-
-    ProgramAttribute pa = null;
-
-    try {
-      final ProgramReference pr =
-        ShadersContract.makeComplexProgramWithAttributes(tc
-          .getGLImplementation()
-          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
-
-      pa = pr.getAttributes().get("a_f");
-      gp.programActivate(pr);
-    } catch (final Throwable e) {
-      throw new AssertionError(e);
-    }
-
-    assert pa != null;
-    gp.programAttributePutFloat(pa, 1.0f);
-  }
-
-  /**
-   * Putting a value into a null attribute, fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testProgramAttributeFloatNull()
-      throws JCGLException,
-        JCGLUnsupportedException,
-        ConstraintError
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
-
-    try {
-      final ProgramReference pr =
-        ShadersContract.makeComplexProgramWithAttributes(tc
-          .getGLImplementation()
-          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
-      gp.programActivate(pr);
-    } catch (final Throwable e) {
-      throw new AssertionError(e);
-    }
-
-    gp.programAttributePutFloat(null, 1.0f);
-  }
-
-  /**
    * Fetching attributes works.
    */
 
@@ -1006,6 +1006,566 @@ public abstract class ShadersContract implements TestContract
     Assert.assertEquals(JCGLType.TYPE_FLOAT_VECTOR_4, as
       .get("a_vf4")
       .getType());
+  }
+
+  /**
+   * Putting a value into an attribute of a deleted program, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeVector2FDeleted()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_vf2");
+      gp.programActivate(pr);
+      gp.programDelete(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutVector2f(pa, new VectorI2F(0.0f, 1.0f));
+  }
+
+  /**
+   * Putting a value into an attribute of an inactive program, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeVector2FInactive()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_vf2");
+      gp.programDeactivate();
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutVector2f(pa, new VectorI2F(0.0f, 1.0f));
+  }
+
+  /**
+   * Putting a value into a null attribute, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeVector2FNullAttribute()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+      gp.programActivate(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    gp.programAttributePutVector2f(null, new VectorI2F(0.0f, 1.0f));
+  }
+
+  /**
+   * Putting a null value into an attribute, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeVector2FNullValue()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_vf2");
+      gp.programActivate(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutVector2f(pa, null);
+  }
+
+  /**
+   * Putting a value into an attribute of the right type, works.
+   */
+
+  @Test public final void testProgramAttributeVector2FOK()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_vf2");
+      gp.programActivate(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutVector2f(pa, new VectorI2F(0.0f, 1.0f));
+  }
+
+  /**
+   * Putting a value into an attribute of the wrong type, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeVector2FWrongType()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_f");
+      gp.programActivate(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutVector2f(pa, new VectorI2F(0.0f, 1.0f));
+  }
+
+  /**
+   * Putting a value into an attribute of a deleted program, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeVector3FDeleted()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_vf3");
+      gp.programActivate(pr);
+      gp.programDelete(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutVector3f(pa, new VectorI3F(0.0f, 1.0f, 2.0f));
+  }
+
+  /**
+   * Putting a value into an attribute of an inactive program, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeVector3FInactive()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_vf3");
+      gp.programDeactivate();
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutVector3f(pa, new VectorI3F(0.0f, 1.0f, 2.0f));
+  }
+
+  /**
+   * Putting a value into a null attribute, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeVector3FNullAttribute()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+      gp.programActivate(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    gp.programAttributePutVector3f(null, new VectorI3F(0.0f, 1.0f, 2.0f));
+  }
+
+  /**
+   * Putting a null value into an attribute, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeVector3FNullValue()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_vf3");
+      gp.programActivate(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutVector3f(pa, null);
+  }
+
+  /**
+   * Putting a value into an attribute of the right type, works.
+   */
+
+  @Test public final void testProgramAttributeVector3FOK()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_vf3");
+      gp.programActivate(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutVector3f(pa, new VectorI3F(0.0f, 1.0f, 2.0f));
+  }
+
+  /**
+   * Putting a value into an attribute of the wrong type, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeVector3FWrongType()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_f");
+      gp.programActivate(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutVector3f(pa, new VectorI3F(0.0f, 1.0f, 2.0f));
+  }
+
+  /**
+   * Putting a value into an attribute of a deleted program, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeVector4FDeleted()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_vf4");
+      gp.programActivate(pr);
+      gp.programDelete(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutVector4f(pa, new VectorI4F(0.0f, 1.0f, 2.0f, 3.0f));
+  }
+
+  /**
+   * Putting a value into an attribute of an inactive program, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeVector4FInactive()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_vf4");
+      gp.programDeactivate();
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutVector4f(pa, new VectorI4F(0.0f, 1.0f, 2.0f, 3.0f));
+  }
+
+  /**
+   * Putting a value into a null attribute, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeVector4FNullAttribute()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+      gp.programActivate(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    gp.programAttributePutVector4f(
+      null,
+      new VectorI4F(0.0f, 1.0f, 2.0f, 3.0f));
+  }
+
+  /**
+   * Putting a null value into an attribute, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeVector4FNullValue()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_vf4");
+      gp.programActivate(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutVector4f(pa, null);
+  }
+
+  /**
+   * Putting a value into an attribute of the right type, works.
+   */
+
+  @Test public final void testProgramAttributeVector4FOK()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_vf4");
+      gp.programActivate(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutVector4f(pa, new VectorI4F(0.0f, 1.0f, 2.0f, 3.0f));
+  }
+
+  /**
+   * Putting a value into an attribute of the wrong type, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramAttributeVector4FWrongType()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
+
+    ProgramAttribute pa = null;
+
+    try {
+      final ProgramReference pr =
+        ShadersContract.makeComplexProgramWithAttributes(tc
+          .getGLImplementation()
+          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
+
+      pa = pr.getAttributes().get("a_f");
+      gp.programActivate(pr);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    assert pa != null;
+    gp.programAttributePutVector4f(pa, new VectorI4F(0.0f, 1.0f, 2.0f, 3.0f));
   }
 
   /**
