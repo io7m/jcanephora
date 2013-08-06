@@ -270,6 +270,195 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
   }
 
   /**
+   * Assigning a nonexistent attribute fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testAttributeNonexistentFloat()
+      throws Throwable
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    ExecCalled e = null;
+
+    try {
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgram(tc, gl);
+      e = new ExecCalled();
+      e.execPrepare(gl, p);
+    } catch (final Throwable x) {
+      Assert.fail(x.getMessage());
+    }
+
+    try {
+      assert e != null;
+      e.execAttributePutFloat(gl, "nonexistent", 23.0f);
+    } catch (final ConstraintError x) {
+      System.out.println(x);
+      throw x;
+    }
+  }
+
+  /**
+   * Assigning a nonexistent attribute fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testAttributeNonexistentVector2F()
+      throws Throwable
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    ExecCalled e = null;
+
+    try {
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgram(tc, gl);
+      e = new ExecCalled();
+      e.execPrepare(gl, p);
+    } catch (final Throwable x) {
+      Assert.fail(x.getMessage());
+    }
+
+    try {
+      assert e != null;
+      e.execAttributePutVector2F(gl, "nonexistent", new VectorI2F(23, 23));
+    } catch (final ConstraintError x) {
+      System.out.println(x);
+      throw x;
+    }
+  }
+
+  /**
+   * Assigning a nonexistent attribute fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testAttributeNonexistentVector3F()
+      throws Throwable
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    ExecCalled e = null;
+
+    try {
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgram(tc, gl);
+      e = new ExecCalled();
+      e.execPrepare(gl, p);
+    } catch (final Throwable x) {
+      Assert.fail(x.getMessage());
+    }
+
+    try {
+      assert e != null;
+      e
+        .execAttributePutVector3F(
+          gl,
+          "nonexistent",
+          new VectorI3F(23, 23, 23));
+    } catch (final ConstraintError x) {
+      System.out.println(x);
+      throw x;
+    }
+  }
+
+  /**
+   * Assigning a nonexistent attribute fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testAttributeNonexistentVector4F()
+      throws Throwable
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    ExecCalled e = null;
+
+    try {
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgram(tc, gl);
+      e = new ExecCalled();
+      e.execPrepare(gl, p);
+    } catch (final Throwable x) {
+      Assert.fail(x.getMessage());
+    }
+
+    try {
+      assert e != null;
+      e.execAttributePutVector4F(gl, "nonexistent", new VectorI4F(
+        23,
+        23,
+        23,
+        23));
+    } catch (final ConstraintError x) {
+      System.out.println(x);
+      throw x;
+    }
+  }
+
+  /**
+   * Assigning attributes of all types works.
+   */
+
+  @Test public final void testAttributes()
+    throws Throwable
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    ExecCalled e = null;
+    TextureUnit[] units = null;
+
+    try {
+      units = gl.textureGetUnits();
+
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgramWithFragmentUniforms(tc, gl);
+      e = new ExecCalled();
+      e.execPrepare(gl, p);
+      e.execUniformPutVector2F(gl, "u_vf2", new VectorI2F(23.0f, 23.0f));
+      e.execUniformPutVector3F(
+        gl,
+        "u_vf3",
+        new VectorI3F(23.0f, 23.0f, 23.0f));
+      e.execUniformPutVector4F(gl, "u_vf4", new VectorI4F(
+        23.0f,
+        23.0f,
+        23.0f,
+        23.0f));
+      e.execUniformPutVector2I(gl, "u_vi2", new VectorI2I(23, 23));
+      e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
+      e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
+      e.execUniformPutFloat(gl, "u_f", 23.0f);
+      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+      e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
+      e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
+
+      e.execAttributePutVector2F(gl, "a_vf2", new VectorI2F(0.0f, 1.0f));
+      e
+        .execAttributePutVector3F(
+          gl,
+          "a_vf3",
+          new VectorI3F(0.0f, 1.0f, 2.0f));
+      e.execAttributePutVector4F(gl, "a_vf4", new VectorI4F(
+        0.0f,
+        1.0f,
+        2.0f,
+        3.0f));
+      e.execAttributePutFloat(gl, "a_f", 1.0f);
+
+      e.execRun(gl);
+      Assert.assertTrue(e.called);
+    } catch (final Throwable x) {
+      Assert.fail(x.getMessage());
+    }
+  }
+
+  /**
    * Passing <tt>null</tt> to
    * {@link JCCEExecutionAbstract#execPrepare(JCGLShadersCommon, ProgramReferenceUsable)}
    * fails.
