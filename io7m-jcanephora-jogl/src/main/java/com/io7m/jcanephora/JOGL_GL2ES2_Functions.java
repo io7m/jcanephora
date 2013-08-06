@@ -310,6 +310,125 @@ final class JOGL_GL2ES2_Functions
     JOGL_GL_Functions.checkError(g);
   }
 
+  static void programAttributePutVector2f(
+    final @Nonnull GL2ES2 g,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull VectorReadable2F x)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(program_attribute, "Program attribute");
+    Constraints.constrainNotNull(x, "Value");
+    Constraints.constrainArbitrary(
+      JOGL_GL2ES2_Functions.programIsActive(
+        g,
+        state,
+        program_attribute.getProgram()),
+      "Program for program attribute is not active");
+
+    final boolean convertible =
+      JCGLScalarType.TYPE_FLOAT.shaderTypeConvertible(
+        2,
+        program_attribute.getType());
+
+    if (convertible == false) {
+      final StringBuilder b = new StringBuilder();
+      b.append("The program attribute '");
+      b.append(program_attribute.getName());
+      b.append("' is of type ");
+      b.append(program_attribute.getType());
+      b.append(" but the given value is of type ");
+      b.append(JCGLType.TYPE_FLOAT_VECTOR_2);
+      Constraints.constrainArbitrary(false, b.toString());
+    }
+
+    final int program_attrib_id = program_attribute.getLocation();
+    g.glVertexAttrib2f(program_attrib_id, x.getXF(), x.getYF());
+    JOGL_GL_Functions.checkError(g);
+  }
+
+  static void programAttributePutVector3f(
+    final @Nonnull GL2ES2 g,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull VectorReadable3F x)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(program_attribute, "Program attribute");
+    Constraints.constrainNotNull(x, "Value");
+    Constraints.constrainArbitrary(
+      JOGL_GL2ES2_Functions.programIsActive(
+        g,
+        state,
+        program_attribute.getProgram()),
+      "Program for program attribute is not active");
+
+    final boolean convertible =
+      JCGLScalarType.TYPE_FLOAT.shaderTypeConvertible(
+        3,
+        program_attribute.getType());
+
+    if (convertible == false) {
+      final StringBuilder b = new StringBuilder();
+      b.append("The program attribute '");
+      b.append(program_attribute.getName());
+      b.append("' is of type ");
+      b.append(program_attribute.getType());
+      b.append(" but the given value is of type ");
+      b.append(JCGLType.TYPE_FLOAT_VECTOR_3);
+      Constraints.constrainArbitrary(false, b.toString());
+    }
+
+    final int program_attrib_id = program_attribute.getLocation();
+    g.glVertexAttrib3f(program_attrib_id, x.getXF(), x.getYF(), x.getZF());
+    JOGL_GL_Functions.checkError(g);
+  }
+
+  static void programAttributePutVector4f(
+    final @Nonnull GL2ES2 g,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull VectorReadable4F x)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(program_attribute, "Program attribute");
+    Constraints.constrainNotNull(x, "Value");
+    Constraints.constrainArbitrary(
+      JOGL_GL2ES2_Functions.programIsActive(
+        g,
+        state,
+        program_attribute.getProgram()),
+      "Program for program attribute is not active");
+
+    final boolean convertible =
+      JCGLScalarType.TYPE_FLOAT.shaderTypeConvertible(
+        4,
+        program_attribute.getType());
+
+    if (convertible == false) {
+      final StringBuilder b = new StringBuilder();
+      b.append("The program attribute '");
+      b.append(program_attribute.getName());
+      b.append("' is of type ");
+      b.append(program_attribute.getType());
+      b.append(" but the given value is of type ");
+      b.append(JCGLType.TYPE_FLOAT_VECTOR_4);
+      Constraints.constrainArbitrary(false, b.toString());
+    }
+
+    final int program_attrib_id = program_attribute.getLocation();
+    g.glVertexAttrib4f(
+      program_attrib_id,
+      x.getXF(),
+      x.getYF(),
+      x.getZF(),
+      x.getWF());
+    JOGL_GL_Functions.checkError(g);
+  }
+
   static ProgramReference programCreateCommon(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,

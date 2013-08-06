@@ -186,6 +186,8 @@ public interface JCGLShadersCommon
    *           Iff any of the following hold:
    *           <ul>
    *           <li><code>program_attribute == null</code></li>
+   *           <li>The type of <code>program_attribute</code> does not match
+   *           that of <code>x</code>.</li>
    *           <li>The program that <code>program_attribute</code> belongs to
    *           is not active.</li>
    *           </ul>
@@ -194,6 +196,96 @@ public interface JCGLShadersCommon
   public void programAttributePutFloat(
     final @Nonnull ProgramAttribute program_attribute,
     float x)
+    throws JCGLException,
+      ConstraintError;
+
+  /**
+   * Set the value of the program attribute <code>program_attribute</code> to
+   * <code>x</code>. This essentially instructs OpenGL to behave as if it was
+   * reading from an array buffer where every element is equal to
+   * <code>x</code>.
+   * 
+   * @param program_attribute
+   *          The program attribute.
+   * @param x
+   *          The value.
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>program_attribute == null</code></li>
+   *           <li><code>x == null</code></li>
+   *           <li>The type of <code>program_attribute</code> does not match
+   *           that of <code>x</code>.</li>
+   *           <li>The program that <code>program_attribute</code> belongs to
+   *           is not active.</li>
+   *           </ul>
+   */
+
+  public void programAttributePutVector2f(
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull VectorReadable2F x)
+    throws JCGLException,
+      ConstraintError;
+
+  /**
+   * Set the value of the program attribute <code>program_attribute</code> to
+   * <code>x</code>. This essentially instructs OpenGL to behave as if it was
+   * reading from an array buffer where every element is equal to
+   * <code>x</code>.
+   * 
+   * @param program_attribute
+   *          The program attribute.
+   * @param x
+   *          The value.
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>program_attribute == null</code></li>
+   *           <li><code>x == null</code></li>
+   *           <li>The type of <code>program_attribute</code> does not match
+   *           that of <code>x</code>.</li>
+   *           <li>The program that <code>program_attribute</code> belongs to
+   *           is not active.</li>
+   *           </ul>
+   */
+
+  public void programAttributePutVector3f(
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull VectorReadable3F x)
+    throws JCGLException,
+      ConstraintError;
+
+  /**
+   * Set the value of the program attribute <code>program_attribute</code> to
+   * <code>x</code>. This essentially instructs OpenGL to behave as if it was
+   * reading from an array buffer where every element is equal to
+   * <code>x</code>.
+   * 
+   * @param program_attribute
+   *          The program attribute.
+   * @param x
+   *          The value.
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>program_attribute == null</code></li>
+   *           <li><code>x == null</code></li>
+   *           <li>The type of <code>program_attribute</code> does not match
+   *           that of <code>x</code>.</li>
+   *           <li>The program that <code>program_attribute</code> belongs to
+   *           is not active.</li>
+   *           </ul>
+   */
+
+  public void programAttributePutVector4f(
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull VectorReadable4F x)
     throws JCGLException,
       ConstraintError;
 

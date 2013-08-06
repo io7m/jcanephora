@@ -1066,6 +1066,50 @@ import com.io7m.jtensors.VectorReadable4I;
       .getGL2ES2(), this.state, program_attribute, array_attribute);
   }
 
+  @Override public void programAttributePutFloat(
+    final @Nonnull ProgramAttribute program_attribute,
+    final float x)
+    throws JCGLException,
+      ConstraintError
+  {
+    JOGL_GL2ES2_Functions.programAttributePutFloat(this.context
+      .getGL()
+      .getGL2ES2(), this.state, program_attribute, x);
+  }
+
+  @Override public void programAttributePutVector2f(
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull VectorReadable2F x)
+    throws JCGLException,
+      ConstraintError
+  {
+    JOGL_GL2ES2_Functions.programAttributePutVector2f(this.context
+      .getGL()
+      .getGL2ES2(), this.state, program_attribute, x);
+  }
+
+  @Override public void programAttributePutVector3f(
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull VectorReadable3F x)
+    throws JCGLException,
+      ConstraintError
+  {
+    JOGL_GL2ES2_Functions.programAttributePutVector3f(this.context
+      .getGL()
+      .getGL2ES2(), this.state, program_attribute, x);
+  }
+
+  @Override public void programAttributePutVector4f(
+    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull VectorReadable4F x)
+    throws JCGLException,
+      ConstraintError
+  {
+    JOGL_GL2ES2_Functions.programAttributePutVector4f(this.context
+      .getGL()
+      .getGL2ES2(), this.state, program_attribute, x);
+  }
+
   @Override public ProgramReference programCreateCommon(
     final @Nonnull String name,
     final @Nonnull VertexShader v,
@@ -1920,16 +1964,5 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     JOGL_GL_Functions.viewportSet(this.context.getGL(), position, dimensions);
-  }
-
-  @Override public void programAttributePutFloat(
-    final @Nonnull ProgramAttribute program_attribute,
-    final float x)
-    throws JCGLException,
-      ConstraintError
-  {
-    JOGL_GL2ES2_Functions.programAttributePutFloat(this.context
-      .getGL()
-      .getGL2ES2(), this.state, program_attribute, x);
   }
 }
