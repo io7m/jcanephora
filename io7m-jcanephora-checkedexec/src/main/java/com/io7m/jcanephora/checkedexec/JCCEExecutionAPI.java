@@ -39,7 +39,7 @@ import com.io7m.jtensors.VectorReadable4I;
  * </p>
  */
 
-public interface JCCEExecutionAPI<E extends Throwable>
+public interface JCCEExecutionAPI
 {
   /**
    * <p>
@@ -173,7 +173,7 @@ public interface JCCEExecutionAPI<E extends Throwable>
 
   /**
    * <p>
-   * Prepare to start executing the given program.
+   * Prepare to start executing the program associated with this execution.
    * </p>
    * 
    * @throws ConstraintError
@@ -183,8 +183,7 @@ public interface JCCEExecutionAPI<E extends Throwable>
    */
 
   public void execPrepare(
-    final @Nonnull JCGLShadersCommon gl,
-    final @Nonnull ProgramReferenceUsable p)
+    final @Nonnull JCGLShadersCommon gl)
     throws ConstraintError,
       JCGLException;
 
@@ -210,16 +209,14 @@ public interface JCCEExecutionAPI<E extends Throwable>
    *           </ul>
    * @throws JCGLException
    *           Iff an OpenGL error occurs.
-   * @throws E
-   *           Iff the implementation-specific function provided by the user
-   *           raises <tt>E</tt>.
+   * @throws Exception
+   *           Propagated from the implementation-specific function.
    */
 
   public void execRun(
     final @Nonnull JCGLShadersCommon gl)
     throws ConstraintError,
-      JCGLException,
-      E;
+      Exception;
 
   /**
    * <p>
@@ -478,6 +475,32 @@ public interface JCCEExecutionAPI<E extends Throwable>
     final @Nonnull JCGLShadersCommon gl,
     final @Nonnull String u,
     final @Nonnull VectorReadable4I x)
+    throws ConstraintError,
+      JCGLException;
+
+  /**
+   * <p>
+   * Assume that the value of <tt>u</tt> has not changed since the last time a
+   * value was assigned in the current program. An example use case for this
+   * function would be the typical example of a program that renders a series
+   * of meshes using projection and modelview matrices: The projection matrix
+   * likely does not change for each mesh (and may not change over the entire
+   * course of the program), so reusing the same projection matrix value each
+   * time saves GPU bandwidth.
+   * </p>
+   * <p>
+   * After this function has been called successfully, the uniform <tt>u</tt>
+   * will be assumed to have been assigned, for the purposes of validation
+   * with {@link #execValidate()}.
+   * </p>
+   * 
+   * @throws ConstraintError
+   *           Iff <tt>u</tt> does not exist in the given program, or if
+   *           <tt>u</tt> has not previously been assigned a value.
+   */
+
+  public void execUniformUseExisting(
+    final @Nonnull String u)
     throws ConstraintError,
       JCGLException;
 
