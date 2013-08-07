@@ -22,7 +22,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLShadersCommon;
-import com.io7m.jcanephora.ProgramReferenceUsable;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
@@ -190,9 +189,9 @@ public interface JCCEExecutionAPI
   /**
    * <p>
    * Execute an implementation-specific function with the program specified
-   * with {@link #execPrepare(JCGLShadersCommon, ProgramReferenceUsable)} as
-   * the current program, after calling {@link #execValidate()} to check that
-   * the execution is correctly configured.
+   * with {@link #execPrepare(JCGLShadersCommon)} as the current program,
+   * after calling {@link #execValidate()} to check that the execution is
+   * correctly configured.
    * </p>
    * 
    * @throws ConstraintError
