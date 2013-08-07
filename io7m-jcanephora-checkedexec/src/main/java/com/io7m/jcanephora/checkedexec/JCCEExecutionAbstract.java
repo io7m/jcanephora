@@ -92,6 +92,9 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(a, "Attribute name");
+    Constraints.constrainArbitrary(
+      this.preparing,
+      "Execution is in the preparation stage");
 
     final ProgramAttribute pa = this.program.getAttributes().get(a);
     if (pa == null) {
@@ -111,6 +114,9 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(a, "Attribute name");
+    Constraints.constrainArbitrary(
+      this.preparing,
+      "Execution is in the preparation stage");
 
     final ProgramAttribute pa = this.program.getAttributes().get(a);
     if (pa == null) {
@@ -130,6 +136,9 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(a, "Attribute name");
+    Constraints.constrainArbitrary(
+      this.preparing,
+      "Execution is in the preparation stage");
 
     final ProgramAttribute pa = this.program.getAttributes().get(a);
     if (pa == null) {
@@ -149,6 +158,9 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(a, "Attribute name");
+    Constraints.constrainArbitrary(
+      this.preparing,
+      "Execution is in the preparation stage");
 
     final ProgramAttribute pa = this.program.getAttributes().get(a);
     if (pa == null) {
@@ -168,6 +180,9 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(a, "Attribute name");
+    Constraints.constrainArbitrary(
+      this.preparing,
+      "Execution is in the preparation stage");
 
     final ProgramAttribute pa = this.program.getAttributes().get(a);
     if (pa == null) {
@@ -278,6 +293,9 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
+    Constraints.constrainArbitrary(
+      this.preparing,
+      "Execution is in the preparation stage");
 
     final ProgramUniform pu = this.program.getUniforms().get(u);
     if (pu == null) {
@@ -297,6 +315,9 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
+    Constraints.constrainArbitrary(
+      this.preparing,
+      "Execution is in the preparation stage");
 
     final ProgramUniform pu = this.program.getUniforms().get(u);
     if (pu == null) {
@@ -316,6 +337,9 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
+    Constraints.constrainArbitrary(
+      this.preparing,
+      "Execution is in the preparation stage");
 
     final ProgramUniform pu = this.program.getUniforms().get(u);
     if (pu == null) {
@@ -335,6 +359,9 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
+    Constraints.constrainArbitrary(
+      this.preparing,
+      "Execution is in the preparation stage");
 
     final ProgramUniform pu = this.program.getUniforms().get(u);
     if (pu == null) {
@@ -354,6 +381,9 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
+    Constraints.constrainArbitrary(
+      this.preparing,
+      "Execution is in the preparation stage");
 
     final ProgramUniform pu = this.program.getUniforms().get(u);
     if (pu == null) {
@@ -373,6 +403,9 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
+    Constraints.constrainArbitrary(
+      this.preparing,
+      "Execution is in the preparation stage");
 
     final ProgramUniform pu = this.program.getUniforms().get(u);
     if (pu == null) {
@@ -392,6 +425,9 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
+    Constraints.constrainArbitrary(
+      this.preparing,
+      "Execution is in the preparation stage");
 
     final ProgramUniform pu = this.program.getUniforms().get(u);
     if (pu == null) {
@@ -411,6 +447,9 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
+    Constraints.constrainArbitrary(
+      this.preparing,
+      "Execution is in the preparation stage");
 
     final ProgramUniform pu = this.program.getUniforms().get(u);
     if (pu == null) {
@@ -430,6 +469,9 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
+    Constraints.constrainArbitrary(
+      this.preparing,
+      "Execution is in the preparation stage");
 
     final ProgramUniform pu = this.program.getUniforms().get(u);
     if (pu == null) {
@@ -449,6 +491,9 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
+    Constraints.constrainArbitrary(
+      this.preparing,
+      "Execution is in the preparation stage");
 
     final ProgramUniform pu = this.program.getUniforms().get(u);
     if (pu == null) {
@@ -465,6 +510,9 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     Constraints.constrainNotNull(u, "Uniform name");
+    Constraints.constrainArbitrary(
+      this.preparing,
+      "Execution is in the preparation stage");
 
     final ProgramUniform pu = this.program.getUniforms().get(u);
     if (pu == null) {

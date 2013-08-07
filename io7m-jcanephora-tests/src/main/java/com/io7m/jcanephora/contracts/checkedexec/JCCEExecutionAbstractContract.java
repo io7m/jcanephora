@@ -506,6 +506,362 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
   }
 
   /**
+   * Trying to assign uniforms or attributes before preparation, fails.
+   */
+
+  @Test public final void testPreparation()
+    throws Throwable
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    ExecCalled e = null;
+    TextureUnit[] units = null;
+    ArrayBuffer a = null;
+    ArrayBufferAttribute a_vf2 = null;
+    ArrayBufferAttribute a_vf3 = null;
+    ArrayBufferAttribute a_vf4 = null;
+    ArrayBufferAttribute a_f = null;
+    ProgramReferenceUsable p = null;
+
+    try {
+      units = gl.textureGetUnits();
+
+      a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
+      a_vf2 = a.getAttribute("a_vf2");
+      a_vf3 = a.getAttribute("a_vf3");
+      a_vf4 = a.getAttribute("a_vf4");
+      a_f = a.getAttribute("a_f");
+
+      p =
+        JCCEExecutionAbstractContract.makeProgramWithFragmentUniforms(tc, gl);
+      e = new ExecCalled(p);
+    } catch (final Throwable x) {
+      Assert.fail(x.getMessage());
+    }
+
+    assert units != null;
+    assert e != null;
+    boolean failed = false;
+
+    /**
+     * Trying to assign each type of uniform or attribute fails, because the
+     * execution is not in the preparation stage.
+     */
+
+    try {
+      e.execUniformPutVector2F(gl, "u_vf2", new VectorI2F(23.0f, 23.0f));
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execUniformPutVector3F(
+        gl,
+        "u_vf3",
+        new VectorI3F(23.0f, 23.0f, 23.0f));
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execUniformPutVector4F(gl, "u_vf4", new VectorI4F(
+        23.0f,
+        23.0f,
+        23.0f,
+        23.0f));
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execUniformPutVector2I(gl, "u_vi2", new VectorI2I(23, 23));
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execUniformPutFloat(gl, "u_f", 23.0f);
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execAttributeBind(gl, "a_vf2", a_vf2);
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execAttributeBind(gl, "a_vf3", a_vf3);
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execAttributeBind(gl, "a_vf4", a_vf4);
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execAttributeBind(gl, "a_f", a_f);
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+  }
+
+  /**
+   * Trying to assign uniforms or attributes before preparation (after running
+   * has cancelled preparation), fails.
+   * 
+   * This ensures that the constraint errors raised aren't due to nonexistent
+   * or ill-typed uniforms.
+   */
+
+  @Test public final void testPreparationAfterRun()
+    throws Throwable
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    ExecCalled e = null;
+    TextureUnit[] units = null;
+    ArrayBuffer a = null;
+    ArrayBufferAttribute a_vf2 = null;
+    ArrayBufferAttribute a_vf3 = null;
+    ArrayBufferAttribute a_vf4 = null;
+    ArrayBufferAttribute a_f = null;
+    ProgramReferenceUsable p = null;
+
+    try {
+      units = gl.textureGetUnits();
+
+      a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
+      a_vf2 = a.getAttribute("a_vf2");
+      a_vf3 = a.getAttribute("a_vf3");
+      a_vf4 = a.getAttribute("a_vf4");
+      a_f = a.getAttribute("a_f");
+
+      p =
+        JCCEExecutionAbstractContract.makeProgramWithFragmentUniforms(tc, gl);
+      e = new ExecCalled(p);
+      e.execPrepare(gl);
+      e.execUniformPutVector2F(gl, "u_vf2", new VectorI2F(23.0f, 23.0f));
+      e.execUniformPutVector3F(
+        gl,
+        "u_vf3",
+        new VectorI3F(23.0f, 23.0f, 23.0f));
+      e.execUniformPutVector4F(gl, "u_vf4", new VectorI4F(
+        23.0f,
+        23.0f,
+        23.0f,
+        23.0f));
+      e.execUniformPutVector2I(gl, "u_vi2", new VectorI2I(23, 23));
+      e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
+      e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
+      e.execUniformPutFloat(gl, "u_f", 23.0f);
+      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+      e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
+      e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
+
+      e.execAttributeBind(gl, "a_vf2", a_vf2);
+      e.execAttributeBind(gl, "a_vf3", a_vf3);
+      e.execAttributeBind(gl, "a_vf4", a_vf4);
+      e.execAttributeBind(gl, "a_f", a_f);
+
+      e.execRun(gl);
+      Assert.assertTrue(e.called);
+    } catch (final Throwable x) {
+      Assert.fail(x.getMessage());
+    }
+
+    assert units != null;
+    assert e != null;
+    boolean failed = false;
+
+    /**
+     * Trying to assign each type of uniform or attribute fails, because the
+     * execution is not in the preparation stage.
+     */
+
+    try {
+      e.execUniformPutVector2F(gl, "u_vf2", new VectorI2F(23.0f, 23.0f));
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execUniformPutVector3F(
+        gl,
+        "u_vf3",
+        new VectorI3F(23.0f, 23.0f, 23.0f));
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execUniformPutVector4F(gl, "u_vf4", new VectorI4F(
+        23.0f,
+        23.0f,
+        23.0f,
+        23.0f));
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execUniformPutVector2I(gl, "u_vi2", new VectorI2I(23, 23));
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execUniformPutFloat(gl, "u_f", 23.0f);
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execAttributeBind(gl, "a_vf2", a_vf2);
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execAttributeBind(gl, "a_vf3", a_vf3);
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execAttributeBind(gl, "a_vf4", a_vf4);
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+
+    try {
+      e.execAttributeBind(gl, "a_f", a_f);
+    } catch (final ConstraintError x) {
+      failed = true;
+    }
+    Assert.assertTrue(failed);
+    failed = false;
+  }
+
+  /**
    * Passing <tt>null</tt> to
    * {@link JCCEExecutionAbstract#execPrepare(JCGLShadersCommon)} fails.
    */
