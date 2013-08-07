@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map.Entry;
 
-import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
 
@@ -56,19 +55,28 @@ import com.io7m.jtensors.VectorReadable4I;
  * </p>
  */
 
-@NotThreadSafe public abstract class JCCEExecutionAbstract<E extends Throwable> implements
-  JCCEExecutionAPI<E>
+@NotThreadSafe public abstract class JCCEExecutionAbstract implements
+  JCCEExecutionAPI
 {
-  private @CheckForNull ProgramReferenceUsable       program;
+  private final @Nonnull ProgramReferenceUsable      program;
   private final @Nonnull HashSet<String>             assigned;
+  private final @Nonnull HashSet<String>             assigned_ever;
   private boolean                                    preparing;
   private final @Nonnull StringBuilder               message;
   private final @Nonnull ArrayList<ProgramUniform>   missed_uniforms;
   private final @Nonnull ArrayList<ProgramAttribute> missed_attributes;
 
-  protected JCCEExecutionAbstract()
+  protected JCCEExecutionAbstract(
+    final @Nonnull ProgramReferenceUsable program)
+    throws ConstraintError
   {
+    this.program = Constraints.constrainNotNull(program, "Program");
+    Constraints.constrainArbitrary(
+      program.resourceIsDeleted() == false,
+      "Program not deleted");
+
     this.assigned = new HashSet<String>();
+    this.assigned_ever = new HashSet<String>();
     this.preparing = false;
     this.message = new StringBuilder();
     this.missed_attributes = new ArrayList<ProgramAttribute>();
@@ -209,13 +217,11 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public final void execPrepare(
-    final @Nonnull JCGLShadersCommon gl,
-    final @Nonnull ProgramReferenceUsable new_program)
+    final @Nonnull JCGLShadersCommon gl)
     throws ConstraintError,
       JCGLException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
-    this.program = Constraints.constrainNotNull(new_program, "Program");
 
     gl.programActivate(this.program);
     this.preparing = true;
@@ -227,8 +233,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public final void execRun(
     final @Nonnull JCGLShadersCommon gl)
     throws ConstraintError,
-      JCGLException,
-      E
+      Exception
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainArbitrary(
@@ -256,8 +261,15 @@ import com.io7m.jtensors.VectorReadable4I;
    */
 
   protected abstract void execRunActual()
-    throws JCGLException,
-      E;
+    throws ConstraintError,
+      Exception;
+
+  private final void execUniformAssign(
+    final @Nonnull String u)
+  {
+    this.assigned_ever.add(u);
+    this.assigned.add(u);
+  }
 
   @Override public final void execUniformPutFloat(
     final @Nonnull JCGLShadersCommon gl,
@@ -275,7 +287,7 @@ import com.io7m.jtensors.VectorReadable4I;
     }
 
     gl.programUniformPutFloat(pu, x);
-    this.assigned.add(u);
+    this.execUniformAssign(u);
   }
 
   @Override public final void execUniformPutMatrix3x3F(
@@ -294,7 +306,7 @@ import com.io7m.jtensors.VectorReadable4I;
     }
 
     gl.programUniformPutMatrix3x3f(pu, x);
-    this.assigned.add(u);
+    this.execUniformAssign(u);
   }
 
   @Override public final void execUniformPutMatrix4x4F(
@@ -313,7 +325,7 @@ import com.io7m.jtensors.VectorReadable4I;
     }
 
     gl.programUniformPutMatrix4x4f(pu, x);
-    this.assigned.add(u);
+    this.execUniformAssign(u);
   }
 
   @Override public final void execUniformPutTextureUnit(
@@ -332,7 +344,7 @@ import com.io7m.jtensors.VectorReadable4I;
     }
 
     gl.programUniformPutTextureUnit(pu, x);
-    this.assigned.add(u);
+    this.execUniformAssign(u);
   }
 
   @Override public final void execUniformPutVector2F(
@@ -351,7 +363,7 @@ import com.io7m.jtensors.VectorReadable4I;
     }
 
     gl.programUniformPutVector2f(pu, x);
-    this.assigned.add(u);
+    this.execUniformAssign(u);
   }
 
   @Override public final void execUniformPutVector2I(
@@ -370,7 +382,7 @@ import com.io7m.jtensors.VectorReadable4I;
     }
 
     gl.programUniformPutVector2i(pu, x);
-    this.assigned.add(u);
+    this.execUniformAssign(u);
   }
 
   @Override public final void execUniformPutVector3F(
@@ -389,7 +401,7 @@ import com.io7m.jtensors.VectorReadable4I;
     }
 
     gl.programUniformPutVector3f(pu, x);
-    this.assigned.add(u);
+    this.execUniformAssign(u);
   }
 
   @Override public final void execUniformPutVector3I(
@@ -408,7 +420,7 @@ import com.io7m.jtensors.VectorReadable4I;
     }
 
     gl.programUniformPutVector3i(pu, x);
-    this.assigned.add(u);
+    this.execUniformAssign(u);
   }
 
   @Override public final void execUniformPutVector4F(
@@ -427,7 +439,7 @@ import com.io7m.jtensors.VectorReadable4I;
     }
 
     gl.programUniformPutVector4f(pu, x);
-    this.assigned.add(u);
+    this.execUniformAssign(u);
   }
 
   @Override public final void execUniformPutVector4I(
@@ -446,7 +458,26 @@ import com.io7m.jtensors.VectorReadable4I;
     }
 
     gl.programUniformPutVector4i(pu, x);
-    this.assigned.add(u);
+    this.execUniformAssign(u);
+  }
+
+  @Override public final void execUniformUseExisting(
+    final @Nonnull String u)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(u, "Uniform name");
+
+    final ProgramUniform pu = this.program.getUniforms().get(u);
+    if (pu == null) {
+      this.execNonexistentUniform(u);
+    }
+
+    Constraints.constrainArbitrary(
+      this.assigned_ever.contains(u),
+      "Uniform has been assigned at least once");
+
+    this.execUniformAssign(u);
   }
 
   @Override public final void execValidate()
