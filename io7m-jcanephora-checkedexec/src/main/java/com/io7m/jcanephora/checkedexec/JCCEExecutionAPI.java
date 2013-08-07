@@ -18,6 +18,21 @@ package com.io7m.jcanephora.checkedexec;
 
 import javax.annotation.Nonnull;
 
+import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.ArrayBufferAttribute;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLShadersCommon;
+import com.io7m.jcanephora.ProgramReferenceUsable;
+import com.io7m.jcanephora.TextureUnit;
+import com.io7m.jtensors.MatrixReadable3x3F;
+import com.io7m.jtensors.MatrixReadable4x4F;
+import com.io7m.jtensors.VectorReadable2F;
+import com.io7m.jtensors.VectorReadable2I;
+import com.io7m.jtensors.VectorReadable3F;
+import com.io7m.jtensors.VectorReadable3I;
+import com.io7m.jtensors.VectorReadable4F;
+import com.io7m.jtensors.VectorReadable4I;
+
 /**
  * <p>
  * The API supported by program executions.
