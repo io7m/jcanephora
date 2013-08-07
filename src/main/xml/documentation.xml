@@ -3097,16 +3097,15 @@ JCGLInterfaceCommon g;
 ProgramReferenceUsable p;
 ArrayBuffer a;
 
-JCCEExecutionAbstract<Throwable> e = new JCCEExecutionAbstract<Throwable>() {
+JCCEExecutionAbstract e = new JCCEExecutionAbstract(p) {
   @Override protected void execRunActual()
-    throws JCGLException,
-      Throwable
+    throws Execption
   {
     // Perform rendering operations.
   }
 };
 
-e.execPrepare(g, p);
+e.execPrepare(g);
 e.execUniformPutVector2F(g, "u_vf2", new VectorI2F(1, 1));
 e.execUniformPutVector3F(g, "u_vf3", new VectorI3F(1, 1, 1));
 e.execUniformPutVector4F(g, "u_vf4", new VectorI4F(1, 1, 1, 1));
