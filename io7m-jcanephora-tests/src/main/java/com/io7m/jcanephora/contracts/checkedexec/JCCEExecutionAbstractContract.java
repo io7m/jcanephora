@@ -507,8 +507,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
 
   /**
    * Passing <tt>null</tt> to
-   * {@link JCCEExecutionAbstract#execPrepare(JCGLShadersCommon, ProgramReferenceUsable)}
-   * fails.
+   * {@link JCCEExecutionAbstract#execPrepare(JCGLShadersCommon)} fails.
    */
 
   @Test(expected = ConstraintError.class) public final
@@ -703,8 +702,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
 
   /**
    * Calling {@link JCCEExecutionAbstract#execRun(JCGLShadersCommon)} without
-   * calling
-   * {@link JCCEExecutionAbstract#execPrepare(JCGLShadersCommon, ProgramReferenceUsable)}
+   * calling {@link JCCEExecutionAbstract#execPrepare(JCGLShadersCommon)}
    * first fails.
    */
 
