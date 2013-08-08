@@ -36,6 +36,33 @@ import com.io7m.jtensors.VectorReadable4I;
  * <p>
  * The API supported by program executions.
  * </p>
+ * <p>
+ * Programs start in the <tt>unprepared</tt> state, and move to the
+ * <tt>preparing</tt> state when {@link #execRun(JCGLShadersCommon)} function
+ * is called. In the <tt>preparing</tt> state, values are assigned to program
+ * uniform and attribute variables, and the program is then executed by
+ * calling the {@link #execRun(JCGLShadersCommon)} function (or execution is
+ * cancelled by calling the {@link #execCancel()} function). When a program is
+ * run or cancelled, it moved back to the <tt>unprepared</tt> state.
+ * </p>
+ * <p>
+ * As is consistent with OpenGL semantics, the assigned values of uniform
+ * variables are preserved across executions, and can therefore be re-used by
+ * calling the {@link #execUniformUseExisting(String)} function for any given
+ * uniform.
+ * </p>
+ * <p>
+ * It is an error to attempt to assign values to uniforms or attributes
+ * outside of the <tt>preparing</tt> state. It is an error to attempt to
+ * prepare a program that is already being prepared. It is an error to attempt
+ * to run or cancel a program that is not being prepared.
+ * </p>
+ * <p>
+ * The actual program that will be executed is specified in an
+ * implementation-specific manner. Most implementations of the API will have
+ * the programmer pass in a compiled program to the constructor of the
+ * implementation.
+ * </p>
  */
 
 public interface JCCEExecutionAPI
@@ -48,11 +75,17 @@ public interface JCCEExecutionAPI
    * validation with {@link #execValidate()}.
    * </p>
    * 
+   * @see JCCEExecutionAPI#execCancel()
+   * @see JCCEExecutionAPI#execPrepare(JCGLShadersCommon)
    * @throws ConstraintError
-   *           Iff <tt>u</tt> does not exist in the given program, or for the
-   *           same reasons as
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><tt>u</tt> does not exist in the given program</li>
+   *           <li>The current execution is not in the preparation stage.</li>
+   *           <li>Any of the preconditions of
    *           {@link JCGLShadersCommon#programAttributeArrayBind(com.io7m.jcanephora.ProgramAttribute, ArrayBufferAttribute)}
-   *           .
+   *           are not met.</li>
+   *           </ul>
    * @throws JCGLException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programAttributeArrayBind(com.io7m.jcanephora.ProgramAttribute, ArrayBufferAttribute)}
@@ -74,11 +107,17 @@ public interface JCCEExecutionAPI
    * purposes of validation with {@link #execValidate()}.
    * </p>
    * 
+   * @see JCCEExecutionAPI#execCancel()
+   * @see JCCEExecutionAPI#execPrepare(JCGLShadersCommon)
    * @throws ConstraintError
-   *           Iff <tt>u</tt> does not exist in the given program, or for the
-   *           same reasons as
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><tt>u</tt> does not exist in the given program</li>
+   *           <li>The current execution is not in the preparation stage.</li>
+   *           <li>Any of the preconditions of
    *           {@link JCGLShadersCommon#programAttributePutFloat(com.io7m.jcanephora.ProgramAttribute, float)}
-   *           .
+   *           are not met.</li>
+   *           </ul>
    * @throws JCGLException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programAttributePutFloat(com.io7m.jcanephora.ProgramAttribute, float)}
@@ -100,11 +139,17 @@ public interface JCCEExecutionAPI
    * purposes of validation with {@link #execValidate()}.
    * </p>
    * 
+   * @see JCCEExecutionAPI#execCancel()
+   * @see JCCEExecutionAPI#execPrepare(JCGLShadersCommon)
    * @throws ConstraintError
-   *           Iff <tt>u</tt> does not exist in the given program, or for the
-   *           same reasons as
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><tt>u</tt> does not exist in the given program</li>
+   *           <li>The current execution is not in the preparation stage.</li>
+   *           <li>Any of the preconditions of
    *           {@link JCGLShadersCommon#programAttributePutVector2f(com.io7m.jcanephora.ProgramAttribute, VectorReadable2F)}
-   *           .
+   *           are not met.</li>
+   *           </ul>
    * @throws JCGLException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programAttributePutVector2f(com.io7m.jcanephora.ProgramAttribute, VectorReadable2F)}
@@ -126,11 +171,17 @@ public interface JCCEExecutionAPI
    * purposes of validation with {@link #execValidate()}.
    * </p>
    * 
+   * @see JCCEExecutionAPI#execCancel()
+   * @see JCCEExecutionAPI#execPrepare(JCGLShadersCommon)
    * @throws ConstraintError
-   *           Iff <tt>u</tt> does not exist in the given program, or for the
-   *           same reasons as
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><tt>u</tt> does not exist in the given program</li>
+   *           <li>The current execution is not in the preparation stage.</li>
+   *           <li>Any of the preconditions of
    *           {@link JCGLShadersCommon#programAttributePutVector3f(com.io7m.jcanephora.ProgramAttribute, VectorReadable3F)}
-   *           .
+   *           are not met.</li>
+   *           </ul>
    * @throws JCGLException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programAttributePutVector3f(com.io7m.jcanephora.ProgramAttribute, VectorReadable3F)}
@@ -152,11 +203,17 @@ public interface JCCEExecutionAPI
    * purposes of validation with {@link #execValidate()}.
    * </p>
    * 
+   * @see JCCEExecutionAPI#execCancel()
+   * @see JCCEExecutionAPI#execPrepare(JCGLShadersCommon)
    * @throws ConstraintError
-   *           Iff <tt>u</tt> does not exist in the given program, or for the
-   *           same reasons as
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><tt>u</tt> does not exist in the given program</li>
+   *           <li>The current execution is not in the preparation stage.</li>
+   *           <li>Any of the preconditions of
    *           {@link JCGLShadersCommon#programAttributePutVector4f(com.io7m.jcanephora.ProgramAttribute, VectorReadable4F)}
-   *           .
+   *           are not met.</li>
+   *           </ul>
    * @throws JCGLException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programAttributePutVector4f(com.io7m.jcanephora.ProgramAttribute, VectorReadable4F)}
@@ -172,11 +229,44 @@ public interface JCCEExecutionAPI
 
   /**
    * <p>
+   * Cancel preparation of execution.
+   * </p>
+   * <p>
+   * It is typical (and intended) for values of uniforms that will not change
+   * over the entire course of the application's lifetime to be assigned once
+   * by:
+   * </p>
+   * <ol>
+   * <li>Preparing execution.</li>
+   * <li>Assigning values with the various functions given in this interface.</li>
+   * <li>Cancelling execution with {@link #execCancel()}.</li>
+   * <li>Re-using the assigned values in subsequent executions with
+   * {@link #execUniformUseExisting(String)}.</li>
+   * <ol>
+   * 
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li>Execution has not been prepared.</li>
+   *           </ul>
+   */
+
+  void execCancel()
+    throws ConstraintError;
+
+  /**
+   * <p>
    * Prepare to start executing the program associated with this execution.
    * </p>
    * 
+   * @see JCCEExecutionAPI#execCancel()
+   * @see JCCEExecutionAPI#execRun(JCGLShadersCommon)
    * @throws ConstraintError
-   *           Iff <code>p == null || gl == null</code>.
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>p == null</code></li>
+   *           <li>The program is already being prepared.</li>
+   *           </ul>
    * @throws JCGLException
    *           Iff the program cannot start, or an OpenGL error occurs.
    */
@@ -189,17 +279,19 @@ public interface JCCEExecutionAPI
   /**
    * <p>
    * Execute an implementation-specific function with the program specified
-   * with {@link #execPrepare(JCGLShadersCommon)} as the current program,
-   * after calling {@link #execValidate()} to check that the execution is
-   * correctly configured.
+   * (in an implementation-specific manner) as the current program, after
+   * calling {@link #execValidate()} to check that the execution is correctly
+   * configured.
    * </p>
    * 
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
    *           <li><code>gl == null</code></li>
-   *           <li>The {@link #execPrepare(JCGLShadersCommon)} method has not
-   *           been called.</li>
+   *           <li>The program is not being prepared (the
+   *           {@link #execPrepare(JCGLShadersCommon)} function has not been
+   *           called since the last time {@link #execRun(JCGLShadersCommon)}
+   *           was called).</li>
    *           <li>At least one of the programs uniforms have not been
    *           assigned values.</li>
    *           <li>At least one of the programs attributes have not been
@@ -225,10 +317,14 @@ public interface JCCEExecutionAPI
    * </p>
    * 
    * @throws ConstraintError
-   *           Iff <tt>u</tt> does not exist in the given program, or for the
-   *           same reasons as
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><tt>u</tt> does not exist in the given program</li>
+   *           <li>The current execution is not in the preparation stage.</li>
+   *           <li>Any of the preconditions of
    *           {@link JCGLShadersCommon#programUniformPutFloat(com.io7m.jcanephora.ProgramUniform, float)}
-   *           .
+   *           are not met.</li>
+   *           </ul>
    * @throws JCGLException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutFloat(com.io7m.jcanephora.ProgramUniform, float)}
@@ -251,10 +347,14 @@ public interface JCCEExecutionAPI
    * </p>
    * 
    * @throws ConstraintError
-   *           Iff <tt>u</tt> does not exist in the given program, or for the
-   *           same reasons as
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><tt>u</tt> does not exist in the given program</li>
+   *           <li>The current execution is not in the preparation stage.</li>
+   *           <li>Any of the preconditions of
    *           {@link JCGLShadersCommon#programUniformPutMatrix3x3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.MatrixReadable3x3F)}
-   *           .
+   *           are not met.</li>
+   *           </ul>
    * @throws JCGLException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutMatrix3x3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.MatrixReadable3x3F)}
@@ -277,10 +377,14 @@ public interface JCCEExecutionAPI
    * </p>
    * 
    * @throws ConstraintError
-   *           Iff <tt>u</tt> does not exist in the given program, or for the
-   *           same reasons as
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><tt>u</tt> does not exist in the given program</li>
+   *           <li>The current execution is not in the preparation stage.</li>
+   *           <li>Any of the preconditions of
    *           {@link JCGLShadersCommon#programUniformPutMatrix4x4f(com.io7m.jcanephora.ProgramUniform, MatrixReadable4x4F)}
-   *           .
+   *           are not met.</li>
+   *           </ul>
    * @throws JCGLException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutMatrix4x4f(com.io7m.jcanephora.ProgramUniform, MatrixReadable4x4F)}
@@ -303,10 +407,14 @@ public interface JCCEExecutionAPI
    * </p>
    * 
    * @throws ConstraintError
-   *           Iff <tt>u</tt> does not exist in the given program, or for the
-   *           same reasons as
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><tt>u</tt> does not exist in the given program</li>
+   *           <li>The current execution is not in the preparation stage.</li>
+   *           <li>Any of the preconditions of
    *           {@link JCGLShadersCommon#programUniformPutTextureUnit(com.io7m.jcanephora.ProgramUniform, TextureUnit)}
-   *           .
+   *           are not met.</li>
+   *           </ul>
    * @throws JCGLException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutTextureUnit(com.io7m.jcanephora.ProgramUniform, TextureUnit)}
@@ -329,10 +437,14 @@ public interface JCCEExecutionAPI
    * </p>
    * 
    * @throws ConstraintError
-   *           Iff <tt>u</tt> does not exist in the given program, or for the
-   *           same reasons as
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><tt>u</tt> does not exist in the given program</li>
+   *           <li>The current execution is not in the preparation stage.</li>
+   *           <li>Any of the preconditions of
    *           {@link JCGLShadersCommon#programUniformPutVector2f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable2F)}
-   *           .
+   *           are not met.</li>
+   *           </ul>
    * @throws JCGLException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutVector2f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable2F)}
@@ -355,10 +467,14 @@ public interface JCCEExecutionAPI
    * </p>
    * 
    * @throws ConstraintError
-   *           Iff <tt>u</tt> does not exist in the given program, or for the
-   *           same reasons as
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><tt>u</tt> does not exist in the given program</li>
+   *           <li>The current execution is not in the preparation stage.</li>
+   *           <li>Any of the preconditions of
    *           {@link JCGLShadersCommon#programUniformPutVector2i(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable2I)}
-   *           .
+   *           are not met.</li>
+   *           </ul>
    * @throws JCGLException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutVector2i(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable2I)}
@@ -381,10 +497,14 @@ public interface JCCEExecutionAPI
    * </p>
    * 
    * @throws ConstraintError
-   *           Iff <tt>u</tt> does not exist in the given program, or for the
-   *           same reasons as
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><tt>u</tt> does not exist in the given program</li>
+   *           <li>The current execution is not in the preparation stage.</li>
+   *           <li>Any of the preconditions of
    *           {@link JCGLShadersCommon#programUniformPutVector3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable3F)}
-   *           .
+   *           are not met.</li>
+   *           </ul>
    * @throws JCGLException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutVector3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable3F)}
@@ -407,10 +527,14 @@ public interface JCCEExecutionAPI
    * </p>
    * 
    * @throws ConstraintError
-   *           Iff <tt>u</tt> does not exist in the given program, or for the
-   *           same reasons as
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><tt>u</tt> does not exist in the given program</li>
+   *           <li>The current execution is not in the preparation stage.</li>
+   *           <li>Any of the preconditions of
    *           {@link JCGLShadersCommon#programUniformPutVector3i(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable3I)}
-   *           .
+   *           are not met.</li>
+   *           </ul>
    * @throws JCGLException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutVector3i(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable3I)}
@@ -433,10 +557,14 @@ public interface JCCEExecutionAPI
    * </p>
    * 
    * @throws ConstraintError
-   *           Iff <tt>u</tt> does not exist in the given program, or for the
-   *           same reasons as
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><tt>u</tt> does not exist in the given program</li>
+   *           <li>The current execution is not in the preparation stage.</li>
+   *           <li>Any of the preconditions of
    *           {@link JCGLShadersCommon#programUniformPutVector4f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4F)}
-   *           .
+   *           are not met.</li>
+   *           </ul>
    * @throws JCGLException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutVector4f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4F)}
@@ -459,10 +587,14 @@ public interface JCCEExecutionAPI
    * </p>
    * 
    * @throws ConstraintError
-   *           Iff <tt>u</tt> does not exist in the given program, or for the
-   *           same reasons as
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><tt>u</tt> does not exist in the given program</li>
+   *           <li>The current execution is not in the preparation stage.</li>
+   *           <li>Any of the preconditions of
    *           {@link JCGLShadersCommon#programUniformPutVector4i(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4I)}
-   *           .
+   *           are not met.</li>
+   *           </ul>
    * @throws JCGLException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutVector4i(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4I)}
@@ -493,8 +625,12 @@ public interface JCCEExecutionAPI
    * </p>
    * 
    * @throws ConstraintError
-   *           Iff <tt>u</tt> does not exist in the given program, or if
-   *           <tt>u</tt> has not previously been assigned a value.
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><tt>u</tt> does not exist in the given program</li>
+   *           <li><tt>u</tt> has not previously been assigned a value.</li>
+   *           <li>The current execution is not in the preparation stage.</li>
+   *           </ul>
    */
 
   public void execUniformUseExisting(
@@ -509,8 +645,12 @@ public interface JCCEExecutionAPI
    * </p>
    * 
    * @throws ConstraintError
-   *           Iff there is an attribute or uniform that has not been assigned
-   *           a value.
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li>There is an attribute or uniform that has not been assigned
+   *           a value.</li>
+   *           <li>The current execution is not in the preparation stage.</li>
+   *           </ul>
    */
 
   public void execValidate()

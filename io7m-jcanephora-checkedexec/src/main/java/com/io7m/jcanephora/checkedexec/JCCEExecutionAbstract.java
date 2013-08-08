@@ -66,6 +66,16 @@ import com.io7m.jtensors.VectorReadable4I;
   private final @Nonnull ArrayList<ProgramUniform>   missed_uniforms;
   private final @Nonnull ArrayList<ProgramAttribute> missed_attributes;
 
+  @Override public void execCancel()
+    throws ConstraintError
+  {
+    Constraints.constrainArbitrary(
+      this.preparing,
+      "Execution is in the preparation stage");
+
+    this.preparing = false;
+  }
+
   protected JCCEExecutionAbstract(
     final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError
@@ -237,6 +247,9 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainArbitrary(
+      this.preparing == false,
+      "Execution is not already in the preparation stage");
 
     gl.programActivate(this.program);
     this.preparing = true;
@@ -256,8 +269,8 @@ import com.io7m.jtensors.VectorReadable4I;
       "Execution is in the preparation stage");
 
     assert this.program != null;
-    this.preparing = false;
     this.execValidate();
+    this.preparing = false;
 
     try {
       this.execRunActual();
@@ -529,6 +542,10 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public final void execValidate()
     throws ConstraintError
   {
+    Constraints.constrainArbitrary(
+      this.preparing,
+      "Execution is in the preparation stage");
+
     this.execValidateUniforms();
     this.execValidateAttributes();
 
