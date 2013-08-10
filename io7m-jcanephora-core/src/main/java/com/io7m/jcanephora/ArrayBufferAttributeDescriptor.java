@@ -34,8 +34,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 @Immutable public final class ArrayBufferAttributeDescriptor
 {
-  private @Nonnull final String         name;
-  private @Nonnull final JCGLScalarType type;
+  private final @Nonnull String         name;
+  private final @Nonnull JCGLScalarType type;
   private final int                     elements;
 
   public ArrayBufferAttributeDescriptor(
@@ -84,7 +84,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * Retrieve the number of elements in the attribute.
    */
 
-  int getElements()
+  public int getElements()
   {
     return this.elements;
   }
@@ -93,7 +93,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * Retrieve the name of the attribute.
    */
 
-  @Nonnull String getName()
+  public @Nonnull String getName()
   {
     return this.name;
   }
@@ -102,7 +102,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * Retrieve the type of the attribute.
    */
 
-  @Nonnull JCGLScalarType getType()
+  public @Nonnull JCGLScalarType getType()
   {
     return this.type;
   }
