@@ -27,7 +27,13 @@ import com.io7m.jaux.RangeInclusive;
 import com.io7m.jaux.UnreachableCodeException;
 
 /**
+ * <p>
  * An allocated region of data, to replace or update a 2D texture.
+ * </p>
+ * <p>
+ * The cursors exposed by this interface treat <tt>(0, 0)</tt> as the bottom
+ * left corner of the image, which is consistent with OpenGL's conventions.
+ * </p>
  */
 
 public final class Texture2DWritableData
@@ -105,9 +111,11 @@ public final class Texture2DWritableData
   }
 
   /**
+   * <p>
    * Retrieve a cursor that points to elements of the texture. The cursor
    * interface allows constant time access to any element and also minimizes
    * the number of checks performed for each access.
+   * </p>
    * 
    * @throws ConstraintError
    *           If the number of components in the texture is not 1.
@@ -146,9 +154,11 @@ public final class Texture2DWritableData
   }
 
   /**
+   * <p>
    * Retrieve a cursor that points to elements of the texture. The cursor
    * interface allows constant time access to any element and also minimizes
    * the number of checks performed for each access.
+   * </p>
    * 
    * @throws ConstraintError
    *           If the number of components in the texture is not 1.
@@ -198,9 +208,11 @@ public final class Texture2DWritableData
   }
 
   /**
+   * <p>
    * Retrieve a cursor that points to elements of the texture. The cursor
    * interface allows constant time access to any element and also minimizes
    * the number of checks performed for each access.
+   * </p>
    * 
    * @throws ConstraintError
    *           If the number of components in the texture is not 2.
@@ -238,9 +250,11 @@ public final class Texture2DWritableData
   }
 
   /**
+   * <p>
    * Retrieve a cursor that points to elements of the texture. The cursor
    * interface allows constant time access to any element and also minimizes
    * the number of checks performed for each access.
+   * </p>
    * 
    * @throws ConstraintError
    *           If the number of components in the texture is not 3.
@@ -284,9 +298,11 @@ public final class Texture2DWritableData
   }
 
   /**
+   * <p>
    * Retrieve a cursor that points to elements of the texture. The cursor
    * interface allows constant time access to any element and also minimizes
    * the number of checks performed for each access.
+   * </p>
    * 
    * @throws ConstraintError
    *           If the number of components in the texture is not 4.

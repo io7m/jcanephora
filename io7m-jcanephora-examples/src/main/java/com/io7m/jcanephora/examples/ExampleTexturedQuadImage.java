@@ -13,6 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora.examples;
 
 import java.io.IOException;
@@ -229,10 +230,10 @@ public final class ExampleTexturedQuadImage implements Example
       pos_cursor.put4f(100.0f, -100.0f, -1.0f, 1.0f);
       pos_cursor.put4f(100.0f, 100.0f, -1.0f, 1.0f);
 
-      uv_cursor.put2f(0.0f, 0.0f);
       uv_cursor.put2f(0.0f, 1.0f);
-      uv_cursor.put2f(1.0f, 1.0f);
+      uv_cursor.put2f(0.0f, 0.0f);
       uv_cursor.put2f(1.0f, 0.0f);
+      uv_cursor.put2f(1.0f, 1.0f);
     }
 
     /**
