@@ -27,7 +27,13 @@ import com.io7m.jaux.RangeInclusive;
 import com.io7m.jaux.UnreachableCodeException;
 
 /**
+ * <p>
  * An allocated region of data, to replace or update a cube map texture.
+ * </p>
+ * <p>
+ * The cursors exposed by this interface treat <tt>(0, 0)</tt> as the bottom
+ * left corner of the image, which is consistent with OpenGL's conventions.
+ * </p>
  */
 
 public final class TextureCubeWritableData
@@ -38,8 +44,10 @@ public final class TextureCubeWritableData
   private final @Nonnull ByteBuffer        target_data;
 
   /**
+   * <p>
    * Construct a buffer of data that will be used to replace the entirety of
    * the data in <code>texture</code> on the GPU.
+   * </p>
    * 
    * @param texture
    *          The texture.
@@ -58,8 +66,10 @@ public final class TextureCubeWritableData
   }
 
   /**
+   * <p>
    * Construct a buffer of data that will be used to replace elements in the
    * area <code>area</code> of the data in <code>texture</code> on the GPU.
+   * </p>
    * 
    * @param texture
    *          The texture.
@@ -105,9 +115,11 @@ public final class TextureCubeWritableData
   }
 
   /**
+   * <p>
    * Retrieve a cursor that points to elements of the texture. The cursor
    * interface allows constant time access to any element and also minimizes
    * the number of checks performed for each access.
+   * </p>
    * 
    * @throws ConstraintError
    *           If the number of components in the texture is not 1.
@@ -146,9 +158,11 @@ public final class TextureCubeWritableData
   }
 
   /**
+   * <p>
    * Retrieve a cursor that points to elements of the texture. The cursor
    * interface allows constant time access to any element and also minimizes
    * the number of checks performed for each access.
+   * </p>
    * 
    * @throws ConstraintError
    *           If the number of components in the texture is not 1.
@@ -198,9 +212,11 @@ public final class TextureCubeWritableData
   }
 
   /**
+   * <p>
    * Retrieve a cursor that points to elements of the texture. The cursor
    * interface allows constant time access to any element and also minimizes
    * the number of checks performed for each access.
+   * </p>
    * 
    * @throws ConstraintError
    *           If the number of components in the texture is not 2.
@@ -238,9 +254,11 @@ public final class TextureCubeWritableData
   }
 
   /**
+   * <p>
    * Retrieve a cursor that points to elements of the texture. The cursor
    * interface allows constant time access to any element and also minimizes
    * the number of checks performed for each access.
+   * </p>
    * 
    * @throws ConstraintError
    *           If the number of components in the texture is not 3.
@@ -284,9 +302,11 @@ public final class TextureCubeWritableData
   }
 
   /**
+   * <p>
    * Retrieve a cursor that points to elements of the texture. The cursor
    * interface allows constant time access to any element and also minimizes
    * the number of checks performed for each access.
+   * </p>
    * 
    * @throws ConstraintError
    *           If the number of components in the texture is not 4.
