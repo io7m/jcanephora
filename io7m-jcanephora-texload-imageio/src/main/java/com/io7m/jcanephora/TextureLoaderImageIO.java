@@ -275,7 +275,8 @@ public final class TextureLoaderImageIO implements TextureLoader
 
     for (int y = 0; y < height; ++y) {
       for (int x = 0; x < width; ++x) {
-        final int argb = image.getRGB(x, y);
+        final int argb =
+          TextureLoaderImageIO.getImageARGBAsOpenGL(image, x, y);
         final int a = (argb >> 24) & 0xff;
         final int r = (argb >> 16) & 0xff;
         final int g = (argb >> 8) & 0xff;
@@ -302,7 +303,8 @@ public final class TextureLoaderImageIO implements TextureLoader
 
     for (int y = 0; y < height; ++y) {
       for (int x = 0; x < width; ++x) {
-        final int argb = image.getRGB(x, y);
+        final int argb =
+          TextureLoaderImageIO.getImageARGBAsOpenGL(image, x, y);
         final int r = (argb >> 16) & 0xff;
         final int g = (argb >> 8) & 0xff;
         final int b = argb & 0xff;
@@ -332,7 +334,8 @@ public final class TextureLoaderImageIO implements TextureLoader
     final float recip = 1.0f / 255.0f;
     for (int y = 0; y < height; ++y) {
       for (int x = 0; x < width; ++x) {
-        final int argb = image.getRGB(x, y);
+        final int argb =
+          TextureLoaderImageIO.getImageARGBAsOpenGL(image, x, y);
         final int r = (argb >> 16) & 0xff;
         final float rf = r;
         cursor.put1f(rf * recip);
@@ -360,7 +363,8 @@ public final class TextureLoaderImageIO implements TextureLoader
 
     for (int y = 0; y < height; ++y) {
       for (int x = 0; x < width; ++x) {
-        final int argb = image.getRGB(x, y);
+        final int argb =
+          TextureLoaderImageIO.getImageARGBAsOpenGL(image, x, y);
         final int r = (argb >> 16) & 0xff;
         cursor.put1i(r);
       }
@@ -388,7 +392,8 @@ public final class TextureLoaderImageIO implements TextureLoader
 
     for (int y = 0; y < height; ++y) {
       for (int x = 0; x < width; ++x) {
-        final int argb = image.getRGB(x, y);
+        final int argb =
+          TextureLoaderImageIO.getImageARGBAsOpenGL(image, x, y);
         final int r = (argb >> 16) & 0xff;
         final int g = (argb >> 8) & 0xff;
         cursor.put2i(r, g);
@@ -424,6 +429,22 @@ public final class TextureLoaderImageIO implements TextureLoader
       throw new IOException("Unknown image format");
     }
     return r;
+  }
+
+  /**
+   * As Java2D takes (0, 0) to mean the top-left corner of the image, and
+   * OpenGL takes (0, 0) to mean the bottom-left corner, the Y coordinates
+   * need to be flipped when accessing data from Java2D images (effectively
+   * loading the texture upside-down from Java2D's perspective).
+   */
+
+  private static int getImageARGBAsOpenGL(
+    final @Nonnull BufferedImage image,
+    final int x,
+    final int y)
+  {
+    final int upper = image.getHeight() - 1;
+    return image.getRGB(x, upper - y);
   }
 
   private static @Nonnull TextureType inferTextureTypeCommon(

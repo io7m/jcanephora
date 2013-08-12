@@ -19,10 +19,13 @@ package com.io7m.jcanephora;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * A cursor that address elements of a 2D area.
- * 
+ * <p>
+ * A cursor that addresses elements of a 2D area.
+ * </p>
+ * <p>
  * The cursor advances along rows in an area, visiting each column in series.
  * The cursor moves to the next row when it has passed the last column.
+ * </p>
  */
 
 public interface SpatialCursor

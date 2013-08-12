@@ -2838,6 +2838,11 @@ g.texture2DStaticUpdate(td);
 ]]></s:verbatim>
         </s:formal-item>
         <s:paragraph>
+          The spatial cursor interface uses the same coordinate system
+          as OpenGL with regards to pixel data: <s:term type="constant">(0, 0)</s:term>
+          is considered to be the bottom-left corner of the texture.
+        </s:paragraph>
+        <s:paragraph>
           In order to use textures in shaders, textures must be bound
           to the OpenGL texture units. The current texture units are
           obtained with the
