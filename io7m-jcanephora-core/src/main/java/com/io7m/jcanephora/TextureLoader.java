@@ -637,4 +637,108 @@ public interface TextureLoader
     throws ConstraintError,
       JCGLException,
       IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL cube texture from the six streams <code>positive_z</code>,
+   * <code>negative_z</code>, <code>positive_y</code>, <code>negative_x</code>
+   * , and <code>positive_x</code>, <code>negative_y</code>. The texture will
+   * be constructed using the given parameters, and named <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGB_888_3BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull TextureCubeStatic loadCubeStaticRGB888(
+    final @Nonnull JCGLTexturesCubeStaticCommon gl,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream positive_z,
+    final @Nonnull InputStream negative_z,
+    final @Nonnull InputStream positive_y,
+    final @Nonnull InputStream negative_y,
+    final @Nonnull InputStream positive_x,
+    final @Nonnull InputStream negative_x,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL cube texture from the six streams <code>positive_z</code>,
+   * <code>negative_z</code>, <code>positive_y</code>, <code>negative_x</code>
+   * , and <code>positive_x</code>, <code>negative_y</code>. The texture will
+   * be constructed using the given parameters, and named <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGBA_8888_4BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull TextureCubeStatic loadCubeStaticRGBA8888(
+    final @Nonnull JCGLTexturesCubeStaticCommon gl,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream positive_z,
+    final @Nonnull InputStream negative_z,
+    final @Nonnull InputStream positive_y,
+    final @Nonnull InputStream negative_y,
+    final @Nonnull InputStream positive_x,
+    final @Nonnull InputStream negative_x,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
 }
