@@ -1,5 +1,8 @@
 #version 100
 
+precision highp float;
+precision highp int;
+
 struct color_t {
   float red;
   float green;
