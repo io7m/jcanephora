@@ -28,6 +28,13 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jcanephora.CMFKNegativeX;
+import com.io7m.jcanephora.CMFKNegativeY;
+import com.io7m.jcanephora.CMFKNegativeZ;
+import com.io7m.jcanephora.CMFKPositiveX;
+import com.io7m.jcanephora.CMFKPositiveY;
+import com.io7m.jcanephora.CMFKPositiveZ;
+import com.io7m.jcanephora.CubeMapFaceInputStream;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLImplementation;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
@@ -623,12 +630,25 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
   {
     for (final TextureType tt : TextureType.getCubeTypesCommon()) {
       TextureCubeStatic t = null;
-      final InputStream stream_pz = fs.openFile(PathVirtual.ofString(path));
-      final InputStream stream_nz = fs.openFile(PathVirtual.ofString(path));
-      final InputStream stream_py = fs.openFile(PathVirtual.ofString(path));
-      final InputStream stream_ny = fs.openFile(PathVirtual.ofString(path));
-      final InputStream stream_px = fs.openFile(PathVirtual.ofString(path));
-      final InputStream stream_nx = fs.openFile(PathVirtual.ofString(path));
+
+      final CubeMapFaceInputStream<CMFKPositiveZ> stream_pz =
+        new CubeMapFaceInputStream<CMFKPositiveZ>(fs.openFile(PathVirtual
+          .ofString(path)));
+      final CubeMapFaceInputStream<CMFKNegativeZ> stream_nz =
+        new CubeMapFaceInputStream<CMFKNegativeZ>(fs.openFile(PathVirtual
+          .ofString(path)));
+      final CubeMapFaceInputStream<CMFKPositiveY> stream_py =
+        new CubeMapFaceInputStream<CMFKPositiveY>(fs.openFile(PathVirtual
+          .ofString(path)));
+      final CubeMapFaceInputStream<CMFKNegativeY> stream_ny =
+        new CubeMapFaceInputStream<CMFKNegativeY>(fs.openFile(PathVirtual
+          .ofString(path)));
+      final CubeMapFaceInputStream<CMFKPositiveX> stream_px =
+        new CubeMapFaceInputStream<CMFKPositiveX>(fs.openFile(PathVirtual
+          .ofString(path)));
+      final CubeMapFaceInputStream<CMFKNegativeX> stream_nx =
+        new CubeMapFaceInputStream<CMFKNegativeX>(fs.openFile(PathVirtual
+          .ofString(path)));
 
       switch (tt) {
         case TEXTURE_TYPE_RGBA_8888_4BPP:

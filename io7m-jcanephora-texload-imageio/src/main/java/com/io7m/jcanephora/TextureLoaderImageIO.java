@@ -315,12 +315,12 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream positive_z,
-    final @Nonnull InputStream negative_z,
-    final @Nonnull InputStream positive_y,
-    final @Nonnull InputStream negative_y,
-    final @Nonnull InputStream positive_x,
-    final @Nonnull InputStream negative_x,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveZ> positive_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeZ> negative_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveY> positive_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeY> negative_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveX> positive_x,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeX> negative_x,
     final @Nonnull String name)
     throws ConstraintError
   {
@@ -934,7 +934,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     TextureLoaderImageIO.checkSizeMatch(positive_z, positive_y, "positive Y");
     TextureLoaderImageIO.checkSizeMatch(positive_z, negative_y, "negative Y");
     TextureLoaderImageIO.checkSizeMatch(positive_z, positive_x, "positive X");
-    TextureLoaderImageIO.checkSizeMatch(positive_z, negative_y, "negative X");
+    TextureLoaderImageIO.checkSizeMatch(positive_z, negative_x, "negative X");
 
     final TextureCubeStatic texture =
       TextureLoaderImageIO.allocateTextureCubeCommon(
@@ -1619,12 +1619,12 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream positive_z,
-    final @Nonnull InputStream negative_z,
-    final @Nonnull InputStream positive_y,
-    final @Nonnull InputStream negative_y,
-    final @Nonnull InputStream positive_x,
-    final @Nonnull InputStream negative_x,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveZ> positive_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeZ> negative_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveY> positive_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeY> negative_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveX> positive_x,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeX> negative_x,
     final @Nonnull String name)
     throws ConstraintError,
       JCGLException,
@@ -1669,12 +1669,12 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream positive_z,
-    final @Nonnull InputStream negative_z,
-    final @Nonnull InputStream positive_y,
-    final @Nonnull InputStream negative_y,
-    final @Nonnull InputStream positive_x,
-    final @Nonnull InputStream negative_x,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveZ> positive_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeZ> negative_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveY> positive_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeY> negative_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveX> positive_x,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeX> negative_x,
     final @Nonnull String name)
     throws ConstraintError,
       JCGLException,
