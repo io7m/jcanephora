@@ -846,8 +846,8 @@ final class JOGL_GL2ES2_Functions
   {
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == JCGLType.TYPE_SAMPLER_2D,
-      "Uniform type is sampler_2d");
+      uniform.getType().isSamplerType(),
+      "Uniform type is sampler");
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
       "Program for uniform is active");

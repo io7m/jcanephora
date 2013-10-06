@@ -18,6 +18,8 @@ package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
 
+import com.io7m.jaux.UnreachableCodeException;
+
 /**
  * Type-safe OpenGL shader types.
  */
@@ -55,5 +57,34 @@ public enum JCGLType
   public @Nonnull String getName()
   {
     return this.name;
+  }
+
+  public boolean isSamplerType()
+  {
+    switch (this) {
+      case TYPE_BOOLEAN:
+      case TYPE_BOOLEAN_VECTOR_2:
+      case TYPE_BOOLEAN_VECTOR_3:
+      case TYPE_BOOLEAN_VECTOR_4:
+      case TYPE_FLOAT:
+      case TYPE_FLOAT_MATRIX_2:
+      case TYPE_FLOAT_MATRIX_3:
+      case TYPE_FLOAT_MATRIX_4:
+      case TYPE_FLOAT_VECTOR_2:
+      case TYPE_FLOAT_VECTOR_3:
+      case TYPE_FLOAT_VECTOR_4:
+      case TYPE_INTEGER:
+      case TYPE_INTEGER_VECTOR_2:
+      case TYPE_INTEGER_VECTOR_3:
+      case TYPE_INTEGER_VECTOR_4:
+        return false;
+      case TYPE_SAMPLER_2D:
+      case TYPE_SAMPLER_2D_SHADOW:
+      case TYPE_SAMPLER_3D:
+      case TYPE_SAMPLER_CUBE:
+        return true;
+    }
+
+    throw new UnreachableCodeException();
   }
 }

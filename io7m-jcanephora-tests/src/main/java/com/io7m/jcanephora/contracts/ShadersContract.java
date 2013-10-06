@@ -2707,6 +2707,72 @@ public abstract class ShadersContract implements TestContract
   }
 
   /**
+   * Setting a uniform of either sampler type works.
+   */
+
+  @Test public final void testProgramUniformSamplers()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    final FSCapabilityAll fs = tc.getFilesystem();
+    final PathVirtual sp = tc.getShaderPath();
+    final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
+    final ProgramUniform pus2d =
+      ShadersContract.getUniform(gl, p, "u_sampler2d");
+    final ProgramUniform pusc =
+      ShadersContract.getUniform(gl, p, "u_sampler_cube");
+
+    final TextureUnit[] units = gl.textureGetUnits();
+    gl.programUniformPutTextureUnit(pus2d, units[0]);
+    gl.programUniformPutTextureUnit(pusc, units[0]);
+  }
+
+  /**
+   * Setting a sampler uniform to something that isn't a sampler, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramUniformSamplersWrong0()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    final FSCapabilityAll fs = tc.getFilesystem();
+    final PathVirtual sp = tc.getShaderPath();
+    final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
+    final ProgramUniform pus2d =
+      ShadersContract.getUniform(gl, p, "u_sampler2d");
+    gl.programUniformPutFloat(pus2d, 1.0f);
+  }
+
+  /**
+   * Setting a sampler uniform to something that isn't a sampler, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramUniformSamplersWrong1()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    final FSCapabilityAll fs = tc.getFilesystem();
+    final PathVirtual sp = tc.getShaderPath();
+    final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
+    final ProgramUniform pusc =
+      ShadersContract.getUniform(gl, p, "u_sampler_cube");
+    gl.programUniformPutFloat(pusc, 1.0f);
+  }
+
+  /**
    * Constructing a valid program works.
    */
 
