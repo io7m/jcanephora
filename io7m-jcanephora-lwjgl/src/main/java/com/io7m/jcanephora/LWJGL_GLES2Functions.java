@@ -2048,8 +2048,8 @@ final class LWJGL_GLES2Functions
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainNotNull(unit, "Texture unit");
     Constraints.constrainArbitrary(
-      uniform.getType() == JCGLType.TYPE_SAMPLER_2D,
-      "Uniform type is sampler_2d");
+      uniform.getType().isSamplerType(),
+      "Uniform type is sampler");
     Constraints.constrainArbitrary(
       LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),
       "Program for uniform is active");
