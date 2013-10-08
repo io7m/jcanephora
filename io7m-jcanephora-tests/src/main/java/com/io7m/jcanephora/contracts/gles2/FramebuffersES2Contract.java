@@ -40,7 +40,7 @@ import com.io7m.jcanephora.AttachmentDepth.AttachmentSharedDepthRenderbuffer;
 import com.io7m.jcanephora.AttachmentDepth.AttachmentSharedDepthStencilRenderbuffer;
 import com.io7m.jcanephora.AttachmentStencil;
 import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
-import com.io7m.jcanephora.CubeMapFace;
+import com.io7m.jcanephora.CubeMapFaceLH;
 import com.io7m.jcanephora.Framebuffer;
 import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
 import com.io7m.jcanephora.FramebufferConfigurationGL3ES2;
@@ -281,7 +281,7 @@ public abstract class FramebuffersES2Contract implements TestContract
       t.getMagnificationFilter(),
       TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
-    Assert.assertEquals(CubeMapFace.CUBE_MAP_POSITIVE_X, cat.getFace());
+    Assert.assertEquals(CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X, cat.getFace());
 
     fb.delete(gl);
   }
@@ -483,7 +483,7 @@ public abstract class FramebuffersES2Contract implements TestContract
       t.getMagnificationFilter(),
       TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
-    Assert.assertEquals(CubeMapFace.CUBE_MAP_POSITIVE_X, cat.getFace());
+    Assert.assertEquals(CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X, cat.getFace());
 
     fb.delete(gl);
   }

@@ -2908,6 +2908,123 @@ gt.texture2DStaticBind(units[0], t);
         </s:paragraph>
       </s:subsection>
       <s:subsection>
+        <s:subsection-title>Cube map coordinate systems</s:subsection-title>
+        <s:paragraph>
+          Note that in the OpenGL specification, cube textures arbitrarily
+          use a left-handed coordinate system as opposed to OpenGL's right-handed system.
+          This is a frequent source of errors in programs. See the following fragment
+          shader:
+        </s:paragraph>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Cube map shader</s:formal-item-title>
+          <s:verbatim><![CDATA[
+in vec3 f_normal;   // Eye-space surface normal
+in vec3 f_position; // Eye-space surface position
+
+uniform mat4        m_view_inverse; // Inverse view matrix, eye-space -> world-space.
+uniform samplerCube t_reflection;
+
+out vec4 frag_color;
+
+void
+main (void)
+{
+  vec3 n = normalize (f_normal);
+  vec3 v = normalize (f_position);
+  vec3 r = reflect (v, n);
+  vec3 u = m_view_inverse * r;
+
+  frag_color = texture (t_reflection, u);
+}]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          The program calculates a reflection vector 
+          <s:term type="variable">r</s:term> from the eye-space incident vector
+          <s:term type="variable">f_position</s:term> and eye-space surface normal
+          <s:term type="variable">f_normal</s:term>. It transforms 
+          <s:term type="variable">r</s:term> back into world-space, giving
+          <s:term type="variable">u</s:term>, and then uses <s:term type="variable">u</s:term>
+          to index into the cube texture. This would be textbook-correct, if OpenGL
+          didn't arbitrarily use a left-handed coordinate system for cube textures! 
+          The coordinates <s:term type="variable">u</s:term> are obviously specified 
+          in a right-handed coordinate system. The practical results of this are that 
+          all of the cube texture faces will be displayed upside down, and the
+          familiar concept of the negative Z axis meaning "forwards" will be reversed.
+        </s:paragraph>
+        <s:paragraph>
+           The <s:term type="package">jcanephora</s:term> package contains support
+           for using right-handed cube maps in OpenGL, consistent with OpenGL's
+           right-handed coordinate system. In order to use right-handed cube maps,
+           the following steps are required:
+        </s:paragraph>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Cube map addressing</s:formal-item-title>
+          <s:list-ordered>
+            Cube map textures are supplied to the OpenGL implementation using
+            the "RH" variants of the texture loading and update functions. See
+            <s:link-external target="javadoc/com/io7m/jcanephora/JCGLTexturesCubeStaticCommon.html#textureCubeStaticUpdateRH(com.io7m.jcanephora.CubeMapFaceRH, com.io7m.jcanephora.TextureCubeWritableData)">textureCubeStaticUpdateRH</s:link-external>,
+            and the "RH" variants of functions in the
+            <s:link target="com.io7m.jcanephora.100.highlevel.textureloader">TextureLoader</s:link>
+            interface. Faces are specified in a manner consistent with OpenGL's
+            coordinate system. Informally, the "forward" face of the cube map
+            is the negative Z face, the "right" face of the cube map is the
+            positive X face, and so on.
+          </s:list-ordered>
+          <s:list-ordered>
+            In shaders, the coordinates passed to the <s:term type="function">texture</s:term>
+            function 
+            (or <s:term type="function">textureCube</s:term> function, on old OpenGL implementations)
+            should be multiplied with a matrix that effectively negates the <s:term type="variable">Y</s:term>
+            and <s:term type="variable">Z</s:term> components.
+          </s:list-ordered>
+        </s:formal-item>
+        <s:paragraph>
+          The earlier example shader becomes:
+        </s:paragraph>
+        <s:formal-item kind="examples">
+          <s:formal-item-title>Cube map shader</s:formal-item-title>
+          <s:verbatim><![CDATA[
+in vec3 f_normal;   // Eye-space surface normal
+in vec3 f_position; // Eye-space surface position
+
+uniform mat4        m_view_inverse; // Inverse view matrix, eye-space -> world-space.
+uniform samplerCube t_reflection;
+
+out vec4 frag_color;
+
+void
+main (void)
+{
+  const mat3 m_t = mat3 (
+    1.0,  0.0,  0.0,
+    0.0, -1.0,  0.0,
+    0.0,  0.0, -1.0
+  );
+
+  vec3 n = normalize (f_normal);
+  vec3 v = normalize (f_position);
+  vec3 r = reflect (v, n);
+  vec3 u = m_view_inverse * r;
+  vec3 w = m_t * u;
+
+  frag_color = texture (t_reflection, w);
+}]]></s:verbatim>
+        </s:formal-item>
+        <s:paragraph>
+          This approach means that both the loading and generation of cube textures
+          is consistent with that of 2D textures and the rest of OpenGL, and the 
+          complexity of addressing the textures is limited to one function call in 
+          shaders. Renderers that produce cube maps do not need to use unusual
+          projection matrices to "flip" the coordinate system when rendering, and
+          everything works according to the principles of least astonishment!
+        </s:paragraph>
+        <s:paragraph>
+          The correct solution to the problem would have been for the cube map 
+          coordinate system  to have been in a consistent right-handed coordinate
+          space to begin with.
+        </s:paragraph>
+      </s:subsection>
+      <s:subsection>
         <s:subsection-title>Version support</s:subsection-title>
         <s:paragraph>
           See <s:link target="com.io7m.jcanephora.100.core_interfaces.JCGLTextures2DStatic">JCGLTextures2DStatic</s:link>.

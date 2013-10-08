@@ -839,7 +839,7 @@ final class LWJGL_GLES2Functions
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull TextureCubeStaticUsable texture,
-    final @Nonnull CubeMapFace face)
+    final @Nonnull CubeMapFaceLH face)
     throws JCGLException,
       ConstraintError
   {
@@ -2735,7 +2735,7 @@ final class LWJGL_GLES2Functions
 
     LWJGL_GLES2Functions.textureSetPackUnpackAlignment1();
 
-    for (final CubeMapFace face : CubeMapFace.values()) {
+    for (final CubeMapFaceLH face : CubeMapFaceLH.values()) {
       final int gface = LWJGL_GLTypeConversions.cubeFaceToGL(face);
 
       GL11.glTexImage2D(
@@ -2854,7 +2854,7 @@ final class LWJGL_GLES2Functions
   }
 
   static void textureCubeStaticUpdate(
-    final @Nonnull CubeMapFace face,
+    final @Nonnull CubeMapFaceLH face,
     final @Nonnull TextureCubeWritableData data)
     throws ConstraintError,
       JCGLException

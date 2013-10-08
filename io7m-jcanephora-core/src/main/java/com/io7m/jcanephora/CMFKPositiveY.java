@@ -17,7 +17,7 @@
 package com.io7m.jcanephora;
 
 /**
- * A reflection of the {@link CubeMapFace#CUBE_MAP_POSITIVE_Y} value at the
+ * A reflection of the {@link CubeMapFaceLH#CUBE_MAP_LH_POSITIVE_Y} value at the
  * type-level.
  */
 

@@ -124,7 +124,7 @@ public interface JCGLFramebuffersGL3 extends JCGLFramebuffersGLES2
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
     final @Nonnull TextureCubeStaticUsable texture,
-    final @Nonnull CubeMapFace face)
+    final @Nonnull CubeMapFaceLH face)
     throws JCGLException,
       ConstraintError;
 

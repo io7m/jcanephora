@@ -175,42 +175,46 @@ final class LWJGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static @Nonnull CubeMapFace cubeFaceFromGL(
+  static @Nonnull CubeMapFaceLH cubeFaceFromGL(
     final int face)
   {
     switch (face) {
-      case GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_X:
-        return CubeMapFace.CUBE_MAP_NEGATIVE_X;
-      case GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y:
-        return CubeMapFace.CUBE_MAP_NEGATIVE_Y;
-      case GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z:
-        return CubeMapFace.CUBE_MAP_NEGATIVE_Z;
       case GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X:
-        return CubeMapFace.CUBE_MAP_POSITIVE_X;
+        return CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X;
+      case GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_X:
+        return CubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_X;
+
+      case GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y:
+        return CubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_Y;
       case GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_Y:
-        return CubeMapFace.CUBE_MAP_POSITIVE_Y;
+        return CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_Y;
+
       case GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_Z:
-        return CubeMapFace.CUBE_MAP_POSITIVE_Z;
+        return CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_Z;
+      case GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z:
+        return CubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_Z;
     }
 
     throw new UnreachableCodeException();
   }
 
   static int cubeFaceToGL(
-    final @Nonnull CubeMapFace face)
+    final @Nonnull CubeMapFaceLH face)
   {
     switch (face) {
-      case CUBE_MAP_NEGATIVE_X:
+      case CUBE_MAP_LH_NEGATIVE_X:
         return GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
-      case CUBE_MAP_NEGATIVE_Y:
-        return GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
-      case CUBE_MAP_NEGATIVE_Z:
-        return GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
-      case CUBE_MAP_POSITIVE_X:
+      case CUBE_MAP_LH_POSITIVE_X:
         return GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X;
-      case CUBE_MAP_POSITIVE_Y:
+
+      case CUBE_MAP_LH_NEGATIVE_Y:
+        return GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
+      case CUBE_MAP_LH_POSITIVE_Y:
         return GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
-      case CUBE_MAP_POSITIVE_Z:
+
+      case CUBE_MAP_LH_NEGATIVE_Z:
+        return GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
+      case CUBE_MAP_LH_POSITIVE_Z:
         return GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
     }
 

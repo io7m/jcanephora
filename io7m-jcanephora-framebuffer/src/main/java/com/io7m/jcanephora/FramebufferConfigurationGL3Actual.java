@@ -306,7 +306,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
             buffers.framebuffer,
             point,
             a.getTextureCube(),
-            CubeMapFace.CUBE_MAP_POSITIVE_X);
+            CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X);
           break;
         }
         case ATTACHMENT_COLOR_TEXTURE_CUBE:
@@ -317,7 +317,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
             buffers.framebuffer,
             point,
             a.getTextureWritable(),
-            CubeMapFace.CUBE_MAP_POSITIVE_X);
+            CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X);
           break;
         }
       }
@@ -530,7 +530,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
         req.wrap_s,
         req.wrap_t,
         req.min_filter,
-        req.mag_filter), CubeMapFace.CUBE_MAP_POSITIVE_X);
+        req.mag_filter), CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X);
   }
 
   private @Nonnull AttachmentColorRenderbuffer allocateBestRGBRenderbuffer(
@@ -578,7 +578,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
         req.wrap_s,
         req.wrap_t,
         req.min_filter,
-        req.mag_filter), CubeMapFace.CUBE_MAP_POSITIVE_X);
+        req.mag_filter), CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X);
   }
 
   private
