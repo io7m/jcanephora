@@ -161,15 +161,15 @@ public final class AttachmentColorTest
     final AttachmentColorTextureCubeStatic a0 =
       new AttachmentColorTextureCubeStatic(
         t1,
-        CubeMapFace.CUBE_MAP_POSITIVE_X);
+        CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X);
     final AttachmentColorTextureCubeStatic a1 =
       new AttachmentColorTextureCubeStatic(
         t1,
-        CubeMapFace.CUBE_MAP_POSITIVE_X);
+        CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X);
     final AttachmentColorTextureCubeStatic a2 =
       new AttachmentColorTextureCubeStatic(
         t2,
-        CubeMapFace.CUBE_MAP_POSITIVE_X);
+        CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X);
 
     Assert.assertTrue(a0.equals(a0));
     Assert.assertTrue(a0.equals(a1));
@@ -191,7 +191,7 @@ public final class AttachmentColorTest
     Assert.assertTrue(a1.getTextureWritable() == t1);
     Assert.assertTrue(a2.getTextureWritable() == t2);
 
-    Assert.assertTrue(a0.getFace() == CubeMapFace.CUBE_MAP_POSITIVE_X);
+    Assert.assertTrue(a0.getFace() == CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X);
   }
 
   @SuppressWarnings("static-method") @Test public
@@ -319,15 +319,15 @@ public final class AttachmentColorTest
     final AttachmentSharedColorTextureCubeStatic a0 =
       new AttachmentSharedColorTextureCubeStatic(
         t1,
-        CubeMapFace.CUBE_MAP_POSITIVE_X);
+        CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X);
     final AttachmentSharedColorTextureCubeStatic a1 =
       new AttachmentSharedColorTextureCubeStatic(
         t1,
-        CubeMapFace.CUBE_MAP_POSITIVE_X);
+        CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X);
     final AttachmentSharedColorTextureCubeStatic a2 =
       new AttachmentSharedColorTextureCubeStatic(
         t2,
-        CubeMapFace.CUBE_MAP_POSITIVE_X);
+        CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X);
 
     Assert.assertTrue(a0.equals(a0));
     Assert.assertTrue(a0.equals(a1));
@@ -345,7 +345,7 @@ public final class AttachmentColorTest
     Assert.assertTrue(a1.getTextureCube() == t1);
     Assert.assertTrue(a2.getTextureCube() == t2);
 
-    Assert.assertTrue(a0.getFace() == CubeMapFace.CUBE_MAP_POSITIVE_X);
+    Assert.assertTrue(a0.getFace() == CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X);
   }
 
 }

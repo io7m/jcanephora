@@ -24,7 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.CubeMapFace;
+import com.io7m.jcanephora.CubeMapFaceLH;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLTextureUnits;
 import com.io7m.jcanephora.JCGLTexturesCubeStaticCommon;
@@ -514,7 +514,7 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
       cursor.next();
     }
 
-    gl.textureCubeStaticUpdate(CubeMapFace.CUBE_MAP_NEGATIVE_X, update);
+    gl.textureCubeStaticUpdateLH(CubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_X, update);
   }
 
   /**
@@ -545,7 +545,7 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
         TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     final TextureCubeWritableData update = new TextureCubeWritableData(t);
-    gl.textureCubeStaticUpdate(null, update);
+    gl.textureCubeStaticUpdateLH(null, update);
   }
 
   /**
@@ -565,6 +565,6 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
     final TestContext tc = this.newTestContext();
     final T gl = this.getGLTextureCubeStatic(tc);
 
-    gl.textureCubeStaticUpdate(CubeMapFace.CUBE_MAP_NEGATIVE_X, null);
+    gl.textureCubeStaticUpdateLH(CubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_X, null);
   }
 }

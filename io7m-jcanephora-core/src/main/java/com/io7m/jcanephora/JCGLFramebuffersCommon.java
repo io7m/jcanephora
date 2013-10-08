@@ -172,7 +172,7 @@ public interface JCGLFramebuffersCommon
   void framebufferDrawAttachColorTextureCube(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull TextureCubeStaticUsable texture,
-    final @Nonnull CubeMapFace face)
+    final @Nonnull CubeMapFaceLH face)
     throws JCGLException,
       ConstraintError;
 

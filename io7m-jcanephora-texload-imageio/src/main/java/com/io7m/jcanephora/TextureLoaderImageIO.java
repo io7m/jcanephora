@@ -339,6 +339,26 @@ public final class TextureLoaderImageIO implements TextureLoader
     Constraints.constrainNotNull(negative_x, "Negative X stream");
   }
 
+  private static void checkCubeImageSizes(
+    final BufferedImage positive_z,
+    final BufferedImage negative_z,
+    final BufferedImage positive_y,
+    final BufferedImage negative_y,
+    final BufferedImage positive_x,
+    final BufferedImage negative_x)
+    throws ConstraintError
+  {
+    Constraints.constrainArbitrary(
+      positive_z.getWidth() == positive_z.getHeight(),
+      "Positive Z width equals height");
+
+    TextureLoaderImageIO.checkSizeMatch(positive_z, negative_z, "negative Z");
+    TextureLoaderImageIO.checkSizeMatch(positive_z, positive_y, "positive Y");
+    TextureLoaderImageIO.checkSizeMatch(positive_z, negative_y, "negative Y");
+    TextureLoaderImageIO.checkSizeMatch(positive_z, positive_x, "positive X");
+    TextureLoaderImageIO.checkSizeMatch(positive_z, negative_x, "negative X");
+  }
+
   private static void checkSizeMatch(
     final @Nonnull BufferedImage x,
     final @Nonnull BufferedImage y,
@@ -646,6 +666,174 @@ public final class TextureLoaderImageIO implements TextureLoader
     return data;
   }
 
+  private static void cubeUpdateFacesLH(
+    final @Nonnull JCGLTexturesCubeStaticCommon gl,
+    final @Nonnull TextureType type,
+    final @Nonnull BufferedImage positive_z,
+    final @Nonnull BufferedImage negative_z,
+    final @Nonnull BufferedImage positive_y,
+    final @Nonnull BufferedImage negative_y,
+    final @Nonnull BufferedImage positive_x,
+    final @Nonnull BufferedImage negative_x,
+    final @Nonnull TextureCubeStatic texture)
+    throws ConstraintError,
+      JCGLException
+  {
+    try {
+
+      final TextureCubeWritableData data =
+        new TextureCubeWritableData(texture);
+
+      {
+        TextureLoaderImageIO.writeImageDataWithConversionToTextureCube(
+          positive_z,
+          data,
+          type);
+        gl.textureCubeStaticUpdateLH(
+          CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_Z,
+          data);
+      }
+
+      {
+        TextureLoaderImageIO.writeImageDataWithConversionToTextureCube(
+          negative_z,
+          data,
+          type);
+        gl.textureCubeStaticUpdateLH(
+          CubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_Z,
+          data);
+      }
+
+      {
+        TextureLoaderImageIO.writeImageDataWithConversionToTextureCube(
+          positive_y,
+          data,
+          type);
+        gl.textureCubeStaticUpdateLH(
+          CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_Y,
+          data);
+      }
+
+      {
+        TextureLoaderImageIO.writeImageDataWithConversionToTextureCube(
+          negative_y,
+          data,
+          type);
+        gl.textureCubeStaticUpdateLH(
+          CubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_Y,
+          data);
+      }
+
+      {
+        TextureLoaderImageIO.writeImageDataWithConversionToTextureCube(
+          positive_x,
+          data,
+          type);
+        gl.textureCubeStaticUpdateLH(
+          CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X,
+          data);
+      }
+
+      {
+        TextureLoaderImageIO.writeImageDataWithConversionToTextureCube(
+          negative_x,
+          data,
+          type);
+        gl.textureCubeStaticUpdateLH(
+          CubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_X,
+          data);
+      }
+
+    } catch (final JCGLException e) {
+      gl.textureCubeStaticDelete(texture);
+      throw e;
+    }
+  }
+
+  private static void cubeUpdateFacesRH(
+    final @Nonnull JCGLTexturesCubeStaticCommon gl,
+    final @Nonnull TextureType type,
+    final @Nonnull BufferedImage positive_z,
+    final @Nonnull BufferedImage negative_z,
+    final @Nonnull BufferedImage positive_y,
+    final @Nonnull BufferedImage negative_y,
+    final @Nonnull BufferedImage positive_x,
+    final @Nonnull BufferedImage negative_x,
+    final @Nonnull TextureCubeStatic texture)
+    throws ConstraintError,
+      JCGLException
+  {
+    try {
+
+      final TextureCubeWritableData data =
+        new TextureCubeWritableData(texture);
+
+      {
+        TextureLoaderImageIO.writeImageDataWithConversionToTextureCube(
+          positive_z,
+          data,
+          type);
+        gl.textureCubeStaticUpdateRH(
+          CubeMapFaceRH.CUBE_MAP_RH_POSITIVE_Z,
+          data);
+      }
+
+      {
+        TextureLoaderImageIO.writeImageDataWithConversionToTextureCube(
+          negative_z,
+          data,
+          type);
+        gl.textureCubeStaticUpdateRH(
+          CubeMapFaceRH.CUBE_MAP_RH_NEGATIVE_Z,
+          data);
+      }
+
+      {
+        TextureLoaderImageIO.writeImageDataWithConversionToTextureCube(
+          positive_y,
+          data,
+          type);
+        gl.textureCubeStaticUpdateRH(
+          CubeMapFaceRH.CUBE_MAP_RH_POSITIVE_Y,
+          data);
+      }
+
+      {
+        TextureLoaderImageIO.writeImageDataWithConversionToTextureCube(
+          negative_y,
+          data,
+          type);
+        gl.textureCubeStaticUpdateRH(
+          CubeMapFaceRH.CUBE_MAP_RH_NEGATIVE_Y,
+          data);
+      }
+
+      {
+        TextureLoaderImageIO.writeImageDataWithConversionToTextureCube(
+          positive_x,
+          data,
+          type);
+        gl.textureCubeStaticUpdateRH(
+          CubeMapFaceRH.CUBE_MAP_RH_POSITIVE_X,
+          data);
+      }
+
+      {
+        TextureLoaderImageIO.writeImageDataWithConversionToTextureCube(
+          negative_x,
+          data,
+          type);
+        gl.textureCubeStaticUpdateRH(
+          CubeMapFaceRH.CUBE_MAP_RH_NEGATIVE_X,
+          data);
+      }
+
+    } catch (final JCGLException e) {
+      gl.textureCubeStaticDelete(texture);
+      throw e;
+    }
+  }
+
   /**
    * Convert any image to RGBA using ImageIO's conversion functions.
    */
@@ -908,7 +1096,7 @@ public final class TextureLoaderImageIO implements TextureLoader
 
   private static @Nonnull
     TextureCubeStatic
-    loadCubeStaticSpecificImageCommon(
+    loadCubeLHStaticSpecificImageCommon(
       final @Nonnull JCGLTexturesCubeStaticCommon gl,
       final @Nonnull TextureType type,
       final @Nonnull TextureWrapR wrap_r,
@@ -926,15 +1114,13 @@ public final class TextureLoaderImageIO implements TextureLoader
       throws JCGLException,
         ConstraintError
   {
-    Constraints.constrainArbitrary(
-      positive_z.getWidth() == positive_z.getHeight(),
-      "Positive Z width equals height");
-
-    TextureLoaderImageIO.checkSizeMatch(positive_z, negative_z, "negative Z");
-    TextureLoaderImageIO.checkSizeMatch(positive_z, positive_y, "positive Y");
-    TextureLoaderImageIO.checkSizeMatch(positive_z, negative_y, "negative Y");
-    TextureLoaderImageIO.checkSizeMatch(positive_z, positive_x, "positive X");
-    TextureLoaderImageIO.checkSizeMatch(positive_z, negative_x, "negative X");
+    TextureLoaderImageIO.checkCubeImageSizes(
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x);
 
     final TextureCubeStatic texture =
       TextureLoaderImageIO.allocateTextureCubeCommon(
@@ -948,63 +1134,70 @@ public final class TextureLoaderImageIO implements TextureLoader
         mag_filter,
         name);
 
-    try {
+    TextureLoaderImageIO.cubeUpdateFacesLH(
+      gl,
+      type,
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x,
+      texture);
 
-      final TextureCubeWritableData data =
-        new TextureCubeWritableData(texture);
+    return texture;
+  }
 
-      {
-        TextureLoaderImageIO.writeImageDataWithConversionToTextureCube(
-          positive_z,
-          data,
-          type);
-        gl.textureCubeStaticUpdate(CubeMapFace.CUBE_MAP_POSITIVE_Z, data);
-      }
+  private static @Nonnull
+    TextureCubeStatic
+    loadCubeRHStaticSpecificImageCommon(
+      final @Nonnull JCGLTexturesCubeStaticCommon gl,
+      final @Nonnull TextureType type,
+      final @Nonnull TextureWrapR wrap_r,
+      final @Nonnull TextureWrapS wrap_s,
+      final @Nonnull TextureWrapT wrap_t,
+      final @Nonnull TextureFilterMinification min_filter,
+      final @Nonnull TextureFilterMagnification mag_filter,
+      final @Nonnull BufferedImage positive_z,
+      final @Nonnull BufferedImage negative_z,
+      final @Nonnull BufferedImage positive_y,
+      final @Nonnull BufferedImage negative_y,
+      final @Nonnull BufferedImage positive_x,
+      final @Nonnull BufferedImage negative_x,
+      final @Nonnull String name)
+      throws JCGLException,
+        ConstraintError
+  {
+    TextureLoaderImageIO.checkCubeImageSizes(
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x);
 
-      {
-        TextureLoaderImageIO.writeImageDataWithConversionToTextureCube(
-          negative_z,
-          data,
-          type);
-        gl.textureCubeStaticUpdate(CubeMapFace.CUBE_MAP_NEGATIVE_Z, data);
-      }
+    final TextureCubeStatic texture =
+      TextureLoaderImageIO.allocateTextureCubeCommon(
+        gl,
+        type,
+        positive_z.getWidth(),
+        wrap_r,
+        wrap_s,
+        wrap_t,
+        min_filter,
+        mag_filter,
+        name);
 
-      {
-        TextureLoaderImageIO.writeImageDataWithConversionToTextureCube(
-          positive_y,
-          data,
-          type);
-        gl.textureCubeStaticUpdate(CubeMapFace.CUBE_MAP_POSITIVE_Y, data);
-      }
-
-      {
-        TextureLoaderImageIO.writeImageDataWithConversionToTextureCube(
-          negative_y,
-          data,
-          type);
-        gl.textureCubeStaticUpdate(CubeMapFace.CUBE_MAP_NEGATIVE_Y, data);
-      }
-
-      {
-        TextureLoaderImageIO.writeImageDataWithConversionToTextureCube(
-          positive_x,
-          data,
-          type);
-        gl.textureCubeStaticUpdate(CubeMapFace.CUBE_MAP_POSITIVE_X, data);
-      }
-
-      {
-        TextureLoaderImageIO.writeImageDataWithConversionToTextureCube(
-          negative_x,
-          data,
-          type);
-        gl.textureCubeStaticUpdate(CubeMapFace.CUBE_MAP_NEGATIVE_X, data);
-      }
-
-    } catch (final JCGLException e) {
-      gl.textureCubeStaticDelete(texture);
-      throw e;
-    }
+    TextureLoaderImageIO.cubeUpdateFacesRH(
+      gl,
+      type,
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x,
+      texture);
 
     return texture;
   }
@@ -1612,7 +1805,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       name);
   }
 
-  @Override public @Nonnull TextureCubeStatic loadCubeStaticRGB888(
+  @Override public @Nonnull TextureCubeStatic loadCubeLHStaticRGB888(
     final @Nonnull JCGLTexturesCubeStaticCommon gl,
     final @Nonnull TextureWrapR wrap_r,
     final @Nonnull TextureWrapS wrap_s,
@@ -1645,7 +1838,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       negative_x,
       name);
 
-    return TextureLoaderImageIO.loadCubeStaticSpecificImageCommon(
+    return TextureLoaderImageIO.loadCubeLHStaticSpecificImageCommon(
       gl,
       TextureType.TEXTURE_TYPE_RGB_888_3BPP,
       wrap_r,
@@ -1662,7 +1855,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       name);
   }
 
-  @Override public @Nonnull TextureCubeStatic loadCubeStaticRGBA8888(
+  @Override public @Nonnull TextureCubeStatic loadCubeLHStaticRGBA8888(
     final @Nonnull JCGLTexturesCubeStaticCommon gl,
     final @Nonnull TextureWrapR wrap_r,
     final @Nonnull TextureWrapS wrap_s,
@@ -1695,7 +1888,107 @@ public final class TextureLoaderImageIO implements TextureLoader
       negative_x,
       name);
 
-    return TextureLoaderImageIO.loadCubeStaticSpecificImageCommon(
+    return TextureLoaderImageIO.loadCubeLHStaticSpecificImageCommon(
+      gl,
+      TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      TextureLoaderImageIO.getBufferedImage(positive_z),
+      TextureLoaderImageIO.getBufferedImage(negative_z),
+      TextureLoaderImageIO.getBufferedImage(positive_y),
+      TextureLoaderImageIO.getBufferedImage(negative_y),
+      TextureLoaderImageIO.getBufferedImage(positive_x),
+      TextureLoaderImageIO.getBufferedImage(negative_x),
+      name);
+  }
+
+  @Override public @Nonnull TextureCubeStatic loadCubeRHStaticRGB888(
+    final @Nonnull JCGLTexturesCubeStaticCommon gl,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveZ> positive_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeZ> negative_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveY> positive_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeY> negative_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveX> positive_x,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeX> negative_x,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException
+  {
+    TextureLoaderImageIO.checkCubeConstraints(
+      gl,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x,
+      name);
+
+    return TextureLoaderImageIO.loadCubeRHStaticSpecificImageCommon(
+      gl,
+      TextureType.TEXTURE_TYPE_RGB_888_3BPP,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      TextureLoaderImageIO.getBufferedImage(positive_z),
+      TextureLoaderImageIO.getBufferedImage(negative_z),
+      TextureLoaderImageIO.getBufferedImage(positive_y),
+      TextureLoaderImageIO.getBufferedImage(negative_y),
+      TextureLoaderImageIO.getBufferedImage(positive_x),
+      TextureLoaderImageIO.getBufferedImage(negative_x),
+      name);
+  }
+
+  @Override public @Nonnull TextureCubeStatic loadCubeRHStaticRGBA8888(
+    final @Nonnull JCGLTexturesCubeStaticCommon gl,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveZ> positive_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeZ> negative_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveY> positive_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeY> negative_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveX> positive_x,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeX> negative_x,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException
+  {
+    TextureLoaderImageIO.checkCubeConstraints(
+      gl,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x,
+      name);
+
+    return TextureLoaderImageIO.loadCubeRHStaticSpecificImageCommon(
       gl,
       TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
       wrap_r,

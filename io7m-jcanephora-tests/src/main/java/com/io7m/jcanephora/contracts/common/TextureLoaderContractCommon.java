@@ -63,6 +63,260 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
     Assume.assumeTrue(this.isGLSupported());
   }
 
+  private void loadCubeLH(
+    final @Nonnull FSCapabilityRead fs,
+    final @Nonnull JCGLInterfaceCommon gl,
+    final @Nonnull T tl,
+    final @Nonnull String path)
+    throws JCGLException,
+      ConstraintError,
+      FilesystemError,
+      IOException
+  {
+    for (final TextureType tt : TextureType.getCubeTypesCommon()) {
+      TextureCubeStatic t = null;
+
+      final CubeMapFaceInputStream<CMFKPositiveZ> stream_pz =
+        new CubeMapFaceInputStream<CMFKPositiveZ>(fs.openFile(PathVirtual
+          .ofString(path)));
+      final CubeMapFaceInputStream<CMFKNegativeZ> stream_nz =
+        new CubeMapFaceInputStream<CMFKNegativeZ>(fs.openFile(PathVirtual
+          .ofString(path)));
+      final CubeMapFaceInputStream<CMFKPositiveY> stream_py =
+        new CubeMapFaceInputStream<CMFKPositiveY>(fs.openFile(PathVirtual
+          .ofString(path)));
+      final CubeMapFaceInputStream<CMFKNegativeY> stream_ny =
+        new CubeMapFaceInputStream<CMFKNegativeY>(fs.openFile(PathVirtual
+          .ofString(path)));
+      final CubeMapFaceInputStream<CMFKPositiveX> stream_px =
+        new CubeMapFaceInputStream<CMFKPositiveX>(fs.openFile(PathVirtual
+          .ofString(path)));
+      final CubeMapFaceInputStream<CMFKNegativeX> stream_nx =
+        new CubeMapFaceInputStream<CMFKNegativeX>(fs.openFile(PathVirtual
+          .ofString(path)));
+
+      switch (tt) {
+        case TEXTURE_TYPE_RGBA_8888_4BPP:
+        {
+          t =
+            tl.loadCubeLHStaticRGBA8888(
+              gl,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream_pz,
+              stream_nz,
+              stream_py,
+              stream_ny,
+              stream_px,
+              stream_nx,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+            t.getType());
+          break;
+        }
+        case TEXTURE_TYPE_RGB_888_3BPP:
+        {
+          t =
+            tl.loadCubeLHStaticRGB888(
+              gl,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream_pz,
+              stream_nz,
+              stream_py,
+              stream_ny,
+              stream_px,
+              stream_nx,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGB_888_3BPP,
+            t.getType());
+          break;
+        }
+        case TEXTURE_TYPE_DEPTH_16_2BPP:
+        case TEXTURE_TYPE_DEPTH_24_4BPP:
+        case TEXTURE_TYPE_DEPTH_32F_4BPP:
+        case TEXTURE_TYPE_RGBA_4444_2BPP:
+        case TEXTURE_TYPE_RGBA_5551_2BPP:
+        case TEXTURE_TYPE_RGB_565_2BPP:
+        case TEXTURE_TYPE_RG_88_2BPP:
+        case TEXTURE_TYPE_R_8_1BPP:
+        {
+          stream_pz.close();
+          stream_nz.close();
+          stream_py.close();
+          stream_ny.close();
+          stream_px.close();
+          stream_nx.close();
+          throw new UnreachableCodeException();
+        }
+      }
+
+      assert t != null;
+      Assert.assertFalse(t.resourceIsDeleted());
+      Assert.assertEquals(256, t.getWidth());
+      Assert.assertEquals(256, t.getHeight());
+      Assert.assertEquals(
+        TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+        t.getMagnificationFilter());
+      Assert.assertEquals(
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        t.getMinificationFilter());
+      Assert.assertEquals("image", t.getName());
+      Assert.assertEquals(TextureWrapR.TEXTURE_WRAP_REPEAT, t.getWrapR());
+      Assert.assertEquals(
+        TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        t.getWrapS());
+      Assert.assertEquals(TextureWrapT.TEXTURE_WRAP_REPEAT, t.getWrapT());
+
+      gl.textureCubeStaticDelete(t);
+      Assert.assertTrue(t.resourceIsDeleted());
+
+      stream_pz.close();
+      stream_nz.close();
+      stream_py.close();
+      stream_ny.close();
+      stream_px.close();
+      stream_nx.close();
+    }
+  }
+
+  private void loadCubeRH(
+    final @Nonnull FSCapabilityRead fs,
+    final @Nonnull JCGLInterfaceCommon gl,
+    final @Nonnull T tl,
+    final @Nonnull String path)
+    throws JCGLException,
+      ConstraintError,
+      FilesystemError,
+      IOException
+  {
+    for (final TextureType tt : TextureType.getCubeTypesCommon()) {
+      TextureCubeStatic t = null;
+
+      final CubeMapFaceInputStream<CMFKPositiveZ> stream_pz =
+        new CubeMapFaceInputStream<CMFKPositiveZ>(fs.openFile(PathVirtual
+          .ofString(path)));
+      final CubeMapFaceInputStream<CMFKNegativeZ> stream_nz =
+        new CubeMapFaceInputStream<CMFKNegativeZ>(fs.openFile(PathVirtual
+          .ofString(path)));
+      final CubeMapFaceInputStream<CMFKPositiveY> stream_py =
+        new CubeMapFaceInputStream<CMFKPositiveY>(fs.openFile(PathVirtual
+          .ofString(path)));
+      final CubeMapFaceInputStream<CMFKNegativeY> stream_ny =
+        new CubeMapFaceInputStream<CMFKNegativeY>(fs.openFile(PathVirtual
+          .ofString(path)));
+      final CubeMapFaceInputStream<CMFKPositiveX> stream_px =
+        new CubeMapFaceInputStream<CMFKPositiveX>(fs.openFile(PathVirtual
+          .ofString(path)));
+      final CubeMapFaceInputStream<CMFKNegativeX> stream_nx =
+        new CubeMapFaceInputStream<CMFKNegativeX>(fs.openFile(PathVirtual
+          .ofString(path)));
+
+      switch (tt) {
+        case TEXTURE_TYPE_RGBA_8888_4BPP:
+        {
+          t =
+            tl.loadCubeRHStaticRGBA8888(
+              gl,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream_pz,
+              stream_nz,
+              stream_py,
+              stream_ny,
+              stream_px,
+              stream_nx,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+            t.getType());
+          break;
+        }
+        case TEXTURE_TYPE_RGB_888_3BPP:
+        {
+          t =
+            tl.loadCubeRHStaticRGB888(
+              gl,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream_pz,
+              stream_nz,
+              stream_py,
+              stream_ny,
+              stream_px,
+              stream_nx,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGB_888_3BPP,
+            t.getType());
+          break;
+        }
+        case TEXTURE_TYPE_DEPTH_16_2BPP:
+        case TEXTURE_TYPE_DEPTH_24_4BPP:
+        case TEXTURE_TYPE_DEPTH_32F_4BPP:
+        case TEXTURE_TYPE_RGBA_4444_2BPP:
+        case TEXTURE_TYPE_RGBA_5551_2BPP:
+        case TEXTURE_TYPE_RGB_565_2BPP:
+        case TEXTURE_TYPE_RG_88_2BPP:
+        case TEXTURE_TYPE_R_8_1BPP:
+        {
+          stream_pz.close();
+          stream_nz.close();
+          stream_py.close();
+          stream_ny.close();
+          stream_px.close();
+          stream_nx.close();
+          throw new UnreachableCodeException();
+        }
+      }
+
+      assert t != null;
+      Assert.assertFalse(t.resourceIsDeleted());
+      Assert.assertEquals(256, t.getWidth());
+      Assert.assertEquals(256, t.getHeight());
+      Assert.assertEquals(
+        TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+        t.getMagnificationFilter());
+      Assert.assertEquals(
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        t.getMinificationFilter());
+      Assert.assertEquals("image", t.getName());
+      Assert.assertEquals(TextureWrapR.TEXTURE_WRAP_REPEAT, t.getWrapR());
+      Assert.assertEquals(
+        TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+        t.getWrapS());
+      Assert.assertEquals(TextureWrapT.TEXTURE_WRAP_REPEAT, t.getWrapT());
+
+      gl.textureCubeStaticDelete(t);
+      Assert.assertTrue(t.resourceIsDeleted());
+
+      stream_pz.close();
+      stream_nz.close();
+      stream_py.close();
+      stream_ny.close();
+      stream_px.close();
+      stream_nx.close();
+    }
+  }
+
   private void loadSpecific(
     final @Nonnull FSCapabilityRead fs,
     final @Nonnull JCGLInterfaceCommon gl,
@@ -147,6 +401,68 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
 
       stream.close();
     }
+  }
+
+  @Test public final void testBug540405e7b9()
+    throws JCGLException,
+      IOException,
+      ConstraintError,
+      JCGLUnsupportedException,
+      FilesystemError
+  {
+    final TestContext tc = this.newTestContext();
+    final FSCapabilityRead fs = tc.getFilesystem();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
+    final T tl = this.makeTextureLoader(gl);
+    final String path = "/com/io7m/jcanephora/images/305x448.png";
+
+    final InputStream stream = fs.openFile(PathVirtual.ofString(path));
+    final Texture2DStatic t =
+      tl.load2DStaticInferredCommon(
+        gl,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
+        stream,
+        "texture");
+    stream.close();
+
+    Assert.assertEquals(448, t.getHeight());
+    Assert.assertEquals(305, t.getWidth());
+  }
+
+  @Test public final void testCubeLHCommon()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError,
+      IOException,
+      FilesystemError
+  {
+    final TestContext tc = this.newTestContext();
+    final FSCapabilityRead fs = tc.getFilesystem();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
+    final T tl = this.makeTextureLoader(gl);
+    final String path = "/com/io7m/jcanephora/images/reference_888_3.png";
+    this.loadCubeLH(fs, gl, tl, path);
+  }
+
+  @Test public final void testCubeRHCommon()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError,
+      IOException,
+      FilesystemError
+  {
+    final TestContext tc = this.newTestContext();
+    final FSCapabilityRead fs = tc.getFilesystem();
+    final JCGLImplementation gi = tc.getGLImplementation();
+    final JCGLInterfaceCommon gl = gi.getGLCommon();
+    final T tl = this.makeTextureLoader(gl);
+    final String path = "/com/io7m/jcanephora/images/reference_888_3.png";
+    this.loadCubeRH(fs, gl, tl, path);
   }
 
   @Test public final void testTextureTypesGreyscaleToSpecific()
@@ -570,178 +886,5 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
     final T tl = this.makeTextureLoader(gl);
     final String path = "/com/io7m/jcanephora/images/reference_888_3.png";
     this.loadSpecific(fs, gl, tl, path);
-  }
-
-  @Test public final void testBug540405e7b9()
-    throws JCGLException,
-      IOException,
-      ConstraintError,
-      JCGLUnsupportedException,
-      FilesystemError
-  {
-    final TestContext tc = this.newTestContext();
-    final FSCapabilityRead fs = tc.getFilesystem();
-    final JCGLImplementation gi = tc.getGLImplementation();
-    final JCGLInterfaceCommon gl = gi.getGLCommon();
-    final T tl = this.makeTextureLoader(gl);
-    final String path = "/com/io7m/jcanephora/images/305x448.png";
-
-    final InputStream stream = fs.openFile(PathVirtual.ofString(path));
-    final Texture2DStatic t =
-      tl.load2DStaticInferredCommon(
-        gl,
-        TextureWrapS.TEXTURE_WRAP_REPEAT,
-        TextureWrapT.TEXTURE_WRAP_REPEAT,
-        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-        TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
-        stream,
-        "texture");
-    stream.close();
-
-    Assert.assertEquals(448, t.getHeight());
-    Assert.assertEquals(305, t.getWidth());
-  }
-
-  @Test public final void testCubeCommon()
-    throws JCGLException,
-      JCGLUnsupportedException,
-      ConstraintError,
-      IOException,
-      FilesystemError
-  {
-    final TestContext tc = this.newTestContext();
-    final FSCapabilityRead fs = tc.getFilesystem();
-    final JCGLImplementation gi = tc.getGLImplementation();
-    final JCGLInterfaceCommon gl = gi.getGLCommon();
-    final T tl = this.makeTextureLoader(gl);
-    final String path = "/com/io7m/jcanephora/images/reference_888_3.png";
-    this.loadCube(fs, gl, tl, path);
-  }
-
-  private void loadCube(
-    final @Nonnull FSCapabilityRead fs,
-    final @Nonnull JCGLInterfaceCommon gl,
-    final @Nonnull T tl,
-    final @Nonnull String path)
-    throws JCGLException,
-      ConstraintError,
-      FilesystemError,
-      IOException
-  {
-    for (final TextureType tt : TextureType.getCubeTypesCommon()) {
-      TextureCubeStatic t = null;
-
-      final CubeMapFaceInputStream<CMFKPositiveZ> stream_pz =
-        new CubeMapFaceInputStream<CMFKPositiveZ>(fs.openFile(PathVirtual
-          .ofString(path)));
-      final CubeMapFaceInputStream<CMFKNegativeZ> stream_nz =
-        new CubeMapFaceInputStream<CMFKNegativeZ>(fs.openFile(PathVirtual
-          .ofString(path)));
-      final CubeMapFaceInputStream<CMFKPositiveY> stream_py =
-        new CubeMapFaceInputStream<CMFKPositiveY>(fs.openFile(PathVirtual
-          .ofString(path)));
-      final CubeMapFaceInputStream<CMFKNegativeY> stream_ny =
-        new CubeMapFaceInputStream<CMFKNegativeY>(fs.openFile(PathVirtual
-          .ofString(path)));
-      final CubeMapFaceInputStream<CMFKPositiveX> stream_px =
-        new CubeMapFaceInputStream<CMFKPositiveX>(fs.openFile(PathVirtual
-          .ofString(path)));
-      final CubeMapFaceInputStream<CMFKNegativeX> stream_nx =
-        new CubeMapFaceInputStream<CMFKNegativeX>(fs.openFile(PathVirtual
-          .ofString(path)));
-
-      switch (tt) {
-        case TEXTURE_TYPE_RGBA_8888_4BPP:
-        {
-          t =
-            tl.loadCubeStaticRGBA8888(
-              gl,
-              TextureWrapR.TEXTURE_WRAP_REPEAT,
-              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
-              stream_pz,
-              stream_nz,
-              stream_py,
-              stream_ny,
-              stream_px,
-              stream_nx,
-              "image");
-
-          Assert.assertEquals(
-            TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
-            t.getType());
-          break;
-        }
-        case TEXTURE_TYPE_RGB_888_3BPP:
-        {
-          t =
-            tl.loadCubeStaticRGB888(
-              gl,
-              TextureWrapR.TEXTURE_WRAP_REPEAT,
-              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
-              stream_pz,
-              stream_nz,
-              stream_py,
-              stream_ny,
-              stream_px,
-              stream_nx,
-              "image");
-
-          Assert.assertEquals(
-            TextureType.TEXTURE_TYPE_RGB_888_3BPP,
-            t.getType());
-          break;
-        }
-        case TEXTURE_TYPE_DEPTH_16_2BPP:
-        case TEXTURE_TYPE_DEPTH_24_4BPP:
-        case TEXTURE_TYPE_DEPTH_32F_4BPP:
-        case TEXTURE_TYPE_RGBA_4444_2BPP:
-        case TEXTURE_TYPE_RGBA_5551_2BPP:
-        case TEXTURE_TYPE_RGB_565_2BPP:
-        case TEXTURE_TYPE_RG_88_2BPP:
-        case TEXTURE_TYPE_R_8_1BPP:
-        {
-          stream_pz.close();
-          stream_nz.close();
-          stream_py.close();
-          stream_ny.close();
-          stream_px.close();
-          stream_nx.close();
-          throw new UnreachableCodeException();
-        }
-      }
-
-      assert t != null;
-      Assert.assertFalse(t.resourceIsDeleted());
-      Assert.assertEquals(256, t.getWidth());
-      Assert.assertEquals(256, t.getHeight());
-      Assert.assertEquals(
-        TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
-        t.getMagnificationFilter());
-      Assert.assertEquals(
-        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-        t.getMinificationFilter());
-      Assert.assertEquals("image", t.getName());
-      Assert.assertEquals(TextureWrapR.TEXTURE_WRAP_REPEAT, t.getWrapR());
-      Assert.assertEquals(
-        TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
-        t.getWrapS());
-      Assert.assertEquals(TextureWrapT.TEXTURE_WRAP_REPEAT, t.getWrapT());
-
-      gl.textureCubeStaticDelete(t);
-      Assert.assertTrue(t.resourceIsDeleted());
-
-      stream_pz.close();
-      stream_nz.close();
-      stream_py.close();
-      stream_ny.close();
-      stream_px.close();
-      stream_nx.close();
-    }
   }
 }

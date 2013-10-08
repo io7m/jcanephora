@@ -17,7 +17,8 @@
 package com.io7m.jcanephora;
 
 /**
- * A reflection of the {@link CubeMapFace} values at the type-level.
+ * A reflection of the {@link CubeMapFaceLH} and {@link CubeMapFaceRH} values
+ * at the type-level.
  */
 
 public interface CubeMapFaceKind

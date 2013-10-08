@@ -676,7 +676,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void framebufferDrawAttachColorTextureCube(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull TextureCubeStaticUsable texture,
-    final @Nonnull CubeMapFace face)
+    final @Nonnull CubeMapFaceLH face)
     throws JCGLException,
       ConstraintError
   {
@@ -693,7 +693,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
     final @Nonnull TextureCubeStaticUsable texture,
-    final @Nonnull CubeMapFace face)
+    final @Nonnull CubeMapFaceLH face)
     throws JCGLException,
       ConstraintError
   {
@@ -2066,8 +2066,8 @@ import com.io7m.jtensors.VectorReadable4I;
     JOGL_GL_Functions.textureCubeStaticUnbind(this.contextGetGL3(), unit);
   }
 
-  @Override public void textureCubeStaticUpdate(
-    final @Nonnull CubeMapFace face,
+  @Override public void textureCubeStaticUpdateLH(
+    final @Nonnull CubeMapFaceLH face,
     final @Nonnull TextureCubeWritableData data)
     throws ConstraintError,
       JCGLException
@@ -2076,6 +2076,16 @@ import com.io7m.jtensors.VectorReadable4I;
       this.contextGetGL3(),
       face,
       data);
+  }
+
+  @Override public void textureCubeStaticUpdateRH(
+    final @Nonnull CubeMapFaceRH face,
+    final @Nonnull TextureCubeWritableData data)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(face, "Face");
+    this.textureCubeStaticUpdateLH(CubeMapFaceLH.fromRH(face), data);
   }
 
   @Override public int textureGetMaximumSize()

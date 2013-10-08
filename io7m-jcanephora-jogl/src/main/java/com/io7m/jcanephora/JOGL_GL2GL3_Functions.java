@@ -453,7 +453,7 @@ final class JOGL_GL2GL3_Functions
     final TextureSpec spec = JOGL_TextureSpecs.getGL3TextureSpec(type);
     JOGL_GL_Functions.textureSetPackUnpackAlignment1(gl);
 
-    for (final CubeMapFace face : CubeMapFace.values()) {
+    for (final CubeMapFaceLH face : CubeMapFaceLH.values()) {
       final int gface = JOGL_GLTypeConversions.cubeFaceToGL(face);
 
       gl.glTexImage2D(
@@ -496,7 +496,7 @@ final class JOGL_GL2GL3_Functions
 
   static void textureCubeStaticUpdate(
     final @Nonnull GL gl,
-    final @Nonnull CubeMapFace face,
+    final @Nonnull CubeMapFaceLH face,
     final @Nonnull TextureCubeWritableData data)
     throws ConstraintError,
       JCGLException

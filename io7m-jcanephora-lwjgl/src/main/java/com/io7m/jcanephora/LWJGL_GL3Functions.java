@@ -506,7 +506,7 @@ final class LWJGL_GL3Functions
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull TextureCubeStaticUsable texture,
-    final @Nonnull CubeMapFace face)
+    final @Nonnull CubeMapFaceLH face)
     throws JCGLException,
       ConstraintError
   {
@@ -554,7 +554,7 @@ final class LWJGL_GL3Functions
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
     final @Nonnull TextureCubeStaticUsable texture,
-    final @Nonnull CubeMapFace face)
+    final @Nonnull CubeMapFaceLH face)
     throws ConstraintError,
       JCGLException
   {

@@ -306,7 +306,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
           gl.framebufferDrawAttachColorTextureCube(
             buffers.framebuffer,
             a.getTextureCube(),
-            CubeMapFace.CUBE_MAP_POSITIVE_X);
+            CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X);
           break;
         }
         case ATTACHMENT_COLOR_TEXTURE_CUBE:
@@ -316,7 +316,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
           gl.framebufferDrawAttachColorTextureCube(
             buffers.framebuffer,
             a.getTextureWritable(),
-            CubeMapFace.CUBE_MAP_POSITIVE_X);
+            CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X);
           break;
         }
       }
@@ -652,7 +652,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
         buffers.attachment_color =
           new AttachmentColorTextureCubeStatic(
             this.allocateBestRGBATextureCube(gl, buffers.text),
-            CubeMapFace.CUBE_MAP_POSITIVE_X);
+            CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X);
         break;
       }
       case WANT_COLOR_RGB_TEXTURE_2D:
@@ -670,7 +670,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
         buffers.attachment_color =
           new AttachmentColorTextureCubeStatic(
             this.allocateBestRGBTextureCube(gl, buffers.text),
-            CubeMapFace.CUBE_MAP_POSITIVE_X);
+            CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X);
         break;
       }
       case WANT_COLOR_SHARED_WITH:
@@ -730,7 +730,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
         buffers.attachment_color =
           new AttachmentColorTextureCubeStatic(
             this.allocateBestRGBATextureCube(gl, buffers.text),
-            CubeMapFace.CUBE_MAP_POSITIVE_X);
+            CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X);
         break;
       }
       case WANT_COLOR_RGB_TEXTURE_2D:
@@ -748,7 +748,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
         buffers.attachment_color =
           new AttachmentColorTextureCubeStatic(
             this.allocateBestRGBTextureCube(gl, buffers.text),
-            CubeMapFace.CUBE_MAP_POSITIVE_X);
+            CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X);
         break;
       }
       case WANT_COLOR_SHARED_WITH:

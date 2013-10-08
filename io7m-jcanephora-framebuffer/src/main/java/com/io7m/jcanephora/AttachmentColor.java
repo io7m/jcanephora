@@ -172,11 +172,11 @@ public abstract class AttachmentColor
     AttachmentColor implements AttachmentColorTextureCubeUsable
   {
     private final @Nonnull TextureCubeStatic texture;
-    private final @Nonnull CubeMapFace       face;
+    private final @Nonnull CubeMapFaceLH       face;
 
     public AttachmentColorTextureCubeStatic(
       final @Nonnull TextureCubeStatic texture,
-      final @Nonnull CubeMapFace face)
+      final @Nonnull CubeMapFaceLH face)
       throws ConstraintError
     {
       super(Type.ATTACHMENT_COLOR_TEXTURE_CUBE);
@@ -205,7 +205,7 @@ public abstract class AttachmentColor
       return true;
     }
 
-    @Override public @Nonnull CubeMapFace getFace()
+    @Override public @Nonnull CubeMapFaceLH getFace()
     {
       return this.face;
     }
@@ -239,7 +239,7 @@ public abstract class AttachmentColor
 
   interface AttachmentColorTextureCubeUsable
   {
-    public @Nonnull CubeMapFace getFace();
+    public @Nonnull CubeMapFaceLH getFace();
 
     public @Nonnull TextureCubeStaticUsable getTextureCube();
   }
@@ -387,7 +387,7 @@ public abstract class AttachmentColor
     AttachmentColor implements AttachmentColorTextureCubeUsable
   {
     private final @Nonnull TextureCubeStaticUsable texture;
-    private final @Nonnull CubeMapFace             face;
+    private final @Nonnull CubeMapFaceLH             face;
 
     public AttachmentSharedColorTextureCubeStatic(
       final @Nonnull AttachmentSharedColorTextureCubeStatic a)
@@ -401,7 +401,7 @@ public abstract class AttachmentColor
 
     public AttachmentSharedColorTextureCubeStatic(
       final @Nonnull TextureCubeStaticUsable texture,
-      final @Nonnull CubeMapFace face)
+      final @Nonnull CubeMapFaceLH face)
       throws ConstraintError
     {
       super(Type.ATTACHMENT_SHARED_COLOR_TEXTURE_CUBE);
@@ -430,7 +430,7 @@ public abstract class AttachmentColor
       return true;
     }
 
-    @Override public @Nonnull CubeMapFace getFace()
+    @Override public @Nonnull CubeMapFaceLH getFace()
     {
       return this.face;
     }
