@@ -2960,22 +2960,24 @@ main (void)
         <s:formal-item kind="examples">
           <s:formal-item-title>Cube map addressing</s:formal-item-title>
           <s:list-ordered>
-            Cube map textures are supplied to the OpenGL implementation using
-            the "RH" variants of the texture loading and update functions. See
-            <s:link-external target="javadoc/com/io7m/jcanephora/JCGLTexturesCubeStaticCommon.html#textureCubeStaticUpdateRH(com.io7m.jcanephora.CubeMapFaceRH, com.io7m.jcanephora.TextureCubeWritableData)">textureCubeStaticUpdateRH</s:link-external>,
-            and the "RH" variants of functions in the
-            <s:link target="com.io7m.jcanephora.100.highlevel.textureloader">TextureLoader</s:link>
-            interface. Faces are specified in a manner consistent with OpenGL's
-            coordinate system. Informally, the "forward" face of the cube map
-            is the negative Z face, the "right" face of the cube map is the
-            positive X face, and so on.
-          </s:list-ordered>
-          <s:list-ordered>
-            In shaders, the coordinates passed to the <s:term type="function">texture</s:term>
-            function 
-            (or <s:term type="function">textureCube</s:term> function, on old OpenGL implementations)
-            should be multiplied with a matrix that effectively negates the <s:term type="variable">Y</s:term>
-            and <s:term type="variable">Z</s:term> components.
+            <s:list-item>
+              Cube map textures are supplied to the OpenGL implementation using
+              the "RH" variants of the texture loading and update functions. See
+              <s:link-external target="javadoc/com/io7m/jcanephora/JCGLTexturesCubeStaticCommon.html#textureCubeStaticUpdateRH(com.io7m.jcanephora.CubeMapFaceRH, com.io7m.jcanephora.TextureCubeWritableData)">textureCubeStaticUpdateRH</s:link-external>,
+              and the "RH" variants of functions in the
+              <s:link target="com.io7m.jcanephora.100.highlevel.textureloader">TextureLoader</s:link>
+              interface. Faces are specified in a manner consistent with OpenGL's
+              coordinate system. Informally, the "forward" face of the cube map
+              is the negative Z face, the "right" face of the cube map is the
+              positive X face, and so on.
+            </s:list-item>
+            <s:list-item>
+              In shaders, the coordinates passed to the <s:term type="function">texture</s:term>
+              function 
+              (or <s:term type="function">textureCube</s:term> function, on old OpenGL implementations)
+              should be multiplied with a matrix that effectively negates the <s:term type="variable">Y</s:term>
+              and <s:term type="variable">Z</s:term> components.
+            </s:list-item>
           </s:list-ordered>
         </s:formal-item>
         <s:paragraph>
