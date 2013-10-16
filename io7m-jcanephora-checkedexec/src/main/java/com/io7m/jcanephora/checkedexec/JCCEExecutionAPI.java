@@ -22,6 +22,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLShadersCommon;
+import com.io7m.jcanephora.ProgramReferenceUsable;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
@@ -253,6 +254,16 @@ public interface JCCEExecutionAPI
 
   void execCancel()
     throws ConstraintError;
+
+  /**
+   * <p>
+   * Return the program to be executed.
+   * </p>
+   */
+
+  @Nonnull ProgramReferenceUsable execGetProgram()
+    throws ConstraintError,
+      JCGLException;
 
   /**
    * <p>

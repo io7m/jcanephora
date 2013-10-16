@@ -46,6 +46,19 @@ public final class JCCEExecutionCallable extends JCCEExecutionAbstract
     super(program);
   }
 
+  @Override protected void execRunActual()
+    throws ConstraintError,
+      Exception
+  {
+    if (this.callable == null) {
+      Constraints.constrainArbitrary(
+        false,
+        "Execution has been assigned a Callable");
+    }
+
+    this.callable.call();
+  }
+
   /**
    * Set the callable that will be executed by this execution to
    * <code>c</code>.
@@ -59,18 +72,5 @@ public final class JCCEExecutionCallable extends JCCEExecutionAbstract
     throws ConstraintError
   {
     this.callable = Constraints.constrainNotNull(c, "Callable");
-  }
-
-  @Override protected void execRunActual()
-    throws ConstraintError,
-      Exception
-  {
-    if (this.callable == null) {
-      Constraints.constrainArbitrary(
-        false,
-        "Execution has been assigned a Callable");
-    }
-
-    this.callable.call();
   }
 }
