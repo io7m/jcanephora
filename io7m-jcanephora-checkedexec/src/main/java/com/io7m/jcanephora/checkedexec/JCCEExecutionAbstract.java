@@ -66,16 +66,6 @@ import com.io7m.jtensors.VectorReadable4I;
   private final @Nonnull ArrayList<ProgramUniform>   missed_uniforms;
   private final @Nonnull ArrayList<ProgramAttribute> missed_attributes;
 
-  @Override public void execCancel()
-    throws ConstraintError
-  {
-    Constraints.constrainArbitrary(
-      this.preparing,
-      "Execution is in the preparation stage");
-
-    this.preparing = false;
-  }
-
   protected JCCEExecutionAbstract(
     final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError
@@ -201,6 +191,23 @@ import com.io7m.jtensors.VectorReadable4I;
 
     gl.programAttributePutVector4f(pa, x);
     this.assigned.add(a);
+  }
+
+  @Override public void execCancel()
+    throws ConstraintError
+  {
+    Constraints.constrainArbitrary(
+      this.preparing,
+      "Execution is in the preparation stage");
+
+    this.preparing = false;
+  }
+
+  @Override public @Nonnull ProgramReferenceUsable execGetProgram()
+    throws ConstraintError,
+      JCGLException
+  {
+    return this.program;
   }
 
   private final void execNonexistentAttribute(
@@ -554,18 +561,23 @@ import com.io7m.jtensors.VectorReadable4I;
 
     if (!ok) {
       this.message.setLength(0);
-      this.message.append("Program validation failed:");
-      this.message.append("\n");
+      this.message.append("Program validation failed:\n");
 
       if (this.missed_uniforms.isEmpty() == false) {
-        this.message.append("Uniforms not assigned values: ");
-        this.message.append(this.missed_uniforms.toString());
-        this.message.append("\n");
+        this.message.append("Uniforms not assigned values:\n");
+        for (final ProgramUniform u : this.missed_uniforms) {
+          this.message.append("  ");
+          this.message.append(u);
+          this.message.append("\n");
+        }
       }
       if (this.missed_attributes.isEmpty() == false) {
-        this.message.append("Attributes not assigned values: ");
-        this.message.append(this.missed_attributes.toString());
-        this.message.append("\n");
+        this.message.append("Attributes not assigned values:\n");
+        for (final ProgramAttribute a : this.missed_attributes) {
+          this.message.append("  ");
+          this.message.append(a);
+          this.message.append("\n");
+        }
       }
       throw new ConstraintError(this.message.toString());
     }
