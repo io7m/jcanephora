@@ -56,7 +56,7 @@ public class TextureCubeWritableDataTest
       final SpatialCursorWritable1f c = d.getCursor1f();
 
       int count = 0;
-      while (c.canWrite()) {
+      while (c.isValid()) {
         if ((count & 1) == 1) {
           c.put1f(123.0f);
         } else {
@@ -141,7 +141,7 @@ public class TextureCubeWritableDataTest
       final SpatialCursorWritable1i c = d.getCursor1i();
 
       int count = 0;
-      while (c.canWrite()) {
+      while (c.isValid()) {
         if ((count & 1) == 1) {
           c.put1i(0xff);
         } else {
@@ -218,7 +218,7 @@ public class TextureCubeWritableDataTest
       final SpatialCursorWritable2i c = d.getCursor2i();
 
       int count = 0;
-      while (c.canWrite()) {
+      while (c.isValid()) {
         if ((count & 1) == 1) {
           c.put2i(0x30, 0x40);
         } else {
@@ -295,7 +295,7 @@ public class TextureCubeWritableDataTest
       final SpatialCursorWritable3i c = d.getCursor3i();
 
       int count = 0;
-      while (c.canWrite()) {
+      while (c.isValid()) {
         if ((count & 1) == 1) {
           c.put3i(0x30, 0x40, 0x50);
         } else {
@@ -372,7 +372,7 @@ public class TextureCubeWritableDataTest
       final SpatialCursorWritable4i c = d.getCursor4i();
 
       int count = 0;
-      while (c.canWrite()) {
+      while (c.isValid()) {
         if ((count & 1) == 1) {
           c.put4i(0x30, 0x40, 0x50, 0x60);
         } else {

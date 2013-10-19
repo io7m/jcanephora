@@ -61,7 +61,7 @@ public class AreaCursorTest
       new AreaInclusive(new RangeInclusive(0, 3), new RangeInclusive(0, 1));
     final AreaCursor c = new AreaCursor(area, area, 4);
 
-    Assert.assertTrue(c.canWrite());
+    Assert.assertTrue(c.isValid());
     Assert.assertEquals(0, c.getByteOffset());
 
     for (long y = 0; y <= 1; ++y) {
@@ -73,7 +73,7 @@ public class AreaCursorTest
       }
     }
 
-    Assert.assertFalse(c.canWrite());
+    Assert.assertFalse(c.isValid());
   }
 
   @SuppressWarnings("static-method") @Test public void testHashcode()
@@ -290,7 +290,7 @@ public class AreaCursorTest
     Assert.assertEquals((7 * width * 2) + (7 * 2), c.getByteOffset());
 
     c.next();
-    Assert.assertFalse(c.canWrite());
+    Assert.assertFalse(c.isValid());
   }
 
   @SuppressWarnings("static-method") @Test public void testOneByte()
@@ -300,7 +300,7 @@ public class AreaCursorTest
       new AreaInclusive(new RangeInclusive(0, 3), new RangeInclusive(0, 1));
     final AreaCursor c = new AreaCursor(area, area, 1);
 
-    Assert.assertTrue(c.canWrite());
+    Assert.assertTrue(c.isValid());
     Assert.assertEquals(0, c.getByteOffset());
 
     for (long y = 0; y <= 1; ++y) {
@@ -312,7 +312,7 @@ public class AreaCursorTest
       }
     }
 
-    Assert.assertFalse(c.canWrite());
+    Assert.assertFalse(c.isValid());
   }
 
   @SuppressWarnings("static-method") @Test public void testSeek()
@@ -322,7 +322,7 @@ public class AreaCursorTest
       new AreaInclusive(new RangeInclusive(0, 3), new RangeInclusive(0, 1));
     final AreaCursor c = new AreaCursor(area, area, 4);
 
-    Assert.assertTrue(c.canWrite());
+    Assert.assertTrue(c.isValid());
     Assert.assertEquals(0, c.getByteOffset());
 
     for (long y = 0; y <= 1; ++y) {
@@ -342,12 +342,12 @@ public class AreaCursorTest
       new AreaInclusive(new RangeInclusive(0, 3), new RangeInclusive(0, 1));
     final AreaCursor c = new AreaCursor(area, area, 4);
 
-    Assert.assertTrue(c.canWrite());
+    Assert.assertTrue(c.isValid());
     Assert.assertEquals(0, c.getByteOffset());
 
     c.seekTo(4, 0);
 
-    Assert.assertFalse(c.canWrite());
+    Assert.assertFalse(c.isValid());
   }
 
   @SuppressWarnings("static-method") @Test public void testSeekXUnder()
@@ -357,12 +357,12 @@ public class AreaCursorTest
       new AreaInclusive(new RangeInclusive(0, 3), new RangeInclusive(0, 1));
     final AreaCursor c = new AreaCursor(area, area, 4);
 
-    Assert.assertTrue(c.canWrite());
+    Assert.assertTrue(c.isValid());
     Assert.assertEquals(0, c.getByteOffset());
 
     c.seekTo(-1, 0);
 
-    Assert.assertFalse(c.canWrite());
+    Assert.assertFalse(c.isValid());
   }
 
   @SuppressWarnings("static-method") @Test public void testSeekYOver()
@@ -372,12 +372,12 @@ public class AreaCursorTest
       new AreaInclusive(new RangeInclusive(0, 3), new RangeInclusive(0, 1));
     final AreaCursor c = new AreaCursor(area, area, 4);
 
-    Assert.assertTrue(c.canWrite());
+    Assert.assertTrue(c.isValid());
     Assert.assertEquals(0, c.getByteOffset());
 
     c.seekTo(0, 4);
 
-    Assert.assertFalse(c.canWrite());
+    Assert.assertFalse(c.isValid());
   }
 
   @SuppressWarnings("static-method") @Test public void testSeekYUnder()
@@ -387,12 +387,12 @@ public class AreaCursorTest
       new AreaInclusive(new RangeInclusive(0, 3), new RangeInclusive(0, 1));
     final AreaCursor c = new AreaCursor(area, area, 4);
 
-    Assert.assertTrue(c.canWrite());
+    Assert.assertTrue(c.isValid());
     Assert.assertEquals(0, c.getByteOffset());
 
     c.seekTo(0, -1);
 
-    Assert.assertFalse(c.canWrite());
+    Assert.assertFalse(c.isValid());
   }
 
   @SuppressWarnings("static-method") @Test public void testThreeByte()
@@ -402,7 +402,7 @@ public class AreaCursorTest
       new AreaInclusive(new RangeInclusive(0, 3), new RangeInclusive(0, 1));
     final AreaCursor c = new AreaCursor(area, area, 3);
 
-    Assert.assertTrue(c.canWrite());
+    Assert.assertTrue(c.isValid());
     Assert.assertEquals(0, c.getByteOffset());
 
     for (long y = 0; y <= 1; ++y) {
@@ -414,7 +414,7 @@ public class AreaCursorTest
       }
     }
 
-    Assert.assertFalse(c.canWrite());
+    Assert.assertFalse(c.isValid());
   }
 
   @SuppressWarnings("static-method") @Test public void testToString()
@@ -453,7 +453,7 @@ public class AreaCursorTest
       new AreaInclusive(new RangeInclusive(0, 3), new RangeInclusive(0, 1));
     final AreaCursor c = new AreaCursor(area, area, 2);
 
-    Assert.assertTrue(c.canWrite());
+    Assert.assertTrue(c.isValid());
     Assert.assertEquals(0, c.getByteOffset());
 
     for (long y = 0; y <= 1; ++y) {
@@ -465,7 +465,7 @@ public class AreaCursorTest
       }
     }
 
-    Assert.assertFalse(c.canWrite());
+    Assert.assertFalse(c.isValid());
   }
 
 }
