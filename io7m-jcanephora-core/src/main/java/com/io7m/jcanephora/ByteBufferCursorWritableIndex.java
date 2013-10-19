@@ -50,7 +50,7 @@ final class ByteBufferCursorWritableIndex extends BufferCursor implements
     final int value)
     throws ConstraintError
   {
-    Constraints.constrainArbitrary(this.canWrite(), "Cursor is within range");
+    Constraints.constrainArbitrary(this.isValid(), "Cursor is within range");
 
     final int offset = (int) this.getByteOffset();
 

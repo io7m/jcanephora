@@ -55,7 +55,7 @@ final class ByteBufferCursorWritable4f extends BufferCursor implements
     final float w)
     throws ConstraintError
   {
-    Constraints.constrainArbitrary(this.canWrite(), "Cursor is within range");
+    Constraints.constrainArbitrary(this.isValid(), "Cursor is within range");
 
     final int byte_current = (int) this.getByteOffset();
     this.target_data.putFloat(byte_current + 0, x);

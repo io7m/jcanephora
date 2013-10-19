@@ -76,7 +76,7 @@ class BufferCursor implements Cursor
     this.uncheckedSeek(range.getLower());
   }
 
-  @Override public final boolean canWrite()
+  @Override public final boolean isValid()
   {
     return this.can_write;
   }
@@ -91,7 +91,7 @@ class BufferCursor implements Cursor
   protected final long getByteOffset()
     throws ConstraintError
   {
-    Constraints.constrainArbitrary(this.canWrite(), "Cursor is in range");
+    Constraints.constrainArbitrary(this.isValid(), "Cursor is in range");
     return this.byte_current;
   }
 
@@ -105,7 +105,7 @@ class BufferCursor implements Cursor
   protected final long getElement()
     throws ConstraintError
   {
-    Constraints.constrainArbitrary(this.canWrite(), "Cursor is in range");
+    Constraints.constrainArbitrary(this.isValid(), "Cursor is in range");
     return this.element_current;
   }
 

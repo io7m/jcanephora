@@ -27,7 +27,7 @@ public interface Cursor
    * range of elements.
    */
 
-  public boolean canWrite();
+  public boolean isValid();
 
   /**
    * Return <code>true</code> iff there are more elements available.
