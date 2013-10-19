@@ -476,9 +476,9 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final Texture2DWritableData update = new Texture2DWritableData(t);
     final SpatialCursorWritable3i cursor = update.getCursor3i();
 
-    Assert.assertTrue(cursor.canWrite());
+    Assert.assertTrue(cursor.isValid());
 
-    while (cursor.canWrite()) {
+    while (cursor.isValid()) {
       cursor.put3i(0x0, 0x0, 0xff);
       cursor.next();
     }

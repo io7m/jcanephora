@@ -48,7 +48,7 @@ public class ByteBufferSpatialCursorWritable3i_3_888Test
     int index = 0;
     for (int y = 0; y <= 3; ++y) {
       for (int x = 0; x <= 3; ++x) {
-        Assert.assertTrue(c.canWrite());
+        Assert.assertTrue(c.isValid());
         c.put3i(0x50, 0x40, 0x30);
 
         Assert.assertEquals(0x50, buffer.get(index + 0));
@@ -59,7 +59,7 @@ public class ByteBufferSpatialCursorWritable3i_3_888Test
       }
     }
 
-    Assert.assertFalse(c.canWrite());
+    Assert.assertFalse(c.isValid());
     Assert.assertEquals(0, buffer.position());
   }
 
@@ -85,7 +85,7 @@ public class ByteBufferSpatialCursorWritable3i_3_888Test
 
     for (int y = 4; y <= 7; ++y) {
       for (int x = 4; x <= 7; ++x) {
-        Assert.assertTrue(c.canWrite());
+        Assert.assertTrue(c.isValid());
         Assert.assertEquals(x, c.getElementX());
         Assert.assertEquals(y, c.getElementY());
         Assert
@@ -98,7 +98,7 @@ public class ByteBufferSpatialCursorWritable3i_3_888Test
       }
     }
 
-    Assert.assertFalse(c.canWrite());
+    Assert.assertFalse(c.isValid());
     Assert.assertEquals(0, buffer.position());
 
     int index = 0;

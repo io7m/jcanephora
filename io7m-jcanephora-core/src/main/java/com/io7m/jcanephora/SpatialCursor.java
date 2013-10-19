@@ -35,7 +35,7 @@ public interface SpatialCursor
    * location.
    */
 
-  public boolean canWrite();
+  public boolean isValid();
 
   /**
    * Retrieve the current position of the cursor on the X axis.

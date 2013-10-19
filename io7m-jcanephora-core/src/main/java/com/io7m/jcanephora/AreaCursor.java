@@ -93,7 +93,7 @@ import com.io7m.jaux.RangeInclusive;
       .getLower());
   }
 
-  @Override public final boolean canWrite()
+  @Override public final boolean isValid()
   {
     return this.can_write;
   }
@@ -129,21 +129,21 @@ import com.io7m.jaux.RangeInclusive;
   protected final long getByteOffset()
     throws ConstraintError
   {
-    Constraints.constrainArbitrary(this.canWrite(), "Cursor is in range");
+    Constraints.constrainArbitrary(this.isValid(), "Cursor is in range");
     return this.byte_offset;
   }
 
   @Override public final long getElementX()
     throws ConstraintError
   {
-    Constraints.constrainArbitrary(this.canWrite(), "Cursor is in range");
+    Constraints.constrainArbitrary(this.isValid(), "Cursor is in range");
     return this.element_x;
   }
 
   @Override public final long getElementY()
     throws ConstraintError
   {
-    Constraints.constrainArbitrary(this.canWrite(), "Cursor is in range");
+    Constraints.constrainArbitrary(this.isValid(), "Cursor is in range");
     return this.element_y;
   }
 

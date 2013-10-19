@@ -48,7 +48,7 @@ public class ByteBufferSpatialCursorWritable4i_2_4444Test
     int index = 0;
     for (int y = 0; y <= 3; ++y) {
       for (int x = 0; x <= 3; ++x) {
-        Assert.assertTrue(c.canWrite());
+        Assert.assertTrue(c.isValid());
         c.put4i(0xFF, 0xFF, 0xFF, 0xFF);
 
         final char exp = TexturePixelPack.pack2_4444(0xFF, 0xFF, 0xFF, 0xFF);
@@ -59,7 +59,7 @@ public class ByteBufferSpatialCursorWritable4i_2_4444Test
       }
     }
 
-    Assert.assertFalse(c.canWrite());
+    Assert.assertFalse(c.isValid());
     Assert.assertEquals(0, buffer.position());
   }
 
@@ -85,7 +85,7 @@ public class ByteBufferSpatialCursorWritable4i_2_4444Test
 
     for (int y = 4; y <= 7; ++y) {
       for (int x = 4; x <= 7; ++x) {
-        Assert.assertTrue(c.canWrite());
+        Assert.assertTrue(c.isValid());
         Assert.assertEquals(x, c.getElementX());
         Assert.assertEquals(y, c.getElementY());
         Assert
@@ -97,7 +97,7 @@ public class ByteBufferSpatialCursorWritable4i_2_4444Test
       }
     }
 
-    Assert.assertFalse(c.canWrite());
+    Assert.assertFalse(c.isValid());
     Assert.assertEquals(0, buffer.position());
 
     int index = 0;

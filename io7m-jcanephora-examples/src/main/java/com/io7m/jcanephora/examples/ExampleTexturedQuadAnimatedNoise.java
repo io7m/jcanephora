@@ -262,7 +262,7 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
       final SpatialCursorWritable3i tx_cursor =
         this.texture_update.getCursor3i();
 
-      while (tx_cursor.canWrite()) {
+      while (tx_cursor.isValid()) {
         final double x = tx_cursor.getElementX();
         final double y = tx_cursor.getElementY();
         final double red = x / 64.0;

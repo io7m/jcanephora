@@ -507,9 +507,9 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
     final TextureCubeWritableData update = new TextureCubeWritableData(t);
     final SpatialCursorWritable3i cursor = update.getCursor3i();
 
-    Assert.assertTrue(cursor.canWrite());
+    Assert.assertTrue(cursor.isValid());
 
-    while (cursor.canWrite()) {
+    while (cursor.isValid()) {
       cursor.put3i(0x0, 0x0, 0xff);
       cursor.next();
     }
