@@ -49,7 +49,7 @@ final class ByteBufferCursorReadableIndex extends BufferCursor implements
   @Override public int getIndex()
     throws ConstraintError
   {
-    Constraints.constrainArbitrary(this.canWrite(), "Cursor is within range");
+    Constraints.constrainArbitrary(this.isValid(), "Cursor is within range");
 
     final int offset = (int) this.getByteOffset();
 

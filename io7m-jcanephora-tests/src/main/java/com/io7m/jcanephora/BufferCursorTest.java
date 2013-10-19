@@ -29,19 +29,19 @@ public class BufferCursorTest
     final BufferCursor c = new BufferCursor(new RangeInclusive(0, 3), 0, 4);
 
     Assert.assertEquals(0, c.getByteOffset());
-    Assert.assertTrue(c.canWrite());
+    Assert.assertTrue(c.isValid());
     c.next();
 
     Assert.assertEquals(4, c.getByteOffset());
-    Assert.assertTrue(c.canWrite());
+    Assert.assertTrue(c.isValid());
     c.next();
 
     Assert.assertEquals(8, c.getByteOffset());
-    Assert.assertTrue(c.canWrite());
+    Assert.assertTrue(c.isValid());
     c.next();
 
     Assert.assertEquals(12, c.getByteOffset());
-    Assert.assertTrue(c.canWrite());
+    Assert.assertTrue(c.isValid());
     Assert.assertFalse(c.hasNext());
   }
 
@@ -51,28 +51,28 @@ public class BufferCursorTest
     final BufferCursor c = new BufferCursor(new RangeInclusive(2, 3), 0, 4);
 
     Assert.assertEquals(8, c.getByteOffset());
-    Assert.assertTrue(c.canWrite());
+    Assert.assertTrue(c.isValid());
     c.next();
 
     Assert.assertEquals(12, c.getByteOffset());
-    Assert.assertTrue(c.canWrite());
+    Assert.assertTrue(c.isValid());
     Assert.assertFalse(c.hasNext());
 
     c.seekTo(0);
     Assert.assertTrue(c.hasNext());
-    Assert.assertFalse(c.canWrite());
+    Assert.assertFalse(c.isValid());
 
     c.seekTo(1);
     Assert.assertTrue(c.hasNext());
-    Assert.assertFalse(c.canWrite());
+    Assert.assertFalse(c.isValid());
 
     c.seekTo(2);
     Assert.assertTrue(c.hasNext());
-    Assert.assertTrue(c.canWrite());
+    Assert.assertTrue(c.isValid());
 
     c.seekTo(3);
     Assert.assertFalse(c.hasNext());
-    Assert.assertTrue(c.canWrite());
+    Assert.assertTrue(c.isValid());
   }
 
   @SuppressWarnings("static-method") @Test public void testHasNextBeyond()
@@ -90,7 +90,7 @@ public class BufferCursorTest
     Assert.assertEquals(0, c.getByteOffset());
     Assert.assertEquals(0, c.getElement());
     Assert.assertTrue(c.hasNext());
-    Assert.assertTrue(c.canWrite());
+    Assert.assertTrue(c.isValid());
   }
 
   @SuppressWarnings("static-method") @Test public void testInit1()
@@ -101,7 +101,7 @@ public class BufferCursorTest
     Assert.assertEquals(4, c.getByteOffset());
     Assert.assertEquals(1, c.getElement());
     Assert.assertTrue(c.hasNext());
-    Assert.assertTrue(c.canWrite());
+    Assert.assertTrue(c.isValid());
   }
 
   @SuppressWarnings("static-method") @Test public void testNext()
