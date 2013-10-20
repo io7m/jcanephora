@@ -23,15 +23,15 @@ import javax.annotation.Nonnull;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * Texture cursor addressing textures with single 24 bit elements.
+ * Texture cursor addressing textures with single 32 bit elements.
  */
 
-final class ByteBufferTextureCursorWritable1i_1_24 extends AreaCursor implements
+final class ByteBufferTextureCursorWritable1i_4_32 extends AreaCursor implements
   SpatialCursorWritable1i
 {
   private final @Nonnull ByteBuffer target_data;
 
-  protected ByteBufferTextureCursorWritable1i_1_24(
+  protected ByteBufferTextureCursorWritable1i_4_32(
     final @Nonnull ByteBuffer target_data,
     final @Nonnull AreaInclusive target_area,
     final @Nonnull AreaInclusive update_area)

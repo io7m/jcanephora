@@ -13,6 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
@@ -23,8 +24,9 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
+import com.io7m.jtensors.VectorM4I;
 
-public class ByteBufferSpatialCursorWritable1f_1_32Test
+public class ByteBufferSpatialCursorReadable4i_4_8888Test
 {
   private static int BYTES_PER_PIXEL = 4;
 
@@ -37,25 +39,44 @@ public class ByteBufferSpatialCursorWritable1f_1_32Test
     final ByteBuffer buffer =
       ByteBuffer
         .allocate(
-          4 * 4 * ByteBufferSpatialCursorWritable1f_1_32Test.BYTES_PER_PIXEL)
+          4 * 4 * ByteBufferSpatialCursorReadable4i_4_8888Test.BYTES_PER_PIXEL)
         .order(ByteOrder.nativeOrder());
-    final ByteBufferTextureCursorWritable1f_1_32 c =
-      new ByteBufferTextureCursorWritable1f_1_32(
+
+    for (int y = 0; y <= 3; ++y) {
+      for (int x = 0; x <= 3; ++x) {
+        final int index =
+          (y * 4 * ByteBufferSpatialCursorReadable4i_4_8888Test.BYTES_PER_PIXEL)
+            + (x * ByteBufferSpatialCursorReadable4i_4_8888Test.BYTES_PER_PIXEL);
+
+        buffer.put(index + 0, (byte) ((y * 10) + x));
+        buffer.put(index + 1, (byte) ((y * 11) + x));
+        buffer.put(index + 2, (byte) ((y * 12) + x));
+        buffer.put(index + 3, (byte) ((y * 13) + x));
+      }
+    }
+
+    for (int index = 0; index < 16; ++index) {
+      System.out.println(buffer.get(index));
+    }
+
+    final ByteBufferTextureCursorReadable4i_4_8888 c =
+      new ByteBufferTextureCursorReadable4i_4_8888(
         buffer,
         area_outer,
         area_outer);
 
-    int index = 0;
     for (int y = 0; y <= 3; ++y) {
       for (int x = 0; x <= 3; ++x) {
         Assert.assertTrue(c.isValid());
+        final VectorM4I e = new VectorM4I();
+        e.x = ((y * 10) + x);
+        e.y = ((y * 11) + x);
+        e.z = ((y * 12) + x);
+        e.w = ((y * 13) + x);
 
-        final float wanted = 123.0f;
-        c.put1f(wanted);
-        final float got = buffer.getFloat(index);
-        Assert.assertTrue(wanted == got);
-
-        index += ByteBufferSpatialCursorWritable1f_1_32Test.BYTES_PER_PIXEL;
+        final VectorM4I v = new VectorM4I();
+        c.get4i(v);
+        Assert.assertEquals(e, v);
       }
     }
 
@@ -74,46 +95,48 @@ public class ByteBufferSpatialCursorWritable1f_1_32Test
     final ByteBuffer buffer =
       ByteBuffer
         .allocate(
-          12 * 12 * ByteBufferSpatialCursorWritable1f_1_32Test.BYTES_PER_PIXEL)
+          12 * 12 * ByteBufferSpatialCursorReadable4i_4_8888Test.BYTES_PER_PIXEL)
         .order(ByteOrder.nativeOrder());
-    final ByteBufferTextureCursorWritable1f_1_32 c =
-      new ByteBufferTextureCursorWritable1f_1_32(
+
+    for (int y = 0; y < 12; ++y) {
+      for (int x = 0; x < 12; ++x) {
+        final int index =
+          (y * 12 * ByteBufferSpatialCursorReadable4i_4_8888Test.BYTES_PER_PIXEL)
+            + (x * ByteBufferSpatialCursorReadable4i_4_8888Test.BYTES_PER_PIXEL);
+
+        buffer.put(index + 0, (byte) ((y * 10) + x));
+        buffer.put(index + 1, (byte) ((y * 11) + x));
+        buffer.put(index + 2, (byte) ((y * 12) + x));
+        buffer.put(index + 3, (byte) ((y * 13) + x));
+      }
+    }
+
+    for (int index = 0; index < (12 * 12); ++index) {
+      System.out.println(buffer.get(index));
+    }
+
+    final ByteBufferTextureCursorReadable4i_4_8888 c =
+      new ByteBufferTextureCursorReadable4i_4_8888(
         buffer,
         area_outer,
         area_inner);
-    final long width = area_outer.getRangeX().getInterval();
-
-    final float wanted = 123.0f;
 
     for (int y = 4; y <= 7; ++y) {
       for (int x = 4; x <= 7; ++x) {
         Assert.assertTrue(c.isValid());
-        Assert.assertEquals(x, c.getElementX());
-        Assert.assertEquals(y, c.getElementY());
-        Assert
-          .assertEquals(
-            (y * width * ByteBufferSpatialCursorWritable1f_1_32Test.BYTES_PER_PIXEL)
-              + (x * ByteBufferSpatialCursorWritable1f_1_32Test.BYTES_PER_PIXEL),
-            c.getByteOffset());
+        final VectorM4I e = new VectorM4I();
+        e.x = ((y * 10) + x);
+        e.y = ((y * 11) + x);
+        e.z = ((y * 12) + x);
+        e.w = ((y * 13) + x);
 
-        c.put1f(wanted);
+        final VectorM4I v = new VectorM4I();
+        c.get4i(v);
+        Assert.assertEquals(e, v);
       }
     }
 
     Assert.assertFalse(c.isValid());
     Assert.assertEquals(0, buffer.position());
-
-    int index = 0;
-    for (int y = 0; y <= 11; ++y) {
-      for (int x = 0; x <= 11; ++x) {
-
-        if ((y >= 4) && (y <= 7) && (x >= 4) && (x <= 7)) {
-          final float got = buffer.getFloat(index);
-          Assert.assertTrue(wanted == got);
-        }
-
-        index += ByteBufferSpatialCursorWritable1f_1_32Test.BYTES_PER_PIXEL;
-      }
-    }
   }
 }

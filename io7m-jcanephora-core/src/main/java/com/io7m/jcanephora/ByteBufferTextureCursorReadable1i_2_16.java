@@ -17,22 +17,24 @@
 package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.Integer16;
 
 /**
- * Texture cursor addressing textures with three RGB elements, with 5 bits for
- * red, 6 bits for green, and 5 bits for blue.
+ * Texture cursor addressing textures with single 16 bit integer elements.
  */
 
-final class ByteBufferTextureCursorWritable3i_2_565 extends AreaCursor implements
-  SpatialCursorWritable3i
+final class ByteBufferTextureCursorReadable1i_2_16 extends AreaCursor implements
+  SpatialCursorReadable1i
 {
   private final @Nonnull ByteBuffer target_data;
+  private final byte[]              buffer = new byte[2];
 
-  protected ByteBufferTextureCursorWritable3i_2_565(
+  protected ByteBufferTextureCursorReadable1i_2_16(
     final @Nonnull ByteBuffer target_data,
     final @Nonnull AreaInclusive target_area,
     final @Nonnull AreaInclusive update_area)
@@ -42,15 +44,21 @@ final class ByteBufferTextureCursorWritable3i_2_565 extends AreaCursor implement
     this.target_data = target_data;
   }
 
-  @Override public void put3i(
-    final int r,
-    final int g,
-    final int b)
+  @Override public int get1i()
     throws ConstraintError
   {
-    final char data = TexturePixelPack.pack2_565(r, g, b);
     final int byte_current = (int) this.getByteOffset();
-    this.target_data.putChar(byte_current, data);
+    this.buffer[0] = this.target_data.get(byte_current + 0);
+    this.buffer[1] = this.target_data.get(byte_current + 1);
+
+    final int x;
+    if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN) {
+      x = Integer16.unpackLittleEndian(this.buffer);
+    } else {
+      x = Integer16.unpackBigEndian(this.buffer);
+    }
+
     this.next();
+    return x;
   }
 }

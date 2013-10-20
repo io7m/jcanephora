@@ -23,30 +23,30 @@ import javax.annotation.Nonnull;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * Texture cursor addressing textures with single 32 bit float elements.
+ * Texture cursor addressing textures with single 8 bit integer elements.
  */
 
-final class ByteBufferTextureCursorWritable1f_1_32 extends AreaCursor implements
-  SpatialCursorWritable1f
+final class ByteBufferTextureCursorReadable1i_1_8 extends AreaCursor implements
+  SpatialCursorReadable1i
 {
   private final @Nonnull ByteBuffer target_data;
 
-  protected ByteBufferTextureCursorWritable1f_1_32(
+  protected ByteBufferTextureCursorReadable1i_1_8(
     final @Nonnull ByteBuffer target_data,
     final @Nonnull AreaInclusive target_area,
     final @Nonnull AreaInclusive update_area)
     throws ConstraintError
   {
-    super(target_area, update_area, 4);
+    super(target_area, update_area, 1);
     this.target_data = target_data;
   }
 
-  @Override public void put1f(
-    final float x)
+  @Override public int get1i()
     throws ConstraintError
   {
     final int byte_current = (int) this.getByteOffset();
-    this.target_data.putFloat(byte_current, x);
+    final int x = this.target_data.get(byte_current) & 0xff;
     this.next();
+    return x;
   }
 }

@@ -16,37 +16,28 @@
 
 package com.io7m.jcanephora;
 
-import java.nio.ByteBuffer;
-
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jtensors.VectorM2I;
 
 /**
- * Texture cursor addressing textures with single 16 bit elements.
+ * Typed, readable cursor addressing areas consisting of elements of type int
+ * (values are assumed to be in the range <code>[0, 0xff]</code>).
  */
 
-final class ByteBufferTextureCursorWritable1i_1_16 extends AreaCursor implements
-  SpatialCursorWritable1i
+public interface SpatialCursorReadable2i extends SpatialCursor
 {
-  private final @Nonnull ByteBuffer target_data;
+  /**
+   * Get the value at the current cursor location and seek the cursor to the
+   * next element iff there is one.
+   * 
+   * @throws ConstraintError
+   *           Iff attempting to read from the cursor would read outside of
+   *           the valid area for the cursor, or <code>v == null</code>.
+   */
 
-  protected ByteBufferTextureCursorWritable1i_1_16(
-    final @Nonnull ByteBuffer target_data,
-    final @Nonnull AreaInclusive target_area,
-    final @Nonnull AreaInclusive update_area)
-    throws ConstraintError
-  {
-    super(target_area, update_area, 2);
-    this.target_data = target_data;
-  }
-
-  @Override public void put1i(
-    final int x)
-    throws ConstraintError
-  {
-    final int byte_current = (int) this.getByteOffset();
-    this.target_data.putChar(byte_current, (char) (x & 0xFFFF));
-    this.next();
-  }
+  void get2i(
+    final @Nonnull VectorM2I v)
+    throws ConstraintError;
 }

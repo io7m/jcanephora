@@ -17,6 +17,7 @@ package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,9 +25,9 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
 
-public class ByteBufferSpatialCursorWritable1i_1_16Test
+public class ByteBufferSpatialCursorReadable1f_4_32Test
 {
-  private static int BYTES_PER_PIXEL = 2;
+  private static int BYTES_PER_PIXEL = 4;
 
   @SuppressWarnings("static-method") @Test public void testRange()
     throws ConstraintError
@@ -37,23 +38,33 @@ public class ByteBufferSpatialCursorWritable1i_1_16Test
     final ByteBuffer buffer =
       ByteBuffer
         .allocate(
-          4 * 4 * ByteBufferSpatialCursorWritable1i_1_16Test.BYTES_PER_PIXEL)
+          4 * 4 * ByteBufferSpatialCursorReadable1f_4_32Test.BYTES_PER_PIXEL)
         .order(ByteOrder.nativeOrder());
-    final ByteBufferTextureCursorWritable1i_1_16 c =
-      new ByteBufferTextureCursorWritable1i_1_16(
+
+    final FloatBuffer fb = buffer.asFloatBuffer();
+    for (int y = 0; y <= 3; ++y) {
+      for (int x = 0; x <= 3; ++x) {
+        final int index = (y * 4) + x;
+        fb.put(index, (y * 1000.f) + x);
+      }
+    }
+
+    for (int index = 0; index < 16; ++index) {
+      System.out.println(fb.get(index));
+    }
+
+    final ByteBufferTextureCursorReadable1f_4_32 c =
+      new ByteBufferTextureCursorReadable1f_4_32(
         buffer,
         area_outer,
         area_outer);
 
-    int index = 0;
     for (int y = 0; y <= 3; ++y) {
       for (int x = 0; x <= 3; ++x) {
         Assert.assertTrue(c.isValid());
-        c.put1i(0x50);
-
-        Assert.assertEquals(0x50, buffer.get(index + 0));
-
-        index += ByteBufferSpatialCursorWritable1i_1_16Test.BYTES_PER_PIXEL;
+        final float expected = (y * 1000.f) + x;
+        final float got = c.get1f();
+        Assert.assertEquals(expected, got, 0.0f);
       }
     }
 
@@ -72,45 +83,39 @@ public class ByteBufferSpatialCursorWritable1i_1_16Test
     final ByteBuffer buffer =
       ByteBuffer
         .allocate(
-          12 * 12 * ByteBufferSpatialCursorWritable1i_1_16Test.BYTES_PER_PIXEL)
+          12 * 12 * ByteBufferSpatialCursorReadable1f_4_32Test.BYTES_PER_PIXEL)
         .order(ByteOrder.nativeOrder());
-    final ByteBufferTextureCursorWritable1i_1_16 c =
-      new ByteBufferTextureCursorWritable1i_1_16(
+
+    final FloatBuffer fb = buffer.asFloatBuffer();
+    for (int y = 0; y < 12; ++y) {
+      for (int x = 0; x < 12; ++x) {
+        final int index = (y * 12) + x;
+        fb.put(index, (y * 1000.f) + x);
+      }
+    }
+
+    for (int index = 0; index < (12 * 12); ++index) {
+      System.out.println(fb.get(index));
+    }
+
+    final ByteBufferTextureCursorReadable1f_4_32 c =
+      new ByteBufferTextureCursorReadable1f_4_32(
         buffer,
         area_outer,
         area_inner);
-    final long width = area_outer.getRangeX().getInterval();
 
     for (int y = 4; y <= 7; ++y) {
       for (int x = 4; x <= 7; ++x) {
         Assert.assertTrue(c.isValid());
-        Assert.assertEquals(x, c.getElementX());
-        Assert.assertEquals(y, c.getElementY());
-        Assert
-          .assertEquals(
-            (y * width * ByteBufferSpatialCursorWritable1i_1_16Test.BYTES_PER_PIXEL)
-              + (x * ByteBufferSpatialCursorWritable1i_1_16Test.BYTES_PER_PIXEL),
-            c.getByteOffset());
 
-        c.put1i(0x50);
+        Assert.assertTrue(c.isValid());
+        final float expected = (y * 1000.f) + x;
+        final float got = c.get1f();
+        Assert.assertEquals(expected, got, 0.0f);
       }
     }
 
     Assert.assertFalse(c.isValid());
     Assert.assertEquals(0, buffer.position());
-
-    int index = 0;
-    for (int y = 0; y <= 11; ++y) {
-      for (int x = 0; x <= 11; ++x) {
-
-        if ((y >= 4) && (y <= 7) && (x >= 4) && (x <= 7)) {
-          Assert.assertEquals(0x50, buffer.get(index + 0));
-        } else {
-          Assert.assertEquals(0x0, buffer.get(index + 0));
-        }
-
-        index += ByteBufferSpatialCursorWritable1i_1_16Test.BYTES_PER_PIXEL;
-      }
-    }
   }
 }

@@ -147,7 +147,7 @@ public final class TextureCubeWritableData
       }
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
       {
-        return new ByteBufferTextureCursorWritable1f_1_32(
+        return new ByteBufferTextureCursorWritable1f_4_32(
           this.target_data,
           this.source_area,
           this.source_area);
@@ -194,14 +194,14 @@ public final class TextureCubeWritableData
       }
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       {
-        return new ByteBufferTextureCursorWritable1i_1_16(
+        return new ByteBufferTextureCursorWritable1i_2_16(
           this.target_data,
           this.source_area,
           this.source_area);
       }
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       {
-        return new ByteBufferTextureCursorWritable1i_1_24(
+        return new ByteBufferTextureCursorWritable1i_3_24(
           this.target_data,
           this.source_area,
           this.source_area);

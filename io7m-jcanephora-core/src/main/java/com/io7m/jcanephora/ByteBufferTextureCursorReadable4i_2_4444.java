@@ -20,18 +20,21 @@ import java.nio.ByteBuffer;
 
 import javax.annotation.Nonnull;
 
+import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jtensors.VectorM4I;
 
 /**
- * Texture cursor addressing textures with single 32 bit elements.
+ * Texture cursor addressing textures with four 4 bit RGBA elements.
  */
 
-final class ByteBufferTextureCursorWritable1i_1_32 extends AreaCursor implements
-  SpatialCursorWritable1i
+final class ByteBufferTextureCursorReadable4i_2_4444 extends AreaCursor implements
+  SpatialCursorReadable4i
 {
   private final @Nonnull ByteBuffer target_data;
+  private final @Nonnull int[]      buffer = new int[4];
 
-  protected ByteBufferTextureCursorWritable1i_1_32(
+  protected ByteBufferTextureCursorReadable4i_2_4444(
     final @Nonnull ByteBuffer target_data,
     final @Nonnull AreaInclusive target_area,
     final @Nonnull AreaInclusive update_area)
@@ -41,12 +44,19 @@ final class ByteBufferTextureCursorWritable1i_1_32 extends AreaCursor implements
     this.target_data = target_data;
   }
 
-  @Override public void put1i(
-    final int x)
+  @Override public void get4i(
+    final @Nonnull VectorM4I v)
     throws ConstraintError
   {
+    Constraints.constrainNotNull(v, "Vector");
+
     final int byte_current = (int) this.getByteOffset();
-    this.target_data.putInt(byte_current, x);
+    final char r = this.target_data.getChar(byte_current);
+    TexturePixelPack.unpack2_4444(r, this.buffer);
+    v.x = this.buffer[0];
+    v.y = this.buffer[1];
+    v.z = this.buffer[2];
+    v.w = this.buffer[3];
     this.next();
   }
 }
