@@ -16,6 +16,10 @@
 
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
+import com.io7m.jaux.Constraints.ConstraintError;
+
 /**
  * <p>
  * Type-safe interface to the set of cube texture types guaranteed to be
@@ -26,5 +30,43 @@ package com.io7m.jcanephora;
 public interface JCGLTexturesCubeStaticGL2 extends
   JCGLTexturesCubeStaticCommon
 {
-  // No extra functions
+  /**
+   * Retrieve the texture image data associated with the face
+   * <code>face</code> of the left-handed cube texture <code>texture</code>.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>texture == null || face == null</code></li>
+   *           <li><code>texture</code> has been deleted</code></li>
+   *           </ul>
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  public @Nonnull TextureCubeReadableData textureCubeStaticGetImageLH(
+    final @Nonnull TextureCubeStaticUsable texture,
+    final @Nonnull CubeMapFaceLH face)
+    throws ConstraintError,
+      JCGLException;
+
+  /**
+   * Retrieve the texture image data associated with the face
+   * <code>face</code> of the right-handed cube texture <code>texture</code>.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>texture == null || face == null</code></li>
+   *           <li><code>texture</code> has been deleted</code></li>
+   *           </ul>
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  public @Nonnull TextureCubeReadableData textureCubeStaticGetImageRH(
+    final @Nonnull TextureCubeStaticUsable texture,
+    final @Nonnull CubeMapFaceRH face)
+    throws ConstraintError,
+      JCGLException;
 }

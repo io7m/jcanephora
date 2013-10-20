@@ -26,6 +26,7 @@ import javax.annotation.Nonnull;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
@@ -1277,5 +1278,60 @@ final class LWJGL_GL3Functions
       LWJGL_GLES2Functions.contextGetInteger(state, GL11.GL_STENCIL_BITS);
     LWJGL_GLES2Functions.checkError();
     return bits;
+  }
+
+  static @Nonnull Texture2DReadableData texture2DStaticGetImage(
+    final @Nonnull Texture2DStaticUsable texture)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(texture, "Texture data");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+
+    final int format =
+      LWJGL_GLTypeConversions.textureTypeToFormatGL(texture.getType());
+    final int itype =
+      LWJGL_GLTypeConversions.textureTypeToTypeGL(texture.getType());
+
+    final Texture2DReadableData td =
+      new Texture2DReadableData(texture.getType(), texture.getArea());
+
+    GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getGLName());
+    GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, format, itype, td.targetData());
+    GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+    LWJGL_GLES2Functions.checkError();
+
+    return td;
+  }
+
+  static TextureCubeReadableData textureCubeStaticGetImageLH(
+    final @Nonnull TextureCubeStaticUsable texture,
+    final @Nonnull CubeMapFaceLH face)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(texture, "Texture data");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+
+    final int format =
+      LWJGL_GLTypeConversions.textureTypeToFormatGL(texture.getType());
+    final int itype =
+      LWJGL_GLTypeConversions.textureTypeToTypeGL(texture.getType());
+
+    final TextureCubeReadableData td =
+      new TextureCubeReadableData(texture.getType(), texture.getArea());
+
+    final int face_i = LWJGL_GLTypeConversions.cubeFaceToGL(face);
+
+    GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texture.getGLName());
+    GL11.glGetTexImage(face_i, 0, format, itype, td.targetData());
+    GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, 0);
+    LWJGL_GLES2Functions.checkError();
+
+    return td;
   }
 }

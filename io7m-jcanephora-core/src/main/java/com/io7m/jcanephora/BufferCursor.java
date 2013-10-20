@@ -76,11 +76,6 @@ class BufferCursor implements Cursor
     this.uncheckedSeek(range.getLower());
   }
 
-  @Override public final boolean isValid()
-  {
-    return this.can_write;
-  }
-
   /**
    * Return the current byte offset of the cursor.
    * 
@@ -116,6 +111,11 @@ class BufferCursor implements Cursor
   @Override public final boolean hasNext()
   {
     return (this.element_current + 1) <= this.range.getUpper();
+  }
+
+  @Override public final boolean isValid()
+  {
+    return this.can_write;
   }
 
   /**

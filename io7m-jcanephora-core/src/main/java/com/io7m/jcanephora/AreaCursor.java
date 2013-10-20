@@ -93,11 +93,6 @@ import com.io7m.jaux.RangeInclusive;
       .getLower());
   }
 
-  @Override public final boolean isValid()
-  {
-    return this.can_write;
-  }
-
   @Override public boolean equals(
     final Object obj)
   {
@@ -156,6 +151,11 @@ import com.io7m.jaux.RangeInclusive;
     r = (p * r) + (int) (this.byte_offset ^ (this.byte_offset >>> 32));
     r = (p * r) + (int) (this.element_bytes ^ (this.element_bytes >>> 32));
     return r;
+  }
+
+  @Override public final boolean isValid()
+  {
+    return this.can_write;
   }
 
   @Override public final void next()

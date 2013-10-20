@@ -305,8 +305,6 @@ final class JOGL_GL2GL3_Functions
 
     final TextureSpec spec = JOGL_TextureSpecs.getGL3TextureSpec(type);
     JOGL_GL_Functions.textureSetPackUnpackAlignment1(gl);
-
-    JOGL_GL_Functions.textureSetPackUnpackAlignment1(gl);
     gl.glTexImage2D(
       GL.GL_TEXTURE_2D,
       0,
@@ -340,6 +338,35 @@ final class JOGL_GL2GL3_Functions
     }
 
     return t;
+  }
+
+  static @Nonnull Texture2DReadableData texture2DStaticGetImage(
+    final @Nonnull GL2GL3 gl,
+    final @Nonnull Texture2DStaticUsable texture)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(texture, "Texture data");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+
+    final TextureSpec spec =
+      JOGL_TextureSpecs.getGL3TextureSpec(texture.getType());
+    final Texture2DReadableData td =
+      new Texture2DReadableData(texture.getType(), texture.getArea());
+
+    gl.glBindTexture(GL.GL_TEXTURE_2D, texture.getGLName());
+    gl.glGetTexImage(
+      GL.GL_TEXTURE_2D,
+      0,
+      spec.format,
+      spec.type,
+      td.targetData());
+    gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
+    JOGL_GL_Functions.checkError(gl);
+
+    return td;
   }
 
   static void texture2DStaticUpdate(
@@ -492,6 +519,33 @@ final class JOGL_GL2GL3_Functions
     }
 
     return t;
+  }
+
+  static TextureCubeReadableData textureCubeStaticGetImageLH(
+    final @Nonnull GL2GL3 gl,
+    final @Nonnull TextureCubeStaticUsable texture,
+    final @Nonnull CubeMapFaceLH face)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(texture, "Texture data");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+
+    final TextureSpec spec =
+      JOGL_TextureSpecs.getGL3TextureSpec(texture.getType());
+    final TextureCubeReadableData td =
+      new TextureCubeReadableData(texture.getType(), texture.getArea());
+
+    final int face_i = JOGL_GLTypeConversions.cubeFaceToGL(face);
+
+    gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, texture.getGLName());
+    gl.glGetTexImage(face_i, 0, spec.format, spec.type, td.targetData());
+    gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
+    JOGL_GL_Functions.checkError(gl);
+
+    return td;
   }
 
   static void textureCubeStaticUpdate(

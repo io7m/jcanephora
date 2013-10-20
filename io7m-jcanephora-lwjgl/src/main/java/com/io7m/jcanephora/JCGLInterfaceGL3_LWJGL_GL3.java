@@ -1520,6 +1520,14 @@ import com.io7m.jtensors.VectorReadable4I;
     this.state, this.log, texture);
   }
 
+  @Override public Texture2DReadableData texture2DStaticGetImage(
+    final Texture2DStaticUsable texture)
+    throws ConstraintError,
+      JCGLException
+  {
+    return LWJGL_GL3Functions.texture2DStaticGetImage(texture);
+  }
+
   @Override public boolean texture2DStaticIsBound(
     final @Nonnull TextureUnit unit,
     final @Nonnull Texture2DStaticUsable texture)
@@ -1743,6 +1751,27 @@ import com.io7m.jtensors.VectorReadable4I;
       this.state,
       this.log,
       texture);
+  }
+
+  @Override public TextureCubeReadableData textureCubeStaticGetImageLH(
+    final TextureCubeStaticUsable texture,
+    final CubeMapFaceLH face)
+    throws ConstraintError,
+      JCGLException
+  {
+    return LWJGL_GL3Functions.textureCubeStaticGetImageLH(texture, face);
+  }
+
+  @Override public TextureCubeReadableData textureCubeStaticGetImageRH(
+    final TextureCubeStaticUsable texture,
+    final CubeMapFaceRH face)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(face, "Face");
+    return LWJGL_GL3Functions.textureCubeStaticGetImageLH(
+      texture,
+      CubeMapFaceLH.fromRH(face));
   }
 
   @Override public boolean textureCubeStaticIsBound(
