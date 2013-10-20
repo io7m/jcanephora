@@ -24,12 +24,8 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
 
-public class ByteBufferSpatialCursorWritable1i_1_24Test
+public class ByteBufferSpatialCursorWritable1f_4_32Test
 {
-  /**
-   * Yes, four bytes per pixel for 24 bit integers.
-   */
-
   private static int BYTES_PER_PIXEL = 4;
 
   @SuppressWarnings("static-method") @Test public void testRange()
@@ -41,10 +37,10 @@ public class ByteBufferSpatialCursorWritable1i_1_24Test
     final ByteBuffer buffer =
       ByteBuffer
         .allocate(
-          4 * 4 * ByteBufferSpatialCursorWritable1i_1_24Test.BYTES_PER_PIXEL)
+          4 * 4 * ByteBufferSpatialCursorWritable1f_4_32Test.BYTES_PER_PIXEL)
         .order(ByteOrder.nativeOrder());
-    final ByteBufferTextureCursorWritable1i_1_24 c =
-      new ByteBufferTextureCursorWritable1i_1_24(
+    final ByteBufferTextureCursorWritable1f_4_32 c =
+      new ByteBufferTextureCursorWritable1f_4_32(
         buffer,
         area_outer,
         area_outer);
@@ -53,11 +49,13 @@ public class ByteBufferSpatialCursorWritable1i_1_24Test
     for (int y = 0; y <= 3; ++y) {
       for (int x = 0; x <= 3; ++x) {
         Assert.assertTrue(c.isValid());
-        c.put1i(0x50);
 
-        Assert.assertEquals(0x50, buffer.get(index + 0));
+        final float wanted = 123.0f;
+        c.put1f(wanted);
+        final float got = buffer.getFloat(index);
+        Assert.assertTrue(wanted == got);
 
-        index += ByteBufferSpatialCursorWritable1i_1_24Test.BYTES_PER_PIXEL;
+        index += ByteBufferSpatialCursorWritable1f_4_32Test.BYTES_PER_PIXEL;
       }
     }
 
@@ -76,14 +74,16 @@ public class ByteBufferSpatialCursorWritable1i_1_24Test
     final ByteBuffer buffer =
       ByteBuffer
         .allocate(
-          12 * 12 * ByteBufferSpatialCursorWritable1i_1_24Test.BYTES_PER_PIXEL)
+          12 * 12 * ByteBufferSpatialCursorWritable1f_4_32Test.BYTES_PER_PIXEL)
         .order(ByteOrder.nativeOrder());
-    final ByteBufferTextureCursorWritable1i_1_24 c =
-      new ByteBufferTextureCursorWritable1i_1_24(
+    final ByteBufferTextureCursorWritable1f_4_32 c =
+      new ByteBufferTextureCursorWritable1f_4_32(
         buffer,
         area_outer,
         area_inner);
     final long width = area_outer.getRangeX().getInterval();
+
+    final float wanted = 123.0f;
 
     for (int y = 4; y <= 7; ++y) {
       for (int x = 4; x <= 7; ++x) {
@@ -92,11 +92,11 @@ public class ByteBufferSpatialCursorWritable1i_1_24Test
         Assert.assertEquals(y, c.getElementY());
         Assert
           .assertEquals(
-            (y * width * ByteBufferSpatialCursorWritable1i_1_24Test.BYTES_PER_PIXEL)
-              + (x * ByteBufferSpatialCursorWritable1i_1_24Test.BYTES_PER_PIXEL),
+            (y * width * ByteBufferSpatialCursorWritable1f_4_32Test.BYTES_PER_PIXEL)
+              + (x * ByteBufferSpatialCursorWritable1f_4_32Test.BYTES_PER_PIXEL),
             c.getByteOffset());
 
-        c.put1i(0x50);
+        c.put1f(wanted);
       }
     }
 
@@ -108,12 +108,11 @@ public class ByteBufferSpatialCursorWritable1i_1_24Test
       for (int x = 0; x <= 11; ++x) {
 
         if ((y >= 4) && (y <= 7) && (x >= 4) && (x <= 7)) {
-          Assert.assertEquals(0x50, buffer.get(index + 0));
-        } else {
-          Assert.assertEquals(0x0, buffer.get(index + 0));
+          final float got = buffer.getFloat(index);
+          Assert.assertTrue(wanted == got);
         }
 
-        index += ByteBufferSpatialCursorWritable1i_1_24Test.BYTES_PER_PIXEL;
+        index += ByteBufferSpatialCursorWritable1f_4_32Test.BYTES_PER_PIXEL;
       }
     }
   }

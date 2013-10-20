@@ -23,12 +23,12 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
 import com.io7m.jaux.UnreachableCodeException;
 
 /**
  * <p>
- * An allocated region of data, to replace or update a 2D texture.
+ * An allocated read-only region of data, typically created by downloading a
+ * texture from the GPU.
  * </p>
  * <p>
  * The cursors exposed by this interface treat <tt>(0, 0)</tt> as the bottom
@@ -36,77 +36,25 @@ import com.io7m.jaux.UnreachableCodeException;
  * </p>
  */
 
-public final class Texture2DWritableData
+public final class Texture2DReadableData
 {
-  private final @Nonnull Texture2DStatic texture;
-  private final @Nonnull AreaInclusive   target_area;
-  private final @Nonnull AreaInclusive   source_area;
-  private final @Nonnull ByteBuffer      target_data;
+  private final @Nonnull TextureType   type;
+  private final @Nonnull AreaInclusive area;
+  private final @Nonnull ByteBuffer    data;
 
-  /**
-   * Construct a buffer of data that will be used to replace the entirety of
-   * the data in <code>texture</code> on the GPU.
-   * 
-   * @param texture
-   *          The texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>buffer == null</code></li>
-   *           </ul>
-   */
-
-  public Texture2DWritableData(
-    final @Nonnull Texture2DStatic texture)
-    throws ConstraintError
-  {
-    this(texture, texture.getArea());
-  }
-
-  /**
-   * Construct a buffer of data that will be used to replace elements in the
-   * area <code>area</code> of the data in <code>texture</code> on the GPU.
-   * 
-   * @param texture
-   *          The texture.
-   * @param area
-   *          The inclusive area defining the area of the texture that will be
-   *          modified.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>buffer == null</code></li>
-   *           <li><code>area == null/code></li>
-   *           <li><code>area.isIncludedIn(texture.getArea()) == false</code></li>
-   *           </ul>
-   */
-
-  public Texture2DWritableData(
-    final @Nonnull Texture2DStatic texture,
+  Texture2DReadableData(
+    final @Nonnull TextureType type,
     final @Nonnull AreaInclusive area)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(texture, "Texture");
-    Constraints.constrainNotNull(area, "Area");
-    Constraints.constrainArbitrary(
-      area.isIncludedIn(texture.getArea()),
-      "Area is included within texture");
+    this.type = Constraints.constrainNotNull(type, "Texture type");
+    this.area = Constraints.constrainNotNull(area, "Area");
 
-    this.texture = texture;
-    this.target_area = area;
-
-    final RangeInclusive srx =
-      new RangeInclusive(0, area.getRangeX().getInterval() - 1);
-    final RangeInclusive sry =
-      new RangeInclusive(0, area.getRangeY().getInterval() - 1);
-    this.source_area = new AreaInclusive(srx, sry);
-
-    final long width = this.source_area.getRangeX().getInterval();
-    final long height = this.source_area.getRangeY().getInterval();
-    final int bpp = texture.getType().bytesPerPixel();
-
-    this.target_data =
-      ByteBuffer.allocateDirect((int) (height * width * bpp)).order(
+    final long width = this.area.getRangeX().getInterval();
+    final long height = this.area.getRangeY().getInterval();
+    final int bpp = type.bytesPerPixel();
+    this.data =
+      ByteBuffer.allocate((int) (height * width * bpp)).order(
         ByteOrder.nativeOrder());
   }
 
@@ -121,10 +69,10 @@ public final class Texture2DWritableData
    *           If the number of components in the texture is not 1.
    */
 
-  public @Nonnull SpatialCursorWritable1f getCursor1f()
+  public @Nonnull SpatialCursorReadable1f getCursor1f()
     throws ConstraintError
   {
-    switch (this.texture.getType()) {
+    switch (this.type) {
       case TEXTURE_TYPE_RGBA_4444_2BPP:
       case TEXTURE_TYPE_RGBA_5551_2BPP:
       case TEXTURE_TYPE_RGBA_8888_4BPP:
@@ -143,10 +91,10 @@ public final class Texture2DWritableData
       }
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
       {
-        return new ByteBufferTextureCursorWritable1f_4_32(
-          this.target_data,
-          this.source_area,
-          this.source_area);
+        return new ByteBufferTextureCursorReadable1f_4_32(
+          this.data,
+          this.area,
+          this.area);
       }
     }
 
@@ -164,16 +112,16 @@ public final class Texture2DWritableData
    *           If the number of components in the texture is not 1.
    */
 
-  public @Nonnull SpatialCursorWritable1i getCursor1i()
+  public @Nonnull SpatialCursorReadable1i getCursor1i()
     throws ConstraintError
   {
-    switch (this.texture.getType()) {
+    switch (this.type) {
       case TEXTURE_TYPE_R_8_1BPP:
       {
-        return new ByteBufferTextureCursorWritable1i_1_8(
-          this.target_data,
-          this.source_area,
-          this.source_area);
+        return new ByteBufferTextureCursorReadable1i_1_8(
+          this.data,
+          this.area,
+          this.area);
       }
       case TEXTURE_TYPE_RGBA_4444_2BPP:
       case TEXTURE_TYPE_RGBA_5551_2BPP:
@@ -190,17 +138,17 @@ public final class Texture2DWritableData
       }
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       {
-        return new ByteBufferTextureCursorWritable1i_2_16(
-          this.target_data,
-          this.source_area,
-          this.source_area);
+        return new ByteBufferTextureCursorReadable1i_2_16(
+          this.data,
+          this.area,
+          this.area);
       }
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       {
-        return new ByteBufferTextureCursorWritable1i_3_24(
-          this.target_data,
-          this.source_area,
-          this.source_area);
+        return new ByteBufferTextureCursorReadable1i_3_24(
+          this.data,
+          this.area,
+          this.area);
       }
     }
 
@@ -218,16 +166,16 @@ public final class Texture2DWritableData
    *           If the number of components in the texture is not 2.
    */
 
-  public @Nonnull SpatialCursorWritable2i getCursor2i()
+  public @Nonnull SpatialCursorReadable2i getCursor2i()
     throws ConstraintError
   {
-    switch (this.texture.getType()) {
+    switch (this.type) {
       case TEXTURE_TYPE_RG_88_2BPP:
       {
-        return new ByteBufferTextureCursorWritable2i_2_88(
-          this.target_data,
-          this.source_area,
-          this.source_area);
+        return new ByteBufferTextureCursorReadable2i_2_88(
+          this.data,
+          this.area,
+          this.area);
       }
       case TEXTURE_TYPE_RGBA_5551_2BPP:
       case TEXTURE_TYPE_RGBA_4444_2BPP:
@@ -260,10 +208,10 @@ public final class Texture2DWritableData
    *           If the number of components in the texture is not 3.
    */
 
-  public @Nonnull SpatialCursorWritable3i getCursor3i()
+  public @Nonnull SpatialCursorReadable3i getCursor3i()
     throws ConstraintError
   {
-    switch (this.texture.getType()) {
+    switch (this.type) {
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
@@ -280,17 +228,17 @@ public final class Texture2DWritableData
       }
       case TEXTURE_TYPE_RGB_565_2BPP:
       {
-        return new ByteBufferTextureCursorWritable3i_2_565(
-          this.target_data,
-          this.source_area,
-          this.source_area);
+        return new ByteBufferTextureCursorReadable3i_2_565(
+          this.data,
+          this.area,
+          this.area);
       }
       case TEXTURE_TYPE_RGB_888_3BPP:
       {
-        return new ByteBufferTextureCursorWritable3i_3_888(
-          this.target_data,
-          this.source_area,
-          this.source_area);
+        return new ByteBufferTextureCursorReadable3i_3_888(
+          this.data,
+          this.area,
+          this.area);
       }
     }
 
@@ -308,30 +256,30 @@ public final class Texture2DWritableData
    *           If the number of components in the texture is not 4.
    */
 
-  public @Nonnull SpatialCursorWritable4i getCursor4i()
+  public @Nonnull SpatialCursorReadable4i getCursor4i()
     throws ConstraintError
   {
-    switch (this.texture.getType()) {
+    switch (this.type) {
       case TEXTURE_TYPE_RGBA_4444_2BPP:
       {
-        return new ByteBufferTextureCursorWritable4i_2_4444(
-          this.target_data,
-          this.source_area,
-          this.source_area);
+        return new ByteBufferTextureCursorReadable4i_2_4444(
+          this.data,
+          this.area,
+          this.area);
       }
       case TEXTURE_TYPE_RGBA_5551_2BPP:
       {
-        return new ByteBufferTextureCursorWritable4i_2_5551(
-          this.target_data,
-          this.source_area,
-          this.source_area);
+        return new ByteBufferTextureCursorReadable4i_2_5551(
+          this.data,
+          this.area,
+          this.area);
       }
       case TEXTURE_TYPE_RGBA_8888_4BPP:
       {
-        return new ByteBufferTextureCursorWritable4i_4_8888(
-          this.target_data,
-          this.source_area,
-          this.source_area);
+        return new ByteBufferTextureCursorReadable4i_4_8888(
+          this.data,
+          this.area,
+          this.area);
       }
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
@@ -350,22 +298,13 @@ public final class Texture2DWritableData
     throw new UnreachableCodeException();
   }
 
-  /**
-   * Retrieve the texture that will be affected by this update.
-   */
-
-  public @Nonnull Texture2DStatic getTexture()
-  {
-    return this.texture;
-  }
-
   @Nonnull AreaInclusive targetArea()
   {
-    return this.target_area;
+    return this.area;
   }
 
   @Nonnull ByteBuffer targetData()
   {
-    return this.target_data;
+    return this.data;
   }
 }

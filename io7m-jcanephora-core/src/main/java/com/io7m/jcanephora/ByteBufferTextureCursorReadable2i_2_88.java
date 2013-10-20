@@ -20,19 +20,20 @@ import java.nio.ByteBuffer;
 
 import javax.annotation.Nonnull;
 
+import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jtensors.VectorM2I;
 
 /**
- * Texture cursor addressing textures with three RGB elements, with 5 bits for
- * red, 6 bits for green, and 5 bits for blue.
+ * Texture cursor addressing textures with two elements, both 8 bits.
  */
 
-final class ByteBufferTextureCursorWritable3i_2_565 extends AreaCursor implements
-  SpatialCursorWritable3i
+final class ByteBufferTextureCursorReadable2i_2_88 extends AreaCursor implements
+  SpatialCursorReadable2i
 {
   private final @Nonnull ByteBuffer target_data;
 
-  protected ByteBufferTextureCursorWritable3i_2_565(
+  protected ByteBufferTextureCursorReadable2i_2_88(
     final @Nonnull ByteBuffer target_data,
     final @Nonnull AreaInclusive target_area,
     final @Nonnull AreaInclusive update_area)
@@ -42,15 +43,15 @@ final class ByteBufferTextureCursorWritable3i_2_565 extends AreaCursor implement
     this.target_data = target_data;
   }
 
-  @Override public void put3i(
-    final int r,
-    final int g,
-    final int b)
+  @Override public void get2i(
+    final @Nonnull VectorM2I v)
     throws ConstraintError
   {
-    final char data = TexturePixelPack.pack2_565(r, g, b);
+    Constraints.constrainNotNull(v, "Vector");
+
     final int byte_current = (int) this.getByteOffset();
-    this.target_data.putChar(byte_current, data);
+    v.x = this.target_data.get(byte_current + 0) & 0xff;
+    v.y = this.target_data.get(byte_current + 1) & 0xff;
     this.next();
   }
 }

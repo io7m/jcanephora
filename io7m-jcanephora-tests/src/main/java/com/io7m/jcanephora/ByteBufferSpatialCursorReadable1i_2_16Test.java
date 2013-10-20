@@ -13,11 +13,12 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
+import java.nio.CharBuffer;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -25,9 +26,9 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
 
-public class ByteBufferSpatialCursorReadable1f_1_32Test
+public class ByteBufferSpatialCursorReadable1i_2_16Test
 {
-  private static int BYTES_PER_PIXEL = 4;
+  private static int BYTES_PER_PIXEL = 2;
 
   @SuppressWarnings("static-method") @Test public void testRange()
     throws ConstraintError
@@ -38,23 +39,24 @@ public class ByteBufferSpatialCursorReadable1f_1_32Test
     final ByteBuffer buffer =
       ByteBuffer
         .allocate(
-          4 * 4 * ByteBufferSpatialCursorReadable1f_1_32Test.BYTES_PER_PIXEL)
+          4 * 4 * ByteBufferSpatialCursorReadable1i_2_16Test.BYTES_PER_PIXEL)
         .order(ByteOrder.nativeOrder());
 
-    final FloatBuffer fb = buffer.asFloatBuffer();
+    final CharBuffer cb = buffer.asCharBuffer();
     for (int y = 0; y <= 3; ++y) {
       for (int x = 0; x <= 3; ++x) {
         final int index = (y * 4) + x;
-        fb.put(index, (y * 1000.f) + x);
+        final int v = (y * 10) + x;
+        cb.put(index, (char) v);
       }
     }
 
     for (int index = 0; index < 16; ++index) {
-      System.out.println(fb.get(index));
+      System.out.println((int) cb.get(index));
     }
 
-    final ByteBufferTextureCursorReadable1f_1_32 c =
-      new ByteBufferTextureCursorReadable1f_1_32(
+    final ByteBufferTextureCursorReadable1i_2_16 c =
+      new ByteBufferTextureCursorReadable1i_2_16(
         buffer,
         area_outer,
         area_outer);
@@ -62,9 +64,9 @@ public class ByteBufferSpatialCursorReadable1f_1_32Test
     for (int y = 0; y <= 3; ++y) {
       for (int x = 0; x <= 3; ++x) {
         Assert.assertTrue(c.isValid());
-        final float expected = (y * 1000.f) + x;
-        final float got = c.get1f();
-        Assert.assertEquals(expected, got, 0.0f);
+        final int expected = (y * 10) + x;
+        final int got = c.get1i();
+        Assert.assertEquals(expected, got);
       }
     }
 
@@ -83,23 +85,23 @@ public class ByteBufferSpatialCursorReadable1f_1_32Test
     final ByteBuffer buffer =
       ByteBuffer
         .allocate(
-          12 * 12 * ByteBufferSpatialCursorReadable1f_1_32Test.BYTES_PER_PIXEL)
+          12 * 12 * ByteBufferSpatialCursorReadable1i_2_16Test.BYTES_PER_PIXEL)
         .order(ByteOrder.nativeOrder());
 
-    final FloatBuffer fb = buffer.asFloatBuffer();
+    final CharBuffer cb = buffer.asCharBuffer();
     for (int y = 0; y < 12; ++y) {
       for (int x = 0; x < 12; ++x) {
         final int index = (y * 12) + x;
-        fb.put(index, (y * 1000.f) + x);
+        cb.put(index, (char) ((y * 100) + x));
       }
     }
 
     for (int index = 0; index < (12 * 12); ++index) {
-      System.out.println(fb.get(index));
+      System.out.println(buffer.get(index));
     }
 
-    final ByteBufferTextureCursorReadable1f_1_32 c =
-      new ByteBufferTextureCursorReadable1f_1_32(
+    final ByteBufferTextureCursorReadable1i_2_16 c =
+      new ByteBufferTextureCursorReadable1i_2_16(
         buffer,
         area_outer,
         area_inner);
@@ -107,11 +109,9 @@ public class ByteBufferSpatialCursorReadable1f_1_32Test
     for (int y = 4; y <= 7; ++y) {
       for (int x = 4; x <= 7; ++x) {
         Assert.assertTrue(c.isValid());
-
-        Assert.assertTrue(c.isValid());
-        final float expected = (y * 1000.f) + x;
-        final float got = c.get1f();
-        Assert.assertEquals(expected, got, 0.0f);
+        final int expected = ((y * 100) + x);
+        final int got = c.get1i();
+        Assert.assertEquals(expected, got);
       }
     }
 
