@@ -50,9 +50,9 @@ final class ByteBufferTextureCursorReadable3i_3_888 extends AreaCursor implement
     Constraints.constrainNotNull(v, "Vector");
 
     final int byte_current = (int) this.getByteOffset();
-    v.x = this.target_data.get(byte_current + 0);
-    v.y = this.target_data.get(byte_current + 1);
-    v.z = this.target_data.get(byte_current + 2);
+    v.x = this.target_data.get(byte_current + 0) & 0xff;
+    v.y = this.target_data.get(byte_current + 1) & 0xff;
+    v.z = this.target_data.get(byte_current + 2) & 0xff;
     this.next();
   }
 }

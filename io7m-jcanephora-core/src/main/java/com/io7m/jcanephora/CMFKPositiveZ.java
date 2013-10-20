@@ -17,8 +17,8 @@
 package com.io7m.jcanephora;
 
 /**
- * A reflection of the {@link CubeMapFaceLH#CUBE_MAP_LH_POSITIVE_Z} value at the
- * type-level.
+ * A reflection of the {@link CubeMapFaceLH#CUBE_MAP_LH_POSITIVE_Z} value at
+ * the type-level.
  */
 
 public interface CMFKPositiveZ extends CubeMapFaceKind

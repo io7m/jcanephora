@@ -76,6 +76,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
     return true;
   }
 
+  @Override public Map<String, ProgramAttribute> getAttributes()
+  {
+    return this.attributes;
+  }
+
   @Override public int getGLName()
   {
     return this.id;
@@ -88,6 +93,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
   public @Nonnull String getName()
   {
     return this.name;
+  }
+
+  @Override public Map<String, ProgramUniform> getUniforms()
+  {
+    return this.uniforms;
   }
 
   @Override public int hashCode()
@@ -108,15 +118,5 @@ import com.io7m.jaux.Constraints.ConstraintError;
     builder.append(this.name);
     builder.append("\"]");
     return builder.toString();
-  }
-
-  @Override public Map<String, ProgramUniform> getUniforms()
-  {
-    return this.uniforms;
-  }
-
-  @Override public Map<String, ProgramAttribute> getAttributes()
-  {
-    return this.attributes;
   }
 }

@@ -31,13 +31,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
 public interface SpatialCursor
 {
   /**
-   * Return <code>true</code> iff the cursor is currently pointing to a valid
-   * location.
-   */
-
-  public boolean isValid();
-
-  /**
    * Retrieve the current position of the cursor on the X axis.
    * 
    * @throws ConstraintError
@@ -56,6 +49,13 @@ public interface SpatialCursor
 
   public long getElementY()
     throws ConstraintError;
+
+  /**
+   * Return <code>true</code> iff the cursor is currently pointing to a valid
+   * location.
+   */
+
+  public boolean isValid();
 
   /**
    * Seek the cursor to the next element.

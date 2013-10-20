@@ -16,38 +16,34 @@
 
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
+import com.io7m.jaux.Constraints.ConstraintError;
+
 /**
- * Seekable cursor type.
+ * <p>
+ * Type-safe interface to the set of 2D texture types guaranteed to be
+ * supported by OpenGL 2.1.
+ * </p>
  */
 
-public interface Cursor
+public interface JCGLTextures2DStaticGL2 extends JCGLTextures2DStaticCommon
 {
   /**
-   * Return <code>true</code> iff there are more elements available.
-   */
-
-  public boolean hasNext();
-
-  /**
-   * Return <code>true</code> iff the cursor is pointing within the valid
-   * range of elements.
-   */
-
-  public boolean isValid();
-
-  /**
-   * Seek the cursor to the next element.
-   */
-
-  public void next();
-
-  /**
-   * Seek the cursor to the index <code>index</code>.
+   * Retrieve the texture image data associated with <code>texture</code>.
    * 
-   * @param index
-   *          The element.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>texture == null</code></li>
+   *           <li><code>texture</code> has been deleted</code></li>
+   *           </ul>
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
    */
 
-  public void seekTo(
-    long index);
+  public @Nonnull Texture2DReadableData texture2DStaticGetImage(
+    final @Nonnull Texture2DStaticUsable texture)
+    throws ConstraintError,
+      JCGLException;
 }
