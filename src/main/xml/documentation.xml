@@ -3081,7 +3081,44 @@ g.viewportSet(
           The interface exposed is slightly more compact than the
           existing OpenGL API.
         </s:paragraph>
-      </s:subsection>>
+      </s:subsection>
+    </s:section>
+
+    <s:section xml:id="com.io7m.jcanephora.100.core_interfaces.ProjectionMatrix">
+      <s:section-title>ProjectionMatrix</s:section-title>
+      <s:section-contents/>
+      <s:subsection>
+        <s:subsection-title>Description</s:subsection-title>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/ProjectionMatrix.html">ProjectionMatrix</s:link-external>
+          class provides functions for producing projection matrices.
+        </s:paragraph>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/ProjectionMatrix.html#makeOrthographicProjection(com.io7m.jtensors.MatrixM4x4F, double, double, double, double, double, double)">makeOrthographicProjection</s:link-external>
+          function produces a matrix representing an orthographic projection
+          based upon the given clipping plane coordinates.
+        </s:paragraph>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/ProjectionMatrix.html#makeFrustumProjection(com.io7m.jtensors.MatrixM4x4F, double, double, double, double, double, double)">makeFrustumProjection</s:link-external>
+          function produces a matrix representing a perspective projection
+          based upon the given frustum parameters.
+        </s:paragraph>
+        <s:paragraph>
+          The <s:link-external target="javadoc/com/io7m/jcanephora/ProjectionMatrix.html#makePerspectiveProjection(com.io7m.jtensors.MatrixM4x4F, double, double, double, double)">makePerspectiveProjection</s:link-external>
+          function produces a matrix representing a perspective projection
+          based upon the given near and far clipping planes, the given
+          horizontal field of view (in radians), and viewport aspect ratio.
+          Essentially, a frustum is constructed with the right clipping plane 
+          <s:term type="expression">x_max</s:term> given by
+          <s:term type="expression">near_z * tan (horizontal_fov / 2)</s:term>,
+          and the top clipping plane <s:term type="expression">y_max</s:term> 
+          given by <s:term type="expression">y_max / aspect</s:term>:
+        </s:paragraph>
+        <s:formal-item kind="images">
+          <s:formal-item-title>Perspective projection</s:formal-item-title>
+          <s:image source="projection.png">Perspective projection</s:image>
+        </s:formal-item>
+      </s:subsection>
     </s:section>
   </s:part>
 
