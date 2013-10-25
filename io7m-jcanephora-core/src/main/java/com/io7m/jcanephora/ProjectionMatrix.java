@@ -138,14 +138,14 @@ public final class ProjectionMatrix
     final double r0c2 = (x_max + x_min) / (x_max - x_min);
     final double r1c2 = (y_max + y_min) / (y_max - y_min);
 
-    double r2c2;
-    double r2c3;
+    final double r2c2;
+    final double r2c3;
 
     if (z_far >= Double.POSITIVE_INFINITY) {
       r2c2 = -1.0;
       r2c3 = -2.0 * z_near;
     } else {
-      r2c2 = -(z_far - z_near) / (z_far - z_near);
+      r2c2 = -(z_far + z_near) / (z_far - z_near);
       r2c3 = -(2.0 * z_far * z_near) / (z_far - z_near);
     }
 
