@@ -462,7 +462,7 @@ public final class ExampleFBO3 implements Example
        */
 
       MatrixM4x4F.setIdentity(this.matrix_projection);
-      ProjectionMatrix.makeOrthographic(
+      ProjectionMatrix.makeOrthographicProjection(
         this.matrix_projection,
         0,
         width,
@@ -574,7 +574,7 @@ public final class ExampleFBO3 implements Example
      */
 
     MatrixM4x4F.setIdentity(this.matrix_projection);
-    ProjectionMatrix.makeOrthographic(
+    ProjectionMatrix.makeOrthographicProjection(
       this.matrix_projection,
       0,
       width * this.framebuffer_divisor,

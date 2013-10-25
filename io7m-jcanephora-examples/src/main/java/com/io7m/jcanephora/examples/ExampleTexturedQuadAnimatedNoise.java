@@ -234,7 +234,7 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
      */
 
     MatrixM4x4F.setIdentity(this.matrix_projection);
-    ProjectionMatrix.makeOrthographic(
+    ProjectionMatrix.makeOrthographicProjection(
       this.matrix_projection,
       0,
       640,
@@ -358,7 +358,7 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
       ConstraintError,
       JCGLCompileException
   {
-    ProjectionMatrix.makeOrthographic(
+    ProjectionMatrix.makeOrthographicProjection(
       this.matrix_projection,
       0,
       size.getXI(),

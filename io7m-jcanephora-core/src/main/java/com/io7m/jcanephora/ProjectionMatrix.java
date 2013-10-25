@@ -32,40 +32,44 @@ public final class ProjectionMatrix
    * Calculate a projection matrix that produces an orthographic projection
    * based on the given clipping plane coordinates.
    * 
-   * @param left
+   * @param x_min
    *          The left clipping plane coordinate.
-   * @param right
+   * @param x_max
    *          The right clipping plane coordinate.
-   * @param bottom
+   * @param y_min
    *          The bottom clipping plane coordinate.
-   * @param top
+   * @param y_max
    *          The top clipping plane coordinate.
-   * @param near
+   * @param z_near
    *          The near clipping plane coordinate.
-   * @param far
+   * @param z_far
    *          The far clipping plane coordinate.
+   * 
    * @throws ConstraintError
-   *           Iff an internal contract violation occurs.
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>m == null</code></li>
+   *           </ul>
    */
 
-  public static void makeOrthographic(
+  public static void makeOrthographicProjection(
     final @Nonnull MatrixM4x4F matrix,
-    final double left,
-    final double right,
-    final double bottom,
-    final double top,
-    final double near,
-    final double far)
+    final double x_min,
+    final double x_max,
+    final double y_min,
+    final double y_max,
+    final double z_near,
+    final double z_far)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(matrix, "matrix");
+    Constraints.constrainNotNull(matrix, "Matrix");
 
-    final double rml = right - left;
-    final double rpl = right + left;
-    final double tmb = top - bottom;
-    final double tpb = top + bottom;
-    final double fmn = far - near;
-    final double fpn = far + near;
+    final double rml = x_max - x_min;
+    final double rpl = x_max + x_min;
+    final double tmb = y_max - y_min;
+    final double tpb = y_max + y_min;
+    final double fmn = z_far - z_near;
+    final double fpn = z_far + z_near;
 
     final float r0c0 = (float) (2 / rml);
     final float r0c3 = (float) -(rpl / rml);
@@ -96,46 +100,47 @@ public final class ProjectionMatrix
   }
 
   /**
-   * Calculate a matrix that will produce a perspective projection based on
-   * the given view frustum parameters, the aspect ratio of the viewport and a
-   * given field of view in radians.
-   * 
+   * <p>
+   * Calculate a matrix that produces a perspective projection. The
+   * <code>(x_min, y_min, z_near)</code> and
+   * <code>(x_max, y_max, z_near)</code> parameters specify the points on the
+   * near clipping plane that are mapped to the lower-left and upper-right
+   * corners of the window, respectively, assuming that the eye is located at
+   * <code>(0, 0, 0)</code>. The <code>z_far</code> parameter specifies the
+   * location of the far clipping plane.
+   * </p>
+   * <p>
    * Note that iff <code>z_far >= Double.POSITIVE_INFINITY</code>, the
    * function produces an "infinite projection matrix", suitable for use in
    * code that deals with shadow volumes.
+   * <p>
    * 
    * @link http://http.developer.nvidia.com/GPUGems/gpugems_ch09.html
-   * 
-   * @param z_near
-   *          The near clipping plane coordinate.
-   * @param z_far
-   *          The far clipping plane coordinate.
-   * @param aspect
-   *          The aspect ratio of the viewport; the width divided by the
-   *          height.
-   * @param fov_radians
-   *          The field of view in radians.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>m == null</code></li> <li><code>0 &lt=; z_near &lt;
+   *           z_far == false</code></li>
+   *           </ul>
    */
 
-  public static void makePerspective(
+  public static void makeFrustumProjection(
     final @Nonnull MatrixM4x4F matrix,
+    final double x_min,
+    final double x_max,
+    final double y_min,
+    final double y_max,
     final double z_near,
-    final double z_far,
-    final double aspect,
-    final double fov_radians)
+    final double z_far)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(matrix, "matrix");
+    Constraints.constrainNotNull(matrix, "Matrix");
+    Constraints.constrainRange(z_near, 0.0, Double.MAX_VALUE);
+    Constraints.constrainLessThan(z_near, z_far);
 
-    final double x_max = z_near * (Math.tan(fov_radians));
-    final double x_min = -x_max;
-    final double y_min = x_min / aspect;
-    final double y_max = x_max / aspect;
-
-    final double r0c0 = (2.0 * z_near) / (x_max - x_min);
-    final double r1c1 = (2.0 * z_near) / (y_max - y_min);
-
+    final double r0c0 = (2 * z_near) / (x_max - x_min);
     final double r0c2 = (x_max + x_min) / (x_max - x_min);
+    final double r1c1 = (2 * z_near) / (y_max - y_min);
     final double r1c2 = (y_max + y_min) / (y_max - y_min);
 
     final double r2c2;
@@ -145,8 +150,8 @@ public final class ProjectionMatrix
       r2c2 = -1.0;
       r2c3 = -2.0 * z_near;
     } else {
-      r2c2 = -(z_far + z_near) / (z_far - z_near);
-      r2c3 = -(2.0 * z_far * z_near) / (z_far - z_near);
+      r2c2 = -((z_far + z_near) / (z_far - z_near));
+      r2c3 = -((2 * z_far * z_near) / (z_far - z_near));
     }
 
     matrix.set(0, 0, (float) r0c0);
@@ -167,6 +172,60 @@ public final class ProjectionMatrix
     matrix.set(3, 0, 0.0f);
     matrix.set(3, 1, 0.0f);
     matrix.set(3, 2, -1.0f);
-    matrix.set(3, 3, 1.0f);
+    matrix.set(3, 3, 0.0f);
+  }
+
+  /**
+   * <p>
+   * Calculate a matrix that will produce a perspective projection based on
+   * the given view frustum parameters, the aspect ratio of the viewport and a
+   * given horizontal field of view in radians. Note that
+   * <code>fov_radians</code> represents the full horizontal field of view:
+   * the angle at the base of the triangle formed by the frustum on the
+   * <code>x/z</code> plane.
+   * </p>
+   * <p>
+   * Note that iff <code>z_far >= Double.POSITIVE_INFINITY</code>, the
+   * function produces an "infinite projection matrix", suitable for use in
+   * code that deals with shadow volumes.
+   * <p>
+   * 
+   * @link http://http.developer.nvidia.com/GPUGems/gpugems_ch09.html
+   * 
+   * @param z_near
+   *          The near clipping plane coordinate.
+   * @param z_far
+   *          The far clipping plane coordinate.
+   * @param aspect
+   *          The aspect ratio of the viewport; the width divided by the
+   *          height. For example, an aspect ratio of 2.0 indicates a viewport
+   *          twice as wide as it is high.
+   * @param horizontal_fov
+   *          The horizontal field of view in radians.
+   */
+
+  public static void makePerspectiveProjection(
+    final @Nonnull MatrixM4x4F matrix,
+    final double z_near,
+    final double z_far,
+    final double aspect,
+    final double horizontal_fov)
+    throws ConstraintError
+  {
+    Constraints.constrainNotNull(matrix, "matrix");
+
+    final double x_max = z_near * Math.tan(horizontal_fov / 2.0);
+    final double x_min = -x_max;
+    final double y_max = x_max / aspect;
+    final double y_min = -y_max;
+
+    ProjectionMatrix.makeFrustumProjection(
+      matrix,
+      x_min,
+      x_max,
+      y_min,
+      y_max,
+      z_near,
+      z_far);
   }
 }
