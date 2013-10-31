@@ -26,6 +26,72 @@ import com.io7m.jaux.UnreachableCodeException;
 
 final class JOGL_GLTypeConversions
 {
+  static final @Nonnull PixelType pixelTypeFromGL(
+    final int e)
+  {
+    switch (e) {
+      case GL.GL_UNSIGNED_SHORT_5_6_5:
+        return PixelType.PIXEL_PACKED_UNSIGNED_SHORT_565;
+      case GL.GL_UNSIGNED_SHORT_5_5_5_1:
+        return PixelType.PIXEL_PACKED_UNSIGNED_SHORT_5551;
+      case GL.GL_UNSIGNED_SHORT_4_4_4_4:
+        return PixelType.PIXEL_PACKED_UNSIGNED_SHORT_4444;
+      case GL2ES2.GL_UNSIGNED_INT_10_10_10_2:
+        return PixelType.PIXEL_PACKED_UNSIGNED_INT_1010102;
+      case GL.GL_UNSIGNED_SHORT:
+        return PixelType.PIXEL_COMPONENT_UNSIGNED_SHORT;
+      case GL.GL_UNSIGNED_INT:
+        return PixelType.PIXEL_COMPONENT_UNSIGNED_INT;
+      case GL.GL_UNSIGNED_BYTE:
+        return PixelType.PIXEL_COMPONENT_UNSIGNED_BYTE;
+      case GL.GL_SHORT:
+        return PixelType.PIXEL_COMPONENT_SHORT;
+      case GL2ES2.GL_INT:
+        return PixelType.PIXEL_COMPONENT_INT;
+      case GL.GL_FLOAT:
+        return PixelType.PIXEL_COMPONENT_FLOAT;
+      case GL.GL_BYTE:
+        return PixelType.PIXEL_COMPONENT_BYTE;
+      case GL.GL_HALF_FLOAT:
+        return PixelType.PIXEL_COMPONENT_HALF_FLOAT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  static final int pixelTypeToGL(
+    final @Nonnull PixelType p)
+  {
+    switch (p) {
+      case PIXEL_COMPONENT_BYTE:
+        return GL.GL_BYTE;
+      case PIXEL_COMPONENT_FLOAT:
+        return GL.GL_FLOAT;
+      case PIXEL_COMPONENT_INT:
+        return GL2ES2.GL_INT;
+      case PIXEL_COMPONENT_SHORT:
+        return GL.GL_SHORT;
+      case PIXEL_COMPONENT_UNSIGNED_BYTE:
+        return GL.GL_UNSIGNED_BYTE;
+      case PIXEL_COMPONENT_UNSIGNED_INT:
+        return GL.GL_UNSIGNED_INT;
+      case PIXEL_COMPONENT_UNSIGNED_SHORT:
+        return GL.GL_UNSIGNED_SHORT;
+      case PIXEL_PACKED_UNSIGNED_INT_1010102:
+        return GL2ES2.GL_UNSIGNED_INT_10_10_10_2;
+      case PIXEL_PACKED_UNSIGNED_SHORT_4444:
+        return GL.GL_UNSIGNED_SHORT_4_4_4_4;
+      case PIXEL_PACKED_UNSIGNED_SHORT_5551:
+        return GL.GL_UNSIGNED_SHORT_5_5_5_1;
+      case PIXEL_PACKED_UNSIGNED_SHORT_565:
+        return GL.GL_UNSIGNED_SHORT_5_6_5;
+      case PIXEL_COMPONENT_HALF_FLOAT:
+        return GL.GL_HALF_FLOAT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
   static final @Nonnull BlendEquationGLES2 blendEquationES2FromGL(
     final int e)
   {

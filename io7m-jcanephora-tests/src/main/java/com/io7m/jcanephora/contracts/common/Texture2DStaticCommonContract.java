@@ -29,6 +29,7 @@ import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureType;
+import com.io7m.jcanephora.TextureTypeMeta;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.contracts.Texture2DStaticContract;
@@ -51,25 +52,63 @@ public abstract class Texture2DStaticCommonContract extends
     final TestContext tc = this.newTestContext();
     final JCGLTextures2DStaticCommon gl = this.getGLTexture2DStatic(tc);
 
-    for (final TextureType type : TextureType.get2DTypesCommon()) {
+    for (final TextureType type : TextureTypeMeta
+      .getTextures2DRequiredByCommonSubset()) {
       Texture2DStatic t = null;
 
       switch (type) {
+        case TEXTURE_TYPE_RGBA_1010102_4BPP:
+        case TEXTURE_TYPE_RGBA_16F_8BPP:
+        case TEXTURE_TYPE_RGBA_16I_8BPP:
+        case TEXTURE_TYPE_RGBA_16U_8BPP:
+        case TEXTURE_TYPE_RGBA_16_8BPP:
+        case TEXTURE_TYPE_RGBA_32I_16BPP:
+        case TEXTURE_TYPE_RGBA_32U_16BPP:
+        case TEXTURE_TYPE_RGBA_8I_4BPP:
+        case TEXTURE_TYPE_RGBA_8U_4BPP:
+        case TEXTURE_TYPE_RGB_16F_6BPP:
+        case TEXTURE_TYPE_RGB_16I_6BPP:
+        case TEXTURE_TYPE_RGB_16U_6BPP:
+        case TEXTURE_TYPE_RGB_16_6BPP:
+        case TEXTURE_TYPE_RGB_32F_12BPP:
+        case TEXTURE_TYPE_RGB_32I_12BPP:
+        case TEXTURE_TYPE_RGB_32U_12BPP:
+        case TEXTURE_TYPE_RGB_8I_3BPP:
+        case TEXTURE_TYPE_RGB_8U_3BPP:
+        case TEXTURE_TYPE_RG_16F_4BPP:
+        case TEXTURE_TYPE_RG_16I_4BPP:
+        case TEXTURE_TYPE_RG_16U_4BPP:
+        case TEXTURE_TYPE_RG_16_4BPP:
+        case TEXTURE_TYPE_RG_32F_8BPP:
+        case TEXTURE_TYPE_RG_32I_8BPP:
+        case TEXTURE_TYPE_RG_32U_8BPP:
+        case TEXTURE_TYPE_RG_8I_2BPP:
+        case TEXTURE_TYPE_RG_8U_2BPP:
+        case TEXTURE_TYPE_R_16F_2BPP:
+        case TEXTURE_TYPE_R_16I_2BPP:
+        case TEXTURE_TYPE_R_16U_2BPP:
+        case TEXTURE_TYPE_R_16_2BPP:
+        case TEXTURE_TYPE_R_32F_4BPP:
+        case TEXTURE_TYPE_R_32I_4BPP:
+        case TEXTURE_TYPE_R_32U_4BPP:
+        case TEXTURE_TYPE_R_8I_1BPP:
+        case TEXTURE_TYPE_R_8U_1BPP:
         case TEXTURE_TYPE_DEPTH_16_2BPP:
         case TEXTURE_TYPE_DEPTH_24_4BPP:
         case TEXTURE_TYPE_DEPTH_32F_4BPP:
         case TEXTURE_TYPE_RGBA_4444_2BPP:
         case TEXTURE_TYPE_RGBA_5551_2BPP:
         case TEXTURE_TYPE_RGB_565_2BPP:
-        case TEXTURE_TYPE_RG_88_2BPP:
+        case TEXTURE_TYPE_RG_8_2BPP:
         case TEXTURE_TYPE_R_8_1BPP:
+        case TEXTURE_TYPE_RGBA_32F_16BPP:
         {
           throw new UnreachableCodeException();
         }
-        case TEXTURE_TYPE_RGBA_8888_4BPP:
+        case TEXTURE_TYPE_RGBA_8_4BPP:
         {
           t =
-            gl.texture2DStaticAllocateRGBA8888(
+            gl.texture2DStaticAllocateRGBA8(
               "image",
               256,
               128,
@@ -80,10 +119,10 @@ public abstract class Texture2DStaticCommonContract extends
           Assert.assertEquals(type, t.getType());
           break;
         }
-        case TEXTURE_TYPE_RGB_888_3BPP:
+        case TEXTURE_TYPE_RGB_8_3BPP:
         {
           t =
-            gl.texture2DStaticAllocateRGB888(
+            gl.texture2DStaticAllocateRGB8(
               "image",
               256,
               128,

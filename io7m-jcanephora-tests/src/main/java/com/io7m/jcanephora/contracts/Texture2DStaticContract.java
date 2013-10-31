@@ -35,6 +35,7 @@ import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
+import com.io7m.jtensors.VectorI3I;
 
 public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticCommon> implements
   TestContract
@@ -86,7 +87,7 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
 
     final TextureUnit[] units = gu.textureGetUnits();
     final Texture2DStatic t =
-      gl.texture2DStaticAllocateRGBA8888(
+      gl.texture2DStaticAllocateRGBA8(
         "texture",
         64,
         64,
@@ -122,7 +123,7 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
 
     final TextureUnit[] units = gu.textureGetUnits();
     final Texture2DStatic t =
-      gl.texture2DStaticAllocateRGBA8888(
+      gl.texture2DStaticAllocateRGBA8(
         "texture",
         64,
         64,
@@ -194,7 +195,7 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final T gl = this.getGLTexture2DStatic(tc);
 
     final Texture2DStatic t =
-      gl.texture2DStaticAllocateRGBA8888(
+      gl.texture2DStaticAllocateRGBA8(
         "texture",
         64,
         64,
@@ -226,7 +227,7 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final T gl = this.getGLTexture2DStatic(tc);
 
     final Texture2DStatic t =
-      gl.texture2DStaticAllocateRGBA8888(
+      gl.texture2DStaticAllocateRGBA8(
         "texture",
         64,
         64,
@@ -261,7 +262,7 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
 
     final TextureUnit[] units = gu.textureGetUnits();
     final Texture2DStatic t =
-      gl.texture2DStaticAllocateRGBA8888(
+      gl.texture2DStaticAllocateRGBA8(
         "texture",
         64,
         64,
@@ -312,7 +313,7 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final TestContext tc = this.newTestContext();
     final T gl = this.getGLTexture2DStatic(tc);
 
-    gl.texture2DStaticAllocateRGBA8888(
+    gl.texture2DStaticAllocateRGBA8(
       "texture",
       64,
       64,
@@ -339,7 +340,7 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final TestContext tc = this.newTestContext();
     final T gl = this.getGLTexture2DStatic(tc);
 
-    gl.texture2DStaticAllocateRGBA8888(
+    gl.texture2DStaticAllocateRGBA8(
       "texture",
       64,
       64,
@@ -366,7 +367,7 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final TestContext tc = this.newTestContext();
     final T gl = this.getGLTexture2DStatic(tc);
 
-    gl.texture2DStaticAllocateRGBA8888(
+    gl.texture2DStaticAllocateRGBA8(
       null,
       64,
       64,
@@ -393,7 +394,7 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final TestContext tc = this.newTestContext();
     final T gl = this.getGLTexture2DStatic(tc);
 
-    gl.texture2DStaticAllocateRGBA8888(
+    gl.texture2DStaticAllocateRGBA8(
       "texture",
       64,
       64,
@@ -420,7 +421,7 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final TestContext tc = this.newTestContext();
     final T gl = this.getGLTexture2DStatic(tc);
 
-    gl.texture2DStaticAllocateRGBA8888(
+    gl.texture2DStaticAllocateRGBA8(
       "texture",
       64,
       64,
@@ -464,7 +465,7 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final T gl = this.getGLTexture2DStatic(tc);
 
     final Texture2DStatic t =
-      gl.texture2DStaticAllocateRGB888(
+      gl.texture2DStaticAllocateRGB8(
         "xyz",
         64,
         64,
@@ -479,8 +480,8 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     Assert.assertTrue(cursor.isValid());
 
     while (cursor.isValid()) {
-      cursor.put3i(0x0, 0x0, 0xff);
-      cursor.next();
+      cursor.put3i(new VectorI3I(0x0, 0x0, 0xff));
+
     }
 
     gl.texture2DStaticUpdate(update);

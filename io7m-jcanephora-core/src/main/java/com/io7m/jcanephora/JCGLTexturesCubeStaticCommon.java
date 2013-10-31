@@ -33,8 +33,8 @@ public interface JCGLTexturesCubeStaticCommon
   /**
    * <p>
    * Allocate an RGB texture of width/height <code>size</code>. See
-   * {@link TextureType#TEXTURE_TYPE_RGB_888_3BPP} for the precise format of
-   * the texture.
+   * {@link TextureType#TEXTURE_TYPE_RGB_8_3BPP} for the precise format of the
+   * texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -95,7 +95,7 @@ public interface JCGLTexturesCubeStaticCommon
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB888(
+  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB8(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -109,7 +109,7 @@ public interface JCGLTexturesCubeStaticCommon
   /**
    * <p>
    * Allocate an RGBA texture of width/height <code>size</code>. See
-   * {@link TextureType#TEXTURE_TYPE_RGBA_8888_4BPP} for the precise format of
+   * {@link TextureType#TEXTURE_TYPE_RGBA_8_4BPP} for the precise format of
    * the texture.
    * </p>
    * <p>
@@ -171,7 +171,7 @@ public interface JCGLTexturesCubeStaticCommon
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGBA8888(
+  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGBA8(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,

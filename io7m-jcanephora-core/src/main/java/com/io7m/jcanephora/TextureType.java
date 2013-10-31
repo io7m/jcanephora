@@ -16,366 +16,347 @@
 
 package com.io7m.jcanephora;
 
-import java.util.EnumSet;
-import java.util.Set;
-
 import javax.annotation.Nonnull;
 
-import com.io7m.jaux.UnreachableCodeException;
-
-/**
- * The type of elements in a given texture.
- */
+/** Texture types */
 
 public enum TextureType
 {
   /**
-   * Four-channel RGBA, 8 bits per channel, four bytes per pixel.
+   * 8 bit, red channel, signed integer components.
    */
 
-  TEXTURE_TYPE_RGBA_8888_4BPP,
+  TEXTURE_TYPE_R_8I_1BPP(PixelType.PIXEL_COMPONENT_BYTE, 1, 1),
 
   /**
-   * Three-channel RGB, 8 bits per channel, three bytes per pixel.
+   * 8 bit, red channel, unsigned integer components.
    */
 
-  TEXTURE_TYPE_RGB_888_3BPP,
+  TEXTURE_TYPE_R_8U_1BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_BYTE, 1, 1),
 
   /**
-   * Four-channel RGBA, 4 bits per channel, two bytes per pixel.
+   * 8 bit, red channel, unsigned normalized fixed-point components.
    */
 
-  TEXTURE_TYPE_RGBA_4444_2BPP,
+  TEXTURE_TYPE_R_8_1BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_BYTE, 1, 1),
 
   /**
-   * Four-channel RGBA, 5 bits per (R, G, B) channels, 1 bit alpha, two bytes
-   * per pixel.
+   * 16 bit, red channel, signed integer components.
    */
 
-  TEXTURE_TYPE_RGBA_5551_2BPP,
+  TEXTURE_TYPE_R_16I_2BPP(PixelType.PIXEL_COMPONENT_SHORT, 1, 2),
 
   /**
-   * Four-channel RGBA, 5 bits R, 6 bits G, 5 bits B, two bytes per pixel.
+   * 16 bit, red channel, unsigned integer components.
    */
 
-  TEXTURE_TYPE_RGB_565_2BPP,
+  TEXTURE_TYPE_R_16U_2BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_SHORT, 1, 2),
 
   /**
-   * Two channel red/green, 8 bits per channel, two bytes per pixel.
+   * 16 bit, red channel, unsigned normalized fixed-point components.
    */
 
-  TEXTURE_TYPE_RG_88_2BPP,
+  TEXTURE_TYPE_R_16_2BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_SHORT, 1, 2),
 
   /**
-   * Single channel red, 8 bits per channel, one byte per pixel.
+   * 16 bit, red channel, half-precision floating point components.
    */
 
-  TEXTURE_TYPE_R_8_1BPP,
+  TEXTURE_TYPE_R_16F_2BPP(PixelType.PIXEL_COMPONENT_HALF_FLOAT, 1, 2),
 
   /**
-   * 16 bit depth component texture, two bytes per pixel.
+   * 32 bit, red channel, signed integer components.
    */
 
-  TEXTURE_TYPE_DEPTH_16_2BPP,
+  TEXTURE_TYPE_R_32I_4BPP(PixelType.PIXEL_COMPONENT_INT, 1, 4),
 
   /**
-   * 24 bit depth component texture, four bytes per pixel.
+   * 32 bit, red channel, unsigned integer components.
    */
 
-  TEXTURE_TYPE_DEPTH_24_4BPP,
+  TEXTURE_TYPE_R_32U_4BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_INT, 1, 4),
 
   /**
-   * 32 bit depth component texture with floating point components, four bytes
-   * per pixel.
+   * 32 bit, red channel, single-precision floating point components.
    */
 
-  TEXTURE_TYPE_DEPTH_32F_4BPP;
+  TEXTURE_TYPE_R_32F_4BPP(PixelType.PIXEL_COMPONENT_FLOAT, 1, 4),
 
   /**
-   * Retrieve the set of the 2D texture types supported by all OpenGL and
-   * OpenGL ES implementations.
+   * 8 bit, red/green channels, signed integer components.
    */
 
-  public static Set<TextureType> get2DTypesCommon()
+  TEXTURE_TYPE_RG_8I_2BPP(PixelType.PIXEL_COMPONENT_BYTE, 2, 2),
+
+  /**
+   * 8 bit, red/green channels, unsigned integer components.
+   */
+
+  TEXTURE_TYPE_RG_8U_2BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_BYTE, 2, 2),
+
+  /**
+   * 8 bit, red/green channels, unsigned normalized fixed-point components.
+   */
+
+  TEXTURE_TYPE_RG_8_2BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_BYTE, 2, 2),
+
+  /**
+   * 16 bit, red/green channels, signed integer components.
+   */
+
+  TEXTURE_TYPE_RG_16I_4BPP(PixelType.PIXEL_COMPONENT_SHORT, 2, 4),
+
+  /**
+   * 16 bit, red/green channels, unsigned integer components.
+   */
+
+  TEXTURE_TYPE_RG_16U_4BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_SHORT, 2, 4),
+
+  /**
+   * 16 bit, red/green channels, unsigned normalized fixed-point components.
+   */
+
+  TEXTURE_TYPE_RG_16_4BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_SHORT, 2, 4),
+
+  /**
+   * 16 bit, red/green channels, half-precision floating point components.
+   */
+
+  TEXTURE_TYPE_RG_16F_4BPP(PixelType.PIXEL_COMPONENT_HALF_FLOAT, 2, 4),
+
+  /**
+   * 32 bit, red/green channels, signed integer components.
+   */
+
+  TEXTURE_TYPE_RG_32I_8BPP(PixelType.PIXEL_COMPONENT_INT, 2, 8),
+
+  /**
+   * 32 bit, red/green channels, unsigned integer components.
+   */
+
+  TEXTURE_TYPE_RG_32U_8BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_INT, 2, 8),
+
+  /**
+   * 32 bit, red/green channels, single-precision floating-point components.
+   */
+
+  TEXTURE_TYPE_RG_32F_8BPP(PixelType.PIXEL_COMPONENT_FLOAT, 2, 8),
+
+  /**
+   * 8 bit, red/green/blue channels, signed integer components.
+   */
+
+  TEXTURE_TYPE_RGB_8I_3BPP(PixelType.PIXEL_COMPONENT_BYTE, 3, 3),
+
+  /**
+   * 8 bit, red/green/blue channels, unsigned integer components.
+   */
+
+  TEXTURE_TYPE_RGB_8U_3BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_BYTE, 3, 3),
+
+  /**
+   * 8 bit, red/green/blue channels, unsigned normalized fixed-point
+   * components.
+   */
+
+  TEXTURE_TYPE_RGB_8_3BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_BYTE, 3, 3),
+
+  /**
+   * 16 bit, red/green/blue channels, signed integer components.
+   */
+
+  TEXTURE_TYPE_RGB_16I_6BPP(PixelType.PIXEL_COMPONENT_SHORT, 3, 6),
+
+  /**
+   * 16 bit, red/green/blue channels, unsigned integer components.
+   */
+
+  TEXTURE_TYPE_RGB_16U_6BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_SHORT, 3, 6),
+
+  /**
+   * 16 bit, red/green/blue channels, unsigned normalized fixed-point
+   * components.
+   */
+
+  TEXTURE_TYPE_RGB_16_6BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_SHORT, 3, 6),
+
+  /**
+   * 16 bit, red/green/blue channels, half-precision floating point
+   * components.
+   */
+
+  TEXTURE_TYPE_RGB_16F_6BPP(PixelType.PIXEL_COMPONENT_HALF_FLOAT, 3, 6),
+
+  /**
+   * 32 bit, red/green/blue channels, signed integer components.
+   */
+
+  TEXTURE_TYPE_RGB_32I_12BPP(PixelType.PIXEL_COMPONENT_INT, 3, 12),
+
+  /**
+   * 32 bit, red/green/blue channels, unsigned integer components.
+   */
+
+  TEXTURE_TYPE_RGB_32U_12BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_INT, 3, 12),
+
+  /**
+   * 32 bit, red/green/blue channels, floating point components.
+   */
+
+  TEXTURE_TYPE_RGB_32F_12BPP(PixelType.PIXEL_COMPONENT_FLOAT, 3, 12),
+
+  /**
+   * 8 bit, red/green/blue/alpha channels, signed integer components.
+   */
+
+  TEXTURE_TYPE_RGBA_8I_4BPP(PixelType.PIXEL_COMPONENT_BYTE, 4, 4),
+
+  /**
+   * 8 bit, red/green/blue/alpha channels, unsigned integer components.
+   */
+
+  TEXTURE_TYPE_RGBA_8U_4BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_BYTE, 4, 4),
+
+  /**
+   * 8 bit, red/green/blue/alpha channels, unsigned normalized fixed-point
+   * components.
+   */
+
+  TEXTURE_TYPE_RGBA_8_4BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_BYTE, 4, 4),
+
+  /**
+   * 16 bit, red/green/blue/alpha channels, signed integer components.
+   */
+
+  TEXTURE_TYPE_RGBA_16I_8BPP(PixelType.PIXEL_COMPONENT_SHORT, 4, 8),
+
+  /**
+   * 16 bit, red/green/blue/alpha channels, unsigned integer components.
+   */
+
+  TEXTURE_TYPE_RGBA_16U_8BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_SHORT, 4, 8),
+
+  /**
+   * 16 bit, red/green/blue/alpha channels, unsigned normalized fixed-point
+   * components.
+   */
+
+  TEXTURE_TYPE_RGBA_16_8BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_SHORT, 4, 8),
+
+  /**
+   * 16 bit, red/green/blue/alpha channels, half-precision floating point
+   * components.
+   */
+
+  TEXTURE_TYPE_RGBA_16F_8BPP(PixelType.PIXEL_COMPONENT_HALF_FLOAT, 4, 8),
+
+  /**
+   * 32 bit, red/green/blue/alpha channels, signed integer components.
+   */
+
+  TEXTURE_TYPE_RGBA_32I_16BPP(PixelType.PIXEL_COMPONENT_INT, 4, 16),
+
+  /**
+   * 32 bit, red/green/blue/alpha channels, unsigned integer components.
+   */
+
+  TEXTURE_TYPE_RGBA_32U_16BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_INT, 4, 16),
+
+  /**
+   * 32 bit, red/green/blue/alpha channels, floating point components.
+   */
+
+  TEXTURE_TYPE_RGBA_32F_16BPP(PixelType.PIXEL_COMPONENT_FLOAT, 4, 16),
+
+  /**
+   * 16 bit, red5/green6/blue5 channels, packed components.
+   */
+
+  TEXTURE_TYPE_RGB_565_2BPP(PixelType.PIXEL_PACKED_UNSIGNED_SHORT_565, 3, 2),
+
+  /**
+   * 16 bit, red4/green4/blue4/alpha4 channels, packed components.
+   */
+
+  TEXTURE_TYPE_RGBA_4444_2BPP(
+    PixelType.PIXEL_PACKED_UNSIGNED_SHORT_4444,
+    4,
+    2),
+
+  /**
+   * 16 bit, red5/green5/blue5/alpha1 channels, packed components.
+   */
+
+  TEXTURE_TYPE_RGBA_5551_2BPP(
+    PixelType.PIXEL_PACKED_UNSIGNED_SHORT_5551,
+    4,
+    2),
+
+  /**
+   * 32 bit, red10/green10/blue10/alpha2 channels, packed components.
+   */
+
+  TEXTURE_TYPE_RGBA_1010102_4BPP(
+    PixelType.PIXEL_PACKED_UNSIGNED_INT_1010102,
+    4,
+    4),
+
+  /**
+   * 16 bit, depth component, unsigned short components.
+   */
+
+  TEXTURE_TYPE_DEPTH_16_2BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_SHORT, 1, 2),
+
+  /**
+   * 24 bit, depth component, unsigned integer components.
+   */
+
+  TEXTURE_TYPE_DEPTH_24_4BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_INT, 1, 4),
+
+  /**
+   * 32 bit, depth component, floating point components.
+   */
+
+  TEXTURE_TYPE_DEPTH_32F_4BPP(PixelType.PIXEL_COMPONENT_FLOAT, 1, 4), ;
+
+  private final @Nonnull PixelType pixel_type;
+  private final int                components;
+  private final int                bytes_per_pixel;
+
+  private TextureType(
+    final @Nonnull PixelType pixel_type,
+    final int components,
+    final int bytes_per_pixel)
   {
-    return EnumSet.of(TEXTURE_TYPE_RGBA_8888_4BPP, TEXTURE_TYPE_RGB_888_3BPP);
+    this.pixel_type = pixel_type;
+    this.components = components;
+    this.bytes_per_pixel = bytes_per_pixel;
   }
 
   /**
-   * Retrieve the set of the 2D texture types supported by OpenGL 2.1.
+   * Retrieve the number of bytes per pixel that this texture type requires.
    */
 
-  public static @Nonnull Set<TextureType> get2DTypesGL2()
+  public int getBytesPerPixel()
   {
-    return TextureType.get2DTypesCommon();
+    return this.bytes_per_pixel;
   }
 
   /**
-   * Retrieve the set of the 2D texture types supported by 3.0.
+   * Retrieve the number of components in this texture type.
    */
 
-  public static @Nonnull Set<TextureType> get2DTypesGL3()
+  public int getComponentCount()
   {
-    return TextureType.get2DTypesGL3ES3();
+    return this.components;
   }
 
   /**
-   * Retrieve the common set of the 2D texture types supported by both GL 3.*
-   * and ES 3.*.
+   * Retrieve the type used for the components.
    */
 
-  public static @Nonnull Set<TextureType> get2DTypesGL3ES3()
+  public @Nonnull PixelType getComponentType()
   {
-    return EnumSet.of(
-      TEXTURE_TYPE_RGBA_8888_4BPP,
-      TEXTURE_TYPE_RGB_888_3BPP,
-      TEXTURE_TYPE_RG_88_2BPP,
-      TEXTURE_TYPE_R_8_1BPP,
-      TEXTURE_TYPE_DEPTH_16_2BPP,
-      TEXTURE_TYPE_DEPTH_24_4BPP,
-      TEXTURE_TYPE_DEPTH_32F_4BPP);
+    return this.pixel_type;
   }
-
-  /**
-   * Retrieve the set of the 2D texture types supported by ES2.
-   */
-
-  public static @Nonnull Set<TextureType> get2DTypesGLES2()
-  {
-    return EnumSet.of(
-      TEXTURE_TYPE_RGBA_8888_4BPP,
-      TEXTURE_TYPE_RGBA_5551_2BPP,
-      TEXTURE_TYPE_RGBA_4444_2BPP,
-      TEXTURE_TYPE_RGB_888_3BPP,
-      TEXTURE_TYPE_RGB_565_2BPP);
-  }
-
-  /**
-   * Retrieve the set of the 2D texture types supported by ES 3.0.
-   */
-
-  public static @Nonnull Set<TextureType> get2DTypesGLES3()
-  {
-    final Set<TextureType> s0 = TextureType.get2DTypesGL3ES3();
-    final Set<TextureType> s1 = TextureType.get2DTypesGLES2();
-    final EnumSet<TextureType> sn = EnumSet.noneOf(TextureType.class);
-    sn.addAll(s0);
-    sn.addAll(s1);
-    return sn;
-  }
-
-  /**
-   * Retrieve the set of the cube texture types supported by all OpenGL and
-   * OpenGL ES implementations.
-   */
-
-  public static Set<TextureType> getCubeTypesCommon()
-  {
-    return EnumSet.of(TEXTURE_TYPE_RGBA_8888_4BPP, TEXTURE_TYPE_RGB_888_3BPP);
-  }
-
-  /**
-   * Retrieve the set of the cube texture types supported by OpenGL 2.1.
-   */
-
-  public static @Nonnull Set<TextureType> getCubeTypesGL2()
-  {
-    return TextureType.getCubeTypesCommon();
-  }
-
-  /**
-   * Retrieve the set of the cube texture types supported by 3.0.
-   */
-
-  public static @Nonnull Set<TextureType> getCubeTypesGL3()
-  {
-    return TextureType.getCubeTypesGL3ES3();
-  }
-
-  /**
-   * Retrieve the common set of the cube texture types supported by GL 3.* and
-   * ES 3.*.
-   */
-
-  public static @Nonnull Set<TextureType> getCubeTypesGL3ES3()
-  {
-    return EnumSet.of(
-      TEXTURE_TYPE_RGBA_8888_4BPP,
-      TEXTURE_TYPE_RGB_888_3BPP,
-      TEXTURE_TYPE_R_8_1BPP,
-      TEXTURE_TYPE_DEPTH_16_2BPP,
-      TEXTURE_TYPE_DEPTH_24_4BPP,
-      TEXTURE_TYPE_DEPTH_32F_4BPP);
-  }
-
-  /**
-   * Retrieve the set of the cube texture types supported by ES2.
-   */
-
-  public static @Nonnull Set<TextureType> getCubeTypesGLES2()
-  {
-    return EnumSet.of(
-      TEXTURE_TYPE_RGBA_8888_4BPP,
-      TEXTURE_TYPE_RGBA_5551_2BPP,
-      TEXTURE_TYPE_RGBA_4444_2BPP,
-      TEXTURE_TYPE_RGB_888_3BPP,
-      TEXTURE_TYPE_RGB_565_2BPP);
-  }
-
-  /**
-   * Retrieve the set of the cube texture types supported by ES 3.0.
-   */
-
-  public static @Nonnull Set<TextureType> getCubeTypesGLES3()
-  {
-    final Set<TextureType> s0 = TextureType.getCubeTypesGL3ES3();
-    final Set<TextureType> s1 = TextureType.getCubeTypesGLES2();
-    final EnumSet<TextureType> sn = EnumSet.noneOf(TextureType.class);
-    sn.addAll(s0);
-    sn.addAll(s1);
-    return sn;
-  }
-
-  /**
-   * Return all texture types with the given number of components.
-   */
-
-  public static Set<TextureType> getWithComponents(
-    final int c)
-  {
-    final EnumSet<TextureType> xs = EnumSet.noneOf(TextureType.class);
-
-    if (c <= 0) {
-      return xs;
-    }
-
-    for (final TextureType t : TextureType.values()) {
-      if (t.getComponents() == c) {
-        xs.add(t);
-      }
-    }
-
-    return xs;
-  }
-
-  /**
-   * Retrieve the number of bytes per pixel in the texture type.
-   */
-
-  public int bytesPerPixel()
-  {
-    switch (this) {
-      case TEXTURE_TYPE_R_8_1BPP:
-        return 1;
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_RG_88_2BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGB_565_2BPP:
-        return 2;
-      case TEXTURE_TYPE_RGB_888_3BPP:
-        return 3;
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_RGBA_8888_4BPP:
-        return 4;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  /**
-   * Return the number of components in the texture type.
-   */
-
-  public int getComponents()
-  {
-    switch (this) {
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_8888_4BPP:
-        return 4;
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_888_3BPP:
-        return 3;
-      case TEXTURE_TYPE_RG_88_2BPP:
-        return 2;
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
-        return 1;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  public boolean isColorRenderable()
-  {
-    switch (this) {
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      {
-        return false;
-      }
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_8888_4BPP:
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_888_3BPP:
-      case TEXTURE_TYPE_RG_88_2BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
-      {
-        return true;
-      }
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  public boolean isDepthRenderable()
-  {
-    switch (this) {
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      {
-        return true;
-      }
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_8888_4BPP:
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_888_3BPP:
-      case TEXTURE_TYPE_RG_88_2BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
-      {
-        return false;
-      }
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  public boolean isFloatingPoint()
-  {
-    switch (this) {
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_8888_4BPP:
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_888_3BPP:
-      case TEXTURE_TYPE_RG_88_2BPP:
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
-        return false;
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-        return true;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
 }

@@ -29,6 +29,7 @@ import com.io7m.jcanephora.TextureCubeStatic;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureType;
+import com.io7m.jcanephora.TextureTypeMeta;
 import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
@@ -49,8 +50,540 @@ public abstract class TextureCubeStaticGLES3Contract extends
     final TestContext tc = this.newTestContext();
     final JCGLTexturesCubeStaticGLES3 gl = this.getGLTextureCubeStatic(tc);
 
-    for (final TextureType t : TextureType.getCubeTypesGLES3()) {
+    for (final TextureType t : TextureTypeMeta
+      .getTexturesCubeRequiredByGLES3()) {
       switch (t) {
+
+        case TEXTURE_TYPE_RG_16_4BPP:
+        {
+          throw new UnreachableCodeException(new AssertionError(t.toString()));
+        }
+
+        case TEXTURE_TYPE_R_8_1BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateR8(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_R_8U_1BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateR8U(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_R_8I_1BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateR8I(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_R_16_2BPP:
+        {
+          throw new UnreachableCodeException(new AssertionError(t.toString()));
+        }
+
+        case TEXTURE_TYPE_R_16U_2BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateR16U(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_R_16I_2BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateR16I(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_R_16F_2BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateR16f(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_R_32U_4BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateR32U(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_R_32I_4BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateR32I(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_R_32F_4BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateR32f(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RG_8_2BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRG8(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RG_8U_2BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRG8U(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RG_8I_2BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRG8I(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RG_16U_4BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRG16U(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RG_16I_4BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRG16I(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RG_16F_4BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRG16f(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RG_32U_8BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRG32U(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RG_32I_8BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRG32I(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RG_32F_8BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRG32f(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RGB_8U_3BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRGB8U(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RGB_8I_3BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRGB8I(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RGB_16_6BPP:
+        {
+          throw new UnreachableCodeException(new AssertionError(t.toString()));
+        }
+
+        case TEXTURE_TYPE_RGB_16U_6BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRGB16U(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RGB_16I_6BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRGB16I(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RGB_16F_6BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRGB16f(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RGB_32U_12BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRGB32U(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RGB_32I_12BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRGB32I(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RGB_32F_12BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRGB32f(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RGBA_8U_4BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRGBA8U(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RGBA_8I_4BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRGBA8I(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RGBA_16_8BPP:
+        {
+          throw new UnreachableCodeException(new AssertionError(t.toString()));
+        }
+
+        case TEXTURE_TYPE_RGBA_16U_8BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRGBA16U(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RGBA_16I_8BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRGBA16I(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RGBA_16F_8BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRGBA16f(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RGBA_32U_16BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRGBA32U(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RGBA_32I_16BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRGBA32I(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
+        case TEXTURE_TYPE_RGBA_32F_16BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateRGBA32f(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
         case TEXTURE_TYPE_RGBA_4444_2BPP:
         {
           final TextureCubeStatic tx =
@@ -79,10 +612,10 @@ public abstract class TextureCubeStaticGLES3Contract extends
           Assert.assertEquals(tx.getType(), t);
           break;
         }
-        case TEXTURE_TYPE_RGBA_8888_4BPP:
+        case TEXTURE_TYPE_RGBA_8_4BPP:
         {
           final TextureCubeStatic tx =
-            gl.textureCubeStaticAllocateRGBA8888(
+            gl.textureCubeStaticAllocateRGBA8(
               t.toString(),
               128,
               TextureWrapR.TEXTURE_WRAP_REPEAT,
@@ -107,28 +640,10 @@ public abstract class TextureCubeStaticGLES3Contract extends
           Assert.assertEquals(tx.getType(), t);
           break;
         }
-        case TEXTURE_TYPE_RGB_888_3BPP:
+        case TEXTURE_TYPE_RGB_8_3BPP:
         {
           final TextureCubeStatic tx =
-            gl.textureCubeStaticAllocateRGB888(
-              t.toString(),
-              128,
-              TextureWrapR.TEXTURE_WRAP_REPEAT,
-              TextureWrapS.TEXTURE_WRAP_REPEAT,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-          Assert.assertEquals(tx.getType(), t);
-          break;
-        }
-        case TEXTURE_TYPE_RG_88_2BPP:
-        {
-          throw new UnreachableCodeException();
-        }
-        case TEXTURE_TYPE_R_8_1BPP:
-        {
-          final TextureCubeStatic tx =
-            gl.textureCubeStaticAllocateR8(
+            gl.textureCubeStaticAllocateRGB8(
               t.toString(),
               128,
               TextureWrapR.TEXTURE_WRAP_REPEAT,
@@ -180,6 +695,10 @@ public abstract class TextureCubeStaticGLES3Contract extends
               TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
+        }
+        case TEXTURE_TYPE_RGBA_1010102_4BPP:
+        {
+          throw new UnreachableCodeException(new AssertionError(t.toString()));
         }
       }
     }

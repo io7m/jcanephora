@@ -19,12 +19,9 @@ package com.io7m.jcanephora;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * Typed, writable cursor addressing areas consisting of single integer
- * elements.
- * 
- * Due to the lack of 8-bit unsigned types in Java, the interface uses
- * ordinary integers and simply assumes that values passed are in the range
- * <code>[0 .. 0xFF]</code>.
+ * Writable cursor addressing areas consisting of single-component elements.
+ * Values are written exactly as given (but may be truncated if the
+ * destination has less precision than the given 32 bit integer value).
  */
 
 public interface SpatialCursorWritable1i extends SpatialCursor

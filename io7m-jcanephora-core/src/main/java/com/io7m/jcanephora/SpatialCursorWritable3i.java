@@ -16,22 +16,22 @@
 
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jtensors.VectorReadable3I;
 
 /**
- * Typed, writable cursor addressing areas consisting of elements of type
- * Vector3B.
- * 
- * Due to the lack of 8-bit unsigned types in Java, the interface uses
- * ordinary integers and simply assumes that values passed are in the range
- * <code>[0 .. 0xFF]</code>.
+ * Writable cursor addressing areas consisting of three-component elements.
+ * Values are written exactly as given (but may be truncated if the
+ * destination has less precision than the given 32 bit integer values).
  */
 
 public interface SpatialCursorWritable3i extends SpatialCursor
 {
   /**
-   * Put the values <code>r, g, b</code> at the current cursor location and
-   * seek the cursor to the next element iff there is one.
+   * Put the values <code>v</code> at the current cursor location and seek the
+   * cursor to the next element iff there is one.
    * 
    * @throws ConstraintError
    *           Iff attempting to write to the cursor would write outside of
@@ -39,8 +39,6 @@ public interface SpatialCursorWritable3i extends SpatialCursor
    */
 
   void put3i(
-    final int r,
-    final int g,
-    final int b)
+    final @Nonnull VectorReadable3I v)
     throws ConstraintError;
 }

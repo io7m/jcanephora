@@ -1034,6 +1034,7 @@ final class JOGL_GL_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
+    final @Nonnull JCGLVersion version,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull Texture2DStaticUsable texture)
     throws JCGLException,
@@ -1052,7 +1053,7 @@ final class JOGL_GL_Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(
-      texture.getType().isColorRenderable(),
+      TextureTypeMeta.isColourRenderable(texture.getType(), version),
       "Texture is color renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -1078,6 +1079,7 @@ final class JOGL_GL_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
+    final @Nonnull JCGLVersion version,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
     final @Nonnull Texture2DStaticUsable texture)
@@ -1099,7 +1101,7 @@ final class JOGL_GL_Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(
-      texture.getType().isColorRenderable(),
+      TextureTypeMeta.isColourRenderable(texture.getType(), version),
       "Texture is color renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -1126,6 +1128,7 @@ final class JOGL_GL_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
+    final @Nonnull JCGLVersion version,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull TextureCubeStaticUsable texture,
     final @Nonnull CubeMapFaceLH face)
@@ -1145,7 +1148,7 @@ final class JOGL_GL_Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(
-      texture.getType().isColorRenderable(),
+      TextureTypeMeta.isColourRenderable(texture.getType(), version),
       "Texture is color renderable");
 
     Constraints.constrainNotNull(face, "Cube map face");
@@ -1174,6 +1177,7 @@ final class JOGL_GL_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
+    final @Nonnull JCGLVersion version,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
     final @Nonnull TextureCubeStaticUsable texture,
@@ -1196,7 +1200,7 @@ final class JOGL_GL_Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(
-      texture.getType().isColorRenderable(),
+      TextureTypeMeta.isColourRenderable(texture.getType(), version),
       "Texture is color renderable");
 
     Constraints.constrainNotNull(face, "Cube map face");
@@ -1350,7 +1354,7 @@ final class JOGL_GL_Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(
-      texture.getType().isDepthRenderable(),
+      TextureTypeMeta.isDepthRenderable(texture.getType()),
       "Texture is depth renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {

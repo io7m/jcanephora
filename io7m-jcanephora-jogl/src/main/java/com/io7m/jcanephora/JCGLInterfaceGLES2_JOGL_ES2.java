@@ -131,15 +131,15 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   private final @Nonnull Log                                                   log;
+
   private final @Nonnull GLContext                                             context;
   private final @Nonnull JCGLStateCache                                        state;
   private final @Nonnull JCGLVersion                                           version;
   private final @Nonnull JCGLSLVersion                                         sl_version;
-
   private final @Nonnull JCGLExtensionSupport<JCGLExtensionPackedDepthStencil> ext_packed_depth_stencil_support;
+
   private final @Nonnull JCGLExtensionPackedDepthStencil                       ext_packed_depth_stencil;
   final @Nonnull Option<JCGLExtensionPackedDepthStencil>                       ext_packed_depth_stencil_opt;
-
   JCGLInterfaceGLES2_JOGL_ES2(
     final @Nonnull GLContext context,
     final @Nonnull Log log)
@@ -641,6 +641,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.contextGetGLES2(),
       this.state,
       this.log,
+      this.version,
       framebuffer,
       texture);
   }
@@ -656,6 +657,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.contextGetGLES2(),
       this.state,
       this.log,
+      this.version,
       framebuffer,
       texture,
       face);
@@ -1302,6 +1304,31 @@ import com.io7m.jtensors.VectorReadable4I;
       pass);
   }
 
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateDepth16(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
+    throws ConstraintError,
+      JCGLException
+  {
+    return JOGL_GLES2_Functions.texture2DStaticAllocate(
+      this.contextGetGLES2(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_DEPTH_16_2BPP,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
   @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB565(
     final @Nonnull String name,
     final int width,
@@ -1327,7 +1354,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB888(
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB8(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -1345,7 +1372,7 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureType.TEXTURE_TYPE_RGB_888_3BPP,
+      TextureType.TEXTURE_TYPE_RGB_8_3BPP,
       wrap_s,
       wrap_t,
       min_filter,
@@ -1402,7 +1429,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA8888(
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA8(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -1420,7 +1447,7 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+      TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
@@ -1482,6 +1509,33 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public @Nonnull
     TextureCubeStatic
+    textureCubeStaticAllocateDepth16(
+      final @Nonnull String name,
+      final int size,
+      final @Nonnull TextureWrapR wrap_r,
+      final @Nonnull TextureWrapS wrap_s,
+      final @Nonnull TextureWrapT wrap_t,
+      final @Nonnull TextureFilterMinification min_filter,
+      final @Nonnull TextureFilterMagnification mag_filter)
+      throws ConstraintError,
+        JCGLException
+  {
+    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
+      this.contextGetGLES2(),
+      this.state,
+      this.log,
+      name,
+      size,
+      TextureType.TEXTURE_TYPE_DEPTH_16_2BPP,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public @Nonnull
+    TextureCubeStatic
     textureCubeStaticAllocateRGB565(
       final @Nonnull String name,
       final int size,
@@ -1509,7 +1563,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public @Nonnull
     TextureCubeStatic
-    textureCubeStaticAllocateRGB888(
+    textureCubeStaticAllocateRGB8(
       final @Nonnull String name,
       final int size,
       final @Nonnull TextureWrapR wrap_r,
@@ -1526,7 +1580,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureType.TEXTURE_TYPE_RGB_888_3BPP,
+      TextureType.TEXTURE_TYPE_RGB_8_3BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -1590,7 +1644,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public @Nonnull
     TextureCubeStatic
-    textureCubeStaticAllocateRGBA8888(
+    textureCubeStaticAllocateRGBA8(
       final @Nonnull String name,
       final int size,
       final @Nonnull TextureWrapR wrap_r,
@@ -1607,7 +1661,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+      TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,

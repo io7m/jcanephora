@@ -88,9 +88,9 @@ import com.io7m.jaux.RangeInclusive;
     this.element_bytes = element_bytes;
     this.row_byte_span = area_outer.getRangeX().getInterval() * element_bytes;
 
-    this.uncheckedSeek(area_inner.getRangeX().getLower(), area_inner
-      .getRangeY()
-      .getLower());
+    final long lo_x = area_inner.getRangeX().getLower();
+    final long lo_y = area_inner.getRangeY().getLower();
+    this.uncheckedSeek(lo_x, lo_y);
   }
 
   @Override public boolean equals(
@@ -126,6 +126,15 @@ import com.io7m.jaux.RangeInclusive;
   {
     Constraints.constrainArbitrary(this.isValid(), "Cursor is in range");
     return this.byte_offset;
+  }
+
+  /**
+   * Retrieve the number of bytes used by each element.
+   */
+
+  public long getElementBytes()
+  {
+    return this.element_bytes;
   }
 
   @Override public final long getElementX()

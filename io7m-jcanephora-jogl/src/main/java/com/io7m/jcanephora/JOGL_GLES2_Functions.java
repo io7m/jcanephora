@@ -60,7 +60,7 @@ final class JOGL_GLES2_Functions
     Constraints.constrainNotNull(mag_filter, "Magnification filter");
 
     if (log.enabled(Level.LOG_DEBUG)) {
-      final int bytes = height * (type.bytesPerPixel() * width);
+      final int bytes = height * (type.getBytesPerPixel() * width);
       state.log_text.setLength(0);
       state.log_text.append("texture-2D-static (es2): allocate \"");
       state.log_text.append(name);
@@ -201,7 +201,7 @@ final class JOGL_GLES2_Functions
     Constraints.constrainNotNull(mag_filter, "Magnification filter");
 
     if (log.enabled(Level.LOG_DEBUG)) {
-      final int bytes = size * (type.bytesPerPixel() * size) * 6;
+      final int bytes = size * (type.getBytesPerPixel() * size) * 6;
       state.log_text.setLength(0);
       state.log_text.append("texture-cube-static (es2): allocate \"");
       state.log_text.append(name);

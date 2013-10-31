@@ -37,6 +37,7 @@ import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureLoader;
 import com.io7m.jcanephora.TextureType;
+import com.io7m.jcanephora.TextureTypeMeta;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.contracts.TextureLoaderContract;
@@ -62,15 +63,16 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
       JCGLException,
       IOException
   {
-    for (final TextureType tt : TextureType.get2DTypesGLES2()) {
+    for (final TextureType tt : TextureTypeMeta
+      .getTextures2DRequiredByGLES2()) {
       Texture2DStatic t = null;
       final InputStream stream = fs.openFile(PathVirtual.ofString(path));
 
       switch (tt) {
-        case TEXTURE_TYPE_RGBA_8888_4BPP:
+        case TEXTURE_TYPE_RGBA_8_4BPP:
         {
           t =
-            tl.load2DStaticRGBA8888(
+            tl.load2DStaticRGBA8(
               gl,
               TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
               TextureWrapT.TEXTURE_WRAP_REPEAT,
@@ -80,14 +82,14 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
               "image");
 
           Assert.assertEquals(
-            TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+            TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
             t.getType());
           break;
         }
-        case TEXTURE_TYPE_RGB_888_3BPP:
+        case TEXTURE_TYPE_RGB_8_3BPP:
         {
           t =
-            tl.load2DStaticRGB888(
+            tl.load2DStaticRGB8(
               gl,
               TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
               TextureWrapT.TEXTURE_WRAP_REPEAT,
@@ -97,19 +99,61 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
               "image");
 
           Assert.assertEquals(
-            TextureType.TEXTURE_TYPE_RGB_888_3BPP,
+            TextureType.TEXTURE_TYPE_RGB_8_3BPP,
             t.getType());
           break;
         }
-        case TEXTURE_TYPE_DEPTH_16_2BPP:
+        case TEXTURE_TYPE_RGBA_1010102_4BPP:
+        case TEXTURE_TYPE_RGBA_16F_8BPP:
+        case TEXTURE_TYPE_RGBA_16I_8BPP:
+        case TEXTURE_TYPE_RGBA_16U_8BPP:
+        case TEXTURE_TYPE_RGBA_16_8BPP:
+        case TEXTURE_TYPE_RGBA_32I_16BPP:
+        case TEXTURE_TYPE_RGBA_32U_16BPP:
+        case TEXTURE_TYPE_RGBA_8I_4BPP:
+        case TEXTURE_TYPE_RGBA_8U_4BPP:
+        case TEXTURE_TYPE_RGB_16F_6BPP:
+        case TEXTURE_TYPE_RGB_16I_6BPP:
+        case TEXTURE_TYPE_RGB_16U_6BPP:
+        case TEXTURE_TYPE_RGB_16_6BPP:
+        case TEXTURE_TYPE_RGB_32F_12BPP:
+        case TEXTURE_TYPE_RGB_32I_12BPP:
+        case TEXTURE_TYPE_RGB_32U_12BPP:
+        case TEXTURE_TYPE_RGB_8I_3BPP:
+        case TEXTURE_TYPE_RGB_8U_3BPP:
+        case TEXTURE_TYPE_RG_16F_4BPP:
+        case TEXTURE_TYPE_RG_16I_4BPP:
+        case TEXTURE_TYPE_RG_16U_4BPP:
+        case TEXTURE_TYPE_RG_16_4BPP:
+        case TEXTURE_TYPE_RG_32F_8BPP:
+        case TEXTURE_TYPE_RG_32I_8BPP:
+        case TEXTURE_TYPE_RG_32U_8BPP:
+        case TEXTURE_TYPE_RG_8I_2BPP:
+        case TEXTURE_TYPE_RG_8U_2BPP:
+        case TEXTURE_TYPE_R_16F_2BPP:
+        case TEXTURE_TYPE_R_16I_2BPP:
+        case TEXTURE_TYPE_R_16U_2BPP:
+        case TEXTURE_TYPE_R_16_2BPP:
+        case TEXTURE_TYPE_R_32F_4BPP:
+        case TEXTURE_TYPE_R_32I_4BPP:
+        case TEXTURE_TYPE_R_32U_4BPP:
+        case TEXTURE_TYPE_R_8I_1BPP:
+        case TEXTURE_TYPE_R_8U_1BPP:
         case TEXTURE_TYPE_DEPTH_24_4BPP:
         case TEXTURE_TYPE_DEPTH_32F_4BPP:
-        case TEXTURE_TYPE_RG_88_2BPP:
+        case TEXTURE_TYPE_RG_8_2BPP:
         case TEXTURE_TYPE_R_8_1BPP:
+        case TEXTURE_TYPE_RGBA_32F_16BPP:
         {
           stream.close();
-          throw new UnreachableCodeException();
+          throw new UnreachableCodeException(
+            new AssertionError(tt.toString()));
         }
+        case TEXTURE_TYPE_DEPTH_16_2BPP:
+        {
+          continue;
+        }
+
         case TEXTURE_TYPE_RGBA_4444_2BPP:
         {
           t =
@@ -242,7 +286,7 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
         stream,
         "image");
 
-    Assert.assertEquals(TextureType.TEXTURE_TYPE_RGB_888_3BPP, t.getType());
+    Assert.assertEquals(TextureType.TEXTURE_TYPE_RGB_8_3BPP, t.getType());
     Assert.assertFalse(t.resourceIsDeleted());
     Assert.assertEquals(256, t.getWidth());
     Assert.assertEquals(256, t.getHeight());
@@ -288,7 +332,7 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
         stream,
         "image");
 
-    Assert.assertEquals(TextureType.TEXTURE_TYPE_RGB_888_3BPP, t.getType());
+    Assert.assertEquals(TextureType.TEXTURE_TYPE_RGB_8_3BPP, t.getType());
     Assert.assertFalse(t.resourceIsDeleted());
     Assert.assertEquals(256, t.getWidth());
     Assert.assertEquals(256, t.getHeight());
@@ -334,7 +378,7 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
         stream,
         "image");
 
-    Assert.assertEquals(TextureType.TEXTURE_TYPE_RGB_888_3BPP, t.getType());
+    Assert.assertEquals(TextureType.TEXTURE_TYPE_RGB_8_3BPP, t.getType());
     Assert.assertFalse(t.resourceIsDeleted());
     Assert.assertEquals(256, t.getWidth());
     Assert.assertEquals(256, t.getHeight());
@@ -410,7 +454,7 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
         stream,
         "image");
 
-    Assert.assertEquals(TextureType.TEXTURE_TYPE_RGB_888_3BPP, t.getType());
+    Assert.assertEquals(TextureType.TEXTURE_TYPE_RGB_8_3BPP, t.getType());
     Assert.assertFalse(t.resourceIsDeleted());
     Assert.assertEquals(256, t.getWidth());
     Assert.assertEquals(256, t.getHeight());
@@ -456,7 +500,7 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
         stream,
         "image");
 
-    Assert.assertEquals(TextureType.TEXTURE_TYPE_RGBA_8888_4BPP, t.getType());
+    Assert.assertEquals(TextureType.TEXTURE_TYPE_RGBA_8_4BPP, t.getType());
     Assert.assertFalse(t.resourceIsDeleted());
     Assert.assertEquals(256, t.getWidth());
     Assert.assertEquals(256, t.getHeight());
@@ -490,14 +534,15 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
     final String path = "/com/io7m/jcanephora/images/not-an-image.txt";
     int io_exception_count = 0;
 
-    for (final TextureType tt : TextureType.get2DTypesCommon()) {
+    for (final TextureType tt : TextureTypeMeta
+      .getTextures2DRequiredByGLES2()) {
       final InputStream stream = fs.openFile(PathVirtual.ofString(path));
 
       switch (tt) {
-        case TEXTURE_TYPE_RGBA_8888_4BPP:
+        case TEXTURE_TYPE_RGBA_8_4BPP:
         {
           try {
-            tl.load2DStaticRGBA8888(
+            tl.load2DStaticRGBA8(
               gl,
               TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
               TextureWrapT.TEXTURE_WRAP_REPEAT,
@@ -512,10 +557,10 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
           }
           break;
         }
-        case TEXTURE_TYPE_RGB_888_3BPP:
+        case TEXTURE_TYPE_RGB_8_3BPP:
         {
           try {
-            tl.load2DStaticRGB888(
+            tl.load2DStaticRGB8(
               gl,
               TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
               TextureWrapT.TEXTURE_WRAP_REPEAT,
@@ -530,14 +575,51 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
           }
           break;
         }
-        case TEXTURE_TYPE_DEPTH_16_2BPP:
+        case TEXTURE_TYPE_RGBA_1010102_4BPP:
+        case TEXTURE_TYPE_RGBA_16F_8BPP:
+        case TEXTURE_TYPE_RGBA_16I_8BPP:
+        case TEXTURE_TYPE_RGBA_16U_8BPP:
+        case TEXTURE_TYPE_RGBA_16_8BPP:
+        case TEXTURE_TYPE_RGBA_32I_16BPP:
+        case TEXTURE_TYPE_RGBA_32U_16BPP:
+        case TEXTURE_TYPE_RGBA_8I_4BPP:
+        case TEXTURE_TYPE_RGBA_8U_4BPP:
+        case TEXTURE_TYPE_RGB_16F_6BPP:
+        case TEXTURE_TYPE_RGB_16I_6BPP:
+        case TEXTURE_TYPE_RGB_16U_6BPP:
+        case TEXTURE_TYPE_RGB_16_6BPP:
+        case TEXTURE_TYPE_RGB_32F_12BPP:
+        case TEXTURE_TYPE_RGB_32I_12BPP:
+        case TEXTURE_TYPE_RGB_32U_12BPP:
+        case TEXTURE_TYPE_RGB_8I_3BPP:
+        case TEXTURE_TYPE_RGB_8U_3BPP:
+        case TEXTURE_TYPE_RG_16F_4BPP:
+        case TEXTURE_TYPE_RG_16I_4BPP:
+        case TEXTURE_TYPE_RG_16U_4BPP:
+        case TEXTURE_TYPE_RG_16_4BPP:
+        case TEXTURE_TYPE_RG_32F_8BPP:
+        case TEXTURE_TYPE_RG_32I_8BPP:
+        case TEXTURE_TYPE_RG_32U_8BPP:
+        case TEXTURE_TYPE_RG_8I_2BPP:
+        case TEXTURE_TYPE_RG_8U_2BPP:
+        case TEXTURE_TYPE_R_16F_2BPP:
+        case TEXTURE_TYPE_R_16I_2BPP:
+        case TEXTURE_TYPE_R_16U_2BPP:
+        case TEXTURE_TYPE_R_16_2BPP:
+        case TEXTURE_TYPE_R_32F_4BPP:
+        case TEXTURE_TYPE_R_32I_4BPP:
+        case TEXTURE_TYPE_R_32U_4BPP:
+        case TEXTURE_TYPE_R_8I_1BPP:
+        case TEXTURE_TYPE_R_8U_1BPP:
         case TEXTURE_TYPE_DEPTH_24_4BPP:
         case TEXTURE_TYPE_DEPTH_32F_4BPP:
-        case TEXTURE_TYPE_RG_88_2BPP:
+        case TEXTURE_TYPE_RG_8_2BPP:
         case TEXTURE_TYPE_R_8_1BPP:
+        case TEXTURE_TYPE_RGBA_32F_16BPP:
         {
           stream.close();
-          throw new UnreachableCodeException();
+          throw new UnreachableCodeException(
+            new AssertionError(tt.toString()));
         }
         case TEXTURE_TYPE_RGBA_4444_2BPP:
         {
@@ -593,13 +675,19 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
           }
           break;
         }
+        case TEXTURE_TYPE_DEPTH_16_2BPP:
+        {
+          // Not yet implemented.
+          ++io_exception_count;
+          continue;
+        }
       }
 
       stream.close();
     }
 
     Assert.assertEquals(
-      TextureType.get2DTypesCommon().size(),
+      TextureTypeMeta.getTextures2DRequiredByGLES2().size(),
       io_exception_count);
   }
 
