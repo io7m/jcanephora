@@ -13,6 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import java.util.Set;
@@ -21,11 +22,61 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jtensors.VectorI2D;
+import com.io7m.jtensors.VectorI2F;
+import com.io7m.jtensors.VectorI2I;
+import com.io7m.jtensors.VectorI3D;
+import com.io7m.jtensors.VectorI3F;
+import com.io7m.jtensors.VectorI3I;
+import com.io7m.jtensors.VectorI4D;
+import com.io7m.jtensors.VectorI4F;
+import com.io7m.jtensors.VectorI4I;
 
 public class TextureCubeWritableDataTest
 {
   /**
-   * Updating single element floating point textures works.
+   * Getting a floating point cursor works for all texture types.
+   * 
+   * @throws ConstraintError
+   */
+
+  @SuppressWarnings("static-method") @Test public void testGetCursor1d()
+    throws ConstraintError
+  {
+    final Set<TextureType> e1_types =
+      TextureTypeMeta.getTexturesWithComponents(1);
+
+    for (final TextureType type : e1_types) {
+      final TextureCubeStatic t =
+        new TextureCubeStatic(
+          "xyz",
+          type,
+          1,
+          64,
+          TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+          TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      final TextureCubeWritableData d = new TextureCubeWritableData(t);
+
+      final SpatialCursorWritable1d c = d.getCursor1d();
+
+      int count = 0;
+      while (c.isValid()) {
+        if ((count & 1) == 1) {
+          c.put1d(123.0f);
+        } else {
+          c.put1d(1370.0f);
+        }
+
+        ++count;
+      }
+    }
+  }
+
+  /**
+   * Getting a floating point cursor works for all texture types.
    * 
    * @throws ConstraintError
    */
@@ -33,13 +84,10 @@ public class TextureCubeWritableDataTest
   @SuppressWarnings("static-method") @Test public void testGetCursor1f()
     throws ConstraintError
   {
-    final Set<TextureType> e1_types = TextureType.getWithComponents(1);
+    final Set<TextureType> e1_types =
+      TextureTypeMeta.getTexturesWithComponents(1);
 
     for (final TextureType type : e1_types) {
-      if (type.isFloatingPoint() == false) {
-        continue;
-      }
-
       final TextureCubeStatic t =
         new TextureCubeStatic(
           "xyz",
@@ -62,8 +110,46 @@ public class TextureCubeWritableDataTest
         } else {
           c.put1f(1370.0f);
         }
-        c.next();
+
         ++count;
+      }
+    }
+  }
+
+  /**
+   * Attempting to obtain a 1d cursor to a texture that has more than one
+   * component fails.
+   * 
+   * @throws ConstraintError
+   */
+
+  @SuppressWarnings("static-method") @Test public
+    void
+    testGetCursor1dFailure()
+      throws ConstraintError
+  {
+    for (final TextureType type : TextureType.values()) {
+      if (type.getComponentCount() != 1) {
+        final TextureCubeStatic t =
+          new TextureCubeStatic(
+            "xyz",
+            type,
+            1,
+            64,
+            TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+            TextureWrapS.TEXTURE_WRAP_REPEAT,
+            TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+            TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+            TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+        final TextureCubeWritableData d = new TextureCubeWritableData(t);
+
+        try {
+          d.getCursor1d();
+        } catch (final ConstraintError e) {
+          continue;
+        }
+
+        Assert.fail("Did not raise constraint error");
       }
     }
   }
@@ -81,11 +167,7 @@ public class TextureCubeWritableDataTest
       throws ConstraintError
   {
     for (final TextureType type : TextureType.values()) {
-      if (type.getComponents() != 1) {
-        if (type.isFloatingPoint() == false) {
-          continue;
-        }
-
+      if (type.getComponentCount() != 1) {
         final TextureCubeStatic t =
           new TextureCubeStatic(
             "xyz",
@@ -119,10 +201,11 @@ public class TextureCubeWritableDataTest
   @SuppressWarnings("static-method") @Test public void testGetCursor1i()
     throws ConstraintError
   {
-    final Set<TextureType> e1_types = TextureType.getWithComponents(1);
+    final Set<TextureType> e1_types =
+      TextureTypeMeta.getTexturesWithComponents(1);
 
     for (final TextureType type : e1_types) {
-      if (type.isFloatingPoint()) {
+      if (TextureTypeMeta.isFloatingPoint(type)) {
         continue;
       }
 
@@ -147,7 +230,7 @@ public class TextureCubeWritableDataTest
         } else {
           c.put1i(0x00);
         }
-        c.next();
+
         ++count;
       }
     }
@@ -166,7 +249,7 @@ public class TextureCubeWritableDataTest
       throws ConstraintError
   {
     for (final TextureType type : TextureType.values()) {
-      if (type.getComponents() != 1) {
+      if (type.getComponentCount() != 1) {
         final TextureCubeStatic t =
           new TextureCubeStatic(
             "xyz",
@@ -192,6 +275,162 @@ public class TextureCubeWritableDataTest
   }
 
   /**
+   * Getting a floating point cursor works for all texture types.
+   * 
+   * @throws ConstraintError
+   */
+
+  @SuppressWarnings("static-method") @Test public void testGetCursor2d()
+    throws ConstraintError
+  {
+    final Set<TextureType> e2_types =
+      TextureTypeMeta.getTexturesWithComponents(2);
+
+    for (final TextureType type : e2_types) {
+      final TextureCubeStatic t =
+        new TextureCubeStatic(
+          "xyz",
+          type,
+          1,
+          64,
+          TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+          TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      final TextureCubeWritableData d = new TextureCubeWritableData(t);
+      final SpatialCursorWritable2d c = d.getCursor2d();
+
+      int count = 0;
+      while (c.isValid()) {
+        if ((count & 1) == 1) {
+          c.put2d(new VectorI2D(0.30f, 0.40f));
+        } else {
+          c.put2d(new VectorI2D(0.00f, 0.00f));
+        }
+
+        ++count;
+      }
+    }
+  }
+
+  /**
+   * Attempting to obtain a 2d cursor to a texture that has more than one
+   * component fails.
+   * 
+   * @throws ConstraintError
+   */
+
+  @SuppressWarnings("static-method") @Test public
+    void
+    testGetCursor2dFailure()
+      throws ConstraintError
+  {
+    for (final TextureType type : TextureType.values()) {
+      if (type.getComponentCount() != 2) {
+        final TextureCubeStatic t =
+          new TextureCubeStatic(
+            "xyz",
+            type,
+            1,
+            64,
+            TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+            TextureWrapS.TEXTURE_WRAP_REPEAT,
+            TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+            TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+            TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+        final TextureCubeWritableData d = new TextureCubeWritableData(t);
+
+        try {
+          d.getCursor2d();
+        } catch (final ConstraintError e) {
+          continue;
+        }
+
+        Assert.fail("Did not raise constraint error");
+      }
+    }
+  }
+
+  /**
+   * Getting a floating point cursor works for all texture types.
+   * 
+   * @throws ConstraintError
+   */
+
+  @SuppressWarnings("static-method") @Test public void testGetCursor2f()
+    throws ConstraintError
+  {
+    final Set<TextureType> e2_types =
+      TextureTypeMeta.getTexturesWithComponents(2);
+
+    for (final TextureType type : e2_types) {
+      final TextureCubeStatic t =
+        new TextureCubeStatic(
+          "xyz",
+          type,
+          1,
+          64,
+          TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+          TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      final TextureCubeWritableData d = new TextureCubeWritableData(t);
+      final SpatialCursorWritable2f c = d.getCursor2f();
+
+      int count = 0;
+      while (c.isValid()) {
+        if ((count & 1) == 1) {
+          c.put2f(new VectorI2F(0.30f, 0.40f));
+        } else {
+          c.put2f(new VectorI2F(0.00f, 0.00f));
+        }
+
+        ++count;
+      }
+    }
+  }
+
+  /**
+   * Attempting to obtain a 2f cursor to a texture that has more than one
+   * component fails.
+   * 
+   * @throws ConstraintError
+   */
+
+  @SuppressWarnings("static-method") @Test public
+    void
+    testGetCursor2fFailure()
+      throws ConstraintError
+  {
+    for (final TextureType type : TextureType.values()) {
+      if (type.getComponentCount() != 2) {
+        final TextureCubeStatic t =
+          new TextureCubeStatic(
+            "xyz",
+            type,
+            1,
+            64,
+            TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+            TextureWrapS.TEXTURE_WRAP_REPEAT,
+            TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+            TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+            TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+        final TextureCubeWritableData d = new TextureCubeWritableData(t);
+
+        try {
+          d.getCursor2f();
+        } catch (final ConstraintError e) {
+          continue;
+        }
+
+        Assert.fail("Did not raise constraint error");
+      }
+    }
+  }
+
+  /**
    * Updating two element textures works.
    * 
    * @throws ConstraintError
@@ -200,9 +439,14 @@ public class TextureCubeWritableDataTest
   @SuppressWarnings("static-method") @Test public void testGetCursor2i()
     throws ConstraintError
   {
-    final Set<TextureType> e2_types = TextureType.getWithComponents(2);
+    final Set<TextureType> e2_types =
+      TextureTypeMeta.getTexturesWithComponents(2);
 
     for (final TextureType type : e2_types) {
+      if (TextureTypeMeta.isFloatingPoint(type)) {
+        continue;
+      }
+
       final TextureCubeStatic t =
         new TextureCubeStatic(
           "xyz",
@@ -220,11 +464,11 @@ public class TextureCubeWritableDataTest
       int count = 0;
       while (c.isValid()) {
         if ((count & 1) == 1) {
-          c.put2i(0x30, 0x40);
+          c.put2i(new VectorI2I(0x30, 0x40));
         } else {
-          c.put2i(0x00, 0x00);
+          c.put2i(new VectorI2I(0x00, 0x00));
         }
-        c.next();
+
         ++count;
       }
     }
@@ -243,7 +487,7 @@ public class TextureCubeWritableDataTest
       throws ConstraintError
   {
     for (final TextureType type : TextureType.values()) {
-      if (type.getComponents() != 2) {
+      if (type.getComponentCount() != 2) {
         final TextureCubeStatic t =
           new TextureCubeStatic(
             "xyz",
@@ -269,6 +513,162 @@ public class TextureCubeWritableDataTest
   }
 
   /**
+   * Getting a floating point cursor works for all texture types.
+   * 
+   * @throws ConstraintError
+   */
+
+  @SuppressWarnings("static-method") @Test public void testGetCursor3d()
+    throws ConstraintError
+  {
+    final Set<TextureType> e3_types =
+      TextureTypeMeta.getTexturesWithComponents(3);
+
+    for (final TextureType type : e3_types) {
+      final TextureCubeStatic t =
+        new TextureCubeStatic(
+          "xyz",
+          type,
+          1,
+          64,
+          TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+          TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      final TextureCubeWritableData d = new TextureCubeWritableData(t);
+      final SpatialCursorWritable3d c = d.getCursor3d();
+
+      int count = 0;
+      while (c.isValid()) {
+        if ((count & 1) == 1) {
+          c.put3d(new VectorI3D(0.30f, 0.40f, 0.50f));
+        } else {
+          c.put3d(new VectorI3D(0.00f, 0.00f, 0.00f));
+        }
+
+        ++count;
+      }
+    }
+  }
+
+  /**
+   * Attempting to obtain a 3d cursor to a texture that has more than one
+   * component fails.
+   * 
+   * @throws ConstraintError
+   */
+
+  @SuppressWarnings("static-method") @Test public
+    void
+    testGetCursor3dFailure()
+      throws ConstraintError
+  {
+    for (final TextureType type : TextureType.values()) {
+      if (type.getComponentCount() != 3) {
+        final TextureCubeStatic t =
+          new TextureCubeStatic(
+            "xyz",
+            type,
+            1,
+            64,
+            TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+            TextureWrapS.TEXTURE_WRAP_REPEAT,
+            TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+            TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+            TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+        final TextureCubeWritableData d = new TextureCubeWritableData(t);
+
+        try {
+          d.getCursor3d();
+        } catch (final ConstraintError e) {
+          continue;
+        }
+
+        Assert.fail("Did not raise constraint error");
+      }
+    }
+  }
+
+  /**
+   * Getting a floating point cursor works for all texture types.
+   * 
+   * @throws ConstraintError
+   */
+
+  @SuppressWarnings("static-method") @Test public void testGetCursor3f()
+    throws ConstraintError
+  {
+    final Set<TextureType> e3_types =
+      TextureTypeMeta.getTexturesWithComponents(3);
+
+    for (final TextureType type : e3_types) {
+      final TextureCubeStatic t =
+        new TextureCubeStatic(
+          "xyz",
+          type,
+          1,
+          64,
+          TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+          TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      final TextureCubeWritableData d = new TextureCubeWritableData(t);
+      final SpatialCursorWritable3f c = d.getCursor3f();
+
+      int count = 0;
+      while (c.isValid()) {
+        if ((count & 1) == 1) {
+          c.put3f(new VectorI3F(0.30f, 0.40f, 0.50f));
+        } else {
+          c.put3f(new VectorI3F(0.00f, 0.00f, 0.00f));
+        }
+
+        ++count;
+      }
+    }
+  }
+
+  /**
+   * Attempting to obtain a 3f cursor to a texture that has more than one
+   * component fails.
+   * 
+   * @throws ConstraintError
+   */
+
+  @SuppressWarnings("static-method") @Test public
+    void
+    testGetCursor3fFailure()
+      throws ConstraintError
+  {
+    for (final TextureType type : TextureType.values()) {
+      if (type.getComponentCount() != 3) {
+        final TextureCubeStatic t =
+          new TextureCubeStatic(
+            "xyz",
+            type,
+            1,
+            64,
+            TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+            TextureWrapS.TEXTURE_WRAP_REPEAT,
+            TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+            TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+            TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+        final TextureCubeWritableData d = new TextureCubeWritableData(t);
+
+        try {
+          d.getCursor3f();
+        } catch (final ConstraintError e) {
+          continue;
+        }
+
+        Assert.fail("Did not raise constraint error");
+      }
+    }
+  }
+
+  /**
    * Updating three element textures works.
    * 
    * @throws ConstraintError
@@ -277,9 +677,14 @@ public class TextureCubeWritableDataTest
   @SuppressWarnings("static-method") @Test public void testGetCursor3i()
     throws ConstraintError
   {
-    final Set<TextureType> e3_types = TextureType.getWithComponents(3);
+    final Set<TextureType> e3_types =
+      TextureTypeMeta.getTexturesWithComponents(3);
 
     for (final TextureType type : e3_types) {
+      if (TextureTypeMeta.isFloatingPoint(type)) {
+        continue;
+      }
+
       final TextureCubeStatic t =
         new TextureCubeStatic(
           "xyz",
@@ -297,11 +702,11 @@ public class TextureCubeWritableDataTest
       int count = 0;
       while (c.isValid()) {
         if ((count & 1) == 1) {
-          c.put3i(0x30, 0x40, 0x50);
+          c.put3i(new VectorI3I(0x30, 0x40, 0x50));
         } else {
-          c.put3i(0x00, 0x00, 0x00);
+          c.put3i(new VectorI3I(0x00, 0x00, 0x00));
         }
-        c.next();
+
         ++count;
       }
     }
@@ -320,7 +725,7 @@ public class TextureCubeWritableDataTest
       throws ConstraintError
   {
     for (final TextureType type : TextureType.values()) {
-      if (type.getComponents() != 3) {
+      if (type.getComponentCount() != 3) {
         final TextureCubeStatic t =
           new TextureCubeStatic(
             "xyz",
@@ -346,6 +751,162 @@ public class TextureCubeWritableDataTest
   }
 
   /**
+   * Getting a floating point cursor works for all texture types.
+   * 
+   * @throws ConstraintError
+   */
+
+  @SuppressWarnings("static-method") @Test public void testGetCursor4d()
+    throws ConstraintError
+  {
+    final Set<TextureType> e4_types =
+      TextureTypeMeta.getTexturesWithComponents(4);
+
+    for (final TextureType type : e4_types) {
+      final TextureCubeStatic t =
+        new TextureCubeStatic(
+          "xyz",
+          type,
+          1,
+          64,
+          TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+          TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      final TextureCubeWritableData d = new TextureCubeWritableData(t);
+      final SpatialCursorWritable4d c = d.getCursor4d();
+
+      int count = 0;
+      while (c.isValid()) {
+        if ((count & 1) == 1) {
+          c.put4d(new VectorI4D(0.30f, 0.40f, 0.50f, 0.60f));
+        } else {
+          c.put4d(new VectorI4D(0.00f, 0.00f, 0.00f, 0.00f));
+        }
+
+        ++count;
+      }
+    }
+  }
+
+  /**
+   * Attempting to obtain a 4d cursor to a texture that has more than one
+   * component fails.
+   * 
+   * @throws ConstraintError
+   */
+
+  @SuppressWarnings("static-method") @Test public
+    void
+    testGetCursor4dFailure()
+      throws ConstraintError
+  {
+    for (final TextureType type : TextureType.values()) {
+      if (type.getComponentCount() != 4) {
+        final TextureCubeStatic t =
+          new TextureCubeStatic(
+            "xyz",
+            type,
+            1,
+            64,
+            TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+            TextureWrapS.TEXTURE_WRAP_REPEAT,
+            TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+            TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+            TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+        final TextureCubeWritableData d = new TextureCubeWritableData(t);
+
+        try {
+          d.getCursor4d();
+        } catch (final ConstraintError e) {
+          continue;
+        }
+
+        Assert.fail("Did not raise constraint error");
+      }
+    }
+  }
+
+  /**
+   * Getting a floating point cursor works for all texture types.
+   * 
+   * @throws ConstraintError
+   */
+
+  @SuppressWarnings("static-method") @Test public void testGetCursor4f()
+    throws ConstraintError
+  {
+    final Set<TextureType> e4_types =
+      TextureTypeMeta.getTexturesWithComponents(4);
+
+    for (final TextureType type : e4_types) {
+      final TextureCubeStatic t =
+        new TextureCubeStatic(
+          "xyz",
+          type,
+          1,
+          64,
+          TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+          TextureWrapS.TEXTURE_WRAP_REPEAT,
+          TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+          TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+          TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      final TextureCubeWritableData d = new TextureCubeWritableData(t);
+      final SpatialCursorWritable4f c = d.getCursor4f();
+
+      int count = 0;
+      while (c.isValid()) {
+        if ((count & 1) == 1) {
+          c.put4f(new VectorI4F(0.30f, 0.40f, 0.50f, 0.60f));
+        } else {
+          c.put4f(new VectorI4F(0.00f, 0.00f, 0.00f, 0.00f));
+        }
+
+        ++count;
+      }
+    }
+  }
+
+  /**
+   * Attempting to obtain a 4f cursor to a texture that has more than one
+   * component fails.
+   * 
+   * @throws ConstraintError
+   */
+
+  @SuppressWarnings("static-method") @Test public
+    void
+    testGetCursor4fFailure()
+      throws ConstraintError
+  {
+    for (final TextureType type : TextureType.values()) {
+      if (type.getComponentCount() != 4) {
+        final TextureCubeStatic t =
+          new TextureCubeStatic(
+            "xyz",
+            type,
+            1,
+            64,
+            TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+            TextureWrapS.TEXTURE_WRAP_REPEAT,
+            TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+            TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+            TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+        final TextureCubeWritableData d = new TextureCubeWritableData(t);
+
+        try {
+          d.getCursor4f();
+        } catch (final ConstraintError e) {
+          continue;
+        }
+
+        Assert.fail("Did not raise constraint error");
+      }
+    }
+  }
+
+  /**
    * Updating four element textures works.
    * 
    * @throws ConstraintError
@@ -354,9 +915,14 @@ public class TextureCubeWritableDataTest
   @SuppressWarnings("static-method") @Test public void testGetCursor4i()
     throws ConstraintError
   {
-    final Set<TextureType> e4_types = TextureType.getWithComponents(4);
+    final Set<TextureType> e4_types =
+      TextureTypeMeta.getTexturesWithComponents(4);
 
     for (final TextureType type : e4_types) {
+      if (TextureTypeMeta.isFloatingPoint(type)) {
+        continue;
+      }
+
       final TextureCubeStatic t =
         new TextureCubeStatic(
           "xyz",
@@ -374,11 +940,11 @@ public class TextureCubeWritableDataTest
       int count = 0;
       while (c.isValid()) {
         if ((count & 1) == 1) {
-          c.put4i(0x30, 0x40, 0x50, 0x60);
+          c.put4i(new VectorI4I(0x30, 0x40, 0x50, 0x60));
         } else {
-          c.put4i(0x00, 0x00, 0x00, 0x00);
+          c.put4i(new VectorI4I(0x00, 0x00, 0x00, 0x00));
         }
-        c.next();
+
         ++count;
       }
     }
@@ -397,7 +963,7 @@ public class TextureCubeWritableDataTest
       throws ConstraintError
   {
     for (final TextureType type : TextureType.values()) {
-      if (type.getComponents() != 4) {
+      if (type.getComponentCount() != 4) {
         final TextureCubeStatic t =
           new TextureCubeStatic(
             "xyz",

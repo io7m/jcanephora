@@ -25,6 +25,99 @@ import com.io7m.jtensors.MatrixM4x4F;
 
 public class ProjectionMatrixTest
 {
+  @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
+    void
+    testFrustumFarLessThanNear()
+      throws ConstraintError
+  {
+    final MatrixM4x4F m = new MatrixM4x4F();
+    ProjectionMatrix
+      .makeFrustumProjection(m, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0);
+  }
+
+  @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
+    void
+    testFrustumNearFarSame()
+      throws ConstraintError
+  {
+    final MatrixM4x4F m = new MatrixM4x4F();
+    ProjectionMatrix.makeFrustumProjection(m, -1.0, 1.0, -1.0, 1.0, 1.0, 1.0);
+  }
+
+  @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
+    void
+    testFrustumNearNegative()
+      throws ConstraintError
+  {
+    final MatrixM4x4F m = new MatrixM4x4F();
+    ProjectionMatrix.makeFrustumProjection(
+      m,
+      -1.0,
+      1.0,
+      -1.0,
+      1.0,
+      -0.001,
+      100.0);
+  }
+
+  @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
+    void
+    testFrustumNull()
+      throws ConstraintError
+  {
+    ProjectionMatrix.makeFrustumProjection(
+      null,
+      -1.0,
+      1.0,
+      -1.0,
+      1.0,
+      1.0,
+      100.0);
+  }
+
+  @SuppressWarnings("static-method") @Test public void testFrustumSimple()
+    throws ConstraintError
+  {
+    final ContextRelative c = new AlmostEqualFloat.ContextRelative();
+    final MatrixM4x4F m = new MatrixM4x4F();
+    ProjectionMatrix.makeFrustumProjection(
+      m,
+      -1.0,
+      1.0,
+      -1.0,
+      1.0,
+      5.0,
+      100.0);
+
+    System.out.println(m);
+
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 5.0f, m.get(0, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(0, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(0, 2)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(0, 3)));
+
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(1, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 5.0f, m.get(1, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(1, 2)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(1, 3)));
+
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(2, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(2, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      -1.105263113975525f,
+      m.get(2, 2)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(
+      c,
+      -10.526315689086914f,
+      m.get(2, 3)));
+
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(3, 0)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(3, 1)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, -1.0f, m.get(3, 2)));
+    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(3, 3)));
+  }
+
   @SuppressWarnings("static-method") @Test public void testOrthographic()
     throws ConstraintError
   {
@@ -80,99 +173,6 @@ public class ProjectionMatrixTest
       1.0,
       1.0,
       100.0);
-  }
-
-  @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
-    void
-    testFrustumNull()
-      throws ConstraintError
-  {
-    ProjectionMatrix.makeFrustumProjection(
-      null,
-      -1.0,
-      1.0,
-      -1.0,
-      1.0,
-      1.0,
-      100.0);
-  }
-
-  @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
-    void
-    testFrustumNearNegative()
-      throws ConstraintError
-  {
-    final MatrixM4x4F m = new MatrixM4x4F();
-    ProjectionMatrix.makeFrustumProjection(
-      m,
-      -1.0,
-      1.0,
-      -1.0,
-      1.0,
-      -0.001,
-      100.0);
-  }
-
-  @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
-    void
-    testFrustumNearFarSame()
-      throws ConstraintError
-  {
-    final MatrixM4x4F m = new MatrixM4x4F();
-    ProjectionMatrix.makeFrustumProjection(m, -1.0, 1.0, -1.0, 1.0, 1.0, 1.0);
-  }
-
-  @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
-    void
-    testFrustumFarLessThanNear()
-      throws ConstraintError
-  {
-    final MatrixM4x4F m = new MatrixM4x4F();
-    ProjectionMatrix
-      .makeFrustumProjection(m, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0);
-  }
-
-  @SuppressWarnings("static-method") @Test public void testFrustumSimple()
-    throws ConstraintError
-  {
-    final ContextRelative c = new AlmostEqualFloat.ContextRelative();
-    final MatrixM4x4F m = new MatrixM4x4F();
-    ProjectionMatrix.makeFrustumProjection(
-      m,
-      -1.0,
-      1.0,
-      -1.0,
-      1.0,
-      5.0,
-      100.0);
-
-    System.out.println(m);
-
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 5.0f, m.get(0, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(0, 1)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(0, 2)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(0, 3)));
-
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(1, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 5.0f, m.get(1, 1)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(1, 2)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(1, 3)));
-
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(2, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(2, 1)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(
-      c,
-      -1.105263113975525f,
-      m.get(2, 2)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(
-      c,
-      -10.526315689086914f,
-      m.get(2, 3)));
-
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(3, 0)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(3, 1)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, -1.0f, m.get(3, 2)));
-    Assert.assertTrue(AlmostEqualFloat.almostEqual(c, 0.0f, m.get(3, 3)));
   }
 
   @SuppressWarnings("static-method") @Test public void testPerspective()

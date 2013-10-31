@@ -19,8 +19,9 @@ package com.io7m.jcanephora;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * Typed, writable cursor addressing areas consisting of elements of type
- * float.
+ * Writable cursor addressing areas consisting of single-component elements.
+ * Values are converted from single-precision floating point values to the
+ * correct underlying format.
  */
 
 public interface SpatialCursorWritable1f extends SpatialCursor

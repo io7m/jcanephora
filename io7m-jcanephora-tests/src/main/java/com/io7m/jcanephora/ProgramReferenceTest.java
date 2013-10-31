@@ -87,6 +87,36 @@ public class ProgramReferenceTest
     Assert.assertEquals(a, pr0.getAttributes());
   }
 
+  @SuppressWarnings("static-method") @Test(
+    expected = UnsupportedOperationException.class) public
+    void
+    testNotWritableAttributes()
+      throws ConstraintError
+  {
+    final Map<String, ProgramUniform> u =
+      new HashMap<String, ProgramUniform>();
+    final Map<String, ProgramAttribute> a =
+      new HashMap<String, ProgramAttribute>();
+
+    final ProgramReference pr0 = new ProgramReference(1, "xyz", u, a);
+    pr0.getAttributes().clear();
+  }
+
+  @SuppressWarnings("static-method") @Test(
+    expected = UnsupportedOperationException.class) public
+    void
+    testNotWritableUniforms()
+      throws ConstraintError
+  {
+    final Map<String, ProgramUniform> u =
+      new HashMap<String, ProgramUniform>();
+    final Map<String, ProgramAttribute> a =
+      new HashMap<String, ProgramAttribute>();
+
+    final ProgramReference pr0 = new ProgramReference(1, "xyz", u, a);
+    pr0.getUniforms().clear();
+  }
+
   @SuppressWarnings("static-method") @Test public void testToString()
     throws ConstraintError
   {
@@ -105,35 +135,5 @@ public class ProgramReferenceTest
     Assert.assertFalse(pr0.toString().equals(pr1.toString()));
     Assert.assertFalse(pr0.toString().equals(null));
     Assert.assertFalse(pr0.toString().equals(Integer.valueOf(23)));
-  }
-
-  @SuppressWarnings("static-method") @Test(
-    expected = UnsupportedOperationException.class) public
-    void
-    testNotWritableUniforms()
-      throws ConstraintError
-  {
-    final Map<String, ProgramUniform> u =
-      new HashMap<String, ProgramUniform>();
-    final Map<String, ProgramAttribute> a =
-      new HashMap<String, ProgramAttribute>();
-
-    final ProgramReference pr0 = new ProgramReference(1, "xyz", u, a);
-    pr0.getUniforms().clear();
-  }
-
-  @SuppressWarnings("static-method") @Test(
-    expected = UnsupportedOperationException.class) public
-    void
-    testNotWritableAttributes()
-      throws ConstraintError
-  {
-    final Map<String, ProgramUniform> u =
-      new HashMap<String, ProgramUniform>();
-    final Map<String, ProgramAttribute> a =
-      new HashMap<String, ProgramAttribute>();
-
-    final ProgramReference pr0 = new ProgramReference(1, "xyz", u, a);
-    pr0.getAttributes().clear();
   }
 }

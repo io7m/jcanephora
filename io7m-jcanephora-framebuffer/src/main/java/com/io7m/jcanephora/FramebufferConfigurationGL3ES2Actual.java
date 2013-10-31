@@ -535,7 +535,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     throws ConstraintError,
       JCGLException
   {
-    return gl.texture2DStaticAllocateRGBA8888(
+    return gl.texture2DStaticAllocateRGBA8(
       name.toString(),
       this.width,
       this.height,
@@ -551,7 +551,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     throws JCGLException,
       ConstraintError
   {
-    return gl.textureCubeStaticAllocateRGBA8888(
+    return gl.textureCubeStaticAllocateRGBA8(
       name.toString(),
       this.width,
       this.wrap_r,
@@ -583,7 +583,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     throws ConstraintError,
       JCGLException
   {
-    return gl.texture2DStaticAllocateRGB888(
+    return gl.texture2DStaticAllocateRGB8(
       name.toString(),
       this.width,
       this.height,
@@ -599,7 +599,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     throws JCGLException,
       ConstraintError
   {
-    return gl.textureCubeStaticAllocateRGB888(
+    return gl.textureCubeStaticAllocateRGB8(
       name.toString(),
       this.width,
       this.wrap_r,

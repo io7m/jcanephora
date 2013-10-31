@@ -35,6 +35,7 @@ import org.lwjgl.opengl.GL30;
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
+import com.io7m.jcanephora.LWJGL_TextureSpecs.TextureSpec;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 
@@ -416,6 +417,7 @@ final class LWJGL_GL3Functions
   static void framebufferDrawAttachColorTexture2D(
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
+    final @Nonnull JCGLVersion version,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull Texture2DStaticUsable texture)
     throws JCGLException,
@@ -434,7 +436,7 @@ final class LWJGL_GL3Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(
-      texture.getType().isColorRenderable(),
+      TextureTypeMeta.isColourRenderable(texture.getType(), version),
       "Texture is color renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -458,6 +460,7 @@ final class LWJGL_GL3Functions
 
   static void framebufferDrawAttachColorTexture2DAt(
     final @Nonnull JCGLStateCache state,
+    final @Nonnull JCGLVersion version,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
@@ -479,7 +482,7 @@ final class LWJGL_GL3Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(
-      texture.getType().isColorRenderable(),
+      TextureTypeMeta.isColourRenderable(texture.getType(), version),
       "Texture is color renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -504,6 +507,7 @@ final class LWJGL_GL3Functions
 
   static void framebufferDrawAttachColorTextureCube(
     final @Nonnull JCGLStateCache state,
+    final @Nonnull JCGLVersion version,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull TextureCubeStaticUsable texture,
@@ -524,7 +528,7 @@ final class LWJGL_GL3Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(
-      texture.getType().isColorRenderable(),
+      TextureTypeMeta.isColourRenderable(texture.getType(), version),
       "Texture is color renderable");
 
     Constraints.constrainNotNull(face, "Cube map face");
@@ -551,6 +555,7 @@ final class LWJGL_GL3Functions
 
   static void framebufferDrawAttachColorTextureCubeAt(
     final @Nonnull JCGLStateCache state,
+    final @Nonnull JCGLVersion version,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
@@ -573,7 +578,7 @@ final class LWJGL_GL3Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(
-      texture.getType().isColorRenderable(),
+      TextureTypeMeta.isColourRenderable(texture.getType(), version),
       "Texture is color renderable");
 
     Constraints.constrainNotNull(face, "Cube map face");
@@ -696,6 +701,7 @@ final class LWJGL_GL3Functions
 
   static void framebufferDrawAttachDepthTexture2D(
     final @Nonnull JCGLStateCache state,
+    final @Nonnull JCGLVersion version,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull Texture2DStaticUsable texture)
@@ -715,7 +721,7 @@ final class LWJGL_GL3Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(
-      texture.getType().isDepthRenderable(),
+      TextureTypeMeta.isDepthRenderable(texture.getType()),
       "Texture is depth renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -1290,16 +1296,18 @@ final class LWJGL_GL3Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
 
-    final int format =
-      LWJGL_GLTypeConversions.textureTypeToFormatGL(texture.getType());
-    final int itype =
-      LWJGL_GLTypeConversions.textureTypeToTypeGL(texture.getType());
-
+    final TextureSpec spec =
+      LWJGL_TextureSpecs.getGL3TextureSpec(texture.getType());
     final Texture2DReadableData td =
       new Texture2DReadableData(texture.getType(), texture.getArea());
 
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getGLName());
-    GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, format, itype, td.targetData());
+    GL11.glGetTexImage(
+      GL11.GL_TEXTURE_2D,
+      0,
+      spec.format,
+      spec.type,
+      td.targetData());
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
     LWJGL_GLES2Functions.checkError();
 
@@ -1317,18 +1325,15 @@ final class LWJGL_GL3Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
 
-    final int format =
-      LWJGL_GLTypeConversions.textureTypeToFormatGL(texture.getType());
-    final int itype =
-      LWJGL_GLTypeConversions.textureTypeToTypeGL(texture.getType());
-
+    final TextureSpec spec =
+      LWJGL_TextureSpecs.getGL3TextureSpec(texture.getType());
     final TextureCubeReadableData td =
       new TextureCubeReadableData(texture.getType(), texture.getArea());
 
     final int face_i = LWJGL_GLTypeConversions.cubeFaceToGL(face);
 
     GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texture.getGLName());
-    GL11.glGetTexImage(face_i, 0, format, itype, td.targetData());
+    GL11.glGetTexImage(face_i, 0, spec.format, spec.type, td.targetData());
     GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, 0);
     LWJGL_GLES2Functions.checkError();
 

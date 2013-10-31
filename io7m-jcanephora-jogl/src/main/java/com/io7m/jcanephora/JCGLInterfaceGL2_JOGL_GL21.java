@@ -617,6 +617,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.contextGetGL2(),
       this.state,
       this.log,
+      this.version,
       framebuffer,
       texture);
   }
@@ -632,6 +633,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.contextGetGL2(),
       this.state,
       this.log,
+      this.version,
       framebuffer,
       point,
       texture);
@@ -648,6 +650,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.contextGetGL2(),
       this.state,
       this.log,
+      this.version,
       framebuffer,
       texture,
       face);
@@ -665,6 +668,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.contextGetGL2(),
       this.state,
       this.log,
+      this.version,
       framebuffer,
       point,
       texture,
@@ -1372,7 +1376,7 @@ import com.io7m.jtensors.VectorReadable4I;
       pass);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB888(
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB8(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -1390,14 +1394,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureType.TEXTURE_TYPE_RGB_888_3BPP,
+      TextureType.TEXTURE_TYPE_RGB_8_3BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA8888(
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA8(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -1415,7 +1419,7 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+      TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
@@ -1485,7 +1489,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public @Nonnull
     TextureCubeStatic
-    textureCubeStaticAllocateRGB888(
+    textureCubeStaticAllocateRGB8(
       final @Nonnull String name,
       final int size,
       final @Nonnull TextureWrapR wrap_r,
@@ -1502,7 +1506,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureType.TEXTURE_TYPE_RGB_888_3BPP,
+      TextureType.TEXTURE_TYPE_RGB_8_3BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -1512,7 +1516,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public @Nonnull
     TextureCubeStatic
-    textureCubeStaticAllocateRGBA8888(
+    textureCubeStaticAllocateRGBA8(
       final @Nonnull String name,
       final int size,
       final @Nonnull TextureWrapR wrap_r,
@@ -1529,7 +1533,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+      TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,

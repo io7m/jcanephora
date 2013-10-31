@@ -28,7 +28,7 @@ public class TextureCubeStaticTest
     final TextureCubeStatic t0 =
       new TextureCubeStatic(
         "xyz",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         1,
         128,
         TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
@@ -39,7 +39,7 @@ public class TextureCubeStaticTest
     final TextureCubeStatic t1 =
       new TextureCubeStatic(
         "xyz",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         2,
         128,
         TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
@@ -50,7 +50,7 @@ public class TextureCubeStaticTest
     final TextureCubeStatic t2 =
       new TextureCubeStatic(
         "xyz",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         1,
         128,
         TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
@@ -73,7 +73,7 @@ public class TextureCubeStaticTest
     final TextureCubeStatic t0 =
       new TextureCubeStatic(
         "xyz",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         1,
         128,
         TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
@@ -84,7 +84,7 @@ public class TextureCubeStaticTest
     final TextureCubeStatic t1 =
       new TextureCubeStatic(
         "xyz",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         2,
         128,
         TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
@@ -95,7 +95,7 @@ public class TextureCubeStaticTest
     final TextureCubeStatic t2 =
       new TextureCubeStatic(
         "xyz",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         1,
         128,
         TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
@@ -106,7 +106,7 @@ public class TextureCubeStaticTest
     final TextureCubeStatic t3 =
       new TextureCubeStatic(
         "abc",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         2,
         128,
         TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
@@ -117,7 +117,7 @@ public class TextureCubeStaticTest
     final TextureCubeStatic t4 =
       new TextureCubeStatic(
         "abc",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         1,
         128,
         TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
@@ -186,7 +186,7 @@ public class TextureCubeStaticTest
     final TextureCubeStatic t0 =
       new TextureCubeStatic(
         "xyz",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         1,
         128,
         TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
@@ -197,7 +197,7 @@ public class TextureCubeStaticTest
     final TextureCubeStatic t1 =
       new TextureCubeStatic(
         "xyz",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         2,
         128,
         TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
@@ -208,7 +208,7 @@ public class TextureCubeStaticTest
     final TextureCubeStatic t2 =
       new TextureCubeStatic(
         "xyz",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         1,
         128,
         TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,

@@ -42,7 +42,7 @@ import com.io7m.jcanephora.ProgramReference;
 import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.ProjectionMatrix;
 import com.io7m.jcanephora.ShaderUtilities;
-import com.io7m.jcanephora.SpatialCursorWritable3i;
+import com.io7m.jcanephora.SpatialCursorWritable3f;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.Texture2DWritableData;
 import com.io7m.jcanephora.TextureFilterMagnification;
@@ -54,6 +54,7 @@ import com.io7m.jcanephora.UsageHint;
 import com.io7m.jcanephora.VertexShader;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorI2F;
+import com.io7m.jtensors.VectorM3F;
 import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
@@ -124,7 +125,7 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
      */
 
     this.texture =
-      this.gl.texture2DStaticAllocateRGB888(
+      this.gl.texture2DStaticAllocateRGB8(
         "gradient",
         64,
         64,
@@ -259,20 +260,17 @@ public final class ExampleTexturedQuadAnimatedNoise implements Example
      */
 
     {
-      final SpatialCursorWritable3i tx_cursor =
-        this.texture_update.getCursor3i();
+      final SpatialCursorWritable3f tx_cursor =
+        this.texture_update.getCursor3f();
 
+      final VectorM3F colour = new VectorM3F();
       while (tx_cursor.isValid()) {
-        final double x = tx_cursor.getElementX();
-        final double y = tx_cursor.getElementY();
-        final double red = x / 64.0;
-        final double green = Math.random() * 0.5;
-        final double blue = y / 64.0;
-
-        tx_cursor.put3i(
-          (int) (255 * red),
-          (int) (255 * green),
-          (int) (255 * blue));
+        final float x = tx_cursor.getElementX();
+        final float y = tx_cursor.getElementY();
+        colour.x = x / 64.0f;
+        colour.y = (float) (Math.random() * 0.5f);
+        colour.z = y / 64.0f;
+        tx_cursor.put3f(colour);
       }
 
       this.gl.texture2DStaticUpdate(this.texture_update);
