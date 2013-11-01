@@ -173,7 +173,7 @@
 
           <!-- Produce jar file with custom manifest -->
           <execution>
-            <id>make-jar</id>
+            <id>default-jar</id>
             <configuration>
               <archive>
                 <manifestEntries>
