@@ -1307,7 +1307,7 @@ final class LWJGL_GL3Functions
       0,
       spec.format,
       spec.type,
-      td.targetData());
+      td.getData());
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
     LWJGL_GLES2Functions.checkError();
 

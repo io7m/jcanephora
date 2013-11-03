@@ -362,7 +362,7 @@ final class JOGL_GL2GL3_Functions
       0,
       spec.format,
       spec.type,
-      td.targetData());
+      td.getData());
     gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
     JOGL_GL_Functions.checkError(gl);
 

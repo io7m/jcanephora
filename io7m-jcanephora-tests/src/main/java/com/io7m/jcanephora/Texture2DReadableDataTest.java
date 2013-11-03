@@ -782,10 +782,10 @@ public class Texture2DReadableDataTest
     final Texture2DStatic t =
       this.makeTextureActual(TextureType.TEXTURE_TYPE_DEPTH_16_2BPP);
     final Texture2DReadableData d = this.makeTexture(t);
-    Assert.assertTrue(d.targetArea().getRangeX().getLower() == 0);
-    Assert.assertTrue(d.targetArea().getRangeY().getLower() == 0);
-    Assert.assertTrue(d.targetArea().getRangeX().getUpper() == 63);
-    Assert.assertTrue(d.targetArea().getRangeY().getUpper() == 63);
-    Assert.assertTrue(d.targetData().capacity() == (64 * (2 * 64)));
+    Assert.assertTrue(d.getArea().getRangeX().getLower() == 0);
+    Assert.assertTrue(d.getArea().getRangeY().getLower() == 0);
+    Assert.assertTrue(d.getArea().getRangeX().getUpper() == 63);
+    Assert.assertTrue(d.getArea().getRangeY().getUpper() == 63);
+    Assert.assertTrue(d.getData().capacity() == (64 * (2 * 64)));
   }
 }
