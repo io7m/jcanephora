@@ -1226,12 +1226,11 @@ public final class Texture2DReadableData
     throw new UnreachableCodeException();
   }
 
-  @Nonnull AreaInclusive targetArea()
-  {
-    return this.area;
-  }
+  /**
+   * Obtain access to the raw texture data.
+   */
 
-  @Nonnull ByteBuffer targetData()
+  public @Nonnull ByteBuffer getRawData()
   {
     return this.data;
   }
