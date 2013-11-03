@@ -8,7 +8,7 @@
   <artifactId>io7m-jcanephora-checkedexec</artifactId>
   <name>io7m-jcanephora-checkedexec</name>
   <description>Simple program abstraction to ensure correct shader usage</description>
-  <version>0.10.2</version>
+  <version>0.10.3</version>
   <url>http://mvn.io7m.com/jcanephora-checkedexec</url>
   <packaging>jar</packaging>
 
