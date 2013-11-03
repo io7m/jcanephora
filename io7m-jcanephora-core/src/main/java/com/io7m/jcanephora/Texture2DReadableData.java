@@ -59,6 +59,15 @@ public final class Texture2DReadableData
   }
 
   /**
+   * Retrieve the texture's area.
+   */
+
+  public @Nonnull AreaInclusive getArea()
+  {
+    return this.area;
+  }
+
+  /**
    * <p>
    * Retrieve a cursor that points to elements of the texture. The cursor
    * interface allows constant time access to any element and also minimizes
@@ -1230,7 +1239,7 @@ public final class Texture2DReadableData
    * Obtain access to the raw texture data.
    */
 
-  public @Nonnull ByteBuffer getRawData()
+  public @Nonnull ByteBuffer getData()
   {
     return this.data;
   }
