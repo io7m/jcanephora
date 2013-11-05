@@ -140,6 +140,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   private final @Nonnull JCGLExtensionPackedDepthStencil                       ext_packed_depth_stencil;
   final @Nonnull Option<JCGLExtensionPackedDepthStencil>                       ext_packed_depth_stencil_opt;
+
   JCGLInterfaceGLES2_JOGL_ES2(
     final @Nonnull GLContext context,
     final @Nonnull Log log)
@@ -523,7 +524,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public void drawElements(
     final @Nonnull Primitives mode,
-    final @Nonnull IndexBuffer indices)
+    final @Nonnull IndexBufferUsable indices)
     throws ConstraintError,
       JCGLException
   {
@@ -1561,18 +1562,16 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull
-    TextureCubeStatic
-    textureCubeStaticAllocateRGB8(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLException
+  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB8(
+    final @Nonnull String name,
+    final int size,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
+    throws ConstraintError,
+      JCGLException
   {
     return JOGL_GLES2_Functions.textureCubeStaticAllocate(
       this.contextGetGLES2(),
@@ -1642,18 +1641,16 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull
-    TextureCubeStatic
-    textureCubeStaticAllocateRGBA8(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLException
+  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGBA8(
+    final @Nonnull String name,
+    final int size,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
+    throws ConstraintError,
+      JCGLException
   {
     return JOGL_GLES2_Functions.textureCubeStaticAllocate(
       this.contextGetGLES2(),
