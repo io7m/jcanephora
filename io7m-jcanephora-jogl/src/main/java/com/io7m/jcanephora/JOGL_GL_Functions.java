@@ -861,7 +861,7 @@ final class JOGL_GL_Functions
   static void drawElements(
     final @Nonnull GL gl,
     final @Nonnull Primitives mode,
-    final @Nonnull IndexBuffer indices)
+    final @Nonnull IndexBufferUsable indices)
     throws ConstraintError,
       JCGLException
   {

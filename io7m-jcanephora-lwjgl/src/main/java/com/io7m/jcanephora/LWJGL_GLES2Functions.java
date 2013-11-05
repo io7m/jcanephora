@@ -597,9 +597,8 @@ final class LWJGL_GLES2Functions
   }
 
   static void drawElements(
-
     final @Nonnull Primitives mode,
-    final @Nonnull IndexBuffer indices)
+    final @Nonnull IndexBufferUsable indices)
     throws ConstraintError,
       JCGLException
   {
