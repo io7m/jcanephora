@@ -240,7 +240,7 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
     final String path = "/com/io7m/jcanephora/images/reference_8_grey.png";
     this.loadSpecific(fs, gl, tl, path);
   }
@@ -255,7 +255,7 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
     final String path = "/com/io7m/jcanephora/images/reference_8_index.png";
     this.loadSpecific(fs, gl, tl, path);
   }
@@ -270,7 +270,7 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -316,7 +316,7 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -362,7 +362,7 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -410,7 +410,7 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -438,7 +438,7 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -484,7 +484,7 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -530,7 +530,7 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
     final String path = "/com/io7m/jcanephora/images/not-an-image.txt";
     int io_exception_count = 0;
 
@@ -701,7 +701,7 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
     final String path = "/com/io7m/jcanephora/images/reference_mono.png";
     this.loadSpecific(fs, gl, tl, path);
   }
@@ -716,7 +716,7 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
     final String path = "/com/io7m/jcanephora/images/reference_8888_4.png";
     this.loadSpecific(fs, gl, tl, path);
   }
@@ -731,7 +731,7 @@ public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extend
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
     final String path = "/com/io7m/jcanephora/images/reference_888_3.png";
     this.loadSpecific(fs, gl, tl, path);
   }

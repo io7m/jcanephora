@@ -29,5 +29,6 @@ public abstract class TextureLoaderContract<G extends JCGLTextures2DStaticCommon
     final @Nonnull TestContext tc);
 
   public abstract @Nonnull T makeTextureLoader(
+    final @Nonnull TestContext tc,
     final @Nonnull G gl);
 }
