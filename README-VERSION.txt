@@ -1,1 +1,1 @@
-io7m-jcanephora 0.10.4
+io7m-jcanephora 0.11.0
