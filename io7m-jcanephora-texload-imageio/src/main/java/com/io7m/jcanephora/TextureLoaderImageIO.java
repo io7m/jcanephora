@@ -27,6 +27,7 @@ import javax.imageio.ImageIO;
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jlog.Log;
 import com.io7m.jtensors.VectorM2F;
 import com.io7m.jtensors.VectorM3F;
 import com.io7m.jtensors.VectorM4F;
@@ -867,138 +868,6 @@ public final class TextureLoaderImageIO implements TextureLoader
       "Height of " + name + " matches positive Z");
   }
 
-  private void cubeUpdateFacesLH(
-    final @Nonnull JCGLTexturesCubeStaticCommon gl,
-    final @Nonnull TextureType type,
-    final @Nonnull BufferedImage positive_z,
-    final @Nonnull BufferedImage negative_z,
-    final @Nonnull BufferedImage positive_y,
-    final @Nonnull BufferedImage negative_y,
-    final @Nonnull BufferedImage positive_x,
-    final @Nonnull BufferedImage negative_x,
-    final @Nonnull TextureCubeStatic texture)
-    throws ConstraintError,
-      JCGLException
-  {
-    try {
-
-      final TextureCubeWritableData data =
-        new TextureCubeWritableData(texture);
-
-      {
-        this.writeImageDataWithConversionToTexture(positive_z, data, type);
-        gl.textureCubeStaticUpdateLH(
-          CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_Z,
-          data);
-      }
-
-      {
-        this.writeImageDataWithConversionToTexture(negative_z, data, type);
-        gl.textureCubeStaticUpdateLH(
-          CubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_Z,
-          data);
-      }
-
-      {
-        this.writeImageDataWithConversionToTexture(positive_y, data, type);
-        gl.textureCubeStaticUpdateLH(
-          CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_Y,
-          data);
-      }
-
-      {
-        this.writeImageDataWithConversionToTexture(negative_y, data, type);
-        gl.textureCubeStaticUpdateLH(
-          CubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_Y,
-          data);
-      }
-
-      {
-        this.writeImageDataWithConversionToTexture(positive_x, data, type);
-        gl.textureCubeStaticUpdateLH(
-          CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X,
-          data);
-      }
-
-      {
-        this.writeImageDataWithConversionToTexture(negative_x, data, type);
-        gl.textureCubeStaticUpdateLH(
-          CubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_X,
-          data);
-      }
-
-    } catch (final JCGLException e) {
-      gl.textureCubeStaticDelete(texture);
-      throw e;
-    }
-  }
-
-  private void cubeUpdateFacesRH(
-    final @Nonnull JCGLTexturesCubeStaticCommon gl,
-    final @Nonnull TextureType type,
-    final @Nonnull BufferedImage positive_z,
-    final @Nonnull BufferedImage negative_z,
-    final @Nonnull BufferedImage positive_y,
-    final @Nonnull BufferedImage negative_y,
-    final @Nonnull BufferedImage positive_x,
-    final @Nonnull BufferedImage negative_x,
-    final @Nonnull TextureCubeStatic texture)
-    throws ConstraintError,
-      JCGLException
-  {
-    try {
-
-      final TextureCubeWritableData data =
-        new TextureCubeWritableData(texture);
-
-      {
-        this.writeImageDataWithConversionToTexture(positive_z, data, type);
-        gl.textureCubeStaticUpdateRH(
-          CubeMapFaceRH.CUBE_MAP_RH_POSITIVE_Z,
-          data);
-      }
-
-      {
-        this.writeImageDataWithConversionToTexture(negative_z, data, type);
-        gl.textureCubeStaticUpdateRH(
-          CubeMapFaceRH.CUBE_MAP_RH_NEGATIVE_Z,
-          data);
-      }
-
-      {
-        this.writeImageDataWithConversionToTexture(positive_y, data, type);
-        gl.textureCubeStaticUpdateRH(
-          CubeMapFaceRH.CUBE_MAP_RH_POSITIVE_Y,
-          data);
-      }
-
-      {
-        this.writeImageDataWithConversionToTexture(negative_y, data, type);
-        gl.textureCubeStaticUpdateRH(
-          CubeMapFaceRH.CUBE_MAP_RH_NEGATIVE_Y,
-          data);
-      }
-
-      {
-        this.writeImageDataWithConversionToTexture(positive_x, data, type);
-        gl.textureCubeStaticUpdateRH(
-          CubeMapFaceRH.CUBE_MAP_RH_POSITIVE_X,
-          data);
-      }
-
-      {
-        this.writeImageDataWithConversionToTexture(negative_x, data, type);
-        gl.textureCubeStaticUpdateRH(
-          CubeMapFaceRH.CUBE_MAP_RH_NEGATIVE_X,
-          data);
-      }
-
-    } catch (final JCGLException e) {
-      gl.textureCubeStaticDelete(texture);
-      throw e;
-    }
-  }
-
   /**
    * Convert any image to RGBA using ImageIO's conversion functions.
    */
@@ -1145,234 +1014,35 @@ public final class TextureLoaderImageIO implements TextureLoader
     }
   }
 
-  private @Nonnull Texture2DStatic load2DStaticSpecificImage_ES2(
-    final @Nonnull JCGLTextures2DStaticGLES2 gl,
-    final @Nonnull TextureType type,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull BufferedImage image,
-    final @Nonnull String name)
-    throws ConstraintError,
-      JCGLException
-  {
-    final Texture2DStatic texture =
-      TextureLoaderImageIO.allocateTexture2D_ES2(
-        gl,
-        type,
-        image.getWidth(),
-        image.getHeight(),
-        wrap_s,
-        wrap_t,
-        min_filter,
-        mag_filter,
-        name);
-
-    try {
-      final Texture2DWritableData data = new Texture2DWritableData(texture);
-      this.writeImageDataWithConversionToTexture(image, data, type);
-      gl.texture2DStaticUpdate(data);
-      return texture;
-    } catch (final JCGLException e) {
-      gl.texture2DStaticDelete(texture);
-      throw e;
-    }
-  }
-
-  private @Nonnull Texture2DStatic load2DStaticSpecificImage_GL3ES3(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureType type,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull BufferedImage image,
-    final @Nonnull String name)
-    throws JCGLException,
-      ConstraintError
-  {
-    final Texture2DStatic texture =
-      TextureLoaderImageIO.allocateTexture2D_GL3ES3(
-        gl,
-        type,
-        image.getWidth(),
-        image.getHeight(),
-        wrap_s,
-        wrap_t,
-        min_filter,
-        mag_filter,
-        name);
-
-    try {
-      final Texture2DWritableData data = new Texture2DWritableData(texture);
-      this.writeImageDataWithConversionToTexture(image, data, type);
-      gl.texture2DStaticUpdate(data);
-      return texture;
-    } catch (final JCGLException e) {
-      gl.texture2DStaticDelete(texture);
-      throw e;
-    }
-  }
-
-  private @Nonnull Texture2DStatic load2DStaticSpecificImageCommon(
-    final @Nonnull JCGLTextures2DStaticCommon gl,
-    final @Nonnull TextureType type,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull BufferedImage image,
-    final @Nonnull String name)
-    throws JCGLException,
-      ConstraintError
-  {
-    final Texture2DStatic texture =
-      TextureLoaderImageIO.allocateTexture2DCommon(
-        gl,
-        type,
-        image.getWidth(),
-        image.getHeight(),
-        wrap_s,
-        wrap_t,
-        min_filter,
-        mag_filter,
-        name);
-
-    try {
-      final Texture2DWritableData data = new Texture2DWritableData(texture);
-      this.writeImageDataWithConversionToTexture(image, data, type);
-      gl.texture2DStaticUpdate(data);
-      return texture;
-    } catch (final JCGLException e) {
-      gl.texture2DStaticDelete(texture);
-      throw e;
-    }
-  }
-
-  private @Nonnull TextureCubeStatic loadCubeLHStaticSpecificImageCommon(
-    final @Nonnull JCGLTexturesCubeStaticCommon gl,
-    final @Nonnull TextureType type,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull BufferedImage positive_z,
-    final @Nonnull BufferedImage negative_z,
-    final @Nonnull BufferedImage positive_y,
-    final @Nonnull BufferedImage negative_y,
-    final @Nonnull BufferedImage positive_x,
-    final @Nonnull BufferedImage negative_x,
-    final @Nonnull String name)
-    throws JCGLException,
-      ConstraintError
-  {
-    TextureLoaderImageIO.checkCubeImageSizes(
-      positive_z,
-      negative_z,
-      positive_y,
-      negative_y,
-      positive_x,
-      negative_x);
-
-    final TextureCubeStatic texture =
-      TextureLoaderImageIO.allocateTextureCubeCommon(
-        gl,
-        type,
-        positive_z.getWidth(),
-        wrap_r,
-        wrap_s,
-        wrap_t,
-        min_filter,
-        mag_filter,
-        name);
-
-    this.cubeUpdateFacesLH(
-      gl,
-      type,
-      positive_z,
-      negative_z,
-      positive_y,
-      negative_y,
-      positive_x,
-      negative_x,
-      texture);
-
-    return texture;
-  }
-
-  private @Nonnull TextureCubeStatic loadCubeRHStaticSpecificImageCommon(
-    final @Nonnull JCGLTexturesCubeStaticCommon gl,
-    final @Nonnull TextureType type,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull BufferedImage positive_z,
-    final @Nonnull BufferedImage negative_z,
-    final @Nonnull BufferedImage positive_y,
-    final @Nonnull BufferedImage negative_y,
-    final @Nonnull BufferedImage positive_x,
-    final @Nonnull BufferedImage negative_x,
-    final @Nonnull String name)
-    throws JCGLException,
-      ConstraintError
-  {
-    TextureLoaderImageIO.checkCubeImageSizes(
-      positive_z,
-      negative_z,
-      positive_y,
-      negative_y,
-      positive_x,
-      negative_x);
-
-    final TextureCubeStatic texture =
-      TextureLoaderImageIO.allocateTextureCubeCommon(
-        gl,
-        type,
-        positive_z.getWidth(),
-        wrap_r,
-        wrap_s,
-        wrap_t,
-        min_filter,
-        mag_filter,
-        name);
-
-    this.cubeUpdateFacesRH(
-      gl,
-      type,
-      positive_z,
-      negative_z,
-      positive_y,
-      negative_y,
-      positive_x,
-      negative_x,
-      texture);
-
-    return texture;
-  }
-
   /**
    * Create a new texture loader.
+   * 
+   * @throws ConstraintError
+   *           Iff <code>log == null</code>.
    */
 
-  public static @Nonnull TextureLoaderImageIO newTextureLoader()
+  public static @Nonnull TextureLoaderImageIO newTextureLoader(
+    final @Nonnull Log log)
+    throws ConstraintError
   {
-    return new TextureLoaderImageIO(false);
+    return new TextureLoaderImageIO(log, false);
   }
 
   /**
    * Create a new texture loader that will convert all textures to
    * alpha-premultiplied form upon loading.
+   * 
+   * @throws ConstraintError
+   *           Iff <code>log == null</code>.
    */
 
   public static @Nonnull
     TextureLoaderImageIO
-    newTextureLoaderWithAlphaPremultiplication()
+    newTextureLoaderWithAlphaPremultiplication(
+      final @Nonnull Log log)
+      throws ConstraintError
   {
-    return new TextureLoaderImageIO(true);
+    return new TextureLoaderImageIO(log, true);
   }
 
   private static final @Nonnull TextureType textureTypeES2Map(
@@ -1567,124 +1237,152 @@ public final class TextureLoaderImageIO implements TextureLoader
     }
   }
 
-  private void writeImageDataWithConversionToTexture(
-    final @Nonnull BufferedImage image,
-    final @Nonnull TextureWritableData data,
-    final @Nonnull TextureType type)
+  private final boolean      premultiply_alpha;
+  private final @Nonnull Log log;
+  private final @Nonnull Log log_alpha;
+
+  private TextureLoaderImageIO(
+    final @Nonnull Log log,
+    final boolean premultiply_alpha)
     throws ConstraintError
   {
-    if (type != data.getType()) {
-      Constraints.constrainArbitrary(
-        type == data.getType(),
-        "Texture type matches");
-    }
+    this.log =
+      new Log(Constraints.constrainNotNull(log, "Log"), "texture-loader");
+    this.log_alpha = new Log(this.log, "alpha");
 
-    switch (image.getType()) {
-      case BufferedImage.TYPE_BYTE_GRAY:
-      case BufferedImage.TYPE_BYTE_BINARY:
-      case BufferedImage.TYPE_USHORT_GRAY:
-      case BufferedImage.TYPE_USHORT_555_RGB:
-      case BufferedImage.TYPE_USHORT_565_RGB:
-      case BufferedImage.TYPE_3BYTE_BGR:
-      case BufferedImage.TYPE_BYTE_INDEXED:
-      case BufferedImage.TYPE_INT_RGB:
-      case BufferedImage.TYPE_INT_BGR:
-      case BufferedImage.TYPE_INT_ARGB_PRE:
-      case BufferedImage.TYPE_INT_ARGB:
-      case BufferedImage.TYPE_4BYTE_ABGR_PRE:
-      case BufferedImage.TYPE_4BYTE_ABGR:
+    this.premultiply_alpha = premultiply_alpha;
+  }
+
+  private void cubeUpdateFacesLH(
+    final @Nonnull JCGLTexturesCubeStaticCommon gl,
+    final @Nonnull TextureType type,
+    final @Nonnull BufferedImage positive_z,
+    final @Nonnull BufferedImage negative_z,
+    final @Nonnull BufferedImage positive_y,
+    final @Nonnull BufferedImage negative_y,
+    final @Nonnull BufferedImage positive_x,
+    final @Nonnull BufferedImage negative_x,
+    final @Nonnull TextureCubeStatic texture)
+    throws ConstraintError,
+      JCGLException
+  {
+    try {
+
+      final TextureCubeWritableData data =
+        new TextureCubeWritableData(texture);
+
       {
-        switch (type) {
-          case TEXTURE_TYPE_RGBA_16I_8BPP:
-          case TEXTURE_TYPE_RGBA_16U_8BPP:
-          case TEXTURE_TYPE_RGBA_32I_16BPP:
-          case TEXTURE_TYPE_RGBA_32U_16BPP:
-          case TEXTURE_TYPE_RGBA_8I_4BPP:
-          case TEXTURE_TYPE_RGBA_8U_4BPP:
-          case TEXTURE_TYPE_RGBA_16_8BPP:
-          case TEXTURE_TYPE_RGBA_1010102_4BPP:
-          case TEXTURE_TYPE_RGBA_16F_8BPP:
-          case TEXTURE_TYPE_RGBA_32F_16BPP:
-          case TEXTURE_TYPE_RGBA_4444_2BPP:
-          case TEXTURE_TYPE_RGBA_5551_2BPP:
-          case TEXTURE_TYPE_RGBA_8_4BPP:
-          {
-            if (this.premultiply_alpha) {
-              TextureLoaderImageIO.write4fPremultiplied(image, data);
-            } else {
-              TextureLoaderImageIO.write4f(image, data);
-            }
-            return;
-          }
-          case TEXTURE_TYPE_RGB_16I_6BPP:
-          case TEXTURE_TYPE_RGB_16U_6BPP:
-          case TEXTURE_TYPE_RGB_32I_12BPP:
-          case TEXTURE_TYPE_RGB_32U_12BPP:
-          case TEXTURE_TYPE_RGB_8I_3BPP:
-          case TEXTURE_TYPE_RGB_8U_3BPP:
-          case TEXTURE_TYPE_RGB_16_6BPP:
-          case TEXTURE_TYPE_RGB_32F_12BPP:
-          case TEXTURE_TYPE_RGB_16F_6BPP:
-          case TEXTURE_TYPE_RGB_565_2BPP:
-          case TEXTURE_TYPE_RGB_8_3BPP:
-          {
-            TextureLoaderImageIO.write3f(image, data);
-            return;
-          }
-          case TEXTURE_TYPE_RG_16I_4BPP:
-          case TEXTURE_TYPE_RG_16U_4BPP:
-          case TEXTURE_TYPE_RG_32I_8BPP:
-          case TEXTURE_TYPE_RG_32U_8BPP:
-          case TEXTURE_TYPE_RG_8I_2BPP:
-          case TEXTURE_TYPE_RG_8U_2BPP:
-          case TEXTURE_TYPE_RG_16F_4BPP:
-          case TEXTURE_TYPE_RG_8_2BPP:
-          case TEXTURE_TYPE_RG_16_4BPP:
-          case TEXTURE_TYPE_RG_32F_8BPP:
-          {
-            TextureLoaderImageIO.write2f(image, data);
-            return;
-          }
-          case TEXTURE_TYPE_R_16I_2BPP:
-          case TEXTURE_TYPE_R_16U_2BPP:
-          case TEXTURE_TYPE_R_16_2BPP:
-          case TEXTURE_TYPE_R_32F_4BPP:
-          case TEXTURE_TYPE_R_32I_4BPP:
-          case TEXTURE_TYPE_R_32U_4BPP:
-          case TEXTURE_TYPE_R_8I_1BPP:
-          case TEXTURE_TYPE_R_8U_1BPP:
-          case TEXTURE_TYPE_R_16F_2BPP:
-          case TEXTURE_TYPE_R_8_1BPP:
-          case TEXTURE_TYPE_DEPTH_16_2BPP:
-          case TEXTURE_TYPE_DEPTH_24_4BPP:
-          case TEXTURE_TYPE_DEPTH_32F_4BPP:
-          {
-            TextureLoaderImageIO.write1f(image, data);
-            return;
-          }
-        }
-
-        throw new UnreachableCodeException();
+        this.writeImageDataWithConversionToTexture(positive_z, data, type);
+        gl.textureCubeStaticUpdateLH(
+          CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_Z,
+          data);
       }
 
-      case BufferedImage.TYPE_CUSTOM:
-      default:
       {
-        final BufferedImage converted =
-          TextureLoaderImageIO.customToRGBA(image);
-        assert converted.getType() != BufferedImage.TYPE_CUSTOM;
-        this.writeImageDataWithConversionToTexture(converted, data, type);
-        return;
+        this.writeImageDataWithConversionToTexture(negative_z, data, type);
+        gl.textureCubeStaticUpdateLH(
+          CubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_Z,
+          data);
       }
+
+      {
+        this.writeImageDataWithConversionToTexture(positive_y, data, type);
+        gl.textureCubeStaticUpdateLH(
+          CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_Y,
+          data);
+      }
+
+      {
+        this.writeImageDataWithConversionToTexture(negative_y, data, type);
+        gl.textureCubeStaticUpdateLH(
+          CubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_Y,
+          data);
+      }
+
+      {
+        this.writeImageDataWithConversionToTexture(positive_x, data, type);
+        gl.textureCubeStaticUpdateLH(
+          CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X,
+          data);
+      }
+
+      {
+        this.writeImageDataWithConversionToTexture(negative_x, data, type);
+        gl.textureCubeStaticUpdateLH(
+          CubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_X,
+          data);
+      }
+
+    } catch (final JCGLException e) {
+      gl.textureCubeStaticDelete(texture);
+      throw e;
     }
   }
 
-  private final boolean premultiply_alpha;
-
-  private TextureLoaderImageIO(
-    final boolean premultiply_alpha)
+  private void cubeUpdateFacesRH(
+    final @Nonnull JCGLTexturesCubeStaticCommon gl,
+    final @Nonnull TextureType type,
+    final @Nonnull BufferedImage positive_z,
+    final @Nonnull BufferedImage negative_z,
+    final @Nonnull BufferedImage positive_y,
+    final @Nonnull BufferedImage negative_y,
+    final @Nonnull BufferedImage positive_x,
+    final @Nonnull BufferedImage negative_x,
+    final @Nonnull TextureCubeStatic texture)
+    throws ConstraintError,
+      JCGLException
   {
-    this.premultiply_alpha = premultiply_alpha;
+    try {
+
+      final TextureCubeWritableData data =
+        new TextureCubeWritableData(texture);
+
+      {
+        this.writeImageDataWithConversionToTexture(positive_z, data, type);
+        gl.textureCubeStaticUpdateRH(
+          CubeMapFaceRH.CUBE_MAP_RH_POSITIVE_Z,
+          data);
+      }
+
+      {
+        this.writeImageDataWithConversionToTexture(negative_z, data, type);
+        gl.textureCubeStaticUpdateRH(
+          CubeMapFaceRH.CUBE_MAP_RH_NEGATIVE_Z,
+          data);
+      }
+
+      {
+        this.writeImageDataWithConversionToTexture(positive_y, data, type);
+        gl.textureCubeStaticUpdateRH(
+          CubeMapFaceRH.CUBE_MAP_RH_POSITIVE_Y,
+          data);
+      }
+
+      {
+        this.writeImageDataWithConversionToTexture(negative_y, data, type);
+        gl.textureCubeStaticUpdateRH(
+          CubeMapFaceRH.CUBE_MAP_RH_NEGATIVE_Y,
+          data);
+      }
+
+      {
+        this.writeImageDataWithConversionToTexture(positive_x, data, type);
+        gl.textureCubeStaticUpdateRH(
+          CubeMapFaceRH.CUBE_MAP_RH_POSITIVE_X,
+          data);
+      }
+
+      {
+        this.writeImageDataWithConversionToTexture(negative_x, data, type);
+        gl.textureCubeStaticUpdateRH(
+          CubeMapFaceRH.CUBE_MAP_RH_NEGATIVE_X,
+          data);
+      }
+
+    } catch (final JCGLException e) {
+      gl.textureCubeStaticDelete(texture);
+      throw e;
+    }
   }
 
   @Override public @Nonnull Texture2DStatic load2DStaticDepth16(
@@ -3250,6 +2948,111 @@ public final class TextureLoaderImageIO implements TextureLoader
       name);
   }
 
+  private @Nonnull Texture2DStatic load2DStaticSpecificImage_ES2(
+    final @Nonnull JCGLTextures2DStaticGLES2 gl,
+    final @Nonnull TextureType type,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull BufferedImage image,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException
+  {
+    final Texture2DStatic texture =
+      TextureLoaderImageIO.allocateTexture2D_ES2(
+        gl,
+        type,
+        image.getWidth(),
+        image.getHeight(),
+        wrap_s,
+        wrap_t,
+        min_filter,
+        mag_filter,
+        name);
+
+    try {
+      final Texture2DWritableData data = new Texture2DWritableData(texture);
+      this.writeImageDataWithConversionToTexture(image, data, type);
+      gl.texture2DStaticUpdate(data);
+      return texture;
+    } catch (final JCGLException e) {
+      gl.texture2DStaticDelete(texture);
+      throw e;
+    }
+  }
+
+  private @Nonnull Texture2DStatic load2DStaticSpecificImage_GL3ES3(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureType type,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull BufferedImage image,
+    final @Nonnull String name)
+    throws JCGLException,
+      ConstraintError
+  {
+    final Texture2DStatic texture =
+      TextureLoaderImageIO.allocateTexture2D_GL3ES3(
+        gl,
+        type,
+        image.getWidth(),
+        image.getHeight(),
+        wrap_s,
+        wrap_t,
+        min_filter,
+        mag_filter,
+        name);
+
+    try {
+      final Texture2DWritableData data = new Texture2DWritableData(texture);
+      this.writeImageDataWithConversionToTexture(image, data, type);
+      gl.texture2DStaticUpdate(data);
+      return texture;
+    } catch (final JCGLException e) {
+      gl.texture2DStaticDelete(texture);
+      throw e;
+    }
+  }
+
+  private @Nonnull Texture2DStatic load2DStaticSpecificImageCommon(
+    final @Nonnull JCGLTextures2DStaticCommon gl,
+    final @Nonnull TextureType type,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull BufferedImage image,
+    final @Nonnull String name)
+    throws JCGLException,
+      ConstraintError
+  {
+    final Texture2DStatic texture =
+      TextureLoaderImageIO.allocateTexture2DCommon(
+        gl,
+        type,
+        image.getWidth(),
+        image.getHeight(),
+        wrap_s,
+        wrap_t,
+        min_filter,
+        mag_filter,
+        name);
+
+    try {
+      final Texture2DWritableData data = new Texture2DWritableData(texture);
+      this.writeImageDataWithConversionToTexture(image, data, type);
+      gl.texture2DStaticUpdate(data);
+      return texture;
+    } catch (final JCGLException e) {
+      gl.texture2DStaticDelete(texture);
+      throw e;
+    }
+  }
+
   @Override public @Nonnull TextureCubeStatic loadCubeLHStaticRGB8(
     final @Nonnull JCGLTexturesCubeStaticCommon gl,
     final @Nonnull TextureWrapR wrap_r,
@@ -3350,6 +3153,58 @@ public final class TextureLoaderImageIO implements TextureLoader
       name);
   }
 
+  private @Nonnull TextureCubeStatic loadCubeLHStaticSpecificImageCommon(
+    final @Nonnull JCGLTexturesCubeStaticCommon gl,
+    final @Nonnull TextureType type,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull BufferedImage positive_z,
+    final @Nonnull BufferedImage negative_z,
+    final @Nonnull BufferedImage positive_y,
+    final @Nonnull BufferedImage negative_y,
+    final @Nonnull BufferedImage positive_x,
+    final @Nonnull BufferedImage negative_x,
+    final @Nonnull String name)
+    throws JCGLException,
+      ConstraintError
+  {
+    TextureLoaderImageIO.checkCubeImageSizes(
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x);
+
+    final TextureCubeStatic texture =
+      TextureLoaderImageIO.allocateTextureCubeCommon(
+        gl,
+        type,
+        positive_z.getWidth(),
+        wrap_r,
+        wrap_s,
+        wrap_t,
+        min_filter,
+        mag_filter,
+        name);
+
+    this.cubeUpdateFacesLH(
+      gl,
+      type,
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x,
+      texture);
+
+    return texture;
+  }
+
   @Override public @Nonnull TextureCubeStatic loadCubeRHStaticRGB8(
     final @Nonnull JCGLTexturesCubeStaticCommon gl,
     final @Nonnull TextureWrapR wrap_r,
@@ -3448,6 +3303,178 @@ public final class TextureLoaderImageIO implements TextureLoader
       TextureLoaderImageIO.getBufferedImage(positive_x),
       TextureLoaderImageIO.getBufferedImage(negative_x),
       name);
+  }
+
+  private @Nonnull TextureCubeStatic loadCubeRHStaticSpecificImageCommon(
+    final @Nonnull JCGLTexturesCubeStaticCommon gl,
+    final @Nonnull TextureType type,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull BufferedImage positive_z,
+    final @Nonnull BufferedImage negative_z,
+    final @Nonnull BufferedImage positive_y,
+    final @Nonnull BufferedImage negative_y,
+    final @Nonnull BufferedImage positive_x,
+    final @Nonnull BufferedImage negative_x,
+    final @Nonnull String name)
+    throws JCGLException,
+      ConstraintError
+  {
+    TextureLoaderImageIO.checkCubeImageSizes(
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x);
+
+    final TextureCubeStatic texture =
+      TextureLoaderImageIO.allocateTextureCubeCommon(
+        gl,
+        type,
+        positive_z.getWidth(),
+        wrap_r,
+        wrap_s,
+        wrap_t,
+        min_filter,
+        mag_filter,
+        name);
+
+    this.cubeUpdateFacesRH(
+      gl,
+      type,
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x,
+      texture);
+
+    return texture;
+  }
+
+  private void writeImageDataWithConversionToTexture(
+    final @Nonnull BufferedImage image,
+    final @Nonnull TextureWritableData data,
+    final @Nonnull TextureType type)
+    throws ConstraintError
+  {
+    if (type != data.getType()) {
+      Constraints.constrainArbitrary(
+        type == data.getType(),
+        "Texture type matches");
+    }
+
+    switch (image.getType()) {
+      case BufferedImage.TYPE_BYTE_GRAY:
+      case BufferedImage.TYPE_BYTE_BINARY:
+      case BufferedImage.TYPE_USHORT_GRAY:
+      case BufferedImage.TYPE_USHORT_555_RGB:
+      case BufferedImage.TYPE_USHORT_565_RGB:
+      case BufferedImage.TYPE_3BYTE_BGR:
+      case BufferedImage.TYPE_BYTE_INDEXED:
+      case BufferedImage.TYPE_INT_RGB:
+      case BufferedImage.TYPE_INT_BGR:
+      case BufferedImage.TYPE_INT_ARGB_PRE:
+      case BufferedImage.TYPE_INT_ARGB:
+      case BufferedImage.TYPE_4BYTE_ABGR_PRE:
+      case BufferedImage.TYPE_4BYTE_ABGR:
+      {
+        switch (type) {
+          case TEXTURE_TYPE_RGBA_16I_8BPP:
+          case TEXTURE_TYPE_RGBA_16U_8BPP:
+          case TEXTURE_TYPE_RGBA_32I_16BPP:
+          case TEXTURE_TYPE_RGBA_32U_16BPP:
+          case TEXTURE_TYPE_RGBA_8I_4BPP:
+          case TEXTURE_TYPE_RGBA_8U_4BPP:
+          case TEXTURE_TYPE_RGBA_16_8BPP:
+          case TEXTURE_TYPE_RGBA_1010102_4BPP:
+          case TEXTURE_TYPE_RGBA_16F_8BPP:
+          case TEXTURE_TYPE_RGBA_32F_16BPP:
+          case TEXTURE_TYPE_RGBA_4444_2BPP:
+          case TEXTURE_TYPE_RGBA_5551_2BPP:
+          case TEXTURE_TYPE_RGBA_8_4BPP:
+          {
+            if (this.premultiply_alpha) {
+              if (image.isAlphaPremultiplied()) {
+                this.log_alpha
+                  .debug("Premultiplication requested, but image is already premultiplied");
+                TextureLoaderImageIO.write4f(image, data);
+              } else {
+                this.log_alpha.debug("Premultiplying alpha");
+                TextureLoaderImageIO.write4fPremultiplied(image, data);
+              }
+            } else {
+              this.log_alpha.debug("No premultiplication requested");
+              TextureLoaderImageIO.write4f(image, data);
+            }
+            return;
+          }
+          case TEXTURE_TYPE_RGB_16I_6BPP:
+          case TEXTURE_TYPE_RGB_16U_6BPP:
+          case TEXTURE_TYPE_RGB_32I_12BPP:
+          case TEXTURE_TYPE_RGB_32U_12BPP:
+          case TEXTURE_TYPE_RGB_8I_3BPP:
+          case TEXTURE_TYPE_RGB_8U_3BPP:
+          case TEXTURE_TYPE_RGB_16_6BPP:
+          case TEXTURE_TYPE_RGB_32F_12BPP:
+          case TEXTURE_TYPE_RGB_16F_6BPP:
+          case TEXTURE_TYPE_RGB_565_2BPP:
+          case TEXTURE_TYPE_RGB_8_3BPP:
+          {
+            TextureLoaderImageIO.write3f(image, data);
+            return;
+          }
+          case TEXTURE_TYPE_RG_16I_4BPP:
+          case TEXTURE_TYPE_RG_16U_4BPP:
+          case TEXTURE_TYPE_RG_32I_8BPP:
+          case TEXTURE_TYPE_RG_32U_8BPP:
+          case TEXTURE_TYPE_RG_8I_2BPP:
+          case TEXTURE_TYPE_RG_8U_2BPP:
+          case TEXTURE_TYPE_RG_16F_4BPP:
+          case TEXTURE_TYPE_RG_8_2BPP:
+          case TEXTURE_TYPE_RG_16_4BPP:
+          case TEXTURE_TYPE_RG_32F_8BPP:
+          {
+            TextureLoaderImageIO.write2f(image, data);
+            return;
+          }
+          case TEXTURE_TYPE_R_16I_2BPP:
+          case TEXTURE_TYPE_R_16U_2BPP:
+          case TEXTURE_TYPE_R_16_2BPP:
+          case TEXTURE_TYPE_R_32F_4BPP:
+          case TEXTURE_TYPE_R_32I_4BPP:
+          case TEXTURE_TYPE_R_32U_4BPP:
+          case TEXTURE_TYPE_R_8I_1BPP:
+          case TEXTURE_TYPE_R_8U_1BPP:
+          case TEXTURE_TYPE_R_16F_2BPP:
+          case TEXTURE_TYPE_R_8_1BPP:
+          case TEXTURE_TYPE_DEPTH_16_2BPP:
+          case TEXTURE_TYPE_DEPTH_24_4BPP:
+          case TEXTURE_TYPE_DEPTH_32F_4BPP:
+          {
+            TextureLoaderImageIO.write1f(image, data);
+            return;
+          }
+        }
+
+        throw new UnreachableCodeException();
+      }
+
+      case BufferedImage.TYPE_CUSTOM:
+      default:
+      {
+        final BufferedImage converted =
+          TextureLoaderImageIO.customToRGBA(image);
+        assert converted.getType() != BufferedImage.TYPE_CUSTOM;
+        this.writeImageDataWithConversionToTexture(converted, data, type);
+        return;
+      }
+    }
   }
 
 }
