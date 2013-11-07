@@ -867,7 +867,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       "Height of " + name + " matches positive Z");
   }
 
-  private static void cubeUpdateFacesLH(
+  private void cubeUpdateFacesLH(
     final @Nonnull JCGLTexturesCubeStaticCommon gl,
     final @Nonnull TextureType type,
     final @Nonnull BufferedImage positive_z,
@@ -886,60 +886,42 @@ public final class TextureLoaderImageIO implements TextureLoader
         new TextureCubeWritableData(texture);
 
       {
-        TextureLoaderImageIO.writeImageDataWithConversionToTexture(
-          positive_z,
-          data,
-          type);
+        this.writeImageDataWithConversionToTexture(positive_z, data, type);
         gl.textureCubeStaticUpdateLH(
           CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_Z,
           data);
       }
 
       {
-        TextureLoaderImageIO.writeImageDataWithConversionToTexture(
-          negative_z,
-          data,
-          type);
+        this.writeImageDataWithConversionToTexture(negative_z, data, type);
         gl.textureCubeStaticUpdateLH(
           CubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_Z,
           data);
       }
 
       {
-        TextureLoaderImageIO.writeImageDataWithConversionToTexture(
-          positive_y,
-          data,
-          type);
+        this.writeImageDataWithConversionToTexture(positive_y, data, type);
         gl.textureCubeStaticUpdateLH(
           CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_Y,
           data);
       }
 
       {
-        TextureLoaderImageIO.writeImageDataWithConversionToTexture(
-          negative_y,
-          data,
-          type);
+        this.writeImageDataWithConversionToTexture(negative_y, data, type);
         gl.textureCubeStaticUpdateLH(
           CubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_Y,
           data);
       }
 
       {
-        TextureLoaderImageIO.writeImageDataWithConversionToTexture(
-          positive_x,
-          data,
-          type);
+        this.writeImageDataWithConversionToTexture(positive_x, data, type);
         gl.textureCubeStaticUpdateLH(
           CubeMapFaceLH.CUBE_MAP_LH_POSITIVE_X,
           data);
       }
 
       {
-        TextureLoaderImageIO.writeImageDataWithConversionToTexture(
-          negative_x,
-          data,
-          type);
+        this.writeImageDataWithConversionToTexture(negative_x, data, type);
         gl.textureCubeStaticUpdateLH(
           CubeMapFaceLH.CUBE_MAP_LH_NEGATIVE_X,
           data);
@@ -951,7 +933,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     }
   }
 
-  private static void cubeUpdateFacesRH(
+  private void cubeUpdateFacesRH(
     final @Nonnull JCGLTexturesCubeStaticCommon gl,
     final @Nonnull TextureType type,
     final @Nonnull BufferedImage positive_z,
@@ -970,60 +952,42 @@ public final class TextureLoaderImageIO implements TextureLoader
         new TextureCubeWritableData(texture);
 
       {
-        TextureLoaderImageIO.writeImageDataWithConversionToTexture(
-          positive_z,
-          data,
-          type);
+        this.writeImageDataWithConversionToTexture(positive_z, data, type);
         gl.textureCubeStaticUpdateRH(
           CubeMapFaceRH.CUBE_MAP_RH_POSITIVE_Z,
           data);
       }
 
       {
-        TextureLoaderImageIO.writeImageDataWithConversionToTexture(
-          negative_z,
-          data,
-          type);
+        this.writeImageDataWithConversionToTexture(negative_z, data, type);
         gl.textureCubeStaticUpdateRH(
           CubeMapFaceRH.CUBE_MAP_RH_NEGATIVE_Z,
           data);
       }
 
       {
-        TextureLoaderImageIO.writeImageDataWithConversionToTexture(
-          positive_y,
-          data,
-          type);
+        this.writeImageDataWithConversionToTexture(positive_y, data, type);
         gl.textureCubeStaticUpdateRH(
           CubeMapFaceRH.CUBE_MAP_RH_POSITIVE_Y,
           data);
       }
 
       {
-        TextureLoaderImageIO.writeImageDataWithConversionToTexture(
-          negative_y,
-          data,
-          type);
+        this.writeImageDataWithConversionToTexture(negative_y, data, type);
         gl.textureCubeStaticUpdateRH(
           CubeMapFaceRH.CUBE_MAP_RH_NEGATIVE_Y,
           data);
       }
 
       {
-        TextureLoaderImageIO.writeImageDataWithConversionToTexture(
-          positive_x,
-          data,
-          type);
+        this.writeImageDataWithConversionToTexture(positive_x, data, type);
         gl.textureCubeStaticUpdateRH(
           CubeMapFaceRH.CUBE_MAP_RH_POSITIVE_X,
           data);
       }
 
       {
-        TextureLoaderImageIO.writeImageDataWithConversionToTexture(
-          negative_x,
-          data,
-          type);
+        this.writeImageDataWithConversionToTexture(negative_x, data, type);
         gl.textureCubeStaticUpdateRH(
           CubeMapFaceRH.CUBE_MAP_RH_NEGATIVE_X,
           data);
@@ -1181,7 +1145,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     }
   }
 
-  private static @Nonnull Texture2DStatic load2DStaticSpecificImage_ES2(
+  private @Nonnull Texture2DStatic load2DStaticSpecificImage_ES2(
     final @Nonnull JCGLTextures2DStaticGLES2 gl,
     final @Nonnull TextureType type,
     final @Nonnull TextureWrapS wrap_s,
@@ -1207,10 +1171,7 @@ public final class TextureLoaderImageIO implements TextureLoader
 
     try {
       final Texture2DWritableData data = new Texture2DWritableData(texture);
-      TextureLoaderImageIO.writeImageDataWithConversionToTexture(
-        image,
-        data,
-        type);
+      this.writeImageDataWithConversionToTexture(image, data, type);
       gl.texture2DStaticUpdate(data);
       return texture;
     } catch (final JCGLException e) {
@@ -1219,7 +1180,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     }
   }
 
-  private static @Nonnull Texture2DStatic load2DStaticSpecificImage_GL3ES3(
+  private @Nonnull Texture2DStatic load2DStaticSpecificImage_GL3ES3(
     final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
     final @Nonnull TextureType type,
     final @Nonnull TextureWrapS wrap_s,
@@ -1245,10 +1206,7 @@ public final class TextureLoaderImageIO implements TextureLoader
 
     try {
       final Texture2DWritableData data = new Texture2DWritableData(texture);
-      TextureLoaderImageIO.writeImageDataWithConversionToTexture(
-        image,
-        data,
-        type);
+      this.writeImageDataWithConversionToTexture(image, data, type);
       gl.texture2DStaticUpdate(data);
       return texture;
     } catch (final JCGLException e) {
@@ -1257,7 +1215,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     }
   }
 
-  private static @Nonnull Texture2DStatic load2DStaticSpecificImageCommon(
+  private @Nonnull Texture2DStatic load2DStaticSpecificImageCommon(
     final @Nonnull JCGLTextures2DStaticCommon gl,
     final @Nonnull TextureType type,
     final @Nonnull TextureWrapS wrap_s,
@@ -1283,10 +1241,7 @@ public final class TextureLoaderImageIO implements TextureLoader
 
     try {
       final Texture2DWritableData data = new Texture2DWritableData(texture);
-      TextureLoaderImageIO.writeImageDataWithConversionToTexture(
-        image,
-        data,
-        type);
+      this.writeImageDataWithConversionToTexture(image, data, type);
       gl.texture2DStaticUpdate(data);
       return texture;
     } catch (final JCGLException e) {
@@ -1295,25 +1250,23 @@ public final class TextureLoaderImageIO implements TextureLoader
     }
   }
 
-  private static @Nonnull
-    TextureCubeStatic
-    loadCubeLHStaticSpecificImageCommon(
-      final @Nonnull JCGLTexturesCubeStaticCommon gl,
-      final @Nonnull TextureType type,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter,
-      final @Nonnull BufferedImage positive_z,
-      final @Nonnull BufferedImage negative_z,
-      final @Nonnull BufferedImage positive_y,
-      final @Nonnull BufferedImage negative_y,
-      final @Nonnull BufferedImage positive_x,
-      final @Nonnull BufferedImage negative_x,
-      final @Nonnull String name)
-      throws JCGLException,
-        ConstraintError
+  private @Nonnull TextureCubeStatic loadCubeLHStaticSpecificImageCommon(
+    final @Nonnull JCGLTexturesCubeStaticCommon gl,
+    final @Nonnull TextureType type,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull BufferedImage positive_z,
+    final @Nonnull BufferedImage negative_z,
+    final @Nonnull BufferedImage positive_y,
+    final @Nonnull BufferedImage negative_y,
+    final @Nonnull BufferedImage positive_x,
+    final @Nonnull BufferedImage negative_x,
+    final @Nonnull String name)
+    throws JCGLException,
+      ConstraintError
   {
     TextureLoaderImageIO.checkCubeImageSizes(
       positive_z,
@@ -1335,7 +1288,7 @@ public final class TextureLoaderImageIO implements TextureLoader
         mag_filter,
         name);
 
-    TextureLoaderImageIO.cubeUpdateFacesLH(
+    this.cubeUpdateFacesLH(
       gl,
       type,
       positive_z,
@@ -1349,25 +1302,23 @@ public final class TextureLoaderImageIO implements TextureLoader
     return texture;
   }
 
-  private static @Nonnull
-    TextureCubeStatic
-    loadCubeRHStaticSpecificImageCommon(
-      final @Nonnull JCGLTexturesCubeStaticCommon gl,
-      final @Nonnull TextureType type,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter,
-      final @Nonnull BufferedImage positive_z,
-      final @Nonnull BufferedImage negative_z,
-      final @Nonnull BufferedImage positive_y,
-      final @Nonnull BufferedImage negative_y,
-      final @Nonnull BufferedImage positive_x,
-      final @Nonnull BufferedImage negative_x,
-      final @Nonnull String name)
-      throws JCGLException,
-        ConstraintError
+  private @Nonnull TextureCubeStatic loadCubeRHStaticSpecificImageCommon(
+    final @Nonnull JCGLTexturesCubeStaticCommon gl,
+    final @Nonnull TextureType type,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull BufferedImage positive_z,
+    final @Nonnull BufferedImage negative_z,
+    final @Nonnull BufferedImage positive_y,
+    final @Nonnull BufferedImage negative_y,
+    final @Nonnull BufferedImage positive_x,
+    final @Nonnull BufferedImage negative_x,
+    final @Nonnull String name)
+    throws JCGLException,
+      ConstraintError
   {
     TextureLoaderImageIO.checkCubeImageSizes(
       positive_z,
@@ -1389,7 +1340,7 @@ public final class TextureLoaderImageIO implements TextureLoader
         mag_filter,
         name);
 
-    TextureLoaderImageIO.cubeUpdateFacesRH(
+    this.cubeUpdateFacesRH(
       gl,
       type,
       positive_z,
@@ -1401,6 +1352,27 @@ public final class TextureLoaderImageIO implements TextureLoader
       texture);
 
     return texture;
+  }
+
+  /**
+   * Create a new texture loader.
+   */
+
+  public static @Nonnull TextureLoaderImageIO newTextureLoader()
+  {
+    return new TextureLoaderImageIO(false);
+  }
+
+  /**
+   * Create a new texture loader that will convert all textures to
+   * alpha-premultiplied form upon loading.
+   */
+
+  public static @Nonnull
+    TextureLoaderImageIO
+    newTextureLoaderWithAlphaPremultiplication()
+  {
+    return new TextureLoaderImageIO(true);
   }
 
   private static final @Nonnull TextureType textureTypeES2Map(
@@ -1556,7 +1528,46 @@ public final class TextureLoaderImageIO implements TextureLoader
     }
   }
 
-  private static void writeImageDataWithConversionToTexture(
+  private static void write4fPremultiplied(
+    final @Nonnull BufferedImage image,
+    final @Nonnull TextureWritableData data)
+    throws ConstraintError
+  {
+    final SpatialCursorWritable4f cursor = data.getCursor4f();
+    final int height = image.getHeight();
+    final int width = image.getWidth();
+    final float recip = 1.0f / 256.0f;
+    final VectorM4F pixel = new VectorM4F();
+
+    for (int y = 0; y < height; ++y) {
+      for (int x = 0; x < width; ++x) {
+        final int argb =
+          TextureLoaderImageIO.getImageARGBAsOpenGL(image, x, y);
+
+        final int a = (argb >> 24) & 0xFF;
+        final int r = (argb >> 16) & 0xFF;
+        final int g = (argb >> 8) & 0xFF;
+        final int b = argb & 0xFF;
+
+        final float fa = a * recip;
+        final float fr = r * recip;
+        final float fg = g * recip;
+        final float fb = b * recip;
+
+        final float fpr = fr * fa;
+        final float fpg = fg * fa;
+        final float fpb = fb * fa;
+
+        pixel.w = fa;
+        pixel.x = fpr;
+        pixel.y = fpg;
+        pixel.z = fpb;
+        cursor.put4f(pixel);
+      }
+    }
+  }
+
+  private void writeImageDataWithConversionToTexture(
     final @Nonnull BufferedImage image,
     final @Nonnull TextureWritableData data,
     final @Nonnull TextureType type)
@@ -1598,7 +1609,11 @@ public final class TextureLoaderImageIO implements TextureLoader
           case TEXTURE_TYPE_RGBA_5551_2BPP:
           case TEXTURE_TYPE_RGBA_8_4BPP:
           {
-            TextureLoaderImageIO.write4f(image, data);
+            if (this.premultiply_alpha) {
+              TextureLoaderImageIO.write4fPremultiplied(image, data);
+            } else {
+              TextureLoaderImageIO.write4f(image, data);
+            }
             return;
           }
           case TEXTURE_TYPE_RGB_16I_6BPP:
@@ -1658,13 +1673,18 @@ public final class TextureLoaderImageIO implements TextureLoader
         final BufferedImage converted =
           TextureLoaderImageIO.customToRGBA(image);
         assert converted.getType() != BufferedImage.TYPE_CUSTOM;
-        TextureLoaderImageIO.writeImageDataWithConversionToTexture(
-          converted,
-          data,
-          type);
+        this.writeImageDataWithConversionToTexture(converted, data, type);
         return;
       }
     }
+  }
+
+  private final boolean premultiply_alpha;
+
+  private TextureLoaderImageIO(
+    final boolean premultiply_alpha)
+  {
+    this.premultiply_alpha = premultiply_alpha;
   }
 
   @Override public @Nonnull Texture2DStatic load2DStaticDepth16(
@@ -1687,7 +1707,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_DEPTH_16_2BPP,
       wrap_s,
@@ -1718,7 +1738,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_DEPTH_24_4BPP,
       wrap_s,
@@ -1749,7 +1769,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_DEPTH_32F_4BPP,
       wrap_s,
@@ -1784,7 +1804,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final TextureType type =
       TextureLoaderImageIO.inferTextureTypeCommon(image);
 
-    return TextureLoaderImageIO.load2DStaticSpecificImageCommon(
+    return this.load2DStaticSpecificImageCommon(
       gl,
       type,
       wrap_s,
@@ -1819,7 +1839,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final TextureType type =
       TextureLoaderImageIO.inferTextureTypeGLES3(image);
 
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       type,
       wrap_s,
@@ -1853,7 +1873,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final BufferedImage image = TextureLoaderImageIO.getBufferedImage(stream);
     final TextureType type = TextureLoaderImageIO.inferTextureTypeES2(image);
 
-    return TextureLoaderImageIO.load2DStaticSpecificImage_ES2(
+    return this.load2DStaticSpecificImage_ES2(
       gl,
       type,
       wrap_s,
@@ -1884,7 +1904,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_R_16_2BPP,
       wrap_s,
@@ -1915,7 +1935,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_R_16F_2BPP,
       wrap_s,
@@ -1946,7 +1966,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_R_16I_2BPP,
       wrap_s,
@@ -1977,7 +1997,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_R_16U_2BPP,
       wrap_s,
@@ -2008,7 +2028,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_R_32F_4BPP,
       wrap_s,
@@ -2039,7 +2059,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_R_32I_4BPP,
       wrap_s,
@@ -2070,7 +2090,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_R_32U_4BPP,
       wrap_s,
@@ -2101,7 +2121,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_R_8_1BPP,
       wrap_s,
@@ -2132,7 +2152,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_R_8I_1BPP,
       wrap_s,
@@ -2163,7 +2183,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_R_8U_1BPP,
       wrap_s,
@@ -2194,7 +2214,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RG_16_4BPP,
       wrap_s,
@@ -2225,7 +2245,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RG_16F_4BPP,
       wrap_s,
@@ -2256,7 +2276,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RG_16I_4BPP,
       wrap_s,
@@ -2287,7 +2307,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RG_16U_4BPP,
       wrap_s,
@@ -2318,7 +2338,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RG_32F_8BPP,
       wrap_s,
@@ -2349,7 +2369,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RG_32I_8BPP,
       wrap_s,
@@ -2380,7 +2400,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RG_32U_8BPP,
       wrap_s,
@@ -2411,7 +2431,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RG_8_2BPP,
       wrap_s,
@@ -2442,7 +2462,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RG_8I_2BPP,
       wrap_s,
@@ -2473,7 +2493,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RG_8U_2BPP,
       wrap_s,
@@ -2504,7 +2524,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGB_16_6BPP,
       wrap_s,
@@ -2535,7 +2555,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGB_16F_6BPP,
       wrap_s,
@@ -2566,7 +2586,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGB_16I_6BPP,
       wrap_s,
@@ -2597,7 +2617,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGB_16U_6BPP,
       wrap_s,
@@ -2628,7 +2648,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGB_32F_12BPP,
       wrap_s,
@@ -2659,7 +2679,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGB_32I_12BPP,
       wrap_s,
@@ -2690,7 +2710,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGB_32U_12BPP,
       wrap_s,
@@ -2721,7 +2741,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_ES2(
+    return this.load2DStaticSpecificImage_ES2(
       gl,
       TextureType.TEXTURE_TYPE_RGB_565_2BPP,
       wrap_s,
@@ -2752,7 +2772,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImageCommon(
+    return this.load2DStaticSpecificImageCommon(
       gl,
       TextureType.TEXTURE_TYPE_RGB_8_3BPP,
       wrap_s,
@@ -2783,7 +2803,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGB_8I_3BPP,
       wrap_s,
@@ -2814,7 +2834,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGB_8U_3BPP,
       wrap_s,
@@ -2845,7 +2865,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGBA_1010102_4BPP,
       wrap_s,
@@ -2876,7 +2896,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGBA_16_8BPP,
       wrap_s,
@@ -2907,7 +2927,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGBA_16F_8BPP,
       wrap_s,
@@ -2938,7 +2958,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGBA_16I_8BPP,
       wrap_s,
@@ -2969,7 +2989,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGBA_16U_8BPP,
       wrap_s,
@@ -3000,7 +3020,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGBA_32F_16BPP,
       wrap_s,
@@ -3031,7 +3051,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGBA_32I_16BPP,
       wrap_s,
@@ -3062,7 +3082,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGBA_32U_16BPP,
       wrap_s,
@@ -3093,7 +3113,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_ES2(
+    return this.load2DStaticSpecificImage_ES2(
       gl,
       TextureType.TEXTURE_TYPE_RGBA_4444_2BPP,
       wrap_s,
@@ -3125,7 +3145,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       stream,
       name);
 
-    return TextureLoaderImageIO.load2DStaticSpecificImage_ES2(
+    return this.load2DStaticSpecificImage_ES2(
       gl,
       TextureType.TEXTURE_TYPE_RGBA_5551_2BPP,
       wrap_s,
@@ -3157,7 +3177,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       stream,
       name);
 
-    return TextureLoaderImageIO.load2DStaticSpecificImageCommon(
+    return this.load2DStaticSpecificImageCommon(
       gl,
       TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
       wrap_s,
@@ -3188,7 +3208,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGBA_8I_4BPP,
       wrap_s,
@@ -3219,7 +3239,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return TextureLoaderImageIO.load2DStaticSpecificImage_GL3ES3(
+    return this.load2DStaticSpecificImage_GL3ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGBA_8U_4BPP,
       wrap_s,
@@ -3263,7 +3283,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       negative_x,
       name);
 
-    return TextureLoaderImageIO.loadCubeLHStaticSpecificImageCommon(
+    return this.loadCubeLHStaticSpecificImageCommon(
       gl,
       TextureType.TEXTURE_TYPE_RGB_8_3BPP,
       wrap_r,
@@ -3313,7 +3333,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       negative_x,
       name);
 
-    return TextureLoaderImageIO.loadCubeLHStaticSpecificImageCommon(
+    return this.loadCubeLHStaticSpecificImageCommon(
       gl,
       TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
       wrap_r,
@@ -3363,7 +3383,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       negative_x,
       name);
 
-    return TextureLoaderImageIO.loadCubeRHStaticSpecificImageCommon(
+    return this.loadCubeRHStaticSpecificImageCommon(
       gl,
       TextureType.TEXTURE_TYPE_RGB_8_3BPP,
       wrap_r,
@@ -3413,7 +3433,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       negative_x,
       name);
 
-    return TextureLoaderImageIO.loadCubeRHStaticSpecificImageCommon(
+    return this.loadCubeRHStaticSpecificImageCommon(
       gl,
       TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
       wrap_r,
