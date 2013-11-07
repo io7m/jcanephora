@@ -42,7 +42,7 @@ public final class JOGLES2TextureLoaderImageIOCommonTest extends
   @Override public @Nonnull TextureLoaderImageIO makeTextureLoader(
     final @Nonnull JCGLTextures2DStaticCommon gl)
   {
-    return new TextureLoaderImageIO();
+    return TextureLoaderImageIO.newTextureLoader();
   }
 
   @Override public @Nonnull TestContext newTestContext()

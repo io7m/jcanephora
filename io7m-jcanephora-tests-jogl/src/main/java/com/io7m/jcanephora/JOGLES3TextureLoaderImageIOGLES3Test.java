@@ -42,7 +42,7 @@ public final class JOGLES3TextureLoaderImageIOGLES3Test extends
   @Override public @Nonnull TextureLoaderImageIO makeTextureLoader(
     final @Nonnull JCGLTextures2DStaticGLES3 gl)
   {
-    return new TextureLoaderImageIO();
+    return TextureLoaderImageIO.newTextureLoader();
   }
 
   @Override public @Nonnull TestContext newTestContext()
