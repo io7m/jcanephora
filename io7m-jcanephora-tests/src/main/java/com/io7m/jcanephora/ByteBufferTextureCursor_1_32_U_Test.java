@@ -27,11 +27,11 @@ import com.io7m.jaux.UnreachableCodeException;
 
 public final class ByteBufferTextureCursor_1_32_U_Test
 {
-  private final double EPSILON                 = 0.000000001;
   private final int    ELEMENT_COMPONENT_BYTES = 4;
   private final int    ELEMENT_COUNT           = 1;
-  private final int    WIDTH                   = 4;
+  private final double EPSILON                 = 0.000000001;
   private final int    HEIGHT                  = 4;
+  private final int    WIDTH                   = 4;
 
   @SuppressWarnings("boxing") private void dumpBuffer(
     final ByteBuffer b)

@@ -130,16 +130,16 @@ import com.io7m.jtensors.VectorReadable4I;
     }
   }
 
-  private final @Nonnull Log                                                   log;
-
   private final @Nonnull GLContext                                             context;
-  private final @Nonnull JCGLStateCache                                        state;
-  private final @Nonnull JCGLVersion                                           version;
-  private final @Nonnull JCGLSLVersion                                         sl_version;
-  private final @Nonnull JCGLExtensionSupport<JCGLExtensionPackedDepthStencil> ext_packed_depth_stencil_support;
 
   private final @Nonnull JCGLExtensionPackedDepthStencil                       ext_packed_depth_stencil;
   final @Nonnull Option<JCGLExtensionPackedDepthStencil>                       ext_packed_depth_stencil_opt;
+  private final @Nonnull JCGLExtensionSupport<JCGLExtensionPackedDepthStencil> ext_packed_depth_stencil_support;
+  private final @Nonnull Log                                                   log;
+  private final @Nonnull JCGLSLVersion                                         sl_version;
+
+  private final @Nonnull JCGLStateCache                                        state;
+  private final @Nonnull JCGLVersion                                           version;
 
   JCGLInterfaceGLES2_JOGL_ES2(
     final @Nonnull GLContext context,

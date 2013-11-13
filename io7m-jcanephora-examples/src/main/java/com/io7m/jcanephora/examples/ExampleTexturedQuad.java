@@ -66,20 +66,20 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleTexturedQuad implements Example
 {
-  private final JCGLInterfaceCommon       gl;
-  private final ArrayBufferTypeDescriptor array_type;
   private final ArrayBuffer               array;
   private final ArrayBufferWritableData   array_data;
-  private final ProgramReference          program;
-  private final MatrixM4x4F               matrix_projection;
-  private final MatrixM4x4F               matrix_modelview;
+  private final ArrayBufferTypeDescriptor array_type;
+  private final ExampleConfig             config;
+  private final JCGLInterfaceCommon       gl;
+  private boolean                         has_shut_down;
   private final IndexBuffer               indices;
   private final IndexBufferWritableData   indices_data;
-  private final ExampleConfig             config;
-  private boolean                         has_shut_down;
+  private final MatrixM4x4F               matrix_modelview;
+  private final MatrixM4x4F               matrix_projection;
+  private final ProgramReference          program;
   private final Texture2DStatic           texture;
-  private final Texture2DWritableData     texture_update;
   private final TextureUnit[]             texture_units;
+  private final Texture2DWritableData     texture_update;
 
   public ExampleTexturedQuad(
     final @Nonnull ExampleConfig config)

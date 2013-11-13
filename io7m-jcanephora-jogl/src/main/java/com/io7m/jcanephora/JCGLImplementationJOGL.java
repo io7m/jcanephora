@@ -31,12 +31,12 @@ import com.io7m.jlog.Log;
 
 public final class JCGLImplementationJOGL implements JCGLImplementation
 {
-  private final @Nonnull Log                log;
   private final @Nonnull GLContext          context;
+  private final @Nonnull JCGLInterfaceGL2   gl_2;
+  private final @Nonnull JCGLInterfaceGL3   gl_3;
   private final @Nonnull JCGLInterfaceGLES2 gl_es2;
   private final @Nonnull JCGLInterfaceGLES3 gl_es3;
-  private final @Nonnull JCGLInterfaceGL3   gl_3;
-  private final @Nonnull JCGLInterfaceGL2   gl_2;
+  private final @Nonnull Log                log;
 
   /**
    * Construct an implementation using the initialized <code>context</code>

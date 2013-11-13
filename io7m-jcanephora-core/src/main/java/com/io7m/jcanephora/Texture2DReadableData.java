@@ -38,9 +38,9 @@ import com.io7m.jaux.UnreachableCodeException;
 
 public final class Texture2DReadableData
 {
-  private final @Nonnull TextureType   type;
   private final @Nonnull AreaInclusive area;
   private final @Nonnull ByteBuffer    data;
+  private final @Nonnull TextureType   type;
 
   Texture2DReadableData(
     final @Nonnull TextureType type,

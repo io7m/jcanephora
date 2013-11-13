@@ -31,8 +31,8 @@ final class ByteBufferTextureCursorReadable_2_16_U extends AreaCursor implements
   SpatialCursorReadable2d,
   SpatialCursorReadable2i
 {
-  private final @Nonnull ByteBuffer target_data;
   private final @Nonnull byte[]     buffer = new byte[2];
+  private final @Nonnull ByteBuffer target_data;
   private final @Nonnull VectorM2I  vector = new VectorM2I();
 
   protected ByteBufferTextureCursorReadable_2_16_U(

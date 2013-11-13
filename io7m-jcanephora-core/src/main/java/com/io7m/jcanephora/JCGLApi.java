@@ -16,18 +16,32 @@
 
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
 /**
- * Stencil operation specification.
+ * An enumerated type with the values representing the various subsets of the
+ * OpenGL API.
  */
 
-public enum StencilOperation
+public enum JCGLApi
 {
-  STENCIL_OP_DECREMENT,
-  STENCIL_OP_DECREMENT_WRAP,
-  STENCIL_OP_INCREMENT,
-  STENCIL_OP_INCREMENT_WRAP,
-  STENCIL_OP_INVERT,
-  STENCIL_OP_KEEP,
-  STENCIL_OP_REPLACE,
-  STENCIL_OP_ZERO
+  /** The "ES" profile, as implemented by most embedded systems. */
+  JCGL_ES("OpenGL ES"),
+
+  /** The "full" OpenGL API, as implemented by most consumer GPUs. */
+  JCGL_FULL("OpenGL");
+
+  private final @Nonnull String name;
+
+  private JCGLApi(
+    final @Nonnull String name)
+  {
+    assert name != null;
+    this.name = name;
+  }
+
+  public @Nonnull String getName()
+  {
+    return this.name;
+  }
 }

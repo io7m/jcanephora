@@ -29,17 +29,17 @@ import com.io7m.jaux.RangeInclusive;
 public final class TextureCubeStatic extends JCGLResourceDeletable implements
   TextureCubeStaticUsable
 {
+  private final @Nonnull AreaInclusive              area;
   private final int                                 id;
+  private final @Nonnull TextureFilterMagnification mag_filter;
+  private final @Nonnull TextureFilterMinification  min_filter;
+  private final @Nonnull String                     name;
   private final @Nonnull RangeInclusive             range_x;
   private final @Nonnull RangeInclusive             range_y;
-  private final @Nonnull String                     name;
-  private final @Nonnull AreaInclusive              area;
   private final @Nonnull TextureType                type;
   private final @Nonnull TextureWrapR               wrap_r;
   private final @Nonnull TextureWrapS               wrap_s;
   private final @Nonnull TextureWrapT               wrap_t;
-  private final @Nonnull TextureFilterMinification  min_filter;
-  private final @Nonnull TextureFilterMagnification mag_filter;
 
   TextureCubeStatic(
     final @Nonnull String name,

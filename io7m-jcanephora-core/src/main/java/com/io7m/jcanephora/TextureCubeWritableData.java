@@ -38,10 +38,10 @@ import com.io7m.jaux.UnreachableCodeException;
 
 public final class TextureCubeWritableData implements TextureWritableData
 {
-  private final @Nonnull TextureCubeStatic texture;
-  private final @Nonnull AreaInclusive     target_area;
   private final @Nonnull AreaInclusive     source_area;
+  private final @Nonnull AreaInclusive     target_area;
   private final @Nonnull ByteBuffer        target_data;
+  private final @Nonnull TextureCubeStatic texture;
   private final TextureType                type;
 
   /**
@@ -1293,6 +1293,11 @@ public final class TextureCubeWritableData implements TextureWritableData
     return this.texture;
   }
 
+  @Override public @Nonnull TextureType getType()
+  {
+    return this.type;
+  }
+
   @Nonnull AreaInclusive targetArea()
   {
     return this.target_area;
@@ -1301,10 +1306,5 @@ public final class TextureCubeWritableData implements TextureWritableData
   @Nonnull ByteBuffer targetData()
   {
     return this.target_data;
-  }
-
-  @Override public @Nonnull TextureType getType()
-  {
-    return this.type;
   }
 }

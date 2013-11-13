@@ -22,7 +22,7 @@ package com.io7m.jcanephora;
 
 public enum FaceSelection
 {
-  FACE_FRONT,
   FACE_BACK,
+  FACE_FRONT,
   FACE_FRONT_AND_BACK
 }

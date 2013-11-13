@@ -59,22 +59,22 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleStencil implements Example
 {
-  private final JCGLInterfaceCommon       gl;
-  private final ArrayBufferTypeDescriptor array_type;
+  private static final int                STENCIL_MASK = 0xFF;
   private final ArrayBuffer               array;
   private final ArrayBufferWritableData   array_data;
-  private final ProgramReference          program;
-  private final MatrixM4x4F               matrix_projection;
-  private final MatrixM4x4F               matrix_modelview;
-  private final IndexBuffer               triangle_indices;
-  private final IndexBufferWritableData   triangle_indices_data;
+  private final ArrayBufferTypeDescriptor array_type;
   private final ExampleConfig             config;
+  private final JCGLInterfaceCommon       gl;
   private boolean                         has_shut_down;
+  private final MatrixM4x4F               matrix_modelview;
+  private final MatrixM4x4F               matrix_projection;
+  private final ProgramReference          program;
   private final IndexBuffer               quad_indices;
   private final IndexBufferWritableData   quad_indices_data;
-  private final VectorM2F                 translation  = new VectorM2F();
   private int                             time         = 0;
-  private static final int                STENCIL_MASK = 0xFF;
+  private final VectorM2F                 translation  = new VectorM2F();
+  private final IndexBuffer               triangle_indices;
+  private final IndexBufferWritableData   triangle_indices_data;
 
   public ExampleStencil(
     final @Nonnull ExampleConfig config)

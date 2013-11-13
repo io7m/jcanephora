@@ -76,6 +76,44 @@ public class TextureCubeWritableDataTest
   }
 
   /**
+   * Attempting to obtain a 1d cursor to a texture that has more than one
+   * component fails.
+   * 
+   * @throws ConstraintError
+   */
+
+  @SuppressWarnings("static-method") @Test public
+    void
+    testGetCursor1dFailure()
+      throws ConstraintError
+  {
+    for (final TextureType type : TextureType.values()) {
+      if (type.getComponentCount() != 1) {
+        final TextureCubeStatic t =
+          new TextureCubeStatic(
+            "xyz",
+            type,
+            1,
+            64,
+            TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
+            TextureWrapS.TEXTURE_WRAP_REPEAT,
+            TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
+            TextureFilterMinification.TEXTURE_FILTER_LINEAR,
+            TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+        final TextureCubeWritableData d = new TextureCubeWritableData(t);
+
+        try {
+          d.getCursor1d();
+        } catch (final ConstraintError e) {
+          continue;
+        }
+
+        Assert.fail("Did not raise constraint error");
+      }
+    }
+  }
+
+  /**
    * Getting a floating point cursor works for all texture types.
    * 
    * @throws ConstraintError
@@ -112,44 +150,6 @@ public class TextureCubeWritableDataTest
         }
 
         ++count;
-      }
-    }
-  }
-
-  /**
-   * Attempting to obtain a 1d cursor to a texture that has more than one
-   * component fails.
-   * 
-   * @throws ConstraintError
-   */
-
-  @SuppressWarnings("static-method") @Test public
-    void
-    testGetCursor1dFailure()
-      throws ConstraintError
-  {
-    for (final TextureType type : TextureType.values()) {
-      if (type.getComponentCount() != 1) {
-        final TextureCubeStatic t =
-          new TextureCubeStatic(
-            "xyz",
-            type,
-            1,
-            64,
-            TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
-            TextureWrapS.TEXTURE_WRAP_REPEAT,
-            TextureWrapT.TEXTURE_WRAP_REPEAT_MIRRORED,
-            TextureFilterMinification.TEXTURE_FILTER_LINEAR,
-            TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-        final TextureCubeWritableData d = new TextureCubeWritableData(t);
-
-        try {
-          d.getCursor1d();
-        } catch (final ConstraintError e) {
-          continue;
-        }
-
-        Assert.fail("Did not raise constraint error");
       }
     }
   }

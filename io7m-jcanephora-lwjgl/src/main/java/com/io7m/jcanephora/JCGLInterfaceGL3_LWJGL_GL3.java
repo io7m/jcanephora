@@ -50,9 +50,9 @@ import com.io7m.jtensors.VectorReadable4I;
   JCGLInterfaceGL3
 {
   private final @Nonnull Log            log;
+  private final @Nonnull JCGLSLVersion  sl_version;
   private final @Nonnull JCGLStateCache state;
   private final @Nonnull JCGLVersion    version;
-  private final @Nonnull JCGLSLVersion  sl_version;
 
   JCGLInterfaceGL3_LWJGL_GL3(
     final @Nonnull Log log)
@@ -1410,309 +1410,6 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateR8(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLException
-  {
-    return LWJGL_GLES2Functions.texture2DStaticAllocate(
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureType.TEXTURE_TYPE_R_8_1BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public void texture2DStaticBind(
-    final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DStaticUsable texture)
-    throws ConstraintError,
-      JCGLException
-  {
-    LWJGL_GLES2Functions.texture2DStaticBind(unit, texture);
-  }
-
-  @Override public void texture2DStaticDelete(
-    final @Nonnull Texture2DStatic texture)
-    throws ConstraintError,
-      JCGLException
-  {
-    LWJGL_GLES2Functions.texture2DStaticDelete(
-
-    this.state, this.log, texture);
-  }
-
-  @Override public Texture2DReadableData texture2DStaticGetImage(
-    final Texture2DStaticUsable texture)
-    throws ConstraintError,
-      JCGLException
-  {
-    return LWJGL_GL3Functions.texture2DStaticGetImage(texture);
-  }
-
-  @Override public boolean texture2DStaticIsBound(
-    final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DStaticUsable texture)
-    throws ConstraintError,
-      JCGLException
-  {
-    return LWJGL_GLES2Functions.texture2DStaticIsBound(
-
-    this.state, unit, texture);
-  }
-
-  @Override public void texture2DStaticUnbind(
-    final @Nonnull TextureUnit unit)
-    throws ConstraintError,
-      JCGLException
-  {
-    LWJGL_GLES2Functions.texture2DStaticUnbind(unit);
-  }
-
-  @Override public void texture2DStaticUpdate(
-    final @Nonnull Texture2DWritableData data)
-    throws ConstraintError,
-      JCGLException
-  {
-    LWJGL_GLES2Functions.texture2DStaticUpdate(data);
-  }
-
-  @Override public @Nonnull
-    TextureCubeStatic
-    textureCubeStaticAllocateDepth16(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLException
-  {
-    return LWJGL_GLES2Functions.textureCubeStaticAllocate(
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureType.TEXTURE_TYPE_DEPTH_16_2BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    TextureCubeStatic
-    textureCubeStaticAllocateDepth24(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLException
-  {
-    return LWJGL_GLES2Functions.textureCubeStaticAllocate(
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureType.TEXTURE_TYPE_DEPTH_24_4BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    TextureCubeStatic
-    textureCubeStaticAllocateDepth32f(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLException
-  {
-    return LWJGL_GLES2Functions.textureCubeStaticAllocate(
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureType.TEXTURE_TYPE_DEPTH_32F_4BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateR8(
-    final @Nonnull String name,
-    final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLException
-  {
-    return LWJGL_GLES2Functions.textureCubeStaticAllocate(
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureType.TEXTURE_TYPE_R_8_1BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public void textureCubeStaticBind(
-    final @Nonnull TextureUnit unit,
-    final @Nonnull TextureCubeStaticUsable texture)
-    throws ConstraintError,
-      JCGLException
-  {
-    LWJGL_GLES2Functions.textureCubeStaticBind(unit, texture);
-  }
-
-  @Override public void textureCubeStaticDelete(
-    final @Nonnull TextureCubeStatic texture)
-    throws ConstraintError,
-      JCGLException
-  {
-    LWJGL_GLES2Functions.textureCubeStaticDelete(
-      this.state,
-      this.log,
-      texture);
-  }
-
-  @Override public TextureCubeReadableData textureCubeStaticGetImageLH(
-    final TextureCubeStaticUsable texture,
-    final CubeMapFaceLH face)
-    throws ConstraintError,
-      JCGLException
-  {
-    return LWJGL_GL3Functions.textureCubeStaticGetImageLH(texture, face);
-  }
-
-  @Override public TextureCubeReadableData textureCubeStaticGetImageRH(
-    final TextureCubeStaticUsable texture,
-    final CubeMapFaceRH face)
-    throws ConstraintError,
-      JCGLException
-  {
-    Constraints.constrainNotNull(face, "Face");
-    return LWJGL_GL3Functions.textureCubeStaticGetImageLH(
-      texture,
-      CubeMapFaceLH.fromRH(face));
-  }
-
-  @Override public boolean textureCubeStaticIsBound(
-    final @Nonnull TextureUnit unit,
-    final @Nonnull TextureCubeStaticUsable texture)
-    throws ConstraintError,
-      JCGLException
-  {
-    return LWJGL_GLES2Functions.textureCubeStaticIsBound(
-      this.state,
-      unit,
-      texture);
-  }
-
-  @Override public void textureCubeStaticUnbind(
-    final @Nonnull TextureUnit unit)
-    throws ConstraintError,
-      JCGLException
-  {
-    LWJGL_GLES2Functions.textureCubeStaticUnbind(unit);
-  }
-
-  @Override public void textureCubeStaticUpdateLH(
-    final @Nonnull CubeMapFaceLH face,
-    final @Nonnull TextureCubeWritableData data)
-    throws ConstraintError,
-      JCGLException
-  {
-    LWJGL_GLES2Functions.textureCubeStaticUpdate(face, data);
-  }
-
-  @Override public void textureCubeStaticUpdateRH(
-    final @Nonnull CubeMapFaceRH face,
-    final @Nonnull TextureCubeWritableData data)
-    throws ConstraintError,
-      JCGLException
-  {
-    Constraints.constrainNotNull(face, "Face");
-    this.textureCubeStaticUpdateLH(CubeMapFaceLH.fromRH(face), data);
-  }
-
-  @Override public int textureGetMaximumSize()
-    throws JCGLException
-  {
-    return LWJGL_GLES2Functions.textureGetMaximumSize(this.state);
-  }
-
-  @Override public TextureUnit[] textureGetUnits()
-    throws JCGLException
-  {
-    return this.state.texture_units;
-  }
-
-  @Override public VertexShader vertexShaderCompile(
-    final @Nonnull String name,
-    final @Nonnull List<String> lines)
-    throws ConstraintError,
-      JCGLCompileException,
-      JCGLException
-  {
-    return LWJGL_GLES2Functions.vertexShaderCompile(
-      this.state,
-      this.log,
-      name,
-      lines);
-  }
-
-  @Override public void vertexShaderDelete(
-    final @Nonnull VertexShader id)
-    throws ConstraintError,
-      JCGLException
-  {
-    LWJGL_GLES2Functions.vertexShaderDelete(this.state, this.log, id);
-  }
-
-  @Override public void viewportSet(
-    final @Nonnull VectorReadable2I position,
-    final @Nonnull VectorReadable2I dimensions)
-    throws ConstraintError,
-      JCGLException
-  {
-    LWJGL_GLES2Functions.viewportSet(position, dimensions);
-  }
-
   @Override public @Nonnull Texture2DStatic texture2DStaticAllocateR16(
     final @Nonnull String name,
     final int width,
@@ -1875,6 +1572,30 @@ import com.io7m.jtensors.VectorReadable4I;
       width,
       height,
       TextureType.TEXTURE_TYPE_R_32U_4BPP,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateR8(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
+    throws ConstraintError,
+      JCGLException
+  {
+    return LWJGL_GLES2Functions.texture2DStaticAllocate(
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_R_8_1BPP,
       wrap_s,
       wrap_t,
       min_filter,
@@ -2675,6 +2396,138 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
+  @Override public void texture2DStaticBind(
+    final @Nonnull TextureUnit unit,
+    final @Nonnull Texture2DStaticUsable texture)
+    throws ConstraintError,
+      JCGLException
+  {
+    LWJGL_GLES2Functions.texture2DStaticBind(unit, texture);
+  }
+
+  @Override public void texture2DStaticDelete(
+    final @Nonnull Texture2DStatic texture)
+    throws ConstraintError,
+      JCGLException
+  {
+    LWJGL_GLES2Functions.texture2DStaticDelete(
+
+    this.state, this.log, texture);
+  }
+
+  @Override public Texture2DReadableData texture2DStaticGetImage(
+    final Texture2DStaticUsable texture)
+    throws ConstraintError,
+      JCGLException
+  {
+    return LWJGL_GL3Functions.texture2DStaticGetImage(texture);
+  }
+
+  @Override public boolean texture2DStaticIsBound(
+    final @Nonnull TextureUnit unit,
+    final @Nonnull Texture2DStaticUsable texture)
+    throws ConstraintError,
+      JCGLException
+  {
+    return LWJGL_GLES2Functions.texture2DStaticIsBound(
+
+    this.state, unit, texture);
+  }
+
+  @Override public void texture2DStaticUnbind(
+    final @Nonnull TextureUnit unit)
+    throws ConstraintError,
+      JCGLException
+  {
+    LWJGL_GLES2Functions.texture2DStaticUnbind(unit);
+  }
+
+  @Override public void texture2DStaticUpdate(
+    final @Nonnull Texture2DWritableData data)
+    throws ConstraintError,
+      JCGLException
+  {
+    LWJGL_GLES2Functions.texture2DStaticUpdate(data);
+  }
+
+  @Override public @Nonnull
+    TextureCubeStatic
+    textureCubeStaticAllocateDepth16(
+      final @Nonnull String name,
+      final int size,
+      final @Nonnull TextureWrapR wrap_r,
+      final @Nonnull TextureWrapS wrap_s,
+      final @Nonnull TextureWrapT wrap_t,
+      final @Nonnull TextureFilterMinification min_filter,
+      final @Nonnull TextureFilterMagnification mag_filter)
+      throws ConstraintError,
+        JCGLException
+  {
+    return LWJGL_GLES2Functions.textureCubeStaticAllocate(
+      this.state,
+      this.log,
+      name,
+      size,
+      TextureType.TEXTURE_TYPE_DEPTH_16_2BPP,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public @Nonnull
+    TextureCubeStatic
+    textureCubeStaticAllocateDepth24(
+      final @Nonnull String name,
+      final int size,
+      final @Nonnull TextureWrapR wrap_r,
+      final @Nonnull TextureWrapS wrap_s,
+      final @Nonnull TextureWrapT wrap_t,
+      final @Nonnull TextureFilterMinification min_filter,
+      final @Nonnull TextureFilterMagnification mag_filter)
+      throws ConstraintError,
+        JCGLException
+  {
+    return LWJGL_GLES2Functions.textureCubeStaticAllocate(
+      this.state,
+      this.log,
+      name,
+      size,
+      TextureType.TEXTURE_TYPE_DEPTH_24_4BPP,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public @Nonnull
+    TextureCubeStatic
+    textureCubeStaticAllocateDepth32f(
+      final @Nonnull String name,
+      final int size,
+      final @Nonnull TextureWrapR wrap_r,
+      final @Nonnull TextureWrapS wrap_s,
+      final @Nonnull TextureWrapT wrap_t,
+      final @Nonnull TextureFilterMinification min_filter,
+      final @Nonnull TextureFilterMagnification mag_filter)
+      throws ConstraintError,
+        JCGLException
+  {
+    return LWJGL_GLES2Functions.textureCubeStaticAllocate(
+      this.state,
+      this.log,
+      name,
+      size,
+      TextureType.TEXTURE_TYPE_DEPTH_32F_4BPP,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
   @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateR16(
     final @Nonnull String name,
     final int size,
@@ -2836,6 +2689,30 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       size,
       TextureType.TEXTURE_TYPE_R_32U_4BPP,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateR8(
+    final @Nonnull String name,
+    final int size,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
+    throws ConstraintError,
+      JCGLException
+  {
+    return LWJGL_GLES2Functions.textureCubeStaticAllocate(
+      this.state,
+      this.log,
+      name,
+      size,
+      TextureType.TEXTURE_TYPE_R_8_1BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3663,5 +3540,128 @@ import com.io7m.jtensors.VectorReadable4I;
       wrap_t,
       min_filter,
       mag_filter);
+  }
+
+  @Override public void textureCubeStaticBind(
+    final @Nonnull TextureUnit unit,
+    final @Nonnull TextureCubeStaticUsable texture)
+    throws ConstraintError,
+      JCGLException
+  {
+    LWJGL_GLES2Functions.textureCubeStaticBind(unit, texture);
+  }
+
+  @Override public void textureCubeStaticDelete(
+    final @Nonnull TextureCubeStatic texture)
+    throws ConstraintError,
+      JCGLException
+  {
+    LWJGL_GLES2Functions.textureCubeStaticDelete(
+      this.state,
+      this.log,
+      texture);
+  }
+
+  @Override public TextureCubeReadableData textureCubeStaticGetImageLH(
+    final TextureCubeStaticUsable texture,
+    final CubeMapFaceLH face)
+    throws ConstraintError,
+      JCGLException
+  {
+    return LWJGL_GL3Functions.textureCubeStaticGetImageLH(texture, face);
+  }
+
+  @Override public TextureCubeReadableData textureCubeStaticGetImageRH(
+    final TextureCubeStaticUsable texture,
+    final CubeMapFaceRH face)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(face, "Face");
+    return LWJGL_GL3Functions.textureCubeStaticGetImageLH(
+      texture,
+      CubeMapFaceLH.fromRH(face));
+  }
+
+  @Override public boolean textureCubeStaticIsBound(
+    final @Nonnull TextureUnit unit,
+    final @Nonnull TextureCubeStaticUsable texture)
+    throws ConstraintError,
+      JCGLException
+  {
+    return LWJGL_GLES2Functions.textureCubeStaticIsBound(
+      this.state,
+      unit,
+      texture);
+  }
+
+  @Override public void textureCubeStaticUnbind(
+    final @Nonnull TextureUnit unit)
+    throws ConstraintError,
+      JCGLException
+  {
+    LWJGL_GLES2Functions.textureCubeStaticUnbind(unit);
+  }
+
+  @Override public void textureCubeStaticUpdateLH(
+    final @Nonnull CubeMapFaceLH face,
+    final @Nonnull TextureCubeWritableData data)
+    throws ConstraintError,
+      JCGLException
+  {
+    LWJGL_GLES2Functions.textureCubeStaticUpdate(face, data);
+  }
+
+  @Override public void textureCubeStaticUpdateRH(
+    final @Nonnull CubeMapFaceRH face,
+    final @Nonnull TextureCubeWritableData data)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(face, "Face");
+    this.textureCubeStaticUpdateLH(CubeMapFaceLH.fromRH(face), data);
+  }
+
+  @Override public int textureGetMaximumSize()
+    throws JCGLException
+  {
+    return LWJGL_GLES2Functions.textureGetMaximumSize(this.state);
+  }
+
+  @Override public TextureUnit[] textureGetUnits()
+    throws JCGLException
+  {
+    return this.state.texture_units;
+  }
+
+  @Override public VertexShader vertexShaderCompile(
+    final @Nonnull String name,
+    final @Nonnull List<String> lines)
+    throws ConstraintError,
+      JCGLCompileException,
+      JCGLException
+  {
+    return LWJGL_GLES2Functions.vertexShaderCompile(
+      this.state,
+      this.log,
+      name,
+      lines);
+  }
+
+  @Override public void vertexShaderDelete(
+    final @Nonnull VertexShader id)
+    throws ConstraintError,
+      JCGLException
+  {
+    LWJGL_GLES2Functions.vertexShaderDelete(this.state, this.log, id);
+  }
+
+  @Override public void viewportSet(
+    final @Nonnull VectorReadable2I position,
+    final @Nonnull VectorReadable2I dimensions)
+    throws ConstraintError,
+      JCGLException
+  {
+    LWJGL_GLES2Functions.viewportSet(position, dimensions);
   }
 }

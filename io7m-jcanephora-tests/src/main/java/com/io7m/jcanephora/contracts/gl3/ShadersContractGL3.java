@@ -43,6 +43,138 @@ public abstract class ShadersContractGL3 extends ShadersContract
     final @Nonnull TestContext context);
 
   /**
+   * Passing a deleted fragment shader fails.
+   */
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testProgramCreateDeletedFragment()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError,
+        JCGLCompileException
+  {
+    final TestContext tc = this.newTestContext();
+    final FSCapabilityAll fs = tc.getFilesystem();
+    final PathVirtual sp = tc.getShaderPath();
+    final JCGLShadersGL3 gl = this.getShaders(tc);
+
+    final FramebufferDrawBuffer[] outs =
+      tc.getGLImplementation().getGLCommon().framebufferGetDrawBuffers();
+
+    FragmentShader f = null;
+    VertexShader v = null;
+    final Map<String, FramebufferDrawBuffer> outputs =
+      new HashMap<String, FramebufferDrawBuffer>();
+    outputs.put("out0", outs[0]);
+    outputs.put("out1", outs[1]);
+    outputs.put("out2", outs[2]);
+    outputs.put("out3", outs[3]);
+
+    try {
+      f =
+        gl.fragmentShaderCompile("f", ShaderUtilities.readLines(fs
+          .openFile(sp.appendName("multi_out.f"))));
+      v =
+        gl.vertexShaderCompile(
+          "v",
+          ShaderUtilities.readLines(fs.openFile(sp.appendName("simple.v"))));
+      gl.fragmentShaderDelete(f);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    gl.programCreateWithOutputs("name", v, f, outputs);
+  }
+
+  /**
+   * Passing a deleted vertex shader fails.
+   */
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testProgramCreateDeletedVertex()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError,
+        JCGLCompileException
+  {
+    final TestContext tc = this.newTestContext();
+    final FSCapabilityAll fs = tc.getFilesystem();
+    final PathVirtual sp = tc.getShaderPath();
+    final JCGLShadersGL3 gl = this.getShaders(tc);
+
+    final FramebufferDrawBuffer[] outs =
+      tc.getGLImplementation().getGLCommon().framebufferGetDrawBuffers();
+
+    FragmentShader f = null;
+    VertexShader v = null;
+    final Map<String, FramebufferDrawBuffer> outputs =
+      new HashMap<String, FramebufferDrawBuffer>();
+    outputs.put("out0", outs[0]);
+    outputs.put("out1", outs[1]);
+    outputs.put("out2", outs[2]);
+    outputs.put("out3", outs[3]);
+
+    try {
+      f =
+        gl.fragmentShaderCompile("f", ShaderUtilities.readLines(fs
+          .openFile(sp.appendName("multi_out.f"))));
+      v =
+        gl.vertexShaderCompile(
+          "v",
+          ShaderUtilities.readLines(fs.openFile(sp.appendName("simple.v"))));
+      gl.vertexShaderDelete(v);
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    gl.programCreateWithOutputs("name", v, f, outputs);
+  }
+
+  /**
+   * Creating a program and mapping multiple outputs works.
+   */
+
+  @Test public void testProgramCreateMappings()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError,
+      JCGLCompileException
+  {
+    final TestContext tc = this.newTestContext();
+    final FSCapabilityAll fs = tc.getFilesystem();
+    final PathVirtual sp = tc.getShaderPath();
+    final JCGLShadersGL3 gl = this.getShaders(tc);
+
+    final FramebufferDrawBuffer[] outs =
+      tc.getGLImplementation().getGLCommon().framebufferGetDrawBuffers();
+
+    FragmentShader f = null;
+    VertexShader v = null;
+    final Map<String, FramebufferDrawBuffer> outputs =
+      new HashMap<String, FramebufferDrawBuffer>();
+
+    for (int index = 0; index < 4; ++index) {
+      outputs.put("out" + index, outs[index]);
+    }
+
+    try {
+      f =
+        gl.fragmentShaderCompile("f", ShaderUtilities.readLines(fs
+          .openFile(sp.appendName("multi_out.f"))));
+      v =
+        gl.vertexShaderCompile(
+          "v",
+          ShaderUtilities.readLines(fs.openFile(sp.appendName("simple.v"))));
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    gl.programCreateWithOutputs("name", v, f, outputs);
+  }
+
+  /**
    * Passing null for a fragment shader fails.
    */
 
@@ -195,6 +327,51 @@ public abstract class ShadersContractGL3 extends ShadersContract
   }
 
   /**
+   * Passing a map with too many mappings fails.
+   */
+
+  @Test(expected = ConstraintError.class) public
+    void
+    testProgramCreateOutputsMappingsTooMany()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError,
+        JCGLCompileException
+  {
+    final TestContext tc = this.newTestContext();
+    final FSCapabilityAll fs = tc.getFilesystem();
+    final PathVirtual sp = tc.getShaderPath();
+    final JCGLShadersGL3 gl = this.getShaders(tc);
+
+    final FramebufferDrawBuffer[] outs =
+      tc.getGLImplementation().getGLCommon().framebufferGetDrawBuffers();
+
+    FragmentShader f = null;
+    VertexShader v = null;
+    Map<String, FramebufferDrawBuffer> outputs =
+      new HashMap<String, FramebufferDrawBuffer>();
+
+    for (int index = 0; index < 1000; ++index) {
+      outputs.put("out" + index, outs[index % 4]);
+    }
+
+    try {
+      f =
+        gl.fragmentShaderCompile("f", ShaderUtilities.readLines(fs
+          .openFile(sp.appendName("multi_out.f"))));
+      v =
+        gl.vertexShaderCompile(
+          "v",
+          ShaderUtilities.readLines(fs.openFile(sp.appendName("simple.v"))));
+      outputs = new HashMap<String, FramebufferDrawBuffer>();
+    } catch (final Throwable e) {
+      throw new AssertionError(e);
+    }
+
+    gl.programCreateWithOutputs("name", v, f, outputs);
+  }
+
+  /**
    * Passing null for a program name fails.
    */
 
@@ -296,182 +473,5 @@ public abstract class ShadersContractGL3 extends ShadersContract
     }
 
     gl.programCreateWithOutputs("name", null, f, outputs);
-  }
-
-  /**
-   * Passing a map with too many mappings fails.
-   */
-
-  @Test(expected = ConstraintError.class) public
-    void
-    testProgramCreateOutputsMappingsTooMany()
-      throws JCGLException,
-        JCGLUnsupportedException,
-        ConstraintError,
-        JCGLCompileException
-  {
-    final TestContext tc = this.newTestContext();
-    final FSCapabilityAll fs = tc.getFilesystem();
-    final PathVirtual sp = tc.getShaderPath();
-    final JCGLShadersGL3 gl = this.getShaders(tc);
-
-    final FramebufferDrawBuffer[] outs =
-      tc.getGLImplementation().getGLCommon().framebufferGetDrawBuffers();
-
-    FragmentShader f = null;
-    VertexShader v = null;
-    Map<String, FramebufferDrawBuffer> outputs =
-      new HashMap<String, FramebufferDrawBuffer>();
-
-    for (int index = 0; index < 1000; ++index) {
-      outputs.put("out" + index, outs[index % 4]);
-    }
-
-    try {
-      f =
-        gl.fragmentShaderCompile("f", ShaderUtilities.readLines(fs
-          .openFile(sp.appendName("multi_out.f"))));
-      v =
-        gl.vertexShaderCompile(
-          "v",
-          ShaderUtilities.readLines(fs.openFile(sp.appendName("simple.v"))));
-      outputs = new HashMap<String, FramebufferDrawBuffer>();
-    } catch (final Throwable e) {
-      throw new AssertionError(e);
-    }
-
-    gl.programCreateWithOutputs("name", v, f, outputs);
-  }
-
-  /**
-   * Passing a deleted vertex shader fails.
-   */
-
-  @Test(expected = ConstraintError.class) public
-    void
-    testProgramCreateDeletedVertex()
-      throws JCGLException,
-        JCGLUnsupportedException,
-        ConstraintError,
-        JCGLCompileException
-  {
-    final TestContext tc = this.newTestContext();
-    final FSCapabilityAll fs = tc.getFilesystem();
-    final PathVirtual sp = tc.getShaderPath();
-    final JCGLShadersGL3 gl = this.getShaders(tc);
-
-    final FramebufferDrawBuffer[] outs =
-      tc.getGLImplementation().getGLCommon().framebufferGetDrawBuffers();
-
-    FragmentShader f = null;
-    VertexShader v = null;
-    final Map<String, FramebufferDrawBuffer> outputs =
-      new HashMap<String, FramebufferDrawBuffer>();
-    outputs.put("out0", outs[0]);
-    outputs.put("out1", outs[1]);
-    outputs.put("out2", outs[2]);
-    outputs.put("out3", outs[3]);
-
-    try {
-      f =
-        gl.fragmentShaderCompile("f", ShaderUtilities.readLines(fs
-          .openFile(sp.appendName("multi_out.f"))));
-      v =
-        gl.vertexShaderCompile(
-          "v",
-          ShaderUtilities.readLines(fs.openFile(sp.appendName("simple.v"))));
-      gl.vertexShaderDelete(v);
-    } catch (final Throwable e) {
-      throw new AssertionError(e);
-    }
-
-    gl.programCreateWithOutputs("name", v, f, outputs);
-  }
-
-  /**
-   * Passing a deleted fragment shader fails.
-   */
-
-  @Test(expected = ConstraintError.class) public
-    void
-    testProgramCreateDeletedFragment()
-      throws JCGLException,
-        JCGLUnsupportedException,
-        ConstraintError,
-        JCGLCompileException
-  {
-    final TestContext tc = this.newTestContext();
-    final FSCapabilityAll fs = tc.getFilesystem();
-    final PathVirtual sp = tc.getShaderPath();
-    final JCGLShadersGL3 gl = this.getShaders(tc);
-
-    final FramebufferDrawBuffer[] outs =
-      tc.getGLImplementation().getGLCommon().framebufferGetDrawBuffers();
-
-    FragmentShader f = null;
-    VertexShader v = null;
-    final Map<String, FramebufferDrawBuffer> outputs =
-      new HashMap<String, FramebufferDrawBuffer>();
-    outputs.put("out0", outs[0]);
-    outputs.put("out1", outs[1]);
-    outputs.put("out2", outs[2]);
-    outputs.put("out3", outs[3]);
-
-    try {
-      f =
-        gl.fragmentShaderCompile("f", ShaderUtilities.readLines(fs
-          .openFile(sp.appendName("multi_out.f"))));
-      v =
-        gl.vertexShaderCompile(
-          "v",
-          ShaderUtilities.readLines(fs.openFile(sp.appendName("simple.v"))));
-      gl.fragmentShaderDelete(f);
-    } catch (final Throwable e) {
-      throw new AssertionError(e);
-    }
-
-    gl.programCreateWithOutputs("name", v, f, outputs);
-  }
-
-  /**
-   * Creating a program and mapping multiple outputs works.
-   */
-
-  @Test public void testProgramCreateMappings()
-    throws JCGLException,
-      JCGLUnsupportedException,
-      ConstraintError,
-      JCGLCompileException
-  {
-    final TestContext tc = this.newTestContext();
-    final FSCapabilityAll fs = tc.getFilesystem();
-    final PathVirtual sp = tc.getShaderPath();
-    final JCGLShadersGL3 gl = this.getShaders(tc);
-
-    final FramebufferDrawBuffer[] outs =
-      tc.getGLImplementation().getGLCommon().framebufferGetDrawBuffers();
-
-    FragmentShader f = null;
-    VertexShader v = null;
-    final Map<String, FramebufferDrawBuffer> outputs =
-      new HashMap<String, FramebufferDrawBuffer>();
-
-    for (int index = 0; index < 4; ++index) {
-      outputs.put("out" + index, outs[index]);
-    }
-
-    try {
-      f =
-        gl.fragmentShaderCompile("f", ShaderUtilities.readLines(fs
-          .openFile(sp.appendName("multi_out.f"))));
-      v =
-        gl.vertexShaderCompile(
-          "v",
-          ShaderUtilities.readLines(fs.openFile(sp.appendName("simple.v"))));
-    } catch (final Throwable e) {
-      throw new AssertionError(e);
-    }
-
-    gl.programCreateWithOutputs("name", v, f, outputs);
   }
 }

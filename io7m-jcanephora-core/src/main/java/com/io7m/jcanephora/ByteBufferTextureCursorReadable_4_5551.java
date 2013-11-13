@@ -31,9 +31,9 @@ final class ByteBufferTextureCursorReadable_4_5551 extends AreaCursor implements
   SpatialCursorReadable4d,
   SpatialCursorReadable4i
 {
+  private final @Nonnull byte[]     buffer = new byte[2];
   private final @Nonnull ByteBuffer target_data;
   private final @Nonnull VectorM4I  vector = new VectorM4I();
-  private final @Nonnull byte[]     buffer = new byte[2];
 
   protected ByteBufferTextureCursorReadable_4_5551(
     final @Nonnull ByteBuffer target_data,

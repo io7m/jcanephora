@@ -37,8 +37,8 @@ final class JOGL_TextureSpecs
   @Immutable static class TextureSpec
   {
     final int format;
-    final int type;
     final int internal_format;
+    final int type;
 
     TextureSpec(
       final int format,

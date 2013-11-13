@@ -431,6 +431,72 @@ final class LWJGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  static final @Nonnull PixelType pixelTypeFromGL(
+    final int e)
+  {
+    switch (e) {
+      case GL12.GL_UNSIGNED_SHORT_5_6_5:
+        return PixelType.PIXEL_PACKED_UNSIGNED_SHORT_565;
+      case GL12.GL_UNSIGNED_SHORT_5_5_5_1:
+        return PixelType.PIXEL_PACKED_UNSIGNED_SHORT_5551;
+      case GL12.GL_UNSIGNED_SHORT_4_4_4_4:
+        return PixelType.PIXEL_PACKED_UNSIGNED_SHORT_4444;
+      case GL12.GL_UNSIGNED_INT_10_10_10_2:
+        return PixelType.PIXEL_PACKED_UNSIGNED_INT_1010102;
+      case GL11.GL_UNSIGNED_SHORT:
+        return PixelType.PIXEL_COMPONENT_UNSIGNED_SHORT;
+      case GL11.GL_UNSIGNED_INT:
+        return PixelType.PIXEL_COMPONENT_UNSIGNED_INT;
+      case GL11.GL_UNSIGNED_BYTE:
+        return PixelType.PIXEL_COMPONENT_UNSIGNED_BYTE;
+      case GL11.GL_SHORT:
+        return PixelType.PIXEL_COMPONENT_SHORT;
+      case GL11.GL_INT:
+        return PixelType.PIXEL_COMPONENT_INT;
+      case GL11.GL_FLOAT:
+        return PixelType.PIXEL_COMPONENT_FLOAT;
+      case GL11.GL_BYTE:
+        return PixelType.PIXEL_COMPONENT_BYTE;
+      case GL30.GL_HALF_FLOAT:
+        return PixelType.PIXEL_COMPONENT_HALF_FLOAT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  static final int pixelTypeToGL(
+    final @Nonnull PixelType p)
+  {
+    switch (p) {
+      case PIXEL_COMPONENT_BYTE:
+        return GL11.GL_BYTE;
+      case PIXEL_COMPONENT_FLOAT:
+        return GL11.GL_FLOAT;
+      case PIXEL_COMPONENT_INT:
+        return GL11.GL_INT;
+      case PIXEL_COMPONENT_SHORT:
+        return GL11.GL_SHORT;
+      case PIXEL_COMPONENT_UNSIGNED_BYTE:
+        return GL11.GL_UNSIGNED_BYTE;
+      case PIXEL_COMPONENT_UNSIGNED_INT:
+        return GL11.GL_UNSIGNED_INT;
+      case PIXEL_COMPONENT_UNSIGNED_SHORT:
+        return GL11.GL_UNSIGNED_SHORT;
+      case PIXEL_PACKED_UNSIGNED_INT_1010102:
+        return GL12.GL_UNSIGNED_INT_10_10_10_2;
+      case PIXEL_PACKED_UNSIGNED_SHORT_4444:
+        return GL12.GL_UNSIGNED_SHORT_4_4_4_4;
+      case PIXEL_PACKED_UNSIGNED_SHORT_5551:
+        return GL12.GL_UNSIGNED_SHORT_5_5_5_1;
+      case PIXEL_PACKED_UNSIGNED_SHORT_565:
+        return GL12.GL_UNSIGNED_SHORT_5_6_5;
+      case PIXEL_COMPONENT_HALF_FLOAT:
+        return GL30.GL_HALF_FLOAT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
   static PolygonMode polygonModeFromGL(
     final int g)
   {
@@ -670,72 +736,6 @@ final class LWJGL_GLTypeConversions
         return GL11.GL_LINEAR;
       case TEXTURE_FILTER_NEAREST:
         return GL11.GL_NEAREST;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  static final @Nonnull PixelType pixelTypeFromGL(
-    final int e)
-  {
-    switch (e) {
-      case GL12.GL_UNSIGNED_SHORT_5_6_5:
-        return PixelType.PIXEL_PACKED_UNSIGNED_SHORT_565;
-      case GL12.GL_UNSIGNED_SHORT_5_5_5_1:
-        return PixelType.PIXEL_PACKED_UNSIGNED_SHORT_5551;
-      case GL12.GL_UNSIGNED_SHORT_4_4_4_4:
-        return PixelType.PIXEL_PACKED_UNSIGNED_SHORT_4444;
-      case GL12.GL_UNSIGNED_INT_10_10_10_2:
-        return PixelType.PIXEL_PACKED_UNSIGNED_INT_1010102;
-      case GL11.GL_UNSIGNED_SHORT:
-        return PixelType.PIXEL_COMPONENT_UNSIGNED_SHORT;
-      case GL11.GL_UNSIGNED_INT:
-        return PixelType.PIXEL_COMPONENT_UNSIGNED_INT;
-      case GL11.GL_UNSIGNED_BYTE:
-        return PixelType.PIXEL_COMPONENT_UNSIGNED_BYTE;
-      case GL11.GL_SHORT:
-        return PixelType.PIXEL_COMPONENT_SHORT;
-      case GL11.GL_INT:
-        return PixelType.PIXEL_COMPONENT_INT;
-      case GL11.GL_FLOAT:
-        return PixelType.PIXEL_COMPONENT_FLOAT;
-      case GL11.GL_BYTE:
-        return PixelType.PIXEL_COMPONENT_BYTE;
-      case GL30.GL_HALF_FLOAT:
-        return PixelType.PIXEL_COMPONENT_HALF_FLOAT;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  static final int pixelTypeToGL(
-    final @Nonnull PixelType p)
-  {
-    switch (p) {
-      case PIXEL_COMPONENT_BYTE:
-        return GL11.GL_BYTE;
-      case PIXEL_COMPONENT_FLOAT:
-        return GL11.GL_FLOAT;
-      case PIXEL_COMPONENT_INT:
-        return GL11.GL_INT;
-      case PIXEL_COMPONENT_SHORT:
-        return GL11.GL_SHORT;
-      case PIXEL_COMPONENT_UNSIGNED_BYTE:
-        return GL11.GL_UNSIGNED_BYTE;
-      case PIXEL_COMPONENT_UNSIGNED_INT:
-        return GL11.GL_UNSIGNED_INT;
-      case PIXEL_COMPONENT_UNSIGNED_SHORT:
-        return GL11.GL_UNSIGNED_SHORT;
-      case PIXEL_PACKED_UNSIGNED_INT_1010102:
-        return GL12.GL_UNSIGNED_INT_10_10_10_2;
-      case PIXEL_PACKED_UNSIGNED_SHORT_4444:
-        return GL12.GL_UNSIGNED_SHORT_4_4_4_4;
-      case PIXEL_PACKED_UNSIGNED_SHORT_5551:
-        return GL12.GL_UNSIGNED_SHORT_5_5_5_1;
-      case PIXEL_PACKED_UNSIGNED_SHORT_565:
-        return GL12.GL_UNSIGNED_SHORT_5_6_5;
-      case PIXEL_COMPONENT_HALF_FLOAT:
-        return GL30.GL_HALF_FLOAT;
     }
 
     throw new UnreachableCodeException();

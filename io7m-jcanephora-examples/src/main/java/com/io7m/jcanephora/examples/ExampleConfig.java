@@ -27,9 +27,9 @@ import com.io7m.jvvfs.FSCapabilityAll;
 
 final class ExampleConfig
 {
+  private final @Nonnull FSCapabilityAll    filesystem;
   private final @Nonnull JCGLImplementation gl_implementation;
   private final @Nonnull Log                log;
-  private final @Nonnull FSCapabilityAll    filesystem;
   private final @Nonnull TextureLoader      texture_loader;
   private final @Nonnull VectorM2I          window_position;
   private final @Nonnull VectorM2I          window_size;

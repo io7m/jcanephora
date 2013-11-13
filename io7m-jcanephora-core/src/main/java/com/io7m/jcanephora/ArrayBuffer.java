@@ -31,9 +31,9 @@ import com.io7m.jaux.RangeInclusive;
   Buffer,
   ArrayBufferUsable
 {
-  private final int                      value;
-  private final @Nonnull ArrayBufferType type;
   private final RangeInclusive           range;
+  private final @Nonnull ArrayBufferType type;
+  private final int                      value;
 
   ArrayBuffer(
     final int value,

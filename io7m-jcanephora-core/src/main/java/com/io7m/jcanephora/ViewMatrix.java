@@ -55,11 +55,11 @@ import com.io7m.jtensors.VectorReadable3F;
 
   @NotThreadSafe public static final class Context
   {
-    protected final @Nonnull VectorM3F   forward;
-    protected final @Nonnull VectorM3F   side;
-    protected final @Nonnull VectorM3F   new_up;
     protected final @Nonnull VectorM3F   camera_inv;
+    protected final @Nonnull VectorM3F   forward;
+    protected final @Nonnull VectorM3F   new_up;
     protected final @Nonnull MatrixM4x4F rotation;
+    protected final @Nonnull VectorM3F   side;
     protected final @Nonnull MatrixM4x4F translation;
 
     public Context()

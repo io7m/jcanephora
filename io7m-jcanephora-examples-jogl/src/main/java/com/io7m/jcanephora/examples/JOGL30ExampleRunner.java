@@ -72,22 +72,22 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
     }
   }
 
-  private final Log                                                                 log;
-  protected final GLWindow                                                          window;
   private final FPSAnimator                                                         animator;
-  private JCGLImplementationJOGL                                                    gl_implementation;
-  private final Filesystem                                                          filesystem;
-  private final VectorM2I                                                           window_position;
-  private final VectorM2I                                                           window_size;
-
+  private final ConcurrentLinkedQueue<Command>                                      command_queue;
   private ExampleConfig                                                             config;
+  private Example                                                                   example_current;
+  private String                                                                    example_name_current;
   private final HashMap<String, PartialFunction<ExampleConfig, Example, Throwable>> examples;
   private final TreeSet<String>                                                     examples_names_sorted;
-  private String                                                                    example_name_current;
-  private Example                                                                   example_current;
 
-  private final ConcurrentLinkedQueue<Command>                                      command_queue;
+  private final Filesystem                                                          filesystem;
+  private JCGLImplementationJOGL                                                    gl_implementation;
+  private final Log                                                                 log;
   private TextureLoader                                                             texture_loader;
+  protected final GLWindow                                                          window;
+
+  private final VectorM2I                                                           window_position;
+  private final VectorM2I                                                           window_size;
 
   JOGL30ExampleRunner()
     throws Throwable

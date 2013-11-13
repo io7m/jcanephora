@@ -1237,9 +1237,9 @@ public final class TextureLoaderImageIO implements TextureLoader
     }
   }
 
-  private final boolean      premultiply_alpha;
   private final @Nonnull Log log;
   private final @Nonnull Log log_alpha;
+  private final boolean      premultiply_alpha;
 
   private TextureLoaderImageIO(
     final @Nonnull Log log,

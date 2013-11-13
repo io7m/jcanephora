@@ -27,11 +27,11 @@ import com.io7m.jaux.UnreachableCodeException;
 
 public final class ByteBufferTextureCursor_1_16_U_Test
 {
-  private final double EPSILON                 = 0.0001f;
   private final int    ELEMENT_COMPONENT_BYTES = 2;
   private final int    ELEMENT_COUNT           = 1;
-  private final int    WIDTH                   = 4;
+  private final double EPSILON                 = 0.0001f;
   private final int    HEIGHT                  = 4;
+  private final int    WIDTH                   = 4;
 
   @SuppressWarnings("boxing") private void dumpBuffer(
     final ByteBuffer b)
@@ -128,57 +128,6 @@ public final class ByteBufferTextureCursor_1_16_U_Test
     }
   }
 
-  @Test public void testReadWriteF()
-    throws ConstraintError
-  {
-    final ByteBuffer b = this.getNewAreaBuffer();
-    final AreaInclusive a = this.getArea();
-
-    final ByteBufferTextureCursorReadable_1_16_U r =
-      this.getReadableCursor(b, a);
-    final ByteBufferTextureCursorWritable_1_16_U w =
-      this.getWritableCursor(b, a);
-
-    for (int y = 0; y <= a.getRangeY().getUpper(); ++y) {
-      for (int x = 0; x <= a.getRangeX().getUpper(); ++x) {
-        Assert.assertTrue(w.isValid());
-        Assert.assertTrue(r.isValid());
-        Assert.assertEquals(x, r.getElementX());
-        Assert.assertEquals(y, r.getElementY());
-        Assert.assertEquals(x, w.getElementX());
-        Assert.assertEquals(y, w.getElementY());
-
-        {
-          final float k = r.get1f();
-          Assert.assertEquals(0.0f, k, 0.0f);
-        }
-
-        w.put1f(1.0f);
-
-        {
-          r.seekTo(x, y);
-          final float k = r.get1f();
-          Assert.assertEquals(1.0f, k, 0.0f);
-        }
-
-        {
-          r.seekTo(x, y);
-          final double k = r.get1d();
-          Assert.assertEquals(1.0, k, 0.0f);
-        }
-
-        {
-          r.seekTo(x, y);
-          final int k = r.get1i();
-          Assert.assertEquals(0xFFFF, k);
-        }
-      }
-    }
-
-    Assert.assertFalse(w.isValid());
-    Assert.assertFalse(r.isValid());
-  }
-
   @Test public void testReadWriteD()
     throws ConstraintError
   {
@@ -205,6 +154,57 @@ public final class ByteBufferTextureCursor_1_16_U_Test
         }
 
         w.put1d(1.0);
+
+        {
+          r.seekTo(x, y);
+          final float k = r.get1f();
+          Assert.assertEquals(1.0f, k, 0.0f);
+        }
+
+        {
+          r.seekTo(x, y);
+          final double k = r.get1d();
+          Assert.assertEquals(1.0, k, 0.0f);
+        }
+
+        {
+          r.seekTo(x, y);
+          final int k = r.get1i();
+          Assert.assertEquals(0xFFFF, k);
+        }
+      }
+    }
+
+    Assert.assertFalse(w.isValid());
+    Assert.assertFalse(r.isValid());
+  }
+
+  @Test public void testReadWriteF()
+    throws ConstraintError
+  {
+    final ByteBuffer b = this.getNewAreaBuffer();
+    final AreaInclusive a = this.getArea();
+
+    final ByteBufferTextureCursorReadable_1_16_U r =
+      this.getReadableCursor(b, a);
+    final ByteBufferTextureCursorWritable_1_16_U w =
+      this.getWritableCursor(b, a);
+
+    for (int y = 0; y <= a.getRangeY().getUpper(); ++y) {
+      for (int x = 0; x <= a.getRangeX().getUpper(); ++x) {
+        Assert.assertTrue(w.isValid());
+        Assert.assertTrue(r.isValid());
+        Assert.assertEquals(x, r.getElementX());
+        Assert.assertEquals(y, r.getElementY());
+        Assert.assertEquals(x, w.getElementX());
+        Assert.assertEquals(y, w.getElementY());
+
+        {
+          final float k = r.get1f();
+          Assert.assertEquals(0.0f, k, 0.0f);
+        }
+
+        w.put1f(1.0f);
 
         {
           r.seekTo(x, y);

@@ -27,8 +27,8 @@ final class ByteBufferTextureCursorReadable_1_16_UNFP extends AreaCursor impleme
   SpatialCursorReadable1d,
   SpatialCursorReadable1i
 {
-  private final @Nonnull ByteBuffer target_data;
   private final @Nonnull byte[]     buffer = new byte[2];
+  private final @Nonnull ByteBuffer target_data;
 
   protected ByteBufferTextureCursorReadable_1_16_UNFP(
     final @Nonnull ByteBuffer target_data,

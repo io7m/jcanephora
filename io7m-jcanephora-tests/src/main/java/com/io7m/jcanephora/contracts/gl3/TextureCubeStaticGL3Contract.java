@@ -46,6 +46,130 @@ public abstract class TextureCubeStaticGL3Contract extends
   TextureCubeStaticContract<JCGLTexturesCubeStaticGL3>
 {
   /**
+   * Texture fetching works.
+   */
+
+  @Test public final void testTextureImageGetLH()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStatic(tc);
+
+    final TextureCubeStatic tx =
+      gl.textureCubeStaticAllocateRGBA8(
+        "image",
+        256,
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+
+    for (final CubeMapFaceLH face : CubeMapFaceLH.values()) {
+      {
+        final TextureCubeWritableData twd = new TextureCubeWritableData(tx);
+        final SpatialCursorWritable4i c = twd.getCursor4i();
+        final VectorM4I pixel = new VectorM4I();
+
+        for (int y = 0; y < 256; ++y) {
+          for (int x = 0; x < 256; ++x) {
+            pixel.x = x;
+            pixel.y = y;
+            pixel.z = face.ordinal();
+            pixel.w = y;
+            c.seekTo(x, y);
+            c.put4i(pixel);
+          }
+        }
+
+        gl.textureCubeStaticUpdateLH(face, twd);
+      }
+
+      {
+        final TextureCubeReadableData trd =
+          gl.textureCubeStaticGetImageLH(tx, face);
+        final SpatialCursorReadable4i c = trd.getCursor4i();
+        final VectorM4I v = new VectorM4I();
+
+        for (int y = 0; y < 256; ++y) {
+          for (int x = 0; x < 256; ++x) {
+            c.seekTo(x, y);
+            c.get4i(v);
+            Assert.assertEquals(x, v.x);
+            Assert.assertEquals(y, v.y);
+            Assert.assertEquals(face.ordinal(), v.z);
+            Assert.assertEquals(y, v.w);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Texture fetching works.
+   */
+
+  @Test public final void testTextureImageGetRH()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStatic(tc);
+
+    final TextureCubeStatic tx =
+      gl.textureCubeStaticAllocateRGBA8(
+        "image",
+        256,
+        TextureWrapR.TEXTURE_WRAP_REPEAT,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+
+    for (final CubeMapFaceRH face : CubeMapFaceRH.values()) {
+      {
+        final TextureCubeWritableData twd = new TextureCubeWritableData(tx);
+        final SpatialCursorWritable4i c = twd.getCursor4i();
+        final VectorM4I pixel = new VectorM4I();
+
+        for (int y = 0; y < 256; ++y) {
+          for (int x = 0; x < 256; ++x) {
+            pixel.x = x;
+            pixel.y = y;
+            pixel.z = face.ordinal();
+            pixel.w = y;
+            c.seekTo(x, y);
+            c.put4i(pixel);
+          }
+        }
+
+        gl.textureCubeStaticUpdateRH(face, twd);
+      }
+
+      {
+        final TextureCubeReadableData trd =
+          gl.textureCubeStaticGetImageRH(tx, face);
+        final SpatialCursorReadable4i c = trd.getCursor4i();
+        final VectorM4I v = new VectorM4I();
+
+        for (int y = 0; y < 256; ++y) {
+          for (int x = 0; x < 256; ++x) {
+            c.seekTo(x, y);
+            c.get4i(v);
+            Assert.assertEquals(x, v.x);
+            Assert.assertEquals(y, v.y);
+            Assert.assertEquals(face.ordinal(), v.z);
+            Assert.assertEquals(y, v.w);
+          }
+        }
+      }
+    }
+  }
+
+  /**
    * Textures have the correct type.
    */
 
@@ -731,130 +855,6 @@ public abstract class TextureCubeStaticGL3Contract extends
         case TEXTURE_TYPE_RGB_565_2BPP:
         {
           throw new UnreachableCodeException(new AssertionError(t.toString()));
-        }
-      }
-    }
-  }
-
-  /**
-   * Texture fetching works.
-   */
-
-  @Test public final void testTextureImageGetLH()
-    throws JCGLException,
-      JCGLUnsupportedException,
-      ConstraintError
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStatic(tc);
-
-    final TextureCubeStatic tx =
-      gl.textureCubeStaticAllocateRGBA8(
-        "image",
-        256,
-        TextureWrapR.TEXTURE_WRAP_REPEAT,
-        TextureWrapS.TEXTURE_WRAP_REPEAT,
-        TextureWrapT.TEXTURE_WRAP_REPEAT,
-        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-
-    for (final CubeMapFaceLH face : CubeMapFaceLH.values()) {
-      {
-        final TextureCubeWritableData twd = new TextureCubeWritableData(tx);
-        final SpatialCursorWritable4i c = twd.getCursor4i();
-        final VectorM4I pixel = new VectorM4I();
-
-        for (int y = 0; y < 256; ++y) {
-          for (int x = 0; x < 256; ++x) {
-            pixel.x = x;
-            pixel.y = y;
-            pixel.z = face.ordinal();
-            pixel.w = y;
-            c.seekTo(x, y);
-            c.put4i(pixel);
-          }
-        }
-
-        gl.textureCubeStaticUpdateLH(face, twd);
-      }
-
-      {
-        final TextureCubeReadableData trd =
-          gl.textureCubeStaticGetImageLH(tx, face);
-        final SpatialCursorReadable4i c = trd.getCursor4i();
-        final VectorM4I v = new VectorM4I();
-
-        for (int y = 0; y < 256; ++y) {
-          for (int x = 0; x < 256; ++x) {
-            c.seekTo(x, y);
-            c.get4i(v);
-            Assert.assertEquals(x, v.x);
-            Assert.assertEquals(y, v.y);
-            Assert.assertEquals(face.ordinal(), v.z);
-            Assert.assertEquals(y, v.w);
-          }
-        }
-      }
-    }
-  }
-
-  /**
-   * Texture fetching works.
-   */
-
-  @Test public final void testTextureImageGetRH()
-    throws JCGLException,
-      JCGLUnsupportedException,
-      ConstraintError
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLTexturesCubeStaticGL3 gl = this.getGLTextureCubeStatic(tc);
-
-    final TextureCubeStatic tx =
-      gl.textureCubeStaticAllocateRGBA8(
-        "image",
-        256,
-        TextureWrapR.TEXTURE_WRAP_REPEAT,
-        TextureWrapS.TEXTURE_WRAP_REPEAT,
-        TextureWrapT.TEXTURE_WRAP_REPEAT,
-        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-
-    for (final CubeMapFaceRH face : CubeMapFaceRH.values()) {
-      {
-        final TextureCubeWritableData twd = new TextureCubeWritableData(tx);
-        final SpatialCursorWritable4i c = twd.getCursor4i();
-        final VectorM4I pixel = new VectorM4I();
-
-        for (int y = 0; y < 256; ++y) {
-          for (int x = 0; x < 256; ++x) {
-            pixel.x = x;
-            pixel.y = y;
-            pixel.z = face.ordinal();
-            pixel.w = y;
-            c.seekTo(x, y);
-            c.put4i(pixel);
-          }
-        }
-
-        gl.textureCubeStaticUpdateRH(face, twd);
-      }
-
-      {
-        final TextureCubeReadableData trd =
-          gl.textureCubeStaticGetImageRH(tx, face);
-        final SpatialCursorReadable4i c = trd.getCursor4i();
-        final VectorM4I v = new VectorM4I();
-
-        for (int y = 0; y < 256; ++y) {
-          for (int x = 0; x < 256; ++x) {
-            c.seekTo(x, y);
-            c.get4i(v);
-            Assert.assertEquals(x, v.x);
-            Assert.assertEquals(y, v.y);
-            Assert.assertEquals(face.ordinal(), v.z);
-            Assert.assertEquals(y, v.w);
-          }
         }
       }
     }

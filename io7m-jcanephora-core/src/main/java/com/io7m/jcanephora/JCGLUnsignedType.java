@@ -16,18 +16,29 @@
 
 package com.io7m.jcanephora;
 
+import com.io7m.jaux.UnreachableCodeException;
+
 /**
- * Stencil operation specification.
+ * Type-safe unsigned OpenGL types.
  */
 
-public enum StencilOperation
+public enum JCGLUnsignedType
 {
-  STENCIL_OP_DECREMENT,
-  STENCIL_OP_DECREMENT_WRAP,
-  STENCIL_OP_INCREMENT,
-  STENCIL_OP_INCREMENT_WRAP,
-  STENCIL_OP_INVERT,
-  STENCIL_OP_KEEP,
-  STENCIL_OP_REPLACE,
-  STENCIL_OP_ZERO
+  TYPE_UNSIGNED_BYTE,
+  TYPE_UNSIGNED_INT,
+  TYPE_UNSIGNED_SHORT;
+
+  public int getSizeBytes()
+  {
+    switch (this) {
+      case TYPE_UNSIGNED_BYTE:
+        return 1;
+      case TYPE_UNSIGNED_INT:
+        return 4;
+      case TYPE_UNSIGNED_SHORT:
+        return 2;
+    }
+
+    throw new UnreachableCodeException();
+  }
 }

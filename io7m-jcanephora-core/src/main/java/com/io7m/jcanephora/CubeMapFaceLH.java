@@ -27,12 +27,12 @@ import com.io7m.jaux.UnreachableCodeException;
 
 public enum CubeMapFaceLH
 {
-  CUBE_MAP_LH_POSITIVE_X,
   CUBE_MAP_LH_NEGATIVE_X,
-  CUBE_MAP_LH_POSITIVE_Y,
   CUBE_MAP_LH_NEGATIVE_Y,
-  CUBE_MAP_LH_POSITIVE_Z,
-  CUBE_MAP_LH_NEGATIVE_Z;
+  CUBE_MAP_LH_NEGATIVE_Z,
+  CUBE_MAP_LH_POSITIVE_X,
+  CUBE_MAP_LH_POSITIVE_Y,
+  CUBE_MAP_LH_POSITIVE_Z;
 
   /**
    * For the cube map face <code>face</code> in a coordinate system consistent

@@ -53,14 +53,14 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 {
   private static class ColorRequest
   {
+    @SuppressWarnings("unused") public FramebufferDrawBuffer draw_buffer;
+    public TextureFilterMagnification                        mag_filter;
+    public TextureFilterMinification                         min_filter;
     @Nonnull RequestColor                                    want_color;
     @CheckForNull AttachmentColor                            want_color_shared;
     public TextureWrapR                                      wrap_r;
     public TextureWrapS                                      wrap_s;
     public TextureWrapT                                      wrap_t;
-    public TextureFilterMinification                         min_filter;
-    public TextureFilterMagnification                        mag_filter;
-    @SuppressWarnings("unused") public FramebufferDrawBuffer draw_buffer;
 
     ColorRequest()
     {
@@ -70,21 +70,21 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
   private static enum RequestColor
   {
-    WANT_NOTHING,
     WANT_COLOR_RGB_RENDERBUFFER,
-    WANT_COLOR_RGBA_RENDERBUFFER,
     WANT_COLOR_RGB_TEXTURE_2D,
-    WANT_COLOR_RGBA_TEXTURE_2D,
-    WANT_COLOR_SHARED_WITH,
     WANT_COLOR_RGB_TEXTURE_CUBE,
-    WANT_COLOR_RGBA_TEXTURE_CUBE
+    WANT_COLOR_RGBA_RENDERBUFFER,
+    WANT_COLOR_RGBA_TEXTURE_2D,
+    WANT_COLOR_RGBA_TEXTURE_CUBE,
+    WANT_COLOR_SHARED_WITH,
+    WANT_NOTHING
   }
 
   private static enum RequestDepth
   {
-    WANT_NOTHING,
     WANT_DEPTH_RENDERBUFFER,
-    WANT_DEPTH_SHARED_WITH
+    WANT_DEPTH_SHARED_WITH,
+    WANT_NOTHING
   }
 
   private static enum RequestStencil
@@ -96,10 +96,10 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
   private static class WorkingBuffers
   {
-    @CheckForNull FramebufferReference                             framebuffer;
-    @Nonnull Map<FramebufferColorAttachmentPoint, AttachmentColor> attachments_color;
     @CheckForNull AttachmentDepth                                  attachment_depth;
     @CheckForNull AttachmentStencil                                attachment_stencil;
+    @Nonnull Map<FramebufferColorAttachmentPoint, AttachmentColor> attachments_color;
+    @CheckForNull FramebufferReference                             framebuffer;
     final @Nonnull StringBuilder                                   text;
 
     WorkingBuffers()
@@ -427,14 +427,14 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     buffers.text.append(point.getIndex());
   }
 
+  private final @Nonnull Map<FramebufferDrawBuffer, FramebufferColorAttachmentPoint> draw_buffers;
+  private int                                                                        height;
+  private final @Nonnull Map<FramebufferColorAttachmentPoint, ColorRequest>          want_color;
   private @Nonnull RequestDepth                                                      want_depth;
   private @CheckForNull AttachmentDepth                                              want_depth_shared;
   private @Nonnull RequestStencil                                                    want_stencil;
   private @CheckForNull AttachmentStencil                                            want_stencil_shared;
-  private final @Nonnull Map<FramebufferColorAttachmentPoint, ColorRequest>          want_color;
-  private final @Nonnull Map<FramebufferDrawBuffer, FramebufferColorAttachmentPoint> draw_buffers;
   private int                                                                        width;
-  private int                                                                        height;
 
   /**
    * Construct a configuration that will, by default, not ask for any color,
