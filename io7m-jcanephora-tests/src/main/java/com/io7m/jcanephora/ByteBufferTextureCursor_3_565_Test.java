@@ -33,11 +33,11 @@ import com.io7m.jtensors.VectorM3I;
 
 public final class ByteBufferTextureCursor_3_565_Test
 {
-  private final double EPSILON                 = 0.01;
   private final int    ELEMENT_COMPONENT_BYTES = 2;
   private final int    ELEMENT_COUNT           = 1;
-  private final int    WIDTH                   = 4;
+  private final double EPSILON                 = 0.01;
   private final int    HEIGHT                  = 4;
+  private final int    WIDTH                   = 4;
 
   @SuppressWarnings("boxing") private void dumpBuffer(
     final ByteBuffer b)

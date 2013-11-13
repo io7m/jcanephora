@@ -38,9 +38,9 @@ import com.io7m.jaux.UnreachableCodeException;
 
 public final class TextureCubeReadableData implements TextureReadableData
 {
-  private final @Nonnull TextureType   type;
   private final @Nonnull AreaInclusive area;
   private final @Nonnull ByteBuffer    data;
+  private final @Nonnull TextureType   type;
 
   TextureCubeReadableData(
     final @Nonnull TextureType type,
@@ -58,7 +58,9 @@ public final class TextureCubeReadableData implements TextureReadableData
         ByteOrder.nativeOrder());
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see com.io7m.jcanephora.TextureReadableData#getCursor1d()
    */
 
@@ -68,7 +70,9 @@ public final class TextureCubeReadableData implements TextureReadableData
     return (SpatialCursorReadable1d) this.getCursor1f();
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see com.io7m.jcanephora.TextureReadableData#getCursor1f()
    */
 
@@ -201,7 +205,9 @@ public final class TextureCubeReadableData implements TextureReadableData
     throw new UnreachableCodeException();
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see com.io7m.jcanephora.TextureReadableData#getCursor1i()
    */
 
@@ -325,7 +331,9 @@ public final class TextureCubeReadableData implements TextureReadableData
     throw new UnreachableCodeException();
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see com.io7m.jcanephora.TextureReadableData#getCursor2d()
    */
 
@@ -335,7 +343,9 @@ public final class TextureCubeReadableData implements TextureReadableData
     return (SpatialCursorReadable2d) this.getCursor2f();
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see com.io7m.jcanephora.TextureReadableData#getCursor2f()
    */
 
@@ -462,7 +472,9 @@ public final class TextureCubeReadableData implements TextureReadableData
     throw new UnreachableCodeException();
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see com.io7m.jcanephora.TextureReadableData#getCursor2i()
    */
 
@@ -580,7 +592,9 @@ public final class TextureCubeReadableData implements TextureReadableData
     throw new UnreachableCodeException();
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see com.io7m.jcanephora.TextureReadableData#getCursor3d()
    */
 
@@ -590,7 +604,9 @@ public final class TextureCubeReadableData implements TextureReadableData
     return (SpatialCursorReadable3d) this.getCursor3f();
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see com.io7m.jcanephora.TextureReadableData#getCursor3f()
    */
 
@@ -723,7 +739,9 @@ public final class TextureCubeReadableData implements TextureReadableData
     throw new UnreachableCodeException();
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see com.io7m.jcanephora.TextureReadableData#getCursor3i()
    */
 
@@ -847,7 +865,9 @@ public final class TextureCubeReadableData implements TextureReadableData
     throw new UnreachableCodeException();
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see com.io7m.jcanephora.TextureReadableData#getCursor4d()
    */
 
@@ -857,7 +877,9 @@ public final class TextureCubeReadableData implements TextureReadableData
     return (SpatialCursorReadable4d) this.getCursor4f();
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see com.io7m.jcanephora.TextureReadableData#getCursor4f()
    */
 
@@ -1002,7 +1024,9 @@ public final class TextureCubeReadableData implements TextureReadableData
     throw new UnreachableCodeException();
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see com.io7m.jcanephora.TextureReadableData#getCursor4i()
    */
 

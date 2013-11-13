@@ -36,11 +36,11 @@ public final class LWJGLTestContext
 {
   private static final class Profile
   {
+    int     height;
+    boolean version_es;
     int     version_major;
     int     version_minor;
-    boolean version_es;
     int     width;
-    int     height;
 
     Profile()
     {
@@ -48,10 +48,17 @@ public final class LWJGLTestContext
     }
   }
 
-  private static final Profile PROFILE_OPENGL_3_0;
-  private static final Profile PROFILE_OPENGL_ES_2_0;
-  private static final Profile PROFILE_OPENGL_3_X;
+  private static Pbuffer       buffer = null;
+  static final String          LOG_DESTINATION_OPENGL_2_1;
+  static final String          LOG_DESTINATION_OPENGL_3_0;
+  static final String          LOG_DESTINATION_OPENGL_3_X;
+
+  static final String          LOG_DESTINATION_OPENGL_ES_2_0;
+
   private static final Profile PROFILE_OPENGL_2_1;
+  private static final Profile PROFILE_OPENGL_3_0;
+  private static final Profile PROFILE_OPENGL_3_X;
+  private static final Profile PROFILE_OPENGL_ES_2_0;
 
   static {
     PROFILE_OPENGL_2_1 = new Profile();
@@ -83,19 +90,12 @@ public final class LWJGLTestContext
     LWJGLTestContext.PROFILE_OPENGL_ES_2_0.height = 480;
   }
 
-  static final String          LOG_DESTINATION_OPENGL_ES_2_0;
-  static final String          LOG_DESTINATION_OPENGL_3_X;
-  static final String          LOG_DESTINATION_OPENGL_3_0;
-  static final String          LOG_DESTINATION_OPENGL_2_1;
-
   static {
     LOG_DESTINATION_OPENGL_ES_2_0 = "lwjgl_es_2_0-test";
     LOG_DESTINATION_OPENGL_3_X = "lwjgl_3_x-test";
     LOG_DESTINATION_OPENGL_3_0 = "lwjgl_3_0-test";
     LOG_DESTINATION_OPENGL_2_1 = "lwjgl_2_1-test";
   }
-
-  private static Pbuffer       buffer = null;
 
   static Pbuffer createOffscreenDisplay(
     final Profile want)

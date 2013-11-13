@@ -36,11 +36,11 @@ import com.jogamp.common.util.VersionNumber;
 public final class JOGLTestContext
 {
   private static GLOffscreenAutoDrawable buffer;
-  static final String                    LOG_DESTINATION_OPENGL_ES_3_0;
-  static final String                    LOG_DESTINATION_OPENGL_ES_2_0;
+  static final String                    LOG_DESTINATION_OPENGL_2_1;
   static final String                    LOG_DESTINATION_OPENGL_3_0;
   static final String                    LOG_DESTINATION_OPENGL_3_p;
-  static final String                    LOG_DESTINATION_OPENGL_2_1;
+  static final String                    LOG_DESTINATION_OPENGL_ES_2_0;
+  static final String                    LOG_DESTINATION_OPENGL_ES_3_0;
 
   static {
     LOG_DESTINATION_OPENGL_ES_3_0 = "jogl_es_3_0-test";

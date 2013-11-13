@@ -40,8 +40,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
     return new JCGLVersion(number, api, text);
   }
 
-  private final @Nonnull JCGLVersionNumber number;
   private final @Nonnull JCGLApi           api;
+  private final @Nonnull JCGLVersionNumber number;
 
   private final @Nonnull String            text;
 

@@ -47,9 +47,9 @@ import com.io7m.jtensors.VectorReadable4I;
   JCGLInterfaceGL2
 {
   private final @Nonnull Log            log;
+  private final @Nonnull JCGLSLVersion  sl_version;
   private final @Nonnull JCGLStateCache state;
   private final @Nonnull JCGLVersion    version;
-  private final @Nonnull JCGLSLVersion  sl_version;
 
   JCGLInterfaceGL2_LWJGL_GL2(
     final @Nonnull Log log)

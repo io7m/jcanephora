@@ -44,9 +44,16 @@ import com.io7m.jvvfs.PathVirtual;
 
 public abstract class JCCEExecutionCallableContract implements TestContract
 {
-  @Before public final void checkSupport()
+  static final class Counter implements Callable<Void>
   {
-    Assume.assumeTrue(this.isGLSupported());
+    public int calls = 0;
+
+    @Override public Void call()
+      throws Exception
+    {
+      this.calls++;
+      return null;
+    }
   }
 
   private static @Nonnull ProgramReference makeProgram(
@@ -88,31 +95,9 @@ public abstract class JCCEExecutionCallableContract implements TestContract
     return ShaderUtilities.readLines(filesystem.openFile(path));
   }
 
-  /**
-   * Failing to set a callable fails.
-   */
-
-  @SuppressWarnings({}) @Test(expected = ConstraintError.class) public final
-    void
-    testCallableUnset()
-      throws ConstraintError,
-        Exception
+  @Before public final void checkSupport()
   {
-    JCCEExecutionCallable e = null;
-    JCGLInterfaceCommon gl = null;
-
-    try {
-      final TestContext tc = this.newTestContext();
-      gl = tc.getGLImplementation().getGLCommon();
-      final ProgramReference p =
-        JCCEExecutionCallableContract.makeProgram(tc, gl);
-      e = new JCCEExecutionCallable(p);
-      e.execPrepare(gl);
-    } catch (final Throwable x) {
-      throw new AssertionError(x);
-    }
-
-    e.execRun(gl);
+    Assume.assumeTrue(this.isGLSupported());
   }
 
   /**
@@ -142,16 +127,31 @@ public abstract class JCCEExecutionCallableContract implements TestContract
     Assert.assertTrue(c.calls == 1);
   }
 
-  static final class Counter implements Callable<Void>
-  {
-    public int calls = 0;
+  /**
+   * Failing to set a callable fails.
+   */
 
-    @Override public Void call()
-      throws Exception
-    {
-      this.calls++;
-      return null;
+  @SuppressWarnings({}) @Test(expected = ConstraintError.class) public final
+    void
+    testCallableUnset()
+      throws ConstraintError,
+        Exception
+  {
+    JCCEExecutionCallable e = null;
+    JCGLInterfaceCommon gl = null;
+
+    try {
+      final TestContext tc = this.newTestContext();
+      gl = tc.getGLImplementation().getGLCommon();
+      final ProgramReference p =
+        JCCEExecutionCallableContract.makeProgram(tc, gl);
+      e = new JCCEExecutionCallable(p);
+      e.execPrepare(gl);
+    } catch (final Throwable x) {
+      throw new AssertionError(x);
     }
+
+    e.execRun(gl);
   }
 
   /**

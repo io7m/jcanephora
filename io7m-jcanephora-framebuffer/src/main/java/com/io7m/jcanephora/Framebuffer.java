@@ -38,13 +38,13 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 public final class Framebuffer extends JCGLResourceDeletable implements
   FramebufferUsable
 {
-  private final @Nonnull FramebufferReference                                  framebuffer;
-  private final int                                                            width;
-  private final int                                                            height;
-
   private @Nonnull final Map<FramebufferColorAttachmentPoint, AttachmentColor> color_attachments;
   private @CheckForNull AttachmentDepth                                        depth_attachment;
+  private final @Nonnull FramebufferReference                                  framebuffer;
+
+  private final int                                                            height;
   private @CheckForNull AttachmentStencil                                      stencil_attachment;
+  private final int                                                            width;
 
   Framebuffer(
     final @Nonnull FramebufferReference framebuffer,

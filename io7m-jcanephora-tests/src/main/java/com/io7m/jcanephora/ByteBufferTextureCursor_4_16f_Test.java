@@ -31,11 +31,11 @@ import com.io7m.jtensors.VectorM4F;
 
 public final class ByteBufferTextureCursor_4_16f_Test
 {
-  private final double EPSILON                 = 0.0;
   private final int    ELEMENT_COMPONENT_BYTES = 2;
   private final int    ELEMENT_COUNT           = 4;
-  private final int    WIDTH                   = 4;
+  private final double EPSILON                 = 0.0;
   private final int    HEIGHT                  = 4;
+  private final int    WIDTH                   = 4;
 
   @SuppressWarnings("boxing") private void dumpBuffer(
     final ByteBuffer b)

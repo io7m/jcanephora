@@ -30,22 +30,22 @@ import com.io7m.jaux.UnreachableCodeException;
 public enum RenderbufferType
 {
   /**
-   * 16 bit depth buffer
+   * Four-channel RGBA, 5 bits R, 6 bits G, 5 bits B, two bytes per pixel.
    */
 
-  RENDERBUFFER_DEPTH_16,
+  RENDERBUFFER_COLOR_RGB_565,
 
   /**
-   * 8 bit stencil buffer
+   * Three-channel RGB, 8 bits per channel, three bytes per pixel.
    */
 
-  RENDERBUFFER_STENCIL_8,
+  RENDERBUFFER_COLOR_RGB_888,
 
   /**
-   * Packed 24 bit depth buffer, 8 bit stencil buffer
+   * Four-channel RGBA, 4 bits per channel, two bytes per pixel.
    */
 
-  RENDERBUFFER_DEPTH_24_STENCIL_8,
+  RENDERBUFFER_COLOR_RGBA_4444,
 
   /**
    * Four-channel RGBA, 5 bits per (R, G, B) channels, 1 bit alpha, two bytes
@@ -55,28 +55,28 @@ public enum RenderbufferType
   RENDERBUFFER_COLOR_RGBA_5551,
 
   /**
-   * Four-channel RGBA, 4 bits per channel, two bytes per pixel.
-   */
-
-  RENDERBUFFER_COLOR_RGBA_4444,
-
-  /**
-   * Four-channel RGBA, 5 bits R, 6 bits G, 5 bits B, two bytes per pixel.
-   */
-
-  RENDERBUFFER_COLOR_RGB_565,
-
-  /**
    * Four-channel RGBA, 8 bits per channel, four bytes per pixel.
    */
 
   RENDERBUFFER_COLOR_RGBA_8888,
 
   /**
-   * Three-channel RGB, 8 bits per channel, three bytes per pixel.
+   * 16 bit depth buffer
    */
 
-  RENDERBUFFER_COLOR_RGB_888;
+  RENDERBUFFER_DEPTH_16,
+
+  /**
+   * Packed 24 bit depth buffer, 8 bit stencil buffer
+   */
+
+  RENDERBUFFER_DEPTH_24_STENCIL_8,
+
+  /**
+   * 8 bit stencil buffer
+   */
+
+  RENDERBUFFER_STENCIL_8;
 
   /**
    * The subset of renderbuffer types supported by both OpenGL 3.* and ES 3.*.

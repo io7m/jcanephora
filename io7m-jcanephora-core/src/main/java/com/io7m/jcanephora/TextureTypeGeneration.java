@@ -32,10 +32,10 @@ final class TextureTypeGeneration
 {
   enum Type
   {
+    FLOAT,
     SIGNED,
     UNSIGNED,
-    UNSIGNED_NORMALIZED_FIXED,
-    FLOAT
+    UNSIGNED_NORMALIZED_FIXED
   }
 
   private static void depthType(

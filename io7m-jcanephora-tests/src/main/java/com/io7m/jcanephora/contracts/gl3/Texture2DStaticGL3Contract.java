@@ -43,6 +43,65 @@ public abstract class Texture2DStaticGL3Contract extends
   Texture2DStaticContract<JCGLTextures2DStaticGL3>
 {
   /**
+   * Texture fetching works.
+   */
+
+  @Test public final void testTextureImageGet()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLTextures2DStaticGL3 gl = this.getGLTexture2DStatic(tc);
+
+    final Texture2DStatic tx =
+      gl.texture2DStaticAllocateRGBA8(
+        "image",
+        256,
+        256,
+        TextureWrapS.TEXTURE_WRAP_REPEAT,
+        TextureWrapT.TEXTURE_WRAP_REPEAT,
+        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+
+    {
+      final Texture2DWritableData twd = new Texture2DWritableData(tx);
+      final SpatialCursorWritable4i c = twd.getCursor4i();
+      final VectorM4I pixel = new VectorM4I();
+
+      for (int y = 0; y < 256; ++y) {
+        for (int x = 0; x < 256; ++x) {
+          pixel.x = x;
+          pixel.y = y;
+          pixel.z = x;
+          pixel.w = y;
+          c.seekTo(x, y);
+          c.put4i(pixel);
+        }
+      }
+
+      gl.texture2DStaticUpdate(twd);
+    }
+
+    {
+      final Texture2DReadableData trd = gl.texture2DStaticGetImage(tx);
+      final SpatialCursorReadable4i c = trd.getCursor4i();
+      final VectorM4I v = new VectorM4I();
+
+      for (int y = 0; y < 256; ++y) {
+        for (int x = 0; x < 256; ++x) {
+          c.seekTo(x, y);
+          c.get4i(v);
+          Assert.assertEquals(x, v.x);
+          Assert.assertEquals(y, v.y);
+          Assert.assertEquals(x, v.z);
+          Assert.assertEquals(y, v.w);
+        }
+      }
+    }
+  }
+
+  /**
    * Textures have the correct type.
    */
 
@@ -682,65 +741,6 @@ public abstract class Texture2DStaticGL3Contract extends
               TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           Assert.assertEquals(tx.getType(), t);
           break;
-        }
-      }
-    }
-  }
-
-  /**
-   * Texture fetching works.
-   */
-
-  @Test public final void testTextureImageGet()
-    throws JCGLException,
-      JCGLUnsupportedException,
-      ConstraintError
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLTextures2DStaticGL3 gl = this.getGLTexture2DStatic(tc);
-
-    final Texture2DStatic tx =
-      gl.texture2DStaticAllocateRGBA8(
-        "image",
-        256,
-        256,
-        TextureWrapS.TEXTURE_WRAP_REPEAT,
-        TextureWrapT.TEXTURE_WRAP_REPEAT,
-        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-
-    {
-      final Texture2DWritableData twd = new Texture2DWritableData(tx);
-      final SpatialCursorWritable4i c = twd.getCursor4i();
-      final VectorM4I pixel = new VectorM4I();
-
-      for (int y = 0; y < 256; ++y) {
-        for (int x = 0; x < 256; ++x) {
-          pixel.x = x;
-          pixel.y = y;
-          pixel.z = x;
-          pixel.w = y;
-          c.seekTo(x, y);
-          c.put4i(pixel);
-        }
-      }
-
-      gl.texture2DStaticUpdate(twd);
-    }
-
-    {
-      final Texture2DReadableData trd = gl.texture2DStaticGetImage(tx);
-      final SpatialCursorReadable4i c = trd.getCursor4i();
-      final VectorM4I v = new VectorM4I();
-
-      for (int y = 0; y < 256; ++y) {
-        for (int x = 0; x < 256; ++x) {
-          c.seekTo(x, y);
-          c.get4i(v);
-          Assert.assertEquals(x, v.x);
-          Assert.assertEquals(y, v.y);
-          Assert.assertEquals(x, v.z);
-          Assert.assertEquals(y, v.w);
         }
       }
     }

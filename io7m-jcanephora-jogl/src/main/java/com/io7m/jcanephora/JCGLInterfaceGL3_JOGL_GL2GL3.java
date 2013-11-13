@@ -66,11 +66,11 @@ import com.io7m.jtensors.VectorReadable4I;
 @NotThreadSafe final class JCGLInterfaceGL3_JOGL_GL2GL3 implements
   JCGLInterfaceGL3
 {
-  private final @Nonnull Log            log;
   private final @Nonnull GLContext      context;
+  private final @Nonnull Log            log;
+  private final @Nonnull JCGLSLVersion  sl_version;
   private final @Nonnull JCGLStateCache state;
   private final @Nonnull JCGLVersion    version;
-  private final @Nonnull JCGLSLVersion  sl_version;
 
   JCGLInterfaceGL3_JOGL_GL2GL3(
     final @Nonnull GLContext context,

@@ -30,8 +30,8 @@ final class ByteBufferTextureCursorReadable_3_16f extends AreaCursor implements
   SpatialCursorReadable3f,
   SpatialCursorReadable3d
 {
-  private final @Nonnull ByteBuffer target_data;
   private final @Nonnull byte[]     buffer = new byte[2];
+  private final @Nonnull ByteBuffer target_data;
 
   protected ByteBufferTextureCursorReadable_3_16f(
     final @Nonnull ByteBuffer target_data,

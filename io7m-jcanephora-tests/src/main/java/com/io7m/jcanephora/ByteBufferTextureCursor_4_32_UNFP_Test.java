@@ -35,11 +35,11 @@ import com.io7m.jtensors.VectorM4L;
 
 public final class ByteBufferTextureCursor_4_32_UNFP_Test
 {
-  private final double EPSILON                 = 0.000000001;
   private final int    ELEMENT_COMPONENT_BYTES = 4;
   private final int    ELEMENT_COUNT           = 4;
-  private final int    WIDTH                   = 4;
+  private final double EPSILON                 = 0.000000001;
   private final int    HEIGHT                  = 4;
+  private final int    WIDTH                   = 4;
 
   @SuppressWarnings("boxing") private void dumpBuffer(
     final ByteBuffer b)

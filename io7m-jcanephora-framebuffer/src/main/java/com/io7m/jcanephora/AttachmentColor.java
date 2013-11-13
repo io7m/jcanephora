@@ -171,8 +171,8 @@ public abstract class AttachmentColor
   public static final class AttachmentColorTextureCubeStatic extends
     AttachmentColor implements AttachmentColorTextureCubeUsable
   {
+    private final @Nonnull CubeMapFaceLH     face;
     private final @Nonnull TextureCubeStatic texture;
-    private final @Nonnull CubeMapFaceLH       face;
 
     public AttachmentColorTextureCubeStatic(
       final @Nonnull TextureCubeStatic texture,
@@ -386,8 +386,8 @@ public abstract class AttachmentColor
   public static final class AttachmentSharedColorTextureCubeStatic extends
     AttachmentColor implements AttachmentColorTextureCubeUsable
   {
+    private final @Nonnull CubeMapFaceLH           face;
     private final @Nonnull TextureCubeStaticUsable texture;
-    private final @Nonnull CubeMapFaceLH             face;
 
     public AttachmentSharedColorTextureCubeStatic(
       final @Nonnull AttachmentSharedColorTextureCubeStatic a)

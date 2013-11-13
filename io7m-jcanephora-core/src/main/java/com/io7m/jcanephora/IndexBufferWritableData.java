@@ -32,10 +32,10 @@ import com.io7m.jaux.RangeInclusive;
 public final class IndexBufferWritableData
 {
   private final @Nonnull IndexBufferUsable buffer;
-  private final @Nonnull ByteBuffer        target_data;
-  private final long                       target_data_size;
-  private final long                       target_data_offset;
   private final @Nonnull RangeInclusive    range;
+  private final @Nonnull ByteBuffer        target_data;
+  private final long                       target_data_offset;
+  private final long                       target_data_size;
   private final RangeInclusive             target_range;
 
   /**

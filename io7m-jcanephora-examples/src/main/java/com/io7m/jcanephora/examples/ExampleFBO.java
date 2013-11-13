@@ -79,33 +79,33 @@ public final class ExampleFBO implements Example
     Z_AXIS = new VectorI3F(0.0f, 0.0f, 1.0f);
   }
 
-  private final JCGLImplementation                gli;
-  private final JCGLInterfaceCommon               gl;
-  private final Texture2DStaticUsable             texture;
-  private final Framebuffer                       framebuffer;
-  private boolean                                 has_shut_down;
-  private final ArrayBufferTypeDescriptor         textured_quad_type;
-  private final ArrayBuffer                       textured_quad;
-  private final ArrayBufferWritableData           textured_quad_data;
-  private final IndexBuffer                       indices;
-  private final IndexBufferWritableData           indices_data;
-  private final ExampleConfig                     config;
-  private final MatrixM4x4F                       matrix_modelview;
-  private final MatrixM4x4F                       matrix_projection;
-  private final ProgramReference                  program_uv;
-  private final ProgramReference                  program_color;
-  private final TextureUnit[]                     texture_units;
-  private final FramebufferColorAttachmentPoint[] framebuffer_color_points;
-  private final Context                           context;
-  private float                                   current_angle       = 0.0f;
-  private ArrayBufferTypeDescriptor               color_quad_type;
   private ArrayBuffer                             color_quad;
   private final ArrayBufferWritableData           color_quad_data;
-
-  private int                                     framebuffer_width;
-  private int                                     framebuffer_height;
-  private final int                               framebuffer_divisor = 8;
+  private ArrayBufferTypeDescriptor               color_quad_type;
+  private final ExampleConfig                     config;
+  private final Context                           context;
+  private float                                   current_angle       = 0.0f;
+  private final Framebuffer                       framebuffer;
+  private final FramebufferColorAttachmentPoint[] framebuffer_color_points;
   private final FramebufferConfigurationGL3ES2    framebuffer_config;
+  private final int                               framebuffer_divisor = 8;
+  private int                                     framebuffer_height;
+  private int                                     framebuffer_width;
+  private final JCGLInterfaceCommon               gl;
+  private final JCGLImplementation                gli;
+  private boolean                                 has_shut_down;
+  private final IndexBuffer                       indices;
+  private final IndexBufferWritableData           indices_data;
+  private final MatrixM4x4F                       matrix_modelview;
+  private final MatrixM4x4F                       matrix_projection;
+  private final ProgramReference                  program_color;
+  private final ProgramReference                  program_uv;
+  private final Texture2DStaticUsable             texture;
+
+  private final TextureUnit[]                     texture_units;
+  private final ArrayBuffer                       textured_quad;
+  private final ArrayBufferWritableData           textured_quad_data;
+  private final ArrayBufferTypeDescriptor         textured_quad_type;
 
   public ExampleFBO(
     final @Nonnull ExampleConfig config)

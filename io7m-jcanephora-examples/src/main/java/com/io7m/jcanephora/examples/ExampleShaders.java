@@ -59,16 +59,16 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleShaders implements Example
 {
-  private final JCGLInterfaceCommon       gl;
-  private final ArrayBufferTypeDescriptor array_type;
   private final ArrayBuffer               array;
   private final ArrayBufferWritableData   array_data;
-  private final MatrixM4x4F               matrix_projection;
-  private final MatrixM4x4F               matrix_modelview;
+  private final ArrayBufferTypeDescriptor array_type;
+  private final ExampleConfig             config;
+  private final JCGLInterfaceCommon       gl;
+  private boolean                         has_shut_down;
   private final IndexBuffer               indices;
   private final IndexBufferWritableData   indices_data;
-  private final ExampleConfig             config;
-  private boolean                         has_shut_down;
+  private final MatrixM4x4F               matrix_modelview;
+  private final MatrixM4x4F               matrix_projection;
   private final ProgramReference          program;
 
   public ExampleShaders(

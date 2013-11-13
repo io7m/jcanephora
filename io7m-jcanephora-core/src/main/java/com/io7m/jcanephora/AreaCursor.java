@@ -41,14 +41,14 @@ import com.io7m.jaux.RangeInclusive;
 
 @NotThreadSafe class AreaCursor implements SpatialCursor
 {
-  private final @Nonnull AreaInclusive area_outer;
   private final @Nonnull AreaInclusive area_inner;
+  private final @Nonnull AreaInclusive area_outer;
+  private long                         byte_offset;
+  private boolean                      can_write;
   private final long                   element_bytes;
   private long                         element_x;
   private long                         element_y;
-  private long                         byte_offset;
   private final long                   row_byte_span;
-  private boolean                      can_write;
 
   protected AreaCursor(
     final @Nonnull AreaInclusive area_outer,
