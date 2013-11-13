@@ -23,6 +23,8 @@ import java.util.concurrent.Callable;
 import javax.annotation.Nonnull;
 
 import org.junit.Assert;
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -42,6 +44,11 @@ import com.io7m.jvvfs.PathVirtual;
 
 public abstract class JCCEExecutionCallableContract implements TestContract
 {
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
+  }
+
   private static @Nonnull ProgramReference makeProgram(
     final @Nonnull TestContext tc,
     final @Nonnull JCGLInterfaceCommon gl)
