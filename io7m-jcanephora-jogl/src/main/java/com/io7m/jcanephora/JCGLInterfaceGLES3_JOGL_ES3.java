@@ -16,10 +16,12 @@
 
 package com.io7m.jcanephora;
 
+import java.io.PrintStream;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.media.opengl.DebugGLES3;
@@ -27,10 +29,12 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GL3ES3;
 import javax.media.opengl.GLContext;
 import javax.media.opengl.GLES3;
+import javax.media.opengl.TraceGLES3;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
+import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
@@ -68,7 +72,6 @@ import com.io7m.jtensors.VectorReadable4I;
 {
   private @Nonnull GLES3                cached_gl;
   private final @Nonnull GLContext      context;
-  private final boolean                 debug;
   private final @Nonnull Log            log;
   private final @Nonnull JCGLSLVersion  sl_version;
   private final @Nonnull JCGLStateCache state;
@@ -77,16 +80,40 @@ import com.io7m.jtensors.VectorReadable4I;
   JCGLInterfaceGLES3_JOGL_ES3(
     final @Nonnull GLContext context,
     final @Nonnull Log log,
-    final boolean debug)
+    final @Nonnull JCGLDebugging debug,
+    final @CheckForNull PrintStream trace_out)
     throws ConstraintError,
       JCGLException
   {
     this.log =
       new Log(Constraints.constrainNotNull(log, "log output"), "jogl30");
     this.context = Constraints.constrainNotNull(context, "GL context");
-    this.state = new JCGLStateCache();
-    this.debug = debug;
+    Constraints.constrainNotNull(debug, "Debug");
 
+    this.state = new JCGLStateCache();
+
+    {
+      final GLES3 g = this.context.getGL().getGLES3();
+      switch (debug) {
+        case JCGL_DEBUGGING:
+          this.cached_gl = new DebugGLES3(g);
+          break;
+        case JCGL_NONE:
+          this.cached_gl = g;
+          break;
+        case JCGL_TRACING:
+          Constraints.constrainNotNull(trace_out, "Trace output");
+          this.cached_gl = new TraceGLES3(g, trace_out);
+          break;
+        case JCGL_TRACING_AND_DEBUGGING:
+          Constraints.constrainNotNull(trace_out, "Trace output");
+          this.cached_gl = new DebugGLES3(new TraceGLES3(g, trace_out));
+          break;
+        default:
+          throw new UnreachableCodeException();
+      }
+    }
+    assert this.cached_gl != null;
     final GL3ES3 g = this.contextGetGL();
 
     Constraints.constrainArbitrary(
@@ -458,16 +485,6 @@ import com.io7m.jtensors.VectorReadable4I;
 
   private @Nonnull GL3ES3 contextGetGL()
   {
-    final GL g = this.context.getGL();
-
-    if (this.cached_gl == null) {
-      if (this.debug) {
-        this.cached_gl = new DebugGLES3(g.getGLES3());
-      } else {
-        this.cached_gl = g.getGLES3();
-      }
-    }
-
     return this.cached_gl;
   }
 
