@@ -232,7 +232,8 @@ public final class JOGLTestContext
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GLES2));
-    final JCGLImplementation gi = new JCGLImplementationJOGL(ctx, log);
+    final JCGLImplementation gi =
+      JCGLImplementationJOGL.newImplementation(ctx, log);
 
     return new TestContext(fs, gi, log, ShaderPaths.getShaderPath(2, 0, true));
   }
@@ -248,7 +249,8 @@ public final class JOGLTestContext
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GLES3));
-    final JCGLImplementation gi = new JCGLImplementationJOGL(ctx, log);
+    final JCGLImplementation gi =
+      JCGLImplementationJOGL.newImplementation(ctx, log);
 
     final VersionNumber version = ctx.getGLVersionNumber();
     if (version.getMajor() != 3) {
@@ -273,7 +275,8 @@ public final class JOGLTestContext
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GL2));
-    final JCGLImplementation gi = new JCGLImplementationJOGL(ctx, log);
+    final JCGLImplementation gi =
+      JCGLImplementationJOGL.newImplementation(ctx, log);
 
     final VersionNumber version = ctx.getGLVersionNumber();
     final PathVirtual shader_path =
@@ -293,7 +296,8 @@ public final class JOGLTestContext
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GL2));
-    final JCGLImplementation gi = new JCGLImplementationJOGL(ctx, log);
+    final JCGLImplementation gi =
+      JCGLImplementationJOGL.newImplementation(ctx, log);
 
     final VersionNumber version = ctx.getGLVersionNumber();
     if (version.getMajor() != 3) {
@@ -317,7 +321,8 @@ public final class JOGLTestContext
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GL3));
-    final JCGLImplementation gi = new JCGLImplementationJOGL(ctx, log);
+    final JCGLImplementation gi =
+      JCGLImplementationJOGL.newImplementation(ctx, log);
 
     final VersionNumber version = ctx.getGLVersionNumber();
     if (version.getMajor() != 3) {

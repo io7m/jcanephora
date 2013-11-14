@@ -31,13 +31,6 @@ import com.io7m.jlog.Log;
 
 public final class JCGLImplementationJOGL implements JCGLImplementation
 {
-  private final @Nonnull GLContext          context;
-  private final @Nonnull JCGLInterfaceGL2   gl_2;
-  private final @Nonnull JCGLInterfaceGL3   gl_3;
-  private final @Nonnull JCGLInterfaceGLES2 gl_es2;
-  private final @Nonnull JCGLInterfaceGLES3 gl_es3;
-  private final @Nonnull Log                log;
-
   /**
    * Construct an implementation using the initialized <code>context</code>
    * and <code>log</code>.
@@ -51,9 +44,52 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
    *           OpenGL 3.* or ES2.
    */
 
-  public JCGLImplementationJOGL(
+  public static @Nonnull JCGLImplementationJOGL newImplementation(
     final @Nonnull GLContext context,
     final @Nonnull Log log)
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    return new JCGLImplementationJOGL(context, log, false);
+  }
+
+  /**
+   * Construct an implementation using the initialized <code>context</code>
+   * and <code>log</code>, with debugging enabled.
+   * 
+   * @throws ConstraintError
+   *           Iff <code>context == null || log == null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws JCGLUnsupportedException
+   *           Iff the given graphics context does not support either of
+   *           OpenGL 3.* or ES2.
+   */
+
+  public static @Nonnull
+    JCGLImplementationJOGL
+    newImplementationWithDebugging(
+      final @Nonnull GLContext context,
+      final @Nonnull Log log)
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    return new JCGLImplementationJOGL(context, log, true);
+  }
+
+  private final @Nonnull GLContext          context;
+  private final @Nonnull JCGLInterfaceGL2   gl_2;
+  private final @Nonnull JCGLInterfaceGL3   gl_3;
+  private final @Nonnull JCGLInterfaceGLES2 gl_es2;
+  private final @Nonnull JCGLInterfaceGLES3 gl_es3;
+  private final @Nonnull Log                log;
+
+  private JCGLImplementationJOGL(
+    final @Nonnull GLContext context,
+    final @Nonnull Log log,
+    final boolean debug)
     throws ConstraintError,
       JCGLException,
       JCGLUnsupportedException
@@ -66,7 +102,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
 
     if (context.isGLES3()) {
       log.debug("Context is GLES3 - creating GLES3 interface");
-      this.gl_es3 = new JCGLInterfaceGLES3_JOGL_ES3(context, log);
+      this.gl_es3 = new JCGLInterfaceGLES3_JOGL_ES3(context, log, debug);
       this.gl_es2 = null;
       this.gl_2 = null;
       this.gl_3 = null;
@@ -75,7 +111,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
 
     if (context.isGLES2()) {
       log.debug("Context is GLES2 - creating GLES2 interface");
-      this.gl_es2 = new JCGLInterfaceGLES2_JOGL_ES2(context, log);
+      this.gl_es2 = new JCGLInterfaceGLES2_JOGL_ES2(context, log, debug);
       this.gl_es3 = null;
       this.gl_2 = null;
       this.gl_3 = null;
@@ -88,7 +124,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
 
     if (context.isGL3()) {
       log.debug("Context is GL3, creating OpenGL >= 3.1 interface");
-      this.gl_3 = new JCGLInterfaceGL3_JOGL_GL2GL3(context, log);
+      this.gl_3 = new JCGLInterfaceGL3_JOGL_GL2GL3(context, log, debug);
       this.gl_2 = null;
       this.gl_es2 = null;
       this.gl_es3 = null;
@@ -103,7 +139,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
       if (context.getGLVersionNumber().getMajor() == 3) {
         log
           .debug("Context is GL2 but version is 3.0, creating OpenGL >= 3.1 interface");
-        this.gl_3 = new JCGLInterfaceGL3_JOGL_GL2GL3(context, log);
+        this.gl_3 = new JCGLInterfaceGL3_JOGL_GL2GL3(context, log, debug);
         this.gl_2 = null;
         this.gl_es2 = null;
         this.gl_es3 = null;
@@ -142,7 +178,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
       }
 
       log.debug("Context is GL2, creating OpenGL 2.1 interface");
-      this.gl_2 = new JCGLInterfaceGL2_JOGL_GL21(context, log);
+      this.gl_2 = new JCGLInterfaceGL2_JOGL_GL21(context, log, debug);
       this.gl_3 = null;
       this.gl_es2 = null;
       this.gl_es3 = null;

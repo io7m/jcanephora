@@ -318,7 +318,7 @@ public final class LWJGLTestContext
       ConstraintError
   {
     LWJGLTestContext.openContext(LWJGLTestContext.PROFILE_OPENGL_2_1);
-    return new JCGLImplementationLWJGL(log);
+    return JCGLImplementationLWJGL.newImplementation(log);
   }
 
   public static JCGLImplementation makeImplementationWithOpenGL_3_0(
@@ -328,7 +328,7 @@ public final class LWJGLTestContext
       ConstraintError
   {
     LWJGLTestContext.openContext(LWJGLTestContext.PROFILE_OPENGL_3_0);
-    return new JCGLImplementationLWJGL(log);
+    return JCGLImplementationLWJGL.newImplementation(log);
   }
 
   public static JCGLImplementation makeImplementationWithOpenGL_3_X(
@@ -338,7 +338,7 @@ public final class LWJGLTestContext
       ConstraintError
   {
     LWJGLTestContext.openContext(LWJGLTestContext.PROFILE_OPENGL_3_X);
-    return new JCGLImplementationLWJGL(log);
+    return JCGLImplementationLWJGL.newImplementation(log);
   }
 
   public static JCGLImplementation makeImplementationWithOpenGL_ES2(
@@ -348,7 +348,7 @@ public final class LWJGLTestContext
       ConstraintError
   {
     LWJGLTestContext.openContext(LWJGLTestContext.PROFILE_OPENGL_ES_2_0);
-    return new JCGLImplementationLWJGL(log);
+    return JCGLImplementationLWJGL.newImplementation(log);
   }
 
   static Pbuffer makePbuffer(

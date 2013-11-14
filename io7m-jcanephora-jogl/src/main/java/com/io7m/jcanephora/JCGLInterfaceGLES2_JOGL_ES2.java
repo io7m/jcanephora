@@ -21,9 +21,11 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
+import javax.media.opengl.DebugGLES2;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GLContext;
+import javax.media.opengl.GLES2;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -131,19 +133,20 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   private final @Nonnull GLContext                                             context;
-
   private final @Nonnull JCGLExtensionPackedDepthStencil                       ext_packed_depth_stencil;
   final @Nonnull Option<JCGLExtensionPackedDepthStencil>                       ext_packed_depth_stencil_opt;
   private final @Nonnull JCGLExtensionSupport<JCGLExtensionPackedDepthStencil> ext_packed_depth_stencil_support;
   private final @Nonnull Log                                                   log;
   private final @Nonnull JCGLSLVersion                                         sl_version;
-
   private final @Nonnull JCGLStateCache                                        state;
   private final @Nonnull JCGLVersion                                           version;
+  private @Nonnull GLES2                                                       cached_gl;
+  private final boolean                                                        debug;
 
   JCGLInterfaceGLES2_JOGL_ES2(
     final @Nonnull GLContext context,
-    final @Nonnull Log log)
+    final @Nonnull Log log,
+    final boolean debug)
     throws ConstraintError,
       JCGLException
   {
@@ -151,8 +154,9 @@ import com.io7m.jtensors.VectorReadable4I;
       new Log(Constraints.constrainNotNull(log, "log output"), "jogl-es2");
     this.context = Constraints.constrainNotNull(context, "GL context");
     this.state = new JCGLStateCache();
+    this.debug = debug;
 
-    final GL2ES2 g = this.context.getGL().getGL2ES2();
+    final GL2ES2 g = this.contextGetGLES2();
 
     /**
      * Initialize extensions.
@@ -428,9 +432,18 @@ import com.io7m.jtensors.VectorReadable4I;
       this.state);
   }
 
-  @Nonnull GL2ES2 contextGetGLES2()
+  private @Nonnull GL2ES2 contextGetGLES2()
   {
-    return this.context.getGL().getGL2ES2();
+    final GL g = this.context.getGL();
+    if (this.cached_gl == null) {
+      if (this.debug) {
+        this.cached_gl = new DebugGLES2(g.getGLES2());
+      } else {
+        this.cached_gl = g.getGLES2();
+      }
+    }
+
+    return this.cached_gl;
   }
 
   @Override public void cullingDisable()

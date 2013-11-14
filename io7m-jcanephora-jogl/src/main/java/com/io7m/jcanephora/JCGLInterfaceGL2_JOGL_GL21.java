@@ -22,6 +22,7 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
+import javax.media.opengl.DebugGL2;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GL2ES2;
@@ -66,7 +67,9 @@ import com.io7m.jtensors.VectorReadable4I;
 @NotThreadSafe final class JCGLInterfaceGL2_JOGL_GL21 implements
   JCGLInterfaceGL2
 {
+  private @Nonnull GL2                  cached_gl2;
   private final @Nonnull GLContext      context;
+  private final boolean                 debug;
   private final @Nonnull Log            log;
   private final @Nonnull JCGLSLVersion  sl_version;
   private final @Nonnull JCGLStateCache state;
@@ -74,7 +77,8 @@ import com.io7m.jtensors.VectorReadable4I;
 
   JCGLInterfaceGL2_JOGL_GL21(
     final @Nonnull GLContext context,
-    final @Nonnull Log log)
+    final @Nonnull Log log,
+    final boolean debug)
     throws ConstraintError,
       JCGLException
   {
@@ -82,8 +86,9 @@ import com.io7m.jtensors.VectorReadable4I;
       new Log(Constraints.constrainNotNull(log, "log output"), "jogl21");
     this.context = Constraints.constrainNotNull(context, "GL context");
     this.state = new JCGLStateCache();
+    this.debug = debug;
 
-    final GL2 g = this.context.getGL().getGL2();
+    final GL2 g = this.contextGetGL2();
 
     Constraints.constrainArbitrary(
       this.framebufferDrawAnyIsBound() == false,
@@ -416,7 +421,15 @@ import com.io7m.jtensors.VectorReadable4I;
 
   private GL2 contextGetGL2()
   {
-    return this.context.getGL().getGL2();
+    if (this.cached_gl2 == null) {
+      final GL g = this.context.getGL();
+      if (this.debug) {
+        this.cached_gl2 = new DebugGL2(g.getGL2());
+      } else {
+        this.cached_gl2 = g.getGL2();
+      }
+    }
+    return this.cached_gl2;
   }
 
   @Override public void cullingDisable()
