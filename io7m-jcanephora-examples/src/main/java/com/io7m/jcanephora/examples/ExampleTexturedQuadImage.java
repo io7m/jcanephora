@@ -18,6 +18,7 @@ package com.io7m.jcanephora.examples;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.EnumSet;
 
 import javax.annotation.Nonnull;
 
@@ -49,6 +50,7 @@ import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureLoader;
 import com.io7m.jcanephora.TextureType;
+import com.io7m.jcanephora.TextureTypeMeta;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
@@ -69,21 +71,21 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleTexturedQuadImage implements Example
 {
-  private final JCGLInterfaceCommon       gl;
-  private final ArrayBufferTypeDescriptor array_type;
   private final ArrayBuffer               array;
   private final ArrayBufferWritableData   array_data;
-  private final ProgramReference          program;
-  private final MatrixM4x4F               matrix_projection;
-  private final MatrixM4x4F               matrix_modelview;
+  private final ArrayBufferTypeDescriptor array_type;
+  private final ExampleConfig             config;
+  private int                             frame         = 0;
+  private final JCGLInterfaceCommon       gl;
+  private boolean                         has_shut_down;
   private final IndexBuffer               indices;
   private final IndexBufferWritableData   indices_data;
-  private final ExampleConfig             config;
-  private boolean                         has_shut_down;
-  private final Texture2DStatic           textures[];
-  private final TextureUnit[]             texture_units;
-  private int                             frame         = 0;
+  private final MatrixM4x4F               matrix_modelview;
+  private final MatrixM4x4F               matrix_projection;
+  private final ProgramReference          program;
   private int                             texture_index = 0;
+  private final TextureUnit[]             texture_units;
+  private final Texture2DStatic           textures[];
 
   public ExampleTexturedQuadImage(
     final @Nonnull ExampleConfig config)
@@ -126,34 +128,74 @@ public final class ExampleTexturedQuadImage implements Example
      * Load a texture from an image file.
      */
 
-    this.textures =
-      new Texture2DStatic[TextureType.get2DTypesCommon().size()];
+    final EnumSet<TextureType> ttypes =
+      TextureTypeMeta.getTextures2DRequiredByCommonSubset();
+    this.textures = new Texture2DStatic[ttypes.size()];
 
     final TextureLoader loader = config.getTextureLoader();
     final FSCapabilityAll filesystem = config.getFilesystem();
 
     int index = 0;
-    for (final TextureType type : TextureType.get2DTypesCommon()) {
+    for (final TextureType type : ttypes) {
+      System.out.println("Loading texture as " + type);
+
       final InputStream stream =
         filesystem.openFile(PathVirtual
           .ofString("/com/io7m/jcanephora/examples/reference_8888_4.png"));
 
       switch (type) {
+        case TEXTURE_TYPE_RGBA_1010102_4BPP:
+        case TEXTURE_TYPE_RGBA_16F_8BPP:
+        case TEXTURE_TYPE_RGBA_16I_8BPP:
+        case TEXTURE_TYPE_RGBA_16U_8BPP:
+        case TEXTURE_TYPE_RGBA_16_8BPP:
+        case TEXTURE_TYPE_RGBA_32I_16BPP:
+        case TEXTURE_TYPE_RGBA_32U_16BPP:
+        case TEXTURE_TYPE_RGBA_8I_4BPP:
+        case TEXTURE_TYPE_RGBA_8U_4BPP:
+        case TEXTURE_TYPE_RGB_16F_6BPP:
+        case TEXTURE_TYPE_RGB_16I_6BPP:
+        case TEXTURE_TYPE_RGB_16U_6BPP:
+        case TEXTURE_TYPE_RGB_16_6BPP:
+        case TEXTURE_TYPE_RGB_32F_12BPP:
+        case TEXTURE_TYPE_RGB_32I_12BPP:
+        case TEXTURE_TYPE_RGB_32U_12BPP:
+        case TEXTURE_TYPE_RGB_8I_3BPP:
+        case TEXTURE_TYPE_RGB_8U_3BPP:
+        case TEXTURE_TYPE_RG_16F_4BPP:
+        case TEXTURE_TYPE_RG_16I_4BPP:
+        case TEXTURE_TYPE_RG_16U_4BPP:
+        case TEXTURE_TYPE_RG_16_4BPP:
+        case TEXTURE_TYPE_RG_32F_8BPP:
+        case TEXTURE_TYPE_RG_32I_8BPP:
+        case TEXTURE_TYPE_RG_32U_8BPP:
+        case TEXTURE_TYPE_RG_8I_2BPP:
+        case TEXTURE_TYPE_RG_8U_2BPP:
+        case TEXTURE_TYPE_R_16F_2BPP:
+        case TEXTURE_TYPE_R_16I_2BPP:
+        case TEXTURE_TYPE_R_16U_2BPP:
+        case TEXTURE_TYPE_R_16_2BPP:
+        case TEXTURE_TYPE_R_32F_4BPP:
+        case TEXTURE_TYPE_R_32I_4BPP:
+        case TEXTURE_TYPE_R_32U_4BPP:
+        case TEXTURE_TYPE_R_8I_1BPP:
+        case TEXTURE_TYPE_R_8U_1BPP:
         case TEXTURE_TYPE_DEPTH_16_2BPP:
         case TEXTURE_TYPE_DEPTH_24_4BPP:
         case TEXTURE_TYPE_DEPTH_32F_4BPP:
         case TEXTURE_TYPE_RGBA_4444_2BPP:
         case TEXTURE_TYPE_RGBA_5551_2BPP:
         case TEXTURE_TYPE_RGB_565_2BPP:
-        case TEXTURE_TYPE_RG_88_2BPP:
+        case TEXTURE_TYPE_RG_8_2BPP:
         case TEXTURE_TYPE_R_8_1BPP:
+        case TEXTURE_TYPE_RGBA_32F_16BPP:
         {
           break;
         }
-        case TEXTURE_TYPE_RGBA_8888_4BPP:
+        case TEXTURE_TYPE_RGBA_8_4BPP:
         {
           this.textures[index] =
-            loader.load2DStaticRGBA8888(
+            loader.load2DStaticRGBA8(
               this.gl,
               TextureWrapS.TEXTURE_WRAP_REPEAT,
               TextureWrapT.TEXTURE_WRAP_REPEAT,
@@ -163,10 +205,10 @@ public final class ExampleTexturedQuadImage implements Example
               type.toString());
           break;
         }
-        case TEXTURE_TYPE_RGB_888_3BPP:
+        case TEXTURE_TYPE_RGB_8_3BPP:
         {
           this.textures[index] =
-            loader.load2DStaticRGB888(
+            loader.load2DStaticRGB8(
               this.gl,
               TextureWrapS.TEXTURE_WRAP_REPEAT,
               TextureWrapT.TEXTURE_WRAP_REPEAT,

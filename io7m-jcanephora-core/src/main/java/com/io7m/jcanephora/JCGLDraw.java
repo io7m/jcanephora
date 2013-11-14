@@ -50,7 +50,7 @@ public interface JCGLDraw
 
   void drawElements(
     final @Nonnull Primitives mode,
-    final @Nonnull IndexBuffer indices)
+    final @Nonnull IndexBufferUsable indices)
     throws ConstraintError,
       JCGLException;
 }

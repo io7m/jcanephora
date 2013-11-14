@@ -16,37 +16,32 @@
 
 package com.io7m.jcanephora;
 
-import java.nio.ByteBuffer;
-
 import javax.annotation.Nonnull;
 
-import com.io7m.jaux.Constraints.ConstraintError;
-
 /**
- * Texture cursor addressing textures with single 8 bit integer elements.
+ * An enumerated type with the values representing the various subsets of the
+ * OpenGL API.
  */
 
-final class ByteBufferTextureCursorReadable1i_1_8 extends AreaCursor implements
-  SpatialCursorReadable1i
+public enum JCGLApi
 {
-  private final @Nonnull ByteBuffer target_data;
+  /** The "ES" profile, as implemented by most embedded systems. */
+  JCGL_ES("OpenGL ES"),
 
-  protected ByteBufferTextureCursorReadable1i_1_8(
-    final @Nonnull ByteBuffer target_data,
-    final @Nonnull AreaInclusive target_area,
-    final @Nonnull AreaInclusive update_area)
-    throws ConstraintError
+  /** The "full" OpenGL API, as implemented by most consumer GPUs. */
+  JCGL_FULL("OpenGL");
+
+  private final @Nonnull String name;
+
+  private JCGLApi(
+    final @Nonnull String name)
   {
-    super(target_area, update_area, 1);
-    this.target_data = target_data;
+    assert name != null;
+    this.name = name;
   }
 
-  @Override public int get1i()
-    throws ConstraintError
+  public @Nonnull String getName()
   {
-    final int byte_current = (int) this.getByteOffset();
-    final int x = this.target_data.get(byte_current) & 0xff;
-    this.next();
-    return x;
+    return this.name;
   }
 }

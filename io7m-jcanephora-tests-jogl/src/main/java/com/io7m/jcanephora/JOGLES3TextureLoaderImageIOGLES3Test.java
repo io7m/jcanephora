@@ -19,6 +19,7 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.gles3.TextureLoaderContractGLES3;
@@ -40,9 +41,14 @@ public final class JOGLES3TextureLoaderImageIOGLES3Test extends
   }
 
   @Override public @Nonnull TextureLoaderImageIO makeTextureLoader(
+    final @Nonnull TestContext tc,
     final @Nonnull JCGLTextures2DStaticGLES3 gl)
   {
-    return new TextureLoaderImageIO();
+    try {
+      return TextureLoaderImageIO.newTextureLoader(tc.getLog());
+    } catch (final ConstraintError x) {
+      throw new UnreachableCodeException(x);
+    }
   }
 
   @Override public @Nonnull TestContext newTestContext()

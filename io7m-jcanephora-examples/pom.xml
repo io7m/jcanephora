@@ -8,7 +8,7 @@
   <artifactId>io7m-jcanephora-examples</artifactId>
   <name>io7m-jcanephora-examples</name>
   <description>Common example code</description>
-  <version>0.9.23</version>
+  <version>0.12.0</version>
   <url>http://mvn.io7m.com/jcanephora-examples</url>
   <packaging>jar</packaging>
 
@@ -188,7 +188,7 @@
 
           <!-- Produce jar file with custom manifest -->
           <execution>
-            <id>make-jar</id>
+            <id>default-jar</id>
             <configuration>
               <archive>
                 <manifestEntries>

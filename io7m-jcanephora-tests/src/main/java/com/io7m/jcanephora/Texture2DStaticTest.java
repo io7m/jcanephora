@@ -28,7 +28,7 @@ public class Texture2DStaticTest
     final Texture2DStatic t0 =
       new Texture2DStatic(
         "xyz",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         1,
         128,
         256,
@@ -39,7 +39,7 @@ public class Texture2DStaticTest
     final Texture2DStatic t1 =
       new Texture2DStatic(
         "xyz",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         2,
         128,
         256,
@@ -50,7 +50,7 @@ public class Texture2DStaticTest
     final Texture2DStatic t2 =
       new Texture2DStatic(
         "xyz",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         1,
         128,
         256,
@@ -73,7 +73,7 @@ public class Texture2DStaticTest
     final Texture2DStatic t0 =
       new Texture2DStatic(
         "xyz",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         1,
         128,
         256,
@@ -84,7 +84,7 @@ public class Texture2DStaticTest
     final Texture2DStatic t1 =
       new Texture2DStatic(
         "xyz",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         2,
         128,
         256,
@@ -95,7 +95,7 @@ public class Texture2DStaticTest
     final Texture2DStatic t2 =
       new Texture2DStatic(
         "xyz",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         1,
         128,
         256,
@@ -106,7 +106,7 @@ public class Texture2DStaticTest
     final Texture2DStatic t3 =
       new Texture2DStatic(
         "abc",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         2,
         128,
         256,
@@ -117,7 +117,7 @@ public class Texture2DStaticTest
     final Texture2DStatic t4 =
       new Texture2DStatic(
         "abc",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         1,
         128,
         256,
@@ -183,7 +183,7 @@ public class Texture2DStaticTest
     final Texture2DStatic t0 =
       new Texture2DStatic(
         "xyz",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         1,
         128,
         256,
@@ -194,7 +194,7 @@ public class Texture2DStaticTest
     final Texture2DStatic t1 =
       new Texture2DStatic(
         "xyz",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         2,
         128,
         256,
@@ -205,7 +205,7 @@ public class Texture2DStaticTest
     final Texture2DStatic t2 =
       new Texture2DStatic(
         "xyz",
-        TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+        TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
         1,
         128,
         256,

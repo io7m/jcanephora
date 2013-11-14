@@ -53,21 +53,21 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 {
   private static enum RequestColor
   {
-    WANT_NOTHING,
     WANT_COLOR_RGB_RENDERBUFFER,
-    WANT_COLOR_RGBA_RENDERBUFFER,
     WANT_COLOR_RGB_TEXTURE_2D,
-    WANT_COLOR_RGBA_TEXTURE_2D,
-    WANT_COLOR_SHARED_WITH,
     WANT_COLOR_RGB_TEXTURE_CUBE,
-    WANT_COLOR_RGBA_TEXTURE_CUBE
+    WANT_COLOR_RGBA_RENDERBUFFER,
+    WANT_COLOR_RGBA_TEXTURE_2D,
+    WANT_COLOR_RGBA_TEXTURE_CUBE,
+    WANT_COLOR_SHARED_WITH,
+    WANT_NOTHING
   }
 
   private static enum RequestDepth
   {
-    WANT_NOTHING,
     WANT_DEPTH_RENDERBUFFER,
-    WANT_DEPTH_SHARED_WITH
+    WANT_DEPTH_SHARED_WITH,
+    WANT_NOTHING
   }
 
   private static enum RequestStencil
@@ -79,15 +79,15 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
   private static class WorkingBuffers
   {
-    @CheckForNull FramebufferReference         framebuffer        = null;
     @CheckForNull AttachmentColor              attachment_color   = null;
     @CheckForNull AttachmentDepth              attachment_depth   = null;
     @CheckForNull AttachmentStencil            attachment_stencil = null;
-    final @Nonnull StringBuilder               text;
-    private final JCGLRenderbuffersCommon      rb;
     private final JCGLFramebuffersCommon       fb;
+    @CheckForNull FramebufferReference         framebuffer        = null;
+    private final JCGLRenderbuffersCommon      rb;
     private final JCGLTextures2DStaticCommon   t2ds;
     private final JCGLTexturesCubeStaticCommon tcs;
+    final @Nonnull StringBuilder               text;
 
     WorkingBuffers(
       final JCGLRenderbuffersCommon rb,
@@ -461,17 +461,17 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     buffers.text.append("-textureCube-0");
   }
 
-  private @Nonnull RequestDepth               want_depth;
-  private @CheckForNull AttachmentDepth       want_depth_shared;
-  private @Nonnull RequestStencil             want_stencil;
-  private @CheckForNull AttachmentStencil     want_stencil_shared;
-  private @Nonnull RequestColor               want_color;
-  private @CheckForNull AttachmentColor       want_color_shared;
-
-  private int                                 width;
   private int                                 height;
   private @Nonnull TextureFilterMagnification mag_filter;
   private @Nonnull TextureFilterMinification  min_filter;
+  private @Nonnull RequestColor               want_color;
+  private @CheckForNull AttachmentColor       want_color_shared;
+  private @Nonnull RequestDepth               want_depth;
+
+  private @CheckForNull AttachmentDepth       want_depth_shared;
+  private @Nonnull RequestStencil             want_stencil;
+  private @CheckForNull AttachmentStencil     want_stencil_shared;
+  private int                                 width;
   private @Nonnull TextureWrapR               wrap_r;
   private @Nonnull TextureWrapS               wrap_s;
   private @Nonnull TextureWrapT               wrap_t;
@@ -535,7 +535,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     throws ConstraintError,
       JCGLException
   {
-    return gl.texture2DStaticAllocateRGBA8888(
+    return gl.texture2DStaticAllocateRGBA8(
       name.toString(),
       this.width,
       this.height,
@@ -551,7 +551,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     throws JCGLException,
       ConstraintError
   {
-    return gl.textureCubeStaticAllocateRGBA8888(
+    return gl.textureCubeStaticAllocateRGBA8(
       name.toString(),
       this.width,
       this.wrap_r,
@@ -583,7 +583,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     throws ConstraintError,
       JCGLException
   {
-    return gl.texture2DStaticAllocateRGB888(
+    return gl.texture2DStaticAllocateRGB8(
       name.toString(),
       this.width,
       this.height,
@@ -599,7 +599,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     throws JCGLException,
       ConstraintError
   {
-    return gl.textureCubeStaticAllocateRGB888(
+    return gl.textureCubeStaticAllocateRGB8(
       name.toString(),
       this.width,
       this.wrap_r,

@@ -206,9 +206,9 @@ public abstract class AttachmentStencil
 
   public static enum Type
   {
-    ATTACHMENT_STENCIL_RENDERBUFFER,
     ATTACHMENT_SHARED_STENCIL_RENDERBUFFER,
-    ATTACHMENT_STENCIL_AS_DEPTH_STENCIL
+    ATTACHMENT_STENCIL_AS_DEPTH_STENCIL,
+    ATTACHMENT_STENCIL_RENDERBUFFER
   }
 
   public final @Nonnull Type type;

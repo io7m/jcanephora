@@ -37,6 +37,7 @@ import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureLoader;
 import com.io7m.jcanephora.TextureType;
+import com.io7m.jcanephora.TextureTypeMeta;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.contracts.TextureLoaderContract;
@@ -62,15 +63,84 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
       JCGLException,
       IOException
   {
-    for (final TextureType tt : TextureType.get2DTypesGL3ES3()) {
+    for (final TextureType tt : TextureTypeMeta
+      .getTextures2DRequiredByGL3ES3()) {
       Texture2DStatic t = null;
       final InputStream stream = fs.openFile(PathVirtual.ofString(path));
 
       switch (tt) {
-        case TEXTURE_TYPE_RGBA_8888_4BPP:
+
+        case TEXTURE_TYPE_R_8_1BPP:
         {
           t =
-            tl.load2DStaticRGBA8888(
+            tl.load2DStaticR8(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(TextureType.TEXTURE_TYPE_R_8_1BPP, t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_R_8U_1BPP:
+        {
+          t =
+            tl.load2DStaticR8U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert
+            .assertEquals(TextureType.TEXTURE_TYPE_R_8U_1BPP, t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_R_8I_1BPP:
+        {
+          t =
+            tl.load2DStaticR8I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert
+            .assertEquals(TextureType.TEXTURE_TYPE_R_8I_1BPP, t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_R_16_2BPP:
+        {
+          t =
+            tl.load2DStaticR16(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert
+            .assertEquals(TextureType.TEXTURE_TYPE_R_16_2BPP, t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_R_16U_2BPP:
+        {
+          t =
+            tl.load2DStaticR16U(
               gl,
               TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
               TextureWrapT.TEXTURE_WRAP_REPEAT,
@@ -80,14 +150,15 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
               "image");
 
           Assert.assertEquals(
-            TextureType.TEXTURE_TYPE_RGBA_8888_4BPP,
+            TextureType.TEXTURE_TYPE_R_16U_2BPP,
             t.getType());
           break;
         }
-        case TEXTURE_TYPE_RGB_888_3BPP:
+
+        case TEXTURE_TYPE_R_16I_2BPP:
         {
           t =
-            tl.load2DStaticRGB888(
+            tl.load2DStaticR16I(
               gl,
               TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
               TextureWrapT.TEXTURE_WRAP_REPEAT,
@@ -97,10 +168,622 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
               "image");
 
           Assert.assertEquals(
-            TextureType.TEXTURE_TYPE_RGB_888_3BPP,
+            TextureType.TEXTURE_TYPE_R_16I_2BPP,
             t.getType());
           break;
         }
+
+        case TEXTURE_TYPE_R_16F_2BPP:
+        {
+          t =
+            tl.load2DStaticR16f(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_R_16F_2BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_R_32U_4BPP:
+        {
+          t =
+            tl.load2DStaticR32U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_R_32U_4BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_R_32I_4BPP:
+        {
+          t =
+            tl.load2DStaticR32I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_R_32I_4BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_R_32F_4BPP:
+        {
+          t =
+            tl.load2DStaticR32f(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_R_32F_4BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RG_8_2BPP:
+        {
+          t =
+            tl.load2DStaticRG8(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert
+            .assertEquals(TextureType.TEXTURE_TYPE_RG_8_2BPP, t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RG_8U_2BPP:
+        {
+          t =
+            tl.load2DStaticRG8U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RG_8U_2BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RG_8I_2BPP:
+        {
+          t =
+            tl.load2DStaticRG8I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RG_8I_2BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RG_16_4BPP:
+        {
+          t =
+            tl.load2DStaticRG16(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RG_16_4BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RG_16U_4BPP:
+        {
+          t =
+            tl.load2DStaticRG16U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RG_16U_4BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RG_16I_4BPP:
+        {
+          t =
+            tl.load2DStaticRG16I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RG_16I_4BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RG_16F_4BPP:
+        {
+          t =
+            tl.load2DStaticRG16f(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RG_16F_4BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RG_32U_8BPP:
+        {
+          t =
+            tl.load2DStaticRG32U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RG_32U_8BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RG_32I_8BPP:
+        {
+          t =
+            tl.load2DStaticRG32I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RG_32I_8BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RG_32F_8BPP:
+        {
+          t =
+            tl.load2DStaticRG32f(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RG_32F_8BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGB_8_3BPP:
+        {
+          t =
+            tl.load2DStaticRGB8(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGB_8_3BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGB_8U_3BPP:
+        {
+          t =
+            tl.load2DStaticRGB8U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGB_8U_3BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGB_8I_3BPP:
+        {
+          t =
+            tl.load2DStaticRGB8I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGB_8I_3BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGB_16_6BPP:
+        {
+          t =
+            tl.load2DStaticRGB16(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGB_16_6BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGB_16U_6BPP:
+        {
+          t =
+            tl.load2DStaticRGB16U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGB_16U_6BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGB_16I_6BPP:
+        {
+          t =
+            tl.load2DStaticRGB16I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGB_16I_6BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGB_16F_6BPP:
+        {
+          t =
+            tl.load2DStaticRGB16f(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGB_16F_6BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGB_32U_12BPP:
+        {
+          t =
+            tl.load2DStaticRGB32U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGB_32U_12BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGB_32I_12BPP:
+        {
+          t =
+            tl.load2DStaticRGB32I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGB_32I_12BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGB_32F_12BPP:
+        {
+          t =
+            tl.load2DStaticRGB32f(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGB_32F_12BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGBA_8_4BPP:
+        {
+          t =
+            tl.load2DStaticRGBA8(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGBA_8U_4BPP:
+        {
+          t =
+            tl.load2DStaticRGBA8U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGBA_8U_4BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGBA_8I_4BPP:
+        {
+          t =
+            tl.load2DStaticRGBA8I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGBA_8I_4BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGBA_16_8BPP:
+        {
+          t =
+            tl.load2DStaticRGBA16(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGBA_16_8BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGBA_16U_8BPP:
+        {
+          t =
+            tl.load2DStaticRGBA16U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGBA_16U_8BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGBA_16I_8BPP:
+        {
+          t =
+            tl.load2DStaticRGBA16I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGBA_16I_8BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGBA_16F_8BPP:
+        {
+          t =
+            tl.load2DStaticRGBA16f(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGBA_16F_8BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGBA_32U_16BPP:
+        {
+          t =
+            tl.load2DStaticRGBA32U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGBA_32U_16BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGBA_32I_16BPP:
+        {
+          t =
+            tl.load2DStaticRGBA32I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGBA_32I_16BPP,
+            t.getType());
+          break;
+        }
+
+        case TEXTURE_TYPE_RGBA_32F_16BPP:
+        {
+          t =
+            tl.load2DStaticRGBA32f(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+
+          Assert.assertEquals(
+            TextureType.TEXTURE_TYPE_RGBA_32F_16BPP,
+            t.getType());
+          break;
+        }
+
         case TEXTURE_TYPE_DEPTH_16_2BPP:
         {
           t =
@@ -152,10 +835,11 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
             t.getType());
           break;
         }
-        case TEXTURE_TYPE_RG_88_2BPP:
+
+        case TEXTURE_TYPE_RGBA_1010102_4BPP:
         {
           t =
-            tl.load2DStaticRG88(
+            tl.load2DStaticRGBA1010102(
               gl,
               TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
               TextureWrapT.TEXTURE_WRAP_REPEAT,
@@ -165,31 +849,18 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
               "image");
 
           Assert.assertEquals(
-            TextureType.TEXTURE_TYPE_RG_88_2BPP,
+            TextureType.TEXTURE_TYPE_RGBA_1010102_4BPP,
             t.getType());
           break;
         }
-        case TEXTURE_TYPE_R_8_1BPP:
-        {
-          t =
-            tl.load2DStaticR8(
-              gl,
-              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
-              stream,
-              "image");
 
-          Assert.assertEquals(TextureType.TEXTURE_TYPE_R_8_1BPP, t.getType());
-          break;
-        }
         case TEXTURE_TYPE_RGBA_4444_2BPP:
         case TEXTURE_TYPE_RGBA_5551_2BPP:
         case TEXTURE_TYPE_RGB_565_2BPP:
         {
           stream.close();
-          throw new UnreachableCodeException();
+          throw new UnreachableCodeException(
+            new AssertionError(tt.toString()));
         }
       }
 
@@ -226,7 +897,7 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGL3ES3 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
     final String path = "/com/io7m/jcanephora/images/reference_8_grey.png";
     this.loadSpecific(fs, gl, tl, path);
   }
@@ -241,7 +912,7 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGL3ES3 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
     final String path = "/com/io7m/jcanephora/images/reference_8_index.png";
     this.loadSpecific(fs, gl, tl, path);
   }
@@ -256,7 +927,7 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGL3ES3 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -302,7 +973,7 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGL3ES3 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -318,7 +989,7 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
         stream,
         "image");
 
-    Assert.assertEquals(TextureType.TEXTURE_TYPE_RGB_888_3BPP, t.getType());
+    Assert.assertEquals(TextureType.TEXTURE_TYPE_RGB_8_3BPP, t.getType());
     Assert.assertFalse(t.resourceIsDeleted());
     Assert.assertEquals(256, t.getWidth());
     Assert.assertEquals(256, t.getHeight());
@@ -348,7 +1019,7 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGL3ES3 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -396,7 +1067,7 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGL3ES3 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -424,7 +1095,7 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGL3ES3 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -440,7 +1111,7 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
         stream,
         "image");
 
-    Assert.assertEquals(TextureType.TEXTURE_TYPE_RGB_888_3BPP, t.getType());
+    Assert.assertEquals(TextureType.TEXTURE_TYPE_RGB_8_3BPP, t.getType());
     Assert.assertFalse(t.resourceIsDeleted());
     Assert.assertEquals(256, t.getWidth());
     Assert.assertEquals(256, t.getHeight());
@@ -470,7 +1141,7 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGL3ES3 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -486,7 +1157,7 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
         stream,
         "image");
 
-    Assert.assertEquals(TextureType.TEXTURE_TYPE_RGBA_8888_4BPP, t.getType());
+    Assert.assertEquals(TextureType.TEXTURE_TYPE_RGBA_8_4BPP, t.getType());
     Assert.assertFalse(t.resourceIsDeleted());
     Assert.assertEquals(256, t.getWidth());
     Assert.assertEquals(256, t.getHeight());
@@ -516,18 +1187,19 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGL3ES3 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
     final String path = "/com/io7m/jcanephora/images/not-an-image.txt";
     int io_exception_count = 0;
 
-    for (final TextureType tt : TextureType.get2DTypesCommon()) {
+    for (final TextureType tt : TextureTypeMeta
+      .getTextures2DRequiredByGL3ES3()) {
       final InputStream stream = fs.openFile(PathVirtual.ofString(path));
 
       switch (tt) {
-        case TEXTURE_TYPE_RGBA_8888_4BPP:
+        case TEXTURE_TYPE_RGBA_1010102_4BPP:
         {
           try {
-            tl.load2DStaticRGBA8888(
+            tl.load2DStaticRGBA1010102(
               gl,
               TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
               TextureWrapT.TEXTURE_WRAP_REPEAT,
@@ -542,10 +1214,676 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
           }
           break;
         }
-        case TEXTURE_TYPE_RGB_888_3BPP:
+        case TEXTURE_TYPE_RGBA_16F_8BPP:
         {
           try {
-            tl.load2DStaticRGB888(
+            tl.load2DStaticRGBA16f(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RGBA_16I_8BPP:
+        {
+          try {
+            tl.load2DStaticRGBA16I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RGBA_16U_8BPP:
+        {
+          try {
+            tl.load2DStaticRGBA16U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RGBA_16_8BPP:
+        {
+          try {
+            tl.load2DStaticRGBA16(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RGBA_32I_16BPP:
+        {
+          try {
+            tl.load2DStaticRGBA32I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RGBA_32U_16BPP:
+        {
+          try {
+            tl.load2DStaticRGBA32U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RGBA_8I_4BPP:
+        {
+          try {
+            tl.load2DStaticRGBA8I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RGBA_8U_4BPP:
+        {
+          try {
+            tl.load2DStaticRGBA8U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RGB_16F_6BPP:
+        {
+          try {
+            tl.load2DStaticRGB16f(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RGB_16I_6BPP:
+        {
+          try {
+            tl.load2DStaticRGB16I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RGB_16U_6BPP:
+        {
+          try {
+            tl.load2DStaticRGB16U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RGB_16_6BPP:
+        {
+          try {
+            tl.load2DStaticRGB16(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RGB_32F_12BPP:
+        {
+          try {
+            tl.load2DStaticRGB32f(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RGB_32I_12BPP:
+        {
+          try {
+            tl.load2DStaticRGB32I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RGB_32U_12BPP:
+        {
+          try {
+            tl.load2DStaticRGB32U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RGB_8I_3BPP:
+        {
+          try {
+            tl.load2DStaticRGB8I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RGB_8U_3BPP:
+        {
+          try {
+            tl.load2DStaticRGB8U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RG_16F_4BPP:
+        {
+          try {
+            tl.load2DStaticRG16f(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RG_16I_4BPP:
+        {
+          try {
+            tl.load2DStaticRG16I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RG_16U_4BPP:
+        {
+          try {
+            tl.load2DStaticRG16U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RG_16_4BPP:
+        {
+          try {
+            tl.load2DStaticRG16(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RG_32F_8BPP:
+        {
+          try {
+            tl.load2DStaticRG32f(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RG_32I_8BPP:
+        {
+          try {
+            tl.load2DStaticRG32I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RG_32U_8BPP:
+        {
+          try {
+            tl.load2DStaticRG32U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RG_8I_2BPP:
+        {
+          try {
+            tl.load2DStaticRG8I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RG_8U_2BPP:
+        {
+          try {
+            tl.load2DStaticRG8U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_R_16F_2BPP:
+        {
+          try {
+            tl.load2DStaticR16f(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_R_16I_2BPP:
+        {
+          try {
+            tl.load2DStaticR16I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_R_16U_2BPP:
+        {
+          try {
+            tl.load2DStaticR16U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_R_16_2BPP:
+        {
+          try {
+            tl.load2DStaticR16(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_R_32F_4BPP:
+        {
+          try {
+            tl.load2DStaticR32f(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_R_32I_4BPP:
+        {
+          try {
+            tl.load2DStaticR32I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_R_32U_4BPP:
+        {
+          try {
+            tl.load2DStaticR32U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_R_8I_1BPP:
+        {
+          try {
+            tl.load2DStaticR8I(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_R_8U_1BPP:
+        {
+          try {
+            tl.load2DStaticR8U(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RGBA_32F_16BPP:
+        {
+          try {
+            tl.load2DStaticRGBA32f(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RGBA_8_4BPP:
+        {
+          try {
+            tl.load2DStaticRGBA8(
+              gl,
+              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_LINEAR,
+              stream,
+              "image");
+          } catch (final IOException e) {
+            ++io_exception_count;
+          } catch (final Exception e) {
+            Assert.fail(e.getMessage());
+          }
+          break;
+        }
+        case TEXTURE_TYPE_RGB_8_3BPP:
+        {
+          try {
+            tl.load2DStaticRGB8(
               gl,
               TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
               TextureWrapT.TEXTURE_WRAP_REPEAT,
@@ -621,10 +1959,10 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
           stream.close();
           throw new UnreachableCodeException();
         }
-        case TEXTURE_TYPE_RG_88_2BPP:
+        case TEXTURE_TYPE_RG_8_2BPP:
         {
           try {
-            tl.load2DStaticRG88(
+            tl.load2DStaticRG8(
               gl,
               TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
               TextureWrapT.TEXTURE_WRAP_REPEAT,
@@ -662,9 +2000,9 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
       stream.close();
     }
 
-    Assert.assertEquals(
-      TextureType.get2DTypesCommon().size(),
-      io_exception_count);
+    Assert.assertEquals(TextureTypeMeta
+      .getTextures2DRequiredByGL3ES3()
+      .size(), io_exception_count);
   }
 
   @Test public final void testTextureTypesMonoToSpecific()
@@ -677,7 +2015,7 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGL3ES3 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
     final String path = "/com/io7m/jcanephora/images/reference_mono.png";
     this.loadSpecific(fs, gl, tl, path);
   }
@@ -692,7 +2030,7 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGL3ES3 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
     final String path = "/com/io7m/jcanephora/images/reference_8888_4.png";
     this.loadSpecific(fs, gl, tl, path);
   }
@@ -707,7 +2045,7 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
     final TestContext tc = this.newTestContext();
     final FSCapabilityRead fs = tc.getFilesystem();
     final JCGLTextures2DStaticGL3ES3 gl = this.getGLTextures(tc);
-    final T tl = this.makeTextureLoader(gl);
+    final T tl = this.makeTextureLoader(tc, gl);
     final String path = "/com/io7m/jcanephora/images/reference_888_3.png";
     this.loadSpecific(fs, gl, tl, path);
   }

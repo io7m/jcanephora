@@ -181,8 +181,8 @@ public interface TextureLoader
    * The function will only attempt to infer texture types supported by the
    * common subset of OpenGL ES2 and OpenGL 3.*. In practice, this means that
    * most resulting textures will be of types
-   * {@link TextureType#TEXTURE_TYPE_RGB_888_3BPP} or
-   * {@link TextureType#TEXTURE_TYPE_RGBA_8888_4BPP}.
+   * {@link TextureType#TEXTURE_TYPE_RGB_8_3BPP} or
+   * {@link TextureType#TEXTURE_TYPE_RGBA_8_4BPP}.
    * </p>
    * 
    * @param gl
@@ -317,6 +317,335 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_R_16_2BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticR16(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_R_16F_2BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticR16f(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_R_16I_2BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticR16I(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_R_16U_2BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticR16U(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_R_32F_4BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticR32f(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_R_32I_4BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticR32I(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_R_32U_4BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticR32U(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
    * {@link TextureType#TEXTURE_TYPE_R_8_1BPP}.
    * </p>
    * 
@@ -364,7 +693,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RG_88_2BPP}.
+   * {@link TextureType#TEXTURE_TYPE_R_8I_1BPP}.
    * </p>
    * 
    * @param gl
@@ -391,7 +720,853 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRG88(
+  public @Nonnull Texture2DStatic load2DStaticR8I(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_R_8U_1BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticR8U(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RG_16_4BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRG16(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RG_16F_4BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRG16f(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RG_16I_4BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRG16I(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RG_16U_4BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRG16U(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RG_32F_8BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRG32f(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RG_32I_8BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRG32I(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RG_32U_8BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRG32U(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RG_8_2BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRG8(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RG_8I_2BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRG8I(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RG_8U_2BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRG8U(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGB_16_6BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRGB16(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGB_16F_6BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRGB16f(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGB_16I_6BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRGB16I(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGB_16U_6BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRGB16U(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGB_32F_12BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRGB32f(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGB_32I_12BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRGB32I(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGB_32U_12BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRGB32U(
     final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
@@ -458,7 +1633,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGB_888_3BPP}.
+   * {@link TextureType#TEXTURE_TYPE_RGB_8_3BPP}.
    * </p>
    * 
    * @param gl
@@ -485,8 +1660,478 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGB888(
+  public @Nonnull Texture2DStatic load2DStaticRGB8(
     final @Nonnull JCGLTextures2DStaticCommon gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGB_8I_3BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRGB8I(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGB_8U_3BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRGB8U(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGBA_1010102_4BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRGBA1010102(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGBA_16_8BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRGBA16(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGBA_16F_8BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRGBA16f(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGBA_16I_8BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRGBA16I(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGBA_16U_8BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRGBA16U(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGBA_32F_16BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRGBA32f(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGBA_32I_16BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRGBA32I(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGBA_32U_16BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRGBA32U(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -599,7 +2244,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGBA_8888_4BPP}.
+   * {@link TextureType#TEXTURE_TYPE_RGBA_8_4BPP}.
    * </p>
    * 
    * @param gl
@@ -626,8 +2271,102 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGBA8888(
+  public @Nonnull Texture2DStatic load2DStaticRGBA8(
     final @Nonnull JCGLTextures2DStaticCommon gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGBA_8I_4BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRGBA8I(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLException,
+      IOException;
+
+  /**
+   * <p>
+   * Load an OpenGL texture from the stream <code>stream</code>. The texture
+   * will be constructed using the given parameters, and named
+   * <code>name</code>.
+   * </p>
+   * <p>
+   * The resulting texture will be of type
+   * {@link TextureType#TEXTURE_TYPE_RGBA_8U_4BPP}.
+   * </p>
+   * 
+   * @param gl
+   *          The OpenGL interface to use.
+   * @param wrap_s
+   *          The texture wrapping mode on the S axis.
+   * @param wrap_t
+   *          The texture wrapping mode on the T axis.
+   * @param min_filter
+   *          The minification filter to use.
+   * @param mag_filter
+   *          The magnification filter to use.
+   * @param stream
+   *          The input stream from which to read image data.
+   * @param name
+   *          The name of the resulting texture.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the parameters are <code>null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws IOException
+   *           Iff an I/O error occurs whilst reading the image, or the image
+   *           is of an unreadable format.
+   */
+
+  public @Nonnull Texture2DStatic load2DStaticRGBA8U(
+    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -647,7 +2386,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGB_888_3BPP}.
+   * {@link TextureType#TEXTURE_TYPE_RGB_8_3BPP}.
    * </p>
    * <p>
    * The given texture images will be mapped to the faces corresponding to
@@ -676,7 +2415,7 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull TextureCubeStatic loadCubeLHStaticRGB888(
+  public @Nonnull TextureCubeStatic loadCubeLHStaticRGB8(
     final @Nonnull JCGLTexturesCubeStaticCommon gl,
     final @Nonnull TextureWrapR wrap_r,
     final @Nonnull TextureWrapS wrap_s,
@@ -703,7 +2442,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGBA_8888_4BPP}.
+   * {@link TextureType#TEXTURE_TYPE_RGBA_8_4BPP}.
    * </p>
    * <p>
    * The given texture images will be mapped to the faces corresponding to
@@ -732,7 +2471,7 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull TextureCubeStatic loadCubeLHStaticRGBA8888(
+  public @Nonnull TextureCubeStatic loadCubeLHStaticRGBA8(
     final @Nonnull JCGLTexturesCubeStaticCommon gl,
     final @Nonnull TextureWrapR wrap_r,
     final @Nonnull TextureWrapS wrap_s,
@@ -759,7 +2498,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGB_888_3BPP}.
+   * {@link TextureType#TEXTURE_TYPE_RGB_8_3BPP}.
    * </p>
    * <p>
    * The given texture images will be mapped to the faces corresponding to
@@ -788,7 +2527,7 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull TextureCubeStatic loadCubeRHStaticRGB888(
+  public @Nonnull TextureCubeStatic loadCubeRHStaticRGB8(
     final @Nonnull JCGLTexturesCubeStaticCommon gl,
     final @Nonnull TextureWrapR wrap_r,
     final @Nonnull TextureWrapS wrap_s,
@@ -815,7 +2554,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGBA_8888_4BPP}.
+   * {@link TextureType#TEXTURE_TYPE_RGBA_8_4BPP}.
    * </p>
    * <p>
    * The given texture images will be mapped to the faces corresponding to
@@ -844,7 +2583,7 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull TextureCubeStatic loadCubeRHStaticRGBA8888(
+  public @Nonnull TextureCubeStatic loadCubeRHStaticRGBA8(
     final @Nonnull JCGLTexturesCubeStaticCommon gl,
     final @Nonnull TextureWrapR wrap_r,
     final @Nonnull TextureWrapS wrap_s,
@@ -861,4 +2600,5 @@ public interface TextureLoader
     throws ConstraintError,
       JCGLException,
       IOException;
+
 }

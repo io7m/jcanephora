@@ -458,6 +458,198 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
   }
 
   /**
+   * Cancelling when not prepared, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testCancelAfterRun()
+      throws Throwable
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    ExecCalled e = null;
+    TextureUnit[] units = null;
+    ArrayBuffer a = null;
+    ArrayBufferAttribute a_vf2 = null;
+    ArrayBufferAttribute a_vf3 = null;
+    ArrayBufferAttribute a_vf4 = null;
+    ArrayBufferAttribute a_f = null;
+
+    try {
+      units = gl.textureGetUnits();
+
+      a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
+      a_vf2 = a.getAttribute("a_vf2");
+      a_vf3 = a.getAttribute("a_vf3");
+      a_vf4 = a.getAttribute("a_vf4");
+      a_f = a.getAttribute("a_f");
+
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgramWithFragmentUniforms(tc, gl);
+      e = new ExecCalled(p);
+      e.execPrepare(gl);
+      e.execUniformPutVector2F(gl, "u_vf2", new VectorI2F(23.0f, 23.0f));
+      e.execUniformPutVector3F(
+        gl,
+        "u_vf3",
+        new VectorI3F(23.0f, 23.0f, 23.0f));
+      e.execUniformPutVector4F(gl, "u_vf4", new VectorI4F(
+        23.0f,
+        23.0f,
+        23.0f,
+        23.0f));
+      e.execUniformPutVector2I(gl, "u_vi2", new VectorI2I(23, 23));
+      e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
+      e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
+      e.execUniformPutFloat(gl, "u_f", 23.0f);
+      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+      e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
+      e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
+
+      e.execAttributeBind(gl, "a_vf2", a_vf2);
+      e.execAttributeBind(gl, "a_vf3", a_vf3);
+      e.execAttributeBind(gl, "a_vf4", a_vf4);
+      e.execAttributeBind(gl, "a_f", a_f);
+      e.execRun(gl);
+    } catch (final Throwable x) {
+      Assert.fail(x.getMessage());
+    }
+
+    assert e != null;
+    Assert.assertTrue(e.called);
+    e.execCancel();
+  }
+
+  /**
+   * Cancelling execution cancels preparation.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testCancelBeforeRun()
+      throws Throwable
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    ExecCalled e = null;
+    TextureUnit[] units = null;
+    ArrayBuffer a = null;
+    ArrayBufferAttribute a_vf2 = null;
+    ArrayBufferAttribute a_vf3 = null;
+    ArrayBufferAttribute a_vf4 = null;
+    ArrayBufferAttribute a_f = null;
+
+    try {
+      units = gl.textureGetUnits();
+
+      a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
+      a_vf2 = a.getAttribute("a_vf2");
+      a_vf3 = a.getAttribute("a_vf3");
+      a_vf4 = a.getAttribute("a_vf4");
+      a_f = a.getAttribute("a_f");
+
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgramWithFragmentUniforms(tc, gl);
+      e = new ExecCalled(p);
+      e.execPrepare(gl);
+      e.execUniformPutVector2F(gl, "u_vf2", new VectorI2F(23.0f, 23.0f));
+      e.execUniformPutVector3F(
+        gl,
+        "u_vf3",
+        new VectorI3F(23.0f, 23.0f, 23.0f));
+      e.execUniformPutVector4F(gl, "u_vf4", new VectorI4F(
+        23.0f,
+        23.0f,
+        23.0f,
+        23.0f));
+      e.execUniformPutVector2I(gl, "u_vi2", new VectorI2I(23, 23));
+      e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
+      e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
+      e.execUniformPutFloat(gl, "u_f", 23.0f);
+      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+      e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
+      e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
+
+      e.execAttributeBind(gl, "a_vf2", a_vf2);
+      e.execAttributeBind(gl, "a_vf3", a_vf3);
+      e.execAttributeBind(gl, "a_vf4", a_vf4);
+      e.execAttributeBind(gl, "a_f", a_f);
+      e.execCancel();
+    } catch (final Throwable x) {
+      Assert.fail(x.getMessage());
+    }
+
+    assert e != null;
+    Assert.assertFalse(e.called);
+    e.execRun(gl);
+  }
+
+  /**
+   * Cancelling when already cancelled, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testCancelCancelled()
+      throws Throwable
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    ExecCalled e = null;
+    TextureUnit[] units = null;
+    ArrayBuffer a = null;
+    ArrayBufferAttribute a_vf2 = null;
+    ArrayBufferAttribute a_vf3 = null;
+    ArrayBufferAttribute a_vf4 = null;
+    ArrayBufferAttribute a_f = null;
+
+    try {
+      units = gl.textureGetUnits();
+
+      a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
+      a_vf2 = a.getAttribute("a_vf2");
+      a_vf3 = a.getAttribute("a_vf3");
+      a_vf4 = a.getAttribute("a_vf4");
+      a_f = a.getAttribute("a_f");
+
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgramWithFragmentUniforms(tc, gl);
+      e = new ExecCalled(p);
+      e.execPrepare(gl);
+      e.execUniformPutVector2F(gl, "u_vf2", new VectorI2F(23.0f, 23.0f));
+      e.execUniformPutVector3F(
+        gl,
+        "u_vf3",
+        new VectorI3F(23.0f, 23.0f, 23.0f));
+      e.execUniformPutVector4F(gl, "u_vf4", new VectorI4F(
+        23.0f,
+        23.0f,
+        23.0f,
+        23.0f));
+      e.execUniformPutVector2I(gl, "u_vi2", new VectorI2I(23, 23));
+      e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
+      e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
+      e.execUniformPutFloat(gl, "u_f", 23.0f);
+      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+      e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
+      e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
+
+      e.execAttributeBind(gl, "a_vf2", a_vf2);
+      e.execAttributeBind(gl, "a_vf3", a_vf3);
+      e.execAttributeBind(gl, "a_vf4", a_vf4);
+      e.execAttributeBind(gl, "a_f", a_f);
+      e.execCancel();
+    } catch (final Throwable x) {
+      Assert.fail(x.getMessage());
+    }
+
+    assert e != null;
+    Assert.assertFalse(e.called);
+    e.execCancel();
+  }
+
+  /**
    * Passing a deleted program to the constructor, fails.
    */
 
@@ -862,6 +1054,68 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
   }
 
   /**
+   * Preparing after cancelling works.
+   */
+
+  @Test public final void testPrepareCancelPrepare()
+    throws Throwable
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    ExecCalled e = null;
+    TextureUnit[] units = null;
+    ArrayBuffer a = null;
+    ArrayBufferAttribute a_vf2 = null;
+    ArrayBufferAttribute a_vf3 = null;
+    ArrayBufferAttribute a_vf4 = null;
+    ArrayBufferAttribute a_f = null;
+
+    try {
+      units = gl.textureGetUnits();
+
+      a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
+      a_vf2 = a.getAttribute("a_vf2");
+      a_vf3 = a.getAttribute("a_vf3");
+      a_vf4 = a.getAttribute("a_vf4");
+      a_f = a.getAttribute("a_f");
+
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgramWithFragmentUniforms(tc, gl);
+      e = new ExecCalled(p);
+      e.execPrepare(gl);
+      e.execUniformPutVector2F(gl, "u_vf2", new VectorI2F(23.0f, 23.0f));
+      e.execUniformPutVector3F(
+        gl,
+        "u_vf3",
+        new VectorI3F(23.0f, 23.0f, 23.0f));
+      e.execUniformPutVector4F(gl, "u_vf4", new VectorI4F(
+        23.0f,
+        23.0f,
+        23.0f,
+        23.0f));
+      e.execUniformPutVector2I(gl, "u_vi2", new VectorI2I(23, 23));
+      e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
+      e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
+      e.execUniformPutFloat(gl, "u_f", 23.0f);
+      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+      e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
+      e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
+
+      e.execAttributeBind(gl, "a_vf2", a_vf2);
+      e.execAttributeBind(gl, "a_vf3", a_vf3);
+      e.execAttributeBind(gl, "a_vf4", a_vf4);
+      e.execAttributeBind(gl, "a_f", a_f);
+      e.execCancel();
+    } catch (final Throwable x) {
+      Assert.fail(x.getMessage());
+    }
+
+    assert e != null;
+    Assert.assertFalse(e.called);
+    e.execPrepare(gl);
+  }
+
+  /**
    * Passing <tt>null</tt> to
    * {@link JCCEExecutionAbstract#execPrepare(JCGLShadersCommon)} fails.
    */
@@ -887,6 +1141,69 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     };
 
     e.execPrepare(null);
+  }
+
+  /**
+   * Preparing twice without cancelling or running, fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testPrepareTwice()
+      throws Throwable
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    ExecCalled e = null;
+    TextureUnit[] units = null;
+    ArrayBuffer a = null;
+    ArrayBufferAttribute a_vf2 = null;
+    ArrayBufferAttribute a_vf3 = null;
+    ArrayBufferAttribute a_vf4 = null;
+    ArrayBufferAttribute a_f = null;
+
+    try {
+      units = gl.textureGetUnits();
+
+      a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
+      a_vf2 = a.getAttribute("a_vf2");
+      a_vf3 = a.getAttribute("a_vf3");
+      a_vf4 = a.getAttribute("a_vf4");
+      a_f = a.getAttribute("a_f");
+
+      final ProgramReferenceUsable p =
+        JCCEExecutionAbstractContract.makeProgramWithFragmentUniforms(tc, gl);
+      e = new ExecCalled(p);
+      e.execPrepare(gl);
+      e.execUniformPutVector2F(gl, "u_vf2", new VectorI2F(23.0f, 23.0f));
+      e.execUniformPutVector3F(
+        gl,
+        "u_vf3",
+        new VectorI3F(23.0f, 23.0f, 23.0f));
+      e.execUniformPutVector4F(gl, "u_vf4", new VectorI4F(
+        23.0f,
+        23.0f,
+        23.0f,
+        23.0f));
+      e.execUniformPutVector2I(gl, "u_vi2", new VectorI2I(23, 23));
+      e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
+      e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
+      e.execUniformPutFloat(gl, "u_f", 23.0f);
+      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+      e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
+      e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
+
+      e.execAttributeBind(gl, "a_vf2", a_vf2);
+      e.execAttributeBind(gl, "a_vf3", a_vf3);
+      e.execAttributeBind(gl, "a_vf4", a_vf4);
+      e.execAttributeBind(gl, "a_f", a_f);
+    } catch (final Throwable x) {
+      Assert.fail(x.getMessage());
+    }
+
+    assert e != null;
+    Assert.assertFalse(e.called);
+    e.execPrepare(gl);
   }
 
   /**
@@ -1575,322 +1892,5 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     } catch (final Throwable x) {
       Assert.fail(x.getMessage());
     }
-  }
-
-  /**
-   * Preparing twice without cancelling or running, fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testPrepareTwice()
-      throws Throwable
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    ExecCalled e = null;
-    TextureUnit[] units = null;
-    ArrayBuffer a = null;
-    ArrayBufferAttribute a_vf2 = null;
-    ArrayBufferAttribute a_vf3 = null;
-    ArrayBufferAttribute a_vf4 = null;
-    ArrayBufferAttribute a_f = null;
-
-    try {
-      units = gl.textureGetUnits();
-
-      a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
-      a_vf2 = a.getAttribute("a_vf2");
-      a_vf3 = a.getAttribute("a_vf3");
-      a_vf4 = a.getAttribute("a_vf4");
-      a_f = a.getAttribute("a_f");
-
-      final ProgramReferenceUsable p =
-        JCCEExecutionAbstractContract.makeProgramWithFragmentUniforms(tc, gl);
-      e = new ExecCalled(p);
-      e.execPrepare(gl);
-      e.execUniformPutVector2F(gl, "u_vf2", new VectorI2F(23.0f, 23.0f));
-      e.execUniformPutVector3F(
-        gl,
-        "u_vf3",
-        new VectorI3F(23.0f, 23.0f, 23.0f));
-      e.execUniformPutVector4F(gl, "u_vf4", new VectorI4F(
-        23.0f,
-        23.0f,
-        23.0f,
-        23.0f));
-      e.execUniformPutVector2I(gl, "u_vi2", new VectorI2I(23, 23));
-      e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
-      e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
-      e.execUniformPutFloat(gl, "u_f", 23.0f);
-      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
-      e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
-      e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
-
-      e.execAttributeBind(gl, "a_vf2", a_vf2);
-      e.execAttributeBind(gl, "a_vf3", a_vf3);
-      e.execAttributeBind(gl, "a_vf4", a_vf4);
-      e.execAttributeBind(gl, "a_f", a_f);
-    } catch (final Throwable x) {
-      Assert.fail(x.getMessage());
-    }
-
-    assert e != null;
-    Assert.assertFalse(e.called);
-    e.execPrepare(gl);
-  }
-
-  /**
-   * Preparing after cancelling works.
-   */
-
-  @Test public final void testPrepareCancelPrepare()
-    throws Throwable
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    ExecCalled e = null;
-    TextureUnit[] units = null;
-    ArrayBuffer a = null;
-    ArrayBufferAttribute a_vf2 = null;
-    ArrayBufferAttribute a_vf3 = null;
-    ArrayBufferAttribute a_vf4 = null;
-    ArrayBufferAttribute a_f = null;
-
-    try {
-      units = gl.textureGetUnits();
-
-      a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
-      a_vf2 = a.getAttribute("a_vf2");
-      a_vf3 = a.getAttribute("a_vf3");
-      a_vf4 = a.getAttribute("a_vf4");
-      a_f = a.getAttribute("a_f");
-
-      final ProgramReferenceUsable p =
-        JCCEExecutionAbstractContract.makeProgramWithFragmentUniforms(tc, gl);
-      e = new ExecCalled(p);
-      e.execPrepare(gl);
-      e.execUniformPutVector2F(gl, "u_vf2", new VectorI2F(23.0f, 23.0f));
-      e.execUniformPutVector3F(
-        gl,
-        "u_vf3",
-        new VectorI3F(23.0f, 23.0f, 23.0f));
-      e.execUniformPutVector4F(gl, "u_vf4", new VectorI4F(
-        23.0f,
-        23.0f,
-        23.0f,
-        23.0f));
-      e.execUniformPutVector2I(gl, "u_vi2", new VectorI2I(23, 23));
-      e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
-      e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
-      e.execUniformPutFloat(gl, "u_f", 23.0f);
-      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
-      e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
-      e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
-
-      e.execAttributeBind(gl, "a_vf2", a_vf2);
-      e.execAttributeBind(gl, "a_vf3", a_vf3);
-      e.execAttributeBind(gl, "a_vf4", a_vf4);
-      e.execAttributeBind(gl, "a_f", a_f);
-      e.execCancel();
-    } catch (final Throwable x) {
-      Assert.fail(x.getMessage());
-    }
-
-    assert e != null;
-    Assert.assertFalse(e.called);
-    e.execPrepare(gl);
-  }
-
-  /**
-   * Cancelling when already cancelled, fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testCancelCancelled()
-      throws Throwable
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    ExecCalled e = null;
-    TextureUnit[] units = null;
-    ArrayBuffer a = null;
-    ArrayBufferAttribute a_vf2 = null;
-    ArrayBufferAttribute a_vf3 = null;
-    ArrayBufferAttribute a_vf4 = null;
-    ArrayBufferAttribute a_f = null;
-
-    try {
-      units = gl.textureGetUnits();
-
-      a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
-      a_vf2 = a.getAttribute("a_vf2");
-      a_vf3 = a.getAttribute("a_vf3");
-      a_vf4 = a.getAttribute("a_vf4");
-      a_f = a.getAttribute("a_f");
-
-      final ProgramReferenceUsable p =
-        JCCEExecutionAbstractContract.makeProgramWithFragmentUniforms(tc, gl);
-      e = new ExecCalled(p);
-      e.execPrepare(gl);
-      e.execUniformPutVector2F(gl, "u_vf2", new VectorI2F(23.0f, 23.0f));
-      e.execUniformPutVector3F(
-        gl,
-        "u_vf3",
-        new VectorI3F(23.0f, 23.0f, 23.0f));
-      e.execUniformPutVector4F(gl, "u_vf4", new VectorI4F(
-        23.0f,
-        23.0f,
-        23.0f,
-        23.0f));
-      e.execUniformPutVector2I(gl, "u_vi2", new VectorI2I(23, 23));
-      e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
-      e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
-      e.execUniformPutFloat(gl, "u_f", 23.0f);
-      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
-      e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
-      e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
-
-      e.execAttributeBind(gl, "a_vf2", a_vf2);
-      e.execAttributeBind(gl, "a_vf3", a_vf3);
-      e.execAttributeBind(gl, "a_vf4", a_vf4);
-      e.execAttributeBind(gl, "a_f", a_f);
-      e.execCancel();
-    } catch (final Throwable x) {
-      Assert.fail(x.getMessage());
-    }
-
-    assert e != null;
-    Assert.assertFalse(e.called);
-    e.execCancel();
-  }
-
-  /**
-   * Cancelling when not prepared, fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testCancelAfterRun()
-      throws Throwable
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    ExecCalled e = null;
-    TextureUnit[] units = null;
-    ArrayBuffer a = null;
-    ArrayBufferAttribute a_vf2 = null;
-    ArrayBufferAttribute a_vf3 = null;
-    ArrayBufferAttribute a_vf4 = null;
-    ArrayBufferAttribute a_f = null;
-
-    try {
-      units = gl.textureGetUnits();
-
-      a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
-      a_vf2 = a.getAttribute("a_vf2");
-      a_vf3 = a.getAttribute("a_vf3");
-      a_vf4 = a.getAttribute("a_vf4");
-      a_f = a.getAttribute("a_f");
-
-      final ProgramReferenceUsable p =
-        JCCEExecutionAbstractContract.makeProgramWithFragmentUniforms(tc, gl);
-      e = new ExecCalled(p);
-      e.execPrepare(gl);
-      e.execUniformPutVector2F(gl, "u_vf2", new VectorI2F(23.0f, 23.0f));
-      e.execUniformPutVector3F(
-        gl,
-        "u_vf3",
-        new VectorI3F(23.0f, 23.0f, 23.0f));
-      e.execUniformPutVector4F(gl, "u_vf4", new VectorI4F(
-        23.0f,
-        23.0f,
-        23.0f,
-        23.0f));
-      e.execUniformPutVector2I(gl, "u_vi2", new VectorI2I(23, 23));
-      e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
-      e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
-      e.execUniformPutFloat(gl, "u_f", 23.0f);
-      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
-      e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
-      e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
-
-      e.execAttributeBind(gl, "a_vf2", a_vf2);
-      e.execAttributeBind(gl, "a_vf3", a_vf3);
-      e.execAttributeBind(gl, "a_vf4", a_vf4);
-      e.execAttributeBind(gl, "a_f", a_f);
-      e.execRun(gl);
-    } catch (final Throwable x) {
-      Assert.fail(x.getMessage());
-    }
-
-    assert e != null;
-    Assert.assertTrue(e.called);
-    e.execCancel();
-  }
-
-  /**
-   * Cancelling execution cancels preparation.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testCancelBeforeRun()
-      throws Throwable
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    ExecCalled e = null;
-    TextureUnit[] units = null;
-    ArrayBuffer a = null;
-    ArrayBufferAttribute a_vf2 = null;
-    ArrayBufferAttribute a_vf3 = null;
-    ArrayBufferAttribute a_vf4 = null;
-    ArrayBufferAttribute a_f = null;
-
-    try {
-      units = gl.textureGetUnits();
-
-      a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
-      a_vf2 = a.getAttribute("a_vf2");
-      a_vf3 = a.getAttribute("a_vf3");
-      a_vf4 = a.getAttribute("a_vf4");
-      a_f = a.getAttribute("a_f");
-
-      final ProgramReferenceUsable p =
-        JCCEExecutionAbstractContract.makeProgramWithFragmentUniforms(tc, gl);
-      e = new ExecCalled(p);
-      e.execPrepare(gl);
-      e.execUniformPutVector2F(gl, "u_vf2", new VectorI2F(23.0f, 23.0f));
-      e.execUniformPutVector3F(
-        gl,
-        "u_vf3",
-        new VectorI3F(23.0f, 23.0f, 23.0f));
-      e.execUniformPutVector4F(gl, "u_vf4", new VectorI4F(
-        23.0f,
-        23.0f,
-        23.0f,
-        23.0f));
-      e.execUniformPutVector2I(gl, "u_vi2", new VectorI2I(23, 23));
-      e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
-      e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
-      e.execUniformPutFloat(gl, "u_f", 23.0f);
-      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
-      e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
-      e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
-
-      e.execAttributeBind(gl, "a_vf2", a_vf2);
-      e.execAttributeBind(gl, "a_vf3", a_vf3);
-      e.execAttributeBind(gl, "a_vf4", a_vf4);
-      e.execAttributeBind(gl, "a_f", a_f);
-      e.execCancel();
-    } catch (final Throwable x) {
-      Assert.fail(x.getMessage());
-    }
-
-    assert e != null;
-    Assert.assertFalse(e.called);
-    e.execRun(gl);
   }
 }

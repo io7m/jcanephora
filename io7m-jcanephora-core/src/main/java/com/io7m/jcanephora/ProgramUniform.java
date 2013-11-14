@@ -41,9 +41,9 @@ import com.io7m.jaux.Constraints.ConstraintError;
 {
   private final int                             index;
   private final int                             location;
-  private final @Nonnull JCGLType               type;
   private final @Nonnull String                 name;
   private final @Nonnull ProgramReferenceUsable program;
+  private final @Nonnull JCGLType               type;
 
   ProgramUniform(
     final @Nonnull ProgramReferenceUsable program,

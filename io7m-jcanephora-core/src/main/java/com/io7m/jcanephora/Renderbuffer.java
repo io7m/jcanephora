@@ -89,10 +89,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
     return (Renderbuffer<RenderableStencil>) r;
   }
 
+  private final int                       height;
   private final @Nonnull RenderbufferType type;
   private final int                       value;
   private final int                       width;
-  private final int                       height;
 
   Renderbuffer(
     final @Nonnull RenderbufferType type,

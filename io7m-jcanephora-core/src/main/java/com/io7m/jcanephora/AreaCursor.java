@@ -41,14 +41,14 @@ import com.io7m.jaux.RangeInclusive;
 
 @NotThreadSafe class AreaCursor implements SpatialCursor
 {
-  private final @Nonnull AreaInclusive area_outer;
   private final @Nonnull AreaInclusive area_inner;
+  private final @Nonnull AreaInclusive area_outer;
+  private long                         byte_offset;
+  private boolean                      can_write;
   private final long                   element_bytes;
   private long                         element_x;
   private long                         element_y;
-  private long                         byte_offset;
   private final long                   row_byte_span;
-  private boolean                      can_write;
 
   protected AreaCursor(
     final @Nonnull AreaInclusive area_outer,
@@ -88,9 +88,9 @@ import com.io7m.jaux.RangeInclusive;
     this.element_bytes = element_bytes;
     this.row_byte_span = area_outer.getRangeX().getInterval() * element_bytes;
 
-    this.uncheckedSeek(area_inner.getRangeX().getLower(), area_inner
-      .getRangeY()
-      .getLower());
+    final long lo_x = area_inner.getRangeX().getLower();
+    final long lo_y = area_inner.getRangeY().getLower();
+    this.uncheckedSeek(lo_x, lo_y);
   }
 
   @Override public boolean equals(
@@ -126,6 +126,15 @@ import com.io7m.jaux.RangeInclusive;
   {
     Constraints.constrainArbitrary(this.isValid(), "Cursor is in range");
     return this.byte_offset;
+  }
+
+  /**
+   * Retrieve the number of bytes used by each element.
+   */
+
+  public long getElementBytes()
+  {
+    return this.element_bytes;
   }
 
   @Override public final long getElementX()

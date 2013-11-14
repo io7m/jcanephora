@@ -29,77 +29,6 @@ import com.io7m.jtensors.MatrixM4x4F;
 public final class ProjectionMatrix
 {
   /**
-   * Calculate a projection matrix that produces an orthographic projection
-   * based on the given clipping plane coordinates.
-   * 
-   * @param x_min
-   *          The left clipping plane coordinate.
-   * @param x_max
-   *          The right clipping plane coordinate.
-   * @param y_min
-   *          The bottom clipping plane coordinate.
-   * @param y_max
-   *          The top clipping plane coordinate.
-   * @param z_near
-   *          The near clipping plane coordinate.
-   * @param z_far
-   *          The far clipping plane coordinate.
-   * 
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>m == null</code></li>
-   *           </ul>
-   */
-
-  public static void makeOrthographicProjection(
-    final @Nonnull MatrixM4x4F matrix,
-    final double x_min,
-    final double x_max,
-    final double y_min,
-    final double y_max,
-    final double z_near,
-    final double z_far)
-    throws ConstraintError
-  {
-    Constraints.constrainNotNull(matrix, "Matrix");
-
-    final double rml = x_max - x_min;
-    final double rpl = x_max + x_min;
-    final double tmb = y_max - y_min;
-    final double tpb = y_max + y_min;
-    final double fmn = z_far - z_near;
-    final double fpn = z_far + z_near;
-
-    final float r0c0 = (float) (2 / rml);
-    final float r0c3 = (float) -(rpl / rml);
-    final float r1c1 = (float) (2 / tmb);
-    final float r1c3 = (float) -(tpb / tmb);
-    final float r2c2 = (float) (-2 / fmn);
-    final float r2c3 = (float) -(fpn / fmn);
-
-    matrix.set(0, 0, r0c0);
-    matrix.set(0, 1, 0.0f);
-    matrix.set(0, 2, 0.0f);
-    matrix.set(0, 3, r0c3);
-
-    matrix.set(1, 0, 0.0f);
-    matrix.set(1, 1, r1c1);
-    matrix.set(1, 2, 0.0f);
-    matrix.set(1, 3, r1c3);
-
-    matrix.set(2, 0, 0.0f);
-    matrix.set(2, 1, 0.0f);
-    matrix.set(2, 2, r2c2);
-    matrix.set(2, 3, r2c3);
-
-    matrix.set(3, 0, 0.0f);
-    matrix.set(3, 1, 0.0f);
-    matrix.set(3, 2, 0.0f);
-    matrix.set(3, 3, 1.0f);
-  }
-
-  /**
    * <p>
    * Calculate a matrix that produces a perspective projection. The
    * <code>(x_min, y_min, z_near)</code> and
@@ -173,6 +102,77 @@ public final class ProjectionMatrix
     matrix.set(3, 1, 0.0f);
     matrix.set(3, 2, -1.0f);
     matrix.set(3, 3, 0.0f);
+  }
+
+  /**
+   * Calculate a projection matrix that produces an orthographic projection
+   * based on the given clipping plane coordinates.
+   * 
+   * @param x_min
+   *          The left clipping plane coordinate.
+   * @param x_max
+   *          The right clipping plane coordinate.
+   * @param y_min
+   *          The bottom clipping plane coordinate.
+   * @param y_max
+   *          The top clipping plane coordinate.
+   * @param z_near
+   *          The near clipping plane coordinate.
+   * @param z_far
+   *          The far clipping plane coordinate.
+   * 
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>m == null</code></li>
+   *           </ul>
+   */
+
+  public static void makeOrthographicProjection(
+    final @Nonnull MatrixM4x4F matrix,
+    final double x_min,
+    final double x_max,
+    final double y_min,
+    final double y_max,
+    final double z_near,
+    final double z_far)
+    throws ConstraintError
+  {
+    Constraints.constrainNotNull(matrix, "Matrix");
+
+    final double rml = x_max - x_min;
+    final double rpl = x_max + x_min;
+    final double tmb = y_max - y_min;
+    final double tpb = y_max + y_min;
+    final double fmn = z_far - z_near;
+    final double fpn = z_far + z_near;
+
+    final float r0c0 = (float) (2 / rml);
+    final float r0c3 = (float) -(rpl / rml);
+    final float r1c1 = (float) (2 / tmb);
+    final float r1c3 = (float) -(tpb / tmb);
+    final float r2c2 = (float) (-2 / fmn);
+    final float r2c3 = (float) -(fpn / fmn);
+
+    matrix.set(0, 0, r0c0);
+    matrix.set(0, 1, 0.0f);
+    matrix.set(0, 2, 0.0f);
+    matrix.set(0, 3, r0c3);
+
+    matrix.set(1, 0, 0.0f);
+    matrix.set(1, 1, r1c1);
+    matrix.set(1, 2, 0.0f);
+    matrix.set(1, 3, r1c3);
+
+    matrix.set(2, 0, 0.0f);
+    matrix.set(2, 1, 0.0f);
+    matrix.set(2, 2, r2c2);
+    matrix.set(2, 3, r2c3);
+
+    matrix.set(3, 0, 0.0f);
+    matrix.set(3, 1, 0.0f);
+    matrix.set(3, 2, 0.0f);
+    matrix.set(3, 3, 1.0f);
   }
 
   /**

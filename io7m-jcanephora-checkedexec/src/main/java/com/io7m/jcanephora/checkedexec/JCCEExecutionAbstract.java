@@ -58,13 +58,13 @@ import com.io7m.jtensors.VectorReadable4I;
 @NotThreadSafe public abstract class JCCEExecutionAbstract implements
   JCCEExecutionAPI
 {
-  private final @Nonnull ProgramReferenceUsable      program;
   private final @Nonnull HashSet<String>             assigned;
   private final @Nonnull HashSet<String>             assigned_ever;
-  private boolean                                    preparing;
   private final @Nonnull StringBuilder               message;
-  private final @Nonnull ArrayList<ProgramUniform>   missed_uniforms;
   private final @Nonnull ArrayList<ProgramAttribute> missed_attributes;
+  private final @Nonnull ArrayList<ProgramUniform>   missed_uniforms;
+  private boolean                                    preparing;
+  private final @Nonnull ProgramReferenceUsable      program;
 
   protected JCCEExecutionAbstract(
     final @Nonnull ProgramReferenceUsable program)

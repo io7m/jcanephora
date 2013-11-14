@@ -32,10 +32,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
 @Immutable public final class ProgramReference extends JCGLResourceDeletable implements
   ProgramReferenceUsable
 {
+  private final @Nonnull Map<String, ProgramAttribute> attributes;
   private final int                                    id;
   private final @Nonnull String                        name;
   private final @Nonnull Map<String, ProgramUniform>   uniforms;
-  private final @Nonnull Map<String, ProgramAttribute> attributes;
 
   ProgramReference(
     final int id,

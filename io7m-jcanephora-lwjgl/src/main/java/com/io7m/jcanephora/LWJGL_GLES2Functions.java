@@ -38,6 +38,7 @@ import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
 import com.io7m.jaux.functional.Pair;
+import com.io7m.jcanephora.LWJGL_TextureSpecs.TextureSpec;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
@@ -596,9 +597,8 @@ final class LWJGL_GLES2Functions
   }
 
   static void drawElements(
-
     final @Nonnull Primitives mode,
-    final @Nonnull IndexBuffer indices)
+    final @Nonnull IndexBufferUsable indices)
     throws ConstraintError,
       JCGLException
   {
@@ -793,6 +793,7 @@ final class LWJGL_GLES2Functions
 
   static void framebufferDrawAttachColorTexture2D(
     final @Nonnull JCGLStateCache state,
+    final @Nonnull JCGLVersion version,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull Texture2DStaticUsable texture)
@@ -812,7 +813,7 @@ final class LWJGL_GLES2Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(
-      texture.getType().isColorRenderable(),
+      TextureTypeMeta.isColourRenderable(texture.getType(), version),
       "Texture is color renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -836,6 +837,7 @@ final class LWJGL_GLES2Functions
 
   static void framebufferDrawAttachColorTextureCube(
     final @Nonnull JCGLStateCache state,
+    final @Nonnull JCGLVersion version,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull TextureCubeStaticUsable texture,
@@ -856,7 +858,7 @@ final class LWJGL_GLES2Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(
-      texture.getType().isColorRenderable(),
+      TextureTypeMeta.isColourRenderable(texture.getType(), version),
       "Texture is color renderable");
 
     Constraints.constrainNotNull(face, "Cube map face");
@@ -967,6 +969,7 @@ final class LWJGL_GLES2Functions
 
   static void framebufferDrawAttachDepthTexture2D(
     final @Nonnull JCGLStateCache state,
+    final @Nonnull JCGLVersion version,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull Texture2DStaticUsable texture)
@@ -986,7 +989,7 @@ final class LWJGL_GLES2Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(
-      texture.getType().isDepthRenderable(),
+      TextureTypeMeta.isDepthRenderable(texture.getType()),
       "Texture is depth renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -2461,7 +2464,7 @@ final class LWJGL_GLES2Functions
     Constraints.constrainNotNull(mag_filter, "Magnification filter");
 
     if (log.enabled(Level.LOG_DEBUG)) {
-      final int bytes = height * (type.bytesPerPixel() * width);
+      final int bytes = height * (type.getBytesPerPixel() * width);
       state.log_text.setLength(0);
       state.log_text.append("texture-2D-static: allocate \"");
       state.log_text.append(name);
@@ -2503,22 +2506,18 @@ final class LWJGL_GLES2Functions
       LWJGL_GLTypeConversions.textureFilterMagToGL(mag_filter));
     LWJGL_GLES2Functions.checkError();
 
-    final int internal =
-      LWJGL_GLTypeConversions.textureTypeToInternalFormatGL(type);
-    final int format = LWJGL_GLTypeConversions.textureTypeToFormatGL(type);
-    final int itype = LWJGL_GLTypeConversions.textureTypeToTypeGL(type);
-
+    final TextureSpec spec = LWJGL_TextureSpecs.getGL3TextureSpec(type);
     LWJGL_GLES2Functions.textureSetPackUnpackAlignment1();
 
     GL11.glTexImage2D(
       GL11.GL_TEXTURE_2D,
       0,
-      internal,
+      spec.internal_format,
       width,
       height,
       0,
-      format,
-      itype,
+      spec.format,
+      spec.type,
       (ByteBuffer) null);
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
     LWJGL_GLES2Functions.checkError();
@@ -2638,9 +2637,9 @@ final class LWJGL_GLES2Functions
     final int y_offset = (int) area.getRangeY().getLower();
     final int width = (int) area.getRangeX().getInterval();
     final int height = (int) area.getRangeY().getInterval();
-    final int format = LWJGL_GLTypeConversions.textureTypeToFormatGL(type);
-    final int gl_type = LWJGL_GLTypeConversions.textureTypeToTypeGL(type);
     final ByteBuffer buffer = data.targetData();
+
+    final TextureSpec spec = LWJGL_TextureSpecs.getGL3TextureSpec(type);
 
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getGLName());
     GL11.glTexSubImage2D(
@@ -2650,8 +2649,8 @@ final class LWJGL_GLES2Functions
       y_offset,
       width,
       height,
-      format,
-      gl_type,
+      spec.format,
+      spec.type,
       buffer);
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
     LWJGL_GLES2Functions.checkError();
@@ -2681,7 +2680,7 @@ final class LWJGL_GLES2Functions
     Constraints.constrainNotNull(mag_filter, "Magnification filter");
 
     if (log.enabled(Level.LOG_DEBUG)) {
-      final int bytes = size * (type.bytesPerPixel() * size) * 6;
+      final int bytes = size * (type.getBytesPerPixel() * size) * 6;
       state.log_text.setLength(0);
       state.log_text.append("texture-cube-static: allocate \"");
       state.log_text.append(name);
@@ -2728,10 +2727,7 @@ final class LWJGL_GLES2Functions
       LWJGL_GLTypeConversions.textureFilterMagToGL(mag_filter));
     LWJGL_GLES2Functions.checkError();
 
-    final int internal =
-      LWJGL_GLTypeConversions.textureTypeToInternalFormatGL(type);
-    final int format = LWJGL_GLTypeConversions.textureTypeToFormatGL(type);
-    final int itype = LWJGL_GLTypeConversions.textureTypeToTypeGL(type);
+    final TextureSpec spec = LWJGL_TextureSpecs.getGL3TextureSpec(type);
 
     LWJGL_GLES2Functions.textureSetPackUnpackAlignment1();
 
@@ -2741,12 +2737,12 @@ final class LWJGL_GLES2Functions
       GL11.glTexImage2D(
         gface,
         0,
-        internal,
+        spec.internal_format,
         size,
         size,
         0,
-        format,
-        itype,
+        spec.format,
+        spec.type,
         (ByteBuffer) null);
       LWJGL_GLES2Functions.checkError();
     }
@@ -2870,8 +2866,8 @@ final class LWJGL_GLES2Functions
     final int y_offset = (int) area.getRangeY().getLower();
     final int width = (int) area.getRangeX().getInterval();
     final int height = (int) area.getRangeY().getInterval();
-    final int format = LWJGL_GLTypeConversions.textureTypeToFormatGL(type);
-    final int gl_type = LWJGL_GLTypeConversions.textureTypeToTypeGL(type);
+
+    final TextureSpec spec = LWJGL_TextureSpecs.getGL3TextureSpec(type);
     final ByteBuffer buffer = data.targetData();
     final int gface = LWJGL_GLTypeConversions.cubeFaceToGL(face);
 
@@ -2883,8 +2879,8 @@ final class LWJGL_GLES2Functions
       y_offset,
       width,
       height,
-      format,
-      gl_type,
+      spec.format,
+      spec.type,
       buffer);
     GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, 0);
     LWJGL_GLES2Functions.checkError();
