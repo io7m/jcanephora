@@ -16,10 +16,12 @@
 
 package com.io7m.jcanephora;
 
+import java.io.PrintStream;
 import java.nio.IntBuffer;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.media.opengl.DebugGL2;
@@ -28,9 +30,11 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GL2GL3;
 import javax.media.opengl.GLContext;
+import javax.media.opengl.TraceGL2;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
@@ -67,9 +71,8 @@ import com.io7m.jtensors.VectorReadable4I;
 @NotThreadSafe final class JCGLInterfaceGL2_JOGL_GL21 implements
   JCGLInterfaceGL2
 {
-  private @Nonnull GL2                  cached_gl2;
+  private final @Nonnull GL2            cached_gl2;
   private final @Nonnull GLContext      context;
-  private final boolean                 debug;
   private final @Nonnull Log            log;
   private final @Nonnull JCGLSLVersion  sl_version;
   private final @Nonnull JCGLStateCache state;
@@ -78,15 +81,40 @@ import com.io7m.jtensors.VectorReadable4I;
   JCGLInterfaceGL2_JOGL_GL21(
     final @Nonnull GLContext context,
     final @Nonnull Log log,
-    final boolean debug)
+    final @Nonnull JCGLDebugging debug,
+    final @CheckForNull PrintStream trace_out)
     throws ConstraintError,
       JCGLException
   {
     this.log =
       new Log(Constraints.constrainNotNull(log, "log output"), "jogl21");
     this.context = Constraints.constrainNotNull(context, "GL context");
+    Constraints.constrainNotNull(debug, "Debug");
+
     this.state = new JCGLStateCache();
-    this.debug = debug;
+
+    {
+      final GL2 g2 = this.context.getGL().getGL2();
+      switch (debug) {
+        case JCGL_DEBUGGING:
+          this.cached_gl2 = new DebugGL2(g2);
+          break;
+        case JCGL_NONE:
+          this.cached_gl2 = g2;
+          break;
+        case JCGL_TRACING:
+          Constraints.constrainNotNull(trace_out, "Trace output");
+          this.cached_gl2 = new TraceGL2(g2, trace_out);
+          break;
+        case JCGL_TRACING_AND_DEBUGGING:
+          Constraints.constrainNotNull(trace_out, "Trace output");
+          this.cached_gl2 = new DebugGL2(new TraceGL2(g2, trace_out));
+          break;
+        default:
+          throw new UnreachableCodeException();
+      }
+    }
+    assert this.cached_gl2 != null;
 
     final GL2 g = this.contextGetGL2();
 
@@ -421,14 +449,6 @@ import com.io7m.jtensors.VectorReadable4I;
 
   private GL2 contextGetGL2()
   {
-    if (this.cached_gl2 == null) {
-      final GL g = this.context.getGL();
-      if (this.debug) {
-        this.cached_gl2 = new DebugGL2(g.getGL2());
-      } else {
-        this.cached_gl2 = g.getGL2();
-      }
-    }
     return this.cached_gl2;
   }
 

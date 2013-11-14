@@ -16,23 +16,30 @@
 
 package com.io7m.jcanephora;
 
+import java.io.PrintStream;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
 import javax.media.opengl.DebugGL2;
 import javax.media.opengl.DebugGL3;
+import javax.media.opengl.DebugGL4;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GL2GL3;
 import javax.media.opengl.GLContext;
+import javax.media.opengl.TraceGL2;
+import javax.media.opengl.TraceGL3;
+import javax.media.opengl.TraceGL4;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
+import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
@@ -73,22 +80,80 @@ import com.io7m.jtensors.VectorReadable4I;
   private final @Nonnull JCGLSLVersion  sl_version;
   private final @Nonnull JCGLStateCache state;
   private final @Nonnull JCGLVersion    version;
-  private final boolean                 debug;
-  private @Nonnull GL2GL3               cached_gl2gl3;
+  private final @Nonnull GL2GL3         cached_gl2gl3;
 
   JCGLInterfaceGL3_JOGL_GL2GL3(
     final @Nonnull GLContext context,
     final @Nonnull Log log,
-    final boolean debug)
+    final @Nonnull JCGLDebugging debug,
+    final @CheckForNull PrintStream trace_out)
     throws ConstraintError,
       JCGLException
   {
     this.log =
       new Log(Constraints.constrainNotNull(log, "log output"), "jogl30");
     this.context = Constraints.constrainNotNull(context, "GL context");
-    this.state = new JCGLStateCache();
-    this.debug = debug;
+    Constraints.constrainNotNull(debug, "Debug");
 
+    this.state = new JCGLStateCache();
+
+    {
+      final GL g = this.context.getGL();
+      switch (debug) {
+        case JCGL_DEBUGGING:
+          if (g.isGL4()) {
+            this.cached_gl2gl3 = new DebugGL4(g.getGL4());
+          } else if (g.isGL3()) {
+            this.cached_gl2gl3 = new DebugGL3(g.getGL3());
+          } else if (g.isGL2()) {
+            this.cached_gl2gl3 = new DebugGL2(g.getGL2());
+          } else {
+            throw new UnreachableCodeException();
+          }
+          break;
+        case JCGL_NONE:
+          if (g.isGL4()) {
+            this.cached_gl2gl3 = g.getGL4();
+          } else if (g.isGL3()) {
+            this.cached_gl2gl3 = g.getGL3();
+          } else if (g.isGL2()) {
+            this.cached_gl2gl3 = g.getGL2();
+          } else {
+            throw new UnreachableCodeException();
+          }
+          break;
+        case JCGL_TRACING:
+          Constraints.constrainNotNull(trace_out, "Trace output");
+          if (g.isGL4()) {
+            this.cached_gl2gl3 = new TraceGL4(g.getGL4(), trace_out);
+          } else if (g.isGL3()) {
+            this.cached_gl2gl3 = new TraceGL3(g.getGL3(), trace_out);
+          } else if (g.isGL2()) {
+            this.cached_gl2gl3 = new TraceGL2(g.getGL2(), trace_out);
+          } else {
+            throw new UnreachableCodeException();
+          }
+          break;
+        case JCGL_TRACING_AND_DEBUGGING:
+          Constraints.constrainNotNull(trace_out, "Trace output");
+          if (g.isGL4()) {
+            this.cached_gl2gl3 =
+              new DebugGL4(new TraceGL4(g.getGL4(), trace_out));
+          } else if (g.isGL3()) {
+            this.cached_gl2gl3 =
+              new DebugGL3(new TraceGL3(g.getGL3(), trace_out));
+          } else if (g.isGL2()) {
+            this.cached_gl2gl3 =
+              new DebugGL2(new TraceGL2(g.getGL2(), trace_out));
+          } else {
+            throw new UnreachableCodeException();
+          }
+          break;
+        default:
+          throw new UnreachableCodeException();
+      }
+    }
+    assert this.cached_gl2gl3 != null;
     final GL2GL3 g = this.contextGetGL();
 
     Constraints.constrainArbitrary(
@@ -140,20 +205,6 @@ import com.io7m.jtensors.VectorReadable4I;
 
   private @Nonnull GL2GL3 contextGetGL()
   {
-    if (this.cached_gl2gl3 == null) {
-      final GL g = this.context.getGL();
-
-      if (this.debug) {
-        if (g.isGL2()) {
-          this.cached_gl2gl3 = new DebugGL2(g.getGL2());
-        } else if (g.isGL3()) {
-          this.cached_gl2gl3 = new DebugGL3(g.getGL3());
-        }
-      } else {
-        this.cached_gl2gl3 = g.getGL2GL3();
-      }
-    }
-
     return this.cached_gl2gl3;
   }
 
