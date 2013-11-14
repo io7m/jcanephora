@@ -118,11 +118,6 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
     return false;
   }
 
-  private final @Nonnull JCGLInterfaceGL2   gl_2;
-  private final @Nonnull JCGLInterfaceGL3   gl_3;
-  private final @Nonnull JCGLInterfaceGLES2 gl_es2;
-  private final @Nonnull Log                log;
-
   /**
    * Construct an implementation assuming that the LWJGL library has already
    * been initialized.
@@ -136,7 +131,21 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
    *           OpenGL 3.* or ES2.
    */
 
-  public JCGLImplementationLWJGL(
+  public static @Nonnull JCGLImplementationLWJGL newImplementation(
+    final @Nonnull Log log)
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    return new JCGLImplementationLWJGL(log);
+  }
+
+  private final @Nonnull JCGLInterfaceGL2   gl_2;
+  private final @Nonnull JCGLInterfaceGL3   gl_3;
+  private final @Nonnull JCGLInterfaceGLES2 gl_es2;
+  private final @Nonnull Log                log;
+
+  private JCGLImplementationLWJGL(
     final @Nonnull Log log)
     throws ConstraintError,
       JCGLException,

@@ -22,9 +22,11 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
+import javax.media.opengl.DebugGLES3;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL3ES3;
 import javax.media.opengl.GLContext;
+import javax.media.opengl.GLES3;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -64,7 +66,9 @@ import com.io7m.jtensors.VectorReadable4I;
 @NotThreadSafe final class JCGLInterfaceGLES3_JOGL_ES3 implements
   JCGLInterfaceGLES3
 {
+  private @Nonnull GLES3                cached_gl;
   private final @Nonnull GLContext      context;
+  private final boolean                 debug;
   private final @Nonnull Log            log;
   private final @Nonnull JCGLSLVersion  sl_version;
   private final @Nonnull JCGLStateCache state;
@@ -72,7 +76,8 @@ import com.io7m.jtensors.VectorReadable4I;
 
   JCGLInterfaceGLES3_JOGL_ES3(
     final @Nonnull GLContext context,
-    final @Nonnull Log log)
+    final @Nonnull Log log,
+    final boolean debug)
     throws ConstraintError,
       JCGLException
   {
@@ -80,8 +85,9 @@ import com.io7m.jtensors.VectorReadable4I;
       new Log(Constraints.constrainNotNull(log, "log output"), "jogl30");
     this.context = Constraints.constrainNotNull(context, "GL context");
     this.state = new JCGLStateCache();
+    this.debug = debug;
 
-    final GL3ES3 g = this.context.getGL().getGL3ES3();
+    final GL3ES3 g = this.contextGetGL();
 
     Constraints.constrainArbitrary(
       this.framebufferDrawAnyIsBound() == false,
@@ -181,7 +187,7 @@ import com.io7m.jtensors.VectorReadable4I;
       ConstraintError
   {
     return JOGL_GL_Functions.arrayBufferMapReadRange(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       id,
@@ -450,9 +456,24 @@ import com.io7m.jtensors.VectorReadable4I;
       this.state);
   }
 
+  private @Nonnull GL3ES3 contextGetGL()
+  {
+    final GL g = this.context.getGL();
+
+    if (this.cached_gl == null) {
+      if (this.debug) {
+        this.cached_gl = new DebugGLES3(g.getGLES3());
+      } else {
+        this.cached_gl = g.getGLES3();
+      }
+    }
+
+    return this.cached_gl;
+  }
+
   private GL3ES3 contextGetGL3()
   {
-    return this.context.getGL().getGL3ES3();
+    return this.contextGetGL().getGL3ES3();
   }
 
   @Override public void cullingDisable()
@@ -894,7 +915,7 @@ import com.io7m.jtensors.VectorReadable4I;
       ConstraintError
   {
     return JOGL_GL_Functions.indexBufferMapReadRange(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       id,
@@ -1232,7 +1253,7 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     return Renderbuffer.unsafeBrandDepth(JOGL_GL_Functions
       .renderbufferAllocate(
-        this.context.getGL(),
+        this.contextGetGL(),
         this.state,
         this.log,
         RenderbufferType.RENDERBUFFER_DEPTH_16,
@@ -1268,7 +1289,7 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     return Renderbuffer.unsafeBrandColor(JOGL_GL_Functions
       .renderbufferAllocate(
-        this.context.getGL(),
+        this.contextGetGL(),
         this.state,
         this.log,
         RenderbufferType.RENDERBUFFER_COLOR_RGB_565,
@@ -1304,7 +1325,7 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     return Renderbuffer.unsafeBrandColor(JOGL_GL_Functions
       .renderbufferAllocate(
-        this.context.getGL(),
+        this.contextGetGL(),
         this.state,
         this.log,
         RenderbufferType.RENDERBUFFER_COLOR_RGBA_4444,
@@ -1322,7 +1343,7 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     return Renderbuffer.unsafeBrandColor(JOGL_GL_Functions
       .renderbufferAllocate(
-        this.context.getGL(),
+        this.contextGetGL(),
         this.state,
         this.log,
         RenderbufferType.RENDERBUFFER_COLOR_RGBA_5551,
@@ -1358,7 +1379,7 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     return Renderbuffer.unsafeBrandStencil(JOGL_GL_Functions
       .renderbufferAllocate(
-        this.context.getGL(),
+        this.contextGetGL(),
         this.state,
         this.log,
         RenderbufferType.RENDERBUFFER_STENCIL_8,
@@ -1570,7 +1591,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -1595,7 +1616,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -1620,7 +1641,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -1645,7 +1666,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -1670,7 +1691,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -1695,7 +1716,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -1745,7 +1766,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -1770,7 +1791,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -1795,7 +1816,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -1820,7 +1841,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -1845,7 +1866,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -1870,7 +1891,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -1895,7 +1916,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -1920,7 +1941,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -1945,7 +1966,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -1970,7 +1991,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -1995,7 +2016,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2020,7 +2041,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2045,7 +2066,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2070,7 +2091,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2095,7 +2116,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2120,7 +2141,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2145,7 +2166,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2195,7 +2216,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2220,7 +2241,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2245,7 +2266,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2272,7 +2293,7 @@ import com.io7m.jtensors.VectorReadable4I;
         JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2297,7 +2318,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2322,7 +2343,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2347,7 +2368,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2397,7 +2418,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2422,7 +2443,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2497,7 +2518,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2522,7 +2543,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2547,7 +2568,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2704,7 +2725,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2729,7 +2750,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2754,7 +2775,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2779,7 +2800,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2804,7 +2825,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2829,7 +2850,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2879,7 +2900,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2904,7 +2925,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2929,7 +2950,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2954,7 +2975,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -2979,7 +3000,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3004,7 +3025,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3029,7 +3050,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3054,7 +3075,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3079,7 +3100,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3104,7 +3125,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3129,7 +3150,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3156,7 +3177,7 @@ import com.io7m.jtensors.VectorReadable4I;
         JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3183,7 +3204,7 @@ import com.io7m.jtensors.VectorReadable4I;
         JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3210,7 +3231,7 @@ import com.io7m.jtensors.VectorReadable4I;
         JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3237,7 +3258,7 @@ import com.io7m.jtensors.VectorReadable4I;
         JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3264,7 +3285,7 @@ import com.io7m.jtensors.VectorReadable4I;
         JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3291,7 +3312,7 @@ import com.io7m.jtensors.VectorReadable4I;
         JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3368,7 +3389,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3393,7 +3414,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3420,7 +3441,7 @@ import com.io7m.jtensors.VectorReadable4I;
         JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3447,7 +3468,7 @@ import com.io7m.jtensors.VectorReadable4I;
         JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3474,7 +3495,7 @@ import com.io7m.jtensors.VectorReadable4I;
         JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3501,7 +3522,7 @@ import com.io7m.jtensors.VectorReadable4I;
         JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3528,7 +3549,7 @@ import com.io7m.jtensors.VectorReadable4I;
         JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3555,7 +3576,7 @@ import com.io7m.jtensors.VectorReadable4I;
         JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3661,7 +3682,7 @@ import com.io7m.jtensors.VectorReadable4I;
         JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,
@@ -3688,7 +3709,7 @@ import com.io7m.jtensors.VectorReadable4I;
         JCGLException
   {
     return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.context.getGL(),
+      this.contextGetGL(),
       this.state,
       this.log,
       name,

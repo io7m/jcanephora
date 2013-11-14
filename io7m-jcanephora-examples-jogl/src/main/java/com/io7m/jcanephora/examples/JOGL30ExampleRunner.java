@@ -378,7 +378,9 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
     try {
       this.texture_loader = TextureLoaderImageIO.newTextureLoader(this.log);
       this.gl_implementation =
-        new JCGLImplementationJOGL(drawable.getContext(), this.log);
+        JCGLImplementationJOGL.newImplementationWithDebugging(
+          drawable.getContext(),
+          this.log);
 
       this.config =
         new ExampleConfig(
