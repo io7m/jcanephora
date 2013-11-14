@@ -8,7 +8,7 @@
   <artifactId>io7m-jcanephora-core</artifactId>
   <name>io7m-jcanephora-core</name>
   <description>Common API code</description>
-  <version>0.9.23</version>
+  <version>0.12.0</version>
   <url>http://mvn.io7m.com/jcanephora-core</url>
   <packaging>jar</packaging>
 
@@ -70,12 +70,17 @@
     <dependency>
       <groupId>com.io7m.jtensors</groupId>
       <artifactId>io7m-jtensors</artifactId>
-      <version>[5.0.0, 6.0.0)</version>
+      <version>[5.3.0, 6.0.0)</version>
     </dependency>
     <dependency>
       <groupId>com.io7m.jaux</groupId>
       <artifactId>io7m-jaux</artifactId>
       <version>[2.6.0, 3.0.0)</version>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.ieee754b16</groupId>
+      <artifactId>io7m-ieee754b16</artifactId>
+      <version>0.1.0</version>
     </dependency>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
@@ -178,7 +183,7 @@
 
           <!-- Produce jar file with custom manifest -->
           <execution>
-            <id>make-jar</id>
+            <id>default-jar</id>
             <configuration>
               <archive>
                 <manifestEntries>

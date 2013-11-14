@@ -19,8 +19,9 @@ package com.io7m.jcanephora;
 import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
- * Typed, readable cursor addressing areas consisting of elements of type int
- * (values are assumed to be in the range <code>[0, 0xff]</code>).
+ * Readable cursor addressing areas consisting of single-component elements.
+ * Values are fetched directly and not converted (but may, for example, return
+ * a 16 bit value in a 32 bit integer).
  */
 
 public interface SpatialCursorReadable1i extends SpatialCursor

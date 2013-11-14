@@ -34,9 +34,9 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 @Immutable public final class ArrayBufferAttributeDescriptor
 {
+  private final int                     elements;
   private final @Nonnull String         name;
   private final @Nonnull JCGLScalarType type;
-  private final int                     elements;
 
   public ArrayBufferAttributeDescriptor(
     final @Nonnull String name,

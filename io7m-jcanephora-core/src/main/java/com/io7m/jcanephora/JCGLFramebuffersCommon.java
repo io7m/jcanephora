@@ -118,7 +118,7 @@ public interface JCGLFramebuffersCommon
    * only attached color buffer (if any).
    * </p>
    * 
-   * @see TextureType#isColorRenderable()
+   * @see TextureTypeMeta#isColourRenderable(TextureType, JCGLVersion)
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
@@ -152,7 +152,7 @@ public interface JCGLFramebuffersCommon
    * only attached color buffer (if any).
    * </p>
    * 
-   * @see TextureType#isColorRenderable()
+   * @see TextureTypeMeta#isColourRenderable(TextureType, JCGLVersion)
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
@@ -216,7 +216,7 @@ public interface JCGLFramebuffersCommon
    * The function will replace any existing depth attachment.
    * </p>
    * 
-   * @see TextureType#isDepthRenderable()
+   * @see TextureTypeMeta#isDepthRenderable(TextureType)
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>

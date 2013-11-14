@@ -431,6 +431,72 @@ final class LWJGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  static final @Nonnull PixelType pixelTypeFromGL(
+    final int e)
+  {
+    switch (e) {
+      case GL12.GL_UNSIGNED_SHORT_5_6_5:
+        return PixelType.PIXEL_PACKED_UNSIGNED_SHORT_565;
+      case GL12.GL_UNSIGNED_SHORT_5_5_5_1:
+        return PixelType.PIXEL_PACKED_UNSIGNED_SHORT_5551;
+      case GL12.GL_UNSIGNED_SHORT_4_4_4_4:
+        return PixelType.PIXEL_PACKED_UNSIGNED_SHORT_4444;
+      case GL12.GL_UNSIGNED_INT_10_10_10_2:
+        return PixelType.PIXEL_PACKED_UNSIGNED_INT_1010102;
+      case GL11.GL_UNSIGNED_SHORT:
+        return PixelType.PIXEL_COMPONENT_UNSIGNED_SHORT;
+      case GL11.GL_UNSIGNED_INT:
+        return PixelType.PIXEL_COMPONENT_UNSIGNED_INT;
+      case GL11.GL_UNSIGNED_BYTE:
+        return PixelType.PIXEL_COMPONENT_UNSIGNED_BYTE;
+      case GL11.GL_SHORT:
+        return PixelType.PIXEL_COMPONENT_SHORT;
+      case GL11.GL_INT:
+        return PixelType.PIXEL_COMPONENT_INT;
+      case GL11.GL_FLOAT:
+        return PixelType.PIXEL_COMPONENT_FLOAT;
+      case GL11.GL_BYTE:
+        return PixelType.PIXEL_COMPONENT_BYTE;
+      case GL30.GL_HALF_FLOAT:
+        return PixelType.PIXEL_COMPONENT_HALF_FLOAT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  static final int pixelTypeToGL(
+    final @Nonnull PixelType p)
+  {
+    switch (p) {
+      case PIXEL_COMPONENT_BYTE:
+        return GL11.GL_BYTE;
+      case PIXEL_COMPONENT_FLOAT:
+        return GL11.GL_FLOAT;
+      case PIXEL_COMPONENT_INT:
+        return GL11.GL_INT;
+      case PIXEL_COMPONENT_SHORT:
+        return GL11.GL_SHORT;
+      case PIXEL_COMPONENT_UNSIGNED_BYTE:
+        return GL11.GL_UNSIGNED_BYTE;
+      case PIXEL_COMPONENT_UNSIGNED_INT:
+        return GL11.GL_UNSIGNED_INT;
+      case PIXEL_COMPONENT_UNSIGNED_SHORT:
+        return GL11.GL_UNSIGNED_SHORT;
+      case PIXEL_PACKED_UNSIGNED_INT_1010102:
+        return GL12.GL_UNSIGNED_INT_10_10_10_2;
+      case PIXEL_PACKED_UNSIGNED_SHORT_4444:
+        return GL12.GL_UNSIGNED_SHORT_4_4_4_4;
+      case PIXEL_PACKED_UNSIGNED_SHORT_5551:
+        return GL12.GL_UNSIGNED_SHORT_5_5_5_1;
+      case PIXEL_PACKED_UNSIGNED_SHORT_565:
+        return GL12.GL_UNSIGNED_SHORT_5_6_5;
+      case PIXEL_COMPONENT_HALF_FLOAT:
+        return GL30.GL_HALF_FLOAT;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
   static PolygonMode polygonModeFromGL(
     final int g)
   {
@@ -670,85 +736,6 @@ final class LWJGL_GLTypeConversions
         return GL11.GL_LINEAR;
       case TEXTURE_FILTER_NEAREST:
         return GL11.GL_NEAREST;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  static int textureTypeToFormatGL(
-    final @Nonnull TextureType type)
-  {
-    switch (type) {
-      case TEXTURE_TYPE_R_8_1BPP:
-        return GL11.GL_RED;
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_8888_4BPP:
-        return GL11.GL_RGBA;
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_888_3BPP:
-        return GL11.GL_RGB;
-      case TEXTURE_TYPE_RG_88_2BPP:
-        return GL30.GL_RG;
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-        return GL11.GL_DEPTH_COMPONENT;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  static int textureTypeToInternalFormatGL(
-    final TextureType type)
-  {
-    switch (type) {
-      case TEXTURE_TYPE_R_8_1BPP:
-        return GL11.GL_RED;
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_8888_4BPP:
-        return GL11.GL_RGBA;
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_888_3BPP:
-        return GL11.GL_RGB;
-      case TEXTURE_TYPE_RG_88_2BPP:
-        return GL30.GL_RG;
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-        return GL14.GL_DEPTH_COMPONENT16;
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-        return GL14.GL_DEPTH_COMPONENT24;
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-        /**
-         * XXX: The value of the GL30.GL_DEPTH_COMPONENT32F is wrong in at
-         * least LWJGL 2.8.4, so this apparent magic number is necessary.
-         */
-        return 0x8CAC;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  static int textureTypeToTypeGL(
-    final @Nonnull TextureType type)
-  {
-    switch (type) {
-      case TEXTURE_TYPE_R_8_1BPP:
-      case TEXTURE_TYPE_RG_88_2BPP:
-      case TEXTURE_TYPE_RGBA_8888_4BPP:
-      case TEXTURE_TYPE_RGB_888_3BPP:
-        return GL11.GL_UNSIGNED_BYTE;
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-        return GL12.GL_UNSIGNED_SHORT_4_4_4_4;
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-        return GL12.GL_UNSIGNED_SHORT_5_5_5_1;
-      case TEXTURE_TYPE_RGB_565_2BPP:
-        return GL12.GL_UNSIGNED_SHORT_5_6_5;
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-        return GL11.GL_UNSIGNED_SHORT;
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-        return GL11.GL_UNSIGNED_INT;
     }
 
     throw new UnreachableCodeException();

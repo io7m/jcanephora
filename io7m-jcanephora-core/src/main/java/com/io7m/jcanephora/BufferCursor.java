@@ -38,12 +38,12 @@ import com.io7m.jaux.RangeInclusive;
 class BufferCursor implements Cursor
 {
   private final long                    attribute_offset;
-  private final @Nonnull RangeInclusive range;
-  private final long                    element_size;
-
-  private long                          element_current;
   private long                          byte_current;
   private boolean                       can_write;
+
+  private long                          element_current;
+  private final long                    element_size;
+  private final @Nonnull RangeInclusive range;
 
   protected BufferCursor(
     final @Nonnull RangeInclusive range,

@@ -36,11 +36,11 @@ import com.io7m.jaux.UnreachableCodeException;
  * </p>
  */
 
-public final class TextureCubeReadableData
+public final class TextureCubeReadableData implements TextureReadableData
 {
-  private final @Nonnull TextureType   type;
   private final @Nonnull AreaInclusive area;
   private final @Nonnull ByteBuffer    data;
+  private final @Nonnull TextureType   type;
 
   TextureCubeReadableData(
     final @Nonnull TextureType type,
@@ -52,46 +52,150 @@ public final class TextureCubeReadableData
 
     final long width = this.area.getRangeX().getInterval();
     final long height = this.area.getRangeY().getInterval();
-    final int bpp = type.bytesPerPixel();
+    final int bpp = type.getBytesPerPixel();
     this.data =
       ByteBuffer.allocate((int) (height * width * bpp)).order(
         ByteOrder.nativeOrder());
   }
 
-  /**
-   * <p>
-   * Retrieve a cursor that points to elements of the texture. The cursor
-   * interface allows constant time access to any element and also minimizes
-   * the number of checks performed for each access.
-   * </p>
+  /*
+   * (non-Javadoc)
    * 
-   * @throws ConstraintError
-   *           If the number of components in the texture is not 1.
+   * @see com.io7m.jcanephora.TextureReadableData#getCursor1d()
    */
 
-  public @Nonnull SpatialCursorReadable1f getCursor1f()
+  @Override public @Nonnull SpatialCursorReadable1d getCursor1d()
     throws ConstraintError
   {
+    return (SpatialCursorReadable1d) this.getCursor1f();
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.io7m.jcanephora.TextureReadableData#getCursor1f()
+   */
+
+  @Override public @Nonnull SpatialCursorReadable1f getCursor1f()
+    throws ConstraintError
+  {
+    Constraints.constrainArbitrary(
+      this.type.getComponentCount() == 1,
+      "Number of components in the texture is 1");
+
     switch (this.type) {
+      case TEXTURE_TYPE_RGBA_1010102_4BPP:
+      case TEXTURE_TYPE_RGBA_16F_8BPP:
+      case TEXTURE_TYPE_RGBA_16I_8BPP:
+      case TEXTURE_TYPE_RGBA_16U_8BPP:
+      case TEXTURE_TYPE_RGBA_16_8BPP:
+      case TEXTURE_TYPE_RGBA_32F_16BPP:
+      case TEXTURE_TYPE_RGBA_32I_16BPP:
+      case TEXTURE_TYPE_RGBA_32U_16BPP:
       case TEXTURE_TYPE_RGBA_4444_2BPP:
       case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_8888_4BPP:
-      case TEXTURE_TYPE_RG_88_2BPP:
+      case TEXTURE_TYPE_RGBA_8I_4BPP:
+      case TEXTURE_TYPE_RGBA_8U_4BPP:
+      case TEXTURE_TYPE_RGBA_8_4BPP:
+      case TEXTURE_TYPE_RGB_16F_6BPP:
+      case TEXTURE_TYPE_RGB_16I_6BPP:
+      case TEXTURE_TYPE_RGB_16U_6BPP:
+      case TEXTURE_TYPE_RGB_16_6BPP:
+      case TEXTURE_TYPE_RGB_32F_12BPP:
+      case TEXTURE_TYPE_RGB_32I_12BPP:
+      case TEXTURE_TYPE_RGB_32U_12BPP:
       case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_888_3BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
+      case TEXTURE_TYPE_RGB_8I_3BPP:
+      case TEXTURE_TYPE_RGB_8U_3BPP:
+      case TEXTURE_TYPE_RGB_8_3BPP:
+      case TEXTURE_TYPE_RG_16F_4BPP:
+      case TEXTURE_TYPE_RG_16I_4BPP:
+      case TEXTURE_TYPE_RG_16U_4BPP:
+      case TEXTURE_TYPE_RG_16_4BPP:
+      case TEXTURE_TYPE_RG_32F_8BPP:
+      case TEXTURE_TYPE_RG_32I_8BPP:
+      case TEXTURE_TYPE_RG_32U_8BPP:
+      case TEXTURE_TYPE_RG_8I_2BPP:
+      case TEXTURE_TYPE_RG_8U_2BPP:
+      case TEXTURE_TYPE_RG_8_2BPP:
+      {
+        throw new UnreachableCodeException();
+      }
+      case TEXTURE_TYPE_R_16I_2BPP:
+      {
+        return new ByteBufferTextureCursorReadable_1_16_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_R_16U_2BPP:
+      {
+        return new ByteBufferTextureCursorReadable_1_16_U(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_R_16_2BPP:
       case TEXTURE_TYPE_DEPTH_16_2BPP:
+      {
+        return new ByteBufferTextureCursorReadable_1_16_UNFP(
+          this.data,
+          this.area,
+          this.area);
+      }
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       {
-        Constraints
-          .constrainArbitrary(
-            false,
-            "Number of texture components is 1 and textures are floating point");
-        break;
+        return new ByteBufferTextureCursorReadable_1_24_UNFP(
+          this.data,
+          this.area,
+          this.area);
       }
+      case TEXTURE_TYPE_R_32F_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
       {
-        return new ByteBufferTextureCursorReadable1f_4_32(
+        return new ByteBufferTextureCursorReadable_1_32f(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_R_8I_1BPP:
+      {
+        return new ByteBufferTextureCursorReadable_1_8_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_R_8U_1BPP:
+      {
+        return new ByteBufferTextureCursorReadable_1_8_U(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_R_8_1BPP:
+      {
+        return new ByteBufferTextureCursorReadable_1_8_UNFP(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_R_32I_4BPP:
+      {
+        return new ByteBufferTextureCursorReadable_1_32_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_R_32U_4BPP:
+      {
+        return new ByteBufferTextureCursorReadable_1_32_UNFP(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_R_16F_2BPP:
+      {
+        return new ByteBufferTextureCursorReadable_1_16f(
           this.data,
           this.area,
           this.area);
@@ -101,51 +205,123 @@ public final class TextureCubeReadableData
     throw new UnreachableCodeException();
   }
 
-  /**
-   * <p>
-   * Retrieve a cursor that points to elements of the texture. The cursor
-   * interface allows constant time access to any element and also minimizes
-   * the number of checks performed for each access.
-   * </p>
+  /*
+   * (non-Javadoc)
    * 
-   * @throws ConstraintError
-   *           If the number of components in the texture is not 1.
+   * @see com.io7m.jcanephora.TextureReadableData#getCursor1i()
    */
 
-  public @Nonnull SpatialCursorReadable1i getCursor1i()
+  @Override public @Nonnull SpatialCursorReadable1i getCursor1i()
     throws ConstraintError
   {
+    Constraints.constrainArbitrary(
+      this.type.getComponentCount() == 1,
+      "Number of components in the texture is 1");
+    Constraints.constrainArbitrary(
+      TextureTypeMeta.isFloatingPoint(this.type) == false,
+      "Texture is not floating point");
+
     switch (this.type) {
-      case TEXTURE_TYPE_R_8_1BPP:
+      case TEXTURE_TYPE_R_16F_2BPP:
+      case TEXTURE_TYPE_R_32F_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_RGBA_16F_8BPP:
+      case TEXTURE_TYPE_RGBA_32F_16BPP:
+      case TEXTURE_TYPE_RGB_16F_6BPP:
+      case TEXTURE_TYPE_RGB_32F_12BPP:
+      case TEXTURE_TYPE_RG_16F_4BPP:
+      case TEXTURE_TYPE_RG_32F_8BPP:
+      case TEXTURE_TYPE_RGBA_1010102_4BPP:
+      case TEXTURE_TYPE_RGBA_16I_8BPP:
+      case TEXTURE_TYPE_RGBA_16U_8BPP:
+      case TEXTURE_TYPE_RGBA_16_8BPP:
+      case TEXTURE_TYPE_RGBA_32I_16BPP:
+      case TEXTURE_TYPE_RGBA_32U_16BPP:
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGBA_8I_4BPP:
+      case TEXTURE_TYPE_RGBA_8U_4BPP:
+      case TEXTURE_TYPE_RGBA_8_4BPP:
+      case TEXTURE_TYPE_RGB_16I_6BPP:
+      case TEXTURE_TYPE_RGB_16U_6BPP:
+      case TEXTURE_TYPE_RGB_16_6BPP:
+      case TEXTURE_TYPE_RGB_32I_12BPP:
+      case TEXTURE_TYPE_RGB_32U_12BPP:
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_TYPE_RGB_8I_3BPP:
+      case TEXTURE_TYPE_RGB_8U_3BPP:
+      case TEXTURE_TYPE_RGB_8_3BPP:
+      case TEXTURE_TYPE_RG_16I_4BPP:
+      case TEXTURE_TYPE_RG_16U_4BPP:
+      case TEXTURE_TYPE_RG_16_4BPP:
+      case TEXTURE_TYPE_RG_32I_8BPP:
+      case TEXTURE_TYPE_RG_32U_8BPP:
+      case TEXTURE_TYPE_RG_8I_2BPP:
+      case TEXTURE_TYPE_RG_8U_2BPP:
+      case TEXTURE_TYPE_RG_8_2BPP:
       {
-        return new ByteBufferTextureCursorReadable1i_1_8(
+        throw new UnreachableCodeException();
+      }
+      case TEXTURE_TYPE_R_16I_2BPP:
+      {
+        return new ByteBufferTextureCursorReadable_1_16_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_8888_4BPP:
-      case TEXTURE_TYPE_RG_88_2BPP:
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_888_3BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_R_16U_2BPP:
       {
-        Constraints.constrainArbitrary(
-          false,
-          "Number of texture components is 1 and components are integers");
-        break;
+        return new ByteBufferTextureCursorReadable_1_16_U(
+          this.data,
+          this.area,
+          this.area);
       }
+      case TEXTURE_TYPE_R_16_2BPP:
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       {
-        return new ByteBufferTextureCursorReadable1i_2_16(
+        return new ByteBufferTextureCursorReadable_1_16_UNFP(
           this.data,
           this.area,
           this.area);
       }
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       {
-        return new ByteBufferTextureCursorReadable1i_3_24(
+        return new ByteBufferTextureCursorReadable_1_24_UNFP(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_R_8I_1BPP:
+      {
+        return new ByteBufferTextureCursorReadable_1_8_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_R_8U_1BPP:
+      {
+        return new ByteBufferTextureCursorReadable_1_8_U(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_R_8_1BPP:
+      {
+        return new ByteBufferTextureCursorReadable_1_8_UNFP(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_R_32I_4BPP:
+      {
+        return new ByteBufferTextureCursorReadable_1_32_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_R_32U_4BPP:
+      {
+        return new ByteBufferTextureCursorReadable_1_32_U(
           this.data,
           this.area,
           this.area);
@@ -155,87 +331,258 @@ public final class TextureCubeReadableData
     throw new UnreachableCodeException();
   }
 
-  /**
-   * <p>
-   * Retrieve a cursor that points to elements of the texture. The cursor
-   * interface allows constant time access to any element and also minimizes
-   * the number of checks performed for each access.
-   * </p>
+  /*
+   * (non-Javadoc)
    * 
-   * @throws ConstraintError
-   *           If the number of components in the texture is not 2.
+   * @see com.io7m.jcanephora.TextureReadableData#getCursor2d()
    */
 
-  public @Nonnull SpatialCursorReadable2i getCursor2i()
+  @Override public @Nonnull SpatialCursorReadable2d getCursor2d()
     throws ConstraintError
   {
+    return (SpatialCursorReadable2d) this.getCursor2f();
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.io7m.jcanephora.TextureReadableData#getCursor2f()
+   */
+
+  @Override public @Nonnull SpatialCursorReadable2f getCursor2f()
+    throws ConstraintError
+  {
+    Constraints.constrainArbitrary(
+      this.type.getComponentCount() == 2,
+      "Number of components in the texture is 2");
+
     switch (this.type) {
-      case TEXTURE_TYPE_RG_88_2BPP:
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_RGBA_1010102_4BPP:
+      case TEXTURE_TYPE_RGBA_16F_8BPP:
+      case TEXTURE_TYPE_RGBA_16I_8BPP:
+      case TEXTURE_TYPE_RGBA_16U_8BPP:
+      case TEXTURE_TYPE_RGBA_16_8BPP:
+      case TEXTURE_TYPE_RGBA_32F_16BPP:
+      case TEXTURE_TYPE_RGBA_32I_16BPP:
+      case TEXTURE_TYPE_RGBA_32U_16BPP:
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGBA_8I_4BPP:
+      case TEXTURE_TYPE_RGBA_8U_4BPP:
+      case TEXTURE_TYPE_RGBA_8_4BPP:
+      case TEXTURE_TYPE_RGB_16F_6BPP:
+      case TEXTURE_TYPE_RGB_16I_6BPP:
+      case TEXTURE_TYPE_RGB_16U_6BPP:
+      case TEXTURE_TYPE_RGB_16_6BPP:
+      case TEXTURE_TYPE_RGB_32F_12BPP:
+      case TEXTURE_TYPE_RGB_32I_12BPP:
+      case TEXTURE_TYPE_RGB_32U_12BPP:
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_TYPE_RGB_8I_3BPP:
+      case TEXTURE_TYPE_RGB_8U_3BPP:
+      case TEXTURE_TYPE_RGB_8_3BPP:
+      case TEXTURE_TYPE_R_16F_2BPP:
+      case TEXTURE_TYPE_R_16I_2BPP:
+      case TEXTURE_TYPE_R_16U_2BPP:
+      case TEXTURE_TYPE_R_16_2BPP:
+      case TEXTURE_TYPE_R_32F_4BPP:
+      case TEXTURE_TYPE_R_32I_4BPP:
+      case TEXTURE_TYPE_R_32U_4BPP:
+      case TEXTURE_TYPE_R_8I_1BPP:
+      case TEXTURE_TYPE_R_8U_1BPP:
+      case TEXTURE_TYPE_R_8_1BPP:
       {
-        return new ByteBufferTextureCursorReadable2i_2_88(
+        throw new UnreachableCodeException();
+      }
+      case TEXTURE_TYPE_RG_16I_4BPP:
+      {
+        return new ByteBufferTextureCursorReadable_2_16_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_8888_4BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_888_3BPP:
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_RG_16U_4BPP:
       {
-        Constraints.constrainArbitrary(
-          false,
-          "Number of texture components is 2 and components are integers");
-        break;
+        return new ByteBufferTextureCursorReadable_2_16_U(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RG_16_4BPP:
+      {
+        return new ByteBufferTextureCursorReadable_2_16_UNFP(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RG_32F_8BPP:
+      {
+        return new ByteBufferTextureCursorReadable_2_32f(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RG_32I_8BPP:
+      {
+        return new ByteBufferTextureCursorReadable_2_32_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RG_32U_8BPP:
+      {
+        return new ByteBufferTextureCursorReadable_2_32_U(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RG_8I_2BPP:
+      {
+        return new ByteBufferTextureCursorReadable_2_8_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RG_8U_2BPP:
+      {
+        return new ByteBufferTextureCursorReadable_2_8_U(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RG_8_2BPP:
+      {
+        return new ByteBufferTextureCursorReadable_2_8_UNFP(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RG_16F_4BPP:
+      {
+        return new ByteBufferTextureCursorReadable_2_16f(
+          this.data,
+          this.area,
+          this.area);
       }
     }
 
     throw new UnreachableCodeException();
   }
 
-  /**
-   * <p>
-   * Retrieve a cursor that points to elements of the texture. The cursor
-   * interface allows constant time access to any element and also minimizes
-   * the number of checks performed for each access.
-   * </p>
+  /*
+   * (non-Javadoc)
    * 
-   * @throws ConstraintError
-   *           If the number of components in the texture is not 3.
+   * @see com.io7m.jcanephora.TextureReadableData#getCursor2i()
    */
 
-  public @Nonnull SpatialCursorReadable3i getCursor3i()
+  @Override public @Nonnull SpatialCursorReadable2i getCursor2i()
     throws ConstraintError
   {
+    Constraints.constrainArbitrary(
+      this.type.getComponentCount() == 2,
+      "Number of components in the texture is 2");
+    Constraints.constrainArbitrary(
+      TextureTypeMeta.isFloatingPoint(this.type) == false,
+      "Texture is not floating point");
+
     switch (this.type) {
+      case TEXTURE_TYPE_R_16F_2BPP:
+      case TEXTURE_TYPE_R_32F_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_RGBA_16F_8BPP:
+      case TEXTURE_TYPE_RGBA_32F_16BPP:
+      case TEXTURE_TYPE_RGB_16F_6BPP:
+      case TEXTURE_TYPE_RGB_32F_12BPP:
+      case TEXTURE_TYPE_RG_16F_4BPP:
+      case TEXTURE_TYPE_RG_32F_8BPP:
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_RGBA_1010102_4BPP:
+      case TEXTURE_TYPE_RGBA_16I_8BPP:
+      case TEXTURE_TYPE_RGBA_16U_8BPP:
+      case TEXTURE_TYPE_RGBA_16_8BPP:
+      case TEXTURE_TYPE_RGBA_32I_16BPP:
+      case TEXTURE_TYPE_RGBA_32U_16BPP:
       case TEXTURE_TYPE_RGBA_4444_2BPP:
       case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_8888_4BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
-      case TEXTURE_TYPE_RG_88_2BPP:
-      {
-        Constraints.constrainArbitrary(
-          false,
-          "Number of texture components is 3 and components are integers");
-        break;
-      }
+      case TEXTURE_TYPE_RGBA_8I_4BPP:
+      case TEXTURE_TYPE_RGBA_8U_4BPP:
+      case TEXTURE_TYPE_RGBA_8_4BPP:
+      case TEXTURE_TYPE_RGB_16I_6BPP:
+      case TEXTURE_TYPE_RGB_16U_6BPP:
+      case TEXTURE_TYPE_RGB_16_6BPP:
+      case TEXTURE_TYPE_RGB_32I_12BPP:
+      case TEXTURE_TYPE_RGB_32U_12BPP:
       case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_TYPE_RGB_8I_3BPP:
+      case TEXTURE_TYPE_RGB_8U_3BPP:
+      case TEXTURE_TYPE_RGB_8_3BPP:
+      case TEXTURE_TYPE_R_16I_2BPP:
+      case TEXTURE_TYPE_R_16U_2BPP:
+      case TEXTURE_TYPE_R_16_2BPP:
+      case TEXTURE_TYPE_R_32I_4BPP:
+      case TEXTURE_TYPE_R_32U_4BPP:
+      case TEXTURE_TYPE_R_8I_1BPP:
+      case TEXTURE_TYPE_R_8U_1BPP:
+      case TEXTURE_TYPE_R_8_1BPP:
       {
-        return new ByteBufferTextureCursorReadable3i_2_565(
+        throw new UnreachableCodeException();
+      }
+      case TEXTURE_TYPE_RG_16I_4BPP:
+      {
+        return new ByteBufferTextureCursorReadable_2_16_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGB_888_3BPP:
+      case TEXTURE_TYPE_RG_16U_4BPP:
       {
-        return new ByteBufferTextureCursorReadable3i_3_888(
+        return new ByteBufferTextureCursorReadable_2_16_U(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RG_16_4BPP:
+      {
+        return new ByteBufferTextureCursorReadable_2_16_UNFP(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RG_32I_8BPP:
+      {
+        return new ByteBufferTextureCursorReadable_2_32_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RG_32U_8BPP:
+      {
+        return new ByteBufferTextureCursorReadable_2_32_UNFP(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RG_8I_2BPP:
+      {
+        return new ByteBufferTextureCursorReadable_2_8_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RG_8U_2BPP:
+      {
+        return new ByteBufferTextureCursorReadable_2_8_U(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RG_8_2BPP:
+      {
+        return new ByteBufferTextureCursorReadable_2_8_UNFP(
           this.data,
           this.area,
           this.area);
@@ -245,53 +592,570 @@ public final class TextureCubeReadableData
     throw new UnreachableCodeException();
   }
 
-  /**
-   * <p>
-   * Retrieve a cursor that points to elements of the texture. The cursor
-   * interface allows constant time access to any element and also minimizes
-   * the number of checks performed for each access.
-   * </p>
+  /*
+   * (non-Javadoc)
    * 
-   * @throws ConstraintError
-   *           If the number of components in the texture is not 4.
+   * @see com.io7m.jcanephora.TextureReadableData#getCursor3d()
    */
 
-  public @Nonnull SpatialCursorReadable4i getCursor4i()
+  @Override public @Nonnull SpatialCursorReadable3d getCursor3d()
     throws ConstraintError
   {
+    return (SpatialCursorReadable3d) this.getCursor3f();
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.io7m.jcanephora.TextureReadableData#getCursor3f()
+   */
+
+  @Override public @Nonnull SpatialCursorReadable3f getCursor3f()
+    throws ConstraintError
+  {
+    Constraints.constrainArbitrary(
+      this.type.getComponentCount() == 3,
+      "Number of components in the texture is 3");
+
     switch (this.type) {
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_RGBA_1010102_4BPP:
+      case TEXTURE_TYPE_RGBA_16F_8BPP:
+      case TEXTURE_TYPE_RGBA_16I_8BPP:
+      case TEXTURE_TYPE_RGBA_16U_8BPP:
+      case TEXTURE_TYPE_RGBA_16_8BPP:
+      case TEXTURE_TYPE_RGBA_32F_16BPP:
+      case TEXTURE_TYPE_RGBA_32I_16BPP:
+      case TEXTURE_TYPE_RGBA_32U_16BPP:
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGBA_8I_4BPP:
+      case TEXTURE_TYPE_RGBA_8U_4BPP:
+      case TEXTURE_TYPE_RGBA_8_4BPP:
+      case TEXTURE_TYPE_RG_16F_4BPP:
+      case TEXTURE_TYPE_RG_16I_4BPP:
+      case TEXTURE_TYPE_RG_16U_4BPP:
+      case TEXTURE_TYPE_RG_16_4BPP:
+      case TEXTURE_TYPE_RG_32F_8BPP:
+      case TEXTURE_TYPE_RG_32I_8BPP:
+      case TEXTURE_TYPE_RG_32U_8BPP:
+      case TEXTURE_TYPE_RG_8I_2BPP:
+      case TEXTURE_TYPE_RG_8U_2BPP:
+      case TEXTURE_TYPE_RG_8_2BPP:
+      case TEXTURE_TYPE_R_16F_2BPP:
+      case TEXTURE_TYPE_R_16I_2BPP:
+      case TEXTURE_TYPE_R_16U_2BPP:
+      case TEXTURE_TYPE_R_16_2BPP:
+      case TEXTURE_TYPE_R_32F_4BPP:
+      case TEXTURE_TYPE_R_32I_4BPP:
+      case TEXTURE_TYPE_R_32U_4BPP:
+      case TEXTURE_TYPE_R_8I_1BPP:
+      case TEXTURE_TYPE_R_8U_1BPP:
+      case TEXTURE_TYPE_R_8_1BPP:
+      {
+        throw new UnreachableCodeException();
+      }
+      case TEXTURE_TYPE_RGB_16F_6BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_16f(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGB_16I_6BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_16_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGB_16U_6BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_16_U(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGB_16_6BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_16_UNFP(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGB_32F_12BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_32f(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGB_32I_12BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_32_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGB_32U_12BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_32_UNFP(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_565(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGB_8I_3BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_8_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGB_8U_3BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_8_U(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGB_8_3BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_8_UNFP(
+          this.data,
+          this.area,
+          this.area);
+      }
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.io7m.jcanephora.TextureReadableData#getCursor3i()
+   */
+
+  @Override public @Nonnull SpatialCursorReadable3i getCursor3i()
+    throws ConstraintError
+  {
+    Constraints.constrainArbitrary(
+      this.type.getComponentCount() == 3,
+      "Number of components in the texture is 3");
+    Constraints.constrainArbitrary(
+      TextureTypeMeta.isFloatingPoint(this.type) == false,
+      "Texture is not floating point");
+
+    switch (this.type) {
+      case TEXTURE_TYPE_R_16F_2BPP:
+      case TEXTURE_TYPE_R_32F_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_RGBA_16F_8BPP:
+      case TEXTURE_TYPE_RGBA_32F_16BPP:
+      case TEXTURE_TYPE_RGB_16F_6BPP:
+      case TEXTURE_TYPE_RGB_32F_12BPP:
+      case TEXTURE_TYPE_RG_16F_4BPP:
+      case TEXTURE_TYPE_RG_32F_8BPP:
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_RGBA_1010102_4BPP:
+      case TEXTURE_TYPE_RGBA_16I_8BPP:
+      case TEXTURE_TYPE_RGBA_16U_8BPP:
+      case TEXTURE_TYPE_RGBA_16_8BPP:
+      case TEXTURE_TYPE_RGBA_32I_16BPP:
+      case TEXTURE_TYPE_RGBA_32U_16BPP:
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGBA_8I_4BPP:
+      case TEXTURE_TYPE_RGBA_8U_4BPP:
+      case TEXTURE_TYPE_RGBA_8_4BPP:
+      case TEXTURE_TYPE_RG_16I_4BPP:
+      case TEXTURE_TYPE_RG_16U_4BPP:
+      case TEXTURE_TYPE_RG_16_4BPP:
+      case TEXTURE_TYPE_RG_32I_8BPP:
+      case TEXTURE_TYPE_RG_32U_8BPP:
+      case TEXTURE_TYPE_RG_8I_2BPP:
+      case TEXTURE_TYPE_RG_8U_2BPP:
+      case TEXTURE_TYPE_RG_8_2BPP:
+      case TEXTURE_TYPE_R_16I_2BPP:
+      case TEXTURE_TYPE_R_16U_2BPP:
+      case TEXTURE_TYPE_R_16_2BPP:
+      case TEXTURE_TYPE_R_32I_4BPP:
+      case TEXTURE_TYPE_R_32U_4BPP:
+      case TEXTURE_TYPE_R_8I_1BPP:
+      case TEXTURE_TYPE_R_8U_1BPP:
+      case TEXTURE_TYPE_R_8_1BPP:
+      {
+        throw new UnreachableCodeException();
+      }
+      case TEXTURE_TYPE_RGB_16I_6BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_16_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGB_16U_6BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_16_U(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGB_16_6BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_16_UNFP(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGB_32I_12BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_32_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGB_32U_12BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_32_U(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_565(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGB_8I_3BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_8_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGB_8U_3BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_8_U(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGB_8_3BPP:
+      {
+        return new ByteBufferTextureCursorReadable_3_8_UNFP(
+          this.data,
+          this.area,
+          this.area);
+      }
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.io7m.jcanephora.TextureReadableData#getCursor4d()
+   */
+
+  @Override public @Nonnull SpatialCursorReadable4d getCursor4d()
+    throws ConstraintError
+  {
+    return (SpatialCursorReadable4d) this.getCursor4f();
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.io7m.jcanephora.TextureReadableData#getCursor4f()
+   */
+
+  @Override public @Nonnull SpatialCursorReadable4f getCursor4f()
+    throws ConstraintError
+  {
+    Constraints.constrainArbitrary(
+      this.type.getComponentCount() == 4,
+      "Number of components in the texture is 4");
+
+    switch (this.type) {
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_RGB_16F_6BPP:
+      case TEXTURE_TYPE_RGB_16I_6BPP:
+      case TEXTURE_TYPE_RGB_16U_6BPP:
+      case TEXTURE_TYPE_RGB_16_6BPP:
+      case TEXTURE_TYPE_RGB_32F_12BPP:
+      case TEXTURE_TYPE_RGB_32I_12BPP:
+      case TEXTURE_TYPE_RGB_32U_12BPP:
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_TYPE_RGB_8I_3BPP:
+      case TEXTURE_TYPE_RGB_8U_3BPP:
+      case TEXTURE_TYPE_RGB_8_3BPP:
+      case TEXTURE_TYPE_RG_16F_4BPP:
+      case TEXTURE_TYPE_RG_16I_4BPP:
+      case TEXTURE_TYPE_RG_16U_4BPP:
+      case TEXTURE_TYPE_RG_16_4BPP:
+      case TEXTURE_TYPE_RG_32F_8BPP:
+      case TEXTURE_TYPE_RG_32I_8BPP:
+      case TEXTURE_TYPE_RG_32U_8BPP:
+      case TEXTURE_TYPE_RG_8I_2BPP:
+      case TEXTURE_TYPE_RG_8U_2BPP:
+      case TEXTURE_TYPE_RG_8_2BPP:
+      case TEXTURE_TYPE_R_16F_2BPP:
+      case TEXTURE_TYPE_R_16I_2BPP:
+      case TEXTURE_TYPE_R_16U_2BPP:
+      case TEXTURE_TYPE_R_16_2BPP:
+      case TEXTURE_TYPE_R_32F_4BPP:
+      case TEXTURE_TYPE_R_32I_4BPP:
+      case TEXTURE_TYPE_R_32U_4BPP:
+      case TEXTURE_TYPE_R_8I_1BPP:
+      case TEXTURE_TYPE_R_8U_1BPP:
+      case TEXTURE_TYPE_R_8_1BPP:
+      {
+        throw new UnreachableCodeException();
+      }
+      case TEXTURE_TYPE_RGBA_1010102_4BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_1010102(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGBA_16F_8BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_16f(
+          this.data,
+          this.area,
+          this.area);
+      }
       case TEXTURE_TYPE_RGBA_4444_2BPP:
       {
-        return new ByteBufferTextureCursorReadable4i_2_4444(
+        return new ByteBufferTextureCursorReadable_4_4444(
           this.data,
           this.area,
           this.area);
       }
       case TEXTURE_TYPE_RGBA_5551_2BPP:
       {
-        return new ByteBufferTextureCursorReadable4i_2_5551(
+        return new ByteBufferTextureCursorReadable_4_5551(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_8888_4BPP:
+      case TEXTURE_TYPE_RGBA_32F_16BPP:
       {
-        return new ByteBufferTextureCursorReadable4i_4_8888(
+        return new ByteBufferTextureCursorReadable_4_32f(
           this.data,
           this.area,
           this.area);
       }
+      case TEXTURE_TYPE_RGBA_16I_8BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_16_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGBA_16U_8BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_16_U(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGBA_16_8BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_16_UNFP(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGBA_32I_16BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_32_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGBA_32U_16BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_32_UNFP(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGBA_8I_4BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_8_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGBA_8U_4BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_8_U(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGBA_8_4BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_8_UNFP(
+          this.data,
+          this.area,
+          this.area);
+      }
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.io7m.jcanephora.TextureReadableData#getCursor4i()
+   */
+
+  @Override public @Nonnull SpatialCursorReadable4i getCursor4i()
+    throws ConstraintError
+  {
+    Constraints.constrainArbitrary(
+      this.type.getComponentCount() == 4,
+      "Number of components in the texture is 4");
+    Constraints.constrainArbitrary(
+      TextureTypeMeta.isFloatingPoint(this.type) == false,
+      "Texture is not floating point");
+
+    switch (this.type) {
+      case TEXTURE_TYPE_R_16F_2BPP:
+      case TEXTURE_TYPE_R_32F_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_RGBA_16F_8BPP:
+      case TEXTURE_TYPE_RGBA_32F_16BPP:
+      case TEXTURE_TYPE_RGB_16F_6BPP:
+      case TEXTURE_TYPE_RGB_32F_12BPP:
+      case TEXTURE_TYPE_RG_16F_4BPP:
+      case TEXTURE_TYPE_RG_32F_8BPP:
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
-      case TEXTURE_TYPE_RG_88_2BPP:
+      case TEXTURE_TYPE_RGB_16I_6BPP:
+      case TEXTURE_TYPE_RGB_16U_6BPP:
+      case TEXTURE_TYPE_RGB_16_6BPP:
+      case TEXTURE_TYPE_RGB_32I_12BPP:
+      case TEXTURE_TYPE_RGB_32U_12BPP:
       case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_888_3BPP:
+      case TEXTURE_TYPE_RGB_8I_3BPP:
+      case TEXTURE_TYPE_RGB_8U_3BPP:
+      case TEXTURE_TYPE_RGB_8_3BPP:
+      case TEXTURE_TYPE_RG_16I_4BPP:
+      case TEXTURE_TYPE_RG_16U_4BPP:
+      case TEXTURE_TYPE_RG_16_4BPP:
+      case TEXTURE_TYPE_RG_32I_8BPP:
+      case TEXTURE_TYPE_RG_32U_8BPP:
+      case TEXTURE_TYPE_RG_8I_2BPP:
+      case TEXTURE_TYPE_RG_8U_2BPP:
+      case TEXTURE_TYPE_RG_8_2BPP:
+      case TEXTURE_TYPE_R_16I_2BPP:
+      case TEXTURE_TYPE_R_16U_2BPP:
+      case TEXTURE_TYPE_R_16_2BPP:
+      case TEXTURE_TYPE_R_32I_4BPP:
+      case TEXTURE_TYPE_R_32U_4BPP:
+      case TEXTURE_TYPE_R_8I_1BPP:
+      case TEXTURE_TYPE_R_8U_1BPP:
+      case TEXTURE_TYPE_R_8_1BPP:
       {
-        Constraints.constrainArbitrary(
-          false,
-          "Number of texture components is 4 and components are integers");
+        throw new UnreachableCodeException();
+      }
+      case TEXTURE_TYPE_RGBA_1010102_4BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_1010102(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_4444(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_5551(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGBA_16I_8BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_16_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGBA_16U_8BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_16_U(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGBA_16_8BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_16_UNFP(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGBA_32I_16BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_32_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGBA_32U_16BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_32_UNFP(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGBA_8I_4BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_8_I(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGBA_8U_4BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_8_U(
+          this.data,
+          this.area,
+          this.area);
+      }
+      case TEXTURE_TYPE_RGBA_8_4BPP:
+      {
+        return new ByteBufferTextureCursorReadable_4_8_UNFP(
+          this.data,
+          this.area,
+          this.area);
       }
     }
 

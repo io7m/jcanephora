@@ -40,8 +40,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
 @Immutable public final class ArrayBufferTypeDescriptor
 {
   private final @Nonnull ArrayBufferAttributeDescriptor attributes[];
-  private final int                                     offsets[];
   private final @Nonnull HashMap<String, Integer>       indices_by_name;
+  private final int                                     offsets[];
   private final int                                     stride;
 
   public ArrayBufferTypeDescriptor(

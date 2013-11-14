@@ -32,11 +32,11 @@ import com.io7m.jaux.RangeInclusive;
 public final class ArrayBufferWritableData
 {
   private final @Nonnull ArrayBuffer    buffer;
-  private final @Nonnull ByteBuffer     target_data;
-  private final long                    target_data_size;
-  private final long                    target_data_offset;
-  private final @Nonnull RangeInclusive target_range;
   private final @Nonnull RangeInclusive range;
+  private final @Nonnull ByteBuffer     target_data;
+  private final long                    target_data_offset;
+  private final long                    target_data_size;
+  private final @Nonnull RangeInclusive target_range;
 
   /**
    * Construct a buffer of data that will be used to replace the entirety of

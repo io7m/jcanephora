@@ -32,8 +32,8 @@ import com.io7m.jaux.UnreachableCodeException;
   Comparable<JCGLVersionNumber>
 {
   private final int version_major;
-  private final int version_minor;
   private final int version_micro;
+  private final int version_minor;
 
   public JCGLVersionNumber(
     final int version_major,

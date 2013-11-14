@@ -31,12 +31,6 @@ public enum FramebufferStatus
   FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_ATTACHMENT,
 
   /**
-   * The framebuffer does not have any attached images.
-   */
-
-  FRAMEBUFFER_STATUS_ERROR_MISSING_IMAGE_ATTACHMENT,
-
-  /**
    * One of the framebuffer attachments selected for drawing is nonexistent.
    */
 
@@ -49,16 +43,22 @@ public enum FramebufferStatus
   FRAMEBUFFER_STATUS_ERROR_INCOMPLETE_READ_BUFFER,
 
   /**
-   * The current combination of attached image formats is unsupported by the
-   * implementation.
+   * The framebuffer does not have any attached images.
    */
 
-  FRAMEBUFFER_STATUS_ERROR_UNSUPPORTED,
+  FRAMEBUFFER_STATUS_ERROR_MISSING_IMAGE_ATTACHMENT,
 
   /**
    * Framebuffer validation failed for unknown reasons (this should never
    * occur).
    */
 
-  FRAMEBUFFER_STATUS_ERROR_UNKNOWN
+  FRAMEBUFFER_STATUS_ERROR_UNKNOWN,
+
+  /**
+   * The current combination of attached image formats is unsupported by the
+   * implementation.
+   */
+
+  FRAMEBUFFER_STATUS_ERROR_UNSUPPORTED
 }

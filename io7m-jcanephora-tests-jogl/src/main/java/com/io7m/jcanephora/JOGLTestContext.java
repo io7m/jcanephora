@@ -36,11 +36,11 @@ import com.jogamp.common.util.VersionNumber;
 public final class JOGLTestContext
 {
   private static GLOffscreenAutoDrawable buffer;
-  static final String                    LOG_DESTINATION_OPENGL_ES_3_0;
-  static final String                    LOG_DESTINATION_OPENGL_ES_2_0;
+  static final String                    LOG_DESTINATION_OPENGL_2_1;
   static final String                    LOG_DESTINATION_OPENGL_3_0;
   static final String                    LOG_DESTINATION_OPENGL_3_p;
-  static final String                    LOG_DESTINATION_OPENGL_2_1;
+  static final String                    LOG_DESTINATION_OPENGL_ES_2_0;
+  static final String                    LOG_DESTINATION_OPENGL_ES_3_0;
 
   static {
     LOG_DESTINATION_OPENGL_ES_3_0 = "jogl_es_3_0-test";
@@ -232,7 +232,8 @@ public final class JOGLTestContext
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GLES2));
-    final JCGLImplementation gi = new JCGLImplementationJOGL(ctx, log);
+    final JCGLImplementation gi =
+      JCGLImplementationJOGL.newImplementation(ctx, log);
 
     return new TestContext(fs, gi, log, ShaderPaths.getShaderPath(2, 0, true));
   }
@@ -248,7 +249,8 @@ public final class JOGLTestContext
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GLES3));
-    final JCGLImplementation gi = new JCGLImplementationJOGL(ctx, log);
+    final JCGLImplementation gi =
+      JCGLImplementationJOGL.newImplementation(ctx, log);
 
     final VersionNumber version = ctx.getGLVersionNumber();
     if (version.getMajor() != 3) {
@@ -273,7 +275,8 @@ public final class JOGLTestContext
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GL2));
-    final JCGLImplementation gi = new JCGLImplementationJOGL(ctx, log);
+    final JCGLImplementation gi =
+      JCGLImplementationJOGL.newImplementation(ctx, log);
 
     final VersionNumber version = ctx.getGLVersionNumber();
     final PathVirtual shader_path =
@@ -293,7 +296,8 @@ public final class JOGLTestContext
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GL2));
-    final JCGLImplementation gi = new JCGLImplementationJOGL(ctx, log);
+    final JCGLImplementation gi =
+      JCGLImplementationJOGL.newImplementation(ctx, log);
 
     final VersionNumber version = ctx.getGLVersionNumber();
     if (version.getMajor() != 3) {
@@ -317,7 +321,8 @@ public final class JOGLTestContext
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GL3));
-    final JCGLImplementation gi = new JCGLImplementationJOGL(ctx, log);
+    final JCGLImplementation gi =
+      JCGLImplementationJOGL.newImplementation(ctx, log);
 
     final VersionNumber version = ctx.getGLVersionNumber();
     if (version.getMajor() != 3) {

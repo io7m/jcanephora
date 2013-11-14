@@ -27,12 +27,12 @@ import com.io7m.jaux.UnreachableCodeException;
 
 public enum CubeMapFaceRH
 {
-  CUBE_MAP_RH_POSITIVE_X,
   CUBE_MAP_RH_NEGATIVE_X,
-  CUBE_MAP_RH_POSITIVE_Y,
   CUBE_MAP_RH_NEGATIVE_Y,
-  CUBE_MAP_RH_POSITIVE_Z,
-  CUBE_MAP_RH_NEGATIVE_Z;
+  CUBE_MAP_RH_NEGATIVE_Z,
+  CUBE_MAP_RH_POSITIVE_X,
+  CUBE_MAP_RH_POSITIVE_Y,
+  CUBE_MAP_RH_POSITIVE_Z;
 
   /**
    * For the cube map face <code>face</code> in OpenGL's left handed cube map

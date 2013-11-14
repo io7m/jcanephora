@@ -27,12 +27,12 @@ import com.io7m.jaux.UnreachableCodeException;
 public enum JCGLScalarType
 {
   TYPE_BYTE,
-  TYPE_UNSIGNED_BYTE,
-  TYPE_SHORT,
-  TYPE_UNSIGNED_SHORT,
+  TYPE_FLOAT,
   TYPE_INT,
+  TYPE_SHORT,
+  TYPE_UNSIGNED_BYTE,
   TYPE_UNSIGNED_INT,
-  TYPE_FLOAT;
+  TYPE_UNSIGNED_SHORT;
 
   /**
    * Return the size in bytes of this type.

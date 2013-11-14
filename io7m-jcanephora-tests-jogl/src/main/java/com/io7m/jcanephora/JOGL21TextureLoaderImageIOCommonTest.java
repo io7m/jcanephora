@@ -19,6 +19,7 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.contracts.common.TextureLoaderContractCommon;
 
 public final class JOGL21TextureLoaderImageIOCommonTest extends
@@ -36,9 +37,14 @@ public final class JOGL21TextureLoaderImageIOCommonTest extends
   }
 
   @Override public @Nonnull TextureLoaderImageIO makeTextureLoader(
+    final @Nonnull TestContext tc,
     final @Nonnull JCGLTextures2DStaticCommon gl)
   {
-    return new TextureLoaderImageIO();
+    try {
+      return TextureLoaderImageIO.newTextureLoader(tc.getLog());
+    } catch (final ConstraintError x) {
+      throw new UnreachableCodeException(x);
+    }
   }
 
   @Override public @Nonnull TestContext newTestContext()

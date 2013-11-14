@@ -16,7 +16,11 @@
 
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
 import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jtensors.VectorM3I;
+import com.io7m.jtensors.VectorM4I;
 
 /**
  * Functions to pack color values into integers.
@@ -24,127 +28,97 @@ import com.io7m.jaux.UnreachableCodeException;
 
 final class TexturePixelPack
 {
-  public static char pack2_4444(
+  public static int pack2_4444(
     final int r,
     final int g,
     final int b,
     final int a)
   {
-    final int r_hi4 = (r & 0xF0); // Select 4 high bits
-    final int g_hi4 = (g & 0xF0); // Select 4 high bits
-    final int b_hi4 = (b & 0xF0); // Select 4 high bits
-    final int a_hi4 = (a & 0xF0); // Select 4 high bits
-
-    char c = 0;
-    c |= (r_hi4) << 8;
-    c |= (g_hi4) << 4;
-    c |= (b_hi4);
-    c |= (a_hi4) >> 4;
+    int c = 0;
+    c |= (r << 12) & 0xF000;
+    c |= (g << 8) & 0x0F00;
+    c |= (b << 4) & 0x00F0;
+    c |= a & 0x000F;
     return c;
   }
 
-  public static char pack2_5551(
+  public static int pack2_5551(
     final int r,
     final int g,
     final int b,
     final int a)
   {
-    final int r_hi5 = (r & 0xF8); // Select 5 high bits
-    final int g_hi5 = (g & 0xF8); // Select 5 high bits
-    final int b_hi5 = (b & 0xF8); // Select 5 high bits
-    final int a_hi1 = (a & 0x80); // Select high bit
-
-    char c = 0;
-    c |= (r_hi5) << 8;
-    c |= (g_hi5) << 3;
-    c |= (b_hi5) >> 2;
-    c |= (a_hi1) >> 7;
+    int c = 0;
+    c |= (r << 11) & 0xF800;
+    c |= (g << 6) & 0x07C0;
+    c |= (b << 1) & 0x003E;
+    c |= a & 0x0001;
     return c;
   }
 
-  public static char pack2_565(
+  public static int pack2_565(
     final int r,
     final int g,
     final int b)
   {
-    final int r_hi5 = (r & 0xF8); // Select 5 high bits
-    final int g_hi6 = (g & 0xFC); // Select 6 high bits
-    final int b_hi5 = (b & 0xF8); // Select 5 high bits
-
-    char c = 0;
-    c |= (r_hi5) << 8;
-    c |= (g_hi6) << 3;
-    c |= (b_hi5) >> 3;
+    int c = 0;
+    c |= (r << 11) & 0xF800;
+    c |= (g << 5) & 0x07E0;
+    c |= b & 0x1F;
     return c;
   }
 
-  public static char pack2_88(
-    final int x,
-    final int y)
-  {
-    final int xb = (x << 8) & 0xFF00;
-    final int yb = (y & 0xFF);
-    return (char) (xb | yb);
-  }
-
-  public static int pack4_8888(
+  public static long pack4_1010102(
     final int r,
     final int g,
     final int b,
     final int a)
   {
-    final int ri = (r << 24) & 0xFF000000;
-    final int rg = (g << 16) & 0x00FF0000;
-    final int rb = (b << 8) & 0x0000FF00;
-    final int ra = a & 0x000000FF;
-    return ri | rg | rb | ra;
+    long c = 0;
+    c |= (r << 22) & 0xffc00000;
+    c |= (g << 12) & 0x003ff000;
+    c |= (b << 2) & 0x00000ffc;
+    c |= a & 0x3;
+    return c;
   }
 
   public static void unpack2_4444(
-    final char rgba,
-    final int out[])
+    final int rgba,
+    final @Nonnull VectorM4I out)
   {
-    out[0] = ((rgba & 0xF000) >> 8) & 0xff;
-    out[1] = ((rgba & 0x0F00) >> 4) & 0xff;
-    out[2] = ((rgba & 0x00F0) >> 0) & 0xff;
-    out[3] = ((rgba & 0x000F) << 4) & 0xff;
+    out.x = (rgba & 0xF000) >> 12;
+    out.y = (rgba & 0x0F00) >> 8;
+    out.z = (rgba & 0x00F0) >> 4;
+    out.w = rgba & 0x000F;
   }
 
   public static void unpack2_5551(
-    final char rgba,
-    final int out[])
+    final int rgba,
+    final @Nonnull VectorM4I out)
   {
-    out[0] = ((rgba & 0xF800) >> 8) & 0xff;
-    out[1] = ((rgba & 0x07C0) >> 3) & 0xff;
-    out[2] = ((rgba & 0x003E) << 2) & 0xff;
-    out[3] = (rgba & 0x0001) == 1 ? 0xff : 0x00;
+    out.x = (rgba & 0xF800) >> 11;
+    out.y = (rgba & 0x07C0) >> 6;
+    out.z = (rgba & 0x003E) >> 1;
+    out.w = (rgba & 0x0001);
   }
 
   public static void unpack2_565(
-    final char rgb,
-    final int out[])
+    final int rgb,
+    final @Nonnull VectorM3I out)
   {
-    out[0] = ((rgb & 0xF800) >> 8) & 0xFF;
-    out[1] = ((rgb & 0x07E0) >> 3) & 0xFF;
-    out[2] = ((rgb & 0x001F) << 3) & 0xFF;
+    out.x = (rgb & 0xF800) >> 11;
+    out.y = (rgb & 0x07E0) >> 5;
+    out.z = (rgb & 0x001F);
   }
 
-  public static void unpack2_88(
-    final char rgb,
-    final int out[])
+  public static void unpack4_1010102(
+    final long k,
+    final @Nonnull VectorM4I out)
   {
-    out[0] = ((rgb & 0xff00) >> 8) & 0xff;
-    out[1] = rgb & 0xff;
-  }
-
-  public static void unpack4_8888(
-    final int rgba,
-    final int out[])
-  {
-    out[0] = ((rgba & 0xFF000000) >> 24) & 0xff;
-    out[1] = ((rgba & 0x00FF0000) >> 16) & 0xff;
-    out[2] = ((rgba & 0x0000FF00) >> 8) & 0xff;
-    out[3] = ((rgba & 0x000000FF) >> 0) & 0xff;
+    out.x = (int) ((k & 0xffc00000) >> 22);
+    out.y = (int) ((k & 0x003ff000) >> 12);
+    out.z = (int) ((k & 0x00000ffc) >> 2);
+    out.w = (int) (k & 0x00000003);
   }
 
   private TexturePixelPack()

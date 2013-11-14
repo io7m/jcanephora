@@ -16,37 +16,29 @@
 
 package com.io7m.jcanephora;
 
-import java.nio.ByteBuffer;
-
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.UnreachableCodeException;
 
 /**
- * Texture cursor addressing textures with single 32 bit elements.
+ * Type-safe unsigned OpenGL types.
  */
 
-final class ByteBufferTextureCursorWritable1i_4_32 extends AreaCursor implements
-  SpatialCursorWritable1i
+public enum JCGLUnsignedType
 {
-  private final @Nonnull ByteBuffer target_data;
+  TYPE_UNSIGNED_BYTE,
+  TYPE_UNSIGNED_INT,
+  TYPE_UNSIGNED_SHORT;
 
-  protected ByteBufferTextureCursorWritable1i_4_32(
-    final @Nonnull ByteBuffer target_data,
-    final @Nonnull AreaInclusive target_area,
-    final @Nonnull AreaInclusive update_area)
-    throws ConstraintError
+  public int getSizeBytes()
   {
-    super(target_area, update_area, 4);
-    this.target_data = target_data;
-  }
+    switch (this) {
+      case TYPE_UNSIGNED_BYTE:
+        return 1;
+      case TYPE_UNSIGNED_INT:
+        return 4;
+      case TYPE_UNSIGNED_SHORT:
+        return 2;
+    }
 
-  @Override public void put1i(
-    final int x)
-    throws ConstraintError
-  {
-    final int byte_current = (int) this.getByteOffset();
-    this.target_data.putInt(byte_current, x);
-    this.next();
+    throw new UnreachableCodeException();
   }
 }

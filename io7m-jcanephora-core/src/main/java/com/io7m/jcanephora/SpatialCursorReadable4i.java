@@ -22,8 +22,9 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jtensors.VectorM4I;
 
 /**
- * Typed, readable cursor addressing areas consisting of elements of type int
- * (values are assumed to be in the range <code>[0, 0xff]</code>).
+ * Readable cursor addressing areas consisting of four-component elements.
+ * Values are fetched directly and not converted (but may, for example, return
+ * 16 bit values in 32 bit integers).
  */
 
 public interface SpatialCursorReadable4i extends SpatialCursor
