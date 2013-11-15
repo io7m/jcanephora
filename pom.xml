@@ -7,7 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.io7m.jcanephora</groupId>
   <artifactId>io7m-jcanephora</artifactId>
-  <version>0.13.2</version>
+  <version>0.13.3</version>
   <name>io7m-jcanephora</name>
   <description>OpenGL plus static safety</description>
   <url>http://mvn.io7m.com/jcanephora/</url>
