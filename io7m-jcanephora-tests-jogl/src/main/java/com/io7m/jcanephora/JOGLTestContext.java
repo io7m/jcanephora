@@ -60,7 +60,7 @@ public final class JOGLTestContext
 
     final GLDrawableFactory f = GLDrawableFactory.getFactory(profile);
     final GLOffscreenAutoDrawable k =
-      f.createOffscreenAutoDrawable(null, cap, null, width, height, null);
+      f.createOffscreenAutoDrawable(null, cap, null, width, height);
 
     return k;
   }

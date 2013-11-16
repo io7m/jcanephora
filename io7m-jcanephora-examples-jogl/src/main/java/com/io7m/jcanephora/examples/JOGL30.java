@@ -51,7 +51,7 @@ public final class JOGL30
 
     final GLDrawableFactory f = GLDrawableFactory.getFactory(pro);
     final GLOffscreenAutoDrawable k =
-      f.createOffscreenAutoDrawable(null, cap, null, width, height, null);
+      f.createOffscreenAutoDrawable(null, cap, null, width, height);
 
     return k.createContext(null);
   }
