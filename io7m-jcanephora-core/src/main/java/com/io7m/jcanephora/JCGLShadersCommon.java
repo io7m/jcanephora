@@ -113,8 +113,8 @@ public interface JCGLShadersCommon
       JCGLException;
 
   /**
-   * Bind the array attribute <code>array_attribute</code> to the program
-   * attribute <code>program_attribute</code>.
+   * Associate the array attribute <code>array_attribute</code> with the
+   * program attribute <code>program_attribute</code>.
    * 
    * @param array_attribute
    *          The array buffer attribute for the given array buffer.
@@ -136,45 +136,47 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  public void programAttributeArrayBind(
+  public void programAttributeArrayAssociate(
     final @Nonnull ProgramAttribute program_attribute,
     final @Nonnull ArrayBufferAttribute array_attribute)
     throws JCGLException,
       ConstraintError;
 
   /**
-   * Disable the array attribute <code>array_attribute</code> for the program
-   * attribute <code>program_attribute</code>.
+   * Disassociate the program attribute <code>program_attribute</code> with
+   * the array attribute to which it was previously associated (if any).
    * 
-   * @param array_attribute
-   *          The array buffer attribute for the given buffer.
    * @param program_attribute
    *          The program attribute.
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
-   *           <li><code>array_attribute == null</code></li>
    *           <li><code>program_attribute == null</code></li>
-   *           <li>The array that owns <code>array_attribute</code> is not
-   *           bound.</li>
-   *           <li>The array that owns <code>array_attribute</code> is
-   *           deleted.</li>
    *           </ul>
    * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
-  public void programAttributeArrayUnbind(
-    final @Nonnull ArrayBufferAttribute array_attribute,
+  public void programAttributeArrayDisassociate(
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError;
 
   /**
+   * <p>
    * Set the value of the program attribute <code>program_attribute</code> to
    * <code>x</code>. This essentially instructs OpenGL to behave as if it was
    * reading from an array buffer where every element is equal to
    * <code>x</code>.
+   * </p>
+   * <p>
+   * The function will disassociate the program attribute with any array
+   * attribute with which it may be associated.
+   * </p>
+   * 
+   * @see #programAttributeArrayAssociate(ProgramAttribute,
+   *      ArrayBufferAttribute)
+   * @see #programAttributeArrayDisassociate(ProgramAttribute)
    * 
    * @param program_attribute
    *          The program attribute.
@@ -200,10 +202,20 @@ public interface JCGLShadersCommon
       ConstraintError;
 
   /**
+   * <p>
    * Set the value of the program attribute <code>program_attribute</code> to
    * <code>x</code>. This essentially instructs OpenGL to behave as if it was
    * reading from an array buffer where every element is equal to
    * <code>x</code>.
+   * </p>
+   * <p>
+   * The function will disassociate the program attribute with any array
+   * attribute with which it may be associated.
+   * </p>
+   * 
+   * @see #programAttributeArrayAssociate(ProgramAttribute,
+   *      ArrayBufferAttribute)
+   * @see #programAttributeArrayDisassociate(ProgramAttribute)
    * 
    * @param program_attribute
    *          The program attribute.
@@ -230,10 +242,20 @@ public interface JCGLShadersCommon
       ConstraintError;
 
   /**
+   * <p>
    * Set the value of the program attribute <code>program_attribute</code> to
    * <code>x</code>. This essentially instructs OpenGL to behave as if it was
    * reading from an array buffer where every element is equal to
    * <code>x</code>.
+   * </p>
+   * <p>
+   * The function will disassociate the program attribute with any array
+   * attribute with which it may be associated.
+   * </p>
+   * 
+   * @see #programAttributeArrayAssociate(ProgramAttribute,
+   *      ArrayBufferAttribute)
+   * @see #programAttributeArrayDisassociate(ProgramAttribute)
    * 
    * @param program_attribute
    *          The program attribute.
@@ -260,10 +282,20 @@ public interface JCGLShadersCommon
       ConstraintError;
 
   /**
+   * <p>
    * Set the value of the program attribute <code>program_attribute</code> to
    * <code>x</code>. This essentially instructs OpenGL to behave as if it was
    * reading from an array buffer where every element is equal to
    * <code>x</code>.
+   * </p>
+   * <p>
+   * The function will disassociate the program attribute with any array
+   * attribute with which it may be associated.
+   * </p>
+   * 
+   * @see #programAttributeArrayAssociate(ProgramAttribute,
+   *      ArrayBufferAttribute)
+   * @see #programAttributeArrayDisassociate(ProgramAttribute)
    * 
    * @param program_attribute
    *          The program attribute.

@@ -238,31 +238,14 @@ final class JOGL_GL2ES2_Functions
     JOGL_GL_Functions.checkError(gl);
   }
 
-  static void programAttributeArrayUnbind(
+  static void programAttributeArrayDisassociate(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramAttribute program_attribute,
-    final @Nonnull ArrayBufferAttribute buffer_attribute)
+    final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError
   {
-    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
     Constraints.constrainNotNull(program_attribute, "Program attribute");
-
-    final ArrayBufferUsable buffer = buffer_attribute.getArray();
-
-    Constraints.constrainNotNull(buffer, "Array buffer");
-    Constraints.constrainArbitrary(
-      buffer.resourceIsDeleted() == false,
-      "Array buffer not deleted");
-
-    final boolean bound = JOGL_GL_Functions.arrayBufferIsBound(gl, buffer);
-    Constraints.constrainArbitrary(bound, "Buffer is bound");
-
-    Constraints.constrainArbitrary(
-      buffer_attribute.getArray().equals(buffer),
-      "Array attribute belongs to the given array");
-
     Constraints.constrainArbitrary(
       JOGL_GL2ES2_Functions.programIsActive(
         gl,
@@ -306,6 +289,7 @@ final class JOGL_GL2ES2_Functions
     }
 
     final int program_attrib_id = program_attribute.getLocation();
+    g.glDisableVertexAttribArray(program_attrib_id);
     g.glVertexAttrib1f(program_attrib_id, x);
     JOGL_GL_Functions.checkError(g);
   }
@@ -344,6 +328,7 @@ final class JOGL_GL2ES2_Functions
     }
 
     final int program_attrib_id = program_attribute.getLocation();
+    g.glDisableVertexAttribArray(program_attrib_id);
     g.glVertexAttrib2f(program_attrib_id, x.getXF(), x.getYF());
     JOGL_GL_Functions.checkError(g);
   }
@@ -382,6 +367,7 @@ final class JOGL_GL2ES2_Functions
     }
 
     final int program_attrib_id = program_attribute.getLocation();
+    g.glDisableVertexAttribArray(program_attrib_id);
     g.glVertexAttrib3f(program_attrib_id, x.getXF(), x.getYF(), x.getZF());
     JOGL_GL_Functions.checkError(g);
   }
@@ -420,6 +406,7 @@ final class JOGL_GL2ES2_Functions
     }
 
     final int program_attrib_id = program_attribute.getLocation();
+    g.glDisableVertexAttribArray(program_attrib_id);
     g.glVertexAttrib4f(
       program_attrib_id,
       x.getXF(),
@@ -525,6 +512,21 @@ final class JOGL_GL2ES2_Functions
       uniforms);
 
     return program;
+  }
+
+  static void programActivate(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull ProgramReferenceUsable program)
+    throws JCGLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(program, "Program ID");
+    Constraints.constrainArbitrary(
+      program.resourceIsDeleted() == false,
+      "Program not deleted");
+
+    gl.glUseProgram(program.getGLName());
+    JOGL_GL_Functions.checkError(gl);
   }
 
   static void programDeactivate(

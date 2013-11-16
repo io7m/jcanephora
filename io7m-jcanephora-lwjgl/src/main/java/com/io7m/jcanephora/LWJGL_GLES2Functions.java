@@ -1412,7 +1412,7 @@ final class LWJGL_GLES2Functions
     LWJGL_GLES2Functions.checkError();
   }
 
-  static void programAttributeArrayBind(
+  static void programAttributeArrayAssociate(
     final @Nonnull JCGLStateCache state,
     final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
@@ -1493,29 +1493,13 @@ final class LWJGL_GLES2Functions
     LWJGL_GLES2Functions.checkError();
   }
 
-  static void programAttributeArrayUnbind(
+  static void programAttributeArrayDisassociate(
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ArrayBufferAttribute buffer_attribute,
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError
   {
-    Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
     Constraints.constrainNotNull(program_attribute, "Program attribute");
-
-    final ArrayBufferUsable buffer = buffer_attribute.getArray();
-    Constraints.constrainNotNull(buffer, "Array buffer");
-    Constraints.constrainArbitrary(
-      buffer.resourceIsDeleted() == false,
-      "Array buffer not deleted");
-
-    final boolean bound = LWJGL_GLES2Functions.arrayBufferIsBound(buffer);
-    Constraints.constrainArbitrary(bound, "Buffer is bound");
-
-    Constraints.constrainArbitrary(
-      buffer_attribute.getArray().equals(buffer),
-      "Array attribute belongs to the given array");
-
     Constraints.constrainArbitrary(
       LWJGL_GLES2Functions.programIsActive(
         state,

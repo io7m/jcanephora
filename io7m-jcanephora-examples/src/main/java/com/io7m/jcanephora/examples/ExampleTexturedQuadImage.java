@@ -407,14 +407,16 @@ public final class ExampleTexturedQuadImage implements Example
        */
 
       this.gl.arrayBufferBind(this.array);
-      this.gl.programAttributeArrayBind(p_uv, b_uv);
-      this.gl.programAttributeArrayBind(p_pos, b_pos);
+      this.gl.programAttributeArrayAssociate(p_uv, b_uv);
+      this.gl.programAttributeArrayAssociate(p_pos, b_pos);
 
       /**
        * Draw primitives, using the array buffer and the given index buffer.
        */
 
       this.gl.drawElements(Primitives.PRIMITIVE_TRIANGLES, this.indices);
+      this.gl.programAttributeArrayDisassociate(p_pos);
+      this.gl.programAttributeArrayDisassociate(p_uv);
       this.gl.arrayBufferUnbind();
     }
     this.gl.programDeactivate();

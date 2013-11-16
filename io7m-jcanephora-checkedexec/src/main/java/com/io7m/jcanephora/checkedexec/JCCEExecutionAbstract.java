@@ -17,7 +17,9 @@
 package com.io7m.jcanephora.checkedexec;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.Nonnull;
@@ -58,13 +60,14 @@ import com.io7m.jtensors.VectorReadable4I;
 @NotThreadSafe public abstract class JCCEExecutionAbstract implements
   JCCEExecutionAPI
 {
-  private final @Nonnull HashSet<String>             assigned;
-  private final @Nonnull HashSet<String>             assigned_ever;
-  private final @Nonnull StringBuilder               message;
-  private final @Nonnull ArrayList<ProgramAttribute> missed_attributes;
-  private final @Nonnull ArrayList<ProgramUniform>   missed_uniforms;
-  private boolean                                    preparing;
-  private final @Nonnull ProgramReferenceUsable      program;
+  private final @Nonnull HashSet<String>                       assigned;
+  private final @Nonnull HashSet<String>                       assigned_ever;
+  private final @Nonnull StringBuilder                         message;
+  private final @Nonnull ArrayList<ProgramAttribute>           missed_attributes;
+  private final @Nonnull ArrayList<ProgramUniform>             missed_uniforms;
+  private final @Nonnull HashMap<String, ArrayBufferAttribute> attribute_bindings;
+  private boolean                                              preparing;
+  private final @Nonnull ProgramReferenceUsable                program;
 
   protected JCCEExecutionAbstract(
     final @Nonnull ProgramReferenceUsable program)
@@ -81,6 +84,7 @@ import com.io7m.jtensors.VectorReadable4I;
     this.message = new StringBuilder();
     this.missed_attributes = new ArrayList<ProgramAttribute>();
     this.missed_uniforms = new ArrayList<ProgramUniform>();
+    this.attribute_bindings = new HashMap<String, ArrayBufferAttribute>();
   }
 
   @Override public final void execAttributeBind(
@@ -101,8 +105,9 @@ import com.io7m.jtensors.VectorReadable4I;
       this.execNonexistentAttribute(a);
     }
 
-    gl.programAttributeArrayBind(pa, x);
+    gl.programAttributeArrayAssociate(pa, x);
     this.assigned.add(a);
+    this.attribute_bindings.put(a, x);
   }
 
   @Override public final void execAttributePutFloat(
@@ -125,6 +130,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
     gl.programAttributePutFloat(pa, x);
     this.assigned.add(a);
+    this.execRemoveExistingAttributeBinding(a);
   }
 
   @Override public final void execAttributePutVector2F(
@@ -147,6 +153,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
     gl.programAttributePutVector2f(pa, x);
     this.assigned.add(a);
+    this.execRemoveExistingAttributeBinding(a);
   }
 
   @Override public final void execAttributePutVector3F(
@@ -169,6 +176,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
     gl.programAttributePutVector3f(pa, x);
     this.assigned.add(a);
+    this.execRemoveExistingAttributeBinding(a);
   }
 
   @Override public final void execAttributePutVector4F(
@@ -191,6 +199,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
     gl.programAttributePutVector4f(pa, x);
     this.assigned.add(a);
+    this.execRemoveExistingAttributeBinding(a);
   }
 
   @Override public void execCancel()
@@ -263,6 +272,15 @@ import com.io7m.jtensors.VectorReadable4I;
     this.assigned.clear();
     this.missed_attributes.clear();
     this.missed_uniforms.clear();
+    this.attribute_bindings.clear();
+  }
+
+  private void execRemoveExistingAttributeBinding(
+    final String a)
+  {
+    if (this.attribute_bindings.containsKey(a)) {
+      this.attribute_bindings.remove(a);
+    }
   }
 
   @Override public final void execRun(
@@ -282,7 +300,21 @@ import com.io7m.jtensors.VectorReadable4I;
     try {
       this.execRunActual();
     } finally {
+      this.execUnbindArrayAttributes(gl);
       gl.programDeactivate();
+    }
+  }
+
+  private void execUnbindArrayAttributes(
+    final @Nonnull JCGLShadersCommon gl)
+    throws JCGLException,
+      ConstraintError
+  {
+    final Map<String, ProgramAttribute> prog_attributes =
+      this.program.getAttributes();
+
+    for (final Entry<String, ProgramAttribute> e : prog_attributes.entrySet()) {
+      gl.programAttributeArrayDisassociate(e.getValue());
     }
   }
 

@@ -84,12 +84,12 @@ public interface JCCEExecutionAPI
    *           <li><tt>u</tt> does not exist in the given program</li>
    *           <li>The current execution is not in the preparation stage.</li>
    *           <li>Any of the preconditions of
-   *           {@link JCGLShadersCommon#programAttributeArrayBind(com.io7m.jcanephora.ProgramAttribute, ArrayBufferAttribute)}
+   *           {@link JCGLShadersCommon#programAttributeArrayAssociate(com.io7m.jcanephora.ProgramAttribute, ArrayBufferAttribute)}
    *           are not met.</li>
    *           </ul>
    * @throws JCGLException
    *           For the same reasons as
-   *           {@link JCGLShadersCommon#programAttributeArrayBind(com.io7m.jcanephora.ProgramAttribute, ArrayBufferAttribute)}
+   *           {@link JCGLShadersCommon#programAttributeArrayAssociate(com.io7m.jcanephora.ProgramAttribute, ArrayBufferAttribute)}
    *           .
    */
 

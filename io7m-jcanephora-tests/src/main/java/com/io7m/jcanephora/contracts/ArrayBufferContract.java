@@ -372,6 +372,7 @@ public abstract class ArrayBufferContract implements TestContract
         pc.put3f(x, y, cz);
       }
 
+      gl.arrayBufferBind(a);
       gl.arrayBufferUpdate(array_map);
 
     } catch (final Throwable e) {

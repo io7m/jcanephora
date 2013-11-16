@@ -58,7 +58,7 @@ public interface JCGLArrayBuffers
 
   /**
    * Bind the array buffer <code>buffer</code> for subsequent calls to
-   * {@link JCGLShadersCommon#programAttributeArrayBind(ProgramAttribute, ArrayBufferAttribute)}
+   * {@link JCGLShadersCommon#programAttributeArrayAssociate(ProgramAttribute, ArrayBufferAttribute)}
    * .
    * 
    * @param buffer

@@ -480,6 +480,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       units = gl.textureGetUnits();
 
       a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
+      gl.arrayBufferBind(a);
       a_vf2 = a.getAttribute("a_vf2");
       a_vf3 = a.getAttribute("a_vf3");
       a_vf4 = a.getAttribute("a_vf4");
@@ -544,6 +545,8 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       units = gl.textureGetUnits();
 
       a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
+      gl.arrayBufferBind(a);
+
       a_vf2 = a.getAttribute("a_vf2");
       a_vf3 = a.getAttribute("a_vf3");
       a_vf4 = a.getAttribute("a_vf4");
@@ -608,6 +611,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       units = gl.textureGetUnits();
 
       a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
+      gl.arrayBufferBind(a);
       a_vf2 = a.getAttribute("a_vf2");
       a_vf3 = a.getAttribute("a_vf3");
       a_vf4 = a.getAttribute("a_vf4");
@@ -886,6 +890,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       units = gl.textureGetUnits();
 
       a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
+      gl.arrayBufferBind(a);
       a_vf2 = a.getAttribute("a_vf2");
       a_vf3 = a.getAttribute("a_vf3");
       a_vf4 = a.getAttribute("a_vf4");
@@ -1074,6 +1079,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       units = gl.textureGetUnits();
 
       a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
+      gl.arrayBufferBind(a);
       a_vf2 = a.getAttribute("a_vf2");
       a_vf3 = a.getAttribute("a_vf3");
       a_vf4 = a.getAttribute("a_vf4");
@@ -1166,6 +1172,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       units = gl.textureGetUnits();
 
       a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
+      gl.arrayBufferBind(a);
       a_vf2 = a.getAttribute("a_vf2");
       a_vf3 = a.getAttribute("a_vf3");
       a_vf4 = a.getAttribute("a_vf4");
@@ -1268,6 +1275,8 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     try {
       p = JCCEExecutionAbstractContract.makeProgram(tc, gl);
       a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
+      gl.arrayBufferBind(a);
+
       a_vf2 = a.getAttribute("a_vf2");
       a_vf3 = a.getAttribute("a_vf3");
       a_vf4 = a.getAttribute("a_vf4");
@@ -1709,6 +1718,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       units = gl.textureGetUnits();
 
       a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
+      gl.arrayBufferBind(a);
       a_vf2 = a.getAttribute("a_vf2");
       a_vf3 = a.getAttribute("a_vf3");
       a_vf4 = a.getAttribute("a_vf4");
@@ -1855,6 +1865,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       units = gl.textureGetUnits();
 
       a = JCCEExecutionAbstractContract.makeArrayBuffer(gl);
+      gl.arrayBufferBind(a);
       a_vf2 = a.getAttribute("a_vf2");
       a_vf3 = a.getAttribute("a_vf3");
       a_vf4 = a.getAttribute("a_vf4");
