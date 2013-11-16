@@ -410,7 +410,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     ExecCalled e = null;
-    TextureUnit[] units = null;
+    List<TextureUnit> units = null;
 
     try {
       units = gl.textureGetUnits();
@@ -433,7 +433,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
       e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
       e.execUniformPutFloat(gl, "u_f", 23.0f);
-      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+      e.execUniformPutTextureUnit(gl, "u_t", units.get(0));
       e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
       e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
 
@@ -469,7 +469,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     ExecCalled e = null;
-    TextureUnit[] units = null;
+    List<TextureUnit> units = null;
     ArrayBuffer a = null;
     ArrayBufferAttribute a_vf2 = null;
     ArrayBufferAttribute a_vf3 = null;
@@ -504,7 +504,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
       e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
       e.execUniformPutFloat(gl, "u_f", 23.0f);
-      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+      e.execUniformPutTextureUnit(gl, "u_t", units.get(0));
       e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
       e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
 
@@ -534,7 +534,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     ExecCalled e = null;
-    TextureUnit[] units = null;
+    List<TextureUnit> units = null;
     ArrayBuffer a = null;
     ArrayBufferAttribute a_vf2 = null;
     ArrayBufferAttribute a_vf3 = null;
@@ -570,7 +570,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
       e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
       e.execUniformPutFloat(gl, "u_f", 23.0f);
-      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+      e.execUniformPutTextureUnit(gl, "u_t", units.get(0));
       e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
       e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
 
@@ -600,7 +600,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     ExecCalled e = null;
-    TextureUnit[] units = null;
+    List<TextureUnit> units = null;
     ArrayBuffer a = null;
     ArrayBufferAttribute a_vf2 = null;
     ArrayBufferAttribute a_vf3 = null;
@@ -635,7 +635,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
       e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
       e.execUniformPutFloat(gl, "u_f", 23.0f);
-      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+      e.execUniformPutTextureUnit(gl, "u_t", units.get(0));
       e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
       e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
 
@@ -711,7 +711,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     ExecCalled e = null;
-    TextureUnit[] units = null;
+    List<TextureUnit> units = null;
     ArrayBuffer a = null;
     ArrayBufferAttribute a_vf2 = null;
     ArrayBufferAttribute a_vf3 = null;
@@ -808,7 +808,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     failed = false;
 
     try {
-      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+      e.execUniformPutTextureUnit(gl, "u_t", units.get(0));
     } catch (final ConstraintError x) {
       failed = true;
     }
@@ -878,7 +878,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     ExecCalled e = null;
-    TextureUnit[] units = null;
+    List<TextureUnit> units = null;
     ArrayBuffer a = null;
     ArrayBufferAttribute a_vf2 = null;
     ArrayBufferAttribute a_vf3 = null;
@@ -914,7 +914,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
       e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
       e.execUniformPutFloat(gl, "u_f", 23.0f);
-      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+      e.execUniformPutTextureUnit(gl, "u_t", units.get(0));
       e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
       e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
 
@@ -1002,7 +1002,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     failed = false;
 
     try {
-      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+      e.execUniformPutTextureUnit(gl, "u_t", units.get(0));
     } catch (final ConstraintError x) {
       failed = true;
     }
@@ -1068,7 +1068,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     ExecCalled e = null;
-    TextureUnit[] units = null;
+    List<TextureUnit> units = null;
     ArrayBuffer a = null;
     ArrayBufferAttribute a_vf2 = null;
     ArrayBufferAttribute a_vf3 = null;
@@ -1103,7 +1103,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
       e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
       e.execUniformPutFloat(gl, "u_f", 23.0f);
-      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+      e.execUniformPutTextureUnit(gl, "u_t", units.get(0));
       e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
       e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
 
@@ -1161,7 +1161,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     ExecCalled e = null;
-    TextureUnit[] units = null;
+    List<TextureUnit> units = null;
     ArrayBuffer a = null;
     ArrayBufferAttribute a_vf2 = null;
     ArrayBufferAttribute a_vf3 = null;
@@ -1196,7 +1196,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
       e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
       e.execUniformPutFloat(gl, "u_f", 23.0f);
-      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+      e.execUniformPutTextureUnit(gl, "u_t", units.get(0));
       e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
       e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
 
@@ -1477,7 +1477,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     ExecCalled e = null;
-    TextureUnit[] units = null;
+    List<TextureUnit> units = null;
 
     try {
       final ProgramReferenceUsable p =
@@ -1492,7 +1492,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     try {
       assert units != null;
       assert e != null;
-      e.execUniformPutTextureUnit(gl, "nonexistent", units[0]);
+      e.execUniformPutTextureUnit(gl, "nonexistent", units.get(0));
     } catch (final ConstraintError x) {
       System.out.println(x);
       throw x;
@@ -1703,7 +1703,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     ExecCalled e = null;
-    TextureUnit[] units = null;
+    List<TextureUnit> units = null;
     ArrayBuffer a = null;
     ArrayBufferAttribute a_vf2 = null;
     ArrayBufferAttribute a_vf3 = null;
@@ -1740,7 +1740,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
       e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
       e.execUniformPutFloat(gl, "u_f", 23.0f);
-      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+      e.execUniformPutTextureUnit(gl, "u_t", units.get(0));
       e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
       e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
 
@@ -1854,7 +1854,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
     ExecCalled e = null;
-    TextureUnit[] units = null;
+    List<TextureUnit> units = null;
     ArrayBuffer a = null;
     ArrayBufferAttribute a_vf2 = null;
     ArrayBufferAttribute a_vf3 = null;
@@ -1889,7 +1889,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       e.execUniformPutVector3I(gl, "u_vi3", new VectorI3I(23, 23, 23));
       e.execUniformPutVector4I(gl, "u_vi4", new VectorI4I(23, 23, 23, 23));
       e.execUniformPutFloat(gl, "u_f", 23.0f);
-      e.execUniformPutTextureUnit(gl, "u_t", units[0]);
+      e.execUniformPutTextureUnit(gl, "u_t", units.get(0));
       e.execUniformPutMatrix3x3F(gl, "u_m3", new MatrixM3x3F());
       e.execUniformPutMatrix4x4F(gl, "u_m4", new MatrixM4x4F());
 

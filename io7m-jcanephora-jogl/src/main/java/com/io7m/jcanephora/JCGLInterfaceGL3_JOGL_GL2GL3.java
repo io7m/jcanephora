@@ -19,6 +19,7 @@ package com.io7m.jcanephora;
 import java.io.PrintStream;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -898,21 +899,21 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    FramebufferColorAttachmentPoint[]
+    List<FramebufferColorAttachmentPoint>
     framebufferGetColorAttachmentPoints()
       throws JCGLException,
         ConstraintError
   {
-    return this.state.color_attachments;
+    return Collections.unmodifiableList(this.state.color_attachments);
   }
 
   @Override public @Nonnull
-    FramebufferDrawBuffer[]
+    List<FramebufferDrawBuffer>
     framebufferGetDrawBuffers()
       throws JCGLException,
         ConstraintError
   {
-    return this.state.draw_buffers;
+    return Collections.unmodifiableList(this.state.draw_buffers);
   }
 
   @Override public IndexBuffer indexBufferAllocate(
@@ -3960,10 +3961,10 @@ import com.io7m.jtensors.VectorReadable4I;
       this.state);
   }
 
-  @Override public TextureUnit[] textureGetUnits()
+  @Override public List<TextureUnit> textureGetUnits()
     throws JCGLException
   {
-    return this.state.texture_units;
+    return Collections.unmodifiableList(this.state.texture_units);
   }
 
   @Override public VertexShader vertexShaderCompile(

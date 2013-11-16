@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora.contracts;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 
 import org.junit.Assert;
@@ -69,8 +71,8 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
     final TestContext tc = this.newTestContext();
     final JCGLTextureUnits gu = this.getGLTextureUnits(tc);
 
-    final TextureUnit[] u = gu.textureGetUnits();
-    Assert.assertTrue(u.length >= 2);
+    final List<TextureUnit> u = gu.textureGetUnits();
+    Assert.assertTrue(u.size() >= 2);
   }
 
   /**
@@ -89,7 +91,7 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
     final T gl = this.getGLTextureCubeStatic(tc);
     final JCGLTextureUnits gu = this.getGLTextureUnits(tc);
 
-    final TextureUnit[] units = gu.textureGetUnits();
+    final List<TextureUnit> units = gu.textureGetUnits();
     final TextureCubeStatic t =
       gl.textureCubeStaticAllocateRGBA8(
         "texture",
@@ -100,10 +102,10 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
         TextureFilterMinification.TEXTURE_FILTER_NEAREST,
         TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
-    gl.textureCubeStaticBind(units[0], t);
-    Assert.assertTrue(gl.textureCubeStaticIsBound(units[0], t));
-    gl.textureCubeStaticUnbind(units[0]);
-    Assert.assertFalse(gl.textureCubeStaticIsBound(units[0], t));
+    gl.textureCubeStaticBind(units.get(0), t);
+    Assert.assertTrue(gl.textureCubeStaticIsBound(units.get(0), t));
+    gl.textureCubeStaticUnbind(units.get(0));
+    Assert.assertFalse(gl.textureCubeStaticIsBound(units.get(0), t));
     gl.textureCubeStaticDelete(t);
   }
 
@@ -125,7 +127,7 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
     final T gl = this.getGLTextureCubeStatic(tc);
     final JCGLTextureUnits gu = this.getGLTextureUnits(tc);
 
-    final TextureUnit[] units = gu.textureGetUnits();
+    final List<TextureUnit> units = gu.textureGetUnits();
     final TextureCubeStatic t =
       gl.textureCubeStaticAllocateRGBA8(
         "texture",
@@ -137,7 +139,7 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
         TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     gl.textureCubeStaticDelete(t);
-    gl.textureCubeStaticBind(units[0], t);
+    gl.textureCubeStaticBind(units.get(0), t);
   }
 
   /**
@@ -158,9 +160,9 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
     final T gl = this.getGLTextureCubeStatic(tc);
     final JCGLTextureUnits gu = this.getGLTextureUnits(tc);
 
-    final TextureUnit[] units = gu.textureGetUnits();
+    final List<TextureUnit> units = gu.textureGetUnits();
 
-    gl.textureCubeStaticBind(units[0], null);
+    gl.textureCubeStaticBind(units.get(0), null);
   }
 
   /**
@@ -264,7 +266,7 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
     final T gl = this.getGLTextureCubeStatic(tc);
     final JCGLTextureUnits gu = this.getGLTextureUnits(tc);
 
-    final TextureUnit[] units = gu.textureGetUnits();
+    final List<TextureUnit> units = gu.textureGetUnits();
     final TextureCubeStatic t =
       gl.textureCubeStaticAllocateRGBA8(
         "texture",
@@ -275,9 +277,9 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
         TextureFilterMinification.TEXTURE_FILTER_NEAREST,
         TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
-    gl.textureCubeStaticBind(units[0], t);
+    gl.textureCubeStaticBind(units.get(0), t);
     gl.textureCubeStaticDelete(t);
-    gl.textureCubeStaticIsBound(units[0], t);
+    gl.textureCubeStaticIsBound(units.get(0), t);
   }
 
   /**

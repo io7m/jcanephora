@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora;
 
+import java.util.List;
+
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -1606,14 +1608,14 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
       }
     }
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       fb.framebufferGetColorAttachmentPoints();
 
     final Framebuffer state =
       new Framebuffer(buffers.framebuffer, this.width, this.height);
 
     if (buffers.attachment_color != null) {
-      state.configAddColorAttachment(points[0], buffers.attachment_color);
+      state.configAddColorAttachment(points.get(0), buffers.attachment_color);
     }
     if (buffers.attachment_depth != null) {
       state.configSetDepthAttachment(buffers.attachment_depth);

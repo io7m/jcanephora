@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.examples;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 
@@ -73,39 +74,40 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleFBO implements Example
 {
-  private static final VectorReadable3F           Z_AXIS;
+  private static final VectorReadable3F               Z_AXIS;
 
   static {
     Z_AXIS = new VectorI3F(0.0f, 0.0f, 1.0f);
   }
 
-  private ArrayBuffer                             color_quad;
-  private final ArrayBufferWritableData           color_quad_data;
-  private ArrayBufferTypeDescriptor               color_quad_type;
-  private final ExampleConfig                     config;
-  private final Context                           context;
-  private float                                   current_angle       = 0.0f;
-  private final Framebuffer                       framebuffer;
-  private final FramebufferColorAttachmentPoint[] framebuffer_color_points;
-  private final FramebufferConfigurationGL3ES2    framebuffer_config;
-  private final int                               framebuffer_divisor = 8;
-  private int                                     framebuffer_height;
-  private int                                     framebuffer_width;
-  private final JCGLInterfaceCommon               gl;
-  private final JCGLImplementation                gli;
-  private boolean                                 has_shut_down;
-  private final IndexBuffer                       indices;
-  private final IndexBufferWritableData           indices_data;
-  private final MatrixM4x4F                       matrix_modelview;
-  private final MatrixM4x4F                       matrix_projection;
-  private final ProgramReference                  program_color;
-  private final ProgramReference                  program_uv;
-  private final Texture2DStaticUsable             texture;
+  private ArrayBuffer                                 color_quad;
+  private final ArrayBufferWritableData               color_quad_data;
+  private ArrayBufferTypeDescriptor                   color_quad_type;
+  private final ExampleConfig                         config;
+  private final Context                               context;
+  private float                                       current_angle       =
+                                                                            0.0f;
+  private final Framebuffer                           framebuffer;
+  private final List<FramebufferColorAttachmentPoint> framebuffer_color_points;
+  private final FramebufferConfigurationGL3ES2        framebuffer_config;
+  private final int                                   framebuffer_divisor = 8;
+  private int                                         framebuffer_height;
+  private int                                         framebuffer_width;
+  private final JCGLInterfaceCommon                   gl;
+  private final JCGLImplementation                    gli;
+  private boolean                                     has_shut_down;
+  private final IndexBuffer                           indices;
+  private final IndexBufferWritableData               indices_data;
+  private final MatrixM4x4F                           matrix_modelview;
+  private final MatrixM4x4F                           matrix_projection;
+  private final ProgramReference                      program_color;
+  private final ProgramReference                      program_uv;
+  private final Texture2DStaticUsable                 texture;
 
-  private final TextureUnit[]                     texture_units;
-  private final ArrayBuffer                       textured_quad;
-  private final ArrayBufferWritableData           textured_quad_data;
-  private final ArrayBufferTypeDescriptor         textured_quad_type;
+  private final List<TextureUnit>                     texture_units;
+  private final ArrayBuffer                           textured_quad;
+  private final ArrayBufferWritableData               textured_quad_data;
+  private final ArrayBufferTypeDescriptor             textured_quad_type;
 
   public ExampleFBO(
     final @Nonnull ExampleConfig config)
@@ -237,7 +239,8 @@ public final class ExampleFBO implements Example
       this.gl.framebufferGetColorAttachmentPoints();
 
     final AttachmentColor a =
-      this.framebuffer.getColorAttachment(this.framebuffer_color_points[0]);
+      this.framebuffer.getColorAttachment(this.framebuffer_color_points
+        .get(0));
 
     /**
      * Inspect the type of the color attachment. As an RGBA texture was
@@ -463,8 +466,10 @@ public final class ExampleFBO implements Example
        * then upload the texture unit reference to the shader.
        */
 
-      this.gl.texture2DStaticBind(this.texture_units[0], this.texture);
-      this.gl.programUniformPutTextureUnit(u_texture, this.texture_units[0]);
+      this.gl.texture2DStaticBind(this.texture_units.get(0), this.texture);
+      this.gl.programUniformPutTextureUnit(
+        u_texture,
+        this.texture_units.get(0));
 
       /**
        * Get references to the program's vertex attribute inputs.

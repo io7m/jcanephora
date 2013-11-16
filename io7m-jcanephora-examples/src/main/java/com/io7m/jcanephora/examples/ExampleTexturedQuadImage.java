@@ -19,6 +19,7 @@ package com.io7m.jcanephora.examples;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.EnumSet;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 
@@ -84,7 +85,7 @@ public final class ExampleTexturedQuadImage implements Example
   private final MatrixM4x4F               matrix_projection;
   private final ProgramReference          program;
   private int                             texture_index = 0;
-  private final TextureUnit[]             texture_units;
+  private final List<TextureUnit>         texture_units;
   private final Texture2DStatic           textures[];
 
   public ExampleTexturedQuadImage(
@@ -381,9 +382,11 @@ public final class ExampleTexturedQuadImage implements Example
        */
 
       this.gl.texture2DStaticBind(
-        this.texture_units[0],
+        this.texture_units.get(0),
         this.textures[this.texture_index]);
-      this.gl.programUniformPutTextureUnit(u_texture, this.texture_units[0]);
+      this.gl.programUniformPutTextureUnit(
+        u_texture,
+        this.texture_units.get(0));
 
       /**
        * Get references to the program's vertex attribute inputs.

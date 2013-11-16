@@ -15,6 +15,8 @@
  */
 package com.io7m.jcanephora.contracts.gles2;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 
 import org.junit.Assert;
@@ -97,7 +99,7 @@ public abstract class FramebuffersES2Contract implements TestContract
     final JCGLImplementation gi = tc.getGLImplementation();
     final JCGLInterfaceCommon gl = gi.getGLCommon();
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationGL3ES2 config =
@@ -114,9 +116,9 @@ public abstract class FramebuffersES2Contract implements TestContract
       (Success<Framebuffer, FramebufferStatus>) result;
 
     final Framebuffer fb = success.value;
-    Assert.assertTrue(fb.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor ca = fb.getColorAttachment(points[0]);
+    final AttachmentColor ca = fb.getColorAttachment(points.get(0));
     switch (ca.type) {
       case ATTACHMENT_COLOR_TEXTURE_CUBE:
       case ATTACHMENT_COLOR_TEXTURE_2D:
@@ -154,7 +156,7 @@ public abstract class FramebuffersES2Contract implements TestContract
     final JCGLImplementation gi = tc.getGLImplementation();
     final JCGLInterfaceCommon gl = gi.getGLCommon();
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationGL3ES2 config =
@@ -175,9 +177,9 @@ public abstract class FramebuffersES2Contract implements TestContract
       (Success<Framebuffer, FramebufferStatus>) result;
 
     final Framebuffer fb = success.value;
-    Assert.assertTrue(fb.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor ca = fb.getColorAttachment(points[0]);
+    final AttachmentColor ca = fb.getColorAttachment(points.get(0));
     switch (ca.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
       case ATTACHMENT_COLOR_TEXTURE_CUBE:
@@ -224,7 +226,7 @@ public abstract class FramebuffersES2Contract implements TestContract
     final JCGLImplementation gi = tc.getGLImplementation();
     final JCGLInterfaceCommon gl = gi.getGLCommon();
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationGL3ES2 config =
@@ -246,9 +248,9 @@ public abstract class FramebuffersES2Contract implements TestContract
       (Success<Framebuffer, FramebufferStatus>) result;
 
     final Framebuffer fb = success.value;
-    Assert.assertTrue(fb.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor ca = fb.getColorAttachment(points[0]);
+    final AttachmentColor ca = fb.getColorAttachment(points.get(0));
     switch (ca.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
 
@@ -299,7 +301,7 @@ public abstract class FramebuffersES2Contract implements TestContract
     final JCGLImplementation gi = tc.getGLImplementation();
     final JCGLInterfaceCommon gl = gi.getGLCommon();
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationGL3ES2 config =
@@ -316,9 +318,9 @@ public abstract class FramebuffersES2Contract implements TestContract
       (Success<Framebuffer, FramebufferStatus>) result;
 
     final Framebuffer fb = success.value;
-    Assert.assertTrue(fb.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor ca = fb.getColorAttachment(points[0]);
+    final AttachmentColor ca = fb.getColorAttachment(points.get(0));
     switch (ca.type) {
       case ATTACHMENT_COLOR_TEXTURE_2D:
       case ATTACHMENT_COLOR_TEXTURE_CUBE:
@@ -356,7 +358,7 @@ public abstract class FramebuffersES2Contract implements TestContract
     final JCGLImplementation gi = tc.getGLImplementation();
     final JCGLInterfaceCommon gl = gi.getGLCommon();
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationGL3ES2 config =
@@ -377,9 +379,9 @@ public abstract class FramebuffersES2Contract implements TestContract
       (Success<Framebuffer, FramebufferStatus>) result;
 
     final Framebuffer fb = success.value;
-    Assert.assertTrue(fb.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor ca = fb.getColorAttachment(points[0]);
+    final AttachmentColor ca = fb.getColorAttachment(points.get(0));
     switch (ca.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
       case ATTACHMENT_COLOR_TEXTURE_CUBE:
@@ -426,7 +428,7 @@ public abstract class FramebuffersES2Contract implements TestContract
     final JCGLImplementation gi = tc.getGLImplementation();
     final JCGLInterfaceCommon gl = gi.getGLCommon();
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
 
     final FramebufferConfigurationGL3ES2 config =
@@ -448,9 +450,9 @@ public abstract class FramebuffersES2Contract implements TestContract
       (Success<Framebuffer, FramebufferStatus>) result;
 
     final Framebuffer fb = success.value;
-    Assert.assertTrue(fb.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor ca = fb.getColorAttachment(points[0]);
+    final AttachmentColor ca = fb.getColorAttachment(points.get(0));
     switch (ca.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
 
@@ -630,7 +632,7 @@ public abstract class FramebuffersES2Contract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLImplementation gi = tc.getGLImplementation();
     final JCGLInterfaceCommon gl = gi.getGLCommon();
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
 
     /**
@@ -643,7 +645,7 @@ public abstract class FramebuffersES2Contract implements TestContract
 
     final Framebuffer fb0 =
       FramebuffersES2Contract.makeAssumingSuccess(fb0_config, gi);
-    final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
+    final AttachmentColor fb0_attach = fb0.getColorAttachment(points.get(0));
 
     switch (fb0_attach.type) {
       case ATTACHMENT_COLOR_TEXTURE_2D:
@@ -672,14 +674,14 @@ public abstract class FramebuffersES2Contract implements TestContract
 
     final FramebufferConfigurationGL3ES2 fb1_config =
       new FramebufferConfigurationGL3ES2Actual(128, 128);
-    fb1_config.requestSharedColor(fb0, points[0]);
+    fb1_config.requestSharedColor(fb0, points.get(0));
 
     final Framebuffer fb1 =
       FramebuffersES2Contract.makeAssumingSuccess(fb1_config, gi);
 
-    Assert.assertTrue(fb1.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb1.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor attach = fb1.getColorAttachment(points[0]);
+    final AttachmentColor attach = fb1.getColorAttachment(points.get(0));
     switch (attach.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
       case ATTACHMENT_COLOR_TEXTURE_2D:
@@ -720,7 +722,7 @@ public abstract class FramebuffersES2Contract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLImplementation gi = tc.getGLImplementation();
     final JCGLInterfaceCommon gl = gi.getGLCommon();
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
 
     /**
@@ -733,7 +735,7 @@ public abstract class FramebuffersES2Contract implements TestContract
 
     final Framebuffer fb0 =
       FramebuffersES2Contract.makeAssumingSuccess(fb0_config, gi);
-    final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
+    final AttachmentColor fb0_attach = fb0.getColorAttachment(points.get(0));
 
     switch (fb0_attach.type) {
       case ATTACHMENT_COLOR_TEXTURE_2D:
@@ -762,14 +764,14 @@ public abstract class FramebuffersES2Contract implements TestContract
 
     final FramebufferConfigurationGL3ES2 fb1_config =
       new FramebufferConfigurationGL3ES2Actual(128, 128);
-    fb1_config.requestSharedColor(fb0, points[0]);
+    fb1_config.requestSharedColor(fb0, points.get(0));
 
     final Framebuffer fb1 =
       FramebuffersES2Contract.makeAssumingSuccess(fb1_config, gi);
 
-    Assert.assertTrue(fb1.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb1.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor attach = fb1.getColorAttachment(points[0]);
+    final AttachmentColor attach = fb1.getColorAttachment(points.get(0));
     switch (attach.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
       case ATTACHMENT_COLOR_TEXTURE_2D:
@@ -810,7 +812,7 @@ public abstract class FramebuffersES2Contract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLImplementation gi = tc.getGLImplementation();
     final JCGLInterfaceCommon gl = gi.getGLCommon();
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
 
     /**
@@ -827,7 +829,7 @@ public abstract class FramebuffersES2Contract implements TestContract
 
     final Framebuffer fb0 =
       FramebuffersES2Contract.makeAssumingSuccess(fb0_config, gi);
-    final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
+    final AttachmentColor fb0_attach = fb0.getColorAttachment(points.get(0));
 
     switch (fb0_attach.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
@@ -855,14 +857,14 @@ public abstract class FramebuffersES2Contract implements TestContract
 
     final FramebufferConfigurationGL3ES2 fb1_config =
       new FramebufferConfigurationGL3ES2Actual(128, 128);
-    fb1_config.requestSharedColor(fb0, points[0]);
+    fb1_config.requestSharedColor(fb0, points.get(0));
 
     final Framebuffer fb1 =
       FramebuffersES2Contract.makeAssumingSuccess(fb1_config, gi);
 
-    Assert.assertTrue(fb1.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb1.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor attach = fb1.getColorAttachment(points[0]);
+    final AttachmentColor attach = fb1.getColorAttachment(points.get(0));
     switch (attach.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
       case ATTACHMENT_COLOR_TEXTURE_2D:
@@ -902,7 +904,7 @@ public abstract class FramebuffersES2Contract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLImplementation gi = tc.getGLImplementation();
     final JCGLInterfaceCommon gl = gi.getGLCommon();
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
 
     /**
@@ -920,7 +922,7 @@ public abstract class FramebuffersES2Contract implements TestContract
 
     final Framebuffer fb0 =
       FramebuffersES2Contract.makeAssumingSuccess(fb0_config, gi);
-    final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
+    final AttachmentColor fb0_attach = fb0.getColorAttachment(points.get(0));
 
     switch (fb0_attach.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
@@ -948,14 +950,14 @@ public abstract class FramebuffersES2Contract implements TestContract
 
     final FramebufferConfigurationGL3ES2 fb1_config =
       new FramebufferConfigurationGL3ES2Actual(128, 128);
-    fb1_config.requestSharedColor(fb0, points[0]);
+    fb1_config.requestSharedColor(fb0, points.get(0));
 
     final Framebuffer fb1 =
       FramebuffersES2Contract.makeAssumingSuccess(fb1_config, gi);
 
-    Assert.assertTrue(fb1.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb1.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor attach = fb1.getColorAttachment(points[0]);
+    final AttachmentColor attach = fb1.getColorAttachment(points.get(0));
     switch (attach.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
       case ATTACHMENT_COLOR_TEXTURE_2D:
@@ -1093,7 +1095,7 @@ public abstract class FramebuffersES2Contract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLImplementation gi = tc.getGLImplementation();
     final JCGLInterfaceCommon gl = gi.getGLCommon();
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
 
     /**
@@ -1106,7 +1108,7 @@ public abstract class FramebuffersES2Contract implements TestContract
 
     final Framebuffer fb0 =
       FramebuffersES2Contract.makeAssumingSuccess(fb0_config, gi);
-    final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
+    final AttachmentColor fb0_attach = fb0.getColorAttachment(points.get(0));
 
     switch (fb0_attach.type) {
       case ATTACHMENT_COLOR_TEXTURE_2D:
@@ -1134,14 +1136,14 @@ public abstract class FramebuffersES2Contract implements TestContract
 
     final FramebufferConfigurationGL3ES2 fb1_config =
       new FramebufferConfigurationGL3ES2Actual(128, 128);
-    fb1_config.requestSharedColor(fb0, points[0]);
+    fb1_config.requestSharedColor(fb0, points.get(0));
 
     final Framebuffer fb1 =
       FramebuffersES2Contract.makeAssumingSuccess(fb1_config, gi);
 
-    Assert.assertTrue(fb1.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb1.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor attach1 = fb1.getColorAttachment(points[0]);
+    final AttachmentColor attach1 = fb1.getColorAttachment(points.get(0));
     switch (attach1.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
       case ATTACHMENT_COLOR_TEXTURE_2D:
@@ -1170,14 +1172,14 @@ public abstract class FramebuffersES2Contract implements TestContract
 
     final FramebufferConfigurationGL3ES2 fb2_config =
       new FramebufferConfigurationGL3ES2Actual(128, 128);
-    fb2_config.requestSharedColor(fb1, points[0]);
+    fb2_config.requestSharedColor(fb1, points.get(0));
 
     final Framebuffer fb2 =
       FramebuffersES2Contract.makeAssumingSuccess(fb2_config, gi);
 
-    Assert.assertTrue(fb2.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb2.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor attach2 = fb2.getColorAttachment(points[0]);
+    final AttachmentColor attach2 = fb2.getColorAttachment(points.get(0));
     switch (attach2.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
       case ATTACHMENT_COLOR_TEXTURE_2D:
