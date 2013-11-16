@@ -29,7 +29,6 @@ import javax.media.opengl.DebugGL2;
 import javax.media.opengl.DebugGL3;
 import javax.media.opengl.DebugGL4;
 import javax.media.opengl.GL;
-import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GL2GL3;
 import javax.media.opengl.GLContext;
 import javax.media.opengl.TraceGL2;
@@ -75,7 +74,7 @@ import com.io7m.jtensors.VectorReadable4I;
 @NotThreadSafe final class JCGLInterfaceGL3_JOGL_GL2GL3 implements
   JCGLInterfaceGL3
 {
-  private final @Nonnull GLContext      context;
+  private final @Nonnull GLContext      gl_context;
   private final @Nonnull Log            log;
   private final @Nonnull JCGLSLVersion  sl_version;
   private final @Nonnull JCGLStateCache state;
@@ -92,13 +91,13 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     this.log =
       new Log(Constraints.constrainNotNull(log, "log output"), "jogl30");
-    this.context = Constraints.constrainNotNull(context, "GL context");
+    this.gl_context = Constraints.constrainNotNull(context, "GL context");
     Constraints.constrainNotNull(debug, "Debug");
 
     this.state = new JCGLStateCache();
 
     {
-      final GL g = this.context.getGL();
+      final GL g = this.gl_context.getGL();
       switch (debug) {
         case JCGL_DEBUGGING:
           if (g.isGL4()) {
@@ -294,7 +293,7 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLException,
       ConstraintError
   {
-    JOGL_GL_Functions.arrayBufferUnbind(this.context.getGL());
+    JOGL_GL_Functions.arrayBufferUnbind(this.contextGetGL());
   }
 
   @Override public void arrayBufferUnmap(
@@ -320,7 +319,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void blendingDisable()
     throws JCGLException
   {
-    JOGL_GL_Functions.blendingDisable(this.context.getGL());
+    JOGL_GL_Functions.blendingDisable(this.contextGetGL());
   }
 
   @Override public void blendingEnable(
@@ -543,7 +542,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void cullingDisable()
     throws JCGLException
   {
-    JOGL_GL_Functions.cullingDisable(this.context.getGL());
+    JOGL_GL_Functions.cullingDisable(this.contextGetGL());
   }
 
   @Override public void cullingEnable(
@@ -558,7 +557,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public boolean cullingIsEnabled()
     throws JCGLException
   {
-    return JOGL_GL_Functions.cullingIsEnabled(this.context.getGL());
+    return JOGL_GL_Functions.cullingIsEnabled(this.contextGetGL());
   }
 
   @Override public void depthBufferClear(
@@ -581,7 +580,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void depthBufferTestDisable()
     throws JCGLException
   {
-    JOGL_GL_Functions.depthBufferDisable(this.context.getGL());
+    JOGL_GL_Functions.depthBufferDisable(this.contextGetGL());
   }
 
   @Override public void depthBufferTestEnable(
@@ -598,7 +597,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public boolean depthBufferTestIsEnabled()
     throws JCGLException
   {
-    return JOGL_GL_Functions.depthBufferIsEnabled(this.context.getGL());
+    return JOGL_GL_Functions.depthBufferIsEnabled(this.contextGetGL());
   }
 
   @Override public void depthBufferWriteDisable()
@@ -646,9 +645,12 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLCompileException,
       JCGLException
   {
-    return JOGL_GL2ES2_Functions.fragmentShaderCompile(this.context
-      .getGL()
-      .getGL2ES2(), this.state, this.log, name, lines);
+    return JOGL_GL2ES2_Functions.fragmentShaderCompile(
+      this.contextGetGL(),
+      this.state,
+      this.log,
+      name,
+      lines);
   }
 
   @Override public void fragmentShaderDelete(
@@ -656,9 +658,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL2ES2_Functions.fragmentShaderDelete(this.context
-      .getGL()
-      .getGL2ES2(), this.state, this.log, id);
+    JOGL_GL2ES2_Functions.fragmentShaderDelete(
+      this.contextGetGL(),
+      this.state,
+      this.log,
+      id);
   }
 
   @Override public @Nonnull FramebufferReference framebufferAllocate()
@@ -686,7 +690,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public boolean framebufferDrawAnyIsBound()
     throws JCGLException
   {
-    return JOGL_GL_Functions.framebufferDrawAnyIsBound(this.context.getGL());
+    return JOGL_GL_Functions.framebufferDrawAnyIsBound(this.contextGetGL());
   }
 
   @Override public void framebufferDrawAttachColorRenderbuffer(
@@ -880,7 +884,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void framebufferDrawUnbind()
     throws JCGLException
   {
-    JOGL_GL_Functions.framebufferDrawUnbind(this.context.getGL());
+    JOGL_GL_Functions.framebufferDrawUnbind(this.contextGetGL());
   }
 
   @Override public @Nonnull FramebufferStatus framebufferDrawValidate(
@@ -1034,13 +1038,13 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public int metaGetError()
     throws JCGLException
   {
-    return JOGL_GL_Functions.metaGetError(this.context.getGL());
+    return JOGL_GL_Functions.metaGetError(this.contextGetGL());
   }
 
   @Override public String metaGetRenderer()
     throws JCGLException
   {
-    return JOGL_GL_Functions.metaGetRenderer(this.context.getGL());
+    return JOGL_GL_Functions.metaGetRenderer(this.contextGetGL());
   }
 
   @Override public @Nonnull JCGLSLVersion metaGetSLVersion()
@@ -1052,7 +1056,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public String metaGetVendor()
     throws JCGLException
   {
-    return JOGL_GL_Functions.metaGetVendor(this.context.getGL());
+    return JOGL_GL_Functions.metaGetVendor(this.contextGetGL());
   }
 
   @Override public @Nonnull JCGLVersion metaGetVersion()
@@ -1103,37 +1107,31 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    final GL2ES2 gl = this.context.getGL().getGL2ES2();
-
-    Constraints.constrainNotNull(program, "Program ID");
-    Constraints.constrainArbitrary(
-      program.resourceIsDeleted() == false,
-      "Program not deleted");
-
-    gl.glUseProgram(program.getGLName());
-    JCGLError.check(this);
+    JOGL_GL2ES2_Functions.programActivate(this.contextGetGL(), program);
   }
 
-  @Override public void programAttributeArrayBind(
+  @Override public void programAttributeArrayAssociate(
     final @Nonnull ProgramAttribute program_attribute,
     final @Nonnull ArrayBufferAttribute array_attribute)
     throws JCGLException,
       ConstraintError
   {
-    JOGL_GL2ES2_Functions.programAttributeArrayBind(this.context
-      .getGL()
-      .getGL2ES2(), this.state, program_attribute, array_attribute);
+    JOGL_GL2ES2_Functions.programAttributeArrayBind(
+      this.contextGetGL(),
+      this.state,
+      program_attribute,
+      array_attribute);
   }
 
-  @Override public void programAttributeArrayUnbind(
-    final @Nonnull ArrayBufferAttribute array_attribute,
+  @Override public void programAttributeArrayDisassociate(
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError
   {
-    JOGL_GL2ES2_Functions.programAttributeArrayUnbind(this.context
-      .getGL()
-      .getGL2ES2(), this.state, program_attribute, array_attribute);
+    JOGL_GL2ES2_Functions.programAttributeArrayDisassociate(
+      this.contextGetGL(),
+      this.state,
+      program_attribute);
   }
 
   @Override public void programAttributePutFloat(
@@ -1142,9 +1140,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLException,
       ConstraintError
   {
-    JOGL_GL2ES2_Functions.programAttributePutFloat(this.context
-      .getGL()
-      .getGL2ES2(), this.state, program_attribute, x);
+    JOGL_GL2ES2_Functions.programAttributePutFloat(
+      this.contextGetGL(),
+      this.state,
+      program_attribute,
+      x);
   }
 
   @Override public void programAttributePutVector2f(
@@ -1153,9 +1153,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLException,
       ConstraintError
   {
-    JOGL_GL2ES2_Functions.programAttributePutVector2f(this.context
-      .getGL()
-      .getGL2ES2(), this.state, program_attribute, x);
+    JOGL_GL2ES2_Functions.programAttributePutVector2f(
+      this.contextGetGL(),
+      this.state,
+      program_attribute,
+      x);
   }
 
   @Override public void programAttributePutVector3f(
@@ -1164,9 +1166,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLException,
       ConstraintError
   {
-    JOGL_GL2ES2_Functions.programAttributePutVector3f(this.context
-      .getGL()
-      .getGL2ES2(), this.state, program_attribute, x);
+    JOGL_GL2ES2_Functions.programAttributePutVector3f(
+      this.contextGetGL(),
+      this.state,
+      program_attribute,
+      x);
   }
 
   @Override public void programAttributePutVector4f(
@@ -1175,9 +1179,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLException,
       ConstraintError
   {
-    JOGL_GL2ES2_Functions.programAttributePutVector4f(this.context
-      .getGL()
-      .getGL2ES2(), this.state, program_attribute, x);
+    JOGL_GL2ES2_Functions.programAttributePutVector4f(
+      this.contextGetGL(),
+      this.state,
+      program_attribute,
+      x);
   }
 
   @Override public ProgramReference programCreateCommon(
@@ -1188,9 +1194,13 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException,
       JCGLCompileException
   {
-    return JOGL_GL2ES2_Functions.programCreateCommon(this.context
-      .getGL()
-      .getGL2ES2(), this.state, this.log, name, v, f);
+    return JOGL_GL2ES2_Functions.programCreateCommon(
+      this.contextGetGL(),
+      this.state,
+      this.log,
+      name,
+      v,
+      f);
   }
 
   @Override public ProgramReference programCreateWithOutputs(
@@ -1215,7 +1225,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void programDeactivate()
     throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programDeactivate(this.context.getGL().getGL2ES2());
+    JOGL_GL2ES2_Functions.programDeactivate(this.contextGetGL());
   }
 
   @Override public void programDelete(
@@ -1224,7 +1234,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     JOGL_GL2ES2_Functions.programDelete(
-      this.context.getGL().getGL2ES2(),
+      this.contextGetGL(),
       this.state,
       this.log,
       program);
@@ -1234,7 +1244,7 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLException
   {
     return JOGL_GL2ES2_Functions.programGetMaximumActiveAttributes(
-      this.context.getGL().getGL2ES2(),
+      this.contextGetGL(),
       this.state,
       this.log);
   }
@@ -1244,9 +1254,10 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    return JOGL_GL2ES2_Functions.programIsActive(this.context
-      .getGL()
-      .getGL2ES2(), this.state, program);
+    return JOGL_GL2ES2_Functions.programIsActive(
+      this.contextGetGL(),
+      this.state,
+      program);
   }
 
   @Override public void programUniformPutFloat(
@@ -1255,9 +1266,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformFloat(this.context
-      .getGL()
-      .getGL2ES2(), this.state, uniform, value);
+    JOGL_GL2ES2_Functions.programPutUniformFloat(
+      this.contextGetGL(),
+      this.state,
+      uniform,
+      value);
   }
 
   @Override public void programUniformPutMatrix3x3f(
@@ -1266,9 +1279,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformMatrix3x3f(this.context
-      .getGL()
-      .getGL2ES2(), this.state, uniform, matrix);
+    JOGL_GL2ES2_Functions.programPutUniformMatrix3x3f(
+      this.contextGetGL(),
+      this.state,
+      uniform,
+      matrix);
   }
 
   @Override public void programUniformPutMatrix4x4f(
@@ -1277,9 +1292,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformMatrix4x4f(this.context
-      .getGL()
-      .getGL2ES2(), this.state, uniform, matrix);
+    JOGL_GL2ES2_Functions.programPutUniformMatrix4x4f(
+      this.contextGetGL(),
+      this.state,
+      uniform,
+      matrix);
   }
 
   @Override public void programUniformPutTextureUnit(
@@ -1288,9 +1305,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformTextureUnit(this.context
-      .getGL()
-      .getGL2ES2(), this.state, uniform, unit);
+    JOGL_GL2ES2_Functions.programPutUniformTextureUnit(
+      this.contextGetGL(),
+      this.state,
+      uniform,
+      unit);
   }
 
   @Override public void programUniformPutVector2f(
@@ -1299,9 +1318,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformVector2f(this.context
-      .getGL()
-      .getGL2ES2(), this.state, uniform, vector);
+    JOGL_GL2ES2_Functions.programPutUniformVector2f(
+      this.contextGetGL(),
+      this.state,
+      uniform,
+      vector);
   }
 
   @Override public void programUniformPutVector2i(
@@ -1310,9 +1331,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformVector2i(this.context
-      .getGL()
-      .getGL2ES2(), this.state, uniform, vector);
+    JOGL_GL2ES2_Functions.programPutUniformVector2i(
+      this.contextGetGL(),
+      this.state,
+      uniform,
+      vector);
   }
 
   @Override public void programUniformPutVector3f(
@@ -1321,9 +1344,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformVector3f(this.context
-      .getGL()
-      .getGL2ES2(), this.state, uniform, vector);
+    JOGL_GL2ES2_Functions.programPutUniformVector3f(
+      this.contextGetGL(),
+      this.state,
+      uniform,
+      vector);
   }
 
   @Override public void programUniformPutVector3i(
@@ -1332,9 +1357,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformVector3i(this.context
-      .getGL()
-      .getGL2ES2(), this.state, uniform, vector);
+    JOGL_GL2ES2_Functions.programPutUniformVector3i(
+      this.contextGetGL(),
+      this.state,
+      uniform,
+      vector);
   }
 
   @Override public void programUniformPutVector4f(
@@ -1343,9 +1370,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformVector4f(this.context
-      .getGL()
-      .getGL2ES2(), this.state, uniform, vector);
+    JOGL_GL2ES2_Functions.programPutUniformVector4f(
+      this.contextGetGL(),
+      this.state,
+      uniform,
+      vector);
   }
 
   @Override public void programUniformPutVector4i(
@@ -1354,9 +1383,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformVector4i(this.context
-      .getGL()
-      .getGL2ES2(), this.state, uniform, vector);
+    JOGL_GL2ES2_Functions.programPutUniformVector4i(
+      this.contextGetGL(),
+      this.state,
+      uniform,
+      vector);
   }
 
   @Override public @Nonnull
@@ -1369,7 +1400,7 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     return Renderbuffer.unsafeBrandDepthStencil(JOGL_GL_Functions
       .renderbufferAllocate(
-        this.context.getGL().getGL2ES2(),
+        this.contextGetGL(),
         this.state,
         this.log,
         RenderbufferType.RENDERBUFFER_DEPTH_24_STENCIL_8,
@@ -1387,7 +1418,7 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     return Renderbuffer.unsafeBrandColor(JOGL_GL_Functions
       .renderbufferAllocate(
-        this.context.getGL().getGL2ES2(),
+        this.contextGetGL(),
         this.state,
         this.log,
         RenderbufferType.RENDERBUFFER_COLOR_RGB_888,
@@ -1405,7 +1436,7 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     return Renderbuffer.unsafeBrandColor(JOGL_GL_Functions
       .renderbufferAllocate(
-        this.context.getGL().getGL2ES2(),
+        this.contextGetGL(),
         this.state,
         this.log,
         RenderbufferType.RENDERBUFFER_COLOR_RGBA_8888,
@@ -1419,7 +1450,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     JOGL_GL_Functions.renderbufferDelete(
-      this.context.getGL().getGL2ES2(),
+      this.contextGetGL(),
       this.state,
       this.log,
       buffer);
@@ -1428,7 +1459,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void scissorDisable()
     throws JCGLException
   {
-    JOGL_GL_Functions.scissorDisable(this.context.getGL());
+    JOGL_GL_Functions.scissorDisable(this.contextGetGL());
   }
 
   @Override public void scissorEnable(
@@ -1444,7 +1475,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public boolean scissorIsEnabled()
     throws JCGLException
   {
-    return JOGL_GL_Functions.scissorIsEnabled(this.context.getGL());
+    return JOGL_GL_Functions.scissorIsEnabled(this.contextGetGL());
   }
 
   @Override public void stencilBufferClear(
@@ -1462,7 +1493,7 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL_Functions.stencilBufferDisable(this.context.getGL());
+    JOGL_GL_Functions.stencilBufferDisable(this.contextGetGL());
   }
 
   @Override public void stencilBufferEnable()
@@ -1480,9 +1511,12 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL2ES2_Functions.stencilBufferFunction(this.context
-      .getGL()
-      .getGL2ES2(), faces, function, reference, mask);
+    JOGL_GL2ES2_Functions.stencilBufferFunction(
+      this.contextGetGL(),
+      faces,
+      function,
+      reference,
+      mask);
   }
 
   @Override public int stencilBufferGetBits()
@@ -1496,7 +1530,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public boolean stencilBufferIsEnabled()
     throws JCGLException
   {
-    return JOGL_GL_Functions.stencilBufferIsEnabled(this.context.getGL());
+    return JOGL_GL_Functions.stencilBufferIsEnabled(this.contextGetGL());
   }
 
   @Override public void stencilBufferMask(
@@ -1505,10 +1539,7 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL2ES2_Functions.stencilBufferMask(
-      this.context.getGL().getGL2ES2(),
-      faces,
-      mask);
+    JOGL_GL2ES2_Functions.stencilBufferMask(this.contextGetGL(), faces, mask);
   }
 
   @Override public void stencilBufferOperation(
@@ -1519,9 +1550,12 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL2ES2_Functions.stencilBufferOperation(this.context
-      .getGL()
-      .getGL2ES2(), faces, stencil_fail, depth_fail, pass);
+    JOGL_GL2ES2_Functions.stencilBufferOperation(
+      this.contextGetGL(),
+      faces,
+      stencil_fail,
+      depth_fail,
+      pass);
   }
 
   @Override public @Nonnull Texture2DStatic texture2DStaticAllocateDepth16(
@@ -3939,9 +3973,12 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLCompileException,
       JCGLException
   {
-    return JOGL_GL2ES2_Functions.vertexShaderCompile(this.context
-      .getGL()
-      .getGL2ES2(), this.state, this.log, name, lines);
+    return JOGL_GL2ES2_Functions.vertexShaderCompile(
+      this.contextGetGL(),
+      this.state,
+      this.log,
+      name,
+      lines);
   }
 
   @Override public void vertexShaderDelete(
@@ -3950,7 +3987,7 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     JOGL_GL2ES2_Functions.vertexShaderDelete(
-      this.context.getGL().getGL2ES2(),
+      this.contextGetGL(),
       this.state,
       this.log,
       id);

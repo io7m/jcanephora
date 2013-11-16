@@ -262,14 +262,16 @@ public final class ExampleShaders implements Example
        */
 
       this.gl.arrayBufferBind(this.array);
-      this.gl.programAttributeArrayBind(p_col, b_col);
-      this.gl.programAttributeArrayBind(p_pos, b_pos);
+      this.gl.programAttributeArrayAssociate(p_col, b_col);
+      this.gl.programAttributeArrayAssociate(p_pos, b_pos);
 
       /**
        * Draw primitives, using the array buffer and the given index buffer.
        */
 
       this.gl.drawElements(Primitives.PRIMITIVE_TRIANGLES, this.indices);
+      this.gl.programAttributeArrayDisassociate(p_pos);
+      this.gl.programAttributeArrayDisassociate(p_col);
       this.gl.arrayBufferUnbind();
     }
     this.gl.programDeactivate();

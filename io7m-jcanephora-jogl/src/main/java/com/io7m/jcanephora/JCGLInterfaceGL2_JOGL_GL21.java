@@ -27,7 +27,6 @@ import javax.annotation.concurrent.NotThreadSafe;
 import javax.media.opengl.DebugGL2;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
-import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GL2GL3;
 import javax.media.opengl.GLContext;
 import javax.media.opengl.TraceGL2;
@@ -72,7 +71,7 @@ import com.io7m.jtensors.VectorReadable4I;
   JCGLInterfaceGL2
 {
   private final @Nonnull GL2            cached_gl2;
-  private final @Nonnull GLContext      context;
+  private final @Nonnull GLContext      gl_context;
   private final @Nonnull Log            log;
   private final @Nonnull JCGLSLVersion  sl_version;
   private final @Nonnull JCGLStateCache state;
@@ -88,13 +87,13 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     this.log =
       new Log(Constraints.constrainNotNull(log, "log output"), "jogl21");
-    this.context = Constraints.constrainNotNull(context, "GL context");
+    this.gl_context = Constraints.constrainNotNull(context, "GL context");
     Constraints.constrainNotNull(debug, "Debug");
 
     this.state = new JCGLStateCache();
 
     {
-      final GL2 g2 = this.context.getGL().getGL2();
+      final GL2 g2 = this.gl_context.getGL().getGL2();
       switch (debug) {
         case JCGL_DEBUGGING:
           this.cached_gl2 = new DebugGL2(g2);
@@ -974,37 +973,31 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    final GL2ES2 gl = this.contextGetGL2();
-
-    Constraints.constrainNotNull(program, "Program ID");
-    Constraints.constrainArbitrary(
-      program.resourceIsDeleted() == false,
-      "Program not deleted");
-
-    gl.glUseProgram(program.getGLName());
-    JCGLError.check(this);
+    JOGL_GL2ES2_Functions.programActivate(this.contextGetGL2(), program);
   }
 
-  @Override public void programAttributeArrayBind(
+  @Override public void programAttributeArrayAssociate(
     final @Nonnull ProgramAttribute program_attribute,
     final @Nonnull ArrayBufferAttribute array_attribute)
     throws JCGLException,
       ConstraintError
   {
-    JOGL_GL2ES2_Functions.programAttributeArrayBind(this.context
-      .getGL()
-      .getGL2ES2(), this.state, program_attribute, array_attribute);
+    JOGL_GL2ES2_Functions.programAttributeArrayBind(
+      this.contextGetGL2(),
+      this.state,
+      program_attribute,
+      array_attribute);
   }
 
-  @Override public void programAttributeArrayUnbind(
-    final @Nonnull ArrayBufferAttribute array_attribute,
+  @Override public void programAttributeArrayDisassociate(
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError
   {
-    JOGL_GL2ES2_Functions.programAttributeArrayUnbind(this.context
-      .getGL()
-      .getGL2ES2(), this.state, program_attribute, array_attribute);
+    JOGL_GL2ES2_Functions.programAttributeArrayDisassociate(
+      this.contextGetGL2(),
+      this.state,
+      program_attribute);
   }
 
   @Override public void programAttributePutFloat(
@@ -1026,9 +1019,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLException,
       ConstraintError
   {
-    JOGL_GL2ES2_Functions.programAttributePutVector2f(this.context
-      .getGL()
-      .getGL2ES2(), this.state, program_attribute, x);
+    JOGL_GL2ES2_Functions.programAttributePutVector2f(
+      this.contextGetGL2(),
+      this.state,
+      program_attribute,
+      x);
   }
 
   @Override public void programAttributePutVector3f(
@@ -1037,9 +1032,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLException,
       ConstraintError
   {
-    JOGL_GL2ES2_Functions.programAttributePutVector3f(this.context
-      .getGL()
-      .getGL2ES2(), this.state, program_attribute, x);
+    JOGL_GL2ES2_Functions.programAttributePutVector3f(
+      this.contextGetGL2(),
+      this.state,
+      program_attribute,
+      x);
   }
 
   @Override public void programAttributePutVector4f(
@@ -1048,9 +1045,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLException,
       ConstraintError
   {
-    JOGL_GL2ES2_Functions.programAttributePutVector4f(this.context
-      .getGL()
-      .getGL2ES2(), this.state, program_attribute, x);
+    JOGL_GL2ES2_Functions.programAttributePutVector4f(
+      this.contextGetGL2(),
+      this.state,
+      program_attribute,
+      x);
   }
 
   @Override public ProgramReference programCreateCommon(

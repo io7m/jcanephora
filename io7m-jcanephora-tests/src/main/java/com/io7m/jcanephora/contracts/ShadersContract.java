@@ -166,96 +166,6 @@ public abstract class ShadersContract implements TestContract
   }
 
   /**
-   * Unbinding a vertex attribute for a deleted array fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testArrayBufferUnbindVertexAttributeDeleted()
-      throws JCGLException,
-        JCGLUnsupportedException,
-        ConstraintError
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLArrayBuffers ga = tc.getGLImplementation().getGLCommon();
-    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
-
-    ArrayBufferAttribute aa;
-    ProgramAttribute pa = null;
-
-    try {
-      final ProgramReference pr =
-        ShadersContract.makeStandardPositionProgram(tc
-          .getGLImplementation()
-          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
-
-      pa = pr.getAttributes().get("position");
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
-
-      final ArrayBuffer a =
-        ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
-
-      aa = a.getAttribute("position");
-
-      ga.arrayBufferBind(a);
-      gp.programAttributeArrayBind(pa, aa);
-      ga.arrayBufferDelete(a);
-    } catch (final Throwable x) {
-      throw new AssertionError(x);
-    }
-
-    gp.programAttributeArrayUnbind(aa, pa);
-  }
-
-  /**
-   * Unbinding a vertex attribute with a null attribute fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testArrayBufferUnbindVertexAttributeNull()
-      throws JCGLException,
-        JCGLUnsupportedException,
-        ConstraintError
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLArrayBuffers ga = tc.getGLImplementation().getGLCommon();
-    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
-
-    ProgramAttribute pa = null;
-
-    try {
-      final ProgramReference pr =
-        ShadersContract.makeStandardPositionProgram(tc
-          .getGLImplementation()
-          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
-
-      pa = pr.getAttributes().get("position");
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
-      final ArrayBuffer a =
-        ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
-
-      ga.arrayBufferBind(a);
-      final ArrayBufferAttribute aa = a.getAttribute("position");
-      gp.programAttributeArrayBind(pa, aa);
-    } catch (final Throwable x) {
-      throw new AssertionError(x);
-    }
-
-    gp.programAttributeArrayUnbind(null, pa);
-  }
-
-  /**
    * Unbinding a vertex attribute with a null program attribute fails.
    */
 
@@ -290,12 +200,12 @@ public abstract class ShadersContract implements TestContract
 
       ga.arrayBufferBind(a);
       aa = a.getAttribute("position");
-      gp.programAttributeArrayBind(pa, aa);
+      gp.programAttributeArrayAssociate(pa, aa);
     } catch (final Throwable x) {
       throw new AssertionError(x);
     }
 
-    gp.programAttributeArrayUnbind(aa, null);
+    gp.programAttributeArrayDisassociate(null);
   }
 
   /**
@@ -332,57 +242,12 @@ public abstract class ShadersContract implements TestContract
 
       ga.arrayBufferBind(a);
       aa = a.getAttribute("position");
-      gp.programAttributeArrayBind(pa, aa);
+      gp.programAttributeArrayAssociate(pa, aa);
     } catch (final Throwable x) {
       throw new AssertionError(x);
     }
 
-    gp.programAttributeArrayUnbind(aa, pa);
-  }
-
-  /**
-   * Unbinding a vertex attribute with an unbound array fails.
-   */
-
-  @Test(expected = ConstraintError.class) public final
-    void
-    testArrayBufferUnbindVertexAttributeUnbound()
-      throws JCGLException,
-        JCGLUnsupportedException,
-        ConstraintError
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLArrayBuffers ga = tc.getGLImplementation().getGLCommon();
-    final JCGLShadersCommon gp = tc.getGLImplementation().getGLCommon();
-
-    ArrayBufferAttribute aa = null;
-    ProgramAttribute pa = null;
-
-    try {
-      final ProgramReference pr =
-        ShadersContract.makeStandardPositionProgram(tc
-          .getGLImplementation()
-          .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
-
-      pa = pr.getAttributes().get("position");
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
-      final ArrayBuffer a =
-        ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
-
-      ga.arrayBufferBind(a);
-      aa = a.getAttribute("position");
-      gp.programAttributeArrayBind(pa, aa);
-      ga.arrayBufferUnbind();
-    } catch (final Throwable x) {
-      throw new AssertionError(x);
-    }
-
-    gp.programAttributeArrayUnbind(aa, pa);
+    gp.programAttributeArrayDisassociate(pa);
   }
 
   /**
@@ -560,7 +425,7 @@ public abstract class ShadersContract implements TestContract
 
     assert pa != null;
     assert aa != null;
-    gl.programAttributeArrayBind(pa, aa);
+    gl.programAttributeArrayAssociate(pa, aa);
   }
 
   /**
@@ -592,7 +457,7 @@ public abstract class ShadersContract implements TestContract
     }
 
     assert pa != null;
-    gl.programAttributeArrayBind(pa, null);
+    gl.programAttributeArrayAssociate(pa, null);
   }
 
   /**
@@ -628,7 +493,7 @@ public abstract class ShadersContract implements TestContract
     }
 
     assert aa != null;
-    gl.programAttributeArrayBind(null, aa);
+    gl.programAttributeArrayAssociate(null, aa);
   }
 
   /**
@@ -671,7 +536,7 @@ public abstract class ShadersContract implements TestContract
       throw new AssertionError(e);
     }
 
-    gp.programAttributeArrayBind(pa, aa);
+    gp.programAttributeArrayAssociate(pa, aa);
   }
 
   /**
@@ -718,7 +583,7 @@ public abstract class ShadersContract implements TestContract
       throw new AssertionError(e);
     }
 
-    gp.programAttributeArrayBind(pa, aa1);
+    gp.programAttributeArrayAssociate(pa, aa1);
   }
 
   /**
@@ -771,7 +636,7 @@ public abstract class ShadersContract implements TestContract
       throw new AssertionError(e);
     }
 
-    gp.programAttributeArrayBind(pa, aa);
+    gp.programAttributeArrayAssociate(pa, aa);
   }
 
   /**
@@ -817,7 +682,7 @@ public abstract class ShadersContract implements TestContract
       throw new AssertionError(e);
     }
 
-    gp.programAttributeArrayBind(pa, aa);
+    gp.programAttributeArrayAssociate(pa, aa);
   }
 
   /**

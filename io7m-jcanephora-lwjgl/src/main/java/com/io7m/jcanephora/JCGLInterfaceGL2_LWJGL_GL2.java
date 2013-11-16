@@ -844,27 +844,25 @@ import com.io7m.jtensors.VectorReadable4I;
     LWJGL_GLES2Functions.programActivate(program);
   }
 
-  @Override public void programAttributeArrayBind(
+  @Override public void programAttributeArrayAssociate(
     final @Nonnull ProgramAttribute program_attribute,
     final @Nonnull ArrayBufferAttribute array_attribute)
     throws JCGLException,
       ConstraintError
   {
-    LWJGL_GLES2Functions.programAttributeArrayBind(
+    LWJGL_GLES2Functions.programAttributeArrayAssociate(
       this.state,
       array_attribute,
       program_attribute);
   }
 
-  @Override public void programAttributeArrayUnbind(
-    final @Nonnull ArrayBufferAttribute array_attribute,
+  @Override public void programAttributeArrayDisassociate(
     final @Nonnull ProgramAttribute program_attribute)
     throws JCGLException,
       ConstraintError
   {
-    LWJGL_GLES2Functions.programAttributeArrayUnbind(
+    LWJGL_GLES2Functions.programAttributeArrayDisassociate(
       this.state,
-      array_attribute,
       program_attribute);
   }
 

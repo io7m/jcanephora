@@ -75,20 +75,24 @@ final class JOGL_GL_Functions
 
     final int id = cache.get(0);
     gl.glBindBuffer(GL.GL_ARRAY_BUFFER, id);
-    gl.glBufferData(
-      GL.GL_ARRAY_BUFFER,
-      bytes_total,
-      null,
-      JOGL_GLTypeConversions.usageHintES2ToGL(usage));
+    try {
+      gl.glBufferData(
+        GL.GL_ARRAY_BUFFER,
+        bytes_total,
+        null,
+        JOGL_GLTypeConversions.usageHintES2ToGL(usage));
 
-    if (log.enabled(Level.LOG_DEBUG)) {
-      state.log_text.setLength(0);
-      state.log_text.append("array-buffer: allocated ");
-      state.log_text.append(id);
-      log.debug(state.log_text.toString());
+      if (log.enabled(Level.LOG_DEBUG)) {
+        state.log_text.setLength(0);
+        state.log_text.append("array-buffer: allocated ");
+        state.log_text.append(id);
+        log.debug(state.log_text.toString());
+      }
+
+      JOGL_GL_Functions.checkError(gl);
+    } finally {
+      gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
     }
-
-    JOGL_GL_Functions.checkError(gl);
     return new ArrayBuffer(id, elements, descriptor);
   }
 
@@ -200,18 +204,22 @@ final class JOGL_GL_Functions
     gl.glBindBuffer(GL.GL_ARRAY_BUFFER, id.getGLName());
     JOGL_GL_Functions.checkError(gl);
 
-    final long offset = range.getLower() * id.getElementSizeBytes();
-    final long length = range.getInterval() * id.getElementSizeBytes();
+    ByteBuffer b;
+    try {
+      final long offset = range.getLower() * id.getElementSizeBytes();
+      final long length = range.getInterval() * id.getElementSizeBytes();
 
-    final ByteBuffer b =
-      gl.glMapBufferRange(
-        GL.GL_ARRAY_BUFFER,
-        offset,
-        length,
-        GL.GL_MAP_READ_BIT);
-    JOGL_GL_Functions.checkError(gl);
+      b =
+        gl.glMapBufferRange(
+          GL.GL_ARRAY_BUFFER,
+          offset,
+          length,
+          GL.GL_MAP_READ_BIT);
+      JOGL_GL_Functions.checkError(gl);
 
-    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
+    } finally {
+      gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
+    }
     JOGL_GL_Functions.checkError(gl);
 
     return b;
@@ -242,26 +250,30 @@ final class JOGL_GL_Functions
     gl.glBindBuffer(GL.GL_ARRAY_BUFFER, id.getGLName());
     JOGL_GL_Functions.checkError(gl);
 
-    gl.glBufferData(
-      GL.GL_ARRAY_BUFFER,
-      id.getSizeBytes(),
-      null,
-      GL2ES2.GL_STREAM_DRAW);
-    JOGL_GL_Functions.checkError(gl);
-
-    final RangeInclusive range = id.getRange();
-    final long offset = range.getLower() * id.getElementSizeBytes();
-    final long length = range.getInterval() * id.getElementSizeBytes();
-
-    final ByteBuffer b =
-      gl.glMapBufferRange(
+    final ByteBuffer b;
+    try {
+      gl.glBufferData(
         GL.GL_ARRAY_BUFFER,
-        offset,
-        length,
-        GL.GL_MAP_WRITE_BIT);
-    JOGL_GL_Functions.checkError(gl);
+        id.getSizeBytes(),
+        null,
+        GL2ES2.GL_STREAM_DRAW);
+      JOGL_GL_Functions.checkError(gl);
 
-    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
+      final RangeInclusive range = id.getRange();
+      final long offset = range.getLower() * id.getElementSizeBytes();
+      final long length = range.getInterval() * id.getElementSizeBytes();
+
+      b =
+        gl.glMapBufferRange(
+          GL.GL_ARRAY_BUFFER,
+          offset,
+          length,
+          GL.GL_MAP_WRITE_BIT);
+      JOGL_GL_Functions.checkError(gl);
+
+    } finally {
+      gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
+    }
     JOGL_GL_Functions.checkError(gl);
 
     return new ArrayBufferWritableMap(id, b);
@@ -296,8 +308,11 @@ final class JOGL_GL_Functions
     }
 
     gl.glBindBuffer(GL.GL_ARRAY_BUFFER, id.getGLName());
-    gl.glUnmapBuffer(GL.GL_ARRAY_BUFFER);
-    gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
+    try {
+      gl.glUnmapBuffer(GL.GL_ARRAY_BUFFER);
+    } finally {
+      gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
+    }
     JOGL_GL_Functions.checkError(gl);
   }
 
@@ -878,7 +893,11 @@ final class JOGL_GL_Functions
       JOGL_GLTypeConversions.unsignedTypeToGL(indices.getType());
 
     gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, index_id);
-    gl.glDrawElements(mode_gl, index_count, type, 0L);
+    try {
+      gl.glDrawElements(mode_gl, index_count, type, 0L);
+    } finally {
+      gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
+    }
     JOGL_GL_Functions.checkError(gl);
   }
 
@@ -1605,12 +1624,16 @@ final class JOGL_GL_Functions
     final int id = cache.get(0);
     gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id);
     JOGL_GL_Functions.checkError(gl);
-    gl.glBufferData(
-      GL.GL_ELEMENT_ARRAY_BUFFER,
-      bytes_total,
-      null,
-      GL2ES2.GL_STREAM_DRAW);
-    JOGL_GL_Functions.checkError(gl);
+    try {
+      gl.glBufferData(
+        GL.GL_ELEMENT_ARRAY_BUFFER,
+        bytes_total,
+        null,
+        GL2ES2.GL_STREAM_DRAW);
+      JOGL_GL_Functions.checkError(gl);
+    } finally {
+      gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
+    }
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -1691,19 +1714,22 @@ final class JOGL_GL_Functions
     gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
     JOGL_GL_Functions.checkError(gl);
 
-    final long offset = range.getLower() * id.getElementSizeBytes();
-    final long length = range.getInterval() * id.getElementSizeBytes();
+    final ByteBuffer b;
+    try {
+      final long offset = range.getLower() * id.getElementSizeBytes();
+      final long length = range.getInterval() * id.getElementSizeBytes();
 
-    final ByteBuffer b =
-      gl.glMapBufferRange(
-        GL.GL_ELEMENT_ARRAY_BUFFER,
-        offset,
-        length,
-        GL.GL_MAP_READ_BIT);
-    JOGL_GL_Functions.checkError(gl);
+      b =
+        gl.glMapBufferRange(
+          GL.GL_ELEMENT_ARRAY_BUFFER,
+          offset,
+          length,
+          GL.GL_MAP_READ_BIT);
+      JOGL_GL_Functions.checkError(gl);
 
-    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
-    JOGL_GL_Functions.checkError(gl);
+    } finally {
+      gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
+    }
 
     return new IndexBufferReadableMap(id, b);
   }
@@ -1730,27 +1756,31 @@ final class JOGL_GL_Functions
 
     gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
     JOGL_GL_Functions.checkError(gl);
-    gl.glBufferData(
-      GL.GL_ELEMENT_ARRAY_BUFFER,
-      id.getSizeBytes(),
-      null,
-      GL2ES2.GL_STREAM_DRAW);
-    JOGL_GL_Functions.checkError(gl);
 
-    final RangeInclusive range = id.getRange();
-    final long offset = range.getLower() * id.getElementSizeBytes();
-    final long length = range.getInterval() * id.getElementSizeBytes();
-
-    final ByteBuffer b =
-      gl.glMapBufferRange(
+    ByteBuffer b;
+    try {
+      gl.glBufferData(
         GL.GL_ELEMENT_ARRAY_BUFFER,
-        offset,
-        length,
-        GL.GL_MAP_WRITE_BIT);
-    JOGL_GL_Functions.checkError(gl);
+        id.getSizeBytes(),
+        null,
+        GL2ES2.GL_STREAM_DRAW);
+      JOGL_GL_Functions.checkError(gl);
 
-    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
-    JOGL_GL_Functions.checkError(gl);
+      final RangeInclusive range = id.getRange();
+      final long offset = range.getLower() * id.getElementSizeBytes();
+      final long length = range.getInterval() * id.getElementSizeBytes();
+
+      b =
+        gl.glMapBufferRange(
+          GL.GL_ELEMENT_ARRAY_BUFFER,
+          offset,
+          length,
+          GL.GL_MAP_WRITE_BIT);
+      JOGL_GL_Functions.checkError(gl);
+
+    } finally {
+      gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
+    }
 
     return new IndexBufferWritableMap(id, b);
   }
@@ -1776,8 +1806,11 @@ final class JOGL_GL_Functions
     }
 
     gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
-    gl.glUnmapBuffer(GL.GL_ELEMENT_ARRAY_BUFFER);
-    gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
+    try {
+      gl.glUnmapBuffer(GL.GL_ELEMENT_ARRAY_BUFFER);
+    } finally {
+      gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
+    }
     JOGL_GL_Functions.checkError(gl);
   }
 
@@ -1795,12 +1828,16 @@ final class JOGL_GL_Functions
       "Index buffer not deleted");
 
     gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, buffer.getGLName());
-    gl.glBufferSubData(
-      GL.GL_ELEMENT_ARRAY_BUFFER,
-      data.getTargetDataOffset(),
-      data.getTargetDataSize(),
-      data.getTargetData());
-    JOGL_GL_Functions.checkError(gl);
+    try {
+      gl.glBufferSubData(
+        GL.GL_ELEMENT_ARRAY_BUFFER,
+        data.getTargetDataOffset(),
+        data.getTargetDataSize(),
+        data.getTargetData());
+      JOGL_GL_Functions.checkError(gl);
+    } finally {
+      gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
+    }
   }
 
   static int metaGetError(

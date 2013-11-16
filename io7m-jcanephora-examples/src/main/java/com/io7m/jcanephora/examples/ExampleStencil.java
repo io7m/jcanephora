@@ -214,8 +214,8 @@ public final class ExampleStencil implements Example
       this.gl.programUniformPutMatrix4x4f(u_proj, this.matrix_projection);
 
       this.gl.arrayBufferBind(this.array);
-      this.gl.programAttributeArrayBind(p_col, b_col);
-      this.gl.programAttributeArrayBind(p_pos, b_pos);
+      this.gl.programAttributeArrayAssociate(p_col, b_col);
+      this.gl.programAttributeArrayAssociate(p_pos, b_pos);
 
       final int width = this.config.getWindowSize().getXI();
       final int height = this.config.getWindowSize().getYI();
@@ -224,6 +224,8 @@ public final class ExampleStencil implements Example
 
       this.drawIntoStencil(u_model, width, height);
       this.drawTrianglesActual(u_model, width, height);
+      this.gl.programAttributeArrayDisassociate(p_pos);
+      this.gl.programAttributeArrayDisassociate(p_col);
 
       this.gl.stencilBufferDisable();
       this.gl.arrayBufferUnbind();
