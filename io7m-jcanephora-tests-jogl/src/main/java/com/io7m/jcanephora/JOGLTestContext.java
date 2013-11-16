@@ -61,6 +61,7 @@ public final class JOGLTestContext
     final GLDrawableFactory f = GLDrawableFactory.getFactory(profile);
     final GLOffscreenAutoDrawable k =
       f.createOffscreenAutoDrawable(null, cap, null, width, height);
+    k.display();
 
     return k;
   }
@@ -76,8 +77,10 @@ public final class JOGLTestContext
 
     JOGLTestContext.buffer =
       JOGLTestContext.createOffscreenDrawable(profile, 640, 480);
-
+    assert JOGLTestContext.buffer != null;
     final GLContext context = JOGLTestContext.buffer.getContext();
+    assert context != null;
+
     final int r = context.makeCurrent();
     if (r == GLContext.CONTEXT_NOT_CURRENT) {
       throw new AssertionError("Could not make context current");
