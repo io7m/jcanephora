@@ -17,6 +17,7 @@
 package com.io7m.jcanephora;
 
 import java.nio.IntBuffer;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -52,10 +53,10 @@ final class JOGL_GL2ES3_Functions
       "Framebuffer is bound");
     Constraints.constrainNotNull(mappings, "Draw buffer attachment mappings");
 
-    final FramebufferDrawBuffer[] buffers = state.draw_buffers;
-    final IntBuffer out = Buffers.newDirectIntBuffer(buffers.length);
+    final List<FramebufferDrawBuffer> buffers = state.draw_buffers;
+    final IntBuffer out = Buffers.newDirectIntBuffer(buffers.size());
 
-    for (int index = 0; index < buffers.length; ++index) {
+    for (int index = 0; index < buffers.size(); ++index) {
       final FramebufferDrawBuffer buffer = new FramebufferDrawBuffer(index);
       if (mappings.containsKey(buffer)) {
         final FramebufferColorAttachmentPoint attach = mappings.get(buffer);
@@ -82,7 +83,7 @@ final class JOGL_GL2ES3_Functions
 
     out.rewind();
 
-    gl.glDrawBuffers(buffers.length, out);
+    gl.glDrawBuffers(buffers.size(), out);
     JOGL_GL_Functions.checkError(gl);
   }
 }

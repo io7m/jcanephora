@@ -18,6 +18,7 @@ package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1113,7 +1114,7 @@ final class LWJGL_GLES2Functions
   }
 
   static @Nonnull
-    FramebufferColorAttachmentPoint[]
+    List<FramebufferColorAttachmentPoint>
     framebufferGetAttachmentPointsActual(
       final @Nonnull JCGLStateCache state,
       final @Nonnull Log log)
@@ -1132,19 +1133,21 @@ final class LWJGL_GLES2Functions
       log.debug(state.log_text.toString());
     }
 
-    final FramebufferColorAttachmentPoint[] a =
-      new FramebufferColorAttachmentPoint[max];
+    final ArrayList<FramebufferColorAttachmentPoint> a =
+      new ArrayList<FramebufferColorAttachmentPoint>();
     for (int index = 0; index < max; ++index) {
-      a[index] = new FramebufferColorAttachmentPoint(index);
+      a.add(new FramebufferColorAttachmentPoint(index));
     }
 
     return a;
   }
 
-  static @Nonnull FramebufferDrawBuffer[] framebufferGetDrawBuffersActual(
-    final @Nonnull JCGLStateCache state,
-    final @Nonnull Log log)
-    throws JCGLException
+  static @Nonnull
+    List<FramebufferDrawBuffer>
+    framebufferGetDrawBuffersActual(
+      final @Nonnull JCGLStateCache state,
+      final @Nonnull Log log)
+      throws JCGLException
   {
     final int max =
       LWJGL_GLES2Functions.contextGetInteger(state, GL20.GL_MAX_DRAW_BUFFERS);
@@ -1157,9 +1160,10 @@ final class LWJGL_GLES2Functions
       log.debug(state.log_text.toString());
     }
 
-    final FramebufferDrawBuffer[] b = new FramebufferDrawBuffer[max];
+    final ArrayList<FramebufferDrawBuffer> b =
+      new ArrayList<FramebufferDrawBuffer>();
     for (int index = 0; index < max; ++index) {
-      b[index] = new FramebufferDrawBuffer(index);
+      b.add(new FramebufferDrawBuffer(index));
     }
 
     return b;
@@ -2880,8 +2884,7 @@ final class LWJGL_GLES2Functions
     state, GL11.GL_MAX_TEXTURE_SIZE);
   }
 
-  static TextureUnit[] textureGetUnitsActual(
-
+  static List<TextureUnit> textureGetUnitsActual(
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log)
     throws JCGLException
@@ -2898,9 +2901,9 @@ final class LWJGL_GLES2Functions
       log.debug(state.log_text.toString());
     }
 
-    final TextureUnit[] u = new TextureUnit[max];
+    final ArrayList<TextureUnit> u = new ArrayList<TextureUnit>();
     for (int index = 0; index < max; ++index) {
-      u[index] = new TextureUnit(index);
+      u.add(new TextureUnit(index));
     }
 
     return u;

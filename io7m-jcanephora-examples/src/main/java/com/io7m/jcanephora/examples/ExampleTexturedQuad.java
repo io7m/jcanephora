@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.examples;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 
@@ -78,7 +79,7 @@ public final class ExampleTexturedQuad implements Example
   private final MatrixM4x4F               matrix_projection;
   private final ProgramReference          program;
   private final Texture2DStatic           texture;
-  private final TextureUnit[]             texture_units;
+  private final List<TextureUnit>         texture_units;
   private final Texture2DWritableData     texture_update;
 
   public ExampleTexturedQuad(
@@ -300,8 +301,10 @@ public final class ExampleTexturedQuad implements Example
        * texture unit reference to the shader.
        */
 
-      this.gl.texture2DStaticBind(this.texture_units[0], this.texture);
-      this.gl.programUniformPutTextureUnit(u_texture, this.texture_units[0]);
+      this.gl.texture2DStaticBind(this.texture_units.get(0), this.texture);
+      this.gl.programUniformPutTextureUnit(
+        u_texture,
+        this.texture_units.get(0));
 
       /**
        * Get references to the program's vertex attribute inputs.

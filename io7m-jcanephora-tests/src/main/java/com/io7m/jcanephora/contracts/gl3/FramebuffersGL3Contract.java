@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora.contracts.gl3;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 
 import org.junit.Assert;
@@ -112,11 +114,12 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final TestContext tc = this.newTestContext();
     final G gl = this.getGLInterface(tc);
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
-    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
-    Assume.assumeTrue(points.length >= 2);
-    Assume.assumeTrue(buffers.length >= 2);
+    final List<FramebufferDrawBuffer> buffers =
+      gl.framebufferGetDrawBuffers();
+    Assume.assumeTrue(points.size() >= 2);
+    Assume.assumeTrue(buffers.size() >= 2);
 
     final FramebufferConfigurationGL3 config =
       new FramebufferConfigurationGL3Actual(128, 256);
@@ -124,9 +127,9 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
-    config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
-    config.requestNoColorAt(points[0]);
-    config.requestBestRGBAColorRenderbuffer(points[1], buffers[0]);
+    config.requestBestRGBAColorRenderbuffer(points.get(0), buffers.get(0));
+    config.requestNoColorAt(points.get(0));
+    config.requestBestRGBAColorRenderbuffer(points.get(1), buffers.get(0));
   }
 
   /**
@@ -141,9 +144,10 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final TestContext tc = this.newTestContext();
     final G gl = this.getGLInterface(tc);
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
-    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+    final List<FramebufferDrawBuffer> buffers =
+      gl.framebufferGetDrawBuffers();
 
     final FramebufferConfigurationGL3 config =
       new FramebufferConfigurationGL3Actual(128, 256);
@@ -151,7 +155,7 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
-    config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
+    config.requestBestRGBAColorRenderbuffer(points.get(0), buffers.get(0));
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
       config.make(gl);
@@ -160,9 +164,9 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
       (Success<Framebuffer, FramebufferStatus>) result;
 
     final Framebuffer fb = success.value;
-    Assert.assertTrue(fb.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor ca = fb.getColorAttachment(points[0]);
+    final AttachmentColor ca = fb.getColorAttachment(points.get(0));
     switch (ca.type) {
       case ATTACHMENT_COLOR_TEXTURE_CUBE:
       case ATTACHMENT_COLOR_TEXTURE_2D:
@@ -199,9 +203,10 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final TestContext tc = this.newTestContext();
     final G gl = this.getGLInterface(tc);
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
-    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+    final List<FramebufferDrawBuffer> buffers =
+      gl.framebufferGetDrawBuffers();
 
     final FramebufferConfigurationGL3 config =
       new FramebufferConfigurationGL3Actual(128, 256);
@@ -210,8 +215,8 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     config.requestNoDepth();
     config.requestNoStencil();
     config.requestBestRGBAColorTexture2D(
-      points[0],
-      buffers[0],
+      points.get(0),
+      buffers.get(0),
       TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
       TextureWrapT.TEXTURE_WRAP_REPEAT,
       TextureFilterMinification.TEXTURE_FILTER_LINEAR,
@@ -224,9 +229,9 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
       (Success<Framebuffer, FramebufferStatus>) result;
 
     final Framebuffer fb = success.value;
-    Assert.assertTrue(fb.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor ca = fb.getColorAttachment(points[0]);
+    final AttachmentColor ca = fb.getColorAttachment(points.get(0));
     switch (ca.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
       case ATTACHMENT_COLOR_TEXTURE_CUBE:
@@ -272,9 +277,10 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final TestContext tc = this.newTestContext();
     final G gl = this.getGLInterface(tc);
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
-    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+    final List<FramebufferDrawBuffer> buffers =
+      gl.framebufferGetDrawBuffers();
 
     final FramebufferConfigurationGL3 config =
       new FramebufferConfigurationGL3Actual(128, 128);
@@ -283,8 +289,8 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     config.requestNoDepth();
     config.requestNoStencil();
     config.requestBestRGBAColorTextureCube(
-      points[0],
-      buffers[0],
+      points.get(0),
+      buffers.get(0),
       TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
       TextureWrapS.TEXTURE_WRAP_REPEAT,
       TextureWrapT.TEXTURE_WRAP_REPEAT,
@@ -298,9 +304,9 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
       (Success<Framebuffer, FramebufferStatus>) result;
 
     final Framebuffer fb = success.value;
-    Assert.assertTrue(fb.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor ca = fb.getColorAttachment(points[0]);
+    final AttachmentColor ca = fb.getColorAttachment(points.get(0));
     switch (ca.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
 
@@ -350,9 +356,10 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final TestContext tc = this.newTestContext();
     final G gl = this.getGLInterface(tc);
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
-    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+    final List<FramebufferDrawBuffer> buffers =
+      gl.framebufferGetDrawBuffers();
 
     final FramebufferConfigurationGL3 config =
       new FramebufferConfigurationGL3Actual(128, 256);
@@ -360,7 +367,7 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
-    config.requestBestRGBColorRenderbuffer(points[0], buffers[0]);
+    config.requestBestRGBColorRenderbuffer(points.get(0), buffers.get(0));
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
       config.make(gl);
@@ -369,9 +376,9 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
       (Success<Framebuffer, FramebufferStatus>) result;
 
     final Framebuffer fb = success.value;
-    Assert.assertTrue(fb.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor ca = fb.getColorAttachment(points[0]);
+    final AttachmentColor ca = fb.getColorAttachment(points.get(0));
     switch (ca.type) {
       case ATTACHMENT_COLOR_TEXTURE_2D:
       case ATTACHMENT_COLOR_TEXTURE_CUBE:
@@ -408,9 +415,10 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final TestContext tc = this.newTestContext();
     final G gl = this.getGLInterface(tc);
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
-    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+    final List<FramebufferDrawBuffer> buffers =
+      gl.framebufferGetDrawBuffers();
 
     final FramebufferConfigurationGL3 config =
       new FramebufferConfigurationGL3Actual(128, 256);
@@ -419,8 +427,8 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     config.requestNoDepth();
     config.requestNoStencil();
     config.requestBestRGBColorTexture2D(
-      points[0],
-      buffers[0],
+      points.get(0),
+      buffers.get(0),
       TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
       TextureWrapT.TEXTURE_WRAP_REPEAT,
       TextureFilterMinification.TEXTURE_FILTER_LINEAR,
@@ -433,9 +441,9 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
       (Success<Framebuffer, FramebufferStatus>) result;
 
     final Framebuffer fb = success.value;
-    Assert.assertTrue(fb.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor ca = fb.getColorAttachment(points[0]);
+    final AttachmentColor ca = fb.getColorAttachment(points.get(0));
     switch (ca.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
       case ATTACHMENT_COLOR_TEXTURE_CUBE:
@@ -481,9 +489,10 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final TestContext tc = this.newTestContext();
     final G gl = this.getGLInterface(tc);
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
-    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+    final List<FramebufferDrawBuffer> buffers =
+      gl.framebufferGetDrawBuffers();
 
     final FramebufferConfigurationGL3 config =
       new FramebufferConfigurationGL3Actual(128, 128);
@@ -492,8 +501,8 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     config.requestNoDepth();
     config.requestNoStencil();
     config.requestBestRGBColorTextureCube(
-      points[0],
-      buffers[0],
+      points.get(0),
+      buffers.get(0),
       TextureWrapR.TEXTURE_WRAP_CLAMP_TO_EDGE,
       TextureWrapS.TEXTURE_WRAP_REPEAT,
       TextureWrapT.TEXTURE_WRAP_REPEAT,
@@ -507,9 +516,9 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
       (Success<Framebuffer, FramebufferStatus>) result;
 
     final Framebuffer fb = success.value;
-    Assert.assertTrue(fb.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor ca = fb.getColorAttachment(points[0]);
+    final AttachmentColor ca = fb.getColorAttachment(points.get(0));
     switch (ca.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
 
@@ -559,9 +568,10 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final TestContext tc = this.newTestContext();
     final G gl = this.getGLInterface(tc);
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
-    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+    final List<FramebufferDrawBuffer> buffers =
+      gl.framebufferGetDrawBuffers();
 
     final FramebufferConfigurationGL3 config =
       new FramebufferConfigurationGL3Actual(128, 256);
@@ -569,7 +579,7 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
-    config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
+    config.requestBestRGBAColorRenderbuffer(points.get(0), buffers.get(0));
 
     final Indeterminate<Framebuffer, FramebufferStatus> result =
       config.make(gl);
@@ -599,14 +609,15 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final TestContext tc = this.newTestContext();
     final G gl = this.getGLInterface(tc);
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
-    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+    final List<FramebufferDrawBuffer> buffers =
+      gl.framebufferGetDrawBuffers();
 
     final FramebufferConfigurationGL3 config =
       new FramebufferConfigurationGL3Actual(128, 256);
 
-    config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
+    config.requestBestRGBAColorRenderbuffer(points.get(0), buffers.get(0));
     config.requestNoStencil();
     config.requestDepthRenderbuffer();
 
@@ -675,11 +686,12 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final TestContext tc = this.newTestContext();
     final G gl = this.getGLInterface(tc);
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
-    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
-    Assume.assumeTrue(points.length >= 2);
-    Assume.assumeTrue(buffers.length >= 2);
+    final List<FramebufferDrawBuffer> buffers =
+      gl.framebufferGetDrawBuffers();
+    Assume.assumeTrue(points.size() >= 2);
+    Assume.assumeTrue(buffers.size() >= 2);
 
     final FramebufferConfigurationGL3 config =
       new FramebufferConfigurationGL3Actual(128, 256);
@@ -687,26 +699,26 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     config.requestNoColor();
     config.requestNoDepth();
     config.requestNoStencil();
-    config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
+    config.requestBestRGBAColorRenderbuffer(points.get(0), buffers.get(0));
 
     int rejected = 0;
 
     try {
-      config.requestBestRGBAColorRenderbuffer(points[1], buffers[0]);
+      config.requestBestRGBAColorRenderbuffer(points.get(1), buffers.get(0));
     } catch (final ConstraintError e) {
       ++rejected;
     }
 
     try {
-      config.requestBestRGBColorRenderbuffer(points[1], buffers[0]);
+      config.requestBestRGBColorRenderbuffer(points.get(1), buffers.get(0));
     } catch (final ConstraintError e) {
       ++rejected;
     }
 
     try {
       config.requestBestRGBAColorTexture2D(
-        points[1],
-        buffers[0],
+        points.get(1),
+        buffers.get(0),
         TextureWrapS.TEXTURE_WRAP_REPEAT,
         TextureWrapT.TEXTURE_WRAP_REPEAT,
         TextureFilterMinification.TEXTURE_FILTER_NEAREST,
@@ -717,8 +729,8 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
     try {
       config.requestBestRGBColorTexture2D(
-        points[1],
-        buffers[0],
+        points.get(1),
+        buffers.get(0),
         TextureWrapS.TEXTURE_WRAP_REPEAT,
         TextureWrapT.TEXTURE_WRAP_REPEAT,
         TextureFilterMinification.TEXTURE_FILTER_NEAREST,
@@ -729,8 +741,8 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
     try {
       config.requestBestRGBAColorTextureCube(
-        points[1],
-        buffers[0],
+        points.get(1),
+        buffers.get(0),
         TextureWrapR.TEXTURE_WRAP_REPEAT,
         TextureWrapS.TEXTURE_WRAP_REPEAT,
         TextureWrapT.TEXTURE_WRAP_REPEAT,
@@ -742,8 +754,8 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
     try {
       config.requestBestRGBColorTextureCube(
-        points[1],
-        buffers[0],
+        points.get(1),
+        buffers.get(0),
         TextureWrapR.TEXTURE_WRAP_REPEAT,
         TextureWrapS.TEXTURE_WRAP_REPEAT,
         TextureWrapT.TEXTURE_WRAP_REPEAT,
@@ -773,9 +785,10 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final TestContext tc = this.newTestContext();
     final G gl = this.getGLInterface(tc);
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
-    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+    final List<FramebufferDrawBuffer> buffers =
+      gl.framebufferGetDrawBuffers();
 
     /**
      * Create initial framebuffer.
@@ -783,11 +796,11 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
     final FramebufferConfigurationGL3 fb0_config =
       new FramebufferConfigurationGL3Actual(128, 128);
-    fb0_config.requestBestRGBColorRenderbuffer(points[0], buffers[0]);
+    fb0_config.requestBestRGBColorRenderbuffer(points.get(0), buffers.get(0));
 
     final Framebuffer fb0 =
       FramebuffersGL3Contract.makeAssumingSuccess(fb0_config, gl);
-    final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
+    final AttachmentColor fb0_attach = fb0.getColorAttachment(points.get(0));
 
     switch (fb0_attach.type) {
       case ATTACHMENT_COLOR_TEXTURE_2D:
@@ -816,14 +829,18 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
     final FramebufferConfigurationGL3 fb1_config =
       new FramebufferConfigurationGL3Actual(128, 128);
-    fb1_config.requestSharedColor(points[0], buffers[0], fb0, points[0]);
+    fb1_config.requestSharedColor(
+      points.get(0),
+      buffers.get(0),
+      fb0,
+      points.get(0));
 
     final Framebuffer fb1 =
       FramebuffersGL3Contract.makeAssumingSuccess(fb1_config, gl);
 
-    Assert.assertTrue(fb1.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb1.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor attach = fb1.getColorAttachment(points[0]);
+    final AttachmentColor attach = fb1.getColorAttachment(points.get(0));
     switch (attach.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
       case ATTACHMENT_COLOR_TEXTURE_2D:
@@ -864,9 +881,10 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final TestContext tc = this.newTestContext();
     final G gl = this.getGLInterface(tc);
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
-    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+    final List<FramebufferDrawBuffer> buffers =
+      gl.framebufferGetDrawBuffers();
 
     /**
      * Create initial framebuffer.
@@ -874,11 +892,12 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
     final FramebufferConfigurationGL3 fb0_config =
       new FramebufferConfigurationGL3Actual(128, 128);
-    fb0_config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
+    fb0_config
+      .requestBestRGBAColorRenderbuffer(points.get(0), buffers.get(0));
 
     final Framebuffer fb0 =
       FramebuffersGL3Contract.makeAssumingSuccess(fb0_config, gl);
-    final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
+    final AttachmentColor fb0_attach = fb0.getColorAttachment(points.get(0));
 
     switch (fb0_attach.type) {
       case ATTACHMENT_COLOR_TEXTURE_2D:
@@ -907,14 +926,18 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
     final FramebufferConfigurationGL3 fb1_config =
       new FramebufferConfigurationGL3Actual(128, 128);
-    fb1_config.requestSharedColor(points[0], buffers[0], fb0, points[0]);
+    fb1_config.requestSharedColor(
+      points.get(0),
+      buffers.get(0),
+      fb0,
+      points.get(0));
 
     final Framebuffer fb1 =
       FramebuffersGL3Contract.makeAssumingSuccess(fb1_config, gl);
 
-    Assert.assertTrue(fb1.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb1.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor attach = fb1.getColorAttachment(points[0]);
+    final AttachmentColor attach = fb1.getColorAttachment(points.get(0));
     switch (attach.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
       case ATTACHMENT_COLOR_TEXTURE_2D:
@@ -955,9 +978,10 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final TestContext tc = this.newTestContext();
     final G gl = this.getGLInterface(tc);
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
-    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+    final List<FramebufferDrawBuffer> buffers =
+      gl.framebufferGetDrawBuffers();
 
     /**
      * Create initial framebuffer.
@@ -966,8 +990,8 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final FramebufferConfigurationGL3 fb0_config =
       new FramebufferConfigurationGL3Actual(128, 128);
     fb0_config.requestBestRGBAColorTexture2D(
-      points[0],
-      buffers[0],
+      points.get(0),
+      buffers.get(0),
       TextureWrapS.TEXTURE_WRAP_REPEAT,
       TextureWrapT.TEXTURE_WRAP_REPEAT,
       TextureFilterMinification.TEXTURE_FILTER_NEAREST,
@@ -975,7 +999,7 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
     final Framebuffer fb0 =
       FramebuffersGL3Contract.makeAssumingSuccess(fb0_config, gl);
-    final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
+    final AttachmentColor fb0_attach = fb0.getColorAttachment(points.get(0));
 
     switch (fb0_attach.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
@@ -1003,14 +1027,18 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
     final FramebufferConfigurationGL3 fb1_config =
       new FramebufferConfigurationGL3Actual(128, 128);
-    fb1_config.requestSharedColor(points[0], buffers[0], fb0, points[0]);
+    fb1_config.requestSharedColor(
+      points.get(0),
+      buffers.get(0),
+      fb0,
+      points.get(0));
 
     final Framebuffer fb1 =
       FramebuffersGL3Contract.makeAssumingSuccess(fb1_config, gl);
 
-    Assert.assertTrue(fb1.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb1.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor attach = fb1.getColorAttachment(points[0]);
+    final AttachmentColor attach = fb1.getColorAttachment(points.get(0));
     switch (attach.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
       case ATTACHMENT_COLOR_TEXTURE_2D:
@@ -1050,9 +1078,10 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final TestContext tc = this.newTestContext();
     final G gl = this.getGLInterface(tc);
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
-    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+    final List<FramebufferDrawBuffer> buffers =
+      gl.framebufferGetDrawBuffers();
 
     /**
      * Create initial framebuffer.
@@ -1061,8 +1090,8 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final FramebufferConfigurationGL3 fb0_config =
       new FramebufferConfigurationGL3Actual(128, 128);
     fb0_config.requestBestRGBAColorTextureCube(
-      points[0],
-      buffers[0],
+      points.get(0),
+      buffers.get(0),
       TextureWrapR.TEXTURE_WRAP_REPEAT,
       TextureWrapS.TEXTURE_WRAP_REPEAT,
       TextureWrapT.TEXTURE_WRAP_REPEAT,
@@ -1071,7 +1100,7 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
     final Framebuffer fb0 =
       FramebuffersGL3Contract.makeAssumingSuccess(fb0_config, gl);
-    final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
+    final AttachmentColor fb0_attach = fb0.getColorAttachment(points.get(0));
 
     switch (fb0_attach.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
@@ -1099,14 +1128,18 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
     final FramebufferConfigurationGL3 fb1_config =
       new FramebufferConfigurationGL3Actual(128, 128);
-    fb1_config.requestSharedColor(points[0], buffers[0], fb0, points[0]);
+    fb1_config.requestSharedColor(
+      points.get(0),
+      buffers.get(0),
+      fb0,
+      points.get(0));
 
     final Framebuffer fb1 =
       FramebuffersGL3Contract.makeAssumingSuccess(fb1_config, gl);
 
-    Assert.assertTrue(fb1.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb1.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor attach = fb1.getColorAttachment(points[0]);
+    final AttachmentColor attach = fb1.getColorAttachment(points.get(0));
     switch (attach.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
       case ATTACHMENT_COLOR_TEXTURE_2D:
@@ -1146,9 +1179,10 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final TestContext tc = this.newTestContext();
     final G gl = this.getGLInterface(tc);
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
-    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+    final List<FramebufferDrawBuffer> buffers =
+      gl.framebufferGetDrawBuffers();
 
     /**
      * Create initial framebuffer.
@@ -1156,7 +1190,8 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
     final FramebufferConfigurationGL3 fb0_config =
       new FramebufferConfigurationGL3Actual(128, 128);
-    fb0_config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
+    fb0_config
+      .requestBestRGBAColorRenderbuffer(points.get(0), buffers.get(0));
     fb0_config.requestDepthRenderbuffer();
 
     final Framebuffer fb0 =
@@ -1194,7 +1229,8 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final FramebufferConfigurationGL3 fb1_config =
       new FramebufferConfigurationGL3Actual(128, 128);
     fb1_config.requestSharedDepth(fb0);
-    fb1_config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
+    fb1_config
+      .requestBestRGBAColorRenderbuffer(points.get(0), buffers.get(0));
 
     final Framebuffer fb1 =
       FramebuffersGL3Contract.makeAssumingSuccess(fb1_config, gl);
@@ -1248,9 +1284,10 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final TestContext tc = this.newTestContext();
     final G gl = this.getGLInterface(tc);
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
-    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+    final List<FramebufferDrawBuffer> buffers =
+      gl.framebufferGetDrawBuffers();
 
     /**
      * Create initial framebuffer.
@@ -1258,11 +1295,12 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
     final FramebufferConfigurationGL3 fb0_config =
       new FramebufferConfigurationGL3Actual(128, 128);
-    fb0_config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
+    fb0_config
+      .requestBestRGBAColorRenderbuffer(points.get(0), buffers.get(0));
 
     final Framebuffer fb0 =
       FramebuffersGL3Contract.makeAssumingSuccess(fb0_config, gl);
-    final AttachmentColor fb0_attach = fb0.getColorAttachment(points[0]);
+    final AttachmentColor fb0_attach = fb0.getColorAttachment(points.get(0));
 
     switch (fb0_attach.type) {
       case ATTACHMENT_COLOR_TEXTURE_2D:
@@ -1291,14 +1329,18 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
     final FramebufferConfigurationGL3 fb1_config =
       new FramebufferConfigurationGL3Actual(128, 128);
-    fb1_config.requestSharedColor(points[0], buffers[0], fb0, points[0]);
+    fb1_config.requestSharedColor(
+      points.get(0),
+      buffers.get(0),
+      fb0,
+      points.get(0));
 
     final Framebuffer fb1 =
       FramebuffersGL3Contract.makeAssumingSuccess(fb1_config, gl);
 
-    Assert.assertTrue(fb1.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb1.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor attach1 = fb1.getColorAttachment(points[0]);
+    final AttachmentColor attach1 = fb1.getColorAttachment(points.get(0));
     switch (attach1.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
       case ATTACHMENT_COLOR_TEXTURE_2D:
@@ -1327,14 +1369,18 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
     final FramebufferConfigurationGL3 fb2_config =
       new FramebufferConfigurationGL3Actual(128, 128);
-    fb2_config.requestSharedColor(points[0], buffers[0], fb1, points[0]);
+    fb2_config.requestSharedColor(
+      points.get(0),
+      buffers.get(0),
+      fb1,
+      points.get(0));
 
     final Framebuffer fb2 =
       FramebuffersGL3Contract.makeAssumingSuccess(fb2_config, gl);
 
-    Assert.assertTrue(fb2.hasColorAttachment(points[0]));
+    Assert.assertTrue(fb2.hasColorAttachment(points.get(0)));
 
-    final AttachmentColor attach2 = fb2.getColorAttachment(points[0]);
+    final AttachmentColor attach2 = fb2.getColorAttachment(points.get(0));
     switch (attach2.type) {
       case ATTACHMENT_COLOR_RENDERBUFFER:
       case ATTACHMENT_COLOR_TEXTURE_2D:
@@ -1374,9 +1420,10 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final TestContext tc = this.newTestContext();
     final G gl = this.getGLInterface(tc);
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
-    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+    final List<FramebufferDrawBuffer> buffers =
+      gl.framebufferGetDrawBuffers();
 
     /**
      * Create initial framebuffer.
@@ -1385,7 +1432,8 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final FramebufferConfigurationGL3 fb0_config =
       new FramebufferConfigurationGL3Actual(128, 128);
     fb0_config.requestDepthRenderbuffer();
-    fb0_config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
+    fb0_config
+      .requestBestRGBAColorRenderbuffer(points.get(0), buffers.get(0));
 
     final Framebuffer fb0 =
       FramebuffersGL3Contract.makeAssumingSuccess(fb0_config, gl);
@@ -1435,7 +1483,8 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final FramebufferConfigurationGL3 fb1_config =
       new FramebufferConfigurationGL3Actual(128, 128);
     fb1_config.requestSharedStencil(fb0);
-    fb1_config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
+    fb1_config
+      .requestBestRGBAColorRenderbuffer(points.get(0), buffers.get(0));
 
     final Framebuffer fb1 =
       FramebuffersGL3Contract.makeAssumingSuccess(fb1_config, gl);
@@ -1488,14 +1537,15 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     final TestContext tc = this.newTestContext();
     final G gl = this.getGLInterface(tc);
 
-    final FramebufferColorAttachmentPoint[] points =
+    final List<FramebufferColorAttachmentPoint> points =
       gl.framebufferGetColorAttachmentPoints();
-    final FramebufferDrawBuffer[] buffers = gl.framebufferGetDrawBuffers();
+    final List<FramebufferDrawBuffer> buffers =
+      gl.framebufferGetDrawBuffers();
 
     final FramebufferConfigurationGL3 config =
       new FramebufferConfigurationGL3Actual(128, 256);
 
-    config.requestBestRGBAColorRenderbuffer(points[0], buffers[0]);
+    config.requestBestRGBAColorRenderbuffer(points.get(0), buffers.get(0));
     config.requestNoDepth();
     config.requestStencilRenderbuffer();
 

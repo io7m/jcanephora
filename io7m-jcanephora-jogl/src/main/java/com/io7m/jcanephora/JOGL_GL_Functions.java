@@ -18,6 +18,8 @@ package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.media.opengl.GL;
@@ -1501,7 +1503,7 @@ final class JOGL_GL_Functions
   }
 
   static @Nonnull
-    FramebufferColorAttachmentPoint[]
+    List<FramebufferColorAttachmentPoint>
     framebufferGetAttachmentPointsActual(
       final @Nonnull GL gl,
       final @Nonnull JCGLStateCache state,
@@ -1522,20 +1524,22 @@ final class JOGL_GL_Functions
       log.debug(state.log_text.toString());
     }
 
-    final FramebufferColorAttachmentPoint[] a =
-      new FramebufferColorAttachmentPoint[max];
+    final ArrayList<FramebufferColorAttachmentPoint> a =
+      new ArrayList<FramebufferColorAttachmentPoint>();
     for (int index = 0; index < max; ++index) {
-      a[index] = new FramebufferColorAttachmentPoint(index);
+      a.add(new FramebufferColorAttachmentPoint(index));
     }
 
     return a;
   }
 
-  static @Nonnull FramebufferDrawBuffer[] framebufferGetDrawBuffersActual(
-    final @Nonnull GL gl,
-    final @Nonnull JCGLStateCache state,
-    final @Nonnull Log log)
-    throws JCGLException
+  static @Nonnull
+    List<FramebufferDrawBuffer>
+    framebufferGetDrawBuffersActual(
+      final @Nonnull GL gl,
+      final @Nonnull JCGLStateCache state,
+      final @Nonnull Log log)
+      throws JCGLException
   {
     final int max =
       JOGL_GL_Functions.contextGetInteger(
@@ -1551,9 +1555,10 @@ final class JOGL_GL_Functions
       log.debug(state.log_text.toString());
     }
 
-    final FramebufferDrawBuffer[] b = new FramebufferDrawBuffer[max];
+    final ArrayList<FramebufferDrawBuffer> b =
+      new ArrayList<FramebufferDrawBuffer>();
     for (int index = 0; index < max; ++index) {
-      b[index] = new FramebufferDrawBuffer(index);
+      b.add(new FramebufferDrawBuffer(index));
     }
 
     return b;
@@ -2316,7 +2321,7 @@ final class JOGL_GL_Functions
       GL.GL_MAX_TEXTURE_SIZE);
   }
 
-  static TextureUnit[] textureGetUnitsActual(
+  static List<TextureUnit> textureGetUnitsActual(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log)
@@ -2336,9 +2341,9 @@ final class JOGL_GL_Functions
       log.debug(state.log_text.toString());
     }
 
-    final TextureUnit[] u = new TextureUnit[max];
+    final ArrayList<TextureUnit> u = new ArrayList<TextureUnit>();
     for (int index = 0; index < max; ++index) {
-      u[index] = new TextureUnit(index);
+      u.add(new TextureUnit(index));
     }
 
     return u;

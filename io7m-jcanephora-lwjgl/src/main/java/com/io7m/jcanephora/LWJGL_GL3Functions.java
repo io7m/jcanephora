@@ -19,6 +19,7 @@ package com.io7m.jcanephora;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -835,10 +836,10 @@ final class LWJGL_GL3Functions
       "Framebuffer is bound");
     Constraints.constrainNotNull(mappings, "Draw buffer attachment mappings");
 
-    final FramebufferDrawBuffer[] buffers = state.draw_buffers;
-    final IntBuffer out = BufferUtils.createIntBuffer(buffers.length);
+    final List<FramebufferDrawBuffer> buffers = state.draw_buffers;
+    final IntBuffer out = BufferUtils.createIntBuffer(buffers.size());
 
-    for (int index = 0; index < buffers.length; ++index) {
+    for (int index = 0; index < buffers.size(); ++index) {
       final FramebufferDrawBuffer buffer = new FramebufferDrawBuffer(index);
       if (mappings.containsKey(buffer)) {
         final FramebufferColorAttachmentPoint attach = mappings.get(buffer);
@@ -1141,7 +1142,7 @@ final class LWJGL_GL3Functions
       "Draw buffer mappings not empty");
     Constraints.constrainLessThan(
       outputs.size(),
-      state.draw_buffers.length,
+      state.draw_buffers.size(),
       "Draw buffer mapping count");
 
     for (final Entry<String, FramebufferDrawBuffer> e : outputs.entrySet()) {

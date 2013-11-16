@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora.contracts;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -65,8 +67,33 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final TestContext tc = this.newTestContext();
     final JCGLTextureUnits gl = this.getGLTextureUnits(tc);
 
-    final TextureUnit[] u = gl.textureGetUnits();
-    Assert.assertTrue(u.length >= 2);
+    final List<TextureUnit> u = gl.textureGetUnits();
+    Assert.assertTrue(u.size() >= 2);
+  }
+
+  /**
+   * The list of texture units is not modifiable.
+   * 
+   * Note: this number is picked based on older OpenGL ES limits.
+   */
+
+  @Test public final void testGetUnitsImmutable()
+    throws ConstraintError,
+      JCGLException,
+      JCGLUnsupportedException
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLTextureUnits gl = this.getGLTextureUnits(tc);
+    final List<TextureUnit> u = gl.textureGetUnits();
+
+    boolean caught = false;
+    try {
+      u.remove(0);
+    } catch (final UnsupportedOperationException x) {
+      caught = true;
+    }
+
+    Assert.assertTrue(caught);
   }
 
   /**
@@ -85,7 +112,7 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final T gl = this.getGLTexture2DStatic(tc);
     final JCGLTextureUnits gu = this.getGLTextureUnits(tc);
 
-    final TextureUnit[] units = gu.textureGetUnits();
+    final List<TextureUnit> units = gu.textureGetUnits();
     final Texture2DStatic t =
       gl.texture2DStaticAllocateRGBA8(
         "texture",
@@ -96,10 +123,10 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
         TextureFilterMinification.TEXTURE_FILTER_NEAREST,
         TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
-    gl.texture2DStaticBind(units[0], t);
-    Assert.assertTrue(gl.texture2DStaticIsBound(units[0], t));
-    gl.texture2DStaticUnbind(units[0]);
-    Assert.assertFalse(gl.texture2DStaticIsBound(units[0], t));
+    gl.texture2DStaticBind(units.get(0), t);
+    Assert.assertTrue(gl.texture2DStaticIsBound(units.get(0), t));
+    gl.texture2DStaticUnbind(units.get(0));
+    Assert.assertFalse(gl.texture2DStaticIsBound(units.get(0), t));
     gl.texture2DStaticDelete(t);
   }
 
@@ -121,7 +148,7 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final T gl = this.getGLTexture2DStatic(tc);
     final JCGLTextureUnits gu = this.getGLTextureUnits(tc);
 
-    final TextureUnit[] units = gu.textureGetUnits();
+    final List<TextureUnit> units = gu.textureGetUnits();
     final Texture2DStatic t =
       gl.texture2DStaticAllocateRGBA8(
         "texture",
@@ -133,7 +160,7 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
         TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     gl.texture2DStaticDelete(t);
-    gl.texture2DStaticBind(units[0], t);
+    gl.texture2DStaticBind(units.get(0), t);
   }
 
   /**
@@ -154,9 +181,8 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final T gl = this.getGLTexture2DStatic(tc);
     final JCGLTextureUnits gu = this.getGLTextureUnits(tc);
 
-    final TextureUnit[] units = gu.textureGetUnits();
-
-    gl.texture2DStaticBind(units[0], null);
+    final List<TextureUnit> units = gu.textureGetUnits();
+    gl.texture2DStaticBind(units.get(0), null);
   }
 
   /**
@@ -260,7 +286,7 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final T gl = this.getGLTexture2DStatic(tc);
     final JCGLTextureUnits gu = this.getGLTextureUnits(tc);
 
-    final TextureUnit[] units = gu.textureGetUnits();
+    final List<TextureUnit> units = gu.textureGetUnits();
     final Texture2DStatic t =
       gl.texture2DStaticAllocateRGBA8(
         "texture",
@@ -271,9 +297,9 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
         TextureFilterMinification.TEXTURE_FILTER_NEAREST,
         TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
-    gl.texture2DStaticBind(units[0], t);
+    gl.texture2DStaticBind(units.get(0), t);
     gl.texture2DStaticDelete(t);
-    gl.texture2DStaticIsBound(units[0], t);
+    gl.texture2DStaticIsBound(units.get(0), t);
   }
 
   /**

@@ -18,6 +18,7 @@ package com.io7m.jcanephora.contracts;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -2036,8 +2037,8 @@ public abstract class ShadersContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
     final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final TextureUnit[] units = gl.textureGetUnits();
-    gl.programUniformPutTextureUnit(null, units[0]);
+    final List<TextureUnit> units = gl.textureGetUnits();
+    gl.programUniformPutTextureUnit(null, units.get(0));
   }
 
   /**
@@ -2204,9 +2205,9 @@ public abstract class ShadersContract implements TestContract
     final FSCapabilityAll fs = tc.getFilesystem();
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
-    final TextureUnit[] units = gl.textureGetUnits();
+    final List<TextureUnit> units = gl.textureGetUnits();
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "sampler");
-    gl.programUniformPutTextureUnit(pu, units[0]);
+    gl.programUniformPutTextureUnit(pu, units.get(0));
   }
 
   /**
@@ -2389,9 +2390,9 @@ public abstract class ShadersContract implements TestContract
     final ProgramUniform pusc =
       ShadersContract.getUniform(gl, p, "u_sampler_cube");
 
-    final TextureUnit[] units = gl.textureGetUnits();
-    gl.programUniformPutTextureUnit(pus2d, units[0]);
-    gl.programUniformPutTextureUnit(pusc, units[0]);
+    final List<TextureUnit> units = gl.textureGetUnits();
+    gl.programUniformPutTextureUnit(pus2d, units.get(0));
+    gl.programUniformPutTextureUnit(pusc, units.get(0));
   }
 
   /**
@@ -2512,9 +2513,9 @@ public abstract class ShadersContract implements TestContract
     final FSCapabilityAll fs = tc.getFilesystem();
     final PathVirtual sp = tc.getShaderPath();
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
-    final TextureUnit[] units = gl.textureGetUnits();
+    final List<TextureUnit> units = gl.textureGetUnits();
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_mat3");
-    gl.programUniformPutTextureUnit(pu, units[0]);
+    gl.programUniformPutTextureUnit(pu, units.get(0));
   }
 
   /**

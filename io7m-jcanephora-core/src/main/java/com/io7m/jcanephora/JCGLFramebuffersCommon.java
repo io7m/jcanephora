@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -356,8 +358,8 @@ public interface JCGLFramebuffersCommon
    *           Iff an OpenGL exception occurs.
    */
 
-  @Nonnull
-    FramebufferColorAttachmentPoint[]
+  public @Nonnull
+    List<FramebufferColorAttachmentPoint>
     framebufferGetColorAttachmentPoints()
       throws JCGLException,
         ConstraintError;
@@ -375,7 +377,7 @@ public interface JCGLFramebuffersCommon
    *           Iff an OpenGL exception occurs.
    */
 
-  @Nonnull FramebufferDrawBuffer[] framebufferGetDrawBuffers()
+  public @Nonnull List<FramebufferDrawBuffer> framebufferGetDrawBuffers()
     throws JCGLException,
       ConstraintError;
 }

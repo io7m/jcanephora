@@ -130,7 +130,7 @@ final class JOGL_GL2GL3_Functions
       "Draw buffer mappings not empty");
     Constraints.constrainLessThan(
       outputs.size(),
-      state.draw_buffers.length,
+      state.draw_buffers.size(),
       "Draw buffer mapping count");
 
     for (final Entry<String, FramebufferDrawBuffer> e : outputs.entrySet()) {

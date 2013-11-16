@@ -18,6 +18,7 @@ package com.io7m.jcanephora;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -36,20 +37,18 @@ import javax.annotation.concurrent.NotThreadSafe;
    * The size of the integer cache, in bytes.
    */
 
-  private static final int                   INTEGER_CACHE_SIZE = 16 * 4;
-  @Nonnull FramebufferColorAttachmentPoint[] color_attachments;
-  private final @Nonnull ByteBuffer          color_buffer_mask_cache;
-
-  private final @Nonnull ByteBuffer          depth_buffer_mask_cache;
-  @Nonnull FramebufferDrawBuffer[]           draw_buffers;
-  private final @Nonnull IntBuffer           integer_cache;
-  private final @Nonnull ByteBuffer          integer_cache_buffer;
-  final @Nonnull StringBuilder               log_text;
-  int                                        point_max_width;
-  int                                        point_min_width;
-  @Nonnull PolygonMode                       polygon_mode;
-
-  @Nonnull TextureUnit[]                     texture_units;
+  private static final int                       INTEGER_CACHE_SIZE = 16 * 4;
+  @Nonnull List<FramebufferColorAttachmentPoint> color_attachments;
+  private final @Nonnull ByteBuffer              color_buffer_mask_cache;
+  private final @Nonnull ByteBuffer              depth_buffer_mask_cache;
+  @Nonnull List<FramebufferDrawBuffer>           draw_buffers;
+  private final @Nonnull IntBuffer               integer_cache;
+  private final @Nonnull ByteBuffer              integer_cache_buffer;
+  final @Nonnull StringBuilder                   log_text;
+  int                                            point_max_width;
+  int                                            point_min_width;
+  @Nonnull PolygonMode                           polygon_mode;
+  @Nonnull List<TextureUnit>                     texture_units;
 
   JCGLStateCache()
   {

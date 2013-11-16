@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.contracts.gl3;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -59,17 +60,17 @@ public abstract class ShadersContractGL3 extends ShadersContract
     final PathVirtual sp = tc.getShaderPath();
     final JCGLShadersGL3 gl = this.getShaders(tc);
 
-    final FramebufferDrawBuffer[] outs =
+    final List<FramebufferDrawBuffer> outs =
       tc.getGLImplementation().getGLCommon().framebufferGetDrawBuffers();
 
     FragmentShader f = null;
     VertexShader v = null;
     final Map<String, FramebufferDrawBuffer> outputs =
       new HashMap<String, FramebufferDrawBuffer>();
-    outputs.put("out0", outs[0]);
-    outputs.put("out1", outs[1]);
-    outputs.put("out2", outs[2]);
-    outputs.put("out3", outs[3]);
+    outputs.put("out0", outs.get(0));
+    outputs.put("out1", outs.get(1));
+    outputs.put("out2", outs.get(2));
+    outputs.put("out3", outs.get(3));
 
     try {
       f =
@@ -104,17 +105,17 @@ public abstract class ShadersContractGL3 extends ShadersContract
     final PathVirtual sp = tc.getShaderPath();
     final JCGLShadersGL3 gl = this.getShaders(tc);
 
-    final FramebufferDrawBuffer[] outs =
+    final List<FramebufferDrawBuffer> outs =
       tc.getGLImplementation().getGLCommon().framebufferGetDrawBuffers();
 
     FragmentShader f = null;
     VertexShader v = null;
     final Map<String, FramebufferDrawBuffer> outputs =
       new HashMap<String, FramebufferDrawBuffer>();
-    outputs.put("out0", outs[0]);
-    outputs.put("out1", outs[1]);
-    outputs.put("out2", outs[2]);
-    outputs.put("out3", outs[3]);
+    outputs.put("out0", outs.get(0));
+    outputs.put("out1", outs.get(1));
+    outputs.put("out2", outs.get(2));
+    outputs.put("out3", outs.get(3));
 
     try {
       f =
@@ -147,7 +148,7 @@ public abstract class ShadersContractGL3 extends ShadersContract
     final PathVirtual sp = tc.getShaderPath();
     final JCGLShadersGL3 gl = this.getShaders(tc);
 
-    final FramebufferDrawBuffer[] outs =
+    final List<FramebufferDrawBuffer> outs =
       tc.getGLImplementation().getGLCommon().framebufferGetDrawBuffers();
 
     FragmentShader f = null;
@@ -156,7 +157,7 @@ public abstract class ShadersContractGL3 extends ShadersContract
       new HashMap<String, FramebufferDrawBuffer>();
 
     for (int index = 0; index < 4; ++index) {
-      outputs.put("out" + index, outs[index]);
+      outputs.put("out" + index, outs.get(index));
     }
 
     try {
@@ -301,14 +302,14 @@ public abstract class ShadersContractGL3 extends ShadersContract
     final PathVirtual sp = tc.getShaderPath();
     final JCGLShadersGL3 gl = this.getShaders(tc);
 
-    final FramebufferDrawBuffer[] outs =
+    final List<FramebufferDrawBuffer> outs =
       tc.getGLImplementation().getGLCommon().framebufferGetDrawBuffers();
 
     FragmentShader f = null;
     VertexShader v = null;
     Map<String, FramebufferDrawBuffer> outputs =
       new HashMap<String, FramebufferDrawBuffer>();
-    outputs.put(null, outs[0]);
+    outputs.put(null, outs.get(0));
 
     try {
       f =
@@ -343,7 +344,7 @@ public abstract class ShadersContractGL3 extends ShadersContract
     final PathVirtual sp = tc.getShaderPath();
     final JCGLShadersGL3 gl = this.getShaders(tc);
 
-    final FramebufferDrawBuffer[] outs =
+    final List<FramebufferDrawBuffer> outs =
       tc.getGLImplementation().getGLCommon().framebufferGetDrawBuffers();
 
     FragmentShader f = null;
@@ -352,7 +353,7 @@ public abstract class ShadersContractGL3 extends ShadersContract
       new HashMap<String, FramebufferDrawBuffer>();
 
     for (int index = 0; index < 1000; ++index) {
-      outputs.put("out" + index, outs[index % 4]);
+      outputs.put("out" + index, outs.get(index % 4));
     }
 
     try {
