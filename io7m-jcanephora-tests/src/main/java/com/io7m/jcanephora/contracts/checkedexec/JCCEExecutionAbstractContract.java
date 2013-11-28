@@ -17,7 +17,10 @@
 package com.io7m.jcanephora.contracts.checkedexec;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Nonnull;
 
@@ -28,6 +31,7 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jaux.functional.Pair;
 import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
@@ -38,9 +42,13 @@ import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.JCGLShadersCommon;
+import com.io7m.jcanephora.JCGLTextureUnits;
+import com.io7m.jcanephora.JCGLType;
 import com.io7m.jcanephora.JCGLUnsupportedException;
+import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramReference;
 import com.io7m.jcanephora.ProgramReferenceUsable;
+import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.ShaderUtilities;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.TextureUnit;
@@ -71,7 +79,17 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       final ProgramReferenceUsable p)
       throws ConstraintError
     {
-      super(p);
+      super(p, null, null);
+      this.called = false;
+    }
+
+    public ExecCalled(
+      final ProgramReferenceUsable p,
+      final Map<String, JCGLType> uniforms,
+      final Map<String, JCGLType> attributes)
+      throws ConstraintError
+    {
+      super(p, uniforms, attributes);
       this.called = false;
     }
 
@@ -120,6 +138,47 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       throw new AssertionError(e);
     } catch (final JCGLException e) {
       throw new AssertionError(e);
+    }
+  }
+
+  private static @Nonnull
+    Pair<ProgramReferenceUsable, ExecCalled>
+    makeExecCalledWithDeclarations(
+      final @Nonnull TestContext tc,
+      final @Nonnull JCGLInterfaceCommon gl,
+      final @Nonnull Map<String, JCGLType> extra_uniforms,
+      final @Nonnull Map<String, JCGLType> extra_attributes)
+  {
+    try {
+      final ProgramReference p =
+        JCCEExecutionAbstractContract.makeProgram(tc, gl);
+
+      assert p != null;
+
+      final Map<String, JCGLType> uniforms = new HashMap<String, JCGLType>();
+      for (final Entry<String, ProgramUniform> pe : p
+        .getUniforms()
+        .entrySet()) {
+        uniforms.put(pe.getKey(), pe.getValue().getType());
+      }
+
+      uniforms.putAll(extra_uniforms);
+
+      final Map<String, JCGLType> attributes =
+        new HashMap<String, JCGLType>();
+      for (final Entry<String, ProgramAttribute> pe : p
+        .getAttributes()
+        .entrySet()) {
+        attributes.put(pe.getKey(), pe.getValue().getType());
+      }
+
+      attributes.putAll(extra_attributes);
+
+      final ExecCalled e = new ExecCalled(p, uniforms, attributes);
+      return new Pair<ProgramReferenceUsable, ExecCalled>(p, e);
+    } catch (final Throwable x) {
+      Assert.fail(x.getMessage());
+      throw new UnreachableCodeException();
     }
   }
 
@@ -229,6 +288,88 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
 
     assert e != null;
     e.execAttributeBind(gl, "a_vf2", a_vf2);
+  }
+
+  /**
+   * Declared attributes are not a subset.
+   */
+
+  @SuppressWarnings("unused") @Test(expected = ConstraintError.class) public final
+    void
+    testAttributeDeclaredNotSubset()
+      throws Throwable
+  {
+    try {
+      final TestContext tc = this.newTestContext();
+      final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+      ProgramReferenceUsable p = null;
+
+      try {
+        p = JCCEExecutionAbstractContract.makeProgram(tc, gl);
+      } catch (final Throwable x) {
+        Assert.fail(x.getMessage());
+      }
+
+      assert p != null;
+
+      final Map<String, JCGLType> uniforms = new HashMap<String, JCGLType>();
+      for (final Entry<String, ProgramUniform> pe : p
+        .getUniforms()
+        .entrySet()) {
+        uniforms.put(pe.getKey(), pe.getValue().getType());
+      }
+
+      final Map<String, JCGLType> attributes =
+        new HashMap<String, JCGLType>();
+      new ExecCalled(p, uniforms, attributes);
+    } catch (final ConstraintError x) {
+      System.err.println(x.getMessage());
+      throw x;
+    }
+  }
+
+  /**
+   * Declared attributes are not a subset.
+   */
+
+  @SuppressWarnings("unused") @Test(expected = ConstraintError.class) public final
+    void
+    testAttributeDeclaredNotSubsetBadType()
+      throws Throwable
+  {
+    try {
+      final TestContext tc = this.newTestContext();
+      final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+      ProgramReferenceUsable p = null;
+
+      try {
+        p = JCCEExecutionAbstractContract.makeProgram(tc, gl);
+      } catch (final Throwable x) {
+        Assert.fail(x.getMessage());
+      }
+
+      assert p != null;
+
+      final Map<String, JCGLType> uniforms = new HashMap<String, JCGLType>();
+      for (final Entry<String, ProgramUniform> pe : p
+        .getUniforms()
+        .entrySet()) {
+        uniforms.put(pe.getKey(), pe.getValue().getType());
+      }
+
+      final Map<String, JCGLType> attributes =
+        new HashMap<String, JCGLType>();
+      for (final Entry<String, ProgramAttribute> pe : p
+        .getAttributes()
+        .entrySet()) {
+        attributes.put(pe.getKey(), JCGLType.TYPE_BOOLEAN_VECTOR_4);
+      }
+
+      new ExecCalled(p, uniforms, attributes);
+    } catch (final ConstraintError x) {
+      System.err.println(x.getMessage());
+      throw x;
+    }
   }
 
   /**
@@ -654,6 +795,318 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
   }
 
   /**
+   * Assigning declared but nonexistent attributes and uniforms is not an
+   * error (but will still check types).
+   */
+
+  @Test public final void testDeclaredTypesOK()
+    throws Throwable
+  {
+    try {
+      final TestContext tc = this.newTestContext();
+      final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+      final Map<String, JCGLType> extra_unifoms =
+        new HashMap<String, JCGLType>();
+      final Map<String, JCGLType> extra_attributes =
+        new HashMap<String, JCGLType>();
+
+      extra_unifoms.put("u_extra", JCGLType.TYPE_FLOAT_VECTOR_4);
+      extra_attributes.put("a_extra", JCGLType.TYPE_FLOAT_VECTOR_4);
+
+      final Pair<ProgramReferenceUsable, ExecCalled> pair =
+        JCCEExecutionAbstractContract.makeExecCalledWithDeclarations(
+          tc,
+          gl,
+          extra_unifoms,
+          extra_attributes);
+
+      pair.second.execPrepare(gl);
+
+      JCCEExecutionAbstractContract.provokeUniformTypeErrors(
+        gl,
+        pair.second,
+        "u_extra",
+        JCGLType.TYPE_FLOAT_VECTOR_4);
+
+      pair.second.execUniformPutVector4F(gl, "u_extra", new VectorI4F(
+        0.0f,
+        0.0f,
+        0.0f,
+        0.0f));
+
+      JCCEExecutionAbstractContract.provokeAttributeTypeErrors(
+        gl,
+        pair.second,
+        "a_extra",
+        JCGLType.TYPE_FLOAT_VECTOR_4);
+
+      pair.second.execAttributePutVector4F(gl, "a_extra", new VectorI4F(
+        0.0f,
+        0.0f,
+        0.0f,
+        0.0f));
+
+    } catch (final ConstraintError x) {
+      System.err.println(x.getMessage());
+      throw x;
+    }
+  }
+
+  /**
+   * A uniform that is not declared and not present, does not exist.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testDeclaredUniformReallyNonexistent()
+      throws Throwable
+  {
+    try {
+      final TestContext tc = this.newTestContext();
+      final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+      final Map<String, JCGLType> extra_unifoms =
+        new HashMap<String, JCGLType>();
+      final Map<String, JCGLType> extra_attributes =
+        new HashMap<String, JCGLType>();
+
+      extra_unifoms.put("u_extra", JCGLType.TYPE_FLOAT_VECTOR_4);
+
+      final Pair<ProgramReferenceUsable, ExecCalled> pair =
+        JCCEExecutionAbstractContract.makeExecCalledWithDeclarations(
+          tc,
+          gl,
+          extra_unifoms,
+          extra_attributes);
+
+      pair.second.execPrepare(gl);
+      pair.second.execUniformPutFloat(gl, "really-nonexistent", 1.0f);
+
+    } catch (final ConstraintError x) {
+      System.err.println(x.getMessage());
+      throw x;
+    }
+  }
+
+  /**
+   * An attribute that is not declared and not present, does not exist.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testDeclaredAttributeReallyNonexistent()
+      throws Throwable
+  {
+    try {
+      final TestContext tc = this.newTestContext();
+      final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+      final Map<String, JCGLType> extra_unifoms =
+        new HashMap<String, JCGLType>();
+      final Map<String, JCGLType> extra_attributes =
+        new HashMap<String, JCGLType>();
+
+      extra_attributes.put("a_extra", JCGLType.TYPE_FLOAT_VECTOR_4);
+
+      final Pair<ProgramReferenceUsable, ExecCalled> pair =
+        JCCEExecutionAbstractContract.makeExecCalledWithDeclarations(
+          tc,
+          gl,
+          extra_unifoms,
+          extra_attributes);
+
+      pair.second.execPrepare(gl);
+      pair.second.execAttributePutFloat(gl, "really-nonexistent", 1.0f);
+
+    } catch (final ConstraintError x) {
+      System.err.println(x.getMessage());
+      throw x;
+    }
+  }
+
+  private static
+    <G extends JCGLShadersCommon & JCGLTextureUnits>
+    void
+    provokeUniformTypeErrors(
+      final @Nonnull G gc,
+      final @Nonnull ExecCalled e,
+      final @Nonnull String name,
+      final @Nonnull JCGLType except)
+      throws JCGLException
+  {
+    for (final JCGLType t : JCGLType.values()) {
+      if (t == except) {
+        continue;
+      }
+
+      boolean caught = false;
+      try {
+        switch (t) {
+          case TYPE_BOOLEAN:
+          case TYPE_BOOLEAN_VECTOR_2:
+          case TYPE_BOOLEAN_VECTOR_3:
+          case TYPE_BOOLEAN_VECTOR_4:
+          case TYPE_FLOAT_MATRIX_2:
+          case TYPE_INTEGER:
+          {
+            caught = true;
+            break;
+          }
+          case TYPE_FLOAT:
+          {
+            e.execUniformPutFloat(gc, name, 1.0f);
+            break;
+          }
+          case TYPE_FLOAT_MATRIX_3:
+          {
+            e.execUniformPutMatrix3x3F(gc, name, new MatrixM3x3F());
+            break;
+          }
+          case TYPE_FLOAT_MATRIX_4:
+          {
+            e.execUniformPutMatrix4x4F(gc, name, new MatrixM4x4F());
+            break;
+          }
+          case TYPE_FLOAT_VECTOR_2:
+          {
+            e.execUniformPutVector2F(gc, name, new VectorI4F(
+              0.0f,
+              0.0f,
+              0.0f,
+              0.0f));
+            break;
+          }
+          case TYPE_FLOAT_VECTOR_3:
+          {
+            e.execUniformPutVector3F(gc, name, new VectorI4F(
+              0.0f,
+              0.0f,
+              0.0f,
+              0.0f));
+            break;
+          }
+          case TYPE_FLOAT_VECTOR_4:
+          {
+            e.execUniformPutVector4F(gc, name, new VectorI4F(
+              0.0f,
+              0.0f,
+              0.0f,
+              0.0f));
+            break;
+          }
+          case TYPE_INTEGER_VECTOR_2:
+          {
+            e.execUniformPutVector2I(gc, name, new VectorI4I(0, 0, 0, 0));
+            break;
+          }
+          case TYPE_INTEGER_VECTOR_3:
+          {
+            e.execUniformPutVector3I(gc, name, new VectorI4I(0, 0, 0, 0));
+            break;
+          }
+          case TYPE_INTEGER_VECTOR_4:
+          {
+            e.execUniformPutVector4I(gc, name, new VectorI4I(0, 0, 0, 0));
+            break;
+          }
+          case TYPE_SAMPLER_2D:
+          case TYPE_SAMPLER_2D_SHADOW:
+          case TYPE_SAMPLER_3D:
+          case TYPE_SAMPLER_CUBE:
+          {
+            final List<TextureUnit> units = gc.textureGetUnits();
+            e.execUniformPutTextureUnit(gc, name, units.get(0));
+            break;
+          }
+        }
+      } catch (final ConstraintError x) {
+        caught = true;
+      }
+
+      Assert.assertTrue(caught);
+    }
+  }
+
+  private static
+    <G extends JCGLShadersCommon & JCGLTextureUnits>
+    void
+    provokeAttributeTypeErrors(
+      final @Nonnull G gc,
+      final @Nonnull ExecCalled e,
+      final @Nonnull String name,
+      final @Nonnull JCGLType except)
+      throws JCGLException
+  {
+    for (final JCGLType t : JCGLType.values()) {
+      if (t == except) {
+        continue;
+      }
+
+      boolean caught = false;
+      try {
+        switch (t) {
+          case TYPE_BOOLEAN:
+          case TYPE_BOOLEAN_VECTOR_2:
+          case TYPE_BOOLEAN_VECTOR_3:
+          case TYPE_BOOLEAN_VECTOR_4:
+          case TYPE_FLOAT_MATRIX_2:
+          case TYPE_FLOAT_MATRIX_3:
+          case TYPE_FLOAT_MATRIX_4:
+          case TYPE_INTEGER:
+          case TYPE_INTEGER_VECTOR_2:
+          case TYPE_INTEGER_VECTOR_3:
+          case TYPE_INTEGER_VECTOR_4:
+          case TYPE_SAMPLER_2D:
+          case TYPE_SAMPLER_2D_SHADOW:
+          case TYPE_SAMPLER_3D:
+          case TYPE_SAMPLER_CUBE:
+          {
+            System.err.println("Check " + name + " " + t);
+            caught = true;
+            break;
+          }
+
+          case TYPE_FLOAT:
+          {
+            e.execAttributePutFloat(gc, name, 1.0f);
+            break;
+          }
+
+          case TYPE_FLOAT_VECTOR_2:
+          {
+            e.execAttributePutVector2F(gc, name, new VectorI4F(
+              0.0f,
+              0.0f,
+              0.0f,
+              0.0f));
+            break;
+          }
+          case TYPE_FLOAT_VECTOR_3:
+          {
+            e.execAttributePutVector3F(gc, name, new VectorI4F(
+              0.0f,
+              0.0f,
+              0.0f,
+              0.0f));
+            break;
+          }
+          case TYPE_FLOAT_VECTOR_4:
+          {
+            e.execAttributePutVector4F(gc, name, new VectorI4F(
+              0.0f,
+              0.0f,
+              0.0f,
+              0.0f));
+            break;
+          }
+        }
+      } catch (final ConstraintError x) {
+        caught = true;
+      }
+
+      Assert.assertTrue(caught);
+    }
+  }
+
+  /**
    * Passing a deleted program to the constructor, fails.
    */
 
@@ -670,7 +1123,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       JCCEExecutionAbstractContract.makeProgramWithFragmentUniforms(tc, gl);
 
     gl.programDelete(p);
-    new JCCEExecutionAbstract(null) {
+    new JCCEExecutionAbstract(null, null, null) {
       @Override protected void execRunActual()
         throws Exception
       {
@@ -692,7 +1145,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
   {
     final TestContext tc = this.newTestContext();
 
-    new JCCEExecutionAbstract(null) {
+    new JCCEExecutionAbstract(null, null, null) {
       @Override protected void execRunActual()
         throws Exception
       {
@@ -1138,7 +1591,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     final ProgramReferenceUsable p =
       JCCEExecutionAbstractContract.makeProgram(tc, gl);
 
-    final JCCEExecutionAPI e = new JCCEExecutionAbstract(p) {
+    final JCCEExecutionAPI e = new JCCEExecutionAbstract(p, null, null) {
       @Override protected void execRunActual()
         throws JCGLException
       {
@@ -1398,7 +1851,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
 
     final ProgramReference p =
       JCCEExecutionAbstractContract.makeProgramWithFragmentUniforms(tc, gl);
-    final JCCEExecutionAPI e = new JCCEExecutionAbstract(p) {
+    final JCCEExecutionAPI e = new JCCEExecutionAbstract(p, null, null) {
       @Override protected void execRunActual()
         throws Exception
       {
@@ -1422,7 +1875,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     final ProgramReferenceUsable p =
       JCCEExecutionAbstractContract.makeProgram(tc, gl);
 
-    final JCCEExecutionAPI e = new JCCEExecutionAbstract(p) {
+    final JCCEExecutionAPI e = new JCCEExecutionAbstract(p, null, null) {
       @Override protected void execRunActual()
         throws Exception
       {
@@ -1432,6 +1885,74 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
 
     e.execPrepare(gl);
     e.execRun(null);
+  }
+
+  /**
+   * Declared uniforms are not a subset.
+   */
+
+  @SuppressWarnings("unused") @Test(expected = ConstraintError.class) public final
+    void
+    testUniformDeclaredNotSubset()
+      throws Throwable
+  {
+    try {
+      final TestContext tc = this.newTestContext();
+      final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+      ProgramReferenceUsable p = null;
+
+      try {
+        p = JCCEExecutionAbstractContract.makeProgram(tc, gl);
+      } catch (final Throwable x) {
+        Assert.fail(x.getMessage());
+      }
+
+      final Map<String, JCGLType> uniforms = new HashMap<String, JCGLType>();
+      final Map<String, JCGLType> attributes =
+        new HashMap<String, JCGLType>();
+      new ExecCalled(p, uniforms, attributes);
+    } catch (final ConstraintError x) {
+      System.err.println(x.getMessage());
+      throw x;
+    }
+  }
+
+  /**
+   * Declared uniforms are not a subset.
+   */
+
+  @SuppressWarnings("unused") @Test(expected = ConstraintError.class) public final
+    void
+    testUniformDeclaredNotSubsetBadType()
+      throws Throwable
+  {
+    try {
+      final TestContext tc = this.newTestContext();
+      final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+      ProgramReferenceUsable p = null;
+
+      try {
+        p = JCCEExecutionAbstractContract.makeProgram(tc, gl);
+      } catch (final Throwable x) {
+        Assert.fail(x.getMessage());
+      }
+
+      assert p != null;
+
+      final Map<String, JCGLType> uniforms = new HashMap<String, JCGLType>();
+      for (final Entry<String, ProgramUniform> pe : p
+        .getUniforms()
+        .entrySet()) {
+        uniforms.put(pe.getKey(), JCGLType.TYPE_BOOLEAN_VECTOR_4);
+      }
+
+      final Map<String, JCGLType> attributes =
+        new HashMap<String, JCGLType>();
+      new ExecCalled(p, uniforms, attributes);
+    } catch (final ConstraintError x) {
+      System.err.println(x.getMessage());
+      throw x;
+    }
   }
 
   /**

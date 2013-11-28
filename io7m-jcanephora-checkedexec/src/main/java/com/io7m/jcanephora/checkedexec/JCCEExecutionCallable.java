@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.checkedexec;
 
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 import javax.annotation.CheckForNull;
@@ -23,6 +24,7 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.JCGLType;
 import com.io7m.jcanephora.ProgramReferenceUsable;
 
 /**
@@ -37,13 +39,63 @@ import com.io7m.jcanephora.ProgramReferenceUsable;
 
 public final class JCCEExecutionCallable extends JCCEExecutionAbstract
 {
-  private @CheckForNull Callable<Void> callable;
+  /**
+   * <p>
+   * Declare a new program with the given uniform and attribute declarations.
+   * The attributes and uniforms that appear in <code>program</code> must be a
+   * subset of those given in <code>declared_uniforms</code> and
+   * <code>declared_attributes</code> and the declared types must match the
+   * actual types.
+   * </p>
+   * 
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li>
+   *           <code>program == null || declared_uniforms == null || declared_attributes == null</code>
+   *           </li>
+   *           <li>The program's parameters are not a subset of the given
+   *           declared parameters.</li>
+   *           </ul>
+   */
 
-  public JCCEExecutionCallable(
+  public static @Nonnull JCCEExecutionCallable newProgramWithDeclarations(
+    final @Nonnull ProgramReferenceUsable program,
+    final @Nonnull Map<String, JCGLType> declared_uniforms,
+    final @Nonnull Map<String, JCGLType> declared_attributes)
+    throws ConstraintError
+  {
+    Constraints.constrainNotNull(declared_uniforms, "Declared uniforms");
+    Constraints.constrainNotNull(declared_attributes, "Declared attributes");
+    return new JCCEExecutionCallable(program, null, null);
+  }
+
+  /**
+   * <p>
+   * Declare a new program without any specific uniform or attribute
+   * declarations.
+   * </p>
+   * 
+   * @throws ConstraintError
+   *           Iff <code>program == null</code>.
+   */
+
+  public static @Nonnull JCCEExecutionCallable newProgramWithoutDeclarations(
     final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError
   {
-    super(program);
+    return new JCCEExecutionCallable(program, null, null);
+  }
+
+  private @CheckForNull Callable<Void> callable;
+
+  private JCCEExecutionCallable(
+    final @Nonnull ProgramReferenceUsable program,
+    final @CheckForNull Map<String, JCGLType> declared_uniforms,
+    final @CheckForNull Map<String, JCGLType> declared_attributes)
+    throws ConstraintError
+  {
+    super(program, declared_uniforms, declared_attributes);
   }
 
   @Override protected void execRunActual()

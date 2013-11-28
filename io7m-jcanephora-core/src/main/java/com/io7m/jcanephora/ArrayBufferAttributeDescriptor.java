@@ -21,6 +21,7 @@ import javax.annotation.concurrent.Immutable;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.UnreachableCodeException;
 
 /**
  * <p>
@@ -128,5 +129,51 @@ import com.io7m.jaux.Constraints.ConstraintError;
     builder.append(this.elements);
     builder.append("]");
     return builder.toString();
+  }
+
+  /**
+   * Retrieve the type of the attribute as a {@link JCGLType}.
+   */
+
+  public @Nonnull JCGLType getJCGLType()
+  {
+    switch (this.type) {
+      case TYPE_FLOAT:
+      {
+        switch (this.elements) {
+          case 1:
+            return JCGLType.TYPE_FLOAT;
+          case 2:
+            return JCGLType.TYPE_FLOAT_VECTOR_2;
+          case 3:
+            return JCGLType.TYPE_FLOAT_VECTOR_3;
+          case 4:
+            return JCGLType.TYPE_FLOAT_VECTOR_4;
+        }
+        throw new UnreachableCodeException();
+      }
+      case TYPE_INT:
+      {
+        switch (this.elements) {
+          case 1:
+            return JCGLType.TYPE_INTEGER;
+          case 2:
+            return JCGLType.TYPE_INTEGER_VECTOR_2;
+          case 3:
+            return JCGLType.TYPE_INTEGER_VECTOR_3;
+          case 4:
+            return JCGLType.TYPE_INTEGER_VECTOR_4;
+        }
+        throw new UnreachableCodeException();
+      }
+      case TYPE_BYTE:
+      case TYPE_SHORT:
+      case TYPE_UNSIGNED_BYTE:
+      case TYPE_UNSIGNED_INT:
+      case TYPE_UNSIGNED_SHORT:
+        throw new UnreachableCodeException();
+    }
+
+    throw new UnreachableCodeException();
   }
 }

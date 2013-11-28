@@ -116,7 +116,7 @@ public abstract class JCCEExecutionCallableContract implements TestContract
       final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
       final ProgramReference p =
         JCCEExecutionCallableContract.makeProgram(tc, gl);
-      e = new JCCEExecutionCallable(p);
+      e = JCCEExecutionCallable.newProgramWithoutDeclarations(p);
       e.execSetCallable(c);
       e.execPrepare(gl);
       e.execRun(gl);
@@ -145,7 +145,7 @@ public abstract class JCCEExecutionCallableContract implements TestContract
       gl = tc.getGLImplementation().getGLCommon();
       final ProgramReference p =
         JCCEExecutionCallableContract.makeProgram(tc, gl);
-      e = new JCCEExecutionCallable(p);
+      e = JCCEExecutionCallable.newProgramWithoutDeclarations(p);
       e.execPrepare(gl);
     } catch (final Throwable x) {
       throw new AssertionError(x);
@@ -170,7 +170,7 @@ public abstract class JCCEExecutionCallableContract implements TestContract
       final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
       final ProgramReference p =
         JCCEExecutionCallableContract.makeProgram(tc, gl);
-      e = new JCCEExecutionCallable(p);
+      e = JCCEExecutionCallable.newProgramWithoutDeclarations(p);
 
     } catch (final Throwable x) {
       throw new AssertionError(x);
@@ -183,10 +183,10 @@ public abstract class JCCEExecutionCallableContract implements TestContract
    * Constructing an execution with a null program fails.
    */
 
-  @SuppressWarnings({ "unused", "static-method" }) @Test(
+  @SuppressWarnings({ "static-method" }) @Test(
     expected = ConstraintError.class) public final void testNullProgram()
     throws ConstraintError
   {
-    new JCCEExecutionCallable(null);
+    JCCEExecutionCallable.newProgramWithoutDeclarations(null);
   }
 }
