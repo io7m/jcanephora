@@ -16,8 +16,13 @@
 
 package com.io7m.jcanephora;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Nonnull;
 
+import com.io7m.jaux.Constraints;
+import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
 
 /**
@@ -45,6 +50,39 @@ public enum JCGLType
   TYPE_SAMPLER_2D_SHADOW("sampler2DShadow"),
   TYPE_SAMPLER_3D("sampler3D"),
   TYPE_SAMPLER_CUBE("samplerCube");
+
+  private static @Nonnull Map<String, JCGLType> names;
+
+  static {
+    JCGLType.names = JCGLType.getNames();
+  }
+
+  /**
+   * Retrieve the type corresponding to the given type name as it appears in a
+   * GLSL program.
+   * 
+   * @throws ConstraintError
+   *           Iff <code>name == null</code> or <code>name</code> does not
+   *           correspond to a known type.
+   */
+
+  public static @Nonnull JCGLType fromName(
+    final @Nonnull String name)
+    throws ConstraintError
+  {
+    return Constraints.constrainNotNull(
+      JCGLType.names.get(Constraints.constrainNotNull(name, "Name")),
+      "Name corresponds to type");
+  }
+
+  private static @Nonnull Map<String, JCGLType> getNames()
+  {
+    final HashMap<String, JCGLType> m = new HashMap<String, JCGLType>();
+    for (final JCGLType t : JCGLType.values()) {
+      m.put(t.name, t);
+    }
+    return m;
+  }
 
   private final @Nonnull String name;
 
