@@ -67,7 +67,10 @@ public final class JCCEExecutionCallable extends JCCEExecutionAbstract
   {
     Constraints.constrainNotNull(declared_uniforms, "Declared uniforms");
     Constraints.constrainNotNull(declared_attributes, "Declared attributes");
-    return new JCCEExecutionCallable(program, null, null);
+    return new JCCEExecutionCallable(
+      program,
+      declared_uniforms,
+      declared_attributes);
   }
 
   /**
