@@ -18,10 +18,8 @@ package com.io7m.jcanephora.checkedexec;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -64,6 +62,43 @@ import com.io7m.jtensors.VectorReadable4I;
 @NotThreadSafe public abstract class JCCEExecutionAbstract implements
   JCCEExecutionAPI
 {
+  private static class AttributeState
+  {
+    final @CheckForNull ProgramAttribute actual;
+    boolean                              assigned = false;
+    final @Nonnull String                name;
+    final @Nonnull JCGLType              type;
+
+    AttributeState(
+      final @Nonnull String name,
+      final @Nonnull JCGLType type,
+      final @CheckForNull ProgramAttribute actual)
+    {
+      this.name = name;
+      this.type = type;
+      this.actual = actual;
+    }
+  }
+
+  private static class UniformState
+  {
+    final @CheckForNull ProgramUniform actual;
+    boolean                            assigned      = false;
+    boolean                            assigned_ever = false;
+    final @Nonnull String              name;
+    final @Nonnull JCGLType            type;
+
+    UniformState(
+      final @Nonnull String name,
+      final @Nonnull JCGLType type,
+      final @CheckForNull ProgramUniform actual)
+    {
+      this.name = name;
+      this.type = type;
+      this.actual = actual;
+    }
+  }
+
   private static boolean execCheckTypesCompatible(
     final @Nonnull JCGLType want_type,
     final @Nonnull JCGLType declared_type)
@@ -129,31 +164,13 @@ import com.io7m.jtensors.VectorReadable4I;
     throw new UnreachableCodeException();
   }
 
-  private static <T> boolean isSubsetOf(
-    final @Nonnull Set<T> a,
-    final @Nonnull Set<T> b)
-  {
-    if (a.size() <= b.size()) {
-      for (final T x : a) {
-        if (b.contains(x) == false) {
-          return false;
-        }
-      }
-      return true;
-    }
-    return false;
-  }
-
-  private final @Nonnull HashSet<String>                       assigned;
-  private final @Nonnull HashSet<String>                       assigned_ever;
-  private final @Nonnull HashMap<String, ArrayBufferAttribute> attribute_bindings;
-  private final @CheckForNull Map<String, JCGLType>            declared_attributes;
-  private final @CheckForNull Map<String, JCGLType>            declared_uniforms;
-  private final @Nonnull StringBuilder                         message;
-  private final @Nonnull ArrayList<ProgramAttribute>           missed_attributes;
-  private final @Nonnull ArrayList<ProgramUniform>             missed_uniforms;
-  private boolean                                              preparing;
-  private final @Nonnull ProgramReferenceUsable                program;
+  private final @Nonnull HashMap<String, AttributeState> attributes;
+  private final @Nonnull StringBuilder                   message;
+  private final @Nonnull ArrayList<AttributeState>       missed_attributes;
+  private final @Nonnull ArrayList<UniformState>         missed_uniforms;
+  private boolean                                        preparing;
+  private final @Nonnull ProgramReferenceUsable          program;
+  private final @Nonnull HashMap<String, UniformState>   uniforms;
 
   protected JCCEExecutionAbstract(
     final @Nonnull ProgramReferenceUsable program,
@@ -166,75 +183,257 @@ import com.io7m.jtensors.VectorReadable4I;
       program.resourceIsDeleted() == false,
       "Program not deleted");
 
-    this.assigned = new HashSet<String>();
-    this.assigned_ever = new HashSet<String>();
-    this.preparing = false;
     this.message = new StringBuilder();
-    this.missed_attributes = new ArrayList<ProgramAttribute>();
-    this.missed_uniforms = new ArrayList<ProgramUniform>();
-    this.attribute_bindings = new HashMap<String, ArrayBufferAttribute>();
 
-    this.declared_uniforms = declared_uniforms;
-    this.declared_attributes = declared_attributes;
+    /**
+     * Create state for all uniforms. Reject any programs that contain
+     * uniforms not in the given list of declarations (if a list is given).
+     */
 
-    if (this.declared_uniforms != null) {
+    {
+      this.uniforms =
+        new HashMap<String, JCCEExecutionAbstract.UniformState>();
+
       final Map<String, ProgramUniform> program_uniforms =
-        this.program.getUniforms();
-      final Set<String> program_uniform_names = program_uniforms.keySet();
-      final Set<String> declared_uniform_names = declared_uniforms.keySet();
+        program.getUniforms();
 
-      Constraints.constrainArbitrary(
-        JCCEExecutionAbstract.isSubsetOf(
-          program_uniform_names,
-          declared_uniform_names),
-        "Program uniforms are a subset of the declared uniforms");
+      for (final Entry<String, ProgramUniform> e : program_uniforms
+        .entrySet()) {
+        final String name = e.getKey();
+        final ProgramUniform p = e.getValue();
 
-      for (final String name : program_uniform_names) {
-        final ProgramUniform u = program_uniforms.get(name);
-        final JCGLType declared = declared_uniforms.get(name);
-        if (u.getType() != declared) {
-          this.message.setLength(0);
-          this.message.append("The declared type of the uniform '");
-          this.message.append(name);
-          this.message.append("' is ");
-          this.message.append(declared);
-          this.message
-            .append(" but a uniform with the same name exists of type ");
-          this.message.append(u.getType());
-          throw new ConstraintError(this.message.toString());
+        if (declared_uniforms != null) {
+          if (declared_uniforms.containsKey(name) == false) {
+            throw this.errorProgramContainsUndeclaredUniform(
+              p,
+              declared_uniforms);
+          }
+
+          final JCGLType du = declared_uniforms.get(name);
+          if (JCCEExecutionAbstract.execCheckTypesCompatible(p.getType(), du) == false) {
+            throw this.errorProgramContainsIncompatibleUniform(p, du);
+          }
+        }
+
+        final UniformState state = new UniformState(name, p.getType(), p);
+        this.uniforms.put(name, state);
+      }
+
+      if (declared_uniforms != null) {
+        for (final Entry<String, JCGLType> e : declared_uniforms.entrySet()) {
+          final String name = e.getKey();
+          final JCGLType t = e.getValue();
+          if (this.uniforms.containsKey(name) == false) {
+            final UniformState state = new UniformState(name, t, null);
+            this.uniforms.put(name, state);
+          }
         }
       }
     }
 
-    if (this.declared_attributes != null) {
+    /**
+     * Create state for all attributes. Reject any programs that contain
+     * attributes not in the given list of declarations (if a list is given).
+     */
+
+    {
+      this.attributes =
+        new HashMap<String, JCCEExecutionAbstract.AttributeState>();
+
       final Map<String, ProgramAttribute> program_attributes =
-        this.program.getAttributes();
-      final Set<String> program_attribute_names = program_attributes.keySet();
-      final Set<String> declared_attribute_names =
-        declared_attributes.keySet();
+        program.getAttributes();
 
-      Constraints.constrainArbitrary(
-        JCCEExecutionAbstract.isSubsetOf(
-          program_attribute_names,
-          declared_attribute_names),
-        "Program attributes are a subset of the declared attributes");
+      for (final Entry<String, ProgramAttribute> e : program_attributes
+        .entrySet()) {
+        final String name = e.getKey();
+        final ProgramAttribute p = e.getValue();
 
-      for (final String name : program_attribute_names) {
-        final ProgramAttribute u = program_attributes.get(name);
-        final JCGLType declared = declared_attributes.get(name);
-        if (u.getType() != declared) {
-          this.message.setLength(0);
-          this.message.append("The declared type of the attribute '");
-          this.message.append(name);
-          this.message.append("' is ");
-          this.message.append(declared);
-          this.message
-            .append(" but a attribute with the same name exists of type ");
-          this.message.append(u.getType());
-          throw new ConstraintError(this.message.toString());
+        if (declared_attributes != null) {
+          if (declared_attributes.containsKey(name) == false) {
+            throw this.errorProgramContainsUndeclaredAttribute(
+              p,
+              declared_attributes);
+          }
+
+          final JCGLType da = declared_attributes.get(name);
+          if (JCCEExecutionAbstract.execCheckTypesCompatible(p.getType(), da) == false) {
+            throw this.errorProgramContainsIncompatibleAttribute(p, da);
+          }
+        }
+
+        final AttributeState state = new AttributeState(name, p.getType(), p);
+        this.attributes.put(name, state);
+      }
+
+      if (declared_attributes != null) {
+        for (final Entry<String, JCGLType> e : declared_attributes.entrySet()) {
+          final String name = e.getKey();
+          final JCGLType t = e.getValue();
+          if (this.attributes.containsKey(name) == false) {
+            final AttributeState state = new AttributeState(name, t, null);
+            this.attributes.put(name, state);
+          }
         }
       }
     }
+
+    this.missed_attributes =
+      new ArrayList<AttributeState>(this.attributes.size());
+    this.missed_uniforms = new ArrayList<UniformState>(this.uniforms.size());
+  }
+
+  private @Nonnull ConstraintError errorProgramContainsIncompatibleAttribute(
+    final @Nonnull ProgramAttribute actual,
+    final @Nonnull JCGLType declared)
+  {
+    this.message.setLength(0);
+    this.message.append("The program contains an attribute '");
+    this.message.append(actual.getName());
+    this.message.append("' of type ");
+    this.message.append(actual.getType());
+    this.message
+      .append(" but the declared attributes claim it should have type ");
+    this.message.append(declared);
+    return new ConstraintError(this.message.toString());
+  }
+
+  private @Nonnull ConstraintError errorProgramContainsIncompatibleUniform(
+    final @Nonnull ProgramUniform actual,
+    final @Nonnull JCGLType declared)
+  {
+    this.message.setLength(0);
+    this.message.append("The program contains a uniform '");
+    this.message.append(actual.getName());
+    this.message.append("' of type ");
+    this.message.append(actual.getType());
+    this.message
+      .append(" but the declared uniforms claim it should have type ");
+    this.message.append(declared);
+    return new ConstraintError(this.message.toString());
+  }
+
+  private @Nonnull ConstraintError errorAttributeNonexistent(
+    final @Nonnull String a)
+  {
+    this.message.setLength(0);
+    this.message.append("The program does not contain an attribute '");
+    this.message.append(a);
+    this.message.append("'\n");
+    this.message.append("Attributes include:\n");
+
+    for (final Entry<String, AttributeState> e : this.attributes.entrySet()) {
+      this.message.append("  ");
+      this.message.append(e.getKey());
+      this.message.append(" ");
+      this.message.append(e.getValue());
+      if (e.getValue().actual == null) {
+        this.message.append("(declared, optimized out)");
+      }
+      this.message.append("\n");
+    }
+
+    return new ConstraintError(this.message.toString());
+  }
+
+  private @Nonnull ConstraintError errorAttributeWrongType(
+    final @Nonnull AttributeState state,
+    final @Nonnull JCGLType given)
+  {
+    this.message.setLength(0);
+    this.message.append("The attribute '");
+    this.message.append(state.name);
+    this.message.append("' has type ");
+    this.message.append(state.type);
+    this.message.append(" but the given array buffer attribute has type ");
+    this.message.append(given);
+    this.message.append("\n");
+    return new ConstraintError(this.message.toString());
+  }
+
+  private @Nonnull ConstraintError errorProgramContainsUndeclaredAttribute(
+    final @Nonnull ProgramAttribute p,
+    final @Nonnull Map<String, JCGLType> declared_attributes)
+  {
+    this.message.setLength(0);
+    this.message.append("The program contains an attribute '");
+    this.message.append(p.getName());
+    this.message.append("' of type ");
+    this.message.append(p.getType());
+    this.message
+      .append(" but no such parameter exists in the given declared attribyutes.\n");
+    this.message.append("Declared attributes include:\n");
+
+    for (final Entry<String, JCGLType> e : declared_attributes.entrySet()) {
+      this.message.append("  ");
+      this.message.append(e.getKey());
+      this.message.append(" ");
+      this.message.append(e.getValue());
+      this.message.append("\n");
+    }
+
+    return new ConstraintError(this.message.toString());
+  }
+
+  private @Nonnull ConstraintError errorProgramContainsUndeclaredUniform(
+    final @Nonnull ProgramUniform p,
+    final @Nonnull Map<String, JCGLType> declared_uniforms)
+  {
+    this.message.setLength(0);
+    this.message.append("The program contains a uniform parameter '");
+    this.message.append(p.getName());
+    this.message.append("' of type ");
+    this.message.append(p.getType());
+    this.message
+      .append(" but no such parameter exists in the given declared uniforms.\n");
+    this.message.append("Declared uniforms include:\n");
+
+    for (final Entry<String, JCGLType> e : declared_uniforms.entrySet()) {
+      this.message.append("  ");
+      this.message.append(e.getKey());
+      this.message.append(" ");
+      this.message.append(e.getValue());
+      this.message.append("\n");
+    }
+
+    return new ConstraintError(this.message.toString());
+  }
+
+  private @Nonnull ConstraintError errorUniformNonexistent(
+    final @Nonnull String u)
+  {
+    this.message.setLength(0);
+    this.message.append("The program does not contain a uniform '");
+    this.message.append(u);
+    this.message.append("'\n");
+    this.message.append("Uniforms include:\n");
+
+    for (final Entry<String, UniformState> e : this.uniforms.entrySet()) {
+      this.message.append("  ");
+      this.message.append(e.getKey());
+      this.message.append(" ");
+      this.message.append(e.getValue());
+      if (e.getValue().actual == null) {
+        this.message.append("(declared, optimized out)");
+      }
+      this.message.append("\n");
+    }
+
+    return new ConstraintError(this.message.toString());
+  }
+
+  private @Nonnull ConstraintError errorUniformWrongType(
+    final @Nonnull UniformState state,
+    final @Nonnull JCGLType given)
+  {
+    this.message.setLength(0);
+    this.message.append("The uniform '");
+    this.message.append(state.name);
+    this.message.append("' has type ");
+    this.message.append(state.type);
+    this.message.append(" but the given value has type ");
+    this.message.append(given);
+    this.message.append("\n");
+    return new ConstraintError(this.message.toString());
   }
 
   @Override public final void execAttributeBind(
@@ -245,20 +444,17 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
-    Constraints.constrainNotNull(a, "Attribute name");
+    Constraints.constrainNotNull(x, "Array attribute");
     Constraints.constrainArbitrary(
       this.preparing,
       "Execution is in the preparation stage");
 
-    final JCGLType t = x.getDescriptor().getJCGLType();
-    final ProgramAttribute pa = this.execCheckAttribute(a, t);
-    if (pa == null) {
-      return;
+    final AttributeState state =
+      this.execCheckAttributeAndType(a, x.getDescriptor().getJCGLType());
+    if (state.actual != null) {
+      gl.programAttributeArrayAssociate(state.actual, x);
     }
-
-    gl.programAttributeArrayAssociate(pa, x);
-    this.assigned.add(a);
-    this.attribute_bindings.put(a, x);
+    state.assigned = true;
   }
 
   @Override public final void execAttributePutFloat(
@@ -274,15 +470,12 @@ import com.io7m.jtensors.VectorReadable4I;
       this.preparing,
       "Execution is in the preparation stage");
 
-    final ProgramAttribute pa =
-      this.execCheckAttribute(a, JCGLType.TYPE_FLOAT);
-    if (pa == null) {
-      return;
+    final AttributeState state =
+      this.execCheckAttributeAndType(a, JCGLType.TYPE_FLOAT);
+    if (state.actual != null) {
+      gl.programAttributePutFloat(state.actual, x);
     }
-
-    gl.programAttributePutFloat(pa, x);
-    this.assigned.add(a);
-    this.execRemoveExistingAttributeBinding(a);
+    state.assigned = true;
   }
 
   @Override public final void execAttributePutVector2F(
@@ -298,15 +491,12 @@ import com.io7m.jtensors.VectorReadable4I;
       this.preparing,
       "Execution is in the preparation stage");
 
-    final ProgramAttribute pa =
-      this.execCheckAttribute(a, JCGLType.TYPE_FLOAT_VECTOR_2);
-    if (pa == null) {
-      return;
+    final AttributeState state =
+      this.execCheckAttributeAndType(a, JCGLType.TYPE_FLOAT_VECTOR_2);
+    if (state.actual != null) {
+      gl.programAttributePutVector2f(state.actual, x);
     }
-
-    gl.programAttributePutVector2f(pa, x);
-    this.assigned.add(a);
-    this.execRemoveExistingAttributeBinding(a);
+    state.assigned = true;
   }
 
   @Override public final void execAttributePutVector3F(
@@ -322,15 +512,12 @@ import com.io7m.jtensors.VectorReadable4I;
       this.preparing,
       "Execution is in the preparation stage");
 
-    final ProgramAttribute pa =
-      this.execCheckAttribute(a, JCGLType.TYPE_FLOAT_VECTOR_3);
-    if (pa == null) {
-      return;
+    final AttributeState state =
+      this.execCheckAttributeAndType(a, JCGLType.TYPE_FLOAT_VECTOR_3);
+    if (state.actual != null) {
+      gl.programAttributePutVector3f(state.actual, x);
     }
-
-    gl.programAttributePutVector3f(pa, x);
-    this.assigned.add(a);
-    this.execRemoveExistingAttributeBinding(a);
+    state.assigned = true;
   }
 
   @Override public final void execAttributePutVector4F(
@@ -346,15 +533,12 @@ import com.io7m.jtensors.VectorReadable4I;
       this.preparing,
       "Execution is in the preparation stage");
 
-    final ProgramAttribute pa =
-      this.execCheckAttribute(a, JCGLType.TYPE_FLOAT_VECTOR_4);
-    if (pa == null) {
-      return;
+    final AttributeState state =
+      this.execCheckAttributeAndType(a, JCGLType.TYPE_FLOAT_VECTOR_4);
+    if (state.actual != null) {
+      gl.programAttributePutVector4f(state.actual, x);
     }
-
-    gl.programAttributePutVector4f(pa, x);
-    this.assigned.add(a);
-    this.execRemoveExistingAttributeBinding(a);
+    state.assigned = true;
   }
 
   @Override public void execCancel()
@@ -367,111 +551,46 @@ import com.io7m.jtensors.VectorReadable4I;
     this.preparing = false;
   }
 
-  private @CheckForNull ProgramAttribute execCheckAttribute(
+  private @CheckForNull AttributeState execCheckAttributeAndType(
     final @Nonnull String a,
-    final @Nonnull JCGLType type)
+    final @Nonnull JCGLType t)
     throws ConstraintError
   {
-    final ProgramAttribute pa = this.program.getAttributes().get(a);
+    Constraints.constrainNotNull(a, "Attribute name");
 
-    /**
-     * Perhaps the attribute has been optimized out by the GLSL compiler...
-     */
-
-    if (pa == null) {
-
-      /**
-       * If a list of declared attributes was provided, and the list contains
-       * the given attribute name, then assume it exists and check that it has
-       * the correct type.
-       */
-
-      if (this.declared_attributes != null) {
-        if (this.declared_attributes.containsKey(a)) {
-          final JCGLType declared = this.declared_attributes.get(a);
-          if (JCCEExecutionAbstract.execCheckTypesCompatible(type, declared) == false) {
-            this.message.setLength(0);
-            this.message.append("Declared attribute '");
-            this.message.append(a);
-            this.message.append("' has type ");
-            this.message.append(declared);
-            this.message.append(" but a value was given of type ");
-            this.message.append(type);
-            throw new ConstraintError(this.message.toString());
-          }
-          return null;
-        }
-      }
-
-      this.execNonexistentAttribute(a);
+    final AttributeState state = this.attributes.get(a);
+    if (state == null) {
+      throw this.errorAttributeNonexistent(a);
     }
-
-    return pa;
+    if (JCCEExecutionAbstract.execCheckTypesCompatible(state.type, t) == false) {
+      throw this.errorAttributeWrongType(state, t);
+    }
+    return state;
   }
 
-  private @CheckForNull ProgramUniform execCheckUniform(
-    final @Nonnull String u,
-    final @Nonnull JCGLType type)
-    throws ConstraintError
-  {
-    final ProgramUniform pu = this.program.getUniforms().get(u);
-
-    if (pu == null) {
-
-      /**
-       * Perhaps the uniform has been optimized out by the GLSL compiler...
-       * 
-       * If a list of declared uniforms was provided, and the list contains
-       * the given uniform name, then assume it exists, and check that it has
-       * the type given by <code>type</code>.
-       */
-
-      if (this.declared_uniforms != null) {
-        if (this.declared_uniforms.containsKey(u)) {
-          final JCGLType declared = this.declared_uniforms.get(u);
-          if (JCCEExecutionAbstract.execCheckTypesCompatible(type, declared) == false) {
-            this.message.setLength(0);
-            this.message.append("Declared uniform '");
-            this.message.append(u);
-            this.message.append("' has type ");
-            this.message.append(declared);
-            this.message.append(" but a value was given of type ");
-            this.message.append(type);
-            throw new ConstraintError(this.message.toString());
-          }
-          return null;
-        }
-      }
-
-      this.execNonexistentUniform(u);
-    }
-    return pu;
-  }
-
-  private @CheckForNull ProgramUniform execCheckUniformUnknownType(
+  private @CheckForNull UniformState execCheckUniform(
     final @Nonnull String u)
     throws ConstraintError
   {
-    final ProgramUniform pu = this.program.getUniforms().get(u);
+    Constraints.constrainNotNull(u, "Uniform name");
 
-    if (pu == null) {
-
-      /**
-       * Perhaps the uniform has been optimized out by the GLSL compiler...
-       * 
-       * If a list of declared uniforms was provided, and the list contains
-       * the given uniform name, then assume it exists.
-       */
-
-      if (this.declared_uniforms != null) {
-        if (this.declared_uniforms.containsKey(u)) {
-          return null;
-        }
-      }
-
-      this.execNonexistentUniform(u);
+    final UniformState state = this.uniforms.get(u);
+    if (state == null) {
+      throw this.errorUniformNonexistent(u);
     }
-    return pu;
+    return state;
+  }
+
+  private @CheckForNull UniformState execCheckUniformAndType(
+    final @Nonnull String u,
+    final @Nonnull JCGLType t)
+    throws ConstraintError
+  {
+    final UniformState state = this.execCheckUniform(u);
+    if (JCCEExecutionAbstract.execCheckTypesCompatible(state.type, t) == false) {
+      throw this.errorUniformWrongType(state, t);
+    }
+    return state;
   }
 
   @Override public @Nonnull ProgramReferenceUsable execGetProgram()
@@ -479,83 +598,6 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     return this.program;
-  }
-
-  private final void execNonexistentAttribute(
-    final @Nonnull String a)
-    throws ConstraintError
-  {
-    this.message.setLength(0);
-    this.message
-      .append("The current program does not contain an attribute named '");
-    this.message.append(a);
-    this.message.append("', available attributes are:\n");
-
-    for (final ProgramAttribute pa : this.program.getAttributes().values()) {
-      this.message.append("  ");
-      this.message.append(pa);
-      this.message.append("\n");
-    }
-
-    if (this.declared_attributes != null) {
-      this.message
-        .append("The program also has the following declared attributes that may have been optimized out by the GLSL compiler:\n");
-      final Set<Entry<String, JCGLType>> entries =
-        this.declared_attributes.entrySet();
-      final Map<String, ProgramAttribute> program_attributes =
-        this.program.getAttributes();
-
-      for (final Entry<String, JCGLType> e : entries) {
-        if (program_attributes.containsKey(e.getKey()) == false) {
-          this.message.append("  ");
-          this.message.append(e.getKey());
-          this.message.append(" ");
-          this.message.append(e.getValue());
-          this.message.append("\n");
-        }
-      }
-    }
-
-    throw new ConstraintError(this.message.toString());
-  }
-
-  private final void execNonexistentUniform(
-    final String u)
-    throws ConstraintError
-  {
-    this.message.setLength(0);
-    this.message.append("The program '");
-    this.message.append(this.program);
-    this.message.append("' does not contain a uniform named '");
-    this.message.append(u);
-    this.message.append("', available uniforms are:\n");
-
-    for (final ProgramUniform pu : this.program.getUniforms().values()) {
-      this.message.append("  ");
-      this.message.append(pu);
-      this.message.append("\n");
-    }
-
-    if (this.declared_uniforms != null) {
-      this.message
-        .append("The program also has the following declared uniforms that may have been optimized out by the GLSL compiler:\n");
-      final Set<Entry<String, JCGLType>> entries =
-        this.declared_uniforms.entrySet();
-      final Map<String, ProgramUniform> program_uniforms =
-        this.program.getUniforms();
-
-      for (final Entry<String, JCGLType> e : entries) {
-        if (program_uniforms.containsKey(e.getKey()) == false) {
-          this.message.append("  ");
-          this.message.append(e.getKey());
-          this.message.append(" ");
-          this.message.append(e.getValue());
-          this.message.append("\n");
-        }
-      }
-    }
-
-    throw new ConstraintError(this.message.toString());
   }
 
   @Override public final void execPrepare(
@@ -570,17 +612,14 @@ import com.io7m.jtensors.VectorReadable4I;
 
     gl.programActivate(this.program);
     this.preparing = true;
-    this.assigned.clear();
-    this.missed_attributes.clear();
-    this.missed_uniforms.clear();
-    this.attribute_bindings.clear();
-  }
 
-  private void execRemoveExistingAttributeBinding(
-    final String a)
-  {
-    if (this.attribute_bindings.containsKey(a)) {
-      this.attribute_bindings.remove(a);
+    for (final String name : this.attributes.keySet()) {
+      final AttributeState a = this.attributes.get(name);
+      a.assigned = false;
+    }
+    for (final String name : this.uniforms.keySet()) {
+      final UniformState u = this.uniforms.get(name);
+      u.assigned = false;
     }
   }
 
@@ -622,19 +661,11 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLException,
       ConstraintError
   {
-    final Map<String, ProgramAttribute> prog_attributes =
-      this.program.getAttributes();
-
-    for (final Entry<String, ProgramAttribute> e : prog_attributes.entrySet()) {
-      gl.programAttributeArrayDisassociate(e.getValue());
+    for (final AttributeState a : this.attributes.values()) {
+      if (a.actual != null) {
+        gl.programAttributeArrayDisassociate(a.actual);
+      }
     }
-  }
-
-  private final void execUniformAssign(
-    final @Nonnull String u)
-  {
-    this.assigned_ever.add(u);
-    this.assigned.add(u);
   }
 
   @Override public final void execUniformPutFloat(
@@ -650,13 +681,13 @@ import com.io7m.jtensors.VectorReadable4I;
       this.preparing,
       "Execution is in the preparation stage");
 
-    final ProgramUniform pu = this.execCheckUniform(u, JCGLType.TYPE_FLOAT);
-    if (pu == null) {
-      return;
+    final UniformState state =
+      this.execCheckUniformAndType(u, JCGLType.TYPE_FLOAT);
+    if (state.actual != null) {
+      gl.programUniformPutFloat(state.actual, x);
     }
-
-    gl.programUniformPutFloat(pu, x);
-    this.execUniformAssign(u);
+    state.assigned = true;
+    state.assigned_ever = true;
   }
 
   @Override public final void execUniformPutMatrix3x3F(
@@ -672,14 +703,13 @@ import com.io7m.jtensors.VectorReadable4I;
       this.preparing,
       "Execution is in the preparation stage");
 
-    final ProgramUniform pu =
-      this.execCheckUniform(u, JCGLType.TYPE_FLOAT_MATRIX_3);
-    if (pu == null) {
-      return;
+    final UniformState state =
+      this.execCheckUniformAndType(u, JCGLType.TYPE_FLOAT_MATRIX_3);
+    if (state.actual != null) {
+      gl.programUniformPutMatrix3x3f(state.actual, x);
     }
-
-    gl.programUniformPutMatrix3x3f(pu, x);
-    this.execUniformAssign(u);
+    state.assigned = true;
+    state.assigned_ever = true;
   }
 
   @Override public final void execUniformPutMatrix4x4F(
@@ -695,14 +725,13 @@ import com.io7m.jtensors.VectorReadable4I;
       this.preparing,
       "Execution is in the preparation stage");
 
-    final ProgramUniform pu =
-      this.execCheckUniform(u, JCGLType.TYPE_FLOAT_MATRIX_4);
-    if (pu == null) {
-      return;
+    final UniformState state =
+      this.execCheckUniformAndType(u, JCGLType.TYPE_FLOAT_MATRIX_4);
+    if (state.actual != null) {
+      gl.programUniformPutMatrix4x4f(state.actual, x);
     }
-
-    gl.programUniformPutMatrix4x4f(pu, x);
-    this.execUniformAssign(u);
+    state.assigned = true;
+    state.assigned_ever = true;
   }
 
   @Override public final void execUniformPutTextureUnit(
@@ -718,14 +747,13 @@ import com.io7m.jtensors.VectorReadable4I;
       this.preparing,
       "Execution is in the preparation stage");
 
-    final ProgramUniform pu =
-      this.execCheckUniform(u, JCGLType.TYPE_SAMPLER_2D);
-    if (pu == null) {
-      return;
+    final UniformState state =
+      this.execCheckUniformAndType(u, JCGLType.TYPE_SAMPLER_2D);
+    if (state.actual != null) {
+      gl.programUniformPutTextureUnit(state.actual, x);
     }
-
-    gl.programUniformPutTextureUnit(pu, x);
-    this.execUniformAssign(u);
+    state.assigned = true;
+    state.assigned_ever = true;
   }
 
   @Override public final void execUniformPutVector2F(
@@ -741,14 +769,13 @@ import com.io7m.jtensors.VectorReadable4I;
       this.preparing,
       "Execution is in the preparation stage");
 
-    final ProgramUniform pu =
-      this.execCheckUniform(u, JCGLType.TYPE_FLOAT_VECTOR_2);
-    if (pu == null) {
-      return;
+    final UniformState state =
+      this.execCheckUniformAndType(u, JCGLType.TYPE_FLOAT_VECTOR_2);
+    if (state.actual != null) {
+      gl.programUniformPutVector2f(state.actual, x);
     }
-
-    gl.programUniformPutVector2f(pu, x);
-    this.execUniformAssign(u);
+    state.assigned = true;
+    state.assigned_ever = true;
   }
 
   @Override public final void execUniformPutVector2I(
@@ -764,14 +791,13 @@ import com.io7m.jtensors.VectorReadable4I;
       this.preparing,
       "Execution is in the preparation stage");
 
-    final ProgramUniform pu =
-      this.execCheckUniform(u, JCGLType.TYPE_INTEGER_VECTOR_2);
-    if (pu == null) {
-      return;
+    final UniformState state =
+      this.execCheckUniformAndType(u, JCGLType.TYPE_INTEGER_VECTOR_2);
+    if (state.actual != null) {
+      gl.programUniformPutVector2i(state.actual, x);
     }
-
-    gl.programUniformPutVector2i(pu, x);
-    this.execUniformAssign(u);
+    state.assigned = true;
+    state.assigned_ever = true;
   }
 
   @Override public final void execUniformPutVector3F(
@@ -787,14 +813,13 @@ import com.io7m.jtensors.VectorReadable4I;
       this.preparing,
       "Execution is in the preparation stage");
 
-    final ProgramUniform pu =
-      this.execCheckUniform(u, JCGLType.TYPE_FLOAT_VECTOR_3);
-    if (pu == null) {
-      return;
+    final UniformState state =
+      this.execCheckUniformAndType(u, JCGLType.TYPE_FLOAT_VECTOR_3);
+    if (state.actual != null) {
+      gl.programUniformPutVector3f(state.actual, x);
     }
-
-    gl.programUniformPutVector3f(pu, x);
-    this.execUniformAssign(u);
+    state.assigned = true;
+    state.assigned_ever = true;
   }
 
   @Override public final void execUniformPutVector3I(
@@ -810,14 +835,13 @@ import com.io7m.jtensors.VectorReadable4I;
       this.preparing,
       "Execution is in the preparation stage");
 
-    final ProgramUniform pu =
-      this.execCheckUniform(u, JCGLType.TYPE_INTEGER_VECTOR_3);
-    if (pu == null) {
-      return;
+    final UniformState state =
+      this.execCheckUniformAndType(u, JCGLType.TYPE_INTEGER_VECTOR_3);
+    if (state.actual != null) {
+      gl.programUniformPutVector3i(state.actual, x);
     }
-
-    gl.programUniformPutVector3i(pu, x);
-    this.execUniformAssign(u);
+    state.assigned = true;
+    state.assigned_ever = true;
   }
 
   @Override public final void execUniformPutVector4F(
@@ -833,14 +857,13 @@ import com.io7m.jtensors.VectorReadable4I;
       this.preparing,
       "Execution is in the preparation stage");
 
-    final ProgramUniform pu =
-      this.execCheckUniform(u, JCGLType.TYPE_FLOAT_VECTOR_4);
-    if (pu == null) {
-      return;
+    final UniformState state =
+      this.execCheckUniformAndType(u, JCGLType.TYPE_FLOAT_VECTOR_4);
+    if (state.actual != null) {
+      gl.programUniformPutVector4f(state.actual, x);
     }
-
-    gl.programUniformPutVector4f(pu, x);
-    this.execUniformAssign(u);
+    state.assigned = true;
+    state.assigned_ever = true;
   }
 
   @Override public final void execUniformPutVector4I(
@@ -856,14 +879,13 @@ import com.io7m.jtensors.VectorReadable4I;
       this.preparing,
       "Execution is in the preparation stage");
 
-    final ProgramUniform pu =
-      this.execCheckUniform(u, JCGLType.TYPE_INTEGER_VECTOR_4);
-    if (pu == null) {
-      return;
+    final UniformState state =
+      this.execCheckUniformAndType(u, JCGLType.TYPE_INTEGER_VECTOR_4);
+    if (state.actual != null) {
+      gl.programUniformPutVector4i(state.actual, x);
     }
-
-    gl.programUniformPutVector4i(pu, x);
-    this.execUniformAssign(u);
+    state.assigned = true;
+    state.assigned_ever = true;
   }
 
   @Override public final void execUniformUseExisting(
@@ -876,16 +898,14 @@ import com.io7m.jtensors.VectorReadable4I;
       this.preparing,
       "Execution is in the preparation stage");
 
-    final ProgramUniform pu = this.execCheckUniformUnknownType(u);
-    if (pu == null) {
-      return;
+    final UniformState state = this.execCheckUniform(u);
+    if (state.actual != null) {
+      Constraints.constrainArbitrary(
+        state.assigned_ever,
+        "Uniform has been assigned at least once");
     }
-
-    Constraints.constrainArbitrary(
-      this.assigned_ever.contains(u),
-      "Uniform has been assigned at least once");
-
-    this.execUniformAssign(u);
+    state.assigned = true;
+    state.assigned_ever = true;
   }
 
   @Override public final void execValidate()
@@ -907,17 +927,21 @@ import com.io7m.jtensors.VectorReadable4I;
 
       if (this.missed_uniforms.isEmpty() == false) {
         this.message.append("Uniforms not assigned values:\n");
-        for (final ProgramUniform u : this.missed_uniforms) {
+        for (final UniformState u : this.missed_uniforms) {
           this.message.append("  ");
-          this.message.append(u);
+          this.message.append(u.name);
+          this.message.append(" ");
+          this.message.append(u.type);
           this.message.append("\n");
         }
       }
       if (this.missed_attributes.isEmpty() == false) {
         this.message.append("Attributes not assigned values:\n");
-        for (final ProgramAttribute a : this.missed_attributes) {
+        for (final AttributeState a : this.missed_attributes) {
           this.message.append("  ");
-          this.message.append(a);
+          this.message.append(a.name);
+          this.message.append(" ");
+          this.message.append(a.type);
           this.message.append("\n");
         }
       }
@@ -927,22 +951,20 @@ import com.io7m.jtensors.VectorReadable4I;
 
   private final void execValidateAttributes()
   {
-    for (final Entry<String, ProgramAttribute> e : this.program
-      .getAttributes()
-      .entrySet()) {
-      if (this.assigned.contains(e.getKey()) == false) {
-        this.missed_attributes.add(e.getValue());
+    for (final String name : this.attributes.keySet()) {
+      final AttributeState a = this.attributes.get(name);
+      if ((a.assigned == false) && (a.actual != null)) {
+        this.missed_attributes.add(a);
       }
     }
   }
 
   private final void execValidateUniforms()
   {
-    for (final Entry<String, ProgramUniform> e : this.program
-      .getUniforms()
-      .entrySet()) {
-      if (this.assigned.contains(e.getKey()) == false) {
-        this.missed_uniforms.add(e.getValue());
+    for (final String name : this.uniforms.keySet()) {
+      final UniformState u = this.uniforms.get(name);
+      if ((u.assigned == false) && (u.actual != null)) {
+        this.missed_uniforms.add(u);
       }
     }
   }
