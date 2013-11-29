@@ -164,13 +164,15 @@ import com.io7m.jtensors.VectorReadable4I;
     throw new UnreachableCodeException();
   }
 
-  private final @Nonnull HashMap<String, AttributeState> attributes;
-  private final @Nonnull StringBuilder                   message;
-  private final @Nonnull ArrayList<AttributeState>       missed_attributes;
-  private final @Nonnull ArrayList<UniformState>         missed_uniforms;
-  private boolean                                        preparing;
-  private final @Nonnull ProgramReferenceUsable          program;
-  private final @Nonnull HashMap<String, UniformState>   uniforms;
+  private final @Nonnull HashMap<String, Integer>  attribute_names;
+  private final @Nonnull ArrayList<AttributeState> attributes;
+  private final @Nonnull StringBuilder             message;
+  private final @Nonnull ArrayList<AttributeState> missed_attributes;
+  private final @Nonnull ArrayList<UniformState>   missed_uniforms;
+  private boolean                                  preparing;
+  private final @Nonnull ProgramReferenceUsable    program;
+  private final @Nonnull HashMap<String, Integer>  uniform_names;
+  private final @Nonnull ArrayList<UniformState>   uniforms;
 
   protected JCCEExecutionAbstract(
     final @Nonnull ProgramReferenceUsable program,
@@ -191,12 +193,13 @@ import com.io7m.jtensors.VectorReadable4I;
      */
 
     {
-      this.uniforms =
-        new HashMap<String, JCCEExecutionAbstract.UniformState>();
+      this.uniform_names = new HashMap<String, Integer>();
+      this.uniforms = new ArrayList<UniformState>();
 
       final Map<String, ProgramUniform> program_uniforms =
         program.getUniforms();
 
+      int current = 0;
       for (final Entry<String, ProgramUniform> e : program_uniforms
         .entrySet()) {
         final String name = e.getKey();
@@ -216,16 +219,20 @@ import com.io7m.jtensors.VectorReadable4I;
         }
 
         final UniformState state = new UniformState(name, p.getType(), p);
-        this.uniforms.put(name, state);
+        this.uniform_names.put(name, Integer.valueOf(current));
+        this.uniforms.add(state);
+        ++current;
       }
 
       if (declared_uniforms != null) {
         for (final Entry<String, JCGLType> e : declared_uniforms.entrySet()) {
           final String name = e.getKey();
           final JCGLType t = e.getValue();
-          if (this.uniforms.containsKey(name) == false) {
+          if (this.uniform_names.containsKey(name) == false) {
             final UniformState state = new UniformState(name, t, null);
-            this.uniforms.put(name, state);
+            this.uniform_names.put(name, Integer.valueOf(current));
+            this.uniforms.add(state);
+            ++current;
           }
         }
       }
@@ -237,12 +244,13 @@ import com.io7m.jtensors.VectorReadable4I;
      */
 
     {
-      this.attributes =
-        new HashMap<String, JCCEExecutionAbstract.AttributeState>();
+      this.attributes = new ArrayList<AttributeState>();
+      this.attribute_names = new HashMap<String, Integer>();
 
       final Map<String, ProgramAttribute> program_attributes =
         program.getAttributes();
 
+      int current = 0;
       for (final Entry<String, ProgramAttribute> e : program_attributes
         .entrySet()) {
         final String name = e.getKey();
@@ -262,16 +270,20 @@ import com.io7m.jtensors.VectorReadable4I;
         }
 
         final AttributeState state = new AttributeState(name, p.getType(), p);
-        this.attributes.put(name, state);
+        this.attribute_names.put(name, Integer.valueOf(current));
+        this.attributes.add(state);
+        ++current;
       }
 
       if (declared_attributes != null) {
         for (final Entry<String, JCGLType> e : declared_attributes.entrySet()) {
           final String name = e.getKey();
           final JCGLType t = e.getValue();
-          if (this.attributes.containsKey(name) == false) {
+          if (this.attribute_names.containsKey(name) == false) {
             final AttributeState state = new AttributeState(name, t, null);
-            this.attributes.put(name, state);
+            this.attribute_names.put(name, Integer.valueOf(current));
+            this.attributes.add(state);
+            ++current;
           }
         }
       }
@@ -280,6 +292,45 @@ import com.io7m.jtensors.VectorReadable4I;
     this.missed_attributes =
       new ArrayList<AttributeState>(this.attributes.size());
     this.missed_uniforms = new ArrayList<UniformState>(this.uniforms.size());
+  }
+
+  private @Nonnull ConstraintError errorAttributeNonexistent(
+    final @Nonnull String a)
+  {
+    this.message.setLength(0);
+    this.message.append("The program does not contain an attribute '");
+    this.message.append(a);
+    this.message.append("'\n");
+    this.message.append("Attributes include:\n");
+
+    for (int index = 0; index < this.attributes.size(); ++index) {
+      final AttributeState v = this.attributes.get(index);
+      this.message.append("  ");
+      this.message.append(v.name);
+      this.message.append(" ");
+      this.message.append(v.type);
+      if (v.actual == null) {
+        this.message.append("(declared, optimized out)");
+      }
+      this.message.append("\n");
+    }
+
+    return new ConstraintError(this.message.toString());
+  }
+
+  private @Nonnull ConstraintError errorAttributeWrongType(
+    final @Nonnull AttributeState state,
+    final @Nonnull JCGLType given)
+  {
+    this.message.setLength(0);
+    this.message.append("The attribute '");
+    this.message.append(state.name);
+    this.message.append("' has type ");
+    this.message.append(state.type);
+    this.message.append(" but the given array buffer attribute has type ");
+    this.message.append(given);
+    this.message.append("\n");
+    return new ConstraintError(this.message.toString());
   }
 
   private @Nonnull ConstraintError errorProgramContainsIncompatibleAttribute(
@@ -309,44 +360,6 @@ import com.io7m.jtensors.VectorReadable4I;
     this.message
       .append(" but the declared uniforms claim it should have type ");
     this.message.append(declared);
-    return new ConstraintError(this.message.toString());
-  }
-
-  private @Nonnull ConstraintError errorAttributeNonexistent(
-    final @Nonnull String a)
-  {
-    this.message.setLength(0);
-    this.message.append("The program does not contain an attribute '");
-    this.message.append(a);
-    this.message.append("'\n");
-    this.message.append("Attributes include:\n");
-
-    for (final Entry<String, AttributeState> e : this.attributes.entrySet()) {
-      this.message.append("  ");
-      this.message.append(e.getKey());
-      this.message.append(" ");
-      this.message.append(e.getValue());
-      if (e.getValue().actual == null) {
-        this.message.append("(declared, optimized out)");
-      }
-      this.message.append("\n");
-    }
-
-    return new ConstraintError(this.message.toString());
-  }
-
-  private @Nonnull ConstraintError errorAttributeWrongType(
-    final @Nonnull AttributeState state,
-    final @Nonnull JCGLType given)
-  {
-    this.message.setLength(0);
-    this.message.append("The attribute '");
-    this.message.append(state.name);
-    this.message.append("' has type ");
-    this.message.append(state.type);
-    this.message.append(" but the given array buffer attribute has type ");
-    this.message.append(given);
-    this.message.append("\n");
     return new ConstraintError(this.message.toString());
   }
 
@@ -407,12 +420,13 @@ import com.io7m.jtensors.VectorReadable4I;
     this.message.append("'\n");
     this.message.append("Uniforms include:\n");
 
-    for (final Entry<String, UniformState> e : this.uniforms.entrySet()) {
+    for (int index = 0; index < this.uniforms.size(); ++index) {
+      final UniformState v = this.uniforms.get(index);
       this.message.append("  ");
-      this.message.append(e.getKey());
+      this.message.append(v.name);
       this.message.append(" ");
-      this.message.append(e.getValue());
-      if (e.getValue().actual == null) {
+      this.message.append(v.type);
+      if (v.actual == null) {
         this.message.append("(declared, optimized out)");
       }
       this.message.append("\n");
@@ -558,10 +572,11 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     Constraints.constrainNotNull(a, "Attribute name");
 
-    final AttributeState state = this.attributes.get(a);
-    if (state == null) {
+    final Integer index = this.attribute_names.get(a);
+    if (index == null) {
       throw this.errorAttributeNonexistent(a);
     }
+    final AttributeState state = this.attributes.get(index.intValue());
     if (JCCEExecutionAbstract.execCheckTypesCompatible(state.type, t) == false) {
       throw this.errorAttributeWrongType(state, t);
     }
@@ -574,11 +589,11 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     Constraints.constrainNotNull(u, "Uniform name");
 
-    final UniformState state = this.uniforms.get(u);
-    if (state == null) {
+    final Integer index = this.uniform_names.get(u);
+    if (index == null) {
       throw this.errorUniformNonexistent(u);
     }
-    return state;
+    return this.uniforms.get(index.intValue());
   }
 
   private @CheckForNull UniformState execCheckUniformAndType(
@@ -613,12 +628,12 @@ import com.io7m.jtensors.VectorReadable4I;
     gl.programActivate(this.program);
     this.preparing = true;
 
-    for (final String name : this.attributes.keySet()) {
-      final AttributeState a = this.attributes.get(name);
+    for (int index = 0; index < this.attributes.size(); ++index) {
+      final AttributeState a = this.attributes.get(index);
       a.assigned = false;
     }
-    for (final String name : this.uniforms.keySet()) {
-      final UniformState u = this.uniforms.get(name);
+    for (int index = 0; index < this.uniforms.size(); ++index) {
+      final UniformState u = this.uniforms.get(index);
       u.assigned = false;
     }
   }
@@ -661,7 +676,8 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLException,
       ConstraintError
   {
-    for (final AttributeState a : this.attributes.values()) {
+    for (int index = 0; index < this.attributes.size(); ++index) {
+      final AttributeState a = this.attributes.get(index);
       if (a.actual != null) {
         gl.programAttributeArrayDisassociate(a.actual);
       }
@@ -951,8 +967,8 @@ import com.io7m.jtensors.VectorReadable4I;
 
   private final void execValidateAttributes()
   {
-    for (final String name : this.attributes.keySet()) {
-      final AttributeState a = this.attributes.get(name);
+    for (int index = 0; index < this.attributes.size(); ++index) {
+      final AttributeState a = this.attributes.get(index);
       if ((a.assigned == false) && (a.actual != null)) {
         this.missed_attributes.add(a);
       }
@@ -961,8 +977,8 @@ import com.io7m.jtensors.VectorReadable4I;
 
   private final void execValidateUniforms()
   {
-    for (final String name : this.uniforms.keySet()) {
-      final UniformState u = this.uniforms.get(name);
+    for (int index = 0; index < this.uniforms.size(); ++index) {
+      final UniformState u = this.uniforms.get(index);
       if ((u.assigned == false) && (u.actual != null)) {
         this.missed_uniforms.add(u);
       }
