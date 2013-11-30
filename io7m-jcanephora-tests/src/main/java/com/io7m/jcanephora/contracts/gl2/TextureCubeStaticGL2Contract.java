@@ -212,9 +212,23 @@ public abstract class TextureCubeStaticGL2Contract extends
           Assert.assertEquals(tx.getType(), t);
           break;
         }
+        case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
+        {
+          final TextureCubeStatic tx =
+            gl.textureCubeStaticAllocateDepth24Stencil8(
+              t.toString(),
+              128,
+              TextureWrapR.TEXTURE_WRAP_REPEAT,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          Assert.assertEquals(tx.getType(), t);
+          break;
+        }
+
         case TEXTURE_TYPE_DEPTH_16_2BPP:
         case TEXTURE_TYPE_DEPTH_24_4BPP:
-        case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
         case TEXTURE_TYPE_RGBA_1010102_4BPP:
         case TEXTURE_TYPE_RGBA_16F_8BPP:
         case TEXTURE_TYPE_RGBA_16I_8BPP:
