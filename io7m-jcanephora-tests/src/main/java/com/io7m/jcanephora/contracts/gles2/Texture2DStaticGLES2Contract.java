@@ -143,6 +143,7 @@ public abstract class Texture2DStaticGLES2Contract extends
           break;
         }
 
+        case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
         case TEXTURE_TYPE_RGBA_1010102_4BPP:
         case TEXTURE_TYPE_RGBA_16F_8BPP:
         case TEXTURE_TYPE_RGBA_16I_8BPP:

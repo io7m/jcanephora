@@ -1229,6 +1229,32 @@ import com.io7m.jtensors.VectorReadable4I;
     faces, stencil_fail, depth_fail, pass);
   }
 
+  @Override public @Nonnull
+    Texture2DStatic
+    texture2DStaticAllocateDepth24Stencil8(
+      final @Nonnull String name,
+      final int width,
+      final int height,
+      final @Nonnull TextureWrapS wrap_s,
+      final @Nonnull TextureWrapT wrap_t,
+      final @Nonnull TextureFilterMinification min_filter,
+      final @Nonnull TextureFilterMagnification mag_filter)
+      throws ConstraintError,
+        JCGLException
+  {
+    return LWJGL_GLES2Functions.texture2DStaticAllocate(
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
   @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB8(
     final @Nonnull String name,
     final int width,
@@ -1500,5 +1526,31 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     LWJGL_GLES2Functions.viewportSet(position, dimensions);
+  }
+
+  @Override public @Nonnull
+    TextureCubeStatic
+    textureCubeStaticAllocateDepth24Stencil8(
+      final @Nonnull String name,
+      final int size,
+      final @Nonnull TextureWrapR wrap_r,
+      final @Nonnull TextureWrapS wrap_s,
+      final @Nonnull TextureWrapT wrap_t,
+      final @Nonnull TextureFilterMinification min_filter,
+      final @Nonnull TextureFilterMagnification mag_filter)
+      throws ConstraintError,
+        JCGLException
+  {
+    return LWJGL_GLES2Functions.textureCubeStaticAllocate(
+      this.state,
+      this.log,
+      name,
+      size,
+      TextureType.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
   }
 }

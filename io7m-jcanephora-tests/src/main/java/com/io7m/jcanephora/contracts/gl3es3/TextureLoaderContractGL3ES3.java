@@ -69,6 +69,11 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
       final InputStream stream = fs.openFile(PathVirtual.ofString(path));
 
       switch (tt) {
+        case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
+        {
+          stream.close();
+          continue;
+        }
 
         case TEXTURE_TYPE_R_8_1BPP:
         {
@@ -1196,6 +1201,14 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
       final InputStream stream = fs.openFile(PathVirtual.ofString(path));
 
       switch (tt) {
+        case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
+        {
+          // Pretend it went wrong!
+          ++io_exception_count;
+          stream.close();
+          continue;
+        }
+
         case TEXTURE_TYPE_RGBA_1010102_4BPP:
         {
           try {
@@ -1952,6 +1965,7 @@ public abstract class TextureLoaderContractGL3ES3<T extends TextureLoader> exten
           }
           break;
         }
+
         case TEXTURE_TYPE_RGBA_4444_2BPP:
         case TEXTURE_TYPE_RGBA_5551_2BPP:
         case TEXTURE_TYPE_RGB_565_2BPP:

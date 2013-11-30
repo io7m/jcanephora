@@ -53,6 +53,9 @@ public final class TextureLoaderImageIO implements TextureLoader
       ConstraintError
   {
     switch (type) {
+      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
+        throw new UnreachableCodeException();
+
       case TEXTURE_TYPE_RGBA_4444_2BPP:
         return gl.texture2DStaticAllocateRGBA4444(
           name,
@@ -160,6 +163,9 @@ public final class TextureLoaderImageIO implements TextureLoader
       ConstraintError
   {
     switch (type) {
+      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
+        throw new UnreachableCodeException();
+
       case TEXTURE_TYPE_DEPTH_16_2BPP:
         return gl.texture2DStaticAllocateDepth16(
           name,
@@ -628,6 +634,9 @@ public final class TextureLoaderImageIO implements TextureLoader
       ConstraintError
   {
     switch (type) {
+      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
+        throw new UnreachableCodeException();
+
       case TEXTURE_TYPE_RGBA_8_4BPP:
         return gl.texture2DStaticAllocateRGBA8(
           name,
@@ -713,6 +722,9 @@ public final class TextureLoaderImageIO implements TextureLoader
       ConstraintError
   {
     switch (type) {
+      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
+        throw new UnreachableCodeException();
+
       case TEXTURE_TYPE_RGBA_8_4BPP:
         return gl.textureCubeStaticAllocateRGBA8(
           name,
@@ -1049,6 +1061,9 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull TextureType type)
   {
     switch (type) {
+      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
+        throw new UnreachableCodeException();
+
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
@@ -3385,6 +3400,9 @@ public final class TextureLoaderImageIO implements TextureLoader
       case BufferedImage.TYPE_4BYTE_ABGR:
       {
         switch (type) {
+          case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
+            throw new UnreachableCodeException();
+
           case TEXTURE_TYPE_RGBA_16I_8BPP:
           case TEXTURE_TYPE_RGBA_16U_8BPP:
           case TEXTURE_TYPE_RGBA_32I_16BPP:

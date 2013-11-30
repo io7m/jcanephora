@@ -95,6 +95,7 @@ public abstract class Texture2DStaticCommonContract extends
         case TEXTURE_TYPE_R_8U_1BPP:
         case TEXTURE_TYPE_DEPTH_16_2BPP:
         case TEXTURE_TYPE_DEPTH_24_4BPP:
+        case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
         case TEXTURE_TYPE_DEPTH_32F_4BPP:
         case TEXTURE_TYPE_RGBA_4444_2BPP:
         case TEXTURE_TYPE_RGBA_5551_2BPP:

@@ -27,6 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLTextures2DStaticGLES3;
 import com.io7m.jcanephora.JCGLUnsupportedException;
@@ -68,6 +69,11 @@ public abstract class TextureLoaderContractGLES3<T extends TextureLoader> extend
       final InputStream stream = fs.openFile(PathVirtual.ofString(path));
 
       switch (tt) {
+        case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
+        {
+          stream.close();
+          throw new UnreachableCodeException(new AssertionError(tt));
+        }
         case TEXTURE_TYPE_R_8_1BPP:
         {
           t =
@@ -1234,6 +1240,11 @@ public abstract class TextureLoaderContractGLES3<T extends TextureLoader> extend
       final InputStream stream = fs.openFile(PathVirtual.ofString(path));
 
       switch (tt) {
+        case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
+        {
+          stream.close();
+          throw new UnreachableCodeException(new AssertionError(tt));
+        }
         case TEXTURE_TYPE_RGBA_1010102_4BPP:
         {
           try {

@@ -145,6 +145,7 @@ public abstract class Texture2DStaticGL2Contract extends
         }
         case TEXTURE_TYPE_DEPTH_16_2BPP:
         case TEXTURE_TYPE_DEPTH_24_4BPP:
+        case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
         case TEXTURE_TYPE_RGBA_1010102_4BPP:
         case TEXTURE_TYPE_RGBA_16F_8BPP:
         case TEXTURE_TYPE_RGBA_16I_8BPP:
