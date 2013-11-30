@@ -373,7 +373,7 @@ import com.io7m.jtensors.VectorReadable4I;
     this.message.append("' of type ");
     this.message.append(p.getType());
     this.message
-      .append(" but no such parameter exists in the given declared attribyutes.\n");
+      .append(" but no such parameter exists in the given declared attributes.\n");
     this.message.append("Declared attributes include:\n");
 
     for (final Entry<String, JCGLType> e : declared_attributes.entrySet()) {
