@@ -75,12 +75,12 @@ import com.io7m.jtensors.VectorReadable4I;
 @NotThreadSafe final class JCGLInterfaceGL3_JOGL_GL2GL3 implements
   JCGLInterfaceGL3
 {
+  private final @Nonnull GL2GL3         cached_gl2gl3;
   private final @Nonnull GLContext      gl_context;
   private final @Nonnull Log            log;
   private final @Nonnull JCGLSLVersion  sl_version;
   private final @Nonnull JCGLStateCache state;
   private final @Nonnull JCGLVersion    version;
-  private final @Nonnull GL2GL3         cached_gl2gl3;
 
   JCGLInterfaceGL3_JOGL_GL2GL3(
     final @Nonnull GLContext context,
@@ -201,11 +201,6 @@ import com.io7m.jtensors.VectorReadable4I;
 
     this.version = JOGL_GL_Functions.metaGetVersion(g);
     this.sl_version = JOGL_GL_Functions.metaGetSLVersion(log, g);
-  }
-
-  private @Nonnull GL2GL3 contextGetGL()
-  {
-    return this.cached_gl2gl3;
   }
 
   @Override public ArrayBuffer arrayBufferAllocate(
@@ -538,6 +533,11 @@ import com.io7m.jtensors.VectorReadable4I;
     return JOGL_GL_Functions.colorBufferMaskStatusRed(
       this.contextGetGL(),
       this.state);
+  }
+
+  private @Nonnull GL2GL3 contextGetGL()
+  {
+    return this.cached_gl2gl3;
   }
 
   @Override public void cullingDisable()
@@ -1603,6 +1603,31 @@ import com.io7m.jtensors.VectorReadable4I;
       width,
       height,
       TextureType.TEXTURE_TYPE_DEPTH_24_4BPP,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStatic texture2DStaticAllocateDepth24Stencil8(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
+    throws ConstraintError,
+      JCGLException
+  {
+    return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
+      this.contextGetGL(),
+      this.state,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
@@ -2768,6 +2793,33 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       size,
       TextureType.TEXTURE_TYPE_DEPTH_24_4BPP,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public @Nonnull
+    TextureCubeStatic
+    textureCubeStaticAllocateDepth24Stencil8(
+      final @Nonnull String name,
+      final int size,
+      final @Nonnull TextureWrapR wrap_r,
+      final @Nonnull TextureWrapS wrap_s,
+      final @Nonnull TextureWrapT wrap_t,
+      final @Nonnull TextureFilterMinification min_filter,
+      final @Nonnull TextureFilterMagnification mag_filter)
+      throws ConstraintError,
+        JCGLException
+  {
+    return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
+      this.contextGetGL(),
+      this.state,
+      this.log,
+      name,
+      size,
+      TextureType.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -4002,5 +4054,4 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     JOGL_GL_Functions.viewportSet(this.contextGetGL(), position, dimensions);
   }
-
 }

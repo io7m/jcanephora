@@ -287,6 +287,10 @@ public class TextureCubeWritableDataTest
       TextureTypeMeta.getTexturesWithComponents(2);
 
     for (final TextureType type : e2_types) {
+      if (type == TextureType.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP) {
+        continue;
+      }
+
       final TextureCubeStatic t =
         new TextureCubeStatic(
           "xyz",
@@ -365,6 +369,10 @@ public class TextureCubeWritableDataTest
       TextureTypeMeta.getTexturesWithComponents(2);
 
     for (final TextureType type : e2_types) {
+      if (type == TextureType.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP) {
+        continue;
+      }
+
       final TextureCubeStatic t =
         new TextureCubeStatic(
           "xyz",
@@ -444,6 +452,9 @@ public class TextureCubeWritableDataTest
 
     for (final TextureType type : e2_types) {
       if (TextureTypeMeta.isFloatingPoint(type)) {
+        continue;
+      }
+      if (type == TextureType.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP) {
         continue;
       }
 

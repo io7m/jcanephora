@@ -286,6 +286,10 @@ public class Texture2DWritableDataTest
       TextureTypeMeta.getTexturesWithComponents(2);
 
     for (final TextureType type : e2_types) {
+      if (type == TextureType.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP) {
+        continue;
+      }
+
       final Texture2DStatic t =
         new Texture2DStatic(
           "xyz",
@@ -363,6 +367,10 @@ public class Texture2DWritableDataTest
       TextureTypeMeta.getTexturesWithComponents(2);
 
     for (final TextureType type : e2_types) {
+      if (type == TextureType.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP) {
+        continue;
+      }
+
       final Texture2DStatic t =
         new Texture2DStatic(
           "xyz",
@@ -441,6 +449,9 @@ public class Texture2DWritableDataTest
 
     for (final TextureType type : e2_types) {
       if (TextureTypeMeta.isFloatingPoint(type)) {
+        continue;
+      }
+      if (type == TextureType.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP) {
         continue;
       }
 

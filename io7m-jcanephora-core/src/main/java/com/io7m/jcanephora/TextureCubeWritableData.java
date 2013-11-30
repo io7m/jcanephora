@@ -231,6 +231,7 @@ public final class TextureCubeWritableData implements TextureWritableData
           this.source_area,
           this.target_area);
       }
+      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
       case TEXTURE_TYPE_RGBA_1010102_4BPP:
       case TEXTURE_TYPE_RGBA_16F_8BPP:
       case TEXTURE_TYPE_RGBA_16I_8BPP:
@@ -360,6 +361,7 @@ public final class TextureCubeWritableData implements TextureWritableData
           this.source_area,
           this.target_area);
       }
+      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
       case TEXTURE_TYPE_R_16F_2BPP:
       case TEXTURE_TYPE_R_32F_4BPP:
@@ -439,8 +441,12 @@ public final class TextureCubeWritableData implements TextureWritableData
     Constraints.constrainArbitrary(
       this.type.getComponentCount() == 2,
       "Number of components in the texture is 2");
+    Constraints.constrainArbitrary(
+      this.type != TextureType.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
+      "Type is not packed depth/stencil");
 
     switch (this.type) {
+      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
@@ -577,8 +583,12 @@ public final class TextureCubeWritableData implements TextureWritableData
     Constraints.constrainArbitrary(
       TextureTypeMeta.isFloatingPoint(this.type) == false,
       "Texture is not floating point");
+    Constraints.constrainArbitrary(
+      this.type != TextureType.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
+      "Type is not packed depth/stencil");
 
     switch (this.type) {
+      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
@@ -718,6 +728,7 @@ public final class TextureCubeWritableData implements TextureWritableData
       "Number of components in the texture is 3");
 
     switch (this.type) {
+      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
@@ -862,6 +873,7 @@ public final class TextureCubeWritableData implements TextureWritableData
       "Texture is not floating point");
 
     switch (this.type) {
+      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
@@ -1007,6 +1019,7 @@ public final class TextureCubeWritableData implements TextureWritableData
       "Number of components in the texture is 4");
 
     switch (this.type) {
+      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
@@ -1163,6 +1176,7 @@ public final class TextureCubeWritableData implements TextureWritableData
       "Texture is not floating point");
 
     switch (this.type) {
+      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:

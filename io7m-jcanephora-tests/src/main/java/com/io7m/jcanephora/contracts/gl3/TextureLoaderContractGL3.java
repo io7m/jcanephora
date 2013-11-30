@@ -230,6 +230,7 @@ public abstract class TextureLoaderContractGL3<T extends TextureLoader> extends
           stream.close();
           throw new UnimplementedCodeException();
         }
+        case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
         case TEXTURE_TYPE_RGBA_4444_2BPP:
         case TEXTURE_TYPE_RGBA_5551_2BPP:
         case TEXTURE_TYPE_RGB_565_2BPP:
@@ -570,6 +571,7 @@ public abstract class TextureLoaderContractGL3<T extends TextureLoader> extends
       final InputStream stream = fs.openFile(PathVirtual.ofString(path));
 
       switch (tt) {
+        case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
         case TEXTURE_TYPE_RGBA_1010102_4BPP:
         case TEXTURE_TYPE_RGBA_16F_8BPP:
         case TEXTURE_TYPE_RGBA_16I_8BPP:

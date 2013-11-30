@@ -511,6 +511,8 @@ final class JOGL_GLTypeConversions
         return GL.GL_UNSIGNED_SHORT_5_6_5;
       case PIXEL_COMPONENT_HALF_FLOAT:
         return GL.GL_HALF_FLOAT;
+      case PIXEL_PACKED_UNSIGNED_INT_24_8:
+        return GL.GL_UNSIGNED_INT_24_8;
     }
 
     throw new UnreachableCodeException();
