@@ -8,13 +8,7 @@
   </properties>
   <body>
     <section name="Releases">
-      No releases are currently available.
-    </section>
-    <section name="Documentation">
-      No documentation is currently available.
-    </section>
-    <section name="Changes">
-      No changelog is currently available.
+      See <a href="http://mvn.io7m.com/jcanephora/releases.html">jcanephora</a> for releases and documentation.
     </section>
   </body>
 </document>
