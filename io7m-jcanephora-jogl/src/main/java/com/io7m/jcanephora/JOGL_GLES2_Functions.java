@@ -22,6 +22,9 @@ import java.nio.IntBuffer;
 import javax.annotation.Nonnull;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES2;
+import javax.media.opengl.GL2ES3;
+import javax.media.opengl.GLContext;
+import javax.media.opengl.GLDrawable;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -35,6 +38,58 @@ import com.io7m.jlog.Log;
 
 final class JOGL_GLES2_Functions
 {
+  static int depthBufferGetBits(
+    final @Nonnull GL gl,
+    final @Nonnull JCGLStateCache state)
+    throws JCGLException
+  {
+    /**
+     * If a framebuffer is bound, check to see if there's a depth attachment.
+     */
+
+    if (JOGL_GL_Functions.framebufferDrawAnyIsBound(gl)) {
+
+      {
+        final IntBuffer cache = state.getIntegerCache();
+        cache.rewind();
+        gl.glGetFramebufferAttachmentParameteriv(
+          GL.GL_FRAMEBUFFER,
+          GL.GL_DEPTH_ATTACHMENT,
+          GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
+          cache);
+        JOGL_GL_Functions.checkError(gl);
+        if (cache.get(0) == GL.GL_NONE) {
+          return 0;
+        }
+      }
+
+      /**
+       * If there's a depth attachment, check the size of it.
+       */
+
+      {
+        final IntBuffer cache = state.getIntegerCache();
+        cache.rewind();
+        gl.glGetFramebufferAttachmentParameteriv(
+          GL.GL_FRAMEBUFFER,
+          GL.GL_DEPTH_ATTACHMENT,
+          GL2ES3.GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE,
+          cache);
+        JOGL_GL_Functions.checkError(gl);
+        return cache.get(0);
+      }
+    }
+
+    /**
+     * Otherwise, check the capabilities of the OpenGL context for the
+     * capabilities of the default framebuffer.
+     */
+
+    final GLContext context = gl.getContext();
+    final GLDrawable drawable = context.getGLDrawable();
+    return drawable.getChosenGLCapabilities().getDepthBits();
+  }
+
   static @Nonnull Texture2DStatic texture2DStaticAllocate(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
