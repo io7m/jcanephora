@@ -71,7 +71,9 @@ public final class JOGLTestContext
   {
     if (JOGLTestContext.buffer != null) {
       final GLContext context = JOGLTestContext.buffer.getContext();
-      context.release();
+      if (context.isCurrent()) {
+        context.release();
+      }
       JOGLTestContext.buffer.destroy();
     }
 
