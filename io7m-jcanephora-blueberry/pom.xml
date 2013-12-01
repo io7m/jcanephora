@@ -90,7 +90,7 @@
     <dependency>
       <groupId>com.io7m.blueberry</groupId>
       <artifactId>io7m-blueberry-gui</artifactId>
-      <version>0.2.0</version>
+      <version>0.2.1</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
