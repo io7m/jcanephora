@@ -491,7 +491,7 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLException,
       ConstraintError
   {
-    JOGL_GL_Functions.depthBufferClear(
+    JOGL_GLES2_Functions.depthBufferClear(
       this.contextGetGLES2(),
       this.state,
       depth);
@@ -508,7 +508,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void depthBufferTestDisable()
     throws JCGLException
   {
-    JOGL_GL_Functions.depthBufferDisable(this.contextGetGLES2());
+    JOGL_GLES2_Functions.depthBufferDisable(this.contextGetGLES2());
   }
 
   @Override public void depthBufferTestEnable(
@@ -516,7 +516,7 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL_Functions.depthBufferEnable(
+    JOGL_GLES2_Functions.depthBufferEnable(
       this.contextGetGLES2(),
       this.state,
       function);
@@ -525,14 +525,14 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public boolean depthBufferTestIsEnabled()
     throws JCGLException
   {
-    return JOGL_GL_Functions.depthBufferIsEnabled(this.contextGetGLES2());
+    return JOGL_GLES2_Functions.depthBufferIsEnabled(this.contextGetGLES2());
   }
 
   @Override public void depthBufferWriteDisable()
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL_Functions.depthBufferWriteDisable(
+    JOGL_GLES2_Functions.depthBufferWriteDisable(
       this.contextGetGLES2(),
       this.state);
   }
@@ -541,7 +541,7 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL_Functions.depthBufferWriteEnable(
+    JOGL_GLES2_Functions.depthBufferWriteEnable(
       this.contextGetGLES2(),
       this.state);
   }
@@ -549,7 +549,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public boolean depthBufferWriteIsEnabled()
     throws JCGLException
   {
-    return JOGL_GL_Functions.depthBufferWriteIsEnabled(
+    return JOGL_GLES2_Functions.depthBufferWriteIsEnabled(
       this.contextGetGLES2(),
       this.state);
   }
