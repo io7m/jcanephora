@@ -8,7 +8,7 @@
   <artifactId>io7m-jcanephora-blueberry</artifactId>
   <name>io7m-jcanephora-blueberry</name>
   <description>End-user unit testing</description>
-  <version>0.16.7</version>
+  <version>0.16.8</version>
   <url>http://mvn.io7m.com/jcanephora-blueberry</url>
   <packaging>jar</packaging>
 
