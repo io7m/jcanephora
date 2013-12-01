@@ -500,7 +500,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public int depthBufferGetBits()
     throws JCGLException
   {
-    return JOGL_GL_Functions.depthBufferGetBits(
+    return JOGL_GLES2_Functions.depthBufferGetBits(
       this.contextGetGLES2(),
       this.state);
   }
