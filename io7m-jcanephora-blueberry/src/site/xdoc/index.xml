@@ -3,18 +3,16 @@
   xmlns="http://maven.apache.org/XDOC/2.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
   <properties>
-    <title>Releases</title>
+    <title>io7m-jcanephora-blueberry</title>
   </properties>
+
   <body>
-    <section name="Releases">
-      No releases are currently available.
-    </section>
-    <section name="Documentation">
-      No documentation is currently available.
-    </section>
-    <section name="Changes">
-      No changelog is currently available.
-    </section>
+    <subsection name="jcanephora-blueberry">
+      The <var>jcanephora-blueberry</var> package contains a simple GUI frontend
+      for end-user unit testing.
+    </subsection>
   </body>
+
 </document>
