@@ -38,6 +38,106 @@ import com.io7m.jlog.Log;
 
 final class JOGL_GLES2_Functions
 {
+  static void depthBufferClear(
+    final @Nonnull GL gl,
+    final @Nonnull JCGLStateCache state,
+    final float depth)
+    throws JCGLException,
+      ConstraintError
+  {
+    Constraints.constrainRange(
+      JOGL_GLES2_Functions.depthBufferGetBits(gl, state),
+      1,
+      Integer.MAX_VALUE,
+      "Depth buffer bits available");
+
+    gl.glClearDepth(depth);
+    gl.glClear(GL.GL_DEPTH_BUFFER_BIT);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void depthBufferDisable(
+    final @Nonnull GL gl)
+    throws JCGLException
+  {
+    gl.glDisable(GL.GL_DEPTH_TEST);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void depthBufferEnable(
+    final @Nonnull GL gl,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull DepthFunction function)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(function, "Depth function");
+    Constraints.constrainRange(
+      JOGL_GLES2_Functions.depthBufferGetBits(gl, state),
+      1,
+      Integer.MAX_VALUE,
+      "Depth buffer bits available");
+
+    final int d = JOGL_GLTypeConversions.depthFunctionToGL(function);
+    gl.glEnable(GL.GL_DEPTH_TEST);
+    gl.glDepthFunc(d);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static boolean depthBufferIsEnabled(
+    final @Nonnull GL gl)
+    throws JCGLException
+  {
+    final boolean e = gl.glIsEnabled(GL.GL_DEPTH_TEST);
+    JOGL_GL_Functions.checkError(gl);
+    return e;
+  }
+
+  static void depthBufferWriteDisable(
+    final @Nonnull GL gl,
+    final @Nonnull JCGLStateCache state)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainRange(
+      JOGL_GLES2_Functions.depthBufferGetBits(gl, state),
+      1,
+      Integer.MAX_VALUE,
+      "Depth buffer bits available");
+
+    gl.glDepthMask(false);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void depthBufferWriteEnable(
+    final @Nonnull GL gl,
+    final @Nonnull JCGLStateCache state)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainRange(
+      JOGL_GLES2_Functions.depthBufferGetBits(gl, state),
+      1,
+      Integer.MAX_VALUE,
+      "Depth buffer bits available");
+
+    gl.glDepthMask(true);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static boolean depthBufferWriteIsEnabled(
+    final @Nonnull GL gl,
+    final @Nonnull JCGLStateCache state)
+    throws JCGLException
+  {
+    final ByteBuffer cache = state.getDepthMaskCache();
+    gl.glGetBooleanv(GL.GL_DEPTH_WRITEMASK, cache);
+    JOGL_GL_Functions.checkError(gl);
+
+    final IntBuffer bi = cache.asIntBuffer();
+    return bi.get(0) == 1;
+  }
+
   static int depthBufferGetBits(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state)
