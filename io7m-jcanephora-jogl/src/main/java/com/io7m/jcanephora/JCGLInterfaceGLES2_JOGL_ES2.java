@@ -1564,7 +1564,7 @@ import com.io7m.jtensors.VectorReadable4I;
       throws ConstraintError,
         JCGLException
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
+    return JOGL_GLES2_Functions.textureCubeStaticAllocate(
       this.contextGetGLES2(),
       this.state,
       this.log,
