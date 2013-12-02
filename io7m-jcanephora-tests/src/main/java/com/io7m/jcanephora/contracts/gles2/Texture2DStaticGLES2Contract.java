@@ -124,25 +124,6 @@ public abstract class Texture2DStaticGLES2Contract extends
           break;
         }
         case TEXTURE_TYPE_DEPTH_16_2BPP:
-        {
-          System.out.println("TYPE: " + t);
-
-          tx =
-            gl.texture2DStaticAllocateDepth16(
-              t.toString(),
-              64,
-              128,
-              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_LINEAR,
-              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-
-          System.out.println("TX: " + tx);
-          System.out.println("TX-TYPE: " + tx.getType());
-          Assert.assertEquals(tx.getType(), t);
-          break;
-        }
-
         case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
         case TEXTURE_TYPE_RGBA_1010102_4BPP:
         case TEXTURE_TYPE_RGBA_16F_8BPP:

@@ -199,7 +199,6 @@ import com.io7m.jaux.UnreachableCodeException;
      * ES2 standard.
      */
 
-    s.add(TextureType.TEXTURE_TYPE_DEPTH_16_2BPP);
     s.add(TextureType.TEXTURE_TYPE_RGBA_4444_2BPP);
     s.add(TextureType.TEXTURE_TYPE_RGBA_5551_2BPP);
     s.add(TextureType.TEXTURE_TYPE_RGB_565_2BPP);
