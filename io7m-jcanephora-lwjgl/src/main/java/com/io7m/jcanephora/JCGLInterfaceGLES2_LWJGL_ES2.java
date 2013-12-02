@@ -48,6 +48,154 @@ import com.io7m.jtensors.VectorReadable4I;
 @NotThreadSafe public final class JCGLInterfaceGLES2_LWJGL_ES2 implements
   JCGLInterfaceGLES2
 {
+
+  /**
+   * The depth cube texture extension.
+   */
+
+  private class ExtDepthCubeTexture implements JCGLExtensionDepthCubeTexture
+  {
+    ExtDepthCubeTexture()
+    {
+      // Nothing
+    }
+
+    @Override public TextureCubeStatic textureCubeStaticAllocateDepth16(
+      final String name,
+      final int size,
+      final TextureWrapR wrap_r,
+      final TextureWrapS wrap_s,
+      final TextureWrapT wrap_t,
+      final TextureFilterMinification min_filter,
+      final TextureFilterMagnification mag_filter)
+      throws ConstraintError,
+        JCGLException
+    {
+      return LWJGL_GLES2Functions.textureCubeStaticAllocate(
+        JCGLInterfaceGLES2_LWJGL_ES2.this.state,
+        JCGLInterfaceGLES2_LWJGL_ES2.this.log,
+        name,
+        size,
+        TextureType.TEXTURE_TYPE_DEPTH_16_2BPP,
+        wrap_r,
+        wrap_s,
+        wrap_t,
+        min_filter,
+        mag_filter);
+    }
+  }
+
+  /**
+   * Support for the depth cube texture extension.
+   */
+
+  private class ExtDepthCubeTextureSupport implements
+    JCGLExtensionSupport<JCGLExtensionDepthCubeTexture>
+  {
+    ExtDepthCubeTextureSupport()
+    {
+      // Nothing.
+    }
+
+    @Override public
+      Option<JCGLExtensionDepthCubeTexture>
+      extensionGetSupport()
+        throws ConstraintError,
+          JCGLException
+    {
+      final String names[] = { "GL_OES_depth_texture_cube_map", };
+
+      final String all = GL11.glGetString(GL11.GL_EXTENSIONS);
+      final StringTokenizer tok = new StringTokenizer(all);
+
+      while (tok.hasMoreTokens()) {
+        final String extension = tok.nextToken();
+        for (final String name : names) {
+          if (extension.equals(name)) {
+            return new Option.Some<JCGLExtensionDepthCubeTexture>(
+              new ExtDepthCubeTexture());
+          }
+        }
+      }
+
+      return new Option.None<JCGLExtensionDepthCubeTexture>();
+    }
+  }
+
+  /**
+   * The depth texture extension.
+   */
+
+  private class ExtDepthTexture implements JCGLExtensionDepthTexture
+  {
+    ExtDepthTexture()
+    {
+      // Nothing
+    }
+
+    @SuppressWarnings("synthetic-access") @Override public
+      Texture2DStatic
+      texture2DStaticAllocateDepth16(
+        final @Nonnull String name,
+        final int width,
+        final int height,
+        final @Nonnull TextureWrapS wrap_s,
+        final @Nonnull TextureWrapT wrap_t,
+        final @Nonnull TextureFilterMinification min_filter,
+        final @Nonnull TextureFilterMagnification mag_filter)
+        throws ConstraintError,
+          JCGLException
+    {
+      return LWJGL_GLES2Functions.texture2DStaticAllocate(
+        JCGLInterfaceGLES2_LWJGL_ES2.this.state,
+        JCGLInterfaceGLES2_LWJGL_ES2.this.log,
+        name,
+        width,
+        height,
+        TextureType.TEXTURE_TYPE_DEPTH_16_2BPP,
+        wrap_s,
+        wrap_t,
+        min_filter,
+        mag_filter);
+    }
+
+  }
+
+  /**
+   * Support for the depth texture extension.
+   */
+
+  private class ExtDepthTextureSupport implements
+    JCGLExtensionSupport<JCGLExtensionDepthTexture>
+  {
+    ExtDepthTextureSupport()
+    {
+      // Nothing.
+    }
+
+    @Override public Option<JCGLExtensionDepthTexture> extensionGetSupport()
+      throws ConstraintError,
+        JCGLException
+    {
+      final String names[] = { "GL_OES_depth_texture", };
+
+      final String all = GL11.glGetString(GL11.GL_EXTENSIONS);
+      final StringTokenizer tok = new StringTokenizer(all);
+
+      while (tok.hasMoreTokens()) {
+        final String extension = tok.nextToken();
+        for (final String name : names) {
+          if (extension.equals(name)) {
+            return new Option.Some<JCGLExtensionDepthTexture>(
+              new ExtDepthTexture());
+          }
+        }
+      }
+
+      return new Option.None<JCGLExtensionDepthTexture>();
+    }
+  }
+
   /**
    * The packed depth/stencil extension.
    */
@@ -60,11 +208,13 @@ import com.io7m.jtensors.VectorReadable4I;
       // Nothing
     }
 
-    @Override public void framebufferDrawAttachDepthStencilRenderbuffer(
-      final @Nonnull FramebufferReference framebuffer,
-      final @Nonnull RenderbufferUsable<RenderableDepthStencil> renderbuffer)
-      throws JCGLException,
-        ConstraintError
+    @SuppressWarnings("synthetic-access") @Override public
+      void
+      framebufferDrawAttachDepthStencilRenderbuffer(
+        final @Nonnull FramebufferReference framebuffer,
+        final @Nonnull RenderbufferUsable<RenderableDepthStencil> renderbuffer)
+        throws JCGLException,
+          ConstraintError
     {
       LWJGL_GLES2Functions.framebufferDrawAttachDepthStencilRenderbuffer(
         JCGLInterfaceGLES2_LWJGL_ES2.this.state,
@@ -73,7 +223,7 @@ import com.io7m.jtensors.VectorReadable4I;
         renderbuffer);
     }
 
-    @Override public @Nonnull
+    @SuppressWarnings("synthetic-access") @Override public @Nonnull
       Renderbuffer<RenderableDepthStencil>
       renderbufferAllocateDepth24Stencil8(
         final int width,
@@ -129,11 +279,13 @@ import com.io7m.jtensors.VectorReadable4I;
     }
   }
 
-  private final @Nonnull JCGLExtensionPackedDepthStencil                       ext_packed_depth_stencil;
+  private final @Nonnull ExtDepthCubeTextureSupport                            ext_depth_cube_texture_support;
+  private final @Nonnull JCGLExtensionSupport<JCGLExtensionDepthTexture>       ext_depth_texture_support;
   private final @Nonnull JCGLExtensionSupport<JCGLExtensionPackedDepthStencil> ext_packed_depth_stencil_support;
-  final @Nonnull Log                                                           log;
+
+  private final @Nonnull Log                                                   log;
   private final @Nonnull JCGLSLVersion                                         sl_version;
-  final @Nonnull JCGLStateCache                                                state;
+  private final @Nonnull JCGLStateCache                                        state;
   private final @Nonnull JCGLVersion                                           version;
 
   JCGLInterfaceGLES2_LWJGL_ES2(
@@ -167,7 +319,8 @@ import com.io7m.jtensors.VectorReadable4I;
 
     this.ext_packed_depth_stencil_support =
       new ExtPackedDepthStencilSupport();
-    this.ext_packed_depth_stencil = new ExtPackedDepthStencil();
+    this.ext_depth_texture_support = new ExtDepthTextureSupport();
+    this.ext_depth_cube_texture_support = new ExtDepthCubeTextureSupport();
 
     /**
      * Initialize various constants.
@@ -502,6 +655,20 @@ import com.io7m.jtensors.VectorReadable4I;
     final int code)
   {
     return code == GL11.GL_INVALID_OPERATION;
+  }
+
+  @Override public @Nonnull
+    JCGLExtensionSupport<JCGLExtensionDepthCubeTexture>
+    extensionDepthCubeTexture()
+  {
+    return this.ext_depth_cube_texture_support;
+  }
+
+  @Override public @Nonnull
+    JCGLExtensionSupport<JCGLExtensionDepthTexture>
+    extensionDepthTexture()
+  {
+    return this.ext_depth_texture_support;
   }
 
   @Override public @Nonnull
@@ -1183,30 +1350,6 @@ import com.io7m.jtensors.VectorReadable4I;
     faces, stencil_fail, depth_fail, pass);
   }
 
-  @Override public Texture2DStatic texture2DStaticAllocateDepth16(
-    final String name,
-    final int width,
-    final int height,
-    final TextureWrapS wrap_s,
-    final TextureWrapT wrap_t,
-    final TextureFilterMinification min_filter,
-    final TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLException
-  {
-    return LWJGL_GLES2Functions.texture2DStaticAllocate(
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureType.TEXTURE_TYPE_DEPTH_16_2BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
   @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB565(
     final @Nonnull String name,
     final int width,
@@ -1370,30 +1513,6 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     LWJGL_GLES2Functions.texture2DStaticUpdate(data);
-  }
-
-  @Override public TextureCubeStatic textureCubeStaticAllocateDepth16(
-    final String name,
-    final int size,
-    final TextureWrapR wrap_r,
-    final TextureWrapS wrap_s,
-    final TextureWrapT wrap_t,
-    final TextureFilterMinification min_filter,
-    final TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLException
-  {
-    return LWJGL_GLES2Functions.textureCubeStaticAllocate(
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureType.TEXTURE_TYPE_DEPTH_16_2BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
   }
 
   @Override public @Nonnull

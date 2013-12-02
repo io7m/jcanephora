@@ -777,7 +777,7 @@ final class JOGL_TextureSpecs
       case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
       {
         gl_format = GL.GL_DEPTH_STENCIL;
-        gl_internalformat = GL.GL_UNSIGNED_INT_24_8;
+        gl_internalformat = GL.GL_DEPTH24_STENCIL8;
         break;
       }
     }

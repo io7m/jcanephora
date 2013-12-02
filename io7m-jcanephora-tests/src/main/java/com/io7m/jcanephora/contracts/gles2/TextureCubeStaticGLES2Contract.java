@@ -124,20 +124,6 @@ public abstract class TextureCubeStaticGLES2Contract extends
           break;
         }
         case TEXTURE_TYPE_DEPTH_16_2BPP:
-        {
-          final TextureCubeStatic tx =
-            gl.textureCubeStaticAllocateDepth16(
-              t.toString(),
-              128,
-              TextureWrapR.TEXTURE_WRAP_REPEAT,
-              TextureWrapS.TEXTURE_WRAP_REPEAT,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-          Assert.assertEquals(tx.getType(), t);
-          break;
-        }
-
         case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
         case TEXTURE_TYPE_RGBA_1010102_4BPP:
         case TEXTURE_TYPE_RGBA_16F_8BPP:
