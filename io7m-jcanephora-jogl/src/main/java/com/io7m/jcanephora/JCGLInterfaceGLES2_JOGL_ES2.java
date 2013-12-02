@@ -627,7 +627,8 @@ import com.io7m.jtensors.VectorReadable4I;
     JOGL_GLES2_Functions.depthBufferClear(
       this.contextGetGLES2(),
       this.state,
-      depth);
+      depth,
+      this.ext_packed_depth_stencil_opt.isSome());
   }
 
   @Override public int depthBufferGetBits()
@@ -635,7 +636,8 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     return JOGL_GLES2_Functions.depthBufferGetBits(
       this.contextGetGLES2(),
-      this.state);
+      this.state,
+      this.ext_packed_depth_stencil_opt.isSome());
   }
 
   @Override public void depthBufferTestDisable()
@@ -652,7 +654,8 @@ import com.io7m.jtensors.VectorReadable4I;
     JOGL_GLES2_Functions.depthBufferEnable(
       this.contextGetGLES2(),
       this.state,
-      function);
+      function,
+      this.ext_packed_depth_stencil_opt.isSome());
   }
 
   @Override public boolean depthBufferTestIsEnabled()
@@ -667,7 +670,8 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     JOGL_GLES2_Functions.depthBufferWriteDisable(
       this.contextGetGLES2(),
-      this.state);
+      this.state,
+      this.ext_packed_depth_stencil_opt.isSome());
   }
 
   @Override public void depthBufferWriteEnable()
@@ -676,7 +680,8 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     JOGL_GLES2_Functions.depthBufferWriteEnable(
       this.contextGetGLES2(),
-      this.state);
+      this.state,
+      this.ext_packed_depth_stencil_opt.isSome());
   }
 
   @Override public boolean depthBufferWriteIsEnabled()
