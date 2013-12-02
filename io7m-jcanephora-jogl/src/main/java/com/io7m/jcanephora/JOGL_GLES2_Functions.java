@@ -191,17 +191,6 @@ final class JOGL_GLES2_Functions
     gl.glGetFramebufferAttachmentParameteriv(
       GL.GL_FRAMEBUFFER,
       GL.GL_DEPTH_ATTACHMENT,
-      GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
-      cache);
-    JOGL_GL_Functions.checkError(gl);
-    if (cache.get(0) == GL.GL_NONE) {
-      return 0;
-    }
-
-    cache.rewind();
-    gl.glGetFramebufferAttachmentParameteriv(
-      GL.GL_FRAMEBUFFER,
-      GL.GL_DEPTH_ATTACHMENT,
       GL2ES3.GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE,
       cache);
     JOGL_GL_Functions.checkError(gl);
@@ -214,17 +203,6 @@ final class JOGL_GLES2_Functions
     throws JCGLException
   {
     final IntBuffer cache = state.getIntegerCache();
-    cache.rewind();
-    gl.glGetFramebufferAttachmentParameteriv(
-      GL.GL_FRAMEBUFFER,
-      GL2ES3.GL_DEPTH_STENCIL_ATTACHMENT,
-      GL.GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
-      cache);
-    JOGL_GL_Functions.checkError(gl);
-    if (cache.get(0) == GL.GL_NONE) {
-      return 0;
-    }
-
     cache.rewind();
     gl.glGetFramebufferAttachmentParameteriv(
       GL.GL_FRAMEBUFFER,
