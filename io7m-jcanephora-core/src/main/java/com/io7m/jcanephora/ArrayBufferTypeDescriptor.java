@@ -16,9 +16,10 @@
 
 package com.io7m.jcanephora;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -39,29 +40,30 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 @Immutable public final class ArrayBufferTypeDescriptor
 {
-  private final @Nonnull ArrayBufferAttributeDescriptor attributes[];
-  private final @Nonnull HashMap<String, Integer>       indices_by_name;
-  private final int                                     offsets[];
-  private final int                                     stride;
+  private final @Nonnull List<ArrayBufferAttributeDescriptor> attributes;
+  private final @Nonnull HashMap<String, Integer>             indices_by_name;
+  private final int                                           offsets[];
+  private final int                                           stride;
 
   public ArrayBufferTypeDescriptor(
-    final @Nonnull ArrayBufferAttributeDescriptor[] attributes)
+    final @Nonnull List<ArrayBufferAttributeDescriptor> attributes)
     throws ConstraintError
   {
     Constraints.constrainNotNull(attributes, "Buffer attributes");
     Constraints.constrainRange(
-      attributes.length,
+      attributes.size(),
       1,
       Integer.MAX_VALUE,
       "Number of attributes");
 
-    this.attributes = new ArrayBufferAttributeDescriptor[attributes.length];
-    this.offsets = new int[attributes.length];
+    this.attributes =
+      new ArrayList<ArrayBufferAttributeDescriptor>(attributes);
+    this.offsets = new int[attributes.size()];
     this.indices_by_name = new HashMap<String, Integer>();
 
     int bytes = 0;
-    for (int index = 0; index < attributes.length; ++index) {
-      final ArrayBufferAttributeDescriptor a = attributes[index];
+    for (int index = 0; index < attributes.size(); ++index) {
+      final ArrayBufferAttributeDescriptor a = attributes.get(index);
       Constraints.constrainNotNull(a, "Array attribute");
 
       if (this.indices_by_name.containsKey(a.getName())) {
@@ -70,13 +72,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
         this.indices_by_name.put(a.getName(), Integer.valueOf(index));
       }
 
-      this.attributes[index] =
-        new ArrayBufferAttributeDescriptor(
-          a.getName(),
-          a.getType(),
-          a.getElements());
       this.offsets[index] = bytes;
-
       final int size = a.getType().getSizeBytes();
       final int elem = a.getElements();
       bytes += size * elem;
@@ -98,7 +94,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
       return false;
     }
     final ArrayBufferTypeDescriptor other = (ArrayBufferTypeDescriptor) obj;
-    if (!Arrays.equals(this.attributes, other.attributes)) {
+    if (this.attributes == null) {
+      if (other.attributes != null) {
+        return false;
+      }
+    } else if (!this.attributes.equals(other.attributes)) {
       return false;
     }
     return true;
@@ -128,7 +128,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
       "Attribute name exists");
 
     final Integer index = this.indices_by_name.get(name);
-    return this.attributes[index.intValue()];
+    return this.attributes.get(index.intValue());
   }
 
   /**
@@ -277,16 +277,21 @@ import com.io7m.jaux.Constraints.ConstraintError;
   {
     final int prime = 31;
     int result = 1;
-    result = (prime * result) + Arrays.hashCode(this.attributes);
+    result = (prime * result) + this.attributes.hashCode();
     return result;
   }
 
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("[ArrayBufferTypeDescriptor ");
-    builder.append(Arrays.toString(this.attributes));
-    builder.append("]");
+    builder.append("[ArrayBufferTypeDescriptor [");
+    for (int index = 0; index < this.attributes.size(); ++index) {
+      final ArrayBufferAttributeDescriptor a = this.attributes.get(index);
+      builder.append("  ");
+      builder.append(a);
+      builder.append("\n");
+    }
+    builder.append("]]");
     return builder.toString();
   }
 }

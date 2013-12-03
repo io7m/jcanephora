@@ -15,6 +15,8 @@
  */
 package com.io7m.jcanephora.contracts;
 
+import java.util.ArrayList;
+
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -63,12 +65,14 @@ public abstract class IndexBufferContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLIndexBuffers gi = this.getGLIndexBuffers(tc);
 
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_SHORT,
-          1) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_SHORT,
+      1));
+    final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
+
     final ArrayBuffer a =
       ga.arrayBufferAllocate(1, d, UsageHint.USAGE_STATIC_DRAW);
     ga.arrayBufferDelete(a);
@@ -89,12 +93,14 @@ public abstract class IndexBufferContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLIndexBuffers gi = this.getGLIndexBuffers(tc);
 
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_SHORT,
-          1) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_SHORT,
+      1));
+    final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
+
     IndexBuffer i = null;
     ArrayBuffer a = null;
 
@@ -129,12 +135,14 @@ public abstract class IndexBufferContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLIndexBuffers gi = this.getGLIndexBuffers(tc);
 
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_SHORT,
-          1) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_SHORT,
+      1));
+    final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
+
     IndexBuffer i = null;
     ArrayBuffer a = null;
 
@@ -186,12 +194,14 @@ public abstract class IndexBufferContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLIndexBuffers gi = this.getGLIndexBuffers(tc);
 
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_SHORT,
-          1) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_SHORT,
+      1));
+    final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
+
     IndexBuffer i = null;
     ArrayBuffer a = null;
 
@@ -261,12 +271,14 @@ public abstract class IndexBufferContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLIndexBuffers gi = this.getGLIndexBuffers(tc);
 
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_SHORT,
-          1) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_SHORT,
+      1));
+    final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
+
     final ArrayBuffer a =
       ga.arrayBufferAllocate(1, d, UsageHint.USAGE_STATIC_DRAW);
     gi.indexBufferAllocate(a, 0);
@@ -287,12 +299,14 @@ public abstract class IndexBufferContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLIndexBuffers gi = this.getGLIndexBuffers(tc);
 
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_SHORT,
-          1) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_SHORT,
+      1));
+    final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
+
     IndexBuffer i = null;
     ArrayBuffer a = null;
 
@@ -337,12 +351,14 @@ public abstract class IndexBufferContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLIndexBuffers gi = this.getGLIndexBuffers(tc);
 
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_SHORT,
-          1) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_SHORT,
+      1));
+    final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
+
     IndexBuffer i = null;
     ArrayBuffer a = null;
 
@@ -372,12 +388,14 @@ public abstract class IndexBufferContract implements TestContract
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
     final JCGLIndexBuffers gi = this.getGLIndexBuffers(tc);
 
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_SHORT,
-          1) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_SHORT,
+      1));
+    final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
+
     IndexBuffer i = null;
     ArrayBuffer a = null;
 

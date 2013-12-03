@@ -114,19 +114,18 @@ public final class ExampleShaders implements Example
      * Then, use this descriptor to allocate an array.
      */
 
-    final ArrayBufferAttributeDescriptor[] ab =
-      new ArrayBufferAttributeDescriptor[2];
-    ab[0] =
-      new ArrayBufferAttributeDescriptor(
-        "position",
-        JCGLScalarType.TYPE_FLOAT,
-        4);
-    ab[1] =
-      new ArrayBufferAttributeDescriptor(
-        "color",
-        JCGLScalarType.TYPE_FLOAT,
-        4);
-    this.array_type = new ArrayBufferTypeDescriptor(ab);
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_FLOAT,
+      4));
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "color",
+      JCGLScalarType.TYPE_FLOAT,
+      4));
+
+    this.array_type = new ArrayBufferTypeDescriptor(abs);
     this.array =
       this.gl.arrayBufferAllocate(
         3,

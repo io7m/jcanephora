@@ -17,6 +17,7 @@ package com.io7m.jcanephora.contracts;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
 
 import org.junit.Assert;
 import org.junit.Assume;
@@ -76,12 +77,13 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
     ArrayBufferWritableMap m = null;
 
     try {
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
       a = ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
       m = gm.arrayBufferMapWrite(a);
@@ -108,16 +110,17 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
     ArrayBufferWritableMap m = null;
 
     try {
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] {
-          new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3),
-          new ArrayBufferAttributeDescriptor(
-            "shape",
-            JCGLScalarType.TYPE_INT,
-            1) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "shape",
+        JCGLScalarType.TYPE_INT,
+        1));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
       a = ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
       m = gm.arrayBufferMapWrite(a);
@@ -143,20 +146,21 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
     ArrayBufferWritableMap wm = null;
 
     try {
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] {
-          new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3),
-          new ArrayBufferAttributeDescriptor(
-            "normal",
-            JCGLScalarType.TYPE_FLOAT,
-            3),
-          new ArrayBufferAttributeDescriptor(
-            "uv",
-            JCGLScalarType.TYPE_FLOAT,
-            2) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "normal",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "uv",
+        JCGLScalarType.TYPE_FLOAT,
+        2));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
       a = ga.arrayBufferAllocate(3, d, UsageHint.USAGE_STATIC_DRAW);
       wm = gm.arrayBufferMapWrite(a);
@@ -232,20 +236,21 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
     ArrayBufferWritableMap wm = null;
 
     try {
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] {
-          new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3),
-          new ArrayBufferAttributeDescriptor(
-            "normal",
-            JCGLScalarType.TYPE_FLOAT,
-            3),
-          new ArrayBufferAttributeDescriptor(
-            "uv",
-            JCGLScalarType.TYPE_FLOAT,
-            2) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "normal",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "uv",
+        JCGLScalarType.TYPE_FLOAT,
+        2));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
       a = ga.arrayBufferAllocate(3, d, UsageHint.USAGE_STATIC_DRAW);
       wm = gm.arrayBufferMapWrite(a);
@@ -320,16 +325,17 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
     ArrayBufferWritableMap m = null;
 
     try {
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] {
-          new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3),
-          new ArrayBufferAttributeDescriptor(
-            "shape",
-            JCGLScalarType.TYPE_INT,
-            1) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "shape",
+        JCGLScalarType.TYPE_INT,
+        1));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
       a = ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
       m = gm.arrayBufferMapWrite(a);
@@ -360,12 +366,13 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
     ArrayBufferWritableMap m = null;
 
     try {
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
       a = ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
       m = gm.arrayBufferMapWrite(a);
@@ -390,16 +397,17 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
     ArrayBufferWritableMap wm = null;
 
     try {
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] {
-          new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3),
-          new ArrayBufferAttributeDescriptor(
-            "normal",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "normal",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
       a = ga.arrayBufferAllocate(3, d, UsageHint.USAGE_STATIC_DRAW);
       wm = gm.arrayBufferMapWrite(a);
@@ -464,16 +472,17 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
     ArrayBufferWritableMap wm = null;
 
     try {
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] {
-          new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3),
-          new ArrayBufferAttributeDescriptor(
-            "normal",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "normal",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
       a = ga.arrayBufferAllocate(3, d, UsageHint.USAGE_STATIC_DRAW);
       wm = gm.arrayBufferMapWrite(a);
@@ -543,16 +552,17 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
     ArrayBufferWritableMap m = null;
 
     try {
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] {
-          new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3),
-          new ArrayBufferAttributeDescriptor(
-            "shape",
-            JCGLScalarType.TYPE_INT,
-            1) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "shape",
+        JCGLScalarType.TYPE_INT,
+        1));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
       a = ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
       m = gm.arrayBufferMapWrite(a);

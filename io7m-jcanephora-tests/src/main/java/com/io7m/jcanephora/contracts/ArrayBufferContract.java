@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora.contracts;
 
+import java.util.ArrayList;
+
 import javax.annotation.Nonnull;
 
 import org.junit.Assert;
@@ -101,12 +103,13 @@ public abstract class ArrayBufferContract implements TestContract
     ArrayBuffer a = null;
 
     try {
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
       a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
       Assert.assertEquals(12, a.getElementSizeBytes());
@@ -134,12 +137,13 @@ public abstract class ArrayBufferContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_FLOAT,
-          3) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_FLOAT,
+      3));
+    final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
     gl.arrayBufferAllocate(0, d, UsageHint.USAGE_STATIC_DRAW);
   }
@@ -158,12 +162,14 @@ public abstract class ArrayBufferContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_SHORT,
-          1) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_SHORT,
+      1));
+    final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
+
     final ArrayBuffer a =
       gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
@@ -187,12 +193,14 @@ public abstract class ArrayBufferContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_SHORT,
-          1) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_SHORT,
+      1));
+    final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
+
     final ArrayBuffer a =
       gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
@@ -216,12 +224,14 @@ public abstract class ArrayBufferContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers ga = this.getGLArrayBuffers(tc);
 
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_SHORT,
-          1) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_SHORT,
+      1));
+    final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
+
     final ArrayBuffer a =
       ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
@@ -246,12 +256,13 @@ public abstract class ArrayBufferContract implements TestContract
     ArrayBuffer a = null;
 
     try {
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
       a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
       gl.arrayBufferDelete(a);
@@ -293,20 +304,23 @@ public abstract class ArrayBufferContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffers gl = this.getGLArrayBuffers(tc);
 
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] {
-        new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_SHORT,
-          3),
-        new ArrayBufferAttributeDescriptor(
-          "normal",
-          JCGLScalarType.TYPE_SHORT,
-          3),
-        new ArrayBufferAttributeDescriptor(
-          "color",
-          JCGLScalarType.TYPE_SHORT,
-          3), });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_SHORT,
+      3));
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "normal",
+      JCGLScalarType.TYPE_SHORT,
+      3));
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "color",
+      JCGLScalarType.TYPE_SHORT,
+      3));
+
+    final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
+
     ArrayBuffer a = null;
 
     try {
@@ -349,12 +363,13 @@ public abstract class ArrayBufferContract implements TestContract
       System.out.println("expected0 : " + expected0);
       System.out.println("expected1 : " + expected1);
 
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
       final ArrayBuffer a =
         gl.arrayBufferAllocate(expected1, d, UsageHint.USAGE_STATIC_READ);
@@ -412,12 +427,13 @@ public abstract class ArrayBufferContract implements TestContract
     ArrayBuffer a = null;
 
     try {
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
       a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
     } catch (final Throwable e) {
@@ -446,12 +462,13 @@ public abstract class ArrayBufferContract implements TestContract
     ArrayBuffer a = null;
 
     try {
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
       a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
     } catch (final Throwable e) {
@@ -479,12 +496,13 @@ public abstract class ArrayBufferContract implements TestContract
     ArrayBuffer a = null;
 
     try {
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
       a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
     } catch (final Throwable e) {
@@ -514,12 +532,13 @@ public abstract class ArrayBufferContract implements TestContract
     ArrayBuffer a = null;
 
     try {
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
       a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
     } catch (final Throwable e) {
@@ -550,12 +569,13 @@ public abstract class ArrayBufferContract implements TestContract
     ArrayBuffer b = null;
 
     try {
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
       a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
       b = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
