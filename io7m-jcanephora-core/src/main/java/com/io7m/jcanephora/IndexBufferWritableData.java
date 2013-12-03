@@ -82,7 +82,7 @@ public final class IndexBufferWritableData
     throws ConstraintError
   {
     this.buffer = Constraints.constrainNotNull(buffer, "Array buffer");
-    this.range = range;
+    this.range = Constraints.constrainNotNull(range, "Range");
 
     Constraints.constrainArbitrary(
       range.isIncludedIn(buffer.getRange()),
