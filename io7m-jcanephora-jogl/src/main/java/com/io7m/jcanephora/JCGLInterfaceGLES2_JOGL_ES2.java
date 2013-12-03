@@ -627,8 +627,7 @@ import com.io7m.jtensors.VectorReadable4I;
     JOGL_GLES2_Functions.depthBufferClear(
       this.contextGetGLES2(),
       this.state,
-      depth,
-      this.ext_packed_depth_stencil_opt.isSome());
+      depth);
   }
 
   @Override public int depthBufferGetBits()
@@ -636,8 +635,7 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     return JOGL_GLES2_Functions.depthBufferGetBits(
       this.contextGetGLES2(),
-      this.state,
-      this.ext_packed_depth_stencil_opt.isSome());
+      this.state);
   }
 
   @Override public void depthBufferTestDisable()
@@ -654,8 +652,7 @@ import com.io7m.jtensors.VectorReadable4I;
     JOGL_GLES2_Functions.depthBufferEnable(
       this.contextGetGLES2(),
       this.state,
-      function,
-      this.ext_packed_depth_stencil_opt.isSome());
+      function);
   }
 
   @Override public boolean depthBufferTestIsEnabled()
@@ -670,8 +667,7 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     JOGL_GLES2_Functions.depthBufferWriteDisable(
       this.contextGetGLES2(),
-      this.state,
-      this.ext_packed_depth_stencil_opt.isSome());
+      this.state);
   }
 
   @Override public void depthBufferWriteEnable()
@@ -680,8 +676,7 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     JOGL_GLES2_Functions.depthBufferWriteEnable(
       this.contextGetGLES2(),
-      this.state,
-      this.ext_packed_depth_stencil_opt.isSome());
+      this.state);
   }
 
   @Override public boolean depthBufferWriteIsEnabled()
@@ -1457,7 +1452,7 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLException,
       ConstraintError
   {
-    JOGL_GL_Functions.stencilBufferClear(
+    JOGL_GLES2_Functions.stencilBufferClear(
       this.contextGetGLES2(),
       this.state,
       stencil);
@@ -1467,14 +1462,16 @@ import com.io7m.jtensors.VectorReadable4I;
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL_Functions.stencilBufferDisable(this.contextGetGLES2());
+    JOGL_GLES2_Functions.stencilBufferDisable(this.contextGetGLES2());
   }
 
   @Override public void stencilBufferEnable()
     throws ConstraintError,
       JCGLException
   {
-    JOGL_GL_Functions.stencilBufferEnable(this.contextGetGLES2(), this.state);
+    JOGL_GLES2_Functions.stencilBufferEnable(
+      this.contextGetGLES2(),
+      this.state);
   }
 
   @Override public void stencilBufferFunction(
@@ -1496,7 +1493,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public int stencilBufferGetBits()
     throws JCGLException
   {
-    return JOGL_GL_Functions.stencilBufferGetBits(
+    return JOGL_GLES2_Functions.stencilBufferGetBits(
       this.contextGetGLES2(),
       this.state);
   }
@@ -1504,7 +1501,8 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public boolean stencilBufferIsEnabled()
     throws JCGLException
   {
-    return JOGL_GL_Functions.stencilBufferIsEnabled(this.contextGetGLES2());
+    return JOGL_GLES2_Functions
+      .stencilBufferIsEnabled(this.contextGetGLES2());
   }
 
   @Override public void stencilBufferMask(
