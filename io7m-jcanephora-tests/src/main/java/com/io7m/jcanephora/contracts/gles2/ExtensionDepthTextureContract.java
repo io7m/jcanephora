@@ -26,8 +26,7 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jcanephora.JCGLException;
-import com.io7m.jcanephora.JCGLExtensionDepthTexture;
-import com.io7m.jcanephora.JCGLExtensionSupport;
+import com.io7m.jcanephora.JCGLExtensionESDepthTexture;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.Texture2DStatic;
@@ -40,7 +39,7 @@ import com.io7m.jcanephora.contracts.TestContract;
 public abstract class ExtensionDepthTextureContract implements TestContract
 {
   public abstract
-    JCGLExtensionSupport<JCGLExtensionDepthTexture>
+    Option<JCGLExtensionESDepthTexture>
     getExtensionDepthTexture(
       final @Nonnull TestContext tc);
 
@@ -55,12 +54,12 @@ public abstract class ExtensionDepthTextureContract implements TestContract
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final JCGLExtensionSupport<JCGLExtensionDepthTexture> es =
+    final Option<JCGLExtensionESDepthTexture> es =
       this.getExtensionDepthTexture(tc);
-    Assume.assumeTrue(es.extensionGetSupport().isSome());
+    Assume.assumeTrue(es.isSome());
 
-    final JCGLExtensionDepthTexture e =
-      ((Option.Some<JCGLExtensionDepthTexture>) es.extensionGetSupport()).value;
+    final JCGLExtensionESDepthTexture e =
+      ((Option.Some<JCGLExtensionESDepthTexture>) es).value;
 
     final Texture2DStatic t =
       e.texture2DStaticAllocateDepth16(

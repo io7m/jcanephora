@@ -23,14 +23,14 @@ import com.io7m.jaux.Constraints.ConstraintError;
 /**
  * <p>
  * The interface to depth textures. Provided by
- * <code>GL_ARB_depth_texture</code>.
+ * <code>GL_OES_depth_texture</code>.
  * </p>
  * <p>
- * This is only useful for 2.1, as the extension is included in 3.0.
+ * This is only useful for ES2, as the extension is included in 3.0.
  * </p>
  */
 
-public interface JCGLExtensionDepthTexture
+public interface JCGLExtensionESDepthTexture
 {
   /**
    * <p>

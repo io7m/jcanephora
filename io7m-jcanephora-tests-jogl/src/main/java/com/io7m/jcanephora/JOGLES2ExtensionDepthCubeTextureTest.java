@@ -19,6 +19,7 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option;
 import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.gles2.ExtensionDepthCubeTextureContract;
 
@@ -39,7 +40,7 @@ public final class JOGLES2ExtensionDepthCubeTextureTest extends
   }
 
   @Override public
-    JCGLExtensionSupport<JCGLExtensionDepthCubeTexture>
+    Option<JCGLExtensionDepthCubeTexture>
     getExtensionDepthCubeTexture(
       final TestContext tc)
   {

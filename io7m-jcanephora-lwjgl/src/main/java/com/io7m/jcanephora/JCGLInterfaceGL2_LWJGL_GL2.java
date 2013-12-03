@@ -29,6 +29,7 @@ import org.lwjgl.opengl.GL12;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
@@ -47,10 +48,11 @@ import com.io7m.jtensors.VectorReadable4I;
 @NotThreadSafe public final class JCGLInterfaceGL2_LWJGL_GL2 implements
   JCGLInterfaceGL2
 {
-  private final @Nonnull Log            log;
-  private final @Nonnull JCGLSLVersion  sl_version;
-  private final @Nonnull JCGLStateCache state;
-  private final @Nonnull JCGLVersion    version;
+  private final @Nonnull Log                               log;
+  private final @Nonnull JCGLSLVersion                     sl_version;
+  private final @Nonnull JCGLStateCache                    state;
+  private final @Nonnull JCGLVersion                       version;
+  private final @Nonnull Option<JCGLExtensionDepthTexture> ext_depth_texture;
 
   JCGLInterfaceGL2_LWJGL_GL2(
     final @Nonnull Log log)
@@ -60,6 +62,12 @@ import com.io7m.jtensors.VectorReadable4I;
     this.log =
       new Log(Constraints.constrainNotNull(log, "log output"), "lwjgl-30");
     this.state = new JCGLStateCache();
+
+    /**
+     * Extensions.
+     */
+
+    this.ext_depth_texture = ExtDepthTexture.create(this.state, log);
 
     /**
      * Initialize texture unit cache.
@@ -1552,5 +1560,10 @@ import com.io7m.jtensors.VectorReadable4I;
       wrap_t,
       min_filter,
       mag_filter);
+  }
+
+  @Override public Option<JCGLExtensionDepthTexture> extensionDepthTexture()
+  {
+    return this.ext_depth_texture;
   }
 }

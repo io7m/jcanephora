@@ -35,6 +35,7 @@ import javax.media.opengl.TraceGL2;
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jaux.functional.Option;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
@@ -71,12 +72,14 @@ import com.io7m.jtensors.VectorReadable4I;
 @NotThreadSafe final class JCGLInterfaceGL2_JOGL_GL21 implements
   JCGLInterfaceGL2
 {
-  private final @Nonnull GL2            cached_gl2;
-  private final @Nonnull GLContext      gl_context;
-  private final @Nonnull Log            log;
-  private final @Nonnull JCGLSLVersion  sl_version;
-  private final @Nonnull JCGLStateCache state;
-  private final @Nonnull JCGLVersion    version;
+  private final @Nonnull GL2                               cached_gl2;
+  private final @Nonnull Option<JCGLExtensionDepthTexture> ext_depth_texture;
+  private final @Nonnull GLContext                         gl_context;
+
+  private final @Nonnull Log                               log;
+  private final @Nonnull JCGLSLVersion                     sl_version;
+  private final @Nonnull JCGLStateCache                    state;
+  private final @Nonnull JCGLVersion                       version;
 
   JCGLInterfaceGL2_JOGL_GL21(
     final @Nonnull GLContext context,
@@ -121,6 +124,12 @@ import com.io7m.jtensors.VectorReadable4I;
     Constraints.constrainArbitrary(
       this.framebufferDrawAnyIsBound() == false,
       "NOT BOUND!");
+
+    /**
+     * Initialize extensions.
+     */
+
+    this.ext_depth_texture = ExtDepthTexture.create(g, this.state, log);
 
     /**
      * Initialize texture unit cache.
@@ -553,6 +562,11 @@ import com.io7m.jtensors.VectorReadable4I;
     final int code)
   {
     return code == GL.GL_INVALID_OPERATION;
+  }
+
+  @Override public Option<JCGLExtensionDepthTexture> extensionDepthTexture()
+  {
+    return this.ext_depth_texture;
   }
 
   @Override public FragmentShader fragmentShaderCompile(
@@ -1545,31 +1559,6 @@ import com.io7m.jtensors.VectorReadable4I;
     JOGL_GL2GL3_Functions.texture2DStaticUpdate(this.contextGetGL2(), data);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB8(
-    final @Nonnull String name,
-    final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLException
-  {
-    return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL2(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureType.TEXTURE_TYPE_RGB_8_3BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
   @Override public @Nonnull
     TextureCubeStatic
     textureCubeStaticAllocateDepth24Stencil8(
@@ -1590,6 +1579,31 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       size,
       TextureType.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB8(
+    final @Nonnull String name,
+    final int size,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
+    throws ConstraintError,
+      JCGLException
+  {
+    return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
+      this.contextGetGL2(),
+      this.state,
+      this.log,
+      name,
+      size,
+      TextureType.TEXTURE_TYPE_RGB_8_3BPP,
       wrap_r,
       wrap_s,
       wrap_t,

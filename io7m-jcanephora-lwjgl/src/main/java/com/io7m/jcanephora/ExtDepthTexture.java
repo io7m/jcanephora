@@ -1,0 +1,91 @@
+/*
+ * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * 
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+ * SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+ * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+package com.io7m.jcanephora;
+
+import java.util.StringTokenizer;
+
+import javax.annotation.Nonnull;
+
+import org.lwjgl.opengl.GL11;
+
+import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.functional.Option;
+import com.io7m.jlog.Log;
+
+/**
+ * The depth texture extension.
+ */
+
+class ExtDepthTexture implements JCGLExtensionDepthTexture
+{
+  public static @Nonnull Option<JCGLExtensionDepthTexture> create(
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull Log log)
+  {
+    final String names[] = { "GL_ARB_depth_texture", };
+
+    final String all = GL11.glGetString(GL11.GL_EXTENSIONS);
+    final StringTokenizer tok = new StringTokenizer(all);
+
+    while (tok.hasMoreTokens()) {
+      final String extension = tok.nextToken();
+      for (final String name : names) {
+        if (extension.equals(name)) {
+          return new Option.Some<JCGLExtensionDepthTexture>(
+            new ExtDepthTexture(state, log));
+        }
+      }
+    }
+
+    return new Option.None<JCGLExtensionDepthTexture>();
+  }
+
+  private final @Nonnull JCGLStateCache cache;
+  private final @Nonnull Log            log;
+
+  private ExtDepthTexture(
+    final @Nonnull JCGLStateCache cache,
+    final @Nonnull Log log)
+  {
+    this.cache = cache;
+    this.log = log;
+  }
+
+  @Override public Texture2DStatic texture2DStaticAllocateDepth16(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
+    throws ConstraintError,
+      JCGLException
+  {
+    return LWJGL_GLES2Functions.texture2DStaticAllocate(
+      this.cache,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_DEPTH_16_2BPP,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+}

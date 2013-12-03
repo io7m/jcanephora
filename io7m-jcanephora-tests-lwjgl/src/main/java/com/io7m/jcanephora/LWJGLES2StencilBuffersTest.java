@@ -90,7 +90,7 @@ public final class LWJGLES2StencilBuffersTest extends StencilBuffersContract
     g.framebufferDrawAttachColorRenderbuffer(fb, cb);
 
     final Option<JCGLExtensionPackedDepthStencil> e =
-      g.extensionPackedDepthStencil().extensionGetSupport();
+      g.extensionPackedDepthStencil();
 
     if (e.type == Type.OPTION_SOME) {
       final JCGLExtensionPackedDepthStencil ex =

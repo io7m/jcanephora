@@ -56,6 +56,11 @@ public interface JCGLTextures2DStaticGL2 extends JCGLTextures2DStaticCommon
    * <code>mag_filter</code>, with the OpenGL default being
    * <code>TEXTURE_FILTER_LINEAR</code>.
    * </p>
+   * <p>
+   * Note: this texture type is provided by the
+   * <code>GL_EXT_packed_depth_stencil</code> extension, which is a
+   * requirement of the jcanephora package.
+   * </p>
    * 
    * @param name
    *          The name of the texture.
