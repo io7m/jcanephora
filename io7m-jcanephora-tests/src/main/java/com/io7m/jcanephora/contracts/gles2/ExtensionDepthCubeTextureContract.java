@@ -27,7 +27,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExtensionDepthCubeTexture;
-import com.io7m.jcanephora.JCGLExtensionSupport;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.TextureCubeStatic;
@@ -42,7 +41,7 @@ public abstract class ExtensionDepthCubeTextureContract implements
   TestContract
 {
   public abstract
-    JCGLExtensionSupport<JCGLExtensionDepthCubeTexture>
+    Option<JCGLExtensionDepthCubeTexture>
     getExtensionDepthCubeTexture(
       final @Nonnull TestContext tc);
 
@@ -57,12 +56,12 @@ public abstract class ExtensionDepthCubeTextureContract implements
       ConstraintError
   {
     final TestContext tc = this.newTestContext();
-    final JCGLExtensionSupport<JCGLExtensionDepthCubeTexture> es =
+    final Option<JCGLExtensionDepthCubeTexture> es =
       this.getExtensionDepthCubeTexture(tc);
-    Assume.assumeTrue(es.extensionGetSupport().isSome());
+    Assume.assumeTrue(es.isSome());
 
     final JCGLExtensionDepthCubeTexture e =
-      ((Option.Some<JCGLExtensionDepthCubeTexture>) es.extensionGetSupport()).value;
+      ((Option.Some<JCGLExtensionDepthCubeTexture>) es).value;
 
     final TextureCubeStatic t =
       e.textureCubeStaticAllocateDepth16(

@@ -23,10 +23,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
 /**
  * <p>
  * The interface to packed depth/stencil buffers. Provided by
- * <code>GL_OES_packed_depth_stencil</code>.
+ * <code>GL_OES_packed_depth_stencil</code> or
+ * <code>GL_EXT_packed_depth_stencil</code>.
  * </p>
  * <p>
- * This is only useful for ES2, as the extension is included in 3.0.
+ * This is only useful for ES2 and 2.1, as the extension is included in 3.0.
  * </p>
  */
 

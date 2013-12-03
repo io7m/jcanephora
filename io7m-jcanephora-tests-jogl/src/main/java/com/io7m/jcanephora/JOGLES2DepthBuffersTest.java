@@ -13,6 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
@@ -64,7 +65,7 @@ public final class JOGLES2DepthBuffersTest extends DepthBuffersContract
     g.framebufferDrawAttachColorRenderbuffer(fb, cb);
 
     final Option<JCGLExtensionPackedDepthStencil> e =
-      g.extensionPackedDepthStencil().extensionGetSupport();
+      g.extensionPackedDepthStencil();
     if (e.type == Type.OPTION_SOME) {
       final JCGLExtensionPackedDepthStencil ex =
         ((Some<JCGLExtensionPackedDepthStencil>) e).value;

@@ -18,6 +18,8 @@ package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
 
+import com.io7m.jaux.functional.Option;
+
 /**
  * Extensions typically supported by OpenGL ES2 implementations.
  */
@@ -29,22 +31,20 @@ public interface JCGLExtensionsGLES2
    */
 
   public @Nonnull
-    JCGLExtensionSupport<JCGLExtensionDepthCubeTexture>
+    Option<JCGLExtensionDepthCubeTexture>
     extensionDepthCubeTexture();
 
   /**
    * <code>GL_OES_depth_texture</code>
    */
 
-  public @Nonnull
-    JCGLExtensionSupport<JCGLExtensionDepthTexture>
-    extensionDepthTexture();
+  public @Nonnull Option<JCGLExtensionESDepthTexture> extensionDepthTexture();
 
   /**
    * <code>GL_OES_packed_depth_stencil</code>
    */
 
   public @Nonnull
-    JCGLExtensionSupport<JCGLExtensionPackedDepthStencil>
+    Option<JCGLExtensionPackedDepthStencil>
     extensionPackedDepthStencil();
 }

@@ -16,32 +16,19 @@
 
 package com.io7m.jcanephora;
 
+import javax.annotation.Nonnull;
+
+import com.io7m.jaux.functional.Option;
+
 /**
- * <p>
- * The interface exposed by OpenGL 2.1 implementations.
- * </p>
- * <p>
- * Note that this interface represents as much of the non-deprecated ("core")
- * interface to OpenGL 3.0 is as possible to obtain on an OpenGL 2.1
- * implementation (via the use of extensions, and by rejecting the
- * fixed-function pipeline).
- * </p>
+ * Extensions typically supported by OpenGL 2.1 implementations.
  */
 
-public interface JCGLInterfaceGL2 extends
-  JCGLBlendingGL3,
-  JCGLExtensionsGL2,
-  JCGLFramebuffersGL3,
-  JCGLInterfaceCommon,
-  JCGLLogic,
-  JCGLPolygonModes,
-  JCGLPolygonSmoothing,
-  JCGLRenderbuffersGL2,
-  JCGLShadersGL2,
-  JCGLTextures2DStaticGL2,
-  JCGLTexturesCubeStaticGL2
+public interface JCGLExtensionsGL2
 {
-  /*
-   * All functions defined in the superinterfaces.
+  /**
+   * <code>GL_ARB_depth_texture</code>
    */
+
+  public @Nonnull Option<JCGLExtensionDepthTexture> extensionDepthTexture();
 }

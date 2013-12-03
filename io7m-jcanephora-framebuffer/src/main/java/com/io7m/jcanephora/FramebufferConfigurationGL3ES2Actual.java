@@ -1133,7 +1133,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
      */
 
     final Option<JCGLExtensionPackedDepthStencil> support =
-      gl.extensionPackedDepthStencil().extensionGetSupport();
+      gl.extensionPackedDepthStencil();
 
     switch (support.type) {
       case OPTION_NONE:
