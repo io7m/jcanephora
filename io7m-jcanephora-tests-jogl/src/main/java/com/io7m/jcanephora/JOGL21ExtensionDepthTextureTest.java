@@ -21,14 +21,14 @@ import javax.annotation.Nonnull;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jaux.functional.Option.Some;
-import com.io7m.jcanephora.contracts.gles2.ExtensionDepthESTextureContract;
+import com.io7m.jcanephora.contracts.gl2.ExtensionDepthTextureContract;
 
-public final class JOGLES2ExtensionDepthTextureTest extends
-  ExtensionDepthESTextureContract
+public final class JOGL21ExtensionDepthTextureTest extends
+  ExtensionDepthTextureContract
 {
   @Override public boolean isGLSupported()
   {
-    return JOGLTestContext.isOpenGLES2Supported();
+    return JOGLTestContext.isOpenGL21WithExtensionsSupported();
   }
 
   @Override public @Nonnull TestContext newTestContext()
@@ -36,16 +36,16 @@ public final class JOGLES2ExtensionDepthTextureTest extends
       JCGLUnsupportedException,
       ConstraintError
   {
-    return JOGLTestContext.makeContextWithOpenGL_ES2();
+    return JOGLTestContext.makeContextWithOpenGL2_1();
   }
 
   @Override public
-    Option<JCGLExtensionESDepthTexture>
+    Option<JCGLExtensionDepthTexture>
     getExtensionDepthTexture(
       final TestContext tc)
   {
-    final Some<JCGLInterfaceGLES2> some =
-      (Some<JCGLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
+    final Some<JCGLInterfaceGL2> some =
+      (Some<JCGLInterfaceGL2>) tc.getGLImplementation().getGL2();
     return some.value.extensionDepthTexture();
   }
 }

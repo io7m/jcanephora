@@ -91,4 +91,29 @@ class ExtDepthTexture<G extends GL> implements JCGLExtensionDepthTexture
       min_filter,
       mag_filter);
   }
+
+  @Override public Texture2DStatic texture2DStaticAllocateDepth24(
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
+    throws ConstraintError,
+      JCGLException
+  {
+    return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
+      this.gl,
+      this.cache,
+      this.log,
+      name,
+      width,
+      height,
+      TextureType.TEXTURE_TYPE_DEPTH_24_4BPP,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
 }
