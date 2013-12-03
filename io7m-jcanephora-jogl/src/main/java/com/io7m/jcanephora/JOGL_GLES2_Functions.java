@@ -22,9 +22,6 @@ import java.nio.IntBuffer;
 import javax.annotation.Nonnull;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES2;
-import javax.media.opengl.GL2ES3;
-import javax.media.opengl.GLContext;
-import javax.media.opengl.GLDrawable;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -41,13 +38,12 @@ final class JOGL_GLES2_Functions
   static void depthBufferClear(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
-    final float depth,
-    final boolean depth_stencil)
+    final float depth)
     throws JCGLException,
       ConstraintError
   {
     Constraints.constrainRange(
-      JOGL_GLES2_Functions.depthBufferGetBits(gl, state, depth_stencil),
+      JOGL_GLES2_Functions.depthBufferGetBits(gl, state),
       1,
       Integer.MAX_VALUE,
       "Depth buffer bits available");
@@ -68,14 +64,13 @@ final class JOGL_GLES2_Functions
   static void depthBufferEnable(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull DepthFunction function,
-    final boolean depth_stencil)
+    final @Nonnull DepthFunction function)
     throws ConstraintError,
       JCGLException
   {
     Constraints.constrainNotNull(function, "Depth function");
     Constraints.constrainRange(
-      JOGL_GLES2_Functions.depthBufferGetBits(gl, state, depth_stencil),
+      JOGL_GLES2_Functions.depthBufferGetBits(gl, state),
       1,
       Integer.MAX_VALUE,
       "Depth buffer bits available");
@@ -84,6 +79,18 @@ final class JOGL_GLES2_Functions
     gl.glEnable(GL.GL_DEPTH_TEST);
     gl.glDepthFunc(d);
     JOGL_GL_Functions.checkError(gl);
+  }
+
+  static int depthBufferGetBits(
+    final @Nonnull GL gl,
+    final @Nonnull JCGLStateCache state)
+    throws JCGLException
+  {
+    final IntBuffer cache = state.getIntegerCache();
+    cache.rewind();
+    gl.glGetIntegerv(GL.GL_DEPTH_BITS, cache);
+    JOGL_GL_Functions.checkError(gl);
+    return cache.get(0);
   }
 
   static boolean depthBufferIsEnabled(
@@ -97,13 +104,12 @@ final class JOGL_GLES2_Functions
 
   static void depthBufferWriteDisable(
     final @Nonnull GL gl,
-    final @Nonnull JCGLStateCache state,
-    final boolean depth_stencil)
+    final @Nonnull JCGLStateCache state)
     throws ConstraintError,
       JCGLException
   {
     Constraints.constrainRange(
-      JOGL_GLES2_Functions.depthBufferGetBits(gl, state, depth_stencil),
+      JOGL_GLES2_Functions.depthBufferGetBits(gl, state),
       1,
       Integer.MAX_VALUE,
       "Depth buffer bits available");
@@ -114,13 +120,12 @@ final class JOGL_GLES2_Functions
 
   static void depthBufferWriteEnable(
     final @Nonnull GL gl,
-    final @Nonnull JCGLStateCache state,
-    final boolean depth_stencil)
+    final @Nonnull JCGLStateCache state)
     throws ConstraintError,
       JCGLException
   {
     Constraints.constrainRange(
-      JOGL_GLES2_Functions.depthBufferGetBits(gl, state, depth_stencil),
+      JOGL_GLES2_Functions.depthBufferGetBits(gl, state),
       1,
       Integer.MAX_VALUE,
       "Depth buffer bits available");
@@ -142,75 +147,66 @@ final class JOGL_GLES2_Functions
     return bi.get(0) == 1;
   }
 
-  static int depthBufferGetBits(
+  static void stencilBufferClear(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
-    final boolean depth_stencil)
-    throws JCGLException
+    final int stencil)
+    throws JCGLException,
+      ConstraintError
   {
-    /**
-     * If a framebuffer is bound, check to see if there's a depth attachment.
-     */
+    Constraints.constrainRange(
+      JOGL_GLES2_Functions.stencilBufferGetBits(gl, state),
+      1,
+      Integer.MAX_VALUE,
+      "Stencil buffer bits available");
 
-    if (JOGL_GL_Functions.framebufferDrawAnyIsBound(gl)) {
-
-      /**
-       * If depth+stencil attachments are supported, then check for the
-       * depth+stencil attachment first.
-       */
-
-      if (depth_stencil) {
-        final int r =
-          JOGL_GLES2_Functions.depthBufferGetBitsDepthStencil(gl, state);
-        if (r != -1) {
-          return r;
-        }
-      }
-
-      return JOGL_GLES2_Functions
-        .depthBufferGetBitsDepthAttachment(gl, state);
-    }
-
-    /**
-     * Otherwise, check the capabilities of the OpenGL context for the
-     * capabilities of the default framebuffer.
-     */
-
-    final GLContext context = gl.getContext();
-    final GLDrawable drawable = context.getGLDrawable();
-    return drawable.getChosenGLCapabilities().getDepthBits();
+    gl.glClearStencil(stencil);
+    JOGL_GL_Functions.checkError(gl);
   }
 
-  private static int depthBufferGetBitsDepthAttachment(
-    final GL gl,
-    final JCGLStateCache state)
+  static void stencilBufferDisable(
+    final @Nonnull GL gl)
+    throws JCGLException
+  {
+    gl.glDisable(GL.GL_STENCIL_TEST);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void stencilBufferEnable(
+    final @Nonnull GL gl,
+    final @Nonnull JCGLStateCache state)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainRange(
+      JOGL_GLES2_Functions.stencilBufferGetBits(gl, state),
+      1,
+      Integer.MAX_VALUE,
+      "Stencil buffer bits available");
+
+    gl.glEnable(GL.GL_STENCIL_TEST);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static int stencilBufferGetBits(
+    final @Nonnull GL gl,
+    final @Nonnull JCGLStateCache state)
     throws JCGLException
   {
     final IntBuffer cache = state.getIntegerCache();
     cache.rewind();
-    gl.glGetFramebufferAttachmentParameteriv(
-      GL.GL_FRAMEBUFFER,
-      GL.GL_DEPTH_ATTACHMENT,
-      GL2ES3.GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE,
-      cache);
+    gl.glGetIntegerv(GL.GL_STENCIL_BITS, cache);
     JOGL_GL_Functions.checkError(gl);
     return cache.get(0);
   }
 
-  private static int depthBufferGetBitsDepthStencil(
-    final GL gl,
-    final JCGLStateCache state)
+  static boolean stencilBufferIsEnabled(
+    final @Nonnull GL gl)
     throws JCGLException
   {
-    final IntBuffer cache = state.getIntegerCache();
-    cache.rewind();
-    gl.glGetFramebufferAttachmentParameteriv(
-      GL.GL_FRAMEBUFFER,
-      GL2ES3.GL_DEPTH_STENCIL_ATTACHMENT,
-      GL2ES3.GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE,
-      cache);
+    final boolean e = gl.glIsEnabled(GL.GL_STENCIL_TEST);
     JOGL_GL_Functions.checkError(gl);
-    return cache.get(0);
+    return e;
   }
 
   static @Nonnull Texture2DStatic texture2DStaticAllocate(
@@ -507,4 +503,5 @@ final class JOGL_GLES2_Functions
     gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
     JOGL_GL_Functions.checkError(gl);
   }
+
 }
