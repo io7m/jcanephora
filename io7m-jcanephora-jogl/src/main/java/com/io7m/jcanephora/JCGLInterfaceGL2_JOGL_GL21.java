@@ -75,11 +75,11 @@ import com.io7m.jtensors.VectorReadable4I;
   private final @Nonnull GL2                               cached_gl2;
   private final @Nonnull Option<JCGLExtensionDepthTexture> ext_depth_texture;
   private final @Nonnull GLContext                         gl_context;
-
   private final @Nonnull Log                               log;
   private final @Nonnull JCGLSLVersion                     sl_version;
   private final @Nonnull JCGLStateCache                    state;
   private final @Nonnull JCGLVersion                       version;
+  private final @Nonnull JCGLNamedExtensions               extensions;
 
   JCGLInterfaceGL2_JOGL_GL21(
     final @Nonnull GLContext context,
@@ -125,11 +125,22 @@ import com.io7m.jtensors.VectorReadable4I;
       this.framebufferDrawAnyIsBound() == false,
       "NOT BOUND!");
 
+    this.extensions = new JCGLNamedExtensions() {
+      @Override public boolean extensionIsSupported(
+        final @Nonnull String name)
+        throws ConstraintError
+      {
+        Constraints.constrainNotNull(name, "Name");
+        return context.isExtensionAvailable(name);
+      }
+    };
+
     /**
      * Initialize extensions.
      */
 
-    this.ext_depth_texture = ExtDepthTexture.create(g, this.state, log);
+    this.ext_depth_texture =
+      ExtDepthTexture.create(g, this.state, this.extensions, log);
 
     /**
      * Initialize texture unit cache.

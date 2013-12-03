@@ -2,7 +2,6 @@ package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
 import javax.media.opengl.GL;
-import javax.media.opengl.GLContext;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
@@ -21,16 +20,15 @@ class ExtPackedDepthStencil<G extends GL> implements
     create(
       final @Nonnull G g,
       final @Nonnull JCGLStateCache state,
+      final @Nonnull JCGLNamedExtensions extensions,
       final @Nonnull Log log)
+      throws ConstraintError
   {
-    final GLContext ctx = g.getContext();
-
     final String names[] =
       { "GL_OES_packed_depth_stencil", "GL_EXT_packed_depth_stencil", };
 
     for (final String name : names) {
-
-      if (ctx.isExtensionAvailable(name)) {
+      if (extensions.extensionIsSupported(name)) {
         log.debug("Extension " + name + " is available");
         return new Option.Some<JCGLExtensionPackedDepthStencil>(
           new ExtPackedDepthStencil<G>(g, state, log));
