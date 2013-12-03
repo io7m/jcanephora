@@ -190,12 +190,15 @@ public abstract class ShadersContract implements TestContract
           .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
 
       final ProgramAttribute pa = pr.getAttributes().get("position");
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
+
       final ArrayBuffer a =
         ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
@@ -232,12 +235,13 @@ public abstract class ShadersContract implements TestContract
           .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
 
       pa = pr.getAttributes().get("position");
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
       final ArrayBuffer a =
         ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
 
@@ -410,12 +414,13 @@ public abstract class ShadersContract implements TestContract
 
       pa = p.getAttributes().get("a_vf4");
 
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            4) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        4));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
       final ArrayBuffer a =
         gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
       aa = a.getAttribute("position");
@@ -479,12 +484,13 @@ public abstract class ShadersContract implements TestContract
     ArrayBufferAttribute aa = null;
 
     try {
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            4) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
       final ArrayBuffer a =
         gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
       aa = a.getAttribute("position");
@@ -522,12 +528,13 @@ public abstract class ShadersContract implements TestContract
       gp.programActivate(pr);
 
       pa = pr.getAttributes().get("position");
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
       final ArrayBuffer a =
         ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
       aa = a.getAttribute("position");
@@ -566,12 +573,13 @@ public abstract class ShadersContract implements TestContract
           .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
 
       pa = pr.getAttributes().get("position");
-      final ArrayBufferTypeDescriptor d0 =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayBufferTypeDescriptor d0 = new ArrayBufferTypeDescriptor(abs);
 
       final ArrayBuffer a0 =
         ga.arrayBufferAllocate(10, d0, UsageHint.USAGE_STATIC_DRAW);
@@ -619,12 +627,13 @@ public abstract class ShadersContract implements TestContract
       gp.programActivate(pr0);
 
       pa = pr0.getAttributes().get("position");
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
       final ArrayBuffer a =
         ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
@@ -666,12 +675,13 @@ public abstract class ShadersContract implements TestContract
           .getGLCommon(), tc.getFilesystem(), tc.getShaderPath());
 
       pa = pr.getAttributes().get("position");
-      final ArrayBufferTypeDescriptor d =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_INT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_INT,
+        3));
+      final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
 
       final ArrayBuffer a =
         ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);

@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora;
 
+import java.util.ArrayList;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -28,14 +30,13 @@ public class ArrayBufferTest
 
   static {
     try {
-      final ArrayBufferAttributeDescriptor[] at =
-        new ArrayBufferAttributeDescriptor[1];
-      at[0] =
-        new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_FLOAT,
-          3);
-      ArrayBufferTest.type = new ArrayBufferTypeDescriptor(at);
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      ArrayBufferTest.type = new ArrayBufferTypeDescriptor(abs);
     } catch (final ConstraintError e) {
       throw new UnreachableCodeException();
     }

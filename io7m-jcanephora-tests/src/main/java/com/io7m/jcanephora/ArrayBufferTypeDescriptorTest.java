@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora;
 
+import java.util.ArrayList;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -33,11 +35,13 @@ public class ArrayBufferTypeDescriptorTest
     testDescriptorAttributeElementsZero()
       throws ConstraintError
   {
-    new ArrayBufferTypeDescriptor(
-      new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-        "position",
-        JCGLScalarType.TYPE_FLOAT,
-        0) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_FLOAT,
+      0));
+    new ArrayBufferTypeDescriptor(abs);
   }
 
   /**
@@ -50,11 +54,13 @@ public class ArrayBufferTypeDescriptorTest
     testDescriptorAttributeNameNull()
       throws ConstraintError
   {
-    new ArrayBufferTypeDescriptor(
-      new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-        null,
-        JCGLScalarType.TYPE_FLOAT,
-        3) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      null,
+      JCGLScalarType.TYPE_FLOAT,
+      3));
+    new ArrayBufferTypeDescriptor(abs);
   }
 
   /**
@@ -85,9 +91,11 @@ public class ArrayBufferTypeDescriptorTest
       Assert.fail(e.getMessage());
     }
 
-    new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] {
-      ap,
-      an });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(ap);
+    abs.add(an);
+    new ArrayBufferTypeDescriptor(abs);
   }
 
   /**
@@ -112,11 +120,13 @@ public class ArrayBufferTypeDescriptorTest
     final ArrayBufferAttributeDescriptor au =
       new ArrayBufferAttributeDescriptor("uv", JCGLScalarType.TYPE_FLOAT, 2);
 
-    final ArrayBufferTypeDescriptor a =
-      new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] {
-        ap,
-        an,
-        au });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(ap);
+    abs.add(an);
+    abs.add(au);
+
+    final ArrayBufferTypeDescriptor a = new ArrayBufferTypeDescriptor(abs);
 
     Assert.assertEquals(0, a.getAttributeOffset("position"));
     Assert.assertEquals(
@@ -168,8 +178,10 @@ public class ArrayBufferTypeDescriptorTest
     testDescriptorAttributesNullElements()
       throws ConstraintError
   {
-    new ArrayBufferTypeDescriptor(
-      new ArrayBufferAttributeDescriptor[] { null });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(null);
+    new ArrayBufferTypeDescriptor(abs);
   }
 
   @SuppressWarnings("static-method") @Test(expected = ConstraintError.class) public
@@ -180,14 +192,18 @@ public class ArrayBufferTypeDescriptorTest
     ArrayBufferTypeDescriptor a = null;
 
     try {
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+
       final ArrayBufferAttributeDescriptor ap =
         new ArrayBufferAttributeDescriptor(
           "position",
           JCGLScalarType.TYPE_FLOAT,
           3);
-      a =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { ap });
+
+      abs.add(ap);
+
+      a = new ArrayBufferTypeDescriptor(abs);
     } catch (final Exception e) {
       Assert.fail(e.getMessage());
     }
@@ -204,32 +220,35 @@ public class ArrayBufferTypeDescriptorTest
     expected = ConstraintError.class) public void testDescriptorNone()
     throws ConstraintError
   {
-    new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] {});
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    new ArrayBufferTypeDescriptor(abs);
   }
 
   @SuppressWarnings({ "static-method" }) @Test public void testEquals()
     throws ConstraintError
   {
-    final ArrayBufferTypeDescriptor as0 =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_FLOAT,
-          3) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_FLOAT,
+      3));
+    final ArrayBufferTypeDescriptor as0 = new ArrayBufferTypeDescriptor(abs);
 
-    final ArrayBufferTypeDescriptor as1 =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_FLOAT,
-          3) });
+    abs.clear();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_FLOAT,
+      3));
+    final ArrayBufferTypeDescriptor as1 = new ArrayBufferTypeDescriptor(abs);
 
-    final ArrayBufferTypeDescriptor as2 =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "normal",
-          JCGLScalarType.TYPE_FLOAT,
-          3) });
+    abs.clear();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "normal",
+      JCGLScalarType.TYPE_FLOAT,
+      3));
+    final ArrayBufferTypeDescriptor as2 = new ArrayBufferTypeDescriptor(abs);
 
     Assert.assertTrue(as0.equals(as0));
     Assert.assertTrue(as0.equals(as1));
@@ -241,26 +260,27 @@ public class ArrayBufferTypeDescriptorTest
   @SuppressWarnings({ "static-method" }) @Test public void testHashcode()
     throws ConstraintError
   {
-    final ArrayBufferTypeDescriptor as0 =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_FLOAT,
-          3) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_FLOAT,
+      3));
+    final ArrayBufferTypeDescriptor as0 = new ArrayBufferTypeDescriptor(abs);
 
-    final ArrayBufferTypeDescriptor as1 =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_FLOAT,
-          3) });
+    abs.clear();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_FLOAT,
+      3));
+    final ArrayBufferTypeDescriptor as1 = new ArrayBufferTypeDescriptor(abs);
 
-    final ArrayBufferTypeDescriptor as2 =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "normal",
-          JCGLScalarType.TYPE_FLOAT,
-          3) });
+    abs.clear();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "normal",
+      JCGLScalarType.TYPE_FLOAT,
+      3));
+    final ArrayBufferTypeDescriptor as2 = new ArrayBufferTypeDescriptor(abs);
 
     Assert.assertTrue(as0.hashCode() == (as0.hashCode()));
     Assert.assertTrue(as0.hashCode() == (as1.hashCode()));
@@ -270,26 +290,27 @@ public class ArrayBufferTypeDescriptorTest
   @SuppressWarnings({ "static-method" }) @Test public void testToString()
     throws ConstraintError
   {
-    final ArrayBufferTypeDescriptor as0 =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_FLOAT,
-          3) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_FLOAT,
+      3));
+    final ArrayBufferTypeDescriptor as0 = new ArrayBufferTypeDescriptor(abs);
 
-    final ArrayBufferTypeDescriptor as1 =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_FLOAT,
-          3) });
+    abs.clear();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_FLOAT,
+      3));
+    final ArrayBufferTypeDescriptor as1 = new ArrayBufferTypeDescriptor(abs);
 
-    final ArrayBufferTypeDescriptor as2 =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "normal",
-          JCGLScalarType.TYPE_FLOAT,
-          3) });
+    abs.clear();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "normal",
+      JCGLScalarType.TYPE_FLOAT,
+      3));
+    final ArrayBufferTypeDescriptor as2 = new ArrayBufferTypeDescriptor(abs);
 
     Assert.assertTrue(as0.toString().equals(as0.toString()));
     Assert.assertTrue(as0.toString().equals(as1.toString()));

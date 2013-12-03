@@ -15,6 +15,8 @@
  */
 package com.io7m.jcanephora.contracts;
 
+import java.util.ArrayList;
+
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -128,12 +130,14 @@ public abstract class IndexBufferMapContract implements TestContract
     final JCGLIndexBuffers gi = this.getGLIndexBuffers(tc);
     final JCGLIndexBuffersMapped gm = this.getGLIndexBuffersMapped(tc);
 
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_BYTE,
-          1) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_BYTE,
+      1));
+    final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
+
     final ArrayBuffer a =
       ga.arrayBufferAllocate(255, d, UsageHint.USAGE_STATIC_DRAW);
     final IndexBuffer ib = gi.indexBufferAllocate(a, 1);
@@ -176,12 +180,14 @@ public abstract class IndexBufferMapContract implements TestContract
     final JCGLIndexBuffers gi = this.getGLIndexBuffers(tc);
     final JCGLIndexBuffersMapped gm = this.getGLIndexBuffersMapped(tc);
 
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_BYTE,
-          1) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_BYTE,
+      1));
+    final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
+
     final ArrayBuffer a =
       ga.arrayBufferAllocate(70000, d, UsageHint.USAGE_STATIC_DRAW);
     final IndexBuffer ib = gi.indexBufferAllocate(a, 1);
@@ -224,12 +230,14 @@ public abstract class IndexBufferMapContract implements TestContract
     final JCGLIndexBuffers gi = this.getGLIndexBuffers(tc);
     final JCGLIndexBuffersMapped gm = this.getGLIndexBuffersMapped(tc);
 
-    final ArrayBufferTypeDescriptor d =
-      new ArrayBufferTypeDescriptor(
-        new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_BYTE,
-          1) });
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_BYTE,
+      1));
+    final ArrayBufferTypeDescriptor d = new ArrayBufferTypeDescriptor(abs);
+
     final ArrayBuffer a =
       ga.arrayBufferAllocate(65535, d, UsageHint.USAGE_STATIC_DRAW);
     final IndexBuffer ib = gi.indexBufferAllocate(a, 1);

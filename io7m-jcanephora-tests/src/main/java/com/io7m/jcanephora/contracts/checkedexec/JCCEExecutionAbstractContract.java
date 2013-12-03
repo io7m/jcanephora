@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.contracts.checkedexec;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,32 +105,27 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     final @Nonnull JCGLInterfaceCommon gl)
   {
     try {
-      final ArrayBufferAttributeDescriptor[] as =
-        new ArrayBufferAttributeDescriptor[4];
-
-      as[0] =
-        new ArrayBufferAttributeDescriptor(
-          "a_vf2",
-          JCGLScalarType.TYPE_FLOAT,
-          2);
-      as[1] =
-        new ArrayBufferAttributeDescriptor(
-          "a_vf3",
-          JCGLScalarType.TYPE_FLOAT,
-          3);
-      as[2] =
-        new ArrayBufferAttributeDescriptor(
-          "a_vf4",
-          JCGLScalarType.TYPE_FLOAT,
-          4);
-      as[3] =
-        new ArrayBufferAttributeDescriptor(
-          "a_f",
-          JCGLScalarType.TYPE_FLOAT,
-          1);
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "a_vf2",
+        JCGLScalarType.TYPE_FLOAT,
+        2));
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "a_vf3",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "a_vf4",
+        JCGLScalarType.TYPE_FLOAT,
+        4));
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "a_f",
+        JCGLScalarType.TYPE_FLOAT,
+        1));
 
       final ArrayBufferTypeDescriptor descriptor =
-        new ArrayBufferTypeDescriptor(as);
+        new ArrayBufferTypeDescriptor(abs);
       return gl.arrayBufferAllocate(
         3,
         descriptor,

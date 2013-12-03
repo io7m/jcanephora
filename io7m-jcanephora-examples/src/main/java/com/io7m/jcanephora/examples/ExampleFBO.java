@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.examples;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -274,16 +275,18 @@ public final class ExampleFBO implements Example
      */
 
     {
-      final ArrayBufferAttributeDescriptor[] ab =
-        new ArrayBufferAttributeDescriptor[2];
-      ab[0] =
-        new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_FLOAT,
-          4);
-      ab[1] =
-        new ArrayBufferAttributeDescriptor("uv", JCGLScalarType.TYPE_FLOAT, 2);
-      this.textured_quad_type = new ArrayBufferTypeDescriptor(ab);
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        4));
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "uv",
+        JCGLScalarType.TYPE_FLOAT,
+        2));
+
+      this.textured_quad_type = new ArrayBufferTypeDescriptor(abs);
       this.textured_quad =
         this.gl.arrayBufferAllocate(
           4,
@@ -292,19 +295,18 @@ public final class ExampleFBO implements Example
     }
 
     {
-      final ArrayBufferAttributeDescriptor[] ab =
-        new ArrayBufferAttributeDescriptor[2];
-      ab[0] =
-        new ArrayBufferAttributeDescriptor(
-          "position",
-          JCGLScalarType.TYPE_FLOAT,
-          4);
-      ab[1] =
-        new ArrayBufferAttributeDescriptor(
-          "color",
-          JCGLScalarType.TYPE_FLOAT,
-          4);
-      this.color_quad_type = new ArrayBufferTypeDescriptor(ab);
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        4));
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "color",
+        JCGLScalarType.TYPE_FLOAT,
+        4));
+
+      this.color_quad_type = new ArrayBufferTypeDescriptor(abs);
       this.color_quad =
         this.gl.arrayBufferAllocate(
           4,

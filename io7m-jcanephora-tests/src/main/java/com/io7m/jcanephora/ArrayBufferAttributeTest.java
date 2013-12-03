@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora;
 
+import java.util.ArrayList;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -42,16 +44,18 @@ public class ArrayBufferAttributeTest
     ArrayBufferAttribute array0_attribute2 = null;
 
     try {
-      type_descriptor =
-        new ArrayBufferTypeDescriptor(new ArrayBufferAttributeDescriptor[] {
-          new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3),
-          new ArrayBufferAttributeDescriptor(
-            "normal",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        4));
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "normal",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+
+      type_descriptor = new ArrayBufferTypeDescriptor(abs);
 
       attribute_desc0 = type_descriptor.getAttribute("position");
       attribute_desc1 = type_descriptor.getAttribute("normal");
@@ -102,12 +106,14 @@ public class ArrayBufferAttributeTest
     ArrayBufferAttribute attribute = null;
 
     try {
-      type_descriptor =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        4));
+
+      type_descriptor = new ArrayBufferTypeDescriptor(abs);
       descriptor = type_descriptor.getAttribute("position");
 
       array = new ArrayBuffer(1, 1, type_descriptor);
@@ -156,12 +162,14 @@ public class ArrayBufferAttributeTest
     ArrayBufferTypeDescriptor type_descriptor = null;
 
     try {
-      type_descriptor =
-        new ArrayBufferTypeDescriptor(
-          new ArrayBufferAttributeDescriptor[] { new ArrayBufferAttributeDescriptor(
-            "position",
-            JCGLScalarType.TYPE_FLOAT,
-            3) });
+      final ArrayList<ArrayBufferAttributeDescriptor> abs =
+        new ArrayList<ArrayBufferAttributeDescriptor>();
+      abs.add(new ArrayBufferAttributeDescriptor(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      type_descriptor = new ArrayBufferTypeDescriptor(abs);
+
       array = new ArrayBuffer(1, 1, type_descriptor);
     } catch (final ConstraintError e) {
       Assert.fail(e.getMessage());

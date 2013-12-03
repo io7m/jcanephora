@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.examples;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -167,16 +168,18 @@ public final class ExampleTexturedQuad implements Example
      * Then, use this descriptor to allocate an array.
      */
 
-    final ArrayBufferAttributeDescriptor[] ab =
-      new ArrayBufferAttributeDescriptor[2];
-    ab[0] =
-      new ArrayBufferAttributeDescriptor(
-        "position",
-        JCGLScalarType.TYPE_FLOAT,
-        4);
-    ab[1] =
-      new ArrayBufferAttributeDescriptor("uv", JCGLScalarType.TYPE_FLOAT, 2);
-    this.array_type = new ArrayBufferTypeDescriptor(ab);
+    final ArrayList<ArrayBufferAttributeDescriptor> abs =
+      new ArrayList<ArrayBufferAttributeDescriptor>();
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "position",
+      JCGLScalarType.TYPE_FLOAT,
+      4));
+    abs.add(new ArrayBufferAttributeDescriptor(
+      "uv",
+      JCGLScalarType.TYPE_FLOAT,
+      2));
+
+    this.array_type = new ArrayBufferTypeDescriptor(abs);
     this.array =
       this.gl.arrayBufferAllocate(
         4,
