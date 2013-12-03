@@ -79,6 +79,7 @@ import com.io7m.jtensors.VectorReadable4I;
   private final @Nonnull JCGLSLVersion                           sl_version;
   private final @Nonnull JCGLStateCache                          state;
   private final @Nonnull JCGLVersion                             version;
+  private final @Nonnull JCGLNamedExtensions                     extensions;
 
   JCGLInterfaceGLES2_JOGL_ES2(
     final @Nonnull GLContext context,
@@ -119,15 +120,26 @@ import com.io7m.jtensors.VectorReadable4I;
     assert this.cached_gl != null;
     final GL2ES2 g = this.contextGetGLES2();
 
+    this.extensions = new JCGLNamedExtensions() {
+      @Override public boolean extensionIsSupported(
+        final @Nonnull String name)
+        throws ConstraintError
+      {
+        Constraints.constrainNotNull(name, "Name");
+        return context.isExtensionAvailable(name);
+      }
+    };
+
     /**
      * Initialize extensions.
      */
 
     this.ext_packed_depth_stencil =
-      ExtPackedDepthStencil.create(g, this.state, log);
-    this.ext_depth_texture = ExtESDepthTexture.create(g, this.state, log);
+      ExtPackedDepthStencil.create(g, this.state, this.extensions, log);
+    this.ext_depth_texture =
+      ExtESDepthTexture.create(g, this.state, this.extensions, log);
     this.ext_depth_cube_texture =
-      ExtDepthCubeTexture.create(g, this.state, log);
+      ExtDepthCubeTexture.create(g, this.state, this.extensions, log);
 
     /**
      * Initialize texture unit cache.

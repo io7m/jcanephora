@@ -18,7 +18,6 @@ package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
 import javax.media.opengl.GL;
-import javax.media.opengl.GLContext;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
@@ -37,13 +36,14 @@ class ExtDepthCubeTexture<G extends GL> implements
     create(
       final @Nonnull G g,
       final @Nonnull JCGLStateCache state,
+      final @Nonnull JCGLNamedExtensions extensions,
       final @Nonnull Log log)
+      throws ConstraintError
   {
     final String names[] = { "GL_OES_depth_texture_cube_map" };
-    final GLContext ctx = g.getContext();
 
     for (final String name : names) {
-      if (ctx.isExtensionAvailable(name)) {
+      if (extensions.extensionIsSupported(name)) {
         log.debug("Extension " + name + " is available");
         return new Option.Some<JCGLExtensionDepthCubeTexture>(
           new ExtDepthCubeTexture<G>(g, state, log));
