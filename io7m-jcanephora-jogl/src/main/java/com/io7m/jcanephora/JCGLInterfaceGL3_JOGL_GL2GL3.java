@@ -75,24 +75,28 @@ import com.io7m.jtensors.VectorReadable4I;
 @NotThreadSafe final class JCGLInterfaceGL3_JOGL_GL2GL3 implements
   JCGLInterfaceGL3
 {
-  private final @Nonnull GL2GL3         cached_gl2gl3;
-  private final @Nonnull GLContext      gl_context;
-  private final @Nonnull Log            log;
-  private final @Nonnull JCGLSLVersion  sl_version;
-  private final @Nonnull JCGLStateCache state;
-  private final @Nonnull JCGLVersion    version;
+  private final @Nonnull GL2GL3               cached_gl2gl3;
+  private final @Nonnull GLContext            gl_context;
+  private final @Nonnull Log                  log;
+  private final @Nonnull JCGLSLVersion        sl_version;
+  private final @Nonnull JCGLStateCache       state;
+  private final @Nonnull JCGLVersion          version;
+  private final @Nonnull JCGLSoftRestrictions restrictions;
 
   JCGLInterfaceGL3_JOGL_GL2GL3(
     final @Nonnull GLContext context,
     final @Nonnull Log log,
     final @Nonnull JCGLDebugging debug,
-    final @CheckForNull PrintStream trace_out)
+    final @CheckForNull PrintStream trace_out,
+    final @Nonnull JCGLSoftRestrictions restrictions)
     throws ConstraintError,
       JCGLException
   {
     this.log =
       new Log(Constraints.constrainNotNull(log, "log output"), "jogl30");
     this.gl_context = Constraints.constrainNotNull(context, "GL context");
+    this.restrictions =
+      Constraints.constrainNotNull(restrictions, "Restrictions");
     Constraints.constrainNotNull(debug, "Debug");
 
     this.state = new JCGLStateCache();
@@ -165,7 +169,11 @@ import com.io7m.jtensors.VectorReadable4I;
      */
 
     this.state.texture_units =
-      JOGL_GL_Functions.textureGetUnitsActual(g, this.state, this.log);
+      JOGL_GL_Functions.textureGetUnitsActual(
+        g,
+        this.state,
+        this.log,
+        restrictions);
 
     /**
      * Initialize color attachment point cache.

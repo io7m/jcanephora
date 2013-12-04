@@ -18,6 +18,8 @@ package com.io7m.jcanephora;
 
 import java.util.Properties;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLContext;
 import javax.media.opengl.GLDrawableFactory;
@@ -231,6 +233,24 @@ public final class JOGLTestContext
       JCGLUnsupportedException,
       ConstraintError
   {
+    return JOGLTestContext.makeContextWithOpenGL_ES2_Actual(null);
+  }
+
+  public static TestContext makeContextWithOpenGL_ES2_WithRestrictions(
+    final @Nonnull JCGLSoftRestrictions r)
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    return JOGLTestContext.makeContextWithOpenGL_ES2_Actual(r);
+  }
+
+  private static TestContext makeContextWithOpenGL_ES2_Actual(
+    final @CheckForNull JCGLSoftRestrictions r)
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
     final Log log =
       JOGLTestContext.getLog(JOGLTestContext.LOG_DESTINATION_OPENGL_ES_2_0);
     final FSCapabilityAll fs = JOGLTestContext.getFS(log);
@@ -238,12 +258,21 @@ public final class JOGLTestContext
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GLES2));
     final JCGLImplementation gi =
-      JCGLImplementationJOGL.newImplementation(ctx, log);
+      JOGLTestContext.makeImplementation(r, log, ctx);
 
     return new TestContext(fs, gi, log, ShaderPaths.getShaderPath(2, 0, true));
   }
 
   public static TestContext makeContextWithOpenGL_ES3()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    return JOGLTestContext.makeContextWithOpenGL_ES3_Actual(null);
+  }
+
+  private static TestContext makeContextWithOpenGL_ES3_Actual(
+    final @CheckForNull JCGLSoftRestrictions r)
     throws JCGLException,
       JCGLUnsupportedException,
       ConstraintError
@@ -255,7 +284,7 @@ public final class JOGLTestContext
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GLES3));
     final JCGLImplementation gi =
-      JCGLImplementationJOGL.newImplementation(ctx, log);
+      JOGLTestContext.makeImplementation(r, log, ctx);
 
     final VersionNumber version = ctx.getGLVersionNumber();
     if (version.getMajor() != 3) {
@@ -269,7 +298,25 @@ public final class JOGLTestContext
     return new TestContext(fs, gi, log, shader_path);
   }
 
+  public static TestContext makeContextWithOpenGL_ES3_WithRestrictions(
+    final @Nonnull JCGLSoftRestrictions r)
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    return JOGLTestContext.makeContextWithOpenGL_ES3_Actual(r);
+  }
+
   public static TestContext makeContextWithOpenGL2_1()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    return JOGLTestContext.makeContextWithOpenGL2_1_Actual(null);
+  }
+
+  private static TestContext makeContextWithOpenGL2_1_Actual(
+    final @CheckForNull JCGLSoftRestrictions r)
     throws JCGLException,
       JCGLUnsupportedException,
       ConstraintError
@@ -281,7 +328,7 @@ public final class JOGLTestContext
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GL2));
     final JCGLImplementation gi =
-      JCGLImplementationJOGL.newImplementation(ctx, log);
+      JOGLTestContext.makeImplementation(r, log, ctx);
 
     final VersionNumber version = ctx.getGLVersionNumber();
     final PathVirtual shader_path =
@@ -290,7 +337,25 @@ public final class JOGLTestContext
     return new TestContext(fs, gi, log, shader_path);
   }
 
+  public static TestContext makeContextWithOpenGL2_1_WithRestrictions(
+    final @Nonnull JCGLSoftRestrictions r)
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    return JOGLTestContext.makeContextWithOpenGL2_1_Actual(r);
+  }
+
   public static TestContext makeContextWithOpenGL3_0()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    return JOGLTestContext.makeContextWithOpenGL3_0_Actual(null);
+  }
+
+  private static TestContext makeContextWithOpenGL3_0_Actual(
+    final @CheckForNull JCGLSoftRestrictions r)
     throws JCGLException,
       JCGLUnsupportedException,
       ConstraintError
@@ -302,7 +367,7 @@ public final class JOGLTestContext
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GL2));
     final JCGLImplementation gi =
-      JCGLImplementationJOGL.newImplementation(ctx, log);
+      JOGLTestContext.makeImplementation(r, log, ctx);
 
     final VersionNumber version = ctx.getGLVersionNumber();
     if (version.getMajor() != 3) {
@@ -315,7 +380,25 @@ public final class JOGLTestContext
     return new TestContext(fs, gi, log, shader_path);
   }
 
+  public static TestContext makeContextWithOpenGL3_0_WithRestrictions(
+    final @Nonnull JCGLSoftRestrictions r)
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    return JOGLTestContext.makeContextWithOpenGL3_0_Actual(r);
+  }
+
   public static TestContext makeContextWithOpenGL3_p()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    return JOGLTestContext.makeContextWithOpenGL3_p_Actual(null);
+  }
+
+  private static TestContext makeContextWithOpenGL3_p_Actual(
+    final @CheckForNull JCGLSoftRestrictions r)
     throws JCGLException,
       JCGLUnsupportedException,
       ConstraintError
@@ -326,8 +409,9 @@ public final class JOGLTestContext
 
     final GLContext ctx =
       JOGLTestContext.getContext(GLProfile.get(GLProfile.GL3));
+
     final JCGLImplementation gi =
-      JCGLImplementationJOGL.newImplementation(ctx, log);
+      JOGLTestContext.makeImplementation(r, log, ctx);
 
     final VersionNumber version = ctx.getGLVersionNumber();
     if (version.getMajor() != 3) {
@@ -345,6 +429,33 @@ public final class JOGLTestContext
       ShaderPaths
         .getShaderPath(version.getMajor(), version.getMinor(), false);
     return new TestContext(fs, gi, log, shader_path);
+  }
+
+  public static TestContext makeContextWithOpenGL3_p_WithRestrictions(
+    final @Nonnull JCGLSoftRestrictions r)
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    return JOGLTestContext.makeContextWithOpenGL3_p_Actual(r);
+  }
+
+  private static JCGLImplementation makeImplementation(
+    final JCGLSoftRestrictions r,
+    final Log log,
+    final GLContext ctx)
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    final JCGLImplementation gi;
+    if (r != null) {
+      gi =
+        JCGLImplementationJOGL.newImplementationWithRestrictions(ctx, log, r);
+    } else {
+      gi = JCGLImplementationJOGL.newImplementation(ctx, log);
+    }
+    return gi;
   }
 
   private JOGLTestContext()

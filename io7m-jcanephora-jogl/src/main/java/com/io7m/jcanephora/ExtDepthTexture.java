@@ -42,12 +42,10 @@ class ExtDepthTexture<G extends GL> implements JCGLExtensionDepthTexture
     final String names[] = { "GL_ARB_depth_texture" };
 
     for (final String name : names) {
-      if (extensions.extensionIsSupported(name)) {
-        log.debug("Extension " + name + " is available");
+      if (extensions.extensionIsVisible(name)) {
         return new Option.Some<JCGLExtensionDepthTexture>(
           new ExtDepthTexture<G>(g, state, log));
       }
-      log.debug("Extension " + name + " is not available");
     }
 
     return new Option.None<JCGLExtensionDepthTexture>();

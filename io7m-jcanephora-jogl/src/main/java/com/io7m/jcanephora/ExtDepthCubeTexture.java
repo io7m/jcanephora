@@ -43,12 +43,10 @@ class ExtDepthCubeTexture<G extends GL> implements
     final String names[] = { "GL_OES_depth_texture_cube_map" };
 
     for (final String name : names) {
-      if (extensions.extensionIsSupported(name)) {
-        log.debug("Extension " + name + " is available");
+      if (extensions.extensionIsVisible(name)) {
         return new Option.Some<JCGLExtensionDepthCubeTexture>(
           new ExtDepthCubeTexture<G>(g, state, log));
       }
-      log.debug("Extension " + name + " is not available");
     }
 
     return new Option.None<JCGLExtensionDepthCubeTexture>();
