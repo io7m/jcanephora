@@ -8,7 +8,7 @@
   <artifactId>io7m-jcanephora-examples</artifactId>
   <name>io7m-jcanephora-examples</name>
   <description>Common example code</description>
-  <version>0.18.0</version>
+  <version>0.18.1</version>
   <url>http://mvn.io7m.com/jcanephora-examples</url>
   <packaging>jar</packaging>
 
