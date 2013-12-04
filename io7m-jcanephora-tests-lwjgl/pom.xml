@@ -8,7 +8,7 @@
   <artifactId>io7m-jcanephora-tests-lwjgl</artifactId>
   <name>io7m-jcanephora-tests-lwjgl</name>
   <description>Unit tests for the LWJGL implementation of the jcanephora API</description>
-  <version>0.18.0</version>
+  <version>0.18.1</version>
   <url>http://mvn.io7m.com/jcanephora-tests-lwjgl</url>
   <packaging>jar</packaging>
 
