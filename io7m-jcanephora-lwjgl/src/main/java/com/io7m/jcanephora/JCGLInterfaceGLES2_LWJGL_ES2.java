@@ -19,6 +19,7 @@ package com.io7m.jcanephora;
 import java.nio.IntBuffer;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -29,6 +30,7 @@ import org.lwjgl.opengl.GL12;
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
+import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
@@ -54,9 +56,13 @@ import com.io7m.jtensors.VectorReadable4I;
   private final @Nonnull Option<JCGLExtensionESDepthTexture>     ext_depth_texture;
   private final @Nonnull Option<JCGLExtensionPackedDepthStencil> ext_packed_depth_stencil;
   private final @Nonnull Option<JCGLExtensionDepthCubeTexture>   ext_depth_cube_texture;
+  private JCGLSoftRestrictions                                   restrictions;
+  private JCGLNamedExtensions                                    extensions;
 
   JCGLInterfaceGLES2_LWJGL_ES2(
-    final @Nonnull Log log)
+    final @Nonnull Log log,
+    final @Nonnull Set<String> extension_set,
+    final @Nonnull JCGLSoftRestrictions r)
     throws ConstraintError,
       JCGLException
   {
@@ -64,12 +70,71 @@ import com.io7m.jtensors.VectorReadable4I;
       new Log(Constraints.constrainNotNull(log, "log output"), "lwjgl-es2");
     this.state = new JCGLStateCache();
 
+    this.restrictions = r;
+
+    this.extensions = new JCGLNamedExtensions() {
+      private final StringBuilder message = new StringBuilder();
+
+      @Override public boolean extensionIsSupported(
+        final @Nonnull String name)
+        throws ConstraintError
+      {
+        Constraints.constrainNotNull(name, "Name");
+        return extension_set.contains(name);
+      }
+
+      @SuppressWarnings("synthetic-access") @Override public
+        boolean
+        extensionIsVisible(
+          final @Nonnull String name)
+          throws ConstraintError
+      {
+        final boolean supported = this.extensionIsSupported(name);
+
+        if (supported) {
+          if (log.enabled(Level.LOG_DEBUG)) {
+            this.message.setLength(0);
+            this.message.append("Extension ");
+            this.message.append(name);
+            this.message.append(" is supported");
+            log.debug(this.message.toString());
+          }
+
+          final boolean visible =
+            JCGLInterfaceGLES2_LWJGL_ES2.this.restrictions
+              .restrictExtensionVisibility(name);
+
+          if (!visible) {
+            if (log.enabled(Level.LOG_DEBUG)) {
+              this.message.setLength(0);
+              this.message.append("Extension ");
+              this.message.append(name);
+              this.message.append(" is hidden by soft restrictions");
+              log.debug(this.message.toString());
+            }
+          }
+
+          return visible;
+        }
+
+        if (log.enabled(Level.LOG_DEBUG)) {
+          this.message.setLength(0);
+          this.message.append("Extension ");
+          this.message.append(name);
+          this.message.append(" is not supported");
+          log.debug(this.message.toString());
+        }
+
+        return supported;
+      }
+    };
+
     /**
      * Initialize texture unit cache.
      */
 
     this.state.texture_units =
-      LWJGL_GLES2Functions.textureGetUnitsActual(this.state, this.log);
+      LWJGL_GLES2Functions.textureGetUnitsActual(this.state, this.log, r);
 
     /**
      * Initialize color attachment point cache.
@@ -84,10 +149,12 @@ import com.io7m.jtensors.VectorReadable4I;
      * Initialize extensions.
      */
 
-    this.ext_depth_texture = ExtESDepthTexture.create(this.state, log);
+    this.ext_depth_texture =
+      ExtESDepthTexture.create(this.state, this.extensions, log);
     this.ext_packed_depth_stencil =
-      ExtPackedDepthStencil.create(this.state, log);
-    this.ext_depth_cube_texture = ExtDepthCubeTexture.create(this.state, log);
+      ExtPackedDepthStencil.create(this.state, this.extensions, log);
+    this.ext_depth_cube_texture =
+      ExtDepthCubeTexture.create(this.state, this.extensions, log);
 
     /**
      * Initialize various constants.

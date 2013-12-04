@@ -17,6 +17,8 @@ package com.io7m.jcanephora;
 
 import java.util.Properties;
 
+import javax.annotation.CheckForNull;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.GL11;
@@ -52,9 +54,7 @@ public final class LWJGLTestContext
   static final String          LOG_DESTINATION_OPENGL_2_1;
   static final String          LOG_DESTINATION_OPENGL_3_0;
   static final String          LOG_DESTINATION_OPENGL_3_X;
-
   static final String          LOG_DESTINATION_OPENGL_ES_2_0;
-
   private static final Profile PROFILE_OPENGL_2_1;
   private static final Profile PROFILE_OPENGL_3_0;
   private static final Profile PROFILE_OPENGL_3_X;
@@ -256,7 +256,21 @@ public final class LWJGLTestContext
       LWJGLTestContext.getLog(LWJGLTestContext.LOG_DESTINATION_OPENGL_ES_2_0);
     final FSCapabilityAll fs = LWJGLTestContext.getFS(log);
     final JCGLImplementation gi =
-      LWJGLTestContext.makeImplementationWithOpenGL_ES2(log);
+      LWJGLTestContext.makeImplementationWithOpenGL_ES2(log, null);
+    return new TestContext(fs, gi, log, ShaderPaths.getShaderPath(2, 0, true));
+  }
+
+  public static TestContext makeContextWithOpenGL_ES2_WithRestrictions(
+    final @CheckForNull JCGLSoftRestrictions r)
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    final Log log =
+      LWJGLTestContext.getLog(LWJGLTestContext.LOG_DESTINATION_OPENGL_ES_2_0);
+    final FSCapabilityAll fs = LWJGLTestContext.getFS(log);
+    final JCGLImplementation gi =
+      LWJGLTestContext.makeImplementationWithOpenGL_ES2(log, r);
     return new TestContext(fs, gi, log, ShaderPaths.getShaderPath(2, 0, true));
   }
 
@@ -269,7 +283,25 @@ public final class LWJGLTestContext
       LWJGLTestContext.getLog(LWJGLTestContext.LOG_DESTINATION_OPENGL_2_1);
     final FSCapabilityAll fs = LWJGLTestContext.getFS(log);
     final JCGLImplementation gi =
-      LWJGLTestContext.makeImplementationWithOpenGL_2_1(log);
+      LWJGLTestContext.makeImplementationWithOpenGL_2_1(log, null);
+    return new TestContext(
+      fs,
+      gi,
+      log,
+      ShaderPaths.getShaderPath(2, 1, false));
+  }
+
+  public static TestContext makeContextWithOpenGL21_X_WithRestrictions(
+    final @CheckForNull JCGLSoftRestrictions r)
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    final Log log =
+      LWJGLTestContext.getLog(LWJGLTestContext.LOG_DESTINATION_OPENGL_2_1);
+    final FSCapabilityAll fs = LWJGLTestContext.getFS(log);
+    final JCGLImplementation gi =
+      LWJGLTestContext.makeImplementationWithOpenGL_2_1(log, r);
     return new TestContext(
       fs,
       gi,
@@ -286,7 +318,25 @@ public final class LWJGLTestContext
       LWJGLTestContext.getLog(LWJGLTestContext.LOG_DESTINATION_OPENGL_3_0);
     final FSCapabilityAll fs = LWJGLTestContext.getFS(log);
     final JCGLImplementation gi =
-      LWJGLTestContext.makeImplementationWithOpenGL_3_0(log);
+      LWJGLTestContext.makeImplementationWithOpenGL_3_0(log, null);
+    return new TestContext(
+      fs,
+      gi,
+      log,
+      ShaderPaths.getShaderPath(3, 0, false));
+  }
+
+  public static TestContext makeContextWithOpenGL3_0_WithRestrictions(
+    final @CheckForNull JCGLSoftRestrictions r)
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    final Log log =
+      LWJGLTestContext.getLog(LWJGLTestContext.LOG_DESTINATION_OPENGL_3_0);
+    final FSCapabilityAll fs = LWJGLTestContext.getFS(log);
+    final JCGLImplementation gi =
+      LWJGLTestContext.makeImplementationWithOpenGL_3_0(log, r);
     return new TestContext(
       fs,
       gi,
@@ -303,7 +353,7 @@ public final class LWJGLTestContext
       LWJGLTestContext.getLog(LWJGLTestContext.LOG_DESTINATION_OPENGL_3_X);
     final FSCapabilityAll fs = LWJGLTestContext.getFS(log);
     final JCGLImplementation gi =
-      LWJGLTestContext.makeImplementationWithOpenGL_3_X(log);
+      LWJGLTestContext.makeImplementationWithOpenGL_3_X(log, null);
     return new TestContext(
       fs,
       gi,
@@ -311,44 +361,80 @@ public final class LWJGLTestContext
       ShaderPaths.getShaderPath(3, 1, false));
   }
 
+  public static TestContext makeContextWithOpenGL3_X_WithRestrictions(
+    final @CheckForNull JCGLSoftRestrictions r)
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    final Log log =
+      LWJGLTestContext.getLog(LWJGLTestContext.LOG_DESTINATION_OPENGL_3_X);
+    final FSCapabilityAll fs = LWJGLTestContext.getFS(log);
+    final JCGLImplementation gi =
+      LWJGLTestContext.makeImplementationWithOpenGL_3_X(log, r);
+    return new TestContext(
+      fs,
+      gi,
+      log,
+      ShaderPaths.getShaderPath(3, 1, false));
+  }
+
+  private static JCGLImplementation makeImplementation(
+    final Log log,
+    final @CheckForNull JCGLSoftRestrictions r)
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    if (r != null) {
+      return JCGLImplementationLWJGL
+        .newImplementationWithRestrictions(log, r);
+    }
+    return JCGLImplementationLWJGL.newImplementation(log);
+  }
+
   public static JCGLImplementation makeImplementationWithOpenGL_2_1(
-    final Log log)
+    final Log log,
+    final @CheckForNull JCGLSoftRestrictions r)
     throws JCGLException,
       JCGLUnsupportedException,
       ConstraintError
   {
     LWJGLTestContext.openContext(LWJGLTestContext.PROFILE_OPENGL_2_1);
-    return JCGLImplementationLWJGL.newImplementation(log);
+    return LWJGLTestContext.makeImplementation(log, r);
   }
 
   public static JCGLImplementation makeImplementationWithOpenGL_3_0(
-    final Log log)
+    final Log log,
+    final @CheckForNull JCGLSoftRestrictions r)
     throws JCGLException,
       JCGLUnsupportedException,
       ConstraintError
   {
     LWJGLTestContext.openContext(LWJGLTestContext.PROFILE_OPENGL_3_0);
-    return JCGLImplementationLWJGL.newImplementation(log);
+    return LWJGLTestContext.makeImplementation(log, r);
   }
 
   public static JCGLImplementation makeImplementationWithOpenGL_3_X(
-    final Log log)
+    final Log log,
+    final @CheckForNull JCGLSoftRestrictions r)
     throws JCGLException,
       JCGLUnsupportedException,
       ConstraintError
   {
     LWJGLTestContext.openContext(LWJGLTestContext.PROFILE_OPENGL_3_X);
-    return JCGLImplementationLWJGL.newImplementation(log);
+    return LWJGLTestContext.makeImplementation(log, r);
   }
 
   public static JCGLImplementation makeImplementationWithOpenGL_ES2(
-    final Log log)
+    final Log log,
+    final @CheckForNull JCGLSoftRestrictions r)
     throws JCGLException,
       JCGLUnsupportedException,
       ConstraintError
   {
     LWJGLTestContext.openContext(LWJGLTestContext.PROFILE_OPENGL_ES_2_0);
-    return JCGLImplementationLWJGL.newImplementation(log);
+    return LWJGLTestContext.makeImplementation(log, r);
   }
 
   static Pbuffer makePbuffer(

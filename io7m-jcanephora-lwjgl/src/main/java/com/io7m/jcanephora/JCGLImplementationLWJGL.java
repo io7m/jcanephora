@@ -36,6 +36,24 @@ import com.io7m.jlog.Log;
 
 public final class JCGLImplementationLWJGL implements JCGLImplementation
 {
+  private static final @Nonnull JCGLSoftRestrictions DEFAULT_RESTRICTIONS;
+
+  static {
+    DEFAULT_RESTRICTIONS = new JCGLSoftRestrictions() {
+      @Override public int restrictTextureUnitCount(
+        final int count)
+      {
+        return count;
+      }
+
+      @Override public boolean restrictExtensionVisibility(
+        final @Nonnull String name)
+      {
+        return true;
+      }
+    };
+  }
+
   static void checkFBOSupport(
     final @Nonnull Log log,
     final @Nonnull Set<String> extensions)
@@ -137,28 +155,62 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
       JCGLUnsupportedException,
       ConstraintError
   {
-    return new JCGLImplementationLWJGL(log);
+    return new JCGLImplementationLWJGL(
+      log,
+      JCGLImplementationLWJGL.DEFAULT_RESTRICTIONS);
   }
 
-  private final @Nonnull JCGLInterfaceGL2   gl_2;
-  private final @Nonnull JCGLInterfaceGL3   gl_3;
-  private final @Nonnull JCGLInterfaceGLES2 gl_es2;
-  private final @Nonnull Log                log;
+  /**
+   * Construct an implementation assuming that the LWJGL library has already
+   * been initialized, with restrictions <code>r</code>.
+   * 
+   * @throws ConstraintError
+   *           Iff <code>log == null || r == null</code>.
+   * @throws JCGLException
+   *           Iff an internal OpenGL error occurs.
+   * @throws JCGLUnsupportedException
+   *           Iff the given graphics context does not support either of
+   *           OpenGL 3.* or ES2.
+   */
+
+  public static @Nonnull
+    JCGLImplementationLWJGL
+    newImplementationWithRestrictions(
+      final @Nonnull Log log,
+      final @Nonnull JCGLSoftRestrictions r)
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    return new JCGLImplementationLWJGL(log, r);
+  }
+
+  private final @Nonnull JCGLInterfaceGL2     gl_2;
+  private final @Nonnull JCGLInterfaceGL3     gl_3;
+  private final @Nonnull JCGLInterfaceGLES2   gl_es2;
+  private final @Nonnull Log                  log;
+  private final @Nonnull JCGLSoftRestrictions restrictions;
 
   private JCGLImplementationLWJGL(
-    final @Nonnull Log log)
+    final @Nonnull Log log,
+    final @Nonnull JCGLSoftRestrictions r)
     throws ConstraintError,
       JCGLException,
       JCGLUnsupportedException
   {
     this.log =
       new Log(Constraints.constrainNotNull(log, "log output"), "lwjgl30");
+    this.restrictions = Constraints.constrainNotNull(r, "Restrictions");
 
     final String vs = GL11.glGetString(GL11.GL_VERSION);
 
     if (JCGLImplementationLWJGL.isGLES2(vs)) {
+      final Set<String> extensions =
+        JCGLImplementationLWJGL.getExtensionsGL21_30();
+      JCGLImplementationLWJGL.checkFBOSupport(log, extensions);
+
       log.debug("Context is GLES2 - creating GLES2 interface");
-      this.gl_es2 = new JCGLInterfaceGLES2_LWJGL_ES2(log);
+      this.gl_es2 = new JCGLInterfaceGLES2_LWJGL_ES2(log, extensions, r);
       this.gl_2 = null;
       this.gl_3 = null;
       return;
@@ -170,7 +222,7 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
       JCGLImplementationLWJGL.checkFBOSupport(log, extensions);
 
       log.debug("Context is GL2, creating OpenGL 2.1 interface");
-      this.gl_2 = new JCGLInterfaceGL2_LWJGL_GL2(log);
+      this.gl_2 = new JCGLInterfaceGL2_LWJGL_GL2(log, r, extensions);
       this.gl_3 = null;
       this.gl_es2 = null;
       return;
@@ -178,7 +230,7 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
 
     if (JCGLImplementationLWJGL.isGL3(vs)) {
       log.debug("Context is GL3, creating OpenGL >= 3.1 interface");
-      this.gl_3 = new JCGLInterfaceGL3_LWJGL_GL3(log);
+      this.gl_3 = new JCGLInterfaceGL3_LWJGL_GL3(log, r);
       this.gl_2 = null;
       this.gl_es2 = null;
       return;
