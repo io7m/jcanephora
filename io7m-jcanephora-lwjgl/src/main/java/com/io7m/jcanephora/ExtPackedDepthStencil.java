@@ -1,10 +1,6 @@
 package com.io7m.jcanephora;
 
-import java.util.StringTokenizer;
-
 import javax.annotation.Nonnull;
-
-import org.lwjgl.opengl.GL11;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
@@ -18,21 +14,17 @@ class ExtPackedDepthStencil implements JCGLExtensionPackedDepthStencil
 {
   public static Option<JCGLExtensionPackedDepthStencil> create(
     final @Nonnull JCGLStateCache state,
+    final @Nonnull JCGLNamedExtensions extensions,
     final @Nonnull Log log)
+    throws ConstraintError
   {
     final String names[] =
       { "GL_OES_packed_depth_stencil", "GL_EXT_packed_depth_stencil", };
 
-    final String all = GL11.glGetString(GL11.GL_EXTENSIONS);
-    final StringTokenizer tok = new StringTokenizer(all);
-
-    while (tok.hasMoreTokens()) {
-      final String extension = tok.nextToken();
-      for (final String name : names) {
-        if (extension.equals(name)) {
-          return new Option.Some<JCGLExtensionPackedDepthStencil>(
-            new ExtPackedDepthStencil(state, log));
-        }
+    for (final String name : names) {
+      if (extensions.extensionIsVisible(name)) {
+        return new Option.Some<JCGLExtensionPackedDepthStencil>(
+          new ExtPackedDepthStencil(state, log));
       }
     }
 

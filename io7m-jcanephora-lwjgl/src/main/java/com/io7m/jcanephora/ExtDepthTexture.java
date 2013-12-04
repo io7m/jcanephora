@@ -16,11 +16,7 @@
 
 package com.io7m.jcanephora;
 
-import java.util.StringTokenizer;
-
 import javax.annotation.Nonnull;
-
-import org.lwjgl.opengl.GL11;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
@@ -34,20 +30,16 @@ class ExtDepthTexture implements JCGLExtensionDepthTexture
 {
   public static @Nonnull Option<JCGLExtensionDepthTexture> create(
     final @Nonnull JCGLStateCache state,
+    final @Nonnull JCGLNamedExtensions extensions,
     final @Nonnull Log log)
+    throws ConstraintError
   {
     final String names[] = { "GL_ARB_depth_texture", };
 
-    final String all = GL11.glGetString(GL11.GL_EXTENSIONS);
-    final StringTokenizer tok = new StringTokenizer(all);
-
-    while (tok.hasMoreTokens()) {
-      final String extension = tok.nextToken();
-      for (final String name : names) {
-        if (extension.equals(name)) {
-          return new Option.Some<JCGLExtensionDepthTexture>(
-            new ExtDepthTexture(state, log));
-        }
+    for (final String name : names) {
+      if (extensions.extensionIsVisible(name)) {
+        return new Option.Some<JCGLExtensionDepthTexture>(
+          new ExtDepthTexture(state, log));
       }
     }
 

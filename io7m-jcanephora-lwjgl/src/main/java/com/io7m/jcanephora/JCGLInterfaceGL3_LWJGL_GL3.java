@@ -50,13 +50,15 @@ import com.io7m.jtensors.VectorReadable4I;
 @NotThreadSafe public final class JCGLInterfaceGL3_LWJGL_GL3 implements
   JCGLInterfaceGL3
 {
-  private final @Nonnull Log            log;
-  private final @Nonnull JCGLSLVersion  sl_version;
-  private final @Nonnull JCGLStateCache state;
-  private final @Nonnull JCGLVersion    version;
+  private final @Nonnull Log                  log;
+  private final @Nonnull JCGLSLVersion        sl_version;
+  private final @Nonnull JCGLStateCache       state;
+  private final @Nonnull JCGLVersion          version;
+  private final @Nonnull JCGLSoftRestrictions restrictions;
 
   JCGLInterfaceGL3_LWJGL_GL3(
-    final @Nonnull Log log)
+    final @Nonnull Log log,
+    final @Nonnull JCGLSoftRestrictions r)
     throws ConstraintError,
       JCGLException
   {
@@ -64,12 +66,14 @@ import com.io7m.jtensors.VectorReadable4I;
       new Log(Constraints.constrainNotNull(log, "log output"), "lwjgl-30");
     this.state = new JCGLStateCache();
 
+    this.restrictions = r;
+
     /**
      * Initialize texture unit cache.
      */
 
     this.state.texture_units =
-      LWJGL_GLES2Functions.textureGetUnitsActual(this.state, this.log);
+      LWJGL_GLES2Functions.textureGetUnitsActual(this.state, this.log, r);
 
     /**
      * Initialize color attachment point cache.
