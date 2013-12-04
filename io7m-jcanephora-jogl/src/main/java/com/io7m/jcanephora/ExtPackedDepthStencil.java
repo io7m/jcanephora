@@ -28,12 +28,10 @@ class ExtPackedDepthStencil<G extends GL> implements
       { "GL_OES_packed_depth_stencil", "GL_EXT_packed_depth_stencil", };
 
     for (final String name : names) {
-      if (extensions.extensionIsSupported(name)) {
-        log.debug("Extension " + name + " is available");
+      if (extensions.extensionIsVisible(name)) {
         return new Option.Some<JCGLExtensionPackedDepthStencil>(
           new ExtPackedDepthStencil<G>(g, state, log));
       }
-      log.debug("Extension " + name + " is not available");
     }
 
     return new Option.None<JCGLExtensionPackedDepthStencil>();

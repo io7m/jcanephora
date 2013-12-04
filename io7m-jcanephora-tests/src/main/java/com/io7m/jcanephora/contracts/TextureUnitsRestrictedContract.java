@@ -16,6 +16,10 @@
 
 package com.io7m.jcanephora.contracts;
 
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -23,59 +27,53 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.JCGLException;
-import com.io7m.jcanephora.JCGLLogic;
+import com.io7m.jcanephora.JCGLSoftRestrictions;
+import com.io7m.jcanephora.JCGLTextureUnits;
 import com.io7m.jcanephora.JCGLUnsupportedException;
-import com.io7m.jcanephora.LogicOperation;
 import com.io7m.jcanephora.TestContext;
+import com.io7m.jcanephora.TextureUnit;
 
-public abstract class LogicOpContract implements TestContract
+public abstract class TextureUnitsRestrictedContract
 {
+  public abstract boolean isGLSupported();
+
+  public abstract TestContext newTestContext(
+    final @Nonnull JCGLSoftRestrictions r)
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError;
+
   @Before public final void checkSupport()
   {
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  public abstract JCGLLogic getGLLogic(
-    TestContext tc);
-
   /**
-   * Enabling/disabling logic operations works.
-   * 
-   * @throws JCGLException
-   * @throws ConstraintError
+   * Restricting the number of texture units works.
    */
 
-  @Test public void testLogicOpsEnable()
+  @Test public final void testGetUnits()
     throws JCGLException,
       JCGLUnsupportedException,
       ConstraintError
   {
-    final TestContext tc = this.newTestContext();
-    final JCGLLogic gl = this.getGLLogic(tc);
+    final TestContext tc = this.newTestContext(new JCGLSoftRestrictions() {
+      @Override public int restrictTextureUnitCount(
+        final int count)
+      {
+        return 1;
+      }
 
-    for (final LogicOperation op : LogicOperation.values()) {
-      gl.logicOperationsDisable();
-      Assert.assertFalse(gl.logicOperationsEnabled());
-      gl.logicOperationsEnable(op);
-      Assert.assertTrue(gl.logicOperationsEnabled());
-    }
+      @Override public boolean restrictExtensionVisibility(
+        final String name)
+      {
+        return true;
+      }
+    });
+
+    final JCGLTextureUnits gl = tc.getGLImplementation().getGLCommon();
+    final List<TextureUnit> u = gl.textureGetUnits();
+    Assert.assertTrue(u.size() == 1);
   }
 
-  /**
-   * Trying to enable a null logic operation fails.
-   * 
-   * @throws JCGLException
-   * @throws ConstraintError
-   */
-
-  @Test(expected = ConstraintError.class) public void testLogicOpsNull()
-    throws JCGLException,
-      JCGLUnsupportedException,
-      ConstraintError
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLLogic gl = this.getGLLogic(tc);
-
-    gl.logicOperationsEnable(null);
-  }
 }

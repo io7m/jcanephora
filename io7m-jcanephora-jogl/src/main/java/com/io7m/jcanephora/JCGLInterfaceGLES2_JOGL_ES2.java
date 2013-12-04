@@ -35,6 +35,7 @@ import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jaux.functional.Option;
+import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
@@ -80,18 +81,22 @@ import com.io7m.jtensors.VectorReadable4I;
   private final @Nonnull JCGLStateCache                          state;
   private final @Nonnull JCGLVersion                             version;
   private final @Nonnull JCGLNamedExtensions                     extensions;
+  private final @Nonnull JCGLSoftRestrictions                    restrictions;
 
   JCGLInterfaceGLES2_JOGL_ES2(
     final @Nonnull GLContext context,
     final @Nonnull Log log,
     final @Nonnull JCGLDebugging debug,
-    final @CheckForNull PrintStream trace_out)
+    final @CheckForNull PrintStream trace_out,
+    final @Nonnull JCGLSoftRestrictions restrictions)
     throws ConstraintError,
       JCGLException
   {
     this.log =
       new Log(Constraints.constrainNotNull(log, "log output"), "jogl-es2");
     this.gl_context = Constraints.constrainNotNull(context, "GL context");
+    this.restrictions =
+      Constraints.constrainNotNull(restrictions, "Restrictions");
     Constraints.constrainNotNull(debug, "Debug");
 
     this.state = new JCGLStateCache();
@@ -121,12 +126,59 @@ import com.io7m.jtensors.VectorReadable4I;
     final GL2ES2 g = this.contextGetGLES2();
 
     this.extensions = new JCGLNamedExtensions() {
+      private final StringBuilder message = new StringBuilder();
+
       @Override public boolean extensionIsSupported(
         final @Nonnull String name)
         throws ConstraintError
       {
         Constraints.constrainNotNull(name, "Name");
         return context.isExtensionAvailable(name);
+      }
+
+      @SuppressWarnings("synthetic-access") @Override public
+        boolean
+        extensionIsVisible(
+          final @Nonnull String name)
+          throws ConstraintError
+      {
+        final boolean supported = this.extensionIsSupported(name);
+
+        if (supported) {
+          if (log.enabled(Level.LOG_DEBUG)) {
+            this.message.setLength(0);
+            this.message.append("Extension ");
+            this.message.append(name);
+            this.message.append(" is supported");
+            log.debug(this.message.toString());
+          }
+
+          final boolean visible =
+            JCGLInterfaceGLES2_JOGL_ES2.this.restrictions
+              .restrictExtensionVisibility(name);
+
+          if (!visible) {
+            if (log.enabled(Level.LOG_DEBUG)) {
+              this.message.setLength(0);
+              this.message.append("Extension ");
+              this.message.append(name);
+              this.message.append(" is hidden by soft restrictions");
+              log.debug(this.message.toString());
+            }
+          }
+
+          return visible;
+        }
+
+        if (log.enabled(Level.LOG_DEBUG)) {
+          this.message.setLength(0);
+          this.message.append("Extension ");
+          this.message.append(name);
+          this.message.append(" is not supported");
+          log.debug(this.message.toString());
+        }
+
+        return supported;
       }
     };
 
@@ -146,7 +198,11 @@ import com.io7m.jtensors.VectorReadable4I;
      */
 
     this.state.texture_units =
-      JOGL_GL_Functions.textureGetUnitsActual(g, this.state, this.log);
+      JOGL_GL_Functions.textureGetUnitsActual(
+        g,
+        this.state,
+        this.log,
+        restrictions);
 
     /**
      * Initialize color attachment point cache.

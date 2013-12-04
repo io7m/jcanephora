@@ -2324,7 +2324,8 @@ final class JOGL_GL_Functions
   static List<TextureUnit> textureGetUnitsActual(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull Log log)
+    final @Nonnull Log log,
+    final @Nonnull JCGLSoftRestrictions restrictions)
     throws JCGLException
   {
     final int max =
@@ -2341,8 +2342,18 @@ final class JOGL_GL_Functions
       log.debug(state.log_text.toString());
     }
 
+    final int count =
+      Math.max(1, Math.min(restrictions.restrictTextureUnitCount(max), max));
+    if (count < max) {
+      state.log_text.setLength(0);
+      state.log_text.append("implementation exposes ");
+      state.log_text.append(count);
+      state.log_text.append(" texture units after soft restrictions");
+      log.debug(state.log_text.toString());
+    }
+
     final ArrayList<TextureUnit> u = new ArrayList<TextureUnit>();
-    for (int index = 0; index < max; ++index) {
+    for (int index = 0; index < count; ++index) {
       u.add(new TextureUnit(index));
     }
 

@@ -19,31 +19,22 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.contracts.TextureUnitsRestrictedContract;
 
-public interface JCGLNamedExtensions
+public final class JOGL30TextureUnitsRestrictedTest extends
+  TextureUnitsRestrictedContract
 {
-  /**
-   * Return true if the extension <code>name</code> is supported by the
-   * implementation.
-   * 
-   * @throws ConstraintError
-   *           Iff <code>name == null</code>.
-   */
+  @Override public boolean isGLSupported()
+  {
+    return JOGLTestContext.isOpenGL30Supported();
+  }
 
-  public boolean extensionIsSupported(
-    final @Nonnull String name)
-    throws ConstraintError;
-
-  /**
-   * Return true if the extension <code>name</code> is both supported by the
-   * implementation and visible according to any restrictions imposed by
-   * {@link JCGLSoftRestrictions}.
-   * 
-   * @throws ConstraintError
-   *           Iff <code>name == null</code>.
-   */
-
-  public boolean extensionIsVisible(
-    final @Nonnull String name)
-    throws ConstraintError;
+  @Override public @Nonnull TestContext newTestContext(
+    final @Nonnull JCGLSoftRestrictions r)
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    return JOGLTestContext.makeContextWithOpenGL3_0_WithRestrictions(r);
+  }
 }
