@@ -68,6 +68,11 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.io7m.jcanephora.batchexec</groupId>
+      <artifactId>io7m-jcanephora-batchexec</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>com.io7m.jcanephora.checkedexec</groupId>
       <artifactId>io7m-jcanephora-checkedexec</artifactId>
       <version>${project.version}</version>
@@ -81,6 +86,11 @@
       <groupId>com.io7m.jcanephora.texload-imageio</groupId>
       <artifactId>io7m-jcanephora-texload-imageio</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.parasol.xml</groupId>
+      <artifactId>io7m-parasol-xml</artifactId>
+      <version>0.5.0</version>
     </dependency>
     <dependency>
       <groupId>com.io7m.jvvfs.core</groupId>

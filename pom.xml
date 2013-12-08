@@ -68,6 +68,7 @@
   </properties>
 
   <modules>
+    <module>io7m-jcanephora-batchexec</module>
     <module>io7m-jcanephora-blueberry</module>
     <module>io7m-jcanephora-checkedexec</module>
     <module>io7m-jcanephora-core</module>

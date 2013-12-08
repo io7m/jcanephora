@@ -74,10 +74,10 @@ import com.io7m.jtensors.VectorReadable4I;
   private @Nonnull GLES3                      cached_gl;
   private final @Nonnull GLContext            gl_context;
   private final @Nonnull Log                  log;
+  private final @Nonnull JCGLSoftRestrictions restrictions;
   private final @Nonnull JCGLSLVersion        sl_version;
   private final @Nonnull JCGLStateCache       state;
   private final @Nonnull JCGLVersion          version;
-  private final @Nonnull JCGLSoftRestrictions restrictions;
 
   JCGLInterfaceGLES3_JOGL_ES3(
     final @Nonnull GLContext context,
@@ -1156,6 +1156,19 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLException
   {
     JOGL_GL2ES2_Functions.programPutUniformFloat(
+      this.contextGetGL3(),
+      this.state,
+      uniform,
+      value);
+  }
+
+  @Override public void programUniformPutInteger(
+    final @Nonnull ProgramUniform uniform,
+    final int value)
+    throws ConstraintError,
+      JCGLException
+  {
+    JOGL_GL2ES2_Functions.programPutUniformInteger(
       this.contextGetGL3(),
       this.state,
       uniform,
