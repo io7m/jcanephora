@@ -27,5 +27,5 @@ public interface JCBExecutorProcedure
     throws ConstraintError,
       JCGLException,
       JCBExecutionException,
-      Exception;
+      Throwable;
 }

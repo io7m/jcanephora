@@ -929,7 +929,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       throw e;
     } catch (final JCGLException e) {
       throw e;
-    } catch (final Exception e) {
+    } catch (final Throwable e) {
       throw new JCBExecutionException(e);
     } finally {
       this.jprogram.programClearAllFinish();
