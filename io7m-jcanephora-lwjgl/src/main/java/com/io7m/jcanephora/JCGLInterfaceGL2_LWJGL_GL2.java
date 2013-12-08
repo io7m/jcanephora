@@ -1632,4 +1632,13 @@ import com.io7m.jtensors.VectorReadable4I;
   {
     return this.ext_depth_texture;
   }
+
+  @Override public void programUniformPutInteger(
+    final @Nonnull ProgramUniform uniform,
+    final int value)
+    throws ConstraintError,
+      JCGLException
+  {
+    LWJGL_GLES2Functions.programPutUniformInteger(this.state, uniform, value);
+  }
 }

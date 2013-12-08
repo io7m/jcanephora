@@ -3,6 +3,7 @@
 precision highp float;
 precision highp int;
 
+uniform int         u_int;
 uniform float       u_float;
 uniform mat3        u_mat3;
 uniform mat4        u_mat4;
@@ -18,7 +19,7 @@ uniform samplerCube u_sampler_cube;
 void
 main (void)
 {
-  float x = u_float;
+  float x = u_float + float(u_int);
   x = x + u_mat3[0][0];
   x = x + u_mat4[0][0];
   x = x + u_vec2.x;

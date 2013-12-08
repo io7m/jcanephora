@@ -1983,6 +1983,25 @@ final class LWJGL_GLES2Functions
     LWJGL_GLES2Functions.checkError();
   }
 
+  static void programPutUniformInteger(
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ProgramUniform uniform,
+    final int value)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(uniform, "Uniform");
+    Constraints.constrainArbitrary(
+      uniform.getType() == JCGLType.TYPE_INTEGER,
+      "Uniform type is float");
+    Constraints.constrainArbitrary(
+      LWJGL_GLES2Functions.programIsActive(state, uniform.getProgram()),
+      "Program for uniform is active");
+
+    GL20.glUniform1i(uniform.getLocation(), value);
+    LWJGL_GLES2Functions.checkError();
+  }
+
   static void programPutUniformMatrix3x3f(
     final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramUniform uniform,

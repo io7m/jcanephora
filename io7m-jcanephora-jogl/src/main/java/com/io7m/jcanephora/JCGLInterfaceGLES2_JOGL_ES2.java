@@ -1019,6 +1019,19 @@ import com.io7m.jtensors.VectorReadable4I;
       value);
   }
 
+  @Override public void programUniformPutInteger(
+    final @Nonnull ProgramUniform uniform,
+    final int value)
+    throws ConstraintError,
+      JCGLException
+  {
+    JOGL_GL2ES2_Functions.programPutUniformInteger(
+      this.contextGetGLES2(),
+      this.state,
+      uniform,
+      value);
+  }
+
   @Override public void programUniformPutMatrix3x3f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixReadable3x3F matrix)

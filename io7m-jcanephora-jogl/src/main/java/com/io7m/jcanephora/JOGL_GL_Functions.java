@@ -1869,9 +1869,9 @@ final class JOGL_GL_Functions
     final VersionNumber vn = context.getGLSLVersionNumber();
     final String text = gl.glGetString(GL2ES2.GL_SHADING_LANGUAGE_VERSION);
 
-    if (context.isGLES2() && (vn.getMajor() == 3)) {
+    if (context.isGLES()) {
       final String vtext = gl.glGetString(GL.GL_VERSION);
-      if (vtext.contains("Mesa 9.1.")) {
+      if (vtext.contains("Mesa 9.")) {
         final StringBuilder m = new StringBuilder();
         m.append("quirk: GL_VERSION is '");
         m.append(vtext);

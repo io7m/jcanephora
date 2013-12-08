@@ -440,7 +440,7 @@ public interface JCGLShadersCommon
    *           Iff any of the following hold:
    *           <ul>
    *           <li><code>uniform == null</code>.</li>
-   *           <li><code>uniform.getType() != TYPE_FLOAT_MATRIX_3</code>.</li>
+   *           <li><code>uniform.getType() != TYPE_FLOAT</code>.</li>
    *           <li>The program that <code>uniform</code> belongs to is not
    *           active.</li>
    *           </ul>
@@ -451,6 +451,31 @@ public interface JCGLShadersCommon
   void programUniformPutFloat(
     final @Nonnull ProgramUniform uniform,
     final float value)
+    throws ConstraintError,
+      JCGLException;
+
+  /**
+   * Upload the value <code>value</code> to the uniform <code>uniform</code>.
+   * 
+   * @param uniform
+   *          The uniform variable.
+   * @param value
+   *          The value.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>uniform == null</code>.</li>
+   *           <li><code>uniform.getType() != TYPE_INTEGER</code>.</li>
+   *           <li>The program that <code>uniform</code> belongs to is not
+   *           active.</li>
+   *           </ul>
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void programUniformPutInteger(
+    final @Nonnull ProgramUniform uniform,
+    final int value)
     throws ConstraintError,
       JCGLException;
 

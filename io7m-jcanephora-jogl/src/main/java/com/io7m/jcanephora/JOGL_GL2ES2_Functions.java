@@ -154,6 +154,21 @@ final class JOGL_GL2ES2_Functions
     JOGL_GL_Functions.checkError(gl);
   }
 
+  static void programActivate(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull ProgramReferenceUsable program)
+    throws JCGLException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(program, "Program ID");
+    Constraints.constrainArbitrary(
+      program.resourceIsDeleted() == false,
+      "Program not deleted");
+
+    gl.glUseProgram(program.getGLName());
+    JOGL_GL_Functions.checkError(gl);
+  }
+
   static void programAttributeArrayBind(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
@@ -514,21 +529,6 @@ final class JOGL_GL2ES2_Functions
     return program;
   }
 
-  static void programActivate(
-    final @Nonnull GL2ES2 gl,
-    final @Nonnull ProgramReferenceUsable program)
-    throws JCGLException,
-      ConstraintError
-  {
-    Constraints.constrainNotNull(program, "Program ID");
-    Constraints.constrainArbitrary(
-      program.resourceIsDeleted() == false,
-      "Program not deleted");
-
-    gl.glUseProgram(program.getGLName());
-    JOGL_GL_Functions.checkError(gl);
-  }
-
   static void programDeactivate(
     final @Nonnull GL2ES2 gl)
     throws JCGLException
@@ -785,6 +785,26 @@ final class JOGL_GL2ES2_Functions
       "Program for uniform is active");
 
     gl.glUniform1f(uniform.getLocation(), value);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void programPutUniformInteger(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull ProgramUniform uniform,
+    final int value)
+    throws ConstraintError,
+      JCGLException
+  {
+    Constraints.constrainNotNull(uniform, "Uniform");
+    Constraints.constrainArbitrary(
+      uniform.getType() == JCGLType.TYPE_INTEGER,
+      "Uniform type is int");
+    Constraints.constrainArbitrary(
+      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
+      "Program for uniform is active");
+
+    gl.glUniform1i(uniform.getLocation(), value);
     JOGL_GL_Functions.checkError(gl);
   }
 

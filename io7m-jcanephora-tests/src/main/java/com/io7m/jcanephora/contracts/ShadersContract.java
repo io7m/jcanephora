@@ -1635,6 +1635,27 @@ public abstract class ShadersContract implements TestContract
 
   @Test(expected = ConstraintError.class) public final
     void
+    testProgramUniformDeletedInteger()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    final FSCapabilityAll fs = tc.getFilesystem();
+    final PathVirtual sp = tc.getShaderPath();
+    final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
+    final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_int");
+    gl.programDelete(p);
+    gl.programUniformPutInteger(pu, 23);
+  }
+
+  /**
+   * Setting a uniform of a deleted program fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
     testProgramUniformDeletedMatrix3x3F()
       throws JCGLException,
         JCGLUnsupportedException,
@@ -2008,6 +2029,22 @@ public abstract class ShadersContract implements TestContract
 
   @Test(expected = ConstraintError.class) public final
     void
+    testProgramUniformNullInteger()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    gl.programUniformPutInteger(null, 23);
+  }
+
+  /**
+   * Setting a null uniform fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
     testProgramUniformNullMatrix3x3F()
       throws JCGLException,
         JCGLUnsupportedException,
@@ -2163,6 +2200,24 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_float");
     gl.programUniformPutFloat(pu, 23.0f);
+  }
+
+  /**
+   * Setting a uniform of the right type works.
+   */
+
+  @Test public final void testProgramUniformRightTypeInteger()
+    throws JCGLException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    final FSCapabilityAll fs = tc.getFilesystem();
+    final PathVirtual sp = tc.getShaderPath();
+    final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
+    final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_int");
+    gl.programUniformPutInteger(pu, 23);
   }
 
   /**
@@ -2465,6 +2520,26 @@ public abstract class ShadersContract implements TestContract
     final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
     final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_mat3");
     gl.programUniformPutFloat(pu, 23.0f);
+  }
+
+  /**
+   * Setting a uniform of the wrong type fails.
+   */
+
+  @Test(expected = ConstraintError.class) public final
+    void
+    testProgramUniformWrongTypeInteger()
+      throws JCGLException,
+        JCGLUnsupportedException,
+        ConstraintError
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    final FSCapabilityAll fs = tc.getFilesystem();
+    final PathVirtual sp = tc.getShaderPath();
+    final ProgramReference p = ShadersContract.makeComplexProgram(gl, fs, sp);
+    final ProgramUniform pu = ShadersContract.getUniform(gl, p, "u_mat3");
+    gl.programUniformPutInteger(pu, 23);
   }
 
   /**

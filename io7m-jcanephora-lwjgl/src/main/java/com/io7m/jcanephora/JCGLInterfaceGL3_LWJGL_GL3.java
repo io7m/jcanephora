@@ -1082,6 +1082,15 @@ import com.io7m.jtensors.VectorReadable4I;
     LWJGL_GLES2Functions.programPutUniformFloat(this.state, uniform, value);
   }
 
+  @Override public void programUniformPutInteger(
+    final @Nonnull ProgramUniform uniform,
+    final int value)
+    throws ConstraintError,
+      JCGLException
+  {
+    LWJGL_GLES2Functions.programPutUniformInteger(this.state, uniform, value);
+  }
+
   @Override public void programUniformPutMatrix3x3f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixReadable3x3F matrix)

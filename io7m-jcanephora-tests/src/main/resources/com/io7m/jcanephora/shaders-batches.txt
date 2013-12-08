@@ -1,0 +1,3 @@
+simple         : com.io7m.jcanephora.Shaders.simple
+everything     : com.io7m.jcanephora.Shaders.everything
+everything_opt : com.io7m.jcanephora.Shaders.everything_opt

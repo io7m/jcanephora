@@ -1,5 +1,6 @@
 #version 110
 
+uniform int         u_int;
 uniform float       u_float;
 uniform mat3        u_mat3;
 uniform mat4        u_mat4;
@@ -15,7 +16,7 @@ uniform samplerCube u_sampler_cube;
 void
 main (void)
 {
-  float x = u_float;
+  float x = u_float + float(u_int);
   x = x + u_mat3[0][0];
   x = x + u_mat4[0][0];
   x = x + u_vec2.x;
@@ -24,8 +25,9 @@ main (void)
   x = x + float(u_ivec3.x);
   x = x + u_vec4.x;
   x = x + float(u_ivec4.x);
-  x = x + texture2D(u_sampler2d, vec2(0.0, 0.0)).x;
-  x = x + textureCube(u_sampler_cube, vec3(0.0, 0.0, 0.0)).x;
+  x = x + texture(u_sampler2d, vec2(0.0, 0.0)).x;
+  x = x + texture(u_sampler_cube, vec3(0.0, 0.0, 0.0)).x;
 
   gl_Position = vec4(x, x, x, 1.0);
 }
+
