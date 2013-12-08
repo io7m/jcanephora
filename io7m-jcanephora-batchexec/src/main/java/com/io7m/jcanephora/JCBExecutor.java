@@ -454,6 +454,19 @@ public final class JCBExecutor implements JCBExecutionAPI
       }
     }
 
+    void programUnbindArrayAttributes(
+      final @Nonnull JCGLShadersCommon gl)
+      throws JCGLException,
+        ConstraintError
+    {
+      for (int index = 0; index < this.attributes.size(); ++index) {
+        final AttributeState a = this.attributes.get(index);
+        if (a.actual != null) {
+          gl.programAttributeArrayDisassociate(a.actual);
+        }
+      }
+    }
+
     @Override public void programExecute(
       final @Nonnull Runnable procedure)
       throws ConstraintError,
@@ -911,6 +924,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       throw new JCBExecutionException(e);
     } finally {
       this.jprogram.programClearAllFinish();
+      this.jprogram.programUnbindArrayAttributes(this.gc);
       this.gc.programDeactivate();
     }
   }
