@@ -184,17 +184,21 @@ public interface JCBProgram
    *           assigned values.</li>
    *           <li>At least one of the programs attributes have not been
    *           assigned values.</li>
+   *           <li><code>procedure</code> throws {@link ConstraintError}.</li>
    *           </ul>
    * @throws JCBExecutionException
-   *           Iff <code>procedure</code> throws an exception.
+   *           Iff <code>procedure</code> throws an exception of a type other
+   *           than {@link ConstraintError} or {@link JCGLException}.
    * @throws JCGLException
-   *           Iff an OpenGL error occurs.
+   *           Iff an OpenGL error occurs, or <code>procedure</code> throws
+   *           {@link JCGLException}.
    */
 
   public void programExecute(
-    final @Nonnull Runnable procedure)
+    final @Nonnull JCBProgramProcedure procedure)
     throws ConstraintError,
-      JCBExecutionException;
+      JCBExecutionException,
+      JCGLException;
 
   /**
    * Retrieve a read-only reference to the actual program.

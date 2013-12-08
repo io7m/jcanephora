@@ -16,27 +16,12 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
 import com.io7m.jaux.Constraints.ConstraintError;
 
-public interface JCBExecutionAPI
+public interface JCBProgramProcedure
 {
-  /**
-   * Run <code>procedure</code> using the current program.
-   * 
-   * @throws ConstraintError
-   *           Iff <code>procedure == null</code>.
-   * @throws JCGLException
-   *           Iff an OpenGL error occurs.
-   * @throws JCBExecutionException
-   *           Iff <code>procedure</code> throws an exception of a type other
-   *           than {@link ConstraintError} or {@link JCGLException}.
-   */
-
-  public void execRun(
-    final @Nonnull JCBExecutorProcedure procedure)
+  public void call()
     throws ConstraintError,
       JCGLException,
-      JCBExecutionException;
+      Exception;
 }
