@@ -26,5 +26,6 @@ public interface JCBExecutorProcedure
     final @Nonnull JCBProgram program)
     throws ConstraintError,
       JCGLException,
+      JCBExecutionException,
       Exception;
 }
