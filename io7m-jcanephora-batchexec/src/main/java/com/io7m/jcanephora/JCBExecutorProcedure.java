@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 
-public interface JCBProcedure
+public interface JCBExecutorProcedure
 {
   public void call(
     final @Nonnull JCBProgram program)

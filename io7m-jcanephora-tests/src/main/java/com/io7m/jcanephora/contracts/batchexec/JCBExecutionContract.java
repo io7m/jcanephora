@@ -38,8 +38,9 @@ import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
 import com.io7m.jcanephora.JCBExecutionAPI;
 import com.io7m.jcanephora.JCBExecutionException;
 import com.io7m.jcanephora.JCBExecutor;
-import com.io7m.jcanephora.JCBProcedure;
+import com.io7m.jcanephora.JCBExecutorProcedure;
 import com.io7m.jcanephora.JCBProgram;
+import com.io7m.jcanephora.JCBProgramProcedure;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
 import com.io7m.jcanephora.JCGLScalarType;
@@ -265,7 +266,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "simple");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -292,7 +293,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -319,7 +320,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -347,7 +348,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "simple");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -378,7 +379,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "simple");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -408,7 +409,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -435,7 +436,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -463,7 +464,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "simple");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -494,7 +495,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -525,7 +526,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -555,7 +556,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -582,7 +583,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -610,7 +611,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "simple");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -641,7 +642,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -672,7 +673,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -702,7 +703,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -729,7 +730,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -757,7 +758,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "simple");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -788,7 +789,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -819,7 +820,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -959,7 +960,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -986,7 +987,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -1013,7 +1014,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -1041,7 +1042,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "simple");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -1072,7 +1073,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "simple");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -1104,7 +1105,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -1131,7 +1132,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -1158,7 +1159,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -1186,7 +1187,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "simple");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -1217,7 +1218,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "simple");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -1247,7 +1248,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -1274,7 +1275,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -1303,7 +1304,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -1332,7 +1333,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -1361,7 +1362,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -1390,7 +1391,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -1419,7 +1420,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -1447,7 +1448,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -1480,7 +1481,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -1511,7 +1512,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -1541,7 +1542,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -1568,7 +1569,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -1596,7 +1597,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -1629,7 +1630,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -1660,7 +1661,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -1692,7 +1693,7 @@ public abstract class JCBExecutionContract implements TestContract
 
     final TextureUnit unit =
       tc.getGLImplementation().getGLCommon().textureGetUnits().get(0);
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -1721,7 +1722,7 @@ public abstract class JCBExecutionContract implements TestContract
 
     final TextureUnit unit =
       tc.getGLImplementation().getGLCommon().textureGetUnits().get(0);
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -1751,7 +1752,7 @@ public abstract class JCBExecutionContract implements TestContract
     try {
       final TextureUnit unit =
         tc.getGLImplementation().getGLCommon().textureGetUnits().get(0);
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -1784,7 +1785,7 @@ public abstract class JCBExecutionContract implements TestContract
     try {
       final TextureUnit unit =
         tc.getGLImplementation().getGLCommon().textureGetUnits().get(0);
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -1814,7 +1815,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -1845,7 +1846,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -1877,7 +1878,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -1912,7 +1913,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -1947,7 +1948,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -1977,7 +1978,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -2004,7 +2005,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -2036,7 +2037,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -2071,7 +2072,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -2102,7 +2103,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -2132,7 +2133,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -2163,7 +2164,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -2195,7 +2196,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -2230,7 +2231,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -2265,7 +2266,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -2295,7 +2296,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -2322,7 +2323,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -2354,7 +2355,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -2389,7 +2390,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -2420,7 +2421,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -2450,7 +2451,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -2481,7 +2482,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -2513,7 +2514,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -2548,7 +2549,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -2583,7 +2584,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -2613,7 +2614,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -2640,7 +2641,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -2672,7 +2673,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -2707,7 +2708,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -2738,7 +2739,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -2768,7 +2769,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -2798,7 +2799,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -2823,7 +2824,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -2852,7 +2853,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -2882,7 +2883,7 @@ public abstract class JCBExecutionContract implements TestContract
     final JCGLInterfaceCommon gc = tc.getGLImplementation().getGLCommon();
     final ArrayBuffer a = JCBExecutionContract.makeArrayBuffer(gc);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -2916,7 +2917,7 @@ public abstract class JCBExecutionContract implements TestContract
     final JCGLInterfaceCommon gc = tc.getGLImplementation().getGLCommon();
     final ArrayBuffer a = JCBExecutionContract.makeArrayBuffer(gc);
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -2953,7 +2954,7 @@ public abstract class JCBExecutionContract implements TestContract
           .getGLImplementation()
           .getGLCommon());
 
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -2989,7 +2990,7 @@ public abstract class JCBExecutionContract implements TestContract
           .getGLImplementation()
           .getGLCommon());
 
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -3025,7 +3026,7 @@ public abstract class JCBExecutionContract implements TestContract
           .getGLImplementation()
           .getGLCommon());
 
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -3056,7 +3057,7 @@ public abstract class JCBExecutionContract implements TestContract
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -3090,7 +3091,7 @@ public abstract class JCBExecutionContract implements TestContract
     final ArrayBuffer a = JCBExecutionContract.makeArrayBuffer(gc);
     final List<TextureUnit> units = gc.textureGetUnits();
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -3145,7 +3146,7 @@ public abstract class JCBExecutionContract implements TestContract
       new IllegalArgumentException("Caught!");
 
     try {
-      pair.first.execRun(new JCBProcedure() {
+      pair.first.execRun(new JCBExecutorProcedure() {
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
@@ -3161,8 +3162,11 @@ public abstract class JCBExecutionContract implements TestContract
           program.programUniformPutMatrix4x4f(
             "m_modelview",
             new MatrixM4x4F());
-          program.programExecute(new Runnable() {
-            @Override public void run()
+          program.programExecute(new JCBProgramProcedure() {
+            @Override public void call()
+              throws ConstraintError,
+                JCGLException,
+                Exception
             {
               throw z;
             }
@@ -3195,7 +3199,7 @@ public abstract class JCBExecutionContract implements TestContract
     final ArrayBuffer a = JCBExecutionContract.makeArrayBuffer(gc);
     final List<TextureUnit> units = gc.textureGetUnits();
 
-    pair.first.execRun(new JCBProcedure() {
+    pair.first.execRun(new JCBExecutorProcedure() {
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
@@ -3225,8 +3229,11 @@ public abstract class JCBExecutionContract implements TestContract
         program.programUniformPutMatrix4x4f("u_m4", new MatrixM4x4F());
         program.programUniformPutTextureUnit("u_texture", units.get(0));
 
-        program.programExecute(new Runnable() {
-          @Override public void run()
+        program.programExecute(new JCBProgramProcedure() {
+          @Override public void call()
+            throws ConstraintError,
+              JCGLException,
+              Exception
           {
             called_inner.set(true);
           }

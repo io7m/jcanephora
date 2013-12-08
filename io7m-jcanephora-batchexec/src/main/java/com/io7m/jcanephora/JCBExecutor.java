@@ -468,16 +468,21 @@ public final class JCBExecutor implements JCBExecutionAPI
     }
 
     @Override public void programExecute(
-      final @Nonnull Runnable procedure)
+      final @Nonnull JCBProgramProcedure procedure)
       throws ConstraintError,
-        JCBExecutionException
+        JCBExecutionException,
+        JCGLException
     {
       Constraints.constrainNotNull(procedure, "Procedure");
 
       this.programValidate();
 
       try {
-        procedure.run();
+        procedure.call();
+      } catch (final JCGLException x) {
+        throw x;
+      } catch (final ConstraintError x) {
+        throw x;
       } catch (final Throwable x) {
         throw new JCBExecutionException(x);
       } finally {
@@ -910,7 +915,7 @@ public final class JCBExecutor implements JCBExecutionAPI
   }
 
   @Override public void execRun(
-    final @Nonnull JCBProcedure procedure)
+    final @Nonnull JCBExecutorProcedure procedure)
     throws ConstraintError,
       JCGLException,
       JCBExecutionException
@@ -920,6 +925,10 @@ public final class JCBExecutor implements JCBExecutionAPI
     try {
       this.gc.programActivate(this.program);
       procedure.call(this.jprogram);
+    } catch (final ConstraintError e) {
+      throw e;
+    } catch (final JCGLException e) {
+      throw e;
     } catch (final Exception e) {
       throw new JCBExecutionException(e);
     } finally {
