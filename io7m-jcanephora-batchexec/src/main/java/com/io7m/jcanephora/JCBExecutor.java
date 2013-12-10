@@ -79,6 +79,16 @@ public final class JCBExecutor implements JCBExecutionAPI
 
   private static class Program implements JCBProgram
   {
+    private static boolean programTypesCompatible(
+      final @Nonnull JCGLType incoming,
+      final @Nonnull JCGLType actual)
+    {
+      if (incoming == actual) {
+        return true;
+      }
+      return incoming.isSamplerType() && actual.isSamplerType();
+    }
+
     private final @Nonnull HashMap<String, Integer>  attribute_names;
     private final @Nonnull ArrayList<AttributeState> attributes;
     private final @Nonnull JCGLShadersCommon         gc;
@@ -87,6 +97,7 @@ public final class JCBExecutor implements JCBExecutionAPI
     private final @Nonnull ArrayList<UniformState>   missed_uniforms;
     private final @Nonnull ProgramReference          program;
     private final @Nonnull HashMap<String, Integer>  uniform_names;
+
     private final @Nonnull ArrayList<UniformState>   uniforms;
 
     Program(
@@ -381,6 +392,88 @@ public final class JCBExecutor implements JCBExecutionAPI
       }
     }
 
+    @Override public final void programAttributeBind(
+      final @Nonnull String a,
+      final @Nonnull ArrayBufferAttribute x)
+      throws ConstraintError,
+        JCGLException
+    {
+      Constraints.constrainNotNull(x, "Array attribute");
+
+      final AttributeState state =
+        this.programCheckAttributeAndType(a, x.getDescriptor().getJCGLType());
+      if (state.actual != null) {
+        this.gc.programAttributeArrayAssociate(state.actual, x);
+      }
+      state.assigned = true;
+    }
+
+    @Override public final void programAttributePutFloat(
+      final @Nonnull String a,
+      final float x)
+      throws ConstraintError,
+        JCGLException
+    {
+      Constraints.constrainNotNull(a, "Attribute name");
+
+      final AttributeState state =
+        this.programCheckAttributeAndType(a, JCGLType.TYPE_FLOAT);
+      if (state.actual != null) {
+        this.gc.programAttributePutFloat(state.actual, x);
+      }
+      state.assigned = true;
+    }
+
+    @Override public final void programAttributePutVector2F(
+      final @Nonnull String a,
+      final @Nonnull VectorReadable2F x)
+      throws ConstraintError,
+        JCGLException
+    {
+      Constraints.constrainNotNull(a, "Attribute name");
+
+      final AttributeState state =
+        this.programCheckAttributeAndType(a, JCGLType.TYPE_FLOAT_VECTOR_2);
+      if (state.actual != null) {
+        this.gc.programAttributePutVector2f(state.actual, x);
+      }
+      state.assigned = true;
+    }
+
+    @Override public final void programAttributePutVector3F(
+      final @Nonnull String a,
+      final @Nonnull VectorReadable3F x)
+      throws ConstraintError,
+        JCGLException
+    {
+      Constraints.constrainNotNull(this.gc, "OpenGL interface");
+      Constraints.constrainNotNull(a, "Attribute name");
+
+      final AttributeState state =
+        this.programCheckAttributeAndType(a, JCGLType.TYPE_FLOAT_VECTOR_3);
+      if (state.actual != null) {
+        this.gc.programAttributePutVector3f(state.actual, x);
+      }
+      state.assigned = true;
+    }
+
+    @Override public final void programAttributePutVector4F(
+      final @Nonnull String a,
+      final @Nonnull VectorReadable4F x)
+      throws ConstraintError,
+        JCGLException
+    {
+      Constraints.constrainNotNull(this.gc, "OpenGL interface");
+      Constraints.constrainNotNull(a, "Attribute name");
+
+      final AttributeState state =
+        this.programCheckAttributeAndType(a, JCGLType.TYPE_FLOAT_VECTOR_4);
+      if (state.actual != null) {
+        this.gc.programAttributePutVector4f(state.actual, x);
+      }
+      state.assigned = true;
+    }
+
     private @CheckForNull AttributeState programCheckAttributeAndType(
       final @Nonnull String a,
       final @Nonnull JCGLType t)
@@ -393,7 +486,7 @@ public final class JCBExecutor implements JCBExecutionAPI
         throw this.errorAttributeNonexistent(a);
       }
       final AttributeState state = this.attributes.get(index.intValue());
-      if (state.type != t) {
+      if (Program.programTypesCompatible(t, state.type) == false) {
         throw this.errorAttributeWrongType(state, t);
       }
       return state;
@@ -418,7 +511,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       throws ConstraintError
     {
       final UniformState state = this.programCheckUniform(u);
-      if (state.type != t) {
+      if (Program.programTypesCompatible(t, state.type) == false) {
         throw this.errorUniformWrongType(state, t);
       }
       return state;
@@ -454,19 +547,6 @@ public final class JCBExecutor implements JCBExecutionAPI
       }
     }
 
-    void programUnbindArrayAttributes(
-      final @Nonnull JCGLShadersCommon gl)
-      throws JCGLException,
-        ConstraintError
-    {
-      for (int index = 0; index < this.attributes.size(); ++index) {
-        final AttributeState a = this.attributes.get(index);
-        if (a.actual != null) {
-          gl.programAttributeArrayDisassociate(a.actual);
-        }
-      }
-    }
-
     @Override public void programExecute(
       final @Nonnull JCBProgramProcedure procedure)
       throws ConstraintError,
@@ -493,6 +573,19 @@ public final class JCBExecutor implements JCBExecutionAPI
     @Override public @Nonnull ProgramReferenceUsable programGet()
     {
       return this.program;
+    }
+
+    void programUnbindArrayAttributes(
+      final @Nonnull JCGLShadersCommon gl)
+      throws JCGLException,
+        ConstraintError
+    {
+      for (int index = 0; index < this.attributes.size(); ++index) {
+        final AttributeState a = this.attributes.get(index);
+        if (a.actual != null) {
+          gl.programAttributeArrayDisassociate(a.actual);
+        }
+      }
     }
 
     @Override public void programUniformPutFloat(
@@ -730,88 +823,6 @@ public final class JCBExecutor implements JCBExecutionAPI
         }
         throw new ConstraintError(this.message.toString());
       }
-    }
-
-    @Override public final void programAttributeBind(
-      final @Nonnull String a,
-      final @Nonnull ArrayBufferAttribute x)
-      throws ConstraintError,
-        JCGLException
-    {
-      Constraints.constrainNotNull(x, "Array attribute");
-
-      final AttributeState state =
-        this.programCheckAttributeAndType(a, x.getDescriptor().getJCGLType());
-      if (state.actual != null) {
-        this.gc.programAttributeArrayAssociate(state.actual, x);
-      }
-      state.assigned = true;
-    }
-
-    @Override public final void programAttributePutFloat(
-      final @Nonnull String a,
-      final float x)
-      throws ConstraintError,
-        JCGLException
-    {
-      Constraints.constrainNotNull(a, "Attribute name");
-
-      final AttributeState state =
-        this.programCheckAttributeAndType(a, JCGLType.TYPE_FLOAT);
-      if (state.actual != null) {
-        this.gc.programAttributePutFloat(state.actual, x);
-      }
-      state.assigned = true;
-    }
-
-    @Override public final void programAttributePutVector2F(
-      final @Nonnull String a,
-      final @Nonnull VectorReadable2F x)
-      throws ConstraintError,
-        JCGLException
-    {
-      Constraints.constrainNotNull(a, "Attribute name");
-
-      final AttributeState state =
-        this.programCheckAttributeAndType(a, JCGLType.TYPE_FLOAT_VECTOR_2);
-      if (state.actual != null) {
-        this.gc.programAttributePutVector2f(state.actual, x);
-      }
-      state.assigned = true;
-    }
-
-    @Override public final void programAttributePutVector3F(
-      final @Nonnull String a,
-      final @Nonnull VectorReadable3F x)
-      throws ConstraintError,
-        JCGLException
-    {
-      Constraints.constrainNotNull(this.gc, "OpenGL interface");
-      Constraints.constrainNotNull(a, "Attribute name");
-
-      final AttributeState state =
-        this.programCheckAttributeAndType(a, JCGLType.TYPE_FLOAT_VECTOR_3);
-      if (state.actual != null) {
-        this.gc.programAttributePutVector3f(state.actual, x);
-      }
-      state.assigned = true;
-    }
-
-    @Override public final void programAttributePutVector4F(
-      final @Nonnull String a,
-      final @Nonnull VectorReadable4F x)
-      throws ConstraintError,
-        JCGLException
-    {
-      Constraints.constrainNotNull(this.gc, "OpenGL interface");
-      Constraints.constrainNotNull(a, "Attribute name");
-
-      final AttributeState state =
-        this.programCheckAttributeAndType(a, JCGLType.TYPE_FLOAT_VECTOR_4);
-      if (state.actual != null) {
-        this.gc.programAttributePutVector4f(state.actual, x);
-      }
-      state.assigned = true;
     }
   }
 
