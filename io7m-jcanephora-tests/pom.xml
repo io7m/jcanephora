@@ -8,7 +8,7 @@
   <artifactId>io7m-jcanephora-tests</artifactId>
   <name>io7m-jcanephora-tests</name>
   <description>Test contracts and cases</description>
-  <version>0.22.1</version>
+  <version>0.23.0</version>
   <url>http://mvn.io7m.com/jcanephora-tests</url>
   <packaging>jar</packaging>
 
@@ -88,14 +88,14 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.io7m.parasol.xml</groupId>
-      <artifactId>io7m-parasol-xml</artifactId>
-      <version>0.5.0</version>
+      <groupId>com.io7m.jparasol.xml</groupId>
+      <artifactId>io7m-jparasol-xml</artifactId>
+      <version>0.1.4</version>
     </dependency>
     <dependency>
       <groupId>com.io7m.jvvfs.core</groupId>
       <artifactId>io7m-jvvfs-core</artifactId>
-      <version>[3.0.0, 4.0.0)</version>
+      <version>[3.1.1, 4.0.0)</version>
     </dependency>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
