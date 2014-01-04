@@ -52,14 +52,14 @@ import com.io7m.jcanephora.TestUtilities.LoadedShader;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.UsageHint;
 import com.io7m.jcanephora.contracts.TestContract;
+import com.io7m.jparasol.xml.FragmentParameter;
+import com.io7m.jparasol.xml.VertexInput;
+import com.io7m.jparasol.xml.VertexParameter;
 import com.io7m.jtensors.MatrixM3x3F;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorI4F;
 import com.io7m.jtensors.VectorI4I;
 import com.io7m.jvvfs.FSCapabilityAll;
-import com.io7m.parasol.xml.FragmentParameter;
-import com.io7m.parasol.xml.VertexInput;
-import com.io7m.parasol.xml.VertexParameter;
 
 public abstract class JCBExecutionContract implements TestContract
 {

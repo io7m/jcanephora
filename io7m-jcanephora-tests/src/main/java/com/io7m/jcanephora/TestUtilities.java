@@ -23,9 +23,9 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jlog.Log;
+import com.io7m.jparasol.xml.PGLSLMetaXML;
 import com.io7m.jvvfs.FSCapabilityRead;
 import com.io7m.jvvfs.PathVirtual;
-import com.io7m.parasol.xml.PGLSLMetaXML;
 
 public final class TestUtilities
 {

@@ -8,7 +8,7 @@
   <artifactId>io7m-jcanephora-core</artifactId>
   <name>io7m-jcanephora-core</name>
   <description>Common API code</description>
-  <version>0.22.1</version>
+  <version>0.23.0</version>
   <url>http://mvn.io7m.com/jcanephora-core</url>
   <packaging>jar</packaging>
 
@@ -70,12 +70,12 @@
     <dependency>
       <groupId>com.io7m.jtensors</groupId>
       <artifactId>io7m-jtensors</artifactId>
-      <version>[5.3.0, 6.0.0)</version>
+      <version>[5.3.1, 6.0.0)</version>
     </dependency>
     <dependency>
       <groupId>com.io7m.jaux</groupId>
       <artifactId>io7m-jaux</artifactId>
-      <version>[2.6.0, 3.0.0)</version>
+      <version>[3.0.0, 4.0.0)</version>
     </dependency>
     <dependency>
       <groupId>com.io7m.ieee754b16</groupId>

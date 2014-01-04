@@ -8,7 +8,7 @@
   <artifactId>io7m-jcanephora-jogl</artifactId>
   <name>io7m-jcanephora-jogl</name>
   <description>API implementation using JOGL</description>
-  <version>0.22.1</version>
+  <version>0.23.0</version>
   <url>http://mvn.io7m.com/jcanephora-jogl</url>
   <packaging>jar</packaging>
 
@@ -70,7 +70,7 @@
     <dependency>
       <groupId>com.io7m.jlog</groupId>
       <artifactId>io7m-jlog</artifactId>
-      <version>[2.3.0, 3.0.0)</version>
+      <version>[2.4.0, 3.0.0)</version>
     </dependency>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
