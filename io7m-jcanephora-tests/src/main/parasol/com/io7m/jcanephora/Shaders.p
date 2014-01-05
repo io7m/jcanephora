@@ -27,9 +27,10 @@ module Shaders is
   import com.io7m.parasol.Float             as F;
 
   shader vertex simple_v is
-    in v_position          : vector_3f;
-    parameter m_modelview  : matrix_4x4f;
-    parameter m_projection : matrix_4x4f;
+    in v_position              : vector_3f;
+    parameter m_modelview      : matrix_4x4f;
+    parameter m_projection     : matrix_4x4f;
+    out vertex f_position_clip : vector_4f;
   with
     value clip_position =
       M4.multiply_vector (
@@ -37,7 +38,7 @@ module Shaders is
         new vector_4f (v_position, 1.0)
       );
   as
-    out gl_Position = clip_position;
+    out f_position_clip = clip_position;
   end;
 
   shader fragment simple_f is
@@ -67,8 +68,9 @@ module Shaders is
     parameter u_vi4   : vector_4i;
     parameter u_m3    : matrix_3x3f;
     parameter u_m4    : matrix_4x4f;
-    
-    out something : vector_4f;
+
+    out vertex f_position_clip : vector_4f;
+    out        something       : vector_4f;
   with
     value vf0 = new vector_4f (a_vf2 [x], a_vf3 [x], a_vf4 [z], u_float);
     value vf1 = new vector_4f (u_vf2 [x], u_vf3 [x], u_vf4 [x], new float (u_int));
@@ -92,8 +94,8 @@ module Shaders is
     value clip_position =
       M4.multiply_vector (u_m4, k);
   as
-    out gl_Position = clip_position;
-    out something   = k;
+    out f_position_clip = clip_position;
+    out something       = k;
   end;
 
   shader fragment everything_f is
@@ -126,7 +128,7 @@ module Shaders is
     parameter u_vi4   : vector_4i;
     parameter u_m3    : matrix_3x3f;
     parameter u_m4    : matrix_4x4f;
-    
+
     in a_f_opt            : float;
     in a_vf2_opt          : vector_2f;
     in a_vf3_opt          : vector_3f;
@@ -141,8 +143,9 @@ module Shaders is
     parameter u_vi4_opt   : vector_4i;
     parameter u_m3_opt    : matrix_3x3f;
     parameter u_m4_opt    : matrix_4x4f;
-    
-    out something : vector_4f;
+
+    out vertex f_position_clip : vector_4f;
+    out something              : vector_4f;
   with
     value vf0 = new vector_4f (a_vf2 [x], a_vf3 [x], a_vf4 [z], u_float);
     value vf1 = new vector_4f (u_vf2 [x], u_vf3 [x], u_vf4 [x], new float (u_int));
@@ -166,8 +169,8 @@ module Shaders is
     value clip_position =
       M4.multiply_vector (u_m4, k);
   as
-    out gl_Position = clip_position;
-    out something   = k;
+    out f_position_clip = clip_position;
+    out something       = k;
   end;
 
   shader fragment everything_opt_f is

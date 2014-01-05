@@ -90,7 +90,7 @@
     <dependency>
       <groupId>com.io7m.jparasol.xml</groupId>
       <artifactId>io7m-jparasol-xml</artifactId>
-      <version>0.1.4</version>
+      <version>0.3.5</version>
     </dependency>
     <dependency>
       <groupId>com.io7m.jvvfs.core</groupId>
