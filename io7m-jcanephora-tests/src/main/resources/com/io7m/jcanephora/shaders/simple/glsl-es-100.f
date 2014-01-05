@@ -5,8 +5,6 @@ precision highp int;
 
 uniform vec4 f_ccolour;
 
-
-
 void
 main (void)
 {

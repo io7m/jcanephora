@@ -1,9 +1,6 @@
 #version 120
 
-
 uniform vec4 f_ccolour;
-
-
 
 void
 main (void)
