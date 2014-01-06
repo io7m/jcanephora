@@ -28,6 +28,52 @@ import com.io7m.jaux.Constraints.ConstraintError;
 public interface JCGLRenderbuffersGL3ES3 extends JCGLRenderbuffersCommon
 {
   /**
+   * Allocate a depth renderbuffer.
+   * 
+   * See {@link RenderbufferType#RENDERBUFFER_DEPTH_16} for the precise
+   * format.
+   * 
+   * @return A freshly allocated renderbuffer.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>1 <= width <= Integer.MAX_VALUE == false</code></li>
+   *           <li><code>1 <= height <= Integer.MAX_VALUE == false</code></li>
+   *           </ul>
+   * @throws JCGLRuntimeException
+   *           Iff an OpenGL exception occurs.
+   */
+
+  @Nonnull Renderbuffer<RenderableDepth> renderbufferAllocateDepth16(
+    final int width,
+    final int height)
+    throws ConstraintError,
+      JCGLRuntimeException;
+
+  /**
+   * Allocate a depth renderbuffer.
+   * 
+   * See {@link RenderbufferType#RENDERBUFFER_DEPTH_24} for the precise
+   * format.
+   * 
+   * @return A freshly allocated renderbuffer.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>1 <= width <= Integer.MAX_VALUE == false</code></li>
+   *           <li><code>1 <= height <= Integer.MAX_VALUE == false</code></li>
+   *           </ul>
+   * @throws JCGLRuntimeException
+   *           Iff an OpenGL exception occurs.
+   */
+
+  @Nonnull Renderbuffer<RenderableDepth> renderbufferAllocateDepth24(
+    final int width,
+    final int height)
+    throws ConstraintError,
+      JCGLRuntimeException;
+
+  /**
    * Allocate a packed depth/stencil renderbuffer.
    * 
    * See {@link RenderbufferType#RENDERBUFFER_DEPTH_24_STENCIL_8} for the

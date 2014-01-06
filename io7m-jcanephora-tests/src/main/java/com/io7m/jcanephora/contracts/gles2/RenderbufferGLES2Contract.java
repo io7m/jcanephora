@@ -23,8 +23,8 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLRenderbuffersGLES2;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.RenderbufferType;
@@ -76,6 +76,7 @@ public abstract class RenderbufferGLES2Contract extends
         case RENDERBUFFER_STENCIL_8:
           rb = gr.renderbufferAllocateStencil8(width, height);
           break;
+        case RENDERBUFFER_DEPTH_24:
         case RENDERBUFFER_DEPTH_24_STENCIL_8:
         case RENDERBUFFER_COLOR_RGBA_8888:
         case RENDERBUFFER_COLOR_RGB_888:

@@ -50,13 +50,13 @@ import com.io7m.jtensors.VectorReadable4I;
 @NotThreadSafe public final class JCGLInterfaceGL2_LWJGL_GL2 implements
   JCGLInterfaceGL2
 {
+  private final @Nonnull Option<JCGLExtensionDepthTexture> ext_depth_texture;
+  private final @Nonnull JCGLNamedExtensions               extensions;
   private final @Nonnull Log                               log;
+  private final @Nonnull JCGLSoftRestrictions              restrictions;
   private final @Nonnull JCGLSLVersion                     sl_version;
   private final @Nonnull JCGLStateCache                    state;
   private final @Nonnull JCGLVersion                       version;
-  private final @Nonnull Option<JCGLExtensionDepthTexture> ext_depth_texture;
-  private final @Nonnull JCGLSoftRestrictions              restrictions;
-  private final @Nonnull JCGLNamedExtensions               extensions;
 
   JCGLInterfaceGL2_LWJGL_GL2(
     final @Nonnull Log log,
@@ -532,6 +532,11 @@ import com.io7m.jtensors.VectorReadable4I;
     final int code)
   {
     return code == GL11.GL_INVALID_OPERATION;
+  }
+
+  @Override public Option<JCGLExtensionDepthTexture> extensionDepthTexture()
+  {
+    return this.ext_depth_texture;
   }
 
   @Override public FragmentShader fragmentShaderCompile(
@@ -1044,6 +1049,15 @@ import com.io7m.jtensors.VectorReadable4I;
     LWJGL_GLES2Functions.programPutUniformFloat(this.state, uniform, value);
   }
 
+  @Override public void programUniformPutInteger(
+    final @Nonnull ProgramUniform uniform,
+    final int value)
+    throws ConstraintError,
+      JCGLRuntimeException
+  {
+    LWJGL_GLES2Functions.programPutUniformInteger(this.state, uniform, value);
+  }
+
   @Override public void programUniformPutMatrix3x3f(
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixReadable3x3F matrix)
@@ -1150,6 +1164,36 @@ import com.io7m.jtensors.VectorReadable4I;
       this.state,
       uniform,
       vector);
+  }
+
+  @Override public Renderbuffer<RenderableDepth> renderbufferAllocateDepth16(
+    final int width,
+    final int height)
+    throws ConstraintError,
+      JCGLRuntimeException
+  {
+    return Renderbuffer.unsafeBrandDepth(LWJGL_GLES2Functions
+      .renderbufferAllocate(
+        this.state,
+        this.log,
+        RenderbufferType.RENDERBUFFER_DEPTH_16,
+        width,
+        height));
+  }
+
+  @Override public Renderbuffer<RenderableDepth> renderbufferAllocateDepth24(
+    final int width,
+    final int height)
+    throws ConstraintError,
+      JCGLRuntimeException
+  {
+    return Renderbuffer.unsafeBrandDepth(LWJGL_GLES2Functions
+      .renderbufferAllocate(
+        this.state,
+        this.log,
+        RenderbufferType.RENDERBUFFER_DEPTH_24,
+        width,
+        height));
   }
 
   @Override public @Nonnull
@@ -1431,6 +1475,32 @@ import com.io7m.jtensors.VectorReadable4I;
     LWJGL_GLES2Functions.texture2DStaticUpdate(data);
   }
 
+  @Override public @Nonnull
+    TextureCubeStatic
+    textureCubeStaticAllocateDepth24Stencil8(
+      final @Nonnull String name,
+      final int size,
+      final @Nonnull TextureWrapR wrap_r,
+      final @Nonnull TextureWrapS wrap_s,
+      final @Nonnull TextureWrapT wrap_t,
+      final @Nonnull TextureFilterMinification min_filter,
+      final @Nonnull TextureFilterMagnification mag_filter)
+      throws ConstraintError,
+        JCGLRuntimeException
+  {
+    return LWJGL_GLES2Functions.textureCubeStaticAllocate(
+      this.state,
+      this.log,
+      name,
+      size,
+      TextureType.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
   @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB8(
     final @Nonnull String name,
     final int size,
@@ -1600,45 +1670,5 @@ import com.io7m.jtensors.VectorReadable4I;
       JCGLRuntimeException
   {
     LWJGL_GLES2Functions.viewportSet(position, dimensions);
-  }
-
-  @Override public @Nonnull
-    TextureCubeStatic
-    textureCubeStaticAllocateDepth24Stencil8(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLRuntimeException
-  {
-    return LWJGL_GLES2Functions.textureCubeStaticAllocate(
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureType.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public Option<JCGLExtensionDepthTexture> extensionDepthTexture()
-  {
-    return this.ext_depth_texture;
-  }
-
-  @Override public void programUniformPutInteger(
-    final @Nonnull ProgramUniform uniform,
-    final int value)
-    throws ConstraintError,
-      JCGLRuntimeException
-  {
-    LWJGL_GLES2Functions.programPutUniformInteger(this.state, uniform, value);
   }
 }

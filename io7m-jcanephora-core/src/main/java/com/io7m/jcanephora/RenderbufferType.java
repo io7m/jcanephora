@@ -67,6 +67,12 @@ public enum RenderbufferType
   RENDERBUFFER_DEPTH_16,
 
   /**
+   * 24 bit depth buffer
+   */
+
+  RENDERBUFFER_DEPTH_24,
+
+  /**
    * Packed 24 bit depth buffer, 8 bit stencil buffer
    */
 
@@ -85,6 +91,8 @@ public enum RenderbufferType
   public static @Nonnull Set<RenderbufferType> getGL3ES3Types()
   {
     return EnumSet.of(
+      RENDERBUFFER_DEPTH_16,
+      RENDERBUFFER_DEPTH_24,
       RENDERBUFFER_DEPTH_24_STENCIL_8,
       RENDERBUFFER_COLOR_RGBA_8888,
       RENDERBUFFER_COLOR_RGB_888);
@@ -97,6 +105,8 @@ public enum RenderbufferType
   public static @Nonnull Set<RenderbufferType> getGL3Types()
   {
     return EnumSet.of(
+      RENDERBUFFER_DEPTH_16,
+      RENDERBUFFER_DEPTH_24,
       RENDERBUFFER_DEPTH_24_STENCIL_8,
       RENDERBUFFER_COLOR_RGBA_8888,
       RENDERBUFFER_COLOR_RGB_888);
@@ -145,6 +155,7 @@ public enum RenderbufferType
       case RENDERBUFFER_COLOR_RGB_888:
         return true;
       case RENDERBUFFER_DEPTH_16:
+      case RENDERBUFFER_DEPTH_24:
       case RENDERBUFFER_STENCIL_8:
       case RENDERBUFFER_DEPTH_24_STENCIL_8:
         return false;
@@ -168,6 +179,7 @@ public enum RenderbufferType
       case RENDERBUFFER_COLOR_RGB_888:
         return false;
       case RENDERBUFFER_DEPTH_16:
+      case RENDERBUFFER_DEPTH_24:
       case RENDERBUFFER_DEPTH_24_STENCIL_8:
         return true;
     }
@@ -188,6 +200,7 @@ public enum RenderbufferType
       case RENDERBUFFER_DEPTH_16:
       case RENDERBUFFER_COLOR_RGBA_8888:
       case RENDERBUFFER_COLOR_RGB_888:
+      case RENDERBUFFER_DEPTH_24:
         return false;
       case RENDERBUFFER_STENCIL_8:
       case RENDERBUFFER_DEPTH_24_STENCIL_8:
