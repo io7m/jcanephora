@@ -22,6 +22,6 @@ public interface JCBProgramProcedure
 {
   public void call()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       Throwable;
 }

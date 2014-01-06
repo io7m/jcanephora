@@ -37,7 +37,7 @@ public final class JOGL3pBlendFullTest extends BlendingGL3Contract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

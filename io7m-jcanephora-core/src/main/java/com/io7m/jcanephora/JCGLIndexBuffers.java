@@ -38,7 +38,7 @@ public interface JCGLIndexBuffers
    * @param indices
    *          The number of indices.
    * @return A reference to the allocated buffer.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -51,7 +51,7 @@ public interface JCGLIndexBuffers
   @Nonnull IndexBuffer indexBufferAllocate(
     final @Nonnull ArrayBufferUsable buffer,
     final int indices)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -63,7 +63,7 @@ public interface JCGLIndexBuffers
    * @param type
    *          The type of indices.
    * @return A reference to the allocated buffer.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -76,7 +76,7 @@ public interface JCGLIndexBuffers
   @Nonnull IndexBuffer indexBufferAllocateType(
     final @Nonnull JCGLUnsignedType type,
     final int indices)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -91,14 +91,14 @@ public interface JCGLIndexBuffers
    *           <li><code>id</code> does not refer to a valid buffer (possible
    *           if the buffer has already been deleted).</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void indexBufferDelete(
     final @Nonnull IndexBuffer id)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Replace the contents (or part of the contents) of the index buffer
@@ -112,12 +112,12 @@ public interface JCGLIndexBuffers
    *           <ul>
    *           <li><code>data == null</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   public void indexBufferUpdate(
     final @Nonnull IndexBufferWritableData data)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 }

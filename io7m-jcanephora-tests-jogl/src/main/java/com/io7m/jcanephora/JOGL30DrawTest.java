@@ -45,7 +45,7 @@ public final class JOGL30DrawTest extends DrawContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

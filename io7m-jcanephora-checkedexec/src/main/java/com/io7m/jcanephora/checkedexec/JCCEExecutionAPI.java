@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.ArrayBufferAttribute;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLShadersCommon;
 import com.io7m.jcanephora.ProgramReferenceUsable;
 import com.io7m.jcanephora.TextureUnit;
@@ -87,7 +87,7 @@ public interface JCCEExecutionAPI
    *           {@link JCGLShadersCommon#programAttributeArrayAssociate(com.io7m.jcanephora.ProgramAttribute, ArrayBufferAttribute)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programAttributeArrayAssociate(com.io7m.jcanephora.ProgramAttribute, ArrayBufferAttribute)}
    *           .
@@ -98,7 +98,7 @@ public interface JCCEExecutionAPI
     final @Nonnull String a,
     final @Nonnull ArrayBufferAttribute x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -119,7 +119,7 @@ public interface JCCEExecutionAPI
    *           {@link JCGLShadersCommon#programAttributePutFloat(com.io7m.jcanephora.ProgramAttribute, float)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programAttributePutFloat(com.io7m.jcanephora.ProgramAttribute, float)}
    *           .
@@ -130,7 +130,7 @@ public interface JCCEExecutionAPI
     final @Nonnull String a,
     float x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -151,7 +151,7 @@ public interface JCCEExecutionAPI
    *           {@link JCGLShadersCommon#programAttributePutVector2f(com.io7m.jcanephora.ProgramAttribute, VectorReadable2F)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programAttributePutVector2f(com.io7m.jcanephora.ProgramAttribute, VectorReadable2F)}
    *           .
@@ -162,7 +162,7 @@ public interface JCCEExecutionAPI
     final @Nonnull String a,
     final @Nonnull VectorReadable2F x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -183,7 +183,7 @@ public interface JCCEExecutionAPI
    *           {@link JCGLShadersCommon#programAttributePutVector3f(com.io7m.jcanephora.ProgramAttribute, VectorReadable3F)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programAttributePutVector3f(com.io7m.jcanephora.ProgramAttribute, VectorReadable3F)}
    *           .
@@ -194,7 +194,7 @@ public interface JCCEExecutionAPI
     final @Nonnull String a,
     final @Nonnull VectorReadable3F x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -215,7 +215,7 @@ public interface JCCEExecutionAPI
    *           {@link JCGLShadersCommon#programAttributePutVector4f(com.io7m.jcanephora.ProgramAttribute, VectorReadable4F)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programAttributePutVector4f(com.io7m.jcanephora.ProgramAttribute, VectorReadable4F)}
    *           .
@@ -226,7 +226,7 @@ public interface JCCEExecutionAPI
     final @Nonnull String a,
     final @Nonnull VectorReadable4F x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -263,7 +263,7 @@ public interface JCCEExecutionAPI
 
   @Nonnull ProgramReferenceUsable execGetProgram()
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -278,14 +278,14 @@ public interface JCCEExecutionAPI
    *           <li><code>p == null</code></li>
    *           <li>The program is already being prepared.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff the program cannot start, or an OpenGL error occurs.
    */
 
   public void execPrepare(
     final @Nonnull JCGLShadersCommon gl)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -308,7 +308,7 @@ public interface JCCEExecutionAPI
    *           <li>At least one of the programs attributes have not been
    *           assigned values.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    * @throws Exception
    *           Propagated from the implementation-specific function.
@@ -336,7 +336,7 @@ public interface JCCEExecutionAPI
    *           {@link JCGLShadersCommon#programUniformPutFloat(com.io7m.jcanephora.ProgramUniform, float)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutFloat(com.io7m.jcanephora.ProgramUniform, float)}
    *           .
@@ -347,7 +347,7 @@ public interface JCCEExecutionAPI
     final @Nonnull String u,
     float x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -366,7 +366,7 @@ public interface JCCEExecutionAPI
    *           {@link JCGLShadersCommon#programUniformPutMatrix3x3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.MatrixReadable3x3F)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutMatrix3x3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.MatrixReadable3x3F)}
    *           .
@@ -377,7 +377,7 @@ public interface JCCEExecutionAPI
     final @Nonnull String u,
     final @Nonnull MatrixReadable3x3F x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -396,7 +396,7 @@ public interface JCCEExecutionAPI
    *           {@link JCGLShadersCommon#programUniformPutMatrix4x4f(com.io7m.jcanephora.ProgramUniform, MatrixReadable4x4F)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutMatrix4x4f(com.io7m.jcanephora.ProgramUniform, MatrixReadable4x4F)}
    *           .
@@ -407,7 +407,7 @@ public interface JCCEExecutionAPI
     final @Nonnull String u,
     final @Nonnull MatrixReadable4x4F x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -426,7 +426,7 @@ public interface JCCEExecutionAPI
    *           {@link JCGLShadersCommon#programUniformPutTextureUnit(com.io7m.jcanephora.ProgramUniform, TextureUnit)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutTextureUnit(com.io7m.jcanephora.ProgramUniform, TextureUnit)}
    *           .
@@ -437,7 +437,7 @@ public interface JCCEExecutionAPI
     final @Nonnull String u,
     final @Nonnull TextureUnit x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -456,7 +456,7 @@ public interface JCCEExecutionAPI
    *           {@link JCGLShadersCommon#programUniformPutVector2f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable2F)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutVector2f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable2F)}
    *           .
@@ -467,7 +467,7 @@ public interface JCCEExecutionAPI
     final @Nonnull String u,
     final @Nonnull VectorReadable2F x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -486,7 +486,7 @@ public interface JCCEExecutionAPI
    *           {@link JCGLShadersCommon#programUniformPutVector2i(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable2I)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutVector2i(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable2I)}
    *           .
@@ -497,7 +497,7 @@ public interface JCCEExecutionAPI
     final @Nonnull String u,
     final @Nonnull VectorReadable2I x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -516,7 +516,7 @@ public interface JCCEExecutionAPI
    *           {@link JCGLShadersCommon#programUniformPutVector3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable3F)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutVector3f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable3F)}
    *           .
@@ -527,7 +527,7 @@ public interface JCCEExecutionAPI
     final @Nonnull String u,
     final @Nonnull VectorReadable3F x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -546,7 +546,7 @@ public interface JCCEExecutionAPI
    *           {@link JCGLShadersCommon#programUniformPutVector3i(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable3I)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutVector3i(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable3I)}
    *           .
@@ -557,7 +557,7 @@ public interface JCCEExecutionAPI
     final @Nonnull String u,
     final @Nonnull VectorReadable3I x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -576,7 +576,7 @@ public interface JCCEExecutionAPI
    *           {@link JCGLShadersCommon#programUniformPutVector4f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4F)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutVector4f(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4F)}
    *           .
@@ -587,7 +587,7 @@ public interface JCCEExecutionAPI
     final @Nonnull String u,
     final @Nonnull VectorReadable4F x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -606,7 +606,7 @@ public interface JCCEExecutionAPI
    *           {@link JCGLShadersCommon#programUniformPutVector4i(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4I)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutVector4i(com.io7m.jcanephora.ProgramUniform, com.io7m.jtensors.VectorReadable4I)}
    *           .
@@ -617,7 +617,7 @@ public interface JCCEExecutionAPI
     final @Nonnull String u,
     final @Nonnull VectorReadable4I x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -647,7 +647,7 @@ public interface JCCEExecutionAPI
   public void execUniformUseExisting(
     final @Nonnull String u)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>

@@ -54,7 +54,7 @@ class ExtPackedDepthStencil<G extends GL> implements
   @Override public void framebufferDrawAttachDepthStencilRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable<RenderableDepthStencil> renderbuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL_Functions.framebufferDrawAttachDepthStencilRenderbuffer(
@@ -71,7 +71,7 @@ class ExtPackedDepthStencil<G extends GL> implements
       final int width,
       final int height)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return Renderbuffer.unsafeBrandDepthStencil(JOGL_GL_Functions
       .renderbufferAllocate(

@@ -46,7 +46,7 @@ public final class JOGLES3ArrayBufferTest extends ArrayBufferContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

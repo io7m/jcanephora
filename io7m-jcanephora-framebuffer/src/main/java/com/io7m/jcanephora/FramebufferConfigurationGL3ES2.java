@@ -45,13 +45,13 @@ public interface FramebufferConfigurationGL3ES2
    * 
    * @throws ConstraintError
    *           Iff <code>gi == null</code>.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   @Nonnull Indeterminate<Framebuffer, FramebufferStatus> make(
     final @Nonnull JCGLImplementation gi)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**

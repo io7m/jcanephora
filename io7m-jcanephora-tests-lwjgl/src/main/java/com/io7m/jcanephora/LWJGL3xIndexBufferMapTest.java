@@ -69,7 +69,7 @@ public final class LWJGL3xIndexBufferMapTest extends IndexBufferMapContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

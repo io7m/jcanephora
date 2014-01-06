@@ -24,7 +24,7 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.JCGLDraw;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLIndexBuffers;
 import com.io7m.jcanephora.JCGLUnsignedType;
 import com.io7m.jcanephora.JCGLUnsupportedException;
@@ -47,13 +47,13 @@ public abstract class DrawContract implements TestContract
   /**
    * Drawing primitives works.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public final void testDraw()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -72,7 +72,7 @@ public abstract class DrawContract implements TestContract
   /**
    * Drawing primitives with a deleted index buffer fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           , GLUnsupportedException
    * @throws ConstraintError
    */
@@ -80,7 +80,7 @@ public abstract class DrawContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testDrawIndexDeleted()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -98,7 +98,7 @@ public abstract class DrawContract implements TestContract
   /**
    * Drawing primitives with a null index buffer fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           , GLUnsupportedException
    * @throws ConstraintError
    */
@@ -106,7 +106,7 @@ public abstract class DrawContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testDrawNullIndex()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -119,7 +119,7 @@ public abstract class DrawContract implements TestContract
   /**
    * Drawing null primitives fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           , GLUnsupportedException
    * @throws ConstraintError
    */
@@ -127,7 +127,7 @@ public abstract class DrawContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testDrawNullPrimitive()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {

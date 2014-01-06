@@ -37,7 +37,7 @@ public final class JOGL30MetaTest extends MetaContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

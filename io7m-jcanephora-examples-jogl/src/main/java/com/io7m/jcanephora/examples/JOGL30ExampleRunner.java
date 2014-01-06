@@ -30,7 +30,7 @@ import javax.media.opengl.GLProfile;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.PartialFunction;
 import com.io7m.jcanephora.JCGLCompileException;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLImplementationJOGL;
 import com.io7m.jcanephora.TextureLoader;
 import com.io7m.jcanephora.TextureLoaderImageIO;
@@ -193,7 +193,7 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
       if (this.example_current.hasShutDown() == false) {
         this.example_current.display();
       }
-    } catch (final JCGLException e) {
+    } catch (final JCGLRuntimeException e) {
       JOGL30ExampleRunner.fatal(e);
     } catch (final JCGLCompileException e) {
       JOGL30ExampleRunner.fatal(e);
@@ -393,7 +393,7 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
 
       this.exampleFirst();
 
-    } catch (final JCGLException e) {
+    } catch (final JCGLRuntimeException e) {
       JOGL30ExampleRunner.fatal(e);
     } catch (final ConstraintError e) {
       JOGL30ExampleRunner.fatal(e);
@@ -444,7 +444,7 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
 
     try {
       this.example_current.reshape(this.window_position, this.window_size);
-    } catch (final JCGLException e) {
+    } catch (final JCGLRuntimeException e) {
       JOGL30ExampleRunner.fatal(e);
     } catch (final JCGLCompileException e) {
       JOGL30ExampleRunner.fatal(e);

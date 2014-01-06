@@ -248,7 +248,7 @@ public final class LWJGLTestContext
   }
 
   public static TestContext makeContextWithOpenGL_ES2()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -262,7 +262,7 @@ public final class LWJGLTestContext
 
   public static TestContext makeContextWithOpenGL_ES2_WithRestrictions(
     final @CheckForNull JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -275,7 +275,7 @@ public final class LWJGLTestContext
   }
 
   public static TestContext makeContextWithOpenGL21_X()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -293,7 +293,7 @@ public final class LWJGLTestContext
 
   public static TestContext makeContextWithOpenGL21_X_WithRestrictions(
     final @CheckForNull JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -310,7 +310,7 @@ public final class LWJGLTestContext
   }
 
   public static TestContext makeContextWithOpenGL3_0()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -328,7 +328,7 @@ public final class LWJGLTestContext
 
   public static TestContext makeContextWithOpenGL3_0_WithRestrictions(
     final @CheckForNull JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -345,7 +345,7 @@ public final class LWJGLTestContext
   }
 
   public static TestContext makeContextWithOpenGL3_X()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -363,7 +363,7 @@ public final class LWJGLTestContext
 
   public static TestContext makeContextWithOpenGL3_X_WithRestrictions(
     final @CheckForNull JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -382,7 +382,7 @@ public final class LWJGLTestContext
   private static JCGLImplementation makeImplementation(
     final Log log,
     final @CheckForNull JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -396,7 +396,7 @@ public final class LWJGLTestContext
   public static JCGLImplementation makeImplementationWithOpenGL_2_1(
     final Log log,
     final @CheckForNull JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -407,7 +407,7 @@ public final class LWJGLTestContext
   public static JCGLImplementation makeImplementationWithOpenGL_3_0(
     final Log log,
     final @CheckForNull JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -418,7 +418,7 @@ public final class LWJGLTestContext
   public static JCGLImplementation makeImplementationWithOpenGL_3_X(
     final Log log,
     final @CheckForNull JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -429,7 +429,7 @@ public final class LWJGLTestContext
   public static JCGLImplementation makeImplementationWithOpenGL_ES2(
     final Log log,
     final @CheckForNull JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

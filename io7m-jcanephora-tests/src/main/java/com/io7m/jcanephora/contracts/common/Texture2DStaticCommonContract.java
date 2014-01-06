@@ -21,7 +21,7 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLTextures2DStaticCommon;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
@@ -41,11 +41,11 @@ public abstract class Texture2DStaticCommonContract extends
    * Textures have the correct type.
    * 
    * @throws ConstraintError
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    */
 
   @Test public void testTextureTypes()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

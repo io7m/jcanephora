@@ -32,20 +32,20 @@ public interface JCGLTextureUnits
    * <code>8192</code>, the largest texture that can be created is
    * <code>8192 * 8192</code>.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   public int textureGetMaximumSize()
-    throws JCGLException;
+    throws JCGLRuntimeException;
 
   /**
    * Retrieve all available texture units for the current implementation.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   public @Nonnull List<TextureUnit> textureGetUnits()
-    throws JCGLException;
+    throws JCGLRuntimeException;
 }

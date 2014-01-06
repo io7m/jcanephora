@@ -20,13 +20,13 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.JCGLCompileException;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jtensors.VectorReadable2I;
 
 public interface Example
 {
   void display()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError,
       JCGLCompileException;
 
@@ -35,12 +35,12 @@ public interface Example
   void reshape(
     final @Nonnull VectorReadable2I position,
     final @Nonnull VectorReadable2I size)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError,
       JCGLCompileException;
 
   void shutdown()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError,
       JCGLCompileException;
 }

@@ -66,7 +66,7 @@ class ExtDepthCubeTexture implements JCGLExtensionDepthCubeTexture
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return LWJGL_GLES2Functions.textureCubeStaticAllocate(
       this.cache,

@@ -28,7 +28,7 @@ public final class JOGL30FramebuffersES2Test extends FramebuffersES2Contract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

@@ -28,7 +28,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.FramebufferDrawBuffer;
 import com.io7m.jcanephora.JCGLCompileException;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLShadersGL3;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.ShaderUtilities;
@@ -50,7 +50,7 @@ public abstract class ShadersContractGL3 extends ShadersContract
   @Test(expected = ConstraintError.class) public
     void
     testProgramCreateDeletedFragment()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -95,7 +95,7 @@ public abstract class ShadersContractGL3 extends ShadersContract
   @Test(expected = ConstraintError.class) public
     void
     testProgramCreateDeletedVertex()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -138,7 +138,7 @@ public abstract class ShadersContractGL3 extends ShadersContract
    */
 
   @Test public void testProgramCreateMappings()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       JCGLCompileException
@@ -182,7 +182,7 @@ public abstract class ShadersContractGL3 extends ShadersContract
   @Test(expected = ConstraintError.class) public
     void
     testProgramCreateOutputsFragmentNull()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -215,7 +215,7 @@ public abstract class ShadersContractGL3 extends ShadersContract
   @Test(expected = ConstraintError.class) public
     void
     testProgramCreateOutputsMappingEmpty()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -253,7 +253,7 @@ public abstract class ShadersContractGL3 extends ShadersContract
   @Test(expected = ConstraintError.class) public
     void
     testProgramCreateOutputsMappingNull()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -292,7 +292,7 @@ public abstract class ShadersContractGL3 extends ShadersContract
   @Test(expected = ConstraintError.class) public
     void
     testProgramCreateOutputsMappingNullKey()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -334,7 +334,7 @@ public abstract class ShadersContractGL3 extends ShadersContract
   @Test(expected = ConstraintError.class) public
     void
     testProgramCreateOutputsMappingsTooMany()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -379,7 +379,7 @@ public abstract class ShadersContractGL3 extends ShadersContract
   @Test(expected = ConstraintError.class) public
     void
     testProgramCreateOutputsNameNull()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -416,7 +416,7 @@ public abstract class ShadersContractGL3 extends ShadersContract
   @Test(expected = ConstraintError.class) public
     void
     testProgramCreateOutputsOutputsNull()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -451,7 +451,7 @@ public abstract class ShadersContractGL3 extends ShadersContract
   @Test(expected = ConstraintError.class) public
     void
     testProgramCreateOutputsVertexNull()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException

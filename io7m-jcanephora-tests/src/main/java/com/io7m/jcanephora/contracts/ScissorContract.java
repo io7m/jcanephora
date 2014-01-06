@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLScissor;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
@@ -38,7 +38,7 @@ public abstract class ScissorContract implements TestContract
     TestContext tc);
 
   @Test public void testScissorEnableWorks()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -54,7 +54,7 @@ public abstract class ScissorContract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testScissorNullDimensions()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -67,7 +67,7 @@ public abstract class ScissorContract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testScissorNullPosition()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {

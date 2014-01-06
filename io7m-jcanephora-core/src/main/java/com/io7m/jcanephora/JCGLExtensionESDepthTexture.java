@@ -87,7 +87,7 @@ public interface JCGLExtensionESDepthTexture
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
    *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -100,5 +100,5 @@ public interface JCGLExtensionESDepthTexture
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 }

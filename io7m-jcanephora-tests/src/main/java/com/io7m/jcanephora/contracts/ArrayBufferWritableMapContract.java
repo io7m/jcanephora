@@ -36,7 +36,7 @@ import com.io7m.jcanephora.CursorWritable3f;
 import com.io7m.jcanephora.JCGLArrayBuffers;
 import com.io7m.jcanephora.JCGLArrayBuffersMapped;
 import com.io7m.jcanephora.JCGLErrorCodes;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
@@ -66,7 +66,7 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
     void
     testArrayBufferMapCursor2fNull()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -99,7 +99,7 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
     void
     testArrayBufferMapCursor2fOutOfRange()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -135,7 +135,7 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
 
   @Test public final void testArrayBufferMapCursor2fSeekCorrect()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -225,7 +225,7 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
 
   @Test public final void testArrayBufferMapCursor2fWriteCorrect()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -314,7 +314,7 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
     void
     testArrayBufferMapCursor2fWrongType()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -355,7 +355,7 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
     void
     testArrayBufferMapCursor3fNull()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -386,7 +386,7 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
 
   @Test public final void testArrayBufferMapCursor3fWriteCorrect()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -461,7 +461,7 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
 
   @Test public final void testArrayBufferMapCursor3fWriteSeekCorrect()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -541,7 +541,7 @@ public abstract class ArrayBufferWritableMapContract implements TestContract
     void
     testArrayBufferMapCursor3fWrongType()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();

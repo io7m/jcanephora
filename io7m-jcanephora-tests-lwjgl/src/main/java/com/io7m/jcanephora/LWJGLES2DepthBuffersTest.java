@@ -51,7 +51,7 @@ public final class LWJGLES2DepthBuffersTest extends DepthBuffersContract
   @Override public @Nonnull FramebufferReference makeFramebufferWithDepth(
     @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     final Some<JCGLInterfaceGLES2> some =
       (Some<JCGLInterfaceGLES2>) gi.getGLES2();
@@ -89,7 +89,7 @@ public final class LWJGLES2DepthBuffersTest extends DepthBuffersContract
   @Override public @Nonnull FramebufferReference makeFramebufferWithoutDepth(
     @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     final Some<JCGLInterfaceGLES2> some =
       (Some<JCGLInterfaceGLES2>) gi.getGLES2();
@@ -112,7 +112,7 @@ public final class LWJGLES2DepthBuffersTest extends DepthBuffersContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

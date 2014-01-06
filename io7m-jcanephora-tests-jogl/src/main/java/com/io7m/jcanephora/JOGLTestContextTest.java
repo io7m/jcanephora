@@ -29,7 +29,7 @@ public class JOGLTestContextTest
   }
 
   @SuppressWarnings("static-method") @Test public void testGL_ES2_Open()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -43,7 +43,7 @@ public class JOGLTestContextTest
   }
 
   @SuppressWarnings("static-method") @Test public void testGL_ES3_Open()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -58,7 +58,7 @@ public class JOGLTestContextTest
   }
 
   @SuppressWarnings("static-method") @Test public void testGL2_1_Open()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -72,7 +72,7 @@ public class JOGLTestContextTest
   }
 
   @SuppressWarnings("static-method") @Test public void testGL3_0_Open()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -86,7 +86,7 @@ public class JOGLTestContextTest
   }
 
   @SuppressWarnings("static-method") @Test public void testGL3_p_Open()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

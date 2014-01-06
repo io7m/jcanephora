@@ -25,7 +25,7 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLExtensionESDepthTexture;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
@@ -50,7 +50,7 @@ public abstract class ExtensionDepthESTextureContract implements TestContract
   }
 
   @Test public void testAllocation16()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

@@ -27,16 +27,16 @@ public interface JCBExecutionAPI
    * 
    * @throws ConstraintError
    *           Iff <code>procedure == null</code>.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    * @throws JCBExecutionException
    *           Iff <code>procedure</code> throws an exception of a type other
-   *           than {@link ConstraintError} or {@link JCGLException}.
+   *           than {@link ConstraintError} or {@link JCGLRuntimeException}.
    */
 
   public void execRun(
     final @Nonnull JCBExecutorProcedure procedure)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCBExecutionException;
 }

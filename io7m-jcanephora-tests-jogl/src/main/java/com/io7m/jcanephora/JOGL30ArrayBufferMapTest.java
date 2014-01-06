@@ -53,7 +53,7 @@ public final class JOGL30ArrayBufferMapTest extends ArrayBufferMapContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

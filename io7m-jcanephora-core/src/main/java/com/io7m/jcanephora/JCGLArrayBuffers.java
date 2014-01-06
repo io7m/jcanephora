@@ -38,7 +38,7 @@ public interface JCGLArrayBuffers
    * @param usage
    *          The usage hint
    * @return A reference to the allocated buffer.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -53,7 +53,7 @@ public interface JCGLArrayBuffers
     final long elements,
     final @Nonnull ArrayBufferTypeDescriptor descriptor,
     final @Nonnull UsageHint usage)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -63,7 +63,7 @@ public interface JCGLArrayBuffers
    * 
    * @param buffer
    *          The array buffer.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -76,7 +76,7 @@ public interface JCGLArrayBuffers
 
   public void arrayBufferBind(
     final @Nonnull ArrayBufferUsable buffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -92,14 +92,14 @@ public interface JCGLArrayBuffers
    *           if the buffer has already been deleted).</li>
    *           </ul>
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   public void arrayBufferDelete(
     final @Nonnull ArrayBuffer id)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Return <code>true</code> iff the array buffer specified by
@@ -115,24 +115,24 @@ public interface JCGLArrayBuffers
    *           <li><code>id</code> does not refer to a valid buffer (possible
    *           if the buffer has already been deleted).</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   public boolean arrayBufferIsBound(
     final @Nonnull ArrayBufferUsable id)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Unbind the current array buffer.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   public void arrayBufferUnbind()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -150,12 +150,12 @@ public interface JCGLArrayBuffers
    *           <li><code>data.getArrayBuffer()</code> is not bound.</li>
    *           <li><code>data.getArrayBuffer()</code> is deleted.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   public void arrayBufferUpdate(
     final @Nonnull ArrayBufferWritableData data)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 }

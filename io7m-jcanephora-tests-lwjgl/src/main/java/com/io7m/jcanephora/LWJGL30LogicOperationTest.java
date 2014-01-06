@@ -41,7 +41,7 @@ public final class LWJGL30LogicOperationTest extends LogicOpContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

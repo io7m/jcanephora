@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLMeta;
 import com.io7m.jcanephora.JCGLSLVersion;
 import com.io7m.jcanephora.JCGLUnsupportedException;
@@ -40,7 +40,7 @@ public abstract class MetaContract implements TestContract
     TestContext tc);
 
   @Test public void testMetaStrings()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

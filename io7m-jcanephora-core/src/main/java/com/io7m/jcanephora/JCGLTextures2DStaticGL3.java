@@ -84,7 +84,7 @@ public interface JCGLTextures2DStaticGL3 extends JCGLTextures2DStaticGL3ES3
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
    *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -97,7 +97,7 @@ public interface JCGLTextures2DStaticGL3 extends JCGLTextures2DStaticGL3ES3
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -154,7 +154,7 @@ public interface JCGLTextures2DStaticGL3 extends JCGLTextures2DStaticGL3ES3
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
    *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -167,7 +167,7 @@ public interface JCGLTextures2DStaticGL3 extends JCGLTextures2DStaticGL3ES3
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -224,7 +224,7 @@ public interface JCGLTextures2DStaticGL3 extends JCGLTextures2DStaticGL3ES3
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
    *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -237,7 +237,7 @@ public interface JCGLTextures2DStaticGL3 extends JCGLTextures2DStaticGL3ES3
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -294,7 +294,7 @@ public interface JCGLTextures2DStaticGL3 extends JCGLTextures2DStaticGL3ES3
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
    *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -307,7 +307,7 @@ public interface JCGLTextures2DStaticGL3 extends JCGLTextures2DStaticGL3ES3
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Retrieve the texture image data associated with <code>texture</code>.
@@ -318,12 +318,12 @@ public interface JCGLTextures2DStaticGL3 extends JCGLTextures2DStaticGL3ES3
    *           <li><code>texture == null</code></li>
    *           <li><code>texture</code> has been deleted</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   public @Nonnull Texture2DReadableData texture2DStaticGetImage(
     final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 }

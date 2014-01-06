@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
  * OpenGL shading programs.
  */
 
-public final class JCGLCompileException extends Exception
+public final class JCGLCompileException extends JCGLException
 {
   private static final long serialVersionUID = -4382015389191616062L;
 

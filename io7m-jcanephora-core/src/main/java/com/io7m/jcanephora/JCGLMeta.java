@@ -31,45 +31,45 @@ public interface JCGLMeta
    */
 
   public int metaGetError()
-    throws JCGLException;
+    throws JCGLRuntimeException;
 
   /**
    * Return the name of the OpenGL renderer.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   public @Nonnull String metaGetRenderer()
-    throws JCGLException;
+    throws JCGLRuntimeException;
 
   /**
    * Return the version string for the OpenGL shading language implementation.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   public @Nonnull JCGLSLVersion metaGetSLVersion()
-    throws JCGLException;
+    throws JCGLRuntimeException;
 
   /**
    * Return the name of the OpenGL vendor.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   public @Nonnull String metaGetVendor()
-    throws JCGLException;
+    throws JCGLRuntimeException;
 
   /**
    * Return the version string for the OpenGL implementation.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   public @Nonnull JCGLVersion metaGetVersion()
-    throws JCGLException;
+    throws JCGLRuntimeException;
 }

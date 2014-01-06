@@ -30,7 +30,7 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.JCGLCompileException;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
 import com.io7m.jcanephora.ProgramReference;
 import com.io7m.jcanephora.ShaderUtilities;
@@ -80,7 +80,7 @@ public abstract class JCCEExecutionCallableContract implements TestContract
       throw new AssertionError(e);
     } catch (final JCGLCompileException e) {
       throw new AssertionError(e);
-    } catch (final JCGLException e) {
+    } catch (final JCGLRuntimeException e) {
       throw new AssertionError(e);
     }
   }

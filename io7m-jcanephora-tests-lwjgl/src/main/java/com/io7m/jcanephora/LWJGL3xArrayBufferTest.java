@@ -46,7 +46,7 @@ public final class LWJGL3xArrayBufferTest extends ArrayBufferContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

@@ -41,7 +41,7 @@ import com.io7m.jcanephora.JCBExecutor;
 import com.io7m.jcanephora.JCBExecutorProcedure;
 import com.io7m.jcanephora.JCBProgram;
 import com.io7m.jcanephora.JCBProgramProcedure;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.JCGLType;
@@ -94,7 +94,7 @@ public abstract class JCBExecutionContract implements TestContract
         UsageHint.USAGE_STATIC_DRAW);
     } catch (final ConstraintError e) {
       throw new AssertionError(e);
-    } catch (final JCGLException e) {
+    } catch (final JCGLRuntimeException e) {
       throw new AssertionError(e);
     }
   }
@@ -159,7 +159,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test(expected = ConstraintError.class) public void testNullAttributes()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -177,7 +177,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test(expected = ConstraintError.class) public void testNullGL()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -190,7 +190,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test(expected = ConstraintError.class) public void testNullLog()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -203,7 +203,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test(expected = ConstraintError.class) public void testNullProgram()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -213,7 +213,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test(expected = ConstraintError.class) public void testNullRunnable()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -238,7 +238,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test(expected = ConstraintError.class) public void testNullUniforms()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -256,7 +256,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProcedureCalled()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -270,7 +270,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         Assert.assertEquals(pair.second.program, program.programGet());
@@ -283,7 +283,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramAttributePutFloat()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -297,7 +297,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -310,7 +310,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramAttributePutFloatOptimizedOut()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -324,7 +324,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -339,7 +339,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramAttributePutFloatNonexistent()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -352,7 +352,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programAttributePutFloat("nonexistent", 23.0f);
@@ -370,7 +370,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramAttributePutFloatNull()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -383,7 +383,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programAttributePutFloat(null, 23.0f);
@@ -399,7 +399,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramAttributePutVector2f()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -413,7 +413,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -426,7 +426,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramAttributePutVector2fOptimizedOut()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -440,7 +440,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -455,7 +455,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramAttributePutVector2fNonexistent()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -468,7 +468,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programAttributePutVector2F("nonexistent", new VectorI4F());
@@ -486,7 +486,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramAttributePutVector2fNull()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -499,7 +499,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programAttributePutVector2F(null, new VectorI4F());
@@ -517,7 +517,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramAttributePutVector2fNullValue()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -530,7 +530,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programAttributePutVector2F("a_vf2", null);
@@ -546,7 +546,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramAttributePutVector3f()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -560,7 +560,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -573,7 +573,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramAttributePutVector3fOptimizedOut()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -587,7 +587,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -602,7 +602,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramAttributePutVector3fNonexistent()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -615,7 +615,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programAttributePutVector3F("nonexistent", new VectorI4F());
@@ -633,7 +633,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramAttributePutVector3fNull()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -646,7 +646,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programAttributePutVector3F(null, new VectorI4F());
@@ -664,7 +664,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramAttributePutVector3fNullValue()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -677,7 +677,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programAttributePutVector3F("a_vf3", null);
@@ -693,7 +693,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramAttributePutVector4f()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -707,7 +707,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -720,7 +720,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramAttributePutVector4fOptimizedOut()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -734,7 +734,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -749,7 +749,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramAttributePutVector4fNonexistent()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -762,7 +762,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programAttributePutVector4F("nonexistent", new VectorI4F());
@@ -780,7 +780,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramAttributePutVector4fNull()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -793,7 +793,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programAttributePutVector4F(null, new VectorI4F());
@@ -811,7 +811,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramAttributePutVector4fNullValue()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -824,7 +824,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programAttributePutVector4F("a_vf4", null);
@@ -842,7 +842,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramContainsIllTypedAttribute()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -867,7 +867,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramContainsIllTypedUniform()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -892,7 +892,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramContainsUndeclaredAttribute()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -916,7 +916,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramContainsUndeclaredUniform()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -933,7 +933,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test(expected = ConstraintError.class) public void testProgramDeleted()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -950,7 +950,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutFloatWrongType()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -964,7 +964,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -977,7 +977,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutFloat()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -991,7 +991,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -1004,7 +1004,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutFloatOptimizedOut()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -1018,7 +1018,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -1033,7 +1033,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutFloatNonexistent()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1046,7 +1046,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutFloat("nonexistent", 23.0f);
@@ -1064,7 +1064,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutFloatNull()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1077,7 +1077,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutFloat(null, 23.0f);
@@ -1095,7 +1095,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutIntegerWrongType()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1109,7 +1109,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -1122,7 +1122,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutInteger()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -1136,7 +1136,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -1149,7 +1149,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutIntegerOptimizedOut()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -1163,7 +1163,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -1178,7 +1178,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutIntegerNonexistent()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1191,7 +1191,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutInteger("nonexistent", 23);
@@ -1209,7 +1209,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutIntegerNull()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1222,7 +1222,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutInteger(null, 23);
@@ -1238,7 +1238,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutMatrix3x3f()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -1252,7 +1252,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -1265,7 +1265,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutMatrix3x3fOptimizedOut()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -1279,7 +1279,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -1294,7 +1294,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutMatrix3x3fWrongType()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1308,7 +1308,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -1323,7 +1323,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutMatrix4x4fWrongType()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1337,7 +1337,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -1352,7 +1352,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector2fWrongType()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1366,7 +1366,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -1381,7 +1381,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector3fWrongType()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1395,7 +1395,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -1410,7 +1410,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector4fWrongType()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1424,7 +1424,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -1439,7 +1439,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutMatrix3x3fNonexistent()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1452,7 +1452,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutMatrix3x3f(
@@ -1472,7 +1472,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutMatrix3x3fNullName()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1485,7 +1485,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutMatrix3x3f(null, new MatrixM3x3F());
@@ -1503,7 +1503,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutMatrix3x3fNullValue()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1516,7 +1516,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutMatrix3x3f("u_m3", null);
@@ -1532,7 +1532,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutMatrix4x4f()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -1546,7 +1546,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -1559,7 +1559,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutMatrix4x4fOptimizedOut()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -1573,7 +1573,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -1588,7 +1588,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutMatrix4x4fNonexistent()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1601,7 +1601,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutMatrix4x4f(
@@ -1621,7 +1621,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutMatrix4x4fNullName()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1634,7 +1634,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutMatrix4x4f(null, new MatrixM4x4F());
@@ -1652,7 +1652,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutMatrix4x4fNullValue()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1665,7 +1665,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutMatrix4x4f("u_m4", null);
@@ -1681,7 +1681,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutTextureUnit()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -1697,7 +1697,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -1710,7 +1710,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutTextureUnitOptimizedOut()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -1726,7 +1726,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -1741,7 +1741,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutTextureUnitNonexistent()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1756,7 +1756,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutTextureUnit("nonexistent", unit);
@@ -1774,7 +1774,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutTextureUnitNull()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1789,7 +1789,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutTextureUnit(null, unit);
@@ -1805,7 +1805,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutVector2f()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -1819,7 +1819,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -1836,7 +1836,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutVector2fOptimizedOut()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -1850,7 +1850,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -1869,7 +1869,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector2fNonexistent()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1882,7 +1882,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutVector2f("nonexistent", new VectorI4F(
@@ -1904,7 +1904,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector2fNullName()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1917,7 +1917,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutVector2f(null, new VectorI4F(
@@ -1939,7 +1939,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector2fNullValue()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -1952,7 +1952,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutVector2f("u_vf2", null);
@@ -1968,7 +1968,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutVector2i()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -1982,7 +1982,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -1995,7 +1995,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutVector2iOptimizedOut()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -2009,7 +2009,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -2028,7 +2028,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector2iNonexistent()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -2041,7 +2041,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutVector2i("nonexistent", new VectorI4I(
@@ -2063,7 +2063,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector2iNullName()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -2076,7 +2076,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutVector2i(null, new VectorI4I(0, 1, 2, 3));
@@ -2094,7 +2094,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector2iNullValue()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -2107,7 +2107,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutVector2i("u_vi2", null);
@@ -2123,7 +2123,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutVector3f()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -2137,7 +2137,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -2154,7 +2154,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutVector3fOptimizedOut()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -2168,7 +2168,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -2187,7 +2187,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector3fNonexistent()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -2200,7 +2200,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutVector3f("nonexistent", new VectorI4F(
@@ -2222,7 +2222,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector3fNullName()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -2235,7 +2235,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutVector3f(null, new VectorI4F(
@@ -2257,7 +2257,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector3fNullValue()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -2270,7 +2270,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutVector3f("u_vf3", null);
@@ -2286,7 +2286,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutVector3i()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -2300,7 +2300,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -2313,7 +2313,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutVector3iOptimizedOut()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -2327,7 +2327,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -2346,7 +2346,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector3iNonexistent()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -2359,7 +2359,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutVector3i("nonexistent", new VectorI4I(
@@ -2381,7 +2381,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector3iNullName()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -2394,7 +2394,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutVector3i(null, new VectorI4I(0, 1, 2, 3));
@@ -2412,7 +2412,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector3iNullValue()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -2425,7 +2425,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutVector3i("u_vi3", null);
@@ -2441,7 +2441,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutVector4f()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -2455,7 +2455,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -2472,7 +2472,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutVector4fOptimizedOut()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -2486,7 +2486,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -2505,7 +2505,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector4fNonexistent()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -2518,7 +2518,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutVector4f("nonexistent", new VectorI4F(
@@ -2540,7 +2540,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector4fNullName()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -2553,7 +2553,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutVector4f(null, new VectorI4F(
@@ -2575,7 +2575,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector4fNullValue()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -2588,7 +2588,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutVector4f("u_vf4", null);
@@ -2604,7 +2604,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutVector4i()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -2618,7 +2618,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -2631,7 +2631,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformPutVector4iOptimizedOut()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -2645,7 +2645,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -2664,7 +2664,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector4iNonexistent()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -2677,7 +2677,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutVector4i("nonexistent", new VectorI4I(
@@ -2699,7 +2699,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector4iNullName()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -2712,7 +2712,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutVector4i(null, new VectorI4I(0, 1, 2, 3));
@@ -2730,7 +2730,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformPutVector4iNullValue()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -2743,7 +2743,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programUniformPutVector4i("u_vi4", null);
@@ -2759,7 +2759,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformReuseAssigned()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -2773,7 +2773,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -2789,7 +2789,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformReuseUnassigned()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -2803,7 +2803,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -2814,7 +2814,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramUniformsOptimizedOut()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -2828,7 +2828,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -2843,7 +2843,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramUniformUnassigned()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -2857,7 +2857,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -2870,7 +2870,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramAttributeBind()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -2887,7 +2887,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -2904,7 +2904,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramAttributeBindOptimizedOut()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -2921,7 +2921,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -2940,7 +2940,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramAttributeBindNonexistent()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -2958,7 +2958,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programAttributeBind("nonexistent", a.getAttribute("a_f"));
@@ -2976,7 +2976,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramAttributeBindWrongType()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -2994,7 +2994,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programAttributeBind("a_vf4", a.getAttribute("a_f"));
@@ -3012,7 +3012,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramAttributeBindNull()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -3030,7 +3030,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programAttributeBind(null, a.getAttribute("a_f"));
@@ -3048,7 +3048,7 @@ public abstract class JCBExecutionContract implements TestContract
     void
     testProgramAttributeBindNullValue()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCBExecutionException
   {
@@ -3061,7 +3061,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           program.programAttributeBind("a_vf4", null);
@@ -3077,7 +3077,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramAllAssigned()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -3095,7 +3095,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -3130,7 +3130,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramExecException()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -3150,7 +3150,7 @@ public abstract class JCBExecutionContract implements TestContract
         @Override public void call(
           final @Nonnull JCBProgram program)
           throws ConstraintError,
-            JCGLException,
+            JCGLRuntimeException,
             Exception
         {
           gc.arrayBufferBind(a);
@@ -3165,7 +3165,7 @@ public abstract class JCBExecutionContract implements TestContract
           program.programExecute(new JCBProgramProcedure() {
             @Override public void call()
               throws ConstraintError,
-                JCGLException,
+                JCGLRuntimeException,
                 Exception
             {
               throw z;
@@ -3184,7 +3184,7 @@ public abstract class JCBExecutionContract implements TestContract
 
   @Test public void testProgramAllAssignedExec()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCBExecutionException
   {
@@ -3203,7 +3203,7 @@ public abstract class JCBExecutionContract implements TestContract
       @Override public void call(
         final @Nonnull JCBProgram program)
         throws ConstraintError,
-          JCGLException,
+          JCGLRuntimeException,
           Exception
       {
         called.set(true);
@@ -3232,7 +3232,7 @@ public abstract class JCBExecutionContract implements TestContract
         program.programExecute(new JCBProgramProcedure() {
           @Override public void call()
             throws ConstraintError,
-              JCGLException,
+              JCGLRuntimeException,
               Exception
           {
             called_inner.set(true);

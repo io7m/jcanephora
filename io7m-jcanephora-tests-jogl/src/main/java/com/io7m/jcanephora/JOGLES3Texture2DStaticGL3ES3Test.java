@@ -47,7 +47,7 @@ public final class JOGLES3Texture2DStaticGL3ES3Test extends
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

@@ -45,7 +45,7 @@ public final class JOGLES2IndexBufferTest extends IndexBufferContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

@@ -39,7 +39,7 @@ import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
 import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
 import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.JCGLCompileException;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.JCGLShadersCommon;
@@ -132,7 +132,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
         UsageHint.USAGE_STATIC_DRAW);
     } catch (final ConstraintError e) {
       throw new AssertionError(e);
-    } catch (final JCGLException e) {
+    } catch (final JCGLRuntimeException e) {
       throw new AssertionError(e);
     }
   }
@@ -202,7 +202,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       throw new AssertionError(e);
     } catch (final JCGLCompileException e) {
       throw new AssertionError(e);
-    } catch (final JCGLException e) {
+    } catch (final JCGLRuntimeException e) {
       throw new AssertionError(e);
     }
   }
@@ -234,7 +234,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       throw new AssertionError(e);
     } catch (final JCGLCompileException e) {
       throw new AssertionError(e);
-    } catch (final JCGLException e) {
+    } catch (final JCGLRuntimeException e) {
       throw new AssertionError(e);
     }
   }
@@ -926,7 +926,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       final @Nonnull ExecCalled e,
       final @Nonnull String name,
       final @Nonnull JCGLType except)
-      throws JCGLException
+      throws JCGLRuntimeException
   {
     for (final JCGLType t : JCGLType.values()) {
       if (t == except) {
@@ -1029,7 +1029,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
       final @Nonnull ExecCalled e,
       final @Nonnull String name,
       final @Nonnull JCGLType except)
-      throws JCGLException
+      throws JCGLRuntimeException
   {
     for (final JCGLType t : JCGLType.values()) {
       if (t == except) {
@@ -1110,7 +1110,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     void
     testMakeDeletedProgram()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -1136,7 +1136,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     void
     testMakeNullProgram()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -1579,7 +1579,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
     void
     testPrepareNullGL()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -1589,7 +1589,7 @@ public abstract class JCCEExecutionAbstractContract implements TestContract
 
     final JCCEExecutionAPI e = new JCCEExecutionAbstract(p, null, null) {
       @Override protected void execRunActual()
-        throws JCGLException
+        throws JCGLRuntimeException
       {
         throw new UnreachableCodeException();
       }

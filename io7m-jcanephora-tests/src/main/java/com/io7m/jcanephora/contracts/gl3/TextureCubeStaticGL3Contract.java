@@ -23,7 +23,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.CubeMapFaceLH;
 import com.io7m.jcanephora.CubeMapFaceRH;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLTexturesCubeStaticGL3;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.SpatialCursorReadable4i;
@@ -50,7 +50,7 @@ public abstract class TextureCubeStaticGL3Contract extends
    */
 
   @Test public final void testTextureImageGetLH()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -112,7 +112,7 @@ public abstract class TextureCubeStaticGL3Contract extends
    */
 
   @Test public final void testTextureImageGetRH()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -174,7 +174,7 @@ public abstract class TextureCubeStaticGL3Contract extends
    */
 
   @Test public final void testTextureTypes()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

@@ -37,7 +37,7 @@ public final class JOGL3pScissorTest extends ScissorContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

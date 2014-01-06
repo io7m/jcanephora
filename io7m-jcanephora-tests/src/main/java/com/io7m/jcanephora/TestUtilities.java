@@ -51,7 +51,7 @@ public final class TestUtilities
 
   private static @Nonnull String getVersionName(
     final @Nonnull JCGLMeta g)
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     final JCGLSLVersion v = g.metaGetSLVersion();
     final int number = (v.getVersionMajor() * 100) + v.getVersionMinor();

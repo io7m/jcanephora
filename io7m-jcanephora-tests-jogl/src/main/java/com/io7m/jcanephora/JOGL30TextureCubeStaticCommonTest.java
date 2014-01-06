@@ -47,7 +47,7 @@ public final class JOGL30TextureCubeStaticCommonTest extends
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

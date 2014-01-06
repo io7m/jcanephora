@@ -35,7 +35,7 @@ import com.io7m.jcanephora.CMFKPositiveX;
 import com.io7m.jcanephora.CMFKPositiveY;
 import com.io7m.jcanephora.CMFKPositiveZ;
 import com.io7m.jcanephora.CubeMapFaceInputStream;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLImplementation;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
 import com.io7m.jcanephora.JCGLTextures2DStaticCommon;
@@ -69,7 +69,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
     final @Nonnull JCGLInterfaceCommon gl,
     final @Nonnull T tl,
     final @Nonnull String path)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError,
       FilesystemError,
       IOException
@@ -235,7 +235,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
     final @Nonnull JCGLInterfaceCommon gl,
     final @Nonnull T tl,
     final @Nonnull String path)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError,
       FilesystemError,
       IOException
@@ -403,7 +403,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
     final @Nonnull String path)
     throws FilesystemError,
       ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     for (final TextureType tt : TextureTypeMeta
@@ -522,7 +522,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
   }
 
   @Test public final void testBug540405e7b9()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       IOException,
       ConstraintError,
       JCGLUnsupportedException,
@@ -552,7 +552,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
   }
 
   @Test public final void testCubeLHCommon()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -568,7 +568,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
   }
 
   @Test public final void testCubeRHCommon()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -584,7 +584,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
   }
 
   @Test public final void testTextureTypesGreyscaleToSpecific()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -600,7 +600,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
   }
 
   @Test public final void testTextureTypesIndexedToSpecific()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -616,7 +616,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
   }
 
   @Test public final void testTextureTypesInferredGreyscale()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -663,7 +663,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
   }
 
   @Test public final void testTextureTypesInferredIndexed()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -710,7 +710,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
   }
 
   @Test public final void testTextureTypesInferredMono()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -759,7 +759,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
   @Test(expected = IOException.class) public final
     void
     testTextureTypesInferredNotAnImage()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         IOException,
@@ -788,7 +788,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
   }
 
   @Test public final void testTextureTypesInferredRGB()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -835,7 +835,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
   }
 
   @Test public final void testTextureTypesInferredRGBA()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -882,7 +882,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
   }
 
   @Test public final void testTextureTypesInvalidToSpecific()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -998,7 +998,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
   }
 
   @Test public final void testTextureTypesMonochromeToSpecific()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -1014,7 +1014,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
   }
 
   @Test public final void testTextureTypesRGBAToSpecific()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -1030,7 +1030,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoader> exten
   }
 
   @Test public final void testTextureTypesRGBToSpecific()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,

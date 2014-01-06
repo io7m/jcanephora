@@ -39,7 +39,7 @@ public interface JCGLIndexBuffersMapped
    * @param id
    *          The buffer.
    * @return A readable byte buffer.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -52,7 +52,7 @@ public interface JCGLIndexBuffersMapped
 
   public @Nonnull IndexBufferReadableMap indexBufferMapRead(
     final @Nonnull IndexBufferUsable id)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -70,7 +70,7 @@ public interface JCGLIndexBuffersMapped
    * @param range
    *          The range (in elements) of elements to map.
    * @return A readable byte buffer.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -87,7 +87,7 @@ public interface JCGLIndexBuffersMapped
   public @Nonnull IndexBufferReadableMap indexBufferMapReadRange(
     final @Nonnull IndexBufferUsable id,
     final @Nonnull RangeInclusive range)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -104,7 +104,7 @@ public interface JCGLIndexBuffersMapped
    * @param id
    *          The buffer.
    * @return A readable byte buffer.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -117,7 +117,7 @@ public interface JCGLIndexBuffersMapped
 
   public @Nonnull IndexBufferWritableMap indexBufferMapWrite(
     final @Nonnull IndexBuffer id)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -134,12 +134,12 @@ public interface JCGLIndexBuffersMapped
    *           <li><code>id</code> does not refer to a valid buffer (possible
    *           if the buffer has already been deleted).</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   public void indexBufferUnmap(
     final @Nonnull IndexBufferUsable id)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 }

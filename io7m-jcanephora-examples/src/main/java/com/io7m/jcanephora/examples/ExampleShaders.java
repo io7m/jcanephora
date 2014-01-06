@@ -36,7 +36,7 @@ import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.JCGLCompileException;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.Primitives;
@@ -74,7 +74,7 @@ public final class ExampleShaders implements Example
   public ExampleShaders(
     final @Nonnull ExampleConfig config)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLCompileException,
       IOException,
       FilesystemError
@@ -185,7 +185,7 @@ public final class ExampleShaders implements Example
   }
 
   @Override public void display()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLCompileException,
       ConstraintError
   {
@@ -305,7 +305,7 @@ public final class ExampleShaders implements Example
   @Override public void reshape(
     final @Nonnull VectorReadable2I position,
     final @Nonnull VectorReadable2I size)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError,
       JCGLCompileException
   {
@@ -322,7 +322,7 @@ public final class ExampleShaders implements Example
   }
 
   @Override public void shutdown()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError,
       JCGLCompileException
   {

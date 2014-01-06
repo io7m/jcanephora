@@ -30,7 +30,7 @@ public final class JOGLES3ExecutionCallableTest extends
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

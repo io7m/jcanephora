@@ -51,7 +51,7 @@ public final class LWJGL30StencilBuffersTest extends StencilBuffersContract
     makeFramebufferWithoutStencil(
       @Nonnull final JCGLImplementation gi)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     final Some<JCGLInterfaceGL3> some = (Some<JCGLInterfaceGL3>) gi.getGL3();
     final JCGLInterfaceGL3 g = some.value;
@@ -75,7 +75,7 @@ public final class LWJGL30StencilBuffersTest extends StencilBuffersContract
   @Override public @Nonnull FramebufferReference makeFramebufferWithStencil(
     @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     final Some<JCGLInterfaceGL3> some = (Some<JCGLInterfaceGL3>) gi.getGL3();
     final JCGLInterfaceGL3 g = some.value;
@@ -100,7 +100,7 @@ public final class LWJGL30StencilBuffersTest extends StencilBuffersContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

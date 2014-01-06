@@ -46,7 +46,7 @@ public interface JCBProgram
    *           {@link JCGLShadersCommon#programAttributeArrayAssociate(com.io7m.jcanephora.ProgramAttribute, ArrayBufferAttribute)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programAttributeArrayAssociate(com.io7m.jcanephora.ProgramAttribute, ArrayBufferAttribute)}
    *           .
@@ -56,7 +56,7 @@ public interface JCBProgram
     final @Nonnull String a,
     final @Nonnull ArrayBufferAttribute x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -74,7 +74,7 @@ public interface JCBProgram
    *           {@link JCGLShadersCommon#programAttributePutFloat(com.io7m.jcanephora.ProgramAttribute, float)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programAttributePutFloat(com.io7m.jcanephora.ProgramAttribute, float)}
    *           .
@@ -84,7 +84,7 @@ public interface JCBProgram
     final @Nonnull String a,
     float x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -102,7 +102,7 @@ public interface JCBProgram
    *           {@link JCGLShadersCommon#programAttributePutVector2f(com.io7m.jcanephora.ProgramAttribute, VectorReadable2F)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programAttributePutVector2f(com.io7m.jcanephora.ProgramAttribute, VectorReadable2F)}
    *           .
@@ -112,7 +112,7 @@ public interface JCBProgram
     final @Nonnull String a,
     final @Nonnull VectorReadable2F x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -130,7 +130,7 @@ public interface JCBProgram
    *           {@link JCGLShadersCommon#programAttributePutVector3f(com.io7m.jcanephora.ProgramAttribute, VectorReadable3F)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programAttributePutVector3f(com.io7m.jcanephora.ProgramAttribute, VectorReadable3F)}
    *           .
@@ -140,7 +140,7 @@ public interface JCBProgram
     final @Nonnull String a,
     final @Nonnull VectorReadable3F x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -158,7 +158,7 @@ public interface JCBProgram
    *           {@link JCGLShadersCommon#programAttributePutVector4f(com.io7m.jcanephora.ProgramAttribute, VectorReadable4F)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programAttributePutVector4f(com.io7m.jcanephora.ProgramAttribute, VectorReadable4F)}
    *           .
@@ -168,7 +168,7 @@ public interface JCBProgram
     final @Nonnull String a,
     final @Nonnull VectorReadable4F x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -188,17 +188,17 @@ public interface JCBProgram
    *           </ul>
    * @throws JCBExecutionException
    *           Iff <code>procedure</code> throws an exception of a type other
-   *           than {@link ConstraintError} or {@link JCGLException}.
-   * @throws JCGLException
+   *           than {@link ConstraintError} or {@link JCGLRuntimeException}.
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs, or <code>procedure</code> throws
-   *           {@link JCGLException}.
+   *           {@link JCGLRuntimeException}.
    */
 
   public void programExecute(
     final @Nonnull JCBProgramProcedure procedure)
     throws ConstraintError,
       JCBExecutionException,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Retrieve a read-only reference to the actual program.
@@ -222,7 +222,7 @@ public interface JCBProgram
    *           {@link JCGLShadersCommon#programUniformPutFloat(com.io7m.jcanephora.ProgramUniform, float)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutFloat(com.io7m.jcanephora.ProgramUniform, float)}
    *           .
@@ -232,7 +232,7 @@ public interface JCBProgram
     final @Nonnull String u,
     float x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -250,7 +250,7 @@ public interface JCBProgram
    *           {@link JCGLShadersCommon#programUniformPutInteger(com.io7m.jcanephora.ProgramUniform, int)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutInteger(com.io7m.jcanephora.ProgramUniform, int)}
    *           .
@@ -260,7 +260,7 @@ public interface JCBProgram
     final @Nonnull String u,
     int x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -278,7 +278,7 @@ public interface JCBProgram
    *           {@link JCGLShadersCommon#programUniformPutMatrix3x3f(ProgramUniform, MatrixReadable3x3F)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutMatrix3x3f(ProgramUniform, MatrixReadable3x3F)}
    *           .
@@ -288,7 +288,7 @@ public interface JCBProgram
     final @Nonnull String u,
     final @Nonnull MatrixReadable3x3F x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -306,7 +306,7 @@ public interface JCBProgram
    *           {@link JCGLShadersCommon#programUniformPutMatrix4x4f(ProgramUniform, MatrixReadable4x4F)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutMatrix4x4f(ProgramUniform, MatrixReadable4x4F)}
    *           .
@@ -316,7 +316,7 @@ public interface JCBProgram
     final @Nonnull String u,
     final @Nonnull MatrixReadable4x4F x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -334,7 +334,7 @@ public interface JCBProgram
    *           {@link JCGLShadersCommon#programUniformPutTextureUnit(ProgramUniform, TextureUnit)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutTextureUnit(ProgramUniform, TextureUnit)}
    *           .
@@ -344,7 +344,7 @@ public interface JCBProgram
     final @Nonnull String u,
     final @Nonnull TextureUnit x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -363,7 +363,7 @@ public interface JCBProgram
    *           {@link JCGLShadersCommon#programUniformPutVector2f(ProgramUniform, com.io7m.jtensors.VectorReadable2F)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutVector2f(ProgramUniform, com.io7m.jtensors.VectorReadable2F)}
    *           .
@@ -373,7 +373,7 @@ public interface JCBProgram
     final @Nonnull String u,
     final @Nonnull VectorReadable2F x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -392,7 +392,7 @@ public interface JCBProgram
    *           {@link JCGLShadersCommon#programUniformPutVector2i(ProgramUniform, com.io7m.jtensors.VectorReadable2I)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutVector2i(ProgramUniform, com.io7m.jtensors.VectorReadable2I)}
    *           .
@@ -402,7 +402,7 @@ public interface JCBProgram
     final @Nonnull String u,
     final @Nonnull VectorReadable2I x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -421,7 +421,7 @@ public interface JCBProgram
    *           {@link JCGLShadersCommon#programUniformPutVector3f(ProgramUniform, com.io7m.jtensors.VectorReadable3F)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutVector3f(ProgramUniform, com.io7m.jtensors.VectorReadable3F)}
    *           .
@@ -431,7 +431,7 @@ public interface JCBProgram
     final @Nonnull String u,
     final @Nonnull VectorReadable3F x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -450,7 +450,7 @@ public interface JCBProgram
    *           {@link JCGLShadersCommon#programUniformPutVector3i(ProgramUniform, com.io7m.jtensors.VectorReadable3I)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutVector3i(ProgramUniform, com.io7m.jtensors.VectorReadable3I)}
    *           .
@@ -460,7 +460,7 @@ public interface JCBProgram
     final @Nonnull String u,
     final @Nonnull VectorReadable3I x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -479,7 +479,7 @@ public interface JCBProgram
    *           {@link JCGLShadersCommon#programUniformPutVector4f(ProgramUniform, com.io7m.jtensors.VectorReadable4F)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutVector4f(ProgramUniform, com.io7m.jtensors.VectorReadable4F)}
    *           .
@@ -489,7 +489,7 @@ public interface JCBProgram
     final @Nonnull String u,
     final @Nonnull VectorReadable4F x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -508,7 +508,7 @@ public interface JCBProgram
    *           {@link JCGLShadersCommon#programUniformPutVector4i(ProgramUniform, com.io7m.jtensors.VectorReadable4I)}
    *           are not met.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           For the same reasons as
    *           {@link JCGLShadersCommon#programUniformPutVector4i(ProgramUniform, com.io7m.jtensors.VectorReadable4I)}
    *           .
@@ -518,7 +518,7 @@ public interface JCBProgram
     final @Nonnull String u,
     final @Nonnull VectorReadable4I x)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -554,7 +554,7 @@ public interface JCBProgram
   public void programUniformUseExisting(
     final @Nonnull String u)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>

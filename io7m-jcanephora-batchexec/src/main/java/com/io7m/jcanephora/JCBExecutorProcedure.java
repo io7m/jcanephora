@@ -25,7 +25,7 @@ public interface JCBExecutorProcedure
   public void call(
     final @Nonnull JCBProgram program)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCBExecutionException,
       Throwable;
 }

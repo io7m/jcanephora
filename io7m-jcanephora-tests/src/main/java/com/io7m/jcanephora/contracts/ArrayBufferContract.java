@@ -33,7 +33,7 @@ import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
 import com.io7m.jcanephora.ArrayBufferWritableData;
 import com.io7m.jcanephora.CursorWritable3f;
 import com.io7m.jcanephora.JCGLArrayBuffers;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.JCGLShadersCommon;
 import com.io7m.jcanephora.JCGLUnsupportedException;
@@ -94,7 +94,7 @@ public abstract class ArrayBufferContract implements TestContract
 
   @Test public final void testArrayBufferAllocate()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -131,7 +131,7 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferAllocateZeroElements()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -156,7 +156,7 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferBindDeleted()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -187,7 +187,7 @@ public abstract class ArrayBufferContract implements TestContract
 
   @Test public final void testArrayBufferBinding()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -218,7 +218,7 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferDeletedIsBound()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -247,7 +247,7 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferDeleteDouble()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -281,7 +281,7 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferDeleteNull()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -298,7 +298,7 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferElementOffset()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -343,7 +343,7 @@ public abstract class ArrayBufferContract implements TestContract
 
   @Test public final void testArrayBufferGridTest()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException,
       JCGLUnsupportedException
   {
@@ -403,7 +403,7 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferNullIsBound()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -418,7 +418,7 @@ public abstract class ArrayBufferContract implements TestContract
 
   @Test public final void testArrayBufferUpdateComplete()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -453,7 +453,7 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferUpdateDeletedFails()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -487,7 +487,7 @@ public abstract class ArrayBufferContract implements TestContract
 
   @Test public final void testArrayBufferUpdatePartial()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -523,7 +523,7 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferUpdateUnboundFails()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -558,7 +558,7 @@ public abstract class ArrayBufferContract implements TestContract
     void
     testArrayBufferUpdateWrongBindingFails()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException,
         JCGLUnsupportedException
   {

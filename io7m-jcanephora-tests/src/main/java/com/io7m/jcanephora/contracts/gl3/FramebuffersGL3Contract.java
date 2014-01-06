@@ -49,7 +49,7 @@ import com.io7m.jcanephora.FramebufferConfigurationGL3;
 import com.io7m.jcanephora.FramebufferConfigurationGL3Actual;
 import com.io7m.jcanephora.FramebufferDrawBuffer;
 import com.io7m.jcanephora.FramebufferStatus;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLFramebuffersGL3;
 import com.io7m.jcanephora.JCGLRenderbuffersGL3;
 import com.io7m.jcanephora.JCGLTextures2DStaticCommon;
@@ -76,7 +76,7 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
     makeAssumingSuccess(
       final FramebufferConfigurationGL3 config,
       final G gl)
-      throws JCGLException,
+      throws JCGLRuntimeException,
         ConstraintError
   {
     final Indeterminate<Framebuffer, FramebufferStatus> result =
@@ -103,11 +103,11 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
    * 
    * @throws ConstraintError
    * @throws JCGLUnsupportedException
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    */
 
   @Test public void testBufferAssociationBreaks()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -138,7 +138,7 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
   @Test public void testColorRGBARenderbuffersBest()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -197,7 +197,7 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
   @Test public void testColorRGBATexture2DBest()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -271,7 +271,7 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
   @Test public void testColorRGBATextureCubeBest()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -350,7 +350,7 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
   @Test public void testColorRGBRenderbuffersBest()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -409,7 +409,7 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
   @Test public void testColorRGBTexture2DBest()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -483,7 +483,7 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
   @Test public void testColorRGBTextureCubeBest()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -562,7 +562,7 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
 
   @Test public void testDelete()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -597,12 +597,12 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
    * Requesting a depth renderbuffer works.
    * 
    * @throws ConstraintError
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * 
    */
 
   @Test public void testDepthRenderbuffer()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -662,7 +662,7 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
   }
 
   @Test(expected = ConstraintError.class) public void testEmptyFails()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -679,7 +679,7 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
   }
 
   @Test public void testMultipleDrawBufferMapping()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -772,13 +772,13 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
    * Requesting to share a color renderbuffer results in the correct shared
    * renderbuffer attachment.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws JCGLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public void testSharedColorRenderbufferRGB()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -868,13 +868,13 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
    * Requesting to share a color renderbuffer results in the correct shared
    * renderbuffer attachment.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws JCGLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public void testSharedColorRenderbufferRGBA()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -965,13 +965,13 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
    * Requesting to share a color 2D texture results in the correct shared 2D
    * texture attachment.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws JCGLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public void testSharedColorTexture2D()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -1065,13 +1065,13 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
    * Requesting to share a color cube texture results in the correct shared
    * cube texture attachment.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws JCGLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public void testSharedColorTextureCube()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -1166,13 +1166,13 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
    * Requesting to share a depth attachment results in the correct shared
    * depth attachment.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws JCGLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public void testSharedDepth()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -1271,13 +1271,13 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
    * Requesting to share an already-shared color renderbuffer results in the
    * correct shared renderbuffer attachment.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws JCGLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public void testSharedSharedColorRenderbufferRGBA()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -1407,13 +1407,13 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
    * Requesting to share a stencil attachment results in the correct shared
    * stencil attachment.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws JCGLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public void testSharedStencil()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -1525,12 +1525,12 @@ public abstract class FramebuffersGL3Contract<G extends JCGLFramebuffersGL3 & JC
    * Requesting a stencil renderbuffer works.
    * 
    * @throws ConstraintError
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * 
    */
 
   @Test public void testStencilRenderbuffer()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

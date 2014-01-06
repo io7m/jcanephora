@@ -46,7 +46,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull JCGLStateCache state,
     final int program,
     final int name)
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     final IntBuffer cache = state.getIntegerCache();
     gl.glGetProgramiv(program, name, cache);
@@ -59,7 +59,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull JCGLStateCache state,
     final int program,
     final int name)
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     final IntBuffer cache = state.getIntegerCache();
     gl.glGetShaderiv(program, name, cache);
@@ -75,7 +75,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(name, "Shader name");
     Constraints.constrainNotNull(lines, "Source lines");
@@ -135,7 +135,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull Log log,
     final @Nonnull FragmentShader id)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(id, "Fragment shader");
     Constraints.constrainArbitrary(
@@ -157,7 +157,7 @@ final class JOGL_GL2ES2_Functions
   static void programActivate(
     final @Nonnull GL2ES2 gl,
     final @Nonnull ProgramReferenceUsable program)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     Constraints.constrainNotNull(program, "Program ID");
@@ -174,7 +174,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramAttribute program_attribute,
     final @Nonnull ArrayBufferAttribute buffer_attribute)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     Constraints.constrainNotNull(buffer_attribute, "Buffer attribute");
@@ -257,7 +257,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramAttribute program_attribute)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     Constraints.constrainNotNull(program_attribute, "Program attribute");
@@ -278,7 +278,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull ProgramAttribute program_attribute,
     final float x)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(program_attribute, "Program attribute");
     Constraints.constrainArbitrary(
@@ -315,7 +315,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull ProgramAttribute program_attribute,
     final @Nonnull VectorReadable2F x)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(program_attribute, "Program attribute");
     Constraints.constrainNotNull(x, "Value");
@@ -354,7 +354,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull ProgramAttribute program_attribute,
     final @Nonnull VectorReadable3F x)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(program_attribute, "Program attribute");
     Constraints.constrainNotNull(x, "Value");
@@ -393,7 +393,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull ProgramAttribute program_attribute,
     final @Nonnull VectorReadable4F x)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(program_attribute, "Program attribute");
     Constraints.constrainNotNull(x, "Value");
@@ -439,7 +439,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull VertexShader v,
     final @Nonnull FragmentShader f)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLCompileException
   {
     Constraints.constrainNotNull(name, "Program name");
@@ -465,7 +465,7 @@ final class JOGL_GL2ES2_Functions
 
     final int id = gl.glCreateProgram();
     if (id == 0) {
-      throw new JCGLException(0, "glCreateProgram failed");
+      throw new JCGLRuntimeException(0, "glCreateProgram failed");
     }
     JOGL_GL_Functions.checkError(gl);
 
@@ -531,7 +531,7 @@ final class JOGL_GL2ES2_Functions
 
   static void programDeactivate(
     final @Nonnull GL2ES2 gl)
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     gl.glUseProgram(0);
     JOGL_GL_Functions.checkError(gl);
@@ -543,7 +543,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull Log log,
     final @Nonnull ProgramReference program)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(program, "Program");
     Constraints.constrainArbitrary(
@@ -569,7 +569,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull ProgramReferenceUsable program,
     final @Nonnull Map<String, ProgramAttribute> out)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
@@ -650,7 +650,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log)
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     final int max =
       JOGL_GL_Functions.contextGetInteger(
@@ -676,7 +676,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull ProgramReferenceUsable program,
     final @Nonnull Map<String, ProgramUniform> out)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
@@ -752,7 +752,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull JCGLStateCache state,
     final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(program, "Program ID");
     Constraints.constrainArbitrary(
@@ -774,7 +774,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull ProgramUniform uniform,
     final float value)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
@@ -794,7 +794,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull ProgramUniform uniform,
     final int value)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
@@ -814,7 +814,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixReadable3x3F matrix)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(matrix, "Matrix");
     Constraints.constrainNotNull(uniform, "Uniform");
@@ -839,7 +839,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixReadable4x4F matrix)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(matrix, "Matrix");
     Constraints.constrainNotNull(uniform, "Uniform");
@@ -864,7 +864,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull ProgramUniform uniform,
     final @Nonnull TextureUnit unit)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
@@ -884,7 +884,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable2F vector)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
@@ -905,7 +905,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable2I vector)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
@@ -926,7 +926,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable3F vector)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
@@ -951,7 +951,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable3I vector)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
@@ -976,7 +976,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4F vector)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
@@ -1002,7 +1002,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4I vector)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
@@ -1029,7 +1029,7 @@ final class JOGL_GL2ES2_Functions
     final int reference,
     final int mask)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(faces, "Face selection");
     Constraints.constrainNotNull(function, "Stencil function");
@@ -1048,7 +1048,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull FaceSelection faces,
     final int mask)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(faces, "Face selection");
 
@@ -1065,7 +1065,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull StencilOperation depth_fail,
     final @Nonnull StencilOperation pass)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(faces, "Face selection");
     Constraints.constrainNotNull(stencil_fail, "Stencil fail operation");
@@ -1092,7 +1092,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(name, "Shader name");
     Constraints.constrainNotNull(lines, "Input lines");
@@ -1152,7 +1152,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull Log log,
     final @Nonnull VertexShader id)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(id, "Vertex shader");
     Constraints.constrainArbitrary(

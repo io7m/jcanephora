@@ -93,7 +93,7 @@ public interface JCGLTexturesCubeStaticGL3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -106,7 +106,7 @@ public interface JCGLTexturesCubeStaticGL3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -171,7 +171,7 @@ public interface JCGLTexturesCubeStaticGL3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -184,7 +184,7 @@ public interface JCGLTexturesCubeStaticGL3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -249,7 +249,7 @@ public interface JCGLTexturesCubeStaticGL3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -262,7 +262,7 @@ public interface JCGLTexturesCubeStaticGL3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -327,7 +327,7 @@ public interface JCGLTexturesCubeStaticGL3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -340,7 +340,7 @@ public interface JCGLTexturesCubeStaticGL3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -405,7 +405,7 @@ public interface JCGLTexturesCubeStaticGL3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -418,7 +418,7 @@ public interface JCGLTexturesCubeStaticGL3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Retrieve the texture image data associated with the face
@@ -430,7 +430,7 @@ public interface JCGLTexturesCubeStaticGL3 extends
    *           <li><code>texture == null || face == null</code></li>
    *           <li><code>texture</code> has been deleted</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -438,7 +438,7 @@ public interface JCGLTexturesCubeStaticGL3 extends
     final @Nonnull TextureCubeStaticUsable texture,
     final @Nonnull CubeMapFaceLH face)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Retrieve the texture image data associated with the face
@@ -450,7 +450,7 @@ public interface JCGLTexturesCubeStaticGL3 extends
    *           <li><code>texture == null || face == null</code></li>
    *           <li><code>texture</code> has been deleted</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -458,5 +458,5 @@ public interface JCGLTexturesCubeStaticGL3 extends
     final @Nonnull TextureCubeStaticUsable texture,
     final @Nonnull CubeMapFaceRH face)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 }

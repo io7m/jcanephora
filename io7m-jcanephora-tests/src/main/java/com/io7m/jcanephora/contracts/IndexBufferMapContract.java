@@ -34,7 +34,7 @@ import com.io7m.jcanephora.IndexBufferWritableMap;
 import com.io7m.jcanephora.JCGLArrayBuffers;
 import com.io7m.jcanephora.JCGLArrayBuffersMapped;
 import com.io7m.jcanephora.JCGLErrorCodes;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLIndexBuffers;
 import com.io7m.jcanephora.JCGLIndexBuffersMapped;
 import com.io7m.jcanephora.JCGLScalarType;
@@ -68,14 +68,14 @@ public abstract class IndexBufferMapContract implements TestContract
   /**
    * Mapping a deleted buffer read-only fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testMapReadDeleted()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -93,14 +93,14 @@ public abstract class IndexBufferMapContract implements TestContract
   /**
    * Mapping a deleted buffer write-only fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testMapWriteDeleted()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -121,7 +121,7 @@ public abstract class IndexBufferMapContract implements TestContract
    */
 
   @Test public final void testReadWriteByte()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -171,7 +171,7 @@ public abstract class IndexBufferMapContract implements TestContract
    */
 
   @Test public final void testReadWriteInt()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -221,7 +221,7 @@ public abstract class IndexBufferMapContract implements TestContract
    */
 
   @Test public final void testReadWriteShort()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -268,14 +268,14 @@ public abstract class IndexBufferMapContract implements TestContract
   /**
    * Unmapping a deleted buffer fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testUnmapDeleted()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {

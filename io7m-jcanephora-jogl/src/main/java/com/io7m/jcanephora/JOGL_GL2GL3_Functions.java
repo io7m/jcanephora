@@ -42,7 +42,7 @@ final class JOGL_GL2GL3_Functions
 {
   static void logicOperationsDisable(
     final @Nonnull GL2GL3 gl)
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     gl.glDisable(GL.GL_COLOR_LOGIC_OP);
     JOGL_GL_Functions.checkError(gl);
@@ -52,7 +52,7 @@ final class JOGL_GL2GL3_Functions
     final @Nonnull GL2GL3 gl,
     final @Nonnull LogicOperation operation)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(operation, "Logic operation");
     gl.glEnable(GL.GL_COLOR_LOGIC_OP);
@@ -62,7 +62,7 @@ final class JOGL_GL2GL3_Functions
 
   static boolean logicOperationsEnabled(
     final @Nonnull GL2GL3 gl)
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     final boolean e = gl.glIsEnabled(GL.GL_COLOR_LOGIC_OP);
     JOGL_GL_Functions.checkError(gl);
@@ -74,7 +74,7 @@ final class JOGL_GL2GL3_Functions
     final @Nonnull JCGLStateCache cache,
     final @Nonnull PolygonMode mode)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(mode, "Polygon mode");
 
@@ -86,7 +86,7 @@ final class JOGL_GL2GL3_Functions
 
   static void polygonSmoothingDisable(
     final @Nonnull GL2GL3 gl)
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     gl.glDisable(GL2GL3.GL_POLYGON_SMOOTH);
     JOGL_GL_Functions.checkError(gl);
@@ -94,7 +94,7 @@ final class JOGL_GL2GL3_Functions
 
   static void polygonSmoothingEnable(
     final @Nonnull GL2GL3 gl)
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     gl.glEnable(GL2GL3.GL_POLYGON_SMOOTH);
     JOGL_GL_Functions.checkError(gl);
@@ -102,7 +102,7 @@ final class JOGL_GL2GL3_Functions
 
   static boolean polygonSmoothingIsEnabled(
     final @Nonnull GL2GL3 gl)
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     final boolean e = gl.glIsEnabled(GL2GL3.GL_POLYGON_SMOOTH);
     JOGL_GL_Functions.checkError(gl);
@@ -118,7 +118,7 @@ final class JOGL_GL2GL3_Functions
     final @Nonnull FragmentShader f,
     final @Nonnull Map<String, FramebufferDrawBuffer> outputs)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLCompileException
   {
     Constraints.constrainNotNull(name, "Program name");
@@ -157,7 +157,7 @@ final class JOGL_GL2GL3_Functions
 
     final int id = g.glCreateProgram();
     if (id == 0) {
-      throw new JCGLException(0, "glCreateProgram failed");
+      throw new JCGLRuntimeException(0, "glCreateProgram failed");
     }
     JOGL_GL_Functions.checkError(g);
 
@@ -247,7 +247,7 @@ final class JOGL_GL2GL3_Functions
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(name, "Name");
     Constraints.constrainRange(width, 2, Integer.MAX_VALUE, "Width");
@@ -344,7 +344,7 @@ final class JOGL_GL2GL3_Functions
     final @Nonnull GL2GL3 gl,
     final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(texture, "Texture data");
     Constraints.constrainArbitrary(
@@ -373,7 +373,7 @@ final class JOGL_GL2GL3_Functions
     final @Nonnull GL gl,
     final @Nonnull Texture2DWritableData data)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(data, "Texture data");
 
@@ -416,7 +416,7 @@ final class JOGL_GL2GL3_Functions
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(name, "Name");
     Constraints.constrainRange(size, 2, Integer.MAX_VALUE, "Size");
@@ -526,7 +526,7 @@ final class JOGL_GL2GL3_Functions
     final @Nonnull TextureCubeStaticUsable texture,
     final @Nonnull CubeMapFaceLH face)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(texture, "Texture data");
     Constraints.constrainArbitrary(
@@ -553,7 +553,7 @@ final class JOGL_GL2GL3_Functions
     final @Nonnull CubeMapFaceLH face,
     final @Nonnull TextureCubeWritableData data)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(face, "Cube map face");
     Constraints.constrainNotNull(data, "Texture data");

@@ -38,7 +38,7 @@ public final class JOGL21RenderbufferTest extends RenderbufferGL2Contract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

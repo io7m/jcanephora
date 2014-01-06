@@ -37,7 +37,7 @@ public final class JOGLES2ColorBufferTest extends ColorBufferContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

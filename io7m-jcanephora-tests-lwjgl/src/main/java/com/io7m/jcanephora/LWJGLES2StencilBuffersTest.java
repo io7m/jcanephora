@@ -53,7 +53,7 @@ public final class LWJGLES2StencilBuffersTest extends StencilBuffersContract
     makeFramebufferWithoutStencil(
       @Nonnull final JCGLImplementation gi)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     final Some<JCGLInterfaceGLES2> some =
       (Some<JCGLInterfaceGLES2>) gi.getGLES2();
@@ -77,7 +77,7 @@ public final class LWJGLES2StencilBuffersTest extends StencilBuffersContract
   @Override public @Nonnull FramebufferReference makeFramebufferWithStencil(
     @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     final Some<JCGLInterfaceGLES2> some =
       (Some<JCGLInterfaceGLES2>) gi.getGLES2();
@@ -114,7 +114,7 @@ public final class LWJGLES2StencilBuffersTest extends StencilBuffersContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

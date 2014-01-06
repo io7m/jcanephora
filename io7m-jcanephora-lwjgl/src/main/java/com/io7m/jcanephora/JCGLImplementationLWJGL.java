@@ -142,7 +142,7 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
    * 
    * @throws ConstraintError
    *           Iff <code>log == null</code>.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an internal OpenGL error occurs.
    * @throws JCGLUnsupportedException
    *           Iff the given graphics context does not support either of
@@ -151,7 +151,7 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
 
   public static @Nonnull JCGLImplementationLWJGL newImplementation(
     final @Nonnull Log log)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -166,7 +166,7 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
    * 
    * @throws ConstraintError
    *           Iff <code>log == null || r == null</code>.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an internal OpenGL error occurs.
    * @throws JCGLUnsupportedException
    *           Iff the given graphics context does not support either of
@@ -178,7 +178,7 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
     newImplementationWithRestrictions(
       final @Nonnull Log log,
       final @Nonnull JCGLSoftRestrictions r)
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -195,7 +195,7 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
     final @Nonnull Log log,
     final @Nonnull JCGLSoftRestrictions r)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     this.log =

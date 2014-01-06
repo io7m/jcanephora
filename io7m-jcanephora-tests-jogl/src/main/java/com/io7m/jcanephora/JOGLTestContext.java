@@ -229,7 +229,7 @@ public final class JOGLTestContext
   }
 
   public static TestContext makeContextWithOpenGL_ES2()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -238,7 +238,7 @@ public final class JOGLTestContext
 
   public static TestContext makeContextWithOpenGL_ES2_WithRestrictions(
     final @Nonnull JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -247,7 +247,7 @@ public final class JOGLTestContext
 
   private static TestContext makeContextWithOpenGL_ES2_Actual(
     final @CheckForNull JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -264,7 +264,7 @@ public final class JOGLTestContext
   }
 
   public static TestContext makeContextWithOpenGL_ES3()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -273,7 +273,7 @@ public final class JOGLTestContext
 
   private static TestContext makeContextWithOpenGL_ES3_Actual(
     final @CheckForNull JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -300,7 +300,7 @@ public final class JOGLTestContext
 
   public static TestContext makeContextWithOpenGL_ES3_WithRestrictions(
     final @Nonnull JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -308,7 +308,7 @@ public final class JOGLTestContext
   }
 
   public static TestContext makeContextWithOpenGL2_1()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -317,7 +317,7 @@ public final class JOGLTestContext
 
   private static TestContext makeContextWithOpenGL2_1_Actual(
     final @CheckForNull JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -339,7 +339,7 @@ public final class JOGLTestContext
 
   public static TestContext makeContextWithOpenGL2_1_WithRestrictions(
     final @Nonnull JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -347,7 +347,7 @@ public final class JOGLTestContext
   }
 
   public static TestContext makeContextWithOpenGL3_0()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -356,7 +356,7 @@ public final class JOGLTestContext
 
   private static TestContext makeContextWithOpenGL3_0_Actual(
     final @CheckForNull JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -382,7 +382,7 @@ public final class JOGLTestContext
 
   public static TestContext makeContextWithOpenGL3_0_WithRestrictions(
     final @Nonnull JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -390,7 +390,7 @@ public final class JOGLTestContext
   }
 
   public static TestContext makeContextWithOpenGL3_p()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -399,7 +399,7 @@ public final class JOGLTestContext
 
   private static TestContext makeContextWithOpenGL3_p_Actual(
     final @CheckForNull JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -433,7 +433,7 @@ public final class JOGLTestContext
 
   public static TestContext makeContextWithOpenGL3_p_WithRestrictions(
     final @Nonnull JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -444,7 +444,7 @@ public final class JOGLTestContext
     final JCGLSoftRestrictions r,
     final Log log,
     final GLContext ctx)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

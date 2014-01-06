@@ -54,7 +54,7 @@ public final class LWJGL3xArrayBufferWritableMapTest extends
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

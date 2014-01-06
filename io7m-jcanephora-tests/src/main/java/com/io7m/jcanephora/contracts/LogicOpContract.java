@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLLogic;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.LogicOperation;
@@ -41,12 +41,12 @@ public abstract class LogicOpContract implements TestContract
   /**
    * Enabling/disabling logic operations works.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test public void testLogicOpsEnable()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -64,12 +64,12 @@ public abstract class LogicOpContract implements TestContract
   /**
    * Trying to enable a null logic operation fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public void testLogicOpsNull()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

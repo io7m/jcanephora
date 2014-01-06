@@ -36,7 +36,7 @@ import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
 import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.JCGLArrayBuffers;
 import com.io7m.jcanephora.JCGLCompileException;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.JCGLShadersCommon;
@@ -173,7 +173,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testArrayBufferUnbindVertexAttributeNullProgram()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -217,7 +217,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testArrayBufferUnbindVertexAttributeOK()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -260,7 +260,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testAttributesMax()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -276,7 +276,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testFragmentShaderEmpty()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -296,7 +296,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = JCGLCompileException.class) public final
     void
     testFragmentShaderInvalid()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException,
@@ -320,7 +320,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testFragmentShaderNameNull()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -337,7 +337,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testFragmentShaderSourceContainsNull()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -356,7 +356,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testFragmentShaderSourceNull()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -371,7 +371,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testFragmentShaderValid()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       JCGLCompileException,
@@ -395,7 +395,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeBindArrayAttributeDeletedArray()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -441,7 +441,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeBindArrayAttributeNullArrayAttribute()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -474,7 +474,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeBindArrayAttributeNullProgramAttribute()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -508,7 +508,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramAttributeBindArrayAttributeOK()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -555,7 +555,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeBindArrayAttributeWrongArrayBound()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -603,7 +603,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeBindArrayAttributeWrongProgram()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -657,7 +657,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeBindArrayAttributeWrongType()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -703,7 +703,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeFloatDeleted()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -736,7 +736,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeFloatInactive()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -768,7 +768,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeFloatNullAttribute()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -793,7 +793,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramAttributeFloatOK()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -825,7 +825,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeFloatWrongType()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -855,7 +855,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramAttributes()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -891,7 +891,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeVector2FDeleted()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -924,7 +924,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeVector2FInactive()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -956,7 +956,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeVector2FNullAttribute()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -983,7 +983,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeVector2FNullValue()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1013,7 +1013,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramAttributeVector2FOK()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -1045,7 +1045,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeVector2FWrongType()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1077,7 +1077,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeVector3FDeleted()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1110,7 +1110,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeVector3FInactive()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1142,7 +1142,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeVector3FNullAttribute()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1169,7 +1169,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeVector3FNullValue()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1199,7 +1199,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramAttributeVector3FOK()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -1231,7 +1231,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeVector3FWrongType()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1263,7 +1263,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeVector4FDeleted()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1296,7 +1296,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeVector4FInactive()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1328,7 +1328,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeVector4FNullAttribute()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1357,7 +1357,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeVector4FNullValue()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1387,7 +1387,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramAttributeVector4FOK()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -1419,7 +1419,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramAttributeVector4FWrongType()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1451,7 +1451,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramDeleteTwice()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1477,7 +1477,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramFragmentShaderDeleted()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -1514,7 +1514,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramFragmentShaderNull()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -1547,7 +1547,7 @@ public abstract class ShadersContract implements TestContract
     testProgramLinkInconsistentVarying()
       throws ConstraintError,
         JCGLCompileException,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -1579,7 +1579,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramNameNull()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -1615,7 +1615,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformDeletedFloat()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1636,7 +1636,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformDeletedInteger()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1657,7 +1657,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformDeletedMatrix3x3F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1678,7 +1678,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformDeletedMatrix4x4F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1699,7 +1699,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformDeletedVector2F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1720,7 +1720,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformDeletedVector2I()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1741,7 +1741,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformDeletedVector3F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1762,7 +1762,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformDeletedVector3I()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1783,7 +1783,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformDeletedVector4F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1804,7 +1804,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformDeletedVector4I()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1825,7 +1825,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformInactiveFloat()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1846,7 +1846,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformInactiveMatrix3x3F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1867,7 +1867,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformInactiveMatrix4x4F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1888,7 +1888,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformInactiveVector2F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1909,7 +1909,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformInactiveVector2I()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1930,7 +1930,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformInactiveVector3F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1951,7 +1951,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformInactiveVector3I()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1972,7 +1972,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformInactiveVector4F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -1993,7 +1993,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformInactiveVector4I()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2014,7 +2014,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformNullFloat()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2030,7 +2030,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformNullInteger()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2046,7 +2046,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformNullMatrix3x3F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2062,7 +2062,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformNullMatrix4x4F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2078,7 +2078,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformNullTextureUnit()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2095,7 +2095,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformNullVector2F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2111,7 +2111,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformNullVector2I()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2127,7 +2127,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformNullVector3F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2143,7 +2143,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformNullVector3I()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2159,7 +2159,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformNullVector4F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2175,7 +2175,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformNullVector4I()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2189,7 +2189,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramUniformRightTypeFloat()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -2207,7 +2207,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramUniformRightTypeInteger()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -2225,7 +2225,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramUniformRightTypeMatrix3x3F()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -2243,7 +2243,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramUniformRightTypeMatrix4x4F()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -2261,7 +2261,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramUniformRightTypeTextureUnit()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -2280,7 +2280,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramUniformRightTypeVector2F()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -2298,7 +2298,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramUniformRightTypeVector2I()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -2316,7 +2316,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramUniformRightTypeVector3F()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -2334,7 +2334,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramUniformRightTypeVector3I()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -2352,7 +2352,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramUniformRightTypeVector4F()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -2370,7 +2370,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramUniformRightTypeVector4I()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -2388,7 +2388,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramUniforms()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -2441,7 +2441,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramUniformSamplers()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -2467,7 +2467,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformSamplersWrong0()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2488,7 +2488,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformSamplersWrong1()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2509,7 +2509,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformWrongTypeFloat()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2529,7 +2529,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformWrongTypeInteger()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2549,7 +2549,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformWrongTypeMatrix3x3F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2569,7 +2569,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformWrongTypeMatrix4x4F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2589,7 +2589,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformWrongTypeTextureUnit()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2610,7 +2610,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformWrongTypeVector2F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2630,7 +2630,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformWrongTypeVector2I()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2650,7 +2650,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformWrongTypeVector3F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2670,7 +2670,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformWrongTypeVector3I()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2690,7 +2690,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformWrongTypeVector4F()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2710,7 +2710,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramUniformWrongTypeVector4I()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -2728,7 +2728,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testProgramValid()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -2747,7 +2747,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramVertexShaderDeleted()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -2784,7 +2784,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testProgramVertexShaderNull()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -2815,7 +2815,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testVertexShaderEmpty()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -2835,7 +2835,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = JCGLCompileException.class) public final
     void
     testVertexShaderInvalid()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException,
@@ -2859,7 +2859,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testVertexShaderNameNull()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -2876,7 +2876,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testVertexShaderSourceContainsNull()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -2895,7 +2895,7 @@ public abstract class ShadersContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testVertexShaderSourceNull()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         JCGLCompileException
@@ -2910,7 +2910,7 @@ public abstract class ShadersContract implements TestContract
    */
 
   @Test public final void testVertexShaderValid()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       JCGLCompileException,
