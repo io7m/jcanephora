@@ -22,8 +22,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLRenderbuffersGLES3;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.Renderbuffer;
 import com.io7m.jcanephora.RenderbufferType;
@@ -98,6 +98,11 @@ public abstract class RenderbufferGLES3Contract extends
         case RENDERBUFFER_COLOR_RGB_888:
         {
           rb = gr.renderbufferAllocateRGB888(width, height);
+          break;
+        }
+        case RENDERBUFFER_DEPTH_24:
+        {
+          rb = gr.renderbufferAllocateDepth24(width, height);
           break;
         }
       }

@@ -590,6 +590,8 @@ final class LWJGL_GLTypeConversions
         return GL11.GL_RGBA8;
       case RENDERBUFFER_COLOR_RGB_888:
         return GL11.GL_RGB8;
+      case RENDERBUFFER_DEPTH_24:
+        return GL14.GL_DEPTH_COMPONENT24;
     }
 
     throw new UnreachableCodeException();

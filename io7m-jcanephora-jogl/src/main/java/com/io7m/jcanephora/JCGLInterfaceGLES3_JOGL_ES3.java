@@ -1311,6 +1311,24 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
+    Renderbuffer<RenderableDepth>
+    renderbufferAllocateDepth24(
+      final int width,
+      final int height)
+      throws ConstraintError,
+        JCGLRuntimeException
+  {
+    return Renderbuffer.unsafeBrandDepth(JOGL_GL_Functions
+      .renderbufferAllocate(
+        this.contextGetGL(),
+        this.state,
+        this.log,
+        RenderbufferType.RENDERBUFFER_DEPTH_24,
+        width,
+        height));
+  }
+
+  @Override public @Nonnull
     Renderbuffer<RenderableDepthStencil>
     renderbufferAllocateDepth24Stencil8(
       final int width,

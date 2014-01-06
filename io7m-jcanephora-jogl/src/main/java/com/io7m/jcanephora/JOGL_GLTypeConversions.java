@@ -606,6 +606,8 @@ final class JOGL_GLTypeConversions
         return GL.GL_RGBA8;
       case RENDERBUFFER_COLOR_RGB_888:
         return GL.GL_RGB8;
+      case RENDERBUFFER_DEPTH_24:
+        return GL.GL_DEPTH_COMPONENT24;
     }
 
     throw new UnreachableCodeException();
