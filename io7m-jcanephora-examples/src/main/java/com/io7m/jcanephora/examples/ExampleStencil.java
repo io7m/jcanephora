@@ -34,7 +34,7 @@ import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.JCGLCompileException;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.Primitives;
@@ -80,7 +80,7 @@ public final class ExampleStencil implements Example
   public ExampleStencil(
     final @Nonnull ExampleConfig config)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLCompileException,
       IOException,
       FilesystemError
@@ -174,7 +174,7 @@ public final class ExampleStencil implements Example
   }
 
   @Override public void display()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLCompileException,
       ConstraintError
   {
@@ -238,7 +238,7 @@ public final class ExampleStencil implements Example
     final int width,
     final int height)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     /**
      * Write a set of triangles to the stencil buffer.
@@ -288,7 +288,7 @@ public final class ExampleStencil implements Example
     final int width,
     final int height)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     /**
      * Now draw a large rotating triangle, but only write to bits that were
@@ -333,7 +333,7 @@ public final class ExampleStencil implements Example
   @Override public void reshape(
     final @Nonnull VectorReadable2I position,
     final @Nonnull VectorReadable2I size)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError,
       JCGLCompileException
   {
@@ -350,7 +350,7 @@ public final class ExampleStencil implements Example
   }
 
   @Override public void shutdown()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError,
       JCGLCompileException
   {

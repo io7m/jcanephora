@@ -66,7 +66,7 @@ class ExtDepthTexture implements JCGLExtensionDepthTexture
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return LWJGL_GLES2Functions.texture2DStaticAllocate(
       this.cache,
@@ -90,7 +90,7 @@ class ExtDepthTexture implements JCGLExtensionDepthTexture
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return LWJGL_GLES2Functions.texture2DStaticAllocate(
       this.cache,

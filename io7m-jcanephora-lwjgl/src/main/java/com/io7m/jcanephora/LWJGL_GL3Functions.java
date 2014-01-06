@@ -46,7 +46,7 @@ final class LWJGL_GL3Functions
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull ArrayBufferUsable id)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     Constraints.constrainNotNull(id, "Array buffer");
@@ -78,7 +78,7 @@ final class LWJGL_GL3Functions
     final @Nonnull ArrayBufferUsable id,
     final @Nonnull RangeInclusive range)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(id, "Array buffer");
     Constraints.constrainArbitrary(
@@ -122,7 +122,7 @@ final class LWJGL_GL3Functions
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull ArrayBuffer id)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     Constraints.constrainNotNull(id, "Array buffer");
@@ -159,7 +159,7 @@ final class LWJGL_GL3Functions
     final @Nonnull Log log,
     final @Nonnull ArrayBufferUsable id)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(id, "Array buffer");
     Constraints.constrainArbitrary(
@@ -187,7 +187,7 @@ final class LWJGL_GL3Functions
     final @Nonnull BlendEquationGL3 equation_rgb,
     final @Nonnull BlendEquationGL3 equation_alpha)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(source_rgb_factor, "Source RGB factor");
     Constraints.constrainNotNull(source_alpha_factor, "Source alpha factor");
@@ -224,7 +224,7 @@ final class LWJGL_GL3Functions
     final @Nonnull BlendFunction destination_factor,
     final @Nonnull BlendEquationGL3 equation)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     LWJGL_GL3Functions.blendingEnableSeparateWithEquationSeparate(
 
@@ -242,7 +242,7 @@ final class LWJGL_GL3Functions
     final @Nonnull BlendEquationGL3 equation_rgb,
     final @Nonnull BlendEquationGL3 equation_alpha)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     LWJGL_GL3Functions.blendingEnableSeparateWithEquationSeparate(
       source_factor,
@@ -255,7 +255,7 @@ final class LWJGL_GL3Functions
 
   static int depthBufferGetBits(
     final @Nonnull JCGLStateCache state)
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     /**
      * If a framebuffer is bound, check to see if there's a depth attachment.
@@ -303,7 +303,7 @@ final class LWJGL_GL3Functions
     final @Nonnull Log log,
     final @Nonnull FramebufferReference buffer)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(buffer, "Framebuffer");
     Constraints.constrainArbitrary(
@@ -333,7 +333,7 @@ final class LWJGL_GL3Functions
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
@@ -377,7 +377,7 @@ final class LWJGL_GL3Functions
     final @Nonnull FramebufferColorAttachmentPoint point,
     final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(point, "Attachment point");
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
@@ -421,7 +421,7 @@ final class LWJGL_GL3Functions
     final @Nonnull JCGLVersion version,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull Texture2DStaticUsable texture)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
@@ -467,7 +467,7 @@ final class LWJGL_GL3Functions
     final @Nonnull FramebufferColorAttachmentPoint point,
     final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(point, "Attachment point");
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
@@ -513,7 +513,7 @@ final class LWJGL_GL3Functions
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull TextureCubeStaticUsable texture,
     final @Nonnull CubeMapFaceLH face)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
@@ -563,7 +563,7 @@ final class LWJGL_GL3Functions
     final @Nonnull TextureCubeStaticUsable texture,
     final @Nonnull CubeMapFaceLH face)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(point, "Attachment point");
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
@@ -611,7 +611,7 @@ final class LWJGL_GL3Functions
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable<RenderableDepth> renderbuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
@@ -653,7 +653,7 @@ final class LWJGL_GL3Functions
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable<RenderableDepthStencil> renderbuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
@@ -706,7 +706,7 @@ final class LWJGL_GL3Functions
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull Texture2DStaticUsable texture)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
@@ -749,7 +749,7 @@ final class LWJGL_GL3Functions
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable<RenderableStencil> renderbuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
@@ -789,7 +789,7 @@ final class LWJGL_GL3Functions
   static void framebufferDrawBind(
     final @Nonnull FramebufferReferenceUsable framebuffer)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
     Constraints.constrainArbitrary(
@@ -803,7 +803,7 @@ final class LWJGL_GL3Functions
   static boolean framebufferDrawIsBound(
     final @Nonnull JCGLStateCache state,
     final @Nonnull FramebufferReferenceUsable framebuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
@@ -825,7 +825,7 @@ final class LWJGL_GL3Functions
       final @Nonnull FramebufferReference framebuffer,
       final @Nonnull Map<FramebufferDrawBuffer, FramebufferColorAttachmentPoint> mappings)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
     Constraints.constrainArbitrary(
@@ -871,7 +871,7 @@ final class LWJGL_GL3Functions
   }
 
   static void framebufferDrawUnbind()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER, 0);
     LWJGL_GLES2Functions.checkError();
@@ -880,7 +880,7 @@ final class LWJGL_GL3Functions
   static @Nonnull FramebufferStatus framebufferDrawValidate(
     final @Nonnull JCGLStateCache state,
     final @Nonnull FramebufferReferenceUsable framebuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
@@ -902,7 +902,7 @@ final class LWJGL_GL3Functions
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull IndexBufferUsable id)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     Constraints.constrainNotNull(id, "Index buffer");
@@ -936,7 +936,7 @@ final class LWJGL_GL3Functions
     final @Nonnull IndexBufferUsable id,
     final @Nonnull RangeInclusive range)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(id, "Index buffer");
     Constraints.constrainArbitrary(
@@ -980,7 +980,7 @@ final class LWJGL_GL3Functions
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull IndexBuffer id)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     Constraints.constrainNotNull(id, "Index buffer");
@@ -1018,7 +1018,7 @@ final class LWJGL_GL3Functions
     final @Nonnull Log log,
     final @Nonnull IndexBufferUsable id)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(id, "Index buffer");
     Constraints.constrainArbitrary(
@@ -1039,7 +1039,7 @@ final class LWJGL_GL3Functions
   }
 
   static void logicOperationsDisable()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     GL11.glDisable(GL11.GL_COLOR_LOGIC_OP);
     LWJGL_GLES2Functions.checkError();
@@ -1048,7 +1048,7 @@ final class LWJGL_GL3Functions
   static void logicOperationsEnable(
     final @Nonnull LogicOperation operation)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(operation, "Logic operation");
     GL11.glEnable(GL11.GL_COLOR_LOGIC_OP);
@@ -1057,7 +1057,7 @@ final class LWJGL_GL3Functions
   }
 
   static boolean logicOperationsEnabled()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     final boolean e = GL11.glIsEnabled(GL11.GL_COLOR_LOGIC_OP);
     LWJGL_GLES2Functions.checkError();
@@ -1065,21 +1065,21 @@ final class LWJGL_GL3Functions
   }
 
   static void pointProgramSizeControlDisable()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     GL11.glDisable(GL20.GL_VERTEX_PROGRAM_POINT_SIZE);
     LWJGL_GLES2Functions.checkError();
   }
 
   static void pointProgramSizeControlEnable()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     GL11.glEnable(GL20.GL_VERTEX_PROGRAM_POINT_SIZE);
     LWJGL_GLES2Functions.checkError();
   }
 
   static boolean pointProgramSizeControlIsEnabled()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     final boolean e = GL11.glIsEnabled(GL20.GL_VERTEX_PROGRAM_POINT_SIZE);
     LWJGL_GLES2Functions.checkError();
@@ -1090,7 +1090,7 @@ final class LWJGL_GL3Functions
     final @Nonnull JCGLStateCache cache,
     final @Nonnull PolygonMode mode)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(mode, "Polygon mode");
 
@@ -1101,21 +1101,21 @@ final class LWJGL_GL3Functions
   }
 
   static void polygonSmoothingDisable()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     GL11.glDisable(GL11.GL_POLYGON_SMOOTH);
     LWJGL_GLES2Functions.checkError();
   }
 
   static void polygonSmoothingEnable()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     GL11.glEnable(GL11.GL_POLYGON_SMOOTH);
     LWJGL_GLES2Functions.checkError();
   }
 
   static boolean polygonSmoothingIsEnabled()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     final boolean e = GL11.glIsEnabled(GL11.GL_POLYGON_SMOOTH);
     LWJGL_GLES2Functions.checkError();
@@ -1130,7 +1130,7 @@ final class LWJGL_GL3Functions
     final @Nonnull FragmentShader f,
     final @Nonnull Map<String, FramebufferDrawBuffer> outputs)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLCompileException
   {
     Constraints.constrainNotNull(name, "Program name");
@@ -1169,7 +1169,7 @@ final class LWJGL_GL3Functions
 
     final int id = GL20.glCreateProgram();
     if (id == 0) {
-      throw new JCGLException(0, "glCreateProgram failed");
+      throw new JCGLRuntimeException(0, "glCreateProgram failed");
     }
     LWJGL_GLES2Functions.checkError();
 
@@ -1242,7 +1242,7 @@ final class LWJGL_GL3Functions
 
   static int stencilBufferGetBits(
     final @Nonnull JCGLStateCache state)
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     if (LWJGL_GL3Functions.framebufferDrawAnyIsBound()) {
       /**
@@ -1290,7 +1290,7 @@ final class LWJGL_GL3Functions
   static @Nonnull Texture2DReadableData texture2DStaticGetImage(
     final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(texture, "Texture data");
     Constraints.constrainArbitrary(
@@ -1319,7 +1319,7 @@ final class LWJGL_GL3Functions
     final @Nonnull TextureCubeStaticUsable texture,
     final @Nonnull CubeMapFaceLH face)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(texture, "Texture data");
     Constraints.constrainArbitrary(

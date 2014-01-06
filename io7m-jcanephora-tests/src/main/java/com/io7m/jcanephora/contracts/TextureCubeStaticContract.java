@@ -27,7 +27,7 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.CubeMapFaceLH;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLTextureUnits;
 import com.io7m.jcanephora.JCGLTexturesCubeStaticCommon;
 import com.io7m.jcanephora.JCGLUnsupportedException;
@@ -65,7 +65,7 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
 
   @Test public final void testGetUnits()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -78,12 +78,12 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
   /**
    * Binding a texture works.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test public final void testTextureBind()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -112,14 +112,14 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
   /**
    * Binding a deleted texture fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testTextureBindDeleted()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -146,13 +146,13 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
    * Binding a null texture fails.
    * 
    * @throws ConstraintError
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testTextureBindNull()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -169,13 +169,13 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
    * Binding a null unit fails.
    * 
    * @throws ConstraintError
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testTextureBindUnitNull()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -188,12 +188,12 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
   /**
    * Deleting a texture works.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test public final void testTextureDelete()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -218,14 +218,14 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
   /**
    * Deleting a texture twice fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testTextureDeleteDeleted()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -251,14 +251,14 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
   /**
    * Checking if a deleted texture is bound fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testTextureIsBoundDeleted()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -285,14 +285,14 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
   /**
    * Deleting a null texture fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testTextureNullDelete()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -305,14 +305,14 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
   /**
    * Passing null for the magnification filter fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testTextureNullFilterMax()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -332,14 +332,14 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
   /**
    * Passing null for the minification filter fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testTextureNullFilterMin()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -359,14 +359,14 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
   /**
    * Passing null for the texture name fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testTextureNullName()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -386,14 +386,14 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
   /**
    * Passing null for the R texture wrap parameter fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testTextureNullWrapR()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -413,14 +413,14 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
   /**
    * Passing null for the S texture wrap parameter fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testTextureNullWrapS()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -440,14 +440,14 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
   /**
    * Passing null for the T texture wrap parameter fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testTextureNullWrapT()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -467,12 +467,12 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
   /**
    * Maximum texture size is sane.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test public final void testTextureSizeSane()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -486,11 +486,11 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
    * Texture updates work.
    * 
    * @throws ConstraintError
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    */
 
   @Test public final void testTextureUpdateCompleteSimple()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -524,14 +524,14 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
   /**
    * Passing null as a face fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testTextureUpdateNullFaceFails()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -555,14 +555,14 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
   /**
    * Passing null as a texture update fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test(expected = ConstraintError.class) public final
     void
     testTextureUpdateNullFails()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {

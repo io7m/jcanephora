@@ -24,7 +24,7 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.JCGLColorBuffer;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jtensors.VectorI3F;
@@ -42,7 +42,7 @@ public abstract class ColorBufferContract implements TestContract
 
   @Test public final void testColorBufferClear()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -58,7 +58,7 @@ public abstract class ColorBufferContract implements TestContract
     void
     testColorBufferClearV3Null()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -71,7 +71,7 @@ public abstract class ColorBufferContract implements TestContract
     void
     testColorBufferClearV4Null()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -86,7 +86,7 @@ public abstract class ColorBufferContract implements TestContract
 
   @Test public final void testColorBufferMask()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();

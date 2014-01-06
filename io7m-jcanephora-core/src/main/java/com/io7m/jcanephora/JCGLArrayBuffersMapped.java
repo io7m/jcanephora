@@ -44,7 +44,7 @@ public interface JCGLArrayBuffersMapped
    * @param id
    *          The buffer.
    * @return A readable byte buffer.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -57,7 +57,7 @@ public interface JCGLArrayBuffersMapped
 
   @Nonnull ByteBuffer arrayBufferMapReadUntyped(
     final @Nonnull ArrayBufferUsable id)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -78,7 +78,7 @@ public interface JCGLArrayBuffersMapped
    * @param range
    *          The range (in elements) of elements to map.
    * @return A readable byte buffer.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -95,7 +95,7 @@ public interface JCGLArrayBuffersMapped
   @Nonnull ByteBuffer arrayBufferMapReadUntypedRange(
     final @Nonnull ArrayBufferUsable id,
     final @Nonnull RangeInclusive range)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -111,7 +111,7 @@ public interface JCGLArrayBuffersMapped
    * @param id
    *          The buffer.
    * @return A readable byte buffer.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -124,7 +124,7 @@ public interface JCGLArrayBuffersMapped
 
   @Nonnull ArrayBufferWritableMap arrayBufferMapWrite(
     final @Nonnull ArrayBuffer id)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -141,12 +141,12 @@ public interface JCGLArrayBuffersMapped
    *           <li><code>id</code> does not refer to a valid buffer (possible
    *           if the buffer has already been deleted).</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void arrayBufferUnmap(
     final @Nonnull ArrayBufferUsable id)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 }

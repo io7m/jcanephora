@@ -45,7 +45,7 @@ class ExtPackedDepthStencil implements JCGLExtensionPackedDepthStencil
   @Override public void framebufferDrawAttachDepthStencilRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable<RenderableDepthStencil> renderbuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     LWJGL_GL3Functions.framebufferDrawAttachDepthStencilRenderbuffer(
@@ -61,7 +61,7 @@ class ExtPackedDepthStencil implements JCGLExtensionPackedDepthStencil
       final int width,
       final int height)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return Renderbuffer.unsafeBrandDepthStencil(LWJGL_GLES2Functions
       .renderbufferAllocate(

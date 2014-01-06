@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.JCGLViewport;
 import com.io7m.jcanephora.TestContext;
@@ -40,13 +40,13 @@ public abstract class ViewportContract implements TestContract
   /**
    * Setting a viewport works.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           , GLUnsupportedException
    * @throws ConstraintError
    */
 
   @Test public final void testViewport()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -59,7 +59,7 @@ public abstract class ViewportContract implements TestContract
   /**
    * Setting a viewport with a negative X dimension fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           , GLUnsupportedException
    * @throws ConstraintError
    */
@@ -67,7 +67,7 @@ public abstract class ViewportContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testViewportDimensionNegativeX()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -80,7 +80,7 @@ public abstract class ViewportContract implements TestContract
   /**
    * Setting a viewport with a negative Y dimension fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           , GLUnsupportedException
    * @throws ConstraintError
    */
@@ -88,7 +88,7 @@ public abstract class ViewportContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testViewportDimensionNegativeY()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -101,7 +101,7 @@ public abstract class ViewportContract implements TestContract
   /**
    * Setting a viewport with a null dimension fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           , GLUnsupportedException
    * @throws ConstraintError
    */
@@ -109,7 +109,7 @@ public abstract class ViewportContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testViewportDimensionNull()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -122,7 +122,7 @@ public abstract class ViewportContract implements TestContract
   /**
    * Setting a viewport with a null position fails.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           , GLUnsupportedException
    * @throws ConstraintError
    */
@@ -130,7 +130,7 @@ public abstract class ViewportContract implements TestContract
   @Test(expected = ConstraintError.class) public final
     void
     testViewportPositionNull()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {

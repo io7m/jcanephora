@@ -47,7 +47,7 @@ public final class JOGL21Texture2DStaticGL2Test extends
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

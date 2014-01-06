@@ -44,7 +44,7 @@ public interface JCGLDraw
    *           <li>The buffer <code>indices</code> does not correspond to a
    *           valid buffer (perhaps because it has been deleted).</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -52,5 +52,5 @@ public interface JCGLDraw
     final @Nonnull Primitives mode,
     final @Nonnull IndexBufferUsable indices)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 }

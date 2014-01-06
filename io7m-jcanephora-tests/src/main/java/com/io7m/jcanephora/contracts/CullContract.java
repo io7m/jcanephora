@@ -26,7 +26,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.FaceSelection;
 import com.io7m.jcanephora.FaceWindingOrder;
 import com.io7m.jcanephora.JCGLCull;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
 
@@ -45,7 +45,7 @@ public abstract class CullContract implements TestContract
    */
 
   @Test public void testCullingEnable()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -67,7 +67,7 @@ public abstract class CullContract implements TestContract
    */
 
   @Test(expected = ConstraintError.class) public void testCullingNullFace()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -82,7 +82,7 @@ public abstract class CullContract implements TestContract
    */
 
   @Test(expected = ConstraintError.class) public void testCullingNullOrder()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

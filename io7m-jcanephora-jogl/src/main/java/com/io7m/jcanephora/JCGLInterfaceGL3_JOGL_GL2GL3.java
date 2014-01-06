@@ -90,7 +90,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @CheckForNull PrintStream trace_out,
     final @Nonnull JCGLSoftRestrictions restrictions)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     this.log =
       new Log(Constraints.constrainNotNull(log, "log output"), "jogl30");
@@ -215,7 +215,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final long elements,
     final @Nonnull ArrayBufferTypeDescriptor descriptor,
     final @Nonnull UsageHint usage)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     return JOGL_GL_Functions.arrayBufferAllocate(
@@ -229,7 +229,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public void arrayBufferBind(
     final @Nonnull ArrayBufferUsable buffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL_Functions.arrayBufferBind(this.contextGetGL(), buffer);
@@ -238,7 +238,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void arrayBufferDelete(
     final @Nonnull ArrayBuffer id)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.arrayBufferDelete(
       this.contextGetGL(),
@@ -250,14 +250,14 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public boolean arrayBufferIsBound(
     final @Nonnull ArrayBufferUsable id)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL_Functions.arrayBufferIsBound(this.contextGetGL(), id);
   }
 
   @Override public ByteBuffer arrayBufferMapReadUntyped(
     final @Nonnull ArrayBufferUsable id)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     return JOGL_GL_Functions.arrayBufferMapRead(
@@ -270,7 +270,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public @Nonnull ByteBuffer arrayBufferMapReadUntypedRange(
     final @Nonnull ArrayBufferUsable id,
     final @Nonnull RangeInclusive range)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     return JOGL_GL_Functions.arrayBufferMapReadRange(
@@ -283,7 +283,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public ArrayBufferWritableMap arrayBufferMapWrite(
     final @Nonnull ArrayBuffer id)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     return JOGL_GL_Functions.arrayBufferMapWrite(
@@ -294,7 +294,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void arrayBufferUnbind()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL_Functions.arrayBufferUnbind(this.contextGetGL());
@@ -303,7 +303,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void arrayBufferUnmap(
     final @Nonnull ArrayBufferUsable id)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.arrayBufferUnmap(
       this.contextGetGL(),
@@ -314,14 +314,14 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public void arrayBufferUpdate(
     final @Nonnull ArrayBufferWritableData data)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL_Functions.arrayBufferUpdate(this.contextGetGL(), data);
   }
 
   @Override public void blendingDisable()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     JOGL_GL_Functions.blendingDisable(this.contextGetGL());
   }
@@ -330,7 +330,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull BlendFunction source_factor,
     final @Nonnull BlendFunction destination_factor)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.blendingEnable(
       this.contextGetGL(),
@@ -344,7 +344,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull BlendFunction destination_rgb_factor,
     final @Nonnull BlendFunction destination_alpha_factor)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.blendingEnableSeparate(
       this.contextGetGL(),
@@ -362,7 +362,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull BlendEquationGL3 equation_rgb,
     final @Nonnull BlendEquationGL3 equation_alpha)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.blendingEnableSeparateWithEquationSeparate(
       this.contextGetGL(),
@@ -382,7 +382,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull BlendEquationGLES2 equation_rgb,
     final @Nonnull BlendEquationGLES2 equation_alpha)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.blendingEnableSeparateWithEquationSeparateES2(
       this.contextGetGL(),
@@ -399,7 +399,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull BlendFunction destination_factor,
     final @Nonnull BlendEquationGL3 equation)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.blendingEnableWithEquation(
       this.contextGetGL(),
@@ -413,7 +413,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull BlendFunction destination_factor,
     final @Nonnull BlendEquationGLES2 equation)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.blendingEnableWithEquationES2(
       this.contextGetGL(),
@@ -428,7 +428,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull BlendEquationGL3 equation_rgb,
     final @Nonnull BlendEquationGL3 equation_alpha)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.blendingEnableWithEquationSeparate(
       this.contextGetGL(),
@@ -444,7 +444,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull BlendEquationGLES2 equation_rgb,
     final @Nonnull BlendEquationGLES2 equation_alpha)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.blendingEnableWithEquationSeparateES2(
       this.contextGetGL(),
@@ -456,7 +456,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public boolean blendingIsEnabled()
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL_Functions.blendingIsEnabled(
       this.contextGetGL(),
@@ -468,7 +468,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final float g,
     final float b)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.colorBufferClear3f(this.contextGetGL(), r, g, b);
   }
@@ -479,7 +479,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final float b,
     final float a)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.colorBufferClear4f(this.contextGetGL(), r, g, b, a);
   }
@@ -487,7 +487,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void colorBufferClearV3f(
     final @Nonnull VectorReadable3F color)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.colorBufferClearV3f(this.contextGetGL(), color);
   }
@@ -495,7 +495,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void colorBufferClearV4f(
     final @Nonnull VectorReadable4F color)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.colorBufferClearV4f(this.contextGetGL(), color);
   }
@@ -506,13 +506,13 @@ import com.io7m.jtensors.VectorReadable4I;
     final boolean b,
     final boolean a)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.colorBufferMask(this.contextGetGL(), r, g, b, a);
   }
 
   @Override public boolean colorBufferMaskStatusAlpha()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return JOGL_GL_Functions.colorBufferMaskStatusAlpha(
       this.contextGetGL(),
@@ -520,7 +520,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public boolean colorBufferMaskStatusBlue()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return JOGL_GL_Functions.colorBufferMaskStatusBlue(
       this.contextGetGL(),
@@ -528,7 +528,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public boolean colorBufferMaskStatusGreen()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return JOGL_GL_Functions.colorBufferMaskStatusGreen(
       this.contextGetGL(),
@@ -536,7 +536,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public boolean colorBufferMaskStatusRed()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return JOGL_GL_Functions.colorBufferMaskStatusRed(
       this.contextGetGL(),
@@ -549,7 +549,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void cullingDisable()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     JOGL_GL_Functions.cullingDisable(this.contextGetGL());
   }
@@ -558,20 +558,20 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull FaceSelection faces,
     final @Nonnull FaceWindingOrder order)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.cullingEnable(this.contextGetGL(), faces, order);
   }
 
   @Override public boolean cullingIsEnabled()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return JOGL_GL_Functions.cullingIsEnabled(this.contextGetGL());
   }
 
   @Override public void depthBufferClear(
     final float depth)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL_Functions
@@ -579,7 +579,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public int depthBufferGetBits()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return JOGL_GL_Functions.depthBufferGetBits(
       this.contextGetGL(),
@@ -587,7 +587,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void depthBufferTestDisable()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     JOGL_GL_Functions.depthBufferDisable(this.contextGetGL());
   }
@@ -595,7 +595,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void depthBufferTestEnable(
     final @Nonnull DepthFunction function)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.depthBufferEnable(
       this.contextGetGL(),
@@ -604,14 +604,14 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public boolean depthBufferTestIsEnabled()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return JOGL_GL_Functions.depthBufferIsEnabled(this.contextGetGL());
   }
 
   @Override public void depthBufferWriteDisable()
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions
       .depthBufferWriteDisable(this.contextGetGL(), this.state);
@@ -619,13 +619,13 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public void depthBufferWriteEnable()
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.depthBufferWriteEnable(this.contextGetGL(), this.state);
   }
 
   @Override public boolean depthBufferWriteIsEnabled()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return JOGL_GL_Functions.depthBufferWriteIsEnabled(
       this.contextGetGL(),
@@ -636,7 +636,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull Primitives mode,
     final @Nonnull IndexBufferUsable indices)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.drawElements(this.contextGetGL(), mode, indices);
   }
@@ -652,7 +652,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2ES2_Functions.fragmentShaderCompile(
       this.contextGetGL(),
@@ -665,7 +665,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void fragmentShaderDelete(
     final @Nonnull FragmentShader id)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2ES2_Functions.fragmentShaderDelete(
       this.contextGetGL(),
@@ -675,7 +675,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull FramebufferReference framebufferAllocate()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     return JOGL_GL_Functions.framebufferAllocate(
@@ -686,7 +686,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public void framebufferDelete(
     final @Nonnull FramebufferReference framebuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL_Functions.framebufferDelete(
@@ -697,7 +697,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public boolean framebufferDrawAnyIsBound()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return JOGL_GL_Functions.framebufferDrawAnyIsBound(this.contextGetGL());
   }
@@ -705,7 +705,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void framebufferDrawAttachColorRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL_Functions.framebufferDrawAttachColorRenderbuffer(
@@ -720,7 +720,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
     final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL_Functions.framebufferDrawAttachColorRenderbufferAt(
@@ -735,7 +735,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void framebufferDrawAttachColorTexture2D(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull Texture2DStaticUsable texture)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL_Functions.framebufferDrawAttachColorTexture2D(
@@ -751,7 +751,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
     final @Nonnull Texture2DStaticUsable texture)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL_Functions.framebufferDrawAttachColorTexture2DAt(
@@ -768,7 +768,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull TextureCubeStaticUsable texture,
     final @Nonnull CubeMapFaceLH face)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL_Functions.framebufferDrawAttachColorTextureCube(
@@ -786,7 +786,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull FramebufferColorAttachmentPoint point,
     final @Nonnull TextureCubeStaticUsable texture,
     final @Nonnull CubeMapFaceLH face)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL_Functions.framebufferDrawAttachColorTextureCubeAt(
@@ -803,7 +803,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void framebufferDrawAttachDepthRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable<RenderableDepth> renderbuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL_Functions.framebufferDrawAttachDepthRenderbuffer(
@@ -817,7 +817,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void framebufferDrawAttachDepthStencilRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable<RenderableDepthStencil> renderbuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL_Functions.framebufferDrawAttachDepthStencilRenderbuffer(
@@ -831,7 +831,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void framebufferDrawAttachDepthTexture2D(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull Texture2DStaticUsable texture)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL_Functions.framebufferDrawAttachDepthTexture2D(
@@ -845,7 +845,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void framebufferDrawAttachStencilRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable<RenderableStencil> renderbuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL_Functions.framebufferDrawAttachStencilRenderbuffer(
@@ -858,7 +858,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public void framebufferDrawBind(
     final @Nonnull FramebufferReferenceUsable framebuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL_Functions.framebufferDrawBind(this.contextGetGL(), framebuffer);
@@ -866,7 +866,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public boolean framebufferDrawIsBound(
     final @Nonnull FramebufferReferenceUsable framebuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     return JOGL_GL_Functions.framebufferDrawIsBound(
@@ -879,7 +879,7 @@ import com.io7m.jtensors.VectorReadable4I;
     framebufferDrawSetBuffers(
       final @Nonnull FramebufferReference framebuffer,
       final @Nonnull Map<FramebufferDrawBuffer, FramebufferColorAttachmentPoint> mappings)
-      throws JCGLException,
+      throws JCGLRuntimeException,
         ConstraintError
   {
     JOGL_GL2ES3_Functions.framebufferDrawSetBuffers(
@@ -891,14 +891,14 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void framebufferDrawUnbind()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     JOGL_GL_Functions.framebufferDrawUnbind(this.contextGetGL());
   }
 
   @Override public @Nonnull FramebufferStatus framebufferDrawValidate(
     final @Nonnull FramebufferReferenceUsable framebuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     return JOGL_GL_Functions.framebufferDrawValidate(
@@ -909,7 +909,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public @Nonnull
     List<FramebufferColorAttachmentPoint>
     framebufferGetColorAttachmentPoints()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         ConstraintError
   {
     return Collections.unmodifiableList(this.state.color_attachments);
@@ -918,7 +918,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public @Nonnull
     List<FramebufferDrawBuffer>
     framebufferGetDrawBuffers()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         ConstraintError
   {
     return Collections.unmodifiableList(this.state.draw_buffers);
@@ -927,7 +927,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public IndexBuffer indexBufferAllocate(
     final @Nonnull ArrayBufferUsable buffer,
     final int indices)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     return JOGL_GL_Functions.indexBufferAllocate(
@@ -941,7 +941,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public @Nonnull IndexBuffer indexBufferAllocateType(
     final @Nonnull JCGLUnsignedType type,
     final int indices)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     return JOGL_GL_Functions.indexBufferAllocateType(
@@ -955,7 +955,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void indexBufferDelete(
     final @Nonnull IndexBuffer id)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.indexBufferDelete(
       this.contextGetGL(),
@@ -966,7 +966,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public IndexBufferReadableMap indexBufferMapRead(
     final @Nonnull IndexBufferUsable id)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     return JOGL_GL_Functions.indexBufferMapRead(
@@ -979,7 +979,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public @Nonnull IndexBufferReadableMap indexBufferMapReadRange(
     final @Nonnull IndexBufferUsable id,
     final @Nonnull RangeInclusive range)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     return JOGL_GL_Functions.indexBufferMapReadRange(
@@ -992,7 +992,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public IndexBufferWritableMap indexBufferMapWrite(
     final @Nonnull IndexBuffer id)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     return JOGL_GL_Functions.indexBufferMapWrite(
@@ -1005,7 +1005,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void indexBufferUnmap(
     final @Nonnull IndexBufferUsable id)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.indexBufferUnmap(
       this.contextGetGL(),
@@ -1016,14 +1016,14 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public void indexBufferUpdate(
     final @Nonnull IndexBufferWritableData data)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL_Functions.indexBufferUpdate(this.contextGetGL(), data);
   }
 
   @Override public void logicOperationsDisable()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     JOGL_GL2GL3_Functions.logicOperationsDisable(this.contextGetGL());
   }
@@ -1031,7 +1031,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void logicOperationsEnable(
     final @Nonnull LogicOperation operation)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2GL3_Functions.logicOperationsEnable(
       this.contextGetGL(),
@@ -1039,44 +1039,44 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public boolean logicOperationsEnabled()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.logicOperationsEnabled(this.contextGetGL());
   }
 
   @Override public int metaGetError()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return JOGL_GL_Functions.metaGetError(this.contextGetGL());
   }
 
   @Override public String metaGetRenderer()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return JOGL_GL_Functions.metaGetRenderer(this.contextGetGL());
   }
 
   @Override public @Nonnull JCGLSLVersion metaGetSLVersion()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return this.sl_version;
   }
 
   @Override public String metaGetVendor()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return JOGL_GL_Functions.metaGetVendor(this.contextGetGL());
   }
 
   @Override public @Nonnull JCGLVersion metaGetVersion()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return this.version;
   }
 
   @Override public @Nonnull PolygonMode polygonGetMode()
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return this.state.polygon_mode;
   }
@@ -1084,7 +1084,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void polygonSetMode(
     final @Nonnull PolygonMode mode)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2GL3_Functions.polygonSetMode(
       this.contextGetGL(),
@@ -1093,19 +1093,19 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void polygonSmoothingDisable()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     JOGL_GL2GL3_Functions.polygonSmoothingDisable(this.contextGetGL());
   }
 
   @Override public void polygonSmoothingEnable()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     JOGL_GL2GL3_Functions.polygonSmoothingEnable(this.contextGetGL());
   }
 
   @Override public boolean polygonSmoothingIsEnabled()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.polygonSmoothingIsEnabled(this
       .contextGetGL());
@@ -1114,7 +1114,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void programActivate(
     final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2ES2_Functions.programActivate(this.contextGetGL(), program);
   }
@@ -1122,7 +1122,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void programAttributeArrayAssociate(
     final @Nonnull ProgramAttribute program_attribute,
     final @Nonnull ArrayBufferAttribute array_attribute)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL2ES2_Functions.programAttributeArrayBind(
@@ -1134,7 +1134,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public void programAttributeArrayDisassociate(
     final @Nonnull ProgramAttribute program_attribute)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL2ES2_Functions.programAttributeArrayDisassociate(
@@ -1146,7 +1146,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void programAttributePutFloat(
     final @Nonnull ProgramAttribute program_attribute,
     final float x)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL2ES2_Functions.programAttributePutFloat(
@@ -1159,7 +1159,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void programAttributePutVector2f(
     final @Nonnull ProgramAttribute program_attribute,
     final @Nonnull VectorReadable2F x)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL2ES2_Functions.programAttributePutVector2f(
@@ -1172,7 +1172,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void programAttributePutVector3f(
     final @Nonnull ProgramAttribute program_attribute,
     final @Nonnull VectorReadable3F x)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL2ES2_Functions.programAttributePutVector3f(
@@ -1185,7 +1185,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void programAttributePutVector4f(
     final @Nonnull ProgramAttribute program_attribute,
     final @Nonnull VectorReadable4F x)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL2ES2_Functions.programAttributePutVector4f(
@@ -1200,7 +1200,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull VertexShader v,
     final @Nonnull FragmentShader f)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLCompileException
   {
     return JOGL_GL2ES2_Functions.programCreateCommon(
@@ -1218,7 +1218,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull FragmentShader f,
     final @Nonnull Map<String, FramebufferDrawBuffer> outputs)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLCompileException
   {
     return JOGL_GL2GL3_Functions.programCreateWithOutputs(
@@ -1232,7 +1232,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void programDeactivate()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     JOGL_GL2ES2_Functions.programDeactivate(this.contextGetGL());
   }
@@ -1240,7 +1240,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void programDelete(
     final @Nonnull ProgramReference program)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2ES2_Functions.programDelete(
       this.contextGetGL(),
@@ -1250,7 +1250,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public int programGetMaximumActiveAttributes()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return JOGL_GL2ES2_Functions.programGetMaximumActiveAttributes(
       this.contextGetGL(),
@@ -1261,7 +1261,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public boolean programIsActive(
     final @Nonnull ProgramReferenceUsable program)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2ES2_Functions.programIsActive(
       this.contextGetGL(),
@@ -1273,7 +1273,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull ProgramUniform uniform,
     final float value)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2ES2_Functions.programPutUniformFloat(
       this.contextGetGL(),
@@ -1286,7 +1286,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull ProgramUniform uniform,
     final int value)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2ES2_Functions.programPutUniformInteger(
       this.contextGetGL(),
@@ -1299,7 +1299,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixReadable3x3F matrix)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2ES2_Functions.programPutUniformMatrix3x3f(
       this.contextGetGL(),
@@ -1312,7 +1312,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull ProgramUniform uniform,
     final @Nonnull MatrixReadable4x4F matrix)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2ES2_Functions.programPutUniformMatrix4x4f(
       this.contextGetGL(),
@@ -1325,7 +1325,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull ProgramUniform uniform,
     final @Nonnull TextureUnit unit)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2ES2_Functions.programPutUniformTextureUnit(
       this.contextGetGL(),
@@ -1338,7 +1338,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable2F vector)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2ES2_Functions.programPutUniformVector2f(
       this.contextGetGL(),
@@ -1351,7 +1351,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable2I vector)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2ES2_Functions.programPutUniformVector2i(
       this.contextGetGL(),
@@ -1364,7 +1364,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable3F vector)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2ES2_Functions.programPutUniformVector3f(
       this.contextGetGL(),
@@ -1377,7 +1377,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable3I vector)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2ES2_Functions.programPutUniformVector3i(
       this.contextGetGL(),
@@ -1390,7 +1390,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4F vector)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2ES2_Functions.programPutUniformVector4f(
       this.contextGetGL(),
@@ -1403,7 +1403,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull ProgramUniform uniform,
     final @Nonnull VectorReadable4I vector)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2ES2_Functions.programPutUniformVector4i(
       this.contextGetGL(),
@@ -1418,7 +1418,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final int width,
       final int height)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return Renderbuffer.unsafeBrandDepthStencil(JOGL_GL_Functions
       .renderbufferAllocate(
@@ -1436,7 +1436,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final int width,
       final int height)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return Renderbuffer.unsafeBrandColor(JOGL_GL_Functions
       .renderbufferAllocate(
@@ -1454,7 +1454,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final int width,
       final int height)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return Renderbuffer.unsafeBrandColor(JOGL_GL_Functions
       .renderbufferAllocate(
@@ -1469,7 +1469,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void renderbufferDelete(
     final @Nonnull Renderbuffer<?> buffer)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.renderbufferDelete(
       this.contextGetGL(),
@@ -1479,7 +1479,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void scissorDisable()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     JOGL_GL_Functions.scissorDisable(this.contextGetGL());
   }
@@ -1488,21 +1488,21 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull VectorReadable2I position,
     final @Nonnull VectorReadable2I dimensions)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions
       .scissorEnable(this.contextGetGL(), position, dimensions);
   }
 
   @Override public boolean scissorIsEnabled()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return JOGL_GL_Functions.scissorIsEnabled(this.contextGetGL());
   }
 
   @Override public void stencilBufferClear(
     final int stencil)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     JOGL_GL_Functions.stencilBufferClear(
@@ -1513,14 +1513,14 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public void stencilBufferDisable()
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.stencilBufferDisable(this.contextGetGL());
   }
 
   @Override public void stencilBufferEnable()
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.stencilBufferEnable(this.contextGetGL(), this.state);
   }
@@ -1531,7 +1531,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final int reference,
     final int mask)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2ES2_Functions.stencilBufferFunction(
       this.contextGetGL(),
@@ -1542,7 +1542,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public int stencilBufferGetBits()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return JOGL_GL_Functions.stencilBufferGetBits(
       this.contextGetGL(),
@@ -1550,7 +1550,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public boolean stencilBufferIsEnabled()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return JOGL_GL_Functions.stencilBufferIsEnabled(this.contextGetGL());
   }
@@ -1559,7 +1559,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull FaceSelection faces,
     final int mask)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2ES2_Functions.stencilBufferMask(this.contextGetGL(), faces, mask);
   }
@@ -1570,7 +1570,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull StencilOperation depth_fail,
     final @Nonnull StencilOperation pass)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2ES2_Functions.stencilBufferOperation(
       this.contextGetGL(),
@@ -1589,7 +1589,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -1614,7 +1614,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -1639,7 +1639,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -1664,7 +1664,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -1689,7 +1689,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -1714,7 +1714,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -1739,7 +1739,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -1764,7 +1764,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -1789,7 +1789,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -1814,7 +1814,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -1839,7 +1839,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -1864,7 +1864,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -1889,7 +1889,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -1914,7 +1914,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -1939,7 +1939,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -1964,7 +1964,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -1989,7 +1989,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2014,7 +2014,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2039,7 +2039,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2064,7 +2064,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2089,7 +2089,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2114,7 +2114,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2139,7 +2139,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2164,7 +2164,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2189,7 +2189,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2214,7 +2214,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2239,7 +2239,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2264,7 +2264,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2289,7 +2289,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2314,7 +2314,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2339,7 +2339,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2364,7 +2364,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2389,7 +2389,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2414,7 +2414,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2441,7 +2441,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2466,7 +2466,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2491,7 +2491,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2516,7 +2516,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2541,7 +2541,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2566,7 +2566,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2591,7 +2591,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2616,7 +2616,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2641,7 +2641,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2666,7 +2666,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2691,7 +2691,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.contextGetGL(),
@@ -2711,7 +2711,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureUnit unit,
     final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.texture2DStaticBind(this.contextGetGL(), unit, texture);
   }
@@ -2719,7 +2719,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void texture2DStaticDelete(
     final @Nonnull Texture2DStatic texture)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.texture2DStaticDelete(
       this.contextGetGL(),
@@ -2731,7 +2731,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public @Nonnull Texture2DReadableData texture2DStaticGetImage(
     final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.texture2DStaticGetImage(
       this.contextGetGL(),
@@ -2742,7 +2742,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureUnit unit,
     final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL_Functions.texture2DStaticIsBound(
       this.contextGetGL(),
@@ -2754,7 +2754,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void texture2DStaticUnbind(
     final @Nonnull TextureUnit unit)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.texture2DStaticUnbind(this.contextGetGL(), unit);
   }
@@ -2762,7 +2762,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void texture2DStaticUpdate(
     final @Nonnull Texture2DWritableData data)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2GL3_Functions.texture2DStaticUpdate(this.contextGetGL(), data);
   }
@@ -2778,7 +2778,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -2805,7 +2805,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -2832,7 +2832,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -2859,7 +2859,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -2884,7 +2884,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -2909,7 +2909,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -2934,7 +2934,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -2959,7 +2959,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -2984,7 +2984,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3009,7 +3009,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3034,7 +3034,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3059,7 +3059,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3084,7 +3084,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3109,7 +3109,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3134,7 +3134,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3159,7 +3159,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3184,7 +3184,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3209,7 +3209,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3234,7 +3234,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3259,7 +3259,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3284,7 +3284,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3309,7 +3309,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3334,7 +3334,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3359,7 +3359,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3384,7 +3384,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3411,7 +3411,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3438,7 +3438,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3465,7 +3465,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3492,7 +3492,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3519,7 +3519,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3546,7 +3546,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3571,7 +3571,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3596,7 +3596,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3621,7 +3621,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3646,7 +3646,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3673,7 +3673,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3700,7 +3700,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3727,7 +3727,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3754,7 +3754,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3781,7 +3781,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3808,7 +3808,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3835,7 +3835,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3860,7 +3860,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3887,7 +3887,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3914,7 +3914,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureFilterMinification min_filter,
       final @Nonnull TextureFilterMagnification mag_filter)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
       this.contextGetGL(),
@@ -3934,7 +3934,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureUnit unit,
     final @Nonnull TextureCubeStaticUsable texture)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.textureCubeStaticBind(
       this.contextGetGL(),
@@ -3945,7 +3945,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void textureCubeStaticDelete(
     final @Nonnull TextureCubeStatic texture)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.textureCubeStaticDelete(
       this.contextGetGL(),
@@ -3960,7 +3960,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureCubeStaticUsable texture,
       final @Nonnull CubeMapFaceLH face)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     return JOGL_GL2GL3_Functions.textureCubeStaticGetImageLH(
       this.contextGetGL(),
@@ -3974,7 +3974,7 @@ import com.io7m.jtensors.VectorReadable4I;
       final @Nonnull TextureCubeStaticUsable texture,
       final @Nonnull CubeMapFaceRH face)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     Constraints.constrainNotNull(face, "Face");
     return JOGL_GL2GL3_Functions.textureCubeStaticGetImageLH(
@@ -3987,7 +3987,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull TextureUnit unit,
     final @Nonnull TextureCubeStaticUsable texture)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL_Functions.textureCubeStaticIsBound(
       this.contextGetGL(),
@@ -3999,7 +3999,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void textureCubeStaticUnbind(
     final @Nonnull TextureUnit unit)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.textureCubeStaticUnbind(this.contextGetGL(), unit);
   }
@@ -4008,7 +4008,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull CubeMapFaceLH face,
     final @Nonnull TextureCubeWritableData data)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2GL3_Functions.textureCubeStaticUpdate(
       this.contextGetGL(),
@@ -4020,14 +4020,14 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull CubeMapFaceRH face,
     final @Nonnull TextureCubeWritableData data)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(face, "Face");
     this.textureCubeStaticUpdateLH(CubeMapFaceLH.fromRH(face), data);
   }
 
   @Override public int textureGetMaximumSize()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return JOGL_GL_Functions.textureGetMaximumSize(
       this.contextGetGL(),
@@ -4035,7 +4035,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public List<TextureUnit> textureGetUnits()
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     return Collections.unmodifiableList(this.state.texture_units);
   }
@@ -4045,7 +4045,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GL2ES2_Functions.vertexShaderCompile(
       this.contextGetGL(),
@@ -4058,7 +4058,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void vertexShaderDelete(
     final @Nonnull VertexShader id)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL2ES2_Functions.vertexShaderDelete(
       this.contextGetGL(),
@@ -4071,7 +4071,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull VectorReadable2I position,
     final @Nonnull VectorReadable2I dimensions)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     JOGL_GL_Functions.viewportSet(this.contextGetGL(), position, dimensions);
   }

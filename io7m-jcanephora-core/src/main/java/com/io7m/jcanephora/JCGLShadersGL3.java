@@ -68,7 +68,7 @@ public interface JCGLShadersGL3 extends JCGLShadersCommon
    *           <li>A draw buffer appears more than once in
    *           <code>outputs</code>.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    * @throws JCGLCompileException
    *           Iff the program fails to link.
@@ -80,6 +80,6 @@ public interface JCGLShadersGL3 extends JCGLShadersCommon
     final @Nonnull FragmentShader f,
     final @Nonnull Map<String, FramebufferDrawBuffer> outputs)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLCompileException;
 }

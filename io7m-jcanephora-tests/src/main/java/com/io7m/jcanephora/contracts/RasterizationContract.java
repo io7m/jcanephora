@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLPolygonModes;
 import com.io7m.jcanephora.JCGLPolygonSmoothing;
 import com.io7m.jcanephora.JCGLUnsupportedException;
@@ -45,12 +45,12 @@ public abstract class RasterizationContract implements TestContract
   /**
    * Polygon mode setting works.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test public final void testPolygonModeIdentities()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -70,12 +70,12 @@ public abstract class RasterizationContract implements TestContract
   /**
    * Enabling/disabling polygon smoothing works.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   @Test public final void testPolygonSmoothing()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

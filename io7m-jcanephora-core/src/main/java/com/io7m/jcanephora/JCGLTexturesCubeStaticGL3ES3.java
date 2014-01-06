@@ -93,7 +93,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -106,7 +106,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -171,7 +171,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -184,7 +184,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -249,7 +249,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -262,7 +262,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -327,7 +327,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -340,7 +340,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -405,7 +405,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -418,7 +418,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -483,7 +483,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -496,7 +496,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -561,7 +561,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -574,7 +574,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -639,7 +639,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -652,7 +652,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -717,7 +717,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -730,7 +730,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -795,7 +795,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -808,7 +808,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -873,7 +873,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -886,7 +886,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -951,7 +951,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -964,7 +964,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -1029,7 +1029,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1042,7 +1042,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -1107,7 +1107,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1120,7 +1120,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -1185,7 +1185,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1198,7 +1198,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -1263,7 +1263,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1276,7 +1276,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -1341,7 +1341,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1354,7 +1354,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -1419,7 +1419,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1432,7 +1432,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -1497,7 +1497,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1510,7 +1510,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -1575,7 +1575,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1588,7 +1588,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -1653,7 +1653,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1666,7 +1666,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -1731,7 +1731,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1744,7 +1744,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -1809,7 +1809,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1822,7 +1822,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -1887,7 +1887,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1900,7 +1900,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -1965,7 +1965,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1978,7 +1978,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -2043,7 +2043,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2056,7 +2056,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -2121,7 +2121,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2134,7 +2134,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -2199,7 +2199,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2212,7 +2212,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -2277,7 +2277,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2290,7 +2290,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -2355,7 +2355,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2368,7 +2368,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -2433,7 +2433,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2446,7 +2446,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -2511,7 +2511,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2524,7 +2524,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -2589,7 +2589,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2602,7 +2602,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -2667,7 +2667,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2680,7 +2680,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -2745,7 +2745,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2758,7 +2758,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -2823,7 +2823,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2836,7 +2836,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -2901,7 +2901,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2914,7 +2914,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -2979,7 +2979,7 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2992,6 +2992,6 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
 }

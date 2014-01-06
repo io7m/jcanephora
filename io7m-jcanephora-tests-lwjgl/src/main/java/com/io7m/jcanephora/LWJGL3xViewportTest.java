@@ -37,7 +37,7 @@ public final class LWJGL3xViewportTest extends ViewportContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

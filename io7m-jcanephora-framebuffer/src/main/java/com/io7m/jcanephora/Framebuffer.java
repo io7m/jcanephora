@@ -105,7 +105,7 @@ public final class Framebuffer extends JCGLResourceDeletable implements
     delete(
       final @Nonnull G gl)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     for (final AttachmentColor c : this.color_attachments.values()) {
       switch (c.type) {

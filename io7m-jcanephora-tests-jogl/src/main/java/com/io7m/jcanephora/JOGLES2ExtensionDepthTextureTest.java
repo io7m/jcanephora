@@ -32,7 +32,7 @@ public final class JOGLES2ExtensionDepthTextureTest extends
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

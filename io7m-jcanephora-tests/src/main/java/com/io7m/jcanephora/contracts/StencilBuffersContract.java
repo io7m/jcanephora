@@ -25,7 +25,7 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.FaceSelection;
 import com.io7m.jcanephora.FramebufferReference;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLFramebuffersCommon;
 import com.io7m.jcanephora.JCGLImplementation;
 import com.io7m.jcanephora.JCGLStencilBuffer;
@@ -52,15 +52,15 @@ public abstract class StencilBuffersContract implements TestContract
     makeFramebufferWithoutStencil(
       final @Nonnull JCGLImplementation gi)
       throws ConstraintError,
-        JCGLException;
+        JCGLRuntimeException;
 
   public abstract @Nonnull FramebufferReference makeFramebufferWithStencil(
     final @Nonnull JCGLImplementation gi)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   @Test public void testStencilBufferClear()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -83,7 +83,7 @@ public abstract class StencilBuffersContract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testStencilBufferClearWithoutStencil()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -104,7 +104,7 @@ public abstract class StencilBuffersContract implements TestContract
   }
 
   @Test public void testStencilBufferEnableDisable()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -128,7 +128,7 @@ public abstract class StencilBuffersContract implements TestContract
   }
 
   @Test public void testStencilBufferFunctions()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -155,7 +155,7 @@ public abstract class StencilBuffersContract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testStencilBufferFunctionsNullFace()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -178,7 +178,7 @@ public abstract class StencilBuffersContract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testStencilBufferFunctionsNullFunction()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -199,7 +199,7 @@ public abstract class StencilBuffersContract implements TestContract
   }
 
   @Test public void testStencilBufferMask()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -222,7 +222,7 @@ public abstract class StencilBuffersContract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testStencilBufferMaskNullFace()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -243,7 +243,7 @@ public abstract class StencilBuffersContract implements TestContract
   }
 
   @Test public void testStencilBufferOperations()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -274,7 +274,7 @@ public abstract class StencilBuffersContract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testStencilBufferOperationsNullDepthFail()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -301,7 +301,7 @@ public abstract class StencilBuffersContract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testStencilBufferOperationsNullFace()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -328,7 +328,7 @@ public abstract class StencilBuffersContract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testStencilBufferOperationsNullPass()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -355,7 +355,7 @@ public abstract class StencilBuffersContract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testStencilBufferOperationsNullStencilFail()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -380,7 +380,7 @@ public abstract class StencilBuffersContract implements TestContract
   }
 
   @Test public void testStencilBufferWithoutBoundFramebufferWorks()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -394,7 +394,7 @@ public abstract class StencilBuffersContract implements TestContract
   }
 
   @Test public void testStencilBufferWithoutStencilHasNoBits()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -415,7 +415,7 @@ public abstract class StencilBuffersContract implements TestContract
   }
 
   @Test public void testStencilBufferWithStencilHasBits()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

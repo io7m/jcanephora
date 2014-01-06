@@ -33,7 +33,7 @@ import com.io7m.jcanephora.ArrayBufferWritableMap;
 import com.io7m.jcanephora.JCGLArrayBuffers;
 import com.io7m.jcanephora.JCGLArrayBuffersMapped;
 import com.io7m.jcanephora.JCGLErrorCodes;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
@@ -63,7 +63,7 @@ public abstract class ArrayBufferMapContract implements TestContract
     void
     testArrayBufferMapOutOfRange()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -90,7 +90,7 @@ public abstract class ArrayBufferMapContract implements TestContract
 
   @Test public final void testArrayBufferMapped()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -145,7 +145,7 @@ public abstract class ArrayBufferMapContract implements TestContract
 
   @Test public final void testArrayBufferMapRange()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -186,7 +186,7 @@ public abstract class ArrayBufferMapContract implements TestContract
     void
     testArrayBufferMapReadBounds()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -226,7 +226,7 @@ public abstract class ArrayBufferMapContract implements TestContract
     void
     testArrayBufferMapReadDeleted()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -252,11 +252,11 @@ public abstract class ArrayBufferMapContract implements TestContract
    * Mapping a buffer twice fails.
    */
 
-  @Test(expected = JCGLException.class) public final
+  @Test(expected = JCGLRuntimeException.class) public final
     void
     testArrayBufferMapReadDouble()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -276,14 +276,14 @@ public abstract class ArrayBufferMapContract implements TestContract
 
     try {
       a = ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
-    } catch (final JCGLException e) {
+    } catch (final JCGLRuntimeException e) {
       Assert.fail(e.getMessage());
     }
 
     try {
       gm.arrayBufferMapReadUntyped(a);
       gm.arrayBufferMapReadUntyped(a);
-    } catch (final JCGLException e) {
+    } catch (final JCGLRuntimeException e) {
       Assert.assertTrue(ge.errorCodeIsInvalidOperation(e.getCode()));
       throw e;
     } finally {
@@ -301,7 +301,7 @@ public abstract class ArrayBufferMapContract implements TestContract
     void
     testArrayBufferMapReadNull()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -328,7 +328,7 @@ public abstract class ArrayBufferMapContract implements TestContract
     void
     testArrayBufferMapWriteBounds()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -369,7 +369,7 @@ public abstract class ArrayBufferMapContract implements TestContract
     void
     testArrayBufferMapWriteDeleted()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -399,7 +399,7 @@ public abstract class ArrayBufferMapContract implements TestContract
     void
     testArrayBufferMapWriteNull()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -426,7 +426,7 @@ public abstract class ArrayBufferMapContract implements TestContract
     void
     testArrayBufferUnmapDeleted()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -453,11 +453,11 @@ public abstract class ArrayBufferMapContract implements TestContract
    * Unmapping a buffer twice fails.
    */
 
-  @Test(expected = JCGLException.class) public final
+  @Test(expected = JCGLRuntimeException.class) public final
     void
     testArrayBufferUnmapDouble()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -478,14 +478,14 @@ public abstract class ArrayBufferMapContract implements TestContract
     try {
       a = ga.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
       gm.arrayBufferMapWrite(a);
-    } catch (final JCGLException e) {
+    } catch (final JCGLRuntimeException e) {
       Assert.fail(e.getMessage());
     }
 
     try {
       gm.arrayBufferUnmap(a);
       gm.arrayBufferUnmap(a);
-    } catch (final JCGLException e) {
+    } catch (final JCGLRuntimeException e) {
       Assert.assertTrue(ge.errorCodeIsInvalidOperation(e.getCode()));
       throw e;
     } finally {

@@ -49,7 +49,7 @@ public final class JOGL30DepthBuffersTest extends DepthBuffersContract
   @Override public @Nonnull FramebufferReference makeFramebufferWithDepth(
     @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     final Some<JCGLInterfaceGL3> some = (Some<JCGLInterfaceGL3>) gi.getGL3();
     final JCGLInterfaceGL3 g = some.value;
@@ -91,7 +91,7 @@ public final class JOGL30DepthBuffersTest extends DepthBuffersContract
   @Override public @Nonnull FramebufferReference makeFramebufferWithoutDepth(
     @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     final Some<JCGLInterfaceGL3> some = (Some<JCGLInterfaceGL3>) gi.getGL3();
     final JCGLInterfaceGL3 g = some.value;
@@ -125,7 +125,7 @@ public final class JOGL30DepthBuffersTest extends DepthBuffersContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

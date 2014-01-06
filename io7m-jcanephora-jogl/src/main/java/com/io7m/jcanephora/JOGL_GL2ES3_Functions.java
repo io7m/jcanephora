@@ -41,7 +41,7 @@ final class JOGL_GL2ES3_Functions
       final @Nonnull FramebufferReference framebuffer,
       final @Nonnull Map<FramebufferDrawBuffer, FramebufferColorAttachmentPoint> mappings)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(framebuffer, "Framebuffer");

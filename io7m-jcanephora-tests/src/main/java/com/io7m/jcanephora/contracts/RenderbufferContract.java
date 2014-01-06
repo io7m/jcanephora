@@ -24,7 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLRenderbuffersCommon;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.Renderbuffer;
@@ -35,7 +35,7 @@ public abstract class RenderbufferContract<R extends JCGLRenderbuffersCommon> im
 {
   public abstract Renderbuffer<?> allocateAnything(
     final @Nonnull R gl)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   @Before public final void checkSupport()
@@ -51,7 +51,7 @@ public abstract class RenderbufferContract<R extends JCGLRenderbuffersCommon> im
    */
 
   @Test public final void testRenderbufferDelete()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -71,7 +71,7 @@ public abstract class RenderbufferContract<R extends JCGLRenderbuffersCommon> im
   @Test(expected = ConstraintError.class) public final
     void
     testRenderbufferDeleteTwice()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {

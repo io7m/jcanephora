@@ -37,7 +37,7 @@ public final class LWJGL3xColorBufferTest extends ColorBufferContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

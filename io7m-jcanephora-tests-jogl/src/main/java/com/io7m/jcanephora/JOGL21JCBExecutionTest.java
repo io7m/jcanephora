@@ -29,7 +29,7 @@ public final class JOGL21JCBExecutionTest extends JCBExecutionContract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

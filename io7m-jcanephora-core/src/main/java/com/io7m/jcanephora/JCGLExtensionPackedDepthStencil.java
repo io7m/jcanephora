@@ -53,14 +53,14 @@ public interface JCGLExtensionPackedDepthStencil
    *           <li><code>renderbuffer</code> is not a depth-renderable and
    *           stencil-renderable format</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawAttachDepthStencilRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable<RenderableDepthStencil> renderbuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -78,7 +78,7 @@ public interface JCGLExtensionPackedDepthStencil
    *           <li>
    *           <code>renderbufferSupportsDepth24Stencil8() == false</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    */
 
@@ -88,5 +88,5 @@ public interface JCGLExtensionPackedDepthStencil
       final int width,
       final int height)
       throws ConstraintError,
-        JCGLException;
+        JCGLRuntimeException;
 }

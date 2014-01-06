@@ -27,7 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLTextures2DStaticGLES3;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
@@ -59,7 +59,7 @@ public abstract class TextureLoaderContractGLES3<T extends TextureLoader> extend
     final @Nonnull String path)
     throws FilesystemError,
       ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     for (final TextureType tt : TextureTypeMeta
@@ -931,7 +931,7 @@ public abstract class TextureLoaderContractGLES3<T extends TextureLoader> extend
   }
 
   @Test public final void testTextureTypesGreyscaleToSpecific()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -946,7 +946,7 @@ public abstract class TextureLoaderContractGLES3<T extends TextureLoader> extend
   }
 
   @Test public final void testTextureTypesIndexedToSpecific()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -961,7 +961,7 @@ public abstract class TextureLoaderContractGLES3<T extends TextureLoader> extend
   }
 
   @Test public final void testTextureTypesInferredGreyscale()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -1007,7 +1007,7 @@ public abstract class TextureLoaderContractGLES3<T extends TextureLoader> extend
   }
 
   @Test public final void testTextureTypesInferredIndexed()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -1053,7 +1053,7 @@ public abstract class TextureLoaderContractGLES3<T extends TextureLoader> extend
   }
 
   @Test public final void testTextureTypesInferredMono()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -1101,7 +1101,7 @@ public abstract class TextureLoaderContractGLES3<T extends TextureLoader> extend
   @Test(expected = IOException.class) public final
     void
     testTextureTypesInferredNotAnImage()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError,
         IOException,
@@ -1129,7 +1129,7 @@ public abstract class TextureLoaderContractGLES3<T extends TextureLoader> extend
   }
 
   @Test public final void testTextureTypesInferredRGB()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -1175,7 +1175,7 @@ public abstract class TextureLoaderContractGLES3<T extends TextureLoader> extend
   }
 
   @Test public final void testTextureTypesInferredRGBA()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -1221,7 +1221,7 @@ public abstract class TextureLoaderContractGLES3<T extends TextureLoader> extend
   }
 
   @Test public final void testTextureTypesInvalidToSpecific()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       FilesystemError,
@@ -2102,7 +2102,7 @@ public abstract class TextureLoaderContractGLES3<T extends TextureLoader> extend
   }
 
   @Test public final void testTextureTypesMonoToSpecific()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -2117,7 +2117,7 @@ public abstract class TextureLoaderContractGLES3<T extends TextureLoader> extend
   }
 
   @Test public final void testTextureTypesRGBAToSpecific()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,
@@ -2132,7 +2132,7 @@ public abstract class TextureLoaderContractGLES3<T extends TextureLoader> extend
   }
 
   @Test public final void testTextureTypesRGBToSpecific()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError,
       IOException,

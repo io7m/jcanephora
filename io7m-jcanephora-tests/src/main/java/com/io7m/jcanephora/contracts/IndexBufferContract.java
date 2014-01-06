@@ -29,7 +29,7 @@ import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.JCGLArrayBuffers;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLIndexBuffers;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.JCGLUnsignedType;
@@ -58,7 +58,7 @@ public abstract class IndexBufferContract implements TestContract
     void
     testIndexBufferAllocateArrayDeleted()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -86,7 +86,7 @@ public abstract class IndexBufferContract implements TestContract
 
   @Test public final void testIndexBufferAllocateByte()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -128,7 +128,7 @@ public abstract class IndexBufferContract implements TestContract
 
   @Test public final void testIndexBufferAllocateInt()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -171,7 +171,7 @@ public abstract class IndexBufferContract implements TestContract
     void
     testIndexBufferAllocateNull()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -187,7 +187,7 @@ public abstract class IndexBufferContract implements TestContract
 
   @Test public final void testIndexBufferAllocateShort()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -230,7 +230,7 @@ public abstract class IndexBufferContract implements TestContract
     void
     testIndexBufferAllocateTypeNull()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -247,7 +247,7 @@ public abstract class IndexBufferContract implements TestContract
     void
     testIndexBufferAllocateTypeZeroElements()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -264,7 +264,7 @@ public abstract class IndexBufferContract implements TestContract
     void
     testIndexBufferAllocateZeroElements()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -292,7 +292,7 @@ public abstract class IndexBufferContract implements TestContract
     void
     testIndexBufferDeleteDouble()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -329,7 +329,7 @@ public abstract class IndexBufferContract implements TestContract
     void
     testIndexBufferDeleteNull()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -344,7 +344,7 @@ public abstract class IndexBufferContract implements TestContract
 
   @Test public final void testIndexBufferUpdate()
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -381,7 +381,7 @@ public abstract class IndexBufferContract implements TestContract
     void
     testIndexBufferUpdateDeleted()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();
@@ -419,7 +419,7 @@ public abstract class IndexBufferContract implements TestContract
     void
     testIndexBufferUpdateNullData()
       throws ConstraintError,
-        JCGLException,
+        JCGLRuntimeException,
         JCGLUnsupportedException
   {
     final TestContext tc = this.newTestContext();

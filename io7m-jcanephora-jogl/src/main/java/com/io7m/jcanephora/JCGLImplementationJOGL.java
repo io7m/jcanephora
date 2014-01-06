@@ -67,7 +67,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
    * 
    * @throws ConstraintError
    *           Iff <code>context == null || log == null</code>.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an internal OpenGL error occurs.
    * @throws JCGLUnsupportedException
    *           Iff the given graphics context does not support either of
@@ -77,7 +77,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
   public static @Nonnull JCGLImplementationJOGL newImplementation(
     final @Nonnull GLContext context,
     final @Nonnull Log log)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -95,7 +95,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
    * 
    * @throws ConstraintError
    *           Iff <code>context == null || log == null</code>.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an internal OpenGL error occurs.
    * @throws JCGLUnsupportedException
    *           Iff the given graphics context does not support either of
@@ -107,7 +107,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
     newImplementationWithDebugging(
       final @Nonnull GLContext context,
       final @Nonnull Log log)
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -126,7 +126,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
    * 
    * @throws ConstraintError
    *           Iff <code>context == null || log == null || r == null</code>.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an internal OpenGL error occurs.
    * @throws JCGLUnsupportedException
    *           Iff the given graphics context does not support either of
@@ -139,7 +139,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
       final @Nonnull GLContext context,
       final @Nonnull Log log,
       final @Nonnull JCGLSoftRestrictions r)
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -159,7 +159,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
    * @throws ConstraintError
    *           Iff
    *           <code>context == null || log == null || stream == null</code>.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an internal OpenGL error occurs.
    * @throws JCGLUnsupportedException
    *           Iff the given graphics context does not support either of
@@ -172,7 +172,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
       final @Nonnull GLContext context,
       final @Nonnull Log log,
       final @Nonnull PrintStream trace)
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -193,7 +193,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
    *           Iff
    *           <code>context == null || log == null || stream == null || r == null</code>
    *           .
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an internal OpenGL error occurs.
    * @throws JCGLUnsupportedException
    *           Iff the given graphics context does not support either of
@@ -207,7 +207,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
       final @Nonnull Log log,
       final @Nonnull PrintStream trace,
       final @Nonnull JCGLSoftRestrictions r)
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -225,7 +225,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
    * 
    * @throws ConstraintError
    *           Iff <code>context == null || log == null || r == null</code>.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an internal OpenGL error occurs.
    * @throws JCGLUnsupportedException
    *           Iff the given graphics context does not support either of
@@ -238,7 +238,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
       final @Nonnull GLContext context,
       final @Nonnull Log log,
       final @Nonnull JCGLSoftRestrictions r)
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -257,7 +257,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
    * @throws ConstraintError
    *           Iff
    *           <code>context == null || log == null || stream == null</code>.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an internal OpenGL error occurs.
    * @throws JCGLUnsupportedException
    *           Iff the given graphics context does not support either of
@@ -268,7 +268,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
     final @Nonnull GLContext context,
     final @Nonnull Log log,
     final @Nonnull PrintStream trace)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -289,7 +289,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
    *           Iff
    *           <code>context == null || log == null || trace == null || r == null</code>
    *           .
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an internal OpenGL error occurs.
    * @throws JCGLUnsupportedException
    *           Iff the given graphics context does not support either of
@@ -303,7 +303,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
       final @Nonnull Log log,
       final @Nonnull PrintStream trace,
       final @Nonnull JCGLSoftRestrictions r)
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -329,7 +329,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
     final @CheckForNull PrintStream trace,
     final @Nonnull JCGLSoftRestrictions r)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLUnsupportedException
   {
     this.log =

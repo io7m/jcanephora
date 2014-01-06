@@ -23,7 +23,7 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLRenderbuffersGL3ES3;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.Renderbuffer;
@@ -36,7 +36,7 @@ public abstract class RenderbufferGL3ES3Contract extends
 {
   @Override public final Renderbuffer<?> allocateAnything(
     final @Nonnull JCGLRenderbuffersGL3ES3 r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     return r.renderbufferAllocateRGB888(128, 128);
@@ -47,7 +47,7 @@ public abstract class RenderbufferGL3ES3Contract extends
    */
 
   @Test public void testRenderbufferAllocate()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

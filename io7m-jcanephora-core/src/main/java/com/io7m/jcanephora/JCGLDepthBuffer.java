@@ -38,7 +38,7 @@ public interface JCGLDepthBuffer
    * 
    * @param depth
    *          The depth value.
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    * @throws ConstraintError
    *           Iff no depth buffer is available.
@@ -46,29 +46,29 @@ public interface JCGLDepthBuffer
 
   void depthBufferClear(
     final float depth)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
    * Retrieve the number of bits available in the depth buffer for the current
    * framebuffer configuration.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   int depthBufferGetBits()
-    throws JCGLException;
+    throws JCGLRuntimeException;
 
   /**
    * Disable depth testing.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void depthBufferTestDisable()
-    throws JCGLException;
+    throws JCGLRuntimeException;
 
   /**
    * Enable depth testing with the given <code>function</code>. The OpenGL
@@ -83,32 +83,32 @@ public interface JCGLDepthBuffer
    *           <code>depthBufferGetBits() == 0</code>).</li>
    *           <li><code>function == null</code>.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void depthBufferTestEnable(
     final DepthFunction function)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Return <code>true</code> iff depth testing is enabled.
    */
 
   boolean depthBufferTestIsEnabled()
-    throws JCGLException;
+    throws JCGLRuntimeException;
 
   /**
    * Disable writing to the depth buffer.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void depthBufferWriteDisable()
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Enable writing to the depth buffer.
@@ -119,18 +119,18 @@ public interface JCGLDepthBuffer
    *           <li>No depth buffer is available (
    *           <code>depthBufferGetBits() == 0</code>).</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void depthBufferWriteEnable()
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Return <code>true</code> iff depth writing is enabled.
    */
 
   boolean depthBufferWriteIsEnabled()
-    throws JCGLException;
+    throws JCGLRuntimeException;
 }

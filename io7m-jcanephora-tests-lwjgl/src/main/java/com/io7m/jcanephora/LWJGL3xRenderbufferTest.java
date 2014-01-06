@@ -37,7 +37,7 @@ public final class LWJGL3xRenderbufferTest extends RenderbufferGL3Contract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

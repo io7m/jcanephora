@@ -48,7 +48,7 @@ final class JOGL_GLES3_Functions
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(name, "Name");
     Constraints.constrainRange(width, 2, Integer.MAX_VALUE, "Width");
@@ -146,7 +146,7 @@ final class JOGL_GLES3_Functions
     final @Nonnull GL gl,
     final @Nonnull Texture2DWritableData data)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(data, "Texture data");
 
@@ -189,7 +189,7 @@ final class JOGL_GLES3_Functions
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(name, "Name");
     Constraints.constrainRange(size, 2, Integer.MAX_VALUE, "Size");
@@ -298,7 +298,7 @@ final class JOGL_GLES3_Functions
     final @Nonnull CubeMapFaceLH face,
     final @Nonnull TextureCubeWritableData data)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(face, "Cube map face");
     Constraints.constrainNotNull(data, "Texture data");

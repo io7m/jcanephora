@@ -396,7 +396,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       final @Nonnull String a,
       final @Nonnull ArrayBufferAttribute x)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
     {
       Constraints.constrainNotNull(x, "Array attribute");
 
@@ -412,7 +412,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       final @Nonnull String a,
       final float x)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
     {
       Constraints.constrainNotNull(a, "Attribute name");
 
@@ -428,7 +428,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       final @Nonnull String a,
       final @Nonnull VectorReadable2F x)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
     {
       Constraints.constrainNotNull(a, "Attribute name");
 
@@ -444,7 +444,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       final @Nonnull String a,
       final @Nonnull VectorReadable3F x)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
     {
       Constraints.constrainNotNull(this.gc, "OpenGL interface");
       Constraints.constrainNotNull(a, "Attribute name");
@@ -461,7 +461,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       final @Nonnull String a,
       final @Nonnull VectorReadable4F x)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
     {
       Constraints.constrainNotNull(this.gc, "OpenGL interface");
       Constraints.constrainNotNull(a, "Attribute name");
@@ -551,7 +551,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       final @Nonnull JCBProgramProcedure procedure)
       throws ConstraintError,
         JCBExecutionException,
-        JCGLException
+        JCGLRuntimeException
     {
       Constraints.constrainNotNull(procedure, "Procedure");
 
@@ -559,7 +559,7 @@ public final class JCBExecutor implements JCBExecutionAPI
 
       try {
         procedure.call();
-      } catch (final JCGLException x) {
+      } catch (final JCGLRuntimeException x) {
         throw x;
       } catch (final ConstraintError x) {
         throw x;
@@ -577,7 +577,7 @@ public final class JCBExecutor implements JCBExecutionAPI
 
     void programUnbindArrayAttributes(
       final @Nonnull JCGLShadersCommon gl)
-      throws JCGLException,
+      throws JCGLRuntimeException,
         ConstraintError
     {
       for (int index = 0; index < this.attributes.size(); ++index) {
@@ -592,7 +592,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       final @Nonnull String u,
       final float x)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
     {
       Constraints.constrainNotNull(u, "Uniform name");
 
@@ -609,7 +609,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       final @Nonnull String u,
       final int x)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
     {
       Constraints.constrainNotNull(u, "Uniform name");
 
@@ -626,7 +626,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       final @Nonnull String u,
       final @Nonnull MatrixReadable3x3F x)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
     {
       Constraints.constrainNotNull(u, "Uniform name");
 
@@ -643,7 +643,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       final @Nonnull String u,
       final @Nonnull MatrixReadable4x4F x)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
     {
       Constraints.constrainNotNull(u, "Uniform name");
 
@@ -660,7 +660,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       final @Nonnull String u,
       final @Nonnull TextureUnit x)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
     {
       Constraints.constrainNotNull(u, "Uniform name");
 
@@ -677,7 +677,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       final @Nonnull String u,
       final @Nonnull VectorReadable2F x)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
     {
       Constraints.constrainNotNull(u, "Uniform name");
 
@@ -694,7 +694,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       final @Nonnull String u,
       final @Nonnull VectorReadable2I x)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
     {
       Constraints.constrainNotNull(u, "Uniform name");
 
@@ -711,7 +711,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       final @Nonnull String u,
       final @Nonnull VectorReadable3F x)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
     {
       Constraints.constrainNotNull(u, "Uniform name");
 
@@ -728,7 +728,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       final @Nonnull String u,
       final @Nonnull VectorReadable3I x)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
     {
       Constraints.constrainNotNull(u, "Uniform name");
 
@@ -745,7 +745,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       final @Nonnull String u,
       final @Nonnull VectorReadable4F x)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
     {
       Constraints.constrainNotNull(u, "Uniform name");
 
@@ -762,7 +762,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       final @Nonnull String u,
       final @Nonnull VectorReadable4I x)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
     {
       Constraints.constrainNotNull(u, "Uniform name");
 
@@ -778,7 +778,7 @@ public final class JCBExecutor implements JCBExecutionAPI
     @Override public void programUniformUseExisting(
       final @Nonnull String u)
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
     {
       Constraints.constrainNotNull(u, "Uniform name");
 
@@ -928,7 +928,7 @@ public final class JCBExecutor implements JCBExecutionAPI
   @Override public void execRun(
     final @Nonnull JCBExecutorProcedure procedure)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCBExecutionException
   {
     Constraints.constrainNotNull(procedure, "Procedure");
@@ -938,7 +938,7 @@ public final class JCBExecutor implements JCBExecutionAPI
       procedure.call(this.jprogram);
     } catch (final ConstraintError e) {
       throw e;
-    } catch (final JCGLException e) {
+    } catch (final JCGLRuntimeException e) {
       throw e;
     } catch (final Throwable e) {
       throw new JCBExecutionException(e);

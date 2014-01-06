@@ -38,7 +38,7 @@ public interface JCGLFramebuffersCommon
    */
 
   @Nonnull FramebufferReference framebufferAllocate()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -52,13 +52,13 @@ public interface JCGLFramebuffersCommon
    *           <li><code>framebuffer == null</code></li>
    *           <li><code>framebuffer.resourceIsDeleted()</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDelete(
     final @Nonnull FramebufferReference framebuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -67,12 +67,12 @@ public interface JCGLFramebuffersCommon
    * currently bound.
    * </p>
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    */
 
   boolean framebufferDrawAnyIsBound()
-    throws JCGLException;
+    throws JCGLRuntimeException;
 
   /**
    * <p>
@@ -98,14 +98,14 @@ public interface JCGLFramebuffersCommon
    *           <li><code>renderbuffer</code> is not a color-renderable
    *           format</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawAttachColorRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -132,14 +132,14 @@ public interface JCGLFramebuffersCommon
    *           <li><code>texture</code> is not a color-renderable
    *           format</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawAttachColorTexture2D(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull Texture2DStaticUsable texture)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -167,7 +167,7 @@ public interface JCGLFramebuffersCommon
    *           <li><code>texture</code> is not a color-renderable
    *           format</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    */
 
@@ -175,7 +175,7 @@ public interface JCGLFramebuffersCommon
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull TextureCubeStaticUsable texture,
     final @Nonnull CubeMapFaceLH face)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -199,14 +199,14 @@ public interface JCGLFramebuffersCommon
    *           <li><code>renderbuffer</code> is not a depth-renderable
    *           format</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawAttachDepthRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable<RenderableDepth> renderbuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -230,14 +230,14 @@ public interface JCGLFramebuffersCommon
    *           <li><code>texture</code> is not a depth-renderable
    *           format</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawAttachDepthTexture2D(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull Texture2DStaticUsable texture)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -261,14 +261,14 @@ public interface JCGLFramebuffersCommon
    *           <li><code>renderbuffer</code> is not a stencil-renderable
    *           format</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawAttachStencilRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable<RenderableStencil> renderbuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -282,13 +282,13 @@ public interface JCGLFramebuffersCommon
    *           <li><code>framebuffer == null</code></li>
    *           <li><code>framebuffer.resourceIsDeleted()</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawBind(
     final @Nonnull FramebufferReferenceUsable framebuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -303,13 +303,13 @@ public interface JCGLFramebuffersCommon
    *           <li><code>framebuffer == null</code></li>
    *           <li><code>framebuffer.resourceIsDeleted()</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    */
 
   boolean framebufferDrawIsBound(
     final @Nonnull FramebufferReferenceUsable framebuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -317,12 +317,12 @@ public interface JCGLFramebuffersCommon
    * Unbind the current framebuffer from the draw target.
    * </p>
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawUnbind()
-    throws JCGLException;
+    throws JCGLRuntimeException;
 
   /**
    * <p>
@@ -336,13 +336,13 @@ public interface JCGLFramebuffersCommon
    *           <li><code>framebuffer.resourceIsDeleted()</code></li>
    *           <li><code>framebufferIsBoundDraw(framebuffer) == false</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    */
 
   @Nonnull FramebufferStatus framebufferDrawValidate(
     final @Nonnull FramebufferReferenceUsable framebuffer)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 
   /**
@@ -354,14 +354,14 @@ public interface JCGLFramebuffersCommon
    * only allows single color attachments for framebuffers).
    * </p>
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    */
 
   public @Nonnull
     List<FramebufferColorAttachmentPoint>
     framebufferGetColorAttachmentPoints()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         ConstraintError;
 
   /**
@@ -373,11 +373,11 @@ public interface JCGLFramebuffersCommon
    * only allows a single color draw buffer).
    * </p>
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
    */
 
   public @Nonnull List<FramebufferDrawBuffer> framebufferGetDrawBuffers()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError;
 }

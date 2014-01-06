@@ -75,7 +75,7 @@ class ExtDepthCubeTexture<G extends GL> implements
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GLES2_Functions.textureCubeStaticAllocate(
       this.gl,

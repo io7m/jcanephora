@@ -47,7 +47,7 @@ public final class JOGL3pTexture2DStaticCommonTest extends
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

@@ -28,7 +28,7 @@ public final class LWJGLES2BlendTest extends BlendingGLES2Contract
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

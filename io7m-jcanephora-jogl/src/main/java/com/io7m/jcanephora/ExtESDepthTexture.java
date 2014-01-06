@@ -74,7 +74,7 @@ class ExtESDepthTexture<G extends GL> implements JCGLExtensionESDepthTexture
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return JOGL_GLES2_Functions.texture2DStaticAllocate(
       this.gl,

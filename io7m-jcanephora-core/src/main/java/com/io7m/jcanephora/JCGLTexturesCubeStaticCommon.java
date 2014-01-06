@@ -91,7 +91,7 @@ public interface JCGLTexturesCubeStaticCommon
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -104,7 +104,7 @@ public interface JCGLTexturesCubeStaticCommon
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -167,7 +167,7 @@ public interface JCGLTexturesCubeStaticCommon
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -180,7 +180,7 @@ public interface JCGLTexturesCubeStaticCommon
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Bind the texture <code>texture</code> to the texture unit
@@ -198,7 +198,7 @@ public interface JCGLTexturesCubeStaticCommon
    *           <li><code>texture</code> does not refer to a valid texture
    *           (possible if the texture has already been deleted).</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -206,7 +206,7 @@ public interface JCGLTexturesCubeStaticCommon
     final @Nonnull TextureUnit unit,
     final @Nonnull TextureCubeStaticUsable texture)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Deletes the texture referenced by <code>texture</code>.
@@ -220,14 +220,14 @@ public interface JCGLTexturesCubeStaticCommon
    *           <li><code>texture</code> does not refer to a valid texture
    *           (possible if the texture has already been deleted).</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void textureCubeStaticDelete(
     final @Nonnull TextureCubeStatic texture)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Return <code>true</code> iff the texture <code>texture</code> is bound to
@@ -243,7 +243,7 @@ public interface JCGLTexturesCubeStaticCommon
    *          <li><code>texture</code> does not refer to a valid texture
    *          (possible if the texture has already been deleted).</li>
    *          </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -251,7 +251,7 @@ public interface JCGLTexturesCubeStaticCommon
     final @Nonnull TextureUnit unit,
     final @Nonnull TextureCubeStaticUsable texture)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Unbind whatever cube map texture is bound to the texture unit
@@ -264,14 +264,14 @@ public interface JCGLTexturesCubeStaticCommon
    *           <ul>
    *           <li><code>unit == null</code>.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void textureCubeStaticUnbind(
     final @Nonnull TextureUnit unit)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Replace the contents (or part of the contents) of the face
@@ -289,7 +289,7 @@ public interface JCGLTexturesCubeStaticCommon
    *           <ul>
    *           <li><code>face == null || data == null</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -297,7 +297,7 @@ public interface JCGLTexturesCubeStaticCommon
     final @Nonnull CubeMapFaceLH face,
     final @Nonnull TextureCubeWritableData data)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Replace the contents (or part of the contents) of the face
@@ -315,7 +315,7 @@ public interface JCGLTexturesCubeStaticCommon
    *           <ul>
    *           <li><code>face == null || data == null</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -323,5 +323,5 @@ public interface JCGLTexturesCubeStaticCommon
     final @Nonnull CubeMapFaceRH face,
     final @Nonnull TextureCubeWritableData data)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 }

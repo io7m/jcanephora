@@ -25,7 +25,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.BlendEquationGL3;
 import com.io7m.jcanephora.BlendFunction;
 import com.io7m.jcanephora.JCGLBlendingGL3;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.contracts.TestContract;
@@ -45,7 +45,7 @@ public abstract class BlendingGL3Contract implements TestContract
    */
 
   @Test public final void testBlendDisabled()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -59,7 +59,7 @@ public abstract class BlendingGL3Contract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testBlendEnableWithEquationSeparateTargetNotSaturate()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -78,7 +78,7 @@ public abstract class BlendingGL3Contract implements TestContract
    */
 
   @Test public final void testBlendFunctions()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -110,7 +110,7 @@ public abstract class BlendingGL3Contract implements TestContract
    */
 
   @Test public final void testBlendFunctionSeparateWithEquation()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -138,7 +138,7 @@ public abstract class BlendingGL3Contract implements TestContract
    */
 
   @Test public final void testBlendFunctionSeparateWithEquationSeparate()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -172,7 +172,7 @@ public abstract class BlendingGL3Contract implements TestContract
    */
 
   @Test public final void testBlendFunctionsSeparateWithEquationSeparate()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -235,7 +235,7 @@ public abstract class BlendingGL3Contract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testBlendFunctionTargetNotSaturate()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -250,7 +250,7 @@ public abstract class BlendingGL3Contract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testBlendFunctionWithEquationTargetNotSaturate()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -267,7 +267,7 @@ public abstract class BlendingGL3Contract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testBlendSeparateWithEquationSeparateTargetNotSaturate0()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -286,7 +286,7 @@ public abstract class BlendingGL3Contract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testBlendSeparateWithEquationSeparateTargetNotSaturate1()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {

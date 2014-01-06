@@ -46,7 +46,7 @@ import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.JCGLCompileException;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLImplementation;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
 import com.io7m.jcanephora.JCGLScalarType;
@@ -113,7 +113,7 @@ public final class ExampleFBO implements Example
   public ExampleFBO(
     final @Nonnull ExampleConfig config)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       JCGLCompileException,
       IOException,
       FilesystemError
@@ -221,7 +221,7 @@ public final class ExampleFBO implements Example
     if (result.isFailure()) {
       final Failure<Framebuffer, FramebufferStatus> failure =
         (Failure<Framebuffer, FramebufferStatus>) result;
-      throw new JCGLException(0, "Could not create framebuffer: "
+      throw new JCGLRuntimeException(0, "Could not create framebuffer: "
         + failure.value);
     }
 
@@ -386,7 +386,7 @@ public final class ExampleFBO implements Example
   }
 
   @Override public void display()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLCompileException,
       ConstraintError
   {
@@ -401,7 +401,7 @@ public final class ExampleFBO implements Example
 
   private void drawActualScene()
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     this.gl.colorBufferClear3f(0.15f, 0.15f, 0.2f);
 
@@ -518,7 +518,7 @@ public final class ExampleFBO implements Example
 
   private void drawFramebufferScene()
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     final int width = this.config.getWindowSize().getXI();
     final int height = this.config.getWindowSize().getYI();
@@ -626,7 +626,7 @@ public final class ExampleFBO implements Example
   @Override public void reshape(
     final @Nonnull VectorReadable2I position,
     final @Nonnull VectorReadable2I size)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError,
       JCGLCompileException
   {
@@ -639,7 +639,7 @@ public final class ExampleFBO implements Example
   }
 
   @Override public void shutdown()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError,
       JCGLCompileException
   {

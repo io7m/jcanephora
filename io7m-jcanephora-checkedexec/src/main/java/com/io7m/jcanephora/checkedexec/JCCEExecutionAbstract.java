@@ -29,7 +29,7 @@ import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.ArrayBufferAttribute;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLShadersCommon;
 import com.io7m.jcanephora.JCGLType;
 import com.io7m.jcanephora.ProgramAttribute;
@@ -455,7 +455,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull String a,
     final @Nonnull ArrayBufferAttribute x)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(x, "Array attribute");
@@ -476,7 +476,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull String a,
     final float x)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(a, "Attribute name");
@@ -497,7 +497,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull String a,
     final @Nonnull VectorReadable2F x)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(a, "Attribute name");
@@ -518,7 +518,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull String a,
     final @Nonnull VectorReadable3F x)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(a, "Attribute name");
@@ -539,7 +539,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull String a,
     final @Nonnull VectorReadable4F x)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(a, "Attribute name");
@@ -610,7 +610,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public @Nonnull ProgramReferenceUsable execGetProgram()
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return this.program;
   }
@@ -618,7 +618,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public final void execPrepare(
     final @Nonnull JCGLShadersCommon gl)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainArbitrary(
@@ -673,7 +673,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   private void execUnbindArrayAttributes(
     final @Nonnull JCGLShadersCommon gl)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     for (int index = 0; index < this.attributes.size(); ++index) {
@@ -689,7 +689,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull String u,
     final float x)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
@@ -711,7 +711,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull String u,
     final @Nonnull MatrixReadable3x3F x)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
@@ -733,7 +733,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull String u,
     final @Nonnull MatrixReadable4x4F x)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
@@ -755,7 +755,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull String u,
     final @Nonnull TextureUnit x)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
@@ -777,7 +777,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull String u,
     final @Nonnull VectorReadable2F x)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
@@ -799,7 +799,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull String u,
     final @Nonnull VectorReadable2I x)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
@@ -821,7 +821,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull String u,
     final @Nonnull VectorReadable3F x)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
@@ -843,7 +843,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull String u,
     final @Nonnull VectorReadable3I x)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
@@ -865,7 +865,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull String u,
     final @Nonnull VectorReadable4F x)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
@@ -887,7 +887,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull String u,
     final @Nonnull VectorReadable4I x)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(u, "Uniform name");
@@ -907,7 +907,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public final void execUniformUseExisting(
     final @Nonnull String u)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(u, "Uniform name");
     Constraints.constrainArbitrary(

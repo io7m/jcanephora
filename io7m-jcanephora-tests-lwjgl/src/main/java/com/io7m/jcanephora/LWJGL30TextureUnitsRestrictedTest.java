@@ -29,7 +29,7 @@ public final class LWJGL30TextureUnitsRestrictedTest extends
 
   @Override public TestContext newTestContext(
     final JCGLSoftRestrictions r)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

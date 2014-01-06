@@ -106,14 +106,14 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
     void emergencyCleanup()
       throws ConstraintError,
-        JCGLException
+        JCGLRuntimeException
     {
-      JCGLException saved = null;
+      JCGLRuntimeException saved = null;
 
       if (this.framebuffer != null) {
         try {
           this.fb.framebufferDelete(this.framebuffer);
-        } catch (final JCGLException e) {
+        } catch (final JCGLRuntimeException e) {
           saved = e;
         }
       }
@@ -212,7 +212,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   /**
    * Attach all allocated buffers to the current framebuffer on ES2.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
@@ -220,7 +220,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     final @Nonnull WorkingBuffers buffers,
     final @Nonnull JCGLInterfaceGLES2 gl,
     final @CheckForNull JCGLExtensionPackedDepthStencil extension)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     gl.framebufferDrawBind(buffers.framebuffer);
@@ -235,14 +235,14 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   /**
    * Attach all allocated buffers to the current framebuffer on OpenGL 3.0.
    * 
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    * @throws ConstraintError
    */
 
   private static void attachBuffers_GL3(
     final @Nonnull WorkingBuffers buffers,
     final @Nonnull JCGLFramebuffersGL3 gl)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     gl.framebufferDrawBind(buffers.framebuffer);
@@ -255,7 +255,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private static void attachColorBuffers(
     final WorkingBuffers buffers,
     final JCGLFramebuffersGLES2 gl)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     if (buffers.attachment_color != null) {
@@ -328,7 +328,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private static void attachDepthBuffers_ES2_DS(
     final WorkingBuffers buffers,
     final JCGLExtensionPackedDepthStencil extension)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     if (buffers.attachment_depth != null) {
@@ -370,7 +370,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private static void attachDepthBuffers_GL3(
     final WorkingBuffers buffers,
     final JCGLFramebuffersGL3 gl)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     if (buffers.attachment_depth != null) {
@@ -412,7 +412,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private static void attachStencilBuffers(
     final WorkingBuffers buffers,
     final JCGLFramebuffersGLES2 gl)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     if (buffers.attachment_stencil != null) {
@@ -518,7 +518,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private Renderbuffer<RenderableColor> allocateBestRGBARenderbuffer_ES2(
     final @Nonnull JCGLRenderbuffersGLES2 gl)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return gl.renderbufferAllocateRGBA4444(this.width, this.height);
   }
@@ -526,7 +526,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private Renderbuffer<RenderableColor> allocateBestRGBARenderbuffer_GL3ES3(
     final @Nonnull JCGLRenderbuffersGL3ES3 gl)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return gl.renderbufferAllocateRGBA8888(this.width, this.height);
   }
@@ -535,7 +535,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     final @Nonnull JCGLTextures2DStaticCommon gl,
     final @Nonnull StringBuilder name)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return gl.texture2DStaticAllocateRGBA8(
       name.toString(),
@@ -550,7 +550,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private @Nonnull TextureCubeStatic allocateBestRGBATextureCube(
     final @Nonnull JCGLTexturesCubeStaticCommon gl,
     final @Nonnull StringBuilder name)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     return gl.textureCubeStaticAllocateRGBA8(
@@ -566,7 +566,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private Renderbuffer<RenderableColor> allocateBestRGBRenderbuffer_ES2(
     final @Nonnull JCGLRenderbuffersGLES2 gl)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return gl.renderbufferAllocateRGB565(this.width, this.height);
   }
@@ -574,7 +574,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private Renderbuffer<RenderableColor> allocateBestRGBRenderbuffer_GL3ES3(
     final @Nonnull JCGLRenderbuffersGL3ES3 gl)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return gl.renderbufferAllocateRGB888(this.width, this.height);
   }
@@ -583,7 +583,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     final @Nonnull JCGLTextures2DStaticCommon gl,
     final @Nonnull StringBuilder name)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     return gl.texture2DStaticAllocateRGB8(
       name.toString(),
@@ -598,7 +598,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private TextureCubeStatic allocateBestRGBTextureCube(
     final @Nonnull JCGLTexturesCubeStaticCommon gl,
     final @Nonnull StringBuilder name)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     return gl.textureCubeStaticAllocateRGB8(
@@ -621,7 +621,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     allocateColorBuffers_ES2(
       final @Nonnull WorkingBuffers buffers,
       final @Nonnull G gl)
-      throws JCGLException,
+      throws JCGLRuntimeException,
         ConstraintError
   {
     switch (this.want_color) {
@@ -697,7 +697,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     allocateColorBuffers_GL3ES3(
       final @Nonnull WorkingBuffers buffers,
       final @Nonnull G gl)
-      throws JCGLException,
+      throws JCGLRuntimeException,
         ConstraintError
   {
     FramebufferConfigurationGL3ES2Actual.makeTexture2DName(buffers);
@@ -769,13 +769,13 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
    * Allocate a depth buffer on ES2.
    * 
    * @throws ConstraintError
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    */
 
   private void allocateDepth_ES2(
     final @Nonnull WorkingBuffers buffers,
     final @Nonnull JCGLRenderbuffersGLES2 gl)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     switch (this.want_depth) {
@@ -804,13 +804,13 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
    * if requested.
    * 
    * @throws ConstraintError
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    */
 
   private void allocateDepthStencil_ES2(
     final @Nonnull WorkingBuffers buffers,
     final JCGLExtensionPackedDepthStencil extension)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     if ((this.want_depth == RequestDepth.WANT_DEPTH_RENDERBUFFER)
@@ -846,7 +846,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private void allocateDepthStencil_GL3ES3(
     final @Nonnull WorkingBuffers buffers,
     final @Nonnull JCGLRenderbuffersGL3ES3 gl)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     if ((this.want_depth == RequestDepth.WANT_DEPTH_RENDERBUFFER)
@@ -876,13 +876,13 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
    * Allocate a stencil buffer on ES2.
    * 
    * @throws ConstraintError
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    */
 
   private void allocateStencil_ES2(
     final @Nonnull WorkingBuffers buffers,
     final @Nonnull JCGLInterfaceGLES2 gl)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     switch (this.want_stencil) {
@@ -996,7 +996,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     Indeterminate<Framebuffer, FramebufferStatus>
     make(
       final @Nonnull JCGLImplementation gi)
-      throws JCGLException,
+      throws JCGLRuntimeException,
         ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -1019,7 +1019,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
           try {
             return this.makeGL3(buffers, gl3);
-          } catch (final JCGLException e) {
+          } catch (final JCGLRuntimeException e) {
             buffers.emergencyCleanup();
             throw e;
           } catch (final ConstraintError e) {
@@ -1046,7 +1046,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
           try {
             return this.makeGL2(buffers, gl2);
-          } catch (final JCGLException e) {
+          } catch (final JCGLRuntimeException e) {
             buffers.emergencyCleanup();
             throw e;
           } catch (final ConstraintError e) {
@@ -1073,7 +1073,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
           try {
             return this.makeGLES3(buffers, gl);
-          } catch (final JCGLException e) {
+          } catch (final JCGLRuntimeException e) {
             buffers.emergencyCleanup();
             throw e;
           } catch (final ConstraintError e) {
@@ -1100,7 +1100,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
 
           try {
             return this.makeES2(buffers, gl);
-          } catch (final JCGLException e) {
+          } catch (final JCGLRuntimeException e) {
             buffers.emergencyCleanup();
             throw e;
           } catch (final ConstraintError e) {
@@ -1117,7 +1117,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private Indeterminate<Framebuffer, FramebufferStatus> makeES2(
     final @Nonnull WorkingBuffers buffers,
     final @Nonnull JCGLInterfaceGLES2 gl)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     /**
@@ -1155,14 +1155,14 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
    * Construct a framebuffer using ES2 and the packed depth/stencil extension.
    * 
    * @throws ConstraintError
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    */
 
   private Indeterminate<Framebuffer, FramebufferStatus> makeES2_DS(
     final @Nonnull WorkingBuffers buffers,
     final @Nonnull JCGLInterfaceGLES2 gl,
     final JCGLExtensionPackedDepthStencil extension)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     this.allocateColorBuffers_ES2(buffers, gl);
@@ -1179,13 +1179,13 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
    * extension.
    * 
    * @throws ConstraintError
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    */
 
   private Indeterminate<Framebuffer, FramebufferStatus> makeES2_NoDS(
     final @Nonnull WorkingBuffers buffers,
     final @Nonnull JCGLInterfaceGLES2 gl)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     this.allocateColorBuffers_ES2(buffers, gl);
@@ -1198,7 +1198,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private @Nonnull Indeterminate<Framebuffer, FramebufferStatus> makeGL2(
     final @Nonnull WorkingBuffers buffers,
     final @Nonnull JCGLInterfaceGL2 gl)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     buffers.framebuffer = gl.framebufferAllocate();
@@ -1212,7 +1212,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
    * Construct a framebuffer using OpenGL 3.0.
    * 
    * @throws ConstraintError
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    */
 
   private
@@ -1221,7 +1221,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
     makeGL3(
       final @Nonnull WorkingBuffers buffers,
       final @Nonnull G gl)
-      throws JCGLException,
+      throws JCGLRuntimeException,
         ConstraintError
   {
     buffers.framebuffer = gl.framebufferAllocate();
@@ -1234,7 +1234,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private @Nonnull Indeterminate<Framebuffer, FramebufferStatus> makeGLES3(
     final @Nonnull WorkingBuffers buffers,
     final @Nonnull JCGLInterfaceGLES3 gl)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     buffers.framebuffer = gl.framebufferAllocate();
@@ -1585,7 +1585,7 @@ import com.io7m.jcanephora.AttachmentStencil.AttachmentStencilRenderbuffer;
   private Indeterminate<Framebuffer, FramebufferStatus> validateAndMakeState(
     final @Nonnull WorkingBuffers buffers,
     final @Nonnull JCGLFramebuffersCommon fb)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     final FramebufferStatus status =

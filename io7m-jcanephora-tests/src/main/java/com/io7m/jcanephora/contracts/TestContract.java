@@ -19,7 +19,7 @@ package com.io7m.jcanephora.contracts;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
 
@@ -40,11 +40,11 @@ public interface TestContract
    * 
    * @throws ConstraintError
    * @throws JCGLUnsupportedException
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    */
 
   public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError;
 }

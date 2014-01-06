@@ -49,7 +49,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull String name)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     switch (type) {
@@ -159,7 +159,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull String name)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     switch (type) {
@@ -630,7 +630,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull String name)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     switch (type) {
@@ -718,7 +718,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull String name)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     switch (type) {
@@ -1279,7 +1279,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull BufferedImage negative_x,
     final @Nonnull TextureCubeStatic texture)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     try {
 
@@ -1328,7 +1328,7 @@ public final class TextureLoaderImageIO implements TextureLoader
           data);
       }
 
-    } catch (final JCGLException e) {
+    } catch (final JCGLRuntimeException e) {
       gl.textureCubeStaticDelete(texture);
       throw e;
     }
@@ -1345,7 +1345,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull BufferedImage negative_x,
     final @Nonnull TextureCubeStatic texture)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     try {
 
@@ -1394,7 +1394,7 @@ public final class TextureLoaderImageIO implements TextureLoader
           data);
       }
 
-    } catch (final JCGLException e) {
+    } catch (final JCGLRuntimeException e) {
       gl.textureCubeStaticDelete(texture);
       throw e;
     }
@@ -1409,7 +1409,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -1440,7 +1440,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -1471,7 +1471,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -1502,7 +1502,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     Constraints.constrainNotNull(name, "Name");
@@ -1537,7 +1537,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     Constraints.constrainNotNull(name, "Name");
@@ -1572,7 +1572,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     Constraints.constrainNotNull(name, "Name");
@@ -1606,7 +1606,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -1637,7 +1637,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -1668,7 +1668,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -1699,7 +1699,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -1730,7 +1730,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -1761,7 +1761,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -1792,7 +1792,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -1823,7 +1823,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -1854,7 +1854,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -1885,7 +1885,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -1916,7 +1916,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -1947,7 +1947,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -1978,7 +1978,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2009,7 +2009,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2040,7 +2040,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2071,7 +2071,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2102,7 +2102,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2133,7 +2133,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2164,7 +2164,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2195,7 +2195,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2226,7 +2226,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2257,7 +2257,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2288,7 +2288,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2319,7 +2319,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2350,7 +2350,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2381,7 +2381,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2412,7 +2412,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2443,7 +2443,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2474,7 +2474,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2505,7 +2505,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2536,7 +2536,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2567,7 +2567,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2598,7 +2598,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2629,7 +2629,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2660,7 +2660,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2691,7 +2691,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2722,7 +2722,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2753,7 +2753,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2784,7 +2784,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2815,7 +2815,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2846,7 +2846,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2878,7 +2878,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2910,7 +2910,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2941,7 +2941,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.check2DConstraints(
@@ -2973,7 +2973,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull BufferedImage image,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     final Texture2DStatic texture =
       TextureLoaderImageIO.allocateTexture2D_ES2(
@@ -2992,7 +2992,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       this.writeImageDataWithConversionToTexture(image, data, type);
       gl.texture2DStaticUpdate(data);
       return texture;
-    } catch (final JCGLException e) {
+    } catch (final JCGLRuntimeException e) {
       gl.texture2DStaticDelete(texture);
       throw e;
     }
@@ -3007,7 +3007,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull BufferedImage image,
     final @Nonnull String name)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     final Texture2DStatic texture =
@@ -3027,7 +3027,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       this.writeImageDataWithConversionToTexture(image, data, type);
       gl.texture2DStaticUpdate(data);
       return texture;
-    } catch (final JCGLException e) {
+    } catch (final JCGLRuntimeException e) {
       gl.texture2DStaticDelete(texture);
       throw e;
     }
@@ -3042,7 +3042,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull TextureFilterMagnification mag_filter,
     final @Nonnull BufferedImage image,
     final @Nonnull String name)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     final Texture2DStatic texture =
@@ -3062,7 +3062,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       this.writeImageDataWithConversionToTexture(image, data, type);
       gl.texture2DStaticUpdate(data);
       return texture;
-    } catch (final JCGLException e) {
+    } catch (final JCGLRuntimeException e) {
       gl.texture2DStaticDelete(texture);
       throw e;
     }
@@ -3083,7 +3083,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull CubeMapFaceInputStream<CMFKNegativeX> negative_x,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.checkCubeConstraints(
@@ -3133,7 +3133,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull CubeMapFaceInputStream<CMFKNegativeX> negative_x,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.checkCubeConstraints(
@@ -3183,7 +3183,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull BufferedImage positive_x,
     final @Nonnull BufferedImage negative_x,
     final @Nonnull String name)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     TextureLoaderImageIO.checkCubeImageSizes(
@@ -3235,7 +3235,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull CubeMapFaceInputStream<CMFKNegativeX> negative_x,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.checkCubeConstraints(
@@ -3285,7 +3285,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull CubeMapFaceInputStream<CMFKNegativeX> negative_x,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLException,
+      JCGLRuntimeException,
       IOException
   {
     TextureLoaderImageIO.checkCubeConstraints(
@@ -3335,7 +3335,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull BufferedImage positive_x,
     final @Nonnull BufferedImage negative_x,
     final @Nonnull String name)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     TextureLoaderImageIO.checkCubeImageSizes(

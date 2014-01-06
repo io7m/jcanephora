@@ -26,7 +26,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.DepthFunction;
 import com.io7m.jcanephora.FramebufferReference;
 import com.io7m.jcanephora.JCGLDepthBuffer;
-import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLFramebuffersCommon;
 import com.io7m.jcanephora.JCGLImplementation;
 import com.io7m.jcanephora.JCGLUnsupportedException;
@@ -48,15 +48,15 @@ public abstract class DepthBuffersContract implements TestContract
   public abstract @Nonnull FramebufferReference makeFramebufferWithDepth(
     final @Nonnull JCGLImplementation gi)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   public abstract @Nonnull FramebufferReference makeFramebufferWithoutDepth(
     final @Nonnull JCGLImplementation gi)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   @Test public void testDepthBufferClearWorks()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -77,7 +77,7 @@ public abstract class DepthBuffersContract implements TestContract
   }
 
   @Test public void testDepthBufferEnable()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -108,7 +108,7 @@ public abstract class DepthBuffersContract implements TestContract
    */
 
   @Test public void testDepthBufferWithoutBoundFramebufferWorks()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -126,7 +126,7 @@ public abstract class DepthBuffersContract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testDepthBufferWithoutDepthClearFails()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -149,7 +149,7 @@ public abstract class DepthBuffersContract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testDepthBufferWithoutDepthEnableFails()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -170,7 +170,7 @@ public abstract class DepthBuffersContract implements TestContract
   }
 
   @Test public void testDepthBufferWithoutDepthHasNoBits()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -193,7 +193,7 @@ public abstract class DepthBuffersContract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testDepthBufferWriteDisableWithoutDepthFails()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {
@@ -214,7 +214,7 @@ public abstract class DepthBuffersContract implements TestContract
   }
 
   @Test public void testDepthBufferWriteEnableDisableWorks()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
@@ -240,7 +240,7 @@ public abstract class DepthBuffersContract implements TestContract
   @Test(expected = ConstraintError.class) public
     void
     testDepthBufferWriteEnableWithoutDepthFails()
-      throws JCGLException,
+      throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
   {

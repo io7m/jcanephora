@@ -38,7 +38,7 @@ public final class JOGL30ShadersGL3Test extends ShadersContractGL3
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {

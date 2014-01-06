@@ -39,7 +39,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final float depth)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     Constraints.constrainRange(
@@ -55,7 +55,7 @@ final class JOGL_GLES2_Functions
 
   static void depthBufferDisable(
     final @Nonnull GL gl)
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     gl.glDisable(GL.GL_DEPTH_TEST);
     JOGL_GL_Functions.checkError(gl);
@@ -66,7 +66,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull JCGLStateCache state,
     final @Nonnull DepthFunction function)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(function, "Depth function");
     Constraints.constrainRange(
@@ -84,7 +84,7 @@ final class JOGL_GLES2_Functions
   static int depthBufferGetBits(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state)
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     final IntBuffer cache = state.getIntegerCache();
     cache.rewind();
@@ -95,7 +95,7 @@ final class JOGL_GLES2_Functions
 
   static boolean depthBufferIsEnabled(
     final @Nonnull GL gl)
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     final boolean e = gl.glIsEnabled(GL.GL_DEPTH_TEST);
     JOGL_GL_Functions.checkError(gl);
@@ -106,7 +106,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainRange(
       JOGL_GLES2_Functions.depthBufferGetBits(gl, state),
@@ -122,7 +122,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainRange(
       JOGL_GLES2_Functions.depthBufferGetBits(gl, state),
@@ -137,7 +137,7 @@ final class JOGL_GLES2_Functions
   static boolean depthBufferWriteIsEnabled(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state)
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     final ByteBuffer cache = state.getDepthMaskCache();
     gl.glGetBooleanv(GL.GL_DEPTH_WRITEMASK, cache);
@@ -151,7 +151,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final int stencil)
-    throws JCGLException,
+    throws JCGLRuntimeException,
       ConstraintError
   {
     Constraints.constrainRange(
@@ -166,7 +166,7 @@ final class JOGL_GLES2_Functions
 
   static void stencilBufferDisable(
     final @Nonnull GL gl)
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     gl.glDisable(GL.GL_STENCIL_TEST);
     JOGL_GL_Functions.checkError(gl);
@@ -176,7 +176,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainRange(
       JOGL_GLES2_Functions.stencilBufferGetBits(gl, state),
@@ -191,7 +191,7 @@ final class JOGL_GLES2_Functions
   static int stencilBufferGetBits(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state)
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     final IntBuffer cache = state.getIntegerCache();
     cache.rewind();
@@ -202,7 +202,7 @@ final class JOGL_GLES2_Functions
 
   static boolean stencilBufferIsEnabled(
     final @Nonnull GL gl)
-    throws JCGLException
+    throws JCGLRuntimeException
   {
     final boolean e = gl.glIsEnabled(GL.GL_STENCIL_TEST);
     JOGL_GL_Functions.checkError(gl);
@@ -222,7 +222,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(name, "Name");
     Constraints.constrainRange(width, 2, Integer.MAX_VALUE, "Width");
@@ -320,7 +320,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull GL gl,
     final @Nonnull Texture2DWritableData data)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(data, "Texture data");
 
@@ -363,7 +363,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(name, "Name");
     Constraints.constrainRange(size, 2, Integer.MAX_VALUE, "Size");
@@ -472,7 +472,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull CubeMapFaceLH face,
     final @Nonnull TextureCubeWritableData data)
     throws ConstraintError,
-      JCGLException
+      JCGLRuntimeException
   {
     Constraints.constrainNotNull(face, "Cube map face");
     Constraints.constrainNotNull(data, "Texture data");

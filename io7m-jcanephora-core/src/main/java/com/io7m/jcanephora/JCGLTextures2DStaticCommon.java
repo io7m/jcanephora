@@ -86,7 +86,7 @@ public interface JCGLTextures2DStaticCommon
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
    *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -99,7 +99,7 @@ public interface JCGLTextures2DStaticCommon
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * <p>
@@ -156,7 +156,7 @@ public interface JCGLTextures2DStaticCommon
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
    *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -169,7 +169,7 @@ public interface JCGLTextures2DStaticCommon
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Bind the texture <code>texture</code> to the texture unit
@@ -187,7 +187,7 @@ public interface JCGLTextures2DStaticCommon
    *           <li><code>texture</code> does not refer to a valid texture
    *           (possible if the texture has already been deleted).</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -195,7 +195,7 @@ public interface JCGLTextures2DStaticCommon
     final @Nonnull TextureUnit unit,
     final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Deletes the texture referenced by <code>texture</code>.
@@ -209,14 +209,14 @@ public interface JCGLTextures2DStaticCommon
    *           <li><code>texture</code> does not refer to a valid texture
    *           (possible if the texture has already been deleted).</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void texture2DStaticDelete(
     final @Nonnull Texture2DStatic texture)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Return <code>true</code> iff the texture <code>texture</code> is bound to
@@ -232,7 +232,7 @@ public interface JCGLTextures2DStaticCommon
    *          <li><code>texture</code> does not refer to a valid texture
    *          (possible if the texture has already been deleted).</li>
    *          </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
@@ -240,7 +240,7 @@ public interface JCGLTextures2DStaticCommon
     final @Nonnull TextureUnit unit,
     final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Unbind whatever 2D texture is bound to the texture unit <code>unit</code>
@@ -253,14 +253,14 @@ public interface JCGLTextures2DStaticCommon
    *           <ul>
    *           <li><code>unit == null</code>.</li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void texture2DStaticUnbind(
     final @Nonnull TextureUnit unit)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 
   /**
    * Replace the contents (or part of the contents) of the texture
@@ -274,12 +274,12 @@ public interface JCGLTextures2DStaticCommon
    *           <ul>
    *           <li><code>data == null</code></li>
    *           </ul>
-   * @throws JCGLException
+   * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void texture2DStaticUpdate(
     final @Nonnull Texture2DWritableData data)
     throws ConstraintError,
-      JCGLException;
+      JCGLRuntimeException;
 }

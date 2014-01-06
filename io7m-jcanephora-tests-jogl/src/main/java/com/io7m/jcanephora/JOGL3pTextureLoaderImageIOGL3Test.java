@@ -52,7 +52,7 @@ public final class JOGL3pTextureLoaderImageIOGL3Test extends
   }
 
   @Override public @Nonnull TestContext newTestContext()
-    throws JCGLException,
+    throws JCGLRuntimeException,
       JCGLUnsupportedException,
       ConstraintError
   {
