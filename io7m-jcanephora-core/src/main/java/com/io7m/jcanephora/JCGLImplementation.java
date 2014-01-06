@@ -18,6 +18,7 @@ package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
 
+import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
 
 /**
@@ -31,18 +32,22 @@ public interface JCGLImplementation
    * Return a reference to the OpenGL 2.1 interface provided by the
    * implementation, or <code>None</code> if it is not supported.
    * </p>
+   * 
+   * @deprecated Use {@link #implementationAccept(JCGLImplementationVisitor)}.
    */
 
-  @Nonnull Option<JCGLInterfaceGL2> getGL2();
+  @Deprecated public @Nonnull Option<JCGLInterfaceGL2> getGL2();
 
   /**
    * <p>
    * Return a reference to the OpenGL 3.* interface provided by the
    * implementation, or <code>None</code> if it is not supported.
    * </p>
+   * 
+   * @deprecated Use {@link #implementationAccept(JCGLImplementationVisitor)}.
    */
 
-  @Nonnull Option<JCGLInterfaceGL3> getGL3();
+  @Deprecated public @Nonnull Option<JCGLInterfaceGL3> getGL3();
 
   /**
    * <p>
@@ -51,23 +56,46 @@ public interface JCGLImplementation
    * </p>
    */
 
-  @Nonnull JCGLInterfaceCommon getGLCommon();
+  public @Nonnull JCGLInterfaceCommon getGLCommon();
 
   /**
    * <p>
    * Return a reference to the OpenGL ES2 interface provided by the
    * implementation, or <code>None</code> if it is not supported.
    * </p>
+   * 
+   * @deprecated Use {@link #implementationAccept(JCGLImplementationVisitor)}.
    */
 
-  @Nonnull Option<JCGLInterfaceGLES2> getGLES2();
+  @Deprecated public @Nonnull Option<JCGLInterfaceGLES2> getGLES2();
 
   /**
    * <p>
    * Return a reference to the OpenGL ES3 interface provided by the
    * implementation, or <code>None</code> if it is not supported.
    * </p>
+   * 
+   * @deprecated Use {@link #implementationAccept(JCGLImplementationVisitor)}.
    */
 
-  @Nonnull Option<JCGLInterfaceGLES3> getGLES3();
+  @Deprecated public @Nonnull Option<JCGLInterfaceGLES3> getGLES3();
+
+  /**
+   * A function that accepts implementation visitors. Returns the value of
+   * type <code>A</code> returned by <code>v</code>.
+   * 
+   * @throws ConstraintError
+   *           Iff <code>v == null</code> or a {@link ConstraintError} is
+   *           propagated from <code>v</code>.
+   * @throws JCGLException
+   *           Iff a {@link JCGLException} is propagated from <code>v</code>.
+   * @throws E
+   *           Iff <code>v</code> throws an <code>E</code>.
+   */
+
+  public <A, E extends Throwable> A implementationAccept(
+    final @Nonnull JCGLImplementationVisitor<A, E> v)
+    throws JCGLException,
+      ConstraintError,
+      E;
 }

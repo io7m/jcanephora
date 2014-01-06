@@ -432,7 +432,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
       "At least OpenGL 2.1 or OpenGL ES2 is required");
   }
 
-  @Override public @Nonnull Option<JCGLInterfaceGL2> getGL2()
+  @Deprecated @Override public @Nonnull Option<JCGLInterfaceGL2> getGL2()
   {
     if (this.gl_2 != null) {
       return new Option.Some<JCGLInterfaceGL2>(this.gl_2);
@@ -440,7 +440,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
     return new Option.None<JCGLInterfaceGL2>();
   }
 
-  @Override public @Nonnull Option<JCGLInterfaceGL3> getGL3()
+  @Deprecated @Override public @Nonnull Option<JCGLInterfaceGL3> getGL3()
   {
     if (this.gl_3 != null) {
       return new Option.Some<JCGLInterfaceGL3>(this.gl_3);
@@ -466,7 +466,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
     throw new UnreachableCodeException();
   }
 
-  @Override public @Nonnull Option<JCGLInterfaceGLES2> getGLES2()
+  @Deprecated @Override public @Nonnull Option<JCGLInterfaceGLES2> getGLES2()
   {
     if (this.gl_es2 != null) {
       return new Option.Some<JCGLInterfaceGLES2>(this.gl_es2);
@@ -474,11 +474,35 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
     return new Option.None<JCGLInterfaceGLES2>();
   }
 
-  @Override public @Nonnull Option<JCGLInterfaceGLES3> getGLES3()
+  @Deprecated @Override public @Nonnull Option<JCGLInterfaceGLES3> getGLES3()
   {
     if (this.gl_es3 != null) {
       return new Option.Some<JCGLInterfaceGLES3>(this.gl_es3);
     }
     return new Option.None<JCGLInterfaceGLES3>();
+  }
+
+  @Override public <A, E extends Throwable> A implementationAccept(
+    final @Nonnull JCGLImplementationVisitor<A, E> v)
+    throws JCGLException,
+      ConstraintError,
+      E
+  {
+    Constraints.constrainNotNull(v, "Visitor");
+
+    if (this.gl_es3 != null) {
+      return v.implementationIsGLES3(this.gl_es3);
+    }
+    if (this.gl_es2 != null) {
+      return v.implementationIsGLES2(this.gl_es2);
+    }
+    if (this.gl_3 != null) {
+      return v.implementationIsGL3(this.gl_3);
+    }
+    if (this.gl_2 != null) {
+      return v.implementationIsGL2(this.gl_2);
+    }
+
+    throw new UnreachableCodeException();
   }
 }
