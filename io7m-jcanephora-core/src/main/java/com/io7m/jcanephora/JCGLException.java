@@ -37,6 +37,12 @@ public abstract class JCGLException extends Exception
     super(message, e);
   }
 
+  public JCGLException(
+    final @Nonnull Throwable e)
+  {
+    super(e);
+  }
+
   private static final long serialVersionUID;
 
   static {

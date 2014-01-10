@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora;
 
-public final class JCBExecutionException extends Exception
+public final class JCBExecutionException extends JCGLException
 {
   private static final long serialVersionUID = -3942400021551593890L;
 
