@@ -127,6 +127,11 @@ public final class Texture2DStatic extends JCGLResourceDeletable implements
     return this.range_y;
   }
 
+  @Override public long resourceGetSizeBytes()
+  {
+    return this.getWidth() * this.type.getBytesPerPixel() * this.getHeight();
+  }
+
   @Override public @Nonnull TextureType getType()
   {
     return this.type;

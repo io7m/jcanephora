@@ -110,7 +110,7 @@ public abstract class IndexBufferContract implements TestContract
       Assert.assertEquals(JCGLUnsignedType.TYPE_UNSIGNED_BYTE, i.getType());
       Assert.assertEquals(1, i.getElementSizeBytes());
       Assert.assertEquals(4, i.getRange().getInterval());
-      Assert.assertEquals(4, i.getSizeBytes());
+      Assert.assertEquals(4, i.resourceGetSizeBytes());
     } finally {
       if (a != null) {
         ga.arrayBufferDelete(a);
@@ -152,7 +152,7 @@ public abstract class IndexBufferContract implements TestContract
       Assert.assertEquals(JCGLUnsignedType.TYPE_UNSIGNED_INT, i.getType());
       Assert.assertEquals(4, i.getElementSizeBytes());
       Assert.assertEquals(2, i.getRange().getInterval());
-      Assert.assertEquals(8, i.getSizeBytes());
+      Assert.assertEquals(8, i.resourceGetSizeBytes());
     } finally {
       if (a != null) {
         ga.arrayBufferDelete(a);
@@ -211,7 +211,7 @@ public abstract class IndexBufferContract implements TestContract
       Assert.assertEquals(JCGLUnsignedType.TYPE_UNSIGNED_SHORT, i.getType());
       Assert.assertEquals(2, i.getElementSizeBytes());
       Assert.assertEquals(4, i.getRange().getInterval());
-      Assert.assertEquals(8, i.getSizeBytes());
+      Assert.assertEquals(8, i.resourceGetSizeBytes());
     } finally {
       if (a != null) {
         ga.arrayBufferDelete(a);

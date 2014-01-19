@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,38 +16,11 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
 /**
- * A read-only interface to the {@link Renderbuffer} type that allows use of
- * the type but not mutation and/or deletion of the contents.
+ * Resources that have a known size in bytes.
  */
 
-public interface RenderbufferUsable<K extends RenderbufferKind> extends
-  JCGLName,
-  JCGLResourceUsable
+public interface JCGLResourceSized
 {
-  /**
-   * Retrieve the size in bytes of the texture data.
-   */
-
   public long resourceGetSizeBytes();
-
-  /**
-   * Retrieve the height of the buffer.
-   */
-
-  public int getHeight();
-
-  /**
-   * Retrieve the type of the renderbuffer.
-   */
-
-  public @Nonnull RenderbufferType getType();
-
-  /**
-   * Retrieve the width of the buffer.
-   */
-
-  public int getWidth();
 }

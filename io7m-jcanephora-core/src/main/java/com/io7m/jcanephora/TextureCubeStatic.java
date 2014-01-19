@@ -129,6 +129,14 @@ public final class TextureCubeStatic extends JCGLResourceDeletable implements
     return this.range_y;
   }
 
+  @Override public long resourceGetSizeBytes()
+  {
+    return this.getWidth()
+      * this.type.getBytesPerPixel()
+      * this.getHeight()
+      * 6L;
+  }
+
   @Override public @Nonnull TextureType getType()
   {
     return this.type;

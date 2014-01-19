@@ -27,7 +27,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  */
 
 @Immutable public final class Renderbuffer<K extends RenderbufferKind> extends
-  JCGLResourceDeletable implements RenderbufferUsable<K>
+  JCGLResourceDeletable implements RenderbufferUsable<K>, JCGLResourceSized
 {
   /**
    * Unsafe operation for branding a renderbuffer <code>r</code> with the
@@ -139,6 +139,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
   @Override public int getHeight()
   {
     return this.height;
+  }
+
+  @Override public long resourceGetSizeBytes()
+  {
+    return this.width * this.type.getBytesPerPixel() * this.height;
   }
 
   @Override public @Nonnull RenderbufferType getType()

@@ -110,7 +110,7 @@ import com.io7m.jaux.RangeInclusive;
     return this.range;
   }
 
-  @Override public long getSizeBytes()
+  @Override public long resourceGetSizeBytes()
   {
     return this.type.getTypeDescriptor().getSize() * this.range.getInterval();
   }
@@ -143,7 +143,7 @@ import com.io7m.jaux.RangeInclusive;
     builder.append(" ");
     builder.append(this.range);
     builder.append(" ");
-    builder.append(this.getSizeBytes());
+    builder.append(this.resourceGetSizeBytes());
     builder.append("]");
     return builder.toString();
   }

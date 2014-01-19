@@ -43,7 +43,7 @@ public interface IndexBufferUsable extends JCGLResourceUsable, JCGLName
    * Retrieve the total size in bytes of the allocated buffer.
    */
 
-  public long getSizeBytes();
+  public long resourceGetSizeBytes();
 
   /**
    * Retrieve the type of the elements in the buffer.

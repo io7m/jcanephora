@@ -256,7 +256,7 @@ final class JOGL_GL_Functions
     try {
       gl.glBufferData(
         GL.GL_ARRAY_BUFFER,
-        id.getSizeBytes(),
+        id.resourceGetSizeBytes(),
         null,
         GL2ES2.GL_STREAM_DRAW);
       JOGL_GL_Functions.checkError(gl);
@@ -1766,7 +1766,7 @@ final class JOGL_GL_Functions
     try {
       gl.glBufferData(
         GL.GL_ELEMENT_ARRAY_BUFFER,
-        id.getSizeBytes(),
+        id.resourceGetSizeBytes(),
         null,
         GL2ES2.GL_STREAM_DRAW);
       JOGL_GL_Functions.checkError(gl);
@@ -1871,7 +1871,7 @@ final class JOGL_GL_Functions
 
     if (context.isGLES()) {
       final String vtext = gl.glGetString(GL.GL_VERSION);
-      if (vtext.contains("Mesa 9.")) {
+      if (vtext.contains("Mesa 9.") || vtext.contains("Mesa 10.0.")) {
         final StringBuilder m = new StringBuilder();
         m.append("quirk: GL_VERSION is '");
         m.append(vtext);

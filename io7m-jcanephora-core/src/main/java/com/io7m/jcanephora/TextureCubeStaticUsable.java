@@ -13,6 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
@@ -24,7 +25,10 @@ import com.io7m.jaux.RangeInclusive;
  * of the type but not mutation and/or deletion of the contents.
  */
 
-public interface TextureCubeStaticUsable extends JCGLName, JCGLResourceUsable
+public interface TextureCubeStaticUsable extends
+  JCGLName,
+  JCGLResourceSized,
+  JCGLResourceUsable
 {
   /**
    * Retrieve the inclusive area of this texture.

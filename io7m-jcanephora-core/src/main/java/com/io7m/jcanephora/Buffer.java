@@ -24,7 +24,7 @@ import com.io7m.jaux.RangeInclusive;
  * Methods common to all OpenGL buffer types.
  */
 
-public interface Buffer extends JCGLName
+public interface Buffer extends JCGLName, JCGLResourceSized
 {
   /**
    * Return the size in bytes of individual elements in the array.
@@ -38,10 +38,4 @@ public interface Buffer extends JCGLName
    */
 
   @Nonnull RangeInclusive getRange();
-
-  /**
-   * Get the total size in bytes of the given buffer.
-   */
-
-  long getSizeBytes();
 }
