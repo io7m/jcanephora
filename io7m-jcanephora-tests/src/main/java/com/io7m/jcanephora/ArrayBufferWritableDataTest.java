@@ -363,7 +363,7 @@ public class ArrayBufferWritableDataTest
     final CursorWritable4f cursor = data.getCursor4f("color");
     final FloatBuffer fb = data.getTargetData().asFloatBuffer();
 
-    Assert.assertEquals(4 * 4 * 4, array.getSizeBytes());
+    Assert.assertEquals(4 * 4 * 4, array.resourceGetSizeBytes());
     Assert.assertEquals(2 * 4 * 4, data.getTargetDataSize());
     Assert.assertEquals(4 * 4, data.getTargetDataOffset());
 
@@ -437,7 +437,7 @@ public class ArrayBufferWritableDataTest
     final CursorWritable4f cursor = data.getCursor4f("color");
     final FloatBuffer fb = data.getTargetData().asFloatBuffer();
 
-    Assert.assertEquals(4 * 4 * 4, array.getSizeBytes());
+    Assert.assertEquals(4 * 4 * 4, array.resourceGetSizeBytes());
     Assert.assertEquals(4 * 4 * 4, data.getTargetDataSize());
     Assert.assertEquals(0, data.getTargetDataOffset());
 

@@ -51,12 +51,6 @@ import com.io7m.jaux.RangeInclusive;
     this.type = Constraints.constrainNotNull(type, "GL type");
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.io7m.jcanephora.IndexBufferUsable#getElementSizeBytes()
-   */
-
   @Override public long getElementSizeBytes()
   {
     return this.type.getSizeBytes();
@@ -76,7 +70,7 @@ import com.io7m.jaux.RangeInclusive;
     return this.range;
   }
 
-  @Override public long getSizeBytes()
+  @Override public long resourceGetSizeBytes()
   {
     return this.getElementSizeBytes() * this.range.getInterval();
   }

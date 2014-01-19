@@ -8,7 +8,7 @@
   <artifactId>io7m-jcanephora-batchexec</artifactId>
   <name>io7m-jcanephora-batchexec</name>
   <description>Program abstraction to ensure correct shader usage for multiple executions</description>
-  <version>0.23.6</version>
+  <version>0.24.0</version>
   <url>http://mvn.io7m.com/jcanephora-batchexec</url>
   <packaging>jar</packaging>
 

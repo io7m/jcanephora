@@ -141,7 +141,7 @@ final class LWJGL_GL3Functions
     LWJGL_GLES2Functions.checkError();
     GL15.glBufferData(
       GL15.GL_ARRAY_BUFFER,
-      id.getSizeBytes(),
+      id.resourceGetSizeBytes(),
       GL15.GL_STREAM_DRAW);
     LWJGL_GLES2Functions.checkError();
 
@@ -999,7 +999,7 @@ final class LWJGL_GL3Functions
     LWJGL_GLES2Functions.checkError();
     GL15.glBufferData(
       GL15.GL_ELEMENT_ARRAY_BUFFER,
-      id.getSizeBytes(),
+      id.resourceGetSizeBytes(),
       GL15.GL_STREAM_DRAW);
     LWJGL_GLES2Functions.checkError();
 

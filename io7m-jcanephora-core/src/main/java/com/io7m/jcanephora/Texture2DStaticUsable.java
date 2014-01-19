@@ -25,7 +25,10 @@ import com.io7m.jaux.RangeInclusive;
  * of the type but not mutation and/or deletion of the contents.
  */
 
-public interface Texture2DStaticUsable extends JCGLName, JCGLResourceUsable
+public interface Texture2DStaticUsable extends
+  JCGLName,
+  JCGLResourceUsable,
+  JCGLResourceSized
 {
   /**
    * Retrieve the inclusive area of this texture.

@@ -76,7 +76,7 @@ public interface ArrayBufferUsable extends JCGLResourceUsable, JCGLName
    * Return the total size in bytes of the allocated buffer.
    */
 
-  public long getSizeBytes();
+  public long resourceGetSizeBytes();
 
   /**
    * Retrieve the array buffer's {@link ArrayBufferType}.
