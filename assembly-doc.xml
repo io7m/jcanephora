@@ -31,11 +31,10 @@
   </fileSets>
   <files>
 <file><source>./io7m-jcanephora-core/pom.xml</source><destName>io7m-jcanephora-core-1.0.0.pom</destName><outputDirectory>/</outputDirectory></file>
-<file><source>./io7m-jcanephora-checkedexec/pom.xml</source><destName>io7m-jcanephora-checkedexec-1.0.0.pom</destName><outputDirectory>/</outputDirectory></file>
+<file><source>./io7m-jcanephora-batchexec/pom.xml</source><destName>io7m-jcanephora-batchexec-1.0.0.pom</destName><outputDirectory>/</outputDirectory></file>
 <file><source>./io7m-jcanephora-examples-jogl/pom.xml</source><destName>io7m-jcanephora-examples-jogl-1.0.0.pom</destName><outputDirectory>/</outputDirectory></file>
 <file><source>./io7m-jcanephora-examples-lwjgl/pom.xml</source><destName>io7m-jcanephora-examples-lwjgl-1.0.0.pom</destName><outputDirectory>/</outputDirectory></file>
 <file><source>./io7m-jcanephora-examples/pom.xml</source><destName>io7m-jcanephora-examples-1.0.0.pom</destName><outputDirectory>/</outputDirectory></file>
-<file><source>./io7m-jcanephora-framebuffer/pom.xml</source><destName>io7m-jcanephora-framebuffer-1.0.0.pom</destName><outputDirectory>/</outputDirectory></file>
 <file><source>./io7m-jcanephora-jogl/pom.xml</source><destName>io7m-jcanephora-jogl-1.0.0.pom</destName><outputDirectory>/</outputDirectory></file>
 <file><source>./io7m-jcanephora-lwjgl/pom.xml</source><destName>io7m-jcanephora-lwjgl-1.0.0.pom</destName><outputDirectory>/</outputDirectory></file>
 <file><source>./io7m-jcanephora-tests-jogl/pom.xml</source><destName>io7m-jcanephora-tests-jogl-1.0.0.pom</destName><outputDirectory>/</outputDirectory></file>

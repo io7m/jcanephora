@@ -22,6 +22,7 @@ import java.util.TreeSet;
 import javax.annotation.Nonnull;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
@@ -58,23 +59,24 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
     final @Nonnull Set<String> extensions)
     throws JCGLUnsupportedException
   {
-    if (extensions.contains("GL_ARB_framebuffer_object") == false) {
+    if (extensions.contains(JCGLExtensionNames.GL_ARB_FRAMEBUFFER_OBJECT) == false) {
       log
         .debug("GL_ARB_framebuffer_object not supported, checking for EXT extensions");
 
-      if (extensions.contains("GL_EXT_framebuffer_object") == false) {
+      if (extensions.contains(JCGLExtensionNames.GL_EXT_FRAMEBUFFER_OBJECT) == false) {
         throw new JCGLUnsupportedException(
           "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_object extension");
       }
-      if (extensions.contains("GL_EXT_framebuffer_multisample") == false) {
+      if (extensions
+        .contains(JCGLExtensionNames.GL_EXT_FRAMEBUFFER_MULTISAMPLE) == false) {
         throw new JCGLUnsupportedException(
           "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_multisample extension");
       }
-      if (extensions.contains("GL_EXT_framebuffer_blit") == false) {
+      if (extensions.contains(JCGLExtensionNames.GL_EXT_FRAMEBUFFER_BLIT) == false) {
         throw new JCGLUnsupportedException(
           "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_blit extension");
       }
-      if (extensions.contains("GL_EXT_packed_depth_stencil") == false) {
+      if (extensions.contains(JCGLExtensionNames.GL_EXT_PACKED_DEPTH_STENCIL) == false) {
         throw new JCGLUnsupportedException(
           "Context supports OpenGL 2.1 but does not support the required GL_EXT_packed_depth_stencil extension");
       }
@@ -84,6 +86,17 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
     } else {
       log.debug("ARB_framebuffer_object supported");
     }
+  }
+
+  private static Set<String> getExtensionsGL3p()
+  {
+    final TreeSet<String> ext_set = new TreeSet<String>();
+    final int count = GL11.glGetInteger(GL30.GL_NUM_EXTENSIONS);
+    for (int index = 0; index < count; ++index) {
+      final String name = GL30.glGetStringi(GL11.GL_EXTENSIONS, index);
+      ext_set.add(name);
+    }
+    return ext_set;
   }
 
   private static Set<String> getExtensionsGL21_30()
@@ -229,7 +242,7 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
 
     if (JCGLImplementationLWJGL.isGL3(vs)) {
       final Set<String> extensions =
-        JCGLImplementationLWJGL.getExtensionsGL21_30();
+        JCGLImplementationLWJGL.getExtensionsGL3p();
 
       log.debug("Context is GL3, creating OpenGL >= 3.1 interface");
       this.gl_3 = new JCGLInterfaceGL3_LWJGL_GL3(log, extensions, r);

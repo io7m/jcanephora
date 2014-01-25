@@ -39,7 +39,7 @@ class ExtDepthTexture<G extends GL> implements JCGLExtensionDepthTexture
       final @Nonnull Log log)
       throws ConstraintError
   {
-    final String names[] = { "GL_ARB_depth_texture" };
+    final String names[] = { JCGLExtensionNames.GL_ARB_DEPTH_TEXTURE };
 
     for (final String name : names) {
       if (extensions.extensionIsVisible(name)) {

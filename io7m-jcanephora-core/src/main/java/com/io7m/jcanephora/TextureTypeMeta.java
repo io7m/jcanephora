@@ -495,7 +495,7 @@ import com.io7m.jaux.UnreachableCodeException;
       case TEXTURE_TYPE_R_16F_2BPP:
       case TEXTURE_TYPE_R_32F_4BPP:
       {
-        return extensions.extensionIsVisible("GL_EXT_color_buffer_float");
+        return extensions.extensionIsVisible(JCGLExtensionNames.GL_EXT_COLOR_BUFFER_FLOAT);
       }
 
       case TEXTURE_TYPE_RGBA_16_8BPP:

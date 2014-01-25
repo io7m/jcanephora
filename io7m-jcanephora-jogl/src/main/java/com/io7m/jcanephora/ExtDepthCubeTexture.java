@@ -40,7 +40,7 @@ class ExtDepthCubeTexture<G extends GL> implements
       final @Nonnull Log log)
       throws ConstraintError
   {
-    final String names[] = { "GL_OES_depth_texture_cube_map" };
+    final String names[] = { JCGLExtensionNames.GL_OES_DEPTH_TEXTURE_CUBE_MAP };
 
     for (final String name : names) {
       if (extensions.extensionIsVisible(name)) {

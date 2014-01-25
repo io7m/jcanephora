@@ -25,7 +25,7 @@ class ExtPackedDepthStencil<G extends GL> implements
       throws ConstraintError
   {
     final String names[] =
-      { "GL_OES_packed_depth_stencil", "GL_EXT_packed_depth_stencil", };
+      { JCGLExtensionNames.GL_OES_PACKED_DEPTH_STENCIL, JCGLExtensionNames.GL_EXT_PACKED_DEPTH_STENCIL, };
 
     for (final String name : names) {
       if (extensions.extensionIsVisible(name)) {
