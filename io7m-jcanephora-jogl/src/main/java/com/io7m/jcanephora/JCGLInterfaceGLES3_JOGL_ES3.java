@@ -78,6 +78,7 @@ import com.io7m.jtensors.VectorReadable4I;
   private final @Nonnull JCGLSLVersion        sl_version;
   private final @Nonnull JCGLStateCache       state;
   private final @Nonnull JCGLVersion          version;
+  private final @Nonnull Extensions           extensions;
 
   JCGLInterfaceGLES3_JOGL_ES3(
     final @Nonnull GLContext context,
@@ -124,6 +125,8 @@ import com.io7m.jtensors.VectorReadable4I;
     Constraints.constrainArbitrary(
       this.framebufferDrawAnyIsBound() == false,
       "NOT BOUND!");
+
+    this.extensions = new Extensions(context, restrictions, log);
 
     /**
      * Initialize texture unit cache.
@@ -702,7 +705,8 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       this.version,
       framebuffer,
-      texture);
+      texture,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachColorTexture2DAt(
@@ -719,7 +723,8 @@ import com.io7m.jtensors.VectorReadable4I;
       this.version,
       framebuffer,
       point,
-      texture);
+      texture,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachColorTextureCube(
@@ -736,7 +741,8 @@ import com.io7m.jtensors.VectorReadable4I;
       this.version,
       framebuffer,
       texture,
-      face);
+      face,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachColorTextureCubeAt(
@@ -755,7 +761,8 @@ import com.io7m.jtensors.VectorReadable4I;
       framebuffer,
       point,
       texture,
-      face);
+      face,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachDepthRenderbuffer(
@@ -797,7 +804,8 @@ import com.io7m.jtensors.VectorReadable4I;
       this.state,
       this.log,
       framebuffer,
-      texture);
+      texture,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachStencilRenderbuffer(

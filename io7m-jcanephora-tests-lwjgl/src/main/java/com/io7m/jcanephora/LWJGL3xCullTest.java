@@ -18,7 +18,6 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.CullContract;
 
 public final class LWJGL3xCullTest extends CullContract
@@ -26,9 +25,7 @@ public final class LWJGL3xCullTest extends CullContract
   @Override public JCGLCull getGLCull(
     final TestContext context)
   {
-    final Some<JCGLInterfaceGL3> some =
-      (Some<JCGLInterfaceGL3>) context.getGLImplementation().getGL3();
-    return some.value;
+    return LWJGLTestContextUtilities.getGL3(context);
   }
 
   @Override public boolean isGLSupported()

@@ -28,7 +28,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  */
 
 public interface JCGLTexturesCubeStaticGL2 extends
-  JCGLTexturesCubeStaticCommon
+  JCGLTexturesCubeStaticGL2ES3
 {
   /**
    * <p>

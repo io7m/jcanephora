@@ -18,7 +18,6 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.MetaContract;
 
 public final class LWJGLES2MetaTest extends MetaContract
@@ -26,9 +25,7 @@ public final class LWJGLES2MetaTest extends MetaContract
   @Override public JCGLMeta getGLMeta(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGLES2> some =
-      (Some<JCGLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
-    return some.value;
+    return LWJGLTestContextUtilities.getGLES2(tc);
   }
 
   @Override public boolean isGLSupported()

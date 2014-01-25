@@ -25,12 +25,6 @@ import com.io7m.jcanephora.contracts.common.TextureLoaderContractCommon;
 public final class JOGL3pTextureLoaderImageIOCommonTest extends
   TextureLoaderContractCommon<TextureLoaderImageIO>
 {
-  @Override public @Nonnull JCGLTextures2DStaticCommon getGLTextures(
-    final @Nonnull TestContext tc)
-  {
-    return tc.getGLImplementation().getGLCommon();
-  }
-
   @Override public boolean isGLSupported()
   {
     return JOGLTestContext.isOpenGL3pSupported();
@@ -53,5 +47,17 @@ public final class JOGL3pTextureLoaderImageIOCommonTest extends
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL3_p();
+  }
+
+  @Override public JCGLTextures2DStaticCommon getGLTextures2D(
+    final TestContext tc)
+  {
+    return JOGLTestContextUtilities.getGL3(tc);
+  }
+
+  @Override public JCGLTexturesCubeStaticCommon getGLTexturesCube(
+    final TestContext tc)
+  {
+    return JOGLTestContextUtilities.getGL3(tc);
   }
 }

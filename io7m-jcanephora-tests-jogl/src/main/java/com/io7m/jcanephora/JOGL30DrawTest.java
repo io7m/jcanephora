@@ -13,12 +13,12 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.DrawContract;
 
 public final class JOGL30DrawTest extends DrawContract
@@ -26,17 +26,13 @@ public final class JOGL30DrawTest extends DrawContract
   @Override public @Nonnull JCGLDraw getGLDraw(
     final TestContext context)
   {
-    final Some<JCGLInterfaceGL3> some =
-      (Some<JCGLInterfaceGL3>) context.getGLImplementation().getGL3();
-    return some.value;
+    return JOGLTestContextUtilities.getGL3(context);
   }
 
   @Override public @Nonnull JCGLIndexBuffers getGLIndexBuffers(
     final TestContext context)
   {
-    final Some<JCGLInterfaceGL3> some =
-      (Some<JCGLInterfaceGL3>) context.getGLImplementation().getGL3();
-    return some.value;
+    return JOGLTestContextUtilities.getGL3(context);
   }
 
   @Override public boolean isGLSupported()

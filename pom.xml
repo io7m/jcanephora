@@ -70,12 +70,10 @@
   <modules>
     <module>io7m-jcanephora-batchexec</module>
     <module>io7m-jcanephora-blueberry</module>
-    <module>io7m-jcanephora-checkedexec</module>
     <module>io7m-jcanephora-core</module>
     <module>io7m-jcanephora-examples-jogl</module>
     <module>io7m-jcanephora-examples-lwjgl</module>
     <module>io7m-jcanephora-examples</module>
-    <module>io7m-jcanephora-framebuffer</module>
     <module>io7m-jcanephora-jogl</module>
     <module>io7m-jcanephora-lwjgl</module>
     <module>io7m-jcanephora-tests-jogl</module>

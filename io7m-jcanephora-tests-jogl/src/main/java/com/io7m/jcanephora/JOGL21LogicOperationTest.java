@@ -13,6 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
@@ -22,7 +23,6 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.LogicOpContract;
 
 public final class JOGL21LogicOperationTest extends LogicOpContract
@@ -30,9 +30,7 @@ public final class JOGL21LogicOperationTest extends LogicOpContract
   @Override public JCGLLogic getGLLogic(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGL2> some =
-      (Some<JCGLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public boolean isGLSupported()

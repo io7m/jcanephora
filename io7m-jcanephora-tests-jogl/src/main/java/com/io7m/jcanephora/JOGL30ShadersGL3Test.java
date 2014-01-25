@@ -19,7 +19,6 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.gl3.ShadersContractGL3;
 
 public final class JOGL30ShadersGL3Test extends ShadersContractGL3
@@ -27,9 +26,7 @@ public final class JOGL30ShadersGL3Test extends ShadersContractGL3
   @Override public JCGLShadersGL3 getShaders(
     final @Nonnull TestContext context)
   {
-    final Some<JCGLInterfaceGL3> some =
-      (Some<JCGLInterfaceGL3>) context.getGLImplementation().getGL3();
-    return some.value;
+    return JOGLTestContextUtilities.getGL3(context);
   }
 
   @Override public boolean isGLSupported()

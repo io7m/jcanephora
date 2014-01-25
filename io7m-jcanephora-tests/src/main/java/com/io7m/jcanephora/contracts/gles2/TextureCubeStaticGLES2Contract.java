@@ -81,20 +81,6 @@ public abstract class TextureCubeStaticGLES2Contract extends
           Assert.assertEquals(tx.getType(), t);
           break;
         }
-        case TEXTURE_TYPE_RGBA_8_4BPP:
-        {
-          final TextureCubeStatic tx =
-            gl.textureCubeStaticAllocateRGBA8(
-              t.toString(),
-              128,
-              TextureWrapR.TEXTURE_WRAP_REPEAT,
-              TextureWrapS.TEXTURE_WRAP_REPEAT,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-          Assert.assertEquals(tx.getType(), t);
-          break;
-        }
         case TEXTURE_TYPE_RGB_565_2BPP:
         {
           final TextureCubeStatic tx =
@@ -110,19 +96,7 @@ public abstract class TextureCubeStaticGLES2Contract extends
           break;
         }
         case TEXTURE_TYPE_RGB_8_3BPP:
-        {
-          final TextureCubeStatic tx =
-            gl.textureCubeStaticAllocateRGB8(
-              t.toString(),
-              128,
-              TextureWrapR.TEXTURE_WRAP_REPEAT,
-              TextureWrapS.TEXTURE_WRAP_REPEAT,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-          Assert.assertEquals(tx.getType(), t);
-          break;
-        }
+        case TEXTURE_TYPE_RGBA_8_4BPP:
         case TEXTURE_TYPE_DEPTH_16_2BPP:
         case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
         case TEXTURE_TYPE_RGBA_1010102_4BPP:

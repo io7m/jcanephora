@@ -22,7 +22,6 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.LogicOpContract;
 
 public final class LWJGL21LogicOperationTest extends LogicOpContract
@@ -30,9 +29,7 @@ public final class LWJGL21LogicOperationTest extends LogicOpContract
   @Override public JCGLLogic getGLLogic(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGL2> some =
-      (Some<JCGLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
+    return LWJGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public boolean isGLSupported()

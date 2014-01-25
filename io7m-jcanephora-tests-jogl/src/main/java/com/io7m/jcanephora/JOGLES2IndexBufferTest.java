@@ -18,7 +18,6 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.IndexBufferContract;
 
 public final class JOGLES2IndexBufferTest extends IndexBufferContract
@@ -26,17 +25,13 @@ public final class JOGLES2IndexBufferTest extends IndexBufferContract
   @Override public JCGLArrayBuffers getGLArrayBuffers(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGLES2> some =
-      (Some<JCGLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
-    return some.value;
+    return JOGLTestContextUtilities.getGLES2(tc);
   }
 
   @Override public JCGLIndexBuffers getGLIndexBuffers(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGLES2> some =
-      (Some<JCGLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
-    return some.value;
+    return JOGLTestContextUtilities.getGLES2(tc);
   }
 
   @Override public boolean isGLSupported()

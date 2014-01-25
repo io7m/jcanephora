@@ -18,6 +18,8 @@ package com.io7m.jcanephora.contracts;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -28,7 +30,7 @@ import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLTextureUnits;
 import com.io7m.jcanephora.JCGLTextures2DStaticCommon;
 import com.io7m.jcanephora.JCGLUnsupportedException;
-import com.io7m.jcanephora.SpatialCursorWritable3i;
+import com.io7m.jcanephora.SpatialCursorWritable4i;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.Texture2DWritableData;
@@ -37,11 +39,23 @@ import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
-import com.io7m.jtensors.VectorI3I;
+import com.io7m.jtensors.VectorI4I;
 
 public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticCommon> implements
   TestContract
 {
+  public abstract @Nonnull Texture2DStatic allocateTextureRGBA(
+    final @Nonnull T t,
+    final @Nonnull String name,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification filter_min,
+    final @Nonnull TextureFilterMagnification filter_mag)
+    throws JCGLRuntimeException,
+      ConstraintError;
+
   @Before public final void checkSupport()
   {
     Assume.assumeTrue(this.isGLSupported());
@@ -114,7 +128,8 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
 
     final List<TextureUnit> units = gu.textureGetUnits();
     final Texture2DStatic t =
-      gl.texture2DStaticAllocateRGBA8(
+      this.allocateTextureRGBA(
+        gl,
         "texture",
         64,
         64,
@@ -150,7 +165,8 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
 
     final List<TextureUnit> units = gu.textureGetUnits();
     final Texture2DStatic t =
-      gl.texture2DStaticAllocateRGBA8(
+      this.allocateTextureRGBA(
+        gl,
         "texture",
         64,
         64,
@@ -221,7 +237,8 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final T gl = this.getGLTexture2DStatic(tc);
 
     final Texture2DStatic t =
-      gl.texture2DStaticAllocateRGBA8(
+      this.allocateTextureRGBA(
+        gl,
         "texture",
         64,
         64,
@@ -253,7 +270,8 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final T gl = this.getGLTexture2DStatic(tc);
 
     final Texture2DStatic t =
-      gl.texture2DStaticAllocateRGBA8(
+      this.allocateTextureRGBA(
+        gl,
         "texture",
         64,
         64,
@@ -288,7 +306,8 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
 
     final List<TextureUnit> units = gu.textureGetUnits();
     final Texture2DStatic t =
-      gl.texture2DStaticAllocateRGBA8(
+      this.allocateTextureRGBA(
+        gl,
         "texture",
         64,
         64,
@@ -339,7 +358,8 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final TestContext tc = this.newTestContext();
     final T gl = this.getGLTexture2DStatic(tc);
 
-    gl.texture2DStaticAllocateRGBA8(
+    this.allocateTextureRGBA(
+      gl,
       "texture",
       64,
       64,
@@ -366,7 +386,8 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final TestContext tc = this.newTestContext();
     final T gl = this.getGLTexture2DStatic(tc);
 
-    gl.texture2DStaticAllocateRGBA8(
+    this.allocateTextureRGBA(
+      gl,
       "texture",
       64,
       64,
@@ -393,7 +414,8 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final TestContext tc = this.newTestContext();
     final T gl = this.getGLTexture2DStatic(tc);
 
-    gl.texture2DStaticAllocateRGBA8(
+    this.allocateTextureRGBA(
+      gl,
       null,
       64,
       64,
@@ -420,7 +442,8 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final TestContext tc = this.newTestContext();
     final T gl = this.getGLTexture2DStatic(tc);
 
-    gl.texture2DStaticAllocateRGBA8(
+    this.allocateTextureRGBA(
+      gl,
       "texture",
       64,
       64,
@@ -447,7 +470,8 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final TestContext tc = this.newTestContext();
     final T gl = this.getGLTexture2DStatic(tc);
 
-    gl.texture2DStaticAllocateRGBA8(
+    this.allocateTextureRGBA(
+      gl,
       "texture",
       64,
       64,
@@ -491,7 +515,8 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
     final T gl = this.getGLTexture2DStatic(tc);
 
     final Texture2DStatic t =
-      gl.texture2DStaticAllocateRGB8(
+      this.allocateTextureRGBA(
+        gl,
         "xyz",
         64,
         64,
@@ -501,12 +526,12 @@ public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticComm
         TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     final Texture2DWritableData update = new Texture2DWritableData(t);
-    final SpatialCursorWritable3i cursor = update.getCursor3i();
+    final SpatialCursorWritable4i cursor = update.getCursor4i();
 
     Assert.assertTrue(cursor.isValid());
 
     while (cursor.isValid()) {
-      cursor.put3i(new VectorI3I(0x0, 0x0, 0xff));
+      cursor.put4i(new VectorI4I(0x0, 0x0, 0xff, 0xff));
 
     }
 

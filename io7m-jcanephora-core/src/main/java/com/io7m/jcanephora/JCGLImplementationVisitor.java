@@ -27,18 +27,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 public interface JCGLImplementationVisitor<A, E extends Throwable>
 {
-  public A implementationIsGLES2(
-    final @Nonnull JCGLInterfaceGLES2 gl)
-    throws JCGLException,
-      ConstraintError,
-      E;
-
-  public A implementationIsGLES3(
-    final @Nonnull JCGLInterfaceGLES3 gl)
-    throws JCGLException,
-      ConstraintError,
-      E;
-
   public A implementationIsGL2(
     final @Nonnull JCGLInterfaceGL2 gl)
     throws JCGLException,
@@ -47,6 +35,18 @@ public interface JCGLImplementationVisitor<A, E extends Throwable>
 
   public A implementationIsGL3(
     final @Nonnull JCGLInterfaceGL3 gl)
+    throws JCGLException,
+      ConstraintError,
+      E;
+
+  public A implementationIsGLES2(
+    final @Nonnull JCGLInterfaceGLES2 gl)
+    throws JCGLException,
+      ConstraintError,
+      E;
+
+  public A implementationIsGLES3(
+    final @Nonnull JCGLInterfaceGLES3 gl)
     throws JCGLException,
       ConstraintError,
       E;

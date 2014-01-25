@@ -18,7 +18,6 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.gl3.BlendingGL3Contract;
 
 public final class LWJGL30BlendFullTest extends BlendingGL3Contract
@@ -26,9 +25,7 @@ public final class LWJGL30BlendFullTest extends BlendingGL3Contract
   @Override public JCGLBlendingGL3 getGLBlendingGL3(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGL3> some =
-      (Some<JCGLInterfaceGL3>) tc.getGLImplementation().getGL3();
-    return some.value;
+    return LWJGLTestContextUtilities.getGL3(tc);
   }
 
   @Override public boolean isGLSupported()

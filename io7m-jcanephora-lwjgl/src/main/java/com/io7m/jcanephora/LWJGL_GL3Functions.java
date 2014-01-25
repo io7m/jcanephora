@@ -420,7 +420,8 @@ final class LWJGL_GL3Functions
     final @Nonnull Log log,
     final @Nonnull JCGLVersion version,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticUsable texture)
+    final @Nonnull Texture2DStaticUsable texture,
+    final @Nonnull JCGLNamedExtensions extensions)
     throws JCGLRuntimeException,
       ConstraintError
   {
@@ -436,9 +437,10 @@ final class LWJGL_GL3Functions
     Constraints.constrainArbitrary(
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
-    Constraints.constrainArbitrary(
-      TextureTypeMeta.isColourRenderable(texture.getType(), version),
-      "Texture is color renderable");
+    Constraints.constrainArbitrary(TextureTypeMeta.isColourRenderable2D(
+      texture.getType(),
+      version,
+      extensions), "Texture is color renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -465,7 +467,8 @@ final class LWJGL_GL3Functions
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull Texture2DStaticUsable texture)
+    final @Nonnull Texture2DStaticUsable texture,
+    final @Nonnull JCGLNamedExtensions extensions)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -482,9 +485,10 @@ final class LWJGL_GL3Functions
     Constraints.constrainArbitrary(
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
-    Constraints.constrainArbitrary(
-      TextureTypeMeta.isColourRenderable(texture.getType(), version),
-      "Texture is color renderable");
+    Constraints.constrainArbitrary(TextureTypeMeta.isColourRenderable2D(
+      texture.getType(),
+      version,
+      extensions), "Texture is color renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
@@ -512,7 +516,8 @@ final class LWJGL_GL3Functions
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull TextureCubeStaticUsable texture,
-    final @Nonnull CubeMapFaceLH face)
+    final @Nonnull CubeMapFaceLH face,
+    final @Nonnull JCGLNamedExtensions extensions)
     throws JCGLRuntimeException,
       ConstraintError
   {
@@ -528,9 +533,10 @@ final class LWJGL_GL3Functions
     Constraints.constrainArbitrary(
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
-    Constraints.constrainArbitrary(
-      TextureTypeMeta.isColourRenderable(texture.getType(), version),
-      "Texture is color renderable");
+    Constraints.constrainArbitrary(TextureTypeMeta.isColourRenderable2D(
+      texture.getType(),
+      version,
+      extensions), "Texture is color renderable");
 
     Constraints.constrainNotNull(face, "Cube map face");
 
@@ -561,7 +567,8 @@ final class LWJGL_GL3Functions
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
     final @Nonnull TextureCubeStaticUsable texture,
-    final @Nonnull CubeMapFaceLH face)
+    final @Nonnull CubeMapFaceLH face,
+    final @Nonnull JCGLNamedExtensions extensions)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -578,9 +585,10 @@ final class LWJGL_GL3Functions
     Constraints.constrainArbitrary(
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
-    Constraints.constrainArbitrary(
-      TextureTypeMeta.isColourRenderable(texture.getType(), version),
-      "Texture is color renderable");
+    Constraints.constrainArbitrary(TextureTypeMeta.isColourRenderable2D(
+      texture.getType(),
+      version,
+      extensions), "Texture is color renderable");
 
     Constraints.constrainNotNull(face, "Cube map face");
 
@@ -705,7 +713,8 @@ final class LWJGL_GL3Functions
     final @Nonnull JCGLVersion version,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticUsable texture)
+    final @Nonnull Texture2DStaticUsable texture,
+    final @Nonnull JCGLNamedExtensions extensions)
     throws JCGLRuntimeException,
       ConstraintError
   {
@@ -722,7 +731,7 @@ final class LWJGL_GL3Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(
-      TextureTypeMeta.isDepthRenderable(texture.getType()),
+      TextureTypeMeta.isDepthRenderable2D(texture.getType(), extensions),
       "Texture is depth renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {

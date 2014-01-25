@@ -70,14 +70,14 @@ import com.io7m.jaux.RangeInclusive;
     return this.range;
   }
 
-  @Override public long resourceGetSizeBytes()
-  {
-    return this.getElementSizeBytes() * this.range.getInterval();
-  }
-
   @Override public @Nonnull JCGLUnsignedType getType()
   {
     return this.type;
+  }
+
+  @Override public long resourceGetSizeBytes()
+  {
+    return this.getElementSizeBytes() * this.range.getInterval();
   }
 
   @Override public String toString()

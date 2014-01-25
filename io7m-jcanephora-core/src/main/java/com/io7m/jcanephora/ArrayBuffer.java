@@ -110,11 +110,6 @@ import com.io7m.jaux.RangeInclusive;
     return this.range;
   }
 
-  @Override public long resourceGetSizeBytes()
-  {
-    return this.type.getTypeDescriptor().getSize() * this.range.getInterval();
-  }
-
   @Override public @Nonnull ArrayBufferType getType()
   {
     return this.type;
@@ -133,6 +128,11 @@ import com.io7m.jaux.RangeInclusive;
     int result = 1;
     result = (prime * result) + this.value;
     return result;
+  }
+
+  @Override public long resourceGetSizeBytes()
+  {
+    return this.type.getTypeDescriptor().getSize() * this.range.getInterval();
   }
 
   @Override public String toString()

@@ -25,6 +25,8 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.UnimplementedCodeException;
+import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
@@ -38,9 +40,17 @@ import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.JCGLCompileException;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLImplementation;
+import com.io7m.jcanephora.JCGLImplementationVisitor;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
+import com.io7m.jcanephora.JCGLInterfaceGL2;
+import com.io7m.jcanephora.JCGLInterfaceGL3;
+import com.io7m.jcanephora.JCGLInterfaceGLES2;
+import com.io7m.jcanephora.JCGLInterfaceGLES3;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLScalarType;
+import com.io7m.jcanephora.JCGLTextures2DStaticGL3ES3;
 import com.io7m.jcanephora.Primitives;
 import com.io7m.jcanephora.ProgramAttribute;
 import com.io7m.jcanephora.ProgramReference;
@@ -88,19 +98,20 @@ public final class ExampleTexturedQuadImage implements Example
   private int                             texture_index = 0;
   private final List<TextureUnit>         texture_units;
   private final Texture2DStatic           textures[];
+  private final JCGLImplementation        gi;
 
   public ExampleTexturedQuadImage(
     final @Nonnull ExampleConfig config)
     throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLCompileException,
       IOException,
-      FilesystemError
+      FilesystemError,
+      JCGLException
   {
     this.config = config;
     this.matrix_modelview = new MatrixM4x4F();
     this.matrix_projection = new MatrixM4x4F();
-    this.gl = this.config.getGL().getGLCommon();
+    this.gi = this.config.getGL();
+    this.gl = this.gi.getGLCommon();
 
     /**
      * Initialize shaders.
@@ -127,104 +138,801 @@ public final class ExampleTexturedQuadImage implements Example
     this.texture_units = this.gl.textureGetUnits();
 
     /**
-     * Load a texture from an image file.
+     * Load a texture from an image file, one per every supported texture type
+     * on the current implementation. Note that real code would usually use
+     * one of the convenience functions in the TextureLoader interface that
+     * can infer texture types; this is simply an exhaustive example that
+     * attempts to load every single type.
      */
-
-    final EnumSet<TextureType> ttypes =
-      TextureTypeMeta.getTextures2DRequiredByCommonSubset();
-    this.textures = new Texture2DStatic[ttypes.size()];
 
     final TextureLoader loader = config.getTextureLoader();
     final FSCapabilityAll filesystem = config.getFilesystem();
 
-    int index = 0;
-    for (final TextureType type : ttypes) {
-      System.out.println("Loading texture as " + type);
+    final TextureWrapS wrap_s = TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE;
+    final TextureWrapT wrap_t = TextureWrapT.TEXTURE_WRAP_CLAMP_TO_EDGE;
+    final TextureFilterMinification min_filter =
+      TextureFilterMinification.TEXTURE_FILTER_LINEAR;
+    final TextureFilterMagnification mag_filter =
+      TextureFilterMagnification.TEXTURE_FILTER_LINEAR;
 
-      final InputStream stream =
-        filesystem.openFile(PathVirtual
-          .ofString("/com/io7m/jcanephora/examples/reference_8888_4.png"));
+    this.textures =
+      this.gi
+        .implementationAccept(new JCGLImplementationVisitor<Texture2DStatic[], IOException>() {
 
-      switch (type) {
-        case TEXTURE_TYPE_RGBA_1010102_4BPP:
-        case TEXTURE_TYPE_RGBA_16F_8BPP:
-        case TEXTURE_TYPE_RGBA_16I_8BPP:
-        case TEXTURE_TYPE_RGBA_16U_8BPP:
-        case TEXTURE_TYPE_RGBA_16_8BPP:
-        case TEXTURE_TYPE_RGBA_32I_16BPP:
-        case TEXTURE_TYPE_RGBA_32U_16BPP:
-        case TEXTURE_TYPE_RGBA_8I_4BPP:
-        case TEXTURE_TYPE_RGBA_8U_4BPP:
-        case TEXTURE_TYPE_RGB_16F_6BPP:
-        case TEXTURE_TYPE_RGB_16I_6BPP:
-        case TEXTURE_TYPE_RGB_16U_6BPP:
-        case TEXTURE_TYPE_RGB_16_6BPP:
-        case TEXTURE_TYPE_RGB_32F_12BPP:
-        case TEXTURE_TYPE_RGB_32I_12BPP:
-        case TEXTURE_TYPE_RGB_32U_12BPP:
-        case TEXTURE_TYPE_RGB_8I_3BPP:
-        case TEXTURE_TYPE_RGB_8U_3BPP:
-        case TEXTURE_TYPE_RG_16F_4BPP:
-        case TEXTURE_TYPE_RG_16I_4BPP:
-        case TEXTURE_TYPE_RG_16U_4BPP:
-        case TEXTURE_TYPE_RG_16_4BPP:
-        case TEXTURE_TYPE_RG_32F_8BPP:
-        case TEXTURE_TYPE_RG_32I_8BPP:
-        case TEXTURE_TYPE_RG_32U_8BPP:
-        case TEXTURE_TYPE_RG_8I_2BPP:
-        case TEXTURE_TYPE_RG_8U_2BPP:
-        case TEXTURE_TYPE_R_16F_2BPP:
-        case TEXTURE_TYPE_R_16I_2BPP:
-        case TEXTURE_TYPE_R_16U_2BPP:
-        case TEXTURE_TYPE_R_16_2BPP:
-        case TEXTURE_TYPE_R_32F_4BPP:
-        case TEXTURE_TYPE_R_32I_4BPP:
-        case TEXTURE_TYPE_R_32U_4BPP:
-        case TEXTURE_TYPE_R_8I_1BPP:
-        case TEXTURE_TYPE_R_8U_1BPP:
-        case TEXTURE_TYPE_DEPTH_16_2BPP:
-        case TEXTURE_TYPE_DEPTH_24_4BPP:
-        case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
-        case TEXTURE_TYPE_DEPTH_32F_4BPP:
-        case TEXTURE_TYPE_RGBA_4444_2BPP:
-        case TEXTURE_TYPE_RGBA_5551_2BPP:
-        case TEXTURE_TYPE_RGB_565_2BPP:
-        case TEXTURE_TYPE_RG_8_2BPP:
-        case TEXTURE_TYPE_R_8_1BPP:
-        case TEXTURE_TYPE_RGBA_32F_16BPP:
-        {
-          break;
-        }
-        case TEXTURE_TYPE_RGBA_8_4BPP:
-        {
-          this.textures[index] =
-            loader.load2DStaticRGBA8(
-              this.gl,
-              TextureWrapS.TEXTURE_WRAP_REPEAT,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-              TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
-              stream,
-              type.toString());
-          break;
-        }
-        case TEXTURE_TYPE_RGB_8_3BPP:
-        {
-          this.textures[index] =
-            loader.load2DStaticRGB8(
-              this.gl,
-              TextureWrapS.TEXTURE_WRAP_REPEAT,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-              TextureFilterMagnification.TEXTURE_FILTER_NEAREST,
-              stream,
-              type.toString());
-        }
-      }
+          /**
+           * The texture types supported by GL2.
+           */
 
-      stream.close();
-      ++index;
-    }
+          @Override public @Nonnull Texture2DStatic[] implementationIsGL2(
+            final @Nonnull JCGLInterfaceGL2 gl2)
+            throws JCGLException,
+              ConstraintError,
+              JCGLException,
+              IOException
+          {
+            try {
+              final EnumSet<TextureType> ttypes =
+                TextureTypeMeta.getTextures2DRequiredByGL21();
+              final Texture2DStatic[] t = new Texture2DStatic[ttypes.size()];
+
+              int index = 0;
+              for (final TextureType type : ttypes) {
+                System.out.println("Loading texture as " + type);
+
+                final InputStream stream =
+                  filesystem.openFile(PathVirtual
+                    .ofString("/com/io7m/jcanephora/examples/reference_8888_4.png"));
+
+                switch (type) {
+                  case TEXTURE_TYPE_RGBA_8_4BPP:
+                    t[index] =
+                      loader.load2DStaticRGBA8(
+                        gl2,
+                        wrap_s,
+                        wrap_t,
+                        min_filter,
+                        mag_filter,
+                        stream,
+                        type.toString());
+                    break;
+                  case TEXTURE_TYPE_RGB_8_3BPP:
+                    t[index] =
+                      loader.load2DStaticRGB8(
+                        gl2,
+                        wrap_s,
+                        wrap_t,
+                        min_filter,
+                        mag_filter,
+                        stream,
+                        type.toString());
+                    break;
+
+                  // $CASES-OMITTED$
+                  default:
+                    stream.close();
+                    throw new UnreachableCodeException(new AssertionError(
+                      type.toString()));
+                }
+
+                stream.close();
+                ++index;
+              }
+
+              index = 0;
+              for (final TextureType type : ttypes) {
+                assert (t[index] != null) : type.toString();
+                ++index;
+              }
+
+              return t;
+            } catch (final FilesystemError e) {
+              throw new IOException(e);
+            }
+          }
+
+          /**
+           * The texture types supported by GL3.
+           */
+
+          @Override public @Nonnull Texture2DStatic[] implementationIsGL3(
+            final @Nonnull JCGLInterfaceGL3 gl3)
+            throws JCGLException,
+              ConstraintError,
+              JCGLException,
+              IOException
+          {
+            try {
+              return this.texturesGL3ES3(gl3);
+            } catch (final FilesystemError e) {
+              throw new IOException(e);
+            }
+          }
+
+          @Override public @Nonnull Texture2DStatic[] implementationIsGLES2(
+            final @Nonnull JCGLInterfaceGLES2 gles2)
+            throws JCGLException,
+              ConstraintError,
+              JCGLException
+          {
+            // TODO Auto-generated method stub
+            throw new UnimplementedCodeException();
+          }
+
+          @Override public @Nonnull Texture2DStatic[] implementationIsGLES3(
+            final @Nonnull JCGLInterfaceGLES3 gles3)
+            throws JCGLException,
+              ConstraintError,
+              JCGLException,
+              IOException
+          {
+            try {
+              return this.texturesGL3ES3(gles3);
+            } catch (final FilesystemError e) {
+              throw new IOException(e);
+            }
+          }
+
+          private @Nonnull Texture2DStatic[] texturesGL3ES3(
+            final @Nonnull JCGLTextures2DStaticGL3ES3 gl3es3)
+            throws FilesystemError,
+              ConstraintError,
+              JCGLRuntimeException,
+              IOException
+          {
+            final EnumSet<TextureType> ttypes =
+              TextureTypeMeta.getTextures2DRequiredByGL3ES3();
+            final Texture2DStatic[] t = new Texture2DStatic[ttypes.size()];
+
+            int index = 0;
+            for (final TextureType type : ttypes) {
+              System.out.println("Loading texture as " + type);
+
+              final InputStream stream =
+                filesystem.openFile(PathVirtual
+                  .ofString("/com/io7m/jcanephora/examples/reference_8888_4.png"));
+
+              switch (type) {
+                case TEXTURE_TYPE_RGBA_1010102_4BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGBA1010102(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGBA_16F_8BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGBA16f(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGBA_16I_8BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGBA16I(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGBA_16U_8BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGBA16U(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGBA_16_8BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGBA16(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGBA_32I_16BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGBA32I(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGBA_32U_16BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGBA32U(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGBA_8I_4BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGBA8I(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGBA_8U_4BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGBA8U(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGB_16F_6BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGB16f(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGB_16I_6BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGB16I(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGB_16U_6BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGB16U(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGB_16_6BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGB16(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGB_32F_12BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGB32f(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGB_32I_12BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGB32I(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGB_32U_12BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGB32U(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGB_8I_3BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGB8I(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGB_8U_3BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGB8U(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RG_16F_4BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRG16f(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RG_16I_4BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRG16I(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RG_16U_4BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRG16U(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RG_16_4BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRG16(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RG_32F_8BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRG32f(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RG_32I_8BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRG32I(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RG_32U_8BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRG32U(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RG_8I_2BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRG8I(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RG_8U_2BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRG8U(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_R_32F_4BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticR32f(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_R_32I_4BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticR32I(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_R_32U_4BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticR32U(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_R_8I_1BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticR8I(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_R_8U_1BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticR8U(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RG_8_2BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRG8(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_R_8_1BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticR8(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGBA_32F_16BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGBA32f(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGBA_4444_2BPP:
+                case TEXTURE_TYPE_RGBA_5551_2BPP:
+                case TEXTURE_TYPE_RGB_565_2BPP:
+                {
+                  stream.close();
+                  throw new UnreachableCodeException();
+                }
+
+                case TEXTURE_TYPE_DEPTH_32F_4BPP:
+                case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
+                {
+                  System.out.print("Ignoring type " + type);
+                  t[index] =
+                    loader.load2DStaticR16f(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_R_16_2BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticR16(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_R_16U_2BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticR16U(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_R_16I_2BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticR16I(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_R_16F_2BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticR16f(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_DEPTH_24_4BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticDepth24(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+                case TEXTURE_TYPE_DEPTH_16_2BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticDepth16(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGBA_8_4BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGBA8(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+
+                case TEXTURE_TYPE_RGB_8_3BPP:
+                {
+                  t[index] =
+                    loader.load2DStaticRGB8(
+                      gl3es3,
+                      wrap_s,
+                      wrap_t,
+                      min_filter,
+                      mag_filter,
+                      stream,
+                      type.toString());
+                  break;
+                }
+              }
+
+              assert t[index] != null : type.toString();
+
+              stream.close();
+              ++index;
+            }
+
+            index = 0;
+            for (final TextureType type : ttypes) {
+              assert (t[index] != null) : type.toString();
+              ++index;
+            }
+
+            return t;
+          }
+        });
 
     /**
      * Allocate an array buffer.
@@ -318,7 +1026,7 @@ public final class ExampleTexturedQuadImage implements Example
   {
     ++this.frame;
 
-    if ((this.frame % 60) == 0) {
+    if ((this.frame % 5) == 0) {
       this.texture_index = (this.texture_index + 1) % this.textures.length;
       this.config.getLog().debug(
         "Selected " + this.textures[this.texture_index]);

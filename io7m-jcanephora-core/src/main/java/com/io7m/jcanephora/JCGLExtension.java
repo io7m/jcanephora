@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,24 +16,11 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
+/**
+ * A common type for all extensions.
+ */
 
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.contracts.checkedexec.JCCEExecutionAbstractContract;
-
-public final class JOGL3pExecutionAbstractTest extends
-  JCCEExecutionAbstractContract
+public interface JCGLExtension
 {
-  @Override public boolean isGLSupported()
-  {
-    return JOGLTestContext.isOpenGL3pSupported();
-  }
-
-  @Override public @Nonnull TestContext newTestContext()
-    throws JCGLRuntimeException,
-      JCGLUnsupportedException,
-      ConstraintError
-  {
-    return JOGLTestContext.makeContextWithOpenGL3_p();
-  }
+  // Nothing.
 }

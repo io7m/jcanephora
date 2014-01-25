@@ -20,21 +20,11 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jaux.functional.Option;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.gles3.TextureLoaderContractGLES3;
 
 public final class JOGLES3TextureLoaderImageIOGLES3Test extends
   TextureLoaderContractGLES3<TextureLoaderImageIO>
 {
-  @Override public @Nonnull JCGLTextures2DStaticGLES3 getGLTextures(
-    final @Nonnull TestContext tc)
-  {
-    final Some<JCGLInterfaceGLES3> some =
-      (Option.Some<JCGLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
-    return some.value;
-  }
-
   @Override public boolean isGLSupported()
   {
     return JOGLTestContext.isOpenGLES3Supported();
@@ -57,5 +47,17 @@ public final class JOGLES3TextureLoaderImageIOGLES3Test extends
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL_ES3();
+  }
+
+  @Override public JCGLTextures2DStaticGLES3 getGLTextures2D(
+    final TestContext tc)
+  {
+    return JOGLTestContextUtilities.getGLES3(tc);
+  }
+
+  @Override public JCGLTexturesCubeStaticGLES3 getGLTexturesCube(
+    final TestContext tc)
+  {
+    return JOGLTestContextUtilities.getGLES3(tc);
   }
 }

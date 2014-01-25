@@ -91,47 +91,6 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   /**
-   * Retrieve the name of the attribute.
-   */
-
-  public @Nonnull String getName()
-  {
-    return this.name;
-  }
-
-  /**
-   * Retrieve the type of the attribute.
-   */
-
-  public @Nonnull JCGLScalarType getType()
-  {
-    return this.type;
-  }
-
-  @Override public int hashCode()
-  {
-    final int prime = 31;
-    int result = 1;
-    result = (prime * result) + this.elements;
-    result = (prime * result) + this.name.hashCode();
-    result = (prime * result) + this.type.hashCode();
-    return result;
-  }
-
-  @Override public String toString()
-  {
-    final StringBuilder builder = new StringBuilder();
-    builder.append("[ArrayBufferAttributeDescriptor ");
-    builder.append(this.name);
-    builder.append(" ");
-    builder.append(this.type);
-    builder.append(" ");
-    builder.append(this.elements);
-    builder.append("]");
-    return builder.toString();
-  }
-
-  /**
    * Retrieve the type of the attribute as a {@link JCGLType}.
    */
 
@@ -175,5 +134,46 @@ import com.io7m.jaux.UnreachableCodeException;
     }
 
     throw new UnreachableCodeException();
+  }
+
+  /**
+   * Retrieve the name of the attribute.
+   */
+
+  public @Nonnull String getName()
+  {
+    return this.name;
+  }
+
+  /**
+   * Retrieve the type of the attribute.
+   */
+
+  public @Nonnull JCGLScalarType getType()
+  {
+    return this.type;
+  }
+
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + this.elements;
+    result = (prime * result) + this.name.hashCode();
+    result = (prime * result) + this.type.hashCode();
+    return result;
+  }
+
+  @Override public String toString()
+  {
+    final StringBuilder builder = new StringBuilder();
+    builder.append("[ArrayBufferAttributeDescriptor ");
+    builder.append(this.name);
+    builder.append(" ");
+    builder.append(this.type);
+    builder.append(" ");
+    builder.append(this.elements);
+    builder.append("]");
+    return builder.toString();
   }
 }

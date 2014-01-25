@@ -18,7 +18,6 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 
 public final class JOGL3pRasterizationTest extends
   com.io7m.jcanephora.contracts.RasterizationContract
@@ -26,17 +25,13 @@ public final class JOGL3pRasterizationTest extends
   @Override public JCGLPolygonModes getGLPolygonModes(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGL3> some =
-      (Some<JCGLInterfaceGL3>) tc.getGLImplementation().getGL3();
-    return some.value;
+    return JOGLTestContextUtilities.getGL3(tc);
   }
 
   @Override public JCGLPolygonSmoothing getGLPolygonSmoothing(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGL3> some =
-      (Some<JCGLInterfaceGL3>) tc.getGLImplementation().getGL3();
-    return some.value;
+    return JOGLTestContextUtilities.getGL3(tc);
   }
 
   @Override public boolean isGLSupported()

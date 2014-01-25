@@ -19,7 +19,6 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option;
 
 /**
  * The interface exposed by the current OpenGL implementation.
@@ -29,56 +28,12 @@ public interface JCGLImplementation
 {
   /**
    * <p>
-   * Return a reference to the OpenGL 2.1 interface provided by the
-   * implementation, or <code>None</code> if it is not supported.
-   * </p>
-   * 
-   * @deprecated Use {@link #implementationAccept(JCGLImplementationVisitor)}.
-   */
-
-  @Deprecated public @Nonnull Option<JCGLInterfaceGL2> getGL2();
-
-  /**
-   * <p>
-   * Return a reference to the OpenGL 3.* interface provided by the
-   * implementation, or <code>None</code> if it is not supported.
-   * </p>
-   * 
-   * @deprecated Use {@link #implementationAccept(JCGLImplementationVisitor)}.
-   */
-
-  @Deprecated public @Nonnull Option<JCGLInterfaceGL3> getGL3();
-
-  /**
-   * <p>
    * Return a reference to the interface representing the common subset of
    * OpenGL 3.*, OpenGL ES2, OpenGL ES3, and OpenGL 2.1.
    * </p>
    */
 
   public @Nonnull JCGLInterfaceCommon getGLCommon();
-
-  /**
-   * <p>
-   * Return a reference to the OpenGL ES2 interface provided by the
-   * implementation, or <code>None</code> if it is not supported.
-   * </p>
-   * 
-   * @deprecated Use {@link #implementationAccept(JCGLImplementationVisitor)}.
-   */
-
-  @Deprecated public @Nonnull Option<JCGLInterfaceGLES2> getGLES2();
-
-  /**
-   * <p>
-   * Return a reference to the OpenGL ES3 interface provided by the
-   * implementation, or <code>None</code> if it is not supported.
-   * </p>
-   * 
-   * @deprecated Use {@link #implementationAccept(JCGLImplementationVisitor)}.
-   */
-
-  @Deprecated public @Nonnull Option<JCGLInterfaceGLES3> getGLES3();
 
   /**
    * A function that accepts implementation visitors. Returns the value of

@@ -81,20 +81,6 @@ public abstract class Texture2DStaticGLES2Contract extends
           Assert.assertEquals(tx.getType(), t);
           break;
         }
-        case TEXTURE_TYPE_RGBA_8_4BPP:
-        {
-          tx =
-            gl.texture2DStaticAllocateRGBA8(
-              t.toString(),
-              64,
-              128,
-              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_LINEAR,
-              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-          Assert.assertEquals(tx.getType(), t);
-          break;
-        }
         case TEXTURE_TYPE_RGB_565_2BPP:
         {
           tx =
@@ -109,20 +95,8 @@ public abstract class Texture2DStaticGLES2Contract extends
           Assert.assertEquals(tx.getType(), t);
           break;
         }
+        case TEXTURE_TYPE_RGBA_8_4BPP:
         case TEXTURE_TYPE_RGB_8_3BPP:
-        {
-          tx =
-            gl.texture2DStaticAllocateRGB8(
-              t.toString(),
-              64,
-              128,
-              TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_LINEAR,
-              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-          Assert.assertEquals(tx.getType(), t);
-          break;
-        }
         case TEXTURE_TYPE_DEPTH_16_2BPP:
         case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
         case TEXTURE_TYPE_RGBA_1010102_4BPP:

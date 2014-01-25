@@ -73,11 +73,6 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.io7m.jcanephora.framebuffer</groupId>
-      <artifactId>io7m-jcanephora-framebuffer</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
       <groupId>com.io7m.jcanephora.texload-imageio</groupId>
       <artifactId>io7m-jcanephora-texload-imageio</artifactId>
       <version>${project.version}</version>

@@ -28,12 +28,6 @@ public interface RenderbufferUsable<K extends RenderbufferKind> extends
   JCGLResourceUsable
 {
   /**
-   * Retrieve the size in bytes of the texture data.
-   */
-
-  public long resourceGetSizeBytes();
-
-  /**
    * Retrieve the height of the buffer.
    */
 
@@ -50,4 +44,10 @@ public interface RenderbufferUsable<K extends RenderbufferKind> extends
    */
 
   public int getWidth();
+
+  /**
+   * Retrieve the size in bytes of the texture data.
+   */
+
+  public long resourceGetSizeBytes();
 }

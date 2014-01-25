@@ -18,7 +18,6 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.ColorBufferContract;
 
 public final class LWJGLES2ColorBufferTest extends ColorBufferContract
@@ -26,9 +25,7 @@ public final class LWJGLES2ColorBufferTest extends ColorBufferContract
   @Override public JCGLColorBuffer getGLColorBuffer(
     final TestContext context)
   {
-    final Some<JCGLInterfaceGLES2> some =
-      (Some<JCGLInterfaceGLES2>) context.getGLImplementation().getGLES2();
-    return some.value;
+    return LWJGLTestContextUtilities.getGLES2(context);
   }
 
   @Override public boolean isGLSupported()

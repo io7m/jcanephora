@@ -19,16 +19,20 @@ package com.io7m.jcanephora.contracts;
 import javax.annotation.Nonnull;
 
 import com.io7m.jcanephora.JCGLTextures2DStaticCommon;
+import com.io7m.jcanephora.JCGLTexturesCubeStaticCommon;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.TextureLoader;
 
-public abstract class TextureLoaderContract<G extends JCGLTextures2DStaticCommon, T extends TextureLoader> implements
+public abstract class TextureLoaderContract<G2D extends JCGLTextures2DStaticCommon, GC extends JCGLTexturesCubeStaticCommon, T extends TextureLoader> implements
   TestContract
 {
-  public abstract @Nonnull G getGLTextures(
+  public abstract @Nonnull G2D getGLTextures2D(
+    final @Nonnull TestContext tc);
+
+  public abstract @Nonnull GC getGLTexturesCube(
     final @Nonnull TestContext tc);
 
   public abstract @Nonnull T makeTextureLoader(
     final @Nonnull TestContext tc,
-    final @Nonnull G gl);
+    final @Nonnull G2D gl);
 }

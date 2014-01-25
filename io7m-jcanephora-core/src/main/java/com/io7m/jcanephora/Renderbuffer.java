@@ -141,11 +141,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
     return this.height;
   }
 
-  @Override public long resourceGetSizeBytes()
-  {
-    return this.width * this.type.getBytesPerPixel() * this.height;
-  }
-
   @Override public @Nonnull RenderbufferType getType()
   {
     return this.type;
@@ -162,6 +157,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
     int result = 1;
     result = (prime * result) + this.value;
     return result;
+  }
+
+  @Override public long resourceGetSizeBytes()
+  {
+    return this.width * this.type.getBytesPerPixel() * this.height;
   }
 
   @Override public String toString()

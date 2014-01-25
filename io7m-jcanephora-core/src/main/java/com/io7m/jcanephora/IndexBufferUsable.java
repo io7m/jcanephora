@@ -40,15 +40,15 @@ public interface IndexBufferUsable extends JCGLResourceUsable, JCGLName
   public @Nonnull RangeInclusive getRange();
 
   /**
-   * Retrieve the total size in bytes of the allocated buffer.
-   */
-
-  public long resourceGetSizeBytes();
-
-  /**
    * Retrieve the type of the elements in the buffer.
    */
 
   public @Nonnull JCGLUnsignedType getType();
+
+  /**
+   * Retrieve the total size in bytes of the allocated buffer.
+   */
+
+  public long resourceGetSizeBytes();
 
 }

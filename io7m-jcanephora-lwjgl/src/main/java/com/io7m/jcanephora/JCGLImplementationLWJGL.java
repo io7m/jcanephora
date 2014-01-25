@@ -26,7 +26,6 @@ import org.lwjgl.opengl.GL11;
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jaux.functional.Option;
 import com.io7m.jaux.functional.Pair;
 import com.io7m.jlog.Log;
 
@@ -229,8 +228,11 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
     }
 
     if (JCGLImplementationLWJGL.isGL3(vs)) {
+      final Set<String> extensions =
+        JCGLImplementationLWJGL.getExtensionsGL21_30();
+
       log.debug("Context is GL3, creating OpenGL >= 3.1 interface");
-      this.gl_3 = new JCGLInterfaceGL3_LWJGL_GL3(log, r);
+      this.gl_3 = new JCGLInterfaceGL3_LWJGL_GL3(log, extensions, r);
       this.gl_2 = null;
       this.gl_es2 = null;
       return;
@@ -238,22 +240,6 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
 
     throw new JCGLUnsupportedException(
       "At least OpenGL 2.1 or OpenGL ES2 is required");
-  }
-
-  @Deprecated @Override public @Nonnull Option<JCGLInterfaceGL2> getGL2()
-  {
-    if (this.gl_2 != null) {
-      return new Option.Some<JCGLInterfaceGL2>(this.gl_2);
-    }
-    return new Option.None<JCGLInterfaceGL2>();
-  }
-
-  @Deprecated @Override public @Nonnull Option<JCGLInterfaceGL3> getGL3()
-  {
-    if (this.gl_3 != null) {
-      return new Option.Some<JCGLInterfaceGL3>(this.gl_3);
-    }
-    return new Option.None<JCGLInterfaceGL3>();
   }
 
   @Override public @Nonnull JCGLInterfaceCommon getGLCommon()
@@ -269,19 +255,6 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
     }
 
     throw new UnreachableCodeException();
-  }
-
-  @Deprecated @Override public @Nonnull Option<JCGLInterfaceGLES2> getGLES2()
-  {
-    if (this.gl_es2 != null) {
-      return new Option.Some<JCGLInterfaceGLES2>(this.gl_es2);
-    }
-    return new Option.None<JCGLInterfaceGLES2>();
-  }
-
-  @Deprecated @Override public @Nonnull Option<JCGLInterfaceGLES3> getGLES3()
-  {
-    return new Option.None<JCGLInterfaceGLES3>();
   }
 
   @Override public <A, E extends Throwable> A implementationAccept(

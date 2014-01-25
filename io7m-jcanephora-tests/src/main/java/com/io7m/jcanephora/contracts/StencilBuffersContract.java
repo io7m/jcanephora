@@ -25,9 +25,9 @@ import org.junit.Test;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.FaceSelection;
 import com.io7m.jcanephora.FramebufferReference;
-import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLFramebuffersCommon;
 import com.io7m.jcanephora.JCGLImplementation;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLStencilBuffer;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.StencilFunction;
@@ -50,11 +50,13 @@ public abstract class StencilBuffersContract implements TestContract
   public abstract @Nonnull
     FramebufferReference
     makeFramebufferWithoutStencil(
+      final @Nonnull TestContext tc,
       final @Nonnull JCGLImplementation gi)
       throws ConstraintError,
         JCGLRuntimeException;
 
   public abstract @Nonnull FramebufferReference makeFramebufferWithStencil(
+    final @Nonnull TestContext tc,
     final @Nonnull JCGLImplementation gi)
     throws ConstraintError,
       JCGLRuntimeException;
@@ -69,7 +71,7 @@ public abstract class StencilBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLStencilBuffer gs = this.getGLStencilBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -92,7 +94,8 @@ public abstract class StencilBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLStencilBuffer gs = this.getGLStencilBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithoutStencil(gi);
+    final FramebufferReference fb =
+      this.makeFramebufferWithoutStencil(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -113,7 +116,7 @@ public abstract class StencilBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLStencilBuffer gs = this.getGLStencilBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -137,7 +140,7 @@ public abstract class StencilBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLStencilBuffer gs = this.getGLStencilBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -164,7 +167,7 @@ public abstract class StencilBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLStencilBuffer gs = this.getGLStencilBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -187,7 +190,7 @@ public abstract class StencilBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLStencilBuffer gs = this.getGLStencilBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -208,7 +211,7 @@ public abstract class StencilBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLStencilBuffer gs = this.getGLStencilBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -231,7 +234,7 @@ public abstract class StencilBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLStencilBuffer gs = this.getGLStencilBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -252,7 +255,7 @@ public abstract class StencilBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLStencilBuffer gs = this.getGLStencilBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -283,7 +286,7 @@ public abstract class StencilBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLStencilBuffer gs = this.getGLStencilBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -310,7 +313,7 @@ public abstract class StencilBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLStencilBuffer gs = this.getGLStencilBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -337,7 +340,7 @@ public abstract class StencilBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLStencilBuffer gs = this.getGLStencilBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -364,7 +367,7 @@ public abstract class StencilBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLStencilBuffer gs = this.getGLStencilBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -403,7 +406,8 @@ public abstract class StencilBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLStencilBuffer gs = this.getGLStencilBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithoutStencil(gi);
+    final FramebufferReference fb =
+      this.makeFramebufferWithoutStencil(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -424,7 +428,7 @@ public abstract class StencilBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLStencilBuffer gs = this.getGLStencilBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithStencil(gi);
+    final FramebufferReference fb = this.makeFramebufferWithStencil(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
