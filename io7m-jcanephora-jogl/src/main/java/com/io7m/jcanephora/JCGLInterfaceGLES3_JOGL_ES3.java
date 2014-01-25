@@ -72,13 +72,13 @@ import com.io7m.jtensors.VectorReadable4I;
   JCGLInterfaceGLES3
 {
   private @Nonnull GLES3                      cached_gl;
+  private final @Nonnull Extensions           extensions;
   private final @Nonnull GLContext            gl_context;
   private final @Nonnull Log                  log;
   private final @Nonnull JCGLSoftRestrictions restrictions;
   private final @Nonnull JCGLSLVersion        sl_version;
   private final @Nonnull JCGLStateCache       state;
   private final @Nonnull JCGLVersion          version;
-  private final @Nonnull Extensions           extensions;
 
   JCGLInterfaceGLES3_JOGL_ES3(
     final @Nonnull GLContext context,
@@ -888,6 +888,26 @@ import com.io7m.jtensors.VectorReadable4I;
         ConstraintError
   {
     return Collections.unmodifiableList(this.state.draw_buffers);
+  }
+
+  @Override public boolean hasColourBufferFloat()
+  {
+    try {
+      return this.extensions
+        .extensionIsVisible(JCGLExtensionNames.GL_EXT_COLOR_BUFFER_FLOAT);
+    } catch (final ConstraintError e) {
+      throw new UnreachableCodeException(e);
+    }
+  }
+
+  @Override public boolean hasColourBufferHalfFloat()
+  {
+    try {
+      return this.extensions
+        .extensionIsVisible(JCGLExtensionNames.GL_EXT_COLOR_BUFFER_HALF_FLOAT);
+    } catch (final ConstraintError e) {
+      throw new UnreachableCodeException(e);
+    }
   }
 
   @Override public IndexBuffer indexBufferAllocate(

@@ -39,7 +39,7 @@ class ExtESDepthTexture<G extends GL> implements JCGLExtensionESDepthTexture
       final @Nonnull Log log)
       throws ConstraintError
   {
-    final String names[] = { "GL_OES_depth_texture" };
+    final String names[] = { JCGLExtensionNames.GL_OES_DEPTH_TEXTURE };
 
     for (final String name : names) {
       if (extensions.extensionIsVisible(name)) {

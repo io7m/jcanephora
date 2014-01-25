@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -17,24 +17,24 @@
 package com.io7m.jcanephora;
 
 /**
- * <p>
- * The interface exposed by OpenGL ES3 implementations.
- * </p>
+ * Extensions typically supported by OpenGL ES3 implementations.
  */
 
-public interface JCGLInterfaceGLES3 extends
-  JCGLArrayBuffersMapped,
-  JCGLBlendingGL3,
-  JCGLExtensionsGLES3,
-  JCGLFramebuffersGL3,
-  JCGLIndexBuffersMapped,
-  JCGLInterfaceCommon,
-  JCGLRenderbuffersGLES3,
-  JCGLShadersGLES3,
-  JCGLTextures2DStaticGLES3,
-  JCGLTexturesCubeStaticGLES3
+public interface JCGLExtensionsGLES3
 {
-  /*
-   * All functions defined in the superinterfaces.
+  /**
+   * Returns true if the implementation supports rendering to floating point
+   * textures, provided by
+   * {@link JCGLExtensionNames#GL_EXT_COLOR_BUFFER_FLOAT}.
    */
+
+  public boolean hasColourBufferFloat();
+
+  /**
+   * Returns true if the implementation supports rendering to half-precision
+   * floating point textures, provided by
+   * {@link JCGLExtensionNames#GL_EXT_COLOR_BUFFER_FLOAT}.
+   */
+
+  public boolean hasColourBufferHalfFloat();
 }

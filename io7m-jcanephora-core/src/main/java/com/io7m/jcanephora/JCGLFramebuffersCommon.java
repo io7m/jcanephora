@@ -120,7 +120,8 @@ public interface JCGLFramebuffersCommon
    * only attached color buffer (if any).
    * </p>
    * 
-   * @see TextureTypeMeta#isColourRenderable(TextureType, JCGLVersion)
+   * @see TextureTypeMeta#isColourRenderable2D(TextureType, JCGLVersion,
+   *      JCGLNamedExtensions)
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
@@ -154,7 +155,8 @@ public interface JCGLFramebuffersCommon
    * only attached color buffer (if any).
    * </p>
    * 
-   * @see TextureTypeMeta#isColourRenderable(TextureType, JCGLVersion)
+   * @see TextureTypeMeta#isColourRenderable2D(TextureType, JCGLVersion,
+   *      JCGLNamedExtensions)
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
@@ -218,7 +220,8 @@ public interface JCGLFramebuffersCommon
    * The function will replace any existing depth attachment.
    * </p>
    * 
-   * @see TextureTypeMeta#isDepthRenderable(TextureType)
+   * @see TextureTypeMeta#isDepthRenderable2D(TextureType,
+   *      JCGLNamedExtensions)
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>

@@ -164,7 +164,7 @@ public class TextureTypeTest
         final String name)
         throws ConstraintError
       {
-        if (name.equals("GL_EXT_color_buffer_float")) {
+        if (name.equals(JCGLExtensionNames.GL_EXT_COLOR_BUFFER_FLOAT)) {
           return true;
         }
         return false;

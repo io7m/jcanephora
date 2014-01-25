@@ -394,23 +394,28 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
          * what was missing.
          */
 
-        if (context.isExtensionAvailable("GL_ARB_framebuffer_object") == false) {
+        if (context
+          .isExtensionAvailable(JCGLExtensionNames.GL_ARB_FRAMEBUFFER_OBJECT) == false) {
           throw new JCGLUnsupportedException(
             "Context supports OpenGL 2.1 but does not support the required GL_ARB_framebuffer_object extension");
         }
-        if (context.isExtensionAvailable("GL_EXT_framebuffer_object") == false) {
+        if (context
+          .isExtensionAvailable(JCGLExtensionNames.GL_EXT_FRAMEBUFFER_OBJECT) == false) {
           throw new JCGLUnsupportedException(
             "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_object extension");
         }
-        if (context.isExtensionAvailable("GL_EXT_framebuffer_multisample") == false) {
+        if (context
+          .isExtensionAvailable(JCGLExtensionNames.GL_EXT_FRAMEBUFFER_MULTISAMPLE) == false) {
           throw new JCGLUnsupportedException(
             "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_multisample extension");
         }
-        if (context.isExtensionAvailable("GL_EXT_framebuffer_blit") == false) {
+        if (context
+          .isExtensionAvailable(JCGLExtensionNames.GL_EXT_FRAMEBUFFER_BLIT) == false) {
           throw new JCGLUnsupportedException(
             "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_blit extension");
         }
-        if (context.isExtensionAvailable("GL_EXT_packed_depth_stencil") == false) {
+        if (context
+          .isExtensionAvailable(JCGLExtensionNames.GL_EXT_PACKED_DEPTH_STENCIL) == false) {
           throw new JCGLUnsupportedException(
             "Context supports OpenGL 2.1 but does not support the required GL_EXT_packed_depth_stencil extension");
         }
