@@ -21,6 +21,7 @@ import java.util.EnumSet;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 
+import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
 
 /**
@@ -358,11 +359,12 @@ import com.io7m.jaux.UnreachableCodeException;
     final @Nonnull TextureType type,
     final @Nonnull JCGLVersion version,
     final @Nonnull JCGLNamedExtensions extensions)
+    throws ConstraintError
   {
     switch (version.getAPI()) {
       case JCGL_ES:
         if (version.getVersionMajor() >= 3) {
-          TextureTypeMeta.isColourRenderable2D_ES3(type, extensions);
+          return TextureTypeMeta.isColourRenderable2D_ES3(type, extensions);
         }
         return TextureTypeMeta.isColourRenderable2D_ES2(type, extensions);
       case JCGL_FULL:
@@ -443,6 +445,7 @@ import com.io7m.jaux.UnreachableCodeException;
   private static boolean isColourRenderable2D_ES3(
     final @Nonnull TextureType type,
     final @Nonnull JCGLNamedExtensions extensions)
+    throws ConstraintError
   {
     switch (type) {
       case TEXTURE_TYPE_DEPTH_16_2BPP:
@@ -486,8 +489,16 @@ import com.io7m.jaux.UnreachableCodeException;
       }
 
       case TEXTURE_TYPE_RGBA_16F_8BPP:
-      case TEXTURE_TYPE_RGBA_16_8BPP:
       case TEXTURE_TYPE_RGBA_32F_16BPP:
+      case TEXTURE_TYPE_RG_16F_4BPP:
+      case TEXTURE_TYPE_RG_32F_8BPP:
+      case TEXTURE_TYPE_R_16F_2BPP:
+      case TEXTURE_TYPE_R_32F_4BPP:
+      {
+        return extensions.extensionIsVisible("GL_EXT_color_buffer_float");
+      }
+
+      case TEXTURE_TYPE_RGBA_16_8BPP:
 
       case TEXTURE_TYPE_RGB_16F_6BPP:
       case TEXTURE_TYPE_RGB_16_6BPP:
@@ -499,13 +510,10 @@ import com.io7m.jaux.UnreachableCodeException;
       case TEXTURE_TYPE_RGB_8I_3BPP:
       case TEXTURE_TYPE_RGB_8U_3BPP:
 
-      case TEXTURE_TYPE_RG_16F_4BPP:
       case TEXTURE_TYPE_RG_16_4BPP:
-      case TEXTURE_TYPE_RG_32F_8BPP:
 
-      case TEXTURE_TYPE_R_16F_2BPP:
       case TEXTURE_TYPE_R_16_2BPP:
-      case TEXTURE_TYPE_R_32F_4BPP:
+
       {
         return false;
       }
