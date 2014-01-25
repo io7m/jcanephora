@@ -20,7 +20,6 @@ import javax.annotation.Nonnull;
 import org.junit.Assert;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.DepthBuffersContract;
 
 public final class JOGLES3DepthBuffersTest extends DepthBuffersContract
@@ -28,17 +27,13 @@ public final class JOGLES3DepthBuffersTest extends DepthBuffersContract
   @Override public @Nonnull JCGLDepthBuffer getGLDepthBuffer(
     @Nonnull final TestContext tc)
   {
-    final Some<JCGLInterfaceGLES3> some =
-      (Some<JCGLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
-    return some.value;
+    return JOGLTestContextUtilities.getGLES3(tc);
   }
 
   @Override public @Nonnull JCGLFramebuffersCommon getGLFramebuffers(
     @Nonnull final TestContext tc)
   {
-    final Some<JCGLInterfaceGLES3> some =
-      (Some<JCGLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
-    return some.value;
+    return JOGLTestContextUtilities.getGLES3(tc);
   }
 
   @Override public boolean isGLSupported()
@@ -47,13 +42,12 @@ public final class JOGLES3DepthBuffersTest extends DepthBuffersContract
   }
 
   @Override public @Nonnull FramebufferReference makeFramebufferWithDepth(
+    @Nonnull final TestContext tc,
     @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
       JCGLRuntimeException
   {
-    final Some<JCGLInterfaceGLES3> some =
-      (Some<JCGLInterfaceGLES3>) gi.getGLES3();
-    final JCGLInterfaceGLES3 g = some.value;
+    final JCGLInterfaceGLES3 g = JOGLTestContextUtilities.getGLES3(tc);
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
     final FramebufferReference fb = g.framebufferAllocate();
@@ -90,13 +84,12 @@ public final class JOGLES3DepthBuffersTest extends DepthBuffersContract
   }
 
   @Override public @Nonnull FramebufferReference makeFramebufferWithoutDepth(
+    @Nonnull final TestContext tc,
     @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
       JCGLRuntimeException
   {
-    final Some<JCGLInterfaceGLES3> some =
-      (Some<JCGLInterfaceGLES3>) gi.getGLES3();
-    final JCGLInterfaceGLES3 g = some.value;
+    final JCGLInterfaceGLES3 g = JOGLTestContextUtilities.getGLES3(tc);
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
     final FramebufferReference fb = g.framebufferAllocate();

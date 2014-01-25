@@ -35,8 +35,15 @@ import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.JCGLCompileException;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLImplementation;
+import com.io7m.jcanephora.JCGLImplementationVisitor;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
+import com.io7m.jcanephora.JCGLInterfaceGL2;
+import com.io7m.jcanephora.JCGLInterfaceGL3;
+import com.io7m.jcanephora.JCGLInterfaceGLES2;
+import com.io7m.jcanephora.JCGLInterfaceGLES3;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.Primitives;
 import com.io7m.jcanephora.ProgramAttribute;
@@ -72,7 +79,7 @@ public final class ExampleTexturedQuad implements Example
   private final ArrayBufferWritableData   array_data;
   private final ArrayBufferTypeDescriptor array_type;
   private final ExampleConfig             config;
-  private final JCGLInterfaceCommon       gl;
+  private final JCGLInterfaceCommon       glc;
   private boolean                         has_shut_down;
   private final IndexBuffer               indices;
   private final IndexBufferWritableData   indices_data;
@@ -82,19 +89,20 @@ public final class ExampleTexturedQuad implements Example
   private final Texture2DStatic           texture;
   private final List<TextureUnit>         texture_units;
   private final Texture2DWritableData     texture_update;
+  private final JCGLImplementation        gl;
 
   public ExampleTexturedQuad(
     final @Nonnull ExampleConfig config)
     throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLCompileException,
+      JCGLException,
       IOException,
       FilesystemError
   {
     this.config = config;
     this.matrix_modelview = new MatrixM4x4F();
     this.matrix_projection = new MatrixM4x4F();
-    this.gl = this.config.getGL().getGLCommon();
+    this.gl = this.config.getGL();
+    this.glc = this.gl.getGLCommon();
 
     /**
      * Initialize shaders.
@@ -102,37 +110,95 @@ public final class ExampleTexturedQuad implements Example
 
     {
       final VertexShader v =
-        this.gl.vertexShaderCompile(
+        this.glc.vertexShaderCompile(
           "v",
           ShaderUtilities.readLines(config.getFilesystem().openFile(
             PathVirtual.ofString("/com/io7m/jcanephora/examples/uv.v"))));
       final FragmentShader f =
-        this.gl.fragmentShaderCompile(
+        this.glc.fragmentShaderCompile(
           "f",
           ShaderUtilities.readLines(config.getFilesystem().openFile(
             PathVirtual.ofString("/com/io7m/jcanephora/examples/uv.f"))));
-      this.program = this.gl.programCreateCommon("color", v, f);
+      this.program = this.glc.programCreateCommon("color", v, f);
     }
 
     /**
      * Obtain access to the available texture units.
      */
 
-    this.texture_units = this.gl.textureGetUnits();
+    this.texture_units = this.glc.textureGetUnits();
 
     /**
      * Allocate a texture.
      */
 
     this.texture =
-      this.gl.texture2DStaticAllocateRGB8(
-        "gradient",
-        64,
-        64,
-        TextureWrapS.TEXTURE_WRAP_REPEAT,
-        TextureWrapT.TEXTURE_WRAP_REPEAT,
-        TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-        TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+      this.gl
+        .implementationAccept(new JCGLImplementationVisitor<Texture2DStatic, JCGLException>() {
+          @Override public Texture2DStatic implementationIsGLES2(
+            final JCGLInterfaceGLES2 gles2)
+            throws JCGLException,
+              ConstraintError,
+              JCGLException
+          {
+            return gles2.texture2DStaticAllocateRGB565(
+              "gradient",
+              64,
+              64,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          }
+
+          @Override public Texture2DStatic implementationIsGLES3(
+            final JCGLInterfaceGLES3 gles3)
+            throws JCGLException,
+              ConstraintError,
+              JCGLException
+          {
+            return gles3.texture2DStaticAllocateRGB8(
+              "gradient",
+              64,
+              64,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          }
+
+          @Override public Texture2DStatic implementationIsGL2(
+            final JCGLInterfaceGL2 gl2)
+            throws JCGLException,
+              ConstraintError,
+              JCGLException
+          {
+            return gl2.texture2DStaticAllocateRGB8(
+              "gradient",
+              64,
+              64,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          }
+
+          @Override public Texture2DStatic implementationIsGL3(
+            final JCGLInterfaceGL3 gl3)
+            throws JCGLException,
+              ConstraintError,
+              JCGLException
+          {
+            return gl3.texture2DStaticAllocateRGB8(
+              "gradient",
+              64,
+              64,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          }
+        });
 
     /**
      * Allocate texture data and populate it using the cursor interface.
@@ -154,7 +220,7 @@ public final class ExampleTexturedQuad implements Example
         tx_cursor.put3f(colour);
       }
 
-      this.gl.texture2DStaticUpdate(this.texture_update);
+      this.glc.texture2DStaticUpdate(this.texture_update);
     }
 
     /**
@@ -181,7 +247,7 @@ public final class ExampleTexturedQuad implements Example
 
     this.array_type = new ArrayBufferTypeDescriptor(abs);
     this.array =
-      this.gl.arrayBufferAllocate(
+      this.glc.arrayBufferAllocate(
         4,
         this.array_type,
         UsageHint.USAGE_STATIC_DRAW);
@@ -218,14 +284,14 @@ public final class ExampleTexturedQuad implements Example
      * Upload the array data.
      */
 
-    this.gl.arrayBufferBind(this.array);
-    this.gl.arrayBufferUpdate(this.array_data);
+    this.glc.arrayBufferBind(this.array);
+    this.glc.arrayBufferUpdate(this.array_data);
 
     /**
      * Allocate and initialize an index buffer sufficient for two triangles.
      */
 
-    this.indices = this.gl.indexBufferAllocate(this.array, 6);
+    this.indices = this.glc.indexBufferAllocate(this.array, 6);
     this.indices_data = new IndexBufferWritableData(this.indices);
 
     {
@@ -239,7 +305,7 @@ public final class ExampleTexturedQuad implements Example
       ind_cursor.putIndex(3);
     }
 
-    this.gl.indexBufferUpdate(this.indices_data);
+    this.glc.indexBufferUpdate(this.indices_data);
   }
 
   @Override public void display()
@@ -247,7 +313,7 @@ public final class ExampleTexturedQuad implements Example
       JCGLCompileException,
       ConstraintError
   {
-    this.gl.colorBufferClear3f(0.2f, 0.15f, 0.15f);
+    this.glc.colorBufferClear3f(0.2f, 0.15f, 0.15f);
 
     /**
      * Initialize the projection matrix to an orthographic projection.
@@ -279,7 +345,7 @@ public final class ExampleTexturedQuad implements Example
      * inputs to the shader.
      */
 
-    this.gl.programActivate(this.program);
+    this.glc.programActivate(this.program);
     {
       /**
        * Get references to the program's uniform variable inputs.
@@ -296,16 +362,16 @@ public final class ExampleTexturedQuad implements Example
        * Upload the matrices to the uniform variable inputs.
        */
 
-      this.gl.programUniformPutMatrix4x4f(u_proj, this.matrix_projection);
-      this.gl.programUniformPutMatrix4x4f(u_model, this.matrix_modelview);
+      this.glc.programUniformPutMatrix4x4f(u_proj, this.matrix_projection);
+      this.glc.programUniformPutMatrix4x4f(u_model, this.matrix_modelview);
 
       /**
        * Bind the texture to the first available texture unit, then upload the
        * texture unit reference to the shader.
        */
 
-      this.gl.texture2DStaticBind(this.texture_units.get(0), this.texture);
-      this.gl.programUniformPutTextureUnit(
+      this.glc.texture2DStaticBind(this.texture_units.get(0), this.texture);
+      this.glc.programUniformPutTextureUnit(
         u_texture,
         this.texture_units.get(0));
 
@@ -330,20 +396,20 @@ public final class ExampleTexturedQuad implements Example
        * with array vertex attributes.
        */
 
-      this.gl.arrayBufferBind(this.array);
-      this.gl.programAttributeArrayAssociate(p_uv, b_uv);
-      this.gl.programAttributeArrayAssociate(p_pos, b_pos);
+      this.glc.arrayBufferBind(this.array);
+      this.glc.programAttributeArrayAssociate(p_uv, b_uv);
+      this.glc.programAttributeArrayAssociate(p_pos, b_pos);
 
       /**
        * Draw primitives, using the array buffer and the given index buffer.
        */
 
-      this.gl.drawElements(Primitives.PRIMITIVE_TRIANGLES, this.indices);
-      this.gl.programAttributeArrayDisassociate(p_pos);
-      this.gl.programAttributeArrayDisassociate(p_uv);
-      this.gl.arrayBufferUnbind();
+      this.glc.drawElements(Primitives.PRIMITIVE_TRIANGLES, this.indices);
+      this.glc.programAttributeArrayDisassociate(p_pos);
+      this.glc.programAttributeArrayDisassociate(p_uv);
+      this.glc.arrayBufferUnbind();
     }
-    this.gl.programDeactivate();
+    this.glc.programDeactivate();
   }
 
   @Override public boolean hasShutDown()
@@ -367,7 +433,7 @@ public final class ExampleTexturedQuad implements Example
       1,
       100);
 
-    this.gl.viewportSet(position, size);
+    this.glc.viewportSet(position, size);
   }
 
   @Override public void shutdown()
@@ -376,8 +442,8 @@ public final class ExampleTexturedQuad implements Example
       JCGLCompileException
   {
     this.has_shut_down = true;
-    this.gl.arrayBufferDelete(this.array);
-    this.gl.indexBufferDelete(this.indices);
-    this.gl.programDelete(this.program);
+    this.glc.arrayBufferDelete(this.array);
+    this.glc.indexBufferDelete(this.indices);
+    this.glc.programDelete(this.program);
   }
 }

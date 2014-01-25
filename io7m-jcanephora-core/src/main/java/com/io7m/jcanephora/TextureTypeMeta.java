@@ -30,49 +30,16 @@ import com.io7m.jaux.UnreachableCodeException;
 @Immutable public final class TextureTypeMeta
 {
   /**
-   * Retrieve the set of 2D texture types guaranteed to be available on the
-   * common subset of OpenGL 3.*, ES2, ES3, 2.1...
-   */
-
-  public static @Nonnull
-    EnumSet<TextureType>
-    getTextures2DRequiredByCommonSubset()
-  {
-    final EnumSet<TextureType> es3 =
-      TextureTypeMeta.getTextures2DRequiredByGLES3();
-    final EnumSet<TextureType> gl3 =
-      TextureTypeMeta.getTextures2DRequiredByGL3();
-    final EnumSet<TextureType> es2 =
-      TextureTypeMeta.getTextures2DRequiredByGLES2();
-
-    final EnumSet<TextureType> common = EnumSet.noneOf(TextureType.class);
-    for (final TextureType t : TextureType.values()) {
-      if (es3.contains(t)) {
-        if (gl3.contains(t)) {
-          if (es2.contains(t)) {
-            common.add(t);
-          }
-        }
-      }
-    }
-
-    /**
-     * Explicitly remove DEPTH_16, as it's known to be unavailable on various
-     * 2.1 implementations.
-     */
-
-    common.remove(TextureType.TEXTURE_TYPE_DEPTH_16_2BPP);
-    return common;
-  }
-
-  /**
    * Retrieve the set of 2D texture types guaranteed to be available on OpenGL
    * 2.1 contexts.
    */
 
   public static @Nonnull EnumSet<TextureType> getTextures2DRequiredByGL21()
   {
-    return TextureTypeMeta.getTextures2DRequiredByCommonSubset();
+    final EnumSet<TextureType> s = EnumSet.noneOf(TextureType.class);
+    s.add(TextureType.TEXTURE_TYPE_RGBA_8_4BPP);
+    s.add(TextureType.TEXTURE_TYPE_RGB_8_3BPP);
+    return s;
   }
 
   /**
@@ -202,13 +169,6 @@ import com.io7m.jaux.UnreachableCodeException;
     s.add(TextureType.TEXTURE_TYPE_RGBA_4444_2BPP);
     s.add(TextureType.TEXTURE_TYPE_RGBA_5551_2BPP);
     s.add(TextureType.TEXTURE_TYPE_RGB_565_2BPP);
-
-    /**
-     * Not explicitly required by ES2, but in practice, available everywhere.
-     */
-
-    s.add(TextureType.TEXTURE_TYPE_RGB_8_3BPP);
-    s.add(TextureType.TEXTURE_TYPE_RGBA_8_4BPP);
     return s;
   }
 
@@ -301,18 +261,6 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   /**
-   * Retrieve the set of cube textures guaranteed to be available on the
-   * common subset of OpenGL 3.*, ES2, ES3, 2.1...
-   */
-
-  public static @Nonnull
-    EnumSet<TextureType>
-    getTexturesCubeRequiredByCommonSubset()
-  {
-    return TextureTypeMeta.getTextures2DRequiredByCommonSubset();
-  }
-
-  /**
    * Retrieve the set of cube texture types guaranteed to be available on
    * OpenGL 2.1 contexts.
    */
@@ -401,29 +349,32 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   /**
-   * Return <code>true</code> iff the given texture type is colour-renderable
-   * on the given version of OpenGL.
+   * Return <code>true</code> iff the given 2D texture type is
+   * colour-renderable on the given version of OpenGL assuming
+   * <code>extensions</code>.
    */
 
-  public static boolean isColourRenderable(
+  public static boolean isColourRenderable2D(
     final @Nonnull TextureType type,
-    final @Nonnull JCGLVersion version)
+    final @Nonnull JCGLVersion version,
+    final @Nonnull JCGLNamedExtensions extensions)
   {
     switch (version.getAPI()) {
       case JCGL_ES:
         if (version.getVersionMajor() >= 3) {
-          TextureTypeMeta.isColourRenderableES3(type);
+          TextureTypeMeta.isColourRenderable2D_ES3(type, extensions);
         }
-        return TextureTypeMeta.isColourRenderableES2(type);
+        return TextureTypeMeta.isColourRenderable2D_ES2(type, extensions);
       case JCGL_FULL:
-        return TextureTypeMeta.isColourRenderableGL3(type);
+        return TextureTypeMeta.isColourRenderable2D_GL3(type, extensions);
     }
 
     throw new UnreachableCodeException();
   }
 
-  private static boolean isColourRenderableES2(
-    final @Nonnull TextureType type)
+  private static boolean isColourRenderable2D_ES2(
+    final @Nonnull TextureType type,
+    final @Nonnull JCGLNamedExtensions extensions)
   {
     switch (type) {
       case TEXTURE_TYPE_RGB_8_3BPP:
@@ -487,12 +438,11 @@ import com.io7m.jaux.UnreachableCodeException;
 
   /**
    * See OpenGL ES 3.0 specification, page 126 "Required texture formats".
-   * 
-   * @param type
    */
 
-  private static boolean isColourRenderableES3(
-    final @Nonnull TextureType type)
+  private static boolean isColourRenderable2D_ES3(
+    final @Nonnull TextureType type,
+    final @Nonnull JCGLNamedExtensions extensions)
   {
     switch (type) {
       case TEXTURE_TYPE_DEPTH_16_2BPP:
@@ -568,8 +518,9 @@ import com.io7m.jaux.UnreachableCodeException;
    * See the OpenGL 3.1 standard, page 119 "Required texture formats".
    */
 
-  private static boolean isColourRenderableGL3(
-    final TextureType type)
+  private static boolean isColourRenderable2D_GL3(
+    final @Nonnull TextureType type,
+    final @Nonnull JCGLNamedExtensions extensions)
   {
     switch (type) {
       case TEXTURE_TYPE_RGBA_32I_16BPP:
@@ -642,11 +593,13 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   /**
-   * Return <code>true</code> iff the given texture type is depth-renderable.
+   * Return <code>true</code> iff the given 2D texture type is
+   * depth-renderable.
    */
 
-  public static boolean isDepthRenderable(
-    final @Nonnull TextureType type)
+  public static boolean isDepthRenderable2D(
+    final @Nonnull TextureType type,
+    final @Nonnull JCGLNamedExtensions extensions)
   {
     switch (type) {
       case TEXTURE_TYPE_DEPTH_16_2BPP:

@@ -13,6 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
@@ -20,7 +21,6 @@ import javax.annotation.Nonnull;
 import org.junit.Assert;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.StencilBuffersContract;
 
 public final class JOGL21StencilBuffersTest extends StencilBuffersContract
@@ -28,17 +28,13 @@ public final class JOGL21StencilBuffersTest extends StencilBuffersContract
   @Override public JCGLFramebuffersCommon getGLFramebuffers(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGL2> some =
-      (Some<JCGLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public JCGLStencilBuffer getGLStencilBuffer(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGL2> some =
-      (Some<JCGLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public boolean isGLSupported()
@@ -49,12 +45,12 @@ public final class JOGL21StencilBuffersTest extends StencilBuffersContract
   @Override public @Nonnull
     FramebufferReference
     makeFramebufferWithoutStencil(
-      @Nonnull final JCGLImplementation gi)
+      final @Nonnull TestContext tc,
+      final @Nonnull JCGLImplementation gi)
       throws ConstraintError,
         JCGLRuntimeException
   {
-    final Some<JCGLInterfaceGL2> some = (Some<JCGLInterfaceGL2>) gi.getGL2();
-    final JCGLInterfaceGL2 g = some.value;
+    final JCGLInterfaceGL2 g = JOGLTestContextUtilities.getGL2(tc);
 
     final FramebufferReference fb = g.framebufferAllocate();
     final Renderbuffer<RenderableColor> cb =
@@ -73,12 +69,12 @@ public final class JOGL21StencilBuffersTest extends StencilBuffersContract
   }
 
   @Override public @Nonnull FramebufferReference makeFramebufferWithStencil(
+    final @Nonnull TestContext tc,
     @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
       JCGLRuntimeException
   {
-    final Some<JCGLInterfaceGL2> some = (Some<JCGLInterfaceGL2>) gi.getGL2();
-    final JCGLInterfaceGL2 g = some.value;
+    final JCGLInterfaceGL2 g = JOGLTestContextUtilities.getGL2(tc);
 
     final FramebufferReference fb = g.framebufferAllocate();
     final Renderbuffer<RenderableDepthStencil> db =

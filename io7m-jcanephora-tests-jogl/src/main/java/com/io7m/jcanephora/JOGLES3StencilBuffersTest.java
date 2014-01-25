@@ -20,7 +20,6 @@ import javax.annotation.Nonnull;
 import org.junit.Assert;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.StencilBuffersContract;
 
 public final class JOGLES3StencilBuffersTest extends StencilBuffersContract
@@ -28,17 +27,13 @@ public final class JOGLES3StencilBuffersTest extends StencilBuffersContract
   @Override public JCGLFramebuffersCommon getGLFramebuffers(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGLES3> some =
-      (Some<JCGLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
-    return some.value;
+    return JOGLTestContextUtilities.getGLES3(tc);
   }
 
   @Override public JCGLStencilBuffer getGLStencilBuffer(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGLES3> some =
-      (Some<JCGLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
-    return some.value;
+    return JOGLTestContextUtilities.getGLES3(tc);
   }
 
   @Override public boolean isGLSupported()
@@ -49,13 +44,12 @@ public final class JOGLES3StencilBuffersTest extends StencilBuffersContract
   @Override public @Nonnull
     FramebufferReference
     makeFramebufferWithoutStencil(
+      final TestContext tc,
       @Nonnull final JCGLImplementation gi)
       throws ConstraintError,
         JCGLRuntimeException
   {
-    final Some<JCGLInterfaceGLES3> some =
-      (Some<JCGLInterfaceGLES3>) gi.getGLES3();
-    final JCGLInterfaceGLES3 g = some.value;
+    final JCGLInterfaceGLES3 g = JOGLTestContextUtilities.getGLES3(tc);
 
     final FramebufferReference fb = g.framebufferAllocate();
     final Renderbuffer<RenderableColor> cb =
@@ -74,13 +68,12 @@ public final class JOGLES3StencilBuffersTest extends StencilBuffersContract
   }
 
   @Override public @Nonnull FramebufferReference makeFramebufferWithStencil(
+    final TestContext tc,
     @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
       JCGLRuntimeException
   {
-    final Some<JCGLInterfaceGLES3> some =
-      (Some<JCGLInterfaceGLES3>) gi.getGLES3();
-    final JCGLInterfaceGLES3 g = some.value;
+    final JCGLInterfaceGLES3 g = JOGLTestContextUtilities.getGLES3(tc);
 
     final FramebufferReference fb = g.framebufferAllocate();
     final Renderbuffer<RenderableDepthStencil> db =

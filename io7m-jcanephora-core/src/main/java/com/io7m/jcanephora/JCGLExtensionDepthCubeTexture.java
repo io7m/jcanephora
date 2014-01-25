@@ -30,7 +30,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * </p>
  */
 
-public interface JCGLExtensionDepthCubeTexture
+public interface JCGLExtensionDepthCubeTexture extends JCGLExtension
 {
   /**
    * <p>

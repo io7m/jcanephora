@@ -31,7 +31,7 @@ import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLTextureUnits;
 import com.io7m.jcanephora.JCGLTexturesCubeStaticCommon;
 import com.io7m.jcanephora.JCGLUnsupportedException;
-import com.io7m.jcanephora.SpatialCursorWritable3i;
+import com.io7m.jcanephora.SpatialCursorWritable4i;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.TextureCubeStatic;
 import com.io7m.jcanephora.TextureCubeWritableData;
@@ -41,7 +41,7 @@ import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
-import com.io7m.jtensors.VectorI3I;
+import com.io7m.jtensors.VectorI4I;
 
 public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStaticCommon> implements
   TestContract
@@ -50,6 +50,18 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
   {
     Assume.assumeTrue(this.isGLSupported());
   }
+
+  public abstract @Nonnull TextureCubeStatic allocateTextureRGBA(
+    final @Nonnull T t,
+    final @Nonnull String name,
+    final int size,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification filter_min,
+    final @Nonnull TextureFilterMagnification filter_mag)
+    throws JCGLRuntimeException,
+      ConstraintError;
 
   public abstract T getGLTextureCubeStatic(
     final @Nonnull TestContext tc);
@@ -93,7 +105,8 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
 
     final List<TextureUnit> units = gu.textureGetUnits();
     final TextureCubeStatic t =
-      gl.textureCubeStaticAllocateRGBA8(
+      this.allocateTextureRGBA(
+        gl,
         "texture",
         64,
         TextureWrapR.TEXTURE_WRAP_REPEAT,
@@ -129,7 +142,8 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
 
     final List<TextureUnit> units = gu.textureGetUnits();
     final TextureCubeStatic t =
-      gl.textureCubeStaticAllocateRGBA8(
+      this.allocateTextureRGBA(
+        gl,
         "texture",
         64,
         TextureWrapR.TEXTURE_WRAP_REPEAT,
@@ -201,7 +215,8 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
     final T gl = this.getGLTextureCubeStatic(tc);
 
     final TextureCubeStatic t =
-      gl.textureCubeStaticAllocateRGBA8(
+      this.allocateTextureRGBA(
+        gl,
         "texture",
         64,
         TextureWrapR.TEXTURE_WRAP_REPEAT,
@@ -233,7 +248,8 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
     final T gl = this.getGLTextureCubeStatic(tc);
 
     final TextureCubeStatic t =
-      gl.textureCubeStaticAllocateRGBA8(
+      this.allocateTextureRGBA(
+        gl,
         "texture",
         64,
         TextureWrapR.TEXTURE_WRAP_REPEAT,
@@ -268,7 +284,8 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
 
     final List<TextureUnit> units = gu.textureGetUnits();
     final TextureCubeStatic t =
-      gl.textureCubeStaticAllocateRGBA8(
+      this.allocateTextureRGBA(
+        gl,
         "texture",
         64,
         TextureWrapR.TEXTURE_WRAP_REPEAT,
@@ -319,7 +336,8 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
     final TestContext tc = this.newTestContext();
     final T gl = this.getGLTextureCubeStatic(tc);
 
-    gl.textureCubeStaticAllocateRGBA8(
+    this.allocateTextureRGBA(
+      gl,
       "texture",
       64,
       TextureWrapR.TEXTURE_WRAP_REPEAT,
@@ -346,7 +364,8 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
     final TestContext tc = this.newTestContext();
     final T gl = this.getGLTextureCubeStatic(tc);
 
-    gl.textureCubeStaticAllocateRGBA8(
+    this.allocateTextureRGBA(
+      gl,
       "texture",
       64,
       TextureWrapR.TEXTURE_WRAP_REPEAT,
@@ -373,7 +392,8 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
     final TestContext tc = this.newTestContext();
     final T gl = this.getGLTextureCubeStatic(tc);
 
-    gl.textureCubeStaticAllocateRGBA8(
+    this.allocateTextureRGBA(
+      gl,
       null,
       64,
       TextureWrapR.TEXTURE_WRAP_REPEAT,
@@ -400,7 +420,8 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
     final TestContext tc = this.newTestContext();
     final T gl = this.getGLTextureCubeStatic(tc);
 
-    gl.textureCubeStaticAllocateRGBA8(
+    this.allocateTextureRGBA(
+      gl,
       "texture",
       64,
       null,
@@ -427,7 +448,8 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
     final TestContext tc = this.newTestContext();
     final T gl = this.getGLTextureCubeStatic(tc);
 
-    gl.textureCubeStaticAllocateRGBA8(
+    this.allocateTextureRGBA(
+      gl,
       "texture",
       64,
       TextureWrapR.TEXTURE_WRAP_REPEAT,
@@ -454,7 +476,8 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
     final TestContext tc = this.newTestContext();
     final T gl = this.getGLTextureCubeStatic(tc);
 
-    gl.textureCubeStaticAllocateRGBA8(
+    this.allocateTextureRGBA(
+      gl,
       "texture",
       64,
       TextureWrapR.TEXTURE_WRAP_REPEAT,
@@ -498,7 +521,8 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
     final T gl = this.getGLTextureCubeStatic(tc);
 
     final TextureCubeStatic t =
-      gl.textureCubeStaticAllocateRGB8(
+      this.allocateTextureRGBA(
+        gl,
         "xyz",
         64,
         TextureWrapR.TEXTURE_WRAP_REPEAT,
@@ -508,12 +532,12 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
         TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
     final TextureCubeWritableData update = new TextureCubeWritableData(t);
-    final SpatialCursorWritable3i cursor = update.getCursor3i();
+    final SpatialCursorWritable4i cursor = update.getCursor4i();
 
     Assert.assertTrue(cursor.isValid());
 
     while (cursor.isValid()) {
-      cursor.put3i(new VectorI3I(0x0, 0x0, 0xff));
+      cursor.put4i(new VectorI4I(0x0, 0x0, 0xff, 0xff));
 
     }
 
@@ -539,7 +563,8 @@ public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStatic
     final T gl = this.getGLTextureCubeStatic(tc);
 
     final TextureCubeStatic t =
-      gl.textureCubeStaticAllocateRGB8(
+      this.allocateTextureRGBA(
+        gl,
         "xyz",
         64,
         TextureWrapR.TEXTURE_WRAP_REPEAT,

@@ -19,26 +19,43 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.gles3.Texture2DStaticGLES3Contract;
 
 public final class JOGLES3Texture2DStaticGLES3Test extends
   Texture2DStaticGLES3Contract
 {
+  @Override public Texture2DStatic allocateTextureRGBA(
+    final JCGLTextures2DStaticGLES3 t,
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification filter_min,
+    final TextureFilterMagnification filter_mag)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    return t.texture2DStaticAllocateRGBA8(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      filter_min,
+      filter_mag);
+  }
+
   @Override public JCGLTextures2DStaticGLES3 getGLTexture2DStatic(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGLES3> some =
-      (Some<JCGLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
-    return some.value;
+    return JOGLTestContextUtilities.getGLES3(tc);
   }
 
   @Override public JCGLTextureUnits getGLTextureUnits(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGLES3> some =
-      (Some<JCGLInterfaceGLES3>) tc.getGLImplementation().getGLES3();
-    return some.value;
+    return JOGLTestContextUtilities.getGLES3(tc);
   }
 
   @Override public boolean isGLSupported()

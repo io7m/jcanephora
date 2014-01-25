@@ -35,7 +35,6 @@ import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jaux.functional.Option;
-import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
@@ -125,62 +124,7 @@ import com.io7m.jtensors.VectorReadable4I;
     assert this.cached_gl != null;
     final GL2ES2 g = this.contextGetGLES2();
 
-    this.extensions = new JCGLNamedExtensions() {
-      private final StringBuilder message = new StringBuilder();
-
-      @Override public boolean extensionIsSupported(
-        final @Nonnull String name)
-        throws ConstraintError
-      {
-        Constraints.constrainNotNull(name, "Name");
-        return context.isExtensionAvailable(name);
-      }
-
-      @SuppressWarnings("synthetic-access") @Override public
-        boolean
-        extensionIsVisible(
-          final @Nonnull String name)
-          throws ConstraintError
-      {
-        final boolean supported = this.extensionIsSupported(name);
-
-        if (supported) {
-          if (log.enabled(Level.LOG_DEBUG)) {
-            this.message.setLength(0);
-            this.message.append("Extension ");
-            this.message.append(name);
-            this.message.append(" is supported");
-            log.debug(this.message.toString());
-          }
-
-          final boolean visible =
-            JCGLInterfaceGLES2_JOGL_ES2.this.restrictions
-              .restrictExtensionVisibility(name);
-
-          if (!visible) {
-            if (log.enabled(Level.LOG_DEBUG)) {
-              this.message.setLength(0);
-              this.message.append("Extension ");
-              this.message.append(name);
-              this.message.append(" is hidden by soft restrictions");
-              log.debug(this.message.toString());
-            }
-          }
-
-          return visible;
-        }
-
-        if (log.enabled(Level.LOG_DEBUG)) {
-          this.message.setLength(0);
-          this.message.append("Extension ");
-          this.message.append(name);
-          this.message.append(" is not supported");
-          log.debug(this.message.toString());
-        }
-
-        return supported;
-      }
-    };
+    this.extensions = new Extensions(context, restrictions, log);
 
     /**
      * Initialize extensions.
@@ -674,7 +618,8 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       this.version,
       framebuffer,
-      texture);
+      texture,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachColorTextureCube(
@@ -691,7 +636,8 @@ import com.io7m.jtensors.VectorReadable4I;
       this.version,
       framebuffer,
       texture,
-      face);
+      face,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachDepthRenderbuffer(
@@ -719,7 +665,8 @@ import com.io7m.jtensors.VectorReadable4I;
       this.state,
       this.log,
       framebuffer,
-      texture);
+      texture,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachStencilRenderbuffer(
@@ -1386,31 +1333,6 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB8(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLRuntimeException
-  {
-    return JOGL_GLES2_Functions.texture2DStaticAllocate(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureType.TEXTURE_TYPE_RGB_8_3BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
   @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA4444(
     final @Nonnull String name,
     final int width,
@@ -1455,31 +1377,6 @@ import com.io7m.jtensors.VectorReadable4I;
       width,
       height,
       TextureType.TEXTURE_TYPE_RGBA_5551_2BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA8(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLRuntimeException
-  {
-    return JOGL_GLES2_Functions.texture2DStaticAllocate(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
@@ -1566,31 +1463,6 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB8(
-    final @Nonnull String name,
-    final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLRuntimeException
-  {
-    return JOGL_GLES2_Functions.textureCubeStaticAllocate(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureType.TEXTURE_TYPE_RGB_8_3BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
   @Override public @Nonnull
     TextureCubeStatic
     textureCubeStaticAllocateRGBA4444(
@@ -1638,31 +1510,6 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       size,
       TextureType.TEXTURE_TYPE_RGBA_5551_2BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGBA8(
-    final @Nonnull String name,
-    final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLRuntimeException
-  {
-    return JOGL_GLES2_Functions.textureCubeStaticAllocate(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,

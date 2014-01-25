@@ -25,12 +25,6 @@ import com.io7m.jcanephora.contracts.common.TextureLoaderContractCommon;
 public final class JOGL21TextureLoaderImageIOCommonTest extends
   TextureLoaderContractCommon<TextureLoaderImageIO>
 {
-  @Override public @Nonnull JCGLTextures2DStaticCommon getGLTextures(
-    final @Nonnull TestContext tc)
-  {
-    return tc.getGLImplementation().getGLCommon();
-  }
-
   @Override public boolean isGLSupported()
   {
     return JOGLTestContext.isOpenGL21WithExtensionsSupported();
@@ -53,5 +47,17 @@ public final class JOGL21TextureLoaderImageIOCommonTest extends
       ConstraintError
   {
     return JOGLTestContext.makeContextWithOpenGL2_1();
+  }
+
+  @Override public JCGLTextures2DStaticCommon getGLTextures2D(
+    final TestContext tc)
+  {
+    return tc.getGLImplementation().getGLCommon();
+  }
+
+  @Override public JCGLTexturesCubeStaticCommon getGLTexturesCube(
+    final TestContext tc)
+  {
+    return tc.getGLImplementation().getGLCommon();
   }
 }

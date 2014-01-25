@@ -18,7 +18,6 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.ArrayBufferMapContract;
 
 public final class LWJGL30ArrayBufferMapTest extends ArrayBufferMapContract
@@ -26,25 +25,19 @@ public final class LWJGL30ArrayBufferMapTest extends ArrayBufferMapContract
   @Override public JCGLArrayBuffers getGLArrayBuffers(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGL3> some =
-      (Some<JCGLInterfaceGL3>) tc.getGLImplementation().getGL3();
-    return some.value;
+    return LWJGLTestContextUtilities.getGL3(tc);
   }
 
   @Override public JCGLArrayBuffersMapped getGLArrayBuffersMapped(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGL3> some =
-      (Some<JCGLInterfaceGL3>) tc.getGLImplementation().getGL3();
-    return some.value;
+    return LWJGLTestContextUtilities.getGL3(tc);
   }
 
   @Override public JCGLErrorCodes getGLErrorCodes(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGL3> some =
-      (Some<JCGLInterfaceGL3>) tc.getGLImplementation().getGL3();
-    return some.value;
+    return LWJGLTestContextUtilities.getGL3(tc);
   }
 
   @Override public boolean isGLSupported()

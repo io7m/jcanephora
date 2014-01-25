@@ -19,7 +19,6 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.gl2.RenderbufferGL2Contract;
 
 public final class JOGL21RenderbufferTest extends RenderbufferGL2Contract
@@ -27,9 +26,7 @@ public final class JOGL21RenderbufferTest extends RenderbufferGL2Contract
   @Override public JCGLRenderbuffersGL2 getGLRenderbuffers(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGL2> some =
-      (Some<JCGLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public boolean isGLSupported()

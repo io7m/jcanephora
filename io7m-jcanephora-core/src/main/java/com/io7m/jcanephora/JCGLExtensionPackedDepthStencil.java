@@ -31,7 +31,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * </p>
  */
 
-public interface JCGLExtensionPackedDepthStencil
+public interface JCGLExtensionPackedDepthStencil extends JCGLExtension
 {
   /**
    * Attach the given depth/stencil renderbuffer <code>renderbuffer</code> to

@@ -621,7 +621,8 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       this.version,
       framebuffer,
-      texture);
+      texture,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachColorTexture2DAt(
@@ -637,7 +638,8 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       framebuffer,
       point,
-      texture);
+      texture,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachColorTextureCube(
@@ -653,7 +655,8 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       framebuffer,
       texture,
-      face);
+      face,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachColorTextureCubeAt(
@@ -671,7 +674,8 @@ import com.io7m.jtensors.VectorReadable4I;
       framebuffer,
       point,
       texture,
-      face);
+      face,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachDepthRenderbuffer(
@@ -711,7 +715,8 @@ import com.io7m.jtensors.VectorReadable4I;
       this.version,
       this.log,
       framebuffer,
-      texture);
+      texture,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachStencilRenderbuffer(

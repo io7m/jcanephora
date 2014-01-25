@@ -19,26 +19,43 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.gl3es3.TextureCubeStaticGL3ES3Contract;
 
 public final class JOGL30TextureCubeStaticGL3ES3Test extends
   TextureCubeStaticGL3ES3Contract
 {
+  @Override public TextureCubeStatic allocateTextureRGBA(
+    final JCGLTexturesCubeStaticGL3ES3 t,
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification filter_min,
+    final TextureFilterMagnification filter_mag)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    return t.textureCubeStaticAllocateRGBA8(
+      name,
+      size,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      filter_min,
+      filter_mag);
+  }
+
   @Override public JCGLTexturesCubeStaticGL3ES3 getGLTextureCubeStatic(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGL3> some =
-      (Some<JCGLInterfaceGL3>) tc.getGLImplementation().getGL3();
-    return some.value;
+    return JOGLTestContextUtilities.getGL3(tc);
   }
 
   @Override public JCGLTextureUnits getGLTextureUnits(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGL3> some =
-      (Some<JCGLInterfaceGL3>) tc.getGLImplementation().getGL3();
-    return some.value;
+    return JOGLTestContextUtilities.getGL3(tc);
   }
 
   @Override public boolean isGLSupported()

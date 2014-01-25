@@ -23,15 +23,6 @@ import javax.annotation.Nonnull;
 public enum TextureType
 {
   /**
-   * 32 bit, 24 bit depth component, 8 bit stencil, unsigned int components.
-   */
-
-  TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP(
-    PixelType.PIXEL_PACKED_UNSIGNED_INT_24_8,
-    2,
-    4),
-
-  /**
    * 16 bit, depth component, unsigned short components.
    */
 
@@ -42,6 +33,15 @@ public enum TextureType
    */
 
   TEXTURE_TYPE_DEPTH_24_4BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_INT, 1, 4),
+
+  /**
+   * 32 bit, 24 bit depth component, 8 bit stencil, unsigned int components.
+   */
+
+  TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP(
+    PixelType.PIXEL_PACKED_UNSIGNED_INT_24_8,
+    2,
+    4),
 
   /**
    * 32 bit, depth component, floating point components.

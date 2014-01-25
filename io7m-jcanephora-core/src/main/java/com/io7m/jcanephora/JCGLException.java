@@ -24,6 +24,12 @@ import javax.annotation.Nonnull;
 
 public abstract class JCGLException extends Exception
 {
+  private static final long serialVersionUID;
+
+  static {
+    serialVersionUID = 6883871792853804671L;
+  }
+
   public JCGLException(
     final @Nonnull String message)
   {
@@ -41,12 +47,6 @@ public abstract class JCGLException extends Exception
     final @Nonnull Throwable e)
   {
     super(e);
-  }
-
-  private static final long serialVersionUID;
-
-  static {
-    serialVersionUID = 6883871792853804671L;
   }
 
 }

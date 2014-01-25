@@ -20,7 +20,6 @@ import javax.annotation.Nonnull;
 import org.junit.Assert;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.DepthBuffersContract;
 
 public final class LWJGL21DepthBuffersTest extends DepthBuffersContract
@@ -28,17 +27,13 @@ public final class LWJGL21DepthBuffersTest extends DepthBuffersContract
   @Override public @Nonnull JCGLDepthBuffer getGLDepthBuffer(
     @Nonnull final TestContext tc)
   {
-    final Some<JCGLInterfaceGL2> some =
-      (Some<JCGLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
+    return LWJGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public @Nonnull JCGLFramebuffersCommon getGLFramebuffers(
     @Nonnull final TestContext tc)
   {
-    final Some<JCGLInterfaceGL2> some =
-      (Some<JCGLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
+    return LWJGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public boolean isGLSupported()
@@ -47,12 +42,12 @@ public final class LWJGL21DepthBuffersTest extends DepthBuffersContract
   }
 
   @Override public @Nonnull FramebufferReference makeFramebufferWithDepth(
+    @Nonnull final TestContext tc,
     @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
       JCGLRuntimeException
   {
-    final Some<JCGLInterfaceGL2> some = (Some<JCGLInterfaceGL2>) gi.getGL2();
-    final JCGLInterfaceGL2 g = some.value;
+    final JCGLInterfaceGL2 g = LWJGLTestContextUtilities.getGL2(tc);
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
     final FramebufferReference fb = g.framebufferAllocate();
@@ -89,12 +84,12 @@ public final class LWJGL21DepthBuffersTest extends DepthBuffersContract
   }
 
   @Override public @Nonnull FramebufferReference makeFramebufferWithoutDepth(
+    @Nonnull final TestContext tc,
     @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
       JCGLRuntimeException
   {
-    final Some<JCGLInterfaceGL2> some = (Some<JCGLInterfaceGL2>) gi.getGL2();
-    final JCGLInterfaceGL2 g = some.value;
+    final JCGLInterfaceGL2 g = LWJGLTestContextUtilities.getGL2(tc);
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
     final FramebufferReference fb = g.framebufferAllocate();

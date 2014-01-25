@@ -26,9 +26,9 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.DepthFunction;
 import com.io7m.jcanephora.FramebufferReference;
 import com.io7m.jcanephora.JCGLDepthBuffer;
-import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLFramebuffersCommon;
 import com.io7m.jcanephora.JCGLImplementation;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
 
@@ -46,11 +46,13 @@ public abstract class DepthBuffersContract implements TestContract
     final @Nonnull TestContext tc);
 
   public abstract @Nonnull FramebufferReference makeFramebufferWithDepth(
+    final @Nonnull TestContext tc,
     final @Nonnull JCGLImplementation gi)
     throws ConstraintError,
       JCGLRuntimeException;
 
   public abstract @Nonnull FramebufferReference makeFramebufferWithoutDepth(
+    final @Nonnull TestContext tc,
     final @Nonnull JCGLImplementation gi)
     throws ConstraintError,
       JCGLRuntimeException;
@@ -65,7 +67,7 @@ public abstract class DepthBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLDepthBuffer gd = this.getGLDepthBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithDepth(gi);
+    final FramebufferReference fb = this.makeFramebufferWithDepth(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -86,7 +88,7 @@ public abstract class DepthBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLDepthBuffer gd = this.getGLDepthBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithDepth(gi);
+    final FramebufferReference fb = this.makeFramebufferWithDepth(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -135,7 +137,7 @@ public abstract class DepthBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLDepthBuffer gd = this.getGLDepthBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithoutDepth(gi);
+    final FramebufferReference fb = this.makeFramebufferWithoutDepth(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -158,7 +160,7 @@ public abstract class DepthBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLDepthBuffer gd = this.getGLDepthBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithoutDepth(gi);
+    final FramebufferReference fb = this.makeFramebufferWithoutDepth(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -179,7 +181,7 @@ public abstract class DepthBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLDepthBuffer gd = this.getGLDepthBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithoutDepth(gi);
+    final FramebufferReference fb = this.makeFramebufferWithoutDepth(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -202,7 +204,7 @@ public abstract class DepthBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLDepthBuffer gd = this.getGLDepthBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithoutDepth(gi);
+    final FramebufferReference fb = this.makeFramebufferWithoutDepth(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -223,7 +225,7 @@ public abstract class DepthBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLDepthBuffer gd = this.getGLDepthBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithDepth(gi);
+    final FramebufferReference fb = this.makeFramebufferWithDepth(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 
@@ -249,7 +251,7 @@ public abstract class DepthBuffersContract implements TestContract
     final JCGLFramebuffersCommon gl = this.getGLFramebuffers(tc);
     final JCGLDepthBuffer gd = this.getGLDepthBuffer(tc);
 
-    final FramebufferReference fb = this.makeFramebufferWithoutDepth(gi);
+    final FramebufferReference fb = this.makeFramebufferWithoutDepth(tc, gi);
     Assert.assertFalse(gl.framebufferDrawAnyIsBound());
     Assert.assertFalse(gl.framebufferDrawIsBound(fb));
 

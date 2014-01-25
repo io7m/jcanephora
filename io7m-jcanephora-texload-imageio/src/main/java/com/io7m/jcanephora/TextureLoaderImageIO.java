@@ -74,26 +74,8 @@ public final class TextureLoaderImageIO implements TextureLoader
           wrap_t,
           min_filter,
           mag_filter);
-      case TEXTURE_TYPE_RGBA_8_4BPP:
-        return gl.texture2DStaticAllocateRGBA8(
-          name,
-          width,
-          height,
-          wrap_s,
-          wrap_t,
-          min_filter,
-          mag_filter);
       case TEXTURE_TYPE_RGB_565_2BPP:
         return gl.texture2DStaticAllocateRGB565(
-          name,
-          width,
-          height,
-          wrap_s,
-          wrap_t,
-          min_filter,
-          mag_filter);
-      case TEXTURE_TYPE_RGB_8_3BPP:
-        return gl.texture2DStaticAllocateRGB8(
           name,
           width,
           height,
@@ -143,6 +125,93 @@ public final class TextureLoaderImageIO implements TextureLoader
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_RGBA_8_4BPP:
+      case TEXTURE_TYPE_RGB_8_3BPP:
+        throw new UnreachableCodeException(
+          new AssertionError(type.toString()));
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  private static @Nonnull Texture2DStatic allocateTexture2D_GL2ES3(
+    final @Nonnull JCGLTextures2DStaticGL2ES3 gl,
+    final @Nonnull TextureType type,
+    final int width,
+    final int height,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull String name)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    switch (type) {
+      case TEXTURE_TYPE_RGBA_8_4BPP:
+        return gl.texture2DStaticAllocateRGBA8(
+          name,
+          width,
+          height,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      case TEXTURE_TYPE_RGB_8_3BPP:
+        return gl.texture2DStaticAllocateRGB8(
+          name,
+          width,
+          height,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      case TEXTURE_TYPE_RGBA_1010102_4BPP:
+      case TEXTURE_TYPE_RGBA_16F_8BPP:
+      case TEXTURE_TYPE_RGBA_16I_8BPP:
+      case TEXTURE_TYPE_RGBA_16U_8BPP:
+      case TEXTURE_TYPE_RGBA_16_8BPP:
+      case TEXTURE_TYPE_RGBA_32I_16BPP:
+      case TEXTURE_TYPE_RGBA_32U_16BPP:
+      case TEXTURE_TYPE_RGBA_8I_4BPP:
+      case TEXTURE_TYPE_RGBA_8U_4BPP:
+      case TEXTURE_TYPE_RGB_16F_6BPP:
+      case TEXTURE_TYPE_RGB_16I_6BPP:
+      case TEXTURE_TYPE_RGB_16U_6BPP:
+      case TEXTURE_TYPE_RGB_16_6BPP:
+      case TEXTURE_TYPE_RGB_32F_12BPP:
+      case TEXTURE_TYPE_RGB_32I_12BPP:
+      case TEXTURE_TYPE_RGB_32U_12BPP:
+      case TEXTURE_TYPE_RGB_8I_3BPP:
+      case TEXTURE_TYPE_RGB_8U_3BPP:
+      case TEXTURE_TYPE_RG_16F_4BPP:
+      case TEXTURE_TYPE_RG_16I_4BPP:
+      case TEXTURE_TYPE_RG_16U_4BPP:
+      case TEXTURE_TYPE_RG_32F_8BPP:
+      case TEXTURE_TYPE_RG_32I_8BPP:
+      case TEXTURE_TYPE_RG_32U_8BPP:
+      case TEXTURE_TYPE_RG_8I_2BPP:
+      case TEXTURE_TYPE_RG_8U_2BPP:
+      case TEXTURE_TYPE_R_16F_2BPP:
+      case TEXTURE_TYPE_R_16I_2BPP:
+      case TEXTURE_TYPE_R_16U_2BPP:
+      case TEXTURE_TYPE_R_16_2BPP:
+      case TEXTURE_TYPE_R_32F_4BPP:
+      case TEXTURE_TYPE_R_32I_4BPP:
+      case TEXTURE_TYPE_R_32U_4BPP:
+      case TEXTURE_TYPE_R_8I_1BPP:
+      case TEXTURE_TYPE_R_8U_1BPP:
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_TYPE_RG_8_2BPP:
+      case TEXTURE_TYPE_R_8_1BPP:
+      case TEXTURE_TYPE_RGBA_32F_16BPP:
+      case TEXTURE_TYPE_RG_16_4BPP:
+      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
         throw new UnreachableCodeException();
     }
 
@@ -620,96 +689,8 @@ public final class TextureLoaderImageIO implements TextureLoader
     throw new UnreachableCodeException();
   }
 
-  private static @Nonnull Texture2DStatic allocateTexture2DCommon(
-    final @Nonnull JCGLTextures2DStaticCommon gl,
-    final @Nonnull TextureType type,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull String name)
-    throws JCGLRuntimeException,
-      ConstraintError
-  {
-    switch (type) {
-      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
-        throw new UnreachableCodeException();
-
-      case TEXTURE_TYPE_RGBA_8_4BPP:
-        return gl.texture2DStaticAllocateRGBA8(
-          name,
-          width,
-          height,
-          wrap_s,
-          wrap_t,
-          min_filter,
-          mag_filter);
-      case TEXTURE_TYPE_RGB_8_3BPP:
-        return gl.texture2DStaticAllocateRGB8(
-          name,
-          width,
-          height,
-          wrap_s,
-          wrap_t,
-          min_filter,
-          mag_filter);
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_RG_8_2BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGBA_32F_16BPP:
-      case TEXTURE_TYPE_RGBA_1010102_4BPP:
-      case TEXTURE_TYPE_RGBA_16F_8BPP:
-      case TEXTURE_TYPE_RGBA_16I_8BPP:
-      case TEXTURE_TYPE_RGBA_16U_8BPP:
-      case TEXTURE_TYPE_RGBA_16_8BPP:
-      case TEXTURE_TYPE_RGBA_32I_16BPP:
-      case TEXTURE_TYPE_RGBA_32U_16BPP:
-      case TEXTURE_TYPE_RGBA_8I_4BPP:
-      case TEXTURE_TYPE_RGBA_8U_4BPP:
-      case TEXTURE_TYPE_RGB_16F_6BPP:
-      case TEXTURE_TYPE_RGB_16I_6BPP:
-      case TEXTURE_TYPE_RGB_16U_6BPP:
-      case TEXTURE_TYPE_RGB_16_6BPP:
-      case TEXTURE_TYPE_RGB_32F_12BPP:
-      case TEXTURE_TYPE_RGB_32I_12BPP:
-      case TEXTURE_TYPE_RGB_32U_12BPP:
-      case TEXTURE_TYPE_RGB_8I_3BPP:
-      case TEXTURE_TYPE_RGB_8U_3BPP:
-      case TEXTURE_TYPE_RG_16F_4BPP:
-      case TEXTURE_TYPE_RG_16I_4BPP:
-      case TEXTURE_TYPE_RG_16U_4BPP:
-      case TEXTURE_TYPE_RG_16_4BPP:
-      case TEXTURE_TYPE_RG_32F_8BPP:
-      case TEXTURE_TYPE_RG_32I_8BPP:
-      case TEXTURE_TYPE_RG_32U_8BPP:
-      case TEXTURE_TYPE_RG_8I_2BPP:
-      case TEXTURE_TYPE_RG_8U_2BPP:
-      case TEXTURE_TYPE_R_16F_2BPP:
-      case TEXTURE_TYPE_R_16I_2BPP:
-      case TEXTURE_TYPE_R_16U_2BPP:
-      case TEXTURE_TYPE_R_16_2BPP:
-      case TEXTURE_TYPE_R_32F_4BPP:
-      case TEXTURE_TYPE_R_32I_4BPP:
-      case TEXTURE_TYPE_R_32U_4BPP:
-      case TEXTURE_TYPE_R_8I_1BPP:
-      case TEXTURE_TYPE_R_8U_1BPP:
-      {
-        throw new UnreachableCodeException();
-      }
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  private static @Nonnull TextureCubeStatic allocateTextureCubeCommon(
-    final @Nonnull JCGLTexturesCubeStaticCommon gl,
+  private static @Nonnull TextureCubeStatic allocateTextureCube_GL2ES3(
+    final @Nonnull JCGLTexturesCubeStaticGL2ES3 gl,
     final @Nonnull TextureType type,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -796,8 +777,208 @@ public final class TextureLoaderImageIO implements TextureLoader
     throw new UnreachableCodeException();
   }
 
-  private static void check2DConstraints(
-    final @Nonnull JCGLTextures2DStaticCommon gl,
+  private static @Nonnull TextureCubeStatic allocateTextureCube_GL3ES3(
+    final @Nonnull JCGLTexturesCubeStaticGL3ES3 gl,
+    final @Nonnull TextureType type,
+    final int size,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull String name)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    switch (type) {
+      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
+        throw new UnreachableCodeException();
+
+      case TEXTURE_TYPE_RGBA_8_4BPP:
+        return gl.textureCubeStaticAllocateRGBA8(
+          name,
+          size,
+          wrap_r,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      case TEXTURE_TYPE_RGB_8_3BPP:
+        return gl.textureCubeStaticAllocateRGB8(
+          name,
+          size,
+          wrap_r,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      case TEXTURE_TYPE_R_8_1BPP:
+        return gl.textureCubeStaticAllocateR8(
+          name,
+          size,
+          wrap_r,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_RG_8_2BPP:
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_TYPE_RGBA_32F_16BPP:
+      case TEXTURE_TYPE_RGBA_1010102_4BPP:
+      case TEXTURE_TYPE_RGBA_16F_8BPP:
+      case TEXTURE_TYPE_RGBA_16I_8BPP:
+      case TEXTURE_TYPE_RGBA_16U_8BPP:
+      case TEXTURE_TYPE_RGBA_16_8BPP:
+      case TEXTURE_TYPE_RGBA_32I_16BPP:
+      case TEXTURE_TYPE_RGBA_32U_16BPP:
+      case TEXTURE_TYPE_RGBA_8I_4BPP:
+      case TEXTURE_TYPE_RGBA_8U_4BPP:
+      case TEXTURE_TYPE_RGB_16F_6BPP:
+      case TEXTURE_TYPE_RGB_16I_6BPP:
+      case TEXTURE_TYPE_RGB_16U_6BPP:
+      case TEXTURE_TYPE_RGB_16_6BPP:
+      case TEXTURE_TYPE_RGB_32F_12BPP:
+      case TEXTURE_TYPE_RGB_32I_12BPP:
+      case TEXTURE_TYPE_RGB_32U_12BPP:
+      case TEXTURE_TYPE_RGB_8I_3BPP:
+      case TEXTURE_TYPE_RGB_8U_3BPP:
+      case TEXTURE_TYPE_RG_16F_4BPP:
+      case TEXTURE_TYPE_RG_16I_4BPP:
+      case TEXTURE_TYPE_RG_16U_4BPP:
+      case TEXTURE_TYPE_RG_16_4BPP:
+      case TEXTURE_TYPE_RG_32F_8BPP:
+      case TEXTURE_TYPE_RG_32I_8BPP:
+      case TEXTURE_TYPE_RG_32U_8BPP:
+      case TEXTURE_TYPE_RG_8I_2BPP:
+      case TEXTURE_TYPE_RG_8U_2BPP:
+      case TEXTURE_TYPE_R_16F_2BPP:
+      case TEXTURE_TYPE_R_16I_2BPP:
+      case TEXTURE_TYPE_R_16U_2BPP:
+      case TEXTURE_TYPE_R_16_2BPP:
+      case TEXTURE_TYPE_R_32F_4BPP:
+      case TEXTURE_TYPE_R_32I_4BPP:
+      case TEXTURE_TYPE_R_32U_4BPP:
+      case TEXTURE_TYPE_R_8I_1BPP:
+      case TEXTURE_TYPE_R_8U_1BPP:
+      {
+        throw new UnreachableCodeException(new AssertionError(type));
+      }
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  private static @Nonnull TextureCubeStatic allocateTextureCube_GLES2(
+    final @Nonnull JCGLTexturesCubeStaticGLES2 gl,
+    final @Nonnull TextureType type,
+    final int size,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull String name)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    switch (type) {
+      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      {
+        return gl.textureCubeStaticAllocateRGBA4444(
+          name,
+          size,
+          wrap_r,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      }
+      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      {
+        return gl.textureCubeStaticAllocateRGBA5551(
+          name,
+          size,
+          wrap_r,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      }
+      case TEXTURE_TYPE_RGB_565_2BPP:
+      {
+        return gl.textureCubeStaticAllocateRGB565(
+          name,
+          size,
+          wrap_r,
+          wrap_s,
+          wrap_t,
+          min_filter,
+          mag_filter);
+      }
+
+      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
+        throw new UnreachableCodeException();
+      case TEXTURE_TYPE_RGBA_8_4BPP:
+      case TEXTURE_TYPE_RGB_8_3BPP:
+      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_TYPE_RG_8_2BPP:
+      case TEXTURE_TYPE_R_8_1BPP:
+
+      case TEXTURE_TYPE_RGBA_32F_16BPP:
+      case TEXTURE_TYPE_RGBA_1010102_4BPP:
+      case TEXTURE_TYPE_RGBA_16F_8BPP:
+      case TEXTURE_TYPE_RGBA_16I_8BPP:
+      case TEXTURE_TYPE_RGBA_16U_8BPP:
+      case TEXTURE_TYPE_RGBA_16_8BPP:
+      case TEXTURE_TYPE_RGBA_32I_16BPP:
+      case TEXTURE_TYPE_RGBA_32U_16BPP:
+      case TEXTURE_TYPE_RGBA_8I_4BPP:
+      case TEXTURE_TYPE_RGBA_8U_4BPP:
+      case TEXTURE_TYPE_RGB_16F_6BPP:
+      case TEXTURE_TYPE_RGB_16I_6BPP:
+      case TEXTURE_TYPE_RGB_16U_6BPP:
+      case TEXTURE_TYPE_RGB_16_6BPP:
+      case TEXTURE_TYPE_RGB_32F_12BPP:
+      case TEXTURE_TYPE_RGB_32I_12BPP:
+      case TEXTURE_TYPE_RGB_32U_12BPP:
+      case TEXTURE_TYPE_RGB_8I_3BPP:
+      case TEXTURE_TYPE_RGB_8U_3BPP:
+      case TEXTURE_TYPE_RG_16F_4BPP:
+      case TEXTURE_TYPE_RG_16I_4BPP:
+      case TEXTURE_TYPE_RG_16U_4BPP:
+      case TEXTURE_TYPE_RG_16_4BPP:
+      case TEXTURE_TYPE_RG_32F_8BPP:
+      case TEXTURE_TYPE_RG_32I_8BPP:
+      case TEXTURE_TYPE_RG_32U_8BPP:
+      case TEXTURE_TYPE_RG_8I_2BPP:
+      case TEXTURE_TYPE_RG_8U_2BPP:
+      case TEXTURE_TYPE_R_16F_2BPP:
+      case TEXTURE_TYPE_R_16I_2BPP:
+      case TEXTURE_TYPE_R_16U_2BPP:
+      case TEXTURE_TYPE_R_16_2BPP:
+      case TEXTURE_TYPE_R_32F_4BPP:
+      case TEXTURE_TYPE_R_32I_4BPP:
+      case TEXTURE_TYPE_R_32U_4BPP:
+      case TEXTURE_TYPE_R_8I_1BPP:
+      case TEXTURE_TYPE_R_8U_1BPP:
+      {
+        throw new UnreachableCodeException();
+      }
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  private static void check2DConstraintsGL2ES3(
+    final @Nonnull JCGLTextures2DStaticGL2ES3 gl,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -806,17 +987,75 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull String name)
     throws ConstraintError
   {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    TextureLoaderImageIO.check2DConstraintsMain(
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      stream,
+      name);
+  }
+
+  private static void check2DConstraintsGLES2(
+    final @Nonnull JCGLTextures2DStaticGLES2 gl,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    TextureLoaderImageIO.check2DConstraintsMain(
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      stream,
+      name);
+  }
+
+  private static void check2DConstraintsGLI(
+    final @Nonnull JCGLImplementation gi,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull InputStream stream,
+    final @Nonnull String name)
+    throws ConstraintError
+  {
+    Constraints.constrainNotNull(gi, "OpenGL interface");
+    TextureLoaderImageIO.check2DConstraintsMain(
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      stream,
+      name);
+  }
+
+  private static void check2DConstraintsMain(
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter,
+    final InputStream stream,
+    final String name)
+    throws ConstraintError
+  {
     Constraints.constrainNotNull(name, "Name");
     Constraints.constrainNotNull(stream, "Input stream");
-    Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(wrap_s, "Wrap S mode");
     Constraints.constrainNotNull(wrap_t, "Wrap T mode");
     Constraints.constrainNotNull(mag_filter, "Magnification filter");
     Constraints.constrainNotNull(min_filter, "Minification filter");
   }
 
-  private static void checkCubeConstraints(
-    final @Nonnull JCGLTexturesCubeStaticCommon gl,
+  private static void checkCubeConstraintsGI(
+    final @Nonnull JCGLImplementation gl,
     final @Nonnull TextureWrapR wrap_r,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
@@ -831,8 +1070,70 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull String name)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(name, "Name");
     Constraints.constrainNotNull(gl, "OpenGL interface");
+    TextureLoaderImageIO.checkCubeConstraintsMain(
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x,
+      name);
+  }
+
+  private static void checkCubeConstraintsGL2ES3(
+    final @Nonnull JCGLTexturesCubeStaticGL2ES3 gl,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveZ> positive_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeZ> negative_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveY> positive_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeY> negative_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveX> positive_x,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeX> negative_x,
+    final @Nonnull String name)
+    throws ConstraintError
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    TextureLoaderImageIO.checkCubeConstraintsMain(
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x,
+      name);
+  }
+
+  private static void checkCubeConstraintsMain(
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter,
+    final CubeMapFaceInputStream<CMFKPositiveZ> positive_z,
+    final CubeMapFaceInputStream<CMFKNegativeZ> negative_z,
+    final CubeMapFaceInputStream<CMFKPositiveY> positive_y,
+    final CubeMapFaceInputStream<CMFKNegativeY> negative_y,
+    final CubeMapFaceInputStream<CMFKPositiveX> positive_x,
+    final CubeMapFaceInputStream<CMFKNegativeX> negative_x,
+    final String name)
+    throws ConstraintError
+  {
+    Constraints.constrainNotNull(name, "Name");
     Constraints.constrainNotNull(wrap_r, "Wrap R mode");
     Constraints.constrainNotNull(wrap_s, "Wrap S mode");
     Constraints.constrainNotNull(wrap_t, "Wrap T mode");
@@ -924,7 +1225,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     return image.getRGB(x, upper - y);
   }
 
-  private static @Nonnull TextureType inferTextureTypeCommon(
+  private static @Nonnull TextureType inferTextureTypeES2(
     final @Nonnull BufferedImage image)
   {
     switch (image.getType()) {
@@ -933,7 +1234,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       case BufferedImage.TYPE_4BYTE_ABGR_PRE:
       case BufferedImage.TYPE_4BYTE_ABGR:
       {
-        return TextureType.TEXTURE_TYPE_RGBA_8_4BPP;
+        return TextureType.TEXTURE_TYPE_RGBA_4444_2BPP;
       }
       case BufferedImage.TYPE_USHORT_555_RGB:
       case BufferedImage.TYPE_USHORT_565_RGB:
@@ -945,7 +1246,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       case BufferedImage.TYPE_BYTE_BINARY:
       case BufferedImage.TYPE_USHORT_GRAY:
       {
-        return TextureType.TEXTURE_TYPE_RGB_8_3BPP;
+        return TextureType.TEXTURE_TYPE_RGB_565_2BPP;
       }
       case BufferedImage.TYPE_CUSTOM:
       default:
@@ -955,7 +1256,7 @@ public final class TextureLoaderImageIO implements TextureLoader
     }
   }
 
-  private static @Nonnull TextureType inferTextureTypeES2(
+  private static @Nonnull TextureType inferTextureTypeGL2(
     final @Nonnull BufferedImage image)
   {
     switch (image.getType()) {
@@ -968,9 +1269,6 @@ public final class TextureLoaderImageIO implements TextureLoader
       }
       case BufferedImage.TYPE_USHORT_555_RGB:
       case BufferedImage.TYPE_USHORT_565_RGB:
-      {
-        return TextureType.TEXTURE_TYPE_RGB_565_2BPP;
-      }
       case BufferedImage.TYPE_3BYTE_BGR:
       case BufferedImage.TYPE_BYTE_INDEXED:
       case BufferedImage.TYPE_INT_RGB:
@@ -1254,6 +1552,7 @@ public final class TextureLoaderImageIO implements TextureLoader
 
   private final @Nonnull Log log;
   private final @Nonnull Log log_alpha;
+
   private final boolean      premultiply_alpha;
 
   private TextureLoaderImageIO(
@@ -1412,7 +1711,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -1443,7 +1742,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -1474,7 +1773,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -1493,8 +1792,8 @@ public final class TextureLoaderImageIO implements TextureLoader
       name);
   }
 
-  @Override public @Nonnull Texture2DStatic load2DStaticInferredCommon(
-    final @Nonnull JCGLTextures2DStaticCommon gl,
+  @Override public Texture2DStatic load2DStaticInferred(
+    final @Nonnull JCGLImplementation gi,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -1502,99 +1801,98 @@ public final class TextureLoaderImageIO implements TextureLoader
     final @Nonnull InputStream stream,
     final @Nonnull String name)
     throws ConstraintError,
-      JCGLRuntimeException,
-      IOException
+      IOException,
+      JCGLException
   {
-    Constraints.constrainNotNull(name, "Name");
-    Constraints.constrainNotNull(stream, "Input stream");
-    Constraints.constrainNotNull(gl, "OpenGL interface");
-    Constraints.constrainNotNull(wrap_s, "Wrap S mode");
-    Constraints.constrainNotNull(wrap_t, "Wrap T mode");
-    Constraints.constrainNotNull(mag_filter, "Magnification filter");
-    Constraints.constrainNotNull(min_filter, "Minification filter");
-
-    final BufferedImage image = TextureLoaderImageIO.getBufferedImage(stream);
-    final TextureType type =
-      TextureLoaderImageIO.inferTextureTypeCommon(image);
-
-    return this.load2DStaticSpecificImageCommon(
-      gl,
-      type,
+    TextureLoaderImageIO.check2DConstraintsGLI(
+      gi,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter,
-      image,
+      stream,
       name);
-  }
-
-  @Override public @Nonnull Texture2DStatic load2DStaticInferredGL3ES3(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
-    throws ConstraintError,
-      JCGLRuntimeException,
-      IOException
-  {
-    Constraints.constrainNotNull(name, "Name");
-    Constraints.constrainNotNull(stream, "Input stream");
-    Constraints.constrainNotNull(gl, "OpenGL interface");
-    Constraints.constrainNotNull(wrap_s, "Wrap S mode");
-    Constraints.constrainNotNull(wrap_t, "Wrap T mode");
-    Constraints.constrainNotNull(mag_filter, "Magnification filter");
-    Constraints.constrainNotNull(min_filter, "Minification filter");
 
     final BufferedImage image = TextureLoaderImageIO.getBufferedImage(stream);
-    final TextureType type =
-      TextureLoaderImageIO.inferTextureTypeGLES3(image);
 
-    return this.load2DStaticSpecificImage_GL3ES3(
-      gl,
-      type,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter,
-      image,
-      name);
-  }
+    return gi
+      .implementationAccept(new JCGLImplementationVisitor<Texture2DStatic, IOException>() {
+        @SuppressWarnings("synthetic-access") @Override public @Nonnull
+          Texture2DStatic
+          implementationIsGL2(
+            final @Nonnull JCGLInterfaceGL2 gl)
+            throws JCGLException,
+              ConstraintError,
+              IOException
+        {
+          return TextureLoaderImageIO.this.load2DStaticSpecificImage_GL2ES3(
+            gl,
+            TextureLoaderImageIO.inferTextureTypeGL2(image),
+            wrap_s,
+            wrap_t,
+            min_filter,
+            mag_filter,
+            image,
+            name);
+        }
 
-  @Override public @Nonnull Texture2DStatic load2DStaticInferredGLES2(
-    final @Nonnull JCGLTextures2DStaticGLES2 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
-    throws ConstraintError,
-      JCGLRuntimeException,
-      IOException
-  {
-    Constraints.constrainNotNull(name, "Name");
-    Constraints.constrainNotNull(stream, "Input stream");
-    Constraints.constrainNotNull(gl, "OpenGL interface");
-    Constraints.constrainNotNull(wrap_s, "Wrap S mode");
-    Constraints.constrainNotNull(wrap_t, "Wrap T mode");
-    Constraints.constrainNotNull(mag_filter, "Magnification filter");
-    Constraints.constrainNotNull(min_filter, "Minification filter");
+        @SuppressWarnings("synthetic-access") @Override public @Nonnull
+          Texture2DStatic
+          implementationIsGL3(
+            final @Nonnull JCGLInterfaceGL3 gl)
+            throws JCGLException,
+              ConstraintError,
+              IOException
+        {
+          return TextureLoaderImageIO.this.load2DStaticSpecificImage_GL3ES3(
+            gl,
+            TextureLoaderImageIO.inferTextureTypeGLES3(image),
+            wrap_s,
+            wrap_t,
+            min_filter,
+            mag_filter,
+            image,
+            name);
+        }
 
-    final BufferedImage image = TextureLoaderImageIO.getBufferedImage(stream);
-    final TextureType type = TextureLoaderImageIO.inferTextureTypeES2(image);
+        @SuppressWarnings("synthetic-access") @Override public @Nonnull
+          Texture2DStatic
+          implementationIsGLES2(
+            final @Nonnull JCGLInterfaceGLES2 gl)
+            throws JCGLException,
+              ConstraintError,
+              IOException
+        {
+          return TextureLoaderImageIO.this.load2DStaticSpecificImage_ES2(
+            gl,
+            TextureLoaderImageIO.inferTextureTypeES2(image),
+            wrap_s,
+            wrap_t,
+            min_filter,
+            mag_filter,
+            image,
+            name);
+        }
 
-    return this.load2DStaticSpecificImage_ES2(
-      gl,
-      type,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter,
-      image,
-      name);
+        @SuppressWarnings("synthetic-access") @Override public @Nonnull
+          Texture2DStatic
+          implementationIsGLES3(
+            final @Nonnull JCGLInterfaceGLES3 gl)
+            throws JCGLException,
+              ConstraintError,
+              IOException
+        {
+          return TextureLoaderImageIO.this.load2DStaticSpecificImage_GL3ES3(
+            gl,
+            TextureLoaderImageIO.inferTextureTypeGLES3(image),
+            wrap_s,
+            wrap_t,
+            min_filter,
+            mag_filter,
+            image,
+            name);
+        }
+      });
   }
 
   @Override public @Nonnull Texture2DStatic load2DStaticR16(
@@ -1609,7 +1907,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -1640,7 +1938,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -1671,7 +1969,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -1702,7 +2000,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -1733,7 +2031,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -1764,7 +2062,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -1795,7 +2093,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -1826,7 +2124,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -1857,7 +2155,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -1888,7 +2186,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -1919,7 +2217,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -1950,7 +2248,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -1981,7 +2279,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2012,7 +2310,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2043,7 +2341,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2074,7 +2372,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2105,7 +2403,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2136,7 +2434,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2167,7 +2465,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2198,7 +2496,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2229,7 +2527,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2260,7 +2558,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2291,7 +2589,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2322,7 +2620,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2353,7 +2651,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2384,7 +2682,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2415,7 +2713,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2446,7 +2744,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGLES2(
       gl,
       wrap_s,
       wrap_t,
@@ -2465,8 +2763,8 @@ public final class TextureLoaderImageIO implements TextureLoader
       name);
   }
 
-  @Override public @Nonnull Texture2DStatic load2DStaticRGB8(
-    final @Nonnull JCGLTextures2DStaticCommon gl,
+  @Override public Texture2DStatic load2DStaticRGB8(
+    final @Nonnull JCGLTextures2DStaticGL2ES3 gl,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -2477,7 +2775,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2485,7 +2783,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       mag_filter,
       stream,
       name);
-    return this.load2DStaticSpecificImageCommon(
+    return this.load2DStaticSpecificImage_GL2ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGB_8_3BPP,
       wrap_s,
@@ -2508,7 +2806,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2539,7 +2837,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2570,7 +2868,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2601,7 +2899,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2632,7 +2930,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2663,7 +2961,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2694,7 +2992,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2725,7 +3023,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2756,7 +3054,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2787,7 +3085,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2818,7 +3116,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGLES2(
       gl,
       wrap_s,
       wrap_t,
@@ -2849,7 +3147,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGLES2(
       gl,
       wrap_s,
       wrap_t,
@@ -2870,7 +3168,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   @Override public @Nonnull Texture2DStatic load2DStaticRGBA8(
-    final @Nonnull JCGLTextures2DStaticCommon gl,
+    final @Nonnull JCGLTextures2DStaticGL2ES3 gl,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -2881,7 +3179,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2890,7 +3188,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       stream,
       name);
 
-    return this.load2DStaticSpecificImageCommon(
+    return this.load2DStaticSpecificImage_GL2ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
       wrap_s,
@@ -2913,7 +3211,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2944,7 +3242,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.check2DConstraints(
+    TextureLoaderImageIO.check2DConstraintsGL2ES3(
       gl,
       wrap_s,
       wrap_t,
@@ -2977,6 +3275,41 @@ public final class TextureLoaderImageIO implements TextureLoader
   {
     final Texture2DStatic texture =
       TextureLoaderImageIO.allocateTexture2D_ES2(
+        gl,
+        type,
+        image.getWidth(),
+        image.getHeight(),
+        wrap_s,
+        wrap_t,
+        min_filter,
+        mag_filter,
+        name);
+
+    try {
+      final Texture2DWritableData data = new Texture2DWritableData(texture);
+      this.writeImageDataWithConversionToTexture(image, data, type);
+      gl.texture2DStaticUpdate(data);
+      return texture;
+    } catch (final JCGLRuntimeException e) {
+      gl.texture2DStaticDelete(texture);
+      throw e;
+    }
+  }
+
+  private @Nonnull Texture2DStatic load2DStaticSpecificImage_GL2ES3(
+    final @Nonnull JCGLTextures2DStaticGL2ES3 gl,
+    final @Nonnull TextureType type,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull BufferedImage image,
+    final @Nonnull String name)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    final Texture2DStatic texture =
+      TextureLoaderImageIO.allocateTexture2D_GL2ES3(
         gl,
         type,
         image.getWidth(),
@@ -3033,43 +3366,163 @@ public final class TextureLoaderImageIO implements TextureLoader
     }
   }
 
-  private @Nonnull Texture2DStatic load2DStaticSpecificImageCommon(
-    final @Nonnull JCGLTextures2DStaticCommon gl,
-    final @Nonnull TextureType type,
+  @Override public TextureCubeStatic loadCubeLHStaticInferred(
+    final @Nonnull JCGLImplementation gl,
+    final @Nonnull TextureWrapR wrap_r,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull BufferedImage image,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveZ> positive_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeZ> negative_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveY> positive_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeY> negative_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveX> positive_x,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeX> negative_x,
     final @Nonnull String name)
-    throws JCGLRuntimeException,
-      ConstraintError
+    throws ConstraintError,
+      JCGLException,
+      IOException
   {
-    final Texture2DStatic texture =
-      TextureLoaderImageIO.allocateTexture2DCommon(
-        gl,
-        type,
-        image.getWidth(),
-        image.getHeight(),
-        wrap_s,
-        wrap_t,
-        min_filter,
-        mag_filter,
-        name);
+    TextureLoaderImageIO.checkCubeConstraintsGI(
+      gl,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x,
+      name);
 
-    try {
-      final Texture2DWritableData data = new Texture2DWritableData(texture);
-      this.writeImageDataWithConversionToTexture(image, data, type);
-      gl.texture2DStaticUpdate(data);
-      return texture;
-    } catch (final JCGLRuntimeException e) {
-      gl.texture2DStaticDelete(texture);
-      throw e;
-    }
+    final BufferedImage pos_z =
+      TextureLoaderImageIO.getBufferedImage(positive_z);
+    final BufferedImage neg_z =
+      TextureLoaderImageIO.getBufferedImage(negative_z);
+    final BufferedImage pos_y =
+      TextureLoaderImageIO.getBufferedImage(positive_y);
+    final BufferedImage neg_y =
+      TextureLoaderImageIO.getBufferedImage(negative_y);
+    final BufferedImage pos_x =
+      TextureLoaderImageIO.getBufferedImage(positive_x);
+    final BufferedImage neg_x =
+      TextureLoaderImageIO.getBufferedImage(negative_x);
+
+    return gl
+      .implementationAccept(new JCGLImplementationVisitor<TextureCubeStatic, JCGLException>() {
+
+        @SuppressWarnings("synthetic-access") @Override public
+          TextureCubeStatic
+          implementationIsGL2(
+            final @Nonnull JCGLInterfaceGL2 gl2)
+            throws JCGLException,
+              ConstraintError,
+              JCGLException
+        {
+          return TextureLoaderImageIO.this
+            .loadCubeLHStaticSpecificImageGL2ES3(
+              gl2,
+              TextureLoaderImageIO.inferTextureTypeGL2(pos_z),
+              wrap_r,
+              wrap_s,
+              wrap_t,
+              min_filter,
+              mag_filter,
+              pos_z,
+              neg_z,
+              pos_y,
+              neg_y,
+              pos_x,
+              neg_x,
+              name);
+        }
+
+        @SuppressWarnings("synthetic-access") @Override public
+          TextureCubeStatic
+          implementationIsGL3(
+            final @Nonnull JCGLInterfaceGL3 gl3)
+            throws JCGLException,
+              ConstraintError,
+              JCGLException
+        {
+          return TextureLoaderImageIO.this
+            .loadCubeLHStaticSpecificImageGL3ES3(
+              gl3,
+              TextureLoaderImageIO.inferTextureTypeGLES3(pos_z),
+              wrap_r,
+              wrap_s,
+              wrap_t,
+              min_filter,
+              mag_filter,
+              pos_z,
+              neg_z,
+              pos_y,
+              neg_y,
+              pos_x,
+              neg_x,
+              name);
+        }
+
+        @SuppressWarnings("synthetic-access") @Override public
+          TextureCubeStatic
+          implementationIsGLES2(
+            final @Nonnull JCGLInterfaceGLES2 gles2)
+            throws JCGLException,
+              ConstraintError,
+              JCGLException
+        {
+          return TextureLoaderImageIO.this
+            .loadCubeLHStaticSpecificImageGLES2(
+              gles2,
+              TextureLoaderImageIO.inferTextureTypeES2(pos_z),
+              wrap_r,
+              wrap_s,
+              wrap_t,
+              min_filter,
+              mag_filter,
+              pos_z,
+              neg_z,
+              pos_y,
+              neg_y,
+              pos_x,
+              neg_x,
+              name);
+        }
+
+        @SuppressWarnings("synthetic-access") @Override public
+          TextureCubeStatic
+          implementationIsGLES3(
+            final @Nonnull JCGLInterfaceGLES3 gles3)
+            throws JCGLException,
+              ConstraintError,
+              JCGLException
+        {
+          return TextureLoaderImageIO.this
+            .loadCubeLHStaticSpecificImageGL3ES3(
+              gles3,
+              TextureLoaderImageIO.inferTextureTypeGLES3(pos_z),
+              wrap_r,
+              wrap_s,
+              wrap_t,
+              min_filter,
+              mag_filter,
+              pos_z,
+              neg_z,
+              pos_y,
+              neg_y,
+              pos_x,
+              neg_x,
+              name);
+        }
+      });
   }
 
   @Override public @Nonnull TextureCubeStatic loadCubeLHStaticRGB8(
-    final @Nonnull JCGLTexturesCubeStaticCommon gl,
+    final @Nonnull JCGLTexturesCubeStaticGL2ES3 gl,
     final @Nonnull TextureWrapR wrap_r,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
@@ -3086,7 +3539,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.checkCubeConstraints(
+    TextureLoaderImageIO.checkCubeConstraintsGL2ES3(
       gl,
       wrap_r,
       wrap_s,
@@ -3101,7 +3554,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       negative_x,
       name);
 
-    return this.loadCubeLHStaticSpecificImageCommon(
+    return this.loadCubeLHStaticSpecificImageGL2ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGB_8_3BPP,
       wrap_r,
@@ -3119,7 +3572,7 @@ public final class TextureLoaderImageIO implements TextureLoader
   }
 
   @Override public @Nonnull TextureCubeStatic loadCubeLHStaticRGBA8(
-    final @Nonnull JCGLTexturesCubeStaticCommon gl,
+    final @Nonnull JCGLTexturesCubeStaticGL2ES3 gl,
     final @Nonnull TextureWrapR wrap_r,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
@@ -3136,7 +3589,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       JCGLRuntimeException,
       IOException
   {
-    TextureLoaderImageIO.checkCubeConstraints(
+    TextureLoaderImageIO.checkCubeConstraintsGL2ES3(
       gl,
       wrap_r,
       wrap_s,
@@ -3151,7 +3604,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       negative_x,
       name);
 
-    return this.loadCubeLHStaticSpecificImageCommon(
+    return this.loadCubeLHStaticSpecificImageGL2ES3(
       gl,
       TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
       wrap_r,
@@ -3168,8 +3621,8 @@ public final class TextureLoaderImageIO implements TextureLoader
       name);
   }
 
-  private @Nonnull TextureCubeStatic loadCubeLHStaticSpecificImageCommon(
-    final @Nonnull JCGLTexturesCubeStaticCommon gl,
+  private @Nonnull TextureCubeStatic loadCubeLHStaticSpecificImageGL2ES3(
+    final @Nonnull JCGLTexturesCubeStaticGL2ES3 gl,
     final @Nonnull TextureType type,
     final @Nonnull TextureWrapR wrap_r,
     final @Nonnull TextureWrapS wrap_s,
@@ -3195,7 +3648,7 @@ public final class TextureLoaderImageIO implements TextureLoader
       negative_x);
 
     final TextureCubeStatic texture =
-      TextureLoaderImageIO.allocateTextureCubeCommon(
+      TextureLoaderImageIO.allocateTextureCube_GL2ES3(
         gl,
         type,
         positive_z.getWidth(),
@@ -3220,108 +3673,8 @@ public final class TextureLoaderImageIO implements TextureLoader
     return texture;
   }
 
-  @Override public @Nonnull TextureCubeStatic loadCubeRHStaticRGB8(
-    final @Nonnull JCGLTexturesCubeStaticCommon gl,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull CubeMapFaceInputStream<CMFKPositiveZ> positive_z,
-    final @Nonnull CubeMapFaceInputStream<CMFKNegativeZ> negative_z,
-    final @Nonnull CubeMapFaceInputStream<CMFKPositiveY> positive_y,
-    final @Nonnull CubeMapFaceInputStream<CMFKNegativeY> negative_y,
-    final @Nonnull CubeMapFaceInputStream<CMFKPositiveX> positive_x,
-    final @Nonnull CubeMapFaceInputStream<CMFKNegativeX> negative_x,
-    final @Nonnull String name)
-    throws ConstraintError,
-      JCGLRuntimeException,
-      IOException
-  {
-    TextureLoaderImageIO.checkCubeConstraints(
-      gl,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter,
-      positive_z,
-      negative_z,
-      positive_y,
-      negative_y,
-      positive_x,
-      negative_x,
-      name);
-
-    return this.loadCubeRHStaticSpecificImageCommon(
-      gl,
-      TextureType.TEXTURE_TYPE_RGB_8_3BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter,
-      TextureLoaderImageIO.getBufferedImage(positive_z),
-      TextureLoaderImageIO.getBufferedImage(negative_z),
-      TextureLoaderImageIO.getBufferedImage(positive_y),
-      TextureLoaderImageIO.getBufferedImage(negative_y),
-      TextureLoaderImageIO.getBufferedImage(positive_x),
-      TextureLoaderImageIO.getBufferedImage(negative_x),
-      name);
-  }
-
-  @Override public @Nonnull TextureCubeStatic loadCubeRHStaticRGBA8(
-    final @Nonnull JCGLTexturesCubeStaticCommon gl,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull CubeMapFaceInputStream<CMFKPositiveZ> positive_z,
-    final @Nonnull CubeMapFaceInputStream<CMFKNegativeZ> negative_z,
-    final @Nonnull CubeMapFaceInputStream<CMFKPositiveY> positive_y,
-    final @Nonnull CubeMapFaceInputStream<CMFKNegativeY> negative_y,
-    final @Nonnull CubeMapFaceInputStream<CMFKPositiveX> positive_x,
-    final @Nonnull CubeMapFaceInputStream<CMFKNegativeX> negative_x,
-    final @Nonnull String name)
-    throws ConstraintError,
-      JCGLRuntimeException,
-      IOException
-  {
-    TextureLoaderImageIO.checkCubeConstraints(
-      gl,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter,
-      positive_z,
-      negative_z,
-      positive_y,
-      negative_y,
-      positive_x,
-      negative_x,
-      name);
-
-    return this.loadCubeRHStaticSpecificImageCommon(
-      gl,
-      TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter,
-      TextureLoaderImageIO.getBufferedImage(positive_z),
-      TextureLoaderImageIO.getBufferedImage(negative_z),
-      TextureLoaderImageIO.getBufferedImage(positive_y),
-      TextureLoaderImageIO.getBufferedImage(negative_y),
-      TextureLoaderImageIO.getBufferedImage(positive_x),
-      TextureLoaderImageIO.getBufferedImage(negative_x),
-      name);
-  }
-
-  private @Nonnull TextureCubeStatic loadCubeRHStaticSpecificImageCommon(
-    final @Nonnull JCGLTexturesCubeStaticCommon gl,
+  private @Nonnull TextureCubeStatic loadCubeLHStaticSpecificImageGL3ES3(
+    final @Nonnull JCGLTexturesCubeStaticGL3ES3 gl,
     final @Nonnull TextureType type,
     final @Nonnull TextureWrapR wrap_r,
     final @Nonnull TextureWrapS wrap_s,
@@ -3347,7 +3700,470 @@ public final class TextureLoaderImageIO implements TextureLoader
       negative_x);
 
     final TextureCubeStatic texture =
-      TextureLoaderImageIO.allocateTextureCubeCommon(
+      TextureLoaderImageIO.allocateTextureCube_GL3ES3(
+        gl,
+        type,
+        positive_z.getWidth(),
+        wrap_r,
+        wrap_s,
+        wrap_t,
+        min_filter,
+        mag_filter,
+        name);
+
+    this.cubeUpdateFacesLH(
+      gl,
+      type,
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x,
+      texture);
+
+    return texture;
+  }
+
+  private @Nonnull TextureCubeStatic loadCubeLHStaticSpecificImageGLES2(
+    final @Nonnull JCGLTexturesCubeStaticGLES2 gl,
+    final @Nonnull TextureType type,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull BufferedImage positive_z,
+    final @Nonnull BufferedImage negative_z,
+    final @Nonnull BufferedImage positive_y,
+    final @Nonnull BufferedImage negative_y,
+    final @Nonnull BufferedImage positive_x,
+    final @Nonnull BufferedImage negative_x,
+    final @Nonnull String name)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    TextureLoaderImageIO.checkCubeImageSizes(
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x);
+
+    final TextureCubeStatic texture =
+      TextureLoaderImageIO.allocateTextureCube_GLES2(
+        gl,
+        type,
+        positive_z.getWidth(),
+        wrap_r,
+        wrap_s,
+        wrap_t,
+        min_filter,
+        mag_filter,
+        name);
+
+    this.cubeUpdateFacesLH(
+      gl,
+      type,
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x,
+      texture);
+
+    return texture;
+  }
+
+  @Override public TextureCubeStatic loadCubeRHStaticInferred(
+    final @Nonnull JCGLImplementation gl,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveZ> positive_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeZ> negative_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveY> positive_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeY> negative_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveX> positive_x,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeX> negative_x,
+    final @Nonnull String name)
+    throws ConstraintError,
+      IOException,
+      JCGLException
+  {
+    TextureLoaderImageIO.checkCubeConstraintsGI(
+      gl,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x,
+      name);
+
+    final BufferedImage pos_z =
+      TextureLoaderImageIO.getBufferedImage(positive_z);
+    final BufferedImage neg_z =
+      TextureLoaderImageIO.getBufferedImage(negative_z);
+    final BufferedImage pos_y =
+      TextureLoaderImageIO.getBufferedImage(positive_y);
+    final BufferedImage neg_y =
+      TextureLoaderImageIO.getBufferedImage(negative_y);
+    final BufferedImage pos_x =
+      TextureLoaderImageIO.getBufferedImage(positive_x);
+    final BufferedImage neg_x =
+      TextureLoaderImageIO.getBufferedImage(negative_x);
+
+    return gl
+      .implementationAccept(new JCGLImplementationVisitor<TextureCubeStatic, JCGLException>() {
+
+        @SuppressWarnings("synthetic-access") @Override public
+          TextureCubeStatic
+          implementationIsGL2(
+            final @Nonnull JCGLInterfaceGL2 gl2)
+            throws JCGLException,
+              ConstraintError,
+              JCGLException
+        {
+          return TextureLoaderImageIO.this
+            .loadCubeRHStaticSpecificImageGL2ES3(
+              gl2,
+              TextureLoaderImageIO.inferTextureTypeGL2(pos_z),
+              wrap_r,
+              wrap_s,
+              wrap_t,
+              min_filter,
+              mag_filter,
+              pos_z,
+              neg_z,
+              pos_y,
+              neg_y,
+              pos_x,
+              neg_x,
+              name);
+        }
+
+        @SuppressWarnings("synthetic-access") @Override public
+          TextureCubeStatic
+          implementationIsGL3(
+            final @Nonnull JCGLInterfaceGL3 gl3)
+            throws JCGLException,
+              ConstraintError,
+              JCGLException
+        {
+          return TextureLoaderImageIO.this
+            .loadCubeRHStaticSpecificImageGL3ES3(
+              gl3,
+              TextureLoaderImageIO.inferTextureTypeGLES3(pos_z),
+              wrap_r,
+              wrap_s,
+              wrap_t,
+              min_filter,
+              mag_filter,
+              pos_z,
+              neg_z,
+              pos_y,
+              neg_y,
+              pos_x,
+              neg_x,
+              name);
+        }
+
+        @SuppressWarnings("synthetic-access") @Override public
+          TextureCubeStatic
+          implementationIsGLES2(
+            final @Nonnull JCGLInterfaceGLES2 gles2)
+            throws JCGLException,
+              ConstraintError,
+              JCGLException
+        {
+          return TextureLoaderImageIO.this
+            .loadCubeRHStaticSpecificImageGLES2(
+              gles2,
+              TextureLoaderImageIO.inferTextureTypeES2(pos_z),
+              wrap_r,
+              wrap_s,
+              wrap_t,
+              min_filter,
+              mag_filter,
+              pos_z,
+              neg_z,
+              pos_y,
+              neg_y,
+              pos_x,
+              neg_x,
+              name);
+        }
+
+        @SuppressWarnings("synthetic-access") @Override public
+          TextureCubeStatic
+          implementationIsGLES3(
+            final @Nonnull JCGLInterfaceGLES3 gles3)
+            throws JCGLException,
+              ConstraintError,
+              JCGLException
+        {
+          return TextureLoaderImageIO.this
+            .loadCubeRHStaticSpecificImageGL3ES3(
+              gles3,
+              TextureLoaderImageIO.inferTextureTypeGLES3(pos_z),
+              wrap_r,
+              wrap_s,
+              wrap_t,
+              min_filter,
+              mag_filter,
+              pos_z,
+              neg_z,
+              pos_y,
+              neg_y,
+              pos_x,
+              neg_x,
+              name);
+        }
+      });
+  }
+
+  @Override public @Nonnull TextureCubeStatic loadCubeRHStaticRGB8(
+    final @Nonnull JCGLTexturesCubeStaticGL2ES3 gl,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveZ> positive_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeZ> negative_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveY> positive_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeY> negative_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveX> positive_x,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeX> negative_x,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLRuntimeException,
+      IOException
+  {
+    TextureLoaderImageIO.checkCubeConstraintsGL2ES3(
+      gl,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x,
+      name);
+
+    return this.loadCubeRHStaticSpecificImageGL2ES3(
+      gl,
+      TextureType.TEXTURE_TYPE_RGB_8_3BPP,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      TextureLoaderImageIO.getBufferedImage(positive_z),
+      TextureLoaderImageIO.getBufferedImage(negative_z),
+      TextureLoaderImageIO.getBufferedImage(positive_y),
+      TextureLoaderImageIO.getBufferedImage(negative_y),
+      TextureLoaderImageIO.getBufferedImage(positive_x),
+      TextureLoaderImageIO.getBufferedImage(negative_x),
+      name);
+  }
+
+  @Override public @Nonnull TextureCubeStatic loadCubeRHStaticRGBA8(
+    final @Nonnull JCGLTexturesCubeStaticGL2ES3 gl,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveZ> positive_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeZ> negative_z,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveY> positive_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeY> negative_y,
+    final @Nonnull CubeMapFaceInputStream<CMFKPositiveX> positive_x,
+    final @Nonnull CubeMapFaceInputStream<CMFKNegativeX> negative_x,
+    final @Nonnull String name)
+    throws ConstraintError,
+      JCGLRuntimeException,
+      IOException
+  {
+    TextureLoaderImageIO.checkCubeConstraintsGL2ES3(
+      gl,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x,
+      name);
+
+    return this.loadCubeRHStaticSpecificImageGL2ES3(
+      gl,
+      TextureType.TEXTURE_TYPE_RGBA_8_4BPP,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter,
+      TextureLoaderImageIO.getBufferedImage(positive_z),
+      TextureLoaderImageIO.getBufferedImage(negative_z),
+      TextureLoaderImageIO.getBufferedImage(positive_y),
+      TextureLoaderImageIO.getBufferedImage(negative_y),
+      TextureLoaderImageIO.getBufferedImage(positive_x),
+      TextureLoaderImageIO.getBufferedImage(negative_x),
+      name);
+  }
+
+  private @Nonnull TextureCubeStatic loadCubeRHStaticSpecificImageGL2ES3(
+    final @Nonnull JCGLTexturesCubeStaticGL2ES3 gl,
+    final @Nonnull TextureType type,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull BufferedImage positive_z,
+    final @Nonnull BufferedImage negative_z,
+    final @Nonnull BufferedImage positive_y,
+    final @Nonnull BufferedImage negative_y,
+    final @Nonnull BufferedImage positive_x,
+    final @Nonnull BufferedImage negative_x,
+    final @Nonnull String name)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    TextureLoaderImageIO.checkCubeImageSizes(
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x);
+
+    final TextureCubeStatic texture =
+      TextureLoaderImageIO.allocateTextureCube_GL2ES3(
+        gl,
+        type,
+        positive_z.getWidth(),
+        wrap_r,
+        wrap_s,
+        wrap_t,
+        min_filter,
+        mag_filter,
+        name);
+
+    this.cubeUpdateFacesRH(
+      gl,
+      type,
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x,
+      texture);
+
+    return texture;
+  }
+
+  private @Nonnull TextureCubeStatic loadCubeRHStaticSpecificImageGL3ES3(
+    final @Nonnull JCGLTexturesCubeStaticGL3ES3 gl,
+    final @Nonnull TextureType type,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull BufferedImage positive_z,
+    final @Nonnull BufferedImage negative_z,
+    final @Nonnull BufferedImage positive_y,
+    final @Nonnull BufferedImage negative_y,
+    final @Nonnull BufferedImage positive_x,
+    final @Nonnull BufferedImage negative_x,
+    final @Nonnull String name)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    TextureLoaderImageIO.checkCubeImageSizes(
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x);
+
+    final TextureCubeStatic texture =
+      TextureLoaderImageIO.allocateTextureCube_GL3ES3(
+        gl,
+        type,
+        positive_z.getWidth(),
+        wrap_r,
+        wrap_s,
+        wrap_t,
+        min_filter,
+        mag_filter,
+        name);
+
+    this.cubeUpdateFacesRH(
+      gl,
+      type,
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x,
+      texture);
+
+    return texture;
+  }
+
+  private @Nonnull TextureCubeStatic loadCubeRHStaticSpecificImageGLES2(
+    final @Nonnull JCGLTexturesCubeStaticGLES2 gl,
+    final @Nonnull TextureType type,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter,
+    final @Nonnull BufferedImage positive_z,
+    final @Nonnull BufferedImage negative_z,
+    final @Nonnull BufferedImage positive_y,
+    final @Nonnull BufferedImage negative_y,
+    final @Nonnull BufferedImage positive_x,
+    final @Nonnull BufferedImage negative_x,
+    final @Nonnull String name)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    TextureLoaderImageIO.checkCubeImageSizes(
+      positive_z,
+      negative_z,
+      positive_y,
+      negative_y,
+      positive_x,
+      negative_x);
+
+    final TextureCubeStatic texture =
+      TextureLoaderImageIO.allocateTextureCube_GLES2(
         gl,
         type,
         positive_z.getWidth(),

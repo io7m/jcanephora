@@ -19,26 +19,43 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.gl2.TextureCubeStaticGL2Contract;
 
 public final class JOGL21TextureCubeStaticGL2Test extends
   TextureCubeStaticGL2Contract
 {
+  @Override public TextureCubeStatic allocateTextureRGBA(
+    final JCGLTexturesCubeStaticGL2 t,
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification filter_min,
+    final TextureFilterMagnification filter_mag)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    return t.textureCubeStaticAllocateRGBA8(
+      name,
+      size,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      filter_min,
+      filter_mag);
+  }
+
   @Override public JCGLTexturesCubeStaticGL2 getGLTextureCubeStatic(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGL2> some =
-      (Some<JCGLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public JCGLTextureUnits getGLTextureUnits(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGL2> some =
-      (Some<JCGLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public boolean isGLSupported()

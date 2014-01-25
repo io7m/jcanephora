@@ -36,7 +36,6 @@ import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jaux.functional.Option;
-import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
@@ -81,7 +80,7 @@ import com.io7m.jtensors.VectorReadable4I;
   private final @Nonnull JCGLStateCache                    state;
   private final @Nonnull JCGLVersion                       version;
   private final @Nonnull JCGLNamedExtensions               extensions;
-  private JCGLSoftRestrictions                             restrictions;
+  private final JCGLSoftRestrictions                       restrictions;
 
   JCGLInterfaceGL2_JOGL_GL21(
     final @Nonnull GLContext context,
@@ -130,62 +129,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.framebufferDrawAnyIsBound() == false,
       "NOT BOUND!");
 
-    this.extensions = new JCGLNamedExtensions() {
-      private final StringBuilder message = new StringBuilder();
-
-      @Override public boolean extensionIsSupported(
-        final @Nonnull String name)
-        throws ConstraintError
-      {
-        Constraints.constrainNotNull(name, "Name");
-        return context.isExtensionAvailable(name);
-      }
-
-      @SuppressWarnings("synthetic-access") @Override public
-        boolean
-        extensionIsVisible(
-          final @Nonnull String name)
-          throws ConstraintError
-      {
-        final boolean supported = this.extensionIsSupported(name);
-
-        if (supported) {
-          if (log.enabled(Level.LOG_DEBUG)) {
-            this.message.setLength(0);
-            this.message.append("Extension ");
-            this.message.append(name);
-            this.message.append(" is supported");
-            log.debug(this.message.toString());
-          }
-
-          final boolean visible =
-            JCGLInterfaceGL2_JOGL_GL21.this.restrictions
-              .restrictExtensionVisibility(name);
-
-          if (!visible) {
-            if (log.enabled(Level.LOG_DEBUG)) {
-              this.message.setLength(0);
-              this.message.append("Extension ");
-              this.message.append(name);
-              this.message.append(" is hidden by soft restrictions");
-              log.debug(this.message.toString());
-            }
-          }
-
-          return visible;
-        }
-
-        if (log.enabled(Level.LOG_DEBUG)) {
-          this.message.setLength(0);
-          this.message.append("Extension ");
-          this.message.append(name);
-          this.message.append(" is not supported");
-          log.debug(this.message.toString());
-        }
-
-        return supported;
-      }
-    };
+    this.extensions = new Extensions(context, restrictions, log);
 
     /**
      * Initialize extensions.
@@ -733,7 +677,8 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       this.version,
       framebuffer,
-      texture);
+      texture,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachColorTexture2DAt(
@@ -750,7 +695,8 @@ import com.io7m.jtensors.VectorReadable4I;
       this.version,
       framebuffer,
       point,
-      texture);
+      texture,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachColorTextureCube(
@@ -767,7 +713,8 @@ import com.io7m.jtensors.VectorReadable4I;
       this.version,
       framebuffer,
       texture,
-      face);
+      face,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachColorTextureCubeAt(
@@ -786,7 +733,8 @@ import com.io7m.jtensors.VectorReadable4I;
       framebuffer,
       point,
       texture,
-      face);
+      face,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachDepthRenderbuffer(
@@ -828,7 +776,8 @@ import com.io7m.jtensors.VectorReadable4I;
       this.state,
       this.log,
       framebuffer,
-      texture);
+      texture,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachStencilRenderbuffer(

@@ -28,86 +28,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
  */
 
 public interface JCGLTexturesCubeStaticGL3ES3 extends
-  JCGLTexturesCubeStaticCommon
+  JCGLTexturesCubeStaticGL2ES3
 {
-  /**
-   * <p>
-   * Allocate a depth texture of width/height <code>size</code>.
-   * </p>
-   * <p>
-   * See {@link TextureType#TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP} for the
-   * precise format of the texture.
-   * </p>
-   * <p>
-   * The texture is wrapped around the <code>r</code> axis using the wrapping
-   * mode <code>wrap_r</code>, with the OpenGL default being
-   * <code>TEXTURE_WRAP_REPEAT</code>.
-   * </p>
-   * <p>
-   * The texture is wrapped around the <code>s</code> axis using the wrapping
-   * mode <code>wrap_s</code>, with the OpenGL default being
-   * <code>TEXTURE_WRAP_REPEAT</code>.
-   * </p>
-   * <p>
-   * The texture is wrapped around the <code>t</code> axis using the wrapping
-   * mode <code>wrap_t</code>, with the OpenGL default being
-   * <code>TEXTURE_WRAP_REPEAT</code>.
-   * </p>
-   * <p>
-   * The texture is scaled down using the minification filter
-   * <code>min_filter</code>, with the OpenGL default being
-   * <code>TEXURE_FILTER_LINEAR</code>.
-   * </p>
-   * <p>
-   * The texture is scaled up using the magnification filter
-   * <code>mag_filter</code>, with the OpenGL default being
-   * <code>TEXTURE_FILTER_LINEAR</code>.
-   * </p>
-   * 
-   * @param name
-   *          The name of the texture.
-   * @param size
-   *          The size in pixels.
-   * @param wrap_r
-   *          The method with which to wrap textures around the <code>t</code>
-   *          axis.
-   * @param wrap_s
-   *          The method with which to wrap textures around the <code>s</code>
-   *          axis.
-   * @param wrap_t
-   *          The method with which to wrap textures around the <code>t</code>
-   *          axis.
-   * @param min_filter
-   *          The minification filter.
-   * @param mag_filter
-   *          The magnification filter.
-   * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
-   * @throws JCGLRuntimeException
-   *           Iff an OpenGL error occurs.
-   */
-
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateDepth24Stencil8(
-    final @Nonnull String name,
-    final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLRuntimeException;
-
   /**
    * <p>
    * Allocate a depth texture of width/height <code>size</code>.
@@ -254,6 +176,84 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    */
 
   public @Nonnull TextureCubeStatic textureCubeStaticAllocateDepth24(
+    final @Nonnull String name,
+    final int size,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
+    throws ConstraintError,
+      JCGLRuntimeException;
+
+  /**
+   * <p>
+   * Allocate a depth texture of width/height <code>size</code>.
+   * </p>
+   * <p>
+   * See {@link TextureType#TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP} for the
+   * precise format of the texture.
+   * </p>
+   * <p>
+   * The texture is wrapped around the <code>r</code> axis using the wrapping
+   * mode <code>wrap_r</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * </p>
+   * <p>
+   * The texture is wrapped around the <code>s</code> axis using the wrapping
+   * mode <code>wrap_s</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * </p>
+   * <p>
+   * The texture is wrapped around the <code>t</code> axis using the wrapping
+   * mode <code>wrap_t</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * </p>
+   * <p>
+   * The texture is scaled down using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
+   * <code>TEXURE_FILTER_LINEAR</code>.
+   * </p>
+   * <p>
+   * The texture is scaled up using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
+   * <code>TEXTURE_FILTER_LINEAR</code>.
+   * </p>
+   * 
+   * @param name
+   *          The name of the texture.
+   * @param size
+   *          The size in pixels.
+   * @param wrap_r
+   *          The method with which to wrap textures around the <code>t</code>
+   *          axis.
+   * @param wrap_s
+   *          The method with which to wrap textures around the <code>s</code>
+   *          axis.
+   * @param wrap_t
+   *          The method with which to wrap textures around the <code>t</code>
+   *          axis.
+   * @param min_filter
+   *          The minification filter.
+   * @param mag_filter
+   *          The magnification filter.
+   * @return An allocated texture.
+   * @throws ConstraintError
+   *           Iff any of the following conditions hold:
+   *           <ul>
+   *           <li><code>name == null</code></li>
+   *           <li><code>wrap_s == null</code></li>
+   *           <li><code>wrap_t == null</code></li>
+   *           <li><code>wrap_r == null</code></li>
+   *           <li><code>min_filter == null</code></li>
+   *           <li><code>mag_filter == null</code></li>
+   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
+   *           </ul>
+   * @throws JCGLRuntimeException
+   *           Iff an OpenGL error occurs.
+   */
+
+  public @Nonnull TextureCubeStatic textureCubeStaticAllocateDepth24Stencil8(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -2216,6 +2216,82 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
 
   /**
    * <p>
+   * Allocate an RGB texture of width/height <code>size</code>. See
+   * {@link TextureType#TEXTURE_TYPE_RGB_8_3BPP} for the precise format of the
+   * texture.
+   * </p>
+   * <p>
+   * The texture is wrapped around the <code>r</code> axis using the wrapping
+   * mode <code>wrap_r</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * </p>
+   * <p>
+   * The texture is wrapped around the <code>s</code> axis using the wrapping
+   * mode <code>wrap_s</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * </p>
+   * <p>
+   * The texture is wrapped around the <code>t</code> axis using the wrapping
+   * mode <code>wrap_t</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * </p>
+   * <p>
+   * The texture is scaled down using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
+   * <code>TEXURE_FILTER_LINEAR</code>.
+   * </p>
+   * <p>
+   * The texture is scaled up using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
+   * <code>TEXTURE_FILTER_LINEAR</code>.
+   * </p>
+   * 
+   * @param name
+   *          The name of the texture.
+   * @param size
+   *          The size in pixels.
+   * @param wrap_r
+   *          The method with which to wrap textures around the <code>t</code>
+   *          axis.
+   * @param wrap_s
+   *          The method with which to wrap textures around the <code>s</code>
+   *          axis.
+   * @param wrap_t
+   *          The method with which to wrap textures around the <code>t</code>
+   *          axis.
+   * @param min_filter
+   *          The minification filter.
+   * @param mag_filter
+   *          The magnification filter.
+   * @return An allocated texture.
+   * @throws ConstraintError
+   *           Iff any of the following conditions hold:
+   *           <ul>
+   *           <li><code>name == null</code></li>
+   *           <li><code>wrap_s == null</code></li>
+   *           <li><code>wrap_t == null</code></li>
+   *           <li><code>wrap_r == null</code></li>
+   *           <li><code>min_filter == null</code></li>
+   *           <li><code>mag_filter == null</code></li>
+   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
+   *           </ul>
+   * @throws JCGLRuntimeException
+   *           Iff an OpenGL error occurs.
+   */
+
+  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB8(
+    final @Nonnull String name,
+    final int size,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
+    throws ConstraintError,
+      JCGLRuntimeException;
+
+  /**
+   * <p>
    * Allocate an RGB texture of width/height <code>size</code>.
    * </p>
    * <p>
@@ -2828,6 +2904,82 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    */
 
   public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGBA32U(
+    final @Nonnull String name,
+    final int size,
+    final @Nonnull TextureWrapR wrap_r,
+    final @Nonnull TextureWrapS wrap_s,
+    final @Nonnull TextureWrapT wrap_t,
+    final @Nonnull TextureFilterMinification min_filter,
+    final @Nonnull TextureFilterMagnification mag_filter)
+    throws ConstraintError,
+      JCGLRuntimeException;
+
+  /**
+   * <p>
+   * Allocate an RGBA texture of width/height <code>size</code>. See
+   * {@link TextureType#TEXTURE_TYPE_RGBA_8_4BPP} for the precise format of
+   * the texture.
+   * </p>
+   * <p>
+   * The texture is wrapped around the <code>r</code> axis using the wrapping
+   * mode <code>wrap_r</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * </p>
+   * <p>
+   * The texture is wrapped around the <code>s</code> axis using the wrapping
+   * mode <code>wrap_s</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * </p>
+   * <p>
+   * The texture is wrapped around the <code>t</code> axis using the wrapping
+   * mode <code>wrap_t</code>, with the OpenGL default being
+   * <code>TEXTURE_WRAP_REPEAT</code>.
+   * </p>
+   * <p>
+   * The texture is scaled down using the minification filter
+   * <code>min_filter</code>, with the OpenGL default being
+   * <code>TEXURE_FILTER_LINEAR</code>.
+   * </p>
+   * <p>
+   * The texture is scaled up using the magnification filter
+   * <code>mag_filter</code>, with the OpenGL default being
+   * <code>TEXTURE_FILTER_LINEAR</code>.
+   * </p>
+   * 
+   * @param name
+   *          The name of the texture.
+   * @param size
+   *          The size in pixels.
+   * @param wrap_r
+   *          The method with which to wrap textures around the <code>t</code>
+   *          axis.
+   * @param wrap_s
+   *          The method with which to wrap textures around the <code>s</code>
+   *          axis.
+   * @param wrap_t
+   *          The method with which to wrap textures around the <code>t</code>
+   *          axis.
+   * @param min_filter
+   *          The minification filter.
+   * @param mag_filter
+   *          The magnification filter.
+   * @return An allocated texture.
+   * @throws ConstraintError
+   *           Iff any of the following conditions hold:
+   *           <ul>
+   *           <li><code>name == null</code></li>
+   *           <li><code>wrap_s == null</code></li>
+   *           <li><code>wrap_t == null</code></li>
+   *           <li><code>wrap_r == null</code></li>
+   *           <li><code>min_filter == null</code></li>
+   *           <li><code>mag_filter == null</code></li>
+   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
+   *           </ul>
+   * @throws JCGLRuntimeException
+   *           Iff an OpenGL error occurs.
+   */
+
+  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGBA8(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,

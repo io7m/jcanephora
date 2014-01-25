@@ -20,7 +20,6 @@ import javax.annotation.Nonnull;
 import org.junit.Assert;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.StencilBuffersContract;
 
 public final class LWJGL21StencilBuffersTest extends StencilBuffersContract
@@ -28,17 +27,13 @@ public final class LWJGL21StencilBuffersTest extends StencilBuffersContract
   @Override public JCGLFramebuffersCommon getGLFramebuffers(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGL2> some =
-      (Some<JCGLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
+    return LWJGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public JCGLStencilBuffer getGLStencilBuffer(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGL2> some =
-      (Some<JCGLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
+    return LWJGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public boolean isGLSupported()
@@ -49,12 +44,12 @@ public final class LWJGL21StencilBuffersTest extends StencilBuffersContract
   @Override public @Nonnull
     FramebufferReference
     makeFramebufferWithoutStencil(
+      final TestContext tc,
       @Nonnull final JCGLImplementation gi)
       throws ConstraintError,
         JCGLRuntimeException
   {
-    final Some<JCGLInterfaceGL2> some = (Some<JCGLInterfaceGL2>) gi.getGL2();
-    final JCGLInterfaceGL2 g = some.value;
+    final JCGLInterfaceGL2 g = LWJGLTestContextUtilities.getGL2(tc);
 
     final FramebufferReference fb = g.framebufferAllocate();
     final Renderbuffer<RenderableColor> cb =
@@ -73,12 +68,12 @@ public final class LWJGL21StencilBuffersTest extends StencilBuffersContract
   }
 
   @Override public @Nonnull FramebufferReference makeFramebufferWithStencil(
+    final TestContext tc,
     @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
       JCGLRuntimeException
   {
-    final Some<JCGLInterfaceGL2> some = (Some<JCGLInterfaceGL2>) gi.getGL2();
-    final JCGLInterfaceGL2 g = some.value;
+    final JCGLInterfaceGL2 g = LWJGLTestContextUtilities.getGL2(tc);
 
     final FramebufferReference fb = g.framebufferAllocate();
     final Renderbuffer<RenderableDepthStencil> db =

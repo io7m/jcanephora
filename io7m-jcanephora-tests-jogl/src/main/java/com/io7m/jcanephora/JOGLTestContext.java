@@ -236,15 +236,6 @@ public final class JOGLTestContext
     return JOGLTestContext.makeContextWithOpenGL_ES2_Actual(null);
   }
 
-  public static TestContext makeContextWithOpenGL_ES2_WithRestrictions(
-    final @Nonnull JCGLSoftRestrictions r)
-    throws JCGLRuntimeException,
-      JCGLUnsupportedException,
-      ConstraintError
-  {
-    return JOGLTestContext.makeContextWithOpenGL_ES2_Actual(r);
-  }
-
   private static TestContext makeContextWithOpenGL_ES2_Actual(
     final @CheckForNull JCGLSoftRestrictions r)
     throws JCGLRuntimeException,
@@ -261,6 +252,15 @@ public final class JOGLTestContext
       JOGLTestContext.makeImplementation(r, log, ctx);
 
     return new TestContext(fs, gi, log, ShaderPaths.getShaderPath(2, 0, true));
+  }
+
+  public static TestContext makeContextWithOpenGL_ES2_WithRestrictions(
+    final @Nonnull JCGLSoftRestrictions r)
+    throws JCGLRuntimeException,
+      JCGLUnsupportedException,
+      ConstraintError
+  {
+    return JOGLTestContext.makeContextWithOpenGL_ES2_Actual(r);
   }
 
   public static TestContext makeContextWithOpenGL_ES3()

@@ -73,12 +73,6 @@ public interface ArrayBufferUsable extends JCGLResourceUsable, JCGLName
   public @Nonnull RangeInclusive getRange();
 
   /**
-   * Return the total size in bytes of the allocated buffer.
-   */
-
-  public long resourceGetSizeBytes();
-
-  /**
    * Retrieve the array buffer's {@link ArrayBufferType}.
    */
 
@@ -99,5 +93,11 @@ public interface ArrayBufferUsable extends JCGLResourceUsable, JCGLName
   public boolean hasAttribute(
     final @Nonnull String name)
     throws ConstraintError;
+
+  /**
+   * Return the total size in bytes of the allocated buffer.
+   */
+
+  public long resourceGetSizeBytes();
 
 }

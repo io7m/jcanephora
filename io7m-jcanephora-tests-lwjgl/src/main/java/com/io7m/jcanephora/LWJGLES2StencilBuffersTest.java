@@ -30,17 +30,13 @@ public final class LWJGLES2StencilBuffersTest extends StencilBuffersContract
   @Override public JCGLFramebuffersCommon getGLFramebuffers(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGLES2> some =
-      (Some<JCGLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
-    return some.value;
+    return LWJGLTestContextUtilities.getGLES2(tc);
   }
 
   @Override public JCGLStencilBuffer getGLStencilBuffer(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGLES2> some =
-      (Some<JCGLInterfaceGLES2>) tc.getGLImplementation().getGLES2();
-    return some.value;
+    return LWJGLTestContextUtilities.getGLES2(tc);
   }
 
   @Override public boolean isGLSupported()
@@ -51,13 +47,12 @@ public final class LWJGLES2StencilBuffersTest extends StencilBuffersContract
   @Override public @Nonnull
     FramebufferReference
     makeFramebufferWithoutStencil(
+      final TestContext context,
       @Nonnull final JCGLImplementation gi)
       throws ConstraintError,
         JCGLRuntimeException
   {
-    final Some<JCGLInterfaceGLES2> some =
-      (Some<JCGLInterfaceGLES2>) gi.getGLES2();
-    final JCGLInterfaceGLES2 g = some.value;
+    final JCGLInterfaceGLES2 g = LWJGLTestContextUtilities.getGLES2(context);
     final FramebufferReference fb = g.framebufferAllocate();
 
     g.framebufferDrawBind(fb);
@@ -75,13 +70,12 @@ public final class LWJGLES2StencilBuffersTest extends StencilBuffersContract
   }
 
   @Override public @Nonnull FramebufferReference makeFramebufferWithStencil(
+    final TestContext context,
     @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
       JCGLRuntimeException
   {
-    final Some<JCGLInterfaceGLES2> some =
-      (Some<JCGLInterfaceGLES2>) gi.getGLES2();
-    final JCGLInterfaceGLES2 g = some.value;
+    final JCGLInterfaceGLES2 g = LWJGLTestContextUtilities.getGLES2(context);
     final FramebufferReference fb = g.framebufferAllocate();
 
     g.framebufferDrawBind(fb);

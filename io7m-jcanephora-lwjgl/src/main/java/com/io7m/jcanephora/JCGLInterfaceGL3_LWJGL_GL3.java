@@ -21,6 +21,7 @@ import java.nio.IntBuffer;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -55,9 +56,11 @@ import com.io7m.jtensors.VectorReadable4I;
   private final @Nonnull JCGLSLVersion        sl_version;
   private final @Nonnull JCGLStateCache       state;
   private final @Nonnull JCGLVersion          version;
+  private final @Nonnull Extensions           extensions;
 
   JCGLInterfaceGL3_LWJGL_GL3(
     final @Nonnull Log log,
+    final @Nonnull Set<String> extension_set,
     final @Nonnull JCGLSoftRestrictions r)
     throws ConstraintError,
       JCGLRuntimeException
@@ -67,6 +70,7 @@ import com.io7m.jtensors.VectorReadable4I;
     this.state = new JCGLStateCache();
 
     this.restrictions = r;
+    this.extensions = new Extensions(extension_set, r, log);
 
     /**
      * Initialize texture unit cache.
@@ -599,7 +603,8 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       this.version,
       framebuffer,
-      texture);
+      texture,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachColorTexture2DAt(
@@ -615,7 +620,8 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       framebuffer,
       point,
-      texture);
+      texture,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachColorTextureCube(
@@ -631,7 +637,8 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       framebuffer,
       texture,
-      face);
+      face,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachColorTextureCubeAt(
@@ -649,7 +656,8 @@ import com.io7m.jtensors.VectorReadable4I;
       framebuffer,
       point,
       texture,
-      face);
+      face,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachDepthRenderbuffer(
@@ -689,7 +697,8 @@ import com.io7m.jtensors.VectorReadable4I;
       this.version,
       this.log,
       framebuffer,
-      texture);
+      texture,
+      this.extensions);
   }
 
   @Override public void framebufferDrawAttachStencilRenderbuffer(

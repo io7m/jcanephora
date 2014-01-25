@@ -30,8 +30,8 @@ import javax.media.opengl.GLProfile;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.PartialFunction;
 import com.io7m.jcanephora.JCGLCompileException;
-import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLImplementationJOGL;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.TextureLoader;
 import com.io7m.jcanephora.TextureLoaderImageIO;
 import com.io7m.jlog.Log;
@@ -340,30 +340,6 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
         {
           JOGL30ExampleRunner.this.window.setTitle("Animated textured quad");
           return new ExampleTexturedQuadAnimatedNoise(c);
-        }
-      });
-
-    this.examples.put(
-      "FBO Triangle",
-      new PartialFunction<ExampleConfig, Example, Throwable>() {
-        @Override public Example call(
-          final ExampleConfig c)
-          throws Throwable
-        {
-          JOGL30ExampleRunner.this.window.setTitle("FBO Triangle");
-          return new ExampleFBO(c);
-        }
-      });
-
-    this.examples.put(
-      "FBO Triangle GL3",
-      new PartialFunction<ExampleConfig, Example, Throwable>() {
-        @Override public Example call(
-          final ExampleConfig c)
-          throws Throwable
-        {
-          JOGL30ExampleRunner.this.window.setTitle("FBO Triangle GL3");
-          return new ExampleFBO3(c);
         }
       });
 

@@ -18,7 +18,6 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.IndexBufferContract;
 
 public final class LWJGL21IndexBufferTest extends IndexBufferContract
@@ -26,17 +25,13 @@ public final class LWJGL21IndexBufferTest extends IndexBufferContract
   @Override public JCGLArrayBuffers getGLArrayBuffers(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGL2> some =
-      (Some<JCGLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
+    return LWJGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public JCGLIndexBuffers getGLIndexBuffers(
     final TestContext tc)
   {
-    final Some<JCGLInterfaceGL2> some =
-      (Some<JCGLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
+    return LWJGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public boolean isGLSupported()

@@ -13,6 +13,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora;
 
 import javax.annotation.Nonnull;
@@ -20,7 +21,6 @@ import javax.annotation.Nonnull;
 import org.junit.Assert;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.DepthBuffersContract;
 
 public final class JOGL21DepthBuffersTest extends DepthBuffersContract
@@ -28,17 +28,13 @@ public final class JOGL21DepthBuffersTest extends DepthBuffersContract
   @Override public @Nonnull JCGLDepthBuffer getGLDepthBuffer(
     @Nonnull final TestContext tc)
   {
-    final Some<JCGLInterfaceGL2> some =
-      (Some<JCGLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public @Nonnull JCGLFramebuffersCommon getGLFramebuffers(
     @Nonnull final TestContext tc)
   {
-    final Some<JCGLInterfaceGL2> some =
-      (Some<JCGLInterfaceGL2>) tc.getGLImplementation().getGL2();
-    return some.value;
+    return JOGLTestContextUtilities.getGL2(tc);
   }
 
   @Override public boolean isGLSupported()
@@ -47,12 +43,12 @@ public final class JOGL21DepthBuffersTest extends DepthBuffersContract
   }
 
   @Override public @Nonnull FramebufferReference makeFramebufferWithDepth(
-    @Nonnull final JCGLImplementation gi)
+    final @Nonnull TestContext context,
+    final @Nonnull JCGLImplementation gi)
     throws ConstraintError,
       JCGLRuntimeException
   {
-    final Some<JCGLInterfaceGL2> some = (Some<JCGLInterfaceGL2>) gi.getGL2();
-    final JCGLInterfaceGL2 g = some.value;
+    final JCGLInterfaceGL2 g = JOGLTestContextUtilities.getGL2(context);
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
     final FramebufferReference fb = g.framebufferAllocate();
@@ -89,12 +85,12 @@ public final class JOGL21DepthBuffersTest extends DepthBuffersContract
   }
 
   @Override public @Nonnull FramebufferReference makeFramebufferWithoutDepth(
+    final @Nonnull TestContext context,
     @Nonnull final JCGLImplementation gi)
     throws ConstraintError,
       JCGLRuntimeException
   {
-    final Some<JCGLInterfaceGL2> some = (Some<JCGLInterfaceGL2>) gi.getGL2();
-    final JCGLInterfaceGL2 g = some.value;
+    final JCGLInterfaceGL2 g = JOGLTestContextUtilities.getGL2(context);
     Assert.assertFalse(g.framebufferDrawAnyIsBound());
 
     final FramebufferReference fb = g.framebufferAllocate();

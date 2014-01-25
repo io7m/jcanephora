@@ -18,7 +18,6 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.DrawContract;
 
 public final class JOGLES2DrawTest extends DrawContract
@@ -26,17 +25,13 @@ public final class JOGLES2DrawTest extends DrawContract
   @Override public @Nonnull JCGLDraw getGLDraw(
     final TestContext context)
   {
-    final Some<JCGLInterfaceGLES2> some =
-      (Some<JCGLInterfaceGLES2>) context.getGLImplementation().getGLES2();
-    return some.value;
+    return JOGLTestContextUtilities.getGLES2(context);
   }
 
   @Override public @Nonnull JCGLIndexBuffers getGLIndexBuffers(
     final TestContext context)
   {
-    final Some<JCGLInterfaceGLES2> some =
-      (Some<JCGLInterfaceGLES2>) context.getGLImplementation().getGLES2();
-    return some.value;
+    return JOGLTestContextUtilities.getGLES2(context);
   }
 
   @Override public boolean isGLSupported()

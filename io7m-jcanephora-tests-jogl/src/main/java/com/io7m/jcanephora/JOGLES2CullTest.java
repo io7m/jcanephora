@@ -18,7 +18,6 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option.Some;
 import com.io7m.jcanephora.contracts.CullContract;
 
 public final class JOGLES2CullTest extends CullContract
@@ -26,9 +25,7 @@ public final class JOGLES2CullTest extends CullContract
   @Override public JCGLCull getGLCull(
     final TestContext context)
   {
-    final Some<JCGLInterfaceGLES2> some =
-      (Some<JCGLInterfaceGLES2>) context.getGLImplementation().getGLES2();
-    return some.value;
+    return JOGLTestContextUtilities.getGLES2(context);
   }
 
   @Override public boolean isGLSupported()
