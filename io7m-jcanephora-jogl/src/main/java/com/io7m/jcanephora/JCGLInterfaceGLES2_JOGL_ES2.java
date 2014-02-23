@@ -125,13 +125,20 @@ import com.io7m.jtensors.VectorReadable4I;
     final GL2ES2 g = this.contextGetGLES2();
 
     this.extensions = new Extensions(context, restrictions, log);
+    this.version = JOGL_GL_Functions.metaGetVersion(g);
+    this.sl_version = JOGL_GL_Functions.metaGetSLVersion(log, g);
 
     /**
      * Initialize extensions.
      */
 
     this.ext_packed_depth_stencil =
-      ExtPackedDepthStencil.create(g, this.state, this.extensions, log);
+      ExtPackedDepthStencil.create(
+        g,
+        this.state,
+        this.extensions,
+        this.version,
+        log);
     this.ext_depth_texture =
       ExtESDepthTexture.create(g, this.state, this.extensions, log);
     this.ext_depth_cube_texture =
@@ -169,9 +176,6 @@ import com.io7m.jtensors.VectorReadable4I;
       this.state.point_max_width = cache.get();
       JCGLError.check(this);
     }
-
-    this.version = JOGL_GL_Functions.metaGetVersion(g);
-    this.sl_version = JOGL_GL_Functions.metaGetSLVersion(log, g);
   }
 
   @Override public ArrayBuffer arrayBufferAllocate(
