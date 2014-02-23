@@ -21,6 +21,7 @@ import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -645,6 +646,22 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log);
   }
 
+  @Override public void framebufferBlit(
+    final @Nonnull AreaInclusive source,
+    final @Nonnull AreaInclusive target,
+    final @Nonnull Set<FramebufferBlitBuffer> buffers,
+    final @Nonnull FramebufferBlitFilter filter)
+    throws ConstraintError,
+      JCGLRuntimeException
+  {
+    JOGL_GL2ES3_Functions.framebufferBlit(
+      this.contextGetGL3(),
+      source,
+      target,
+      buffers,
+      filter);
+  }
+
   @Override public void framebufferDelete(
     final @Nonnull FramebufferReference framebuffer)
     throws JCGLRuntimeException,
@@ -888,6 +905,39 @@ import com.io7m.jtensors.VectorReadable4I;
         ConstraintError
   {
     return Collections.unmodifiableList(this.state.draw_buffers);
+  }
+
+  @Override public boolean framebufferReadAnyIsBound()
+    throws JCGLRuntimeException
+  {
+    return JOGL_GL2ES3_Functions.framebufferReadAnyIsBound(this
+      .contextGetGL3());
+  }
+
+  @Override public void framebufferReadBind(
+    final @Nonnull FramebufferReferenceUsable framebuffer)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    JOGL_GL2ES3_Functions.framebufferReadBind(
+      this.contextGetGL3(),
+      framebuffer);
+  }
+
+  @Override public boolean framebufferReadIsBound(
+    final @Nonnull FramebufferReferenceUsable framebuffer)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    return JOGL_GL2ES3_Functions.framebufferReadIsBound(
+      this.contextGetGL3(),
+      framebuffer);
+  }
+
+  @Override public void framebufferReadUnbind()
+    throws JCGLRuntimeException
+  {
+    JOGL_GL2ES3_Functions.framebufferReadUnbind(this.contextGetGL3());
   }
 
   @Override public boolean hasColourBufferFloat()

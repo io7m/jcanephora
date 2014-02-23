@@ -51,12 +51,12 @@ import com.io7m.jtensors.VectorReadable4I;
 @NotThreadSafe public final class JCGLInterfaceGL3_LWJGL_GL3 implements
   JCGLInterfaceGL3
 {
+  private final @Nonnull Extensions           extensions;
   private final @Nonnull Log                  log;
   private final @Nonnull JCGLSoftRestrictions restrictions;
   private final @Nonnull JCGLSLVersion        sl_version;
   private final @Nonnull JCGLStateCache       state;
   private final @Nonnull JCGLVersion          version;
-  private final @Nonnull Extensions           extensions;
 
   JCGLInterfaceGL3_LWJGL_GL3(
     final @Nonnull Log log,
@@ -550,6 +550,17 @@ import com.io7m.jtensors.VectorReadable4I;
     return LWJGL_GLES2Functions.framebufferAllocate(this.state, this.log);
   }
 
+  @Override public void framebufferBlit(
+    final AreaInclusive source,
+    final AreaInclusive target,
+    final Set<FramebufferBlitBuffer> buffers,
+    final FramebufferBlitFilter filter)
+    throws ConstraintError,
+      JCGLRuntimeException
+  {
+    LWJGL_GL3Functions.framebufferBlit(source, target, buffers, filter);
+  }
+
   @Override public void framebufferDelete(
     final @Nonnull FramebufferReference framebuffer)
     throws JCGLRuntimeException,
@@ -776,6 +787,34 @@ import com.io7m.jtensors.VectorReadable4I;
         ConstraintError
   {
     return Collections.unmodifiableList(this.state.draw_buffers);
+  }
+
+  @Override public boolean framebufferReadAnyIsBound()
+    throws JCGLRuntimeException
+  {
+    return LWJGL_GL3Functions.framebufferReadAnyIsBound();
+  }
+
+  @Override public void framebufferReadBind(
+    final FramebufferReferenceUsable framebuffer)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    LWJGL_GL3Functions.framebufferReadBind(framebuffer);
+  }
+
+  @Override public boolean framebufferReadIsBound(
+    final @Nonnull FramebufferReferenceUsable framebuffer)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    return LWJGL_GL3Functions.framebufferReadIsBound(this.state, framebuffer);
+  }
+
+  @Override public void framebufferReadUnbind()
+    throws JCGLRuntimeException
+  {
+    LWJGL_GL3Functions.framebufferReadUnbind();
   }
 
   @Override public IndexBuffer indexBufferAllocate(

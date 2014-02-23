@@ -22,6 +22,7 @@ import java.nio.IntBuffer;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -76,13 +77,13 @@ import com.io7m.jtensors.VectorReadable4I;
   JCGLInterfaceGL3
 {
   private final @Nonnull GL2GL3               cached_gl2gl3;
+  private final @Nonnull Extensions           extensions;
   private final @Nonnull GLContext            gl_context;
   private final @Nonnull Log                  log;
+  private final @Nonnull JCGLSoftRestrictions restrictions;
   private final @Nonnull JCGLSLVersion        sl_version;
   private final @Nonnull JCGLStateCache       state;
   private final @Nonnull JCGLVersion          version;
-  private final @Nonnull JCGLSoftRestrictions restrictions;
-  private final @Nonnull Extensions           extensions;
 
   JCGLInterfaceGL3_JOGL_GL2GL3(
     final @Nonnull GLContext context,
@@ -687,6 +688,22 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log);
   }
 
+  @Override public void framebufferBlit(
+    final @Nonnull AreaInclusive source,
+    final @Nonnull AreaInclusive target,
+    final @Nonnull Set<FramebufferBlitBuffer> buffers,
+    final @Nonnull FramebufferBlitFilter filter)
+    throws ConstraintError,
+      JCGLRuntimeException
+  {
+    JOGL_GL2ES3_Functions.framebufferBlit(
+      this.contextGetGL(),
+      source,
+      target,
+      buffers,
+      filter);
+  }
+
   @Override public void framebufferDelete(
     final @Nonnull FramebufferReference framebuffer)
     throws JCGLRuntimeException,
@@ -930,6 +947,39 @@ import com.io7m.jtensors.VectorReadable4I;
         ConstraintError
   {
     return Collections.unmodifiableList(this.state.draw_buffers);
+  }
+
+  @Override public boolean framebufferReadAnyIsBound()
+    throws JCGLRuntimeException
+  {
+    return JOGL_GL2ES3_Functions.framebufferReadAnyIsBound(this
+      .contextGetGL());
+  }
+
+  @Override public void framebufferReadBind(
+    final @Nonnull FramebufferReferenceUsable framebuffer)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    JOGL_GL2ES3_Functions.framebufferReadBind(
+      this.contextGetGL(),
+      framebuffer);
+  }
+
+  @Override public boolean framebufferReadIsBound(
+    final @Nonnull FramebufferReferenceUsable framebuffer)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    return JOGL_GL2ES3_Functions.framebufferReadIsBound(
+      this.contextGetGL(),
+      framebuffer);
+  }
+
+  @Override public void framebufferReadUnbind()
+    throws JCGLRuntimeException
+  {
+    JOGL_GL2ES3_Functions.framebufferReadUnbind(this.contextGetGL());
   }
 
   @Override public IndexBuffer indexBufferAllocate(
@@ -1422,24 +1472,6 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public @Nonnull
     Renderbuffer<RenderableDepth>
-    renderbufferAllocateDepth24(
-      final int width,
-      final int height)
-      throws ConstraintError,
-        JCGLRuntimeException
-  {
-    return Renderbuffer.unsafeBrandDepth(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.contextGetGL(),
-        this.state,
-        this.log,
-        RenderbufferType.RENDERBUFFER_DEPTH_24,
-        width,
-        height));
-  }
-
-  @Override public @Nonnull
-    Renderbuffer<RenderableDepth>
     renderbufferAllocateDepth16(
       final int width,
       final int height)
@@ -1452,6 +1484,24 @@ import com.io7m.jtensors.VectorReadable4I;
         this.state,
         this.log,
         RenderbufferType.RENDERBUFFER_DEPTH_16,
+        width,
+        height));
+  }
+
+  @Override public @Nonnull
+    Renderbuffer<RenderableDepth>
+    renderbufferAllocateDepth24(
+      final int width,
+      final int height)
+      throws ConstraintError,
+        JCGLRuntimeException
+  {
+    return Renderbuffer.unsafeBrandDepth(JOGL_GL_Functions
+      .renderbufferAllocate(
+        this.contextGetGL(),
+        this.state,
+        this.log,
+        RenderbufferType.RENDERBUFFER_DEPTH_24,
         width,
         height));
   }
