@@ -803,6 +803,14 @@ import com.io7m.jtensors.VectorReadable4I;
     LWJGL_GL3Functions.framebufferReadBind(framebuffer);
   }
 
+  @Override public boolean framebufferReadIsBound(
+    final @Nonnull FramebufferReferenceUsable framebuffer)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    return LWJGL_GL3Functions.framebufferReadIsBound(this.state, framebuffer);
+  }
+
   @Override public void framebufferReadUnbind()
     throws JCGLRuntimeException
   {
