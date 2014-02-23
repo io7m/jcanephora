@@ -568,6 +568,17 @@ import com.io7m.jtensors.VectorReadable4I;
     return LWJGL_GLES2Functions.framebufferAllocate(this.state, this.log);
   }
 
+  @Override public void framebufferBlit(
+    final AreaInclusive source,
+    final AreaInclusive target,
+    final Set<FramebufferBlitBuffer> buffers,
+    final FramebufferBlitFilter filter)
+    throws ConstraintError,
+      JCGLRuntimeException
+  {
+    LWJGL_GL3Functions.framebufferBlit(source, target, buffers, filter);
+  }
+
   @Override public void framebufferDelete(
     final @Nonnull FramebufferReference framebuffer)
     throws JCGLRuntimeException,
@@ -794,6 +805,26 @@ import com.io7m.jtensors.VectorReadable4I;
         ConstraintError
   {
     return Collections.unmodifiableList(this.state.draw_buffers);
+  }
+
+  @Override public boolean framebufferReadAnyIsBound()
+    throws JCGLRuntimeException
+  {
+    return LWJGL_GL3Functions.framebufferReadAnyIsBound();
+  }
+
+  @Override public void framebufferReadBind(
+    final FramebufferReferenceUsable framebuffer)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    LWJGL_GL3Functions.framebufferReadBind(framebuffer);
+  }
+
+  @Override public void framebufferReadUnbind()
+    throws JCGLRuntimeException
+  {
+    LWJGL_GL3Functions.framebufferReadUnbind();
   }
 
   @Override public IndexBuffer indexBufferAllocate(

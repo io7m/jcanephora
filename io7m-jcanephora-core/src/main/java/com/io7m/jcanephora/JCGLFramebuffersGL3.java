@@ -27,7 +27,9 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * 3.* implementations.
  */
 
-public interface JCGLFramebuffersGL3 extends JCGLFramebuffersGLES2
+public interface JCGLFramebuffersGL3 extends
+  JCGLFramebuffersGLES2,
+  JCGLFramebuffersReadGL3
 {
   /**
    * <p>
