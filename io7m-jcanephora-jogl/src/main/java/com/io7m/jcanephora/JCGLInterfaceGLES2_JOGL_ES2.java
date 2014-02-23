@@ -125,13 +125,20 @@ import com.io7m.jtensors.VectorReadable4I;
     final GL2ES2 g = this.contextGetGLES2();
 
     this.extensions = new Extensions(context, restrictions, log);
+    this.version = JOGL_GL_Functions.metaGetVersion(g);
+    this.sl_version = JOGL_GL_Functions.metaGetSLVersion(log, g);
 
     /**
      * Initialize extensions.
      */
 
     this.ext_packed_depth_stencil =
-      ExtPackedDepthStencil.create(g, this.state, this.extensions, log);
+      ExtPackedDepthStencil.create(
+        g,
+        this.state,
+        this.extensions,
+        this.version,
+        log);
     this.ext_depth_texture =
       ExtESDepthTexture.create(g, this.state, this.extensions, log);
     this.ext_depth_cube_texture =
@@ -169,9 +176,6 @@ import com.io7m.jtensors.VectorReadable4I;
       this.state.point_max_width = cache.get();
       JCGLError.check(this);
     }
-
-    this.version = JOGL_GL_Functions.metaGetVersion(g);
-    this.sl_version = JOGL_GL_Functions.metaGetSLVersion(log, g);
   }
 
   @Override public ArrayBuffer arrayBufferAllocate(
@@ -588,8 +592,8 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public boolean framebufferDrawAnyIsBound()
     throws JCGLRuntimeException
   {
-    return JOGL_GL_Functions
-      .framebufferDrawAnyIsBound(this.contextGetGLES2());
+    return JOGL_GLES2_Functions.framebufferDrawAnyIsBound(this
+      .contextGetGLES2());
   }
 
   @Override public void framebufferDrawAttachColorRenderbuffer(
@@ -598,7 +602,7 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLRuntimeException,
       ConstraintError
   {
-    JOGL_GL_Functions.framebufferDrawAttachColorRenderbuffer(
+    JOGL_GLES2_Functions.framebufferDrawAttachColorRenderbuffer(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -612,7 +616,7 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLRuntimeException,
       ConstraintError
   {
-    JOGL_GL_Functions.framebufferDrawAttachColorTexture2D(
+    JOGL_GLES2_Functions.framebufferDrawAttachColorTexture2D(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -629,7 +633,7 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLRuntimeException,
       ConstraintError
   {
-    JOGL_GL_Functions.framebufferDrawAttachColorTextureCube(
+    JOGL_GLES2_Functions.framebufferDrawAttachColorTextureCube(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -646,7 +650,7 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLRuntimeException,
       ConstraintError
   {
-    JOGL_GL_Functions.framebufferDrawAttachDepthRenderbuffer(
+    JOGL_GLES2_Functions.framebufferDrawAttachDepthRenderbuffer(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -660,7 +664,7 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLRuntimeException,
       ConstraintError
   {
-    JOGL_GL_Functions.framebufferDrawAttachDepthTexture2D(
+    JOGL_GLES2_Functions.framebufferDrawAttachDepthTexture2D(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -675,7 +679,7 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLRuntimeException,
       ConstraintError
   {
-    JOGL_GL_Functions.framebufferDrawAttachStencilRenderbuffer(
+    JOGL_GLES2_Functions.framebufferDrawAttachStencilRenderbuffer(
       this.contextGetGLES2(),
       this.state,
       this.log,
@@ -688,8 +692,9 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLRuntimeException,
       ConstraintError
   {
-    JOGL_GL_Functions
-      .framebufferDrawBind(this.contextGetGLES2(), framebuffer);
+    JOGL_GLES2_Functions.framebufferDrawBind(
+      this.contextGetGLES2(),
+      framebuffer);
   }
 
   @Override public boolean framebufferDrawIsBound(
@@ -697,7 +702,7 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLRuntimeException,
       ConstraintError
   {
-    return JOGL_GL_Functions.framebufferDrawIsBound(
+    return JOGL_GLES2_Functions.framebufferDrawIsBound(
       this.contextGetGLES2(),
       framebuffer);
   }
@@ -705,7 +710,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void framebufferDrawUnbind()
     throws JCGLRuntimeException
   {
-    JOGL_GL_Functions.framebufferDrawUnbind(this.contextGetGLES2());
+    JOGL_GLES2_Functions.framebufferDrawUnbind(this.contextGetGLES2());
   }
 
   @Override public @Nonnull FramebufferStatus framebufferDrawValidate(
@@ -713,7 +718,7 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLRuntimeException,
       ConstraintError
   {
-    return JOGL_GL_Functions.framebufferDrawValidate(
+    return JOGL_GLES2_Functions.framebufferDrawValidate(
       this.contextGetGLES2(),
       framebuffer);
   }

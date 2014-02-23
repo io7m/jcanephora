@@ -21,16 +21,19 @@ class ExtPackedDepthStencil<G extends GL> implements
       final @Nonnull G g,
       final @Nonnull JCGLStateCache state,
       final @Nonnull JCGLNamedExtensions extensions,
+      final @Nonnull JCGLVersion version,
       final @Nonnull Log log)
       throws ConstraintError
   {
     final String names[] =
-      { JCGLExtensionNames.GL_OES_PACKED_DEPTH_STENCIL, JCGLExtensionNames.GL_EXT_PACKED_DEPTH_STENCIL, };
+      {
+        JCGLExtensionNames.GL_OES_PACKED_DEPTH_STENCIL,
+        JCGLExtensionNames.GL_EXT_PACKED_DEPTH_STENCIL, };
 
     for (final String name : names) {
       if (extensions.extensionIsVisible(name)) {
         return new Option.Some<JCGLExtensionPackedDepthStencil>(
-          new ExtPackedDepthStencil<G>(g, state, log));
+          new ExtPackedDepthStencil<G>(g, state, version, log));
       }
     }
 
@@ -40,15 +43,18 @@ class ExtPackedDepthStencil<G extends GL> implements
   private final @Nonnull JCGLStateCache cache;
   private final @Nonnull GL             gl;
   private final @Nonnull Log            log;
+  private final @Nonnull JCGLVersion    version;
 
   private ExtPackedDepthStencil(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache cache,
+    final @Nonnull JCGLVersion version,
     final @Nonnull Log log)
   {
     this.gl = gl;
     this.cache = cache;
     this.log = log;
+    this.version = version;
   }
 
   @Override public void framebufferDrawAttachDepthStencilRenderbuffer(
@@ -57,6 +63,26 @@ class ExtPackedDepthStencil<G extends GL> implements
     throws JCGLRuntimeException,
       ConstraintError
   {
+    switch (this.version.getAPI()) {
+      case JCGL_ES:
+      {
+        if (this.version.getVersionMajor() == 2) {
+          JOGL_GLES2_Functions.framebufferDrawAttachDepthStencilRenderbuffer(
+            this.gl.getGL2ES2(),
+            this.cache,
+            this.log,
+            framebuffer,
+            renderbuffer);
+          return;
+        }
+        break;
+      }
+      case JCGL_FULL:
+      {
+        break;
+      }
+    }
+
     JOGL_GL_Functions.framebufferDrawAttachDepthStencilRenderbuffer(
       this.gl,
       this.cache,
