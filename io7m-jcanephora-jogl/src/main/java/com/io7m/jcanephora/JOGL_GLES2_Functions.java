@@ -147,6 +147,558 @@ final class JOGL_GLES2_Functions
     return bi.get(0) == 1;
   }
 
+  static boolean framebufferDrawAnyIsBound(
+    final @Nonnull GL2ES2 gl)
+  {
+    final int bound = gl.getBoundFramebuffer(GL.GL_FRAMEBUFFER);
+    final int default_fb = gl.getDefaultDrawFramebuffer();
+    return bound != default_fb;
+  }
+
+  static void framebufferDrawAttachColorRenderbuffer(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
+    Constraints.constrainArbitrary(
+      renderbuffer.resourceIsDeleted() == false,
+      "Renderbuffer not deleted");
+    Constraints.constrainArbitrary(
+      renderbuffer.getType().isColorRenderable(),
+      "Renderbuffer is color renderable");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(renderbuffer);
+      state.log_text.append(" at color attachment 0");
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glFramebufferRenderbuffer(
+      GL.GL_FRAMEBUFFER,
+      GL.GL_COLOR_ATTACHMENT0,
+      GL.GL_RENDERBUFFER,
+      renderbuffer.getGLName());
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void framebufferDrawAttachColorRenderbufferAt(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull FramebufferColorAttachmentPoint point,
+    final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
+    throws ConstraintError,
+      JCGLRuntimeException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(point, "Attachment point");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
+    Constraints.constrainArbitrary(
+      renderbuffer.resourceIsDeleted() == false,
+      "Renderbuffer not deleted");
+    Constraints.constrainArbitrary(
+      renderbuffer.getType().isColorRenderable(),
+      "Renderbuffer is color renderable");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(renderbuffer);
+      state.log_text.append(" at color attachment ");
+      state.log_text.append(point);
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glFramebufferRenderbuffer(GL.GL_FRAMEBUFFER, GL.GL_COLOR_ATTACHMENT0
+      + point.getIndex(), GL.GL_RENDERBUFFER, renderbuffer.getGLName());
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void framebufferDrawAttachColorTexture2D(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull JCGLVersion version,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull Texture2DStaticUsable texture,
+    final @Nonnull JCGLNamedExtensions extensions)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+    Constraints.constrainArbitrary(TextureTypeMeta.isColourRenderable2D(
+      texture.getType(),
+      version,
+      extensions), "Texture is color renderable");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(texture);
+      state.log_text.append(" at color attachment 0");
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glFramebufferTexture2D(
+      GL.GL_FRAMEBUFFER,
+      GL.GL_COLOR_ATTACHMENT0,
+      GL.GL_TEXTURE_2D,
+      texture.getGLName(),
+      0);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void framebufferDrawAttachColorTexture2DAt(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull JCGLVersion version,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull FramebufferColorAttachmentPoint point,
+    final @Nonnull Texture2DStaticUsable texture,
+    final @Nonnull JCGLNamedExtensions extensions)
+    throws ConstraintError,
+      JCGLRuntimeException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(point, "Attachment point");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+    Constraints.constrainArbitrary(TextureTypeMeta.isColourRenderable2D(
+      texture.getType(),
+      version,
+      extensions), "Texture is color renderable");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(texture);
+      state.log_text.append(" at color attachment ");
+      state.log_text.append(point);
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glFramebufferTexture2D(GL.GL_FRAMEBUFFER, GL.GL_COLOR_ATTACHMENT0
+      + point.getIndex(), GL.GL_TEXTURE_2D, texture.getGLName(), 0);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void framebufferDrawAttachColorTextureCube(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull JCGLVersion version,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull TextureCubeStaticUsable texture,
+    final @Nonnull CubeMapFaceLH face,
+    final @Nonnull JCGLNamedExtensions extensions)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+    Constraints.constrainArbitrary(TextureTypeMeta.isColourRenderable2D(
+      texture.getType(),
+      version,
+      extensions), "Texture is color renderable");
+
+    Constraints.constrainNotNull(face, "Cube map face");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(texture);
+      state.log_text.append(" at color attachment 0");
+      log.debug(state.log_text.toString());
+    }
+
+    final int gface = JOGL_GLTypeConversions.cubeFaceToGL(face);
+    gl.glFramebufferTexture2D(
+      GL.GL_FRAMEBUFFER,
+      GL.GL_COLOR_ATTACHMENT0,
+      gface,
+      texture.getGLName(),
+      0);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void framebufferDrawAttachColorTextureCubeAt(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull JCGLVersion version,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull FramebufferColorAttachmentPoint point,
+    final @Nonnull TextureCubeStaticUsable texture,
+    final @Nonnull CubeMapFaceLH face,
+    final @Nonnull JCGLNamedExtensions extensions)
+    throws ConstraintError,
+      JCGLRuntimeException
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(point, "Attachment point");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+    Constraints.constrainArbitrary(TextureTypeMeta.isColourRenderable2D(
+      texture.getType(),
+      version,
+      extensions), "Texture is color renderable");
+
+    Constraints.constrainNotNull(face, "Cube map face");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(texture);
+      state.log_text.append(" face ");
+      state.log_text.append(face);
+      state.log_text.append(" at color attachment ");
+      state.log_text.append(point);
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glFramebufferTexture2D(
+      GL.GL_FRAMEBUFFER,
+      GL.GL_COLOR_ATTACHMENT0 + point.getIndex(),
+      JOGL_GLTypeConversions.cubeFaceToGL(face),
+      texture.getGLName(),
+      0);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void framebufferDrawAttachDepthRenderbuffer(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull RenderbufferUsable<RenderableDepth> renderbuffer)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
+    Constraints.constrainArbitrary(
+      renderbuffer.resourceIsDeleted() == false,
+      "Renderbuffer not deleted");
+    Constraints.constrainArbitrary(
+      renderbuffer.getType().isDepthRenderable(),
+      "Renderbuffer is depth renderable");
+    Constraints.constrainArbitrary(
+      renderbuffer.getType().isStencilRenderable() == false,
+      "Renderbuffer is not also stencil renderable");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(renderbuffer);
+      state.log_text.append(" at depth attachment");
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glFramebufferRenderbuffer(
+      GL.GL_FRAMEBUFFER,
+      GL.GL_DEPTH_ATTACHMENT,
+      GL.GL_RENDERBUFFER,
+      renderbuffer.getGLName());
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  /**
+   * Available as an extension in ES2 (OES_packed_depth_stencil).
+   */
+
+  static void framebufferDrawAttachDepthStencilRenderbuffer(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull RenderbufferUsable<RenderableDepthStencil> renderbuffer)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
+    Constraints.constrainArbitrary(
+      renderbuffer.resourceIsDeleted() == false,
+      "Renderbuffer not deleted");
+
+    final RenderbufferType type = renderbuffer.getType();
+    Constraints.constrainArbitrary(
+      type.isDepthRenderable(),
+      "Renderbuffer is depth renderable");
+    Constraints.constrainArbitrary(
+      type.isStencilRenderable(),
+      "Renderbuffer is stencil renderable");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(renderbuffer);
+      state.log_text.append(" at depth+stencil attachment");
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glFramebufferRenderbuffer(
+      GL.GL_FRAMEBUFFER,
+      GL.GL_DEPTH_ATTACHMENT,
+      GL.GL_RENDERBUFFER,
+      renderbuffer.getGLName());
+    gl.glFramebufferRenderbuffer(
+      GL.GL_FRAMEBUFFER,
+      GL.GL_STENCIL_ATTACHMENT,
+      GL.GL_RENDERBUFFER,
+      renderbuffer.getGLName());
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void framebufferDrawAttachDepthTexture2D(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull Texture2DStaticUsable texture,
+    final @Nonnull JCGLNamedExtensions extensions)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainArbitrary(
+      texture.resourceIsDeleted() == false,
+      "Texture not deleted");
+    Constraints.constrainArbitrary(
+      TextureTypeMeta.isDepthRenderable2D(texture.getType(), extensions),
+      "Texture is depth renderable");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(texture);
+      state.log_text.append(" at depth attachment");
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glFramebufferTexture2D(
+      GL.GL_FRAMEBUFFER,
+      GL.GL_DEPTH_ATTACHMENT,
+      GL.GL_TEXTURE_2D,
+      texture.getGLName(),
+      0);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void framebufferDrawAttachStencilRenderbuffer(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull Log log,
+    final @Nonnull FramebufferReference framebuffer,
+    final @Nonnull RenderbufferUsable<RenderableStencil> renderbuffer)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
+      "Framebuffer is bound");
+
+    Constraints.constrainNotNull(renderbuffer, "Renderbuffer");
+    Constraints.constrainArbitrary(
+      renderbuffer.resourceIsDeleted() == false,
+      "Renderbuffer not deleted");
+    Constraints.constrainArbitrary(renderbuffer
+      .getType()
+      .isStencilRenderable(), "Renderbuffer is stencil renderable");
+    Constraints.constrainArbitrary(
+      renderbuffer.getType().isDepthRenderable() == false,
+      "Renderbuffer is not also depth renderable");
+
+    if (log.enabled(Level.LOG_DEBUG)) {
+      state.log_text.setLength(0);
+      state.log_text.append("framebuffer-draw: attach ");
+      state.log_text.append(framebuffer);
+      state.log_text.append(" ");
+      state.log_text.append(renderbuffer);
+      state.log_text.append(" at stencil attachment");
+      log.debug(state.log_text.toString());
+    }
+
+    gl.glFramebufferRenderbuffer(
+      GL.GL_FRAMEBUFFER,
+      GL.GL_STENCIL_ATTACHMENT,
+      GL.GL_RENDERBUFFER,
+      renderbuffer.getGLName());
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static void framebufferDrawBind(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull FramebufferReferenceUsable framebuffer)
+    throws ConstraintError,
+      JCGLRuntimeException
+  {
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+
+    gl.glBindFramebuffer(GL.GL_FRAMEBUFFER, framebuffer.getGLName());
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static boolean framebufferDrawIsBound(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull FramebufferReferenceUsable framebuffer)
+    throws ConstraintError
+  {
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+
+    final int bound = gl.getBoundFramebuffer(GL.GL_FRAMEBUFFER);
+    return bound == framebuffer.getGLName();
+  }
+
+  static void framebufferDrawUnbind(
+    final @Nonnull GL2ES2 gl)
+    throws JCGLRuntimeException
+  {
+    gl.glBindFramebuffer(GL.GL_FRAMEBUFFER, 0);
+    JOGL_GL_Functions.checkError(gl);
+  }
+
+  static @Nonnull FramebufferStatus framebufferDrawValidate(
+    final @Nonnull GL2ES2 gl,
+    final @Nonnull FramebufferReferenceUsable framebuffer)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(gl, "OpenGL interface");
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+    Constraints.constrainArbitrary(
+      JOGL_GL_Functions.framebufferDrawIsBound(gl, framebuffer),
+      "Framebuffer is bound");
+
+    final int status = gl.glCheckFramebufferStatus(GL.GL_FRAMEBUFFER);
+    JOGL_GL_Functions.checkError(gl);
+
+    return JOGL_GLTypeConversions.framebufferStatusFromGL(status);
+  }
+
   static void stencilBufferClear(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
