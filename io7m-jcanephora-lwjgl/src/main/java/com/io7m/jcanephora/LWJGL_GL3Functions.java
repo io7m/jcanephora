@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 
@@ -296,6 +297,67 @@ final class LWJGL_GL3Functions
       LWJGL_GLES2Functions.contextGetInteger(state, GL11.GL_DEPTH_BITS);
     LWJGL_GLES2Functions.checkError();
     return bits;
+  }
+
+  static void framebufferBlit(
+    final @Nonnull AreaInclusive source,
+    final @Nonnull AreaInclusive target,
+    final @Nonnull Set<FramebufferBlitBuffer> buffers,
+    final @Nonnull FramebufferBlitFilter filter)
+    throws ConstraintError,
+      JCGLRuntimeException
+  {
+    Constraints.constrainNotNull(source, "Source area");
+    Constraints.constrainNotNull(target, "Target area");
+    Constraints.constrainNotNull(buffers, "Buffers");
+    Constraints.constrainNotNull(filter, "Filter");
+    Constraints.constrainArbitrary(
+      LWJGL_GL3Functions.framebufferDrawAnyIsBound(),
+      "Draw buffer is bound");
+    Constraints.constrainArbitrary(
+      LWJGL_GL3Functions.framebufferReadAnyIsBound(),
+      "Read buffer is bound");
+
+    if (buffers.contains(FramebufferBlitBuffer.FRAMEBUFFER_BLIT_BUFFER_DEPTH)
+      || buffers
+        .contains(FramebufferBlitBuffer.FRAMEBUFFER_BLIT_BUFFER_STENCIL)) {
+      Constraints.constrainArbitrary(
+        filter == FramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_NEAREST,
+        "Filter is NEAREST for depth/stencil blit");
+    }
+
+    final RangeInclusive s_range_x = source.getRangeX();
+    final RangeInclusive s_range_y = source.getRangeY();
+    final RangeInclusive d_range_x = target.getRangeX();
+    final RangeInclusive d_range_y = target.getRangeY();
+
+    final int srcX0 = (int) s_range_x.getLower();
+    final int srcY0 = (int) s_range_y.getLower();
+    final int srcX1 = (int) s_range_x.getUpper();
+    final int srcY1 = (int) s_range_y.getUpper();
+
+    final int dstX0 = (int) d_range_x.getLower();
+    final int dstY0 = (int) d_range_y.getLower();
+    final int dstX1 = (int) d_range_x.getUpper();
+    final int dstY1 = (int) d_range_y.getUpper();
+
+    final int mask =
+      LWJGL_GLTypeConversions.framebufferBlitBufferSetToMask(buffers);
+    final int filteri =
+      LWJGL_GLTypeConversions.framebufferBlitFilterToGL(filter);
+
+    GL30.glBlitFramebuffer(
+      srcX0,
+      srcY0,
+      srcX1,
+      srcY1,
+      dstX0,
+      dstY0,
+      dstX1,
+      dstY1,
+      mask,
+      filteri);
+    LWJGL_GLES2Functions.checkError();
   }
 
   static void framebufferDelete(
@@ -905,6 +967,33 @@ final class LWJGL_GL3Functions
     LWJGL_GLES2Functions.checkError();
 
     return LWJGL_GLTypeConversions.framebufferStatusFromGL(status);
+  }
+
+  static boolean framebufferReadAnyIsBound()
+  {
+    final int bound = GL11.glGetInteger(GL30.GL_READ_FRAMEBUFFER_BINDING);
+    return bound != 0;
+  }
+
+  static void framebufferReadBind(
+    final @Nonnull FramebufferReferenceUsable framebuffer)
+    throws ConstraintError,
+      JCGLRuntimeException
+  {
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+
+    GL30.glBindFramebuffer(GL30.GL_READ_FRAMEBUFFER, framebuffer.getGLName());
+    LWJGL_GLES2Functions.checkError();
+  }
+
+  static void framebufferReadUnbind()
+    throws JCGLRuntimeException
+  {
+    GL30.glBindFramebuffer(GL30.GL_READ_FRAMEBUFFER, 0);
+    LWJGL_GLES2Functions.checkError();
   }
 
   static IndexBufferReadableMap indexBufferMapRead(

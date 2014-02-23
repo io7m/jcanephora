@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora;
 
+import java.util.Set;
+
 import javax.annotation.Nonnull;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES2;
@@ -319,6 +321,92 @@ final class JOGL_GLTypeConversions
         return GL.GL_CW;
       case FRONT_FACE_COUNTER_CLOCKWISE:
         return GL.GL_CCW;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  static @Nonnull FramebufferBlitBuffer framebufferBlitBufferFromGL(
+    final int buffer)
+  {
+    switch (buffer) {
+      case GL.GL_COLOR_BUFFER_BIT:
+      {
+        return FramebufferBlitBuffer.FRAMEBUFFER_BLIT_BUFFER_COLOR;
+      }
+      case GL.GL_DEPTH_BUFFER_BIT:
+      {
+        return FramebufferBlitBuffer.FRAMEBUFFER_BLIT_BUFFER_DEPTH;
+      }
+      case GL.GL_STENCIL_BUFFER_BIT:
+      {
+        return FramebufferBlitBuffer.FRAMEBUFFER_BLIT_BUFFER_STENCIL;
+      }
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  static int framebufferBlitBufferSetToMask(
+    final @Nonnull Set<FramebufferBlitBuffer> buffers)
+  {
+    int mask = 0;
+    for (final FramebufferBlitBuffer b : buffers) {
+      mask |= JOGL_GLTypeConversions.framebufferBlitBufferToGL(b);
+    }
+    return mask;
+  }
+
+  static int framebufferBlitBufferToGL(
+    final @Nonnull FramebufferBlitBuffer buffer)
+  {
+    switch (buffer) {
+      case FRAMEBUFFER_BLIT_BUFFER_COLOR:
+      {
+        return GL.GL_COLOR_BUFFER_BIT;
+      }
+      case FRAMEBUFFER_BLIT_BUFFER_DEPTH:
+      {
+        return GL.GL_DEPTH_BUFFER_BIT;
+      }
+      case FRAMEBUFFER_BLIT_BUFFER_STENCIL:
+      {
+        return GL.GL_STENCIL_BUFFER_BIT;
+      }
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  static @Nonnull FramebufferBlitFilter framebufferBlitFilterFromGL(
+    final int filter)
+  {
+    switch (filter) {
+      case GL.GL_LINEAR:
+      {
+        return FramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_LINEAR;
+      }
+      case GL.GL_NEAREST:
+      {
+        return FramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_NEAREST;
+      }
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  static int framebufferBlitFilterToGL(
+    final @Nonnull FramebufferBlitFilter filter)
+  {
+    switch (filter) {
+      case FRAMEBUFFER_BLIT_FILTER_LINEAR:
+      {
+        return GL.GL_LINEAR;
+      }
+      case FRAMEBUFFER_BLIT_FILTER_NEAREST:
+      {
+        return GL.GL_NEAREST;
+      }
     }
 
     throw new UnreachableCodeException();
@@ -1049,5 +1137,4 @@ final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
-
 }
