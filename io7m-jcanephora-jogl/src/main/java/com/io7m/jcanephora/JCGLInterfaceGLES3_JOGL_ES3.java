@@ -924,6 +924,16 @@ import com.io7m.jtensors.VectorReadable4I;
       framebuffer);
   }
 
+  @Override public boolean framebufferReadIsBound(
+    final @Nonnull FramebufferReferenceUsable framebuffer)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    return JOGL_GL2ES3_Functions.framebufferReadIsBound(
+      this.contextGetGL3(),
+      framebuffer);
+  }
+
   @Override public void framebufferReadUnbind()
     throws JCGLRuntimeException
   {

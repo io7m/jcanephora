@@ -101,6 +101,27 @@ public interface JCGLFramebuffersReadGL3
 
   /**
    * <p>
+   * Return <code>true</code> iff <code>framebuffer</code> is currently bound
+   * to the read target.
+   * </p>
+   * 
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>framebuffer == null</code></li>
+   *           <li><code>framebuffer.resourceIsDeleted()</code></li>
+   *           </ul>
+   * @throws JCGLRuntimeException
+   *           Iff an OpenGL exception occurs.
+   */
+
+  boolean framebufferReadIsBound(
+    final @Nonnull FramebufferReferenceUsable framebuffer)
+    throws JCGLRuntimeException,
+      ConstraintError;
+
+  /**
+   * <p>
    * Unbind the current framebuffer from the read target.
    * </p>
    * 

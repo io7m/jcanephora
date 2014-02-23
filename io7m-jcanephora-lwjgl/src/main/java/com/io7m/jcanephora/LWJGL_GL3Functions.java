@@ -989,6 +989,23 @@ final class LWJGL_GL3Functions
     LWJGL_GLES2Functions.checkError();
   }
 
+  static boolean framebufferReadIsBound(
+    final @Nonnull JCGLStateCache state,
+    final @Nonnull FramebufferReferenceUsable framebuffer)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    Constraints.constrainNotNull(framebuffer, "Framebuffer");
+    Constraints.constrainArbitrary(
+      framebuffer.resourceIsDeleted() == false,
+      "Framebuffer not deleted");
+
+    final IntBuffer cache = state.getIntegerCache();
+    GL11.glGetInteger(GL30.GL_READ_FRAMEBUFFER_BINDING, cache);
+    LWJGL_GLES2Functions.checkError();
+    return cache.get(0) == framebuffer.getGLName();
+  }
+
   static void framebufferReadUnbind()
     throws JCGLRuntimeException
   {

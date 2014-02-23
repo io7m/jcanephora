@@ -882,7 +882,8 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public boolean framebufferReadAnyIsBound()
     throws JCGLRuntimeException
   {
-    return JOGL_GL2ES3_Functions.framebufferReadAnyIsBound(this.contextGetGL2());
+    return JOGL_GL2ES3_Functions.framebufferReadAnyIsBound(this
+      .contextGetGL2());
   }
 
   @Override public void framebufferReadBind(
@@ -890,7 +891,19 @@ import com.io7m.jtensors.VectorReadable4I;
     throws JCGLRuntimeException,
       ConstraintError
   {
-    JOGL_GL2ES3_Functions.framebufferReadBind(this.contextGetGL2(), framebuffer);
+    JOGL_GL2ES3_Functions.framebufferReadBind(
+      this.contextGetGL2(),
+      framebuffer);
+  }
+
+  @Override public boolean framebufferReadIsBound(
+    final @Nonnull FramebufferReferenceUsable framebuffer)
+    throws JCGLRuntimeException,
+      ConstraintError
+  {
+    return JOGL_GL2ES3_Functions.framebufferReadIsBound(
+      this.contextGetGL2(),
+      framebuffer);
   }
 
   @Override public void framebufferReadUnbind()
