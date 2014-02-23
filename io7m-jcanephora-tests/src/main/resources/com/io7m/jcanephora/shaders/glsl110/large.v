@@ -25,8 +25,8 @@ main (void)
   x = x + float(u_ivec3.x);
   x = x + u_vec4.x;
   x = x + float(u_ivec4.x);
-  x = x + texture(u_sampler2d, vec2(0.0, 0.0)).x;
-  x = x + texture(u_sampler_cube, vec3(0.0, 0.0, 0.0)).x;
+  x = x + texture2D(u_sampler2d, vec2(0.0, 0.0)).x;
+  x = x + textureCube(u_sampler_cube, vec3(0.0, 0.0, 0.0)).x;
 
   gl_Position = vec4(x, x, x, 1.0);
 }
