@@ -19,7 +19,6 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jtensors.VectorReadable2I;
 
 /**
  * Simplified interface to the scissor test.
@@ -39,31 +38,23 @@ public interface JCGLScissor
     throws JCGLRuntimeException;
 
   /**
-   * Set the OpenGL scissor region to the <code>(x, y)</code> coordinates
-   * specified by <code>position</code>, of width <code>dimensions.x</code>
-   * and height <code>dimensions.y</code>. The dimensions and position are
-   * specified in pixels and <code>(0, 0)</code> refers to the bottom left
-   * corner of the viewport.
+   * Set the OpenGL scissor region to the given inclusive area. The dimensions
+   * and position are specified in pixels and <code>(0, 0)</code> refers to
+   * the bottom left corner of the viewport.
    * 
-   * @param position
-   *          The position in pixels.
-   * @param dimensions
-   *          The size in pixels.
+   * @param area
+   *          The inclusive area
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
-   *           <li><code>position == null</code></li>
-   *           <li><code>dimensions == null</code></li>
-   *           <li><code>dimensions.getXI() &lt; 0</code></li>
-   *           <li><code>dimensions.getYI() &lt; 0</code></li>
+   *           <li><code>area == null</code></li>
    *           </ul>
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurred.
    */
 
   void scissorEnable(
-    final @Nonnull VectorReadable2I position,
-    final @Nonnull VectorReadable2I dimensions)
+    final @Nonnull AreaInclusive area)
     throws ConstraintError,
       JCGLRuntimeException;
 
