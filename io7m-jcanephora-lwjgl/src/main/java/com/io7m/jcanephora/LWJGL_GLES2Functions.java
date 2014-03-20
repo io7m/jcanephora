@@ -2296,31 +2296,21 @@ final class LWJGL_GLES2Functions
   }
 
   static void scissorEnable(
-
-    final @Nonnull VectorReadable2I position,
-    final @Nonnull VectorReadable2I dimensions)
+    final @Nonnull AreaInclusive area)
     throws ConstraintError,
       JCGLRuntimeException
   {
-    Constraints.constrainNotNull(position, "Scissor region position");
-    Constraints.constrainNotNull(dimensions, "Scissor region dimensions");
-    Constraints.constrainRange(
-      dimensions.getXI(),
-      0,
-      Integer.MAX_VALUE,
-      "Scissor width");
-    Constraints.constrainRange(
-      dimensions.getYI(),
-      0,
-      Integer.MAX_VALUE,
-      "Scissor height");
+    Constraints.constrainNotNull(area, "Scissor area");
+
+    final RangeInclusive range_x = area.getRangeX();
+    final RangeInclusive range_y = area.getRangeY();
 
     GL11.glEnable(GL11.GL_SCISSOR_TEST);
     GL11.glScissor(
-      position.getXI(),
-      position.getYI(),
-      dimensions.getXI(),
-      dimensions.getYI());
+      (int) range_x.getLower(),
+      (int) range_y.getLower(),
+      (int) range_x.getInterval(),
+      (int) range_y.getInterval());
     LWJGL_GLES2Functions.checkError();
   }
 

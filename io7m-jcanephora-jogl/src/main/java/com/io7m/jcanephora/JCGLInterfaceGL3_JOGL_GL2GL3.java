@@ -1579,13 +1579,11 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void scissorEnable(
-    final @Nonnull VectorReadable2I position,
-    final @Nonnull VectorReadable2I dimensions)
+    final @Nonnull AreaInclusive area)
     throws ConstraintError,
       JCGLRuntimeException
   {
-    JOGL_GL_Functions
-      .scissorEnable(this.contextGetGL(), position, dimensions);
+    JOGL_GL_Functions.scissorEnable(this.contextGetGL(), area);
   }
 
   @Override public boolean scissorIsEnabled()

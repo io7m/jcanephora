@@ -1881,7 +1881,7 @@ final class JOGL_GL_Functions
 
     if (context.isGLES()) {
       final String vtext = gl.glGetString(GL.GL_VERSION);
-      if (vtext.contains("Mesa 9.") || vtext.contains("Mesa 10.0.")) {
+      if (vtext.contains("Mesa 9.") || vtext.contains("Mesa 10.")) {
         final StringBuilder m = new StringBuilder();
         m.append("quirk: GL_VERSION is '");
         m.append(vtext);
@@ -2015,30 +2015,21 @@ final class JOGL_GL_Functions
 
   static void scissorEnable(
     final @Nonnull GL gl,
-    final @Nonnull VectorReadable2I position,
-    final @Nonnull VectorReadable2I dimensions)
+    final @Nonnull AreaInclusive area)
     throws ConstraintError,
       JCGLRuntimeException
   {
-    Constraints.constrainNotNull(position, "Scissor region position");
-    Constraints.constrainNotNull(dimensions, "Scissor region dimensions");
-    Constraints.constrainRange(
-      dimensions.getXI(),
-      0,
-      Integer.MAX_VALUE,
-      "Scissor width");
-    Constraints.constrainRange(
-      dimensions.getYI(),
-      0,
-      Integer.MAX_VALUE,
-      "Scissor height");
+    Constraints.constrainNotNull(area, "Scissor area");
+
+    final RangeInclusive range_x = area.getRangeX();
+    final RangeInclusive range_y = area.getRangeY();
 
     gl.glEnable(GL.GL_SCISSOR_TEST);
     gl.glScissor(
-      position.getXI(),
-      position.getYI(),
-      dimensions.getXI(),
-      dimensions.getYI());
+      (int) range_x.getLower(),
+      (int) range_y.getLower(),
+      (int) range_x.getInterval(),
+      (int) range_y.getInterval());
     JOGL_GL_Functions.checkError(gl);
   }
 

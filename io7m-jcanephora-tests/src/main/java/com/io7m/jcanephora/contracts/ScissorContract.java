@@ -21,11 +21,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
+import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLScissor;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
-import com.io7m.jtensors.VectorI2I;
 
 public abstract class ScissorContract implements TestContract
 {
@@ -45,35 +46,24 @@ public abstract class ScissorContract implements TestContract
     final TestContext tc = this.newTestContext();
     final JCGLScissor gl = this.getGLScissor(tc);
 
+    final RangeInclusive range_x = new RangeInclusive(0, 7);
+    final RangeInclusive range_y = new RangeInclusive(0, 7);
+    final AreaInclusive area = new AreaInclusive(range_x, range_y);
+
     gl.scissorDisable();
     Assert.assertFalse(gl.scissorIsEnabled());
-    gl.scissorEnable(new VectorI2I(8, 8), new VectorI2I(8, 8));
+    gl.scissorEnable(area);
     Assert.assertTrue(gl.scissorIsEnabled());
   }
 
-  @Test(expected = ConstraintError.class) public
-    void
-    testScissorNullDimensions()
-      throws JCGLRuntimeException,
-        JCGLUnsupportedException,
-        ConstraintError
+  @Test(expected = ConstraintError.class) public void testScissorNull()
+    throws JCGLRuntimeException,
+      JCGLUnsupportedException,
+      ConstraintError
   {
     final TestContext tc = this.newTestContext();
     final JCGLScissor gl = this.getGLScissor(tc);
 
-    gl.scissorEnable(new VectorI2I(8, 8), null);
-  }
-
-  @Test(expected = ConstraintError.class) public
-    void
-    testScissorNullPosition()
-      throws JCGLRuntimeException,
-        JCGLUnsupportedException,
-        ConstraintError
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLScissor gl = this.getGLScissor(tc);
-
-    gl.scissorEnable(null, new VectorI2I(8, 8));
+    gl.scissorEnable(null);
   }
 }
