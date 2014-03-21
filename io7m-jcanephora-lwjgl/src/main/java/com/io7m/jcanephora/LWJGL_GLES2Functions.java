@@ -3025,29 +3025,19 @@ final class LWJGL_GLES2Functions
   }
 
   static void viewportSet(
-    final @Nonnull VectorReadable2I position,
-    final @Nonnull VectorReadable2I dimensions)
+    final @Nonnull AreaInclusive area)
     throws ConstraintError,
       JCGLRuntimeException
   {
-    Constraints.constrainNotNull(position, "Viewport position");
-    Constraints.constrainNotNull(dimensions, "Viewport dimensions");
-    Constraints.constrainRange(
-      dimensions.getXI(),
-      0,
-      Integer.MAX_VALUE,
-      "Viewport width");
-    Constraints.constrainRange(
-      dimensions.getYI(),
-      0,
-      Integer.MAX_VALUE,
-      "Viewport height");
+    Constraints.constrainNotNull(area, "Viewport area");
 
+    final RangeInclusive range_x = area.getRangeX();
+    final RangeInclusive range_y = area.getRangeY();
     GL11.glViewport(
-      position.getXI(),
-      position.getYI(),
-      dimensions.getXI(),
-      dimensions.getYI());
+      (int) range_x.getLower(),
+      (int) range_y.getLower(),
+      (int) range_x.getInterval(),
+      (int) range_y.getInterval());
     LWJGL_GLES2Functions.checkError();
   }
 }

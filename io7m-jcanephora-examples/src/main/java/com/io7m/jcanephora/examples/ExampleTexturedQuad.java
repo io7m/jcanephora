@@ -23,6 +23,8 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
+import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
@@ -433,7 +435,14 @@ public final class ExampleTexturedQuad implements Example
       1,
       100);
 
-    this.glc.viewportSet(position, size);
+    final RangeInclusive range_x =
+      new RangeInclusive(position.getXI(), position.getXI()
+        + (size.getXI() - 1));
+    final RangeInclusive range_y =
+      new RangeInclusive(position.getYI(), position.getYI()
+        + (size.getYI() - 1));
+
+    this.glc.viewportSet(new AreaInclusive(range_x, range_y));
   }
 
   @Override public void shutdown()

@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jaux.RangeInclusive;
+import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferAttribute;
 import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
@@ -34,8 +36,8 @@ import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.JCGLCompileException;
-import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLInterfaceCommon;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.Primitives;
 import com.io7m.jcanephora.ProgramAttribute;
@@ -346,7 +348,14 @@ public final class ExampleStencil implements Example
       1,
       100);
 
-    this.gl.viewportSet(position, size);
+    final RangeInclusive range_x =
+      new RangeInclusive(position.getXI(), position.getXI()
+        + (size.getXI() - 1));
+    final RangeInclusive range_y =
+      new RangeInclusive(position.getYI(), position.getYI()
+        + (size.getYI() - 1));
+
+    this.gl.viewportSet(new AreaInclusive(range_x, range_y));
   }
 
   @Override public void shutdown()
