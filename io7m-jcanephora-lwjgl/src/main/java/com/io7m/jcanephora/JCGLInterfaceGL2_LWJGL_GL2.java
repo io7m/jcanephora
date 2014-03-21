@@ -1707,11 +1707,10 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void viewportSet(
-    final @Nonnull VectorReadable2I position,
-    final @Nonnull VectorReadable2I dimensions)
+    final @Nonnull AreaInclusive area)
     throws ConstraintError,
       JCGLRuntimeException
   {
-    LWJGL_GLES2Functions.viewportSet(position, dimensions);
+    LWJGL_GLES2Functions.viewportSet(area);
   }
 }

@@ -1627,14 +1627,10 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void viewportSet(
-    final @Nonnull VectorReadable2I position,
-    final @Nonnull VectorReadable2I dimensions)
+    final @Nonnull AreaInclusive area)
     throws ConstraintError,
       JCGLRuntimeException
   {
-    JOGL_GL_Functions.viewportSet(
-      this.contextGetGLES2(),
-      position,
-      dimensions);
+    JOGL_GL_Functions.viewportSet(this.contextGetGLES2(), area);
   }
 }

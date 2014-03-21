@@ -33,7 +33,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
-import com.io7m.jtensors.VectorReadable2I;
 import com.io7m.jtensors.VectorReadable3F;
 import com.io7m.jtensors.VectorReadable4F;
 import com.jogamp.common.util.VersionNumber;
@@ -2373,29 +2372,19 @@ final class JOGL_GL_Functions
 
   static void viewportSet(
     final @Nonnull GL gl,
-    final @Nonnull VectorReadable2I position,
-    final @Nonnull VectorReadable2I dimensions)
+    final @Nonnull AreaInclusive area)
     throws ConstraintError,
       JCGLRuntimeException
   {
-    Constraints.constrainNotNull(position, "Viewport position");
-    Constraints.constrainNotNull(dimensions, "Viewport dimensions");
-    Constraints.constrainRange(
-      dimensions.getXI(),
-      0,
-      Integer.MAX_VALUE,
-      "Viewport width");
-    Constraints.constrainRange(
-      dimensions.getYI(),
-      0,
-      Integer.MAX_VALUE,
-      "Viewport height");
+    Constraints.constrainNotNull(area, "Viewport area");
 
+    final RangeInclusive range_x = area.getRangeX();
+    final RangeInclusive range_y = area.getRangeY();
     gl.glViewport(
-      position.getXI(),
-      position.getYI(),
-      dimensions.getXI(),
-      dimensions.getYI());
+      (int) range_x.getLower(),
+      (int) range_y.getLower(),
+      (int) range_x.getInterval(),
+      (int) range_y.getInterval());
     JOGL_GL_Functions.checkError(gl);
   }
 }
