@@ -50,11 +50,11 @@ class ExtESDepthTexture implements JCGLExtensionESDepthTexture
   private final @Nonnull Log            log;
 
   private ExtESDepthTexture(
-    final @Nonnull JCGLStateCache cache,
-    final @Nonnull Log log)
+    final @Nonnull JCGLStateCache cache1,
+    final @Nonnull Log log1)
   {
-    this.cache = cache;
-    this.log = log;
+    this.cache = cache1;
+    this.log = log1;
   }
 
   @Override public Texture2DStatic texture2DStaticAllocateDepth16(

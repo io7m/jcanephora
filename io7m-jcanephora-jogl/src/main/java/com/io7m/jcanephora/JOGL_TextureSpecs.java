@@ -41,13 +41,13 @@ final class JOGL_TextureSpecs
     final int type;
 
     TextureSpec(
-      final int format,
-      final int type,
-      final int internal_format)
+      final int format1,
+      final int type1,
+      final int internal_format1)
     {
-      this.format = format;
-      this.type = type;
-      this.internal_format = internal_format;
+      this.format = format1;
+      this.type = type1;
+      this.internal_format = internal_format1;
     }
   }
 

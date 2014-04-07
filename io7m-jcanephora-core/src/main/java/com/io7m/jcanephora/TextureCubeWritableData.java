@@ -50,7 +50,7 @@ public final class TextureCubeWritableData implements TextureWritableData
    * the data in <code>texture</code> on the GPU.
    * </p>
    * 
-   * @param texture
+   * @param texture1
    *          The texture.
    * @throws ConstraintError
    *           Iff any of the following conditions hold:
@@ -60,10 +60,10 @@ public final class TextureCubeWritableData implements TextureWritableData
    */
 
   public TextureCubeWritableData(
-    final @Nonnull TextureCubeStatic texture)
+    final @Nonnull TextureCubeStatic texture1)
     throws ConstraintError
   {
-    this(texture, texture.getArea());
+    this(texture1, texture1.getArea());
   }
 
   /**
@@ -72,7 +72,7 @@ public final class TextureCubeWritableData implements TextureWritableData
    * area <code>area</code> of the data in <code>texture</code> on the GPU.
    * </p>
    * 
-   * @param texture
+   * @param texture1
    *          The texture.
    * @param area
    *          The inclusive area defining the area of the texture that will be
@@ -87,17 +87,17 @@ public final class TextureCubeWritableData implements TextureWritableData
    */
 
   public TextureCubeWritableData(
-    final @Nonnull TextureCubeStatic texture,
+    final @Nonnull TextureCubeStatic texture1,
     final @Nonnull AreaInclusive area)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(texture, "Texture");
+    Constraints.constrainNotNull(texture1, "Texture");
     Constraints.constrainNotNull(area, "Area");
     Constraints.constrainArbitrary(
-      area.isIncludedIn(texture.getArea()),
+      area.isIncludedIn(texture1.getArea()),
       "Area is included within texture");
 
-    this.texture = texture;
+    this.texture = texture1;
     this.target_area = area;
 
     final RangeInclusive srx =
@@ -108,8 +108,8 @@ public final class TextureCubeWritableData implements TextureWritableData
 
     final long width = this.source_area.getRangeX().getInterval();
     final long height = this.source_area.getRangeY().getInterval();
-    final int bpp = texture.getType().getBytesPerPixel();
-    this.type = texture.getType();
+    final int bpp = texture1.getType().getBytesPerPixel();
+    this.type = texture1.getType();
 
     this.target_data =
       ByteBuffer.allocateDirect((int) (height * width * bpp)).order(

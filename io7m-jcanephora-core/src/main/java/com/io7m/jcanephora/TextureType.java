@@ -333,13 +333,13 @@ public enum TextureType
   private final @Nonnull PixelType pixel_type;
 
   private TextureType(
-    final @Nonnull PixelType pixel_type,
-    final int components,
-    final int bytes_per_pixel)
+    final @Nonnull PixelType pixel_type1,
+    final int components1,
+    final int bytes_per_pixel1)
   {
-    this.pixel_type = pixel_type;
-    this.components = components;
-    this.bytes_per_pixel = bytes_per_pixel;
+    this.pixel_type = pixel_type1;
+    this.components = components1;
+    this.bytes_per_pixel = bytes_per_pixel1;
   }
 
   /**

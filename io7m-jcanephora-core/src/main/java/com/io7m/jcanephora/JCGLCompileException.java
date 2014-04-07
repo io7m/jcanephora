@@ -42,20 +42,20 @@ public final class JCGLCompileException extends JCGLException
   private final @Nonnull String file;
 
   public JCGLCompileException(
-    final @Nonnull String file,
+    final @Nonnull String file1,
     final @Nonnull String message)
   {
-    super(JCGLCompileException.makeMessage(file, message));
-    this.file = file;
+    super(JCGLCompileException.makeMessage(file1, message));
+    this.file = file1;
   }
 
   public JCGLCompileException(
     final @Nonnull Throwable e,
-    final @Nonnull String file,
+    final @Nonnull String file1,
     final @Nonnull String message)
   {
-    super(JCGLCompileException.makeMessage(file, message), e);
-    this.file = file;
+    super(JCGLCompileException.makeMessage(file1, message), e);
+    this.file = file1;
   }
 
   /**

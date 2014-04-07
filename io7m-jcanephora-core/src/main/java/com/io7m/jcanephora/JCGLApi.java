@@ -34,10 +34,10 @@ public enum JCGLApi
   private final @Nonnull String name;
 
   private JCGLApi(
-    final @Nonnull String name)
+    final @Nonnull String name1)
   {
-    assert name != null;
-    this.name = name;
+    assert name1 != null;
+    this.name = name1;
   }
 
   public @Nonnull String getName()

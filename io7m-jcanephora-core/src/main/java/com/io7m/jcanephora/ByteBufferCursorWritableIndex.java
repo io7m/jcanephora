@@ -37,13 +37,13 @@ final class ByteBufferCursorWritableIndex extends BufferCursor implements
   private final @Nonnull JCGLUnsignedType type;
 
   ByteBufferCursorWritableIndex(
-    final @Nonnull ByteBuffer target_data,
+    final @Nonnull ByteBuffer target_data1,
     final @Nonnull RangeInclusive range,
-    final @Nonnull JCGLUnsignedType type)
+    final @Nonnull JCGLUnsignedType type1)
   {
-    super(range, 0, type.getSizeBytes());
-    this.target_data = target_data;
-    this.type = type;
+    super(range, 0, type1.getSizeBytes());
+    this.target_data = target_data1;
+    this.type = type1;
   }
 
   @Override public void putIndex(

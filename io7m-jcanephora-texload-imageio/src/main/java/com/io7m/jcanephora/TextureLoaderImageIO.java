@@ -1552,19 +1552,18 @@ public final class TextureLoaderImageIO implements TextureLoader
 
   private final @Nonnull Log log;
   private final @Nonnull Log log_alpha;
-
   private final boolean      premultiply_alpha;
 
   private TextureLoaderImageIO(
-    final @Nonnull Log log,
-    final boolean premultiply_alpha)
+    final @Nonnull Log log1,
+    final boolean premultiply_alpha1)
     throws ConstraintError
   {
     this.log =
-      new Log(Constraints.constrainNotNull(log, "Log"), "texture-loader");
+      new Log(Constraints.constrainNotNull(log1, "Log"), "texture-loader");
     this.log_alpha = new Log(this.log, "alpha");
 
-    this.premultiply_alpha = premultiply_alpha;
+    this.premultiply_alpha = premultiply_alpha1;
   }
 
   private void cubeUpdateFacesLH(

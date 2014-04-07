@@ -47,13 +47,13 @@ public final class JCBExecutor implements JCBExecutionAPI
     final @Nonnull JCGLType              type;
 
     AttributeState(
-      final @Nonnull String name,
-      final @Nonnull JCGLType type,
-      final @CheckForNull ProgramAttribute actual)
+      final @Nonnull String name1,
+      final @Nonnull JCGLType type1,
+      final @CheckForNull ProgramAttribute actual1)
     {
-      this.name = name;
-      this.type = type;
-      this.actual = actual;
+      this.name = name1;
+      this.type = type1;
+      this.actual = actual1;
       this.string = this.memoToString();
     }
 
@@ -101,15 +101,15 @@ public final class JCBExecutor implements JCBExecutionAPI
     private final @Nonnull ArrayList<UniformState>   uniforms;
 
     Program(
-      final @Nonnull JCGLShadersCommon gc,
-      final @Nonnull ProgramReference program,
+      final @Nonnull JCGLShadersCommon gc1,
+      final @Nonnull ProgramReference program1,
       final @CheckForNull Map<String, JCGLType> declared_uniforms,
       final @CheckForNull Map<String, JCGLType> declared_attributes,
       final @Nonnull Log log)
       throws ConstraintError
     {
-      this.gc = gc;
-      this.program = program;
+      this.gc = gc1;
+      this.program = program1;
       this.message = new StringBuilder();
 
       /**
@@ -122,7 +122,7 @@ public final class JCBExecutor implements JCBExecutionAPI
         this.uniforms = new ArrayList<UniformState>();
 
         final Map<String, ProgramUniform> program_uniforms =
-          program.getUniforms();
+          program1.getUniforms();
 
         int current = 0;
         for (final String name : program_uniforms.keySet()) {
@@ -175,7 +175,7 @@ public final class JCBExecutor implements JCBExecutionAPI
         this.attribute_names = new HashMap<String, Integer>();
 
         final Map<String, ProgramAttribute> program_attributes =
-          program.getAttributes();
+          program1.getAttributes();
 
         int current = 0;
         for (final String name : program_attributes.keySet()) {
@@ -836,13 +836,13 @@ public final class JCBExecutor implements JCBExecutionAPI
     final @Nonnull JCGLType            type;
 
     UniformState(
-      final @Nonnull String name,
-      final @Nonnull JCGLType type,
-      final @CheckForNull ProgramUniform actual)
+      final @Nonnull String name1,
+      final @Nonnull JCGLType type1,
+      final @CheckForNull ProgramUniform actual1)
     {
-      this.name = name;
-      this.type = type;
-      this.actual = actual;
+      this.name = name1;
+      this.type = type1;
+      this.actual = actual1;
       this.string = this.memoToString();
     }
 
@@ -900,26 +900,26 @@ public final class JCBExecutor implements JCBExecutionAPI
   private final @Nonnull ProgramReference  program;
 
   private JCBExecutor(
-    final @Nonnull JCGLShadersCommon gc,
-    final @Nonnull ProgramReference program,
+    final @Nonnull JCGLShadersCommon gc1,
+    final @Nonnull ProgramReference program1,
     final @CheckForNull Map<String, JCGLType> declared_uniforms,
     final @CheckForNull Map<String, JCGLType> declared_attributes,
-    final @Nonnull Log log)
+    final @Nonnull Log log1)
     throws ConstraintError
   {
-    this.gc = Constraints.constrainNotNull(gc, "JCGL interface");
+    this.gc = Constraints.constrainNotNull(gc1, "JCGL interface");
 
-    this.program = Constraints.constrainNotNull(program, "Program");
+    this.program = Constraints.constrainNotNull(program1, "Program");
     Constraints.constrainArbitrary(
-      program.resourceIsDeleted() == false,
+      program1.resourceIsDeleted() == false,
       "Program not deleted");
 
-    this.log = new Log(Constraints.constrainNotNull(log, "Log"), "executor");
+    this.log = new Log(Constraints.constrainNotNull(log1, "Log"), "executor");
 
     this.jprogram =
       new Program(
-        gc,
-        program,
+        gc1,
+        program1,
         declared_uniforms,
         declared_attributes,
         this.log);

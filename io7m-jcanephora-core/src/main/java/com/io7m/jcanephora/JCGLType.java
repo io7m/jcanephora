@@ -87,9 +87,9 @@ public enum JCGLType
   private final @Nonnull String name;
 
   private JCGLType(
-    final @Nonnull String name)
+    final @Nonnull String name1)
   {
-    this.name = name;
+    this.name = name1;
   }
 
   public @Nonnull String getName()

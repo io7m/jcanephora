@@ -80,14 +80,14 @@ public final class ExampleStencil implements Example
   private final IndexBufferWritableData   triangle_indices_data;
 
   public ExampleStencil(
-    final @Nonnull ExampleConfig config)
+    final @Nonnull ExampleConfig config1)
     throws ConstraintError,
       JCGLRuntimeException,
       JCGLCompileException,
       IOException,
       FilesystemError
   {
-    this.config = config;
+    this.config = config1;
     this.matrix_modelview = new MatrixM4x4F();
     this.matrix_projection = new MatrixM4x4F();
     this.gl = this.config.getGL().getGLCommon();
@@ -96,12 +96,12 @@ public final class ExampleStencil implements Example
       final VertexShader v =
         this.gl.vertexShaderCompile(
           "v",
-          ShaderUtilities.readLines(config.getFilesystem().openFile(
+          ShaderUtilities.readLines(config1.getFilesystem().openFile(
             PathVirtual.ofString("/com/io7m/jcanephora/examples/color.v"))));
       final FragmentShader f =
         this.gl.fragmentShaderCompile(
           "f",
-          ShaderUtilities.readLines(config.getFilesystem().openFile(
+          ShaderUtilities.readLines(config1.getFilesystem().openFile(
             PathVirtual.ofString("/com/io7m/jcanephora/examples/color.f"))));
       this.program = this.gl.programCreateCommon("color", v, f);
     }

@@ -35,12 +35,12 @@ public final class ArrayBufferWritableMap
   private final @Nonnull RangeInclusive target_range;
 
   ArrayBufferWritableMap(
-    final @Nonnull ArrayBuffer buffer,
-    final @Nonnull ByteBuffer map)
+    final @Nonnull ArrayBuffer buffer1,
+    final @Nonnull ByteBuffer map1)
     throws ConstraintError
   {
-    this.buffer = Constraints.constrainNotNull(buffer, "Buffer");
-    this.map = Constraints.constrainNotNull(map, "Map");
+    this.buffer = Constraints.constrainNotNull(buffer1, "Buffer");
+    this.map = Constraints.constrainNotNull(map1, "Map");
     this.target_range =
       new RangeInclusive(0, this.buffer.getRange().getInterval() - 1);
   }

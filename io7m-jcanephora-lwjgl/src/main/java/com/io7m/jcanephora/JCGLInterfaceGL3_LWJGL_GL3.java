@@ -59,18 +59,18 @@ import com.io7m.jtensors.VectorReadable4I;
   private final @Nonnull JCGLVersion          version;
 
   JCGLInterfaceGL3_LWJGL_GL3(
-    final @Nonnull Log log,
+    final @Nonnull Log log1,
     final @Nonnull Set<String> extension_set,
     final @Nonnull JCGLSoftRestrictions r)
     throws ConstraintError,
       JCGLRuntimeException
   {
     this.log =
-      new Log(Constraints.constrainNotNull(log, "log output"), "lwjgl-30");
+      new Log(Constraints.constrainNotNull(log1, "log output"), "lwjgl-30");
     this.state = new JCGLStateCache();
 
     this.restrictions = r;
-    this.extensions = new Extensions(extension_set, r, log);
+    this.extensions = new Extensions(extension_set, r, log1);
 
     /**
      * Initialize texture unit cache.
@@ -110,7 +110,7 @@ import com.io7m.jtensors.VectorReadable4I;
     }
 
     this.version = LWJGL_GLES2Functions.metaGetVersion();
-    this.sl_version = LWJGL_GLES2Functions.metaGetSLVersion(log);
+    this.sl_version = LWJGL_GLES2Functions.metaGetSLVersion(log1);
 
     /**
      * OpenGL 3.1 removed the default vertex array object.

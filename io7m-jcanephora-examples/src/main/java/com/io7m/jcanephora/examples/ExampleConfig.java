@@ -36,18 +36,18 @@ final class ExampleConfig
 
   public ExampleConfig(
     final @Nonnull JCGLImplementation gl,
-    final @Nonnull TextureLoader texture_loader,
-    final @Nonnull Log log,
-    final @Nonnull FSCapabilityAll filesystem,
-    final @Nonnull VectorM2I window_position,
-    final @Nonnull VectorM2I window_size)
+    final @Nonnull TextureLoader texture_loader1,
+    final @Nonnull Log log1,
+    final @Nonnull FSCapabilityAll filesystem1,
+    final @Nonnull VectorM2I window_position1,
+    final @Nonnull VectorM2I window_size1)
   {
     this.gl_implementation = gl;
-    this.log = log;
-    this.texture_loader = texture_loader;
-    this.filesystem = filesystem;
-    this.window_position = window_position;
-    this.window_size = window_size;
+    this.log = log1;
+    this.texture_loader = texture_loader1;
+    this.filesystem = filesystem1;
+    this.window_position = window_position1;
+    this.window_size = window_size1;
   }
 
   @Nonnull FSCapabilityAll getFilesystem()

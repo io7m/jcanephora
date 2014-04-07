@@ -40,16 +40,16 @@ import com.io7m.jaux.UnreachableCodeException;
   private final @Nonnull JCGLScalarType type;
 
   public ArrayBufferAttributeDescriptor(
-    final @Nonnull String name,
-    final @Nonnull JCGLScalarType type,
-    final int elements)
+    final @Nonnull String name1,
+    final @Nonnull JCGLScalarType type1,
+    final int elements1)
     throws ConstraintError
   {
-    this.name = Constraints.constrainNotNull(name, "Element name");
-    this.type = Constraints.constrainNotNull(type, "Element type");
+    this.name = Constraints.constrainNotNull(name1, "Element name");
+    this.type = Constraints.constrainNotNull(type1, "Element type");
     this.elements =
       Constraints.constrainRange(
-        elements,
+        elements1,
         1,
         Integer.MAX_VALUE,
         "Element size");

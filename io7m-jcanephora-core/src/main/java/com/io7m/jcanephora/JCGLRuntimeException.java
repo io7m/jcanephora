@@ -28,11 +28,11 @@ public final class JCGLRuntimeException extends JCGLException
   private final int         code;
 
   public JCGLRuntimeException(
-    final int code,
+    final int code1,
     final @Nonnull String message)
   {
     super(message);
-    this.code = code;
+    this.code = code1;
   }
 
   public int getCode()

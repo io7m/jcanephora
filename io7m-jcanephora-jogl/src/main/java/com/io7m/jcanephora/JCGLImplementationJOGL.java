@@ -322,8 +322,8 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
   private final @Nonnull Log                log;
 
   private JCGLImplementationJOGL(
-    final @Nonnull GLContext context,
-    final @Nonnull Log log,
+    final @Nonnull GLContext context1,
+    final @Nonnull Log log1,
     final @Nonnull JCGLDebugging debug,
     final @CheckForNull PrintStream trace,
     final @Nonnull JCGLSoftRestrictions r)
@@ -332,25 +332,25 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
       JCGLUnsupportedException
   {
     this.log =
-      new Log(Constraints.constrainNotNull(log, "log output"), "jogl30");
-    this.context = Constraints.constrainNotNull(context, "GL context");
+      new Log(Constraints.constrainNotNull(log1, "log output"), "jogl30");
+    this.context = Constraints.constrainNotNull(context1, "GL context");
 
-    log.debug("Context is " + context.getGLVersion());
+    log1.debug("Context is " + context1.getGLVersion());
 
-    if (context.isGLES3()) {
-      log.debug("Context is GLES3 - creating GLES3 interface");
+    if (context1.isGLES3()) {
+      log1.debug("Context is GLES3 - creating GLES3 interface");
       this.gl_es3 =
-        new JCGLInterfaceGLES3_JOGL_ES3(context, log, debug, trace, r);
+        new JCGLInterfaceGLES3_JOGL_ES3(context1, log1, debug, trace, r);
       this.gl_es2 = null;
       this.gl_2 = null;
       this.gl_3 = null;
       return;
     }
 
-    if (context.isGLES2()) {
-      log.debug("Context is GLES2 - creating GLES2 interface");
+    if (context1.isGLES2()) {
+      log1.debug("Context is GLES2 - creating GLES2 interface");
       this.gl_es2 =
-        new JCGLInterfaceGLES2_JOGL_ES2(context, log, debug, trace, r);
+        new JCGLInterfaceGLES2_JOGL_ES2(context1, log1, debug, trace, r);
       this.gl_es3 = null;
       this.gl_2 = null;
       this.gl_3 = null;
@@ -361,10 +361,10 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
      * Context is OpenGL 3.n, where n >= 1?
      */
 
-    if (context.isGL3()) {
-      log.debug("Context is GL3, creating OpenGL >= 3.1 interface");
+    if (context1.isGL3()) {
+      log1.debug("Context is GL3, creating OpenGL >= 3.1 interface");
       this.gl_3 =
-        new JCGLInterfaceGL3_JOGL_GL2GL3(context, log, debug, trace, r);
+        new JCGLInterfaceGL3_JOGL_GL2GL3(context1, log1, debug, trace, r);
       this.gl_2 = null;
       this.gl_es2 = null;
       this.gl_es3 = null;
@@ -375,46 +375,46 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
      * Context is either 2.1 or 3.0.
      */
 
-    if (context.isGL2()) {
-      if (context.getGLVersionNumber().getMajor() == 3) {
-        log
+    if (context1.isGL2()) {
+      if (context1.getGLVersionNumber().getMajor() == 3) {
+        log1
           .debug("Context is GL2 but version is 3.0, creating OpenGL >= 3.1 interface");
         this.gl_3 =
-          new JCGLInterfaceGL3_JOGL_GL2GL3(context, log, debug, trace, r);
+          new JCGLInterfaceGL3_JOGL_GL2GL3(context1, log1, debug, trace, r);
         this.gl_2 = null;
         this.gl_es2 = null;
         this.gl_es3 = null;
         return;
       }
 
-      if (context.hasFullFBOSupport() == false) {
+      if (context1.hasFullFBOSupport() == false) {
 
         /**
          * Full FBO support is not available, raise an exception to explain
          * what was missing.
          */
 
-        if (context
+        if (context1
           .isExtensionAvailable(JCGLExtensionNames.GL_ARB_FRAMEBUFFER_OBJECT) == false) {
           throw new JCGLUnsupportedException(
             "Context supports OpenGL 2.1 but does not support the required GL_ARB_framebuffer_object extension");
         }
-        if (context
+        if (context1
           .isExtensionAvailable(JCGLExtensionNames.GL_EXT_FRAMEBUFFER_OBJECT) == false) {
           throw new JCGLUnsupportedException(
             "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_object extension");
         }
-        if (context
+        if (context1
           .isExtensionAvailable(JCGLExtensionNames.GL_EXT_FRAMEBUFFER_MULTISAMPLE) == false) {
           throw new JCGLUnsupportedException(
             "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_multisample extension");
         }
-        if (context
+        if (context1
           .isExtensionAvailable(JCGLExtensionNames.GL_EXT_FRAMEBUFFER_BLIT) == false) {
           throw new JCGLUnsupportedException(
             "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_blit extension");
         }
-        if (context
+        if (context1
           .isExtensionAvailable(JCGLExtensionNames.GL_EXT_PACKED_DEPTH_STENCIL) == false) {
           throw new JCGLUnsupportedException(
             "Context supports OpenGL 2.1 but does not support the required GL_EXT_packed_depth_stencil extension");
@@ -423,9 +423,9 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
         throw new UnreachableCodeException();
       }
 
-      log.debug("Context is GL2, creating OpenGL 2.1 interface");
+      log1.debug("Context is GL2, creating OpenGL 2.1 interface");
       this.gl_2 =
-        new JCGLInterfaceGL2_JOGL_GL21(context, log, debug, trace, r);
+        new JCGLInterfaceGL2_JOGL_GL21(context1, log1, debug, trace, r);
       this.gl_3 = null;
       this.gl_es2 = null;
       this.gl_es3 = null;

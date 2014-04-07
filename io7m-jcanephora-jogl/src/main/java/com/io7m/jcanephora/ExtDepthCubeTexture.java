@@ -40,7 +40,8 @@ class ExtDepthCubeTexture<G extends GL> implements
       final @Nonnull Log log)
       throws ConstraintError
   {
-    final String names[] = { JCGLExtensionNames.GL_OES_DEPTH_TEXTURE_CUBE_MAP };
+    final String names[] =
+      { JCGLExtensionNames.GL_OES_DEPTH_TEXTURE_CUBE_MAP };
 
     for (final String name : names) {
       if (extensions.extensionIsVisible(name)) {
@@ -57,13 +58,13 @@ class ExtDepthCubeTexture<G extends GL> implements
   private final @Nonnull Log            log;
 
   ExtDepthCubeTexture(
-    final @Nonnull G gl,
-    final @Nonnull JCGLStateCache cache,
-    final @Nonnull Log log)
+    final @Nonnull G gl1,
+    final @Nonnull JCGLStateCache cache1,
+    final @Nonnull Log log1)
   {
-    this.gl = gl;
-    this.cache = cache;
-    this.log = log;
+    this.gl = gl1;
+    this.cache = cache1;
+    this.log = log1;
   }
 
   @Override public TextureCubeStatic textureCubeStaticAllocateDepth16(

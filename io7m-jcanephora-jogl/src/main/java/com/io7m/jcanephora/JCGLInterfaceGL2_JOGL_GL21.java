@@ -85,18 +85,18 @@ import com.io7m.jtensors.VectorReadable4I;
 
   JCGLInterfaceGL2_JOGL_GL21(
     final @Nonnull GLContext context,
-    final @Nonnull Log log,
+    final @Nonnull Log log1,
     final @Nonnull JCGLDebugging debug,
     final @CheckForNull PrintStream trace_out,
-    final @Nonnull JCGLSoftRestrictions restrictions)
+    final @Nonnull JCGLSoftRestrictions restrictions1)
     throws ConstraintError,
       JCGLRuntimeException
   {
     this.log =
-      new Log(Constraints.constrainNotNull(log, "log output"), "jogl21");
+      new Log(Constraints.constrainNotNull(log1, "log output"), "jogl21");
     this.gl_context = Constraints.constrainNotNull(context, "GL context");
     this.restrictions =
-      Constraints.constrainNotNull(restrictions, "Restrictions");
+      Constraints.constrainNotNull(restrictions1, "Restrictions");
     Constraints.constrainNotNull(debug, "Debug");
 
     this.state = new JCGLStateCache();
@@ -130,14 +130,14 @@ import com.io7m.jtensors.VectorReadable4I;
       this.framebufferDrawAnyIsBound() == false,
       "NOT BOUND!");
 
-    this.extensions = new Extensions(context, restrictions, log);
+    this.extensions = new Extensions(context, restrictions1, log1);
 
     /**
      * Initialize extensions.
      */
 
     this.ext_depth_texture =
-      ExtDepthTexture.create(g, this.state, this.extensions, log);
+      ExtDepthTexture.create(g, this.state, this.extensions, log1);
 
     /**
      * Initialize texture unit cache.
@@ -148,7 +148,7 @@ import com.io7m.jtensors.VectorReadable4I;
         g,
         this.state,
         this.log,
-        restrictions);
+        restrictions1);
 
     /**
      * Initialize color attachment point cache.
@@ -183,7 +183,7 @@ import com.io7m.jtensors.VectorReadable4I;
     }
 
     this.version = JOGL_GL_Functions.metaGetVersion(g);
-    this.sl_version = JOGL_GL_Functions.metaGetSLVersion(log, g);
+    this.sl_version = JOGL_GL_Functions.metaGetSLVersion(log1, g);
   }
 
   @Override public ArrayBuffer arrayBufferAllocate(

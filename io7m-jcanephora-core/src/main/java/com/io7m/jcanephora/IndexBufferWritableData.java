@@ -42,7 +42,7 @@ public final class IndexBufferWritableData
    * Construct a buffer of data that will be used to replace the entirety of
    * the data in <code>buffer</code> on the GPU.
    * 
-   * @param buffer
+   * @param buffer1
    *          The array buffer.
    * @throws ConstraintError
    *           Iff any of the following conditions hold:
@@ -52,19 +52,19 @@ public final class IndexBufferWritableData
    */
 
   public IndexBufferWritableData(
-    final @Nonnull IndexBuffer buffer)
+    final @Nonnull IndexBuffer buffer1)
     throws ConstraintError
   {
-    this(buffer, buffer.getRange());
+    this(buffer1, buffer1.getRange());
   }
 
   /**
    * Construct a buffer of data that will be used to replace the range of
    * elements given by <code>range</code> in <code>buffer</code> on the GPU.
    * 
-   * @param buffer
+   * @param buffer1
    *          The array buffer.
-   * @param range
+   * @param range1
    *          The range of elements to replace.
    * @throws ConstraintError
    *           Iff any of the following conditions hold:
@@ -77,21 +77,22 @@ public final class IndexBufferWritableData
    */
 
   public IndexBufferWritableData(
-    final @Nonnull IndexBuffer buffer,
-    final @Nonnull RangeInclusive range)
+    final @Nonnull IndexBuffer buffer1,
+    final @Nonnull RangeInclusive range1)
     throws ConstraintError
   {
-    this.buffer = Constraints.constrainNotNull(buffer, "Array buffer");
-    this.range = Constraints.constrainNotNull(range, "Range");
+    this.buffer = Constraints.constrainNotNull(buffer1, "Array buffer");
+    this.range = Constraints.constrainNotNull(range1, "Range");
 
     Constraints.constrainArbitrary(
-      range.isIncludedIn(buffer.getRange()),
+      range1.isIncludedIn(buffer1.getRange()),
       "Given range is in for the given buffer");
 
-    this.target_range = new RangeInclusive(0, range.getInterval() - 1);
+    this.target_range = new RangeInclusive(0, range1.getInterval() - 1);
     this.target_data_size =
-      range.getInterval() * buffer.getElementSizeBytes();
-    this.target_data_offset = range.getLower() * buffer.getElementSizeBytes();
+      range1.getInterval() * buffer1.getElementSizeBytes();
+    this.target_data_offset =
+      range1.getLower() * buffer1.getElementSizeBytes();
     this.target_data =
       ByteBuffer.allocateDirect((int) this.target_data_size).order(
         ByteOrder.nativeOrder());

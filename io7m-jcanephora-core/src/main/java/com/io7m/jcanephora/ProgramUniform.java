@@ -46,25 +46,28 @@ import com.io7m.jaux.Constraints.ConstraintError;
   private final @Nonnull JCGLType               type;
 
   ProgramUniform(
-    final @Nonnull ProgramReferenceUsable program,
-    final int index,
-    final int location,
-    final @CheckForNull String name,
-    final @Nonnull JCGLType type)
+    final @Nonnull ProgramReferenceUsable program1,
+    final int index1,
+    final int location1,
+    final @CheckForNull String name1,
+    final @Nonnull JCGLType type1)
     throws ConstraintError
   {
-    this.program = Constraints.constrainNotNull(program, "Program");
+    this.program = Constraints.constrainNotNull(program1, "Program");
     this.index =
-      Constraints
-        .constrainRange(index, 0, Integer.MAX_VALUE, "Uniform index");
+      Constraints.constrainRange(
+        index1,
+        0,
+        Integer.MAX_VALUE,
+        "Uniform index");
     this.location =
       Constraints.constrainRange(
-        location,
+        location1,
         0,
         Integer.MAX_VALUE,
         "Uniform location");
-    this.type = Constraints.constrainNotNull(type, "Uniform type");
-    this.name = Constraints.constrainNotNull(name, "Uniform name");
+    this.type = Constraints.constrainNotNull(type1, "Uniform type");
+    this.name = Constraints.constrainNotNull(name1, "Uniform name");
   }
 
   /**

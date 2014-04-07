@@ -34,12 +34,12 @@ import com.io7m.jaux.RangeInclusive;
   private final @Nonnull RangeInclusive range_y;
 
   public AreaInclusive(
-    final @Nonnull RangeInclusive range_x,
-    final @Nonnull RangeInclusive range_y)
+    final @Nonnull RangeInclusive range_x1,
+    final @Nonnull RangeInclusive range_y1)
     throws ConstraintError
   {
-    this.range_x = Constraints.constrainNotNull(range_x, "Range X");
-    this.range_y = Constraints.constrainNotNull(range_y, "Range Y");
+    this.range_x = Constraints.constrainNotNull(range_x1, "Range X");
+    this.range_y = Constraints.constrainNotNull(range_y1, "Range Y");
   }
 
   @Override public boolean equals(

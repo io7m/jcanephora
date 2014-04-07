@@ -36,19 +36,19 @@ import com.io7m.jaux.RangeInclusive;
   private final int              value;
 
   IndexBuffer(
-    final int value,
-    final @Nonnull RangeInclusive range,
-    final JCGLUnsignedType type)
+    final int value1,
+    final @Nonnull RangeInclusive range1,
+    final JCGLUnsignedType type1)
     throws ConstraintError
   {
     this.value =
       Constraints.constrainRange(
-        value,
+        value1,
         0,
         Integer.MAX_VALUE,
         "buffer ID value");
-    this.range = range;
-    this.type = Constraints.constrainNotNull(type, "GL type");
+    this.range = range1;
+    this.type = Constraints.constrainNotNull(type1, "GL type");
   }
 
   @Override public long getElementSizeBytes()

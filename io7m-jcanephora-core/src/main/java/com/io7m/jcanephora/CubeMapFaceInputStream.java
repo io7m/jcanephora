@@ -36,10 +36,10 @@ public class CubeMapFaceInputStream<F extends CubeMapFaceKind> extends
   private final @Nonnull InputStream stream;
 
   public CubeMapFaceInputStream(
-    final @Nonnull InputStream stream)
+    final @Nonnull InputStream stream1)
     throws ConstraintError
   {
-    this.stream = Constraints.constrainNotNull(stream, "Input stream");
+    this.stream = Constraints.constrainNotNull(stream1, "Input stream");
   }
 
   @Override public boolean equals(

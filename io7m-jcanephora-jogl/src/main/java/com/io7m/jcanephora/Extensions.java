@@ -32,14 +32,14 @@ final class Extensions implements JCGLNamedExtensions
   private final @Nonnull JCGLSoftRestrictions restrictions;
 
   Extensions(
-    final @Nonnull GLContext context,
-    final @Nonnull JCGLSoftRestrictions restrictions,
-    final @Nonnull Log log)
+    final @Nonnull GLContext context1,
+    final @Nonnull JCGLSoftRestrictions restrictions1,
+    final @Nonnull Log log1)
   {
     this.message = new StringBuilder();
-    this.context = context;
-    this.restrictions = restrictions;
-    this.log = log;
+    this.context = context1;
+    this.restrictions = restrictions1;
+    this.log = log1;
   }
 
   @Override public boolean extensionIsSupported(

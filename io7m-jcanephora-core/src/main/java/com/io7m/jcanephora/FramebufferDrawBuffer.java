@@ -35,9 +35,9 @@ import javax.annotation.concurrent.Immutable;
   private final int index;
 
   FramebufferDrawBuffer(
-    final int index)
+    final int index1)
   {
-    this.index = index;
+    this.index = index1;
   }
 
   @Override public int compareTo(

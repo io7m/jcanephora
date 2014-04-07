@@ -95,21 +95,21 @@ import com.io7m.jaux.Constraints.ConstraintError;
   private final int                       width;
 
   Renderbuffer(
-    final @Nonnull RenderbufferType type,
-    final int value,
-    final int width,
-    final int height)
+    final @Nonnull RenderbufferType type1,
+    final int value1,
+    final int width1,
+    final int height1)
     throws ConstraintError
   {
-    this.type = Constraints.constrainNotNull(type, "Renderbuffer type");
+    this.type = Constraints.constrainNotNull(type1, "Renderbuffer type");
     this.value =
       Constraints.constrainRange(
-        value,
+        value1,
         0,
         Integer.MAX_VALUE,
         "Buffer ID value");
-    this.width = width;
-    this.height = height;
+    this.width = width1;
+    this.height = height1;
   }
 
   @Override public boolean equals(

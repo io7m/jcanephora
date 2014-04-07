@@ -35,13 +35,13 @@ final class ByteBufferCursorReadable2f extends BufferCursor implements
   private final @Nonnull ByteBuffer target_data;
 
   ByteBufferCursorReadable2f(
-    final @Nonnull ByteBuffer target_data,
+    final @Nonnull ByteBuffer target_data1,
     final @Nonnull RangeInclusive range,
     final long attribute_offset,
     final long element_size)
   {
     super(range, attribute_offset, element_size);
-    this.target_data = target_data;
+    this.target_data = target_data1;
   }
 
   /**

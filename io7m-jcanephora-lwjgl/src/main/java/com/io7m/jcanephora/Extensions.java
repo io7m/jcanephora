@@ -33,14 +33,14 @@ final class Extensions implements JCGLNamedExtensions
   private final @Nonnull Set<String>          extension_set;
 
   Extensions(
-    final @Nonnull Set<String> extension_set,
-    final @Nonnull JCGLSoftRestrictions restrictions,
-    final @Nonnull Log log)
+    final @Nonnull Set<String> extension_set1,
+    final @Nonnull JCGLSoftRestrictions restrictions1,
+    final @Nonnull Log log1)
   {
     this.message = new StringBuilder();
-    this.restrictions = restrictions;
-    this.extension_set = extension_set;
-    this.log = log;
+    this.restrictions = restrictions1;
+    this.extension_set = extension_set1;
+    this.log = log1;
   }
 
   @Override public boolean extensionIsSupported(

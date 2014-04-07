@@ -74,14 +74,14 @@ public final class ExampleShaders implements Example
   private final ProgramReference          program;
 
   public ExampleShaders(
-    final @Nonnull ExampleConfig config)
+    final @Nonnull ExampleConfig config1)
     throws ConstraintError,
       JCGLRuntimeException,
       JCGLCompileException,
       IOException,
       FilesystemError
   {
-    this.config = config;
+    this.config = config1;
     this.gl = this.config.getGL().getGLCommon();
     this.matrix_modelview = new MatrixM4x4F();
     this.matrix_projection = new MatrixM4x4F();

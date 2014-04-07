@@ -43,16 +43,16 @@ public final class Texture2DReadableData
   private final @Nonnull TextureType   type;
 
   Texture2DReadableData(
-    final @Nonnull TextureType type,
-    final @Nonnull AreaInclusive area)
+    final @Nonnull TextureType type1,
+    final @Nonnull AreaInclusive area1)
     throws ConstraintError
   {
-    this.type = Constraints.constrainNotNull(type, "Texture type");
-    this.area = Constraints.constrainNotNull(area, "Area");
+    this.type = Constraints.constrainNotNull(type1, "Texture type");
+    this.area = Constraints.constrainNotNull(area1, "Area");
 
     final long width = this.area.getRangeX().getInterval();
     final long height = this.area.getRangeY().getInterval();
-    final int bpp = type.getBytesPerPixel();
+    final int bpp = type1.getBytesPerPixel();
     this.data =
       ByteBuffer.allocate((int) (height * width * bpp)).order(
         ByteOrder.nativeOrder());

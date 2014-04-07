@@ -37,15 +37,15 @@ public final class TestUtilities
     public final @Nonnull PGLSLMetaXML     meta;
 
     LoadedShader(
-      final @Nonnull ProgramReference program,
-      final @Nonnull VertexShader vertex_shader,
-      final @Nonnull FragmentShader fragment_shader,
-      final @Nonnull PGLSLMetaXML meta)
+      final @Nonnull ProgramReference program1,
+      final @Nonnull VertexShader vertex_shader1,
+      final @Nonnull FragmentShader fragment_shader1,
+      final @Nonnull PGLSLMetaXML meta1)
     {
-      this.program = program;
-      this.vertex_shader = vertex_shader;
-      this.fragment_shader = fragment_shader;
-      this.meta = meta;
+      this.program = program1;
+      this.vertex_shader = vertex_shader1;
+      this.fragment_shader = fragment_shader1;
+      this.meta = meta1;
     }
   }
 

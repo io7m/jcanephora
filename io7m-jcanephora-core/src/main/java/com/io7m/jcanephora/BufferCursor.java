@@ -46,9 +46,9 @@ class BufferCursor implements Cursor
   private final @Nonnull RangeInclusive range;
 
   protected BufferCursor(
-    final @Nonnull RangeInclusive range,
-    final long attribute_offset,
-    final long element_size)
+    final @Nonnull RangeInclusive range1,
+    final long attribute_offset1,
+    final long element_size1)
   {
     /**
      * These are not constraint errors because this class is not visible
@@ -56,24 +56,24 @@ class BufferCursor implements Cursor
      * to respect these preconditions.
      */
 
-    if (0 > range.getLower()) {
+    if (0 > range1.getLower()) {
       throw new IllegalArgumentException("lower bound is negative");
     }
-    if (0 > element_size) {
+    if (0 > element_size1) {
       throw new IllegalArgumentException("element_size is negative");
     }
 
-    if (attribute_offset < 0) {
+    if (attribute_offset1 < 0) {
       throw new IllegalArgumentException("attribute_offset is negative");
     }
-    if (attribute_offset >= element_size) {
+    if (attribute_offset1 >= element_size1) {
       throw new IllegalArgumentException("attribute_offset >= element_size");
     }
 
-    this.attribute_offset = attribute_offset;
-    this.range = range;
-    this.element_size = element_size;
-    this.uncheckedSeek(range.getLower());
+    this.attribute_offset = attribute_offset1;
+    this.range = range1;
+    this.element_size = element_size1;
+    this.uncheckedSeek(range1.getLower());
   }
 
   /**
