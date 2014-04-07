@@ -30,15 +30,15 @@ public final class TestContext
   private final @Nonnull PathVirtual        shader_path;
 
   public TestContext(
-    final @Nonnull FSCapabilityAll fs,
-    final @Nonnull JCGLImplementation gi,
-    final @Nonnull Log log,
-    final @Nonnull PathVirtual shader_path)
+    final @Nonnull FSCapabilityAll fs1,
+    final @Nonnull JCGLImplementation gi1,
+    final @Nonnull Log log1,
+    final @Nonnull PathVirtual shader_path1)
   {
-    this.fs = fs;
-    this.gi = gi;
-    this.log = log;
-    this.shader_path = shader_path;
+    this.fs = fs1;
+    this.gi = gi1;
+    this.log = log1;
+    this.shader_path = shader_path1;
   }
 
   public FSCapabilityAll getFilesystem()

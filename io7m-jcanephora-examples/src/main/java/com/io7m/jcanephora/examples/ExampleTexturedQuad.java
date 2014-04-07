@@ -94,13 +94,13 @@ public final class ExampleTexturedQuad implements Example
   private final JCGLImplementation        gl;
 
   public ExampleTexturedQuad(
-    final @Nonnull ExampleConfig config)
+    final @Nonnull ExampleConfig config1)
     throws ConstraintError,
       JCGLException,
       IOException,
       FilesystemError
   {
-    this.config = config;
+    this.config = config1;
     this.matrix_modelview = new MatrixM4x4F();
     this.matrix_projection = new MatrixM4x4F();
     this.gl = this.config.getGL();
@@ -114,12 +114,12 @@ public final class ExampleTexturedQuad implements Example
       final VertexShader v =
         this.glc.vertexShaderCompile(
           "v",
-          ShaderUtilities.readLines(config.getFilesystem().openFile(
+          ShaderUtilities.readLines(config1.getFilesystem().openFile(
             PathVirtual.ofString("/com/io7m/jcanephora/examples/uv.v"))));
       final FragmentShader f =
         this.glc.fragmentShaderCompile(
           "f",
-          ShaderUtilities.readLines(config.getFilesystem().openFile(
+          ShaderUtilities.readLines(config1.getFilesystem().openFile(
             PathVirtual.ofString("/com/io7m/jcanephora/examples/uv.f"))));
       this.program = this.glc.programCreateCommon("color", v, f);
     }

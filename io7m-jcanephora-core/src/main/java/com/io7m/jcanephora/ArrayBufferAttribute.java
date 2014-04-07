@@ -34,13 +34,13 @@ import com.io7m.jaux.Constraints.ConstraintError;
   private final @Nonnull ArrayBufferAttributeDescriptor descriptor;
 
   ArrayBufferAttribute(
-    final @Nonnull ArrayBuffer array,
-    final @Nonnull ArrayBufferAttributeDescriptor descriptor)
+    final @Nonnull ArrayBuffer array1,
+    final @Nonnull ArrayBufferAttributeDescriptor descriptor1)
     throws ConstraintError
   {
-    this.array = Constraints.constrainNotNull(array, "Array buffer");
+    this.array = Constraints.constrainNotNull(array1, "Array buffer");
     this.descriptor =
-      Constraints.constrainNotNull(descriptor, "Attribute descriptor");
+      Constraints.constrainNotNull(descriptor1, "Attribute descriptor");
   }
 
   @Override public boolean equals(

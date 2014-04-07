@@ -37,11 +37,11 @@ class ExtPackedDepthStencil implements JCGLExtensionPackedDepthStencil
   private final @Nonnull Log            log;
 
   private ExtPackedDepthStencil(
-    final @Nonnull JCGLStateCache cache,
-    final @Nonnull Log log)
+    final @Nonnull JCGLStateCache cache1,
+    final @Nonnull Log log1)
   {
-    this.cache = cache;
-    this.log = log;
+    this.cache = cache1;
+    this.log = log1;
   }
 
   @Override public void framebufferDrawAttachDepthStencilRenderbuffer(

@@ -36,10 +36,10 @@ public final class IndexBufferWritableMap
 
   IndexBufferWritableMap(
     final @Nonnull IndexBufferUsable id,
-    final @Nonnull ByteBuffer map)
+    final @Nonnull ByteBuffer map1)
     throws ConstraintError
   {
-    this.map = Constraints.constrainNotNull(map, "Index buffer map");
+    this.map = Constraints.constrainNotNull(map1, "Index buffer map");
     this.buffer = Constraints.constrainNotNull(id, "Index buffer");
     this.target_range =
       new RangeInclusive(0, this.buffer.getRange().getInterval() - 1);

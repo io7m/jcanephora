@@ -41,10 +41,10 @@ public final class IndexBufferReadableMap
 
   IndexBufferReadableMap(
     final @Nonnull IndexBufferUsable id,
-    final @Nonnull ByteBuffer map)
+    final @Nonnull ByteBuffer map1)
     throws ConstraintError
   {
-    this.map = Constraints.constrainNotNull(map, "Index buffer map");
+    this.map = Constraints.constrainNotNull(map1, "Index buffer map");
     this.buffer = Constraints.constrainNotNull(id, "Index buffer");
   }
 

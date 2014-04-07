@@ -206,13 +206,13 @@ import com.io7m.jaux.Constraints.ConstraintError;
   private final @Nonnull String              text;
 
   private JCGLSLVersion(
-    final @Nonnull JCGLSLVersionNumber number,
-    final @Nonnull JCGLApi api,
-    final @Nonnull String text)
+    final @Nonnull JCGLSLVersionNumber number1,
+    final @Nonnull JCGLApi api1,
+    final @Nonnull String text1)
   {
-    this.number = number;
-    this.text = text;
-    this.api = api;
+    this.number = number1;
+    this.text = text1;
+    this.api = api1;
   }
 
   @Override public boolean equals(

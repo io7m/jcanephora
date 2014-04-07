@@ -37,19 +37,19 @@ import com.io7m.jaux.Constraints.ConstraintError;
   private final @Nonnull ArrayBufferTypeDescriptor             descriptor;
 
   ArrayBufferType(
-    final @Nonnull ArrayBuffer array,
-    final @Nonnull ArrayBufferTypeDescriptor descriptor)
+    final @Nonnull ArrayBuffer array1,
+    final @Nonnull ArrayBufferTypeDescriptor descriptor1)
     throws ConstraintError
   {
-    this.array = Constraints.constrainNotNull(array, "Array buffer");
+    this.array = Constraints.constrainNotNull(array1, "Array buffer");
     this.descriptor =
-      Constraints.constrainNotNull(descriptor, "Type descriptor");
+      Constraints.constrainNotNull(descriptor1, "Type descriptor");
     this.attributes = new HashMap<String, ArrayBufferAttribute>();
 
-    for (final String name : descriptor.getAttributeNames()) {
+    for (final String name : descriptor1.getAttributeNames()) {
       this.attributes.put(
         name,
-        new ArrayBufferAttribute(array, descriptor.getAttribute(name)));
+        new ArrayBufferAttribute(array1, descriptor1.getAttribute(name)));
     }
   }
 

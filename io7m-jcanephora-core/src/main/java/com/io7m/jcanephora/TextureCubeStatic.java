@@ -42,30 +42,33 @@ public final class TextureCubeStatic extends JCGLResourceDeletable implements
   private final @Nonnull TextureWrapT               wrap_t;
 
   TextureCubeStatic(
-    final @Nonnull String name,
-    final @Nonnull TextureType type,
-    final int id,
+    final @Nonnull String name1,
+    final @Nonnull TextureType type1,
+    final int id1,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final @Nonnull TextureWrapR wrap_r1,
+    final @Nonnull TextureWrapS wrap_s1,
+    final @Nonnull TextureWrapT wrap_t1,
+    final @Nonnull TextureFilterMinification min_filter1,
+    final @Nonnull TextureFilterMagnification mag_filter1)
     throws ConstraintError
   {
     this.id =
-      Constraints
-        .constrainRange(id, 0, Integer.MAX_VALUE, "Texture ID value");
-    this.name = name;
-    this.type = type;
+      Constraints.constrainRange(
+        id1,
+        0,
+        Integer.MAX_VALUE,
+        "Texture ID value");
+    this.name = name1;
+    this.type = type1;
     this.range_x = new RangeInclusive(0, size - 1);
     this.range_y = new RangeInclusive(0, size - 1);
     this.area = new AreaInclusive(this.range_x, this.range_y);
-    this.wrap_r = wrap_r;
-    this.wrap_s = wrap_s;
-    this.wrap_t = wrap_t;
-    this.min_filter = min_filter;
-    this.mag_filter = mag_filter;
+    this.wrap_r = wrap_r1;
+    this.wrap_s = wrap_s1;
+    this.wrap_t = wrap_t1;
+    this.min_filter = min_filter1;
+    this.mag_filter = mag_filter1;
   }
 
   @Override public boolean equals(

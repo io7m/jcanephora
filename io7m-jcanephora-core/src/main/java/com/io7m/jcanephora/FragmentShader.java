@@ -33,13 +33,13 @@ import com.io7m.jaux.Constraints.ConstraintError;
   private final @Nonnull String name;
 
   FragmentShader(
-    final int id,
-    final @Nonnull String name)
+    final int id1,
+    final @Nonnull String name1)
     throws ConstraintError
   {
     this.id =
-      Constraints.constrainRange(id, 1, Integer.MAX_VALUE, "shader ID");
-    this.name = Constraints.constrainNotNull(name, "shader file");
+      Constraints.constrainRange(id1, 1, Integer.MAX_VALUE, "shader ID");
+    this.name = Constraints.constrainNotNull(name1, "shader file");
   }
 
   @Override public boolean equals(

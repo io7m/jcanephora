@@ -36,14 +36,14 @@ import com.io7m.jaux.RangeInclusive;
   private final int                      value;
 
   ArrayBuffer(
-    final int value,
+    final int value1,
     final long elements,
     final @Nonnull ArrayBufferTypeDescriptor descriptor)
     throws ConstraintError
   {
     this.value =
       Constraints.constrainRange(
-        value,
+        value1,
         1,
         Integer.MAX_VALUE,
         "Buffer ID value");

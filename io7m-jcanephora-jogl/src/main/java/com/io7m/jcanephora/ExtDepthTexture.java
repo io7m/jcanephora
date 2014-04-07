@@ -56,13 +56,13 @@ class ExtDepthTexture<G extends GL> implements JCGLExtensionDepthTexture
   private final @Nonnull Log            log;
 
   private ExtDepthTexture(
-    final @Nonnull G gl,
-    final @Nonnull JCGLStateCache cache,
-    final @Nonnull Log log)
+    final @Nonnull G gl1,
+    final @Nonnull JCGLStateCache cache1,
+    final @Nonnull Log log1)
   {
-    this.gl = gl;
-    this.cache = cache;
-    this.log = log;
+    this.gl = gl1;
+    this.cache = cache1;
+    this.log = log1;
   }
 
   @Override public Texture2DStatic texture2DStaticAllocateDepth16(

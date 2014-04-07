@@ -46,24 +46,24 @@ import com.io7m.jaux.Constraints.ConstraintError;
   private final int                                           stride;
 
   public ArrayBufferTypeDescriptor(
-    final @Nonnull List<ArrayBufferAttributeDescriptor> attributes)
+    final @Nonnull List<ArrayBufferAttributeDescriptor> attributes1)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(attributes, "Buffer attributes");
+    Constraints.constrainNotNull(attributes1, "Buffer attributes");
     Constraints.constrainRange(
-      attributes.size(),
+      attributes1.size(),
       1,
       Integer.MAX_VALUE,
       "Number of attributes");
 
     this.attributes =
-      new ArrayList<ArrayBufferAttributeDescriptor>(attributes);
-    this.offsets = new int[attributes.size()];
+      new ArrayList<ArrayBufferAttributeDescriptor>(attributes1);
+    this.offsets = new int[attributes1.size()];
     this.indices_by_name = new HashMap<String, Integer>();
 
     int bytes = 0;
-    for (int index = 0; index < attributes.size(); ++index) {
-      final ArrayBufferAttributeDescriptor a = attributes.get(index);
+    for (int index = 0; index < attributes1.size(); ++index) {
+      final ArrayBufferAttributeDescriptor a = attributes1.get(index);
       Constraints.constrainNotNull(a, "Array attribute");
 
       if (this.indices_by_name.containsKey(a.getName())) {

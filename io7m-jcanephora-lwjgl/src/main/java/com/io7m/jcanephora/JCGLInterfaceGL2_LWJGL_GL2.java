@@ -59,14 +59,14 @@ import com.io7m.jtensors.VectorReadable4I;
   private final @Nonnull JCGLVersion                       version;
 
   JCGLInterfaceGL2_LWJGL_GL2(
-    final @Nonnull Log log,
+    final @Nonnull Log log1,
     final @Nonnull JCGLSoftRestrictions r,
     final @Nonnull Set<String> extension_set)
     throws ConstraintError,
       JCGLRuntimeException
   {
     this.log =
-      new Log(Constraints.constrainNotNull(log, "log output"), "lwjgl-30");
+      new Log(Constraints.constrainNotNull(log1, "log output"), "lwjgl-30");
     this.state = new JCGLStateCache();
 
     this.restrictions = r;
@@ -91,12 +91,12 @@ import com.io7m.jtensors.VectorReadable4I;
         final boolean supported = this.extensionIsSupported(name);
 
         if (supported) {
-          if (log.enabled(Level.LOG_DEBUG)) {
+          if (log1.enabled(Level.LOG_DEBUG)) {
             this.message.setLength(0);
             this.message.append("Extension ");
             this.message.append(name);
             this.message.append(" is supported");
-            log.debug(this.message.toString());
+            log1.debug(this.message.toString());
           }
 
           final boolean visible =
@@ -104,24 +104,24 @@ import com.io7m.jtensors.VectorReadable4I;
               .restrictExtensionVisibility(name);
 
           if (!visible) {
-            if (log.enabled(Level.LOG_DEBUG)) {
+            if (log1.enabled(Level.LOG_DEBUG)) {
               this.message.setLength(0);
               this.message.append("Extension ");
               this.message.append(name);
               this.message.append(" is hidden by soft restrictions");
-              log.debug(this.message.toString());
+              log1.debug(this.message.toString());
             }
           }
 
           return visible;
         }
 
-        if (log.enabled(Level.LOG_DEBUG)) {
+        if (log1.enabled(Level.LOG_DEBUG)) {
           this.message.setLength(0);
           this.message.append("Extension ");
           this.message.append(name);
           this.message.append(" is not supported");
-          log.debug(this.message.toString());
+          log1.debug(this.message.toString());
         }
 
         return supported;
@@ -133,7 +133,7 @@ import com.io7m.jtensors.VectorReadable4I;
      */
 
     this.ext_depth_texture =
-      ExtDepthTexture.create(this.state, this.extensions, log);
+      ExtDepthTexture.create(this.state, this.extensions, log1);
 
     /**
      * Initialize texture unit cache.
@@ -173,7 +173,7 @@ import com.io7m.jtensors.VectorReadable4I;
     }
 
     this.version = LWJGL_GLES2Functions.metaGetVersion();
-    this.sl_version = LWJGL_GLES2Functions.metaGetSLVersion(log);
+    this.sl_version = LWJGL_GLES2Functions.metaGetSLVersion(log1);
   }
 
   @Override public ArrayBuffer arrayBufferAllocate(

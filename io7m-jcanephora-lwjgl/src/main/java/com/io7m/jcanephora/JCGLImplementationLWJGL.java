@@ -204,14 +204,14 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
   private final @Nonnull JCGLSoftRestrictions restrictions;
 
   private JCGLImplementationLWJGL(
-    final @Nonnull Log log,
+    final @Nonnull Log log1,
     final @Nonnull JCGLSoftRestrictions r)
     throws ConstraintError,
       JCGLRuntimeException,
       JCGLUnsupportedException
   {
     this.log =
-      new Log(Constraints.constrainNotNull(log, "log output"), "lwjgl30");
+      new Log(Constraints.constrainNotNull(log1, "log output"), "lwjgl30");
     this.restrictions = Constraints.constrainNotNull(r, "Restrictions");
 
     final String vs = GL11.glGetString(GL11.GL_VERSION);
@@ -219,10 +219,10 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
     if (JCGLImplementationLWJGL.isGLES2(vs)) {
       final Set<String> extensions =
         JCGLImplementationLWJGL.getExtensionsGL21_30();
-      JCGLImplementationLWJGL.checkFBOSupport(log, extensions);
+      JCGLImplementationLWJGL.checkFBOSupport(log1, extensions);
 
-      log.debug("Context is GLES2 - creating GLES2 interface");
-      this.gl_es2 = new JCGLInterfaceGLES2_LWJGL_ES2(log, extensions, r);
+      log1.debug("Context is GLES2 - creating GLES2 interface");
+      this.gl_es2 = new JCGLInterfaceGLES2_LWJGL_ES2(log1, extensions, r);
       this.gl_2 = null;
       this.gl_3 = null;
       return;
@@ -231,10 +231,10 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
     if (JCGLImplementationLWJGL.isGL2(vs)) {
       final Set<String> extensions =
         JCGLImplementationLWJGL.getExtensionsGL21_30();
-      JCGLImplementationLWJGL.checkFBOSupport(log, extensions);
+      JCGLImplementationLWJGL.checkFBOSupport(log1, extensions);
 
-      log.debug("Context is GL2, creating OpenGL 2.1 interface");
-      this.gl_2 = new JCGLInterfaceGL2_LWJGL_GL2(log, r, extensions);
+      log1.debug("Context is GL2, creating OpenGL 2.1 interface");
+      this.gl_2 = new JCGLInterfaceGL2_LWJGL_GL2(log1, r, extensions);
       this.gl_3 = null;
       this.gl_es2 = null;
       return;
@@ -244,8 +244,8 @@ public final class JCGLImplementationLWJGL implements JCGLImplementation
       final Set<String> extensions =
         JCGLImplementationLWJGL.getExtensionsGL3p();
 
-      log.debug("Context is GL3, creating OpenGL >= 3.1 interface");
-      this.gl_3 = new JCGLInterfaceGL3_LWJGL_GL3(log, extensions, r);
+      log1.debug("Context is GL3, creating OpenGL >= 3.1 interface");
+      this.gl_3 = new JCGLInterfaceGL3_LWJGL_GL3(log1, extensions, r);
       this.gl_2 = null;
       this.gl_es2 = null;
       return;

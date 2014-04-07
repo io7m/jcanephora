@@ -31,12 +31,12 @@ import com.io7m.jaux.Constraints.ConstraintError;
   private final int value;
 
   FramebufferReference(
-    final int value)
+    final int value1)
     throws ConstraintError
   {
     this.value =
       Constraints.constrainRange(
-        value,
+        value1,
         0,
         Integer.MAX_VALUE,
         "Buffer ID value");

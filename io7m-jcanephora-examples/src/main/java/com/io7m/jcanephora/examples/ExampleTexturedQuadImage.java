@@ -103,13 +103,13 @@ public final class ExampleTexturedQuadImage implements Example
   private final JCGLImplementation        gi;
 
   public ExampleTexturedQuadImage(
-    final @Nonnull ExampleConfig config)
+    final @Nonnull ExampleConfig config1)
     throws ConstraintError,
       IOException,
       FilesystemError,
       JCGLException
   {
-    this.config = config;
+    this.config = config1;
     this.matrix_modelview = new MatrixM4x4F();
     this.matrix_projection = new MatrixM4x4F();
     this.gi = this.config.getGL();
@@ -123,12 +123,12 @@ public final class ExampleTexturedQuadImage implements Example
       final VertexShader v =
         this.gl.vertexShaderCompile(
           "v",
-          ShaderUtilities.readLines(config.getFilesystem().openFile(
+          ShaderUtilities.readLines(config1.getFilesystem().openFile(
             PathVirtual.ofString("/com/io7m/jcanephora/examples/uv.v"))));
       final FragmentShader f =
         this.gl.fragmentShaderCompile(
           "f",
-          ShaderUtilities.readLines(config.getFilesystem().openFile(
+          ShaderUtilities.readLines(config1.getFilesystem().openFile(
             PathVirtual.ofString("/com/io7m/jcanephora/examples/uv.f"))));
       this.program = this.gl.programCreateCommon("color", v, f);
     }
@@ -147,8 +147,8 @@ public final class ExampleTexturedQuadImage implements Example
      * attempts to load every single type.
      */
 
-    final TextureLoader loader = config.getTextureLoader();
-    final FSCapabilityAll filesystem = config.getFilesystem();
+    final TextureLoader loader = config1.getTextureLoader();
+    final FSCapabilityAll filesystem = config1.getFilesystem();
 
     final TextureWrapS wrap_s = TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE;
     final TextureWrapT wrap_t = TextureWrapT.TEXTURE_WRAP_CLAMP_TO_EDGE;

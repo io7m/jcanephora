@@ -36,11 +36,11 @@ public final class PackedM2FI
   private int   i;
 
   private PackedM2FI(
-    final float f,
-    final int i)
+    final float f1,
+    final int i1)
   {
-    this.f = f;
-    this.i = i;
+    this.f = f1;
+    this.i = i1;
   }
 
   @Override public boolean equals(
@@ -85,15 +85,15 @@ public final class PackedM2FI
   }
 
   public void setFirst(
-    final float f)
+    final float f1)
   {
-    this.f = f;
+    this.f = f1;
   }
 
   public void setSecond(
-    final int i)
+    final int i1)
   {
-    this.i = i;
+    this.i = i1;
   }
 
   @Override public String toString()

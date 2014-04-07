@@ -36,13 +36,13 @@ import com.io7m.jaux.UnreachableCodeException;
   private final int version_minor;
 
   public JCGLVersionNumber(
-    final int version_major,
-    final int version_minor,
-    final int version_micro)
+    final int version_major1,
+    final int version_minor1,
+    final int version_micro1)
   {
-    this.version_major = version_major;
-    this.version_minor = version_minor;
-    this.version_micro = version_micro;
+    this.version_major = version_major1;
+    this.version_minor = version_minor1;
+    this.version_micro = version_micro1;
   }
 
   @Override public int compareTo(

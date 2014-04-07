@@ -51,9 +51,9 @@ import com.io7m.jaux.RangeInclusive;
   private final long                   row_byte_span;
 
   protected AreaCursor(
-    final @Nonnull AreaInclusive area_outer,
-    final @Nonnull AreaInclusive area_inner,
-    final long element_bytes)
+    final @Nonnull AreaInclusive area_outer1,
+    final @Nonnull AreaInclusive area_inner1,
+    final long element_bytes1)
     throws ConstraintError
   {
     /**
@@ -62,14 +62,14 @@ import com.io7m.jaux.RangeInclusive;
      * to respect these preconditions.
      */
 
-    if (area_inner.isIncludedIn(area_outer) == false) {
+    if (area_inner1.isIncludedIn(area_outer1) == false) {
       throw new IllegalArgumentException(
         "Inner area is included in outer area");
     }
-    if (0 > area_outer.getRangeX().getLower()) {
+    if (0 > area_outer1.getRangeX().getLower()) {
       throw new IllegalArgumentException("Outer X lower bound is negative");
     }
-    if (0 > area_outer.getRangeY().getLower()) {
+    if (0 > area_outer1.getRangeY().getLower()) {
       throw new IllegalArgumentException("Outer Y lower bound is negative");
     }
 
@@ -79,17 +79,18 @@ import com.io7m.jaux.RangeInclusive;
      * negative.
      */
 
-    if (0 > element_bytes) {
+    if (0 > element_bytes1) {
       throw new IllegalArgumentException("element_bytes is negative");
     }
 
-    this.area_outer = area_outer;
-    this.area_inner = area_inner;
-    this.element_bytes = element_bytes;
-    this.row_byte_span = area_outer.getRangeX().getInterval() * element_bytes;
+    this.area_outer = area_outer1;
+    this.area_inner = area_inner1;
+    this.element_bytes = element_bytes1;
+    this.row_byte_span =
+      area_outer1.getRangeX().getInterval() * element_bytes1;
 
-    final long lo_x = area_inner.getRangeX().getLower();
-    final long lo_y = area_inner.getRangeY().getLower();
+    final long lo_x = area_inner1.getRangeX().getLower();
+    final long lo_y = area_inner1.getRangeY().getLower();
     this.uncheckedSeek(lo_x, lo_y);
   }
 

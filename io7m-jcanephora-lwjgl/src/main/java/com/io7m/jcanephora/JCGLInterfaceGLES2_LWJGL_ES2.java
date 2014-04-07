@@ -59,18 +59,18 @@ import com.io7m.jtensors.VectorReadable4I;
   private final JCGLNamedExtensions                              extensions;
 
   JCGLInterfaceGLES2_LWJGL_ES2(
-    final @Nonnull Log log,
+    final @Nonnull Log log1,
     final @Nonnull Set<String> extension_set,
     final @Nonnull JCGLSoftRestrictions r)
     throws ConstraintError,
       JCGLRuntimeException
   {
     this.log =
-      new Log(Constraints.constrainNotNull(log, "log output"), "lwjgl-es2");
+      new Log(Constraints.constrainNotNull(log1, "log output"), "lwjgl-es2");
     this.state = new JCGLStateCache();
 
     this.restrictions = r;
-    this.extensions = new Extensions(extension_set, r, log);
+    this.extensions = new Extensions(extension_set, r, log1);
 
     /**
      * Initialize texture unit cache.
@@ -93,11 +93,11 @@ import com.io7m.jtensors.VectorReadable4I;
      */
 
     this.ext_depth_texture =
-      ExtESDepthTexture.create(this.state, this.extensions, log);
+      ExtESDepthTexture.create(this.state, this.extensions, log1);
     this.ext_packed_depth_stencil =
-      ExtPackedDepthStencil.create(this.state, this.extensions, log);
+      ExtPackedDepthStencil.create(this.state, this.extensions, log1);
     this.ext_depth_cube_texture =
-      ExtDepthCubeTexture.create(this.state, this.extensions, log);
+      ExtDepthCubeTexture.create(this.state, this.extensions, log1);
 
     /**
      * Initialize various constants.
@@ -116,7 +116,7 @@ import com.io7m.jtensors.VectorReadable4I;
      */
 
     this.version = LWJGL_GLES2Functions.metaGetVersion();
-    this.sl_version = LWJGL_GLES2Functions.metaGetSLVersion(log);
+    this.sl_version = LWJGL_GLES2Functions.metaGetSLVersion(log1);
   }
 
   @Override public ArrayBuffer arrayBufferAllocate(

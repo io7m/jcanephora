@@ -38,22 +38,22 @@ import com.io7m.jaux.Constraints.ConstraintError;
   private final @Nonnull Map<String, ProgramUniform>   uniforms;
 
   ProgramReference(
-    final int id,
-    final @Nonnull String name,
-    final @Nonnull Map<String, ProgramUniform> uniforms,
-    final @Nonnull Map<String, ProgramAttribute> attributes)
+    final int id1,
+    final @Nonnull String name1,
+    final @Nonnull Map<String, ProgramUniform> uniforms1,
+    final @Nonnull Map<String, ProgramAttribute> attributes1)
     throws ConstraintError
   {
     this.id =
-      Constraints.constrainRange(id, 1, Integer.MAX_VALUE, "Program ID");
-    this.name = Constraints.constrainNotNull(name, "Program name");
+      Constraints.constrainRange(id1, 1, Integer.MAX_VALUE, "Program ID");
+    this.name = Constraints.constrainNotNull(name1, "Program name");
     this.uniforms =
       Collections.unmodifiableMap(Constraints.constrainNotNull(
-        uniforms,
+        uniforms1,
         "Uniforms"));
     this.attributes =
       Collections.unmodifiableMap(Constraints.constrainNotNull(
-        attributes,
+        attributes1,
         "Attributes"));
   }
 

@@ -46,15 +46,15 @@ class ExtPackedDepthStencil<G extends GL> implements
   private final @Nonnull JCGLVersion    version;
 
   private ExtPackedDepthStencil(
-    final @Nonnull GL gl,
-    final @Nonnull JCGLStateCache cache,
-    final @Nonnull JCGLVersion version,
-    final @Nonnull Log log)
+    final @Nonnull GL gl1,
+    final @Nonnull JCGLStateCache cache1,
+    final @Nonnull JCGLVersion version1,
+    final @Nonnull Log log1)
   {
-    this.gl = gl;
-    this.cache = cache;
-    this.log = log;
-    this.version = version;
+    this.gl = gl1;
+    this.cache = cache1;
+    this.log = log1;
+    this.version = version1;
   }
 
   @Override public void framebufferDrawAttachDepthStencilRenderbuffer(

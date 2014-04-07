@@ -26,9 +26,9 @@ public final class FramebufferColorAttachmentPoint implements
   private final int index;
 
   FramebufferColorAttachmentPoint(
-    final int index)
+    final int index1)
   {
-    this.index = index;
+    this.index = index1;
   }
 
   @Override public int compareTo(

@@ -71,17 +71,17 @@ public final class ExampleTriangle implements Example
   private final ProgramReference          program;
 
   public ExampleTriangle(
-    final @Nonnull ExampleConfig config)
+    final @Nonnull ExampleConfig config1)
     throws ConstraintError,
       JCGLRuntimeException,
       JCGLCompileException,
       IOException,
       FilesystemError
   {
-    this.config = config;
+    this.config = config1;
     this.matrix_modelview = new MatrixM4x4F();
     this.matrix_projection = new MatrixM4x4F();
-    this.gl = config.getGL().getGLCommon();
+    this.gl = config1.getGL().getGLCommon();
 
     /**
      * Initialize shaders.
@@ -91,12 +91,12 @@ public final class ExampleTriangle implements Example
       final VertexShader v =
         this.gl.vertexShaderCompile(
           "v",
-          ShaderUtilities.readLines(config.getFilesystem().openFile(
+          ShaderUtilities.readLines(config1.getFilesystem().openFile(
             PathVirtual.ofString("/com/io7m/jcanephora/examples/color.v"))));
       final FragmentShader f =
         this.gl.fragmentShaderCompile(
           "f",
-          ShaderUtilities.readLines(config.getFilesystem().openFile(
+          ShaderUtilities.readLines(config1.getFilesystem().openFile(
             PathVirtual.ofString("/com/io7m/jcanephora/examples/color.f"))));
       this.program = this.gl.programCreateCommon("color", v, f);
     }
