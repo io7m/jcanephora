@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -18,47 +18,39 @@ package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
-import com.io7m.jtensors.VectorM2F;
+import com.io7m.jnull.NullCheck;
+import com.io7m.jranges.RangeInclusiveL;
+import com.io7m.jtensors.VectorWritable2FType;
 
 /**
  * Generic byte buffer cursor pointing to elements containing two floats.
  */
 
 final class ByteBufferCursorReadable2f extends BufferCursor implements
-  CursorReadable2f
+  CursorReadable2fType
 {
-  private final @Nonnull ByteBuffer target_data;
+  private final ByteBuffer target_data;
 
   ByteBufferCursorReadable2f(
-    final @Nonnull ByteBuffer target_data1,
-    final @Nonnull RangeInclusive range,
+    final ByteBuffer in_data,
+    final RangeInclusiveL range,
     final long attribute_offset,
     final long element_size)
   {
     super(range, attribute_offset, element_size);
-    this.target_data = target_data1;
+    this.target_data = NullCheck.notNull(in_data, "Buffer");
   }
 
-  /**
-   * Retrieve the values at the current cursor location and seek the cursor to
-   * the next element iff there is one.
-   */
-
   @Override public void get2f(
-    final @Nonnull VectorM2F v)
-    throws ConstraintError
+    final VectorWritable2FType v)
   {
-    Constraints.constrainArbitrary(this.isValid(), "Cursor is within range");
-    Constraints.constrainNotNull(v, "Vector");
+    NullCheck.notNull(v, "Vector");
+    this.checkValid();
 
     final int byte_current = (int) this.getByteOffset();
-    v.x = this.target_data.getFloat(byte_current + 0);
-    v.y = this.target_data.getFloat(byte_current + 4);
+    v.set2F(
+      this.target_data.getFloat(byte_current + 0),
+      this.target_data.getFloat(byte_current + 4));
     this.next();
   }
 }

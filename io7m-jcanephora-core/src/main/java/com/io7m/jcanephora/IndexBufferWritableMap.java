@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -18,11 +18,8 @@ package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
+import com.io7m.jnull.NullCheck;
+import com.io7m.jranges.RangeInclusiveL;
 
 /**
  * Abstraction over mapped index buffers.
@@ -30,40 +27,42 @@ import com.io7m.jaux.RangeInclusive;
 
 public final class IndexBufferWritableMap
 {
-  private final @Nonnull IndexBufferUsable buffer;
-  private final @Nonnull ByteBuffer        map;
-  private final @Nonnull RangeInclusive    target_range;
+  private final IndexBufferUsableType buffer;
+  private final ByteBuffer            map;
+  private final RangeInclusiveL       target_range;
 
   IndexBufferWritableMap(
-    final @Nonnull IndexBufferUsable id,
-    final @Nonnull ByteBuffer map1)
-    throws ConstraintError
+    final IndexBufferUsableType id,
+    final ByteBuffer map1)
   {
-    this.map = Constraints.constrainNotNull(map1, "Index buffer map");
-    this.buffer = Constraints.constrainNotNull(id, "Index buffer");
+    this.map = NullCheck.notNull(map1, "Index buffer map");
+    this.buffer = NullCheck.notNull(id, "Index buffer");
     this.target_range =
-      new RangeInclusive(0, this.buffer.getRange().getInterval() - 1);
+      new RangeInclusiveL(0, this.buffer.bufferGetRange().getInterval() - 1);
   }
 
   /**
-   * Retrieve the raw ByteBuffer that backs the array buffer. The memory
-   * backing the buffer is mapped into the application address space from the
-   * GPU. The function is provided for use by developers that have needs not
-   * addressed by the cursor API.
-   * 
-   * Use of this buffer is discouraged for safety reasons.
+   * @return <p>
+   *         The raw ByteBuffer that backs the array buffer. The memory
+   *         backing the buffer is mapped into the application address space
+   *         from the GPU. The function is provided for use by developers that
+   *         have needs not addressed by the cursor API.
+   *         </p>
+   *         <p>
+   *         Use of this buffer is discouraged for safety reasons.
+   *         </p>
    */
 
-  public @Nonnull ByteBuffer getByteBuffer()
+  public ByteBuffer getByteBuffer()
   {
     return this.map;
   }
 
   /**
-   * Retrieve a writable cursor that addresses elements of the index buffer.
+   * @return A writable cursor that addresses elements of the index buffer.
    */
 
-  public @Nonnull CursorWritableIndex getCursor()
+  public CursorWritableIndexType getCursor()
   {
     return new ByteBufferCursorWritableIndex(
       this.map,
@@ -72,10 +71,10 @@ public final class IndexBufferWritableMap
   }
 
   /**
-   * Retrieve the mapped IndexBuffer.
+   * @return The mapped IndexBuffer.
    */
 
-  public @Nonnull IndexBufferUsable getIndexBuffer()
+  public IndexBufferUsableType getIndexBuffer()
   {
     return this.buffer;
   }

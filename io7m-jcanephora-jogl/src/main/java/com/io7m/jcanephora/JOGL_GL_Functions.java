@@ -170,7 +170,7 @@ final class JOGL_GL_Functions
       state,
       log,
       id,
-      id.getRange());
+      id.bufferGetRange());
   }
 
   static ByteBuffer arrayBufferMapReadRange(
@@ -190,7 +190,7 @@ final class JOGL_GL_Functions
 
     Constraints.constrainNotNull(range, "Range");
     Constraints.constrainArbitrary(
-      range.isIncludedIn(id.getRange()),
+      range.isIncludedIn(id.bufferGetRange()),
       "Mapped range included in buffer range");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -207,8 +207,8 @@ final class JOGL_GL_Functions
 
     ByteBuffer b;
     try {
-      final long offset = range.getLower() * id.getElementSizeBytes();
-      final long length = range.getInterval() * id.getElementSizeBytes();
+      final long offset = range.getLower() * id.bufferGetElementSizeBytes();
+      final long length = range.getInterval() * id.bufferGetElementSizeBytes();
 
       b =
         gl.glMapBufferRange(
@@ -226,7 +226,7 @@ final class JOGL_GL_Functions
     return b;
   }
 
-  static ArrayBufferWritableMap arrayBufferMapWrite(
+  static ArrayBufferUpdateMapped arrayBufferMapWrite(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
@@ -244,7 +244,7 @@ final class JOGL_GL_Functions
       state.log_text.append("array-buffer: map ");
       state.log_text.append(id);
       state.log_text.append(" range ");
-      state.log_text.append(id.getRange());
+      state.log_text.append(id.bufferGetRange());
       log.debug(state.log_text.toString());
     }
 
@@ -260,9 +260,9 @@ final class JOGL_GL_Functions
         GL2ES2.GL_STREAM_DRAW);
       JOGL_GL_Functions.checkError(gl);
 
-      final RangeInclusive range = id.getRange();
-      final long offset = range.getLower() * id.getElementSizeBytes();
-      final long length = range.getInterval() * id.getElementSizeBytes();
+      final RangeInclusive range = id.bufferGetRange();
+      final long offset = range.getLower() * id.bufferGetElementSizeBytes();
+      final long length = range.getInterval() * id.bufferGetElementSizeBytes();
 
       b =
         gl.glMapBufferRange(
@@ -277,7 +277,7 @@ final class JOGL_GL_Functions
     }
     JOGL_GL_Functions.checkError(gl);
 
-    return new ArrayBufferWritableMap(id, b);
+    return new ArrayBufferUpdateMapped(id, b);
   }
 
   static void arrayBufferUnbind(
@@ -319,7 +319,7 @@ final class JOGL_GL_Functions
 
   static void arrayBufferUpdate(
     final @Nonnull GL gl,
-    final @Nonnull ArrayBufferWritableData data)
+    final @Nonnull ArrayBufferUpdateUnmappedType data)
     throws JCGLRuntimeException,
       ConstraintError
   {
@@ -888,10 +888,10 @@ final class JOGL_GL_Functions
       "Index buffer not deleted");
 
     final int index_id = indices.getGLName();
-    final int index_count = (int) indices.getRange().getInterval();
+    final int index_count = (int) indices.bufferGetRange().getInterval();
     final int mode_gl = JOGL_GLTypeConversions.primitiveToGL(mode);
     final int type =
-      JOGL_GLTypeConversions.unsignedTypeToGL(indices.getType());
+      JOGL_GLTypeConversions.unsignedTypeToGL(indices.arrayGetType());
 
     gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, index_id);
     try {
@@ -982,7 +982,7 @@ final class JOGL_GL_Functions
       renderbuffer.resourceIsDeleted() == false,
       "Renderbuffer not deleted");
     Constraints.constrainArbitrary(
-      renderbuffer.getType().isColorRenderable(),
+      renderbuffer.arrayGetType().isColorRenderable(),
       "Renderbuffer is color renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -1028,7 +1028,7 @@ final class JOGL_GL_Functions
       renderbuffer.resourceIsDeleted() == false,
       "Renderbuffer not deleted");
     Constraints.constrainArbitrary(
-      renderbuffer.getType().isColorRenderable(),
+      renderbuffer.arrayGetType().isColorRenderable(),
       "Renderbuffer is color renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -1278,10 +1278,10 @@ final class JOGL_GL_Functions
       renderbuffer.resourceIsDeleted() == false,
       "Renderbuffer not deleted");
     Constraints.constrainArbitrary(
-      renderbuffer.getType().isDepthRenderable(),
+      renderbuffer.arrayGetType().isDepthRenderable(),
       "Renderbuffer is depth renderable");
     Constraints.constrainArbitrary(
-      renderbuffer.getType().isStencilRenderable() == false,
+      renderbuffer.arrayGetType().isStencilRenderable() == false,
       "Renderbuffer is not also stencil renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -1329,7 +1329,7 @@ final class JOGL_GL_Functions
       renderbuffer.resourceIsDeleted() == false,
       "Renderbuffer not deleted");
 
-    final RenderbufferType type = renderbuffer.getType();
+    final RenderbufferType type = renderbuffer.arrayGetType();
     Constraints.constrainArbitrary(
       type.isDepthRenderable(),
       "Renderbuffer is depth renderable");
@@ -1428,10 +1428,10 @@ final class JOGL_GL_Functions
       renderbuffer.resourceIsDeleted() == false,
       "Renderbuffer not deleted");
     Constraints.constrainArbitrary(renderbuffer
-      .getType()
+      .arrayGetType()
       .isStencilRenderable(), "Renderbuffer is stencil renderable");
     Constraints.constrainArbitrary(
-      renderbuffer.getType().isDepthRenderable() == false,
+      renderbuffer.arrayGetType().isDepthRenderable() == false,
       "Renderbuffer is not also depth renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -1589,10 +1589,10 @@ final class JOGL_GL_Functions
     Constraints.constrainRange(indices, 1, Integer.MAX_VALUE);
 
     JCGLUnsignedType type = JCGLUnsignedType.TYPE_UNSIGNED_BYTE;
-    if (buffer.getRange().getInterval() > 0xff) {
+    if (buffer.bufferGetRange().getInterval() > 0xff) {
       type = JCGLUnsignedType.TYPE_UNSIGNED_SHORT;
     }
-    if (buffer.getRange().getInterval() > 0xffff) {
+    if (buffer.bufferGetRange().getInterval() > 0xffff) {
       type = JCGLUnsignedType.TYPE_UNSIGNED_INT;
     }
 
@@ -1700,7 +1700,7 @@ final class JOGL_GL_Functions
       state,
       log,
       id,
-      id.getRange());
+      id.bufferGetRange());
   }
 
   static IndexBufferReadableMap indexBufferMapReadRange(
@@ -1730,8 +1730,8 @@ final class JOGL_GL_Functions
 
     final ByteBuffer b;
     try {
-      final long offset = range.getLower() * id.getElementSizeBytes();
-      final long length = range.getInterval() * id.getElementSizeBytes();
+      final long offset = range.getLower() * id.bufferGetElementSizeBytes();
+      final long length = range.getInterval() * id.bufferGetElementSizeBytes();
 
       b =
         gl.glMapBufferRange(
@@ -1780,9 +1780,9 @@ final class JOGL_GL_Functions
         GL2ES2.GL_STREAM_DRAW);
       JOGL_GL_Functions.checkError(gl);
 
-      final RangeInclusive range = id.getRange();
-      final long offset = range.getLower() * id.getElementSizeBytes();
-      final long length = range.getInterval() * id.getElementSizeBytes();
+      final RangeInclusive range = id.bufferGetRange();
+      final long offset = range.getLower() * id.bufferGetElementSizeBytes();
+      final long length = range.getInterval() * id.bufferGetElementSizeBytes();
 
       b =
         gl.glMapBufferRange(

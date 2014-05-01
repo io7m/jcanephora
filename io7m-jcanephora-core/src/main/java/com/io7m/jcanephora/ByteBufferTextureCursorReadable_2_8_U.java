@@ -66,7 +66,7 @@ final class ByteBufferTextureCursorReadable_2_8_U extends AreaCursor implements
     final @Nonnull VectorM2I v)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(v, "Vector");
+    NullCheck.notNull(v, "Vector");
     final int i = (int) this.getByteOffset();
     final ByteBuffer b = this.target_data;
     v.x = ByteBufferCursor.unpackUnsigned8(b, i + 0);

@@ -178,7 +178,7 @@ final class JOGL_GLES2_Functions
       renderbuffer.resourceIsDeleted() == false,
       "Renderbuffer not deleted");
     Constraints.constrainArbitrary(
-      renderbuffer.getType().isColorRenderable(),
+      renderbuffer.arrayGetType().isColorRenderable(),
       "Renderbuffer is color renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -224,7 +224,7 @@ final class JOGL_GLES2_Functions
       renderbuffer.resourceIsDeleted() == false,
       "Renderbuffer not deleted");
     Constraints.constrainArbitrary(
-      renderbuffer.getType().isColorRenderable(),
+      renderbuffer.arrayGetType().isColorRenderable(),
       "Renderbuffer is color renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -467,10 +467,10 @@ final class JOGL_GLES2_Functions
       renderbuffer.resourceIsDeleted() == false,
       "Renderbuffer not deleted");
     Constraints.constrainArbitrary(
-      renderbuffer.getType().isDepthRenderable(),
+      renderbuffer.arrayGetType().isDepthRenderable(),
       "Renderbuffer is depth renderable");
     Constraints.constrainArbitrary(
-      renderbuffer.getType().isStencilRenderable() == false,
+      renderbuffer.arrayGetType().isStencilRenderable() == false,
       "Renderbuffer is not also stencil renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -518,7 +518,7 @@ final class JOGL_GLES2_Functions
       renderbuffer.resourceIsDeleted() == false,
       "Renderbuffer not deleted");
 
-    final RenderbufferType type = renderbuffer.getType();
+    final RenderbufferType type = renderbuffer.arrayGetType();
     Constraints.constrainArbitrary(
       type.isDepthRenderable(),
       "Renderbuffer is depth renderable");
@@ -617,10 +617,10 @@ final class JOGL_GLES2_Functions
       renderbuffer.resourceIsDeleted() == false,
       "Renderbuffer not deleted");
     Constraints.constrainArbitrary(renderbuffer
-      .getType()
+      .arrayGetType()
       .isStencilRenderable(), "Renderbuffer is stencil renderable");
     Constraints.constrainArbitrary(
-      renderbuffer.getType().isDepthRenderable() == false,
+      renderbuffer.arrayGetType().isDepthRenderable() == false,
       "Renderbuffer is not also depth renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {

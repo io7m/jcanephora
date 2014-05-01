@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -18,12 +18,9 @@ package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
-import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jranges.RangeCheck;
+import com.io7m.jranges.RangeInclusiveL;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * Generic byte buffer cursor pointing to indices of a given OpenGL unsigned
@@ -31,15 +28,15 @@ import com.io7m.jaux.UnreachableCodeException;
  */
 
 final class ByteBufferCursorWritableIndex extends BufferCursor implements
-  CursorWritableIndex
+  CursorWritableIndexType
 {
-  private final @Nonnull ByteBuffer       target_data;
-  private final @Nonnull JCGLUnsignedType type;
+  private final ByteBuffer       target_data;
+  private final JCGLUnsignedType type;
 
   ByteBufferCursorWritableIndex(
-    final @Nonnull ByteBuffer target_data1,
-    final @Nonnull RangeInclusive range,
-    final @Nonnull JCGLUnsignedType type1)
+    final ByteBuffer target_data1,
+    final RangeInclusiveL range,
+    final JCGLUnsignedType type1)
   {
     super(range, 0, type1.getSizeBytes());
     this.target_data = target_data1;
@@ -48,16 +45,16 @@ final class ByteBufferCursorWritableIndex extends BufferCursor implements
 
   @Override public void putIndex(
     final int value)
-    throws ConstraintError
   {
-    Constraints.constrainArbitrary(this.isValid(), "Cursor is within range");
-
+    this.checkValid();
     final int offset = (int) this.getByteOffset();
 
     switch (this.type) {
       case TYPE_UNSIGNED_BYTE:
       {
-        Constraints.constrainRange(value, 0, 0xff);
+        RangeCheck.checkGreaterEqual(value, "Value", 0, "Lower bound");
+        RangeCheck.checkLessEqual(value, "Value", 0xff, "Upper bound");
+
         this.target_data.put(offset, (byte) value);
         this.next();
         return;
@@ -70,7 +67,9 @@ final class ByteBufferCursorWritableIndex extends BufferCursor implements
       }
       case TYPE_UNSIGNED_SHORT:
       {
-        Constraints.constrainRange(value, 0, 0xffff);
+        RangeCheck.checkGreaterEqual(value, "Value", 0, "Lower bound");
+        RangeCheck.checkLessEqual(value, "Value", 0xffff, "Upper bound");
+
         this.target_data.putShort(offset, (short) value);
         this.next();
         return;

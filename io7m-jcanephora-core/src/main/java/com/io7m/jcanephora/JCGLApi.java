@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
+import com.io7m.jnull.NullCheck;
 
 /**
  * An enumerated type with the values representing the various subsets of the
@@ -25,22 +25,31 @@ import javax.annotation.Nonnull;
 
 public enum JCGLApi
 {
-  /** The "ES" profile, as implemented by most embedded systems. */
+  /**
+   * The "ES" profile, as implemented by most embedded systems.
+   */
+
   JCGL_ES("OpenGL ES"),
 
-  /** The "full" OpenGL API, as implemented by most consumer GPUs. */
+  /**
+   * The "full" OpenGL API, as implemented by most consumer GPUs.
+   */
+
   JCGL_FULL("OpenGL");
 
-  private final @Nonnull String name;
+  private final String name;
 
   private JCGLApi(
-    final @Nonnull String name1)
+    final String in_name)
   {
-    assert name1 != null;
-    this.name = name1;
+    this.name = NullCheck.notNull(in_name, "Name");
   }
 
-  public @Nonnull String getName()
+  /**
+   * @return The humanly-readable name of the API.
+   */
+
+  public String getName()
   {
     return this.name;
   }

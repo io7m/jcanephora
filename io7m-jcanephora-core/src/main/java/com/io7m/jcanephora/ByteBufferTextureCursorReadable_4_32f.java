@@ -45,7 +45,7 @@ final class ByteBufferTextureCursorReadable_4_32f extends AreaCursor implements
     final @Nonnull VectorM4D v)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(v, "Vector");
+    NullCheck.notNull(v, "Vector");
     final int byte_current = (int) this.getByteOffset();
     v.x = this.target_data.getFloat(byte_current);
     v.y = this.target_data.getFloat(byte_current + 4);
@@ -58,7 +58,7 @@ final class ByteBufferTextureCursorReadable_4_32f extends AreaCursor implements
     final @Nonnull VectorM4F v)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(v, "Vector");
+    NullCheck.notNull(v, "Vector");
     final int byte_current = (int) this.getByteOffset();
     v.x = this.target_data.getFloat(byte_current);
     v.y = this.target_data.getFloat(byte_current + 4);

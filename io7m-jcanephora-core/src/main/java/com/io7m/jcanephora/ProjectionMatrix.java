@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,11 +16,9 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.MatrixM4x4F;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * Functions for producing projection matrices.
@@ -28,6 +26,11 @@ import com.io7m.jtensors.MatrixM4x4F;
 
 public final class ProjectionMatrix
 {
+  private ProjectionMatrix()
+  {
+    throw new UnreachableCodeException();
+  }
+
   /**
    * <p>
    * Calculate a matrix that produces a perspective projection. The
@@ -54,16 +57,15 @@ public final class ProjectionMatrix
    */
 
   public static void makeFrustumProjection(
-    final @Nonnull MatrixM4x4F matrix,
+    final MatrixM4x4F matrix,
     final double x_min,
     final double x_max,
     final double y_min,
     final double y_max,
     final double z_near,
     final double z_far)
-    throws ConstraintError
   {
-    Constraints.constrainNotNull(matrix, "Matrix");
+    NullCheck.notNull(matrix, "Matrix");
     Constraints.constrainRange(z_near, 0.0, Double.MAX_VALUE);
     Constraints.constrainLessThan(z_near, z_far);
 
@@ -129,16 +131,15 @@ public final class ProjectionMatrix
    */
 
   public static void makeOrthographicProjection(
-    final @Nonnull MatrixM4x4F matrix,
+    final MatrixM4x4F matrix,
     final double x_min,
     final double x_max,
     final double y_min,
     final double y_max,
     final double z_near,
     final double z_far)
-    throws ConstraintError
   {
-    Constraints.constrainNotNull(matrix, "Matrix");
+    NullCheck.notNull(matrix, "Matrix");
 
     final double rml = x_max - x_min;
     final double rpl = x_max + x_min;
@@ -205,14 +206,13 @@ public final class ProjectionMatrix
    */
 
   public static void makePerspectiveProjection(
-    final @Nonnull MatrixM4x4F matrix,
+    final MatrixM4x4F matrix,
     final double z_near,
     final double z_far,
     final double aspect,
     final double horizontal_fov)
-    throws ConstraintError
   {
-    Constraints.constrainNotNull(matrix, "matrix");
+    NullCheck.notNull(matrix, "matrix");
 
     final double x_max = z_near * Math.tan(horizontal_fov / 2.0);
     final double x_min = -x_max;

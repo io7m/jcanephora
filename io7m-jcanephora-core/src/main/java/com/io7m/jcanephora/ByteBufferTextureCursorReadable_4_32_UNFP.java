@@ -72,7 +72,7 @@ final class ByteBufferTextureCursorReadable_4_32_UNFP extends AreaCursor impleme
     final @Nonnull VectorM4I v)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(v, "Vector");
+    NullCheck.notNull(v, "Vector");
     final int i = (int) this.getByteOffset();
     v.x = this.target_data.getInt(i + 0);
     v.y = this.target_data.getInt(i + 4);
@@ -85,7 +85,7 @@ final class ByteBufferTextureCursorReadable_4_32_UNFP extends AreaCursor impleme
     final @Nonnull VectorM4L v)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(v, "Vector");
+    NullCheck.notNull(v, "Vector");
     final int i = (int) this.getByteOffset();
     v.x = ByteBufferCursor.unpackUnsigned32(this.target_data, i + 0);
     v.y = ByteBufferCursor.unpackUnsigned32(this.target_data, i + 4);

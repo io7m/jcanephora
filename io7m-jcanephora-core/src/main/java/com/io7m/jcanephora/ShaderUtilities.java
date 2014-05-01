@@ -46,10 +46,10 @@ public final class ShaderUtilities
     final @Nonnull List<String> lines)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(lines, "Lines");
+    NullCheck.notNull(lines, "Lines");
 
     for (final String line : lines) {
-      Constraints.constrainNotNull(line, "Line");
+      NullCheck.notNull(line, "Line");
       if (!line.matches("^\\s*$")) {
         return false;
       }
@@ -76,7 +76,7 @@ public final class ShaderUtilities
     throws ConstraintError,
       IOException
   {
-    Constraints.constrainNotNull(stream, "Input stream");
+    NullCheck.notNull(stream, "Input stream");
 
     final BufferedReader reader =
       new BufferedReader(new InputStreamReader(stream));

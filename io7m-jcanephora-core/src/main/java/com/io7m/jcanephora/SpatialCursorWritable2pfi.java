@@ -28,7 +28,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * {@link TextureType#TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP} type.
  */
 
-public interface SpatialCursorWritable2pfi extends SpatialCursor
+public interface SpatialCursorWritable2pfi extends SpatialCursorType
 {
   /**
    * Put the value <code>v</code> at the current cursor location and seek the

@@ -49,7 +49,7 @@ final class ByteBufferTextureCursorWritable_3_565 extends AreaCursor implements
     final @Nonnull VectorReadable3D v)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(v, "Vector");
+    NullCheck.notNull(v, "Vector");
     this.vector.x = FixedPoint.doubleToUnsignedNormalized(v.getXD(), 5);
     this.vector.y = FixedPoint.doubleToUnsignedNormalized(v.getYD(), 6);
     this.vector.z = FixedPoint.doubleToUnsignedNormalized(v.getZD(), 5);
@@ -60,7 +60,7 @@ final class ByteBufferTextureCursorWritable_3_565 extends AreaCursor implements
     final @Nonnull VectorReadable3F v)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(v, "Vector");
+    NullCheck.notNull(v, "Vector");
     this.vector.x = FixedPoint.floatToUnsignedNormalized(v.getXF(), 5);
     this.vector.y = FixedPoint.floatToUnsignedNormalized(v.getYF(), 6);
     this.vector.z = FixedPoint.floatToUnsignedNormalized(v.getZF(), 5);
@@ -71,7 +71,7 @@ final class ByteBufferTextureCursorWritable_3_565 extends AreaCursor implements
     final @Nonnull VectorReadable3I v)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(v, "Vector");
+    NullCheck.notNull(v, "Vector");
     final int i = (int) this.getByteOffset();
     final int k = TexturePixelPack.pack2_565(v.getXI(), v.getYI(), v.getZI());
     final ByteBuffer b = this.target_data;

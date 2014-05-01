@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,34 +16,35 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jnull.NullCheck;
+import com.io7m.jnull.Nullable;
+import com.io7m.jranges.RangeCheck;
 
 /**
  * An immutable reference to a vertex shader.
  */
 
-@Immutable public final class VertexShader extends JCGLResourceDeletable implements
-  JCGLName
+public final class VertexShader extends JCGLResourceDeletable implements
+  JCGLNameType
 {
-  private final int             id;
-  private final @Nonnull String name;
+  private final int    id;
+  private final String name;
 
   VertexShader(
-    final int id1,
-    final @Nonnull String name1)
-    throws ConstraintError
+    final int in_id,
+    final String in_name)
   {
     this.id =
-      Constraints.constrainRange(id1, 1, Integer.MAX_VALUE, "shader ID");
-    this.name = Constraints.constrainNotNull(name1, "shader file");
+      (int) RangeCheck.checkIncludedIn(
+        in_id,
+        "Shader ID",
+        RangeCheck.POSITIVE_INTEGER,
+        "Valid shaders");
+    this.name = NullCheck.notNull(in_name, "shader file");
   }
 
   @Override public boolean equals(
-    final Object obj)
+    final @Nullable Object obj)
   {
     if (this == obj) {
       return true;
@@ -61,20 +62,16 @@ import com.io7m.jaux.Constraints.ConstraintError;
     return this.name.equals(other.name);
   }
 
-  /**
-   * Retrieve the raw OpenGL 'location' of the vertex shader.
-   */
-
   @Override public int getGLName()
   {
     return this.id;
   }
 
   /**
-   * Retrieve the name of the vertex shader.
+   * @return The name associated with the shader.
    */
 
-  public @Nonnull String getName()
+  public String getName()
   {
     return this.name;
   }
@@ -96,6 +93,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
     builder.append(" \"");
     builder.append(this.getName());
     builder.append("\"]");
-    return builder.toString();
+    final String r = builder.toString();
+    assert r != null;
+    return r;
   }
 }

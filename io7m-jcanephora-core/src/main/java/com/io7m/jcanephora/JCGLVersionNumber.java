@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,10 +16,8 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
-
-import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jnull.Nullable;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * <p>
@@ -28,25 +26,35 @@ import com.io7m.jaux.UnreachableCodeException;
  * </p>
  */
 
-@Immutable public final class JCGLVersionNumber implements
-  Comparable<JCGLVersionNumber>
+public final class JCGLVersionNumber implements Comparable<JCGLVersionNumber>
 {
   private final int version_major;
   private final int version_micro;
   private final int version_minor;
 
+  /**
+   * Construct a new version number.
+   * 
+   * @param in_version_major
+   *          The major version.
+   * @param in_version_minor
+   *          The minor version.
+   * @param in_version_micro
+   *          The micro version.
+   */
+
   public JCGLVersionNumber(
-    final int version_major1,
-    final int version_minor1,
-    final int version_micro1)
+    final int in_version_major,
+    final int in_version_minor,
+    final int in_version_micro)
   {
-    this.version_major = version_major1;
-    this.version_minor = version_minor1;
-    this.version_micro = version_micro1;
+    this.version_major = in_version_major;
+    this.version_minor = in_version_minor;
+    this.version_micro = in_version_micro;
   }
 
   @Override public int compareTo(
-    final @Nonnull JCGLVersionNumber other)
+    final JCGLVersionNumber other)
   {
     if (this.equals(other)) {
       return 0;
@@ -75,7 +83,7 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   @Override public boolean equals(
-    final Object obj)
+    final @Nullable Object obj)
   {
     if (this == obj) {
       return true;
@@ -100,7 +108,7 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   /**
-   * Retrieve the major version of the implementation.
+   * @return The major version of the implementation.
    */
 
   public int getVersionMajor()
@@ -109,7 +117,7 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   /**
-   * Retrieve the micro version of the implementation (typically zero).
+   * @return The micro version of the implementation (typically zero).
    */
 
   public int getVersionMicro()
@@ -118,7 +126,7 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   /**
-   * Retrieve the minor version of the implementation.
+   * @return The minor version of the implementation.
    */
 
   public int getVersionMinor()
@@ -146,6 +154,8 @@ import com.io7m.jaux.UnreachableCodeException;
     builder.append(" ");
     builder.append(this.version_micro);
     builder.append("]");
-    return builder.toString();
+    final String r = builder.toString();
+    assert r != null;
+    return r;
   }
 }

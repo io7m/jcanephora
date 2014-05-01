@@ -230,7 +230,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void arrayBufferUpdate(
-    final @Nonnull ArrayBufferWritableData data)
+    final @Nonnull ArrayBufferUpdateUnmappedType data)
     throws JCGLRuntimeException,
       ConstraintError
   {

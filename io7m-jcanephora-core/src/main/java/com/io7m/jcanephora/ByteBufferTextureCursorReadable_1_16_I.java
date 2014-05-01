@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -18,43 +18,35 @@ package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
-
 final class ByteBufferTextureCursorReadable_1_16_I extends AreaCursor implements
   SpatialCursorReadable1f,
   SpatialCursorReadable1d,
   SpatialCursorReadable1i
 {
-  private final @Nonnull byte[]     buffer = new byte[2];
-  private final @Nonnull ByteBuffer target_data;
+  private final byte[]     buffer = new byte[2];
+  private final ByteBuffer target_data;
 
   protected ByteBufferTextureCursorReadable_1_16_I(
-    final @Nonnull ByteBuffer target_data1,
-    final @Nonnull AreaInclusive target_area,
-    final @Nonnull AreaInclusive update_area)
-    throws ConstraintError
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
   {
     super(target_area, update_area, 2);
-    this.target_data = target_data1;
+    this.target_data = in_target_data;
   }
 
   @Override public double get1d()
-    throws ConstraintError
   {
     return this.get1f();
   }
 
   @Override public float get1f()
-    throws ConstraintError
   {
     final int x = this.get1i();
     return FixedPoint.signedNormalizedFixedToFloat(16, x);
   }
 
   @Override public int get1i()
-    throws ConstraintError
   {
     final int i = (int) this.getByteOffset();
     final byte[] b = this.buffer;

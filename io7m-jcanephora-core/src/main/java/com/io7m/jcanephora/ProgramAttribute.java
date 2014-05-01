@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,90 +16,80 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jnull.NullCheck;
+import com.io7m.jranges.RangeCheck;
 
 /**
  * <p>
  * An immutable reference to an active attribute variable for a program.
  * </p>
- * <p>
- * The type is not final, to allow programs to make semantically distinct
- * values type-incompatible via subclassing and/or the addition of phantom
- * type parameters.
- * </p>
  */
 
-@Immutable public class ProgramAttribute
+public final class ProgramAttribute
 {
-  private final int                             index;
-  private final int                             location;
-  private final @Nonnull String                 name;
-  private final @Nonnull ProgramReferenceUsable program;
-  private final @Nonnull JCGLType               type;
+  private final int                    index;
+  private final int                    location;
+  private final String                 name;
+  private final ProgramReferenceUsableType program;
+  private final JCGLType               type;
 
   ProgramAttribute(
-    final @Nonnull ProgramReferenceUsable program1,
-    final int index1,
-    final int location1,
-    final @CheckForNull String name1,
-    final @Nonnull JCGLType type1)
-    throws ConstraintError
+    final ProgramReferenceUsableType in_program,
+    final int in_index,
+    final int in_location,
+    final String in_name,
+    final JCGLType in_type)
   {
-    this.program = Constraints.constrainNotNull(program1, "Program");
+    this.program = NullCheck.notNull(in_program, "Program");
     this.index =
-      Constraints.constrainRange(
-        index1,
-        0,
-        Integer.MAX_VALUE,
-        "Attribute index");
+      (int) RangeCheck.checkIncludedIn(
+        in_index,
+        "Attribute index",
+        RangeCheck.NATURAL_INTEGER,
+        "Valid attribute indices");
     this.location =
-      Constraints.constrainRange(
-        location1,
-        0,
-        Integer.MAX_VALUE,
-        "Attribute location");
-    this.type = Constraints.constrainNotNull(type1, "Attribute type");
-    this.name = Constraints.constrainNotNull(name1, "Attribute name");
+      (int) RangeCheck.checkIncludedIn(
+        in_location,
+        "Attribute location",
+        RangeCheck.NATURAL_INTEGER,
+        "Valid attribute locations");
+    this.type = NullCheck.notNull(in_type, "Attribute type");
+    this.name = NullCheck.notNull(in_name, "Attribute name");
   }
 
   /**
-   * Retrieve the raw OpenGL 'location' of the attribute.
+   * @return The raw OpenGL 'location' of the attribute.
    */
 
-  public final int getLocation()
+  public int getLocation()
   {
     return this.location;
   }
 
   /**
-   * Retrieve the name of the attribute. This is the name of the attribute as
-   * declared in the respective shading program.
+   * @return The name of the attribute. This is the name of the attribute as
+   *         declared in the respective shading program.
    */
 
-  public final @CheckForNull String getName()
+  public String getName()
   {
     return this.name;
   }
 
   /**
-   * Retrieve a reference to the program that owns the attribute.
+   * @return A reference to the program that owns the attribute.
    */
 
-  public final @Nonnull ProgramReferenceUsable getProgram()
+  public ProgramReferenceUsableType getProgram()
   {
     return this.program;
   }
 
   /**
-   * Retrieve the OpenGL type of the attribute.
+   * @return The OpenGL type of the attribute.
    */
 
-  public final @Nonnull JCGLType getType()
+  public JCGLType getType()
   {
     return this.type;
   }
@@ -117,6 +107,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
     builder.append(this.getName());
     builder.append("\"");
     builder.append("]");
-    return builder.toString();
+    final String r = builder.toString();
+    assert r != null;
+    return r;
   }
 }

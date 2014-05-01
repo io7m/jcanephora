@@ -26,9 +26,9 @@ import com.io7m.jaux.RangeInclusive;
  */
 
 public interface TextureCubeStaticUsable extends
-  JCGLName,
-  JCGLResourceSized,
-  JCGLResourceUsable
+  JCGLNameType,
+  JCGLResourceSizedType,
+  JCGLResourceUsableType
 {
   /**
    * Retrieve the inclusive area of this texture.

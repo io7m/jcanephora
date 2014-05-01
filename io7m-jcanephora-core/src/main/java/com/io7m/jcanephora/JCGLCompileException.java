@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
 /**
  * Exception type raised when an error occurs whilst compiling and/or linking
  * OpenGL shading programs.
@@ -27,42 +25,64 @@ public final class JCGLCompileException extends JCGLException
 {
   private static final long serialVersionUID = -4382015389191616062L;
 
-  private static @Nonnull String makeMessage(
-    final @Nonnull String file,
-    final @Nonnull String message)
+  private static String makeMessage(
+    final String file,
+    final String message)
   {
     final StringBuilder builder = new StringBuilder();
     builder.append("Compilation error: ");
     builder.append(file);
     builder.append(":\n");
     builder.append(message);
-    return builder.toString();
+    final String r = builder.toString();
+    assert r != null;
+    return r;
   }
 
-  private final @Nonnull String file;
+  private final String file;
+
+  /**
+   * Construct a compilation error with the given file and message.
+   * 
+   * @param in_file
+   *          The file.
+   * @param message
+   *          The message.
+   */
 
   public JCGLCompileException(
-    final @Nonnull String file1,
-    final @Nonnull String message)
+    final String in_file,
+    final String message)
   {
-    super(JCGLCompileException.makeMessage(file1, message));
-    this.file = file1;
-  }
-
-  public JCGLCompileException(
-    final @Nonnull Throwable e,
-    final @Nonnull String file1,
-    final @Nonnull String message)
-  {
-    super(JCGLCompileException.makeMessage(file1, message), e);
-    this.file = file1;
+    super(JCGLCompileException.makeMessage(in_file, message));
+    this.file = in_file;
   }
 
   /**
-   * Retrieve the name of the file in which the error occurred.
+   * Construct a compilation error with the given cause, file, and message.
+   * 
+   * @param e
+   *          The cause.
+   * @param in_file
+   *          The file.
+   * @param message
+   *          The message.
    */
 
-  public @Nonnull String getFile()
+  public JCGLCompileException(
+    final Throwable e,
+    final String in_file,
+    final String message)
+  {
+    super(JCGLCompileException.makeMessage(in_file, message), e);
+    this.file = in_file;
+  }
+
+  /**
+   * @return The name of the file in which the error occurred.
+   */
+
+  public String getFile()
   {
     return this.file;
   }

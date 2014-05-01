@@ -49,7 +49,7 @@ public interface JCGLIndexBuffers
    */
 
   @Nonnull IndexBuffer indexBufferAllocate(
-    final @Nonnull ArrayBufferUsable buffer,
+    final @Nonnull ArrayBufferUsableType buffer,
     final int indices)
     throws JCGLRuntimeException,
       ConstraintError;

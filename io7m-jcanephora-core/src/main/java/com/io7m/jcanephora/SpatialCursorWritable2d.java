@@ -27,7 +27,7 @@ import com.io7m.jtensors.VectorReadable2D;
  * correct underlying format.
  */
 
-public interface SpatialCursorWritable2d extends SpatialCursor
+public interface SpatialCursorWritable2d extends SpatialCursorType
 {
   /**
    * Put the value <code>v</code> at the current cursor location and seek the

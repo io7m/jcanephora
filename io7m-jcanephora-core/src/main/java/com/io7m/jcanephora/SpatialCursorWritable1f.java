@@ -24,7 +24,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * correct underlying format.
  */
 
-public interface SpatialCursorWritable1f extends SpatialCursor
+public interface SpatialCursorWritable1f extends SpatialCursorType
 {
   /**
    * Put the value <code>x</code> at the current cursor location and seek the

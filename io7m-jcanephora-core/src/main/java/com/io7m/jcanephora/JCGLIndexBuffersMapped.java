@@ -32,7 +32,7 @@ public interface JCGLIndexBuffersMapped
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped read-only. The buffer should be unmapped
    * after use with
-   * {@link JCGLInterfaceGL3#indexBufferUnmap(IndexBufferUsable)}. Note that
+   * {@link JCGLInterfaceGL3#indexBufferUnmap(IndexBufferUsableType)}. Note that
    * the type of indices in the buffer is given by <code>id.getType()</code>.
    * </p>
    * 
@@ -51,7 +51,7 @@ public interface JCGLIndexBuffersMapped
    */
 
   public @Nonnull IndexBufferReadableMap indexBufferMapRead(
-    final @Nonnull IndexBufferUsable id)
+    final @Nonnull IndexBufferUsableType id)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -61,7 +61,7 @@ public interface JCGLIndexBuffersMapped
    * space. The buffer is mapped read-only. Only elements in the range
    * described by <code>range</code> will be mapped. The buffer should be
    * unmapped after use with
-   * {@link JCGLInterfaceGL3#indexBufferUnmap(IndexBufferUsable)}. Note that
+   * {@link JCGLInterfaceGL3#indexBufferUnmap(IndexBufferUsableType)}. Note that
    * the type of indices in the buffer is given by <code>id.getType()</code>.
    * </p>
    * 
@@ -85,7 +85,7 @@ public interface JCGLIndexBuffersMapped
    */
 
   public @Nonnull IndexBufferReadableMap indexBufferMapReadRange(
-    final @Nonnull IndexBufferUsable id,
+    final @Nonnull IndexBufferUsableType id,
     final @Nonnull RangeInclusive range)
     throws JCGLRuntimeException,
       ConstraintError;
@@ -95,7 +95,7 @@ public interface JCGLIndexBuffersMapped
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped write-only. The buffer should be unmapped
    * after use with
-   * {@link JCGLInterfaceGL3#indexBufferUnmap(IndexBufferUsable)}. Note that
+   * {@link JCGLInterfaceGL3#indexBufferUnmap(IndexBufferUsableType)}. Note that
    * the type of indices in the buffer is given by <code>id.getType()</code>.
    * The previous contents of the buffer are discarded to prevent pipeline
    * stalls.
@@ -139,7 +139,7 @@ public interface JCGLIndexBuffersMapped
    */
 
   public void indexBufferUnmap(
-    final @Nonnull IndexBufferUsable id)
+    final @Nonnull IndexBufferUsableType id)
     throws ConstraintError,
       JCGLRuntimeException;
 }

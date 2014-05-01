@@ -59,7 +59,7 @@ public interface JCGLExtensionPackedDepthStencil extends JCGLExtension
 
   void framebufferDrawAttachDepthStencilRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable<RenderableDepthStencil> renderbuffer)
+    final @Nonnull RenderbufferUsableType<RenderableDepthStencilKind> renderbuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -83,7 +83,7 @@ public interface JCGLExtensionPackedDepthStencil extends JCGLExtension
    */
 
   @Nonnull
-    Renderbuffer<RenderableDepthStencil>
+    Renderbuffer<RenderableDepthStencilKind>
     renderbufferAllocateDepth24Stencil8(
       final int width,
       final int height)

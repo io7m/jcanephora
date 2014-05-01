@@ -234,7 +234,7 @@ import com.io7m.jtensors.VectorReadable4I;
       range);
   }
 
-  @Override public ArrayBufferWritableMap arrayBufferMapWrite(
+  @Override public ArrayBufferUpdateMapped arrayBufferMapWrite(
     final @Nonnull ArrayBuffer id)
     throws JCGLRuntimeException,
       ConstraintError
@@ -266,7 +266,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void arrayBufferUpdate(
-    final @Nonnull ArrayBufferWritableData data)
+    final @Nonnull ArrayBufferUpdateUnmappedType data)
     throws JCGLRuntimeException,
       ConstraintError
   {

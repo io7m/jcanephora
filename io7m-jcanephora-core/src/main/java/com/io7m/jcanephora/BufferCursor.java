@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,11 +16,7 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
+import com.io7m.jranges.RangeInclusiveL;
 
 /**
  * Basic cursor implementation for seeking through a buffer.
@@ -35,78 +31,72 @@ import com.io7m.jaux.RangeInclusive;
  * reject attempts to write outside of this range.
  */
 
-class BufferCursor implements Cursor
+class BufferCursor implements CursorType
 {
-  private final long                    attribute_offset;
-  private long                          byte_current;
-  private boolean                       can_write;
+  private final long            attribute_offset;
+  private long                  byte_current;
+  private boolean               can_write;
 
-  private long                          element_current;
-  private final long                    element_size;
-  private final @Nonnull RangeInclusive range;
+  private long                  element_current;
+  private final long            element_size;
+  private final RangeInclusiveL range;
 
   protected BufferCursor(
-    final @Nonnull RangeInclusive range1,
-    final long attribute_offset1,
-    final long element_size1)
+    final RangeInclusiveL in_range,
+    final long in_attribute_offset,
+    final long in_element_size)
   {
     /**
-     * These are not constraint errors because this class is not visible
-     * outside of the jcanephora package: it is the responsibility of subtypes
-     * to respect these preconditions.
+     * This class is not visible outside of the jcanephora package: it is the
+     * responsibility of subtypes to respect these preconditions.
      */
 
-    if (0 > range1.getLower()) {
+    if (0 > in_range.getLower()) {
       throw new IllegalArgumentException("lower bound is negative");
     }
-    if (0 > element_size1) {
+    if (0 > in_element_size) {
       throw new IllegalArgumentException("element_size is negative");
     }
 
-    if (attribute_offset1 < 0) {
+    if (in_attribute_offset < 0) {
       throw new IllegalArgumentException("attribute_offset is negative");
     }
-    if (attribute_offset1 >= element_size1) {
+    if (in_attribute_offset >= in_element_size) {
       throw new IllegalArgumentException("attribute_offset >= element_size");
     }
 
-    this.attribute_offset = attribute_offset1;
-    this.range = range1;
-    this.element_size = element_size1;
-    this.uncheckedSeek(range1.getLower());
+    this.attribute_offset = in_attribute_offset;
+    this.range = in_range;
+    this.element_size = in_element_size;
+    this.uncheckedSeek(in_range.getLower());
+  }
+
+  protected final void checkValid()
+  {
+    if (this.isValid() == false) {
+      throw new IllegalStateException("Cursor is out of range");
+    }
   }
 
   /**
-   * Return the current byte offset of the cursor.
-   * 
-   * @throws ConstraintError
-   *           Iff the cursor is out of range
+   * @return The current byte offset of the cursor.
    */
 
   protected final long getByteOffset()
-    throws ConstraintError
   {
-    Constraints.constrainArbitrary(this.isValid(), "Cursor is in range");
+    this.checkValid();
     return this.byte_current;
   }
 
   /**
-   * Return the current element of the cursor.
-   * 
-   * @throws ConstraintError
-   *           Iff the cursor is out of range
+   * @return The current element of the cursor.
    */
 
   protected final long getElement()
-    throws ConstraintError
   {
-    Constraints.constrainArbitrary(this.isValid(), "Cursor is in range");
+    this.checkValid();
     return this.element_current;
   }
-
-  /**
-   * Return <code>true</code> iff there are more elements available.
-   */
 
   @Override public final boolean hasNext()
   {

@@ -23,7 +23,7 @@ package com.io7m.jcanephora;
  */
 
 public interface JCGLInterfaceGLES3 extends
-  JCGLArrayBuffersMapped,
+  JCGLArrayBuffersMappedType,
   JCGLBlendingGL3,
   JCGLExtensionsGLES3,
   JCGLFramebuffersGL3,

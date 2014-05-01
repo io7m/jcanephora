@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,24 +16,39 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
 /**
  * Exception class representing an error raised by the OpenGL implementation.
  */
 
 public final class JCGLRuntimeException extends JCGLException
 {
-  private static final long serialVersionUID = -6495367643829747178L;
+  private static final long serialVersionUID;
   private final int         code;
 
+  static {
+    serialVersionUID = -6495367643829747178L;
+  }
+
+  /**
+   * Construct an error with the given error code and message.
+   * 
+   * @param in_code
+   *          The error code.
+   * @param message
+   *          The message.
+   */
+
   public JCGLRuntimeException(
-    final int code1,
-    final @Nonnull String message)
+    final int in_code,
+    final String message)
   {
     super(message);
-    this.code = code1;
+    this.code = in_code;
   }
+
+  /**
+   * @return The error code.
+   */
 
   public int getCode()
   {

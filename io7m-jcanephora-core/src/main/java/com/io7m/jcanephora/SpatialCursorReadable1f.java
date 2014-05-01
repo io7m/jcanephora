@@ -24,7 +24,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * numbers.
  */
 
-public interface SpatialCursorReadable1f extends SpatialCursor
+public interface SpatialCursorReadable1f extends SpatialCursorType
 {
   /**
    * Get the value at the current cursor location and seek the cursor to the

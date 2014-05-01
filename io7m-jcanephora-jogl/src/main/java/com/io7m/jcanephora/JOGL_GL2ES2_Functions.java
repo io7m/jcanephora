@@ -204,7 +204,7 @@ final class JOGL_GL2ES2_Functions
       buffer_attribute.getDescriptor();
 
     final JCGLScalarType buffer_attribute_gl_type =
-      buffer_attribute_type.getType();
+      buffer_attribute_type.arrayGetType();
     final int buffer_attribute_elements = buffer_attribute_type.getElements();
 
     final boolean convertible =
@@ -234,10 +234,10 @@ final class JOGL_GL2ES2_Functions
       JOGL_GLTypeConversions.scalarTypeToGL(buffer_attribute_gl_type);
 
     final boolean normalized = false;
-    final int stride = (int) buffer.getElementSizeBytes();
+    final int stride = (int) buffer.bufferGetElementSizeBytes();
     final int offset =
       buffer
-        .getType()
+        .arrayGetType()
         .getTypeDescriptor()
         .getAttributeOffset(buffer_attribute.getName());
 

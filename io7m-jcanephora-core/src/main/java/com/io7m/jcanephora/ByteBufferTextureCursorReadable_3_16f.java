@@ -47,7 +47,7 @@ final class ByteBufferTextureCursorReadable_3_16f extends AreaCursor implements
     final @Nonnull VectorM3D v)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(v, "Vector");
+    NullCheck.notNull(v, "Vector");
     final int i = (int) this.getByteOffset();
     final byte[] b = this.buffer;
 
@@ -68,7 +68,7 @@ final class ByteBufferTextureCursorReadable_3_16f extends AreaCursor implements
     final @Nonnull VectorM3F v)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(v, "Vector");
+    NullCheck.notNull(v, "Vector");
     final int i = (int) this.getByteOffset();
     final byte[] b = this.buffer;
 
