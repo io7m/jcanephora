@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,60 +16,57 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
 /**
  * Functions returning information about the OpenGL implementation.
  */
 
-public interface JCGLMeta
+public interface JCGLMetaType
 {
   /**
    * Return and reset the current OpenGL error state.
    * 
    * @return The current OpenGL error code.
-   */
-
-  public int metaGetError()
-    throws JCGLRuntimeException;
-
-  /**
-   * Return the name of the OpenGL renderer.
-   * 
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
-  public  String metaGetRenderer()
+  int metaGetError()
     throws JCGLRuntimeException;
 
   /**
-   * Return the version string for the OpenGL shading language implementation.
-   * 
+   * @return The name of the OpenGL renderer.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
-  public  JCGLSLVersion metaGetSLVersion()
+  String metaGetRenderer()
     throws JCGLRuntimeException;
 
   /**
-   * Return the name of the OpenGL vendor.
-   * 
+   * @return The version string for the OpenGL shading language
+   *         implementation.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
-  public  String metaGetVendor()
+  JCGLSLVersion metaGetSLVersion()
     throws JCGLRuntimeException;
 
   /**
-   * Return the version string for the OpenGL implementation.
-   * 
+   * @return The name of the OpenGL vendor.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
-  public  JCGLVersion metaGetVersion()
+  String metaGetVendor()
+    throws JCGLRuntimeException;
+
+  /**
+   * @return The version string for the OpenGL implementation.
+   * @throws JCGLRuntimeException
+   *           Iff an OpenGL error occurs.
+   */
+
+  JCGLVersion metaGetVersion()
     throws JCGLRuntimeException;
 }

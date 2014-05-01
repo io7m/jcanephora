@@ -34,7 +34,7 @@ public final class JCGLError
    */
 
   public static void check(
-    final JCGLMeta gl)
+    final JCGLMetaType gl)
     throws JCGLRuntimeException
   {
     final int code = gl.metaGetError();
