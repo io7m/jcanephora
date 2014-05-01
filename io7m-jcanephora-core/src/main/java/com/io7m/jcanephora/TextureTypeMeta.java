@@ -340,16 +340,22 @@ public final class TextureTypeMeta
   }
 
   /**
-   * Return <code>true</code> iff the given 2D texture type is
-   * color-renderable on the given version of OpenGL assuming
-   * <code>extensions</code>.
+   * @return <code>true</code> iff the given 2D texture type is
+   *         color-renderable on the given version of OpenGL assuming
+   *         <code>extensions</code>.
+   * 
+   * @param type
+   *          The texture type.
+   * @param version
+   *          The OpenGL version.
+   * @param extensions
+   *          The available extensions.
    */
 
   public static boolean isColorRenderable2D(
     final TextureType type,
     final JCGLVersion version,
     final JCGLNamedExtensions extensions)
-    throws ConstraintError
   {
     switch (version.getAPI()) {
       case JCGL_ES:
@@ -435,7 +441,6 @@ public final class TextureTypeMeta
   private static boolean isColorRenderable2D_ES3(
     final TextureType type,
     final JCGLNamedExtensions extensions)
-    throws ConstraintError
   {
     switch (type) {
       case TEXTURE_TYPE_DEPTH_16_2BPP:
