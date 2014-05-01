@@ -27,7 +27,7 @@ import com.io7m.jtensors.VectorM3I;
  * 16 bit values in 32 bit integers).
  */
 
-public interface SpatialCursorReadable3i extends SpatialCursor
+public interface SpatialCursorReadable3i extends SpatialCursorType
 {
   /**
    * Get the value at the current cursor location and seek the cursor to the

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -22,7 +22,21 @@ package com.io7m.jcanephora;
 
 public enum FaceSelection
 {
+  /**
+   * Cull back faces; <code>GL_BACK</code>
+   */
+
   FACE_BACK,
+
+  /**
+   * Cull front faces; <code>GL_FRONT</code>
+   */
+
   FACE_FRONT,
+
+  /**
+   * Cull front and back faces; <code>GL_FRONT_AND_BACK</code>
+   */
+
   FACE_FRONT_AND_BACK
 }

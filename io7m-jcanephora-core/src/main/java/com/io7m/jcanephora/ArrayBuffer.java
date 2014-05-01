@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,135 +16,54 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
+import com.io7m.jnull.NullCheck;
+import com.io7m.jranges.RangeCheck;
+import com.io7m.jranges.RangeInclusiveL;
 
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
-
-/**
- * A immutable reference to an allocated array buffer.
- */
-
-@Immutable public final class ArrayBuffer extends JCGLResourceDeletable implements
-  Buffer,
-  ArrayBufferUsable
+final class ArrayBuffer extends JCGLResourceDeletable implements
+  ArrayBufferType
 {
-  private final RangeInclusive           range;
-  private final @Nonnull ArrayBufferType type;
-  private final int                      value;
+  private final RangeInclusiveL range;
+  private final ArrayDescriptor type;
+  private final int             gl_name;
 
   ArrayBuffer(
-    final int value1,
-    final long elements,
-    final @Nonnull ArrayBufferTypeDescriptor descriptor)
-    throws ConstraintError
+    final RangeInclusiveL in_range,
+    final ArrayDescriptor in_type,
+    final int in_gl_name)
   {
-    this.value =
-      Constraints.constrainRange(
-        value1,
-        1,
-        Integer.MAX_VALUE,
-        "Buffer ID value");
-
-    this.range =
-      new RangeInclusive(0, Constraints.constrainRange(
-        elements,
-        1,
-        Integer.MAX_VALUE,
-        "Buffer elements") - 1);
-
-    this.type =
-      new ArrayBufferType(this, Constraints.constrainNotNull(
-        descriptor,
-        "Buffer descriptor"));
+    this.range = NullCheck.notNull(in_range, "Range");
+    this.type = NullCheck.notNull(in_type, "Type");
+    this.gl_name =
+      (int) RangeCheck.checkIncludedIn(
+        in_gl_name,
+        "Buffer ID",
+        RangeCheck.POSITIVE_INTEGER,
+        "Valid buffer IDs");
   }
 
-  @Override public boolean equals(
-    final Object obj)
-  {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (this.getClass() != obj.getClass()) {
-      return false;
-    }
-    final ArrayBuffer other = (ArrayBuffer) obj;
-    if (this.value != other.value) {
-      return false;
-    }
-    return true;
-  }
-
-  @Override public @Nonnull ArrayBufferAttribute getAttribute(
-    final @Nonnull String name)
-    throws ConstraintError
-  {
-    return this.type.getAttribute(name);
-  }
-
-  @Override public long getElementOffset(
-    final int index)
-    throws ConstraintError
-  {
-    return Constraints.constrainRange(index, 0, this.range.getUpper())
-      * this.getElementSizeBytes();
-  }
-
-  @Override public long getElementSizeBytes()
-  {
-    return this.type.getTypeDescriptor().getSize();
-  }
-
-  @Override public int getGLName()
-  {
-    return this.value;
-  }
-
-  @Override public @Nonnull RangeInclusive getRange()
+  @Override public RangeInclusiveL bufferGetRange()
   {
     return this.range;
   }
 
-  @Override public @Nonnull ArrayBufferType getType()
-  {
-    return this.type;
-  }
-
-  @Override public boolean hasAttribute(
-    final @Nonnull String name)
-    throws ConstraintError
-  {
-    return this.type.hasAttribute(name);
-  }
-
-  @Override public int hashCode()
-  {
-    final int prime = 31;
-    int result = 1;
-    result = (prime * result) + this.value;
-    return result;
-  }
-
   @Override public long resourceGetSizeBytes()
   {
-    return this.type.getTypeDescriptor().getSize() * this.range.getInterval();
+    return this.range.getInterval() * this.type.getElementSizeBytes();
   }
 
-  @Override public String toString()
+  @Override public int getGLName()
   {
-    final StringBuilder builder = new StringBuilder();
-    builder.append("[ArrayBuffer ");
-    builder.append(this.getGLName());
-    builder.append(" ");
-    builder.append(this.range);
-    builder.append(" ");
-    builder.append(this.resourceGetSizeBytes());
-    builder.append("]");
-    return builder.toString();
+    return this.gl_name;
+  }
+
+  @Override public long bufferGetElementSizeBytes()
+  {
+    return this.type.getElementSizeBytes();
+  }
+
+  @Override public ArrayDescriptor arrayGetType()
+  {
+    return this.type;
   }
 }

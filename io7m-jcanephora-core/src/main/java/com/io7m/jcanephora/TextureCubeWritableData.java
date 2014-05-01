@@ -36,7 +36,7 @@ import com.io7m.jaux.UnreachableCodeException;
  * </p>
  */
 
-public final class TextureCubeWritableData implements TextureWritableData
+public final class TextureCubeWritableData implements TextureWritableDataType
 {
   private final @Nonnull AreaInclusive     source_area;
   private final @Nonnull AreaInclusive     target_area;
@@ -91,8 +91,8 @@ public final class TextureCubeWritableData implements TextureWritableData
     final @Nonnull AreaInclusive area)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(texture1, "Texture");
-    Constraints.constrainNotNull(area, "Area");
+    NullCheck.notNull(texture1, "Texture");
+    NullCheck.notNull(area, "Area");
     Constraints.constrainArbitrary(
       area.isIncludedIn(texture1.getArea()),
       "Area is included within texture");

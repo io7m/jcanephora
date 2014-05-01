@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,12 +16,9 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.NotThreadSafe;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
+import com.io7m.jequality.annotations.EqualityStructural;
+import com.io7m.jnull.Nullable;
+import com.io7m.jranges.RangeInclusiveL;
 
 /**
  * <p>
@@ -39,22 +36,21 @@ import com.io7m.jaux.RangeInclusive;
  * </p>
  */
 
-@NotThreadSafe class AreaCursor implements SpatialCursor
+@EqualityStructural class AreaCursor implements SpatialCursorType
 {
-  private final @Nonnull AreaInclusive area_inner;
-  private final @Nonnull AreaInclusive area_outer;
-  private long                         byte_offset;
-  private boolean                      can_write;
-  private final long                   element_bytes;
-  private long                         element_x;
-  private long                         element_y;
-  private final long                   row_byte_span;
+  private final AreaInclusive area_inner;
+  private final AreaInclusive area_outer;
+  private long                byte_offset;
+  private boolean             can_write;
+  private final long          element_bytes;
+  private long                element_x;
+  private long                element_y;
+  private final long          row_byte_span;
 
   protected AreaCursor(
-    final @Nonnull AreaInclusive area_outer1,
-    final @Nonnull AreaInclusive area_inner1,
-    final long element_bytes1)
-    throws ConstraintError
+    final AreaInclusive in_area_outer,
+    final AreaInclusive in_area_inner,
+    final long in_element_bytes)
   {
     /**
      * These are not constraint errors because this class is not visible
@@ -62,14 +58,14 @@ import com.io7m.jaux.RangeInclusive;
      * to respect these preconditions.
      */
 
-    if (area_inner1.isIncludedIn(area_outer1) == false) {
+    if (in_area_inner.isIncludedIn(in_area_outer) == false) {
       throw new IllegalArgumentException(
         "Inner area is included in outer area");
     }
-    if (0 > area_outer1.getRangeX().getLower()) {
+    if (0 > in_area_outer.getRangeX().getLower()) {
       throw new IllegalArgumentException("Outer X lower bound is negative");
     }
-    if (0 > area_outer1.getRangeY().getLower()) {
+    if (0 > in_area_outer.getRangeY().getLower()) {
       throw new IllegalArgumentException("Outer Y lower bound is negative");
     }
 
@@ -79,23 +75,30 @@ import com.io7m.jaux.RangeInclusive;
      * negative.
      */
 
-    if (0 > element_bytes1) {
+    if (0 > in_element_bytes) {
       throw new IllegalArgumentException("element_bytes is negative");
     }
 
-    this.area_outer = area_outer1;
-    this.area_inner = area_inner1;
-    this.element_bytes = element_bytes1;
+    this.area_outer = in_area_outer;
+    this.area_inner = in_area_inner;
+    this.element_bytes = in_element_bytes;
     this.row_byte_span =
-      area_outer1.getRangeX().getInterval() * element_bytes1;
+      in_area_outer.getRangeX().getInterval() * in_element_bytes;
 
-    final long lo_x = area_inner1.getRangeX().getLower();
-    final long lo_y = area_inner1.getRangeY().getLower();
+    final long lo_x = in_area_inner.getRangeX().getLower();
+    final long lo_y = in_area_inner.getRangeY().getLower();
     this.uncheckedSeek(lo_x, lo_y);
   }
 
+  private void checkValid()
+  {
+    if (this.isValid() == false) {
+      throw new IllegalStateException("Cursor is out of range");
+    }
+  }
+
   @Override public boolean equals(
-    final Object obj)
+    final @Nullable Object obj)
   {
     if (this == obj) {
       return true;
@@ -123,9 +126,8 @@ import com.io7m.jaux.RangeInclusive;
   }
 
   protected final long getByteOffset()
-    throws ConstraintError
   {
-    Constraints.constrainArbitrary(this.isValid(), "Cursor is in range");
+    this.checkValid();
     return this.byte_offset;
   }
 
@@ -139,16 +141,14 @@ import com.io7m.jaux.RangeInclusive;
   }
 
   @Override public final long getElementX()
-    throws ConstraintError
   {
-    Constraints.constrainArbitrary(this.isValid(), "Cursor is in range");
+    this.checkValid();
     return this.element_x;
   }
 
   @Override public final long getElementY()
-    throws ConstraintError
   {
-    Constraints.constrainArbitrary(this.isValid(), "Cursor is in range");
+    this.checkValid();
     return this.element_y;
   }
 
@@ -170,7 +170,7 @@ import com.io7m.jaux.RangeInclusive;
 
   @Override public final void next()
   {
-    final RangeInclusive range_x = this.area_inner.getRangeX();
+    final RangeInclusiveL range_x = this.area_inner.getRangeX();
 
     long x = this.element_x;
     long y = this.element_y;
@@ -213,15 +213,17 @@ import com.io7m.jaux.RangeInclusive;
     builder.append(" ");
     builder.append(this.can_write);
     builder.append("]");
-    return builder.toString();
+    final String r = builder.toString();
+    assert r != null;
+    return r;
   }
 
   final void uncheckedSeek(
     final long x,
     final long y)
   {
-    final RangeInclusive range_x = this.area_inner.getRangeX();
-    final RangeInclusive range_y = this.area_inner.getRangeY();
+    final RangeInclusiveL range_x = this.area_inner.getRangeX();
+    final RangeInclusiveL range_y = this.area_inner.getRangeY();
 
     this.element_x = x;
     this.element_y = y;

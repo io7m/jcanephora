@@ -70,8 +70,8 @@ public enum JCGLType
     final @Nonnull String name)
     throws ConstraintError
   {
-    return Constraints.constrainNotNull(
-      JCGLType.names.get(Constraints.constrainNotNull(name, "Name")),
+    return NullCheck.notNull(
+      JCGLType.names.get(NullCheck.notNull(name, "Name")),
       "Name corresponds to type");
   }
 

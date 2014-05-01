@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<c:changelog xmlns:c="http://www.io7m.com/schemas/changelog/1.0.0">
+<c:changelog xmlns:c="http://schemas.io7m.com/changelog/2.0.0">
   <c:project>io7m-jcanephora</c:project>
 
-  <c:release ticket-system="com.io7m.fossil.jcanephora">
-    <c:date>2012-06-29</c:date>
+  <c:release c:ticket-system="com.io7m.fossil.jcanephora">
+    <c:date>2014-04-29</c:date>
     <c:version>1.0.0</c:version>
     <c:item>
-      <c:date>2012-06-29</c:date>
-      <c:type-code-new/>
-      <c:summary>Switch to maven for builds</c:summary>
-    </c:item>
-    <c:item>
-      <c:date>2012-03-15</c:date>
+      <c:date>2014-04-29</c:date>
       <c:type-code-new/>
       <c:summary>Initial version</c:summary>
     </c:item>

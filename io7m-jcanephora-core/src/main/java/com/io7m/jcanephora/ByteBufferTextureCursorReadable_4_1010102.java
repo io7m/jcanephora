@@ -70,7 +70,7 @@ final class ByteBufferTextureCursorReadable_4_1010102 extends AreaCursor impleme
     final @Nonnull VectorM4I v)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(v, "Vector");
+    NullCheck.notNull(v, "Vector");
     final int i = (int) this.getByteOffset();
     final long k = ByteBufferCursor.unpackUnsigned32(this.target_data, i);
     TexturePixelPack.unpack4_1010102(k, v);

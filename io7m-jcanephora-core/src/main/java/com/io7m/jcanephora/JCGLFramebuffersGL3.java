@@ -60,7 +60,7 @@ public interface JCGLFramebuffersGL3 extends
   void framebufferDrawAttachColorRenderbufferAt(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
+    final @Nonnull RenderbufferUsableType<RenderableColorKind> renderbuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -160,7 +160,7 @@ public interface JCGLFramebuffersGL3 extends
 
   void framebufferDrawAttachDepthStencilRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable<RenderableDepthStencil> renderbuffer)
+    final @Nonnull RenderbufferUsableType<RenderableDepthStencilKind> renderbuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 

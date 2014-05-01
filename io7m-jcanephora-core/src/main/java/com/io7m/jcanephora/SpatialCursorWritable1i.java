@@ -24,7 +24,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * destination has less precision than the given 32 bit integer value).
  */
 
-public interface SpatialCursorWritable1i extends SpatialCursor
+public interface SpatialCursorWritable1i extends SpatialCursorType
 {
   /**
    * Put the value <code>x</code> at the current cursor location and seek the

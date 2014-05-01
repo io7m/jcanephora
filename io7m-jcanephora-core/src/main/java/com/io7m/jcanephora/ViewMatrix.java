@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,24 +16,18 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.NotThreadSafe;
-import javax.annotation.concurrent.ThreadSafe;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorI3F;
 import com.io7m.jtensors.VectorM3F;
-import com.io7m.jtensors.VectorReadable3F;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * Functions for producing view matrices (such as those required to implement
  * 3D camera abstractions).
  */
 
-@ThreadSafe public final class ViewMatrix
+public final class ViewMatrix
 {
   /**
    * The Context type contains the minimum storage required for all of the
@@ -53,14 +47,14 @@ import com.io7m.jtensors.VectorReadable3F;
    * </p>
    */
 
-  @NotThreadSafe public static final class Context
+  public static final class Context
   {
-    protected final @Nonnull VectorM3F   camera_inv;
-    protected final @Nonnull VectorM3F   forward;
-    protected final @Nonnull VectorM3F   new_up;
-    protected final @Nonnull MatrixM4x4F rotation;
-    protected final @Nonnull VectorM3F   side;
-    protected final @Nonnull MatrixM4x4F translation;
+    protected final VectorM3F   camera_inv;
+    protected final VectorM3F   forward;
+    protected final VectorM3F   new_up;
+    protected final MatrixM4x4F rotation;
+    protected final VectorM3F   side;
+    protected final MatrixM4x4F translation;
 
     public Context()
     {
@@ -118,10 +112,10 @@ import com.io7m.jtensors.VectorReadable3F;
    */
 
   public static void lookAt(
-    final @Nonnull MatrixM4x4F out,
-    final @Nonnull VectorReadable3F camera,
-    final @Nonnull VectorReadable3F target,
-    final @Nonnull VectorReadable3F up)
+    final MatrixM4x4F out,
+    final VectorReadable3F camera,
+    final VectorReadable3F target,
+    final VectorReadable3F up)
     throws ConstraintError
   {
     final Context context = new Context();
@@ -162,18 +156,18 @@ import com.io7m.jtensors.VectorReadable3F;
    */
 
   public static void lookAtWithContext(
-    final @Nonnull Context context,
-    final @Nonnull MatrixM4x4F out,
-    final @Nonnull VectorReadable3F camera,
-    final @Nonnull VectorReadable3F target,
-    final @Nonnull VectorReadable3F up)
+    final Context context,
+    final MatrixM4x4F out,
+    final VectorReadable3F camera,
+    final VectorReadable3F target,
+    final VectorReadable3F up)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(context, "Context");
-    Constraints.constrainNotNull(out, "Output matrix");
-    Constraints.constrainNotNull(camera, "Camera position");
-    Constraints.constrainNotNull(target, "Target point");
-    Constraints.constrainNotNull(up, "Up vector");
+    NullCheck.notNull(context, "Context");
+    NullCheck.notNull(out, "Output matrix");
+    NullCheck.notNull(camera, "Camera position");
+    NullCheck.notNull(target, "Target point");
+    NullCheck.notNull(up, "Up vector");
 
     context.reset();
 

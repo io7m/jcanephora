@@ -104,7 +104,7 @@ public interface JCGLFramebuffersCommon
 
   void framebufferDrawAttachColorRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
+    final @Nonnull RenderbufferUsableType<RenderableColorKind> renderbuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -207,7 +207,7 @@ public interface JCGLFramebuffersCommon
 
   void framebufferDrawAttachDepthRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable<RenderableDepth> renderbuffer)
+    final @Nonnull RenderbufferUsableType<RenderableDepthKind> renderbuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -270,7 +270,7 @@ public interface JCGLFramebuffersCommon
 
   void framebufferDrawAttachStencilRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable<RenderableStencil> renderbuffer)
+    final @Nonnull RenderbufferUsableType<RenderableStencilKind> renderbuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -290,7 +290,7 @@ public interface JCGLFramebuffersCommon
    */
 
   void framebufferDrawBind(
-    final @Nonnull FramebufferReferenceUsable framebuffer)
+    final @Nonnull FramebufferReferenceUsableType framebuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -311,7 +311,7 @@ public interface JCGLFramebuffersCommon
    */
 
   boolean framebufferDrawIsBound(
-    final @Nonnull FramebufferReferenceUsable framebuffer)
+    final @Nonnull FramebufferReferenceUsableType framebuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -344,7 +344,7 @@ public interface JCGLFramebuffersCommon
    */
 
   @Nonnull FramebufferStatus framebufferDrawValidate(
-    final @Nonnull FramebufferReferenceUsable framebuffer)
+    final @Nonnull FramebufferReferenceUsableType framebuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 

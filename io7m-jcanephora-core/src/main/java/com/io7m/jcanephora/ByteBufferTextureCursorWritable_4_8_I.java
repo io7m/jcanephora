@@ -49,7 +49,7 @@ final class ByteBufferTextureCursorWritable_4_8_I extends AreaCursor implements
     final @Nonnull VectorReadable4D v)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(v, "Vector");
+    NullCheck.notNull(v, "Vector");
     this.vector.x = FixedPoint.doubleToSignedNormalized(v.getXD(), 8);
     this.vector.y = FixedPoint.doubleToSignedNormalized(v.getYD(), 8);
     this.vector.z = FixedPoint.doubleToSignedNormalized(v.getZD(), 8);
@@ -61,7 +61,7 @@ final class ByteBufferTextureCursorWritable_4_8_I extends AreaCursor implements
     final @Nonnull VectorReadable4F v)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(v, "Vector");
+    NullCheck.notNull(v, "Vector");
     this.vector.x = FixedPoint.floatToSignedNormalized(v.getXF(), 8);
     this.vector.y = FixedPoint.floatToSignedNormalized(v.getYF(), 8);
     this.vector.z = FixedPoint.floatToSignedNormalized(v.getZF(), 8);
@@ -73,7 +73,7 @@ final class ByteBufferTextureCursorWritable_4_8_I extends AreaCursor implements
     final @Nonnull VectorReadable4I v)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(v, "Vector");
+    NullCheck.notNull(v, "Vector");
     final int i = (int) this.getByteOffset();
     this.target_data.put(i + 0, (byte) v.getXI());
     this.target_data.put(i + 1, (byte) v.getYI());

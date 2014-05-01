@@ -27,7 +27,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  */
 
 @Immutable public final class Renderbuffer<K extends RenderbufferKind> extends
-  JCGLResourceDeletable implements RenderbufferUsable<K>, JCGLResourceSized
+  JCGLResourceDeletable implements RenderbufferUsableType<K>, JCGLResourceSizedType
 {
   /**
    * Unsafe operation for branding a renderbuffer <code>r</code> with the
@@ -37,11 +37,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
    */
 
   @SuppressWarnings("unchecked") static @Nonnull
-    Renderbuffer<RenderableColor>
+    Renderbuffer<RenderableColorKind>
     unsafeBrandColor(
       final @Nonnull Renderbuffer<?> r)
   {
-    return (Renderbuffer<RenderableColor>) r;
+    return (Renderbuffer<RenderableColorKind>) r;
   }
 
   /**
@@ -52,11 +52,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
    */
 
   @SuppressWarnings("unchecked") static @Nonnull
-    Renderbuffer<RenderableDepth>
+    Renderbuffer<RenderableDepthKind>
     unsafeBrandDepth(
       final @Nonnull Renderbuffer<?> r)
   {
-    return (Renderbuffer<RenderableDepth>) r;
+    return (Renderbuffer<RenderableDepthKind>) r;
   }
 
   /**
@@ -67,11 +67,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
    */
 
   @SuppressWarnings("unchecked") static @Nonnull
-    Renderbuffer<RenderableDepthStencil>
+    Renderbuffer<RenderableDepthStencilKind>
     unsafeBrandDepthStencil(
       final @Nonnull Renderbuffer<?> r)
   {
-    return (Renderbuffer<RenderableDepthStencil>) r;
+    return (Renderbuffer<RenderableDepthStencilKind>) r;
   }
 
   /**
@@ -82,11 +82,11 @@ import com.io7m.jaux.Constraints.ConstraintError;
    */
 
   @SuppressWarnings("unchecked") static @Nonnull
-    Renderbuffer<RenderableStencil>
+    Renderbuffer<RenderableStencilKind>
     unsafeBrandStencil(
       final @Nonnull Renderbuffer<?> r)
   {
-    return (Renderbuffer<RenderableStencil>) r;
+    return (Renderbuffer<RenderableStencilKind>) r;
   }
 
   private final int                       height;
@@ -101,7 +101,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     final int height1)
     throws ConstraintError
   {
-    this.type = Constraints.constrainNotNull(type1, "Renderbuffer type");
+    this.type = NullCheck.notNull(type1, "Renderbuffer type");
     this.value =
       Constraints.constrainRange(
         value1,

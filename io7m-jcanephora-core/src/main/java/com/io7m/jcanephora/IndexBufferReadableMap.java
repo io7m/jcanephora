@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -18,10 +18,7 @@ package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jnull.NullCheck;
 
 /**
  * Abstraction over mapped index buffers.
@@ -36,43 +33,45 @@ import com.io7m.jaux.Constraints.ConstraintError;
 
 public final class IndexBufferReadableMap
 {
-  private final @Nonnull IndexBufferUsable buffer;
-  private final @Nonnull ByteBuffer        map;
+  private final IndexBufferUsableType buffer;
+  private final ByteBuffer            map;
 
   IndexBufferReadableMap(
-    final @Nonnull IndexBufferUsable id,
-    final @Nonnull ByteBuffer map1)
-    throws ConstraintError
+    final IndexBufferUsableType id,
+    final ByteBuffer in_map)
   {
-    this.map = Constraints.constrainNotNull(map1, "Index buffer map");
-    this.buffer = Constraints.constrainNotNull(id, "Index buffer");
+    this.map = NullCheck.notNull(in_map, "Index buffer map");
+    this.buffer = NullCheck.notNull(id, "Index buffer");
   }
 
   /**
-   * Retrieve the raw ByteBuffer that backs the array buffer. The memory
-   * backing the buffer is mapped into the application address space from the
-   * GPU. The function is provided for use by developers that have needs not
-   * addressed by the cursor API.
-   * 
-   * Use of this buffer is discouraged for safety reasons.
+   * @return <p>
+   *         The raw ByteBuffer that backs the array buffer. The memory
+   *         backing the buffer is mapped into the application address space
+   *         from the GPU. The function is provided for use by developers that
+   *         have needs not addressed by the cursor API.
+   *         </p>
+   *         <p>
+   *         Use of this buffer is discouraged for safety reasons.
+   *         </p>
    */
 
-  public @Nonnull ByteBuffer getByteBuffer()
+  public ByteBuffer getByteBuffer()
   {
     return this.map;
   }
 
   /**
-   * Retrieve a cursor that points to elements of the index buffer. The cursor
-   * interface allows constant time access to any element and also minimizes
-   * the number of checks performed for each access.
+   * @return A cursor that points to elements of the index buffer. The cursor
+   *         interface allows constant time access to any element and also
+   *         minimizes the number of checks performed for each access.
    */
 
-  public @Nonnull CursorReadableIndex getCursor()
+  public CursorReadableIndexType getCursor()
   {
     return new ByteBufferCursorReadableIndex(
       this.map,
-      this.buffer.getRange(),
+      this.buffer.bufferGetRange(),
       this.buffer.getType());
   }
 }

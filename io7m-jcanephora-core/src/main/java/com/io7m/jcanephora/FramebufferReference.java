@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,34 +16,33 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.concurrent.Immutable;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jnull.Nullable;
+import com.io7m.jranges.RangeCheck;
 
 /**
+ * <p>
  * An immutable reference to an allocated framebuffer.
+ * </p>
  */
 
-@Immutable public final class FramebufferReference extends
-  JCGLResourceDeletable implements FramebufferReferenceUsable
+public final class FramebufferReference extends JCGLResourceDeletable implements
+  FramebufferReferenceUsableType
 {
   private final int value;
 
   FramebufferReference(
-    final int value1)
-    throws ConstraintError
+    final int in_value)
   {
     this.value =
-      Constraints.constrainRange(
-        value1,
-        0,
-        Integer.MAX_VALUE,
-        "Buffer ID value");
+      (int) RangeCheck.checkIncludedIn(
+        in_value,
+        "Framebuffer",
+        RangeCheck.NATURAL_INTEGER,
+        "Valid draw buffers");
   }
 
   @Override public boolean equals(
-    final Object obj)
+    final @Nullable Object obj)
   {
     if (this == obj) {
       return true;
@@ -80,6 +79,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
     builder.append("[FramebufferReference ");
     builder.append(this.getGLName());
     builder.append("]");
-    return builder.toString();
+    final String r = builder.toString();
+    assert r != null;
+    return r;
   }
 }

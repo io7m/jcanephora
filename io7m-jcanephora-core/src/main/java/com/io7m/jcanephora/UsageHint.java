@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -22,13 +22,72 @@ package com.io7m.jcanephora;
 
 public enum UsageHint
 {
+  /**
+   * The data store contents will be respecified repeatedly by reading data
+   * from the GL, and used many times as the source for GL drawing and image
+   * specification commands.
+   */
+
   USAGE_DYNAMIC_COPY,
+
+  /**
+   * The data store contents will be respecified repeatedly by the
+   * application, and used many times as the source for GL drawing and image
+   * specification commands.
+   */
+
   USAGE_DYNAMIC_DRAW,
+
+  /**
+   * The data store contents will be respecified repeatedly by reading data
+   * from the GL, and queried many times by the application.
+   */
+
   USAGE_DYNAMIC_READ,
+
+  /**
+   * The data store contents will be specified once by reading data from the
+   * GL, and used many times as the source for GL drawing and image
+   * specification commands.
+   */
+
   USAGE_STATIC_COPY,
+
+  /**
+   * The data store contents will be specified once by the application, and
+   * used many times as the source for GL drawing and image specification
+   * commands.
+   */
+
   USAGE_STATIC_DRAW,
+
+  /**
+   * The data store contents will be specified once by reading data from the
+   * GL, and queried many times by the application.
+   */
+
   USAGE_STATIC_READ,
+
+  /**
+   * The data store contents will be specified once by reading data from the
+   * GL, and used at most a few times as the source for GL drawing and image
+   * specification commands.
+   */
+
   USAGE_STREAM_COPY,
+
+  /**
+   * The data store contents will be specified once by the application, and
+   * used at most a few times as the source for GL drawing and image
+   * specification commands.
+   */
+
   USAGE_STREAM_DRAW,
+
+  /**
+   * The data store contents will be specified once by reading data from the
+   * GL, and queried at most a few times by the application.
+   */
+
   USAGE_STREAM_READ
 }

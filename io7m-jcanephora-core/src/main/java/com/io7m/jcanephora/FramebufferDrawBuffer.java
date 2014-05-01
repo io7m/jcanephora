@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,7 +16,8 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.concurrent.Immutable;
+import com.io7m.jnull.Nullable;
+import com.io7m.jranges.RangeCheck;
 
 /**
  * <p>
@@ -29,15 +30,20 @@ import javax.annotation.concurrent.Immutable;
  * </p>
  */
 
-@Immutable public final class FramebufferDrawBuffer implements
+public final class FramebufferDrawBuffer implements
   Comparable<FramebufferDrawBuffer>
 {
   private final int index;
 
   FramebufferDrawBuffer(
-    final int index1)
+    final int in_index)
   {
-    this.index = index1;
+    this.index =
+      (int) RangeCheck.checkIncludedIn(
+        in_index,
+        "Draw buffer",
+        RangeCheck.NATURAL_INTEGER,
+        "Valid draw buffers");
   }
 
   @Override public int compareTo(
@@ -49,7 +55,7 @@ import javax.annotation.concurrent.Immutable;
   }
 
   @Override public boolean equals(
-    final Object obj)
+    final @Nullable Object obj)
   {
     if (this == obj) {
       return true;
@@ -68,9 +74,9 @@ import javax.annotation.concurrent.Immutable;
   }
 
   /**
-   * Retrieve the index of the draw buffer. This value will be between 0 and
-   * some implementation-defined exclusive upper limit (usually 4 or 8 in
-   * current implementations).
+   * @return The index of the draw buffer. This value will be between 0 and
+   *         some implementation-defined exclusive upper limit (usually 4 or 8
+   *         in current implementations).
    */
 
   public int getIndex()
@@ -92,6 +98,8 @@ import javax.annotation.concurrent.Immutable;
     builder.append("[FramebufferDrawBuffer ");
     builder.append(this.index);
     builder.append("]");
-    return builder.toString();
+    final String r = builder.toString();
+    assert r != null;
+    return r;
   }
 }

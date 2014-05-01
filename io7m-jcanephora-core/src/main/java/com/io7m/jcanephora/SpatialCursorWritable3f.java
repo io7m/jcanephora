@@ -27,7 +27,7 @@ import com.io7m.jtensors.VectorReadable3F;
  * correct underlying format.
  */
 
-public interface SpatialCursorWritable3f extends SpatialCursor
+public interface SpatialCursorWritable3f extends SpatialCursorType
 {
   /**
    * Put the value <code>v</code> at the current cursor location and seek the

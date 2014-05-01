@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -24,17 +24,81 @@ package com.io7m.jcanephora;
 
 public enum PixelType
 {
+  /**
+   * 8-bit signed bytes.
+   */
+
   PIXEL_COMPONENT_BYTE,
+
+  /**
+   * 32-bit floating point values.
+   */
+
   PIXEL_COMPONENT_FLOAT,
+
+  /**
+   * 16-bit floating point values.
+   */
+
   PIXEL_COMPONENT_HALF_FLOAT,
+
+  /**
+   * 32-bit signed integers.
+   */
+
   PIXEL_COMPONENT_INT,
+
+  /**
+   * 16-bit signed integers.
+   */
+
   PIXEL_COMPONENT_SHORT,
+
+  /**
+   * 8-bit unsigned bytes.
+   */
+
   PIXEL_COMPONENT_UNSIGNED_BYTE,
+
+  /**
+   * 32-bit unsigned integers.
+   */
+
   PIXEL_COMPONENT_UNSIGNED_INT,
+
+  /**
+   * 16-bit unsigned integers.
+   */
+
   PIXEL_COMPONENT_UNSIGNED_SHORT,
+
+  /**
+   * A packed 32-bit unsigned integer.
+   */
+
   PIXEL_PACKED_UNSIGNED_INT_1010102,
+
+  /**
+   * A packed 32-bit unsigned integer.
+   */
+
   PIXEL_PACKED_UNSIGNED_INT_24_8,
+
+  /**
+   * 16-bit packed unsigned integers.
+   */
+
   PIXEL_PACKED_UNSIGNED_SHORT_4444,
+
+  /**
+   * 16-bit packed unsigned integers.
+   */
+
   PIXEL_PACKED_UNSIGNED_SHORT_5551,
+
+  /**
+   * 16-bit packed unsigned integers.
+   */
+
   PIXEL_PACKED_UNSIGNED_SHORT_565
 }

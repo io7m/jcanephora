@@ -27,7 +27,7 @@ import com.io7m.jtensors.VectorReadable3I;
  * destination has less precision than the given 32 bit integer values).
  */
 
-public interface SpatialCursorWritable3i extends SpatialCursor
+public interface SpatialCursorWritable3i extends SpatialCursorType
 {
   /**
    * Put the values <code>v</code> at the current cursor location and seek the

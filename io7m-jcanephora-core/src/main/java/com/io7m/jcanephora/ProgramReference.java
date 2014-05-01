@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -19,46 +19,45 @@ package com.io7m.jcanephora;
 import java.util.Collections;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jnull.NullCheck;
+import com.io7m.jnull.Nullable;
+import com.io7m.jranges.RangeCheck;
 
 /**
  * An immutable reference to an OpenGL shading program.
  */
 
-@Immutable public final class ProgramReference extends JCGLResourceDeletable implements
-  ProgramReferenceUsable
+public final class ProgramReference extends JCGLResourceDeletable implements
+  ProgramReferenceUsableType
 {
-  private final @Nonnull Map<String, ProgramAttribute> attributes;
-  private final int                                    id;
-  private final @Nonnull String                        name;
-  private final @Nonnull Map<String, ProgramUniform>   uniforms;
+  private final Map<String, ProgramAttribute> attributes;
+  private final int                           id;
+  private final String                        name;
+  private final Map<String, ProgramUniform>   uniforms;
 
   ProgramReference(
-    final int id1,
-    final @Nonnull String name1,
-    final @Nonnull Map<String, ProgramUniform> uniforms1,
-    final @Nonnull Map<String, ProgramAttribute> attributes1)
-    throws ConstraintError
+    final int in_id,
+    final String in_name,
+    final Map<String, ProgramUniform> in_uniforms,
+    final Map<String, ProgramAttribute> in_attributes)
   {
     this.id =
-      Constraints.constrainRange(id1, 1, Integer.MAX_VALUE, "Program ID");
-    this.name = Constraints.constrainNotNull(name1, "Program name");
+      (int) RangeCheck.checkIncludedIn(
+        in_id,
+        "Program ID",
+        RangeCheck.POSITIVE_INTEGER,
+        "Valid program names");
+    this.name = NullCheck.notNull(in_name, "Program name");
     this.uniforms =
-      Collections.unmodifiableMap(Constraints.constrainNotNull(
-        uniforms1,
-        "Uniforms"));
+      Collections.unmodifiableMap(NullCheck.notNull(in_uniforms, "Uniforms"));
     this.attributes =
-      Collections.unmodifiableMap(Constraints.constrainNotNull(
-        attributes1,
+      Collections.unmodifiableMap(NullCheck.notNull(
+        in_attributes,
         "Attributes"));
   }
 
   @Override public boolean equals(
-    final Object obj)
+    final @Nullable Object obj)
   {
     if (this == obj) {
       return true;
@@ -87,10 +86,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
   }
 
   /**
-   * Retrieve the name of the program.
+   * @return The name of the program.
    */
 
-  public @Nonnull String getName()
+  public String getName()
   {
     return this.name;
   }
@@ -117,6 +116,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
     builder.append(" \"");
     builder.append(this.name);
     builder.append("\"]");
-    return builder.toString();
+    final String r = builder.toString();
+    assert r != null;
+    return r;
   }
 }

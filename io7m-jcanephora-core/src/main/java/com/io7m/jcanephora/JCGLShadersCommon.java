@@ -108,7 +108,7 @@ public interface JCGLShadersCommon
    */
 
   void programActivate(
-    final @Nonnull ProgramReferenceUsable program)
+    final @Nonnull ProgramReferenceUsableType program)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -425,7 +425,7 @@ public interface JCGLShadersCommon
    */
 
   boolean programIsActive(
-    final @Nonnull ProgramReferenceUsable program)
+    final @Nonnull ProgramReferenceUsableType program)
     throws ConstraintError,
       JCGLRuntimeException;
 

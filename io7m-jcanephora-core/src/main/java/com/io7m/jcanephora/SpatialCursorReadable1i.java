@@ -24,7 +24,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * a 16 bit value in a 32 bit integer).
  */
 
-public interface SpatialCursorReadable1i extends SpatialCursor
+public interface SpatialCursorReadable1i extends SpatialCursorType
 {
   /**
    * Get the value at the current cursor location and seek the cursor to the

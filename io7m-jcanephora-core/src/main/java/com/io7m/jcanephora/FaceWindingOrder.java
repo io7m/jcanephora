@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -22,6 +22,15 @@ package com.io7m.jcanephora;
 
 public enum FaceWindingOrder
 {
+  /**
+   * Front faces have a clockwise winding order; <code>GL_CW</code>
+   */
+
   FRONT_FACE_CLOCKWISE,
+
+  /**
+   * Front faces have a clockwise winding order; <code>GL_CCW</code>
+   */
+
   FRONT_FACE_COUNTER_CLOCKWISE
 }

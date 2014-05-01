@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,6 +16,9 @@
 
 package com.io7m.jcanephora;
 
+import com.io7m.jnull.Nullable;
+import com.io7m.jranges.RangeCheck;
+
 /**
  * A color attachment point on a framebuffer.
  */
@@ -26,9 +29,14 @@ public final class FramebufferColorAttachmentPoint implements
   private final int index;
 
   FramebufferColorAttachmentPoint(
-    final int index1)
+    final int in_index)
   {
-    this.index = index1;
+    this.index =
+      (int) RangeCheck.checkIncludedIn(
+        in_index,
+        "Attachment point",
+        RangeCheck.NATURAL_INTEGER,
+        "Valid attachment points");
   }
 
   @Override public int compareTo(
@@ -40,7 +48,7 @@ public final class FramebufferColorAttachmentPoint implements
   }
 
   @Override public boolean equals(
-    final Object obj)
+    final @Nullable Object obj)
   {
     if (this == obj) {
       return true;
@@ -60,9 +68,9 @@ public final class FramebufferColorAttachmentPoint implements
   }
 
   /**
-   * Retrieve the index of the attachment point. This value will be between 0
-   * and some implementation-defined exclusive upper limit (usually 4 or 8 in
-   * current implementations).
+   * @return The index of the attachment point. This value will be between 0
+   *         and some implementation-defined exclusive upper limit (usually 4
+   *         or 8 in current implementations).
    */
 
   public int getIndex()
@@ -84,6 +92,8 @@ public final class FramebufferColorAttachmentPoint implements
     builder.append("[FramebufferColorAttachmentPoint ");
     builder.append(this.index);
     builder.append("]");
-    return builder.toString();
+    final String r = builder.toString();
+    assert r != null;
+    return r;
   }
 }

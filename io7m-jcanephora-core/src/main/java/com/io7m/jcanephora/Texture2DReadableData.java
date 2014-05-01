@@ -47,8 +47,8 @@ public final class Texture2DReadableData
     final @Nonnull AreaInclusive area1)
     throws ConstraintError
   {
-    this.type = Constraints.constrainNotNull(type1, "Texture type");
-    this.area = Constraints.constrainNotNull(area1, "Area");
+    this.type = NullCheck.notNull(type1, "Texture type");
+    this.area = NullCheck.notNull(area1, "Area");
 
     final long width = this.area.getRangeX().getInterval();
     final long height = this.area.getRangeY().getInterval();

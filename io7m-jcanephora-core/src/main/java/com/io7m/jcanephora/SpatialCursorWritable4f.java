@@ -27,7 +27,7 @@ import com.io7m.jtensors.VectorReadable4F;
  * correct underlying format.
  */
 
-public interface SpatialCursorWritable4f extends SpatialCursor
+public interface SpatialCursorWritable4f extends SpatialCursorType
 {
   /**
    * Put the value <code>v</code> at the current cursor location and seek the

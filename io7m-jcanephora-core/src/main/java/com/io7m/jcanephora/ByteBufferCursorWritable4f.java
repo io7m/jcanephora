@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -18,24 +18,20 @@ package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
+import com.io7m.jranges.RangeInclusiveL;
 
 /**
  * Generic byte buffer cursor pointing to elements containing four floats.
  */
 
 final class ByteBufferCursorWritable4f extends BufferCursor implements
-  CursorWritable4f
+  CursorWritable4fType
 {
-  private final @Nonnull ByteBuffer target_data;
+  private final ByteBuffer target_data;
 
   ByteBufferCursorWritable4f(
-    final @Nonnull ByteBuffer target_data1,
-    final @Nonnull RangeInclusive range,
+    final ByteBuffer target_data1,
+    final RangeInclusiveL range,
     final long attribute_offset,
     final long element_size)
   {
@@ -43,20 +39,14 @@ final class ByteBufferCursorWritable4f extends BufferCursor implements
     this.target_data = target_data1;
   }
 
-  /**
-   * Put the values <code>x, y, z, w</code> at the current cursor location and
-   * seek the cursor to the next element iff there is one.
-   */
-
   @Override public void put4f(
     final float x,
     final float y,
     final float z,
     final float w)
-    throws ConstraintError
-  {
-    Constraints.constrainArbitrary(this.isValid(), "Cursor is within range");
 
+  {
+    this.checkValid();
     final int byte_current = (int) this.getByteOffset();
     this.target_data.putFloat(byte_current + 0, x);
     this.target_data.putFloat(byte_current + 4, y);

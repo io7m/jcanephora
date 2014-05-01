@@ -70,7 +70,7 @@ final class ByteBufferTextureCursorReadable_4_8_I extends AreaCursor implements
     final @Nonnull VectorM4I v)
     throws ConstraintError
   {
-    Constraints.constrainNotNull(v, "Vector");
+    NullCheck.notNull(v, "Vector");
     final int i = (int) this.getByteOffset();
     v.x = this.target_data.get(i);
     v.y = this.target_data.get(i + 1);

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -19,11 +19,8 @@ package com.io7m.jcanephora;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
+import com.io7m.jnull.NullCheck;
+import com.io7m.jranges.RangeInclusiveL;
 
 /**
  * An allocated region of data, to replace or update an index buffer.
@@ -31,80 +28,72 @@ import com.io7m.jaux.RangeInclusive;
 
 public final class IndexBufferWritableData
 {
-  private final @Nonnull IndexBufferUsable buffer;
-  private final @Nonnull RangeInclusive    range;
-  private final @Nonnull ByteBuffer        target_data;
-  private final long                       target_data_offset;
-  private final long                       target_data_size;
-  private final RangeInclusive             target_range;
+  private final IndexBufferUsableType buffer;
+  private final RangeInclusiveL       range;
+  private final ByteBuffer            target_data;
+  private final long                  target_data_offset;
+  private final long                  target_data_size;
+  private final RangeInclusiveL       target_range;
 
   /**
    * Construct a buffer of data that will be used to replace the entirety of
    * the data in <code>buffer</code> on the GPU.
    * 
-   * @param buffer1
+   * @param in_buffer
    *          The array buffer.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>buffer == null</code></li>
-   *           </ul>
    */
 
   public IndexBufferWritableData(
-    final @Nonnull IndexBuffer buffer1)
-    throws ConstraintError
+    final IndexBuffer in_buffer)
   {
-    this(buffer1, buffer1.getRange());
+    this(in_buffer, in_buffer.bufferGetRange());
   }
 
   /**
    * Construct a buffer of data that will be used to replace the range of
    * elements given by <code>range</code> in <code>buffer</code> on the GPU.
    * 
-   * @param buffer1
-   *          The array buffer.
-   * @param range1
+   * @param in_buffer
+   *          The index buffer.
+   * @param in_range
    *          The range of elements to replace.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>buffer == null</code></li>
-   *           <li><code>range == null</code></li>
-   *           <li>
-   *           <code>range.isIncludedIn(buffer.getRange()) == false</code></li>
-   *           </ul>
+   * @throws IllegalArgumentException
+   *           If the given range is not included in the buffer's range.
    */
 
   public IndexBufferWritableData(
-    final @Nonnull IndexBuffer buffer1,
-    final @Nonnull RangeInclusive range1)
-    throws ConstraintError
+    final IndexBuffer in_buffer,
+    final RangeInclusiveL in_range)
+    throws IllegalArgumentException
   {
-    this.buffer = Constraints.constrainNotNull(buffer1, "Array buffer");
-    this.range = Constraints.constrainNotNull(range1, "Range");
+    this.buffer = NullCheck.notNull(in_buffer, "Array buffer");
+    this.range = NullCheck.notNull(in_range, "Range");
 
-    Constraints.constrainArbitrary(
-      range1.isIncludedIn(buffer1.getRange()),
-      "Given range is in for the given buffer");
+    if (in_range.isIncludedIn(in_buffer.bufferGetRange())) {
+      throw new IllegalArgumentException(
+        "Given range is not included in the buffer's range");
+    }
 
-    this.target_range = new RangeInclusive(0, range1.getInterval() - 1);
+    this.target_range = new RangeInclusiveL(0, in_range.getInterval() - 1);
     this.target_data_size =
-      range1.getInterval() * buffer1.getElementSizeBytes();
+      in_range.getInterval() * in_buffer.bufferGetElementSizeBytes();
     this.target_data_offset =
-      range1.getLower() * buffer1.getElementSizeBytes();
-    this.target_data =
-      ByteBuffer.allocateDirect((int) this.target_data_size).order(
-        ByteOrder.nativeOrder());
+      in_range.getLower() * in_buffer.bufferGetElementSizeBytes();
+
+    final ByteBuffer b =
+      ByteBuffer.allocateDirect((int) this.target_data_size);
+    b.order(ByteOrder.nativeOrder());
+
+    this.target_data = b;
   }
 
   /**
-   * Retrieve a cursor that points to elements of the index buffer. The cursor
-   * interface allows constant time access to any element and also minimizes
-   * the number of checks performed for each access.
+   * @return A cursor that points to elements of the index buffer. The cursor
+   *         interface allows constant time access to any element and also
+   *         minimizes the number of checks performed for each access.
    */
 
-  public CursorWritableIndex getCursor()
+  public CursorWritableIndexType getCursor()
   {
     return new ByteBufferCursorWritableIndex(
       this.target_data,
@@ -113,25 +102,26 @@ public final class IndexBufferWritableData
   }
 
   /**
-   * Retrieve the index buffer to which this data belongs.
+   * @return The index buffer to which this data belongs.
    */
 
-  public @Nonnull IndexBufferUsable getIndexBuffer()
+  public IndexBufferUsableType getIndexBuffer()
   {
     return this.buffer;
   }
 
   /**
-   * Retrieve the data that will be used to update the array buffer.
+   * @return The data that will be used to update the array buffer.
    */
 
-  @Nonnull ByteBuffer getTargetData()
+  ByteBuffer getTargetData()
   {
     return this.target_data;
   }
 
   /**
-   * Return the offset in bytes of the area of the array buffer to be updated.
+   * @return The offset in bytes of the area of the array buffer to be
+   *         updated.
    */
 
   long getTargetDataOffset()
@@ -140,7 +130,7 @@ public final class IndexBufferWritableData
   }
 
   /**
-   * Return the size in bytes of the area of the array buffer to be updated.
+   * @return The size in bytes of the area of the array buffer to be updated.
    */
 
   long getTargetDataSize()

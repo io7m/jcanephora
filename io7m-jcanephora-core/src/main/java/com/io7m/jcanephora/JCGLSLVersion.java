@@ -196,9 +196,9 @@ import com.io7m.jaux.Constraints.ConstraintError;
     throws ConstraintError
   {
     return new JCGLSLVersion(
-      Constraints.constrainNotNull(number, "Number"),
-      Constraints.constrainNotNull(api, "API"),
-      Constraints.constrainNotNull(text, "Text"));
+      NullCheck.notNull(number, "Number"),
+      NullCheck.notNull(api, "API"),
+      NullCheck.notNull(text, "Text"));
   }
 
   private final @Nonnull JCGLApi             api;

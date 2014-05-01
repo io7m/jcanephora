@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,81 +16,75 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
+import com.io7m.jnull.NullCheck;
+import com.io7m.jranges.RangeCheck;
+import com.io7m.jranges.RangeInclusiveL;
 
 /**
  * An immutable reference to an allocated index buffer.
  */
 
-@Immutable public final class IndexBuffer extends JCGLResourceDeletable implements
-  Buffer,
-  IndexBufferUsable
+public final class IndexBuffer extends JCGLResourceDeletable implements
+  BufferType,
+  IndexBufferUsableType
 {
-  private final RangeInclusive   range;
+  private final RangeInclusiveL  range;
   private final JCGLUnsignedType type;
   private final int              value;
 
   IndexBuffer(
-    final int value1,
-    final @Nonnull RangeInclusive range1,
-    final JCGLUnsignedType type1)
-    throws ConstraintError
+    final int in_value,
+    final RangeInclusiveL in_range,
+    final JCGLUnsignedType in_type)
   {
     this.value =
-      Constraints.constrainRange(
-        value1,
-        0,
-        Integer.MAX_VALUE,
-        "buffer ID value");
-    this.range = range1;
-    this.type = Constraints.constrainNotNull(type1, "GL type");
+      (int) RangeCheck.checkIncludedIn(
+        in_value,
+        "Index buffer",
+        RangeCheck.NATURAL_INTEGER,
+        "Valid buffers");
+    this.range = NullCheck.notNull(in_range, "Range");
+    this.type = NullCheck.notNull(in_type, "GL type");
   }
 
-  @Override public long getElementSizeBytes()
+  @Override public long bufferGetElementSizeBytes()
   {
     return this.type.getSizeBytes();
   }
-
-  /**
-   * Retrieve the raw OpenGL 'location' of the buffer.
-   */
 
   @Override public int getGLName()
   {
     return this.value;
   }
 
-  @Override public @Nonnull RangeInclusive getRange()
+  @Override public RangeInclusiveL bufferGetRange()
   {
     return this.range;
   }
 
-  @Override public @Nonnull JCGLUnsignedType getType()
+  @Override public JCGLUnsignedType getType()
   {
     return this.type;
   }
 
   @Override public long resourceGetSizeBytes()
   {
-    return this.getElementSizeBytes() * this.range.getInterval();
+    return this.bufferGetElementSizeBytes() * this.range.getInterval();
   }
 
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("[ArrayBufferID ");
+    builder.append("[IndexBuffer ");
     builder.append(this.value);
     builder.append(" ");
     builder.append(this.range);
     builder.append(" ");
-    builder.append(this.getElementSizeBytes());
+    builder.append(this.bufferGetElementSizeBytes());
     builder.append("]");
 
-    return builder.toString();
+    final String r = builder.toString();
+    assert r != null;
+    return r;
   }
 }

@@ -24,7 +24,7 @@ package com.io7m.jcanephora;
  */
 
 public interface JCGLInterfaceCommon extends
-  JCGLArrayBuffers,
+  JCGLArrayBuffersType,
   JCGLBlendingCommon,
   JCGLColorBuffer,
   JCGLCull,
@@ -41,7 +41,7 @@ public interface JCGLInterfaceCommon extends
   JCGLTextureUnits,
   JCGLTextures2DStaticCommon,
   JCGLTexturesCubeStaticCommon,
-  JCGLViewport
+  JCGLViewportType
 {
   /*
    * All functions defined in the superinterfaces.

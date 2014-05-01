@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -18,12 +18,8 @@ package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
-import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jranges.RangeInclusiveL;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * Generic byte buffer cursor pointing to indices of a given OpenGL unsigned
@@ -31,25 +27,24 @@ import com.io7m.jaux.UnreachableCodeException;
  */
 
 final class ByteBufferCursorReadableIndex extends BufferCursor implements
-  CursorReadableIndex
+  CursorReadableIndexType
 {
-  private final @Nonnull ByteBuffer       target_data;
-  private final @Nonnull JCGLUnsignedType type;
+  private final ByteBuffer       target_data;
+  private final JCGLUnsignedType type;
 
   ByteBufferCursorReadableIndex(
-    final @Nonnull ByteBuffer target_data1,
-    final @Nonnull RangeInclusive range,
-    final @Nonnull JCGLUnsignedType type1)
+    final ByteBuffer in_data,
+    final RangeInclusiveL range,
+    final JCGLUnsignedType in_type)
   {
-    super(range, 0, type1.getSizeBytes());
-    this.target_data = target_data1;
-    this.type = type1;
+    super(range, 0, in_type.getSizeBytes());
+    this.target_data = in_data;
+    this.type = in_type;
   }
 
   @Override public int getIndex()
-    throws ConstraintError
   {
-    Constraints.constrainArbitrary(this.isValid(), "Cursor is within range");
+    this.checkValid();
 
     final int offset = (int) this.getByteOffset();
 

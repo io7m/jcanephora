@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -19,31 +19,38 @@ package com.io7m.jcanephora;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jnull.NullCheck;
+import com.io7m.jnull.Nullable;
 
 /**
  * An input stream representing a specific face of a cube map. The type
  * parameter <code>F</code> prevents the accidental mixing up of cube faces at
  * the type level.
+ * 
+ * @param <F>
+ *          A type representing a cube map face.
  */
 
-public class CubeMapFaceInputStream<F extends CubeMapFaceKind> extends
+public final class CubeMapFaceInputStream<F extends CubeMapFaceKind> extends
   InputStream
 {
-  private final @Nonnull InputStream stream;
+  private final InputStream stream;
+
+  /**
+   * Construct a new stream based on the given stream.
+   * 
+   * @param in_stream
+   *          The stream.
+   */
 
   public CubeMapFaceInputStream(
-    final @Nonnull InputStream stream1)
-    throws ConstraintError
+    final InputStream in_stream)
   {
-    this.stream = Constraints.constrainNotNull(stream1, "Input stream");
+    this.stream = NullCheck.notNull(in_stream, "Input stream");
   }
 
   @Override public boolean equals(
-    final Object obj)
+    final @Nullable Object obj)
   {
     if (this == obj) {
       return true;
@@ -58,7 +65,11 @@ public class CubeMapFaceInputStream<F extends CubeMapFaceKind> extends
     return this.stream.equals(other.stream);
   }
 
-  public @Nonnull InputStream getStream()
+  /**
+   * @return The actual stream
+   */
+
+  public InputStream getStream()
   {
     return this.stream;
   }
