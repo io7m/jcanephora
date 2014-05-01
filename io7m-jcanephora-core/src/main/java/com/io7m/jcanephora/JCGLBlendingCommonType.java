@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,16 +16,12 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
-
 /**
  * Simplified and type-safe interface to the common subset of blending
  * features supported by OpenGL ES2 and OpenGL 3.*.
  */
 
-public interface JCGLBlendingCommon
+public interface JCGLBlendingCommonType
 {
   /**
    * Disable blending.
@@ -40,7 +36,7 @@ public interface JCGLBlendingCommon
   /**
    * Enable blending with the given blending functions. The function is
    * equivalent to: <code>
-   * {@link JCGLBlendingCommon#blendingEnableSeparateWithEquationSeparateES2}(
+   * {@link JCGLBlendingCommonType#blendingEnableSeparateWithEquationSeparateES2}(
    *   source_factor,
    *   source_factor,
    *   destination_factor,
@@ -49,20 +45,23 @@ public interface JCGLBlendingCommon
    *   BlendEquation.BLEND_EQUATION_ADD);
    * </code>
    * 
+   * @param source_factor
+   *          The source factor.
+   * @param destination_factor
+   *          The destination factor.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void blendingEnable(
-    final  BlendFunction source_factor,
-    final  BlendFunction destination_factor)
-    throws ConstraintError,
-      JCGLRuntimeException;
+    final BlendFunction source_factor,
+    final BlendFunction destination_factor)
+    throws JCGLRuntimeException;
 
   /**
    * Enable blending with the given blending functions. The function is
    * equivalent to: <code>
-   * {@link JCGLBlendingCommon#blendingEnableSeparateWithEquationSeparateES2}(
+   * {@link JCGLBlendingCommonType#blendingEnableSeparateWithEquationSeparateES2}(
    *   source_rgb_factor,
    *   source_alpha_factor,
    *   destination_rgb_factor,
@@ -71,17 +70,28 @@ public interface JCGLBlendingCommon
    *   BlendEquation.BLEND_EQUATION_ADD);
    * </code>
    * 
+   * @param source_rgb_factor
+   *          The function used to blend the RGB components of incoming
+   *          (source) color values.
+   * @param source_alpha_factor
+   *          The function used to blend the alpha components of incoming
+   *          (source) color values.
+   * @param destination_rgb_factor
+   *          The function used to blend the RGB components of the existing
+   *          (destination) color values.
+   * @param destination_alpha_factor
+   *          The function used to blend the alpha components of the existing
+   *          (destination) color values.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void blendingEnableSeparate(
-    final  BlendFunction source_rgb_factor,
-    final  BlendFunction source_alpha_factor,
-    final  BlendFunction destination_rgb_factor,
-    final  BlendFunction destination_alpha_factor)
-    throws ConstraintError,
-      JCGLRuntimeException;
+    final BlendFunction source_rgb_factor,
+    final BlendFunction source_alpha_factor,
+    final BlendFunction destination_rgb_factor,
+    final BlendFunction destination_alpha_factor)
+    throws JCGLRuntimeException;
 
   /**
    * <p>
@@ -97,7 +107,7 @@ public interface JCGLBlendingCommon
    * <p>
    * The given blend functions are applied to the RGB and alpha elements of
    * the colors in question separately (as opposed to
-   * {@link JCGLBlendingCommon#blendingEnable}, which applies the given
+   * {@link JCGLBlendingCommonType#blendingEnable}, which applies the given
    * functions to the RGB and alpha components simultaneously).
    * </p>
    * <p>
@@ -124,29 +134,23 @@ public interface JCGLBlendingCommon
    * @param equation_alpha
    *          The equation used to blend the alpha components.
    * 
-   * @throws ConstraintError
-   *           Iff
-   *           <code>source_rgb_factor == null || source_alpha_factor == null ||
-   *               destination_rgb_factor == null || destination_alpha_factor == null ||
-   *               equation_rgb == null || equation_alpha == null</code>.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void blendingEnableSeparateWithEquationSeparateES2(
-    final  BlendFunction source_rgb_factor,
-    final  BlendFunction source_alpha_factor,
-    final  BlendFunction destination_rgb_factor,
-    final  BlendFunction destination_alpha_factor,
-    final  BlendEquationGLES2 equation_rgb,
-    final  BlendEquationGLES2 equation_alpha)
-    throws ConstraintError,
-      JCGLRuntimeException;
+    final BlendFunction source_rgb_factor,
+    final BlendFunction source_alpha_factor,
+    final BlendFunction destination_rgb_factor,
+    final BlendFunction destination_alpha_factor,
+    final BlendEquationGLES2 equation_rgb,
+    final BlendEquationGLES2 equation_alpha)
+    throws JCGLRuntimeException;
 
   /**
    * Enable blending with the given blending functions and equation. The
    * function is equivalent to: <code>
-   * {@link JCGLBlendingCommon#blendingEnableSeparateWithEquationSeparateES2}(
+   * {@link JCGLBlendingCommonType#blendingEnableSeparateWithEquationSeparateES2}(
    *   source_factor,
    *   source_factor,
    *   destination_factor,
@@ -155,21 +159,26 @@ public interface JCGLBlendingCommon
    *   equation);
    * </code>
    * 
+   * @param source_factor
+   *          The source factor.
+   * @param destination_factor
+   *          The destination factor.
+   * @param equation
+   *          The blend equation.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void blendingEnableWithEquationES2(
-    final  BlendFunction source_factor,
-    final  BlendFunction destination_factor,
-    final  BlendEquationGLES2 equation)
-    throws ConstraintError,
-      JCGLRuntimeException;
+    final BlendFunction source_factor,
+    final BlendFunction destination_factor,
+    final BlendEquationGLES2 equation)
+    throws JCGLRuntimeException;
 
   /**
    * Enable blending with the given blending functions and equation. The
    * function is equivalent to: <code>
-   * {@link JCGLBlendingCommon#blendingEnableSeparateWithEquationSeparateES2}(
+   * {@link JCGLBlendingCommonType#blendingEnableSeparateWithEquationSeparateES2}(
    *   source_factor,
    *   source_factor,
    *   destination_factor,
@@ -178,23 +187,32 @@ public interface JCGLBlendingCommon
    *   equation_alpha);
    * </code>
    * 
+   * @param source_factor
+   *          The source factor.
+   * @param destination_factor
+   *          The destination factor.
+   * @param equation_rgb
+   *          The blend equation for the RGB components.
+   * @param equation_alpha
+   *          The blend equation for the alpha components.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void blendingEnableWithEquationSeparateES2(
-    final  BlendFunction source_factor,
-    final  BlendFunction destination_factor,
-    final  BlendEquationGLES2 equation_rgb,
-    final  BlendEquationGLES2 equation_alpha)
-    throws ConstraintError,
-      JCGLRuntimeException;
+    final BlendFunction source_factor,
+    final BlendFunction destination_factor,
+    final BlendEquationGLES2 equation_rgb,
+    final BlendEquationGLES2 equation_alpha)
+    throws JCGLRuntimeException;
 
   /**
-   * Return <code>true</code> iff blending is enabled.
+   * @return <code>true</code> iff blending is enabled.
+   * 
+   * @throws JCGLRuntimeException
+   *           Iff an OpenGL error occurs.
    */
 
   boolean blendingIsEnabled()
-    throws ConstraintError,
-      JCGLRuntimeException;
+    throws JCGLRuntimeException;
 }
