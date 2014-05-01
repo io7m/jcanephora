@@ -14,7 +14,7 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.jogl;
 
 enum JCGLDebugging
 {

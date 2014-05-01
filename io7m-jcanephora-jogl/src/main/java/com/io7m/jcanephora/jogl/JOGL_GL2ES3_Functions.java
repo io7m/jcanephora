@@ -14,7 +14,7 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.jogl;
 
 import java.nio.IntBuffer;
 import java.util.List;
@@ -28,6 +28,14 @@ import javax.media.opengl.GL2ES3;
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
+import com.io7m.jcanephora.AreaInclusive;
+import com.io7m.jcanephora.FramebufferBlitBuffer;
+import com.io7m.jcanephora.FramebufferBlitFilter;
+import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
+import com.io7m.jcanephora.FramebufferDrawBuffer;
+import com.io7m.jcanephora.FramebufferReference;
+import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 import com.jogamp.common.nio.Buffers;

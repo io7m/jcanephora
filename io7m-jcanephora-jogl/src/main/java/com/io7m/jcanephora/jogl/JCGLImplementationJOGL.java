@@ -14,7 +14,7 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.jogl;
 
 import java.io.PrintStream;
 
@@ -25,6 +25,18 @@ import javax.media.opengl.GLContext;
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLExtensionNames;
+import com.io7m.jcanephora.JCGLImplementation;
+import com.io7m.jcanephora.JCGLImplementationVisitor;
+import com.io7m.jcanephora.JCGLInterfaceCommon;
+import com.io7m.jcanephora.JCGLInterfaceGL2;
+import com.io7m.jcanephora.JCGLInterfaceGL3;
+import com.io7m.jcanephora.JCGLInterfaceGLES2;
+import com.io7m.jcanephora.JCGLInterfaceGLES3;
+import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLSoftRestrictions;
+import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jlog.Log;
 
 /**

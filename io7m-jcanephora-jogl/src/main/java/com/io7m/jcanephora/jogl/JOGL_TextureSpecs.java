@@ -14,7 +14,7 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.jogl;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
@@ -24,6 +24,8 @@ import javax.media.opengl.GL2ES3;
 import javax.media.opengl.GL2GL3;
 
 import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jcanephora.PixelType;
+import com.io7m.jcanephora.TextureType;
 
 /**
  * Getting the correct combinations of "format", "type", and "internalformat"

@@ -14,13 +14,25 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.jogl;
 
 import javax.annotation.Nonnull;
 import javax.media.opengl.GL;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
+import com.io7m.jcanephora.JCGLExtensionDepthCubeTexture;
+import com.io7m.jcanephora.JCGLExtensionNames;
+import com.io7m.jcanephora.JCGLNamedExtensions;
+import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLStateCache;
+import com.io7m.jcanephora.TextureCubeStatic;
+import com.io7m.jcanephora.TextureFilterMagnification;
+import com.io7m.jcanephora.TextureFilterMinification;
+import com.io7m.jcanephora.TextureType;
+import com.io7m.jcanephora.TextureWrapR;
+import com.io7m.jcanephora.TextureWrapS;
+import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jlog.Log;
 
 /**

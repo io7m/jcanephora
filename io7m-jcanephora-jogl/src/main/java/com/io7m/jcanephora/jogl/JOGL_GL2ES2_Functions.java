@@ -14,7 +14,7 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.jogl;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -27,6 +27,21 @@ import javax.media.opengl.GL2ES2;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.FaceSelection;
+import com.io7m.jcanephora.FragmentShader;
+import com.io7m.jcanephora.JCGLCompileException;
+import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLScalarType;
+import com.io7m.jcanephora.JCGLStateCache;
+import com.io7m.jcanephora.JCGLType;
+import com.io7m.jcanephora.ProgramAttribute;
+import com.io7m.jcanephora.ProgramReference;
+import com.io7m.jcanephora.ProgramUniform;
+import com.io7m.jcanephora.ShaderUtilities;
+import com.io7m.jcanephora.StencilFunction;
+import com.io7m.jcanephora.StencilOperation;
+import com.io7m.jcanephora.TextureUnit;
+import com.io7m.jcanephora.VertexShader;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;

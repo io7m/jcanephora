@@ -14,7 +14,7 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.jogl;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -31,6 +31,45 @@ import javax.media.opengl.GLDrawable;
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
+import com.io7m.jcanephora.AreaInclusive;
+import com.io7m.jcanephora.ArrayBuffer;
+import com.io7m.jcanephora.ArrayBufferUpdateMapped;
+import com.io7m.jcanephora.ArrayBufferUpdateUnmappedType;
+import com.io7m.jcanephora.BlendEquationGL3;
+import com.io7m.jcanephora.BlendEquationGLES2;
+import com.io7m.jcanephora.BlendFunction;
+import com.io7m.jcanephora.CubeMapFaceLH;
+import com.io7m.jcanephora.DepthFunction;
+import com.io7m.jcanephora.FaceSelection;
+import com.io7m.jcanephora.FaceWindingOrder;
+import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
+import com.io7m.jcanephora.FramebufferDrawBuffer;
+import com.io7m.jcanephora.FramebufferReference;
+import com.io7m.jcanephora.FramebufferStatus;
+import com.io7m.jcanephora.IndexBuffer;
+import com.io7m.jcanephora.IndexBufferReadableMap;
+import com.io7m.jcanephora.IndexBufferWritableData;
+import com.io7m.jcanephora.IndexBufferWritableMap;
+import com.io7m.jcanephora.JCGLApi;
+import com.io7m.jcanephora.JCGLNamedExtensions;
+import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLSLVersion;
+import com.io7m.jcanephora.JCGLSLVersionNumber;
+import com.io7m.jcanephora.JCGLSoftRestrictions;
+import com.io7m.jcanephora.JCGLStateCache;
+import com.io7m.jcanephora.JCGLUnsignedType;
+import com.io7m.jcanephora.JCGLVersion;
+import com.io7m.jcanephora.JCGLVersionNumber;
+import com.io7m.jcanephora.Primitives;
+import com.io7m.jcanephora.Renderbuffer;
+import com.io7m.jcanephora.RenderbufferType;
+import com.io7m.jcanephora.Texture2DStatic;
+import com.io7m.jcanephora.Texture2DStaticUsable;
+import com.io7m.jcanephora.TextureCubeStatic;
+import com.io7m.jcanephora.TextureCubeStaticUsable;
+import com.io7m.jcanephora.TextureTypeMeta;
+import com.io7m.jcanephora.TextureUnit;
+import com.io7m.jcanephora.UsageHint;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.VectorReadable3F;
