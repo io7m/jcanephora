@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,15 +16,11 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
-
 /**
  * Simplified interface to the scissor test.
  */
 
-public interface JCGLScissor
+public interface JCGLScissorType
 {
   /**
    * Disable the scissor test in the OpenGL pipeline. The scissor test is
@@ -44,22 +40,18 @@ public interface JCGLScissor
    * 
    * @param area
    *          The inclusive area
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>area == null</code></li>
-   *           </ul>
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurred.
    */
 
   void scissorEnable(
-    final  AreaInclusive area)
-    throws ConstraintError,
-      JCGLRuntimeException;
+    final AreaInclusive area)
+    throws JCGLRuntimeException;
 
   /**
-   * Return <code>true</code> iff scissor testing is enabled.
+   * @return <code>true</code> iff scissor testing is enabled.
+   * @throws JCGLRuntimeException
+   *           Iff an OpenGL error occurred.
    */
 
   boolean scissorIsEnabled()
