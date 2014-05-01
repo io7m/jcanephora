@@ -23,35 +23,35 @@ package com.io7m.jcanephora;
 public enum BlendEquationGL3
 {
   /**
-   * Add the source and destination colours; <code>s + d</code>;
+   * Add the source and destination colors; <code>s + d</code>;
    * <code>GL_FUNC_ADD</code>
    */
 
   BLEND_EQUATION_ADD,
 
   /**
-   * Take the maximum of the source and destination colours;
+   * Take the maximum of the source and destination colors;
    * <code>max (s, d)</code>; <code>GL_MAX</code>
    */
 
   BLEND_EQUATION_MAXIMUM,
 
   /**
-   * Take the minimum of the source and destination colours;
+   * Take the minimum of the source and destination colors;
    * <code>min (s, d)</code>; <code>GL_MIN</code>
    */
 
   BLEND_EQUATION_MINIMUM,
 
   /**
-   * Subtract the source from the destination colours; <code>d - s</code>;
+   * Subtract the source from the destination colors; <code>d - s</code>;
    * <code>GL_FUNC_REVERSE_SUBTRACT</code>
    */
 
   BLEND_EQUATION_REVERSE_SUBTRACT,
 
   /**
-   * Subtract the destination from the source colours; <code>s - d</code>;
+   * Subtract the destination from the source colors; <code>s - d</code>;
    * <code>GL_FUNC_SUBTRACT</code>
    */
 

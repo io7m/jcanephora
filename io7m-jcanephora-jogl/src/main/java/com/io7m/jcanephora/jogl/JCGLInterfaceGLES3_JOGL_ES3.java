@@ -994,7 +994,7 @@ import com.io7m.jtensors.VectorReadable4I;
     JOGL_GL2ES3_Functions.framebufferReadUnbind(this.contextGetGL3());
   }
 
-  @Override public boolean hasColourBufferFloat()
+  @Override public boolean hasColorBufferFloat()
   {
     try {
       return this.extensions
@@ -1004,7 +1004,7 @@ import com.io7m.jtensors.VectorReadable4I;
     }
   }
 
-  @Override public boolean hasColourBufferHalfFloat()
+  @Override public boolean hasColorBufferHalfFloat()
   {
     try {
       return this.extensions

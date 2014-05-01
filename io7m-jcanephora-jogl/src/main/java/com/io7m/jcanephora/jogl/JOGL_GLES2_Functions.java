@@ -290,7 +290,7 @@ final class JOGL_GLES2_Functions
     Constraints.constrainArbitrary(
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
-    Constraints.constrainArbitrary(TextureTypeMeta.isColourRenderable2D(
+    Constraints.constrainArbitrary(TextureTypeMeta.isColorRenderable2D(
       texture.getType(),
       version,
       extensions), "Texture is color renderable");
@@ -340,7 +340,7 @@ final class JOGL_GLES2_Functions
     Constraints.constrainArbitrary(
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
-    Constraints.constrainArbitrary(TextureTypeMeta.isColourRenderable2D(
+    Constraints.constrainArbitrary(TextureTypeMeta.isColorRenderable2D(
       texture.getType(),
       version,
       extensions), "Texture is color renderable");
@@ -385,7 +385,7 @@ final class JOGL_GLES2_Functions
     Constraints.constrainArbitrary(
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
-    Constraints.constrainArbitrary(TextureTypeMeta.isColourRenderable2D(
+    Constraints.constrainArbitrary(TextureTypeMeta.isColorRenderable2D(
       texture.getType(),
       version,
       extensions), "Texture is color renderable");
@@ -439,7 +439,7 @@ final class JOGL_GLES2_Functions
     Constraints.constrainArbitrary(
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
-    Constraints.constrainArbitrary(TextureTypeMeta.isColourRenderable2D(
+    Constraints.constrainArbitrary(TextureTypeMeta.isColorRenderable2D(
       texture.getType(),
       version,
       extensions), "Texture is color renderable");

@@ -74,7 +74,7 @@ public interface JCGLFramebuffersGL3 extends
    * point <code>point</code>.
    * </p>
    * 
-   * @see TextureTypeMeta#isColourRenderable2D(TextureType, JCGLVersion,
+   * @see TextureTypeMeta#isColorRenderable2D(TextureType, JCGLVersion,
    *      JCGLNamedExtensions)
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -108,7 +108,7 @@ public interface JCGLFramebuffersGL3 extends
    * point <code>point</code>.
    * </p>
    * 
-   * @see TextureTypeMeta#isColourRenderable2D(TextureType, JCGLVersion,
+   * @see TextureTypeMeta#isColorRenderable2D(TextureType, JCGLVersion,
    *      JCGLNamedExtensions)
    * @throws ConstraintError
    *           Iff any of the following hold:
