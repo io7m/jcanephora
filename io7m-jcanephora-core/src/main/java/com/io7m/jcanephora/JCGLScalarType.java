@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,9 +16,7 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * Type-safe interface to scalar types.
@@ -26,16 +24,50 @@ import com.io7m.jaux.UnreachableCodeException;
 
 public enum JCGLScalarType
 {
+  /**
+   * A signed 8-bit integer.
+   */
+
   TYPE_BYTE,
+
+  /**
+   * A 32-bit floating-point value.
+   */
+
   TYPE_FLOAT,
+
+  /**
+   * A signed 32-bit integer.
+   */
+
   TYPE_INT,
+
+  /**
+   * A signed 16-bit integer.
+   */
+
   TYPE_SHORT,
+
+  /**
+   * An unsigned 8-bit integer.
+   */
+
   TYPE_UNSIGNED_BYTE,
+
+  /**
+   * An unsigned 32-bit integer.
+   */
+
   TYPE_UNSIGNED_INT,
+
+  /**
+   * An unsigned 16-bit integer.
+   */
+
   TYPE_UNSIGNED_SHORT;
 
   /**
-   * Return the size in bytes of this type.
+   * @return The size in bytes of values of this type.
    */
 
   public int getSizeBytes()
@@ -61,12 +93,12 @@ public enum JCGLScalarType
   }
 
   /**
-   * Return <code>true</code> iff the type described by <code>elements</code>
-   * elements of this type are convertible to the GLSL type <code>type</code>.
-   * As an example, <code>4</code> elements of type <code>float</code> are
-   * convertible to the GLSL type <code>vec4</code>, or
-   * <code>TYPE_FLOAT_VECTOR_4</code>. Most combinations are not convertible
-   * to any GLSL type.
+   * @return <code>true</code> iff the type described by <code>elements</code>
+   *         elements of this type are convertible to the GLSL type
+   *         <code>type</code>. As an example, <code>4</code> elements of type
+   *         <code>float</code> are convertible to the GLSL type
+   *         <code>vec4</code>, or <code>TYPE_FLOAT_VECTOR_4</code>. Most
+   *         combinations are not convertible to any GLSL type.
    * 
    * @param elements
    *          The number of elements.
@@ -76,7 +108,7 @@ public enum JCGLScalarType
 
   public boolean shaderTypeConvertible(
     final int elements,
-    final  JCGLType type)
+    final JCGLType type)
   {
     switch (this) {
       case TYPE_FLOAT:
