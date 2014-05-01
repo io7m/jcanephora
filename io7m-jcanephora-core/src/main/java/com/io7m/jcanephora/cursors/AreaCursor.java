@@ -19,6 +19,7 @@ package com.io7m.jcanephora.cursors;
 import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.SpatialCursorType;
 import com.io7m.jequality.annotations.EqualityStructural;
+import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheckException;
 import com.io7m.jranges.RangeInclusiveL;
@@ -55,10 +56,11 @@ import com.io7m.jranges.RangeInclusiveL;
     final AreaInclusive in_area_inner,
     final long in_element_bytes)
   {
+    NullCheck.notNull(in_area_outer, "Area outer");
+    NullCheck.notNull(in_area_inner, "Area inner");
+
     /**
-     * These are not constraint errors because this class is not visible
-     * outside of the jcanephora package: it is the responsibility of subtypes
-     * to respect these preconditions.
+     * It is the responsibility of subtypes to respect these preconditions.
      */
 
     if (in_area_inner.isIncludedIn(in_area_outer) == false) {

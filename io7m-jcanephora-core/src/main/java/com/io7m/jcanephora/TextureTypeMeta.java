@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -18,24 +18,20 @@ package com.io7m.jcanephora;
 
 import java.util.EnumSet;
 
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
-
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * Information about texture types.
  */
 
-@Immutable public final class TextureTypeMeta
+public final class TextureTypeMeta
 {
   /**
-   * Retrieve the set of 2D texture types guaranteed to be available on OpenGL
-   * 2.1 contexts.
+   * @return The set of 2D texture types guaranteed to be available on OpenGL
+   *         2.1 contexts.
    */
 
-  public static  EnumSet<TextureType> getTextures2DRequiredByGL21()
+  public static EnumSet<TextureType> getTextures2DRequiredByGL21()
   {
     final EnumSet<TextureType> s = EnumSet.noneOf(TextureType.class);
     s.add(TextureType.TEXTURE_TYPE_RGBA_8_4BPP);
@@ -44,11 +40,11 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   /**
-   * Retrieve the set of 2D texture types guaranteed to be available on OpenGL
-   * 3.* contexts.
+   * @return The set of 2D texture types guaranteed to be available on OpenGL
+   *         3.* contexts.
    */
 
-  public static  EnumSet<TextureType> getTextures2DRequiredByGL3()
+  public static EnumSet<TextureType> getTextures2DRequiredByGL3()
   {
     final EnumSet<TextureType> s = EnumSet.noneOf(TextureType.class);
 
@@ -130,11 +126,11 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   /**
-   * Retrieve the set of 2D texture types required by the common subset of GL3
-   * and ES3.
+   * @return The set of 2D texture types required by the common subset of GL3
+   *         and ES3.
    */
 
-  public static  EnumSet<TextureType> getTextures2DRequiredByGL3ES3()
+  public static EnumSet<TextureType> getTextures2DRequiredByGL3ES3()
   {
     final EnumSet<TextureType> gl3 =
       TextureTypeMeta.getTextures2DRequiredByGL3();
@@ -154,11 +150,11 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   /**
-   * Retrieve the set of 2D texture types guaranteed to be available on OpenGL
-   * ES2 contexts.
+   * @return The set of 2D texture types guaranteed to be available on OpenGL
+   *         ES2 contexts.
    */
 
-  public static  EnumSet<TextureType> getTextures2DRequiredByGLES2()
+  public static EnumSet<TextureType> getTextures2DRequiredByGLES2()
   {
     final EnumSet<TextureType> s = EnumSet.noneOf(TextureType.class);
 
@@ -174,11 +170,11 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   /**
-   * Retrieve the set of 2D texture types guaranteed to be available on OpenGL
-   * ES 3 contexts.
+   * @return The set of 2D texture types guaranteed to be available on OpenGL
+   *         ES 3 contexts.
    */
 
-  public static  EnumSet<TextureType> getTextures2DRequiredByGLES3()
+  public static EnumSet<TextureType> getTextures2DRequiredByGLES3()
   {
     final EnumSet<TextureType> s = EnumSet.noneOf(TextureType.class);
 
@@ -262,33 +258,31 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   /**
-   * Retrieve the set of cube texture types guaranteed to be available on
-   * OpenGL 2.1 contexts.
+   * @return The set of cube texture types guaranteed to be available on
+   *         OpenGL 2.1 contexts.
    */
 
-  public static  EnumSet<TextureType> getTexturesCubeRequiredByGL21()
+  public static EnumSet<TextureType> getTexturesCubeRequiredByGL21()
   {
     return TextureTypeMeta.getTextures2DRequiredByGL21();
   }
 
   /**
-   * Retrieve the set of cube texture types guaranteed to be available on
-   * OpenGL 3.* contexts.
+   * @return The set of cube texture types guaranteed to be available on
+   *         OpenGL 3.* contexts.
    */
 
-  public static  EnumSet<TextureType> getTexturesCubeRequiredByGL3()
+  public static EnumSet<TextureType> getTexturesCubeRequiredByGL3()
   {
     return TextureTypeMeta.getTextures2DRequiredByGL3();
   }
 
   /**
-   * Retrieve the set of cube texture types required by the common subset of
-   * GL3 and ES3.
+   * @return The set of cube texture types required by the common subset of
+   *         GL3 and ES3.
    */
 
-  public static 
-    EnumSet<TextureType>
-    getTexturesCubeRequiredByGL3ES3()
+  public static EnumSet<TextureType> getTexturesCubeRequiredByGL3ES3()
   {
     final EnumSet<TextureType> gl3 =
       TextureTypeMeta.getTexturesCubeRequiredByGL3();
@@ -308,34 +302,30 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   /**
-   * Retrieve the set of cube texture types guaranteed to be available on
-   * OpenGL ES 2 contexts.
+   * @return The set of cube texture types guaranteed to be available on
+   *         OpenGL ES 2 contexts.
    */
 
-  public static 
-    EnumSet<TextureType>
-    getTexturesCubeRequiredByGLES2()
+  public static EnumSet<TextureType> getTexturesCubeRequiredByGLES2()
   {
     return TextureTypeMeta.getTextures2DRequiredByGLES2();
   }
 
   /**
-   * Retrieve the set of cube texture types guaranteed to be available on
-   * OpenGL ES 3 contexts.
+   * @return The set of cube texture types guaranteed to be available on
+   *         OpenGL ES 3 contexts.
    */
 
-  public static 
-    EnumSet<TextureType>
-    getTexturesCubeRequiredByGLES3()
+  public static EnumSet<TextureType> getTexturesCubeRequiredByGLES3()
   {
     return TextureTypeMeta.getTextures2DRequiredByGLES3();
   }
 
   /**
-   * Retrieve all texture types that have <code>i</code> components.
+   * @return All texture types that have <code>i</code> components.
    */
 
-  public static  EnumSet<TextureType> getTexturesWithComponents(
+  public static EnumSet<TextureType> getTexturesWithComponents(
     final int i)
   {
     final EnumSet<TextureType> s = EnumSet.noneOf(TextureType.class);
@@ -356,9 +346,9 @@ import com.io7m.jaux.UnreachableCodeException;
    */
 
   public static boolean isColourRenderable2D(
-    final  TextureType type,
-    final  JCGLVersion version,
-    final  JCGLNamedExtensions extensions)
+    final TextureType type,
+    final JCGLVersion version,
+    final JCGLNamedExtensions extensions)
     throws ConstraintError
   {
     switch (version.getAPI()) {
@@ -375,8 +365,8 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   private static boolean isColourRenderable2D_ES2(
-    final  TextureType type,
-    final  JCGLNamedExtensions extensions)
+    final TextureType type,
+    final JCGLNamedExtensions extensions)
   {
     switch (type) {
       case TEXTURE_TYPE_RGB_8_3BPP:
@@ -443,8 +433,8 @@ import com.io7m.jaux.UnreachableCodeException;
    */
 
   private static boolean isColourRenderable2D_ES3(
-    final  TextureType type,
-    final  JCGLNamedExtensions extensions)
+    final TextureType type,
+    final JCGLNamedExtensions extensions)
     throws ConstraintError
   {
     switch (type) {
@@ -495,7 +485,8 @@ import com.io7m.jaux.UnreachableCodeException;
       case TEXTURE_TYPE_R_16F_2BPP:
       case TEXTURE_TYPE_R_32F_4BPP:
       {
-        return extensions.extensionIsVisible(JCGLExtensionNames.GL_EXT_COLOR_BUFFER_FLOAT);
+        return extensions
+          .extensionIsVisible(JCGLExtensionNames.GL_EXT_COLOR_BUFFER_FLOAT);
       }
 
       case TEXTURE_TYPE_RGBA_16_8BPP:
@@ -527,8 +518,8 @@ import com.io7m.jaux.UnreachableCodeException;
    */
 
   private static boolean isColourRenderable2D_GL3(
-    final  TextureType type,
-    final  JCGLNamedExtensions extensions)
+    final TextureType type,
+    final JCGLNamedExtensions extensions)
   {
     switch (type) {
       case TEXTURE_TYPE_RGBA_32I_16BPP:
@@ -606,8 +597,8 @@ import com.io7m.jaux.UnreachableCodeException;
    */
 
   public static boolean isDepthRenderable2D(
-    final  TextureType type,
-    final  JCGLNamedExtensions extensions)
+    final TextureType type,
+    final JCGLNamedExtensions extensions)
   {
     switch (type) {
       case TEXTURE_TYPE_DEPTH_16_2BPP:
@@ -671,7 +662,7 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   public static boolean isFloatingPoint(
-    final  TextureType type)
+    final TextureType type)
   {
     switch (type) {
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
