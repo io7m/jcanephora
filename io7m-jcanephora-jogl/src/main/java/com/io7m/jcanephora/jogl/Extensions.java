@@ -21,12 +21,12 @@ import javax.media.opengl.GLContext;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.JCGLNamedExtensions;
+import com.io7m.jcanephora.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.JCGLSoftRestrictionsType;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 
-final class Extensions implements JCGLNamedExtensions
+final class Extensions implements JCGLNamedExtensionsType
 {
   private final @Nonnull StringBuilder        message;
   private final @Nonnull GLContext            context;

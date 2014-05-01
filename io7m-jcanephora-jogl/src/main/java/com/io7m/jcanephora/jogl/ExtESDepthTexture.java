@@ -23,7 +23,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jcanephora.JCGLExtensionESDepthTexture;
 import com.io7m.jcanephora.JCGLExtensionNames;
-import com.io7m.jcanephora.JCGLNamedExtensions;
+import com.io7m.jcanephora.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.Texture2DStatic;
@@ -46,7 +46,7 @@ class ExtESDepthTexture<G extends GL> implements JCGLExtensionESDepthTexture
     create(
       final @Nonnull G g,
       final @Nonnull JCGLStateCache state,
-      final @Nonnull JCGLNamedExtensions extensions,
+      final @Nonnull JCGLNamedExtensionsType extensions,
       final @Nonnull Log log)
       throws ConstraintError
   {

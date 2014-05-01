@@ -8,7 +8,7 @@ import com.io7m.jaux.functional.Option;
 import com.io7m.jcanephora.FramebufferReference;
 import com.io7m.jcanephora.JCGLExtensionNames;
 import com.io7m.jcanephora.JCGLExtensionPackedDepthStencil;
-import com.io7m.jcanephora.JCGLNamedExtensions;
+import com.io7m.jcanephora.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.JCGLVersion;
@@ -29,7 +29,7 @@ class ExtPackedDepthStencil<G extends GL> implements
     create(
       final @Nonnull G g,
       final @Nonnull JCGLStateCache state,
-      final @Nonnull JCGLNamedExtensions extensions,
+      final @Nonnull JCGLNamedExtensionsType extensions,
       final @Nonnull JCGLVersion version,
       final @Nonnull Log log)
       throws ConstraintError

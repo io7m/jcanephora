@@ -57,7 +57,7 @@ import com.io7m.jcanephora.JCGLExtensionDepthCubeTexture;
 import com.io7m.jcanephora.JCGLExtensionESDepthTexture;
 import com.io7m.jcanephora.JCGLExtensionPackedDepthStencil;
 import com.io7m.jcanephora.JCGLInterfaceGLES2;
-import com.io7m.jcanephora.JCGLNamedExtensions;
+import com.io7m.jcanephora.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLSLVersion;
 import com.io7m.jcanephora.JCGLSoftRestrictionsType;
@@ -131,7 +131,7 @@ import com.io7m.jtensors.VectorReadable4I;
   private final @Nonnull JCGLSLVersion                           sl_version;
   private final @Nonnull JCGLStateCache                          state;
   private final @Nonnull JCGLVersion                             version;
-  private final @Nonnull JCGLNamedExtensions                     extensions;
+  private final @Nonnull JCGLNamedExtensionsType                     extensions;
   private final @Nonnull JCGLSoftRestrictionsType                    restrictions;
 
   JCGLInterfaceGLES2_JOGL_ES2(
