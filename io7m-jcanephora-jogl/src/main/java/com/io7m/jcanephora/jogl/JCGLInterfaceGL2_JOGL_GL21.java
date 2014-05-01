@@ -60,7 +60,7 @@ import com.io7m.jcanephora.JCGLCompileException;
 import com.io7m.jcanephora.JCGLError;
 import com.io7m.jcanephora.JCGLExtensionDepthTexture;
 import com.io7m.jcanephora.JCGLInterfaceGL2;
-import com.io7m.jcanephora.JCGLNamedExtensions;
+import com.io7m.jcanephora.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLSLVersion;
 import com.io7m.jcanephora.JCGLSoftRestrictionsType;
@@ -132,7 +132,7 @@ import com.io7m.jtensors.VectorReadable4I;
 {
   private final @Nonnull GL2                               cached_gl2;
   private final @Nonnull Option<JCGLExtensionDepthTexture> ext_depth_texture;
-  private final @Nonnull JCGLNamedExtensions               extensions;
+  private final @Nonnull JCGLNamedExtensionsType               extensions;
   private final @Nonnull GLContext                         gl_context;
   private final @Nonnull Log                               log;
   private final JCGLSoftRestrictionsType                       restrictions;

@@ -50,7 +50,7 @@ import com.io7m.jcanephora.IndexBufferReadableMap;
 import com.io7m.jcanephora.IndexBufferWritableData;
 import com.io7m.jcanephora.IndexBufferWritableMap;
 import com.io7m.jcanephora.JCGLApi;
-import com.io7m.jcanephora.JCGLNamedExtensions;
+import com.io7m.jcanephora.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLSLVersion;
 import com.io7m.jcanephora.JCGLSLVersionNumber;
@@ -1095,7 +1095,7 @@ final class JOGL_GL_Functions
     final @Nonnull JCGLVersion version,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull Texture2DStaticUsable texture,
-    final @Nonnull JCGLNamedExtensions extensions)
+    final @Nonnull JCGLNamedExtensionsType extensions)
     throws JCGLRuntimeException,
       ConstraintError
   {
@@ -1143,7 +1143,7 @@ final class JOGL_GL_Functions
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
     final @Nonnull Texture2DStaticUsable texture,
-    final @Nonnull JCGLNamedExtensions extensions)
+    final @Nonnull JCGLNamedExtensionsType extensions)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -1194,7 +1194,7 @@ final class JOGL_GL_Functions
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull TextureCubeStaticUsable texture,
     final @Nonnull CubeMapFaceLH face,
-    final @Nonnull JCGLNamedExtensions extensions)
+    final @Nonnull JCGLNamedExtensionsType extensions)
     throws JCGLRuntimeException,
       ConstraintError
   {
@@ -1246,7 +1246,7 @@ final class JOGL_GL_Functions
     final @Nonnull FramebufferColorAttachmentPoint point,
     final @Nonnull TextureCubeStaticUsable texture,
     final @Nonnull CubeMapFaceLH face,
-    final @Nonnull JCGLNamedExtensions extensions)
+    final @Nonnull JCGLNamedExtensionsType extensions)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -1404,7 +1404,7 @@ final class JOGL_GL_Functions
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull Texture2DStaticUsable texture,
-    final @Nonnull JCGLNamedExtensions extensions)
+    final @Nonnull JCGLNamedExtensionsType extensions)
     throws JCGLRuntimeException,
       ConstraintError
   {

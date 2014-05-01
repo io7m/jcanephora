@@ -355,7 +355,7 @@ public final class TextureTypeMeta
   public static boolean isColorRenderable2D(
     final TextureType type,
     final JCGLVersion version,
-    final JCGLNamedExtensions extensions)
+    final JCGLNamedExtensionsType extensions)
   {
     switch (version.getAPI()) {
       case JCGL_ES:
@@ -372,7 +372,7 @@ public final class TextureTypeMeta
 
   private static boolean isColorRenderable2D_ES2(
     final TextureType type,
-    final JCGLNamedExtensions extensions)
+    final JCGLNamedExtensionsType extensions)
   {
     switch (type) {
       case TEXTURE_TYPE_RGB_8_3BPP:
@@ -440,7 +440,7 @@ public final class TextureTypeMeta
 
   private static boolean isColorRenderable2D_ES3(
     final TextureType type,
-    final JCGLNamedExtensions extensions)
+    final JCGLNamedExtensionsType extensions)
   {
     switch (type) {
       case TEXTURE_TYPE_DEPTH_16_2BPP:
@@ -524,7 +524,7 @@ public final class TextureTypeMeta
 
   private static boolean isColorRenderable2D_GL3(
     final TextureType type,
-    final JCGLNamedExtensions extensions)
+    final JCGLNamedExtensionsType extensions)
   {
     switch (type) {
       case TEXTURE_TYPE_RGBA_32I_16BPP:
@@ -603,7 +603,7 @@ public final class TextureTypeMeta
 
   public static boolean isDepthRenderable2D(
     final TextureType type,
-    final JCGLNamedExtensions extensions)
+    final JCGLNamedExtensionsType extensions)
   {
     switch (type) {
       case TEXTURE_TYPE_DEPTH_16_2BPP:

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,34 +16,31 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
+/**
+ * Extension queries.
+ */
 
-import com.io7m.jaux.Constraints.ConstraintError;
-
-public interface JCGLNamedExtensions
+public interface JCGLNamedExtensionsType
 {
   /**
-   * Return true if the extension <code>name</code> is supported by the
-   * implementation.
+   * @return <code>true</code> if the extension <code>name</code> is supported
+   *         by the implementation.
    * 
-   * @throws ConstraintError
-   *           Iff <code>name == null</code>.
+   * @param name
+   *          The extension name.
    */
 
-  public boolean extensionIsSupported(
-    final  String name)
-    throws ConstraintError;
+  boolean extensionIsSupported(
+    final String name);
 
   /**
-   * Return true if the extension <code>name</code> is both supported by the
-   * implementation and visible according to any restrictions imposed by
-   * {@link JCGLSoftRestrictionsType}.
-   * 
-   * @throws ConstraintError
-   *           Iff <code>name == null</code>.
+   * @return <code>true</code> if the extension <code>name</code> is both
+   *         supported by the implementation and visible according to any
+   *         restrictions imposed by {@link JCGLSoftRestrictionsType}.
+   * @param name
+   *          The extension name.
    */
 
-  public boolean extensionIsVisible(
-    final  String name)
-    throws ConstraintError;
+  boolean extensionIsVisible(
+    final String name);
 }
