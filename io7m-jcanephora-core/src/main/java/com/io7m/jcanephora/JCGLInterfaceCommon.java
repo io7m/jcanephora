@@ -37,7 +37,7 @@ public interface JCGLInterfaceCommon extends
   JCGLRenderbuffersCommon,
   JCGLScissor,
   JCGLShadersCommon,
-  JCGLStencilBuffer,
+  JCGLStencilBufferType,
   JCGLTextureUnits,
   JCGLTextures2DStaticCommon,
   JCGLTexturesCubeStaticCommon,

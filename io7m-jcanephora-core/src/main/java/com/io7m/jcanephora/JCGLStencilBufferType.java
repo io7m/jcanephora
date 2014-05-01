@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,15 +16,11 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
-
 /**
  * Simplified interface to the stencil buffer.
  */
 
-public interface JCGLStencilBuffer
+public interface JCGLStencilBufferType
 {
   /**
    * Clear the stencil buffer with the specified value <code>stencil</code>.
@@ -33,36 +29,31 @@ public interface JCGLStencilBuffer
    *          The stencil value.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
-   * @throws ConstraintError
-   *           Iff no stencil buffer is available.
    */
 
   void stencilBufferClear(
     final int stencil)
-    throws JCGLRuntimeException,
-      ConstraintError;
+    throws JCGLRuntimeException;
 
   /**
    * Disable the stencil test.
+   * 
+   * @throws JCGLRuntimeException
+   *           Iff an internal OpenGL error occurs.
    */
 
   void stencilBufferDisable()
-    throws ConstraintError,
-      JCGLRuntimeException;
+    throws JCGLRuntimeException;
 
   /**
    * Enable the stencil test.
    * 
-   * @throws ConstraintError
-   *           Iff no stencil buffer exists (
-   *           <code>stencilBufferGetBits() == 0</code>).
    * @throws JCGLRuntimeException
    *           Iff an internal OpenGL error occurs.
    */
 
   void stencilBufferEnable()
-    throws ConstraintError,
-      JCGLRuntimeException;
+    throws JCGLRuntimeException;
 
   /**
    * Set the stencil function and reference value for the faces given by
@@ -79,23 +70,20 @@ public interface JCGLStencilBuffer
    * @param mask
    *          The value to AND with the reference and stored stencil values.
    * 
-   * @throws ConstraintError
-   *           Iff any of the parameters are <code>null</code>.
    * @throws JCGLRuntimeException
    *           Iff an internal OpenGL error occurs.
    */
 
   void stencilBufferFunction(
-    final  FaceSelection faces,
-    final  StencilFunction function,
+    final FaceSelection faces,
+    final StencilFunction function,
     final int reference,
     final int mask)
-    throws ConstraintError,
-      JCGLRuntimeException;
+    throws JCGLRuntimeException;
 
   /**
-   * Retrieve the number of bits available in the stencil buffer for the
-   * current framebuffer configuration.
+   * @return The number of bits available in the stencil buffer for the
+   *         current framebuffer configuration.
    * 
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
@@ -105,7 +93,9 @@ public interface JCGLStencilBuffer
     throws JCGLRuntimeException;
 
   /**
-   * Return <code>true</code> iff depth testing is enabled.
+   * @return <code>true</code> iff stencil testing is enabled.
+   * @throws JCGLRuntimeException
+   *           Iff an OpenGL error occurs.
    */
 
   boolean stencilBufferIsEnabled()
@@ -119,20 +109,19 @@ public interface JCGLStencilBuffer
    * stencil buffer. Where a 0 appears, the corresponding bit is
    * write-protected. Initially, all bits are enabled for writing.
    * 
+   * @param mask
+   *          The stencil mask.
    * @param faces
    *          The face selection.
    * 
-   * @throws ConstraintError
-   *           Iff any of the parameters are <code>null</code>.
    * @throws JCGLRuntimeException
    *           Iff an internal OpenGL error occurs.
    */
 
   void stencilBufferMask(
-    final  FaceSelection faces,
+    final FaceSelection faces,
     final int mask)
-    throws ConstraintError,
-      JCGLRuntimeException;
+    throws JCGLRuntimeException;
 
   /**
    * Configure the operations to be performed on the stencil buffer for the
@@ -149,17 +138,14 @@ public interface JCGLStencilBuffer
    *          The operation to perform when the stencil and depth test (if
    *          any) passes.
    * 
-   * @throws ConstraintError
-   *           Iff any of the parameters are <code>null</code>.
    * @throws JCGLRuntimeException
    *           Iff an internal OpenGL error occurs.
    */
 
   void stencilBufferOperation(
-    final  FaceSelection faces,
-    final  StencilOperation stencil_fail,
-    final  StencilOperation depth_fail,
-    final  StencilOperation pass)
-    throws ConstraintError,
-      JCGLRuntimeException;
+    final FaceSelection faces,
+    final StencilOperation stencil_fail,
+    final StencilOperation depth_fail,
+    final StencilOperation pass)
+    throws JCGLRuntimeException;
 }
