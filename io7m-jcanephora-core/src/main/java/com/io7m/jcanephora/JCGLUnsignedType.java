@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora;
 
-import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * Type-safe unsigned OpenGL types.
@@ -24,9 +24,27 @@ import com.io7m.jaux.UnreachableCodeException;
 
 public enum JCGLUnsignedType
 {
+  /**
+   * An unsigned 8-bit integer.
+   */
+
   TYPE_UNSIGNED_BYTE,
+
+  /**
+   * An unsigned 32-bit integer.
+   */
+
   TYPE_UNSIGNED_INT,
+
+  /**
+   * An unsigned 16-bit integer.
+   */
+
   TYPE_UNSIGNED_SHORT;
+
+  /**
+   * @return The size in bytes of values of the current type.
+   */
 
   public int getSizeBytes()
   {
