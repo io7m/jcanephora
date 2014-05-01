@@ -29,7 +29,7 @@ package com.io7m.jcanephora;
  */
 
 public interface JCGLInterfaceGL2 extends
-  JCGLBlendingGL3,
+  JCGLBlendingGL3Type,
   JCGLExtensionsGL2,
   JCGLFramebuffersGL3,
   JCGLInterfaceCommon,

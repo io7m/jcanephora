@@ -25,7 +25,7 @@ package com.io7m.jcanephora;
 
 public interface JCGLInterfaceCommon extends
   JCGLArrayBuffersType,
-  JCGLBlendingCommon,
+  JCGLBlendingCommonType,
   JCGLColorBuffer,
   JCGLCull,
   JCGLDepthBuffer,
