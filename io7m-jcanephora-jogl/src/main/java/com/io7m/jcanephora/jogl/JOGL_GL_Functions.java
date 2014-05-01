@@ -54,7 +54,7 @@ import com.io7m.jcanephora.JCGLNamedExtensions;
 import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLSLVersion;
 import com.io7m.jcanephora.JCGLSLVersionNumber;
-import com.io7m.jcanephora.JCGLSoftRestrictions;
+import com.io7m.jcanephora.JCGLSoftRestrictionsType;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.JCGLUnsignedType;
 import com.io7m.jcanephora.JCGLVersion;
@@ -2363,7 +2363,7 @@ final class JOGL_GL_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull JCGLSoftRestrictions restrictions)
+    final @Nonnull JCGLSoftRestrictionsType restrictions)
     throws JCGLRuntimeException
   {
     final int max =

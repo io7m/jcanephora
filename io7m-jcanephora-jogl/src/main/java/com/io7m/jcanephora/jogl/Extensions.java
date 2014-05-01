@@ -22,7 +22,7 @@ import javax.media.opengl.GLContext;
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.JCGLNamedExtensions;
-import com.io7m.jcanephora.JCGLSoftRestrictions;
+import com.io7m.jcanephora.JCGLSoftRestrictionsType;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 
@@ -31,11 +31,11 @@ final class Extensions implements JCGLNamedExtensions
   private final @Nonnull StringBuilder        message;
   private final @Nonnull GLContext            context;
   private final @Nonnull Log                  log;
-  private final @Nonnull JCGLSoftRestrictions restrictions;
+  private final @Nonnull JCGLSoftRestrictionsType restrictions;
 
   Extensions(
     final @Nonnull GLContext context1,
-    final @Nonnull JCGLSoftRestrictions restrictions1,
+    final @Nonnull JCGLSoftRestrictionsType restrictions1,
     final @Nonnull Log log1)
   {
     this.message = new StringBuilder();

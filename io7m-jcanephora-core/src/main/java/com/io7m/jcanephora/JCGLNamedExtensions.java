@@ -37,7 +37,7 @@ public interface JCGLNamedExtensions
   /**
    * Return true if the extension <code>name</code> is both supported by the
    * implementation and visible according to any restrictions imposed by
-   * {@link JCGLSoftRestrictions}.
+   * {@link JCGLSoftRestrictionsType}.
    * 
    * @throws ConstraintError
    *           Iff <code>name == null</code>.
