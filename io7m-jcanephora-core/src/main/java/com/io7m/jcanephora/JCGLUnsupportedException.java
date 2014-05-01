@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
 /**
  * Exception class representing an unsupported OpenGL implementation.
  */
@@ -26,8 +24,15 @@ public final class JCGLUnsupportedException extends JCGLException
 {
   private static final long serialVersionUID = -8872086228034386902L;
 
+  /**
+   * Construct an error with the given message.
+   * 
+   * @param message
+   *          The message
+   */
+
   public JCGLUnsupportedException(
-    final  String message)
+    final String message)
   {
     super(message);
   }
