@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -19,9 +19,7 @@ package com.io7m.jcanephora;
 import java.util.EnumSet;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * The type of a renderbuffer.
@@ -86,52 +84,62 @@ public enum RenderbufferType
   RENDERBUFFER_STENCIL_8(1);
 
   /**
-   * The subset of renderbuffer types supported by both OpenGL 3.* and ES 3.*.
+   * @return The subset of renderbuffer types supported by both OpenGL 3.* and
+   *         ES 3.*.
    */
 
-  public static  Set<RenderbufferType> getGL3ES3Types()
+  public static Set<RenderbufferType> getGL3ES3Types()
   {
-    return EnumSet.of(
-      RENDERBUFFER_DEPTH_16,
-      RENDERBUFFER_DEPTH_24,
-      RENDERBUFFER_DEPTH_24_STENCIL_8,
-      RENDERBUFFER_COLOR_RGBA_8888,
-      RENDERBUFFER_COLOR_RGB_888);
+    final EnumSet<RenderbufferType> r =
+      EnumSet.of(
+        RENDERBUFFER_DEPTH_16,
+        RENDERBUFFER_DEPTH_24,
+        RENDERBUFFER_DEPTH_24_STENCIL_8,
+        RENDERBUFFER_COLOR_RGBA_8888,
+        RENDERBUFFER_COLOR_RGB_888);
+    assert r != null;
+    return r;
   }
 
   /**
-   * The subset of renderbuffer types supported by OpenGL 3.*.
+   * @return The subset of renderbuffer types supported by OpenGL 3.*.
    */
 
-  public static  Set<RenderbufferType> getGL3Types()
+  public static Set<RenderbufferType> getGL3Types()
   {
-    return EnumSet.of(
-      RENDERBUFFER_DEPTH_16,
-      RENDERBUFFER_DEPTH_24,
-      RENDERBUFFER_DEPTH_24_STENCIL_8,
-      RENDERBUFFER_COLOR_RGBA_8888,
-      RENDERBUFFER_COLOR_RGB_888);
+    final EnumSet<RenderbufferType> r =
+      EnumSet.of(
+        RENDERBUFFER_DEPTH_16,
+        RENDERBUFFER_DEPTH_24,
+        RENDERBUFFER_DEPTH_24_STENCIL_8,
+        RENDERBUFFER_COLOR_RGBA_8888,
+        RENDERBUFFER_COLOR_RGB_888);
+    assert r != null;
+    return r;
   }
 
   /**
-   * The subset of renderbuffer types supported by OpenGL ES2.
+   * @return The subset of renderbuffer types supported by OpenGL ES2.
    */
 
-  public static  Set<RenderbufferType> getGLES2Types()
+  public static Set<RenderbufferType> getGLES2Types()
   {
-    return EnumSet.of(
-      RENDERBUFFER_DEPTH_16,
-      RENDERBUFFER_STENCIL_8,
-      RENDERBUFFER_COLOR_RGBA_5551,
-      RENDERBUFFER_COLOR_RGBA_4444,
-      RENDERBUFFER_COLOR_RGB_565);
+    final EnumSet<RenderbufferType> r =
+      EnumSet.of(
+        RENDERBUFFER_DEPTH_16,
+        RENDERBUFFER_STENCIL_8,
+        RENDERBUFFER_COLOR_RGBA_5551,
+        RENDERBUFFER_COLOR_RGBA_4444,
+        RENDERBUFFER_COLOR_RGB_565);
+    assert r != null;
+    return r;
   }
 
   /**
-   * The set of renderbuffer types supported by ES 3.*.
+   * @return The set of renderbuffer types supported by ES 3.*.
    */
 
-  public static  Set<RenderbufferType> getGLES3Types()
+  public static Set<RenderbufferType> getGLES3Types()
   {
     final Set<RenderbufferType> e0 = RenderbufferType.getGLES2Types();
     final Set<RenderbufferType> e1 = RenderbufferType.getGL3Types();
@@ -151,7 +159,7 @@ public enum RenderbufferType
   }
 
   /**
-   * Retrieve the number of bytes per pixel that this texture type requires.
+   * @return The number of bytes per pixel that this texture type requires.
    */
 
   public int getBytesPerPixel()
@@ -160,7 +168,7 @@ public enum RenderbufferType
   }
 
   /**
-   * Return <code>true</code> iff this type is color-renderable.
+   * @return <code>true</code> iff this type is color-renderable.
    */
 
   public boolean isColorRenderable()
@@ -183,7 +191,7 @@ public enum RenderbufferType
   }
 
   /**
-   * Return <code>true</code> iff this type is depth-renderable.
+   * @return <code>true</code> iff this type is depth-renderable.
    */
 
   public boolean isDepthRenderable()
@@ -206,7 +214,7 @@ public enum RenderbufferType
   }
 
   /**
-   * Return <code>true</code> iff this type is stencil-renderable.
+   * @return <code>true</code> iff this type is stencil-renderable.
    */
 
   public boolean isStencilRenderable()
