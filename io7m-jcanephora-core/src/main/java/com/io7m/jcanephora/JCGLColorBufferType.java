@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,20 +16,25 @@
 
 package com.io7m.jcanephora;
 
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jtensors.VectorReadable3F;
-import com.io7m.jtensors.VectorReadable4F;
+import com.io7m.jtensors.VectorReadable3FType;
+import com.io7m.jtensors.VectorReadable4FType;
 
 /**
  * Simplified interface to the color buffer.
  */
 
-public interface JCGLColorBuffer
+public interface JCGLColorBufferType
 {
   /**
    * Clear the color buffer with the color specified by
-   * <code>(r,g,b,1.0)</code> .
+   * <code>(r,g,b,1.0)</code>.
    * 
+   * @param r
+   *          The red component.
+   * @param g
+   *          The green component.
+   * @param b
+   *          The blue component.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
@@ -38,13 +43,20 @@ public interface JCGLColorBuffer
     final float r,
     final float g,
     final float b)
-    throws ConstraintError,
-      JCGLRuntimeException;
+    throws JCGLRuntimeException;
 
   /**
    * Clear the color buffer with the color specified by <code>(r,g,b,a)</code>
    * .
    * 
+   * @param r
+   *          The red component.
+   * @param g
+   *          The green component.
+   * @param b
+   *          The blue component.
+   * @param a
+   *          The alpha component.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
@@ -54,8 +66,7 @@ public interface JCGLColorBuffer
     final float g,
     final float b,
     final float a)
-    throws ConstraintError,
-      JCGLRuntimeException;
+    throws JCGLRuntimeException;
 
   /**
    * Clear the color buffer with the color specified by <code>color</code>.
@@ -63,32 +74,27 @@ public interface JCGLColorBuffer
    * 
    * @param color
    *          The color to use.
-   * @throws ConstraintError
-   *           Iff <code>color == null</code>.
+   * 
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void colorBufferClearV3f(
-    final VectorReadable3F color)
-    throws ConstraintError,
-      JCGLRuntimeException;
+    final VectorReadable3FType color)
+    throws JCGLRuntimeException;
 
   /**
    * Clear the color buffer with the color specified by <code>color</code>.
    * 
    * @param color
    *          The color to use.
-   * @throws ConstraintError
-   *           Iff <code>color == null</code>.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void colorBufferClearV4f(
-    final VectorReadable4F color)
-    throws ConstraintError,
-      JCGLRuntimeException;
+    final VectorReadable4FType color)
+    throws JCGLRuntimeException;
 
   /**
    * Enable/disable writing to the given channels of the current color buffer.
@@ -112,36 +118,44 @@ public interface JCGLColorBuffer
     final boolean g,
     final boolean b,
     final boolean a)
-    throws ConstraintError,
-      JCGLRuntimeException;
+    throws JCGLRuntimeException;
 
   /**
-   * Return <code>true</code> iff writing to the current color buffer will
-   * write to the alpha channel.
+   * @return <code>true</code> iff writing to the current color buffer will
+   *         write to the alpha channel.
+   * 
+   * @throws JCGLRuntimeException
+   *           Iff an OpenGL error occurs.
    */
 
   boolean colorBufferMaskStatusAlpha()
     throws JCGLRuntimeException;
 
   /**
-   * Return <code>true</code> iff writing to the current color buffer will
-   * write to the blue channel.
+   * @return <code>true</code> iff writing to the current color buffer will
+   *         write to the blue channel.
+   * @throws JCGLRuntimeException
+   *           Iff an OpenGL error occurs.
    */
 
   boolean colorBufferMaskStatusBlue()
     throws JCGLRuntimeException;
 
   /**
-   * Return <code>true</code> iff writing to the current color buffer will
-   * write to the green channel.
+   * @return <code>true</code> iff writing to the current color buffer will
+   *         write to the green channel.
+   * @throws JCGLRuntimeException
+   *           Iff an OpenGL error occurs.
    */
 
   boolean colorBufferMaskStatusGreen()
     throws JCGLRuntimeException;
 
   /**
-   * Return <code>true</code> iff writing to the current color buffer will
-   * write to the red channel.
+   * @return <code>true</code> iff writing to the current color buffer will
+   *         write to the red channel.
+   * @throws JCGLRuntimeException
+   *           Iff an OpenGL error occurs.
    */
 
   boolean colorBufferMaskStatusRed()
