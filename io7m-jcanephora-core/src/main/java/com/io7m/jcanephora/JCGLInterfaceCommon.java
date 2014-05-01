@@ -27,7 +27,7 @@ public interface JCGLInterfaceCommon extends
   JCGLArrayBuffersType,
   JCGLBlendingCommonType,
   JCGLColorBufferType,
-  JCGLCull,
+  JCGLCullType,
   JCGLDepthBuffer,
   JCGLDraw,
   JCGLErrorCodes,

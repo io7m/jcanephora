@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,15 +16,11 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
-
 /**
  * Simplified and type-safe interface to OpenGL face culling.
  */
 
-public interface JCGLCull
+public interface JCGLCullType
 {
   /**
    * Disable face culling.
@@ -47,20 +43,17 @@ public interface JCGLCull
    *          The faces to cull.
    * @param order
    *          The order of vertices in front-facing faces.
-   * @throws ConstraintError
-   *           Iff <code>faces == null | order == null</code>.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void cullingEnable(
-    final  FaceSelection faces,
-    final  FaceWindingOrder order)
-    throws ConstraintError,
-      JCGLRuntimeException;
+    final FaceSelection faces,
+    final FaceWindingOrder order)
+    throws JCGLRuntimeException;
 
   /**
-   * Return <code>true</code> iff culling is enabled.
+   * @return <code>true</code> iff culling is enabled.
    * 
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
