@@ -21,6 +21,7 @@ import javax.annotation.Nonnull;
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
+import com.io7m.jcanephora.jogl.JCGLResourceDeletable;
 
 /**
  * 2D "static" texture type.
@@ -29,27 +30,27 @@ import com.io7m.jaux.RangeInclusive;
 public final class Texture2DStatic extends JCGLResourceDeletable implements
   Texture2DStaticUsable
 {
-  private final @Nonnull AreaInclusive              area;
+  private final  AreaInclusive              area;
   private final int                                 id;
-  private final @Nonnull TextureFilterMagnification mag_filter;
-  private final @Nonnull TextureFilterMinification  min_filter;
-  private final @Nonnull String                     name;
-  private final @Nonnull RangeInclusive             range_x;
-  private final @Nonnull RangeInclusive             range_y;
-  private final @Nonnull TextureType                type;
-  private final @Nonnull TextureWrapS               wrap_s;
-  private final @Nonnull TextureWrapT               wrap_t;
+  private final  TextureFilterMagnification mag_filter;
+  private final  TextureFilterMinification  min_filter;
+  private final  String                     name;
+  private final  RangeInclusive             range_x;
+  private final  RangeInclusive             range_y;
+  private final  TextureType                type;
+  private final  TextureWrapS               wrap_s;
+  private final  TextureWrapT               wrap_t;
 
   Texture2DStatic(
-    final @Nonnull String name1,
-    final @Nonnull TextureType type1,
+    final  String name1,
+    final  TextureType type1,
     final int id1,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s1,
-    final @Nonnull TextureWrapT wrap_t1,
-    final @Nonnull TextureFilterMinification min_filter1,
-    final @Nonnull TextureFilterMagnification mag_filter1)
+    final  TextureWrapS wrap_s1,
+    final  TextureWrapT wrap_t1,
+    final  TextureFilterMinification min_filter1,
+    final  TextureFilterMagnification mag_filter1)
     throws ConstraintError
   {
     this.id =
@@ -88,7 +89,7 @@ public final class Texture2DStatic extends JCGLResourceDeletable implements
     return true;
   }
 
-  @Override public @Nonnull AreaInclusive getArea()
+  @Override public  AreaInclusive getArea()
   {
     return this.area;
   }
@@ -103,34 +104,34 @@ public final class Texture2DStatic extends JCGLResourceDeletable implements
     return (int) this.range_y.getInterval();
   }
 
-  @Override public @Nonnull
+  @Override public 
     TextureFilterMagnification
     getMagnificationFilter()
   {
     return this.mag_filter;
   }
 
-  @Override public @Nonnull TextureFilterMinification getMinificationFilter()
+  @Override public  TextureFilterMinification getMinificationFilter()
   {
     return this.min_filter;
   }
 
-  @Override public @Nonnull String getName()
+  @Override public  String getName()
   {
     return this.name;
   }
 
-  @Override public @Nonnull RangeInclusive getRangeX()
+  @Override public  RangeInclusive getRangeX()
   {
     return this.range_x;
   }
 
-  @Override public @Nonnull RangeInclusive getRangeY()
+  @Override public  RangeInclusive getRangeY()
   {
     return this.range_y;
   }
 
-  @Override public @Nonnull TextureType getType()
+  @Override public  TextureType getType()
   {
     return this.type;
   }
@@ -140,12 +141,12 @@ public final class Texture2DStatic extends JCGLResourceDeletable implements
     return (int) this.range_x.getInterval();
   }
 
-  @Override public @Nonnull TextureWrapS getWrapS()
+  @Override public  TextureWrapS getWrapS()
   {
     return this.wrap_s;
   }
 
-  @Override public @Nonnull TextureWrapT getWrapT()
+  @Override public  TextureWrapT getWrapT()
   {
     return this.wrap_t;
   }

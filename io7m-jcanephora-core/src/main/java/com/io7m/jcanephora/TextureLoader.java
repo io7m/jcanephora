@@ -64,14 +64,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticDepth16(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticDepth16(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -111,14 +111,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticDepth24(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticDepth24(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -158,14 +158,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticDepth32f(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticDepth32f(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -202,14 +202,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticInferred(
-    final @Nonnull JCGLImplementation gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticInferred(
+    final  JCGLImplementation gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException,
@@ -250,14 +250,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticR16(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticR16(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -297,14 +297,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticR16f(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticR16f(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -344,14 +344,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticR16I(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticR16I(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -391,14 +391,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticR16U(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticR16U(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -438,14 +438,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticR32f(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticR32f(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -485,14 +485,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticR32I(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticR32I(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -532,14 +532,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticR32U(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticR32U(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -579,14 +579,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticR8(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticR8(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -626,14 +626,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticR8I(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticR8I(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -673,14 +673,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticR8U(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticR8U(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -720,14 +720,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRG16(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRG16(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -767,14 +767,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRG16f(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRG16f(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -814,14 +814,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRG16I(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRG16I(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -861,14 +861,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRG16U(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRG16U(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -908,14 +908,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRG32f(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRG32f(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -955,14 +955,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRG32I(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRG32I(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1002,14 +1002,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRG32U(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRG32U(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1049,14 +1049,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRG8(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRG8(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1096,14 +1096,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRG8I(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRG8I(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1143,14 +1143,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRG8U(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRG8U(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1190,14 +1190,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGB16(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGB16(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1237,14 +1237,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGB16f(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGB16f(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1284,14 +1284,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGB16I(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGB16I(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1331,14 +1331,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGB16U(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGB16U(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1378,14 +1378,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGB32f(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGB32f(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1425,14 +1425,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGB32I(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGB32I(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1472,14 +1472,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGB32U(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGB32U(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1519,14 +1519,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGB565(
-    final @Nonnull JCGLTextures2DStaticGLES2 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGB565(
+    final  JCGLTextures2DStaticGLES2 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1566,14 +1566,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGB8(
-    final @Nonnull JCGLTextures2DStaticGL2ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGB8(
+    final  JCGLTextures2DStaticGL2ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1613,14 +1613,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGB8I(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGB8I(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1660,14 +1660,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGB8U(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGB8U(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1707,14 +1707,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGBA1010102(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGBA1010102(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1754,14 +1754,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGBA16(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGBA16(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1801,14 +1801,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGBA16f(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGBA16f(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1848,14 +1848,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGBA16I(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGBA16I(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1895,14 +1895,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGBA16U(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGBA16U(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1942,14 +1942,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGBA32f(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGBA32f(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -1989,14 +1989,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGBA32I(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGBA32I(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -2036,14 +2036,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGBA32U(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGBA32U(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -2083,14 +2083,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGBA4444(
-    final @Nonnull JCGLTextures2DStaticGLES2 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGBA4444(
+    final  JCGLTextures2DStaticGLES2 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -2130,14 +2130,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGBA5551(
-    final @Nonnull JCGLTextures2DStaticGLES2 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGBA5551(
+    final  JCGLTextures2DStaticGLES2 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -2177,14 +2177,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGBA8(
-    final @Nonnull JCGLTextures2DStaticGL2ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGBA8(
+    final  JCGLTextures2DStaticGL2ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -2224,14 +2224,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGBA8I(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGBA8I(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -2271,14 +2271,14 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull Texture2DStatic load2DStaticRGBA8U(
-    final @Nonnull JCGLTextures2DStaticGL3ES3 gl,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull InputStream stream,
-    final @Nonnull String name)
+  public  Texture2DStatic load2DStaticRGBA8U(
+    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  InputStream stream,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -2322,20 +2322,20 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull TextureCubeStatic loadCubeLHStaticInferred(
-    final @Nonnull JCGLImplementation gl,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull CubeMapFaceInputStream<CMFPositiveZKind> positive_z,
-    final @Nonnull CubeMapFaceInputStream<CMFNegativeZKind> negative_z,
-    final @Nonnull CubeMapFaceInputStream<CMFPositiveYKind> positive_y,
-    final @Nonnull CubeMapFaceInputStream<CMFNegativeYKind> negative_y,
-    final @Nonnull CubeMapFaceInputStream<CMFPositiveXKind> positive_x,
-    final @Nonnull CubeMapFaceInputStream<CMFNegativeXKind> negative_x,
-    final @Nonnull String name)
+  public  TextureCubeStatic loadCubeLHStaticInferred(
+    final  JCGLImplementation gl,
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  CubeMapFaceInputStream<CMFPositiveZKind> positive_z,
+    final  CubeMapFaceInputStream<CMFNegativeZKind> negative_z,
+    final  CubeMapFaceInputStream<CMFPositiveYKind> positive_y,
+    final  CubeMapFaceInputStream<CMFNegativeYKind> negative_y,
+    final  CubeMapFaceInputStream<CMFPositiveXKind> positive_x,
+    final  CubeMapFaceInputStream<CMFNegativeXKind> negative_x,
+    final  String name)
     throws ConstraintError,
       IOException,
       JCGLException;
@@ -2378,20 +2378,20 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull TextureCubeStatic loadCubeLHStaticRGB8(
-    final @Nonnull JCGLTexturesCubeStaticGL2ES3 gl,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull CubeMapFaceInputStream<CMFPositiveZKind> positive_z,
-    final @Nonnull CubeMapFaceInputStream<CMFNegativeZKind> negative_z,
-    final @Nonnull CubeMapFaceInputStream<CMFPositiveYKind> positive_y,
-    final @Nonnull CubeMapFaceInputStream<CMFNegativeYKind> negative_y,
-    final @Nonnull CubeMapFaceInputStream<CMFPositiveXKind> positive_x,
-    final @Nonnull CubeMapFaceInputStream<CMFNegativeXKind> negative_x,
-    final @Nonnull String name)
+  public  TextureCubeStatic loadCubeLHStaticRGB8(
+    final  JCGLTexturesCubeStaticGL2ES3 gl,
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  CubeMapFaceInputStream<CMFPositiveZKind> positive_z,
+    final  CubeMapFaceInputStream<CMFNegativeZKind> negative_z,
+    final  CubeMapFaceInputStream<CMFPositiveYKind> positive_y,
+    final  CubeMapFaceInputStream<CMFNegativeYKind> negative_y,
+    final  CubeMapFaceInputStream<CMFPositiveXKind> positive_x,
+    final  CubeMapFaceInputStream<CMFNegativeXKind> negative_x,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -2434,20 +2434,20 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull TextureCubeStatic loadCubeLHStaticRGBA8(
-    final @Nonnull JCGLTexturesCubeStaticGL2ES3 gl,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull CubeMapFaceInputStream<CMFPositiveZKind> positive_z,
-    final @Nonnull CubeMapFaceInputStream<CMFNegativeZKind> negative_z,
-    final @Nonnull CubeMapFaceInputStream<CMFPositiveYKind> positive_y,
-    final @Nonnull CubeMapFaceInputStream<CMFNegativeYKind> negative_y,
-    final @Nonnull CubeMapFaceInputStream<CMFPositiveXKind> positive_x,
-    final @Nonnull CubeMapFaceInputStream<CMFNegativeXKind> negative_x,
-    final @Nonnull String name)
+  public  TextureCubeStatic loadCubeLHStaticRGBA8(
+    final  JCGLTexturesCubeStaticGL2ES3 gl,
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  CubeMapFaceInputStream<CMFPositiveZKind> positive_z,
+    final  CubeMapFaceInputStream<CMFNegativeZKind> negative_z,
+    final  CubeMapFaceInputStream<CMFPositiveYKind> positive_y,
+    final  CubeMapFaceInputStream<CMFNegativeYKind> negative_y,
+    final  CubeMapFaceInputStream<CMFPositiveXKind> positive_x,
+    final  CubeMapFaceInputStream<CMFNegativeXKind> negative_x,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -2491,20 +2491,20 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull TextureCubeStatic loadCubeRHStaticInferred(
-    final @Nonnull JCGLImplementation gl,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull CubeMapFaceInputStream<CMFPositiveZKind> positive_z,
-    final @Nonnull CubeMapFaceInputStream<CMFNegativeZKind> negative_z,
-    final @Nonnull CubeMapFaceInputStream<CMFPositiveYKind> positive_y,
-    final @Nonnull CubeMapFaceInputStream<CMFNegativeYKind> negative_y,
-    final @Nonnull CubeMapFaceInputStream<CMFPositiveXKind> positive_x,
-    final @Nonnull CubeMapFaceInputStream<CMFNegativeXKind> negative_x,
-    final @Nonnull String name)
+  public  TextureCubeStatic loadCubeRHStaticInferred(
+    final  JCGLImplementation gl,
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  CubeMapFaceInputStream<CMFPositiveZKind> positive_z,
+    final  CubeMapFaceInputStream<CMFNegativeZKind> negative_z,
+    final  CubeMapFaceInputStream<CMFPositiveYKind> positive_y,
+    final  CubeMapFaceInputStream<CMFNegativeYKind> negative_y,
+    final  CubeMapFaceInputStream<CMFPositiveXKind> positive_x,
+    final  CubeMapFaceInputStream<CMFNegativeXKind> negative_x,
+    final  String name)
     throws ConstraintError,
       IOException,
       JCGLException;
@@ -2547,20 +2547,20 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull TextureCubeStatic loadCubeRHStaticRGB8(
-    final @Nonnull JCGLTexturesCubeStaticGL2ES3 gl,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull CubeMapFaceInputStream<CMFPositiveZKind> positive_z,
-    final @Nonnull CubeMapFaceInputStream<CMFNegativeZKind> negative_z,
-    final @Nonnull CubeMapFaceInputStream<CMFPositiveYKind> positive_y,
-    final @Nonnull CubeMapFaceInputStream<CMFNegativeYKind> negative_y,
-    final @Nonnull CubeMapFaceInputStream<CMFPositiveXKind> positive_x,
-    final @Nonnull CubeMapFaceInputStream<CMFNegativeXKind> negative_x,
-    final @Nonnull String name)
+  public  TextureCubeStatic loadCubeRHStaticRGB8(
+    final  JCGLTexturesCubeStaticGL2ES3 gl,
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  CubeMapFaceInputStream<CMFPositiveZKind> positive_z,
+    final  CubeMapFaceInputStream<CMFNegativeZKind> negative_z,
+    final  CubeMapFaceInputStream<CMFPositiveYKind> positive_y,
+    final  CubeMapFaceInputStream<CMFNegativeYKind> negative_y,
+    final  CubeMapFaceInputStream<CMFPositiveXKind> positive_x,
+    final  CubeMapFaceInputStream<CMFNegativeXKind> negative_x,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;
@@ -2603,20 +2603,20 @@ public interface TextureLoader
    *           is of an unreadable format.
    */
 
-  public @Nonnull TextureCubeStatic loadCubeRHStaticRGBA8(
-    final @Nonnull JCGLTexturesCubeStaticGL2ES3 gl,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter,
-    final @Nonnull CubeMapFaceInputStream<CMFPositiveZKind> positive_z,
-    final @Nonnull CubeMapFaceInputStream<CMFNegativeZKind> negative_z,
-    final @Nonnull CubeMapFaceInputStream<CMFPositiveYKind> positive_y,
-    final @Nonnull CubeMapFaceInputStream<CMFNegativeYKind> negative_y,
-    final @Nonnull CubeMapFaceInputStream<CMFPositiveXKind> positive_x,
-    final @Nonnull CubeMapFaceInputStream<CMFNegativeXKind> negative_x,
-    final @Nonnull String name)
+  public  TextureCubeStatic loadCubeRHStaticRGBA8(
+    final  JCGLTexturesCubeStaticGL2ES3 gl,
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter,
+    final  CubeMapFaceInputStream<CMFPositiveZKind> positive_z,
+    final  CubeMapFaceInputStream<CMFNegativeZKind> negative_z,
+    final  CubeMapFaceInputStream<CMFPositiveYKind> positive_y,
+    final  CubeMapFaceInputStream<CMFNegativeYKind> negative_y,
+    final  CubeMapFaceInputStream<CMFPositiveXKind> positive_x,
+    final  CubeMapFaceInputStream<CMFNegativeXKind> negative_x,
+    final  String name)
     throws ConstraintError,
       JCGLRuntimeException,
       IOException;

@@ -21,159 +21,160 @@ package com.io7m.jcanephora;
  * modified with cursors.
  */
 
-public interface TextureWritableDataType
+interface TextureWritableDataType
 {
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws ConstraintError
+   * @throws JCGLTypingException
    *           If the number of components in the texture is not 1.
    */
 
-  SpatialCursorWritable1d getCursor1d();
+  SpatialCursorWritable1dType getCursor1d()
+    throws JCGLTypingException;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws ConstraintError
+   * @throws JCGLTypingException
    *           If the number of components in the texture is not 1.
    */
 
-  public SpatialCursorWritable1f getCursor1f()
-    throws ConstraintError;
+  SpatialCursorWritable1fType getCursor1f()
+    throws JCGLTypingException;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws ConstraintError
+   * @throws JCGLTypingException
    *           If the number of components in the texture is not 1, or the
    *           texture is floating-point.
    */
 
-  public SpatialCursorWritable1i getCursor1i()
-    throws ConstraintError;
+  SpatialCursorWritable1iType getCursor1i()
+    throws JCGLTypingException;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws ConstraintError
+   * @throws JCGLTypingException
    *           If the number of components in the texture is not 2.
    */
 
-  public SpatialCursorWritable2d getCursor2d()
-    throws ConstraintError;
+  SpatialCursorWritable2dType getCursor2d()
+    throws JCGLTypingException;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws ConstraintError
+   * @throws JCGLTypingException
    *           If the number of components in the texture is not 2.
    */
 
-  public SpatialCursorWritable2f getCursor2f()
-    throws ConstraintError;
+  SpatialCursorWritable2fType getCursor2f()
+    throws JCGLTypingException;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws ConstraintError
+   * @throws JCGLTypingException
    *           If the number of components in the texture is not 2, or the
    *           texture is floating-point.
    */
 
-  public SpatialCursorWritable2i getCursor2i()
-    throws ConstraintError;
+  SpatialCursorWritable2iType getCursor2i()
+    throws JCGLTypingException;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws ConstraintError
+   * @throws JCGLTypingException
    *           If the number of components in the texture is not 3.
    */
 
-  public SpatialCursorWritable3d getCursor3d()
-    throws ConstraintError;
+  SpatialCursorWritable3dType getCursor3d()
+    throws JCGLTypingException;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws ConstraintError
+   * @throws JCGLTypingException
    *           If the number of components in the texture is not 3.
    */
 
-  public SpatialCursorWritable3f getCursor3f()
-    throws ConstraintError;
+  SpatialCursorWritable3fType getCursor3f()
+    throws JCGLTypingException;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws ConstraintError
+   * @throws JCGLTypingException
    *           If the number of components in the texture is not 3, or the
    *           texture is floating-point.
    */
 
-  public SpatialCursorWritable3i getCursor3i()
-    throws ConstraintError;
+  SpatialCursorWritable3iType getCursor3i()
+    throws JCGLTypingException;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws ConstraintError
+   * @throws JCGLTypingException
    *           If the number of components in the texture is not 4.
    */
 
-  public SpatialCursorWritable4d getCursor4d()
-    throws ConstraintError;
+  SpatialCursorWritable4dType getCursor4d()
+    throws JCGLTypingException;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws ConstraintError
+   * @throws JCGLTypingException
    *           If the number of components in the texture is not 4.
    */
 
-  public SpatialCursorWritable4f getCursor4f()
-    throws ConstraintError;
+  SpatialCursorWritable4fType getCursor4f()
+    throws JCGLTypingException;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws ConstraintError
+   * @throws JCGLTypingException
    *           If the number of components in the texture is not 4, or the
    *           texture is floating-point.
    */
 
-  public SpatialCursorWritable4i getCursor4i()
-    throws ConstraintError;
+  SpatialCursorWritable4iType getCursor4i()
+    throws JCGLTypingException;
 
   /**
    * @return The type of the underlying texture.
    */
 
-  public @Nonnull TextureType getType();
+  TextureType getType();
 
 }

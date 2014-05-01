@@ -76,7 +76,7 @@ public enum JCGLScalarType
 
   public boolean shaderTypeConvertible(
     final int elements,
-    final @Nonnull JCGLType type)
+    final  JCGLType type)
   {
     switch (this) {
       case TYPE_FLOAT:

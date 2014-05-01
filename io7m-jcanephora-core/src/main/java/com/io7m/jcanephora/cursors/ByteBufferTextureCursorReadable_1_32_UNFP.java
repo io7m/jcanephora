@@ -1,0 +1,70 @@
+/*
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * 
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+ * SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+ * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+package com.io7m.jcanephora.cursors;
+
+import java.nio.ByteBuffer;
+
+import com.io7m.jcanephora.AreaInclusive;
+import com.io7m.jcanephora.FixedPoint;
+import com.io7m.jcanephora.SpatialCursorReadable1dType;
+import com.io7m.jcanephora.SpatialCursorReadable1fType;
+import com.io7m.jcanephora.SpatialCursorReadable1iType;
+import com.io7m.jcanephora.SpatialCursorReadable1lType;
+import com.io7m.jintegers.Unsigned32;
+
+final class ByteBufferTextureCursorReadable_1_32_UNFP extends AreaCursor implements
+  SpatialCursorReadable1fType,
+  SpatialCursorReadable1dType,
+  SpatialCursorReadable1iType,
+  SpatialCursorReadable1lType
+{
+  private final ByteBuffer target_data;
+
+  protected ByteBufferTextureCursorReadable_1_32_UNFP(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(target_area, update_area, 4);
+    this.target_data = in_target_data;
+  }
+
+  @Override public double get1d()
+  {
+    final long z = this.get1l();
+    return FixedPoint.unsignedNormalizedFixedToDoubleLong(32, z);
+  }
+
+  @Override public float get1f()
+  {
+    final long z = this.get1l();
+    return FixedPoint.unsignedNormalizedFixedToFloatLong(32, z);
+  }
+
+  @Override public int get1i()
+  {
+    return (int) this.get1l();
+  }
+
+  @Override public long get1l()
+  {
+    final int i = (int) this.getByteOffset();
+    final long z = Unsigned32.unpackFromBuffer(this.target_data, i);
+    this.next();
+    return z;
+  }
+}

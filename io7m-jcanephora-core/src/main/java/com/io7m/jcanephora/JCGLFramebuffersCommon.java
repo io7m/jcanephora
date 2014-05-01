@@ -37,7 +37,7 @@ public interface JCGLFramebuffersCommon
    * @return A freshly allocated framebuffer.
    */
 
-  @Nonnull FramebufferReference framebufferAllocate()
+   FramebufferReference framebufferAllocate()
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -57,7 +57,7 @@ public interface JCGLFramebuffersCommon
    */
 
   void framebufferDelete(
-    final @Nonnull FramebufferReference framebuffer)
+    final  FramebufferReference framebuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -103,8 +103,8 @@ public interface JCGLFramebuffersCommon
    */
 
   void framebufferDrawAttachColorRenderbuffer(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsableType<RenderableColorKind> renderbuffer)
+    final  FramebufferReference framebuffer,
+    final  RenderbufferUsableType<RenderableColorKind> renderbuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -138,8 +138,8 @@ public interface JCGLFramebuffersCommon
    */
 
   void framebufferDrawAttachColorTexture2D(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticUsable texture)
+    final  FramebufferReference framebuffer,
+    final  Texture2DStaticUsable texture)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -174,9 +174,9 @@ public interface JCGLFramebuffersCommon
    */
 
   void framebufferDrawAttachColorTextureCube(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull TextureCubeStaticUsable texture,
-    final @Nonnull CubeMapFaceLH face)
+    final  FramebufferReference framebuffer,
+    final  TextureCubeStaticUsable texture,
+    final  CubeMapFaceLH face)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -206,8 +206,8 @@ public interface JCGLFramebuffersCommon
    */
 
   void framebufferDrawAttachDepthRenderbuffer(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsableType<RenderableDepthKind> renderbuffer)
+    final  FramebufferReference framebuffer,
+    final  RenderbufferUsableType<RenderableDepthKind> renderbuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -238,8 +238,8 @@ public interface JCGLFramebuffersCommon
    */
 
   void framebufferDrawAttachDepthTexture2D(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticUsable texture)
+    final  FramebufferReference framebuffer,
+    final  Texture2DStaticUsable texture)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -269,8 +269,8 @@ public interface JCGLFramebuffersCommon
    */
 
   void framebufferDrawAttachStencilRenderbuffer(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsableType<RenderableStencilKind> renderbuffer)
+    final  FramebufferReference framebuffer,
+    final  RenderbufferUsableType<RenderableStencilKind> renderbuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -290,7 +290,7 @@ public interface JCGLFramebuffersCommon
    */
 
   void framebufferDrawBind(
-    final @Nonnull FramebufferReferenceUsableType framebuffer)
+    final  FramebufferReferenceUsableType framebuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -311,7 +311,7 @@ public interface JCGLFramebuffersCommon
    */
 
   boolean framebufferDrawIsBound(
-    final @Nonnull FramebufferReferenceUsableType framebuffer)
+    final  FramebufferReferenceUsableType framebuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -343,8 +343,8 @@ public interface JCGLFramebuffersCommon
    *           Iff an OpenGL exception occurs.
    */
 
-  @Nonnull FramebufferStatus framebufferDrawValidate(
-    final @Nonnull FramebufferReferenceUsableType framebuffer)
+   FramebufferStatus framebufferDrawValidate(
+    final  FramebufferReferenceUsableType framebuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -361,7 +361,7 @@ public interface JCGLFramebuffersCommon
    *           Iff an OpenGL exception occurs.
    */
 
-  public @Nonnull
+  public 
     List<FramebufferColorAttachmentPoint>
     framebufferGetColorAttachmentPoints()
       throws JCGLRuntimeException,
@@ -380,7 +380,7 @@ public interface JCGLFramebuffersCommon
    *           Iff an OpenGL exception occurs.
    */
 
-  public @Nonnull List<FramebufferDrawBuffer> framebufferGetDrawBuffers()
+  public  List<FramebufferDrawBuffer> framebufferGetDrawBuffers()
     throws JCGLRuntimeException,
       ConstraintError;
 }

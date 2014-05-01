@@ -58,9 +58,9 @@ public interface JCGLFramebuffersGL3 extends
    */
 
   void framebufferDrawAttachColorRenderbufferAt(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull RenderbufferUsableType<RenderableColorKind> renderbuffer)
+    final  FramebufferReference framebuffer,
+    final  FramebufferColorAttachmentPoint point,
+    final  RenderbufferUsableType<RenderableColorKind> renderbuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -91,9 +91,9 @@ public interface JCGLFramebuffersGL3 extends
    */
 
   void framebufferDrawAttachColorTexture2DAt(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull Texture2DStaticUsable texture)
+    final  FramebufferReference framebuffer,
+    final  FramebufferColorAttachmentPoint point,
+    final  Texture2DStaticUsable texture)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -125,10 +125,10 @@ public interface JCGLFramebuffersGL3 extends
    */
 
   void framebufferDrawAttachColorTextureCubeAt(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull TextureCubeStaticUsable texture,
-    final @Nonnull CubeMapFaceLH face)
+    final  FramebufferReference framebuffer,
+    final  FramebufferColorAttachmentPoint point,
+    final  TextureCubeStaticUsable texture,
+    final  CubeMapFaceLH face)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -159,8 +159,8 @@ public interface JCGLFramebuffersGL3 extends
    */
 
   void framebufferDrawAttachDepthStencilRenderbuffer(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsableType<RenderableDepthStencilKind> renderbuffer)
+    final  FramebufferReference framebuffer,
+    final  RenderbufferUsableType<RenderableDepthStencilKind> renderbuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -184,8 +184,8 @@ public interface JCGLFramebuffersGL3 extends
 
     void
     framebufferDrawSetBuffers(
-      final @Nonnull FramebufferReference framebuffer,
-      final @Nonnull Map<FramebufferDrawBuffer, FramebufferColorAttachmentPoint> mappings)
+      final  FramebufferReference framebuffer,
+      final  Map<FramebufferDrawBuffer, FramebufferColorAttachmentPoint> mappings)
       throws JCGLRuntimeException,
         ConstraintError;
 }

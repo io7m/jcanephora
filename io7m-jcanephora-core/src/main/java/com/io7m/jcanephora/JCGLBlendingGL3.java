@@ -46,8 +46,8 @@ public interface JCGLBlendingGL3 extends JCGLBlendingCommon
    */
 
   @Override void blendingEnable(
-    final @Nonnull BlendFunction source_factor,
-    final @Nonnull BlendFunction destination_factor)
+    final  BlendFunction source_factor,
+    final  BlendFunction destination_factor)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -68,10 +68,10 @@ public interface JCGLBlendingGL3 extends JCGLBlendingCommon
    */
 
   @Override void blendingEnableSeparate(
-    final @Nonnull BlendFunction source_rgb_factor,
-    final @Nonnull BlendFunction source_alpha_factor,
-    final @Nonnull BlendFunction destination_rgb_factor,
-    final @Nonnull BlendFunction destination_alpha_factor)
+    final  BlendFunction source_rgb_factor,
+    final  BlendFunction source_alpha_factor,
+    final  BlendFunction destination_rgb_factor,
+    final  BlendFunction destination_alpha_factor)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -126,12 +126,12 @@ public interface JCGLBlendingGL3 extends JCGLBlendingCommon
    */
 
   void blendingEnableSeparateWithEquationSeparate(
-    final @Nonnull BlendFunction source_rgb_factor,
-    final @Nonnull BlendFunction source_alpha_factor,
-    final @Nonnull BlendFunction destination_rgb_factor,
-    final @Nonnull BlendFunction destination_alpha_factor,
-    final @Nonnull BlendEquationGL3 equation_rgb,
-    final @Nonnull BlendEquationGL3 equation_alpha)
+    final  BlendFunction source_rgb_factor,
+    final  BlendFunction source_alpha_factor,
+    final  BlendFunction destination_rgb_factor,
+    final  BlendFunction destination_alpha_factor,
+    final  BlendEquationGL3 equation_rgb,
+    final  BlendEquationGL3 equation_alpha)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -152,9 +152,9 @@ public interface JCGLBlendingGL3 extends JCGLBlendingCommon
    */
 
   void blendingEnableWithEquation(
-    final @Nonnull BlendFunction source_factor,
-    final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquationGL3 equation)
+    final  BlendFunction source_factor,
+    final  BlendFunction destination_factor,
+    final  BlendEquationGL3 equation)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -175,10 +175,10 @@ public interface JCGLBlendingGL3 extends JCGLBlendingCommon
    */
 
   void blendingEnableWithEquationSeparate(
-    final @Nonnull BlendFunction source_factor,
-    final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquationGL3 equation_rgb,
-    final @Nonnull BlendEquationGL3 equation_alpha)
+    final  BlendFunction source_factor,
+    final  BlendFunction destination_factor,
+    final  BlendEquationGL3 equation_rgb,
+    final  BlendEquationGL3 equation_alpha)
     throws ConstraintError,
       JCGLRuntimeException;
 

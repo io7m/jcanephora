@@ -36,7 +36,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferUpdateUnmappedType;
 import com.io7m.jcanephora.BlendEquationGLES2;
 import com.io7m.jcanephora.BlendFunction;
@@ -231,7 +230,7 @@ import com.io7m.jtensors.VectorReadable4I;
     }
   }
 
-  @Override public ArrayBuffer arrayBufferAllocate(
+  @Override public JOGLArrayBuffer arrayBufferAllocate(
     final long elements,
     final @Nonnull ArrayBufferTypeDescriptor descriptor,
     final @Nonnull UsageHint usage)
@@ -256,7 +255,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void arrayBufferDelete(
-    final @Nonnull ArrayBuffer id)
+    final @Nonnull JOGLArrayBuffer id)
     throws ConstraintError,
       JCGLRuntimeException
   {

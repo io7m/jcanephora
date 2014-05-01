@@ -50,7 +50,7 @@ public interface JCGLLogic
    */
 
   void logicOperationsEnable(
-    final @Nonnull LogicOperation operation)
+    final  LogicOperation operation)
     throws ConstraintError,
       JCGLRuntimeException;
 

@@ -38,17 +38,17 @@ import javax.annotation.concurrent.NotThreadSafe;
    */
 
   private static final int                       INTEGER_CACHE_SIZE = 16 * 4;
-  @Nonnull List<FramebufferColorAttachmentPoint> color_attachments;
-  private final @Nonnull ByteBuffer              color_buffer_mask_cache;
-  private final @Nonnull ByteBuffer              depth_buffer_mask_cache;
-  @Nonnull List<FramebufferDrawBuffer>           draw_buffers;
-  private final @Nonnull IntBuffer               integer_cache;
-  private final @Nonnull ByteBuffer              integer_cache_buffer;
-  final @Nonnull StringBuilder                   log_text;
+   List<FramebufferColorAttachmentPoint> color_attachments;
+  private final  ByteBuffer              color_buffer_mask_cache;
+  private final  ByteBuffer              depth_buffer_mask_cache;
+   List<FramebufferDrawBuffer>           draw_buffers;
+  private final  IntBuffer               integer_cache;
+  private final  ByteBuffer              integer_cache_buffer;
+  final  StringBuilder                   log_text;
   int                                            point_max_width;
   int                                            point_min_width;
-  @Nonnull PolygonMode                           polygon_mode;
-  @Nonnull List<TextureUnit>                     texture_units;
+   PolygonMode                           polygon_mode;
+   List<TextureUnit>                     texture_units;
 
   JCGLStateCache()
   {
@@ -71,19 +71,19 @@ import javax.annotation.concurrent.NotThreadSafe;
     this.polygon_mode = PolygonMode.POLYGON_FILL;
   }
 
-  @Nonnull ByteBuffer getColorMaskCache()
+   ByteBuffer getColorMaskCache()
   {
     this.color_buffer_mask_cache.rewind();
     return this.color_buffer_mask_cache;
   }
 
-  @Nonnull ByteBuffer getDepthMaskCache()
+   ByteBuffer getDepthMaskCache()
   {
     this.depth_buffer_mask_cache.rewind();
     return this.depth_buffer_mask_cache;
   }
 
-  @Nonnull IntBuffer getIntegerCache()
+   IntBuffer getIntegerCache()
   {
     this.integerCacheReset();
     return this.integer_cache;

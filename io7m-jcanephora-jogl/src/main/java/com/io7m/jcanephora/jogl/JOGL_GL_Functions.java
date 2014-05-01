@@ -32,7 +32,6 @@ import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.ArrayBuffer;
 import com.io7m.jcanephora.ArrayBufferUpdateMapped;
 import com.io7m.jcanephora.ArrayBufferUpdateUnmappedType;
 import com.io7m.jcanephora.BlendEquationGL3;
@@ -78,7 +77,7 @@ import com.jogamp.common.util.VersionNumber;
 
 final class JOGL_GL_Functions
 {
-  static final @Nonnull ArrayBuffer arrayBufferAllocate(
+  static final @Nonnull JOGLArrayBuffer arrayBufferAllocate(
     final @Nonnull GL gl,
     final @Nonnull Log log,
     final @Nonnull JCGLStateCache state,
@@ -133,7 +132,7 @@ final class JOGL_GL_Functions
     } finally {
       gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
     }
-    return new ArrayBuffer(id, elements, descriptor);
+    return new JOGLArrayBuffer(id, elements, descriptor);
   }
 
   static void arrayBufferBind(
@@ -155,7 +154,7 @@ final class JOGL_GL_Functions
     final @Nonnull GL gl,
     final @Nonnull Log log,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ArrayBuffer id)
+    final @Nonnull JOGLArrayBuffer id)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -269,7 +268,7 @@ final class JOGL_GL_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull ArrayBuffer id)
+    final @Nonnull JOGLArrayBuffer id)
     throws JCGLRuntimeException,
       ConstraintError
   {

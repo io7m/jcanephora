@@ -25,6 +25,52 @@ import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
 import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_16_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_16_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_16_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_16f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_24_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_32_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_32_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_32_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_32f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_8_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_8_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_8_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_16_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_16_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_16_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_16f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_32_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_32_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_32f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_8_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_8_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_8_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_16_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_16_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_16_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_16f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_32_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_32_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_32f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_565;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_8_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_8_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_8_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_1010102;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_16_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_16_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_16_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_16f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_32_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_32_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_32f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_4444;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_5551;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_8_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_8_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_8_UNFP;
 
 /**
  * <p>
@@ -38,10 +84,10 @@ import com.io7m.jaux.UnreachableCodeException;
 
 public final class TextureCubeWritableData implements TextureWritableDataType
 {
-  private final @Nonnull AreaInclusive     source_area;
-  private final @Nonnull AreaInclusive     target_area;
-  private final @Nonnull ByteBuffer        target_data;
-  private final @Nonnull TextureCubeStatic texture;
+  private final  AreaInclusive     source_area;
+  private final  AreaInclusive     target_area;
+  private final  ByteBuffer        target_data;
+  private final  TextureCubeStatic texture;
   private final TextureType                type;
 
   /**
@@ -60,7 +106,7 @@ public final class TextureCubeWritableData implements TextureWritableDataType
    */
 
   public TextureCubeWritableData(
-    final @Nonnull TextureCubeStatic texture1)
+    final  TextureCubeStatic texture1)
     throws ConstraintError
   {
     this(texture1, texture1.getArea());
@@ -87,8 +133,8 @@ public final class TextureCubeWritableData implements TextureWritableDataType
    */
 
   public TextureCubeWritableData(
-    final @Nonnull TextureCubeStatic texture1,
-    final @Nonnull AreaInclusive area)
+    final  TextureCubeStatic texture1,
+    final  AreaInclusive area)
     throws ConstraintError
   {
     NullCheck.notNull(texture1, "Texture");
@@ -127,10 +173,10 @@ public final class TextureCubeWritableData implements TextureWritableDataType
    *           If the number of components in the texture is not 1.
    */
 
-  @Override public @Nonnull SpatialCursorWritable1d getCursor1d()
+  @Override public  SpatialCursorWritable1dType getCursor1d()
     throws ConstraintError
   {
-    return (SpatialCursorWritable1d) this.getCursor1f();
+    return (SpatialCursorWritable1dType) this.getCursor1f();
   }
 
   /**
@@ -144,7 +190,7 @@ public final class TextureCubeWritableData implements TextureWritableDataType
    *           If the number of components in the texture is not 1.
    */
 
-  @Override public @Nonnull SpatialCursorWritable1f getCursor1f()
+  @Override public  SpatialCursorWritable1fType getCursor1f()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -286,7 +332,7 @@ public final class TextureCubeWritableData implements TextureWritableDataType
    *           texture is floating-point.
    */
 
-  @Override public @Nonnull SpatialCursorWritable1i getCursor1i()
+  @Override public  SpatialCursorWritable1iType getCursor1i()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -418,10 +464,10 @@ public final class TextureCubeWritableData implements TextureWritableDataType
    *           If the number of components in the texture is not 2.
    */
 
-  @Override public @Nonnull SpatialCursorWritable2d getCursor2d()
+  @Override public  SpatialCursorWritable2dType getCursor2d()
     throws ConstraintError
   {
-    return (SpatialCursorWritable2d) this.getCursor2f();
+    return (SpatialCursorWritable2dType) this.getCursor2f();
   }
 
   /**
@@ -435,7 +481,7 @@ public final class TextureCubeWritableData implements TextureWritableDataType
    *           If the number of components in the texture is not 2.
    */
 
-  @Override public @Nonnull SpatialCursorWritable2f getCursor2f()
+  @Override public  SpatialCursorWritable2fType getCursor2f()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -574,7 +620,7 @@ public final class TextureCubeWritableData implements TextureWritableDataType
    *           texture is floating-point.
    */
 
-  @Override public @Nonnull SpatialCursorWritable2i getCursor2i()
+  @Override public  SpatialCursorWritable2iType getCursor2i()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -703,10 +749,10 @@ public final class TextureCubeWritableData implements TextureWritableDataType
    *           If the number of components in the texture is not 3.
    */
 
-  @Override public @Nonnull SpatialCursorWritable3d getCursor3d()
+  @Override public  SpatialCursorWritable3dType getCursor3d()
     throws ConstraintError
   {
-    return (SpatialCursorWritable3d) this.getCursor3f();
+    return (SpatialCursorWritable3dType) this.getCursor3f();
   }
 
   /**
@@ -720,7 +766,7 @@ public final class TextureCubeWritableData implements TextureWritableDataType
    *           If the number of components in the texture is not 3.
    */
 
-  @Override public @Nonnull SpatialCursorWritable3f getCursor3f()
+  @Override public  SpatialCursorWritable3fType getCursor3f()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -862,7 +908,7 @@ public final class TextureCubeWritableData implements TextureWritableDataType
    *           texture is floating-point.
    */
 
-  @Override public @Nonnull SpatialCursorWritable3i getCursor3i()
+  @Override public  SpatialCursorWritable3iType getCursor3i()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -994,10 +1040,10 @@ public final class TextureCubeWritableData implements TextureWritableDataType
    *           If the number of components in the texture is not 4.
    */
 
-  @Override public @Nonnull SpatialCursorWritable4d getCursor4d()
+  @Override public  SpatialCursorWritable4dType getCursor4d()
     throws ConstraintError
   {
-    return (SpatialCursorWritable4d) this.getCursor4f();
+    return (SpatialCursorWritable4dType) this.getCursor4f();
   }
 
   /**
@@ -1011,7 +1057,7 @@ public final class TextureCubeWritableData implements TextureWritableDataType
    *           If the number of components in the texture is not 4.
    */
 
-  @Override public @Nonnull SpatialCursorWritable4f getCursor4f()
+  @Override public  SpatialCursorWritable4fType getCursor4f()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -1165,7 +1211,7 @@ public final class TextureCubeWritableData implements TextureWritableDataType
    *           texture is floating-point.
    */
 
-  @Override public @Nonnull SpatialCursorWritable4i getCursor4i()
+  @Override public  SpatialCursorWritable4iType getCursor4i()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -1302,22 +1348,22 @@ public final class TextureCubeWritableData implements TextureWritableDataType
    * Retrieve the texture that will be affected by this update.
    */
 
-  public @Nonnull TextureCubeStatic getTexture()
+  public  TextureCubeStatic getTexture()
   {
     return this.texture;
   }
 
-  @Override public @Nonnull TextureType getType()
+  @Override public  TextureType getType()
   {
     return this.type;
   }
 
-  @Nonnull AreaInclusive targetArea()
+   AreaInclusive targetArea()
   {
     return this.target_area;
   }
 
-  @Nonnull ByteBuffer targetData()
+   ByteBuffer targetData()
   {
     return this.target_data;
   }

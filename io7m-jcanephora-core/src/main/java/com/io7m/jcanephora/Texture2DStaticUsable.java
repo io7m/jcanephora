@@ -34,7 +34,7 @@ public interface Texture2DStaticUsable extends
    * Retrieve the inclusive area of this texture.
    */
 
-  public @Nonnull AreaInclusive getArea();
+  public  AreaInclusive getArea();
 
   /**
    * Return the height in pixels of the texture.
@@ -46,37 +46,37 @@ public interface Texture2DStaticUsable extends
    * Retrieve the magnification filter used for the texture.
    */
 
-  public @Nonnull TextureFilterMagnification getMagnificationFilter();
+  public  TextureFilterMagnification getMagnificationFilter();
 
   /**
    * Retrieve the minification filter used for the texture.
    */
 
-  public @Nonnull TextureFilterMinification getMinificationFilter();
+  public  TextureFilterMinification getMinificationFilter();
 
   /**
    * Retrieve the name of the texture.
    */
 
-  public @Nonnull String getName();
+  public  String getName();
 
   /**
    * Return the range of valid indices on the X axis.
    */
 
-  public @Nonnull RangeInclusive getRangeX();
+  public  RangeInclusive getRangeX();
 
   /**
    * Return the range of valid indices on the Y axis.
    */
 
-  public @Nonnull RangeInclusive getRangeY();
+  public  RangeInclusive getRangeY();
 
   /**
    * Retrieve the type of the texture.
    */
 
-  public @Nonnull TextureType getType();
+  public  TextureType getType();
 
   /**
    * Retrieve the width in pixels of the texture.
@@ -88,11 +88,11 @@ public interface Texture2DStaticUsable extends
    * Retrieve the wrapping mode used on the S axis of the texture.
    */
 
-  public @Nonnull TextureWrapS getWrapS();
+  public  TextureWrapS getWrapS();
 
   /**
    * Retrieve the wrapping mode used on the T axis of the texture.
    */
 
-  public @Nonnull TextureWrapT getWrapT();
+  public  TextureWrapT getWrapT();
 }

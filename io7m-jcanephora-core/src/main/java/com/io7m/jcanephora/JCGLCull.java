@@ -54,8 +54,8 @@ public interface JCGLCull
    */
 
   void cullingEnable(
-    final @Nonnull FaceSelection faces,
-    final @Nonnull FaceWindingOrder order)
+    final  FaceSelection faces,
+    final  FaceWindingOrder order)
     throws ConstraintError,
       JCGLRuntimeException;
 

@@ -86,8 +86,8 @@ public interface JCGLStencilBuffer
    */
 
   void stencilBufferFunction(
-    final @Nonnull FaceSelection faces,
-    final @Nonnull StencilFunction function,
+    final  FaceSelection faces,
+    final  StencilFunction function,
     final int reference,
     final int mask)
     throws ConstraintError,
@@ -129,7 +129,7 @@ public interface JCGLStencilBuffer
    */
 
   void stencilBufferMask(
-    final @Nonnull FaceSelection faces,
+    final  FaceSelection faces,
     final int mask)
     throws ConstraintError,
       JCGLRuntimeException;
@@ -156,10 +156,10 @@ public interface JCGLStencilBuffer
    */
 
   void stencilBufferOperation(
-    final @Nonnull FaceSelection faces,
-    final @Nonnull StencilOperation stencil_fail,
-    final @Nonnull StencilOperation depth_fail,
-    final @Nonnull StencilOperation pass)
+    final  FaceSelection faces,
+    final  StencilOperation stencil_fail,
+    final  StencilOperation depth_fail,
+    final  StencilOperation pass)
     throws ConstraintError,
       JCGLRuntimeException;
 }

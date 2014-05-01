@@ -48,8 +48,8 @@ public interface JCGLIndexBuffers
    *           </ul>
    */
 
-  @Nonnull IndexBuffer indexBufferAllocate(
-    final @Nonnull ArrayBufferUsableType buffer,
+   IndexBuffer indexBufferAllocate(
+    final  ArrayBufferUsableType buffer,
     final int indices)
     throws JCGLRuntimeException,
       ConstraintError;
@@ -73,8 +73,8 @@ public interface JCGLIndexBuffers
    *           </ul>
    */
 
-  @Nonnull IndexBuffer indexBufferAllocateType(
-    final @Nonnull JCGLUnsignedType type,
+   IndexBuffer indexBufferAllocateType(
+    final  JCGLUnsignedType type,
     final int indices)
     throws JCGLRuntimeException,
       ConstraintError;
@@ -96,7 +96,7 @@ public interface JCGLIndexBuffers
    */
 
   void indexBufferDelete(
-    final @Nonnull IndexBuffer id)
+    final  IndexBuffer id)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -117,7 +117,7 @@ public interface JCGLIndexBuffers
    */
 
   public void indexBufferUpdate(
-    final @Nonnull IndexBufferWritableData data)
+    final  IndexBufferWritableData data)
     throws JCGLRuntimeException,
       ConstraintError;
 }

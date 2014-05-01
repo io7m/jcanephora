@@ -43,7 +43,7 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   @Override public int compareTo(
-    final @Nonnull JCGLSLVersionNumber other)
+    final  JCGLSLVersionNumber other)
   {
     if (this.equals(other)) {
       return 0;

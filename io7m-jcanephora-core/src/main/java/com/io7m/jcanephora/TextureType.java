@@ -330,10 +330,10 @@ public enum TextureType
 
   private final int                bytes_per_pixel;
   private final int                components;
-  private final @Nonnull PixelType pixel_type;
+  private final  PixelType pixel_type;
 
   private TextureType(
-    final @Nonnull PixelType pixel_type1,
+    final  PixelType pixel_type1,
     final int components1,
     final int bytes_per_pixel1)
   {
@@ -364,7 +364,7 @@ public enum TextureType
    * Retrieve the type used for the components.
    */
 
-  public @Nonnull PixelType getComponentType()
+  public  PixelType getComponentType()
   {
     return this.pixel_type;
   }

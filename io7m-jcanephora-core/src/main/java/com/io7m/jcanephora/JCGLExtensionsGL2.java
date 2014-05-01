@@ -30,5 +30,5 @@ public interface JCGLExtensionsGL2
    * <code>GL_ARB_depth_texture</code>
    */
 
-  public @Nonnull Option<JCGLExtensionDepthTexture> extensionDepthTexture();
+  public  Option<JCGLExtensionDepthTexture> extensionDepthTexture();
 }

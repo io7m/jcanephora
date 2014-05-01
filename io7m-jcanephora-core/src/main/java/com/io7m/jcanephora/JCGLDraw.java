@@ -49,8 +49,8 @@ public interface JCGLDraw
    */
 
   void drawElements(
-    final @Nonnull Primitives mode,
-    final @Nonnull IndexBufferUsableType indices)
+    final  Primitives mode,
+    final  IndexBufferUsableType indices)
     throws ConstraintError,
       JCGLRuntimeException;
 }

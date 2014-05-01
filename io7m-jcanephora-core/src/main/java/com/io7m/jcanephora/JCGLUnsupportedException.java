@@ -27,7 +27,7 @@ public final class JCGLUnsupportedException extends JCGLException
   private static final long serialVersionUID = -8872086228034386902L;
 
   public JCGLUnsupportedException(
-    final @Nonnull String message)
+    final  String message)
   {
     super(message);
   }

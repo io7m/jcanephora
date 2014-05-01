@@ -21,6 +21,7 @@ import javax.annotation.concurrent.Immutable;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.jogl.JCGLResourceDeletable;
 
 /**
  * A immutable reference to an allocated renderbuffer.
@@ -36,10 +37,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * Not intended to be accessible by user code.
    */
 
-  @SuppressWarnings("unchecked") static @Nonnull
+  @SuppressWarnings("unchecked") static 
     Renderbuffer<RenderableColorKind>
     unsafeBrandColor(
-      final @Nonnull Renderbuffer<?> r)
+      final  Renderbuffer<?> r)
   {
     return (Renderbuffer<RenderableColorKind>) r;
   }
@@ -51,10 +52,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * Not intended to be accessible by user code.
    */
 
-  @SuppressWarnings("unchecked") static @Nonnull
+  @SuppressWarnings("unchecked") static 
     Renderbuffer<RenderableDepthKind>
     unsafeBrandDepth(
-      final @Nonnull Renderbuffer<?> r)
+      final  Renderbuffer<?> r)
   {
     return (Renderbuffer<RenderableDepthKind>) r;
   }
@@ -66,10 +67,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * Not intended to be accessible by user code.
    */
 
-  @SuppressWarnings("unchecked") static @Nonnull
+  @SuppressWarnings("unchecked") static 
     Renderbuffer<RenderableDepthStencilKind>
     unsafeBrandDepthStencil(
-      final @Nonnull Renderbuffer<?> r)
+      final  Renderbuffer<?> r)
   {
     return (Renderbuffer<RenderableDepthStencilKind>) r;
   }
@@ -81,21 +82,21 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * Not intended to be accessible by user code.
    */
 
-  @SuppressWarnings("unchecked") static @Nonnull
+  @SuppressWarnings("unchecked") static 
     Renderbuffer<RenderableStencilKind>
     unsafeBrandStencil(
-      final @Nonnull Renderbuffer<?> r)
+      final  Renderbuffer<?> r)
   {
     return (Renderbuffer<RenderableStencilKind>) r;
   }
 
   private final int                       height;
-  private final @Nonnull RenderbufferType type;
+  private final  RenderbufferType type;
   private final int                       value;
   private final int                       width;
 
   Renderbuffer(
-    final @Nonnull RenderbufferType type1,
+    final  RenderbufferType type1,
     final int value1,
     final int width1,
     final int height1)
@@ -141,7 +142,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
     return this.height;
   }
 
-  @Override public @Nonnull RenderbufferType getType()
+  @Override public  RenderbufferType getType()
   {
     return this.type;
   }

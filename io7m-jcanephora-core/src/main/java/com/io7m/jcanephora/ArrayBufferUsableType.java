@@ -17,8 +17,8 @@
 package com.io7m.jcanephora;
 
 /**
- * A read-only interface to the {@link ArrayBuffer} type that allows use of
- * the type but not mutation and/or deletion of the contents.
+ * A read-only interface to the {@link ArrayBufferType} type that allows use
+ * of the array but not mutation and/or deletion of the contents.
  */
 
 public interface ArrayBufferUsableType extends
