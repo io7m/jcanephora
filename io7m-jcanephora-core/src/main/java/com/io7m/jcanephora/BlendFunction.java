@@ -23,100 +23,100 @@ package com.io7m.jcanephora;
 public enum BlendFunction
 {
   /**
-   * Multiply the colour by the current constant alpha, saturating the result;
+   * Multiply the color by the current constant alpha, saturating the result;
    * <code>GL_CONSTANT_ALPHA</code>
    */
 
   BLEND_CONSTANT_ALPHA,
 
   /**
-   * Multiply the colour by the current constant colour, saturating the
-   * result; <code>GL_CONSTANT_COLOR</code>
+   * Multiply the color by the current constant color, saturating the result;
+   * <code>GL_CONSTANT_COLOR</code>
    */
 
   BLEND_CONSTANT_COLOR,
 
   /**
-   * Multiply the colour by the destination alpha; <code>GL_DST_ALPHA</code>
+   * Multiply the color by the destination alpha; <code>GL_DST_ALPHA</code>
    */
 
   BLEND_DESTINATION_ALPHA,
 
   /**
-   * Multiply the colour by the destination colour; <code>GL_DST_COLOR</code>
+   * Multiply the color by the destination color; <code>GL_DST_COLOR</code>
    */
 
   BLEND_DESTINATION_COLOR,
 
   /**
-   * Multiply the colour by one; <code>GL_ONE</code>
+   * Multiply the color by one; <code>GL_ONE</code>
    */
 
   BLEND_ONE,
 
   /**
-   * Multiply the colour by one minus the current constant alpha, saturating
+   * Multiply the color by one minus the current constant alpha, saturating
    * the result; <code>GL_ONE_MINUS_CONSTANT_ALPHA</code>
    */
 
   BLEND_ONE_MINUS_CONSTANT_ALPHA,
 
   /**
-   * Multiply the colour by one minus the current constant colour, saturating
+   * Multiply the color by one minus the current constant color, saturating
    * the result; <code>GL_ONE_MINUS_CONSTANT_COLOR</code>
    */
 
   BLEND_ONE_MINUS_CONSTANT_COLOR,
 
   /**
-   * Multiply the colour by one minus the destination alpha;
+   * Multiply the color by one minus the destination alpha;
    * <code>GL_ONE_MINUS_DST_ALPHA</code>
    */
 
   BLEND_ONE_MINUS_DESTINATION_ALPHA,
 
   /**
-   * Multiply the colour by one minus the destination colour;
+   * Multiply the color by one minus the destination color;
    * <code>GL_ONE_MINUS_DST_COLOR</code>
    */
 
   BLEND_ONE_MINUS_DESTINATION_COLOR,
 
   /**
-   * Multiply the colour by one minus the source alpha;
+   * Multiply the color by one minus the source alpha;
    * <code>GL_ONE_MINUS_SRC_ALPHA</code>
    */
 
   BLEND_ONE_MINUS_SOURCE_ALPHA,
 
   /**
-   * Multiply the colour by one minus the source colour;
+   * Multiply the color by one minus the source color;
    * <code>GL_ONE_MINUS_SRC_COLOR</code>
    */
 
   BLEND_ONE_MINUS_SOURCE_COLOR,
 
   /**
-   * Multiply the colour by the source alpha; <code>GL_SRC_ALPHA</code>
+   * Multiply the color by the source alpha; <code>GL_SRC_ALPHA</code>
    */
 
   BLEND_SOURCE_ALPHA,
 
   /**
-   * Multiply the colour by the source alpha, saturating the result;
+   * Multiply the color by the source alpha, saturating the result;
    * <code>GL_SRC_ALPHA</code>
    */
 
   BLEND_SOURCE_ALPHA_SATURATE,
 
   /**
-   * Multiply the colour by the source colour; <code>GL_SRC_COLOR</code>
+   * Multiply the color by the source color; <code>GL_SRC_COLOR</code>
    */
 
   BLEND_SOURCE_COLOR,
 
   /**
-   * Multiply the colour by zero; <code>GL_ZERO</code>
+   * Multiply the color by zero; <code>GL_ZERO</code>
    */
 
   BLEND_ZERO,

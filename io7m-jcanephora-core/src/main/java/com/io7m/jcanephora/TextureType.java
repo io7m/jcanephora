@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -15,8 +15,6 @@
  */
 
 package com.io7m.jcanephora;
-
-import javax.annotation.Nonnull;
 
 /** Texture types */
 
@@ -326,24 +324,24 @@ public enum TextureType
    * 8 bit, red/green/blue/alpha channels, unsigned integer components.
    */
 
-  TEXTURE_TYPE_RGBA_8U_4BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_BYTE, 4, 4), ;
+  TEXTURE_TYPE_RGBA_8U_4BPP(PixelType.PIXEL_COMPONENT_UNSIGNED_BYTE, 4, 4);
 
-  private final int                bytes_per_pixel;
-  private final int                components;
-  private final  PixelType pixel_type;
+  private final int       bytes_per_pixel;
+  private final int       components;
+  private final PixelType pixel_type;
 
   private TextureType(
-    final  PixelType pixel_type1,
-    final int components1,
-    final int bytes_per_pixel1)
+    final PixelType in_pixel_type,
+    final int in_components,
+    final int in_bytes_per_pixel)
   {
-    this.pixel_type = pixel_type1;
-    this.components = components1;
-    this.bytes_per_pixel = bytes_per_pixel1;
+    this.pixel_type = in_pixel_type;
+    this.components = in_components;
+    this.bytes_per_pixel = in_bytes_per_pixel;
   }
 
   /**
-   * Retrieve the number of bytes per pixel that this texture type requires.
+   * @return The number of bytes per pixel that this texture type requires.
    */
 
   public int getBytesPerPixel()
@@ -352,7 +350,7 @@ public enum TextureType
   }
 
   /**
-   * Retrieve the number of components in this texture type.
+   * @return The number of components in this texture type.
    */
 
   public int getComponentCount()
@@ -361,10 +359,10 @@ public enum TextureType
   }
 
   /**
-   * Retrieve the type used for the components.
+   * @return The type used for the components.
    */
 
-  public  PixelType getComponentType()
+  public PixelType getComponentType()
   {
     return this.pixel_type;
   }

@@ -25,9 +25,9 @@ public final class TextureUnit
   private final int index;
 
   TextureUnit(
-    final int index1)
+    final int in_index)
   {
-    this.index = index1;
+    this.index = in_index;
   }
 
   @Override public boolean equals(
