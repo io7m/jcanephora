@@ -14,7 +14,7 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.jogl;
 
 import java.util.Set;
 
@@ -25,6 +25,32 @@ import javax.media.opengl.GL2ES3;
 import javax.media.opengl.GL2GL3;
 
 import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jcanephora.BlendEquationGL3;
+import com.io7m.jcanephora.BlendEquationGLES2;
+import com.io7m.jcanephora.BlendFunction;
+import com.io7m.jcanephora.CubeMapFaceLH;
+import com.io7m.jcanephora.DepthFunction;
+import com.io7m.jcanephora.FaceSelection;
+import com.io7m.jcanephora.FaceWindingOrder;
+import com.io7m.jcanephora.FramebufferBlitBuffer;
+import com.io7m.jcanephora.FramebufferBlitFilter;
+import com.io7m.jcanephora.FramebufferStatus;
+import com.io7m.jcanephora.JCGLScalarType;
+import com.io7m.jcanephora.JCGLType;
+import com.io7m.jcanephora.JCGLUnsignedType;
+import com.io7m.jcanephora.LogicOperation;
+import com.io7m.jcanephora.PixelType;
+import com.io7m.jcanephora.PolygonMode;
+import com.io7m.jcanephora.Primitives;
+import com.io7m.jcanephora.RenderbufferType;
+import com.io7m.jcanephora.StencilFunction;
+import com.io7m.jcanephora.StencilOperation;
+import com.io7m.jcanephora.TextureFilterMagnification;
+import com.io7m.jcanephora.TextureFilterMinification;
+import com.io7m.jcanephora.TextureWrapR;
+import com.io7m.jcanephora.TextureWrapS;
+import com.io7m.jcanephora.TextureWrapT;
+import com.io7m.jcanephora.UsageHint;
 
 final class JOGL_GLTypeConversions
 {

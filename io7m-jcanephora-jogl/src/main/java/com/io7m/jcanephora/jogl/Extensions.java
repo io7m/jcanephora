@@ -14,13 +14,15 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.jogl;
 
 import javax.annotation.Nonnull;
 import javax.media.opengl.GLContext;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.JCGLNamedExtensions;
+import com.io7m.jcanephora.JCGLSoftRestrictions;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 

@@ -14,7 +14,7 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.jogl;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -25,7 +25,31 @@ import javax.media.opengl.GL2ES2;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.JOGL_TextureSpecs.TextureSpec;
+import com.io7m.jcanephora.AreaInclusive;
+import com.io7m.jcanephora.CubeMapFaceLH;
+import com.io7m.jcanephora.DepthFunction;
+import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
+import com.io7m.jcanephora.FramebufferReference;
+import com.io7m.jcanephora.FramebufferStatus;
+import com.io7m.jcanephora.JCGLNamedExtensions;
+import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLStateCache;
+import com.io7m.jcanephora.JCGLVersion;
+import com.io7m.jcanephora.RenderbufferType;
+import com.io7m.jcanephora.Texture2DStatic;
+import com.io7m.jcanephora.Texture2DStaticUsable;
+import com.io7m.jcanephora.Texture2DWritableData;
+import com.io7m.jcanephora.TextureCubeStatic;
+import com.io7m.jcanephora.TextureCubeStaticUsable;
+import com.io7m.jcanephora.TextureCubeWritableData;
+import com.io7m.jcanephora.TextureFilterMagnification;
+import com.io7m.jcanephora.TextureFilterMinification;
+import com.io7m.jcanephora.TextureType;
+import com.io7m.jcanephora.TextureTypeMeta;
+import com.io7m.jcanephora.TextureWrapR;
+import com.io7m.jcanephora.TextureWrapS;
+import com.io7m.jcanephora.TextureWrapT;
+import com.io7m.jcanephora.jogl.JOGL_TextureSpecs.TextureSpec;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 
