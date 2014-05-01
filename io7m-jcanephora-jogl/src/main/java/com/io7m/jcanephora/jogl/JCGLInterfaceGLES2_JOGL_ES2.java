@@ -60,7 +60,7 @@ import com.io7m.jcanephora.JCGLInterfaceGLES2;
 import com.io7m.jcanephora.JCGLNamedExtensions;
 import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLSLVersion;
-import com.io7m.jcanephora.JCGLSoftRestrictions;
+import com.io7m.jcanephora.JCGLSoftRestrictionsType;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.JCGLUnsignedType;
 import com.io7m.jcanephora.JCGLVersion;
@@ -132,14 +132,14 @@ import com.io7m.jtensors.VectorReadable4I;
   private final @Nonnull JCGLStateCache                          state;
   private final @Nonnull JCGLVersion                             version;
   private final @Nonnull JCGLNamedExtensions                     extensions;
-  private final @Nonnull JCGLSoftRestrictions                    restrictions;
+  private final @Nonnull JCGLSoftRestrictionsType                    restrictions;
 
   JCGLInterfaceGLES2_JOGL_ES2(
     final @Nonnull GLContext context,
     final @Nonnull Log log1,
     final @Nonnull JCGLDebugging debug,
     final @CheckForNull PrintStream trace_out,
-    final @Nonnull JCGLSoftRestrictions restrictions1)
+    final @Nonnull JCGLSoftRestrictionsType restrictions1)
     throws ConstraintError,
       JCGLRuntimeException
   {

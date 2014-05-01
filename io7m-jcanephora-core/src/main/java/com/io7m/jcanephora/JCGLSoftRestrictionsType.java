@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
 /**
  * <p>
  * An interface that specifies restrictions to be placed on the OpenGL
@@ -30,7 +28,7 @@ import javax.annotation.Nonnull;
  * </p>
  */
 
-public interface JCGLSoftRestrictions
+public interface JCGLSoftRestrictionsType
 {
   /**
    * <p>
@@ -43,10 +41,14 @@ public interface JCGLSoftRestrictions
    * function and <code>e</code> indicates whether or not the extension is
    * actually available.
    * </p>
+   * 
+   * @param name
+   *          The name of the extension.
+   * @return <code>true</code> if the extension should be visible.
    */
 
-  public boolean restrictExtensionVisibility(
-    final  String name);
+  boolean restrictExtensionVisibility(
+    final String name);
 
   /**
    * <p>
@@ -58,8 +60,12 @@ public interface JCGLSoftRestrictions
    * as <code>max(1, min (r, count))</code>, where <code>r</code> is the value
    * returned by the function.
    * </p>
+   * 
+   * @param count
+   *          The actual number of texture units that are available.
+   * @return The maximum number of texture units that should be exposed.
    */
 
-  public int restrictTextureUnitCount(
+  int restrictTextureUnitCount(
     final int count);
 }

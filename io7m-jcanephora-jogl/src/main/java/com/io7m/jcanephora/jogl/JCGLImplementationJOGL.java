@@ -35,7 +35,7 @@ import com.io7m.jcanephora.JCGLInterfaceGL3;
 import com.io7m.jcanephora.JCGLInterfaceGLES2;
 import com.io7m.jcanephora.JCGLInterfaceGLES3;
 import com.io7m.jcanephora.JCGLRuntimeException;
-import com.io7m.jcanephora.JCGLSoftRestrictions;
+import com.io7m.jcanephora.JCGLSoftRestrictionsType;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jlog.Log;
 
@@ -46,7 +46,7 @@ import com.io7m.jlog.Log;
 public final class JCGLImplementationJOGL implements JCGLImplementation
 {
   private final static class DefaultRestrictions implements
-    JCGLSoftRestrictions
+    JCGLSoftRestrictionsType
   {
     public DefaultRestrictions()
     {
@@ -66,7 +66,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
     }
   }
 
-  private static final @Nonnull JCGLSoftRestrictions DEFAULT_RESTRICTIONS;
+  private static final @Nonnull JCGLSoftRestrictionsType DEFAULT_RESTRICTIONS;
 
   static {
     DEFAULT_RESTRICTIONS = new DefaultRestrictions();
@@ -149,7 +149,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
     newImplementationWithDebuggingAndRestrictions(
       final @Nonnull GLContext context,
       final @Nonnull Log log,
-      final @Nonnull JCGLSoftRestrictions r)
+      final @Nonnull JCGLSoftRestrictionsType r)
       throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
@@ -217,7 +217,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
       final @Nonnull GLContext context,
       final @Nonnull Log log,
       final @Nonnull PrintStream trace,
-      final @Nonnull JCGLSoftRestrictions r)
+      final @Nonnull JCGLSoftRestrictionsType r)
       throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
@@ -248,7 +248,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
     newImplementationWithRestrictions(
       final @Nonnull GLContext context,
       final @Nonnull Log log,
-      final @Nonnull JCGLSoftRestrictions r)
+      final @Nonnull JCGLSoftRestrictionsType r)
       throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
@@ -313,7 +313,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
       final @Nonnull GLContext context,
       final @Nonnull Log log,
       final @Nonnull PrintStream trace,
-      final @Nonnull JCGLSoftRestrictions r)
+      final @Nonnull JCGLSoftRestrictionsType r)
       throws JCGLRuntimeException,
         JCGLUnsupportedException,
         ConstraintError
@@ -338,7 +338,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
     final @Nonnull Log log1,
     final @Nonnull JCGLDebugging debug,
     final @CheckForNull PrintStream trace,
-    final @Nonnull JCGLSoftRestrictions r)
+    final @Nonnull JCGLSoftRestrictionsType r)
     throws ConstraintError,
       JCGLRuntimeException,
       JCGLUnsupportedException

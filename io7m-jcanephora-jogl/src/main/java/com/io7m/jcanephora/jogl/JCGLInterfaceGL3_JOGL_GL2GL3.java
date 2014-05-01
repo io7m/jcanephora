@@ -68,7 +68,7 @@ import com.io7m.jcanephora.JCGLError;
 import com.io7m.jcanephora.JCGLInterfaceGL3;
 import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLSLVersion;
-import com.io7m.jcanephora.JCGLSoftRestrictions;
+import com.io7m.jcanephora.JCGLSoftRestrictionsType;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.JCGLUnsignedType;
 import com.io7m.jcanephora.JCGLVersion;
@@ -138,7 +138,7 @@ import com.io7m.jtensors.VectorReadable4I;
   private final @Nonnull Extensions           extensions;
   private final @Nonnull GLContext            gl_context;
   private final @Nonnull Log                  log;
-  private final @Nonnull JCGLSoftRestrictions restrictions;
+  private final @Nonnull JCGLSoftRestrictionsType restrictions;
   private final @Nonnull JCGLSLVersion        sl_version;
   private final @Nonnull JCGLStateCache       state;
   private final @Nonnull JCGLVersion          version;
@@ -148,7 +148,7 @@ import com.io7m.jtensors.VectorReadable4I;
     final @Nonnull Log log1,
     final @Nonnull JCGLDebugging debug,
     final @CheckForNull PrintStream trace_out,
-    final @Nonnull JCGLSoftRestrictions restrictions1)
+    final @Nonnull JCGLSoftRestrictionsType restrictions1)
     throws ConstraintError,
       JCGLRuntimeException
   {
