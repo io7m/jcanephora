@@ -24,6 +24,54 @@ import javax.annotation.Nonnull;
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_16_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_16_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_16_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_16f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_24_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_32_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_32_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_32_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_32f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_8_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_8_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_8_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_16_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_16_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_16_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_16f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_32_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_32_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_32_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_32f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_8_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_8_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_8_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_16_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_16_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_16_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_16f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_32_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_32_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_32_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_32f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_565;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_8_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_8_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_8_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_1010102;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_16_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_16_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_16_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_16f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_32_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_32_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_32f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_4444;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_5551;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_8_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_8_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_8_UNFP;
 
 /**
  * <p>
@@ -36,15 +84,15 @@ import com.io7m.jaux.UnreachableCodeException;
  * </p>
  */
 
-public final class TextureCubeReadableData implements TextureReadableData
+public final class TextureCubeReadableData implements TextureReadableDataType
 {
-  private final @Nonnull AreaInclusive area;
-  private final @Nonnull ByteBuffer    data;
-  private final @Nonnull TextureType   type;
+  private final  AreaInclusive area;
+  private final  ByteBuffer    data;
+  private final  TextureType   type;
 
   TextureCubeReadableData(
-    final @Nonnull TextureType type1,
-    final @Nonnull AreaInclusive area1)
+    final  TextureType type1,
+    final  AreaInclusive area1)
     throws ConstraintError
   {
     this.type = NullCheck.notNull(type1, "Texture type");
@@ -64,10 +112,10 @@ public final class TextureCubeReadableData implements TextureReadableData
    * @see com.io7m.jcanephora.TextureReadableData#getCursor1d()
    */
 
-  @Override public @Nonnull SpatialCursorReadable1d getCursor1d()
+  @Override public  SpatialCursorReadable1dType getCursor1d()
     throws ConstraintError
   {
-    return (SpatialCursorReadable1d) this.getCursor1f();
+    return (SpatialCursorReadable1dType) this.getCursor1f();
   }
 
   /*
@@ -76,7 +124,7 @@ public final class TextureCubeReadableData implements TextureReadableData
    * @see com.io7m.jcanephora.TextureReadableData#getCursor1f()
    */
 
-  @Override public @Nonnull SpatialCursorReadable1f getCursor1f()
+  @Override public  SpatialCursorReadable1fType getCursor1f()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -212,7 +260,7 @@ public final class TextureCubeReadableData implements TextureReadableData
    * @see com.io7m.jcanephora.TextureReadableData#getCursor1i()
    */
 
-  @Override public @Nonnull SpatialCursorReadable1i getCursor1i()
+  @Override public  SpatialCursorReadable1iType getCursor1i()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -339,10 +387,10 @@ public final class TextureCubeReadableData implements TextureReadableData
    * @see com.io7m.jcanephora.TextureReadableData#getCursor2d()
    */
 
-  @Override public @Nonnull SpatialCursorReadable2d getCursor2d()
+  @Override public  SpatialCursorReadable2dType getCursor2d()
     throws ConstraintError
   {
-    return (SpatialCursorReadable2d) this.getCursor2f();
+    return (SpatialCursorReadable2dType) this.getCursor2f();
   }
 
   /*
@@ -351,7 +399,7 @@ public final class TextureCubeReadableData implements TextureReadableData
    * @see com.io7m.jcanephora.TextureReadableData#getCursor2f()
    */
 
-  @Override public @Nonnull SpatialCursorReadable2f getCursor2f()
+  @Override public  SpatialCursorReadable2fType getCursor2f()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -484,7 +532,7 @@ public final class TextureCubeReadableData implements TextureReadableData
    * @see com.io7m.jcanephora.TextureReadableData#getCursor2i()
    */
 
-  @Override public @Nonnull SpatialCursorReadable2i getCursor2i()
+  @Override public  SpatialCursorReadable2iType getCursor2i()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -608,10 +656,10 @@ public final class TextureCubeReadableData implements TextureReadableData
    * @see com.io7m.jcanephora.TextureReadableData#getCursor3d()
    */
 
-  @Override public @Nonnull SpatialCursorReadable3d getCursor3d()
+  @Override public  SpatialCursorReadable3dType getCursor3d()
     throws ConstraintError
   {
-    return (SpatialCursorReadable3d) this.getCursor3f();
+    return (SpatialCursorReadable3dType) this.getCursor3f();
   }
 
   /*
@@ -620,7 +668,7 @@ public final class TextureCubeReadableData implements TextureReadableData
    * @see com.io7m.jcanephora.TextureReadableData#getCursor3f()
    */
 
-  @Override public @Nonnull SpatialCursorReadable3f getCursor3f()
+  @Override public  SpatialCursorReadable3fType getCursor3f()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -756,7 +804,7 @@ public final class TextureCubeReadableData implements TextureReadableData
    * @see com.io7m.jcanephora.TextureReadableData#getCursor3i()
    */
 
-  @Override public @Nonnull SpatialCursorReadable3i getCursor3i()
+  @Override public  SpatialCursorReadable3iType getCursor3i()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -883,10 +931,10 @@ public final class TextureCubeReadableData implements TextureReadableData
    * @see com.io7m.jcanephora.TextureReadableData#getCursor4d()
    */
 
-  @Override public @Nonnull SpatialCursorReadable4d getCursor4d()
+  @Override public  SpatialCursorReadable4dType getCursor4d()
     throws ConstraintError
   {
-    return (SpatialCursorReadable4d) this.getCursor4f();
+    return (SpatialCursorReadable4dType) this.getCursor4f();
   }
 
   /*
@@ -895,7 +943,7 @@ public final class TextureCubeReadableData implements TextureReadableData
    * @see com.io7m.jcanephora.TextureReadableData#getCursor4f()
    */
 
-  @Override public @Nonnull SpatialCursorReadable4f getCursor4f()
+  @Override public  SpatialCursorReadable4fType getCursor4f()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -1043,7 +1091,7 @@ public final class TextureCubeReadableData implements TextureReadableData
    * @see com.io7m.jcanephora.TextureReadableData#getCursor4i()
    */
 
-  @Override public @Nonnull SpatialCursorReadable4i getCursor4i()
+  @Override public  SpatialCursorReadable4iType getCursor4i()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -1176,12 +1224,12 @@ public final class TextureCubeReadableData implements TextureReadableData
     throw new UnreachableCodeException();
   }
 
-  @Nonnull AreaInclusive targetArea()
+   AreaInclusive targetArea()
   {
     return this.area;
   }
 
-  @Nonnull ByteBuffer targetData()
+   ByteBuffer targetData()
   {
     return this.data;
   }

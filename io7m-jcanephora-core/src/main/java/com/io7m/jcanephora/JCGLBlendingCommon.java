@@ -54,8 +54,8 @@ public interface JCGLBlendingCommon
    */
 
   void blendingEnable(
-    final @Nonnull BlendFunction source_factor,
-    final @Nonnull BlendFunction destination_factor)
+    final  BlendFunction source_factor,
+    final  BlendFunction destination_factor)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -76,10 +76,10 @@ public interface JCGLBlendingCommon
    */
 
   void blendingEnableSeparate(
-    final @Nonnull BlendFunction source_rgb_factor,
-    final @Nonnull BlendFunction source_alpha_factor,
-    final @Nonnull BlendFunction destination_rgb_factor,
-    final @Nonnull BlendFunction destination_alpha_factor)
+    final  BlendFunction source_rgb_factor,
+    final  BlendFunction source_alpha_factor,
+    final  BlendFunction destination_rgb_factor,
+    final  BlendFunction destination_alpha_factor)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -134,12 +134,12 @@ public interface JCGLBlendingCommon
    */
 
   void blendingEnableSeparateWithEquationSeparateES2(
-    final @Nonnull BlendFunction source_rgb_factor,
-    final @Nonnull BlendFunction source_alpha_factor,
-    final @Nonnull BlendFunction destination_rgb_factor,
-    final @Nonnull BlendFunction destination_alpha_factor,
-    final @Nonnull BlendEquationGLES2 equation_rgb,
-    final @Nonnull BlendEquationGLES2 equation_alpha)
+    final  BlendFunction source_rgb_factor,
+    final  BlendFunction source_alpha_factor,
+    final  BlendFunction destination_rgb_factor,
+    final  BlendFunction destination_alpha_factor,
+    final  BlendEquationGLES2 equation_rgb,
+    final  BlendEquationGLES2 equation_alpha)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -160,9 +160,9 @@ public interface JCGLBlendingCommon
    */
 
   void blendingEnableWithEquationES2(
-    final @Nonnull BlendFunction source_factor,
-    final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquationGLES2 equation)
+    final  BlendFunction source_factor,
+    final  BlendFunction destination_factor,
+    final  BlendEquationGLES2 equation)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -183,10 +183,10 @@ public interface JCGLBlendingCommon
    */
 
   void blendingEnableWithEquationSeparateES2(
-    final @Nonnull BlendFunction source_factor,
-    final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquationGLES2 equation_rgb,
-    final @Nonnull BlendEquationGLES2 equation_alpha)
+    final  BlendFunction source_factor,
+    final  BlendFunction destination_factor,
+    final  BlendEquationGLES2 equation_rgb,
+    final  BlendEquationGLES2 equation_alpha)
     throws ConstraintError,
       JCGLRuntimeException;
 

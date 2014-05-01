@@ -19,6 +19,9 @@ package com.io7m.jcanephora;
 import java.nio.ByteBuffer;
 import java.util.Map;
 
+import com.io7m.jcanephora.cursors.ByteBufferCursorWritable2f;
+import com.io7m.jcanephora.cursors.ByteBufferCursorWritable3f;
+import com.io7m.jcanephora.cursors.ByteBufferCursorWritable4f;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jranges.RangeInclusiveL;
 

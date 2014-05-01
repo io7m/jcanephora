@@ -51,7 +51,7 @@ public enum JCGLType
   TYPE_SAMPLER_3D("sampler3D"),
   TYPE_SAMPLER_CUBE("samplerCube");
 
-  private static @Nonnull Map<String, JCGLType> names;
+  private static  Map<String, JCGLType> names;
 
   static {
     JCGLType.names = JCGLType.getNames();
@@ -66,8 +66,8 @@ public enum JCGLType
    *           correspond to a known type.
    */
 
-  public static @Nonnull JCGLType fromName(
-    final @Nonnull String name)
+  public static  JCGLType fromName(
+    final  String name)
     throws ConstraintError
   {
     return NullCheck.notNull(
@@ -75,7 +75,7 @@ public enum JCGLType
       "Name corresponds to type");
   }
 
-  private static @Nonnull Map<String, JCGLType> getNames()
+  private static  Map<String, JCGLType> getNames()
   {
     final HashMap<String, JCGLType> m = new HashMap<String, JCGLType>();
     for (final JCGLType t : JCGLType.values()) {
@@ -84,15 +84,15 @@ public enum JCGLType
     return m;
   }
 
-  private final @Nonnull String name;
+  private final  String name;
 
   private JCGLType(
-    final @Nonnull String name1)
+    final  String name1)
   {
     this.name = name1;
   }
 
-  public @Nonnull String getName()
+  public  String getName()
   {
     return this.name;
   }

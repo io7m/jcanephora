@@ -46,6 +46,6 @@ public interface JCGLTextureUnits
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull List<TextureUnit> textureGetUnits()
+  public  List<TextureUnit> textureGetUnits()
     throws JCGLRuntimeException;
 }

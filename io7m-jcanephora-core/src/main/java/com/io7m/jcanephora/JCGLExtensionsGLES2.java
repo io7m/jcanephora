@@ -30,7 +30,7 @@ public interface JCGLExtensionsGLES2
    * <code>GL_OES_depth_texture_cube_map</code>
    */
 
-  public @Nonnull
+  public 
     Option<JCGLExtensionDepthCubeTexture>
     extensionDepthCubeTexture();
 
@@ -38,13 +38,13 @@ public interface JCGLExtensionsGLES2
    * <code>GL_OES_depth_texture</code>
    */
 
-  public @Nonnull Option<JCGLExtensionESDepthTexture> extensionDepthTexture();
+  public  Option<JCGLExtensionESDepthTexture> extensionDepthTexture();
 
   /**
    * <code>GL_OES_packed_depth_stencil</code>
    */
 
-  public @Nonnull
+  public 
     Option<JCGLExtensionPackedDepthStencil>
     extensionPackedDepthStencil();
 }

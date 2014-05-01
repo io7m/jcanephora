@@ -43,7 +43,7 @@ public interface JCGLRenderbuffersGLES2 extends JCGLRenderbuffersCommon
    *           Iff an OpenGL exception occurs.
    */
 
-  @Nonnull Renderbuffer<RenderableDepthKind> renderbufferAllocateDepth16(
+   Renderbuffer<RenderableDepthKind> renderbufferAllocateDepth16(
     final int width,
     final int height)
     throws ConstraintError,
@@ -66,7 +66,7 @@ public interface JCGLRenderbuffersGLES2 extends JCGLRenderbuffersCommon
    *           Iff an OpenGL exception occurs.
    */
 
-  @Nonnull Renderbuffer<RenderableColorKind> renderbufferAllocateRGB565(
+   Renderbuffer<RenderableColorKind> renderbufferAllocateRGB565(
     final int width,
     final int height)
     throws ConstraintError,
@@ -89,7 +89,7 @@ public interface JCGLRenderbuffersGLES2 extends JCGLRenderbuffersCommon
    *           Iff an OpenGL exception occurs.
    */
 
-  @Nonnull Renderbuffer<RenderableColorKind> renderbufferAllocateRGBA4444(
+   Renderbuffer<RenderableColorKind> renderbufferAllocateRGBA4444(
     final int width,
     final int height)
     throws ConstraintError,
@@ -112,7 +112,7 @@ public interface JCGLRenderbuffersGLES2 extends JCGLRenderbuffersCommon
    *           Iff an OpenGL exception occurs.
    */
 
-  @Nonnull Renderbuffer<RenderableColorKind> renderbufferAllocateRGBA5551(
+   Renderbuffer<RenderableColorKind> renderbufferAllocateRGBA5551(
     final int width,
     final int height)
     throws ConstraintError,
@@ -135,7 +135,7 @@ public interface JCGLRenderbuffersGLES2 extends JCGLRenderbuffersCommon
    *           Iff an OpenGL exception occurs.
    */
 
-  @Nonnull Renderbuffer<RenderableStencilKind> renderbufferAllocateStencil8(
+   Renderbuffer<RenderableStencilKind> renderbufferAllocateStencil8(
     final int width,
     final int height)
     throws ConstraintError,

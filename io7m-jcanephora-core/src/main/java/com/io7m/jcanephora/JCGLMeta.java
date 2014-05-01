@@ -40,7 +40,7 @@ public interface JCGLMeta
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull String metaGetRenderer()
+  public  String metaGetRenderer()
     throws JCGLRuntimeException;
 
   /**
@@ -50,7 +50,7 @@ public interface JCGLMeta
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull JCGLSLVersion metaGetSLVersion()
+  public  JCGLSLVersion metaGetSLVersion()
     throws JCGLRuntimeException;
 
   /**
@@ -60,7 +60,7 @@ public interface JCGLMeta
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull String metaGetVendor()
+  public  String metaGetVendor()
     throws JCGLRuntimeException;
 
   /**
@@ -70,6 +70,6 @@ public interface JCGLMeta
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull JCGLVersion metaGetVersion()
+  public  JCGLVersion metaGetVersion()
     throws JCGLRuntimeException;
 }

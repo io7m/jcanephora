@@ -50,8 +50,8 @@ public interface JCGLTexturesCubeStaticCommon
    */
 
   void textureCubeStaticBind(
-    final @Nonnull TextureUnit unit,
-    final @Nonnull TextureCubeStaticUsable texture)
+    final  TextureUnit unit,
+    final  TextureCubeStaticUsable texture)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -72,7 +72,7 @@ public interface JCGLTexturesCubeStaticCommon
    */
 
   void textureCubeStaticDelete(
-    final @Nonnull TextureCubeStatic texture)
+    final  TextureCubeStatic texture)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -95,8 +95,8 @@ public interface JCGLTexturesCubeStaticCommon
    */
 
   boolean textureCubeStaticIsBound(
-    final @Nonnull TextureUnit unit,
-    final @Nonnull TextureCubeStaticUsable texture)
+    final  TextureUnit unit,
+    final  TextureCubeStaticUsable texture)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -116,7 +116,7 @@ public interface JCGLTexturesCubeStaticCommon
    */
 
   void textureCubeStaticUnbind(
-    final @Nonnull TextureUnit unit)
+    final  TextureUnit unit)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -141,8 +141,8 @@ public interface JCGLTexturesCubeStaticCommon
    */
 
   void textureCubeStaticUpdateLH(
-    final @Nonnull CubeMapFaceLH face,
-    final @Nonnull TextureCubeWritableData data)
+    final  CubeMapFaceLH face,
+    final  TextureCubeWritableData data)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -167,8 +167,8 @@ public interface JCGLTexturesCubeStaticCommon
    */
 
   void textureCubeStaticUpdateRH(
-    final @Nonnull CubeMapFaceRH face,
-    final @Nonnull TextureCubeWritableData data)
+    final  CubeMapFaceRH face,
+    final  TextureCubeWritableData data)
     throws ConstraintError,
       JCGLRuntimeException;
 }

@@ -18,6 +18,8 @@ package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
 
+import com.io7m.jcanephora.jogl.ArrayBuffer;
+import com.io7m.jcanephora.jogl.ArrayBufferUpdateMapped;
 import com.io7m.jranges.RangeInclusiveL;
 
 /**

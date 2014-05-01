@@ -39,7 +39,7 @@ public interface JCGLRenderbuffersCommon
    */
 
   void renderbufferDelete(
-    final @Nonnull Renderbuffer<?> buffer)
+    final  Renderbuffer<?> buffer)
     throws ConstraintError,
       JCGLRuntimeException;
 }

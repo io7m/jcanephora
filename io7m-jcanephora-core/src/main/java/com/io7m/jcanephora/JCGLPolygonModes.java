@@ -30,7 +30,7 @@ public interface JCGLPolygonModes
    * Return the <code>PolygonMode</code> used for polygons.
    */
 
-  @Nonnull PolygonMode polygonGetMode()
+   PolygonMode polygonGetMode()
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -47,7 +47,7 @@ public interface JCGLPolygonModes
    */
 
   void polygonSetMode(
-    final @Nonnull PolygonMode mode)
+    final  PolygonMode mode)
     throws ConstraintError,
       JCGLRuntimeException;
 }

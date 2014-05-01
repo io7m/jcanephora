@@ -97,14 +97,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateDepth16(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateDepth16(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -175,14 +175,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateDepth24(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateDepth24(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -253,14 +253,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateDepth24Stencil8(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateDepth24Stencil8(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -331,14 +331,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateDepth32f(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateDepth32f(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -409,14 +409,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateR16f(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateR16f(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -487,14 +487,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateR16I(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateR16I(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -565,14 +565,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateR16U(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateR16U(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -643,14 +643,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateR32f(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateR32f(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -721,14 +721,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateR32I(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateR32I(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -799,14 +799,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateR32U(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateR32U(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -877,14 +877,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateR8(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateR8(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -955,14 +955,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateR8I(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateR8I(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -1033,14 +1033,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateR8U(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateR8U(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -1111,14 +1111,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG16f(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRG16f(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -1189,14 +1189,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG16I(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRG16I(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -1267,14 +1267,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG16U(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRG16U(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -1345,14 +1345,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG32f(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRG32f(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -1423,14 +1423,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG32I(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRG32I(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -1501,14 +1501,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG32U(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRG32U(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -1579,14 +1579,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG8(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRG8(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -1657,14 +1657,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG8I(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRG8I(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -1735,14 +1735,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG8U(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRG8U(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -1813,14 +1813,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB16f(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRGB16f(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -1891,14 +1891,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB16I(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRGB16I(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -1969,14 +1969,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB16U(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRGB16U(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -2047,14 +2047,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB32f(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRGB32f(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -2125,14 +2125,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB32I(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRGB32I(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -2203,14 +2203,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB32U(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRGB32U(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -2279,14 +2279,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB8(
-    final @Nonnull String name,
+  @Override public  TextureCubeStatic textureCubeStaticAllocateRGB8(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -2357,14 +2357,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB8I(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRGB8I(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -2435,14 +2435,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB8U(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRGB8U(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -2513,14 +2513,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGBA16f(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRGBA16f(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -2591,14 +2591,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGBA16I(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRGBA16I(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -2669,14 +2669,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGBA16U(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRGBA16U(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -2747,14 +2747,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGBA32f(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRGBA32f(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -2825,14 +2825,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGBA32I(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRGBA32I(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -2903,14 +2903,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGBA32U(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRGBA32U(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -2979,14 +2979,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGBA8(
-    final @Nonnull String name,
+  @Override public  TextureCubeStatic textureCubeStaticAllocateRGBA8(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -3057,14 +3057,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGBA8I(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRGBA8I(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -3135,14 +3135,14 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGBA8U(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateRGBA8U(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 

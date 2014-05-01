@@ -27,6 +27,7 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jcanephora.utilities.ShaderUtilities;
 
 final class TextureTypeGeneration
 {
@@ -39,10 +40,10 @@ final class TextureTypeGeneration
   }
 
   private static void depthType(
-    final @Nonnull StringBuilder s,
+    final  StringBuilder s,
     final int component_count,
     final int component_size,
-    final @Nonnull Type t)
+    final  Type t)
   {
     final int bytes_per_pixel = (component_count * component_size) / 8;
 
@@ -175,8 +176,8 @@ final class TextureTypeGeneration
   }
 
   private static void packedColourType(
-    final @Nonnull StringBuilder s,
-    final @Nonnull PixelType type,
+    final  StringBuilder s,
+    final  PixelType type,
     final int component_count,
     final int bytes_per_pixel)
   {
@@ -302,10 +303,10 @@ final class TextureTypeGeneration
   }
 
   private static void unpackedColourType(
-    final @Nonnull StringBuilder s,
+    final  StringBuilder s,
     final int component_count,
     final int component_size,
-    final @Nonnull Type t)
+    final  Type t)
   {
     final int bytes_per_pixel = (component_count * component_size) / 8;
 

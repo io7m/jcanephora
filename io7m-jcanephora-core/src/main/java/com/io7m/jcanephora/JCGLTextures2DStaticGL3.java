@@ -88,14 +88,14 @@ public interface JCGLTextures2DStaticGL3 extends JCGLTextures2DStaticGL3ES3
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull Texture2DStatic texture2DStaticAllocateR16(
-    final @Nonnull String name,
+  public  Texture2DStatic texture2DStaticAllocateR16(
+    final  String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -158,14 +158,14 @@ public interface JCGLTextures2DStaticGL3 extends JCGLTextures2DStaticGL3ES3
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull Texture2DStatic texture2DStaticAllocateRG16(
-    final @Nonnull String name,
+  public  Texture2DStatic texture2DStaticAllocateRG16(
+    final  String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -228,14 +228,14 @@ public interface JCGLTextures2DStaticGL3 extends JCGLTextures2DStaticGL3ES3
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull Texture2DStatic texture2DStaticAllocateRGB16(
-    final @Nonnull String name,
+  public  Texture2DStatic texture2DStaticAllocateRGB16(
+    final  String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -298,14 +298,14 @@ public interface JCGLTextures2DStaticGL3 extends JCGLTextures2DStaticGL3ES3
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA16(
-    final @Nonnull String name,
+  public  Texture2DStatic texture2DStaticAllocateRGBA16(
+    final  String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -322,8 +322,8 @@ public interface JCGLTextures2DStaticGL3 extends JCGLTextures2DStaticGL3ES3
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull Texture2DReadableData texture2DStaticGetImage(
-    final @Nonnull Texture2DStaticUsable texture)
+  public  Texture2DReadableData texture2DStaticGetImage(
+    final  Texture2DStaticUsable texture)
     throws ConstraintError,
       JCGLRuntimeException;
 }

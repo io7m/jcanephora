@@ -31,7 +31,7 @@ public interface JCGLNamedExtensions
    */
 
   public boolean extensionIsSupported(
-    final @Nonnull String name)
+    final  String name)
     throws ConstraintError;
 
   /**
@@ -44,6 +44,6 @@ public interface JCGLNamedExtensions
    */
 
   public boolean extensionIsVisible(
-    final @Nonnull String name)
+    final  String name)
     throws ConstraintError;
 }

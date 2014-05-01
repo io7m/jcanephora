@@ -94,14 +94,14 @@ public interface JCGLTextures2DStaticGL2 extends JCGLTextures2DStaticGL2ES3
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull Texture2DStatic texture2DStaticAllocateDepth24Stencil8(
-    final @Nonnull String name,
+  public  Texture2DStatic texture2DStaticAllocateDepth24Stencil8(
+    final  String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -118,8 +118,8 @@ public interface JCGLTextures2DStaticGL2 extends JCGLTextures2DStaticGL2ES3
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull Texture2DReadableData texture2DStaticGetImage(
-    final @Nonnull Texture2DStaticUsable texture)
+  public  Texture2DReadableData texture2DStaticGetImage(
+    final  Texture2DStaticUsable texture)
     throws ConstraintError,
       JCGLRuntimeException;
 }

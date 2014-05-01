@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora;
 
+import com.io7m.jcanephora.jogl.JCGLResourceDeletable;
 import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
 

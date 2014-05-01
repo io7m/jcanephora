@@ -102,6 +102,11 @@
       <artifactId>io7m-junreachable-core</artifactId>
       <version>[0.3.0, 0.4.0)</version>
     </dependency>
+    <dependency>
+      <groupId>com.io7m.ieee754b16</groupId>
+      <artifactId>io7m-ieee754b16-core</artifactId>
+      <version>[0.2.0, 0.3.0]</version>
+    </dependency>
   </dependencies>
 
   <reporting>

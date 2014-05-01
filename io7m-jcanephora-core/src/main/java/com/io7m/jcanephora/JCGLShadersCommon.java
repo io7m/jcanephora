@@ -22,6 +22,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.utilities.ShaderUtilities;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
 import com.io7m.jtensors.VectorReadable2F;
@@ -63,9 +64,9 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  @Nonnull FragmentShader fragmentShaderCompile(
-    final @Nonnull String name,
-    final @Nonnull List<String> lines)
+   FragmentShader fragmentShaderCompile(
+    final  String name,
+    final  List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
       JCGLRuntimeException;
@@ -87,7 +88,7 @@ public interface JCGLShadersCommon
    */
 
   void fragmentShaderDelete(
-    final @Nonnull FragmentShader id)
+    final  FragmentShader id)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -108,7 +109,7 @@ public interface JCGLShadersCommon
    */
 
   void programActivate(
-    final @Nonnull ProgramReferenceUsableType program)
+    final  ProgramReferenceUsableType program)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -137,8 +138,8 @@ public interface JCGLShadersCommon
    */
 
   public void programAttributeArrayAssociate(
-    final @Nonnull ProgramAttribute program_attribute,
-    final @Nonnull ArrayBufferAttribute array_attribute)
+    final  ProgramAttribute program_attribute,
+    final  ArrayBufferAttribute array_attribute)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -158,7 +159,7 @@ public interface JCGLShadersCommon
    */
 
   public void programAttributeArrayDisassociate(
-    final @Nonnull ProgramAttribute program_attribute)
+    final  ProgramAttribute program_attribute)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -196,7 +197,7 @@ public interface JCGLShadersCommon
    */
 
   public void programAttributePutFloat(
-    final @Nonnull ProgramAttribute program_attribute,
+    final  ProgramAttribute program_attribute,
     float x)
     throws JCGLRuntimeException,
       ConstraintError;
@@ -236,8 +237,8 @@ public interface JCGLShadersCommon
    */
 
   public void programAttributePutVector2f(
-    final @Nonnull ProgramAttribute program_attribute,
-    final @Nonnull VectorReadable2F x)
+    final  ProgramAttribute program_attribute,
+    final  VectorReadable2F x)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -276,8 +277,8 @@ public interface JCGLShadersCommon
    */
 
   public void programAttributePutVector3f(
-    final @Nonnull ProgramAttribute program_attribute,
-    final @Nonnull VectorReadable3F x)
+    final  ProgramAttribute program_attribute,
+    final  VectorReadable3F x)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -316,8 +317,8 @@ public interface JCGLShadersCommon
    */
 
   public void programAttributePutVector4f(
-    final @Nonnull ProgramAttribute program_attribute,
-    final @Nonnull VectorReadable4F x)
+    final  ProgramAttribute program_attribute,
+    final  VectorReadable4F x)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -357,10 +358,10 @@ public interface JCGLShadersCommon
    *           Iff the program fails to link.
    */
 
-  @Nonnull ProgramReference programCreateCommon(
-    final @Nonnull String name,
-    final @Nonnull VertexShader v,
-    final @Nonnull FragmentShader f)
+   ProgramReference programCreateCommon(
+    final  String name,
+    final  VertexShader v,
+    final  FragmentShader f)
     throws ConstraintError,
       JCGLRuntimeException,
       JCGLCompileException;
@@ -392,7 +393,7 @@ public interface JCGLShadersCommon
    */
 
   void programDelete(
-    final @Nonnull ProgramReference program)
+    final  ProgramReference program)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -425,7 +426,7 @@ public interface JCGLShadersCommon
    */
 
   boolean programIsActive(
-    final @Nonnull ProgramReferenceUsableType program)
+    final  ProgramReferenceUsableType program)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -449,7 +450,7 @@ public interface JCGLShadersCommon
    */
 
   void programUniformPutFloat(
-    final @Nonnull ProgramUniform uniform,
+    final  ProgramUniform uniform,
     final float value)
     throws ConstraintError,
       JCGLRuntimeException;
@@ -474,7 +475,7 @@ public interface JCGLShadersCommon
    */
 
   void programUniformPutInteger(
-    final @Nonnull ProgramUniform uniform,
+    final  ProgramUniform uniform,
     final int value)
     throws ConstraintError,
       JCGLRuntimeException;
@@ -501,8 +502,8 @@ public interface JCGLShadersCommon
    */
 
   void programUniformPutMatrix3x3f(
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull MatrixReadable3x3F matrix)
+    final  ProgramUniform uniform,
+    final  MatrixReadable3x3F matrix)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -528,8 +529,8 @@ public interface JCGLShadersCommon
    */
 
   void programUniformPutMatrix4x4f(
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull MatrixReadable4x4F matrix)
+    final  ProgramUniform uniform,
+    final  MatrixReadable4x4F matrix)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -555,8 +556,8 @@ public interface JCGLShadersCommon
    */
 
   void programUniformPutTextureUnit(
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull TextureUnit unit)
+    final  ProgramUniform uniform,
+    final  TextureUnit unit)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -582,8 +583,8 @@ public interface JCGLShadersCommon
    */
 
   void programUniformPutVector2f(
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable2F vector)
+    final  ProgramUniform uniform,
+    final  VectorReadable2F vector)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -609,8 +610,8 @@ public interface JCGLShadersCommon
    */
 
   void programUniformPutVector2i(
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable2I vector)
+    final  ProgramUniform uniform,
+    final  VectorReadable2I vector)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -636,8 +637,8 @@ public interface JCGLShadersCommon
    */
 
   void programUniformPutVector3f(
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable3F vector)
+    final  ProgramUniform uniform,
+    final  VectorReadable3F vector)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -663,8 +664,8 @@ public interface JCGLShadersCommon
    */
 
   void programUniformPutVector3i(
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable3I vector)
+    final  ProgramUniform uniform,
+    final  VectorReadable3I vector)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -690,8 +691,8 @@ public interface JCGLShadersCommon
    */
 
   void programUniformPutVector4f(
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable4F vector)
+    final  ProgramUniform uniform,
+    final  VectorReadable4F vector)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -717,8 +718,8 @@ public interface JCGLShadersCommon
    */
 
   void programUniformPutVector4i(
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull VectorReadable4I vector)
+    final  ProgramUniform uniform,
+    final  VectorReadable4I vector)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -747,9 +748,9 @@ public interface JCGLShadersCommon
    *           Iff an OpenGL error occurs.
    */
 
-  @Nonnull VertexShader vertexShaderCompile(
-    final @Nonnull String name,
-    final @Nonnull List<String> lines)
+   VertexShader vertexShaderCompile(
+    final  String name,
+    final  List<String> lines)
     throws ConstraintError,
       JCGLCompileException,
       JCGLRuntimeException;
@@ -771,7 +772,7 @@ public interface JCGLShadersCommon
    */
 
   void vertexShaderDelete(
-    final @Nonnull VertexShader id)
+    final  VertexShader id)
     throws ConstraintError,
       JCGLRuntimeException;
 }

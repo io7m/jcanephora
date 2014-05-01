@@ -35,79 +35,79 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * GLSL 1.10, as published with OpenGL 2.0.
    */
 
-  public static final @Nonnull JCGLSLVersion GLSL_110;
+  public static final  JCGLSLVersion GLSL_110;
 
   /**
    * GLSL 1.20, as published with OpenGL 2.1.
    */
 
-  public static final @Nonnull JCGLSLVersion GLSL_120;
+  public static final  JCGLSLVersion GLSL_120;
 
   /**
    * GLSL 1.30, as published with OpenGL 3.0.
    */
 
-  public static final @Nonnull JCGLSLVersion GLSL_130;
+  public static final  JCGLSLVersion GLSL_130;
 
   /**
    * GLSL 1.40, as published with OpenGL 3.1.
    */
 
-  public static final @Nonnull JCGLSLVersion GLSL_140;
+  public static final  JCGLSLVersion GLSL_140;
 
   /**
    * GLSL 1.50, as published with OpenGL 3.2.
    */
 
-  public static final @Nonnull JCGLSLVersion GLSL_150;
+  public static final  JCGLSLVersion GLSL_150;
 
   /**
    * GLSL 3.30, as published with OpenGL 3.3.
    */
 
-  public static final @Nonnull JCGLSLVersion GLSL_330;
+  public static final  JCGLSLVersion GLSL_330;
 
   /**
    * GLSL 4.0, as published with OpenGL 4.0.
    */
 
-  public static final @Nonnull JCGLSLVersion GLSL_40;
+  public static final  JCGLSLVersion GLSL_40;
 
   /**
    * GLSL 4.10, as published with OpenGL 4.1.
    */
 
-  public static final @Nonnull JCGLSLVersion GLSL_410;
+  public static final  JCGLSLVersion GLSL_410;
 
   /**
    * GLSL 4.20, as published with OpenGL 4.2.
    */
 
-  public static final @Nonnull JCGLSLVersion GLSL_420;
+  public static final  JCGLSLVersion GLSL_420;
 
   /**
    * GLSL 4.30, as published with OpenGL 4.3.
    */
 
-  public static final @Nonnull JCGLSLVersion GLSL_430;
+  public static final  JCGLSLVersion GLSL_430;
 
   /**
    * GLSL 4.40, as published with OpenGL 4.4.
    */
 
-  public static final @Nonnull JCGLSLVersion GLSL_440;
+  public static final  JCGLSLVersion GLSL_440;
 
   /**
    * GLSL ES 1.00, as published with OpenGL ES 2.0.
    */
 
-  public static final @Nonnull JCGLSLVersion GLSL_ES_100;
+  public static final  JCGLSLVersion GLSL_ES_100;
 
   /**
    * GLSL ES 3.0, as published with OpenGL ES 3.0.
    */
 
-  public static final @Nonnull JCGLSLVersion GLSL_ES_30;
+  public static final  JCGLSLVersion GLSL_ES_30;
 
   static {
     GLSL_ES_100 =
@@ -189,10 +189,10 @@ import com.io7m.jaux.Constraints.ConstraintError;
         "4.40");
   }
 
-  static @Nonnull JCGLSLVersion make(
-    final @Nonnull JCGLSLVersionNumber number,
-    final @Nonnull JCGLApi api,
-    final @Nonnull String text)
+  static  JCGLSLVersion make(
+    final  JCGLSLVersionNumber number,
+    final  JCGLApi api,
+    final  String text)
     throws ConstraintError
   {
     return new JCGLSLVersion(
@@ -201,14 +201,14 @@ import com.io7m.jaux.Constraints.ConstraintError;
       NullCheck.notNull(text, "Text"));
   }
 
-  private final @Nonnull JCGLApi             api;
-  private final @Nonnull JCGLSLVersionNumber number;
-  private final @Nonnull String              text;
+  private final  JCGLApi             api;
+  private final  JCGLSLVersionNumber number;
+  private final  String              text;
 
   private JCGLSLVersion(
-    final @Nonnull JCGLSLVersionNumber number1,
-    final @Nonnull JCGLApi api1,
-    final @Nonnull String text1)
+    final  JCGLSLVersionNumber number1,
+    final  JCGLApi api1,
+    final  String text1)
   {
     this.number = number1;
     this.text = text1;
@@ -246,7 +246,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * </p>
    */
 
-  public @Nonnull JCGLApi getAPI()
+  public  JCGLApi getAPI()
   {
     return this.api;
   }
@@ -257,7 +257,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * </p>
    */
 
-  public @Nonnull JCGLSLVersionNumber getNumber()
+  public  JCGLSLVersionNumber getNumber()
   {
     return this.number;
   }
@@ -269,7 +269,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
    * </p>
    */
 
-  public @Nonnull String getText()
+  public  String getText()
   {
     return this.text;
   }

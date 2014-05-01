@@ -24,6 +24,54 @@ import javax.annotation.Nonnull;
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_16_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_16_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_16_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_16f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_24_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_32_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_32_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_32_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_32f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_8_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_8_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_1_8_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_16_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_16_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_16_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_16f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_32_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_32_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_32_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_32f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_8_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_8_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_2_8_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_16_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_16_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_16_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_16f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_32_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_32_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_32_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_32f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_565;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_8_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_8_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_3_8_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_1010102;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_16_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_16_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_16_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_16f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_32_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_32_UNFP;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_32f;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_4444;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_5551;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_8_I;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_8_U;
+import com.io7m.jcanephora.cursors.ByteBufferTextureCursorReadable_4_8_UNFP;
 
 /**
  * <p>
@@ -38,13 +86,13 @@ import com.io7m.jaux.UnreachableCodeException;
 
 public final class Texture2DReadableData
 {
-  private final @Nonnull AreaInclusive area;
-  private final @Nonnull ByteBuffer    data;
-  private final @Nonnull TextureType   type;
+  private final  AreaInclusive area;
+  private final  ByteBuffer    data;
+  private final  TextureType   type;
 
   Texture2DReadableData(
-    final @Nonnull TextureType type1,
-    final @Nonnull AreaInclusive area1)
+    final  TextureType type1,
+    final  AreaInclusive area1)
     throws ConstraintError
   {
     this.type = NullCheck.notNull(type1, "Texture type");
@@ -62,7 +110,7 @@ public final class Texture2DReadableData
    * Retrieve the texture's area.
    */
 
-  public @Nonnull AreaInclusive getArea()
+  public  AreaInclusive getArea()
   {
     return this.area;
   }
@@ -78,10 +126,10 @@ public final class Texture2DReadableData
    *           If the number of components in the texture is not 1.
    */
 
-  public @Nonnull SpatialCursorReadable1d getCursor1d()
+  public  SpatialCursorReadable1dType getCursor1d()
     throws ConstraintError
   {
-    return (SpatialCursorReadable1d) this.getCursor1f();
+    return (SpatialCursorReadable1dType) this.getCursor1f();
   }
 
   /**
@@ -95,7 +143,7 @@ public final class Texture2DReadableData
    *           If the number of components in the texture is not 1.
    */
 
-  public @Nonnull SpatialCursorReadable1f getCursor1f()
+  public  SpatialCursorReadable1fType getCursor1f()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -237,7 +285,7 @@ public final class Texture2DReadableData
    *           components are floating point values.
    */
 
-  public @Nonnull SpatialCursorReadable1i getCursor1i()
+  public  SpatialCursorReadable1iType getCursor1i()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -369,10 +417,10 @@ public final class Texture2DReadableData
    *           If the number of components in the texture is not 2.
    */
 
-  public @Nonnull SpatialCursorReadable2d getCursor2d()
+  public  SpatialCursorReadable2dType getCursor2d()
     throws ConstraintError
   {
-    return (SpatialCursorReadable2d) this.getCursor2f();
+    return (SpatialCursorReadable2dType) this.getCursor2f();
   }
 
   /**
@@ -386,7 +434,7 @@ public final class Texture2DReadableData
    *           If the number of components in the texture is not 2.
    */
 
-  public @Nonnull SpatialCursorReadable2f getCursor2f()
+  public  SpatialCursorReadable2fType getCursor2f()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -522,7 +570,7 @@ public final class Texture2DReadableData
    *           texture has floating-point components.
    */
 
-  public @Nonnull SpatialCursorReadable2i getCursor2i()
+  public  SpatialCursorReadable2iType getCursor2i()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -648,10 +696,10 @@ public final class Texture2DReadableData
    *           If the number of components in the texture is not 3.
    */
 
-  public @Nonnull SpatialCursorReadable3d getCursor3d()
+  public  SpatialCursorReadable3dType getCursor3d()
     throws ConstraintError
   {
-    return (SpatialCursorReadable3d) this.getCursor3f();
+    return (SpatialCursorReadable3dType) this.getCursor3f();
   }
 
   /**
@@ -665,7 +713,7 @@ public final class Texture2DReadableData
    *           If the number of components in the texture is not 3.
    */
 
-  public @Nonnull SpatialCursorReadable3f getCursor3f()
+  public  SpatialCursorReadable3fType getCursor3f()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -807,7 +855,7 @@ public final class Texture2DReadableData
    *           texture has floating-point components.
    */
 
-  public @Nonnull SpatialCursorReadable3i getCursor3i()
+  public  SpatialCursorReadable3iType getCursor3i()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -939,10 +987,10 @@ public final class Texture2DReadableData
    *           If the number of components in the texture is not 4.
    */
 
-  public @Nonnull SpatialCursorReadable4d getCursor4d()
+  public  SpatialCursorReadable4dType getCursor4d()
     throws ConstraintError
   {
-    return (SpatialCursorReadable4d) this.getCursor4f();
+    return (SpatialCursorReadable4dType) this.getCursor4f();
   }
 
   /**
@@ -956,7 +1004,7 @@ public final class Texture2DReadableData
    *           If the number of components in the texture is not 4.
    */
 
-  public @Nonnull SpatialCursorReadable4f getCursor4f()
+  public  SpatialCursorReadable4fType getCursor4f()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -1110,7 +1158,7 @@ public final class Texture2DReadableData
    *           texture has floating-point components.
    */
 
-  public @Nonnull SpatialCursorReadable4i getCursor4i()
+  public  SpatialCursorReadable4iType getCursor4i()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -1247,7 +1295,7 @@ public final class Texture2DReadableData
    * Obtain access to the raw texture data.
    */
 
-  public @Nonnull ByteBuffer getData()
+  public  ByteBuffer getData()
   {
     return this.data;
   }

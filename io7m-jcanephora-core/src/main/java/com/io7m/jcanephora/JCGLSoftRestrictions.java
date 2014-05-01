@@ -46,7 +46,7 @@ public interface JCGLSoftRestrictions
    */
 
   public boolean restrictExtensionVisibility(
-    final @Nonnull String name);
+    final  String name);
 
   /**
    * <p>

@@ -74,11 +74,11 @@ public interface JCGLShadersGL3 extends JCGLShadersCommon
    *           Iff the program fails to link.
    */
 
-  public @Nonnull ProgramReference programCreateWithOutputs(
-    final @Nonnull String name,
-    final @Nonnull VertexShader v,
-    final @Nonnull FragmentShader f,
-    final @Nonnull Map<String, FramebufferDrawBuffer> outputs)
+  public  ProgramReference programCreateWithOutputs(
+    final  String name,
+    final  VertexShader v,
+    final  FragmentShader f,
+    final  Map<String, FramebufferDrawBuffer> outputs)
     throws ConstraintError,
       JCGLRuntimeException,
       JCGLCompileException;

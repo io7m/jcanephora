@@ -18,6 +18,7 @@ package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
 
+import com.io7m.jcanephora.cursors.ByteBufferCursorReadableIndex;
 import com.io7m.jnull.NullCheck;
 
 /**

@@ -33,7 +33,7 @@ public interface JCGLImplementation
    * </p>
    */
 
-  public @Nonnull JCGLInterfaceCommon getGLCommon();
+  public  JCGLInterfaceCommon getGLCommon();
 
   /**
    * A function that accepts implementation visitors. Returns the value of
@@ -49,7 +49,7 @@ public interface JCGLImplementation
    */
 
   public <A, E extends Throwable> A implementationAccept(
-    final @Nonnull JCGLImplementationVisitor<A, E> v)
+    final  JCGLImplementationVisitor<A, E> v)
     throws JCGLException,
       ConstraintError,
       E;

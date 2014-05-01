@@ -50,8 +50,8 @@ public interface JCGLIndexBuffersMapped
    *           </ul>
    */
 
-  public @Nonnull IndexBufferReadableMap indexBufferMapRead(
-    final @Nonnull IndexBufferUsableType id)
+  public  IndexBufferReadableMap indexBufferMapRead(
+    final  IndexBufferUsableType id)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -84,9 +84,9 @@ public interface JCGLIndexBuffersMapped
    * @see RangeInclusive#isIncludedIn(RangeInclusive)
    */
 
-  public @Nonnull IndexBufferReadableMap indexBufferMapReadRange(
-    final @Nonnull IndexBufferUsableType id,
-    final @Nonnull RangeInclusive range)
+  public  IndexBufferReadableMap indexBufferMapReadRange(
+    final  IndexBufferUsableType id,
+    final  RangeInclusive range)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -115,8 +115,8 @@ public interface JCGLIndexBuffersMapped
    *           </ul>
    */
 
-  public @Nonnull IndexBufferWritableMap indexBufferMapWrite(
-    final @Nonnull IndexBuffer id)
+  public  IndexBufferWritableMap indexBufferMapWrite(
+    final  IndexBuffer id)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -139,7 +139,7 @@ public interface JCGLIndexBuffersMapped
    */
 
   public void indexBufferUnmap(
-    final @Nonnull IndexBufferUsableType id)
+    final  IndexBufferUsableType id)
     throws ConstraintError,
       JCGLRuntimeException;
 }

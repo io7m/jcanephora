@@ -59,10 +59,10 @@ public interface JCGLFramebuffersReadGL3
    */
 
   void framebufferBlit(
-    final @Nonnull AreaInclusive source,
-    final @Nonnull AreaInclusive target,
-    final @Nonnull Set<FramebufferBlitBuffer> buffers,
-    final @Nonnull FramebufferBlitFilter filter)
+    final  AreaInclusive source,
+    final  AreaInclusive target,
+    final  Set<FramebufferBlitBuffer> buffers,
+    final  FramebufferBlitFilter filter)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -95,7 +95,7 @@ public interface JCGLFramebuffersReadGL3
    */
 
   void framebufferReadBind(
-    final @Nonnull FramebufferReferenceUsableType framebuffer)
+    final  FramebufferReferenceUsableType framebuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -116,7 +116,7 @@ public interface JCGLFramebuffersReadGL3
    */
 
   boolean framebufferReadIsBound(
-    final @Nonnull FramebufferReferenceUsableType framebuffer)
+    final  FramebufferReferenceUsableType framebuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 

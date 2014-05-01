@@ -99,14 +99,14 @@ public interface JCGLExtensionDepthCubeTexture extends JCGLExtension
    *           Iff an OpenGL error occurs.
    */
 
-  public @Nonnull TextureCubeStatic textureCubeStaticAllocateDepth16(
-    final @Nonnull String name,
+  public  TextureCubeStatic textureCubeStaticAllocateDepth16(
+    final  String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
+    final  TextureWrapR wrap_r,
+    final  TextureWrapS wrap_s,
+    final  TextureWrapT wrap_t,
+    final  TextureFilterMinification min_filter,
+    final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
       JCGLRuntimeException;
 }

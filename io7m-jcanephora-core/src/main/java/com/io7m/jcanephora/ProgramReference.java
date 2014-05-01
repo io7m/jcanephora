@@ -19,6 +19,7 @@ package com.io7m.jcanephora;
 import java.util.Collections;
 import java.util.Map;
 
+import com.io7m.jcanephora.jogl.JCGLResourceDeletable;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;

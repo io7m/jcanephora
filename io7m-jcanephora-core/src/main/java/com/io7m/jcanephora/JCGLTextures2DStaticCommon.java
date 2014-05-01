@@ -50,8 +50,8 @@ public interface JCGLTextures2DStaticCommon
    */
 
   void texture2DStaticBind(
-    final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DStaticUsable texture)
+    final  TextureUnit unit,
+    final  Texture2DStaticUsable texture)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -72,7 +72,7 @@ public interface JCGLTextures2DStaticCommon
    */
 
   void texture2DStaticDelete(
-    final @Nonnull Texture2DStatic texture)
+    final  Texture2DStatic texture)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -95,8 +95,8 @@ public interface JCGLTextures2DStaticCommon
    */
 
   boolean texture2DStaticIsBound(
-    final @Nonnull TextureUnit unit,
-    final @Nonnull Texture2DStaticUsable texture)
+    final  TextureUnit unit,
+    final  Texture2DStaticUsable texture)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -116,7 +116,7 @@ public interface JCGLTextures2DStaticCommon
    */
 
   void texture2DStaticUnbind(
-    final @Nonnull TextureUnit unit)
+    final  TextureUnit unit)
     throws ConstraintError,
       JCGLRuntimeException;
 
@@ -137,7 +137,7 @@ public interface JCGLTextures2DStaticCommon
    */
 
   void texture2DStaticUpdate(
-    final @Nonnull Texture2DWritableData data)
+    final  Texture2DWritableData data)
     throws ConstraintError,
       JCGLRuntimeException;
 }

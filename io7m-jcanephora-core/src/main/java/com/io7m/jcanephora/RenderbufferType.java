@@ -89,7 +89,7 @@ public enum RenderbufferType
    * The subset of renderbuffer types supported by both OpenGL 3.* and ES 3.*.
    */
 
-  public static @Nonnull Set<RenderbufferType> getGL3ES3Types()
+  public static  Set<RenderbufferType> getGL3ES3Types()
   {
     return EnumSet.of(
       RENDERBUFFER_DEPTH_16,
@@ -103,7 +103,7 @@ public enum RenderbufferType
    * The subset of renderbuffer types supported by OpenGL 3.*.
    */
 
-  public static @Nonnull Set<RenderbufferType> getGL3Types()
+  public static  Set<RenderbufferType> getGL3Types()
   {
     return EnumSet.of(
       RENDERBUFFER_DEPTH_16,
@@ -117,7 +117,7 @@ public enum RenderbufferType
    * The subset of renderbuffer types supported by OpenGL ES2.
    */
 
-  public static @Nonnull Set<RenderbufferType> getGLES2Types()
+  public static  Set<RenderbufferType> getGLES2Types()
   {
     return EnumSet.of(
       RENDERBUFFER_DEPTH_16,
@@ -131,7 +131,7 @@ public enum RenderbufferType
    * The set of renderbuffer types supported by ES 3.*.
    */
 
-  public static @Nonnull Set<RenderbufferType> getGLES3Types()
+  public static  Set<RenderbufferType> getGLES3Types()
   {
     final Set<RenderbufferType> e0 = RenderbufferType.getGLES2Types();
     final Set<RenderbufferType> e1 = RenderbufferType.getGL3Types();

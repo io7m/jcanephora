@@ -54,7 +54,7 @@ public interface JCGLScissor
    */
 
   void scissorEnable(
-    final @Nonnull AreaInclusive area)
+    final  AreaInclusive area)
     throws ConstraintError,
       JCGLRuntimeException;
 
