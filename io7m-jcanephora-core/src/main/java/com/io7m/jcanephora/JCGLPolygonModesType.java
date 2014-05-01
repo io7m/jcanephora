@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,23 +16,21 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
-
 /**
  * Simplified interface to polygon modes.
  */
 
-public interface JCGLPolygonModes
+public interface JCGLPolygonModesType
 {
   /**
-   * Return the <code>PolygonMode</code> used for polygons.
+   * @return The <code>PolygonMode</code> used for polygons.
+   * 
+   * @throws JCGLRuntimeException
+   *           Iff an OpenGL error occurs.
    */
 
-   PolygonMode polygonGetMode()
-    throws ConstraintError,
-      JCGLRuntimeException;
+  PolygonMode polygonGetMode()
+    throws JCGLRuntimeException;
 
   /**
    * Set the polygon rasterization mode for the polygons to <code>mode</code>.
@@ -40,14 +38,11 @@ public interface JCGLPolygonModes
    * 
    * @param mode
    *          The rasterization mode.
-   * @throws ConstraintError
-   *           Iff <code>mode == null</code>.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void polygonSetMode(
-    final  PolygonMode mode)
-    throws ConstraintError,
-      JCGLRuntimeException;
+    final PolygonMode mode)
+    throws JCGLRuntimeException;
 }
