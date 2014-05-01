@@ -23,21 +23,21 @@ package com.io7m.jcanephora;
 public enum BlendEquationGLES2
 {
   /**
-   * Add the source and destination colours; <code>s + d</code>;
+   * Add the source and destination colors; <code>s + d</code>;
    * <code>GL_FUNC_ADD</code>
    */
 
   BLEND_EQUATION_ADD,
 
   /**
-   * Subtract the source from the destination colours; <code>d - s</code>;
+   * Subtract the source from the destination colors; <code>d - s</code>;
    * <code>GL_FUNC_REVERSE_SUBTRACT</code>
    */
 
   BLEND_EQUATION_REVERSE_SUBTRACT,
 
   /**
-   * Subtract the destination from the source colours; <code>s - d</code>;
+   * Subtract the destination from the source colors; <code>s - d</code>;
    * <code>GL_FUNC_SUBTRACT</code>
    */
 

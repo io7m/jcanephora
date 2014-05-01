@@ -341,11 +341,11 @@ public final class TextureTypeMeta
 
   /**
    * Return <code>true</code> iff the given 2D texture type is
-   * colour-renderable on the given version of OpenGL assuming
+   * color-renderable on the given version of OpenGL assuming
    * <code>extensions</code>.
    */
 
-  public static boolean isColourRenderable2D(
+  public static boolean isColorRenderable2D(
     final TextureType type,
     final JCGLVersion version,
     final JCGLNamedExtensions extensions)
@@ -354,17 +354,17 @@ public final class TextureTypeMeta
     switch (version.getAPI()) {
       case JCGL_ES:
         if (version.getVersionMajor() >= 3) {
-          return TextureTypeMeta.isColourRenderable2D_ES3(type, extensions);
+          return TextureTypeMeta.isColorRenderable2D_ES3(type, extensions);
         }
-        return TextureTypeMeta.isColourRenderable2D_ES2(type, extensions);
+        return TextureTypeMeta.isColorRenderable2D_ES2(type, extensions);
       case JCGL_FULL:
-        return TextureTypeMeta.isColourRenderable2D_GL3(type, extensions);
+        return TextureTypeMeta.isColorRenderable2D_GL3(type, extensions);
     }
 
     throw new UnreachableCodeException();
   }
 
-  private static boolean isColourRenderable2D_ES2(
+  private static boolean isColorRenderable2D_ES2(
     final TextureType type,
     final JCGLNamedExtensions extensions)
   {
@@ -432,7 +432,7 @@ public final class TextureTypeMeta
    * See OpenGL ES 3.0 specification, page 126 "Required texture formats".
    */
 
-  private static boolean isColourRenderable2D_ES3(
+  private static boolean isColorRenderable2D_ES3(
     final TextureType type,
     final JCGLNamedExtensions extensions)
     throws ConstraintError
@@ -517,7 +517,7 @@ public final class TextureTypeMeta
    * See the OpenGL 3.1 standard, page 119 "Required texture formats".
    */
 
-  private static boolean isColourRenderable2D_GL3(
+  private static boolean isColorRenderable2D_GL3(
     final TextureType type,
     final JCGLNamedExtensions extensions)
   {

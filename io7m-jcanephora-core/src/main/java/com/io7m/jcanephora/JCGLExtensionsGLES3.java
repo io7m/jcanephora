@@ -28,7 +28,7 @@ public interface JCGLExtensionsGLES3
    * {@link JCGLExtensionNames#GL_EXT_COLOR_BUFFER_FLOAT}.
    */
 
-  public boolean hasColourBufferFloat();
+  public boolean hasColorBufferFloat();
 
   /**
    * Returns true if the implementation supports rendering to half-precision
@@ -36,5 +36,5 @@ public interface JCGLExtensionsGLES3
    * {@link JCGLExtensionNames#GL_EXT_COLOR_BUFFER_FLOAT}.
    */
 
-  public boolean hasColourBufferHalfFloat();
+  public boolean hasColorBufferHalfFloat();
 }

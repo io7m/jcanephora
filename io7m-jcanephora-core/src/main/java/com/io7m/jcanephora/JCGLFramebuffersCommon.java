@@ -120,7 +120,7 @@ public interface JCGLFramebuffersCommon
    * only attached color buffer (if any).
    * </p>
    * 
-   * @see TextureTypeMeta#isColourRenderable2D(TextureType, JCGLVersion,
+   * @see TextureTypeMeta#isColorRenderable2D(TextureType, JCGLVersion,
    *      JCGLNamedExtensions)
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -155,7 +155,7 @@ public interface JCGLFramebuffersCommon
    * only attached color buffer (if any).
    * </p>
    * 
-   * @see TextureTypeMeta#isColourRenderable2D(TextureType, JCGLVersion,
+   * @see TextureTypeMeta#isColorRenderable2D(TextureType, JCGLVersion,
    *      JCGLNamedExtensions)
    * @throws ConstraintError
    *           Iff any of the following hold:

@@ -16,9 +16,6 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
 
 /**
  * Simplified and type-safe interface to OpenGL logic operations.
@@ -38,7 +35,7 @@ public interface JCGLLogic
 
   /**
    * Enable logical operations on the framebuffer to be applied between the
-   * incoming RGBA colour and the RGBA colour at the corresponding location in
+   * incoming RGBA color and the RGBA color at the corresponding location in
    * the framebuffer.
    * 
    * @param operation
@@ -50,7 +47,7 @@ public interface JCGLLogic
    */
 
   void logicOperationsEnable(
-    final  LogicOperation operation)
+    final LogicOperation operation)
     throws ConstraintError,
       JCGLRuntimeException;
 
