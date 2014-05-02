@@ -19,7 +19,7 @@ package com.io7m.jcanephora.api;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.RenderableDepthStencilKind;
 import com.io7m.jcanephora.RenderbufferFormat;
 import com.io7m.jcanephora.RenderbufferUsableType;
@@ -59,14 +59,14 @@ public interface JCGLExtensionPackedDepthStencil extends JCGLExtensionType
    *           <li><code>renderbuffer</code> is not a depth-renderable and
    *           stencil-renderable format</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawAttachDepthStencilRenderbuffer(
     final  FramebufferReference framebuffer,
     final  RenderbufferUsableType<RenderableDepthStencilKind> renderbuffer)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError;
 
   /**
@@ -84,7 +84,7 @@ public interface JCGLExtensionPackedDepthStencil extends JCGLExtensionType
    *           <li>
    *           <code>renderbufferSupportsDepth24Stencil8() == false</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
@@ -94,5 +94,5 @@ public interface JCGLExtensionPackedDepthStencil extends JCGLExtensionType
       final int width,
       final int height)
       throws ConstraintError,
-        JCGLRuntimeException;
+        JCGLExceptionRuntime;
 }

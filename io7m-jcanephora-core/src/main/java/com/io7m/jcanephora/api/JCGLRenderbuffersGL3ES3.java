@@ -19,7 +19,7 @@ package com.io7m.jcanephora.api;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.RenderableColorKind;
 import com.io7m.jcanephora.RenderableDepthKind;
 import com.io7m.jcanephora.RenderableDepthStencilKind;
@@ -46,7 +46,7 @@ public interface JCGLRenderbuffersGL3ES3 extends JCGLRenderbuffersCommon
    *           <li><code>1 <= width <= Integer.MAX_VALUE == false</code></li>
    *           <li><code>1 <= height <= Integer.MAX_VALUE == false</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
@@ -54,7 +54,7 @@ public interface JCGLRenderbuffersGL3ES3 extends JCGLRenderbuffersCommon
     final int width,
     final int height)
     throws ConstraintError,
-      JCGLRuntimeException;
+      JCGLExceptionRuntime;
 
   /**
    * Allocate a depth renderbuffer.
@@ -69,7 +69,7 @@ public interface JCGLRenderbuffersGL3ES3 extends JCGLRenderbuffersCommon
    *           <li><code>1 <= width <= Integer.MAX_VALUE == false</code></li>
    *           <li><code>1 <= height <= Integer.MAX_VALUE == false</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
@@ -77,7 +77,7 @@ public interface JCGLRenderbuffersGL3ES3 extends JCGLRenderbuffersCommon
     final int width,
     final int height)
     throws ConstraintError,
-      JCGLRuntimeException;
+      JCGLExceptionRuntime;
 
   /**
    * Allocate a packed depth/stencil renderbuffer.
@@ -94,7 +94,7 @@ public interface JCGLRenderbuffersGL3ES3 extends JCGLRenderbuffersCommon
    *           <li>
    *           <code>renderbufferSupportsDepth24Stencil8() == false</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
@@ -104,7 +104,7 @@ public interface JCGLRenderbuffersGL3ES3 extends JCGLRenderbuffersCommon
       final int width,
       final int height)
       throws ConstraintError,
-        JCGLRuntimeException;
+        JCGLExceptionRuntime;
 
   /**
    * Allocate a color renderbuffer.
@@ -120,7 +120,7 @@ public interface JCGLRenderbuffersGL3ES3 extends JCGLRenderbuffersCommon
    *           <li><code>1 <= height <= Integer.MAX_VALUE == false</code></li>
    *           <li><code>renderbufferSupportsRGB888() == false</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
@@ -128,7 +128,7 @@ public interface JCGLRenderbuffersGL3ES3 extends JCGLRenderbuffersCommon
     final int width,
     final int height)
     throws ConstraintError,
-      JCGLRuntimeException;
+      JCGLExceptionRuntime;
 
   /**
    * Allocate a color renderbuffer.
@@ -144,7 +144,7 @@ public interface JCGLRenderbuffersGL3ES3 extends JCGLRenderbuffersCommon
    *           <li><code>1 <= height <= Integer.MAX_VALUE == false</code></li>
    *           <li><code>renderbufferSupportsRGBA8888() == false</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
@@ -152,5 +152,5 @@ public interface JCGLRenderbuffersGL3ES3 extends JCGLRenderbuffersCommon
     final int width,
     final int height)
     throws ConstraintError,
-      JCGLRuntimeException;
+      JCGLExceptionRuntime;
 }

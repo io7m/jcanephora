@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora.api;
 
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.LogicOperation;
 
 
@@ -29,12 +29,12 @@ public interface JCGLLogic
   /**
    * Disable logical operations.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void logicOperationsDisable()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Enable logical operations on the framebuffer to be applied between the
@@ -45,22 +45,22 @@ public interface JCGLLogic
    *          The logical operation to use.
    * @throws ConstraintError
    *           Iff <code>operation == null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void logicOperationsEnable(
     final LogicOperation operation)
     throws ConstraintError,
-      JCGLRuntimeException;
+      JCGLExceptionRuntime;
 
   /**
    * Return <code>true</code> iff logical operations are enabled.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   boolean logicOperationsEnabled()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 }

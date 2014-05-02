@@ -24,7 +24,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.CubeMapFaceLH;
 import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
 import com.io7m.jcanephora.FramebufferDrawBuffer;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLVersion;
 import com.io7m.jcanephora.RenderableColorKind;
 import com.io7m.jcanephora.RenderableDepthStencilKind;
@@ -65,7 +65,7 @@ public interface JCGLFramebuffersGL3 extends
    *           <li><code>renderbuffer</code> is not a color-renderable
    *           format</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
@@ -73,7 +73,7 @@ public interface JCGLFramebuffersGL3 extends
     final  FramebufferReference framebuffer,
     final  FramebufferColorAttachmentPoint point,
     final  RenderbufferUsableType<RenderableColorKind> renderbuffer)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError;
 
   /**
@@ -98,7 +98,7 @@ public interface JCGLFramebuffersGL3 extends
    *           <li><code>texture</code> is not a color-renderable
    *           format</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
@@ -106,7 +106,7 @@ public interface JCGLFramebuffersGL3 extends
     final  FramebufferReference framebuffer,
     final  FramebufferColorAttachmentPoint point,
     final  Texture2DStaticUsableType texture)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError;
 
   /**
@@ -132,7 +132,7 @@ public interface JCGLFramebuffersGL3 extends
    *           <li><code>texture</code> is not a color-renderable
    *           format</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
@@ -141,7 +141,7 @@ public interface JCGLFramebuffersGL3 extends
     final  FramebufferColorAttachmentPoint point,
     final  TextureCubeStaticUsable texture,
     final  CubeMapFaceLH face)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError;
 
   /**
@@ -166,14 +166,14 @@ public interface JCGLFramebuffersGL3 extends
    *           <li><code>renderbuffer</code> is not a depth-renderable and
    *           stencil-renderable format</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawAttachDepthStencilRenderbuffer(
     final  FramebufferReference framebuffer,
     final  RenderbufferUsableType<RenderableDepthStencilKind> renderbuffer)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError;
 
   /**
@@ -190,7 +190,7 @@ public interface JCGLFramebuffersGL3 extends
    *           <li><code>framebuffer.resourceIsDeleted()</code></li>
    *           <li><code>framebufferIsBoundDraw(framebuffer) == false</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
@@ -198,6 +198,6 @@ public interface JCGLFramebuffersGL3 extends
     framebufferDrawSetBuffers(
       final  FramebufferReference framebuffer,
       final  Map<FramebufferDrawBuffer, FramebufferColorAttachmentPoint> mappings)
-      throws JCGLRuntimeException,
+      throws JCGLExceptionRuntime,
         ConstraintError;
 }

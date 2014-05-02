@@ -22,7 +22,7 @@ import javax.media.opengl.GL;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jcanephora.JCGLExtensionNames;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilterMagnification;
@@ -85,7 +85,7 @@ class ExtDepthTexture<G extends GL> implements JCGLExtensionDepthTexture
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLRuntimeException
+      JCGLExceptionRuntime
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.gl,
@@ -110,7 +110,7 @@ class ExtDepthTexture<G extends GL> implements JCGLExtensionDepthTexture
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLRuntimeException
+      JCGLExceptionRuntime
   {
     return JOGL_GL2GL3_Functions.texture2DStaticAllocate(
       this.gl,

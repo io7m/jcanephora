@@ -17,7 +17,7 @@
 package com.io7m.jcanephora.api;
 
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 
 /**
  * Functions controlling the OpenGL viewport.
@@ -32,12 +32,12 @@ public interface JCGLViewportType
    * 
    * @param area
    *          The inclusive area.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurred.
    */
 
   void viewportSet(
     final  AreaInclusive area)
     throws
-      JCGLRuntimeException;
+      JCGLExceptionRuntime;
 }

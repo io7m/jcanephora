@@ -28,148 +28,148 @@ interface TextureWritableDataType
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 1.
    */
 
   SpatialCursorWritable1dType getCursor1d()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 1.
    */
 
   SpatialCursorWritable1fType getCursor1f()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 1, or the
    *           texture is floating-point.
    */
 
   SpatialCursorWritable1iType getCursor1i()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 2.
    */
 
   SpatialCursorWritable2dType getCursor2d()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 2.
    */
 
   SpatialCursorWritable2fType getCursor2f()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 2, or the
    *           texture is floating-point.
    */
 
   SpatialCursorWritable2iType getCursor2i()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 3.
    */
 
   SpatialCursorWritable3dType getCursor3d()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 3.
    */
 
   SpatialCursorWritable3fType getCursor3f()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 3, or the
    *           texture is floating-point.
    */
 
   SpatialCursorWritable3iType getCursor3i()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 4.
    */
 
   SpatialCursorWritable4dType getCursor4d()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 4.
    */
 
   SpatialCursorWritable4fType getCursor4f()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * @return A cursor that points to elements of the texture. The cursor
    *         interface allows constant time access to any element and also
    *         minimizes the number of checks performed for each access.
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 4, or the
    *           texture is floating-point.
    */
 
   SpatialCursorWritable4iType getCursor4i()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * @return The type of the underlying texture.

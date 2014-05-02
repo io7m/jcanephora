@@ -27,8 +27,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExtensionNames;
-import com.io7m.jcanephora.JCGLRuntimeException;
-import com.io7m.jcanephora.JCGLUnsupportedException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.JCGLExceptionUnsupported;
 import com.io7m.jcanephora.api.JCGLImplementation;
 import com.io7m.jcanephora.api.JCGLImplementationVisitor;
 import com.io7m.jcanephora.api.JCGLInterfaceCommon;
@@ -78,9 +78,9 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
    * 
    * @throws ConstraintError
    *           Iff <code>context == null || log == null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
-   * @throws JCGLUnsupportedException
+   * @throws JCGLExceptionUnsupported
    *           Iff the given graphics context does not support either of
    *           OpenGL 3.* or ES2.
    */
@@ -88,8 +88,8 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
   public static @Nonnull JCGLImplementationJOGL newImplementation(
     final @Nonnull GLContext context,
     final @Nonnull Log log)
-    throws JCGLRuntimeException,
-      JCGLUnsupportedException,
+    throws JCGLExceptionRuntime,
+      JCGLExceptionUnsupported,
       ConstraintError
   {
     return new JCGLImplementationJOGL(
@@ -106,9 +106,9 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
    * 
    * @throws ConstraintError
    *           Iff <code>context == null || log == null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
-   * @throws JCGLUnsupportedException
+   * @throws JCGLExceptionUnsupported
    *           Iff the given graphics context does not support either of
    *           OpenGL 3.* or ES2.
    */
@@ -118,8 +118,8 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
     newImplementationWithDebugging(
       final @Nonnull GLContext context,
       final @Nonnull Log log)
-      throws JCGLRuntimeException,
-        JCGLUnsupportedException,
+      throws JCGLExceptionRuntime,
+        JCGLExceptionUnsupported,
         ConstraintError
   {
     return new JCGLImplementationJOGL(
@@ -137,9 +137,9 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
    * 
    * @throws ConstraintError
    *           Iff <code>context == null || log == null || r == null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
-   * @throws JCGLUnsupportedException
+   * @throws JCGLExceptionUnsupported
    *           Iff the given graphics context does not support either of
    *           OpenGL 3.* or ES2.
    */
@@ -150,8 +150,8 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
       final @Nonnull GLContext context,
       final @Nonnull Log log,
       final @Nonnull JCGLSoftRestrictionsType r)
-      throws JCGLRuntimeException,
-        JCGLUnsupportedException,
+      throws JCGLExceptionRuntime,
+        JCGLExceptionUnsupported,
         ConstraintError
   {
     return new JCGLImplementationJOGL(
@@ -170,9 +170,9 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
    * @throws ConstraintError
    *           Iff
    *           <code>context == null || log == null || stream == null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
-   * @throws JCGLUnsupportedException
+   * @throws JCGLExceptionUnsupported
    *           Iff the given graphics context does not support either of
    *           OpenGL 3.* or ES2.
    */
@@ -183,8 +183,8 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
       final @Nonnull GLContext context,
       final @Nonnull Log log,
       final @Nonnull PrintStream trace)
-      throws JCGLRuntimeException,
-        JCGLUnsupportedException,
+      throws JCGLExceptionRuntime,
+        JCGLExceptionUnsupported,
         ConstraintError
   {
     return new JCGLImplementationJOGL(
@@ -204,9 +204,9 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
    *           Iff
    *           <code>context == null || log == null || stream == null || r == null</code>
    *           .
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
-   * @throws JCGLUnsupportedException
+   * @throws JCGLExceptionUnsupported
    *           Iff the given graphics context does not support either of
    *           OpenGL 3.* or ES2.
    */
@@ -218,8 +218,8 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
       final @Nonnull Log log,
       final @Nonnull PrintStream trace,
       final @Nonnull JCGLSoftRestrictionsType r)
-      throws JCGLRuntimeException,
-        JCGLUnsupportedException,
+      throws JCGLExceptionRuntime,
+        JCGLExceptionUnsupported,
         ConstraintError
   {
     return new JCGLImplementationJOGL(
@@ -236,9 +236,9 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
    * 
    * @throws ConstraintError
    *           Iff <code>context == null || log == null || r == null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
-   * @throws JCGLUnsupportedException
+   * @throws JCGLExceptionUnsupported
    *           Iff the given graphics context does not support either of
    *           OpenGL 3.* or ES2.
    */
@@ -249,8 +249,8 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
       final @Nonnull GLContext context,
       final @Nonnull Log log,
       final @Nonnull JCGLSoftRestrictionsType r)
-      throws JCGLRuntimeException,
-        JCGLUnsupportedException,
+      throws JCGLExceptionRuntime,
+        JCGLExceptionUnsupported,
         ConstraintError
   {
     return new JCGLImplementationJOGL(
@@ -268,9 +268,9 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
    * @throws ConstraintError
    *           Iff
    *           <code>context == null || log == null || stream == null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
-   * @throws JCGLUnsupportedException
+   * @throws JCGLExceptionUnsupported
    *           Iff the given graphics context does not support either of
    *           OpenGL 3.* or ES2.
    */
@@ -279,8 +279,8 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
     final @Nonnull GLContext context,
     final @Nonnull Log log,
     final @Nonnull PrintStream trace)
-    throws JCGLRuntimeException,
-      JCGLUnsupportedException,
+    throws JCGLExceptionRuntime,
+      JCGLExceptionUnsupported,
       ConstraintError
   {
     return new JCGLImplementationJOGL(
@@ -300,9 +300,9 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
    *           Iff
    *           <code>context == null || log == null || trace == null || r == null</code>
    *           .
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
-   * @throws JCGLUnsupportedException
+   * @throws JCGLExceptionUnsupported
    *           Iff the given graphics context does not support either of
    *           OpenGL 3.* or ES2.
    */
@@ -314,8 +314,8 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
       final @Nonnull Log log,
       final @Nonnull PrintStream trace,
       final @Nonnull JCGLSoftRestrictionsType r)
-      throws JCGLRuntimeException,
-        JCGLUnsupportedException,
+      throws JCGLExceptionRuntime,
+        JCGLExceptionUnsupported,
         ConstraintError
   {
     return new JCGLImplementationJOGL(
@@ -340,8 +340,8 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
     final @CheckForNull PrintStream trace,
     final @Nonnull JCGLSoftRestrictionsType r)
     throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException
+      JCGLExceptionRuntime,
+      JCGLExceptionUnsupported
   {
     this.log =
       new Log(Constraints.constrainNotNull(log1, "log output"), "jogl30");
@@ -408,27 +408,27 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
 
         if (context1
           .isExtensionAvailable(JCGLExtensionNames.GL_ARB_FRAMEBUFFER_OBJECT) == false) {
-          throw new JCGLUnsupportedException(
+          throw new JCGLExceptionUnsupported(
             "Context supports OpenGL 2.1 but does not support the required GL_ARB_framebuffer_object extension");
         }
         if (context1
           .isExtensionAvailable(JCGLExtensionNames.GL_EXT_FRAMEBUFFER_OBJECT) == false) {
-          throw new JCGLUnsupportedException(
+          throw new JCGLExceptionUnsupported(
             "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_object extension");
         }
         if (context1
           .isExtensionAvailable(JCGLExtensionNames.GL_EXT_FRAMEBUFFER_MULTISAMPLE) == false) {
-          throw new JCGLUnsupportedException(
+          throw new JCGLExceptionUnsupported(
             "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_multisample extension");
         }
         if (context1
           .isExtensionAvailable(JCGLExtensionNames.GL_EXT_FRAMEBUFFER_BLIT) == false) {
-          throw new JCGLUnsupportedException(
+          throw new JCGLExceptionUnsupported(
             "Context supports OpenGL 2.1 but does not support the required GL_EXT_framebuffer_blit extension");
         }
         if (context1
           .isExtensionAvailable(JCGLExtensionNames.GL_EXT_PACKED_DEPTH_STENCIL) == false) {
-          throw new JCGLUnsupportedException(
+          throw new JCGLExceptionUnsupported(
             "Context supports OpenGL 2.1 but does not support the required GL_EXT_packed_depth_stencil extension");
         }
 
@@ -444,7 +444,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
       return;
     }
 
-    throw new JCGLUnsupportedException(
+    throw new JCGLExceptionUnsupported(
       "At least OpenGL 2.1 or OpenGL ES2 is required");
   }
 

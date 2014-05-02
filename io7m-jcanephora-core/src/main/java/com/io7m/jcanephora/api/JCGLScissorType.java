@@ -17,7 +17,7 @@
 package com.io7m.jcanephora.api;
 
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 
 /**
  * Simplified interface to the scissor test.
@@ -29,12 +29,12 @@ public interface JCGLScissorType
    * Disable the scissor test in the OpenGL pipeline. The scissor test is
    * initially disabled.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void scissorDisable()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Set the OpenGL scissor region to the given inclusive area. The dimensions
@@ -43,20 +43,20 @@ public interface JCGLScissorType
    * 
    * @param area
    *          The inclusive area
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurred.
    */
 
   void scissorEnable(
     final AreaInclusive area)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * @return <code>true</code> iff scissor testing is enabled.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurred.
    */
 
   boolean scissorIsEnabled()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 }

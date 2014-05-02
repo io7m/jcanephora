@@ -19,7 +19,7 @@ package com.io7m.jcanephora.jogl;
 import javax.media.opengl.GLContext;
 
 import com.io7m.jcanephora.ArrayBufferUsableType;
-import com.io7m.jcanephora.JCGLContextException;
+import com.io7m.jcanephora.JCGLExceptionWrongContext;
 import com.io7m.jequality.annotations.EqualityReference;
 import com.io7m.junreachable.UnreachableCodeException;
 
@@ -60,14 +60,14 @@ import com.io7m.junreachable.UnreachableCodeException;
    *          The context
    * @param x
    *          The array
-   * @throws JCGLContextException
+   * @throws JCGLExceptionWrongContext
    *           If the object cannot be used.
    */
 
   public static void checkArray(
     final GLContext current,
     final ArrayBufferUsableType x)
-    throws JCGLContextException
+    throws JCGLExceptionWrongContext
   {
     if (x instanceof JOGLObjectShared) {
       JOGLObjectChecks.checkObjectShared(current, (JOGLObjectShared) x);
@@ -87,20 +87,20 @@ import com.io7m.junreachable.UnreachableCodeException;
           "Object cannot be used: The object %s was not created on this context",
           x);
     assert r != null;
-    throw new JCGLContextException(r);
+    throw new JCGLExceptionWrongContext(r);
   }
 
   private static void checkObjectPseudo(
     final GLContext current,
     final JOGLObjectPseudo x)
-    throws JCGLContextException
+    throws JCGLExceptionWrongContext
   {
     final GLContext target = x.getContext();
     if (current.equals(target)) {
       return;
     }
 
-    throw new JCGLContextException(
+    throw new JCGLExceptionWrongContext(
       String
         .format(
           "Object cannot be used: Current context %s is not equal to object's context %s",
@@ -111,7 +111,7 @@ import com.io7m.junreachable.UnreachableCodeException;
   private static void checkObjectShared(
     final GLContext current,
     final JOGLObjectShared x)
-    throws JCGLContextException
+    throws JCGLExceptionWrongContext
   {
     final GLContext target = x.getContext();
     if (current.equals(target)) {
@@ -128,7 +128,7 @@ import com.io7m.junreachable.UnreachableCodeException;
         return;
       }
 
-      throw new JCGLContextException(
+      throw new JCGLExceptionWrongContext(
         String
           .format(
             "Object cannot be used: Current context %s is shared, but is not shared with object's context %s",
@@ -136,7 +136,7 @@ import com.io7m.junreachable.UnreachableCodeException;
             target));
     }
 
-    throw new JCGLContextException(
+    throw new JCGLExceptionWrongContext(
       String
         .format(
           "Object cannot be used: Current context %s is not shared, and is not equal to object's context %s",
@@ -147,14 +147,14 @@ import com.io7m.junreachable.UnreachableCodeException;
   private static void checkObjectUnshared(
     final GLContext current,
     final JOGLObjectUnshared x)
-    throws JCGLContextException
+    throws JCGLExceptionWrongContext
   {
     final GLContext target = x.getContext();
     if (current.equals(target)) {
       return;
     }
 
-    throw new JCGLContextException(
+    throw new JCGLExceptionWrongContext(
       String
         .format(
           "Object cannot be used: Current context %s is not equal to object's context %s",

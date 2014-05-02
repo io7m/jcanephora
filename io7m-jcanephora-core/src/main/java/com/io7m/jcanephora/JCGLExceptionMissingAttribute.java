@@ -18,7 +18,8 @@ package com.io7m.jcanephora;
 
 /**
  * <p>
- * Exception class representing an error caused by a run-time type error.
+ * Exception class representing an error caused by the programmer attempting
+ * to specify a nonexistent attribute.
  * </p>
  * <p>
  * Note: This should arguably be an unchecked exception as run-time type
@@ -28,12 +29,28 @@ package com.io7m.jcanephora;
  * </p>
  */
 
-public final class JCGLTypingException extends JCGLException
+public final class JCGLExceptionMissingAttribute extends JCGLException
 {
   private static final long serialVersionUID;
 
   static {
-    serialVersionUID = -1875117450218471171L;
+    serialVersionUID = -2399910787893514882L;
+  }
+
+  /**
+   * Construct an exception with a useful error message.
+   * 
+   * @param name
+   *          The name of the missing attribute.
+   * @return An exception.
+   */
+
+  public static JCGLExceptionMissingAttribute noSuchAttribute(
+    final String name)
+  {
+    final String text = String.format("No such attribute '%s'", name);
+    assert text != null;
+    return new JCGLExceptionMissingAttribute(text);
   }
 
   /**
@@ -43,7 +60,7 @@ public final class JCGLTypingException extends JCGLException
    *          The message.
    */
 
-  public JCGLTypingException(
+  public JCGLExceptionMissingAttribute(
     final String message)
   {
     super(message);

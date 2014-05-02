@@ -17,7 +17,7 @@
 package com.io7m.jcanephora.api;
 
 import com.io7m.jcanephora.FaceSelection;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
 
@@ -32,33 +32,33 @@ public interface JCGLStencilBufferType
    * 
    * @param stencil
    *          The stencil value.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void stencilBufferClear(
     final int stencil)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Disable the stencil test.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    */
 
   void stencilBufferDisable()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Enable the stencil test.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    */
 
   void stencilBufferEnable()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Set the stencil function and reference value for the faces given by
@@ -75,7 +75,7 @@ public interface JCGLStencilBufferType
    * @param mask
    *          The value to AND with the reference and stored stencil values.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    */
 
@@ -84,27 +84,27 @@ public interface JCGLStencilBufferType
     final StencilFunction function,
     final int reference,
     final int mask)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * @return The number of bits available in the stencil buffer for the
    *         current framebuffer configuration.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   int stencilBufferGetBits()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * @return <code>true</code> iff stencil testing is enabled.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   boolean stencilBufferIsEnabled()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Control the writing of bits in the stencil buffer for the faces given by
@@ -119,14 +119,14 @@ public interface JCGLStencilBufferType
    * @param faces
    *          The face selection.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    */
 
   void stencilBufferMask(
     final FaceSelection faces,
     final int mask)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Configure the operations to be performed on the stencil buffer for the
@@ -143,7 +143,7 @@ public interface JCGLStencilBufferType
    *          The operation to perform when the stencil and depth test (if
    *          any) passes.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    */
 
@@ -152,5 +152,5 @@ public interface JCGLStencilBufferType
     final StencilOperation stencil_fail,
     final StencilOperation depth_fail,
     final StencilOperation pass)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 }

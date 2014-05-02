@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora.api;
 
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.PolygonMode;
 
 /**
@@ -28,12 +28,12 @@ public interface JCGLPolygonModesType
   /**
    * @return The <code>PolygonMode</code> used for polygons.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   PolygonMode polygonGetMode()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Set the polygon rasterization mode for the polygons to <code>mode</code>.
@@ -41,11 +41,11 @@ public interface JCGLPolygonModesType
    * 
    * @param mode
    *          The rasterization mode.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void polygonSetMode(
     final PolygonMode mode)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 }

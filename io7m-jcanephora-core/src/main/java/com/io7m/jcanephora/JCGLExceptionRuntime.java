@@ -17,23 +17,41 @@
 package com.io7m.jcanephora;
 
 /**
- * Exception class representing an unsupported OpenGL implementation.
+ * Exception class representing an error raised by the OpenGL implementation.
  */
 
-public final class JCGLUnsupportedException extends JCGLException
+public final class JCGLExceptionRuntime extends JCGLException
 {
-  private static final long serialVersionUID = -8872086228034386902L;
+  private static final long serialVersionUID;
+  private final int         code;
+
+  static {
+    serialVersionUID = -6495367643829747178L;
+  }
 
   /**
-   * Construct an error with the given message.
+   * Construct an error with the given error code and message.
    * 
+   * @param in_code
+   *          The error code.
    * @param message
-   *          The message
+   *          The message.
    */
 
-  public JCGLUnsupportedException(
+  public JCGLExceptionRuntime(
+    final int in_code,
     final String message)
   {
     super(message);
+    this.code = in_code;
+  }
+
+  /**
+   * @return The error code.
+   */
+
+  public int getCode()
+  {
+    return this.code;
   }
 }

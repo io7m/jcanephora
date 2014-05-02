@@ -19,7 +19,10 @@ package com.io7m.jcanephora;
 /**
  * <p>
  * Exception class representing an error caused by the programmer attempting
- * to specify a nonexistent attribute.
+ * to use an object on the wrong context. For example, if <code>o</code> is an
+ * object allocated on context <code>C</code>, and <code>C</code> is not
+ * shared with or equal to context <code>D</code>, then attempting to pass
+ * <code>o</code> to functions on <code>D</code> is an error.
  * </p>
  * <p>
  * Note: This should arguably be an unchecked exception as run-time type
@@ -29,28 +32,12 @@ package com.io7m.jcanephora;
  * </p>
  */
 
-public final class JCGLMissingAttributeException extends JCGLException
+public final class JCGLExceptionWrongContext extends JCGLException
 {
   private static final long serialVersionUID;
 
   static {
-    serialVersionUID = -2399910787893514882L;
-  }
-
-  /**
-   * Construct an exception with a useful error message.
-   * 
-   * @param name
-   *          The name of the missing attribute.
-   * @return An exception.
-   */
-
-  public static JCGLMissingAttributeException noSuchAttribute(
-    final String name)
-  {
-    final String text = String.format("No such attribute '%s'", name);
-    assert text != null;
-    return new JCGLMissingAttributeException(text);
+    serialVersionUID = -1875117450218471171L;
   }
 
   /**
@@ -60,7 +47,7 @@ public final class JCGLMissingAttributeException extends JCGLException
    *          The message.
    */
 
-  public JCGLMissingAttributeException(
+  public JCGLExceptionWrongContext(
     final String message)
   {
     super(message);

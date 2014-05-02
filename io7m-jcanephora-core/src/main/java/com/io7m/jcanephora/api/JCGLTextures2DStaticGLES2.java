@@ -19,7 +19,7 @@ package com.io7m.jcanephora.api;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureFormat;
@@ -90,7 +90,7 @@ public interface JCGLTextures2DStaticGLES2 extends JCGLTextures2DStaticCommonTyp
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
    *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
@@ -103,7 +103,7 @@ public interface JCGLTextures2DStaticGLES2 extends JCGLTextures2DStaticCommonTyp
     final  TextureFilterMinification min_filter,
     final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLRuntimeException;
+      JCGLExceptionRuntime;
 
   /**
    * <p>
@@ -160,7 +160,7 @@ public interface JCGLTextures2DStaticGLES2 extends JCGLTextures2DStaticCommonTyp
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
    *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
@@ -173,7 +173,7 @@ public interface JCGLTextures2DStaticGLES2 extends JCGLTextures2DStaticCommonTyp
     final  TextureFilterMinification min_filter,
     final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLRuntimeException;
+      JCGLExceptionRuntime;
 
   /**
    * <p>
@@ -230,7 +230,7 @@ public interface JCGLTextures2DStaticGLES2 extends JCGLTextures2DStaticCommonTyp
    *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
    *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
@@ -243,5 +243,5 @@ public interface JCGLTextures2DStaticGLES2 extends JCGLTextures2DStaticCommonTyp
     final  TextureFilterMinification min_filter,
     final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLRuntimeException;
+      JCGLExceptionRuntime;
 }

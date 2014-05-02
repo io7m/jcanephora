@@ -31,12 +31,12 @@ public interface TextureReadableDataType
    *         minimizes the number of checks performed for each access.
    * 
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 1.
    */
 
   SpatialCursorReadable1dType getCursor1d()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * 
@@ -45,12 +45,12 @@ public interface TextureReadableDataType
    *         minimizes the number of checks performed for each access.
    * 
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 1.
    */
 
   SpatialCursorReadable1fType getCursor1f()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * 
@@ -59,13 +59,13 @@ public interface TextureReadableDataType
    *         minimizes the number of checks performed for each access.
    * 
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 1, or the
    *           components are floating point values.
    */
 
   SpatialCursorReadable1iType getCursor1i()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * 
@@ -74,12 +74,12 @@ public interface TextureReadableDataType
    *         minimizes the number of checks performed for each access.
    * 
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 2.
    */
 
   SpatialCursorReadable2dType getCursor2d()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * 
@@ -88,12 +88,12 @@ public interface TextureReadableDataType
    *         minimizes the number of checks performed for each access.
    * 
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 2.
    */
 
   SpatialCursorReadable2fType getCursor2f()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * 
@@ -102,13 +102,13 @@ public interface TextureReadableDataType
    *         minimizes the number of checks performed for each access.
    * 
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 2, or the
    *           texture has floating-point components.
    */
 
   SpatialCursorReadable2iType getCursor2i()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * 
@@ -117,12 +117,12 @@ public interface TextureReadableDataType
    *         minimizes the number of checks performed for each access.
    * 
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 3.
    */
 
   SpatialCursorReadable3dType getCursor3d()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * 
@@ -131,12 +131,12 @@ public interface TextureReadableDataType
    *         minimizes the number of checks performed for each access.
    * 
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 3.
    */
 
   SpatialCursorReadable3fType getCursor3f()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * 
@@ -145,13 +145,13 @@ public interface TextureReadableDataType
    *         minimizes the number of checks performed for each access.
    * 
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 3, or the
    *           texture has floating-point components.
    */
 
   SpatialCursorReadable3iType getCursor3i()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * 
@@ -160,12 +160,12 @@ public interface TextureReadableDataType
    *         minimizes the number of checks performed for each access.
    * 
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 3.
    */
 
   SpatialCursorReadable4dType getCursor4d()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * 
@@ -174,12 +174,12 @@ public interface TextureReadableDataType
    *         minimizes the number of checks performed for each access.
    * 
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 4.
    */
 
   SpatialCursorReadable4fType getCursor4f()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
   /**
    * 
@@ -188,12 +188,12 @@ public interface TextureReadableDataType
    *         minimizes the number of checks performed for each access.
    * 
    * 
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the number of components in the texture is not 4, or the
    *           texture has floating-point components.
    */
 
   SpatialCursorReadable4iType getCursor4i()
-    throws JCGLTypingException;
+    throws JCGLExceptionTypeError;
 
 }

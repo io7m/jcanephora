@@ -25,7 +25,7 @@ import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.FramebufferBlitBuffer;
 import com.io7m.jcanephora.FramebufferBlitFilter;
 import com.io7m.jcanephora.FramebufferUsableType;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 
 /**
  * Simplified interface to the (read) framebuffer functionality available on
@@ -59,7 +59,7 @@ public interface JCGLFramebuffersReadGL3
    *           <code>filter != {@link FramebufferBlitFilter#FRAMEBUFFER_BLIT_FILTER_NEAREST}</code>
    *           </li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
@@ -69,7 +69,7 @@ public interface JCGLFramebuffersReadGL3
     final  Set<FramebufferBlitBuffer> buffers,
     final  FramebufferBlitFilter filter)
     throws ConstraintError,
-      JCGLRuntimeException;
+      JCGLExceptionRuntime;
 
   /**
    * <p>
@@ -77,12 +77,12 @@ public interface JCGLFramebuffersReadGL3
    * currently bound.
    * </p>
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
   boolean framebufferReadAnyIsBound()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
@@ -95,13 +95,13 @@ public interface JCGLFramebuffersReadGL3
    *           <li><code>framebuffer == null</code></li>
    *           <li><code>framebuffer.resourceIsDeleted()</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferReadBind(
     final  FramebufferUsableType framebuffer)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError;
 
   /**
@@ -116,13 +116,13 @@ public interface JCGLFramebuffersReadGL3
    *           <li><code>framebuffer == null</code></li>
    *           <li><code>framebuffer.resourceIsDeleted()</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
   boolean framebufferReadIsBound(
     final  FramebufferUsableType framebuffer)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError;
 
   /**
@@ -130,10 +130,10 @@ public interface JCGLFramebuffersReadGL3
    * Unbind the current framebuffer from the read target.
    * </p>
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferReadUnbind()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 }

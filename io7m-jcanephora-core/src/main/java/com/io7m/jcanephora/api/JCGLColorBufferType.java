@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora.api;
 
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jtensors.VectorReadable3FType;
 import com.io7m.jtensors.VectorReadable4FType;
 
@@ -36,7 +36,7 @@ public interface JCGLColorBufferType
    *          The green component.
    * @param b
    *          The blue component.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
@@ -44,7 +44,7 @@ public interface JCGLColorBufferType
     final float r,
     final float g,
     final float b)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Clear the color buffer with the color specified by <code>(r,g,b,a)</code>
@@ -58,7 +58,7 @@ public interface JCGLColorBufferType
    *          The blue component.
    * @param a
    *          The alpha component.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
@@ -67,7 +67,7 @@ public interface JCGLColorBufferType
     final float g,
     final float b,
     final float a)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Clear the color buffer with the color specified by <code>color</code>.
@@ -76,26 +76,26 @@ public interface JCGLColorBufferType
    * @param color
    *          The color to use.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void colorBufferClearV3f(
     final VectorReadable3FType color)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Clear the color buffer with the color specified by <code>color</code>.
    * 
    * @param color
    *          The color to use.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void colorBufferClearV4f(
     final VectorReadable4FType color)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Enable/disable writing to the given channels of the current color buffer.
@@ -110,7 +110,7 @@ public interface JCGLColorBufferType
    *          Enable/disable writing to the blue channel of the color buffer.
    * @param a
    *          Enable/disable writing to the alpha channel of the color buffer.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
@@ -119,46 +119,46 @@ public interface JCGLColorBufferType
     final boolean g,
     final boolean b,
     final boolean a)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * @return <code>true</code> iff writing to the current color buffer will
    *         write to the alpha channel.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   boolean colorBufferMaskStatusAlpha()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * @return <code>true</code> iff writing to the current color buffer will
    *         write to the blue channel.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   boolean colorBufferMaskStatusBlue()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * @return <code>true</code> iff writing to the current color buffer will
    *         write to the green channel.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   boolean colorBufferMaskStatusGreen()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * @return <code>true</code> iff writing to the current color buffer will
    *         write to the red channel.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   boolean colorBufferMaskStatusRed()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 }

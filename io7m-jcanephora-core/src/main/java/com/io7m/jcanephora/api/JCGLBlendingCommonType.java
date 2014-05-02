@@ -18,7 +18,7 @@ package com.io7m.jcanephora.api;
 
 import com.io7m.jcanephora.BlendEquationGLES2;
 import com.io7m.jcanephora.BlendFunction;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 
 /**
  * Simplified and type-safe interface to the common subset of blending
@@ -30,12 +30,12 @@ public interface JCGLBlendingCommonType
   /**
    * Disable blending.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void blendingDisable()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Enable blending with the given blending functions. The function is
@@ -53,14 +53,14 @@ public interface JCGLBlendingCommonType
    *          The source factor.
    * @param destination_factor
    *          The destination factor.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void blendingEnable(
     final BlendFunction source_factor,
     final BlendFunction destination_factor)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Enable blending with the given blending functions. The function is
@@ -86,7 +86,7 @@ public interface JCGLBlendingCommonType
    * @param destination_alpha_factor
    *          The function used to blend the alpha components of the existing
    *          (destination) color values.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
@@ -95,7 +95,7 @@ public interface JCGLBlendingCommonType
     final BlendFunction source_alpha_factor,
     final BlendFunction destination_rgb_factor,
     final BlendFunction destination_alpha_factor)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
@@ -138,7 +138,7 @@ public interface JCGLBlendingCommonType
    * @param equation_alpha
    *          The equation used to blend the alpha components.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
@@ -149,7 +149,7 @@ public interface JCGLBlendingCommonType
     final BlendFunction destination_alpha_factor,
     final BlendEquationGLES2 equation_rgb,
     final BlendEquationGLES2 equation_alpha)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Enable blending with the given blending functions and equation. The
@@ -169,7 +169,7 @@ public interface JCGLBlendingCommonType
    *          The destination factor.
    * @param equation
    *          The blend equation.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
@@ -177,7 +177,7 @@ public interface JCGLBlendingCommonType
     final BlendFunction source_factor,
     final BlendFunction destination_factor,
     final BlendEquationGLES2 equation)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Enable blending with the given blending functions and equation. The
@@ -199,7 +199,7 @@ public interface JCGLBlendingCommonType
    *          The blend equation for the RGB components.
    * @param equation_alpha
    *          The blend equation for the alpha components.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
@@ -208,15 +208,15 @@ public interface JCGLBlendingCommonType
     final BlendFunction destination_factor,
     final BlendEquationGLES2 equation_rgb,
     final BlendEquationGLES2 equation_alpha)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * @return <code>true</code> iff blending is enabled.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   boolean blendingIsEnabled()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 }

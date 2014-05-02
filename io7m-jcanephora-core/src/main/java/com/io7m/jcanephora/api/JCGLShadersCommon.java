@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.io7m.jcanephora.FragmentShaderType;
-import com.io7m.jcanephora.JCGLCompileException;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionCompileError;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.ProgramAttributeType;
 import com.io7m.jcanephora.ProgramType;
 import com.io7m.jcanephora.ProgramUniformType;
@@ -56,17 +56,17 @@ public interface JCGLShadersCommon
    *           <li><code>lines == null</code></li>
    *           <li><code>ShaderUtilities.isEmpty(lines) == true</code></li>
    *           </ul>
-   * @throws JCGLCompileException
+   * @throws JCGLExceptionCompileError
    *           Iff a compilation error occurs.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   FragmentShaderType fragmentShaderCompile(
     final String name,
     final List<String> lines)
-    throws JCGLCompileException,
-      JCGLRuntimeException;
+    throws JCGLExceptionCompileError,
+      JCGLExceptionRuntime;
 
   /**
    * Deletes the fragment shader referenced by <code>id</code>.
@@ -80,13 +80,13 @@ public interface JCGLShadersCommon
    *           <li><code>id</code> does not refer to a valid shader (possible
    *           if the shader has already been deleted).</li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void fragmentShaderDelete(
     final FragmentShaderType id)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Make the program referenced by <code>program</code> active.
@@ -100,13 +100,13 @@ public interface JCGLShadersCommon
    *           <li><code>program</code> does not refer to a valid program
    *           (possible if the program has already been deleted).</li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void programActivate(
     final ProgramUsableType program)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Associate the array attribute <code>array_attribute</code> with the
@@ -128,14 +128,14 @@ public interface JCGLShadersCommon
    *           <li>The type of <code>array_attribute</code> is incompatible
    *           with <code>program_attribute</code>.</li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   public void programAttributeArrayAssociate(
     final ProgramAttributeType program_attribute,
     final ArrayBufferAttribute array_attribute)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError;
 
   /**
@@ -149,13 +149,13 @@ public interface JCGLShadersCommon
    *           <ul>
    *           <li><code>program_attribute == null</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   public void programAttributeArrayDisassociate(
     final ProgramAttributeType program_attribute)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError;
 
   /**
@@ -178,7 +178,7 @@ public interface JCGLShadersCommon
    *          The program attribute.
    * @param x
    *          The value.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -194,7 +194,7 @@ public interface JCGLShadersCommon
   public void programAttributePutFloat(
     final ProgramAttributeType program_attribute,
     float x)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError;
 
   /**
@@ -217,7 +217,7 @@ public interface JCGLShadersCommon
    *          The program attribute.
    * @param x
    *          The value.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -234,7 +234,7 @@ public interface JCGLShadersCommon
   public void programAttributePutVector2f(
     final ProgramAttributeType program_attribute,
     final VectorReadable2F x)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError;
 
   /**
@@ -257,7 +257,7 @@ public interface JCGLShadersCommon
    *          The program attribute.
    * @param x
    *          The value.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -274,7 +274,7 @@ public interface JCGLShadersCommon
   public void programAttributePutVector3f(
     final ProgramAttributeType program_attribute,
     final VectorReadable3F x)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError;
 
   /**
@@ -297,7 +297,7 @@ public interface JCGLShadersCommon
    *          The program attribute.
    * @param x
    *          The value.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -314,7 +314,7 @@ public interface JCGLShadersCommon
   public void programAttributePutVector4f(
     final ProgramAttributeType program_attribute,
     final VectorReadable4F x)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError;
 
   /**
@@ -347,9 +347,9 @@ public interface JCGLShadersCommon
    *           <li><code>v</code> is deleted.</li>
    *           <li><code>f</code> is deleted.</li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
-   * @throws JCGLCompileException
+   * @throws JCGLExceptionCompileError
    *           Iff the program fails to link.
    */
 
@@ -357,18 +357,18 @@ public interface JCGLShadersCommon
     final String name,
     final VertexShaderType v,
     final FragmentShaderType f)
-    throws JCGLRuntimeException,
-      JCGLCompileException;
+    throws JCGLExceptionRuntime,
+      JCGLExceptionCompileError;
 
   /**
    * Disable the current shading program.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void programDeactivate()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Deletes the shading program referenced by <code>program</code>.
@@ -382,24 +382,24 @@ public interface JCGLShadersCommon
    *           <li><code>program</code> does not refer to a valid program
    *           (possible if the program has already been deleted).</li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void programDelete(
     final ProgramType program)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Return the implementation-specific maximum for the number of active
    * attributes.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   int programGetMaximumActiveAttributes()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Return <code>true</code> iff the program referenced by
@@ -414,13 +414,13 @@ public interface JCGLShadersCommon
    *           <li><code>program</code> does not refer to a valid program
    *           (possible if the program has already been deleted).</li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   boolean programIsActive(
     final ProgramUsableType program)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Upload the value <code>value</code> to the uniform <code>uniform</code>.
@@ -437,14 +437,14 @@ public interface JCGLShadersCommon
    *           <li>The program that <code>uniform</code> belongs to is not
    *           active.</li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutFloat(
     final ProgramUniformType uniform,
     final float value)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Upload the value <code>value</code> to the uniform <code>uniform</code>.
@@ -461,14 +461,14 @@ public interface JCGLShadersCommon
    *           <li>The program that <code>uniform</code> belongs to is not
    *           active.</li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutInteger(
     final ProgramUniformType uniform,
     final int value)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Upload the matrix <code>matrix</code> to the uniform <code>uniform</code>
@@ -487,14 +487,14 @@ public interface JCGLShadersCommon
    *           <li>The program that <code>uniform</code> belongs to is not
    *           active.</li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutMatrix3x3f(
     final ProgramUniformType uniform,
     final MatrixReadable3x3F matrix)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Upload the matrix <code>matrix</code> to the uniform <code>uniform</code>
@@ -513,14 +513,14 @@ public interface JCGLShadersCommon
    *           <li>The program that <code>uniform</code> belongs to is not
    *           active.</li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutMatrix4x4f(
     final ProgramUniformType uniform,
     final MatrixReadable4x4F matrix)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Upload the texture unit index <code>unit</code> to the uniform
@@ -539,14 +539,14 @@ public interface JCGLShadersCommon
    *           <li>The program that <code>uniform</code> belongs to is not
    *           active.</li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutTextureUnit(
     final ProgramUniformType uniform,
     final TextureUnitType unit)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Upload the vector <code>vector</code> to the uniform <code>uniform</code>
@@ -565,14 +565,14 @@ public interface JCGLShadersCommon
    *           <li>The program that <code>uniform</code> belongs to is not
    *           active.</li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutVector2f(
     final ProgramUniformType uniform,
     final VectorReadable2F vector)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Upload the vector <code>vector</code> to the uniform <code>uniform</code>
@@ -591,14 +591,14 @@ public interface JCGLShadersCommon
    *           <li>The program that <code>uniform</code> belongs to is not
    *           active.</li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutVector2i(
     final ProgramUniformType uniform,
     final VectorReadable2I vector)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Upload the vector <code>vector</code> to the uniform <code>uniform</code>
@@ -617,14 +617,14 @@ public interface JCGLShadersCommon
    *           <li>The program that <code>uniform</code> belongs to is not
    *           active.</li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutVector3f(
     final ProgramUniformType uniform,
     final VectorReadable3F vector)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Upload the vector <code>vector</code> to the uniform <code>uniform</code>
@@ -643,14 +643,14 @@ public interface JCGLShadersCommon
    *           <li>The program that <code>uniform</code> belongs to is not
    *           active.</li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutVector3i(
     final ProgramUniformType uniform,
     final VectorReadable3I vector)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Upload the vector <code>vector</code> to the uniform <code>uniform</code>
@@ -669,14 +669,14 @@ public interface JCGLShadersCommon
    *           <li>The program that <code>uniform</code> belongs to is not
    *           active.</li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutVector4f(
     final ProgramUniformType uniform,
     final VectorReadable4F vector)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Upload the vector <code>vector</code> to the uniform <code>uniform</code>
@@ -695,14 +695,14 @@ public interface JCGLShadersCommon
    *           <li>The program that <code>uniform</code> belongs to is not
    *           active.</li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutVector4i(
     final ProgramUniformType uniform,
     final VectorReadable4I vector)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Read a GLSL vertex shader from the lines of GLSL source code given in
@@ -723,17 +723,17 @@ public interface JCGLShadersCommon
    *           <li><code>lines == null</code></li>
    *           <li><code>ShaderUtilities.isEmpty(lines) == true</code></li>
    *           </ul>
-   * @throws JCGLCompileException
+   * @throws JCGLExceptionCompileError
    *           Iff a compilation error occurs.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   VertexShaderType vertexShaderCompile(
     final String name,
     final List<String> lines)
-    throws JCGLCompileException,
-      JCGLRuntimeException;
+    throws JCGLExceptionCompileError,
+      JCGLExceptionRuntime;
 
   /**
    * Deletes the vertex shader referenced by <code>id</code>.
@@ -747,11 +747,11 @@ public interface JCGLShadersCommon
    *           <li><code>id</code> does not refer to a valid shader (possible
    *           if the shader has already been deleted).</li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void vertexShaderDelete(
     final VertexShaderTypeType id)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 }

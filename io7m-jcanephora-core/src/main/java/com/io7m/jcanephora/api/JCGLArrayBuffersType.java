@@ -20,7 +20,7 @@ import com.io7m.jcanephora.ArrayBufferType;
 import com.io7m.jcanephora.ArrayBufferUpdateUnmappedType;
 import com.io7m.jcanephora.ArrayBufferUsableType;
 import com.io7m.jcanephora.ArrayDescriptor;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.UsageHint;
 
 /**
@@ -42,7 +42,7 @@ public interface JCGLArrayBuffersType
    * @param usage
    *          The usage hint
    * @return A reference to the allocated buffer.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
@@ -50,7 +50,7 @@ public interface JCGLArrayBuffersType
     final long elements,
     final ArrayDescriptor descriptor,
     final UsageHint usage)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Bind the array buffer <code>buffer</code> for subsequent calls to
@@ -59,13 +59,13 @@ public interface JCGLArrayBuffersType
    * 
    * @param buffer
    *          The array buffer.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void arrayBufferBind(
     final ArrayBufferUsableType buffer)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Deletes the buffer referenced by <code>id</code>.
@@ -73,13 +73,13 @@ public interface JCGLArrayBuffersType
    * @param id
    *          The array buffer.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void arrayBufferDelete(
     final ArrayBufferType id)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * @return <code>true</code> iff the array buffer specified by
@@ -88,23 +88,23 @@ public interface JCGLArrayBuffersType
    * 
    * @param id
    *          The array buffer.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   boolean arrayBufferIsBound(
     final ArrayBufferUsableType id)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Unbind the current array buffer.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void arrayBufferUnbind()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Replace the contents (or part of the contents) of the array buffer
@@ -114,11 +114,11 @@ public interface JCGLArrayBuffersType
    * @param data
    *          The data to upload.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void arrayBufferUpdate(
     final ArrayBufferUpdateUnmappedType data)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 }
