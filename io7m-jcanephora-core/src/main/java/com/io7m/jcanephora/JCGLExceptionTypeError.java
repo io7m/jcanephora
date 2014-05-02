@@ -17,41 +17,35 @@
 package com.io7m.jcanephora;
 
 /**
- * Exception class representing an error raised by the OpenGL implementation.
+ * <p>
+ * Exception class representing an error caused by a run-time type error.
+ * </p>
+ * <p>
+ * Note: This should arguably be an unchecked exception as run-time type
+ * errors indicate programming mistakes and should not be caught. However, as
+ * almost all functions already throw subtypes of {@link JCGLException}, the
+ * presence of another subtype does not add any extra clutter to interfaces.
+ * </p>
  */
 
-public final class JCGLRuntimeException extends JCGLException
+public final class JCGLExceptionTypeError extends JCGLException
 {
   private static final long serialVersionUID;
-  private final int         code;
 
   static {
-    serialVersionUID = -6495367643829747178L;
+    serialVersionUID = -1875117450218471171L;
   }
 
   /**
-   * Construct an error with the given error code and message.
+   * Construct an error with the given message.
    * 
-   * @param in_code
-   *          The error code.
    * @param message
    *          The message.
    */
 
-  public JCGLRuntimeException(
-    final int in_code,
+  public JCGLExceptionTypeError(
     final String message)
   {
     super(message);
-    this.code = in_code;
-  }
-
-  /**
-   * @return The error code.
-   */
-
-  public int getCode()
-  {
-    return this.code;
   }
 }

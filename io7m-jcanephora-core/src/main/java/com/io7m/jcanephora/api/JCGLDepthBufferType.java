@@ -17,7 +17,7 @@
 package com.io7m.jcanephora.api;
 
 import com.io7m.jcanephora.DepthFunction;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 
 /**
  * Type-safe interface to the depth buffer.
@@ -39,34 +39,34 @@ public interface JCGLDepthBufferType
    * 
    * @param depth
    *          The depth value.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void depthBufferClear(
     final float depth)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * @return The number of bits available in the depth buffer for the current
    *         framebuffer configuration.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   int depthBufferGetBits()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Disable depth testing.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void depthBufferTestDisable()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Enable depth testing with the given <code>function</code>. The OpenGL
@@ -74,49 +74,49 @@ public interface JCGLDepthBufferType
    * 
    * @param function
    *          The depth function.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void depthBufferTestEnable(
     final DepthFunction function)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * @return <code>true</code> iff depth testing is enabled.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   boolean depthBufferTestIsEnabled()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Disable writing to the depth buffer.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void depthBufferWriteDisable()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Enable writing to the depth buffer.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void depthBufferWriteEnable()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * @return <code>true</code> iff depth writing is enabled.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   boolean depthBufferWriteIsEnabled()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 }

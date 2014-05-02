@@ -30,7 +30,7 @@ import com.io7m.jcanephora.CubeMapFaceLH;
 import com.io7m.jcanephora.DepthFunction;
 import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
 import com.io7m.jcanephora.FramebufferStatus;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.JCGLVersion;
 import com.io7m.jcanephora.RenderbufferFormat;
@@ -62,7 +62,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final float depth)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError
   {
     Constraints.constrainRange(
@@ -78,7 +78,7 @@ final class JOGL_GLES2_Functions
 
   static void depthBufferDisable(
     final @Nonnull GL gl)
-    throws JCGLRuntimeException
+    throws JCGLExceptionRuntime
   {
     gl.glDisable(GL.GL_DEPTH_TEST);
     JOGL_GL_Functions.checkError(gl);
@@ -89,7 +89,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull JCGLStateCache state,
     final @Nonnull DepthFunction function)
     throws ConstraintError,
-      JCGLRuntimeException
+      JCGLExceptionRuntime
   {
     Constraints.constrainNotNull(function, "Depth function");
     Constraints.constrainRange(
@@ -107,7 +107,7 @@ final class JOGL_GLES2_Functions
   static int depthBufferGetBits(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state)
-    throws JCGLRuntimeException
+    throws JCGLExceptionRuntime
   {
     final IntBuffer cache = state.getIntegerCache();
     cache.rewind();
@@ -118,7 +118,7 @@ final class JOGL_GLES2_Functions
 
   static boolean depthBufferIsEnabled(
     final @Nonnull GL gl)
-    throws JCGLRuntimeException
+    throws JCGLExceptionRuntime
   {
     final boolean e = gl.glIsEnabled(GL.GL_DEPTH_TEST);
     JOGL_GL_Functions.checkError(gl);
@@ -129,7 +129,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state)
     throws ConstraintError,
-      JCGLRuntimeException
+      JCGLExceptionRuntime
   {
     Constraints.constrainRange(
       JOGL_GLES2_Functions.depthBufferGetBits(gl, state),
@@ -145,7 +145,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state)
     throws ConstraintError,
-      JCGLRuntimeException
+      JCGLExceptionRuntime
   {
     Constraints.constrainRange(
       JOGL_GLES2_Functions.depthBufferGetBits(gl, state),
@@ -160,7 +160,7 @@ final class JOGL_GLES2_Functions
   static boolean depthBufferWriteIsEnabled(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state)
-    throws JCGLRuntimeException
+    throws JCGLExceptionRuntime
   {
     final ByteBuffer cache = state.getDepthMaskCache();
     gl.glGetBooleanv(GL.GL_DEPTH_WRITEMASK, cache);
@@ -184,7 +184,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
@@ -230,7 +230,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull FramebufferColorAttachmentPoint point,
     final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
     throws ConstraintError,
-      JCGLRuntimeException
+      JCGLExceptionRuntime
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(point, "Attachment point");
@@ -274,7 +274,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull Texture2DStaticUsableType texture,
     final @Nonnull JCGLNamedExtensionsType extensions)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError
   {
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
@@ -323,7 +323,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull Texture2DStaticUsableType texture,
     final @Nonnull JCGLNamedExtensionsType extensions)
     throws ConstraintError,
-      JCGLRuntimeException
+      JCGLExceptionRuntime
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(point, "Attachment point");
@@ -369,7 +369,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull TextureCubeStaticUsable texture,
     final @Nonnull CubeMapFaceLH face,
     final @Nonnull JCGLNamedExtensionsType extensions)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError
   {
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
@@ -422,7 +422,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull CubeMapFaceLH face,
     final @Nonnull JCGLNamedExtensionsType extensions)
     throws ConstraintError,
-      JCGLRuntimeException
+      JCGLExceptionRuntime
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(point, "Attachment point");
@@ -473,7 +473,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable<RenderableDepth> renderbuffer)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
@@ -524,7 +524,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable<RenderableDepthStencil> renderbuffer)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
@@ -579,7 +579,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull Texture2DStaticUsableType texture,
     final @Nonnull JCGLNamedExtensionsType extensions)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError
   {
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
@@ -623,7 +623,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable<RenderableStencil> renderbuffer)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
@@ -668,7 +668,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull GL2ES2 gl,
     final @Nonnull FramebufferReferenceUsable framebuffer)
     throws ConstraintError,
-      JCGLRuntimeException
+      JCGLExceptionRuntime
   {
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
     Constraints.constrainArbitrary(
@@ -695,7 +695,7 @@ final class JOGL_GLES2_Functions
 
   static void framebufferDrawUnbind(
     final @Nonnull GL2ES2 gl)
-    throws JCGLRuntimeException
+    throws JCGLExceptionRuntime
   {
     gl.glBindFramebuffer(GL.GL_FRAMEBUFFER, 0);
     JOGL_GL_Functions.checkError(gl);
@@ -704,7 +704,7 @@ final class JOGL_GLES2_Functions
   static @Nonnull FramebufferStatus framebufferDrawValidate(
     final @Nonnull GL2ES2 gl,
     final @Nonnull FramebufferReferenceUsable framebuffer)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
@@ -726,7 +726,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final int stencil)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError
   {
     Constraints.constrainRange(
@@ -741,7 +741,7 @@ final class JOGL_GLES2_Functions
 
   static void stencilBufferDisable(
     final @Nonnull GL gl)
-    throws JCGLRuntimeException
+    throws JCGLExceptionRuntime
   {
     gl.glDisable(GL.GL_STENCIL_TEST);
     JOGL_GL_Functions.checkError(gl);
@@ -751,7 +751,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state)
     throws ConstraintError,
-      JCGLRuntimeException
+      JCGLExceptionRuntime
   {
     Constraints.constrainRange(
       JOGL_GLES2_Functions.stencilBufferGetBits(gl, state),
@@ -766,7 +766,7 @@ final class JOGL_GLES2_Functions
   static int stencilBufferGetBits(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state)
-    throws JCGLRuntimeException
+    throws JCGLExceptionRuntime
   {
     final IntBuffer cache = state.getIntegerCache();
     cache.rewind();
@@ -777,7 +777,7 @@ final class JOGL_GLES2_Functions
 
   static boolean stencilBufferIsEnabled(
     final @Nonnull GL gl)
-    throws JCGLRuntimeException
+    throws JCGLExceptionRuntime
   {
     final boolean e = gl.glIsEnabled(GL.GL_STENCIL_TEST);
     JOGL_GL_Functions.checkError(gl);
@@ -797,7 +797,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLRuntimeException
+      JCGLExceptionRuntime
   {
     Constraints.constrainNotNull(name, "Name");
     Constraints.constrainRange(width, 2, Integer.MAX_VALUE, "Width");
@@ -895,7 +895,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull GL gl,
     final @Nonnull Texture2DWritableData data)
     throws ConstraintError,
-      JCGLRuntimeException
+      JCGLExceptionRuntime
   {
     Constraints.constrainNotNull(data, "Texture data");
 
@@ -938,7 +938,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull TextureFilterMinification min_filter,
     final @Nonnull TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLRuntimeException
+      JCGLExceptionRuntime
   {
     Constraints.constrainNotNull(name, "Name");
     Constraints.constrainRange(size, 2, Integer.MAX_VALUE, "Size");
@@ -1047,7 +1047,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull CubeMapFaceLH face,
     final @Nonnull TextureCubeWritableData data)
     throws ConstraintError,
-      JCGLRuntimeException
+      JCGLExceptionRuntime
   {
     Constraints.constrainNotNull(face, "Cube map face");
     Constraints.constrainNotNull(data, "Texture data");

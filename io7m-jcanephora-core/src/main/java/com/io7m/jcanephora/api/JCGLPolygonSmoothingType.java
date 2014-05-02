@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora.api;
 
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 
 /**
  * Control over polygon smoothing.
@@ -27,31 +27,31 @@ public interface JCGLPolygonSmoothingType
   /**
    * Disable smooth rasterization of polygons.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void polygonSmoothingDisable()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Enable smooth rasterization of polygons.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void polygonSmoothingEnable()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * @return <code>true</code> iff smooth rasterization of polygons is
    *         enabled.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   boolean polygonSmoothingIsEnabled()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 }

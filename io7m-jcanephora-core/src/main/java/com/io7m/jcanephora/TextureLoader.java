@@ -62,7 +62,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -78,7 +78,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -109,7 +109,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -125,7 +125,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -156,7 +156,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -172,7 +172,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -216,7 +216,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException,
       JCGLException;
 
@@ -248,7 +248,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -264,7 +264,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -295,7 +295,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -311,7 +311,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -342,7 +342,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -358,7 +358,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -389,7 +389,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -405,7 +405,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -436,7 +436,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -452,7 +452,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -483,7 +483,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -499,7 +499,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -530,7 +530,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -546,7 +546,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -577,7 +577,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -593,7 +593,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -624,7 +624,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -640,7 +640,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -671,7 +671,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -687,7 +687,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -718,7 +718,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -734,7 +734,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -765,7 +765,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -781,7 +781,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -812,7 +812,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -828,7 +828,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -859,7 +859,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -875,7 +875,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -906,7 +906,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -922,7 +922,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -953,7 +953,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -969,7 +969,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1000,7 +1000,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1016,7 +1016,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1047,7 +1047,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1063,7 +1063,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1094,7 +1094,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1110,7 +1110,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1141,7 +1141,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1157,7 +1157,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1188,7 +1188,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1204,7 +1204,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1235,7 +1235,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1251,7 +1251,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1282,7 +1282,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1298,7 +1298,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1329,7 +1329,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1345,7 +1345,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1376,7 +1376,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1392,7 +1392,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1423,7 +1423,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1439,7 +1439,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1470,7 +1470,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1486,7 +1486,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1517,7 +1517,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1533,7 +1533,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1564,7 +1564,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1580,7 +1580,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1611,7 +1611,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1627,7 +1627,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1658,7 +1658,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1674,7 +1674,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1705,7 +1705,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1721,7 +1721,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1752,7 +1752,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1768,7 +1768,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1799,7 +1799,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1815,7 +1815,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1846,7 +1846,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1862,7 +1862,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1893,7 +1893,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1909,7 +1909,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1940,7 +1940,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -1956,7 +1956,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -1987,7 +1987,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -2003,7 +2003,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -2034,7 +2034,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -2050,7 +2050,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -2081,7 +2081,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -2097,7 +2097,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -2128,7 +2128,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -2144,7 +2144,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -2175,7 +2175,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -2191,7 +2191,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -2222,7 +2222,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -2238,7 +2238,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -2269,7 +2269,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -2285,7 +2285,7 @@ public interface TextureLoader
     final  InputStream stream,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -2376,7 +2376,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -2398,7 +2398,7 @@ public interface TextureLoader
     final  CubeMapFaceInputStream<CMFNegativeXKind> negative_x,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -2432,7 +2432,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -2454,7 +2454,7 @@ public interface TextureLoader
     final  CubeMapFaceInputStream<CMFNegativeXKind> negative_x,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -2545,7 +2545,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -2567,7 +2567,7 @@ public interface TextureLoader
     final  CubeMapFaceInputStream<CMFNegativeXKind> negative_x,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 
   /**
@@ -2601,7 +2601,7 @@ public interface TextureLoader
    * 
    * @throws ConstraintError
    *           Iff any of the parameters are <code>null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an internal OpenGL error occurs.
    * @throws IOException
    *           Iff an I/O error occurs whilst reading the image, or the image
@@ -2623,6 +2623,6 @@ public interface TextureLoader
     final  CubeMapFaceInputStream<CMFNegativeXKind> negative_x,
     final  String name)
     throws ConstraintError,
-      JCGLRuntimeException,
+      JCGLExceptionRuntime,
       IOException;
 }

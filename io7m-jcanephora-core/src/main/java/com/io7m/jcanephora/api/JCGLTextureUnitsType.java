@@ -18,7 +18,7 @@ package com.io7m.jcanephora.api;
 
 import java.util.List;
 
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.TextureUnitType;
 
 /**
@@ -33,20 +33,20 @@ public interface JCGLTextureUnitsType
    *         returns <code>8192</code>, the largest texture that can be
    *         created is <code>8192 * 8192</code>.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   int textureGetMaximumSize()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * @return All available texture units for the current implementation.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   List<TextureUnitType> textureGetUnits()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 }

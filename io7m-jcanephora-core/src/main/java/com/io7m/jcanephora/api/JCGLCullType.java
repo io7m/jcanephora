@@ -18,7 +18,7 @@ package com.io7m.jcanephora.api;
 
 import com.io7m.jcanephora.FaceSelection;
 import com.io7m.jcanephora.FaceWindingOrder;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 
 /**
  * Simplified and type-safe interface to OpenGL face culling.
@@ -29,12 +29,12 @@ public interface JCGLCullType
   /**
    * Disable face culling.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void cullingDisable()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Enable face culling for <code>faces</code> and specify that front faces
@@ -47,22 +47,22 @@ public interface JCGLCullType
    *          The faces to cull.
    * @param order
    *          The order of vertices in front-facing faces.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void cullingEnable(
     final FaceSelection faces,
     final FaceWindingOrder order)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * @return <code>true</code> iff culling is enabled.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   boolean cullingIsEnabled()
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 }

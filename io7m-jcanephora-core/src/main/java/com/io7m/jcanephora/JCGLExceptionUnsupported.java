@@ -17,37 +17,21 @@
 package com.io7m.jcanephora;
 
 /**
- * <p>
- * Exception class representing an error caused by the programmer attempting
- * to use an object on the wrong context. For example, if <code>o</code> is an
- * object allocated on context <code>C</code>, and <code>C</code> is not
- * shared with or equal to context <code>D</code>, then attempting to pass
- * <code>o</code> to functions on <code>D</code> is an error.
- * </p>
- * <p>
- * Note: This should arguably be an unchecked exception as run-time type
- * errors indicate programming mistakes and should not be caught. However, as
- * almost all functions already throw subtypes of {@link JCGLException}, the
- * presence of another subtype does not add any extra clutter to interfaces.
- * </p>
+ * Exception class representing an unsupported OpenGL implementation.
  */
 
-public final class JCGLContextException extends JCGLException
+public final class JCGLExceptionUnsupported extends JCGLException
 {
-  private static final long serialVersionUID;
-
-  static {
-    serialVersionUID = -1875117450218471171L;
-  }
+  private static final long serialVersionUID = -8872086228034386902L;
 
   /**
    * Construct an error with the given message.
    * 
    * @param message
-   *          The message.
+   *          The message
    */
 
-  public JCGLContextException(
+  public JCGLExceptionUnsupported(
     final String message)
   {
     super(message);

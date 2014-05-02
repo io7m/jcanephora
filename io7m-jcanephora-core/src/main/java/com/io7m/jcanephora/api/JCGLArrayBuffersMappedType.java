@@ -21,7 +21,7 @@ import java.nio.ByteBuffer;
 import com.io7m.jcanephora.ArrayBufferType;
 import com.io7m.jcanephora.ArrayBufferUpdateMappedType;
 import com.io7m.jcanephora.ArrayBufferUsableType;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jranges.RangeInclusiveL;
 
 /**
@@ -45,13 +45,13 @@ public interface JCGLArrayBuffersMappedType
    * @param id
    *          The buffer.
    * @return A readable byte buffer.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
   ByteBuffer arrayBufferMapReadUntyped(
     final ArrayBufferUsableType id)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
@@ -71,7 +71,7 @@ public interface JCGLArrayBuffersMappedType
    * @param range
    *          The range (in elements) of elements to map.
    * @return A readable byte buffer.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    * 
    * @see RangeInclusive#isIncludedIn(RangeInclusive)
@@ -80,7 +80,7 @@ public interface JCGLArrayBuffersMappedType
   ByteBuffer arrayBufferMapReadUntypedRange(
     final ArrayBufferUsableType id,
     final RangeInclusiveL range)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
@@ -95,13 +95,13 @@ public interface JCGLArrayBuffersMappedType
    * @param id
    *          The buffer.
    * @return A readable byte buffer.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
   ArrayBufferUpdateMappedType arrayBufferMapWrite(
     final ArrayBufferType id)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
@@ -111,11 +111,11 @@ public interface JCGLArrayBuffersMappedType
    * @param id
    *          The array buffer.
    * 
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void arrayBufferUnmap(
     final ArrayBufferUsableType id)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 }

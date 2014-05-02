@@ -6,7 +6,7 @@ import javax.media.opengl.GL;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jcanephora.JCGLExtensionNames;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.JCGLVersion;
 import com.io7m.jcanephora.RenderbufferFormat;
@@ -67,7 +67,7 @@ class ExtPackedDepthStencil<G extends GL> implements
   @Override public void framebufferDrawAttachDepthStencilRenderbuffer(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull RenderbufferUsable<RenderableDepthStencil> renderbuffer)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError
   {
     switch (this.version.getAPI()) {
@@ -104,7 +104,7 @@ class ExtPackedDepthStencil<G extends GL> implements
       final int width,
       final int height)
       throws ConstraintError,
-        JCGLRuntimeException
+        JCGLExceptionRuntime
   {
     return JOGLRenderbuffer.unsafeBrandDepthStencil(JOGL_GL_Functions
       .renderbufferAllocate(

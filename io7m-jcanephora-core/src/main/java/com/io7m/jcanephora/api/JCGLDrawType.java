@@ -17,7 +17,7 @@
 package com.io7m.jcanephora.api;
 
 import com.io7m.jcanephora.IndexBufferUsableType;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.Primitives;
 
 /**
@@ -36,12 +36,12 @@ public interface JCGLDrawType
    *          The drawing mode.
    * @param indices
    *          The vertex indices.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void drawElements(
     final Primitives mode,
     final IndexBufferUsableType indices)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 }

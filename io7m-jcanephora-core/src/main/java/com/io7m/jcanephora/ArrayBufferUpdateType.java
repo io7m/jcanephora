@@ -44,16 +44,16 @@ public interface ArrayBufferUpdateType
    * 
    * @param attribute_name
    *          The name of the attribute.
-   * @throws JCGLMissingAttributeException
+   * @throws JCGLExceptionMissingAttribute
    *           If the given attribute does not exist.
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the attribute does not have the correct type for the cursor.
    */
 
   CursorWritable2fType getCursor2f(
     String attribute_name)
-    throws JCGLMissingAttributeException,
-      JCGLTypingException;
+    throws JCGLExceptionMissingAttribute,
+      JCGLExceptionTypeError;
 
   /**
    * @return A cursor that may only point to elements of the attribute
@@ -65,16 +65,16 @@ public interface ArrayBufferUpdateType
    * 
    * @param attribute_name
    *          The name of the attribute.
-   * @throws JCGLMissingAttributeException
+   * @throws JCGLExceptionMissingAttribute
    *           If the given attribute does not exist.
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the attribute does not have the correct type for the cursor.
    */
 
   CursorWritable3fType getCursor3f(
     String attribute_name)
-    throws JCGLMissingAttributeException,
-      JCGLTypingException;
+    throws JCGLExceptionMissingAttribute,
+      JCGLExceptionTypeError;
 
   /**
    * @return A cursor that may only point to elements of the attribute
@@ -86,14 +86,14 @@ public interface ArrayBufferUpdateType
    * 
    * @param attribute_name
    *          The name of the attribute.
-   * @throws JCGLMissingAttributeException
+   * @throws JCGLExceptionMissingAttribute
    *           If the given attribute does not exist.
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If the attribute does not have the correct type for the cursor.
    */
 
   CursorWritable4fType getCursor4f(
     String attribute_name)
-    throws JCGLMissingAttributeException,
-      JCGLTypingException;
+    throws JCGLExceptionMissingAttribute,
+      JCGLExceptionTypeError;
 }

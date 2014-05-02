@@ -50,14 +50,14 @@ public final class ArrayBufferUpdateMapped implements
     final String attribute_name,
     final int required_components,
     final JCGLScalarType required_type)
-    throws JCGLMissingAttributeException,
-      JCGLTypingException
+    throws JCGLExceptionMissingAttribute,
+      JCGLExceptionTypeError
   {
     final ArrayDescriptor d = this.buffer.arrayGetDescriptor();
     final Map<String, ArrayAttributeDescriptor> attrs = d.getAttributes();
 
     if (attrs.containsKey(attribute_name) == false) {
-      throw JCGLMissingAttributeException.noSuchAttribute(attribute_name);
+      throw JCGLExceptionMissingAttribute.noSuchAttribute(attribute_name);
     }
 
     final ArrayAttributeDescriptor a = attrs.get(attribute_name);
@@ -77,8 +77,8 @@ public final class ArrayBufferUpdateMapped implements
 
   @Override public CursorWritable2fType getCursor2f(
     final String name)
-    throws JCGLMissingAttributeException,
-      JCGLTypingException
+    throws JCGLExceptionMissingAttribute,
+      JCGLExceptionTypeError
   {
     final ArrayDescriptor d =
       this.checkCursorType(name, 2, JCGLScalarType.TYPE_FLOAT);
@@ -92,8 +92,8 @@ public final class ArrayBufferUpdateMapped implements
 
   @Override public CursorWritable3fType getCursor3f(
     final String name)
-    throws JCGLMissingAttributeException,
-      JCGLTypingException
+    throws JCGLExceptionMissingAttribute,
+      JCGLExceptionTypeError
   {
     final ArrayDescriptor d =
       this.checkCursorType(name, 3, JCGLScalarType.TYPE_FLOAT);
@@ -107,8 +107,8 @@ public final class ArrayBufferUpdateMapped implements
 
   @Override public CursorWritable4fType getCursor4f(
     final String attribute_name)
-    throws JCGLMissingAttributeException,
-      JCGLTypingException
+    throws JCGLExceptionMissingAttribute,
+      JCGLExceptionTypeError
   {
     final ArrayDescriptor d =
       this.checkCursorType(attribute_name, 4, JCGLScalarType.TYPE_FLOAT);

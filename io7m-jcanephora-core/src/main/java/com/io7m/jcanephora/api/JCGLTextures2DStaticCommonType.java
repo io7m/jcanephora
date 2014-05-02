@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora.api;
 
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.Texture2DStaticType;
 import com.io7m.jcanephora.Texture2DStaticUsableType;
 import com.io7m.jcanephora.Texture2DWritableData;
@@ -39,27 +39,27 @@ public interface JCGLTextures2DStaticCommonType
    *          The texture unit.
    * @param texture
    *          The texture.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void texture2DStaticBind(
     final TextureUnitType unit,
     final Texture2DStaticUsableType texture)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Deletes the texture referenced by <code>texture</code>.
    * 
    * @param texture
    *          The texture.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void texture2DStaticDelete(
     final Texture2DStaticType texture)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * @return <code>true</code> iff the texture <code>texture</code> is bound
@@ -68,14 +68,14 @@ public interface JCGLTextures2DStaticCommonType
    *          The texture unit.
    * @param texture
    *          The texture.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   boolean texture2DStaticIsBound(
     final TextureUnitType unit,
     final Texture2DStaticUsableType texture)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Unbind whatever 2D texture is bound to the texture unit <code>unit</code>
@@ -83,13 +83,13 @@ public interface JCGLTextures2DStaticCommonType
    * 
    * @param unit
    *          The texture unit.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void texture2DStaticUnbind(
     final TextureUnitType unit)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Replace the contents (or part of the contents) of the texture
@@ -97,11 +97,11 @@ public interface JCGLTextures2DStaticCommonType
    * 
    * @param data
    *          The data to upload.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void texture2DStaticUpdate(
     final Texture2DWritableData data)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 }

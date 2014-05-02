@@ -33,7 +33,7 @@ import com.io7m.jcanephora.FramebufferBlitBuffer;
 import com.io7m.jcanephora.FramebufferBlitFilter;
 import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
 import com.io7m.jcanephora.FramebufferDrawBuffer;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
@@ -48,7 +48,7 @@ final class JOGL_GL2ES3_Functions
     final @Nonnull Set<FramebufferBlitBuffer> buffers,
     final @Nonnull FramebufferBlitFilter filter)
     throws ConstraintError,
-      JCGLRuntimeException
+      JCGLExceptionRuntime
   {
     Constraints.constrainNotNull(source, "Source area");
     Constraints.constrainNotNull(target, "Target area");
@@ -112,7 +112,7 @@ final class JOGL_GL2ES3_Functions
       final @Nonnull FramebufferReference framebuffer,
       final @Nonnull Map<FramebufferDrawBuffer, FramebufferColorAttachmentPoint> mappings)
       throws ConstraintError,
-        JCGLRuntimeException
+        JCGLExceptionRuntime
   {
     Constraints.constrainNotNull(gl, "OpenGL interface");
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
@@ -170,7 +170,7 @@ final class JOGL_GL2ES3_Functions
     final @Nonnull GL2ES3 gl,
     final @Nonnull FramebufferReferenceUsable framebuffer)
     throws ConstraintError,
-      JCGLRuntimeException
+      JCGLExceptionRuntime
   {
     Constraints.constrainNotNull(framebuffer, "Framebuffer");
     Constraints.constrainArbitrary(
@@ -197,7 +197,7 @@ final class JOGL_GL2ES3_Functions
 
   static void framebufferReadUnbind(
     final @Nonnull GL2ES3 gl)
-    throws JCGLRuntimeException
+    throws JCGLExceptionRuntime
   {
     gl.glBindFramebuffer(GL2ES3.GL_READ_FRAMEBUFFER, 0);
     JOGL_GL_Functions.checkError(gl);

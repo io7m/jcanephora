@@ -198,23 +198,23 @@ import com.io7m.junreachable.UnreachableCodeException;
 
   /**
    * Assert that the current attribute has exactly the given type and number
-   * of components, throwing {@link JCGLTypingException} if it does not.
+   * of components, throwing {@link JCGLExceptionTypeError} if it does not.
    * 
    * @param required_components
    *          The required number of components.
    * @param required_type
    *          The required type.
-   * @throws JCGLTypingException
+   * @throws JCGLExceptionTypeError
    *           If type checking fails.
    */
 
   @SuppressWarnings({ "boxing", "null" }) public void checkTypes(
     final int required_components,
     final JCGLScalarType required_type)
-    throws JCGLTypingException
+    throws JCGLExceptionTypeError
   {
     if (this.components != required_components) {
-      throw new JCGLTypingException(String.format(
+      throw new JCGLExceptionTypeError(String.format(
         "Attribute '%s' has %d components, but %d are required",
         this.name,
         this.components,
@@ -222,7 +222,7 @@ import com.io7m.junreachable.UnreachableCodeException;
     }
 
     if (this.type != required_type) {
-      throw new JCGLTypingException(
+      throw new JCGLExceptionTypeError(
         String
           .format(
             "Attribute '%s' has components of type %s, but components of type %s are required",

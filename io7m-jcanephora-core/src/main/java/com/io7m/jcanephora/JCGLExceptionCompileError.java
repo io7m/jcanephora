@@ -21,7 +21,7 @@ package com.io7m.jcanephora;
  * OpenGL shading programs.
  */
 
-public final class JCGLCompileException extends JCGLException
+public final class JCGLExceptionCompileError extends JCGLException
 {
   private static final long serialVersionUID = -4382015389191616062L;
 
@@ -50,11 +50,11 @@ public final class JCGLCompileException extends JCGLException
    *          The message.
    */
 
-  public JCGLCompileException(
+  public JCGLExceptionCompileError(
     final String in_file,
     final String message)
   {
-    super(JCGLCompileException.makeMessage(in_file, message));
+    super(JCGLExceptionCompileError.makeMessage(in_file, message));
     this.file = in_file;
   }
 
@@ -69,12 +69,12 @@ public final class JCGLCompileException extends JCGLException
    *          The message.
    */
 
-  public JCGLCompileException(
+  public JCGLExceptionCompileError(
     final Throwable e,
     final String in_file,
     final String message)
   {
-    super(JCGLCompileException.makeMessage(in_file, message), e);
+    super(JCGLExceptionCompileError.makeMessage(in_file, message), e);
     this.file = in_file;
   }
 

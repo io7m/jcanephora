@@ -18,7 +18,7 @@ package com.io7m.jcanephora.api;
 
 import com.io7m.jcanephora.ArrayBufferUsableType;
 import com.io7m.jcanephora.IndexBufferType;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLUnsignedType;
 
 /**
@@ -39,14 +39,14 @@ public interface JCGLIndexBuffersType
    * @param indices
    *          The number of indices.
    * @return A reference to the allocated buffer.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   IndexBufferType indexBufferAllocate(
     final ArrayBufferUsableType buffer,
     final int indices)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Allocate a buffer of <code>indices</code> indices of type
@@ -57,25 +57,25 @@ public interface JCGLIndexBuffersType
    * @param type
    *          The type of indices.
    * @return A reference to the allocated buffer.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   IndexBufferType indexBufferAllocateType(
     final JCGLUnsignedType type,
     final int indices)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * Deletes the index buffer referenced by <code>id</code>.
    * 
    * @param id
    *          The index buffer.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void indexBufferDelete(
     final IndexBufferType id)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 }

@@ -19,7 +19,7 @@ package com.io7m.jcanephora.api;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.jogl.Renderbuffer;
 
 /**
@@ -36,12 +36,12 @@ public interface JCGLRenderbuffersCommon
    *          The buffer.
    * @throws ConstraintError
    *           Iff <code>buffer == null</code>.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void renderbufferDelete(
     final  Renderbuffer<?> buffer)
     throws ConstraintError,
-      JCGLRuntimeException;
+      JCGLExceptionRuntime;
 }

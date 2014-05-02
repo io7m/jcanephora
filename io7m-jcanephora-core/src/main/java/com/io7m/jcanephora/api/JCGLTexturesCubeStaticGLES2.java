@@ -19,7 +19,7 @@ package com.io7m.jcanephora.api;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.TextureCubeStatic;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
@@ -99,7 +99,7 @@ public interface JCGLTexturesCubeStaticGLES2 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
@@ -112,7 +112,7 @@ public interface JCGLTexturesCubeStaticGLES2 extends
     final  TextureFilterMinification min_filter,
     final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLRuntimeException;
+      JCGLExceptionRuntime;
 
   /**
    * <p>
@@ -175,7 +175,7 @@ public interface JCGLTexturesCubeStaticGLES2 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
@@ -188,7 +188,7 @@ public interface JCGLTexturesCubeStaticGLES2 extends
     final  TextureFilterMinification min_filter,
     final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLRuntimeException;
+      JCGLExceptionRuntime;
 
   /**
    * <p>
@@ -251,7 +251,7 @@ public interface JCGLTexturesCubeStaticGLES2 extends
    *           <li><code>mag_filter == null</code></li>
    *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
@@ -264,5 +264,5 @@ public interface JCGLTexturesCubeStaticGLES2 extends
     final  TextureFilterMinification min_filter,
     final  TextureFilterMagnification mag_filter)
     throws ConstraintError,
-      JCGLRuntimeException;
+      JCGLExceptionRuntime;
 }

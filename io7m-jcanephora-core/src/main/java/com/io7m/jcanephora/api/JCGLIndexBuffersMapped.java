@@ -20,7 +20,7 @@ import com.io7m.jcanephora.IndexBufferReadableMap;
 import com.io7m.jcanephora.IndexBufferType;
 import com.io7m.jcanephora.IndexBufferUpdateMappedType;
 import com.io7m.jcanephora.IndexBufferUsableType;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 
 /**
  * Simplified interface to memory-mapped index buffers.
@@ -41,7 +41,7 @@ public interface JCGLIndexBuffersMapped
    * @param id
    *          The buffer.
    * @return A readable byte buffer.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -54,7 +54,7 @@ public interface JCGLIndexBuffersMapped
 
   public IndexBufferReadableMap indexBufferMapRead(
     final IndexBufferUsableType id)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError;
 
   /**
@@ -73,7 +73,7 @@ public interface JCGLIndexBuffersMapped
    * @param range
    *          The range (in elements) of elements to map.
    * @return A readable byte buffer.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -90,7 +90,7 @@ public interface JCGLIndexBuffersMapped
   public IndexBufferReadableMap indexBufferMapReadRange(
     final IndexBufferUsableType id,
     final RangeInclusive range)
-    throws JCGLRuntimeException,
+    throws JCGLExceptionRuntime,
       ConstraintError;
 
   /**
@@ -107,13 +107,13 @@ public interface JCGLIndexBuffersMapped
    * @param id
    *          The buffer.
    * @return A readable byte buffer.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL exception occurs.
    */
 
   IndexBufferUpdateMappedType indexBufferMapWrite(
     final IndexBufferType id)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
@@ -122,11 +122,11 @@ public interface JCGLIndexBuffersMapped
    * 
    * @param id
    *          The index buffer.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void indexBufferUnmap(
     final IndexBufferUsableType id)
-    throws JCGLRuntimeException;
+    throws JCGLExceptionRuntime;
 }

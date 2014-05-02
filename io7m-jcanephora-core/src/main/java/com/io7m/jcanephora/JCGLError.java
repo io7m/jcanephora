@@ -36,19 +36,19 @@ public final class JCGLError
    * 
    * @param gl
    *          The current OpenGL interface.
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff the current OpenGL error state is not
    *           <code>GL_NO_ERROR</code>.
    */
 
   public static void check(
     final JCGLMetaType gl)
-    throws JCGLRuntimeException
+    throws JCGLExceptionRuntime
   {
     final int code = gl.metaGetError();
 
     if (code != 0) {
-      throw new JCGLRuntimeException(code, "OpenGL error: code " + code);
+      throw new JCGLExceptionRuntime(code, "OpenGL error: code " + code);
     }
   }
 }

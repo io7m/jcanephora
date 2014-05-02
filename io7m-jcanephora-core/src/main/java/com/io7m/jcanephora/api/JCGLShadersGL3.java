@@ -22,8 +22,8 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.FramebufferDrawBuffer;
-import com.io7m.jcanephora.JCGLCompileException;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLExceptionCompileError;
+import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.jogl.FragmentShader;
 import com.io7m.jcanephora.jogl.ProgramReference;
 import com.io7m.jcanephora.jogl.VertexShader;
@@ -74,9 +74,9 @@ public interface JCGLShadersGL3 extends JCGLShadersCommon
    *           <li>A draw buffer appears more than once in
    *           <code>outputs</code>.</li>
    *           </ul>
-   * @throws JCGLRuntimeException
+   * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
-   * @throws JCGLCompileException
+   * @throws JCGLExceptionCompileError
    *           Iff the program fails to link.
    */
 
@@ -86,6 +86,6 @@ public interface JCGLShadersGL3 extends JCGLShadersCommon
     final  FragmentShader f,
     final  Map<String, FramebufferDrawBuffer> outputs)
     throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLCompileException;
+      JCGLExceptionRuntime,
+      JCGLExceptionCompileError;
 }
