@@ -14,51 +14,49 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.api;
+
+import com.io7m.jcanephora.AreaInclusive;
+import com.io7m.jcanephora.JCGLRuntimeException;
 
 /**
- * Simplified and type-safe interface to OpenGL face culling.
+ * Simplified interface to the scissor test.
  */
 
-public interface JCGLCullType
+public interface JCGLScissorType
 {
   /**
-   * Disable face culling.
+   * Disable the scissor test in the OpenGL pipeline. The scissor test is
+   * initially disabled.
    * 
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
-  void cullingDisable()
+  void scissorDisable()
     throws JCGLRuntimeException;
 
   /**
-   * Enable face culling for <code>faces</code> and specify that front faces
-   * are specified by giving vertices in the winding order specified by
-   * <code>order</code>. The OpenGL defaults are <code>FACE_CULL_BACK</code>
-   * and <code>FRONT_FACE_COUNTER_CLOCKWISE</code> for <code>faces</code> and
-   * <code>order</code> respectively.
+   * Set the OpenGL scissor region to the given inclusive area. The dimensions
+   * and position are specified in pixels and <code>(0, 0)</code> refers to
+   * the bottom left corner of the viewport.
    * 
-   * @param faces
-   *          The faces to cull.
-   * @param order
-   *          The order of vertices in front-facing faces.
+   * @param area
+   *          The inclusive area
    * @throws JCGLRuntimeException
-   *           Iff an OpenGL error occurs.
+   *           Iff an OpenGL error occurred.
    */
 
-  void cullingEnable(
-    final FaceSelection faces,
-    final FaceWindingOrder order)
+  void scissorEnable(
+    final AreaInclusive area)
     throws JCGLRuntimeException;
 
   /**
-   * @return <code>true</code> iff culling is enabled.
-   * 
+   * @return <code>true</code> iff scissor testing is enabled.
    * @throws JCGLRuntimeException
-   *           Iff an OpenGL error occurs.
+   *           Iff an OpenGL error occurred.
    */
 
-  boolean cullingIsEnabled()
+  boolean scissorIsEnabled()
     throws JCGLRuntimeException;
 }

@@ -14,7 +14,12 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.api;
+
+import com.io7m.jcanephora.FaceSelection;
+import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.StencilFunction;
+import com.io7m.jcanephora.StencilOperation;
 
 /**
  * Simplified interface to the stencil buffer.

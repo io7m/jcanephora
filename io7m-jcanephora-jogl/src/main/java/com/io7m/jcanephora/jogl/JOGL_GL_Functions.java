@@ -49,11 +49,9 @@ import com.io7m.jcanephora.IndexBufferReadableMap;
 import com.io7m.jcanephora.IndexBufferUpdateUnmapped;
 import com.io7m.jcanephora.IndexBufferUpdateMapped;
 import com.io7m.jcanephora.JCGLApi;
-import com.io7m.jcanephora.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLSLVersion;
 import com.io7m.jcanephora.JCGLSLVersionNumber;
-import com.io7m.jcanephora.JCGLSoftRestrictionsType;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.JCGLUnsignedType;
 import com.io7m.jcanephora.JCGLVersion;
@@ -61,13 +59,15 @@ import com.io7m.jcanephora.JCGLVersionNumber;
 import com.io7m.jcanephora.Primitives;
 import com.io7m.jcanephora.RenderbufferFormat;
 import com.io7m.jcanephora.Texture2DStatic;
-import com.io7m.jcanephora.Texture2DStaticUsable;
+import com.io7m.jcanephora.Texture2DStaticUsableType;
 import com.io7m.jcanephora.TextureCubeStatic;
 import com.io7m.jcanephora.TextureCubeStaticUsable;
 import com.io7m.jcanephora.TextureTypeMeta;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureUnitType;
 import com.io7m.jcanephora.UsageHint;
+import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
+import com.io7m.jcanephora.api.JCGLSoftRestrictionsType;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.VectorReadable3F;
@@ -1093,7 +1093,7 @@ final class JOGL_GL_Functions
     final @Nonnull Log log,
     final @Nonnull JCGLVersion version,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticUsable texture,
+    final @Nonnull Texture2DStaticUsableType texture,
     final @Nonnull JCGLNamedExtensionsType extensions)
     throws JCGLRuntimeException,
       ConstraintError
@@ -1111,7 +1111,7 @@ final class JOGL_GL_Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(TextureTypeMeta.isColorRenderable2D(
-      texture.getType(),
+      texture.textureGetFormat(),
       version,
       extensions), "Texture is color renderable");
 
@@ -1141,7 +1141,7 @@ final class JOGL_GL_Functions
     final @Nonnull JCGLVersion version,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull Texture2DStaticUsable texture,
+    final @Nonnull Texture2DStaticUsableType texture,
     final @Nonnull JCGLNamedExtensionsType extensions)
     throws ConstraintError,
       JCGLRuntimeException
@@ -1161,7 +1161,7 @@ final class JOGL_GL_Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(TextureTypeMeta.isColorRenderable2D(
-      texture.getType(),
+      texture.textureGetFormat(),
       version,
       extensions), "Texture is color renderable");
 
@@ -1402,7 +1402,7 @@ final class JOGL_GL_Functions
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticUsable texture,
+    final @Nonnull Texture2DStaticUsableType texture,
     final @Nonnull JCGLNamedExtensionsType extensions)
     throws JCGLRuntimeException,
       ConstraintError
@@ -1420,7 +1420,7 @@ final class JOGL_GL_Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(
-      TextureTypeMeta.isDepthRenderable2D(texture.getType(), extensions),
+      TextureTypeMeta.isDepthRenderable2D(texture.textureGetFormat(), extensions),
       "Texture is depth renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -2184,7 +2184,7 @@ final class JOGL_GL_Functions
   static void texture2DStaticBind(
     final @Nonnull GL gl,
     final @Nonnull TextureUnitType unit,
-    final @Nonnull Texture2DStaticUsable texture)
+    final @Nonnull Texture2DStaticUsableType texture)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -2203,7 +2203,7 @@ final class JOGL_GL_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull Texture2DStatic texture)
+    final @Nonnull JOGLTexture2DStatic texture)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -2231,7 +2231,7 @@ final class JOGL_GL_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull TextureUnitType unit,
-    final @Nonnull Texture2DStaticUsable texture)
+    final @Nonnull Texture2DStaticUsableType texture)
     throws ConstraintError,
       JCGLRuntimeException
   {

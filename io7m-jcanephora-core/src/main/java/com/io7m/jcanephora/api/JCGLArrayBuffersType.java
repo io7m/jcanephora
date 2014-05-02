@@ -14,7 +14,15 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.api;
+
+import com.io7m.jcanephora.ArrayBufferType;
+import com.io7m.jcanephora.ArrayBufferUpdateUnmappedType;
+import com.io7m.jcanephora.ArrayBufferUsableType;
+import com.io7m.jcanephora.ArrayDescriptor;
+import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.JCGLShadersCommon;
+import com.io7m.jcanephora.UsageHint;
 
 /**
  * Simplified interface to array buffers.

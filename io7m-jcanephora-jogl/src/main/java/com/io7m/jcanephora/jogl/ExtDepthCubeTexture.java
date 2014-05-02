@@ -23,7 +23,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jcanephora.JCGLExtensionDepthCubeTexture;
 import com.io7m.jcanephora.JCGLExtensionNames;
-import com.io7m.jcanephora.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.TextureCubeStatic;
@@ -33,6 +32,7 @@ import com.io7m.jcanephora.TextureFormat;
 import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
+import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
 import com.io7m.jlog.Log;
 
 /**
@@ -96,7 +96,7 @@ class ExtDepthCubeTexture<G extends GL> implements
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_DEPTH_16_2BPP,
+      TextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,12 +16,20 @@
 
 package com.io7m.jcanephora;
 
+import com.io7m.jcanephora.api.JCGLMetaType;
+import com.io7m.junreachable.UnreachableCodeException;
+
 /**
  * A simple class for checking if an OpenGL error has occurred.
  */
 
 public final class JCGLError
 {
+  private JCGLError()
+  {
+    throw new UnreachableCodeException();
+  }
+
   /**
    * Raise <code>GLException</code> iff the current OpenGL error state is not
    * <code>GL_NO_ERROR</code>.

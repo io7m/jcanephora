@@ -16,6 +16,10 @@
 
 package com.io7m.jcanephora;
 
+import com.io7m.jcanephora.api.JCGLBlendingGL3Type;
+import com.io7m.jcanephora.api.JCGLPolygonModesType;
+import com.io7m.jcanephora.api.JCGLPolygonSmoothingType;
+
 /**
  * <p>
  * The interface exposed by OpenGL 2.1 implementations.

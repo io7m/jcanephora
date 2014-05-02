@@ -39,7 +39,7 @@ import com.io7m.jcanephora.LogicOperation;
 import com.io7m.jcanephora.PolygonMode;
 import com.io7m.jcanephora.Texture2DReadableData;
 import com.io7m.jcanephora.Texture2DStatic;
-import com.io7m.jcanephora.Texture2DStaticUsable;
+import com.io7m.jcanephora.Texture2DStaticUsableType;
 import com.io7m.jcanephora.Texture2DWritableData;
 import com.io7m.jcanephora.TextureCubeReadableData;
 import com.io7m.jcanephora.TextureCubeStatic;
@@ -256,7 +256,7 @@ final class JOGL_GL2GL3_Functions
     return program;
   }
 
-  static @Nonnull Texture2DStatic texture2DStaticAllocate(
+  static @Nonnull JOGLTexture2DStatic texture2DStaticAllocate(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
@@ -340,8 +340,8 @@ final class JOGL_GL2GL3_Functions
     gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
     JOGL_GL_Functions.checkError(gl);
 
-    final Texture2DStatic t =
-      new Texture2DStatic(
+    final JOGLTexture2DStatic t =
+      new JOGLTexture2DStatic(
         name,
         type,
         texture_id,
@@ -364,7 +364,7 @@ final class JOGL_GL2GL3_Functions
 
   static @Nonnull Texture2DReadableData texture2DStaticGetImage(
     final @Nonnull GL2GL3 gl,
-    final @Nonnull Texture2DStaticUsable texture)
+    final @Nonnull Texture2DStaticUsableType texture)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -374,9 +374,9 @@ final class JOGL_GL2GL3_Functions
       "Texture not deleted");
 
     final TextureSpec spec =
-      JOGL_TextureSpecs.getGL3TextureSpec(texture.getType());
+      JOGL_TextureSpecs.getGL3TextureSpec(texture.textureGetFormat());
     final Texture2DReadableData td =
-      new Texture2DReadableData(texture.getType(), texture.getArea());
+      new Texture2DReadableData(texture.textureGetFormat(), texture.textureGetArea());
 
     gl.glBindTexture(GL.GL_TEXTURE_2D, texture.getGLName());
     gl.glGetTexImage(
@@ -400,7 +400,7 @@ final class JOGL_GL2GL3_Functions
     Constraints.constrainNotNull(data, "Texture data");
 
     final AreaInclusive area = data.targetArea();
-    final Texture2DStatic texture = data.getTexture();
+    final JOGLTexture2DStatic texture = data.getTexture();
 
     final TextureFormat type = texture.attributeGetType();
     final int x_offset = (int) area.getRangeX().getLower();

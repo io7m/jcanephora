@@ -73,19 +73,4 @@ public interface JCGLIndexBuffersType
   void indexBufferDelete(
     final IndexBufferType id)
     throws JCGLRuntimeException;
-
-  /**
-   * Replace the contents (or part of the contents) of the index buffer
-   * <code>data.getIndexBuffer()</code> with <code>data</code>.
-   * 
-   * @param data
-   *          The data to upload.
-   * 
-   * @throws JCGLRuntimeException
-   *           Iff an OpenGL error occurs.
-   */
-
-  void indexBufferUpdate(
-    final IndexBufferUpdateUnmapped data)
-    throws JCGLRuntimeException;
 }

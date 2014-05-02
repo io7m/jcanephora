@@ -21,8 +21,8 @@ import javax.media.opengl.GLContext;
 
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.JCGLNamedExtensionsType;
-import com.io7m.jcanephora.JCGLSoftRestrictionsType;
+import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
+import com.io7m.jcanephora.api.JCGLSoftRestrictionsType;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 

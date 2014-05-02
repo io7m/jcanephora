@@ -91,7 +91,7 @@ public final class TextureCubeStatic extends JCGLResourceDeletable implements
     return true;
   }
 
-  @Override public  AreaInclusive getArea()
+  @Override public  AreaInclusive textureGetArea()
   {
     return this.area;
   }
@@ -108,12 +108,12 @@ public final class TextureCubeStatic extends JCGLResourceDeletable implements
 
   @Override public 
     TextureFilterMagnification
-    getMagnificationFilter()
+    textureGetMagnificationFilter()
   {
     return this.mag_filter;
   }
 
-  @Override public  TextureFilterMinification getMinificationFilter()
+  @Override public  TextureFilterMinification textureGetMinificationFilter()
   {
     return this.min_filter;
   }
@@ -123,12 +123,12 @@ public final class TextureCubeStatic extends JCGLResourceDeletable implements
     return this.name;
   }
 
-  @Override public  RangeInclusive getRangeX()
+  @Override public  RangeInclusive textureGetRangeX()
   {
     return this.range_x;
   }
 
-  @Override public  RangeInclusive getRangeY()
+  @Override public  RangeInclusive textureGetRangeY()
   {
     return this.range_y;
   }
@@ -148,12 +148,12 @@ public final class TextureCubeStatic extends JCGLResourceDeletable implements
     return this.wrap_r;
   }
 
-  @Override public  TextureWrapS getWrapS()
+  @Override public  TextureWrapS textureGetWrapS()
   {
     return this.wrap_s;
   }
 
-  @Override public  TextureWrapT getWrapT()
+  @Override public  TextureWrapT textureGetWrapT()
   {
     return this.wrap_t;
   }
@@ -168,9 +168,9 @@ public final class TextureCubeStatic extends JCGLResourceDeletable implements
 
   @Override public long resourceGetSizeBytes()
   {
-    return this.getWidth()
+    return this.textureGetWidth()
       * this.type.getBytesPerPixel()
-      * this.getHeight()
+      * this.textureGetHeight()
       * 6L;
   }
 
@@ -184,9 +184,9 @@ public final class TextureCubeStatic extends JCGLResourceDeletable implements
     builder.append(" ");
     builder.append(this.type);
     builder.append(" ");
-    builder.append(this.getWidth());
+    builder.append(this.textureGetWidth());
     builder.append("x");
-    builder.append(this.getHeight());
+    builder.append(this.textureGetHeight());
     builder.append("]");
     return builder.toString();
   }

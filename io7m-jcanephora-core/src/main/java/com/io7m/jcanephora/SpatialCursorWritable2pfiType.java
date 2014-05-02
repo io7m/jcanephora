@@ -21,7 +21,7 @@ package com.io7m.jcanephora;
  * first component of the element is an unsigned fixed point value, and the
  * second component is an integer. An example of a texture type that conforms
  * to this assumption is the
- * {@link TextureFormat#TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP} type.
+ * {@link TextureFormat#TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP} type.
  */
 
 public interface SpatialCursorWritable2pfiType extends SpatialCursorType

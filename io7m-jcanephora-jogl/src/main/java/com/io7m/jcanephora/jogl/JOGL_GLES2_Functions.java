@@ -30,13 +30,12 @@ import com.io7m.jcanephora.CubeMapFaceLH;
 import com.io7m.jcanephora.DepthFunction;
 import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
 import com.io7m.jcanephora.FramebufferStatus;
-import com.io7m.jcanephora.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.JCGLVersion;
 import com.io7m.jcanephora.RenderbufferFormat;
 import com.io7m.jcanephora.Texture2DStatic;
-import com.io7m.jcanephora.Texture2DStaticUsable;
+import com.io7m.jcanephora.Texture2DStaticUsableType;
 import com.io7m.jcanephora.Texture2DWritableData;
 import com.io7m.jcanephora.TextureCubeStatic;
 import com.io7m.jcanephora.TextureCubeStaticUsable;
@@ -48,6 +47,7 @@ import com.io7m.jcanephora.TextureFormat;
 import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
+import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.jogl.JOGL_TextureSpecs.TextureSpec;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
@@ -272,7 +272,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull Log log,
     final @Nonnull JCGLVersion version,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticUsable texture,
+    final @Nonnull Texture2DStaticUsableType texture,
     final @Nonnull JCGLNamedExtensionsType extensions)
     throws JCGLRuntimeException,
       ConstraintError
@@ -290,7 +290,7 @@ final class JOGL_GLES2_Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(TextureTypeMeta.isColorRenderable2D(
-      texture.getType(),
+      texture.textureGetFormat(),
       version,
       extensions), "Texture is color renderable");
 
@@ -320,7 +320,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull JCGLVersion version,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull Texture2DStaticUsable texture,
+    final @Nonnull Texture2DStaticUsableType texture,
     final @Nonnull JCGLNamedExtensionsType extensions)
     throws ConstraintError,
       JCGLRuntimeException
@@ -340,7 +340,7 @@ final class JOGL_GLES2_Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(TextureTypeMeta.isColorRenderable2D(
-      texture.getType(),
+      texture.textureGetFormat(),
       version,
       extensions), "Texture is color renderable");
 
@@ -577,7 +577,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticUsable texture,
+    final @Nonnull Texture2DStaticUsableType texture,
     final @Nonnull JCGLNamedExtensionsType extensions)
     throws JCGLRuntimeException,
       ConstraintError
@@ -595,7 +595,7 @@ final class JOGL_GLES2_Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(
-      TextureTypeMeta.isDepthRenderable2D(texture.getType(), extensions),
+      TextureTypeMeta.isDepthRenderable2D(texture.textureGetFormat(), extensions),
       "Texture is depth renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -784,7 +784,7 @@ final class JOGL_GLES2_Functions
     return e;
   }
 
-  static @Nonnull Texture2DStatic texture2DStaticAllocate(
+  static @Nonnull JOGLTexture2DStatic texture2DStaticAllocate(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
@@ -869,8 +869,8 @@ final class JOGL_GLES2_Functions
     gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
     JOGL_GL_Functions.checkError(gl);
 
-    final Texture2DStatic t =
-      new Texture2DStatic(
+    final JOGLTexture2DStatic t =
+      new JOGLTexture2DStatic(
         name,
         type,
         texture_id,
@@ -900,7 +900,7 @@ final class JOGL_GLES2_Functions
     Constraints.constrainNotNull(data, "Texture data");
 
     final AreaInclusive area = data.targetArea();
-    final Texture2DStatic texture = data.getTexture();
+    final JOGLTexture2DStatic texture = data.getTexture();
 
     final TextureFormat type = texture.attributeGetType();
     final int x_offset = (int) area.getRangeX().getLower();

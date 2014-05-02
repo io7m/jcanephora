@@ -32,7 +32,7 @@ public interface JCGLTextures2DStaticGL3 extends JCGLTextures2DStaticGL3ES3
   /**
    * <p>
    * Allocate an R texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_R_16_2BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_FORMAT_R_16_2BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -102,7 +102,7 @@ public interface JCGLTextures2DStaticGL3 extends JCGLTextures2DStaticGL3ES3
   /**
    * <p>
    * Allocate an RG texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RG_16_4BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_FORMAT_RG_16_4BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -172,7 +172,7 @@ public interface JCGLTextures2DStaticGL3 extends JCGLTextures2DStaticGL3ES3
   /**
    * <p>
    * Allocate an RGB texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGB_16_6BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_FORMAT_RGB_16_6BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -242,7 +242,7 @@ public interface JCGLTextures2DStaticGL3 extends JCGLTextures2DStaticGL3ES3
   /**
    * <p>
    * Allocate an RGBA texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGBA_16_8BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_FORMAT_RGBA_16_8BPP}
    * for the precise format of the texture.
    * </p>
    * <p>
@@ -323,7 +323,7 @@ public interface JCGLTextures2DStaticGL3 extends JCGLTextures2DStaticGL3ES3
    */
 
   public  Texture2DReadableData texture2DStaticGetImage(
-    final  Texture2DStaticUsable texture)
+    final  Texture2DStaticUsableType texture)
     throws ConstraintError,
       JCGLRuntimeException;
 }

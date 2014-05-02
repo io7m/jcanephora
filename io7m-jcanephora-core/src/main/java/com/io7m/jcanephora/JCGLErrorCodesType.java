@@ -17,32 +17,18 @@
 package com.io7m.jcanephora;
 
 /**
- * Simplified interface to polygon modes.
+ * Error code predicates.
  */
 
-public interface JCGLPolygonModesType
+public interface JCGLErrorCodesType
 {
   /**
-   * @return The <code>PolygonMode</code> used for polygons.
-   * 
-   * @throws JCGLRuntimeException
-   *           Iff an OpenGL error occurs.
+   * @return <code>true</code> iff <code>code</code> denotes an invalid
+   *         operation error code.
+   * @param code
+   *          The error code.
    */
 
-  PolygonMode polygonGetMode()
-    throws JCGLRuntimeException;
-
-  /**
-   * Set the polygon rasterization mode for the polygons to <code>mode</code>.
-   * The OpenGL default is <code>POLYGON_FILL</code>.
-   * 
-   * @param mode
-   *          The rasterization mode.
-   * @throws JCGLRuntimeException
-   *           Iff an OpenGL error occurs.
-   */
-
-  void polygonSetMode(
-    final PolygonMode mode)
-    throws JCGLRuntimeException;
+  boolean errorCodeIsInvalidOperation(
+    int code);
 }

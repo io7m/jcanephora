@@ -17,30 +17,10 @@
 package com.io7m.jcanephora;
 
 /**
- * Extension queries.
+ * A common type for all extensions.
  */
 
-public interface JCGLNamedExtensionsType
+public interface JCGLExtensionType
 {
-  /**
-   * @return <code>true</code> if the extension <code>name</code> is supported
-   *         by the implementation.
-   * 
-   * @param name
-   *          The extension name.
-   */
-
-  boolean extensionIsSupported(
-    final String name);
-
-  /**
-   * @return <code>true</code> if the extension <code>name</code> is both
-   *         supported by the implementation and visible according to any
-   *         restrictions imposed by {@link JCGLSoftRestrictionsType}.
-   * @param name
-   *          The extension name.
-   */
-
-  boolean extensionIsVisible(
-    final String name);
+  // Nothing.
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,30 +14,30 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.api;
 
-import com.io7m.jcanephora.api.JCGLArrayBuffersMappedType;
-import com.io7m.jcanephora.api.JCGLBlendingGL3Type;
+import com.io7m.jcanephora.AreaInclusive;
+import com.io7m.jcanephora.JCGLRuntimeException;
 
 /**
- * <p>
- * The interface exposed by OpenGL ES3 implementations.
- * </p>
+ * Functions controlling the OpenGL viewport.
  */
 
-public interface JCGLInterfaceGLES3 extends
-  JCGLArrayBuffersMappedType,
-  JCGLBlendingGL3Type,
-  JCGLExtensionsGLES3,
-  JCGLFramebuffersGL3,
-  JCGLIndexBuffersMapped,
-  JCGLInterfaceCommon,
-  JCGLRenderbuffersGLES3,
-  JCGLShadersGLES3,
-  JCGLTextures2DStaticGLES3,
-  JCGLTexturesCubeStaticGLES3
+public interface JCGLViewportType
 {
-  /*
-   * All functions defined in the superinterfaces.
+  /**
+   * Set the OpenGL viewport to the given inclusive area. The dimensions and
+   * position are specified in pixels and <code>(0, 0)</code> refers to the
+   * bottom left corner of the viewport.
+   * 
+   * @param area
+   *          The inclusive area.
+   * @throws JCGLRuntimeException
+   *           Iff an OpenGL error occurred.
    */
+
+  void viewportSet(
+    final  AreaInclusive area)
+    throws
+      JCGLRuntimeException;
 }

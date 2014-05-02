@@ -30,12 +30,12 @@ import com.io7m.jaux.Constraints.ConstraintError;
  * </p>
  */
 
-public interface JCGLExtensionESDepthTexture extends JCGLExtension
+public interface JCGLExtensionESDepthTexture extends JCGLExtensionType
 {
   /**
    * <p>
    * Allocate a depth texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_DEPTH_16_2BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_FORMAT_DEPTH_16_2BPP}
    * for the precise format of the texture.
    * </p>
    * <p>

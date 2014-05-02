@@ -16,6 +16,19 @@
 
 package com.io7m.jcanephora;
 
+import com.io7m.jcanephora.api.JCGLArrayBuffersType;
+import com.io7m.jcanephora.api.JCGLBlendingCommonType;
+import com.io7m.jcanephora.api.JCGLColorBufferType;
+import com.io7m.jcanephora.api.JCGLCullType;
+import com.io7m.jcanephora.api.JCGLDepthBufferType;
+import com.io7m.jcanephora.api.JCGLDrawType;
+import com.io7m.jcanephora.api.JCGLMetaType;
+import com.io7m.jcanephora.api.JCGLScissorType;
+import com.io7m.jcanephora.api.JCGLStencilBufferType;
+import com.io7m.jcanephora.api.JCGLTextureUnitsType;
+import com.io7m.jcanephora.api.JCGLTextures2DStaticCommonType;
+import com.io7m.jcanephora.api.JCGLViewportType;
+
 /**
  * <p>
  * The interface exposed by the common subset of OpenGL 3.*, OpenGL 2.1,
@@ -28,9 +41,9 @@ public interface JCGLInterfaceCommon extends
   JCGLBlendingCommonType,
   JCGLColorBufferType,
   JCGLCullType,
-  JCGLDepthBuffer,
-  JCGLDraw,
-  JCGLErrorCodes,
+  JCGLDepthBufferType,
+  JCGLDrawType,
+  JCGLErrorCodesType,
   JCGLFramebuffersCommon,
   JCGLIndexBuffersType,
   JCGLMetaType,
@@ -38,8 +51,8 @@ public interface JCGLInterfaceCommon extends
   JCGLScissorType,
   JCGLShadersCommon,
   JCGLStencilBufferType,
-  JCGLTextureUnits,
-  JCGLTextures2DStaticCommon,
+  JCGLTextureUnitsType,
+  JCGLTextures2DStaticCommonType,
   JCGLTexturesCubeStaticCommon,
   JCGLViewportType
 {

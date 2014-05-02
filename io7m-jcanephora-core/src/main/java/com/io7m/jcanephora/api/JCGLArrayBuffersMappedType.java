@@ -14,10 +14,15 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.api;
 
 import java.nio.ByteBuffer;
 
+import com.io7m.jcanephora.ArrayBufferType;
+import com.io7m.jcanephora.ArrayBufferUpdateMappedType;
+import com.io7m.jcanephora.ArrayBufferUsableType;
+import com.io7m.jcanephora.JCGLInterfaceGL3;
+import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jranges.RangeInclusiveL;
 
 /**

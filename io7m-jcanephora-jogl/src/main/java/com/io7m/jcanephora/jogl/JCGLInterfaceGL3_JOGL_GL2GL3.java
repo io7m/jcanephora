@@ -66,7 +66,6 @@ import com.io7m.jcanephora.JCGLError;
 import com.io7m.jcanephora.JCGLInterfaceGL3;
 import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLSLVersion;
-import com.io7m.jcanephora.JCGLSoftRestrictionsType;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.JCGLUnsignedType;
 import com.io7m.jcanephora.JCGLVersion;
@@ -80,7 +79,7 @@ import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
 import com.io7m.jcanephora.Texture2DReadableData;
 import com.io7m.jcanephora.Texture2DStatic;
-import com.io7m.jcanephora.Texture2DStaticUsable;
+import com.io7m.jcanephora.Texture2DStaticUsableType;
 import com.io7m.jcanephora.Texture2DWritableData;
 import com.io7m.jcanephora.TextureCubeReadableData;
 import com.io7m.jcanephora.TextureCubeStatic;
@@ -95,6 +94,7 @@ import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.UsageHint;
+import com.io7m.jcanephora.api.JCGLSoftRestrictionsType;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
@@ -808,7 +808,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public void framebufferDrawAttachColorTexture2D(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticUsable texture)
+    final @Nonnull Texture2DStaticUsableType texture)
     throws JCGLRuntimeException,
       ConstraintError
   {
@@ -825,7 +825,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void framebufferDrawAttachColorTexture2DAt(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull Texture2DStaticUsable texture)
+    final @Nonnull Texture2DStaticUsableType texture)
     throws JCGLRuntimeException,
       ConstraintError
   {
@@ -908,7 +908,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public void framebufferDrawAttachDepthTexture2D(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticUsable texture)
+    final @Nonnull Texture2DStaticUsableType texture)
     throws JCGLRuntimeException,
       ConstraintError
   {
@@ -1726,7 +1726,7 @@ import com.io7m.jtensors.VectorReadable4I;
       pass);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateDepth16(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateDepth16(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -1744,14 +1744,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_DEPTH_16_2BPP,
+      TextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateDepth24(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateDepth24(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -1769,14 +1769,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_DEPTH_24_4BPP,
+      TextureFormat.TEXTURE_FORMAT_DEPTH_24_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public Texture2DStatic texture2DStaticAllocateDepth24Stencil8(
+  @Override public JOGLTexture2DStatic texture2DStaticAllocateDepth24Stencil8(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -1794,14 +1794,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
+      TextureFormat.TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateDepth32f(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateDepth32f(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -1819,14 +1819,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_DEPTH_32F_4BPP,
+      TextureFormat.TEXTURE_FORMAT_DEPTH_32F_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateR16(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateR16(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -1844,14 +1844,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_R_16_2BPP,
+      TextureFormat.TEXTURE_FORMAT_R_16_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateR16f(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateR16f(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -1869,14 +1869,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_R_16F_2BPP,
+      TextureFormat.TEXTURE_FORMAT_R_16F_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateR16I(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateR16I(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -1894,14 +1894,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_R_16I_2BPP,
+      TextureFormat.TEXTURE_FORMAT_R_16I_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateR16U(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateR16U(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -1919,14 +1919,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_R_16U_2BPP,
+      TextureFormat.TEXTURE_FORMAT_R_16U_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateR32f(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateR32f(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -1944,14 +1944,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_R_32F_4BPP,
+      TextureFormat.TEXTURE_FORMAT_R_32F_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateR32I(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateR32I(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -1969,14 +1969,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_R_32I_4BPP,
+      TextureFormat.TEXTURE_FORMAT_R_32I_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateR32U(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateR32U(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -1994,14 +1994,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_R_32U_4BPP,
+      TextureFormat.TEXTURE_FORMAT_R_32U_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateR8(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateR8(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2019,14 +2019,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_R_8_1BPP,
+      TextureFormat.TEXTURE_FORMAT_R_8_1BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateR8I(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateR8I(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2044,14 +2044,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_R_8I_1BPP,
+      TextureFormat.TEXTURE_FORMAT_R_8I_1BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateR8U(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateR8U(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2069,14 +2069,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_R_8U_1BPP,
+      TextureFormat.TEXTURE_FORMAT_R_8U_1BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRG16(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRG16(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2094,14 +2094,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RG_16_4BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_16_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRG16f(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRG16f(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2119,14 +2119,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RG_16F_4BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_16F_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRG16I(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRG16I(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2144,14 +2144,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RG_16I_4BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_16I_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRG16U(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRG16U(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2169,14 +2169,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RG_16U_4BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_16U_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRG32f(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRG32f(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2194,14 +2194,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RG_32F_8BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_32F_8BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRG32I(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRG32I(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2219,14 +2219,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RG_32I_8BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_32I_8BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRG32U(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRG32U(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2244,14 +2244,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RG_32U_8BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_32U_8BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRG8(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRG8(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2269,14 +2269,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RG_8_2BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_8_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRG8I(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRG8I(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2294,14 +2294,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RG_8I_2BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_8I_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRG8U(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRG8U(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2319,14 +2319,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RG_8U_2BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_8U_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB16(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB16(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2344,14 +2344,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGB_16_6BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_16_6BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB16f(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB16f(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2369,14 +2369,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGB_16F_6BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_16F_6BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB16I(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB16I(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2394,14 +2394,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGB_16I_6BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_16I_6BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB16U(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB16U(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2419,14 +2419,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGB_16U_6BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_16U_6BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB32f(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB32f(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2444,14 +2444,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGB_32F_12BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_32F_12BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB32I(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB32I(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2469,14 +2469,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGB_32I_12BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_32I_12BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB32U(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB32U(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2494,14 +2494,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGB_32U_12BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_32U_12BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB8(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB8(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2519,14 +2519,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGB_8_3BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_8_3BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB8I(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB8I(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2544,14 +2544,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGB_8I_3BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_8I_3BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB8U(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB8U(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2569,7 +2569,7 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGB_8U_3BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_8U_3BPP,
       wrap_s,
       wrap_t,
       min_filter,
@@ -2577,7 +2577,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    Texture2DStatic
+    JOGLTexture2DStatic
     texture2DStaticAllocateRGBA1010102(
       final @Nonnull String name,
       final int width,
@@ -2596,14 +2596,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGBA_1010102_4BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_1010102_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA16(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA16(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2621,14 +2621,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGBA_16_8BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_16_8BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA16f(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA16f(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2646,14 +2646,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGBA_16F_8BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_16F_8BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA16I(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA16I(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2671,14 +2671,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGBA_16I_8BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_16I_8BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA16U(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA16U(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2696,14 +2696,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGBA_16U_8BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_16U_8BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA32f(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA32f(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2721,14 +2721,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGBA_32F_16BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_32F_16BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA32I(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA32I(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2746,14 +2746,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGBA_32I_16BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_32I_16BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA32U(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA32U(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2771,14 +2771,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGBA_32U_16BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_32U_16BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA8(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA8(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2796,14 +2796,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGBA_8_4BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA8I(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA8I(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2821,14 +2821,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGBA_8I_4BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_8I_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA8U(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA8U(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -2846,7 +2846,7 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGBA_8U_4BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_8U_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
@@ -2855,7 +2855,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public void texture2DStaticBind(
     final @Nonnull TextureUnitType unit,
-    final @Nonnull Texture2DStaticUsable texture)
+    final @Nonnull Texture2DStaticUsableType texture)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -2863,7 +2863,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void texture2DStaticDelete(
-    final @Nonnull Texture2DStatic texture)
+    final @Nonnull JOGLTexture2DStatic texture)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -2875,7 +2875,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull Texture2DReadableData texture2DStaticGetImage(
-    final @Nonnull Texture2DStaticUsable texture)
+    final @Nonnull Texture2DStaticUsableType texture)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -2886,7 +2886,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public boolean texture2DStaticIsBound(
     final @Nonnull TextureUnitType unit,
-    final @Nonnull Texture2DStaticUsable texture)
+    final @Nonnull Texture2DStaticUsableType texture)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -2932,7 +2932,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_DEPTH_16_2BPP,
+      TextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -2959,7 +2959,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_DEPTH_24_4BPP,
+      TextureFormat.TEXTURE_FORMAT_DEPTH_24_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -2986,7 +2986,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
+      TextureFormat.TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3013,7 +3013,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_DEPTH_32F_4BPP,
+      TextureFormat.TEXTURE_FORMAT_DEPTH_32F_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3038,7 +3038,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_R_16_2BPP,
+      TextureFormat.TEXTURE_FORMAT_R_16_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3063,7 +3063,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_R_16F_2BPP,
+      TextureFormat.TEXTURE_FORMAT_R_16F_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3088,7 +3088,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_R_16I_2BPP,
+      TextureFormat.TEXTURE_FORMAT_R_16I_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3113,7 +3113,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_R_16U_2BPP,
+      TextureFormat.TEXTURE_FORMAT_R_16U_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3138,7 +3138,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_R_32F_4BPP,
+      TextureFormat.TEXTURE_FORMAT_R_32F_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3163,7 +3163,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_R_32I_4BPP,
+      TextureFormat.TEXTURE_FORMAT_R_32I_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3188,7 +3188,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_R_32U_4BPP,
+      TextureFormat.TEXTURE_FORMAT_R_32U_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3213,7 +3213,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_R_8_1BPP,
+      TextureFormat.TEXTURE_FORMAT_R_8_1BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3238,7 +3238,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_R_8I_1BPP,
+      TextureFormat.TEXTURE_FORMAT_R_8I_1BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3263,7 +3263,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_R_8U_1BPP,
+      TextureFormat.TEXTURE_FORMAT_R_8U_1BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3288,7 +3288,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RG_16_4BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_16_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3313,7 +3313,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RG_16F_4BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_16F_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3338,7 +3338,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RG_16I_4BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_16I_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3363,7 +3363,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RG_16U_4BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_16U_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3388,7 +3388,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RG_32F_8BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_32F_8BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3413,7 +3413,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RG_32I_8BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_32I_8BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3438,7 +3438,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RG_32U_8BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_32U_8BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3463,7 +3463,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RG_8_2BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_8_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3488,7 +3488,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RG_8I_2BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_8I_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3513,7 +3513,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RG_8U_2BPP,
+      TextureFormat.TEXTURE_FORMAT_RG_8U_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3538,7 +3538,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGB_16_6BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_16_6BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3565,7 +3565,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGB_16F_6BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_16F_6BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3592,7 +3592,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGB_16I_6BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_16I_6BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3619,7 +3619,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGB_16U_6BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_16U_6BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3646,7 +3646,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGB_32F_12BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_32F_12BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3673,7 +3673,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGB_32I_12BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_32I_12BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3700,7 +3700,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGB_32U_12BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_32U_12BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3725,7 +3725,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGB_8_3BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_8_3BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3750,7 +3750,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGB_8I_3BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_8I_3BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3775,7 +3775,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGB_8U_3BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_8U_3BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3800,7 +3800,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGBA_1010102_4BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_1010102_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3827,7 +3827,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGBA_16_8BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_16_8BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3854,7 +3854,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGBA_16F_8BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_16F_8BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3881,7 +3881,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGBA_16I_8BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_16I_8BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3908,7 +3908,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGBA_16U_8BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_16U_8BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3935,7 +3935,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGBA_32F_16BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_32F_16BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3962,7 +3962,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGBA_32I_16BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_32I_16BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3989,7 +3989,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGBA_32U_16BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_32U_16BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -4014,7 +4014,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGBA_8_4BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -4041,7 +4041,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGBA_8I_4BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_8I_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -4068,7 +4068,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGBA_8U_4BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_8U_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
