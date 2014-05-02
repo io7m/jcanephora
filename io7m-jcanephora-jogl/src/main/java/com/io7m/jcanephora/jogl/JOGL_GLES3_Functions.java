@@ -30,8 +30,7 @@ import com.io7m.jcanephora.CubeMapFaceLH;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.Texture2DStatic;
-import com.io7m.jcanephora.Texture2DWritableData;
-import com.io7m.jcanephora.TextureCubeStatic;
+import com.io7m.jcanephora.Texture2DStaticUpdate;
 import com.io7m.jcanephora.TextureCubeWritableData;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
@@ -158,7 +157,7 @@ final class JOGL_GLES3_Functions
 
   static void texture2DStaticUpdate(
     final @Nonnull GL gl,
-    final @Nonnull Texture2DWritableData data)
+    final @Nonnull Texture2DStaticUpdate data)
     throws ConstraintError,
       JCGLExceptionRuntime
   {
@@ -190,7 +189,7 @@ final class JOGL_GLES3_Functions
     JOGL_GL_Functions.checkError(gl);
   }
 
-  static @Nonnull TextureCubeStatic textureCubeStaticAllocate(
+  static @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocate(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
@@ -285,8 +284,8 @@ final class JOGL_GLES3_Functions
     gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
     JOGL_GL_Functions.checkError(gl);
 
-    final TextureCubeStatic t =
-      new TextureCubeStatic(
+    final JOGLTextureCubeStatic t =
+      new JOGLTextureCubeStatic(
         name,
         type,
         texture_id,
@@ -318,7 +317,7 @@ final class JOGL_GLES3_Functions
     Constraints.constrainNotNull(data, "Texture data");
 
     final AreaInclusive area = data.targetArea();
-    final TextureCubeStatic texture = data.getTexture();
+    final JOGLTextureCubeStatic texture = data.getTexture();
 
     final TextureFormat type = texture.attributeGetType();
     final int x_offset = (int) area.getRangeX().getLower();

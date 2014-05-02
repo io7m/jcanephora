@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,33 +16,16 @@
 
 package com.io7m.jcanephora.api;
 
-
 /**
  * <p>
- * The interface exposed by OpenGL 2.1 implementations.
- * </p>
- * <p>
- * Note that this interface represents as much of the non-deprecated ("core")
- * interface to OpenGL 3.0 is as possible to obtain on an OpenGL 2.1
- * implementation (via the use of extensions, and by rejecting the
- * fixed-function pipeline).
+ * Type-safe interface to the set of 2D texture types guaranteed to be
+ * supported by OpenGL ES 3.*.
  * </p>
  */
 
-public interface JCGLInterfaceGL2 extends
-  JCGLBlendingGL3Type,
-  JCGLExtensionsGL2,
-  JCGLFramebuffersGL3,
-  JCGLInterfaceCommon,
-  JCGLLogic,
-  JCGLPolygonModesType,
-  JCGLPolygonSmoothingType,
-  JCGLRenderbuffersGL2,
-  JCGLShadersGL2,
-  JCGLTextures2DStaticGL2Type,
-  JCGLTexturesCubeStaticGL2Type
+public interface JCGLTextures2DStaticGLES3Type extends
+  JCGLTextures2DStaticGL3ES3Type,
+  JCGLTextures2DStaticGLES2Type
 {
-  /*
-   * All functions defined in the superinterfaces.
-   */
+  // See superinterfaces.
 }

@@ -66,6 +66,73 @@ public enum JCGLScalarType
 
   TYPE_UNSIGNED_SHORT;
 
+  private static boolean shaderTypeConvertibleFloat(
+    final int elements,
+    final JCGLType type)
+  {
+    switch (type) {
+      case TYPE_FLOAT:
+        return elements == 1;
+      case TYPE_FLOAT_VECTOR_2:
+        return elements == 2;
+      case TYPE_FLOAT_VECTOR_3:
+        return elements == 3;
+      case TYPE_FLOAT_VECTOR_4:
+        return elements == 4;
+      case TYPE_BOOLEAN:
+      case TYPE_BOOLEAN_VECTOR_2:
+      case TYPE_BOOLEAN_VECTOR_3:
+      case TYPE_BOOLEAN_VECTOR_4:
+      case TYPE_FLOAT_MATRIX_2:
+      case TYPE_FLOAT_MATRIX_3:
+      case TYPE_FLOAT_MATRIX_4:
+      case TYPE_INTEGER:
+      case TYPE_INTEGER_VECTOR_2:
+      case TYPE_INTEGER_VECTOR_3:
+      case TYPE_INTEGER_VECTOR_4:
+      case TYPE_SAMPLER_2D:
+      case TYPE_SAMPLER_2D_SHADOW:
+      case TYPE_SAMPLER_3D:
+      case TYPE_SAMPLER_CUBE:
+        return false;
+    }
+    throw new UnreachableCodeException();
+  }
+
+  private static boolean shaderTypeConvertibleInt(
+    final int elements,
+    final JCGLType type)
+  {
+    switch (type) {
+      case TYPE_INTEGER:
+        return elements == 1;
+      case TYPE_INTEGER_VECTOR_2:
+        return elements == 2;
+      case TYPE_INTEGER_VECTOR_3:
+        return elements == 3;
+      case TYPE_INTEGER_VECTOR_4:
+        return elements == 4;
+      case TYPE_BOOLEAN:
+      case TYPE_BOOLEAN_VECTOR_2:
+      case TYPE_BOOLEAN_VECTOR_3:
+      case TYPE_BOOLEAN_VECTOR_4:
+      case TYPE_FLOAT_MATRIX_2:
+      case TYPE_FLOAT_MATRIX_3:
+      case TYPE_FLOAT_MATRIX_4:
+      case TYPE_FLOAT:
+      case TYPE_FLOAT_VECTOR_2:
+      case TYPE_FLOAT_VECTOR_3:
+      case TYPE_FLOAT_VECTOR_4:
+      case TYPE_SAMPLER_2D:
+      case TYPE_SAMPLER_2D_SHADOW:
+      case TYPE_SAMPLER_3D:
+      case TYPE_SAMPLER_CUBE:
+        return false;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
   /**
    * @return The size in bytes of values of this type.
    */
@@ -113,64 +180,11 @@ public enum JCGLScalarType
     switch (this) {
       case TYPE_FLOAT:
       {
-        switch (type) {
-          case TYPE_FLOAT:
-            return elements == 1;
-          case TYPE_FLOAT_VECTOR_2:
-            return elements == 2;
-          case TYPE_FLOAT_VECTOR_3:
-            return elements == 3;
-          case TYPE_FLOAT_VECTOR_4:
-            return elements == 4;
-          case TYPE_BOOLEAN:
-          case TYPE_BOOLEAN_VECTOR_2:
-          case TYPE_BOOLEAN_VECTOR_3:
-          case TYPE_BOOLEAN_VECTOR_4:
-          case TYPE_FLOAT_MATRIX_2:
-          case TYPE_FLOAT_MATRIX_3:
-          case TYPE_FLOAT_MATRIX_4:
-          case TYPE_INTEGER:
-          case TYPE_INTEGER_VECTOR_2:
-          case TYPE_INTEGER_VECTOR_3:
-          case TYPE_INTEGER_VECTOR_4:
-          case TYPE_SAMPLER_2D:
-          case TYPE_SAMPLER_2D_SHADOW:
-          case TYPE_SAMPLER_3D:
-          case TYPE_SAMPLER_CUBE:
-            return false;
-        }
-        throw new UnreachableCodeException();
+        return JCGLScalarType.shaderTypeConvertibleFloat(elements, type);
       }
       case TYPE_INT:
       {
-        switch (type) {
-          case TYPE_INTEGER:
-            return elements == 1;
-          case TYPE_INTEGER_VECTOR_2:
-            return elements == 2;
-          case TYPE_INTEGER_VECTOR_3:
-            return elements == 3;
-          case TYPE_INTEGER_VECTOR_4:
-            return elements == 4;
-          case TYPE_BOOLEAN:
-          case TYPE_BOOLEAN_VECTOR_2:
-          case TYPE_BOOLEAN_VECTOR_3:
-          case TYPE_BOOLEAN_VECTOR_4:
-          case TYPE_FLOAT_MATRIX_2:
-          case TYPE_FLOAT_MATRIX_3:
-          case TYPE_FLOAT_MATRIX_4:
-          case TYPE_FLOAT:
-          case TYPE_FLOAT_VECTOR_2:
-          case TYPE_FLOAT_VECTOR_3:
-          case TYPE_FLOAT_VECTOR_4:
-          case TYPE_SAMPLER_2D:
-          case TYPE_SAMPLER_2D_SHADOW:
-          case TYPE_SAMPLER_3D:
-          case TYPE_SAMPLER_CUBE:
-            return false;
-        }
-
-        throw new UnreachableCodeException();
+        return JCGLScalarType.shaderTypeConvertibleInt(elements, type);
       }
       case TYPE_BYTE:
       case TYPE_SHORT:

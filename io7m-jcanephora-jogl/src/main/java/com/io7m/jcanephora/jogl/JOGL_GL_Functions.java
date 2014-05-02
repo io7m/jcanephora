@@ -60,8 +60,7 @@ import com.io7m.jcanephora.Primitives;
 import com.io7m.jcanephora.RenderbufferFormat;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.Texture2DStaticUsableType;
-import com.io7m.jcanephora.TextureCubeStatic;
-import com.io7m.jcanephora.TextureCubeStaticUsable;
+import com.io7m.jcanephora.TextureCubeStaticUsableType;
 import com.io7m.jcanephora.TextureTypeMeta;
 import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureUnitType;
@@ -1191,7 +1190,7 @@ final class JOGL_GL_Functions
     final @Nonnull Log log,
     final @Nonnull JCGLVersion version,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull TextureCubeStaticUsable texture,
+    final @Nonnull TextureCubeStaticUsableType texture,
     final @Nonnull CubeMapFaceLH face,
     final @Nonnull JCGLNamedExtensionsType extensions)
     throws JCGLExceptionRuntime,
@@ -1210,7 +1209,7 @@ final class JOGL_GL_Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(TextureTypeMeta.isColorRenderable2D(
-      texture.getType(),
+      texture.textureGetFormat(),
       version,
       extensions), "Texture is color renderable");
 
@@ -1243,7 +1242,7 @@ final class JOGL_GL_Functions
     final @Nonnull JCGLVersion version,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull TextureCubeStaticUsable texture,
+    final @Nonnull TextureCubeStaticUsableType texture,
     final @Nonnull CubeMapFaceLH face,
     final @Nonnull JCGLNamedExtensionsType extensions)
     throws ConstraintError,
@@ -1264,7 +1263,7 @@ final class JOGL_GL_Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(TextureTypeMeta.isColorRenderable2D(
-      texture.getType(),
+      texture.textureGetFormat(),
       version,
       extensions), "Texture is color renderable");
 
@@ -2267,7 +2266,7 @@ final class JOGL_GL_Functions
   static void textureCubeStaticBind(
     final @Nonnull GL gl,
     final @Nonnull TextureUnitType unit,
-    final @Nonnull TextureCubeStaticUsable texture)
+    final @Nonnull TextureCubeStaticUsableType texture)
     throws JCGLExceptionRuntime,
       ConstraintError
   {
@@ -2286,7 +2285,7 @@ final class JOGL_GL_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull TextureCubeStatic texture)
+    final @Nonnull JOGLTextureCubeStatic texture)
     throws ConstraintError,
       JCGLExceptionRuntime
   {
@@ -2314,7 +2313,7 @@ final class JOGL_GL_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull TextureUnitType unit,
-    final @Nonnull TextureCubeStaticUsable texture)
+    final @Nonnull TextureCubeStaticUsableType texture)
     throws ConstraintError,
       JCGLExceptionRuntime
   {

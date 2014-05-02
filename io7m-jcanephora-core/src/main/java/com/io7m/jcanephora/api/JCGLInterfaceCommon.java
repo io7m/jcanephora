@@ -42,7 +42,7 @@ public interface JCGLInterfaceCommon extends
   JCGLStencilBufferType,
   JCGLTextureUnitsType,
   JCGLTextures2DStaticCommonType,
-  JCGLTexturesCubeStaticCommon,
+  JCGLTexturesCubeStaticCommonType,
   JCGLViewportType
 {
   /*

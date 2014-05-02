@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,18 +14,14 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.api;
+package com.io7m.jcanephora;
 
 /**
- * <p>
- * Type-safe interface to the set of cube texture types guaranteed to be
- * supported by OpenGL ES3.
- * </p>
+ * The interface supported by static 2D textures that have writable data that
+ * can be modified with cursors.
  */
 
-public interface JCGLTexturesCubeStaticGLES3 extends
-  JCGLTexturesCubeStaticGL3ES3,
-  JCGLTexturesCubeStaticGLES2
+public interface Texture2DStaticUpdateType extends TextureUpdateType
 {
   // No extra functions.
 }

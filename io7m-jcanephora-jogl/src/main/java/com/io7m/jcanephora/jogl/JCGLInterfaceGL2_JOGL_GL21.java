@@ -72,10 +72,9 @@ import com.io7m.jcanephora.StencilOperation;
 import com.io7m.jcanephora.Texture2DReadableData;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.Texture2DStaticUsableType;
-import com.io7m.jcanephora.Texture2DWritableData;
+import com.io7m.jcanephora.Texture2DStaticUpdate;
 import com.io7m.jcanephora.TextureCubeReadableData;
-import com.io7m.jcanephora.TextureCubeStatic;
-import com.io7m.jcanephora.TextureCubeStaticUsable;
+import com.io7m.jcanephora.TextureCubeStaticUsableType;
 import com.io7m.jcanephora.TextureCubeWritableData;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
@@ -771,7 +770,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public void framebufferDrawAttachColorTextureCube(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull TextureCubeStaticUsable texture,
+    final @Nonnull TextureCubeStaticUsableType texture,
     final @Nonnull CubeMapFaceLH face)
     throws JCGLExceptionRuntime,
       ConstraintError
@@ -790,7 +789,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void framebufferDrawAttachColorTextureCubeAt(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull TextureCubeStaticUsable texture,
+    final @Nonnull TextureCubeStaticUsableType texture,
     final @Nonnull CubeMapFaceLH face)
     throws JCGLExceptionRuntime,
       ConstraintError
@@ -1716,7 +1715,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void texture2DStaticUpdate(
-    final @Nonnull Texture2DWritableData data)
+    final @Nonnull Texture2DStaticUpdate data)
     throws ConstraintError,
       JCGLExceptionRuntime
   {
@@ -1724,7 +1723,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateDepth24Stencil8(
       final @Nonnull String name,
       final int size,
@@ -1750,7 +1749,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB8(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRGB8(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -1775,7 +1774,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGBA8(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRGBA8(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -1802,7 +1801,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public void textureCubeStaticBind(
     final @Nonnull TextureUnitType unit,
-    final @Nonnull TextureCubeStaticUsable texture)
+    final @Nonnull TextureCubeStaticUsableType texture)
     throws ConstraintError,
       JCGLExceptionRuntime
   {
@@ -1813,7 +1812,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void textureCubeStaticDelete(
-    final @Nonnull TextureCubeStatic texture)
+    final @Nonnull JOGLTextureCubeStatic texture)
     throws ConstraintError,
       JCGLExceptionRuntime
   {
@@ -1827,7 +1826,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public @Nonnull
     TextureCubeReadableData
     textureCubeStaticGetImageLH(
-      final @Nonnull TextureCubeStaticUsable texture,
+      final @Nonnull TextureCubeStaticUsableType texture,
       final @Nonnull CubeMapFaceLH face)
       throws ConstraintError,
         JCGLExceptionRuntime
@@ -1841,7 +1840,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public @Nonnull
     TextureCubeReadableData
     textureCubeStaticGetImageRH(
-      final @Nonnull TextureCubeStaticUsable texture,
+      final @Nonnull TextureCubeStaticUsableType texture,
       final @Nonnull CubeMapFaceRH face)
       throws ConstraintError,
         JCGLExceptionRuntime
@@ -1855,7 +1854,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public boolean textureCubeStaticIsBound(
     final @Nonnull TextureUnitType unit,
-    final @Nonnull TextureCubeStaticUsable texture)
+    final @Nonnull TextureCubeStaticUsableType texture)
     throws ConstraintError,
       JCGLExceptionRuntime
   {

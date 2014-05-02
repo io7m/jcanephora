@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,18 +16,14 @@
 
 package com.io7m.jcanephora.api;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.CubeMapFaceLH;
 import com.io7m.jcanephora.CubeMapFaceRH;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.TextureCubeReadableData;
-import com.io7m.jcanephora.TextureCubeStatic;
-import com.io7m.jcanephora.TextureCubeStaticUsable;
+import com.io7m.jcanephora.TextureCubeStaticType;
+import com.io7m.jcanephora.TextureCubeStaticUsableType;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
-import com.io7m.jcanephora.TextureFormat;
 import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
@@ -39,16 +35,17 @@ import com.io7m.jcanephora.TextureWrapT;
  * </p>
  */
 
-public interface JCGLTexturesCubeStaticGL2 extends
-  JCGLTexturesCubeStaticGL2ES3
+public interface JCGLTexturesCubeStaticGL2Type extends
+  JCGLTexturesCubeStaticGL2ES3Type
 {
   /**
    * <p>
    * Allocate a depth texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP} for the
-   * precise format of the texture.
+   * See
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -94,69 +91,52 @@ public interface JCGLTexturesCubeStaticGL2 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
+   * 
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateDepth24Stencil8(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateDepth24Stencil8(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
-   * Retrieve the texture image data associated with the face
-   * <code>face</code> of the left-handed cube texture <code>texture</code>.
+   * @return The texture image data associated with the face <code>face</code>
+   *         of the left-handed cube texture <code>texture</code>.
    * 
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>texture == null || face == null</code></li>
-   *           <li><code>texture</code> has been deleted</code></li>
-   *           </ul>
+   * @param texture
+   *          The texture.
+   * @param face
+   *          The cube map face, assuming a left-handed coordinate system.
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeReadableData textureCubeStaticGetImageLH(
-    final  TextureCubeStaticUsable texture,
-    final  CubeMapFaceLH face)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+  TextureCubeReadableData textureCubeStaticGetImageLH(
+    final TextureCubeStaticUsableType texture,
+    final CubeMapFaceLH face)
+    throws JCGLExceptionRuntime;
 
   /**
-   * Retrieve the texture image data associated with the face
-   * <code>face</code> of the right-handed cube texture <code>texture</code>.
+   * @return the texture image data associated with the face <code>face</code>
+   *         of the right-handed cube texture <code>texture</code>.
    * 
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>texture == null || face == null</code></li>
-   *           <li><code>texture</code> has been deleted</code></li>
-   *           </ul>
+   * @param texture
+   *          The texture.
+   * @param face
+   *          The cube map face, assuming a right-handed coordinate system.
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeReadableData textureCubeStaticGetImageRH(
-    final  TextureCubeStaticUsable texture,
-    final  CubeMapFaceRH face)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+  TextureCubeReadableData textureCubeStaticGetImageRH(
+    final TextureCubeStaticUsableType texture,
+    final CubeMapFaceRH face)
+    throws JCGLExceptionRuntime;
 }

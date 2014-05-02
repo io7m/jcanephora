@@ -31,7 +31,7 @@ import com.io7m.jcanephora.RenderableDepthStencilKind;
 import com.io7m.jcanephora.RenderbufferFormat;
 import com.io7m.jcanephora.RenderbufferUsableType;
 import com.io7m.jcanephora.Texture2DStaticUsableType;
-import com.io7m.jcanephora.TextureCubeStaticUsable;
+import com.io7m.jcanephora.TextureCubeStaticUsableType;
 import com.io7m.jcanephora.jogl.FramebufferReference;
 
 /**
@@ -139,7 +139,7 @@ public interface JCGLFramebuffersGL3 extends
   void framebufferDrawAttachColorTextureCubeAt(
     final  FramebufferReference framebuffer,
     final  FramebufferColorAttachmentPoint point,
-    final  TextureCubeStaticUsable texture,
+    final  TextureCubeStaticUsableType texture,
     final  CubeMapFaceLH face)
     throws JCGLExceptionRuntime,
       ConstraintError;

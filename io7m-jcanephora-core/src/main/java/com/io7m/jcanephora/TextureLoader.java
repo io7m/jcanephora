@@ -23,10 +23,11 @@ import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.api.JCGLImplementation;
-import com.io7m.jcanephora.api.JCGLTextures2DStaticGL2ES3;
-import com.io7m.jcanephora.api.JCGLTextures2DStaticGL3ES3;
-import com.io7m.jcanephora.api.JCGLTextures2DStaticGLES2;
-import com.io7m.jcanephora.api.JCGLTexturesCubeStaticGL2ES3;
+import com.io7m.jcanephora.api.JCGLTextures2DStaticGL2ES3Type;
+import com.io7m.jcanephora.api.JCGLTextures2DStaticGL3ES3Type;
+import com.io7m.jcanephora.api.JCGLTextures2DStaticGLES2Type;
+import com.io7m.jcanephora.api.JCGLTexturesCubeStaticGL2ES3Type;
+import com.io7m.jcanephora.jogl.TextureCubeStatic;
 
 /**
  * Functions for loading OpenGL textures from image files/streams.
@@ -70,7 +71,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticDepth16(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -117,7 +118,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticDepth24(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -164,7 +165,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticDepth32f(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -256,7 +257,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticR16(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -303,7 +304,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticR16f(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -350,7 +351,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticR16I(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -397,7 +398,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticR16U(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -444,7 +445,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticR32f(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -491,7 +492,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticR32I(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -538,7 +539,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticR32U(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -585,7 +586,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticR8(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -632,7 +633,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticR8I(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -679,7 +680,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticR8U(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -726,7 +727,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRG16(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -773,7 +774,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRG16f(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -820,7 +821,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRG16I(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -867,7 +868,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRG16U(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -914,7 +915,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRG32f(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -961,7 +962,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRG32I(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1008,7 +1009,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRG32U(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1055,7 +1056,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRG8(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1102,7 +1103,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRG8I(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1149,7 +1150,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRG8U(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1196,7 +1197,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGB16(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1243,7 +1244,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGB16f(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1290,7 +1291,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGB16I(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1337,7 +1338,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGB16U(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1384,7 +1385,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGB32f(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1431,7 +1432,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGB32I(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1478,7 +1479,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGB32U(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1525,7 +1526,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGB565(
-    final  JCGLTextures2DStaticGLES2 gl,
+    final  JCGLTextures2DStaticGLES2Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1572,7 +1573,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGB8(
-    final  JCGLTextures2DStaticGL2ES3 gl,
+    final  JCGLTextures2DStaticGL2ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1619,7 +1620,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGB8I(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1666,7 +1667,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGB8U(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1713,7 +1714,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGBA1010102(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1760,7 +1761,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGBA16(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1807,7 +1808,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGBA16f(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1854,7 +1855,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGBA16I(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1901,7 +1902,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGBA16U(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1948,7 +1949,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGBA32f(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -1995,7 +1996,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGBA32I(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -2042,7 +2043,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGBA32U(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -2089,7 +2090,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGBA4444(
-    final  JCGLTextures2DStaticGLES2 gl,
+    final  JCGLTextures2DStaticGLES2Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -2136,7 +2137,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGBA5551(
-    final  JCGLTextures2DStaticGLES2 gl,
+    final  JCGLTextures2DStaticGLES2Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -2183,7 +2184,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGBA8(
-    final  JCGLTextures2DStaticGL2ES3 gl,
+    final  JCGLTextures2DStaticGL2ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -2230,7 +2231,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGBA8I(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -2277,7 +2278,7 @@ public interface TextureLoader
    */
 
   public  Texture2DStatic load2DStaticRGBA8U(
-    final  JCGLTextures2DStaticGL3ES3 gl,
+    final  JCGLTextures2DStaticGL3ES3Type gl,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
     final  TextureFilterMinification min_filter,
@@ -2384,7 +2385,7 @@ public interface TextureLoader
    */
 
   public  TextureCubeStatic loadCubeLHStaticRGB8(
-    final  JCGLTexturesCubeStaticGL2ES3 gl,
+    final  JCGLTexturesCubeStaticGL2ES3Type gl,
     final  TextureWrapR wrap_r,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
@@ -2440,7 +2441,7 @@ public interface TextureLoader
    */
 
   public  TextureCubeStatic loadCubeLHStaticRGBA8(
-    final  JCGLTexturesCubeStaticGL2ES3 gl,
+    final  JCGLTexturesCubeStaticGL2ES3Type gl,
     final  TextureWrapR wrap_r,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
@@ -2553,7 +2554,7 @@ public interface TextureLoader
    */
 
   public  TextureCubeStatic loadCubeRHStaticRGB8(
-    final  JCGLTexturesCubeStaticGL2ES3 gl,
+    final  JCGLTexturesCubeStaticGL2ES3Type gl,
     final  TextureWrapR wrap_r,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,
@@ -2609,7 +2610,7 @@ public interface TextureLoader
    */
 
   public  TextureCubeStatic loadCubeRHStaticRGBA8(
-    final  JCGLTexturesCubeStaticGL2ES3 gl,
+    final  JCGLTexturesCubeStaticGL2ES3Type gl,
     final  TextureWrapR wrap_r,
     final  TextureWrapS wrap_s,
     final  TextureWrapT wrap_t,

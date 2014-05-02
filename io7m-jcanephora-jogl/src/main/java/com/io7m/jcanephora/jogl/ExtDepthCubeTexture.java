@@ -24,7 +24,6 @@ import com.io7m.jaux.functional.Option;
 import com.io7m.jcanephora.JCGLExtensionNames;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLStateCache;
-import com.io7m.jcanephora.TextureCubeStatic;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureFormat;
@@ -79,7 +78,7 @@ class ExtDepthCubeTexture<G extends GL> implements
     this.log = log1;
   }
 
-  @Override public TextureCubeStatic textureCubeStaticAllocateDepth16(
+  @Override public JOGLTextureCubeStatic textureCubeStaticAllocateDepth16(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,

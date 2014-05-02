@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -19,57 +19,10 @@ package com.io7m.jcanephora;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
-import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_16_I;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_16_U;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_16_UNFP;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_16f;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_24_UNFP;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_32_I;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_32_U;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_32f;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_8_I;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_8_U;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_1_8_UNFP;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_16_I;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_16_U;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_16_UNFP;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_16f;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_32_I;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_32_U;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_32f;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_8_I;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_8_U;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_2_8_UNFP;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_16_I;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_16_U;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_16_UNFP;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_16f;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_32_I;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_32_U;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_32f;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_565;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_8_I;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_8_U;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_3_8_UNFP;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_1010102;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_16_I;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_16_U;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_16_UNFP;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_16f;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_32_I;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_32_U;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_32f;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_4444;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_5551;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_8_I;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_8_U;
-import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_8_UNFP;
+import com.io7m.jnull.NullCheck;
+import com.io7m.jranges.RangeCheckException;
+import com.io7m.jranges.RangeInclusiveL;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * <p>
@@ -81,19 +34,19 @@ import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_8_UNFP;
  * </p>
  */
 
-public final class Texture2DWritableData implements TextureWritableDataType
+public final class Texture2DStaticUpdate implements TextureUpdateType
 {
-  private final  AreaInclusive   source_area;
-  private final  AreaInclusive   target_area;
-  private final  ByteBuffer      target_data;
-  private final  Texture2DStatic texture;
-  private final  TextureFormat     type;
+  private final AreaInclusive       source_area;
+  private final AreaInclusive       target_area;
+  private final ByteBuffer          target_data;
+  private final Texture2DStaticType texture;
+  private final TextureFormat       type;
 
   /**
    * Construct a buffer of data that will be used to replace the entirety of
    * the data in <code>texture</code> on the GPU.
    * 
-   * @param texture1
+   * @param in_texture
    *          The texture.
    * @throws ConstraintError
    *           Iff any of the following conditions hold:
@@ -102,18 +55,18 @@ public final class Texture2DWritableData implements TextureWritableDataType
    *           </ul>
    */
 
-  public Texture2DWritableData(
-    final  Texture2DStatic texture1)
+  public Texture2DStaticUpdate(
+    final Texture2DStaticType in_texture)
     throws ConstraintError
   {
-    this(texture1, texture1.textureGetArea());
+    this(in_texture, in_texture.textureGetArea());
   }
 
   /**
    * Construct a buffer of data that will be used to replace elements in the
    * area <code>area</code> of the data in <code>texture</code> on the GPU.
    * 
-   * @param texture1
+   * @param in_texture
    *          The texture.
    * @param area
    *          The inclusive area defining the area of the texture that will be
@@ -127,55 +80,46 @@ public final class Texture2DWritableData implements TextureWritableDataType
    *           </ul>
    */
 
-  public Texture2DWritableData(
-    final  Texture2DStatic texture1,
-    final  AreaInclusive area)
-    throws ConstraintError
+  public Texture2DStaticUpdate(
+    final Texture2DStaticType in_texture,
+    final AreaInclusive area)
   {
-    NullCheck.notNull(texture1, "Texture");
+    NullCheck.notNull(in_texture, "Texture");
     NullCheck.notNull(area, "Area");
-    Constraints.constrainArbitrary(
-      area.isIncludedIn(texture1.textureGetArea()),
-      "Area is included within texture");
 
-    this.texture = texture1;
+    if (area.isIncludedIn(in_texture.textureGetArea())) {
+      throw new RangeCheckException(String.format(
+        "Target area %s is not included within the texture's area %s",
+        area,
+        in_texture.textureGetArea()));
+    }
+
+    this.texture = in_texture;
     this.target_area = area;
 
-    final RangeInclusive srx =
-      new RangeInclusive(0, area.getRangeX().getInterval() - 1);
-    final RangeInclusive sry =
-      new RangeInclusive(0, area.getRangeY().getInterval() - 1);
+    final RangeInclusiveL srx =
+      new RangeInclusiveL(0, area.getRangeX().getInterval() - 1);
+    final RangeInclusiveL sry =
+      new RangeInclusiveL(0, area.getRangeY().getInterval() - 1);
     this.source_area = new AreaInclusive(srx, sry);
 
     final long width = this.source_area.getRangeX().getInterval();
     final long height = this.source_area.getRangeY().getInterval();
-    final int bpp = texture1.attributeGetType().getBytesPerPixel();
-    this.type = texture1.attributeGetType();
+    final int bpp = in_texture.textureGetFormat().getBytesPerPixel();
+    this.type = in_texture.textureGetFormat();
 
     this.target_data =
       ByteBuffer.allocateDirect((int) (height * width * bpp)).order(
         ByteOrder.nativeOrder());
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.io7m.jcanephora.TextureWritableData#getCursor1d()
-   */
-
-  @Override public  SpatialCursorWritable1dType getCursor1d()
+  @Override public SpatialCursorWritable1dType getCursor1d()
     throws ConstraintError
   {
     return (SpatialCursorWritable1dType) this.getCursor1f();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.io7m.jcanephora.TextureWritableData#getCursor1f()
-   */
-
-  @Override public  SpatialCursorWritable1fType getCursor1f()
+  @Override public SpatialCursorWritable1fType getCursor1f()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -305,13 +249,7 @@ public final class Texture2DWritableData implements TextureWritableDataType
     throw new UnreachableCodeException();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.io7m.jcanephora.TextureWritableData#getCursor1i()
-   */
-
-  @Override public  SpatialCursorWritable1iType getCursor1i()
+  @Override public SpatialCursorWritable1iType getCursor1i()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -432,25 +370,13 @@ public final class Texture2DWritableData implements TextureWritableDataType
     throw new UnreachableCodeException();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.io7m.jcanephora.TextureWritableData#getCursor2d()
-   */
-
-  @Override public  SpatialCursorWritable2dType getCursor2d()
+  @Override public SpatialCursorWritable2dType getCursor2d()
     throws ConstraintError
   {
     return (SpatialCursorWritable2dType) this.getCursor2f();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.io7m.jcanephora.TextureWritableData#getCursor2f()
-   */
-
-  @Override public  SpatialCursorWritable2fType getCursor2f()
+  @Override public SpatialCursorWritable2fType getCursor2f()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -577,13 +503,7 @@ public final class Texture2DWritableData implements TextureWritableDataType
     throw new UnreachableCodeException();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.io7m.jcanephora.TextureWritableData#getCursor2i()
-   */
-
-  @Override public  SpatialCursorWritable2iType getCursor2i()
+  @Override public SpatialCursorWritable2iType getCursor2i()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -701,25 +621,13 @@ public final class Texture2DWritableData implements TextureWritableDataType
     throw new UnreachableCodeException();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.io7m.jcanephora.TextureWritableData#getCursor3d()
-   */
-
-  @Override public  SpatialCursorWritable3dType getCursor3d()
+  @Override public SpatialCursorWritable3dType getCursor3d()
     throws ConstraintError
   {
     return (SpatialCursorWritable3dType) this.getCursor3f();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.io7m.jcanephora.TextureWritableData#getCursor3f()
-   */
-
-  @Override public  SpatialCursorWritable3fType getCursor3f()
+  @Override public SpatialCursorWritable3fType getCursor3f()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -849,13 +757,7 @@ public final class Texture2DWritableData implements TextureWritableDataType
     throw new UnreachableCodeException();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.io7m.jcanephora.TextureWritableData#getCursor3i()
-   */
-
-  @Override public  SpatialCursorWritable3iType getCursor3i()
+  @Override public SpatialCursorWritable3iType getCursor3i()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -976,25 +878,13 @@ public final class Texture2DWritableData implements TextureWritableDataType
     throw new UnreachableCodeException();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.io7m.jcanephora.TextureWritableData#getCursor4d()
-   */
-
-  @Override public  SpatialCursorWritable4dType getCursor4d()
+  @Override public SpatialCursorWritable4dType getCursor4d()
     throws ConstraintError
   {
     return (SpatialCursorWritable4dType) this.getCursor4f();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.io7m.jcanephora.TextureWritableData#getCursor4f()
-   */
-
-  @Override public  SpatialCursorWritable4fType getCursor4f()
+  @Override public SpatialCursorWritable4fType getCursor4f()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -1136,13 +1026,7 @@ public final class Texture2DWritableData implements TextureWritableDataType
     throw new UnreachableCodeException();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.io7m.jcanephora.TextureWritableData#getCursor4i()
-   */
-
-  @Override public  SpatialCursorWritable4iType getCursor4i()
+  @Override public SpatialCursorWritable4iType getCursor4i()
     throws ConstraintError
   {
     Constraints.constrainArbitrary(
@@ -1279,22 +1163,22 @@ public final class Texture2DWritableData implements TextureWritableDataType
    * Retrieve the texture that will be affected by this update.
    */
 
-  public  Texture2DStatic getTexture()
+  public Texture2DStaticUsableType getTexture()
   {
     return this.texture;
   }
 
-  @Override public  TextureFormat getType()
+  @Override public TextureFormat getType()
   {
     return this.type;
   }
 
-   AreaInclusive targetArea()
+  AreaInclusive targetArea()
   {
     return this.target_area;
   }
 
-   ByteBuffer targetData()
+  ByteBuffer targetData()
   {
     return this.target_data;
   }

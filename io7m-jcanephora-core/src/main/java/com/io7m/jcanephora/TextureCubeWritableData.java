@@ -71,6 +71,7 @@ import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_5551;
 import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_8_I;
 import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_8_U;
 import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_8_UNFP;
+import com.io7m.jcanephora.jogl.TextureCubeStatic;
 
 /**
  * <p>
@@ -82,7 +83,7 @@ import com.io7m.jcanephora.cursors.ByteBufferTextureCursorWritable_4_8_UNFP;
  * </p>
  */
 
-public final class TextureCubeWritableData implements TextureWritableDataType
+public final class TextureCubeWritableData implements TextureUpdateType
 {
   private final  AreaInclusive     source_area;
   private final  AreaInclusive     target_area;
@@ -109,7 +110,7 @@ public final class TextureCubeWritableData implements TextureWritableDataType
     final  TextureCubeStatic texture1)
     throws ConstraintError
   {
-    this(texture1, texture1.getArea());
+    this(texture1, texture1.textureGetArea());
   }
 
   /**
@@ -140,7 +141,7 @@ public final class TextureCubeWritableData implements TextureWritableDataType
     NullCheck.notNull(texture1, "Texture");
     NullCheck.notNull(area, "Area");
     Constraints.constrainArbitrary(
-      area.isIncludedIn(texture1.getArea()),
+      area.isIncludedIn(texture1.textureGetArea()),
       "Area is included within texture");
 
     this.texture = texture1;

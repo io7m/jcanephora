@@ -36,9 +36,8 @@ import com.io7m.jcanephora.JCGLVersion;
 import com.io7m.jcanephora.RenderbufferFormat;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.Texture2DStaticUsableType;
-import com.io7m.jcanephora.Texture2DWritableData;
-import com.io7m.jcanephora.TextureCubeStatic;
-import com.io7m.jcanephora.TextureCubeStaticUsable;
+import com.io7m.jcanephora.Texture2DStaticUpdate;
+import com.io7m.jcanephora.TextureCubeStaticUsableType;
 import com.io7m.jcanephora.TextureCubeWritableData;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
@@ -366,7 +365,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull Log log,
     final @Nonnull JCGLVersion version,
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull TextureCubeStaticUsable texture,
+    final @Nonnull TextureCubeStaticUsableType texture,
     final @Nonnull CubeMapFaceLH face,
     final @Nonnull JCGLNamedExtensionsType extensions)
     throws JCGLExceptionRuntime,
@@ -385,7 +384,7 @@ final class JOGL_GLES2_Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(TextureTypeMeta.isColorRenderable2D(
-      texture.getType(),
+      texture.textureGetFormat(),
       version,
       extensions), "Texture is color renderable");
 
@@ -418,7 +417,7 @@ final class JOGL_GLES2_Functions
     final @Nonnull JCGLVersion version,
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull TextureCubeStaticUsable texture,
+    final @Nonnull TextureCubeStaticUsableType texture,
     final @Nonnull CubeMapFaceLH face,
     final @Nonnull JCGLNamedExtensionsType extensions)
     throws ConstraintError,
@@ -439,7 +438,7 @@ final class JOGL_GLES2_Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
     Constraints.constrainArbitrary(TextureTypeMeta.isColorRenderable2D(
-      texture.getType(),
+      texture.textureGetFormat(),
       version,
       extensions), "Texture is color renderable");
 
@@ -893,7 +892,7 @@ final class JOGL_GLES2_Functions
 
   static void texture2DStaticUpdate(
     final @Nonnull GL gl,
-    final @Nonnull Texture2DWritableData data)
+    final @Nonnull Texture2DStaticUpdate data)
     throws ConstraintError,
       JCGLExceptionRuntime
   {
@@ -925,7 +924,7 @@ final class JOGL_GLES2_Functions
     JOGL_GL_Functions.checkError(gl);
   }
 
-  static @Nonnull TextureCubeStatic textureCubeStaticAllocate(
+  static @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocate(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
@@ -1020,8 +1019,8 @@ final class JOGL_GLES2_Functions
     gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
     JOGL_GL_Functions.checkError(gl);
 
-    final TextureCubeStatic t =
-      new TextureCubeStatic(
+    final JOGLTextureCubeStatic t =
+      new JOGLTextureCubeStatic(
         name,
         type,
         texture_id,
@@ -1053,7 +1052,7 @@ final class JOGL_GLES2_Functions
     Constraints.constrainNotNull(data, "Texture data");
 
     final AreaInclusive area = data.targetArea();
-    final TextureCubeStatic texture = data.getTexture();
+    final JOGLTextureCubeStatic texture = data.getTexture();
 
     final TextureFormat type = texture.attributeGetType();
     final int x_offset = (int) area.getRangeX().getLower();

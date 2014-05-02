@@ -16,14 +16,10 @@
 
 package com.io7m.jcanephora.api;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.TextureCubeStatic;
+import com.io7m.jcanephora.TextureCubeStaticType;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
-import com.io7m.jcanephora.TextureFormat;
 import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
@@ -35,14 +31,14 @@ import com.io7m.jcanephora.TextureWrapT;
  * </p>
  */
 
-public interface JCGLTexturesCubeStaticGL2ES3 extends
-  JCGLTexturesCubeStaticCommon
+public interface JCGLTexturesCubeStaticGL2ES3Type extends
+  JCGLTexturesCubeStaticCommonType
 {
   /**
    * <p>
    * Allocate an RGB texture of width/height <code>size</code>. See
-   * {@link TextureFormat#TEXTURE_FORMAT_RGB_8_3BPP} for the precise format of the
-   * texture.
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGB_8_3BPP} for
+   * the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -88,37 +84,26 @@ public interface JCGLTexturesCubeStaticGL2ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
+   * 
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public TextureCubeStatic textureCubeStaticAllocateRGB8(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRGB8(
+    final String name,
     int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGBA texture of width/height <code>size</code>. See
-   * {@link TextureFormat#TEXTURE_FORMAT_RGBA_8_4BPP} for the precise format of
-   * the texture.
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGBA_8_4BPP} for
+   * the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -164,30 +149,19 @@ public interface JCGLTexturesCubeStaticGL2ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
+   * 
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public TextureCubeStatic textureCubeStaticAllocateRGBA8(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRGBA8(
+    final String name,
     int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
 }

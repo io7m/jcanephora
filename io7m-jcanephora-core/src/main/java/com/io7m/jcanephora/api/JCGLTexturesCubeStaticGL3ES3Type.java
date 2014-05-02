@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,14 +16,10 @@
 
 package com.io7m.jcanephora.api;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.TextureCubeStatic;
+import com.io7m.jcanephora.TextureCubeStaticType;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
-import com.io7m.jcanephora.TextureFormat;
 import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
@@ -35,16 +31,17 @@ import com.io7m.jcanephora.TextureWrapT;
  * </p>
  */
 
-public interface JCGLTexturesCubeStaticGL3ES3 extends
-  JCGLTexturesCubeStaticGL2ES3
+public interface JCGLTexturesCubeStaticGL3ES3Type extends
+  JCGLTexturesCubeStaticGL2ES3Type
 {
   /**
    * <p>
    * Allocate a depth texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_DEPTH_16_2BPP} for the precise format
-   * of the texture.
+   * See
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_DEPTH_16_2BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -90,39 +87,28 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateDepth16(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateDepth16(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate a depth texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_DEPTH_24_4BPP} for the precise format
-   * of the texture.
+   * See
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_DEPTH_24_4BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -168,39 +154,28 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateDepth24(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateDepth24(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate a depth texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP} for the
-   * precise format of the texture.
+   * See
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -246,39 +221,28 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateDepth24Stencil8(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateDepth24Stencil8(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate a depth texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_DEPTH_32F_4BPP} for the precise
-   * format of the texture.
+   * See
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_DEPTH_32F_4BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -324,39 +288,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateDepth32f(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateDepth32f(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an R texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_R_16F_2BPP} for the precise format of
-   * the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_R_16F_2BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -402,39 +354,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateR16f(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateR16f(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an R texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_R_16I_2BPP} for the precise format of
-   * the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_R_16I_2BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -480,39 +420,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateR16I(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateR16I(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an R texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_R_16U_2BPP} for the precise format of
-   * the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_R_16U_2BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -558,39 +486,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateR16U(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateR16U(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an R texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_R_32F_4BPP} for the precise format of
-   * the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_R_32F_4BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -636,39 +552,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateR32f(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateR32f(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an R texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_R_32I_4BPP} for the precise format of
-   * the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_R_32I_4BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -714,39 +618,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateR32I(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateR32I(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an R texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_R_32U_4BPP} for the precise format of
-   * the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_R_32U_4BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -792,39 +684,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateR32U(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateR32U(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an R texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_R_8_1BPP} for the precise format of
-   * the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_R_8_1BPP} for
+   * the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -870,39 +750,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateR8(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateR8(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an R texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_R_8I_1BPP} for the precise format of
-   * the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_R_8I_1BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -948,39 +816,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateR8I(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateR8I(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an R texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_R_8U_1BPP} for the precise format of
-   * the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_R_8U_1BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -1026,39 +882,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateR8U(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateR8U(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RG texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RG_16F_4BPP} for the precise format
-   * of the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RG_16F_4BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -1104,39 +948,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRG16f(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRG16f(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RG texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RG_16I_4BPP} for the precise format
-   * of the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RG_16I_4BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -1182,39 +1014,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRG16I(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRG16I(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RG texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RG_16U_4BPP} for the precise format
-   * of the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RG_16U_4BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -1260,39 +1080,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRG16U(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRG16U(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RG texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RG_32F_8BPP} for the precise format
-   * of the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RG_32F_8BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -1338,39 +1146,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRG32f(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRG32f(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RG texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RG_32I_8BPP} for the precise format
-   * of the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RG_32I_8BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -1416,39 +1212,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRG32I(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRG32I(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RG texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RG_32U_8BPP} for the precise format
-   * of the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RG_32U_8BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -1494,39 +1278,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRG32U(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRG32U(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RG texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RG_8_2BPP} for the precise format of
-   * the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RG_8_2BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -1572,39 +1344,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRG8(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRG8(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RG texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RG_8I_2BPP} for the precise format of
-   * the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RG_8I_2BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -1650,39 +1410,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRG8I(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRG8I(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RG texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RG_8U_2BPP} for the precise format of
-   * the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RG_8U_2BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -1728,39 +1476,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRG8U(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRG8U(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGB texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RGB_16F_6BPP} for the precise format
-   * of the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGB_16F_6BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -1806,39 +1542,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRGB16f(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRGB16f(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGB texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RGB_16I_6BPP} for the precise format
-   * of the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGB_16I_6BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -1884,39 +1608,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRGB16I(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRGB16I(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGB texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RGB_16U_6BPP} for the precise format
-   * of the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGB_16U_6BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -1962,39 +1674,28 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRGB16U(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRGB16U(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGB texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RGB_32F_12BPP} for the precise format
-   * of the texture.
+   * See
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGB_32F_12BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -2040,39 +1741,28 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRGB32f(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRGB32f(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGB texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RGB_32I_12BPP} for the precise format
-   * of the texture.
+   * See
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGB_32I_12BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -2118,39 +1808,28 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRGB32I(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRGB32I(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGB texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RGB_32U_12BPP} for the precise format
-   * of the texture.
+   * See
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGB_32U_12BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -2196,37 +1875,25 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRGB32U(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRGB32U(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGB texture of width/height <code>size</code>. See
-   * {@link TextureFormat#TEXTURE_FORMAT_RGB_8_3BPP} for the precise format of the
-   * texture.
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGB_8_3BPP} for
+   * the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -2272,39 +1939,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  @Override public  TextureCubeStatic textureCubeStaticAllocateRGB8(
-    final  String name,
+  @Override TextureCubeStaticType textureCubeStaticAllocateRGB8(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGB texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RGB_8I_3BPP} for the precise format
-   * of the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGB_8I_3BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -2350,39 +2005,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRGB8I(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRGB8I(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGB texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RGB_8U_3BPP} for the precise format
-   * of the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGB_8U_3BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -2428,39 +2071,28 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRGB8U(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRGB8U(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGBA texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RGBA_16F_8BPP} for the precise format
-   * of the texture.
+   * See
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGBA_16F_8BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -2506,39 +2138,28 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRGBA16f(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRGBA16f(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGBA texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RGBA_16I_8BPP} for the precise format
-   * of the texture.
+   * See
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGBA_16I_8BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -2584,39 +2205,28 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRGBA16I(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRGBA16I(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGBA texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RGBA_16U_8BPP} for the precise format
-   * of the texture.
+   * See
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGBA_16U_8BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -2662,39 +2272,28 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRGBA16U(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRGBA16U(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGBA texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RGBA_32F_16BPP} for the precise
-   * format of the texture.
+   * See
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGBA_32F_16BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -2740,39 +2339,28 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRGBA32f(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRGBA32f(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGBA texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RGBA_32I_16BPP} for the precise
-   * format of the texture.
+   * See
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGBA_32I_16BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -2818,39 +2406,28 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRGBA32I(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRGBA32I(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGBA texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RGBA_32U_16BPP} for the precise
-   * format of the texture.
+   * See
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGBA_32U_16BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -2896,37 +2473,25 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRGBA32U(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRGBA32U(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGBA texture of width/height <code>size</code>. See
-   * {@link TextureFormat#TEXTURE_FORMAT_RGBA_8_4BPP} for the precise format of
-   * the texture.
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGBA_8_4BPP} for
+   * the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -2972,39 +2537,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  @Override public  TextureCubeStatic textureCubeStaticAllocateRGBA8(
-    final  String name,
+  @Override TextureCubeStaticType textureCubeStaticAllocateRGBA8(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGBA texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RGBA_8I_4BPP} for the precise format
-   * of the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGBA_8I_4BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -3050,39 +2603,27 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRGBA8I(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRGBA8I(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGBA texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_FORMAT_RGBA_8U_4BPP} for the precise format
-   * of the texture.
+   * See {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGBA_8U_4BPP}
+   * for the precise format of the texture.
    * </p>
    * <p>
    * The texture is wrapped around the <code>r</code> axis using the wrapping
@@ -3128,30 +2669,18 @@ public interface JCGLTexturesCubeStaticGL3ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>wrap_r == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; size &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  TextureCubeStatic textureCubeStaticAllocateRGBA8U(
-    final  String name,
+  TextureCubeStaticType textureCubeStaticAllocateRGBA8U(
+    final String name,
     final int size,
-    final  TextureWrapR wrap_r,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
 }

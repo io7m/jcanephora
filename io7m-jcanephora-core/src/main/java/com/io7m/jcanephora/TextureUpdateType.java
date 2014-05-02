@@ -17,11 +17,11 @@
 package com.io7m.jcanephora;
 
 /**
- * The interface supported by types that have writable data that can be
+ * The interface supported by textures that have writable data that can be
  * modified with cursors.
  */
 
-interface TextureWritableDataType
+public interface TextureUpdateType
 {
   /**
    * @return A cursor that points to elements of the texture. The cursor
