@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * Copyright © 2013 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,30 +16,26 @@
 
 package com.io7m.jcanephora.api;
 
-import java.nio.ByteBuffer;
-
-import com.io7m.jcanephora.ArrayBufferType;
-import com.io7m.jcanephora.ArrayBufferUpdateMappedType;
-import com.io7m.jcanephora.ArrayBufferUsableType;
+import com.io7m.jcanephora.IndexBufferReadableMap;
+import com.io7m.jcanephora.IndexBufferType;
+import com.io7m.jcanephora.IndexBufferUpdateMappedType;
+import com.io7m.jcanephora.IndexBufferUsableType;
 import com.io7m.jcanephora.JCGLRuntimeException;
-import com.io7m.jranges.RangeInclusiveL;
 
 /**
- * Simplified interface to memory-mapped array buffers.
+ * Simplified interface to memory-mapped index buffers.
  */
 
-public interface JCGLArrayBuffersMappedType
+public interface JCGLIndexBuffersMapped
 {
   /**
    * <p>
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped read-only. The buffer should be unmapped
    * after use with
-   * {@link JCGLInterfaceGL3#arrayBufferUnmap(ArrayBufferUsableType)}.
-   * </p>
-   * <p>
-   * The "untyped" in the name refers to the fact that the mapped buffer is
-   * returned as a simple byte array.
+   * {@link JCGLInterfaceGL3#indexBufferUnmap(IndexBufferUsableType)}. Note
+   * that the type of indices in the buffer is given by
+   * <code>id.getType()</code>.
    * </p>
    * 
    * @param id
@@ -47,11 +43,19 @@ public interface JCGLArrayBuffersMappedType
    * @return A readable byte buffer.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>id == null</code> .</li>
+   *           <li><code>id</code> does not refer to a valid buffer (possible
+   *           if the buffer has already been deleted).</li>
+   *           </ul>
    */
 
-  ByteBuffer arrayBufferMapReadUntyped(
-    final ArrayBufferUsableType id)
-    throws JCGLRuntimeException;
+  public IndexBufferReadableMap indexBufferMapRead(
+    final IndexBufferUsableType id)
+    throws JCGLRuntimeException,
+      ConstraintError;
 
   /**
    * <p>
@@ -59,11 +63,9 @@ public interface JCGLArrayBuffersMappedType
    * space. The buffer is mapped read-only. Only elements in the range
    * described by <code>range</code> will be mapped. The buffer should be
    * unmapped after use with
-   * {@link JCGLInterfaceGL3#arrayBufferUnmap(ArrayBufferUsableType)}.
-   * </p>
-   * <p>
-   * The "untyped" in the name refers to the fact that the mapped buffer is
-   * returned as a simple byte array.
+   * {@link JCGLInterfaceGL3#indexBufferUnmap(IndexBufferUsableType)}. Note
+   * that the type of indices in the buffer is given by
+   * <code>id.getType()</code>.
    * </p>
    * 
    * @param id
@@ -73,23 +75,33 @@ public interface JCGLArrayBuffersMappedType
    * @return A readable byte buffer.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
-   * 
+   * @throws ConstraintError
+   *           Iff any of the following hold:
+   *           <ul>
+   *           <li><code>id == null || range == null</code> .</li>
+   *           <li><code>id</code> does not refer to a valid buffer (possible
+   *           if the buffer has already been deleted).</li>
+   *           <li><code>range</code> is not included in
+   *           <code>id.getRange()</code>.
+   *           </ul>
    * @see RangeInclusive#isIncludedIn(RangeInclusive)
    */
 
-  ByteBuffer arrayBufferMapReadUntypedRange(
-    final ArrayBufferUsableType id,
-    final RangeInclusiveL range)
-    throws JCGLRuntimeException;
+  public IndexBufferReadableMap indexBufferMapReadRange(
+    final IndexBufferUsableType id,
+    final RangeInclusive range)
+    throws JCGLRuntimeException,
+      ConstraintError;
 
   /**
    * <p>
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped write-only. The buffer should be unmapped
    * after use with
-   * {@link JCGLInterfaceGL3#arrayBufferUnmap(ArrayBufferUsableType)}. The
-   * previous contents of the buffer are discarded before mapping, to prevent
-   * pipeline stalls.
+   * {@link JCGLInterfaceGL3#indexBufferUnmap(IndexBufferUsableType)}. Note
+   * that the type of indices in the buffer is given by
+   * <code>id.getType()</code>. The previous contents of the buffer are
+   * discarded to prevent pipeline stalls.
    * </p>
    * 
    * @param id
@@ -99,23 +111,22 @@ public interface JCGLArrayBuffersMappedType
    *           Iff an OpenGL exception occurs.
    */
 
-  ArrayBufferUpdateMappedType arrayBufferMapWrite(
-    final ArrayBufferType id)
+  IndexBufferUpdateMappedType indexBufferMapWrite(
+    final IndexBufferType id)
     throws JCGLRuntimeException;
 
   /**
    * <p>
-   * Unmap the array buffer specified by <code>id</code>.
+   * Unmap the index buffer specified by <code>id</code>.
    * </p>
    * 
    * @param id
-   *          The array buffer.
-   * 
+   *          The index buffer.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
-  void arrayBufferUnmap(
-    final ArrayBufferUsableType id)
+  void indexBufferUnmap(
+    final IndexBufferUsableType id)
     throws JCGLRuntimeException;
 }

@@ -21,7 +21,6 @@ import com.io7m.jcanephora.ArrayBufferUpdateUnmappedType;
 import com.io7m.jcanephora.ArrayBufferUsableType;
 import com.io7m.jcanephora.ArrayDescriptor;
 import com.io7m.jcanephora.JCGLRuntimeException;
-import com.io7m.jcanephora.JCGLShadersCommon;
 import com.io7m.jcanephora.UsageHint;
 
 /**
