@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,25 +16,22 @@
 
 package com.io7m.jcanephora.api;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.CubeMapFaceLH;
 import com.io7m.jcanephora.CubeMapFaceRH;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.TextureCubeStatic;
-import com.io7m.jcanephora.TextureCubeStaticUsable;
+import com.io7m.jcanephora.TextureCubeStaticType;
+import com.io7m.jcanephora.TextureCubeStaticUsableType;
 import com.io7m.jcanephora.TextureCubeWritableData;
 import com.io7m.jcanephora.TextureUnitType;
 
 /**
  * <p>
- * Type-safe interface to the set of cube texture types guaranteed to be
- * supported by all OpenGL implementations.
+ * Type-safe interface to the set of functions and cube texture types
+ * guaranteed to be supported by all OpenGL implementations.
  * </p>
  */
 
-public interface JCGLTexturesCubeStaticCommon
+public interface JCGLTexturesCubeStaticCommonType
 {
   /**
    * Bind the texture <code>texture</code> to the texture unit
@@ -44,68 +41,46 @@ public interface JCGLTexturesCubeStaticCommon
    *          The texture unit.
    * @param texture
    *          The texture.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>unit == null</code>.</li>
-   *           <li><code>texture == null</code>.</li>
-   *           <li><code>texture</code> does not refer to a valid texture
-   *           (possible if the texture has already been deleted).</li>
-   *           </ul>
+   * 
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void textureCubeStaticBind(
-    final  TextureUnitType unit,
-    final  TextureCubeStaticUsable texture)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureUnitType unit,
+    final TextureCubeStaticUsableType texture)
+    throws JCGLExceptionRuntime;
 
   /**
    * Deletes the texture referenced by <code>texture</code>.
    * 
    * @param texture
    *          The texture.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>texture == null</code>.</li>
-   *           <li><code>texture</code> does not refer to a valid texture
-   *           (possible if the texture has already been deleted).</li>
-   *           </ul>
+   * 
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void textureCubeStaticDelete(
-    final  TextureCubeStatic texture)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureCubeStaticType texture)
+    throws JCGLExceptionRuntime;
 
   /**
-   * Return <code>true</code> iff the texture <code>texture</code> is bound to
-   * the texture unit <code>unit</code>.
+   * @return <code>true</code> iff the texture <code>texture</code> is bound
+   *         to the texture unit <code>unit</code>.
    * 
    * @param unit
    *          The texture unit.
    * @param texture
-   *          The texture. Iff any of the following hold:
-   *          <ul>
-   *          <li><code>unit == null</code>.</li>
-   *          <li><code>texture == null</code>.</li>
-   *          <li><code>texture</code> does not refer to a valid texture
-   *          (possible if the texture has already been deleted).</li>
-   *          </ul>
+   *          The texture.
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   boolean textureCubeStaticIsBound(
-    final  TextureUnitType unit,
-    final  TextureCubeStaticUsable texture)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureUnitType unit,
+    final TextureCubeStaticUsableType texture)
+    throws JCGLExceptionRuntime;
 
   /**
    * Unbind whatever cube map texture is bound to the texture unit
@@ -113,19 +88,14 @@ public interface JCGLTexturesCubeStaticCommon
    * 
    * @param unit
    *          The texture unit.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>unit == null</code>.</li>
-   *           </ul>
+   * 
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void textureCubeStaticUnbind(
-    final  TextureUnitType unit)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureUnitType unit)
+    throws JCGLExceptionRuntime;
 
   /**
    * Replace the contents (or part of the contents) of the face
@@ -138,20 +108,14 @@ public interface JCGLTexturesCubeStaticCommon
    * @param data
    *          The data to upload.
    * 
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>face == null || data == null</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void textureCubeStaticUpdateLH(
-    final  CubeMapFaceLH face,
-    final  TextureCubeWritableData data)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final CubeMapFaceLH face,
+    final TextureCubeWritableData data)
+    throws JCGLExceptionRuntime;
 
   /**
    * Replace the contents (or part of the contents) of the face
@@ -164,18 +128,12 @@ public interface JCGLTexturesCubeStaticCommon
    * @param data
    *          The data to upload.
    * 
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>face == null || data == null</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   void textureCubeStaticUpdateRH(
-    final  CubeMapFaceRH face,
-    final  TextureCubeWritableData data)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final CubeMapFaceRH face,
+    final TextureCubeWritableData data)
+    throws JCGLExceptionRuntime;
 }

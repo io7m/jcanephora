@@ -16,13 +16,10 @@
 
 package com.io7m.jcanephora.api;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.Texture2DStaticType;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
-import com.io7m.jcanephora.TextureFormat;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 
@@ -33,13 +30,14 @@ import com.io7m.jcanephora.TextureWrapT;
  * </p>
  */
 
-public interface JCGLTextures2DStaticGL2ES3 extends
+public interface JCGLTextures2DStaticGL2ES3Type extends
   JCGLTextures2DStaticCommonType
 {
   /**
    * <p>
    * Allocate an RGB texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureFormat#TEXTURE_FORMAT_RGB_8_3BPP} for
+   * <code>height</code>. See
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGB_8_3BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -63,7 +61,7 @@ public interface JCGLTextures2DStaticGL2ES3 extends
    * <code>TEXTURE_FILTER_LINEAR</code>.
    * </p>
    * 
-   * @see TextureFormat#TEXTURE_FORMAT_RGB_8_3BPP
+   * @see com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGB_8_3BPP
    * 
    * @param name
    *          The name of the texture.
@@ -82,36 +80,25 @@ public interface JCGLTextures2DStaticGL2ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
-   *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  Texture2DStatic texture2DStaticAllocateRGB8(
-    final  String name,
+  Texture2DStaticType texture2DStaticAllocateRGB8(
+    final String name,
     int width,
     int height,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 
   /**
    * <p>
    * Allocate an RGBA texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureFormat#TEXTURE_FORMAT_RGBA_8_4BPP} for
+   * <code>height</code>. See
+   * {@link com.io7m.jcanephora.TextureFormat#TEXTURE_FORMAT_RGBA_8_4BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -152,30 +139,17 @@ public interface JCGLTextures2DStaticGL2ES3 extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws ConstraintError
-   *           Iff any of the following conditions hold:
-   *           <ul>
-   *           <li><code>name == null</code></li>
-   *           <li><code>wrap_s == null</code></li>
-   *           <li><code>wrap_t == null</code></li>
-   *           <li><code>min_filter == null</code></li>
-   *           <li><code>mag_filter == null</code></li>
-   *           <li><code>1 &lt; width &lt; Integer.MAX_VALUE</code></li>
-   *           <li><code>1 &lt; height &lt; Integer.MAX_VALUE</code></li>
-   *           </ul>
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
-  public  Texture2DStatic texture2DStaticAllocateRGBA8(
-    final  String name,
+  Texture2DStaticType texture2DStaticAllocateRGBA8(
+    final String name,
     int width,
     int height,
-    final  TextureWrapS wrap_s,
-    final  TextureWrapT wrap_t,
-    final  TextureFilterMinification min_filter,
-    final  TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime;
-
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime;
 }

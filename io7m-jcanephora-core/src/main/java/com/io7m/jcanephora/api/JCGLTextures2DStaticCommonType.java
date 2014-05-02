@@ -19,7 +19,7 @@ package com.io7m.jcanephora.api;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.Texture2DStaticType;
 import com.io7m.jcanephora.Texture2DStaticUsableType;
-import com.io7m.jcanephora.Texture2DWritableData;
+import com.io7m.jcanephora.Texture2DStaticUpdate;
 import com.io7m.jcanephora.TextureUnitType;
 
 /**
@@ -102,6 +102,6 @@ public interface JCGLTextures2DStaticCommonType
    */
 
   void texture2DStaticUpdate(
-    final Texture2DWritableData data)
+    final Texture2DStaticUpdate data)
     throws JCGLExceptionRuntime;
 }

@@ -16,34 +16,30 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.junreachable.UnreachableCodeException;
 
 final class JCGLExtensionNames
 {
-  static final  String GL_EXT_PACKED_DEPTH_STENCIL    =
-                                                                "GL_EXT_packed_depth_stencil";
-  static final  String GL_EXT_FRAMEBUFFER_BLIT        =
-                                                                "GL_EXT_framebuffer_blit";
-  static final  String GL_EXT_FRAMEBUFFER_MULTISAMPLE =
-                                                                "GL_EXT_framebuffer_multisample";
-  static final  String GL_EXT_FRAMEBUFFER_OBJECT      =
-                                                                "GL_EXT_framebuffer_object";
-  static final  String GL_ARB_FRAMEBUFFER_OBJECT      =
-                                                                "GL_ARB_framebuffer_object";
-  static final  String GL_OES_DEPTH_TEXTURE_CUBE_MAP  =
-                                                                "GL_OES_depth_texture_cube_map";
-  static final  String GL_ARB_DEPTH_TEXTURE           =
-                                                                "GL_ARB_depth_texture";
-  static final  String GL_OES_DEPTH_TEXTURE           =
-                                                                "GL_OES_depth_texture";
-  static final  String GL_OES_PACKED_DEPTH_STENCIL    =
-                                                                "GL_OES_packed_depth_stencil";
-  static final  String GL_EXT_COLOR_BUFFER_FLOAT      =
-                                                                "GL_EXT_color_buffer_float";
-  static final  String GL_EXT_COLOR_BUFFER_HALF_FLOAT =
-                                                                "GL_EXT_color_buffer_half_float";
+  static final String GL_EXT_PACKED_DEPTH_STENCIL    =
+                                                       "GL_EXT_packed_depth_stencil";
+  static final String GL_EXT_FRAMEBUFFER_BLIT        =
+                                                       "GL_EXT_framebuffer_blit";
+  static final String GL_EXT_FRAMEBUFFER_MULTISAMPLE =
+                                                       "GL_EXT_framebuffer_multisample";
+  static final String GL_EXT_FRAMEBUFFER_OBJECT      =
+                                                       "GL_EXT_framebuffer_object";
+  static final String GL_ARB_FRAMEBUFFER_OBJECT      =
+                                                       "GL_ARB_framebuffer_object";
+  static final String GL_OES_DEPTH_TEXTURE_CUBE_MAP  =
+                                                       "GL_OES_depth_texture_cube_map";
+  static final String GL_ARB_DEPTH_TEXTURE           = "GL_ARB_depth_texture";
+  static final String GL_OES_DEPTH_TEXTURE           = "GL_OES_depth_texture";
+  static final String GL_OES_PACKED_DEPTH_STENCIL    =
+                                                       "GL_OES_packed_depth_stencil";
+  static final String GL_EXT_COLOR_BUFFER_FLOAT      =
+                                                       "GL_EXT_color_buffer_float";
+  static final String GL_EXT_COLOR_BUFFER_HALF_FLOAT =
+                                                       "GL_EXT_color_buffer_half_float";
 
   private JCGLExtensionNames()
   {

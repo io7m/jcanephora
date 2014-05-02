@@ -72,9 +72,8 @@ import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.Texture2DStaticUsableType;
-import com.io7m.jcanephora.Texture2DWritableData;
-import com.io7m.jcanephora.TextureCubeStatic;
-import com.io7m.jcanephora.TextureCubeStaticUsable;
+import com.io7m.jcanephora.Texture2DStaticUpdate;
+import com.io7m.jcanephora.TextureCubeStaticUsableType;
 import com.io7m.jcanephora.TextureCubeWritableData;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
@@ -796,7 +795,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public void framebufferDrawAttachColorTextureCube(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull TextureCubeStaticUsable texture,
+    final @Nonnull TextureCubeStaticUsableType texture,
     final @Nonnull CubeMapFaceLH face)
     throws JCGLExceptionRuntime,
       ConstraintError
@@ -815,7 +814,7 @@ import com.io7m.jtensors.VectorReadable4I;
   @Override public void framebufferDrawAttachColorTextureCubeAt(
     final @Nonnull FramebufferReference framebuffer,
     final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull TextureCubeStaticUsable texture,
+    final @Nonnull TextureCubeStaticUsableType texture,
     final @Nonnull CubeMapFaceLH face)
     throws JCGLExceptionRuntime,
       ConstraintError
@@ -2841,7 +2840,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void texture2DStaticUpdate(
-    final @Nonnull Texture2DWritableData data)
+    final @Nonnull Texture2DStaticUpdate data)
     throws ConstraintError,
       JCGLExceptionRuntime
   {
@@ -2849,7 +2848,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateDepth16(
       final @Nonnull String name,
       final int size,
@@ -2876,7 +2875,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateDepth24(
       final @Nonnull String name,
       final int size,
@@ -2903,7 +2902,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateDepth24Stencil8(
       final @Nonnull String name,
       final int size,
@@ -2930,7 +2929,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateDepth32f(
       final @Nonnull String name,
       final int size,
@@ -2956,7 +2955,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateR16f(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateR16f(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -2981,7 +2980,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateR16I(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateR16I(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3006,7 +3005,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateR16U(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateR16U(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3031,7 +3030,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateR32f(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateR32f(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3056,7 +3055,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateR32I(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateR32I(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3081,7 +3080,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateR32U(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateR32U(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3106,7 +3105,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateR8(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateR8(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3131,7 +3130,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateR8I(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateR8I(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3156,7 +3155,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateR8U(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateR8U(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3181,7 +3180,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG16f(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRG16f(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3206,7 +3205,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG16I(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRG16I(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3231,7 +3230,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG16U(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRG16U(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3256,7 +3255,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG32f(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRG32f(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3281,7 +3280,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG32I(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRG32I(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3306,7 +3305,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG32U(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRG32U(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3331,7 +3330,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG8(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRG8(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3356,7 +3355,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG8I(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRG8I(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3381,7 +3380,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRG8U(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRG8U(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3407,7 +3406,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateRGB16f(
       final @Nonnull String name,
       final int size,
@@ -3434,7 +3433,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateRGB16I(
       final @Nonnull String name,
       final int size,
@@ -3461,7 +3460,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateRGB16U(
       final @Nonnull String name,
       final int size,
@@ -3488,7 +3487,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateRGB32f(
       final @Nonnull String name,
       final int size,
@@ -3515,7 +3514,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateRGB32I(
       final @Nonnull String name,
       final int size,
@@ -3542,7 +3541,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateRGB32U(
       final @Nonnull String name,
       final int size,
@@ -3569,7 +3568,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateRGB565(
       final @Nonnull String name,
       final int size,
@@ -3595,7 +3594,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB8(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRGB8(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3620,7 +3619,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB8I(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRGB8I(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3645,7 +3644,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGB8U(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRGB8U(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3671,7 +3670,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateRGBA16f(
       final @Nonnull String name,
       final int size,
@@ -3698,7 +3697,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateRGBA16I(
       final @Nonnull String name,
       final int size,
@@ -3725,7 +3724,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateRGBA16U(
       final @Nonnull String name,
       final int size,
@@ -3752,7 +3751,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateRGBA32f(
       final @Nonnull String name,
       final int size,
@@ -3779,7 +3778,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateRGBA32I(
       final @Nonnull String name,
       final int size,
@@ -3806,7 +3805,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateRGBA32U(
       final @Nonnull String name,
       final int size,
@@ -3833,7 +3832,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateRGBA4444(
       final @Nonnull String name,
       final int size,
@@ -3860,7 +3859,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateRGBA5551(
       final @Nonnull String name,
       final int size,
@@ -3886,7 +3885,7 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull TextureCubeStatic textureCubeStaticAllocateRGBA8(
+  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRGBA8(
     final @Nonnull String name,
     final int size,
     final @Nonnull TextureWrapR wrap_r,
@@ -3912,7 +3911,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateRGBA8I(
       final @Nonnull String name,
       final int size,
@@ -3939,7 +3938,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    TextureCubeStatic
+    JOGLTextureCubeStatic
     textureCubeStaticAllocateRGBA8U(
       final @Nonnull String name,
       final int size,
@@ -3967,7 +3966,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public void textureCubeStaticBind(
     final @Nonnull TextureUnitType unit,
-    final @Nonnull TextureCubeStaticUsable texture)
+    final @Nonnull TextureCubeStaticUsableType texture)
     throws ConstraintError,
       JCGLExceptionRuntime
   {
@@ -3978,7 +3977,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void textureCubeStaticDelete(
-    final @Nonnull TextureCubeStatic texture)
+    final @Nonnull JOGLTextureCubeStatic texture)
     throws ConstraintError,
       JCGLExceptionRuntime
   {
@@ -3991,7 +3990,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public boolean textureCubeStaticIsBound(
     final @Nonnull TextureUnitType unit,
-    final @Nonnull TextureCubeStaticUsable texture)
+    final @Nonnull TextureCubeStaticUsableType texture)
     throws ConstraintError,
       JCGLExceptionRuntime
   {

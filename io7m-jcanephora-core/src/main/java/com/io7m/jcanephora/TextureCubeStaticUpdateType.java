@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,28 +14,14 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.api;
-
+package com.io7m.jcanephora;
 
 /**
- * <p>
- * The interface exposed by OpenGL ES3 implementations.
- * </p>
+ * The interface supported by static cube textures that have writable data
+ * that can be modified with cursors.
  */
 
-public interface JCGLInterfaceGLES3 extends
-  JCGLArrayBuffersMappedType,
-  JCGLBlendingGL3Type,
-  JCGLExtensionsGLES3,
-  JCGLFramebuffersGL3,
-  JCGLIndexBuffersMapped,
-  JCGLInterfaceCommon,
-  JCGLRenderbuffersGLES3,
-  JCGLShadersGLES3,
-  JCGLTextures2DStaticGLES3Type,
-  JCGLTexturesCubeStaticGLES3Type
+public interface TextureCubeStaticUpdateType extends TextureUpdateType
 {
-  /*
-   * All functions defined in the superinterfaces.
-   */
+  // No extra functions.
 }

@@ -32,7 +32,7 @@ import com.io7m.jcanephora.RenderableStencilKind;
 import com.io7m.jcanephora.RenderbufferFormat;
 import com.io7m.jcanephora.RenderbufferUsableType;
 import com.io7m.jcanephora.Texture2DStaticUsableType;
-import com.io7m.jcanephora.TextureCubeStaticUsable;
+import com.io7m.jcanephora.TextureCubeStaticUsableType;
 
 /**
  * Simplified interface to the subset of framebuffer functionality available
@@ -187,7 +187,7 @@ public interface JCGLFramebuffersCommon
 
   void framebufferDrawAttachColorTextureCube(
     final FramebufferType framebuffer,
-    final TextureCubeStaticUsable texture,
+    final TextureCubeStaticUsableType texture,
     final CubeMapFaceLH face)
     throws JCGLExceptionRuntime,
       ConstraintError;

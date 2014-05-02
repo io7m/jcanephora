@@ -28,8 +28,8 @@ public interface JCGLInterfaceGLES2 extends
   JCGLInterfaceCommon,
   JCGLRenderbuffersGLES2,
   JCGLShadersGLES2,
-  JCGLTextures2DStaticGLES2,
-  JCGLTexturesCubeStaticGLES2
+  JCGLTextures2DStaticGLES2Type,
+  JCGLTexturesCubeStaticGLES2Type
 {
   /*
    * All functions defined in the superinterfaces.

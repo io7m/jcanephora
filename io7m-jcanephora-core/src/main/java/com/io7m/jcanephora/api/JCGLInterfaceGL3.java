@@ -34,8 +34,8 @@ public interface JCGLInterfaceGL3 extends
   JCGLPolygonSmoothingType,
   JCGLRenderbuffersGL3,
   JCGLShadersGL3,
-  JCGLTextures2DStaticGL3,
-  JCGLTexturesCubeStaticGL3
+  JCGLTextures2DStaticGL3Type,
+  JCGLTexturesCubeStaticGL3Type
 {
   /*
    * All functions defined in the superinterfaces.
