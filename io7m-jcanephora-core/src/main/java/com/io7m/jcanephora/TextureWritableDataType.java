@@ -175,6 +175,6 @@ interface TextureWritableDataType
    * @return The type of the underlying texture.
    */
 
-  TextureType getType();
+  TextureFormat getType();
 
 }

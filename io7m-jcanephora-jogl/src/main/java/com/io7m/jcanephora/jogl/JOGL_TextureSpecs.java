@@ -24,13 +24,13 @@ import javax.media.opengl.GL2ES3;
 import javax.media.opengl.GL2GL3;
 
 import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jcanephora.PixelType;
-import com.io7m.jcanephora.TextureType;
+import com.io7m.jcanephora.PixelFormat;
+import com.io7m.jcanephora.TextureFormat;
 
 /**
  * Getting the correct combinations of "format", "type", and "internalformat"
  * across different versions of OpenGL is complex. This file describes the
- * mappings between {@link TextureType} values and OpenGL's insane texture API
+ * mappings between {@link TextureFormat} values and OpenGL's insane texture API
  * formats.
  */
 
@@ -54,9 +54,9 @@ final class JOGL_TextureSpecs
   }
 
   static @Nonnull TextureSpec getGL3TextureSpec(
-    final @Nonnull TextureType type)
+    final @Nonnull TextureFormat type)
   {
-    PixelType ct = type.getComponentType();
+    PixelFormat ct = type.getComponentType();
     switch (ct) {
       case PIXEL_PACKED_UNSIGNED_INT_1010102:
 
@@ -64,7 +64,7 @@ final class JOGL_TextureSpecs
          * 1010102 has to be re-mapped to unsigned bytes on GL3.
          */
 
-        ct = PixelType.PIXEL_COMPONENT_UNSIGNED_BYTE;
+        ct = PixelFormat.PIXEL_COMPONENT_UNSIGNED_BYTE;
         break;
       case PIXEL_COMPONENT_BYTE:
       case PIXEL_COMPONENT_FLOAT:
@@ -376,7 +376,7 @@ final class JOGL_TextureSpecs
   }
 
   static @Nonnull TextureSpec getGLES2TextureSpec(
-    final @Nonnull TextureType type)
+    final @Nonnull TextureFormat type)
   {
     final int gl_type =
       JOGL_GLTypeConversions.pixelTypeToGL(type.getComponentType());
@@ -481,7 +481,7 @@ final class JOGL_TextureSpecs
   }
 
   static @Nonnull TextureSpec getGLES3TextureSpec(
-    final @Nonnull TextureType type)
+    final @Nonnull TextureFormat type)
   {
     final int gl_type =
       JOGL_GLTypeConversions.pixelTypeToGL(type.getComponentType());

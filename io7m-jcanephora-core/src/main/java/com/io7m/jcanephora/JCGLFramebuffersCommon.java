@@ -21,6 +21,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.jogl.FramebufferReference;
 
 /**
  * Simplified interface to the subset of framebuffer functionality available
@@ -86,7 +87,7 @@ public interface JCGLFramebuffersCommon
    * only attached color buffer (if any).
    * </p>
    * 
-   * @see RenderbufferType#isColorRenderable()
+   * @see RenderbufferFormat#isColorRenderable()
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
@@ -189,7 +190,7 @@ public interface JCGLFramebuffersCommon
    * The function will replace any existing depth attachment.
    * </p>
    * 
-   * @see RenderbufferType#isDepthRenderable()
+   * @see RenderbufferFormat#isDepthRenderable()
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
@@ -252,7 +253,7 @@ public interface JCGLFramebuffersCommon
    * The function will replace any existing stencil attachment.
    * </p>
    * 
-   * @see RenderbufferType#isStencilRenderable()
+   * @see RenderbufferFormat#isStencilRenderable()
    * @throws ConstraintError
    *           Iff any of the following hold:
    *           <ul>
@@ -290,7 +291,7 @@ public interface JCGLFramebuffersCommon
    */
 
   void framebufferDrawBind(
-    final  FramebufferReferenceUsableType framebuffer)
+    final  FramebufferUsableType framebuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -311,7 +312,7 @@ public interface JCGLFramebuffersCommon
    */
 
   boolean framebufferDrawIsBound(
-    final  FramebufferReferenceUsableType framebuffer)
+    final  FramebufferUsableType framebuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -344,7 +345,7 @@ public interface JCGLFramebuffersCommon
    */
 
    FramebufferStatus framebufferDrawValidate(
-    final  FramebufferReferenceUsableType framebuffer)
+    final  FramebufferUsableType framebuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 

@@ -14,58 +14,29 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.jogl;
 
-import com.io7m.jcanephora.jogl.JCGLResourceDeletable;
+import javax.media.opengl.GLContext;
+
+import com.io7m.jequality.annotations.EqualityStructural;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
-import com.io7m.jranges.RangeCheck;
 
 /**
- * An immutable reference to a vertex shader.
+ * An immutable reference to a fragment shader.
  */
 
-public final class VertexShader extends JCGLResourceDeletable implements
-  JCGLNameType
+@EqualityStructural final class JOGLFragmentShader extends JOGLObjectShared
 {
-  private final int    id;
   private final String name;
 
-  VertexShader(
+  JOGLFragmentShader(
+    final GLContext in_context,
     final int in_id,
     final String in_name)
   {
-    this.id =
-      (int) RangeCheck.checkIncludedIn(
-        in_id,
-        "Shader ID",
-        RangeCheck.POSITIVE_INTEGER,
-        "Valid shaders");
+    super(in_context, in_id);
     this.name = NullCheck.notNull(in_name, "shader file");
-  }
-
-  @Override public boolean equals(
-    final @Nullable Object obj)
-  {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (this.getClass() != obj.getClass()) {
-      return false;
-    }
-    final VertexShader other = (VertexShader) obj;
-    if (this.id != other.id) {
-      return false;
-    }
-    return this.name.equals(other.name);
-  }
-
-  @Override public int getGLName()
-  {
-    return this.id;
   }
 
   /**
@@ -81,15 +52,37 @@ public final class VertexShader extends JCGLResourceDeletable implements
   {
     final int prime = 31;
     int result = 1;
-    result = (prime * result) + this.id;
+    result = (prime * result) + this.getGLName();
     result = (prime * result) + this.name.hashCode();
     return result;
+  }
+
+  @Override public boolean equals(
+    final @Nullable Object obj)
+  {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (this.getClass() != obj.getClass()) {
+      return false;
+    }
+    final JOGLFragmentShader other = (JOGLFragmentShader) obj;
+    if (super.getGLName() != other.getGLName()) {
+      return false;
+    }
+    if (!this.name.equals(other.name)) {
+      return false;
+    }
+    return true;
   }
 
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("[VertexShader ");
+    builder.append("[JOGLFragmentShader ");
     builder.append(this.getGLName());
     builder.append(" \"");
     builder.append(this.getName());

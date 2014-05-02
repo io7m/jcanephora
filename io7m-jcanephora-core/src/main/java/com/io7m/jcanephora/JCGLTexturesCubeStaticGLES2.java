@@ -33,7 +33,7 @@ public interface JCGLTexturesCubeStaticGLES2 extends
   /**
    * <p>
    * Allocate an RGB texture of width/height <code>size</code> . See
-   * {@link TextureType#TEXTURE_TYPE_RGB_565_2BPP} for the precise format of
+   * {@link TextureFormat#TEXTURE_TYPE_RGB_565_2BPP} for the precise format of
    * the texture.
    * </p>
    * <p>
@@ -109,7 +109,7 @@ public interface JCGLTexturesCubeStaticGLES2 extends
   /**
    * <p>
    * Allocate an RGBA texture of width/height <code>size</code>. See
-   * {@link TextureType#TEXTURE_TYPE_RGBA_4444_2BPP} for the precise format of
+   * {@link TextureFormat#TEXTURE_TYPE_RGBA_4444_2BPP} for the precise format of
    * the texture.
    * </p>
    * <p>
@@ -185,7 +185,7 @@ public interface JCGLTexturesCubeStaticGLES2 extends
   /**
    * <p>
    * Allocate an RGBA texture of width/height <code>size</code>. See
-   * {@link TextureType#TEXTURE_TYPE_RGBA_5551_2BPP} for the precise format of
+   * {@link TextureFormat#TEXTURE_TYPE_RGBA_5551_2BPP} for the precise format of
    * the texture.
    * </p>
    * <p>

@@ -16,11 +16,14 @@
 
 package com.io7m.jcanephora;
 
+import com.io7m.jequality.annotations.EqualityStructural;
+
 /**
  * The type of array buffers.
  */
 
-public interface ArrayBufferType extends ArrayBufferUsableType, BufferType
+@EqualityStructural public interface ArrayBufferType extends
+  ArrayBufferUsableType
 {
   // No extra functions.
 }

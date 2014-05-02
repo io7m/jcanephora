@@ -5,15 +5,13 @@ import javax.media.opengl.GL;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
-import com.io7m.jcanephora.FramebufferReference;
 import com.io7m.jcanephora.JCGLExtensionNames;
 import com.io7m.jcanephora.JCGLExtensionPackedDepthStencil;
 import com.io7m.jcanephora.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.JCGLVersion;
-import com.io7m.jcanephora.Renderbuffer;
-import com.io7m.jcanephora.RenderbufferType;
+import com.io7m.jcanephora.RenderbufferFormat;
 import com.io7m.jlog.Log;
 
 /**
@@ -101,19 +99,19 @@ class ExtPackedDepthStencil<G extends GL> implements
   }
 
   @Override public @Nonnull
-    Renderbuffer<RenderableDepthStencil>
+    JOGLRenderbuffer<RenderableDepthStencil>
     renderbufferAllocateDepth24Stencil8(
       final int width,
       final int height)
       throws ConstraintError,
         JCGLRuntimeException
   {
-    return Renderbuffer.unsafeBrandDepthStencil(JOGL_GL_Functions
+    return JOGLRenderbuffer.unsafeBrandDepthStencil(JOGL_GL_Functions
       .renderbufferAllocate(
         this.gl,
         this.cache,
         this.log,
-        RenderbufferType.RENDERBUFFER_DEPTH_24_STENCIL_8,
+        RenderbufferFormat.RENDERBUFFER_DEPTH_24_STENCIL_8,
         width,
         height));
   }

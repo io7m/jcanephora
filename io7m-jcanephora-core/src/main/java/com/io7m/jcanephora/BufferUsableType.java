@@ -22,7 +22,7 @@ import com.io7m.jranges.RangeInclusiveL;
  * Methods common to all OpenGL buffer types.
  */
 
-public interface BufferType extends JCGLNameType, JCGLResourceSizedType
+public interface BufferUsableType extends JCGLNameType, JCGLResourceSizedType
 {
   /**
    * @return The size in bytes of individual elements in the array.

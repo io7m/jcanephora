@@ -22,7 +22,7 @@ package com.io7m.jcanephora;
  * </p>
  */
 
-public enum PixelType
+public enum PixelFormat
 {
   /**
    * 8-bit signed bytes.

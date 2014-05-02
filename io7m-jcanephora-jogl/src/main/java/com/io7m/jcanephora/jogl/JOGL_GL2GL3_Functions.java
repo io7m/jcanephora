@@ -31,16 +31,12 @@ import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.CubeMapFaceLH;
-import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.FramebufferDrawBuffer;
 import com.io7m.jcanephora.JCGLCompileException;
 import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.LogicOperation;
 import com.io7m.jcanephora.PolygonMode;
-import com.io7m.jcanephora.ProgramAttribute;
-import com.io7m.jcanephora.ProgramReference;
-import com.io7m.jcanephora.ProgramUniform;
 import com.io7m.jcanephora.Texture2DReadableData;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.Texture2DStaticUsable;
@@ -51,11 +47,10 @@ import com.io7m.jcanephora.TextureCubeStaticUsable;
 import com.io7m.jcanephora.TextureCubeWritableData;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
-import com.io7m.jcanephora.TextureType;
+import com.io7m.jcanephora.TextureFormat;
 import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
-import com.io7m.jcanephora.VertexShader;
 import com.io7m.jcanephora.jogl.JOGL_TextureSpecs.TextureSpec;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
@@ -136,7 +131,7 @@ final class JOGL_GL2GL3_Functions
     return e;
   }
 
-  static @Nonnull ProgramReference programCreateWithOutputs(
+  static @Nonnull JOGLProgram programCreateWithOutputs(
     final @Nonnull GL2GL3 g,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
@@ -240,13 +235,13 @@ final class JOGL_GL2GL3_Functions
       log.debug(state.log_text.toString());
     }
 
-    final Map<String, ProgramAttribute> attributes =
-      new HashMap<String, ProgramAttribute>();
-    final Map<String, ProgramUniform> uniforms =
-      new HashMap<String, ProgramUniform>();
+    final Map<String, JOGLProgramAttribute> attributes =
+      new HashMap<String, JOGLProgramAttribute>();
+    final Map<String, JOGLProgramUniform> uniforms =
+      new HashMap<String, JOGLProgramUniform>();
 
-    final ProgramReference program =
-      new ProgramReference(id, name, uniforms, attributes);
+    final JOGLProgram program =
+      new JOGLProgram(id, name, uniforms, attributes);
 
     JOGL_GL2ES2_Functions.programGetAttributes(
       g,
@@ -268,7 +263,7 @@ final class JOGL_GL2GL3_Functions
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureType type,
+    final @Nonnull TextureFormat type,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -407,7 +402,7 @@ final class JOGL_GL2GL3_Functions
     final AreaInclusive area = data.targetArea();
     final Texture2DStatic texture = data.getTexture();
 
-    final TextureType type = texture.getType();
+    final TextureFormat type = texture.attributeGetType();
     final int x_offset = (int) area.getRangeX().getLower();
     final int y_offset = (int) area.getRangeY().getLower();
     final int width = (int) area.getRangeX().getInterval();
@@ -436,7 +431,7 @@ final class JOGL_GL2GL3_Functions
     final @Nonnull Log log,
     final @Nonnull String name,
     final int size,
-    final @Nonnull TextureType type,
+    final @Nonnull TextureFormat type,
     final @Nonnull TextureWrapR wrap_r,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
@@ -588,7 +583,7 @@ final class JOGL_GL2GL3_Functions
     final AreaInclusive area = data.targetArea();
     final TextureCubeStatic texture = data.getTexture();
 
-    final TextureType type = texture.getType();
+    final TextureFormat type = texture.attributeGetType();
     final int x_offset = (int) area.getRangeX().getLower();
     final int y_offset = (int) area.getRangeY().getLower();
     final int width = (int) area.getRangeX().getInterval();

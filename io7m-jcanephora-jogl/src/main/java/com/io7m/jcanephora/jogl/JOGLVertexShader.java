@@ -14,32 +14,47 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.jogl;
 
-import com.io7m.jcanephora.jogl.JCGLResourceDeletable;
+import javax.media.opengl.GLContext;
+
+import com.io7m.jequality.annotations.EqualityStructural;
+import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
-import com.io7m.jranges.RangeCheck;
 
 /**
- * <p>
- * An immutable reference to an allocated framebuffer.
- * </p>
+ * An immutable reference to a vertex shader.
  */
 
-public final class FramebufferReference extends JCGLResourceDeletable implements
-  FramebufferReferenceUsableType
+@EqualityStructural final class JOGLVertexShader extends JOGLObjectShared
 {
-  private final int value;
+  private final String name;
 
-  FramebufferReference(
-    final int in_value)
+  JOGLVertexShader(
+    final GLContext in_context,
+    final int in_id,
+    final String in_name)
   {
-    this.value =
-      (int) RangeCheck.checkIncludedIn(
-        in_value,
-        "Framebuffer",
-        RangeCheck.NATURAL_INTEGER,
-        "Valid draw buffers");
+    super(in_context, in_id);
+    this.name = NullCheck.notNull(in_name, "shader file");
+  }
+
+  /**
+   * @return The name associated with the shader.
+   */
+
+  public String getName()
+  {
+    return this.name;
+  }
+
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + this.getGLName();
+    result = (prime * result) + this.name.hashCode();
+    return result;
   }
 
   @Override public boolean equals(
@@ -54,32 +69,24 @@ public final class FramebufferReference extends JCGLResourceDeletable implements
     if (this.getClass() != obj.getClass()) {
       return false;
     }
-    final FramebufferReference other = (FramebufferReference) obj;
-    if (this.value != other.value) {
+    final JOGLVertexShader other = (JOGLVertexShader) obj;
+    if (super.getGLName() != other.getGLName()) {
+      return false;
+    }
+    if (!this.name.equals(other.name)) {
       return false;
     }
     return true;
   }
 
-  @Override public int getGLName()
-  {
-    return this.value;
-  }
-
-  @Override public int hashCode()
-  {
-    final int prime = 31;
-    int result = 1;
-    result = (prime * result) + this.value;
-    return result;
-  }
-
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("[FramebufferReference ");
+    builder.append("[JOGLVertexShader ");
     builder.append(this.getGLName());
-    builder.append("]");
+    builder.append(" \"");
+    builder.append(this.getName());
+    builder.append("\"]");
     final String r = builder.toString();
     assert r != null;
     return r;

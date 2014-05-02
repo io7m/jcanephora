@@ -21,6 +21,9 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.jogl.FragmentShader;
+import com.io7m.jcanephora.jogl.ProgramReference;
+import com.io7m.jcanephora.jogl.VertexShader;
 
 /**
  * The interface to the shading program functionality in OpenGL 3.*.

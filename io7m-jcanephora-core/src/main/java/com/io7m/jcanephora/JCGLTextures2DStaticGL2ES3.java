@@ -33,7 +33,7 @@ public interface JCGLTextures2DStaticGL2ES3 extends
   /**
    * <p>
    * Allocate an RGB texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGB_8_3BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGB_8_3BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -57,7 +57,7 @@ public interface JCGLTextures2DStaticGL2ES3 extends
    * <code>TEXTURE_FILTER_LINEAR</code>.
    * </p>
    * 
-   * @see TextureType#TEXTURE_TYPE_RGB_8_3BPP
+   * @see TextureFormat#TEXTURE_TYPE_RGB_8_3BPP
    * 
    * @param name
    *          The name of the texture.
@@ -105,7 +105,7 @@ public interface JCGLTextures2DStaticGL2ES3 extends
   /**
    * <p>
    * Allocate an RGBA texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGBA_8_4BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGBA_8_4BPP} for
    * the precise format of the texture.
    * </p>
    * <p>

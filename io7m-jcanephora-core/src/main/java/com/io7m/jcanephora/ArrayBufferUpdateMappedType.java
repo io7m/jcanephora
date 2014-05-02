@@ -34,7 +34,11 @@ public interface ArrayBufferUpdateMappedType extends ArrayBufferUpdateType
    *         have needs not addressed by the cursor API.
    *         </p>
    *         <p>
-   *         Use of this buffer is discouraged for safety reasons.
+   *         Use of this buffer is discouraged for safety reasons. For
+   *         example, if the buffer object is unmapped, then this
+   *         {@link ByteBuffer} will point to invalid memory and attempting to
+   *         read from or write to it will typically crash the virtual
+   *         machine.
    *         </p>
    */
 

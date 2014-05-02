@@ -16,16 +16,14 @@
 
 package com.io7m.jcanephora;
 
+import com.io7m.jequality.annotations.EqualityStructural;
+
 /**
- * <p>
- * A read-only interface to the {@link FramebufferReference} type that allows
- * use of the type but not mutation and/or deletion of the contents.
- * </p>
+ * The type of index buffers.
  */
 
-public interface FramebufferReferenceUsableType extends
-  JCGLResourceUsableType,
-  JCGLNameType
+@EqualityStructural public interface IndexBufferType extends
+  IndexBufferUsableType
 {
   // No extra functions.
 }

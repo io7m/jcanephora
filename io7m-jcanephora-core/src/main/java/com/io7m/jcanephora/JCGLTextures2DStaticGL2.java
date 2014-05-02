@@ -33,7 +33,7 @@ public interface JCGLTextures2DStaticGL2 extends JCGLTextures2DStaticGL2ES3
    * <p>
    * Allocate a depth texture of width <code>width</code> and height
    * <code>height</code>. See
-   * {@link TextureType#TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP} for the precise
+   * {@link TextureFormat#TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP} for the precise
    * format of the texture.
    * </p>
    * <p>

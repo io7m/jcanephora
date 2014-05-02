@@ -76,7 +76,7 @@ public interface Texture2DStaticUsable extends
    * Retrieve the type of the texture.
    */
 
-  public  TextureType getType();
+  public  TextureFormat getType();
 
   /**
    * Retrieve the width in pixels of the texture.

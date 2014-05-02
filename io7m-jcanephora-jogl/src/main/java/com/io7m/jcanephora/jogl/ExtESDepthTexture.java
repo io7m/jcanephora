@@ -29,7 +29,7 @@ import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
-import com.io7m.jcanephora.TextureType;
+import com.io7m.jcanephora.TextureFormat;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jlog.Log;
@@ -94,7 +94,7 @@ class ExtESDepthTexture<G extends GL> implements JCGLExtensionESDepthTexture
       name,
       width,
       height,
-      TextureType.TEXTURE_TYPE_DEPTH_16_2BPP,
+      TextureFormat.TEXTURE_TYPE_DEPTH_16_2BPP,
       wrap_s,
       wrap_t,
       min_filter,

@@ -14,25 +14,21 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.jogl;
+package com.io7m.jcanephora;
 
-import com.io7m.jcanephora.JCGLResourceUsableType;
+import com.io7m.jequality.annotations.EqualityStructural;
 
 /**
- * An object containing OpenGL resources that can be deleted.
+ * The type of texture units.
  */
 
-public abstract class JOGLResourceDeletable implements JCGLResourceUsableType
+@EqualityStructural public interface TextureUnitType
 {
-  private boolean deleted;
+  /**
+   * @return The index of the texture unit. This value will be between 0 and
+   *         some implementation-defined exclusive upper limit (usually 16 or
+   *         32 in current implementations).
+   */
 
-  @Override public final boolean resourceIsDeleted()
-  {
-    return this.deleted;
-  }
-
-  final void resourceSetDeleted()
-  {
-    this.deleted = true;
-  }
+  int unitGetIndex();
 }

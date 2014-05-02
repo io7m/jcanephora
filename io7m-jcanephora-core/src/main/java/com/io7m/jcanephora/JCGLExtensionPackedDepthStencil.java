@@ -19,6 +19,8 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.jogl.FramebufferReference;
+import com.io7m.jcanephora.jogl.Renderbuffer;
 
 /**
  * <p>
@@ -39,8 +41,8 @@ public interface JCGLExtensionPackedDepthStencil extends JCGLExtension
    * 
    * The function will replace any existing depth/stencil attachment.
    * 
-   * @see RenderbufferType#isDepthRenderable()
-   * @see RenderbufferType#isStencilRenderable()
+   * @see RenderbufferFormat#isDepthRenderable()
+   * @see RenderbufferFormat#isStencilRenderable()
    * 
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -66,7 +68,7 @@ public interface JCGLExtensionPackedDepthStencil extends JCGLExtension
   /**
    * Allocate a packed depth/stencil renderbuffer.
    * 
-   * See {@link RenderbufferType#RENDERBUFFER_DEPTH_24_STENCIL_8} for the
+   * See {@link RenderbufferFormat#RENDERBUFFER_DEPTH_24_STENCIL_8} for the
    * precise format.
    * 
    * @return A freshly allocated renderbuffer.

@@ -19,6 +19,7 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.jogl.Renderbuffer;
 
 /**
  * Type-safe interface to the renderbuffer API exposed by all OpenGL

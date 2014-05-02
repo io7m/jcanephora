@@ -18,8 +18,6 @@ package com.io7m.jcanephora;
 
 import java.nio.ByteBuffer;
 
-import com.io7m.jcanephora.jogl.ArrayBuffer;
-import com.io7m.jcanephora.jogl.ArrayBufferUpdateMapped;
 import com.io7m.jranges.RangeInclusiveL;
 
 /**
@@ -45,13 +43,6 @@ public interface JCGLArrayBuffersMappedType
    * @return A readable byte buffer.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>id == null</code>.</li>
-   *           <li><code>id</code> does not refer to a valid buffer (possible
-   *           if the buffer has already been deleted).</li>
-   *           </ul>
    */
 
   ByteBuffer arrayBufferMapReadUntyped(
@@ -78,15 +69,7 @@ public interface JCGLArrayBuffersMappedType
    * @return A readable byte buffer.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>id == null || range == null</code>.</li>
-   *           <li><code>id</code> does not refer to a valid buffer (possible
-   *           if the buffer has already been deleted).</li>
-   *           <li><code>range</code> is not included in
-   *           <code>id.getRange()</code>.
-   *           </ul>
+   * 
    * @see RangeInclusive#isIncludedIn(RangeInclusive)
    */
 
@@ -110,17 +93,10 @@ public interface JCGLArrayBuffersMappedType
    * @return A readable byte buffer.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>id == null</code>.</li>
-   *           <li><code>id</code> does not refer to a valid buffer (possible
-   *           if the buffer has already been deleted).</li>
-   *           </ul>
    */
 
-  ArrayBufferUpdateMapped arrayBufferMapWrite(
-    final ArrayBuffer id)
+  ArrayBufferUpdateMappedType arrayBufferMapWrite(
+    final ArrayBufferType id)
     throws JCGLRuntimeException;
 
   /**
@@ -130,13 +106,7 @@ public interface JCGLArrayBuffersMappedType
    * 
    * @param id
    *          The array buffer.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>id == null</code>.</li>
-   *           <li><code>id</code> does not refer to a valid buffer (possible
-   *           if the buffer has already been deleted).</li>
-   *           </ul>
+   * 
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */

@@ -14,9 +14,14 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.jogl;
 
+import com.io7m.jcanephora.JCGLType;
+import com.io7m.jcanephora.ProgramUniformType;
+import com.io7m.jcanephora.ProgramUsableType;
+import com.io7m.jequality.annotations.EqualityStructural;
 import com.io7m.jnull.NullCheck;
+import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
 
 /**
@@ -28,16 +33,17 @@ import com.io7m.jranges.RangeCheck;
  * </p>
  */
 
-public final class ProgramUniform
+@EqualityStructural final class JOGLProgramUniform implements
+  ProgramUniformType
 {
-  private final int                        index;
-  private final int                        location;
-  private final String                     name;
-  private final ProgramReferenceUsableType program;
-  private final JCGLType                   type;
+  private final int               index;
+  private final int               location;
+  private final String            name;
+  private final ProgramUsableType program;
+  private final JCGLType          type;
 
-  ProgramUniform(
-    final ProgramReferenceUsableType in_program,
+  JOGLProgramUniform(
+    final ProgramUsableType in_program,
     final int in_index,
     final int in_location,
     final String in_name,
@@ -60,58 +66,73 @@ public final class ProgramUniform
     this.name = NullCheck.notNull(in_name, "Uniform name");
   }
 
-  /**
-   * @return The raw OpenGL 'location' of the uniform value.
-   */
-
-  public int getLocation()
+  @Override public boolean equals(
+    final @Nullable Object obj)
   {
-    return this.location;
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (this.getClass() != obj.getClass()) {
+      return false;
+    }
+    final JOGLProgramUniform other = (JOGLProgramUniform) obj;
+    return (this.index == other.index)
+      && (this.location == other.location)
+      && (this.name.equals(other.name))
+      && (this.program.equals(other.program))
+      && (this.type == other.type);
   }
 
-  /**
-   * @return The name of the uniform. This is the name of the uniform as
-   *         declared in the respective shading program.
-   */
-
-  public String getName()
+  @Override public int hashCode()
   {
-    return this.name;
-  }
-
-  /**
-   * @return A reference to the program to which the uniform belongs.
-   */
-
-  public ProgramReferenceUsableType getProgram()
-  {
-    return this.program;
-  }
-
-  /**
-   * @return The OpenGL type of the uniform.
-   */
-
-  public JCGLType getType()
-  {
-    return this.type;
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + this.index;
+    result = (prime * result) + this.location;
+    result = (prime * result) + this.name.hashCode();
+    result = (prime * result) + this.program.hashCode();
+    result = (prime * result) + this.type.hashCode();
+    return result;
   }
 
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
     builder.append("[Uniform ");
-    builder.append(this.getLocation());
+    builder.append(this.uniformGetLocation());
     builder.append(" ");
     builder.append(this.index);
     builder.append(" ");
-    builder.append(this.getType());
+    builder.append(this.uniformGetType());
     builder.append(" \"");
-    builder.append(this.getName());
+    builder.append(this.uniformGetName());
     builder.append("\"");
     builder.append("]");
     final String r = builder.toString();
     assert r != null;
     return r;
+  }
+
+  @Override public int uniformGetLocation()
+  {
+    return this.location;
+  }
+
+  @Override public String uniformGetName()
+  {
+    return this.name;
+  }
+
+  @Override public ProgramUsableType uniformGetProgram()
+  {
+    return this.program;
+  }
+
+  @Override public JCGLType uniformGetType()
+  {
+    return this.type;
   }
 }

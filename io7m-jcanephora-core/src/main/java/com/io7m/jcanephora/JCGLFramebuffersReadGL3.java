@@ -95,7 +95,7 @@ public interface JCGLFramebuffersReadGL3
    */
 
   void framebufferReadBind(
-    final  FramebufferReferenceUsableType framebuffer)
+    final  FramebufferUsableType framebuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -116,7 +116,7 @@ public interface JCGLFramebuffersReadGL3
    */
 
   boolean framebufferReadIsBound(
-    final  FramebufferReferenceUsableType framebuffer)
+    final  FramebufferUsableType framebuffer)
     throws JCGLRuntimeException,
       ConstraintError;
 

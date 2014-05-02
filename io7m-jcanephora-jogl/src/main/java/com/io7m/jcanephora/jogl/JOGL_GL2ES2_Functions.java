@@ -28,19 +28,16 @@ import javax.media.opengl.GL2ES2;
 import com.io7m.jaux.Constraints;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.FaceSelection;
-import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.JCGLCompileException;
 import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.JCGLType;
-import com.io7m.jcanephora.ProgramAttribute;
-import com.io7m.jcanephora.ProgramReference;
-import com.io7m.jcanephora.ProgramUniform;
+import com.io7m.jcanephora.ProgramAttributeType;
+import com.io7m.jcanephora.ProgramUniformType;
 import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
-import com.io7m.jcanephora.TextureUnit;
-import com.io7m.jcanephora.VertexShader;
+import com.io7m.jcanephora.TextureUnitType;
 import com.io7m.jcanephora.utilities.ShaderUtilities;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
@@ -187,7 +184,7 @@ final class JOGL_GL2ES2_Functions
   static void programAttributeArrayBind(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull ProgramAttributeType program_attribute,
     final @Nonnull ArrayBufferAttribute buffer_attribute)
     throws JCGLRuntimeException,
       ConstraintError
@@ -212,38 +209,38 @@ final class JOGL_GL2ES2_Functions
       JOGL_GL2ES2_Functions.programIsActive(
         gl,
         state,
-        program_attribute.getProgram()),
+        program_attribute.attributeGetProgram()),
       "Program for program attribute is not active");
 
     final ArrayBufferAttributeDescriptor buffer_attribute_type =
       buffer_attribute.getDescriptor();
 
     final JCGLScalarType buffer_attribute_gl_type =
-      buffer_attribute_type.arrayGetType();
+      buffer_attribute_type.arrayGetDescriptor();
     final int buffer_attribute_elements = buffer_attribute_type.getElements();
 
     final boolean convertible =
       buffer_attribute_gl_type.shaderTypeConvertible(
         buffer_attribute_elements,
-        program_attribute.getType());
+        program_attribute.attributeGetType());
 
     if (convertible == false) {
       final StringBuilder b = new StringBuilder();
       b.append("Array buffer attribute '");
-      b.append(buffer_attribute_type.getName());
+      b.append(buffer_attribute_type.uniformGetName());
       b.append("' is of type ");
       b.append(buffer_attribute_gl_type);
       b.append(" with ");
       b.append(buffer_attribute_elements);
       b.append(" elements, but the program attribute '");
-      b.append(program_attribute.getName());
+      b.append(program_attribute.attributeGetName());
       b.append("' is of type ");
-      b.append(program_attribute.getType());
+      b.append(program_attribute.attributeGetType());
       b.append(", which is incompatible");
       Constraints.constrainArbitrary(convertible, b.toString());
     }
 
-    final int program_attrib_id = program_attribute.getLocation();
+    final int program_attrib_id = program_attribute.attributeGetLocation();
 
     final int type =
       JOGL_GLTypeConversions.scalarTypeToGL(buffer_attribute_gl_type);
@@ -252,9 +249,9 @@ final class JOGL_GL2ES2_Functions
     final int stride = (int) buffer.bufferGetElementSizeBytes();
     final int offset =
       buffer
-        .arrayGetType()
+        .arrayGetDescriptor()
         .getTypeDescriptor()
-        .getAttributeOffset(buffer_attribute.getName());
+        .getAttributeOffset(buffer_attribute.uniformGetName());
 
     gl.glEnableVertexAttribArray(program_attrib_id);
     JOGL_GL_Functions.checkError(gl);
@@ -271,7 +268,7 @@ final class JOGL_GL2ES2_Functions
   static void programAttributeArrayDisassociate(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramAttribute program_attribute)
+    final @Nonnull ProgramAttributeType program_attribute)
     throws JCGLRuntimeException,
       ConstraintError
   {
@@ -280,17 +277,17 @@ final class JOGL_GL2ES2_Functions
       JOGL_GL2ES2_Functions.programIsActive(
         gl,
         state,
-        program_attribute.getProgram()),
+        program_attribute.attributeGetProgram()),
       "Program for program attribute is not active");
 
-    gl.glDisableVertexAttribArray(program_attribute.getLocation());
+    gl.glDisableVertexAttribArray(program_attribute.attributeGetLocation());
     JOGL_GL_Functions.checkError(gl);
   }
 
   static void programAttributePutFloat(
     final @Nonnull GL2ES2 g,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull ProgramAttributeType program_attribute,
     final float x)
     throws ConstraintError,
       JCGLRuntimeException
@@ -300,25 +297,25 @@ final class JOGL_GL2ES2_Functions
       JOGL_GL2ES2_Functions.programIsActive(
         g,
         state,
-        program_attribute.getProgram()),
+        program_attribute.attributeGetProgram()),
       "Program for program attribute is not active");
 
     final boolean convertible =
       JCGLScalarType.TYPE_FLOAT.shaderTypeConvertible(
         1,
-        program_attribute.getType());
+        program_attribute.attributeGetType());
 
     if (convertible == false) {
       final StringBuilder b = new StringBuilder();
       b.append("The program attribute '");
-      b.append(program_attribute.getName());
+      b.append(program_attribute.attributeGetName());
       b.append("' is of type ");
-      b.append(program_attribute.getType());
+      b.append(program_attribute.attributeGetType());
       b.append(" but the given value is of type float");
       Constraints.constrainArbitrary(false, b.toString());
     }
 
-    final int program_attrib_id = program_attribute.getLocation();
+    final int program_attrib_id = program_attribute.attributeGetLocation();
     g.glDisableVertexAttribArray(program_attrib_id);
     g.glVertexAttrib1f(program_attrib_id, x);
     JOGL_GL_Functions.checkError(g);
@@ -327,7 +324,7 @@ final class JOGL_GL2ES2_Functions
   static void programAttributePutVector2f(
     final @Nonnull GL2ES2 g,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull ProgramAttributeType program_attribute,
     final @Nonnull VectorReadable2F x)
     throws ConstraintError,
       JCGLRuntimeException
@@ -338,26 +335,26 @@ final class JOGL_GL2ES2_Functions
       JOGL_GL2ES2_Functions.programIsActive(
         g,
         state,
-        program_attribute.getProgram()),
+        program_attribute.attributeGetProgram()),
       "Program for program attribute is not active");
 
     final boolean convertible =
       JCGLScalarType.TYPE_FLOAT.shaderTypeConvertible(
         2,
-        program_attribute.getType());
+        program_attribute.attributeGetType());
 
     if (convertible == false) {
       final StringBuilder b = new StringBuilder();
       b.append("The program attribute '");
-      b.append(program_attribute.getName());
+      b.append(program_attribute.attributeGetName());
       b.append("' is of type ");
-      b.append(program_attribute.getType());
+      b.append(program_attribute.attributeGetType());
       b.append(" but the given value is of type ");
       b.append(JCGLType.TYPE_FLOAT_VECTOR_2);
       Constraints.constrainArbitrary(false, b.toString());
     }
 
-    final int program_attrib_id = program_attribute.getLocation();
+    final int program_attrib_id = program_attribute.attributeGetLocation();
     g.glDisableVertexAttribArray(program_attrib_id);
     g.glVertexAttrib2f(program_attrib_id, x.getXF(), x.getYF());
     JOGL_GL_Functions.checkError(g);
@@ -366,7 +363,7 @@ final class JOGL_GL2ES2_Functions
   static void programAttributePutVector3f(
     final @Nonnull GL2ES2 g,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull ProgramAttributeType program_attribute,
     final @Nonnull VectorReadable3F x)
     throws ConstraintError,
       JCGLRuntimeException
@@ -377,26 +374,26 @@ final class JOGL_GL2ES2_Functions
       JOGL_GL2ES2_Functions.programIsActive(
         g,
         state,
-        program_attribute.getProgram()),
+        program_attribute.attributeGetProgram()),
       "Program for program attribute is not active");
 
     final boolean convertible =
       JCGLScalarType.TYPE_FLOAT.shaderTypeConvertible(
         3,
-        program_attribute.getType());
+        program_attribute.attributeGetType());
 
     if (convertible == false) {
       final StringBuilder b = new StringBuilder();
       b.append("The program attribute '");
-      b.append(program_attribute.getName());
+      b.append(program_attribute.attributeGetName());
       b.append("' is of type ");
-      b.append(program_attribute.getType());
+      b.append(program_attribute.attributeGetType());
       b.append(" but the given value is of type ");
       b.append(JCGLType.TYPE_FLOAT_VECTOR_3);
       Constraints.constrainArbitrary(false, b.toString());
     }
 
-    final int program_attrib_id = program_attribute.getLocation();
+    final int program_attrib_id = program_attribute.attributeGetLocation();
     g.glDisableVertexAttribArray(program_attrib_id);
     g.glVertexAttrib3f(program_attrib_id, x.getXF(), x.getYF(), x.getZF());
     JOGL_GL_Functions.checkError(g);
@@ -405,7 +402,7 @@ final class JOGL_GL2ES2_Functions
   static void programAttributePutVector4f(
     final @Nonnull GL2ES2 g,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull ProgramAttributeType program_attribute,
     final @Nonnull VectorReadable4F x)
     throws ConstraintError,
       JCGLRuntimeException
@@ -416,26 +413,26 @@ final class JOGL_GL2ES2_Functions
       JOGL_GL2ES2_Functions.programIsActive(
         g,
         state,
-        program_attribute.getProgram()),
+        program_attribute.attributeGetProgram()),
       "Program for program attribute is not active");
 
     final boolean convertible =
       JCGLScalarType.TYPE_FLOAT.shaderTypeConvertible(
         4,
-        program_attribute.getType());
+        program_attribute.attributeGetType());
 
     if (convertible == false) {
       final StringBuilder b = new StringBuilder();
       b.append("The program attribute '");
-      b.append(program_attribute.getName());
+      b.append(program_attribute.attributeGetName());
       b.append("' is of type ");
-      b.append(program_attribute.getType());
+      b.append(program_attribute.attributeGetType());
       b.append(" but the given value is of type ");
       b.append(JCGLType.TYPE_FLOAT_VECTOR_4);
       Constraints.constrainArbitrary(false, b.toString());
     }
 
-    final int program_attrib_id = program_attribute.getLocation();
+    final int program_attrib_id = program_attribute.attributeGetLocation();
     g.glDisableVertexAttribArray(program_attrib_id);
     g.glVertexAttrib4f(
       program_attrib_id,
@@ -446,7 +443,7 @@ final class JOGL_GL2ES2_Functions
     JOGL_GL_Functions.checkError(g);
   }
 
-  static ProgramReference programCreateCommon(
+  static JOGLProgram programCreateCommon(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
@@ -519,13 +516,13 @@ final class JOGL_GL2ES2_Functions
       log.debug(state.log_text.toString());
     }
 
-    final Map<String, ProgramAttribute> attributes =
-      new HashMap<String, ProgramAttribute>();
-    final Map<String, ProgramUniform> uniforms =
-      new HashMap<String, ProgramUniform>();
+    final Map<String, JOGLProgramAttribute> attributes =
+      new HashMap<String, JOGLProgramAttribute>();
+    final Map<String, JOGLProgramUniform> uniforms =
+      new HashMap<String, JOGLProgramUniform>();
 
-    final ProgramReference program =
-      new ProgramReference(id, name, uniforms, attributes);
+    final JOGLProgram program =
+      new JOGLProgram(id, name, uniforms, attributes);
 
     JOGL_GL2ES2_Functions.programGetAttributes(
       gl,
@@ -556,7 +553,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull ProgramReference program)
+    final @Nonnull JOGLProgram program)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -582,7 +579,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull ProgramReferenceUsable program,
-    final @Nonnull Map<String, ProgramAttribute> out)
+    final @Nonnull Map<String, JOGLProgramAttribute> out)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -657,7 +654,7 @@ final class JOGL_GL2ES2_Functions
       assert out.containsKey(name) == false;
       out.put(
         name,
-        new ProgramAttribute(program, index, location, name, type));
+        new JOGLProgramAttribute(program, index, location, name, type));
     }
   }
 
@@ -689,7 +686,7 @@ final class JOGL_GL2ES2_Functions
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
     final @Nonnull ProgramReferenceUsable program,
-    final @Nonnull Map<String, ProgramUniform> out)
+    final @Nonnull Map<String, JOGLProgramUniform> out)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -758,7 +755,7 @@ final class JOGL_GL2ES2_Functions
       }
 
       assert (out.containsKey(name) == false);
-      out.put(name, new ProgramUniform(program, index, location, name, type));
+      out.put(name, new JOGLProgramUniform(program, index, location, name, type));
     }
   }
 
@@ -786,47 +783,47 @@ final class JOGL_GL2ES2_Functions
   static void programPutUniformFloat(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final float value)
     throws ConstraintError,
       JCGLRuntimeException
   {
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == JCGLType.TYPE_FLOAT,
+      uniform.uniformGetType() == JCGLType.TYPE_FLOAT,
       "Uniform type is float");
     Constraints.constrainArbitrary(
-      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
+      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.uniformGetProgram()),
       "Program for uniform is active");
 
-    gl.glUniform1f(uniform.getLocation(), value);
+    gl.glUniform1f(uniform.uniformGetLocation(), value);
     JOGL_GL_Functions.checkError(gl);
   }
 
   static void programPutUniformInteger(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final int value)
     throws ConstraintError,
       JCGLRuntimeException
   {
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == JCGLType.TYPE_INTEGER,
+      uniform.uniformGetType() == JCGLType.TYPE_INTEGER,
       "Uniform type is int");
     Constraints.constrainArbitrary(
-      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
+      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.uniformGetProgram()),
       "Program for uniform is active");
 
-    gl.glUniform1i(uniform.getLocation(), value);
+    gl.glUniform1i(uniform.uniformGetLocation(), value);
     JOGL_GL_Functions.checkError(gl);
   }
 
   static void programPutUniformMatrix3x3f(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final @Nonnull MatrixReadable3x3F matrix)
     throws ConstraintError,
       JCGLRuntimeException
@@ -834,14 +831,14 @@ final class JOGL_GL2ES2_Functions
     Constraints.constrainNotNull(matrix, "Matrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == JCGLType.TYPE_FLOAT_MATRIX_3,
+      uniform.uniformGetType() == JCGLType.TYPE_FLOAT_MATRIX_3,
       "Uniform type is mat3");
     Constraints.constrainArbitrary(
-      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
+      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.uniformGetProgram()),
       "Program for uniform is active");
 
     gl.glUniformMatrix3fv(
-      uniform.getLocation(),
+      uniform.uniformGetLocation(),
       1,
       false,
       matrix.getFloatBuffer());
@@ -851,7 +848,7 @@ final class JOGL_GL2ES2_Functions
   static void programPutUniformMatrix4x4f(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final @Nonnull MatrixReadable4x4F matrix)
     throws ConstraintError,
       JCGLRuntimeException
@@ -859,14 +856,14 @@ final class JOGL_GL2ES2_Functions
     Constraints.constrainNotNull(matrix, "Matrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == JCGLType.TYPE_FLOAT_MATRIX_4,
+      uniform.uniformGetType() == JCGLType.TYPE_FLOAT_MATRIX_4,
       "Uniform type is mat4");
     Constraints.constrainArbitrary(
-      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
+      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.uniformGetProgram()),
       "Program for uniform is active");
 
     gl.glUniformMatrix4fv(
-      uniform.getLocation(),
+      uniform.uniformGetLocation(),
       1,
       false,
       matrix.getFloatBuffer());
@@ -876,27 +873,27 @@ final class JOGL_GL2ES2_Functions
   static void programPutUniformTextureUnit(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull TextureUnit unit)
+    final @Nonnull ProgramUniformType uniform,
+    final @Nonnull TextureUnitType unit)
     throws ConstraintError,
       JCGLRuntimeException
   {
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType().isSamplerType(),
+      uniform.uniformGetType().isSamplerType(),
       "Uniform type is sampler");
     Constraints.constrainArbitrary(
-      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
+      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.uniformGetProgram()),
       "Program for uniform is active");
 
-    gl.glUniform1i(uniform.getLocation(), unit.getIndex());
+    gl.glUniform1i(uniform.uniformGetLocation(), unit.unitGetIndex());
     JOGL_GL_Functions.checkError(gl);
   }
 
   static void programPutUniformVector2f(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final @Nonnull VectorReadable2F vector)
     throws ConstraintError,
       JCGLRuntimeException
@@ -904,20 +901,20 @@ final class JOGL_GL2ES2_Functions
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == JCGLType.TYPE_FLOAT_VECTOR_2,
+      uniform.uniformGetType() == JCGLType.TYPE_FLOAT_VECTOR_2,
       "Uniform type is vec2");
     Constraints.constrainArbitrary(
-      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
+      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.uniformGetProgram()),
       "Program for uniform is active");
 
-    gl.glUniform2f(uniform.getLocation(), vector.getXF(), vector.getYF());
+    gl.glUniform2f(uniform.uniformGetLocation(), vector.getXF(), vector.getYF());
     JOGL_GL_Functions.checkError(gl);
   }
 
   static void programPutUniformVector2i(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final @Nonnull VectorReadable2I vector)
     throws ConstraintError,
       JCGLRuntimeException
@@ -925,20 +922,20 @@ final class JOGL_GL2ES2_Functions
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_2,
+      uniform.uniformGetType() == JCGLType.TYPE_INTEGER_VECTOR_2,
       "Uniform type is ivec2");
     Constraints.constrainArbitrary(
-      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
+      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.uniformGetProgram()),
       "Program for uniform is active");
 
-    gl.glUniform2i(uniform.getLocation(), vector.getXI(), vector.getYI());
+    gl.glUniform2i(uniform.uniformGetLocation(), vector.getXI(), vector.getYI());
     JOGL_GL_Functions.checkError(gl);
   }
 
   static void programPutUniformVector3f(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final @Nonnull VectorReadable3F vector)
     throws ConstraintError,
       JCGLRuntimeException
@@ -946,14 +943,14 @@ final class JOGL_GL2ES2_Functions
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == JCGLType.TYPE_FLOAT_VECTOR_3,
+      uniform.uniformGetType() == JCGLType.TYPE_FLOAT_VECTOR_3,
       "Uniform type is vec3");
     Constraints.constrainArbitrary(
-      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
+      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.uniformGetProgram()),
       "Program for uniform is active");
 
     gl.glUniform3f(
-      uniform.getLocation(),
+      uniform.uniformGetLocation(),
       vector.getXF(),
       vector.getYF(),
       vector.getZF());
@@ -963,7 +960,7 @@ final class JOGL_GL2ES2_Functions
   static void programPutUniformVector3i(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final @Nonnull VectorReadable3I vector)
     throws ConstraintError,
       JCGLRuntimeException
@@ -971,14 +968,14 @@ final class JOGL_GL2ES2_Functions
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_3,
+      uniform.uniformGetType() == JCGLType.TYPE_INTEGER_VECTOR_3,
       "Uniform type is ivec3");
     Constraints.constrainArbitrary(
-      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
+      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.uniformGetProgram()),
       "Program for uniform is active");
 
     gl.glUniform3i(
-      uniform.getLocation(),
+      uniform.uniformGetLocation(),
       vector.getXI(),
       vector.getYI(),
       vector.getZI());
@@ -988,7 +985,7 @@ final class JOGL_GL2ES2_Functions
   static void programPutUniformVector4f(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final @Nonnull VectorReadable4F vector)
     throws ConstraintError,
       JCGLRuntimeException
@@ -996,14 +993,14 @@ final class JOGL_GL2ES2_Functions
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == JCGLType.TYPE_FLOAT_VECTOR_4,
+      uniform.uniformGetType() == JCGLType.TYPE_FLOAT_VECTOR_4,
       "Uniform type is vec4");
     Constraints.constrainArbitrary(
-      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
+      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.uniformGetProgram()),
       "Program for uniform is active");
 
     gl.glUniform4f(
-      uniform.getLocation(),
+      uniform.uniformGetLocation(),
       vector.getXF(),
       vector.getYF(),
       vector.getZF(),
@@ -1014,7 +1011,7 @@ final class JOGL_GL2ES2_Functions
   static void programPutUniformVector4i(
     final @Nonnull GL2ES2 gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final @Nonnull VectorReadable4I vector)
     throws ConstraintError,
       JCGLRuntimeException
@@ -1022,14 +1019,14 @@ final class JOGL_GL2ES2_Functions
     Constraints.constrainNotNull(vector, "Vatrix");
     Constraints.constrainNotNull(uniform, "Uniform");
     Constraints.constrainArbitrary(
-      uniform.getType() == JCGLType.TYPE_INTEGER_VECTOR_4,
+      uniform.uniformGetType() == JCGLType.TYPE_INTEGER_VECTOR_4,
       "Uniform type is ivec4");
     Constraints.constrainArbitrary(
-      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.getProgram()),
+      JOGL_GL2ES2_Functions.programIsActive(gl, state, uniform.uniformGetProgram()),
       "Program for uniform is active");
 
     gl.glUniform4i(
-      uniform.getLocation(),
+      uniform.uniformGetLocation(),
       vector.getXI(),
       vector.getYI(),
       vector.getZI(),

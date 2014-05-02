@@ -33,7 +33,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate a depth texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_DEPTH_16_2BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_DEPTH_16_2BPP}
    * for the precise format of the texture.
    * </p>
    * <p>
@@ -103,7 +103,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate a depth texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_DEPTH_24_4BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_DEPTH_24_4BPP}
    * for the precise format of the texture.
    * </p>
    * <p>
@@ -174,7 +174,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
    * <p>
    * Allocate a depth texture of width <code>width</code> and height
    * <code>height</code>. See
-   * {@link TextureType#TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP} for the precise
+   * {@link TextureFormat#TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP} for the precise
    * format of the texture.
    * </p>
    * <p>
@@ -244,7 +244,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate a depth texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_DEPTH_32F_4BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_DEPTH_32F_4BPP}
    * for the precise format of the texture.
    * </p>
    * <p>
@@ -314,7 +314,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an R texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_R_16F_2BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_R_16F_2BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -384,7 +384,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an R texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_R_16I_2BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_R_16I_2BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -454,7 +454,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an R texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_R_16U_2BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_R_16U_2BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -524,7 +524,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an R texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_R_32F_4BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_R_32F_4BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -594,7 +594,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an R texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_R_32I_4BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_R_32I_4BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -664,7 +664,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an R texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_R_32U_4BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_R_32U_4BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -734,7 +734,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an R texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_R_8_1BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_R_8_1BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -804,7 +804,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an R texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_R_8I_1BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_R_8I_1BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -874,7 +874,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an R texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_R_8U_1BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_R_8U_1BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -944,7 +944,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RG texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RG_16F_4BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RG_16F_4BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -1014,7 +1014,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RG texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RG_16I_4BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RG_16I_4BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -1084,7 +1084,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RG texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RG_16U_4BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RG_16U_4BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -1154,7 +1154,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RG texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RG_32F_8BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RG_32F_8BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -1224,7 +1224,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RG texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RG_32I_8BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RG_32I_8BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -1294,7 +1294,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RG texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RG_32U_8BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RG_32U_8BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -1364,7 +1364,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RG texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RG_8_2BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RG_8_2BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -1434,7 +1434,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RG texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RG_8I_2BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RG_8I_2BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -1504,7 +1504,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RG texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RG_8U_2BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RG_8U_2BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -1574,7 +1574,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RGB texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGB_16F_6BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGB_16F_6BPP}
    * for the precise format of the texture.
    * </p>
    * <p>
@@ -1644,7 +1644,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RGB texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGB_16I_6BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGB_16I_6BPP}
    * for the precise format of the texture.
    * </p>
    * <p>
@@ -1714,7 +1714,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RGB texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGB_16U_6BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGB_16U_6BPP}
    * for the precise format of the texture.
    * </p>
    * <p>
@@ -1784,7 +1784,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RGB texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGB_32F_12BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGB_32F_12BPP}
    * for the precise format of the texture.
    * </p>
    * <p>
@@ -1854,7 +1854,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RGB texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGB_32I_12BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGB_32I_12BPP}
    * for the precise format of the texture.
    * </p>
    * <p>
@@ -1924,7 +1924,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RGB texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGB_32U_12BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGB_32U_12BPP}
    * for the precise format of the texture.
    * </p>
    * <p>
@@ -1994,7 +1994,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RGB texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGB_8_3BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGB_8_3BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -2018,7 +2018,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
    * <code>TEXTURE_FILTER_LINEAR</code>.
    * </p>
    * 
-   * @see TextureType#TEXTURE_TYPE_RGB_8_3BPP
+   * @see TextureFormat#TEXTURE_TYPE_RGB_8_3BPP
    * 
    * @param name
    *          The name of the texture.
@@ -2066,7 +2066,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RGB texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGB_8I_3BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGB_8I_3BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -2136,7 +2136,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RGB texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGB_8U_3BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGB_8U_3BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -2207,7 +2207,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
    * <p>
    * Allocate an RGBA texture of width <code>width</code> and height
    * <code>height</code>. See
-   * {@link TextureType#TEXTURE_TYPE_RGBA_1010102_4BPP} for the precise format
+   * {@link TextureFormat#TEXTURE_TYPE_RGBA_1010102_4BPP} for the precise format
    * of the texture.
    * </p>
    * <p>
@@ -2277,7 +2277,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RGBA texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGBA_16F_8BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGBA_16F_8BPP}
    * for the precise format of the texture.
    * </p>
    * <p>
@@ -2347,7 +2347,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RGBA texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGBA_16I_8BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGBA_16I_8BPP}
    * for the precise format of the texture.
    * </p>
    * <p>
@@ -2417,7 +2417,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RGBA texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGBA_16U_8BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGBA_16U_8BPP}
    * for the precise format of the texture.
    * </p>
    * <p>
@@ -2487,7 +2487,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RGBA texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGBA_32F_16BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGBA_32F_16BPP}
    * for the precise format of the texture.
    * </p>
    * <p>
@@ -2557,7 +2557,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RGBA texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGBA_32I_16BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGBA_32I_16BPP}
    * for the precise format of the texture.
    * </p>
    * <p>
@@ -2627,7 +2627,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RGBA texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGBA_32U_16BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGBA_32U_16BPP}
    * for the precise format of the texture.
    * </p>
    * <p>
@@ -2697,7 +2697,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RGBA texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGBA_8_4BPP} for
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGBA_8_4BPP} for
    * the precise format of the texture.
    * </p>
    * <p>
@@ -2767,7 +2767,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RGBA texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGBA_8I_4BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGBA_8I_4BPP}
    * for the precise format of the texture.
    * </p>
    * <p>
@@ -2837,7 +2837,7 @@ public interface JCGLTextures2DStaticGL3ES3 extends
   /**
    * <p>
    * Allocate an RGBA texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGBA_8U_4BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGBA_8U_4BPP}
    * for the precise format of the texture.
    * </p>
    * <p>

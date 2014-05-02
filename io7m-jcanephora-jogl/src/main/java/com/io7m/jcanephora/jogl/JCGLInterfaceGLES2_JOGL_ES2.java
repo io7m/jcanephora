@@ -44,13 +44,11 @@ import com.io7m.jcanephora.CubeMapFaceRH;
 import com.io7m.jcanephora.DepthFunction;
 import com.io7m.jcanephora.FaceSelection;
 import com.io7m.jcanephora.FaceWindingOrder;
-import com.io7m.jcanephora.FragmentShader;
 import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
 import com.io7m.jcanephora.FramebufferDrawBuffer;
-import com.io7m.jcanephora.FramebufferReference;
 import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.IndexBuffer;
-import com.io7m.jcanephora.IndexBufferWritableData;
+import com.io7m.jcanephora.IndexBufferUpdateUnmapped;
 import com.io7m.jcanephora.JCGLCompileException;
 import com.io7m.jcanephora.JCGLError;
 import com.io7m.jcanephora.JCGLExtensionDepthCubeTexture;
@@ -65,11 +63,9 @@ import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.JCGLUnsignedType;
 import com.io7m.jcanephora.JCGLVersion;
 import com.io7m.jcanephora.Primitives;
-import com.io7m.jcanephora.ProgramAttribute;
-import com.io7m.jcanephora.ProgramReference;
-import com.io7m.jcanephora.ProgramUniform;
-import com.io7m.jcanephora.Renderbuffer;
-import com.io7m.jcanephora.RenderbufferType;
+import com.io7m.jcanephora.ProgramAttributeType;
+import com.io7m.jcanephora.ProgramUniformType;
+import com.io7m.jcanephora.RenderbufferFormat;
 import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
 import com.io7m.jcanephora.Texture2DStatic;
@@ -80,13 +76,13 @@ import com.io7m.jcanephora.TextureCubeStaticUsable;
 import com.io7m.jcanephora.TextureCubeWritableData;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
-import com.io7m.jcanephora.TextureType;
+import com.io7m.jcanephora.TextureFormat;
 import com.io7m.jcanephora.TextureUnit;
+import com.io7m.jcanephora.TextureUnitType;
 import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.UsageHint;
-import com.io7m.jcanephora.VertexShader;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
@@ -834,7 +830,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void indexBufferUpdate(
-    final @Nonnull IndexBufferWritableData data)
+    final @Nonnull IndexBufferUpdateUnmapped data)
     throws JCGLRuntimeException,
       ConstraintError
   {
@@ -880,7 +876,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void programAttributeArrayAssociate(
-    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull ProgramAttributeType program_attribute,
     final @Nonnull ArrayBufferAttribute array_attribute)
     throws JCGLRuntimeException,
       ConstraintError
@@ -893,7 +889,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void programAttributeArrayDisassociate(
-    final @Nonnull ProgramAttribute program_attribute)
+    final @Nonnull ProgramAttributeType program_attribute)
     throws JCGLRuntimeException,
       ConstraintError
   {
@@ -904,7 +900,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void programAttributePutFloat(
-    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull ProgramAttributeType program_attribute,
     final float x)
     throws JCGLRuntimeException,
       ConstraintError
@@ -917,7 +913,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void programAttributePutVector2f(
-    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull ProgramAttributeType program_attribute,
     final @Nonnull VectorReadable2F x)
     throws JCGLRuntimeException,
       ConstraintError
@@ -930,7 +926,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void programAttributePutVector3f(
-    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull ProgramAttributeType program_attribute,
     final @Nonnull VectorReadable3F x)
     throws JCGLRuntimeException,
       ConstraintError
@@ -943,7 +939,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void programAttributePutVector4f(
-    final @Nonnull ProgramAttribute program_attribute,
+    final @Nonnull ProgramAttributeType program_attribute,
     final @Nonnull VectorReadable4F x)
     throws JCGLRuntimeException,
       ConstraintError
@@ -955,7 +951,7 @@ import com.io7m.jtensors.VectorReadable4I;
       x);
   }
 
-  @Override public ProgramReference programCreateCommon(
+  @Override public JOGLProgram programCreateCommon(
     final @Nonnull String name,
     final @Nonnull VertexShader v,
     final @Nonnull FragmentShader f)
@@ -979,7 +975,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void programDelete(
-    final @Nonnull ProgramReference program)
+    final @Nonnull JOGLProgram program)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -1011,7 +1007,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void programUniformPutFloat(
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final float value)
     throws ConstraintError,
       JCGLRuntimeException
@@ -1024,7 +1020,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void programUniformPutInteger(
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final int value)
     throws ConstraintError,
       JCGLRuntimeException
@@ -1037,7 +1033,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void programUniformPutMatrix3x3f(
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final @Nonnull MatrixReadable3x3F matrix)
     throws ConstraintError,
       JCGLRuntimeException
@@ -1050,7 +1046,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void programUniformPutMatrix4x4f(
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final @Nonnull MatrixReadable4x4F matrix)
     throws ConstraintError,
       JCGLRuntimeException
@@ -1063,8 +1059,8 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void programUniformPutTextureUnit(
-    final @Nonnull ProgramUniform uniform,
-    final @Nonnull TextureUnit unit)
+    final @Nonnull ProgramUniformType uniform,
+    final @Nonnull TextureUnitType unit)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -1076,7 +1072,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void programUniformPutVector2f(
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final @Nonnull VectorReadable2F vector)
     throws ConstraintError,
       JCGLRuntimeException
@@ -1089,7 +1085,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void programUniformPutVector2i(
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final @Nonnull VectorReadable2I vector)
     throws ConstraintError,
       JCGLRuntimeException
@@ -1102,7 +1098,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void programUniformPutVector3f(
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final @Nonnull VectorReadable3F vector)
     throws ConstraintError,
       JCGLRuntimeException
@@ -1115,7 +1111,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void programUniformPutVector3i(
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final @Nonnull VectorReadable3I vector)
     throws ConstraintError,
       JCGLRuntimeException
@@ -1128,7 +1124,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void programUniformPutVector4f(
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final @Nonnull VectorReadable4F vector)
     throws ConstraintError,
       JCGLRuntimeException
@@ -1141,7 +1137,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void programUniformPutVector4i(
-    final @Nonnull ProgramUniform uniform,
+    final @Nonnull ProgramUniformType uniform,
     final @Nonnull VectorReadable4I vector)
     throws ConstraintError,
       JCGLRuntimeException
@@ -1154,97 +1150,97 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public @Nonnull
-    Renderbuffer<RenderableDepth>
+    JOGLRenderbuffer<RenderableDepth>
     renderbufferAllocateDepth16(
       final int width,
       final int height)
       throws ConstraintError,
         JCGLRuntimeException
   {
-    return Renderbuffer.unsafeBrandDepth(JOGL_GL_Functions
+    return JOGLRenderbuffer.unsafeBrandDepth(JOGL_GL_Functions
       .renderbufferAllocate(
         this.contextGetGLES2(),
         this.state,
         this.log,
-        RenderbufferType.RENDERBUFFER_DEPTH_16,
+        RenderbufferFormat.RENDERBUFFER_DEPTH_16,
         width,
         height));
   }
 
   @Override public @Nonnull
-    Renderbuffer<RenderableColor>
+    JOGLRenderbuffer<RenderableColor>
     renderbufferAllocateRGB565(
       final int width,
       final int height)
       throws ConstraintError,
         JCGLRuntimeException
   {
-    return Renderbuffer.unsafeBrandColor(JOGL_GL_Functions
+    return JOGLRenderbuffer.unsafeBrandColor(JOGL_GL_Functions
       .renderbufferAllocate(
         this.contextGetGLES2(),
         this.state,
         this.log,
-        RenderbufferType.RENDERBUFFER_COLOR_RGB_565,
+        RenderbufferFormat.RENDERBUFFER_COLOR_RGB_565,
         width,
         height));
   }
 
   @Override public @Nonnull
-    Renderbuffer<RenderableColor>
+    JOGLRenderbuffer<RenderableColor>
     renderbufferAllocateRGBA4444(
       final int width,
       final int height)
       throws ConstraintError,
         JCGLRuntimeException
   {
-    return Renderbuffer.unsafeBrandColor(JOGL_GL_Functions
+    return JOGLRenderbuffer.unsafeBrandColor(JOGL_GL_Functions
       .renderbufferAllocate(
         this.contextGetGLES2(),
         this.state,
         this.log,
-        RenderbufferType.RENDERBUFFER_COLOR_RGBA_4444,
+        RenderbufferFormat.RENDERBUFFER_COLOR_RGBA_4444,
         width,
         height));
   }
 
   @Override public @Nonnull
-    Renderbuffer<RenderableColor>
+    JOGLRenderbuffer<RenderableColor>
     renderbufferAllocateRGBA5551(
       final int width,
       final int height)
       throws ConstraintError,
         JCGLRuntimeException
   {
-    return Renderbuffer.unsafeBrandColor(JOGL_GL_Functions
+    return JOGLRenderbuffer.unsafeBrandColor(JOGL_GL_Functions
       .renderbufferAllocate(
         this.contextGetGLES2(),
         this.state,
         this.log,
-        RenderbufferType.RENDERBUFFER_COLOR_RGBA_5551,
+        RenderbufferFormat.RENDERBUFFER_COLOR_RGBA_5551,
         width,
         height));
   }
 
   @Override public @Nonnull
-    Renderbuffer<RenderableStencil>
+    JOGLRenderbuffer<RenderableStencil>
     renderbufferAllocateStencil8(
       final int width,
       final int height)
       throws ConstraintError,
         JCGLRuntimeException
   {
-    return Renderbuffer.unsafeBrandStencil(JOGL_GL_Functions
+    return JOGLRenderbuffer.unsafeBrandStencil(JOGL_GL_Functions
       .renderbufferAllocate(
         this.contextGetGLES2(),
         this.state,
         this.log,
-        RenderbufferType.RENDERBUFFER_STENCIL_8,
+        RenderbufferFormat.RENDERBUFFER_STENCIL_8,
         width,
         height));
   }
 
   @Override public void renderbufferDelete(
-    final @Nonnull Renderbuffer<?> buffer)
+    final @Nonnull JOGLRenderbuffer<?> buffer)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -1379,7 +1375,7 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureType.TEXTURE_TYPE_RGB_565_2BPP,
+      TextureFormat.TEXTURE_TYPE_RGB_565_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
@@ -1404,7 +1400,7 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureType.TEXTURE_TYPE_RGBA_4444_2BPP,
+      TextureFormat.TEXTURE_TYPE_RGBA_4444_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
@@ -1429,7 +1425,7 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureType.TEXTURE_TYPE_RGBA_5551_2BPP,
+      TextureFormat.TEXTURE_TYPE_RGBA_5551_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
@@ -1437,7 +1433,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void texture2DStaticBind(
-    final @Nonnull TextureUnit unit,
+    final @Nonnull TextureUnitType unit,
     final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
       JCGLRuntimeException
@@ -1461,7 +1457,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public boolean texture2DStaticIsBound(
-    final @Nonnull TextureUnit unit,
+    final @Nonnull TextureUnitType unit,
     final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
       JCGLRuntimeException
@@ -1474,7 +1470,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void texture2DStaticUnbind(
-    final @Nonnull TextureUnit unit)
+    final @Nonnull TextureUnitType unit)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -1508,7 +1504,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureType.TEXTURE_TYPE_RGB_565_2BPP,
+      TextureFormat.TEXTURE_TYPE_RGB_565_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -1535,7 +1531,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureType.TEXTURE_TYPE_RGBA_4444_2BPP,
+      TextureFormat.TEXTURE_TYPE_RGBA_4444_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -1562,7 +1558,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureType.TEXTURE_TYPE_RGBA_5551_2BPP,
+      TextureFormat.TEXTURE_TYPE_RGBA_5551_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -1571,7 +1567,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void textureCubeStaticBind(
-    final @Nonnull TextureUnit unit,
+    final @Nonnull TextureUnitType unit,
     final @Nonnull TextureCubeStaticUsable texture)
     throws ConstraintError,
       JCGLRuntimeException
@@ -1595,7 +1591,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public boolean textureCubeStaticIsBound(
-    final @Nonnull TextureUnit unit,
+    final @Nonnull TextureUnitType unit,
     final @Nonnull TextureCubeStaticUsable texture)
     throws ConstraintError,
       JCGLRuntimeException
@@ -1608,7 +1604,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void textureCubeStaticUnbind(
-    final @Nonnull TextureUnit unit)
+    final @Nonnull TextureUnitType unit)
     throws ConstraintError,
       JCGLRuntimeException
   {

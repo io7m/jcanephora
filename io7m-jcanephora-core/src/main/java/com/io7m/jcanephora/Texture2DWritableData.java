@@ -87,7 +87,7 @@ public final class Texture2DWritableData implements TextureWritableDataType
   private final  AreaInclusive   target_area;
   private final  ByteBuffer      target_data;
   private final  Texture2DStatic texture;
-  private final  TextureType     type;
+  private final  TextureFormat     type;
 
   /**
    * Construct a buffer of data that will be used to replace the entirety of
@@ -149,8 +149,8 @@ public final class Texture2DWritableData implements TextureWritableDataType
 
     final long width = this.source_area.getRangeX().getInterval();
     final long height = this.source_area.getRangeY().getInterval();
-    final int bpp = texture1.getType().getBytesPerPixel();
-    this.type = texture1.getType();
+    final int bpp = texture1.attributeGetType().getBytesPerPixel();
+    this.type = texture1.attributeGetType();
 
     this.target_data =
       ByteBuffer.allocateDirect((int) (height * width * bpp)).order(
@@ -457,7 +457,7 @@ public final class Texture2DWritableData implements TextureWritableDataType
       this.type.getComponentCount() == 2,
       "Number of components in the texture is 2");
     Constraints.constrainArbitrary(
-      this.type != TextureType.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
+      this.type != TextureFormat.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
       "Type is not packed depth/stencil");
 
     switch (this.type) {
@@ -593,7 +593,7 @@ public final class Texture2DWritableData implements TextureWritableDataType
       TextureTypeMeta.isFloatingPoint(this.type) == false,
       "Texture is not floating point");
     Constraints.constrainArbitrary(
-      this.type != TextureType.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
+      this.type != TextureFormat.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
       "Type is not packed depth/stencil");
 
     switch (this.type) {
@@ -1284,7 +1284,7 @@ public final class Texture2DWritableData implements TextureWritableDataType
     return this.texture;
   }
 
-  @Override public  TextureType getType()
+  @Override public  TextureFormat getType()
   {
     return this.type;
   }

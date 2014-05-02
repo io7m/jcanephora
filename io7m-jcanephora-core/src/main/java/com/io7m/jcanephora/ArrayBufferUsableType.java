@@ -16,19 +16,20 @@
 
 package com.io7m.jcanephora;
 
+import com.io7m.jequality.annotations.EqualityStructural;
+
 /**
  * A read-only interface to the {@link ArrayBufferType} type that allows use
  * of the array but not mutation and/or deletion of the contents.
  */
 
-public interface ArrayBufferUsableType extends
+@EqualityStructural public interface ArrayBufferUsableType extends
   JCGLResourceUsableType,
-  JCGLResourceSizedType,
-  JCGLNameType
+  BufferUsableType
 {
   /**
-   * @return The type of elements in the array.
+   * @return The descriptor for the type of elements in the array.
    */
 
-  ArrayDescriptor arrayGetType();
+  ArrayDescriptor arrayGetDescriptor();
 }

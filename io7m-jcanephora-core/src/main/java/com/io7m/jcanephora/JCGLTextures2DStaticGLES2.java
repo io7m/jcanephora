@@ -32,7 +32,7 @@ public interface JCGLTextures2DStaticGLES2 extends JCGLTextures2DStaticCommon
   /**
    * <p>
    * Allocate an RGB texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGB_565_2BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGB_565_2BPP}
    * for the precise format of the texture.
    * </p>
    * <p>
@@ -102,7 +102,7 @@ public interface JCGLTextures2DStaticGLES2 extends JCGLTextures2DStaticCommon
   /**
    * <p>
    * Allocate an RGBA texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGBA_4444_2BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGBA_4444_2BPP}
    * for the precise format of the texture.
    * </p>
    * <p>
@@ -172,7 +172,7 @@ public interface JCGLTextures2DStaticGLES2 extends JCGLTextures2DStaticCommon
   /**
    * <p>
    * Allocate an RGBA texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_RGBA_5551_2BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_RGBA_5551_2BPP}
    * for the precise format of the texture.
    * </p>
    * <p>

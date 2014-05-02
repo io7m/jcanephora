@@ -14,36 +14,28 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.jogl;
 
-import com.io7m.jcanephora.jogl.JCGLResourceDeletable;
+import javax.media.opengl.GLContext;
+
+import com.io7m.jcanephora.IndexBufferType;
+import com.io7m.jcanephora.JCGLUnsignedType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.RangeInclusiveL;
 
-/**
- * An immutable reference to an allocated index buffer.
- */
-
-public final class IndexBuffer extends JCGLResourceDeletable implements
-  BufferType,
-  IndexBufferUsableType
+final class JOGLIndexBuffer extends JOGLObjectShared implements
+  IndexBufferType
 {
   private final RangeInclusiveL  range;
   private final JCGLUnsignedType type;
-  private final int              value;
 
-  IndexBuffer(
-    final int in_value,
+  JOGLIndexBuffer(
+    final GLContext in_context,
+    final int in_name,
     final RangeInclusiveL in_range,
     final JCGLUnsignedType in_type)
   {
-    this.value =
-      (int) RangeCheck.checkIncludedIn(
-        in_value,
-        "Index buffer",
-        RangeCheck.NATURAL_INTEGER,
-        "Valid buffers");
+    super(in_context, in_name);
     this.range = NullCheck.notNull(in_range, "Range");
     this.type = NullCheck.notNull(in_type, "GL type");
   }
@@ -53,17 +45,12 @@ public final class IndexBuffer extends JCGLResourceDeletable implements
     return this.type.getSizeBytes();
   }
 
-  @Override public int getGLName()
-  {
-    return this.value;
-  }
-
   @Override public RangeInclusiveL bufferGetRange()
   {
     return this.range;
   }
 
-  @Override public JCGLUnsignedType getType()
+  @Override public JCGLUnsignedType indexGetType()
   {
     return this.type;
   }
@@ -76,8 +63,8 @@ public final class IndexBuffer extends JCGLResourceDeletable implements
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("[IndexBuffer ");
-    builder.append(this.value);
+    builder.append("[JOGLIndexBuffer ");
+    builder.append(super.getGLName());
     builder.append(" ");
     builder.append(this.range);
     builder.append(" ");
