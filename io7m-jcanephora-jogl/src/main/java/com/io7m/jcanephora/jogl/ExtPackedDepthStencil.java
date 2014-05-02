@@ -6,11 +6,11 @@ import javax.media.opengl.GL;
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jcanephora.JCGLExtensionNames;
-import com.io7m.jcanephora.JCGLExtensionPackedDepthStencil;
 import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.JCGLVersion;
 import com.io7m.jcanephora.RenderbufferFormat;
+import com.io7m.jcanephora.api.JCGLExtensionPackedDepthStencil;
 import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
 import com.io7m.jlog.Log;
 

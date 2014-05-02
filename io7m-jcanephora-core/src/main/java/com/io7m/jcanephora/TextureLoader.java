@@ -22,6 +22,11 @@ import java.io.InputStream;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.api.JCGLImplementation;
+import com.io7m.jcanephora.api.JCGLTextures2DStaticGL2ES3;
+import com.io7m.jcanephora.api.JCGLTextures2DStaticGL3ES3;
+import com.io7m.jcanephora.api.JCGLTextures2DStaticGLES2;
+import com.io7m.jcanephora.api.JCGLTexturesCubeStaticGL2ES3;
 
 /**
  * Functions for loading OpenGL textures from image files/streams.
