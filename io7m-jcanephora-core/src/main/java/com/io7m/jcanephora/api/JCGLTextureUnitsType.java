@@ -14,46 +14,39 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.api;
+
+import java.util.List;
+
+import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.TextureUnitType;
 
 /**
- * Simplified interface to the scissor test.
+ * Type-safe interface to the GPU's texture units.
  */
 
-public interface JCGLScissorType
+public interface JCGLTextureUnitsType
 {
   /**
-   * Disable the scissor test in the OpenGL pipeline. The scissor test is
-   * initially disabled.
+   * @return The maximum texture size supported by the current implementation.
+   *         'Size' refers to the length of a side, so if the implementation
+   *         returns <code>8192</code>, the largest texture that can be
+   *         created is <code>8192 * 8192</code>.
    * 
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
-  void scissorDisable()
+  int textureGetMaximumSize()
     throws JCGLRuntimeException;
 
   /**
-   * Set the OpenGL scissor region to the given inclusive area. The dimensions
-   * and position are specified in pixels and <code>(0, 0)</code> refers to
-   * the bottom left corner of the viewport.
+   * @return All available texture units for the current implementation.
    * 
-   * @param area
-   *          The inclusive area
    * @throws JCGLRuntimeException
-   *           Iff an OpenGL error occurred.
+   *           Iff an OpenGL error occurs.
    */
 
-  void scissorEnable(
-    final AreaInclusive area)
-    throws JCGLRuntimeException;
-
-  /**
-   * @return <code>true</code> iff scissor testing is enabled.
-   * @throws JCGLRuntimeException
-   *           Iff an OpenGL error occurred.
-   */
-
-  boolean scissorIsEnabled()
+  List<TextureUnitType> textureGetUnits()
     throws JCGLRuntimeException;
 }

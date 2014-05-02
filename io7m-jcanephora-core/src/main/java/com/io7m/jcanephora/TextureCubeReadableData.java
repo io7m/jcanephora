@@ -132,117 +132,117 @@ public final class TextureCubeReadableData implements TextureReadableDataType
       "Number of components in the texture is 1");
 
     switch (this.type) {
-      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
-      case TEXTURE_TYPE_RGBA_1010102_4BPP:
-      case TEXTURE_TYPE_RGBA_16F_8BPP:
-      case TEXTURE_TYPE_RGBA_16I_8BPP:
-      case TEXTURE_TYPE_RGBA_16U_8BPP:
-      case TEXTURE_TYPE_RGBA_16_8BPP:
-      case TEXTURE_TYPE_RGBA_32F_16BPP:
-      case TEXTURE_TYPE_RGBA_32I_16BPP:
-      case TEXTURE_TYPE_RGBA_32U_16BPP:
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_8I_4BPP:
-      case TEXTURE_TYPE_RGBA_8U_4BPP:
-      case TEXTURE_TYPE_RGBA_8_4BPP:
-      case TEXTURE_TYPE_RGB_16F_6BPP:
-      case TEXTURE_TYPE_RGB_16I_6BPP:
-      case TEXTURE_TYPE_RGB_16U_6BPP:
-      case TEXTURE_TYPE_RGB_16_6BPP:
-      case TEXTURE_TYPE_RGB_32F_12BPP:
-      case TEXTURE_TYPE_RGB_32I_12BPP:
-      case TEXTURE_TYPE_RGB_32U_12BPP:
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_8I_3BPP:
-      case TEXTURE_TYPE_RGB_8U_3BPP:
-      case TEXTURE_TYPE_RGB_8_3BPP:
-      case TEXTURE_TYPE_RG_16F_4BPP:
-      case TEXTURE_TYPE_RG_16I_4BPP:
-      case TEXTURE_TYPE_RG_16U_4BPP:
-      case TEXTURE_TYPE_RG_16_4BPP:
-      case TEXTURE_TYPE_RG_32F_8BPP:
-      case TEXTURE_TYPE_RG_32I_8BPP:
-      case TEXTURE_TYPE_RG_32U_8BPP:
-      case TEXTURE_TYPE_RG_8I_2BPP:
-      case TEXTURE_TYPE_RG_8U_2BPP:
-      case TEXTURE_TYPE_RG_8_2BPP:
+      case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
+      case TEXTURE_FORMAT_RGBA_1010102_4BPP:
+      case TEXTURE_FORMAT_RGBA_16F_8BPP:
+      case TEXTURE_FORMAT_RGBA_16I_8BPP:
+      case TEXTURE_FORMAT_RGBA_16U_8BPP:
+      case TEXTURE_FORMAT_RGBA_16_8BPP:
+      case TEXTURE_FORMAT_RGBA_32F_16BPP:
+      case TEXTURE_FORMAT_RGBA_32I_16BPP:
+      case TEXTURE_FORMAT_RGBA_32U_16BPP:
+      case TEXTURE_FORMAT_RGBA_4444_2BPP:
+      case TEXTURE_FORMAT_RGBA_5551_2BPP:
+      case TEXTURE_FORMAT_RGBA_8I_4BPP:
+      case TEXTURE_FORMAT_RGBA_8U_4BPP:
+      case TEXTURE_FORMAT_RGBA_8_4BPP:
+      case TEXTURE_FORMAT_RGB_16F_6BPP:
+      case TEXTURE_FORMAT_RGB_16I_6BPP:
+      case TEXTURE_FORMAT_RGB_16U_6BPP:
+      case TEXTURE_FORMAT_RGB_16_6BPP:
+      case TEXTURE_FORMAT_RGB_32F_12BPP:
+      case TEXTURE_FORMAT_RGB_32I_12BPP:
+      case TEXTURE_FORMAT_RGB_32U_12BPP:
+      case TEXTURE_FORMAT_RGB_565_2BPP:
+      case TEXTURE_FORMAT_RGB_8I_3BPP:
+      case TEXTURE_FORMAT_RGB_8U_3BPP:
+      case TEXTURE_FORMAT_RGB_8_3BPP:
+      case TEXTURE_FORMAT_RG_16F_4BPP:
+      case TEXTURE_FORMAT_RG_16I_4BPP:
+      case TEXTURE_FORMAT_RG_16U_4BPP:
+      case TEXTURE_FORMAT_RG_16_4BPP:
+      case TEXTURE_FORMAT_RG_32F_8BPP:
+      case TEXTURE_FORMAT_RG_32I_8BPP:
+      case TEXTURE_FORMAT_RG_32U_8BPP:
+      case TEXTURE_FORMAT_RG_8I_2BPP:
+      case TEXTURE_FORMAT_RG_8U_2BPP:
+      case TEXTURE_FORMAT_RG_8_2BPP:
       {
         throw new UnreachableCodeException();
       }
-      case TEXTURE_TYPE_R_16I_2BPP:
+      case TEXTURE_FORMAT_R_16I_2BPP:
       {
         return new ByteBufferTextureCursorReadable_1_16_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_R_16U_2BPP:
+      case TEXTURE_FORMAT_R_16U_2BPP:
       {
         return new ByteBufferTextureCursorReadable_1_16_U(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_R_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_FORMAT_R_16_2BPP:
+      case TEXTURE_FORMAT_DEPTH_16_2BPP:
       {
         return new ByteBufferTextureCursorReadable_1_16_UNFP(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_FORMAT_DEPTH_24_4BPP:
       {
         return new ByteBufferTextureCursorReadable_1_24_UNFP(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_R_32F_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_FORMAT_R_32F_4BPP:
+      case TEXTURE_FORMAT_DEPTH_32F_4BPP:
       {
         return new ByteBufferTextureCursorReadable_1_32f(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_R_8I_1BPP:
+      case TEXTURE_FORMAT_R_8I_1BPP:
       {
         return new ByteBufferTextureCursorReadable_1_8_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_R_8U_1BPP:
+      case TEXTURE_FORMAT_R_8U_1BPP:
       {
         return new ByteBufferTextureCursorReadable_1_8_U(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_R_8_1BPP:
+      case TEXTURE_FORMAT_R_8_1BPP:
       {
         return new ByteBufferTextureCursorReadable_1_8_UNFP(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_R_32I_4BPP:
+      case TEXTURE_FORMAT_R_32I_4BPP:
       {
         return new ByteBufferTextureCursorReadable_1_32_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_R_32U_4BPP:
+      case TEXTURE_FORMAT_R_32U_4BPP:
       {
         return new ByteBufferTextureCursorReadable_1_32_UNFP(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_R_16F_2BPP:
+      case TEXTURE_FORMAT_R_16F_2BPP:
       {
         return new ByteBufferTextureCursorReadable_1_16f(
           this.data,
@@ -271,105 +271,105 @@ public final class TextureCubeReadableData implements TextureReadableDataType
       "Texture is not floating point");
 
     switch (this.type) {
-      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
-      case TEXTURE_TYPE_R_16F_2BPP:
-      case TEXTURE_TYPE_R_32F_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_RGBA_16F_8BPP:
-      case TEXTURE_TYPE_RGBA_32F_16BPP:
-      case TEXTURE_TYPE_RGB_16F_6BPP:
-      case TEXTURE_TYPE_RGB_32F_12BPP:
-      case TEXTURE_TYPE_RG_16F_4BPP:
-      case TEXTURE_TYPE_RG_32F_8BPP:
-      case TEXTURE_TYPE_RGBA_1010102_4BPP:
-      case TEXTURE_TYPE_RGBA_16I_8BPP:
-      case TEXTURE_TYPE_RGBA_16U_8BPP:
-      case TEXTURE_TYPE_RGBA_16_8BPP:
-      case TEXTURE_TYPE_RGBA_32I_16BPP:
-      case TEXTURE_TYPE_RGBA_32U_16BPP:
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_8I_4BPP:
-      case TEXTURE_TYPE_RGBA_8U_4BPP:
-      case TEXTURE_TYPE_RGBA_8_4BPP:
-      case TEXTURE_TYPE_RGB_16I_6BPP:
-      case TEXTURE_TYPE_RGB_16U_6BPP:
-      case TEXTURE_TYPE_RGB_16_6BPP:
-      case TEXTURE_TYPE_RGB_32I_12BPP:
-      case TEXTURE_TYPE_RGB_32U_12BPP:
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_8I_3BPP:
-      case TEXTURE_TYPE_RGB_8U_3BPP:
-      case TEXTURE_TYPE_RGB_8_3BPP:
-      case TEXTURE_TYPE_RG_16I_4BPP:
-      case TEXTURE_TYPE_RG_16U_4BPP:
-      case TEXTURE_TYPE_RG_16_4BPP:
-      case TEXTURE_TYPE_RG_32I_8BPP:
-      case TEXTURE_TYPE_RG_32U_8BPP:
-      case TEXTURE_TYPE_RG_8I_2BPP:
-      case TEXTURE_TYPE_RG_8U_2BPP:
-      case TEXTURE_TYPE_RG_8_2BPP:
+      case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
+      case TEXTURE_FORMAT_R_16F_2BPP:
+      case TEXTURE_FORMAT_R_32F_4BPP:
+      case TEXTURE_FORMAT_DEPTH_32F_4BPP:
+      case TEXTURE_FORMAT_RGBA_16F_8BPP:
+      case TEXTURE_FORMAT_RGBA_32F_16BPP:
+      case TEXTURE_FORMAT_RGB_16F_6BPP:
+      case TEXTURE_FORMAT_RGB_32F_12BPP:
+      case TEXTURE_FORMAT_RG_16F_4BPP:
+      case TEXTURE_FORMAT_RG_32F_8BPP:
+      case TEXTURE_FORMAT_RGBA_1010102_4BPP:
+      case TEXTURE_FORMAT_RGBA_16I_8BPP:
+      case TEXTURE_FORMAT_RGBA_16U_8BPP:
+      case TEXTURE_FORMAT_RGBA_16_8BPP:
+      case TEXTURE_FORMAT_RGBA_32I_16BPP:
+      case TEXTURE_FORMAT_RGBA_32U_16BPP:
+      case TEXTURE_FORMAT_RGBA_4444_2BPP:
+      case TEXTURE_FORMAT_RGBA_5551_2BPP:
+      case TEXTURE_FORMAT_RGBA_8I_4BPP:
+      case TEXTURE_FORMAT_RGBA_8U_4BPP:
+      case TEXTURE_FORMAT_RGBA_8_4BPP:
+      case TEXTURE_FORMAT_RGB_16I_6BPP:
+      case TEXTURE_FORMAT_RGB_16U_6BPP:
+      case TEXTURE_FORMAT_RGB_16_6BPP:
+      case TEXTURE_FORMAT_RGB_32I_12BPP:
+      case TEXTURE_FORMAT_RGB_32U_12BPP:
+      case TEXTURE_FORMAT_RGB_565_2BPP:
+      case TEXTURE_FORMAT_RGB_8I_3BPP:
+      case TEXTURE_FORMAT_RGB_8U_3BPP:
+      case TEXTURE_FORMAT_RGB_8_3BPP:
+      case TEXTURE_FORMAT_RG_16I_4BPP:
+      case TEXTURE_FORMAT_RG_16U_4BPP:
+      case TEXTURE_FORMAT_RG_16_4BPP:
+      case TEXTURE_FORMAT_RG_32I_8BPP:
+      case TEXTURE_FORMAT_RG_32U_8BPP:
+      case TEXTURE_FORMAT_RG_8I_2BPP:
+      case TEXTURE_FORMAT_RG_8U_2BPP:
+      case TEXTURE_FORMAT_RG_8_2BPP:
       {
         throw new UnreachableCodeException();
       }
-      case TEXTURE_TYPE_R_16I_2BPP:
+      case TEXTURE_FORMAT_R_16I_2BPP:
       {
         return new ByteBufferTextureCursorReadable_1_16_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_R_16U_2BPP:
+      case TEXTURE_FORMAT_R_16U_2BPP:
       {
         return new ByteBufferTextureCursorReadable_1_16_U(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_R_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
+      case TEXTURE_FORMAT_R_16_2BPP:
+      case TEXTURE_FORMAT_DEPTH_16_2BPP:
       {
         return new ByteBufferTextureCursorReadable_1_16_UNFP(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
+      case TEXTURE_FORMAT_DEPTH_24_4BPP:
       {
         return new ByteBufferTextureCursorReadable_1_24_UNFP(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_R_8I_1BPP:
+      case TEXTURE_FORMAT_R_8I_1BPP:
       {
         return new ByteBufferTextureCursorReadable_1_8_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_R_8U_1BPP:
+      case TEXTURE_FORMAT_R_8U_1BPP:
       {
         return new ByteBufferTextureCursorReadable_1_8_U(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_R_8_1BPP:
+      case TEXTURE_FORMAT_R_8_1BPP:
       {
         return new ByteBufferTextureCursorReadable_1_8_UNFP(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_R_32I_4BPP:
+      case TEXTURE_FORMAT_R_32I_4BPP:
       {
         return new ByteBufferTextureCursorReadable_1_32_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_R_32U_4BPP:
+      case TEXTURE_FORMAT_R_32U_4BPP:
       {
         return new ByteBufferTextureCursorReadable_1_32_U(
           this.data,
@@ -406,115 +406,115 @@ public final class TextureCubeReadableData implements TextureReadableDataType
       this.type.getComponentCount() == 2,
       "Number of components in the texture is 2");
     Constraints.constrainArbitrary(
-      this.type != TextureFormat.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
+      this.type != TextureFormat.TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP,
       "Type is not packed depth/stencil");
 
     switch (this.type) {
-      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_RGBA_1010102_4BPP:
-      case TEXTURE_TYPE_RGBA_16F_8BPP:
-      case TEXTURE_TYPE_RGBA_16I_8BPP:
-      case TEXTURE_TYPE_RGBA_16U_8BPP:
-      case TEXTURE_TYPE_RGBA_16_8BPP:
-      case TEXTURE_TYPE_RGBA_32F_16BPP:
-      case TEXTURE_TYPE_RGBA_32I_16BPP:
-      case TEXTURE_TYPE_RGBA_32U_16BPP:
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_8I_4BPP:
-      case TEXTURE_TYPE_RGBA_8U_4BPP:
-      case TEXTURE_TYPE_RGBA_8_4BPP:
-      case TEXTURE_TYPE_RGB_16F_6BPP:
-      case TEXTURE_TYPE_RGB_16I_6BPP:
-      case TEXTURE_TYPE_RGB_16U_6BPP:
-      case TEXTURE_TYPE_RGB_16_6BPP:
-      case TEXTURE_TYPE_RGB_32F_12BPP:
-      case TEXTURE_TYPE_RGB_32I_12BPP:
-      case TEXTURE_TYPE_RGB_32U_12BPP:
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_8I_3BPP:
-      case TEXTURE_TYPE_RGB_8U_3BPP:
-      case TEXTURE_TYPE_RGB_8_3BPP:
-      case TEXTURE_TYPE_R_16F_2BPP:
-      case TEXTURE_TYPE_R_16I_2BPP:
-      case TEXTURE_TYPE_R_16U_2BPP:
-      case TEXTURE_TYPE_R_16_2BPP:
-      case TEXTURE_TYPE_R_32F_4BPP:
-      case TEXTURE_TYPE_R_32I_4BPP:
-      case TEXTURE_TYPE_R_32U_4BPP:
-      case TEXTURE_TYPE_R_8I_1BPP:
-      case TEXTURE_TYPE_R_8U_1BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
+      case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
+      case TEXTURE_FORMAT_DEPTH_16_2BPP:
+      case TEXTURE_FORMAT_DEPTH_24_4BPP:
+      case TEXTURE_FORMAT_DEPTH_32F_4BPP:
+      case TEXTURE_FORMAT_RGBA_1010102_4BPP:
+      case TEXTURE_FORMAT_RGBA_16F_8BPP:
+      case TEXTURE_FORMAT_RGBA_16I_8BPP:
+      case TEXTURE_FORMAT_RGBA_16U_8BPP:
+      case TEXTURE_FORMAT_RGBA_16_8BPP:
+      case TEXTURE_FORMAT_RGBA_32F_16BPP:
+      case TEXTURE_FORMAT_RGBA_32I_16BPP:
+      case TEXTURE_FORMAT_RGBA_32U_16BPP:
+      case TEXTURE_FORMAT_RGBA_4444_2BPP:
+      case TEXTURE_FORMAT_RGBA_5551_2BPP:
+      case TEXTURE_FORMAT_RGBA_8I_4BPP:
+      case TEXTURE_FORMAT_RGBA_8U_4BPP:
+      case TEXTURE_FORMAT_RGBA_8_4BPP:
+      case TEXTURE_FORMAT_RGB_16F_6BPP:
+      case TEXTURE_FORMAT_RGB_16I_6BPP:
+      case TEXTURE_FORMAT_RGB_16U_6BPP:
+      case TEXTURE_FORMAT_RGB_16_6BPP:
+      case TEXTURE_FORMAT_RGB_32F_12BPP:
+      case TEXTURE_FORMAT_RGB_32I_12BPP:
+      case TEXTURE_FORMAT_RGB_32U_12BPP:
+      case TEXTURE_FORMAT_RGB_565_2BPP:
+      case TEXTURE_FORMAT_RGB_8I_3BPP:
+      case TEXTURE_FORMAT_RGB_8U_3BPP:
+      case TEXTURE_FORMAT_RGB_8_3BPP:
+      case TEXTURE_FORMAT_R_16F_2BPP:
+      case TEXTURE_FORMAT_R_16I_2BPP:
+      case TEXTURE_FORMAT_R_16U_2BPP:
+      case TEXTURE_FORMAT_R_16_2BPP:
+      case TEXTURE_FORMAT_R_32F_4BPP:
+      case TEXTURE_FORMAT_R_32I_4BPP:
+      case TEXTURE_FORMAT_R_32U_4BPP:
+      case TEXTURE_FORMAT_R_8I_1BPP:
+      case TEXTURE_FORMAT_R_8U_1BPP:
+      case TEXTURE_FORMAT_R_8_1BPP:
       {
         throw new UnreachableCodeException();
       }
-      case TEXTURE_TYPE_RG_16I_4BPP:
+      case TEXTURE_FORMAT_RG_16I_4BPP:
       {
         return new ByteBufferTextureCursorReadable_2_16_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RG_16U_4BPP:
+      case TEXTURE_FORMAT_RG_16U_4BPP:
       {
         return new ByteBufferTextureCursorReadable_2_16_U(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RG_16_4BPP:
+      case TEXTURE_FORMAT_RG_16_4BPP:
       {
         return new ByteBufferTextureCursorReadable_2_16_UNFP(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RG_32F_8BPP:
+      case TEXTURE_FORMAT_RG_32F_8BPP:
       {
         return new ByteBufferTextureCursorReadable_2_32f(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RG_32I_8BPP:
+      case TEXTURE_FORMAT_RG_32I_8BPP:
       {
         return new ByteBufferTextureCursorReadable_2_32_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RG_32U_8BPP:
+      case TEXTURE_FORMAT_RG_32U_8BPP:
       {
         return new ByteBufferTextureCursorReadable_2_32_U(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RG_8I_2BPP:
+      case TEXTURE_FORMAT_RG_8I_2BPP:
       {
         return new ByteBufferTextureCursorReadable_2_8_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RG_8U_2BPP:
+      case TEXTURE_FORMAT_RG_8U_2BPP:
       {
         return new ByteBufferTextureCursorReadable_2_8_U(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RG_8_2BPP:
+      case TEXTURE_FORMAT_RG_8_2BPP:
       {
         return new ByteBufferTextureCursorReadable_2_8_UNFP(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RG_16F_4BPP:
+      case TEXTURE_FORMAT_RG_16F_4BPP:
       {
         return new ByteBufferTextureCursorReadable_2_16f(
           this.data,
@@ -542,103 +542,103 @@ public final class TextureCubeReadableData implements TextureReadableDataType
       TextureTypeMeta.isFloatingPoint(this.type) == false,
       "Texture is not floating point");
     Constraints.constrainArbitrary(
-      this.type != TextureFormat.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
+      this.type != TextureFormat.TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP,
       "Type is not packed depth/stencil");
 
     switch (this.type) {
-      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
-      case TEXTURE_TYPE_R_16F_2BPP:
-      case TEXTURE_TYPE_R_32F_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_RGBA_16F_8BPP:
-      case TEXTURE_TYPE_RGBA_32F_16BPP:
-      case TEXTURE_TYPE_RGB_16F_6BPP:
-      case TEXTURE_TYPE_RGB_32F_12BPP:
-      case TEXTURE_TYPE_RG_16F_4BPP:
-      case TEXTURE_TYPE_RG_32F_8BPP:
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_RGBA_1010102_4BPP:
-      case TEXTURE_TYPE_RGBA_16I_8BPP:
-      case TEXTURE_TYPE_RGBA_16U_8BPP:
-      case TEXTURE_TYPE_RGBA_16_8BPP:
-      case TEXTURE_TYPE_RGBA_32I_16BPP:
-      case TEXTURE_TYPE_RGBA_32U_16BPP:
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_8I_4BPP:
-      case TEXTURE_TYPE_RGBA_8U_4BPP:
-      case TEXTURE_TYPE_RGBA_8_4BPP:
-      case TEXTURE_TYPE_RGB_16I_6BPP:
-      case TEXTURE_TYPE_RGB_16U_6BPP:
-      case TEXTURE_TYPE_RGB_16_6BPP:
-      case TEXTURE_TYPE_RGB_32I_12BPP:
-      case TEXTURE_TYPE_RGB_32U_12BPP:
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_8I_3BPP:
-      case TEXTURE_TYPE_RGB_8U_3BPP:
-      case TEXTURE_TYPE_RGB_8_3BPP:
-      case TEXTURE_TYPE_R_16I_2BPP:
-      case TEXTURE_TYPE_R_16U_2BPP:
-      case TEXTURE_TYPE_R_16_2BPP:
-      case TEXTURE_TYPE_R_32I_4BPP:
-      case TEXTURE_TYPE_R_32U_4BPP:
-      case TEXTURE_TYPE_R_8I_1BPP:
-      case TEXTURE_TYPE_R_8U_1BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
+      case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
+      case TEXTURE_FORMAT_R_16F_2BPP:
+      case TEXTURE_FORMAT_R_32F_4BPP:
+      case TEXTURE_FORMAT_DEPTH_32F_4BPP:
+      case TEXTURE_FORMAT_RGBA_16F_8BPP:
+      case TEXTURE_FORMAT_RGBA_32F_16BPP:
+      case TEXTURE_FORMAT_RGB_16F_6BPP:
+      case TEXTURE_FORMAT_RGB_32F_12BPP:
+      case TEXTURE_FORMAT_RG_16F_4BPP:
+      case TEXTURE_FORMAT_RG_32F_8BPP:
+      case TEXTURE_FORMAT_DEPTH_16_2BPP:
+      case TEXTURE_FORMAT_DEPTH_24_4BPP:
+      case TEXTURE_FORMAT_RGBA_1010102_4BPP:
+      case TEXTURE_FORMAT_RGBA_16I_8BPP:
+      case TEXTURE_FORMAT_RGBA_16U_8BPP:
+      case TEXTURE_FORMAT_RGBA_16_8BPP:
+      case TEXTURE_FORMAT_RGBA_32I_16BPP:
+      case TEXTURE_FORMAT_RGBA_32U_16BPP:
+      case TEXTURE_FORMAT_RGBA_4444_2BPP:
+      case TEXTURE_FORMAT_RGBA_5551_2BPP:
+      case TEXTURE_FORMAT_RGBA_8I_4BPP:
+      case TEXTURE_FORMAT_RGBA_8U_4BPP:
+      case TEXTURE_FORMAT_RGBA_8_4BPP:
+      case TEXTURE_FORMAT_RGB_16I_6BPP:
+      case TEXTURE_FORMAT_RGB_16U_6BPP:
+      case TEXTURE_FORMAT_RGB_16_6BPP:
+      case TEXTURE_FORMAT_RGB_32I_12BPP:
+      case TEXTURE_FORMAT_RGB_32U_12BPP:
+      case TEXTURE_FORMAT_RGB_565_2BPP:
+      case TEXTURE_FORMAT_RGB_8I_3BPP:
+      case TEXTURE_FORMAT_RGB_8U_3BPP:
+      case TEXTURE_FORMAT_RGB_8_3BPP:
+      case TEXTURE_FORMAT_R_16I_2BPP:
+      case TEXTURE_FORMAT_R_16U_2BPP:
+      case TEXTURE_FORMAT_R_16_2BPP:
+      case TEXTURE_FORMAT_R_32I_4BPP:
+      case TEXTURE_FORMAT_R_32U_4BPP:
+      case TEXTURE_FORMAT_R_8I_1BPP:
+      case TEXTURE_FORMAT_R_8U_1BPP:
+      case TEXTURE_FORMAT_R_8_1BPP:
       {
         throw new UnreachableCodeException();
       }
-      case TEXTURE_TYPE_RG_16I_4BPP:
+      case TEXTURE_FORMAT_RG_16I_4BPP:
       {
         return new ByteBufferTextureCursorReadable_2_16_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RG_16U_4BPP:
+      case TEXTURE_FORMAT_RG_16U_4BPP:
       {
         return new ByteBufferTextureCursorReadable_2_16_U(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RG_16_4BPP:
+      case TEXTURE_FORMAT_RG_16_4BPP:
       {
         return new ByteBufferTextureCursorReadable_2_16_UNFP(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RG_32I_8BPP:
+      case TEXTURE_FORMAT_RG_32I_8BPP:
       {
         return new ByteBufferTextureCursorReadable_2_32_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RG_32U_8BPP:
+      case TEXTURE_FORMAT_RG_32U_8BPP:
       {
         return new ByteBufferTextureCursorReadable_2_32_UNFP(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RG_8I_2BPP:
+      case TEXTURE_FORMAT_RG_8I_2BPP:
       {
         return new ByteBufferTextureCursorReadable_2_8_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RG_8U_2BPP:
+      case TEXTURE_FORMAT_RG_8U_2BPP:
       {
         return new ByteBufferTextureCursorReadable_2_8_U(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RG_8_2BPP:
+      case TEXTURE_FORMAT_RG_8_2BPP:
       {
         return new ByteBufferTextureCursorReadable_2_8_UNFP(
           this.data,
@@ -676,117 +676,117 @@ public final class TextureCubeReadableData implements TextureReadableDataType
       "Number of components in the texture is 3");
 
     switch (this.type) {
-      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_RGBA_1010102_4BPP:
-      case TEXTURE_TYPE_RGBA_16F_8BPP:
-      case TEXTURE_TYPE_RGBA_16I_8BPP:
-      case TEXTURE_TYPE_RGBA_16U_8BPP:
-      case TEXTURE_TYPE_RGBA_16_8BPP:
-      case TEXTURE_TYPE_RGBA_32F_16BPP:
-      case TEXTURE_TYPE_RGBA_32I_16BPP:
-      case TEXTURE_TYPE_RGBA_32U_16BPP:
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_8I_4BPP:
-      case TEXTURE_TYPE_RGBA_8U_4BPP:
-      case TEXTURE_TYPE_RGBA_8_4BPP:
-      case TEXTURE_TYPE_RG_16F_4BPP:
-      case TEXTURE_TYPE_RG_16I_4BPP:
-      case TEXTURE_TYPE_RG_16U_4BPP:
-      case TEXTURE_TYPE_RG_16_4BPP:
-      case TEXTURE_TYPE_RG_32F_8BPP:
-      case TEXTURE_TYPE_RG_32I_8BPP:
-      case TEXTURE_TYPE_RG_32U_8BPP:
-      case TEXTURE_TYPE_RG_8I_2BPP:
-      case TEXTURE_TYPE_RG_8U_2BPP:
-      case TEXTURE_TYPE_RG_8_2BPP:
-      case TEXTURE_TYPE_R_16F_2BPP:
-      case TEXTURE_TYPE_R_16I_2BPP:
-      case TEXTURE_TYPE_R_16U_2BPP:
-      case TEXTURE_TYPE_R_16_2BPP:
-      case TEXTURE_TYPE_R_32F_4BPP:
-      case TEXTURE_TYPE_R_32I_4BPP:
-      case TEXTURE_TYPE_R_32U_4BPP:
-      case TEXTURE_TYPE_R_8I_1BPP:
-      case TEXTURE_TYPE_R_8U_1BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
+      case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
+      case TEXTURE_FORMAT_DEPTH_16_2BPP:
+      case TEXTURE_FORMAT_DEPTH_24_4BPP:
+      case TEXTURE_FORMAT_DEPTH_32F_4BPP:
+      case TEXTURE_FORMAT_RGBA_1010102_4BPP:
+      case TEXTURE_FORMAT_RGBA_16F_8BPP:
+      case TEXTURE_FORMAT_RGBA_16I_8BPP:
+      case TEXTURE_FORMAT_RGBA_16U_8BPP:
+      case TEXTURE_FORMAT_RGBA_16_8BPP:
+      case TEXTURE_FORMAT_RGBA_32F_16BPP:
+      case TEXTURE_FORMAT_RGBA_32I_16BPP:
+      case TEXTURE_FORMAT_RGBA_32U_16BPP:
+      case TEXTURE_FORMAT_RGBA_4444_2BPP:
+      case TEXTURE_FORMAT_RGBA_5551_2BPP:
+      case TEXTURE_FORMAT_RGBA_8I_4BPP:
+      case TEXTURE_FORMAT_RGBA_8U_4BPP:
+      case TEXTURE_FORMAT_RGBA_8_4BPP:
+      case TEXTURE_FORMAT_RG_16F_4BPP:
+      case TEXTURE_FORMAT_RG_16I_4BPP:
+      case TEXTURE_FORMAT_RG_16U_4BPP:
+      case TEXTURE_FORMAT_RG_16_4BPP:
+      case TEXTURE_FORMAT_RG_32F_8BPP:
+      case TEXTURE_FORMAT_RG_32I_8BPP:
+      case TEXTURE_FORMAT_RG_32U_8BPP:
+      case TEXTURE_FORMAT_RG_8I_2BPP:
+      case TEXTURE_FORMAT_RG_8U_2BPP:
+      case TEXTURE_FORMAT_RG_8_2BPP:
+      case TEXTURE_FORMAT_R_16F_2BPP:
+      case TEXTURE_FORMAT_R_16I_2BPP:
+      case TEXTURE_FORMAT_R_16U_2BPP:
+      case TEXTURE_FORMAT_R_16_2BPP:
+      case TEXTURE_FORMAT_R_32F_4BPP:
+      case TEXTURE_FORMAT_R_32I_4BPP:
+      case TEXTURE_FORMAT_R_32U_4BPP:
+      case TEXTURE_FORMAT_R_8I_1BPP:
+      case TEXTURE_FORMAT_R_8U_1BPP:
+      case TEXTURE_FORMAT_R_8_1BPP:
       {
         throw new UnreachableCodeException();
       }
-      case TEXTURE_TYPE_RGB_16F_6BPP:
+      case TEXTURE_FORMAT_RGB_16F_6BPP:
       {
         return new ByteBufferTextureCursorReadable_3_16f(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGB_16I_6BPP:
+      case TEXTURE_FORMAT_RGB_16I_6BPP:
       {
         return new ByteBufferTextureCursorReadable_3_16_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGB_16U_6BPP:
+      case TEXTURE_FORMAT_RGB_16U_6BPP:
       {
         return new ByteBufferTextureCursorReadable_3_16_U(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGB_16_6BPP:
+      case TEXTURE_FORMAT_RGB_16_6BPP:
       {
         return new ByteBufferTextureCursorReadable_3_16_UNFP(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGB_32F_12BPP:
+      case TEXTURE_FORMAT_RGB_32F_12BPP:
       {
         return new ByteBufferTextureCursorReadable_3_32f(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGB_32I_12BPP:
+      case TEXTURE_FORMAT_RGB_32I_12BPP:
       {
         return new ByteBufferTextureCursorReadable_3_32_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGB_32U_12BPP:
+      case TEXTURE_FORMAT_RGB_32U_12BPP:
       {
         return new ByteBufferTextureCursorReadable_3_32_UNFP(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_FORMAT_RGB_565_2BPP:
       {
         return new ByteBufferTextureCursorReadable_3_565(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGB_8I_3BPP:
+      case TEXTURE_FORMAT_RGB_8I_3BPP:
       {
         return new ByteBufferTextureCursorReadable_3_8_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGB_8U_3BPP:
+      case TEXTURE_FORMAT_RGB_8U_3BPP:
       {
         return new ByteBufferTextureCursorReadable_3_8_U(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGB_8_3BPP:
+      case TEXTURE_FORMAT_RGB_8_3BPP:
       {
         return new ByteBufferTextureCursorReadable_3_8_UNFP(
           this.data,
@@ -815,105 +815,105 @@ public final class TextureCubeReadableData implements TextureReadableDataType
       "Texture is not floating point");
 
     switch (this.type) {
-      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
-      case TEXTURE_TYPE_R_16F_2BPP:
-      case TEXTURE_TYPE_R_32F_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_RGBA_16F_8BPP:
-      case TEXTURE_TYPE_RGBA_32F_16BPP:
-      case TEXTURE_TYPE_RGB_16F_6BPP:
-      case TEXTURE_TYPE_RGB_32F_12BPP:
-      case TEXTURE_TYPE_RG_16F_4BPP:
-      case TEXTURE_TYPE_RG_32F_8BPP:
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_RGBA_1010102_4BPP:
-      case TEXTURE_TYPE_RGBA_16I_8BPP:
-      case TEXTURE_TYPE_RGBA_16U_8BPP:
-      case TEXTURE_TYPE_RGBA_16_8BPP:
-      case TEXTURE_TYPE_RGBA_32I_16BPP:
-      case TEXTURE_TYPE_RGBA_32U_16BPP:
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_8I_4BPP:
-      case TEXTURE_TYPE_RGBA_8U_4BPP:
-      case TEXTURE_TYPE_RGBA_8_4BPP:
-      case TEXTURE_TYPE_RG_16I_4BPP:
-      case TEXTURE_TYPE_RG_16U_4BPP:
-      case TEXTURE_TYPE_RG_16_4BPP:
-      case TEXTURE_TYPE_RG_32I_8BPP:
-      case TEXTURE_TYPE_RG_32U_8BPP:
-      case TEXTURE_TYPE_RG_8I_2BPP:
-      case TEXTURE_TYPE_RG_8U_2BPP:
-      case TEXTURE_TYPE_RG_8_2BPP:
-      case TEXTURE_TYPE_R_16I_2BPP:
-      case TEXTURE_TYPE_R_16U_2BPP:
-      case TEXTURE_TYPE_R_16_2BPP:
-      case TEXTURE_TYPE_R_32I_4BPP:
-      case TEXTURE_TYPE_R_32U_4BPP:
-      case TEXTURE_TYPE_R_8I_1BPP:
-      case TEXTURE_TYPE_R_8U_1BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
+      case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
+      case TEXTURE_FORMAT_R_16F_2BPP:
+      case TEXTURE_FORMAT_R_32F_4BPP:
+      case TEXTURE_FORMAT_DEPTH_32F_4BPP:
+      case TEXTURE_FORMAT_RGBA_16F_8BPP:
+      case TEXTURE_FORMAT_RGBA_32F_16BPP:
+      case TEXTURE_FORMAT_RGB_16F_6BPP:
+      case TEXTURE_FORMAT_RGB_32F_12BPP:
+      case TEXTURE_FORMAT_RG_16F_4BPP:
+      case TEXTURE_FORMAT_RG_32F_8BPP:
+      case TEXTURE_FORMAT_DEPTH_16_2BPP:
+      case TEXTURE_FORMAT_DEPTH_24_4BPP:
+      case TEXTURE_FORMAT_RGBA_1010102_4BPP:
+      case TEXTURE_FORMAT_RGBA_16I_8BPP:
+      case TEXTURE_FORMAT_RGBA_16U_8BPP:
+      case TEXTURE_FORMAT_RGBA_16_8BPP:
+      case TEXTURE_FORMAT_RGBA_32I_16BPP:
+      case TEXTURE_FORMAT_RGBA_32U_16BPP:
+      case TEXTURE_FORMAT_RGBA_4444_2BPP:
+      case TEXTURE_FORMAT_RGBA_5551_2BPP:
+      case TEXTURE_FORMAT_RGBA_8I_4BPP:
+      case TEXTURE_FORMAT_RGBA_8U_4BPP:
+      case TEXTURE_FORMAT_RGBA_8_4BPP:
+      case TEXTURE_FORMAT_RG_16I_4BPP:
+      case TEXTURE_FORMAT_RG_16U_4BPP:
+      case TEXTURE_FORMAT_RG_16_4BPP:
+      case TEXTURE_FORMAT_RG_32I_8BPP:
+      case TEXTURE_FORMAT_RG_32U_8BPP:
+      case TEXTURE_FORMAT_RG_8I_2BPP:
+      case TEXTURE_FORMAT_RG_8U_2BPP:
+      case TEXTURE_FORMAT_RG_8_2BPP:
+      case TEXTURE_FORMAT_R_16I_2BPP:
+      case TEXTURE_FORMAT_R_16U_2BPP:
+      case TEXTURE_FORMAT_R_16_2BPP:
+      case TEXTURE_FORMAT_R_32I_4BPP:
+      case TEXTURE_FORMAT_R_32U_4BPP:
+      case TEXTURE_FORMAT_R_8I_1BPP:
+      case TEXTURE_FORMAT_R_8U_1BPP:
+      case TEXTURE_FORMAT_R_8_1BPP:
       {
         throw new UnreachableCodeException();
       }
-      case TEXTURE_TYPE_RGB_16I_6BPP:
+      case TEXTURE_FORMAT_RGB_16I_6BPP:
       {
         return new ByteBufferTextureCursorReadable_3_16_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGB_16U_6BPP:
+      case TEXTURE_FORMAT_RGB_16U_6BPP:
       {
         return new ByteBufferTextureCursorReadable_3_16_U(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGB_16_6BPP:
+      case TEXTURE_FORMAT_RGB_16_6BPP:
       {
         return new ByteBufferTextureCursorReadable_3_16_UNFP(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGB_32I_12BPP:
+      case TEXTURE_FORMAT_RGB_32I_12BPP:
       {
         return new ByteBufferTextureCursorReadable_3_32_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGB_32U_12BPP:
+      case TEXTURE_FORMAT_RGB_32U_12BPP:
       {
         return new ByteBufferTextureCursorReadable_3_32_U(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_FORMAT_RGB_565_2BPP:
       {
         return new ByteBufferTextureCursorReadable_3_565(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGB_8I_3BPP:
+      case TEXTURE_FORMAT_RGB_8I_3BPP:
       {
         return new ByteBufferTextureCursorReadable_3_8_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGB_8U_3BPP:
+      case TEXTURE_FORMAT_RGB_8U_3BPP:
       {
         return new ByteBufferTextureCursorReadable_3_8_U(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGB_8_3BPP:
+      case TEXTURE_FORMAT_RGB_8_3BPP:
       {
         return new ByteBufferTextureCursorReadable_3_8_UNFP(
           this.data,
@@ -951,129 +951,129 @@ public final class TextureCubeReadableData implements TextureReadableDataType
       "Number of components in the texture is 4");
 
     switch (this.type) {
-      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_RGB_16F_6BPP:
-      case TEXTURE_TYPE_RGB_16I_6BPP:
-      case TEXTURE_TYPE_RGB_16U_6BPP:
-      case TEXTURE_TYPE_RGB_16_6BPP:
-      case TEXTURE_TYPE_RGB_32F_12BPP:
-      case TEXTURE_TYPE_RGB_32I_12BPP:
-      case TEXTURE_TYPE_RGB_32U_12BPP:
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_8I_3BPP:
-      case TEXTURE_TYPE_RGB_8U_3BPP:
-      case TEXTURE_TYPE_RGB_8_3BPP:
-      case TEXTURE_TYPE_RG_16F_4BPP:
-      case TEXTURE_TYPE_RG_16I_4BPP:
-      case TEXTURE_TYPE_RG_16U_4BPP:
-      case TEXTURE_TYPE_RG_16_4BPP:
-      case TEXTURE_TYPE_RG_32F_8BPP:
-      case TEXTURE_TYPE_RG_32I_8BPP:
-      case TEXTURE_TYPE_RG_32U_8BPP:
-      case TEXTURE_TYPE_RG_8I_2BPP:
-      case TEXTURE_TYPE_RG_8U_2BPP:
-      case TEXTURE_TYPE_RG_8_2BPP:
-      case TEXTURE_TYPE_R_16F_2BPP:
-      case TEXTURE_TYPE_R_16I_2BPP:
-      case TEXTURE_TYPE_R_16U_2BPP:
-      case TEXTURE_TYPE_R_16_2BPP:
-      case TEXTURE_TYPE_R_32F_4BPP:
-      case TEXTURE_TYPE_R_32I_4BPP:
-      case TEXTURE_TYPE_R_32U_4BPP:
-      case TEXTURE_TYPE_R_8I_1BPP:
-      case TEXTURE_TYPE_R_8U_1BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
+      case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
+      case TEXTURE_FORMAT_DEPTH_16_2BPP:
+      case TEXTURE_FORMAT_DEPTH_24_4BPP:
+      case TEXTURE_FORMAT_DEPTH_32F_4BPP:
+      case TEXTURE_FORMAT_RGB_16F_6BPP:
+      case TEXTURE_FORMAT_RGB_16I_6BPP:
+      case TEXTURE_FORMAT_RGB_16U_6BPP:
+      case TEXTURE_FORMAT_RGB_16_6BPP:
+      case TEXTURE_FORMAT_RGB_32F_12BPP:
+      case TEXTURE_FORMAT_RGB_32I_12BPP:
+      case TEXTURE_FORMAT_RGB_32U_12BPP:
+      case TEXTURE_FORMAT_RGB_565_2BPP:
+      case TEXTURE_FORMAT_RGB_8I_3BPP:
+      case TEXTURE_FORMAT_RGB_8U_3BPP:
+      case TEXTURE_FORMAT_RGB_8_3BPP:
+      case TEXTURE_FORMAT_RG_16F_4BPP:
+      case TEXTURE_FORMAT_RG_16I_4BPP:
+      case TEXTURE_FORMAT_RG_16U_4BPP:
+      case TEXTURE_FORMAT_RG_16_4BPP:
+      case TEXTURE_FORMAT_RG_32F_8BPP:
+      case TEXTURE_FORMAT_RG_32I_8BPP:
+      case TEXTURE_FORMAT_RG_32U_8BPP:
+      case TEXTURE_FORMAT_RG_8I_2BPP:
+      case TEXTURE_FORMAT_RG_8U_2BPP:
+      case TEXTURE_FORMAT_RG_8_2BPP:
+      case TEXTURE_FORMAT_R_16F_2BPP:
+      case TEXTURE_FORMAT_R_16I_2BPP:
+      case TEXTURE_FORMAT_R_16U_2BPP:
+      case TEXTURE_FORMAT_R_16_2BPP:
+      case TEXTURE_FORMAT_R_32F_4BPP:
+      case TEXTURE_FORMAT_R_32I_4BPP:
+      case TEXTURE_FORMAT_R_32U_4BPP:
+      case TEXTURE_FORMAT_R_8I_1BPP:
+      case TEXTURE_FORMAT_R_8U_1BPP:
+      case TEXTURE_FORMAT_R_8_1BPP:
       {
         throw new UnreachableCodeException();
       }
-      case TEXTURE_TYPE_RGBA_1010102_4BPP:
+      case TEXTURE_FORMAT_RGBA_1010102_4BPP:
       {
         return new ByteBufferTextureCursorReadable_4_1010102(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_16F_8BPP:
+      case TEXTURE_FORMAT_RGBA_16F_8BPP:
       {
         return new ByteBufferTextureCursorReadable_4_16f(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_FORMAT_RGBA_4444_2BPP:
       {
         return new ByteBufferTextureCursorReadable_4_4444(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_FORMAT_RGBA_5551_2BPP:
       {
         return new ByteBufferTextureCursorReadable_4_5551(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_32F_16BPP:
+      case TEXTURE_FORMAT_RGBA_32F_16BPP:
       {
         return new ByteBufferTextureCursorReadable_4_32f(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_16I_8BPP:
+      case TEXTURE_FORMAT_RGBA_16I_8BPP:
       {
         return new ByteBufferTextureCursorReadable_4_16_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_16U_8BPP:
+      case TEXTURE_FORMAT_RGBA_16U_8BPP:
       {
         return new ByteBufferTextureCursorReadable_4_16_U(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_16_8BPP:
+      case TEXTURE_FORMAT_RGBA_16_8BPP:
       {
         return new ByteBufferTextureCursorReadable_4_16_UNFP(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_32I_16BPP:
+      case TEXTURE_FORMAT_RGBA_32I_16BPP:
       {
         return new ByteBufferTextureCursorReadable_4_32_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_32U_16BPP:
+      case TEXTURE_FORMAT_RGBA_32U_16BPP:
       {
         return new ByteBufferTextureCursorReadable_4_32_UNFP(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_8I_4BPP:
+      case TEXTURE_FORMAT_RGBA_8I_4BPP:
       {
         return new ByteBufferTextureCursorReadable_4_8_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_8U_4BPP:
+      case TEXTURE_FORMAT_RGBA_8U_4BPP:
       {
         return new ByteBufferTextureCursorReadable_4_8_U(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_8_4BPP:
+      case TEXTURE_FORMAT_RGBA_8_4BPP:
       {
         return new ByteBufferTextureCursorReadable_4_8_UNFP(
           this.data,
@@ -1102,117 +1102,117 @@ public final class TextureCubeReadableData implements TextureReadableDataType
       "Texture is not floating point");
 
     switch (this.type) {
-      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
-      case TEXTURE_TYPE_R_16F_2BPP:
-      case TEXTURE_TYPE_R_32F_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_RGBA_16F_8BPP:
-      case TEXTURE_TYPE_RGBA_32F_16BPP:
-      case TEXTURE_TYPE_RGB_16F_6BPP:
-      case TEXTURE_TYPE_RGB_32F_12BPP:
-      case TEXTURE_TYPE_RG_16F_4BPP:
-      case TEXTURE_TYPE_RG_32F_8BPP:
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_RGB_16I_6BPP:
-      case TEXTURE_TYPE_RGB_16U_6BPP:
-      case TEXTURE_TYPE_RGB_16_6BPP:
-      case TEXTURE_TYPE_RGB_32I_12BPP:
-      case TEXTURE_TYPE_RGB_32U_12BPP:
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_8I_3BPP:
-      case TEXTURE_TYPE_RGB_8U_3BPP:
-      case TEXTURE_TYPE_RGB_8_3BPP:
-      case TEXTURE_TYPE_RG_16I_4BPP:
-      case TEXTURE_TYPE_RG_16U_4BPP:
-      case TEXTURE_TYPE_RG_16_4BPP:
-      case TEXTURE_TYPE_RG_32I_8BPP:
-      case TEXTURE_TYPE_RG_32U_8BPP:
-      case TEXTURE_TYPE_RG_8I_2BPP:
-      case TEXTURE_TYPE_RG_8U_2BPP:
-      case TEXTURE_TYPE_RG_8_2BPP:
-      case TEXTURE_TYPE_R_16I_2BPP:
-      case TEXTURE_TYPE_R_16U_2BPP:
-      case TEXTURE_TYPE_R_16_2BPP:
-      case TEXTURE_TYPE_R_32I_4BPP:
-      case TEXTURE_TYPE_R_32U_4BPP:
-      case TEXTURE_TYPE_R_8I_1BPP:
-      case TEXTURE_TYPE_R_8U_1BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
+      case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
+      case TEXTURE_FORMAT_R_16F_2BPP:
+      case TEXTURE_FORMAT_R_32F_4BPP:
+      case TEXTURE_FORMAT_DEPTH_32F_4BPP:
+      case TEXTURE_FORMAT_RGBA_16F_8BPP:
+      case TEXTURE_FORMAT_RGBA_32F_16BPP:
+      case TEXTURE_FORMAT_RGB_16F_6BPP:
+      case TEXTURE_FORMAT_RGB_32F_12BPP:
+      case TEXTURE_FORMAT_RG_16F_4BPP:
+      case TEXTURE_FORMAT_RG_32F_8BPP:
+      case TEXTURE_FORMAT_DEPTH_16_2BPP:
+      case TEXTURE_FORMAT_DEPTH_24_4BPP:
+      case TEXTURE_FORMAT_RGB_16I_6BPP:
+      case TEXTURE_FORMAT_RGB_16U_6BPP:
+      case TEXTURE_FORMAT_RGB_16_6BPP:
+      case TEXTURE_FORMAT_RGB_32I_12BPP:
+      case TEXTURE_FORMAT_RGB_32U_12BPP:
+      case TEXTURE_FORMAT_RGB_565_2BPP:
+      case TEXTURE_FORMAT_RGB_8I_3BPP:
+      case TEXTURE_FORMAT_RGB_8U_3BPP:
+      case TEXTURE_FORMAT_RGB_8_3BPP:
+      case TEXTURE_FORMAT_RG_16I_4BPP:
+      case TEXTURE_FORMAT_RG_16U_4BPP:
+      case TEXTURE_FORMAT_RG_16_4BPP:
+      case TEXTURE_FORMAT_RG_32I_8BPP:
+      case TEXTURE_FORMAT_RG_32U_8BPP:
+      case TEXTURE_FORMAT_RG_8I_2BPP:
+      case TEXTURE_FORMAT_RG_8U_2BPP:
+      case TEXTURE_FORMAT_RG_8_2BPP:
+      case TEXTURE_FORMAT_R_16I_2BPP:
+      case TEXTURE_FORMAT_R_16U_2BPP:
+      case TEXTURE_FORMAT_R_16_2BPP:
+      case TEXTURE_FORMAT_R_32I_4BPP:
+      case TEXTURE_FORMAT_R_32U_4BPP:
+      case TEXTURE_FORMAT_R_8I_1BPP:
+      case TEXTURE_FORMAT_R_8U_1BPP:
+      case TEXTURE_FORMAT_R_8_1BPP:
       {
         throw new UnreachableCodeException();
       }
-      case TEXTURE_TYPE_RGBA_1010102_4BPP:
+      case TEXTURE_FORMAT_RGBA_1010102_4BPP:
       {
         return new ByteBufferTextureCursorReadable_4_1010102(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_FORMAT_RGBA_4444_2BPP:
       {
         return new ByteBufferTextureCursorReadable_4_4444(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_FORMAT_RGBA_5551_2BPP:
       {
         return new ByteBufferTextureCursorReadable_4_5551(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_16I_8BPP:
+      case TEXTURE_FORMAT_RGBA_16I_8BPP:
       {
         return new ByteBufferTextureCursorReadable_4_16_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_16U_8BPP:
+      case TEXTURE_FORMAT_RGBA_16U_8BPP:
       {
         return new ByteBufferTextureCursorReadable_4_16_U(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_16_8BPP:
+      case TEXTURE_FORMAT_RGBA_16_8BPP:
       {
         return new ByteBufferTextureCursorReadable_4_16_UNFP(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_32I_16BPP:
+      case TEXTURE_FORMAT_RGBA_32I_16BPP:
       {
         return new ByteBufferTextureCursorReadable_4_32_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_32U_16BPP:
+      case TEXTURE_FORMAT_RGBA_32U_16BPP:
       {
         return new ByteBufferTextureCursorReadable_4_32_UNFP(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_8I_4BPP:
+      case TEXTURE_FORMAT_RGBA_8I_4BPP:
       {
         return new ByteBufferTextureCursorReadable_4_8_I(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_8U_4BPP:
+      case TEXTURE_FORMAT_RGBA_8U_4BPP:
       {
         return new ByteBufferTextureCursorReadable_4_8_U(
           this.data,
           this.area,
           this.area);
       }
-      case TEXTURE_TYPE_RGBA_8_4BPP:
+      case TEXTURE_FORMAT_RGBA_8_4BPP:
       {
         return new ByteBufferTextureCursorReadable_4_8_UNFP(
           this.data,

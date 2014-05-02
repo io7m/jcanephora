@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,28 +16,11 @@
 
 package com.io7m.jcanephora;
 
-import com.io7m.jcanephora.api.JCGLArrayBuffersMappedType;
-import com.io7m.jcanephora.api.JCGLBlendingGL3Type;
-
 /**
- * <p>
- * The interface exposed by OpenGL ES3 implementations.
- * </p>
+ * 2D "static" texture type.
  */
 
-public interface JCGLInterfaceGLES3 extends
-  JCGLArrayBuffersMappedType,
-  JCGLBlendingGL3Type,
-  JCGLExtensionsGLES3,
-  JCGLFramebuffersGL3,
-  JCGLIndexBuffersMapped,
-  JCGLInterfaceCommon,
-  JCGLRenderbuffersGLES3,
-  JCGLShadersGLES3,
-  JCGLTextures2DStaticGLES3,
-  JCGLTexturesCubeStaticGLES3
+public interface Texture2DStaticType extends Texture2DStaticUsableType
 {
-  /*
-   * All functions defined in the superinterfaces.
-   */
+  // No extra functions.
 }

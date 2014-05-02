@@ -14,42 +14,18 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
-
 /**
- * Control over polygon smoothing.
+ * <p>
+ * The interfaces exposed by the idealized GPU modelled by
+ * <code>jcanephora</code>.
+ * </p>
+ * <p>
+ * The package does not admit the existence of <code>null</code>; all
+ * functions will raise {@link com.io7m.jnull.NullCheckException} on receipt
+ * of <code>null</code>. Passing <code>null</code> to a
+ * <code>jcanephora</code> function is never correct.
+ * </p>
  */
 
-public interface JCGLPolygonSmoothingType
-{
-  /**
-   * Disable smooth rasterization of polygons.
-   * 
-   * @throws JCGLRuntimeException
-   *           Iff an OpenGL error occurs.
-   */
+@com.io7m.jnull.NonNullByDefault package com.io7m.jcanephora.api;
 
-  void polygonSmoothingDisable()
-    throws JCGLRuntimeException;
-
-  /**
-   * Enable smooth rasterization of polygons.
-   * 
-   * @throws JCGLRuntimeException
-   *           Iff an OpenGL error occurs.
-   */
-
-  void polygonSmoothingEnable()
-    throws JCGLRuntimeException;
-
-  /**
-   * @return <code>true</code> iff smooth rasterization of polygons is
-   *         enabled.
-   * 
-   * @throws JCGLRuntimeException
-   *           Iff an OpenGL error occurs.
-   */
-
-  boolean polygonSmoothingIsEnabled()
-    throws JCGLRuntimeException;
-}

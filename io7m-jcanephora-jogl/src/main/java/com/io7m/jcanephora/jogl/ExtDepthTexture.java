@@ -23,7 +23,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jcanephora.JCGLExtensionDepthTexture;
 import com.io7m.jcanephora.JCGLExtensionNames;
-import com.io7m.jcanephora.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.Texture2DStatic;
@@ -32,6 +31,7 @@ import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureFormat;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
+import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
 import com.io7m.jlog.Log;
 
 /**
@@ -76,7 +76,7 @@ class ExtDepthTexture<G extends GL> implements JCGLExtensionDepthTexture
     this.log = log1;
   }
 
-  @Override public Texture2DStatic texture2DStaticAllocateDepth16(
+  @Override public JOGLTexture2DStatic texture2DStaticAllocateDepth16(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -94,14 +94,14 @@ class ExtDepthTexture<G extends GL> implements JCGLExtensionDepthTexture
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_DEPTH_16_2BPP,
+      TextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public Texture2DStatic texture2DStaticAllocateDepth24(
+  @Override public JOGLTexture2DStatic texture2DStaticAllocateDepth24(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -119,7 +119,7 @@ class ExtDepthTexture<G extends GL> implements JCGLExtensionDepthTexture
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_DEPTH_24_4BPP,
+      TextureFormat.TEXTURE_FORMAT_DEPTH_24_4BPP,
       wrap_s,
       wrap_t,
       min_filter,

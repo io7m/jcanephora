@@ -17,7 +17,9 @@
 package com.io7m.jcanephora;
 
 import java.util.EnumSet;
+import java.util.Set;
 
+import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
 import com.io7m.junreachable.UnreachableCodeException;
 
 /**
@@ -34,8 +36,8 @@ public final class TextureFormatMeta
   public static EnumSet<TextureFormat> getTextures2DRequiredByGL21()
   {
     final EnumSet<TextureFormat> s = EnumSet.noneOf(TextureFormat.class);
-    s.add(TextureFormat.TEXTURE_TYPE_RGBA_8_4BPP);
-    s.add(TextureFormat.TEXTURE_TYPE_RGB_8_3BPP);
+    s.add(TextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP);
+    s.add(TextureFormat.TEXTURE_FORMAT_RGB_8_3BPP);
     return s;
   }
 
@@ -44,7 +46,7 @@ public final class TextureFormatMeta
    *         OpenGL 3.* contexts.
    */
 
-  public static EnumSet<TextureFormat> getTextures2DRequiredByGL3()
+  public static Set<TextureFormat> getTextures2DRequiredByGL3()
   {
     final EnumSet<TextureFormat> s = EnumSet.noneOf(TextureFormat.class);
 
@@ -55,9 +57,9 @@ public final class TextureFormatMeta
        * Not required by GL3.
        */
 
-        case TEXTURE_TYPE_RGBA_4444_2BPP:
-        case TEXTURE_TYPE_RGBA_5551_2BPP:
-        case TEXTURE_TYPE_RGB_565_2BPP:
+        case TEXTURE_FORMAT_RGBA_4444_2BPP:
+        case TEXTURE_FORMAT_RGBA_5551_2BPP:
+        case TEXTURE_FORMAT_RGB_565_2BPP:
         {
           break;
         }
@@ -67,55 +69,55 @@ public final class TextureFormatMeta
          * specification.
          */
 
-        case TEXTURE_TYPE_DEPTH_16_2BPP:
-        case TEXTURE_TYPE_DEPTH_24_4BPP:
-        case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
-        case TEXTURE_TYPE_DEPTH_32F_4BPP:
+        case TEXTURE_FORMAT_DEPTH_16_2BPP:
+        case TEXTURE_FORMAT_DEPTH_24_4BPP:
+        case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
+        case TEXTURE_FORMAT_DEPTH_32F_4BPP:
 
-        case TEXTURE_TYPE_RGBA_1010102_4BPP:
-        case TEXTURE_TYPE_RGBA_16F_8BPP:
-        case TEXTURE_TYPE_RGBA_16I_8BPP:
-        case TEXTURE_TYPE_RGBA_16U_8BPP:
-        case TEXTURE_TYPE_RGBA_16_8BPP:
-        case TEXTURE_TYPE_RGBA_32F_16BPP:
-        case TEXTURE_TYPE_RGBA_32I_16BPP:
-        case TEXTURE_TYPE_RGBA_32U_16BPP:
-        case TEXTURE_TYPE_RGBA_8I_4BPP:
-        case TEXTURE_TYPE_RGBA_8U_4BPP:
-        case TEXTURE_TYPE_RGBA_8_4BPP:
+        case TEXTURE_FORMAT_RGBA_1010102_4BPP:
+        case TEXTURE_FORMAT_RGBA_16F_8BPP:
+        case TEXTURE_FORMAT_RGBA_16I_8BPP:
+        case TEXTURE_FORMAT_RGBA_16U_8BPP:
+        case TEXTURE_FORMAT_RGBA_16_8BPP:
+        case TEXTURE_FORMAT_RGBA_32F_16BPP:
+        case TEXTURE_FORMAT_RGBA_32I_16BPP:
+        case TEXTURE_FORMAT_RGBA_32U_16BPP:
+        case TEXTURE_FORMAT_RGBA_8I_4BPP:
+        case TEXTURE_FORMAT_RGBA_8U_4BPP:
+        case TEXTURE_FORMAT_RGBA_8_4BPP:
 
-        case TEXTURE_TYPE_RGB_16F_6BPP:
-        case TEXTURE_TYPE_RGB_16I_6BPP:
-        case TEXTURE_TYPE_RGB_16U_6BPP:
-        case TEXTURE_TYPE_RGB_16_6BPP:
-        case TEXTURE_TYPE_RGB_32F_12BPP:
-        case TEXTURE_TYPE_RGB_32I_12BPP:
-        case TEXTURE_TYPE_RGB_32U_12BPP:
-        case TEXTURE_TYPE_RGB_8I_3BPP:
-        case TEXTURE_TYPE_RGB_8U_3BPP:
-        case TEXTURE_TYPE_RGB_8_3BPP:
+        case TEXTURE_FORMAT_RGB_16F_6BPP:
+        case TEXTURE_FORMAT_RGB_16I_6BPP:
+        case TEXTURE_FORMAT_RGB_16U_6BPP:
+        case TEXTURE_FORMAT_RGB_16_6BPP:
+        case TEXTURE_FORMAT_RGB_32F_12BPP:
+        case TEXTURE_FORMAT_RGB_32I_12BPP:
+        case TEXTURE_FORMAT_RGB_32U_12BPP:
+        case TEXTURE_FORMAT_RGB_8I_3BPP:
+        case TEXTURE_FORMAT_RGB_8U_3BPP:
+        case TEXTURE_FORMAT_RGB_8_3BPP:
 
-        case TEXTURE_TYPE_RG_16F_4BPP:
-        case TEXTURE_TYPE_RG_16I_4BPP:
-        case TEXTURE_TYPE_RG_16U_4BPP:
-        case TEXTURE_TYPE_RG_16_4BPP:
-        case TEXTURE_TYPE_RG_32F_8BPP:
-        case TEXTURE_TYPE_RG_32I_8BPP:
-        case TEXTURE_TYPE_RG_32U_8BPP:
-        case TEXTURE_TYPE_RG_8I_2BPP:
-        case TEXTURE_TYPE_RG_8U_2BPP:
-        case TEXTURE_TYPE_RG_8_2BPP:
+        case TEXTURE_FORMAT_RG_16F_4BPP:
+        case TEXTURE_FORMAT_RG_16I_4BPP:
+        case TEXTURE_FORMAT_RG_16U_4BPP:
+        case TEXTURE_FORMAT_RG_16_4BPP:
+        case TEXTURE_FORMAT_RG_32F_8BPP:
+        case TEXTURE_FORMAT_RG_32I_8BPP:
+        case TEXTURE_FORMAT_RG_32U_8BPP:
+        case TEXTURE_FORMAT_RG_8I_2BPP:
+        case TEXTURE_FORMAT_RG_8U_2BPP:
+        case TEXTURE_FORMAT_RG_8_2BPP:
 
-        case TEXTURE_TYPE_R_16F_2BPP:
-        case TEXTURE_TYPE_R_16I_2BPP:
-        case TEXTURE_TYPE_R_16U_2BPP:
-        case TEXTURE_TYPE_R_16_2BPP:
-        case TEXTURE_TYPE_R_32F_4BPP:
-        case TEXTURE_TYPE_R_32I_4BPP:
-        case TEXTURE_TYPE_R_32U_4BPP:
-        case TEXTURE_TYPE_R_8I_1BPP:
-        case TEXTURE_TYPE_R_8U_1BPP:
-        case TEXTURE_TYPE_R_8_1BPP:
+        case TEXTURE_FORMAT_R_16F_2BPP:
+        case TEXTURE_FORMAT_R_16I_2BPP:
+        case TEXTURE_FORMAT_R_16U_2BPP:
+        case TEXTURE_FORMAT_R_16_2BPP:
+        case TEXTURE_FORMAT_R_32F_4BPP:
+        case TEXTURE_FORMAT_R_32I_4BPP:
+        case TEXTURE_FORMAT_R_32U_4BPP:
+        case TEXTURE_FORMAT_R_8I_1BPP:
+        case TEXTURE_FORMAT_R_8U_1BPP:
+        case TEXTURE_FORMAT_R_8_1BPP:
         {
           s.add(t);
         }
@@ -130,13 +132,13 @@ public final class TextureFormatMeta
    *         GL3 and ES3.
    */
 
-  public static EnumSet<TextureFormat> getTextures2DRequiredByGL3ES3()
+  public static Set<TextureFormat> getTextures2DRequiredByGL3ES3()
   {
-    final EnumSet<TextureFormat> gl3 =
+    final Set<TextureFormat> gl3 =
       TextureFormatMeta.getTextures2DRequiredByGL3();
-    final EnumSet<TextureFormat> es3 =
+    final Set<TextureFormat> es3 =
       TextureFormatMeta.getTextures2DRequiredByGLES3();
-    final EnumSet<TextureFormat> all = EnumSet.noneOf(TextureFormat.class);
+    final Set<TextureFormat> all = EnumSet.noneOf(TextureFormat.class);
 
     for (final TextureFormat t : TextureFormat.values()) {
       if (gl3.contains(t)) {
@@ -154,18 +156,18 @@ public final class TextureFormatMeta
    *         OpenGL ES2 contexts.
    */
 
-  public static EnumSet<TextureFormat> getTextures2DRequiredByGLES2()
+  public static Set<TextureFormat> getTextures2DRequiredByGLES2()
   {
-    final EnumSet<TextureFormat> s = EnumSet.noneOf(TextureFormat.class);
+    final Set<TextureFormat> s = EnumSet.noneOf(TextureFormat.class);
 
     /**
      * Color-renderable formats implicitly required by section 4.4.5 of the
      * ES2 standard.
      */
 
-    s.add(TextureFormat.TEXTURE_TYPE_RGBA_4444_2BPP);
-    s.add(TextureFormat.TEXTURE_TYPE_RGBA_5551_2BPP);
-    s.add(TextureFormat.TEXTURE_TYPE_RGB_565_2BPP);
+    s.add(TextureFormat.TEXTURE_FORMAT_RGBA_4444_2BPP);
+    s.add(TextureFormat.TEXTURE_FORMAT_RGBA_5551_2BPP);
+    s.add(TextureFormat.TEXTURE_FORMAT_RGB_565_2BPP);
     return s;
   }
 
@@ -174,9 +176,9 @@ public final class TextureFormatMeta
    *         OpenGL ES 3 contexts.
    */
 
-  public static EnumSet<TextureFormat> getTextures2DRequiredByGLES3()
+  public static Set<TextureFormat> getTextures2DRequiredByGLES3()
   {
-    final EnumSet<TextureFormat> s = EnumSet.noneOf(TextureFormat.class);
+    final Set<TextureFormat> s = EnumSet.noneOf(TextureFormat.class);
 
     for (final TextureFormat t : TextureFormat.values()) {
       switch (t) {
@@ -186,68 +188,68 @@ public final class TextureFormatMeta
        * specification.
        */
 
-        case TEXTURE_TYPE_RGBA_4444_2BPP:
-        case TEXTURE_TYPE_RGBA_5551_2BPP:
-        case TEXTURE_TYPE_RGB_565_2BPP:
+        case TEXTURE_FORMAT_RGBA_4444_2BPP:
+        case TEXTURE_FORMAT_RGBA_5551_2BPP:
+        case TEXTURE_FORMAT_RGB_565_2BPP:
 
-        case TEXTURE_TYPE_DEPTH_16_2BPP:
-        case TEXTURE_TYPE_DEPTH_24_4BPP:
-        case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
-        case TEXTURE_TYPE_DEPTH_32F_4BPP:
+        case TEXTURE_FORMAT_DEPTH_16_2BPP:
+        case TEXTURE_FORMAT_DEPTH_24_4BPP:
+        case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
+        case TEXTURE_FORMAT_DEPTH_32F_4BPP:
 
-        case TEXTURE_TYPE_RGBA_16F_8BPP:
-        case TEXTURE_TYPE_RGBA_16I_8BPP:
-        case TEXTURE_TYPE_RGBA_16U_8BPP:
+        case TEXTURE_FORMAT_RGBA_16F_8BPP:
+        case TEXTURE_FORMAT_RGBA_16I_8BPP:
+        case TEXTURE_FORMAT_RGBA_16U_8BPP:
 
-        case TEXTURE_TYPE_RGBA_32F_16BPP:
-        case TEXTURE_TYPE_RGBA_32I_16BPP:
-        case TEXTURE_TYPE_RGBA_32U_16BPP:
-        case TEXTURE_TYPE_RGBA_8I_4BPP:
-        case TEXTURE_TYPE_RGBA_8U_4BPP:
-        case TEXTURE_TYPE_RGBA_8_4BPP:
+        case TEXTURE_FORMAT_RGBA_32F_16BPP:
+        case TEXTURE_FORMAT_RGBA_32I_16BPP:
+        case TEXTURE_FORMAT_RGBA_32U_16BPP:
+        case TEXTURE_FORMAT_RGBA_8I_4BPP:
+        case TEXTURE_FORMAT_RGBA_8U_4BPP:
+        case TEXTURE_FORMAT_RGBA_8_4BPP:
 
-        case TEXTURE_TYPE_RGB_16F_6BPP:
-        case TEXTURE_TYPE_RGB_16I_6BPP:
-        case TEXTURE_TYPE_RGB_16U_6BPP:
+        case TEXTURE_FORMAT_RGB_16F_6BPP:
+        case TEXTURE_FORMAT_RGB_16I_6BPP:
+        case TEXTURE_FORMAT_RGB_16U_6BPP:
 
-        case TEXTURE_TYPE_RGB_32F_12BPP:
-        case TEXTURE_TYPE_RGB_32I_12BPP:
-        case TEXTURE_TYPE_RGB_32U_12BPP:
-        case TEXTURE_TYPE_RGB_8I_3BPP:
-        case TEXTURE_TYPE_RGB_8U_3BPP:
-        case TEXTURE_TYPE_RGB_8_3BPP:
+        case TEXTURE_FORMAT_RGB_32F_12BPP:
+        case TEXTURE_FORMAT_RGB_32I_12BPP:
+        case TEXTURE_FORMAT_RGB_32U_12BPP:
+        case TEXTURE_FORMAT_RGB_8I_3BPP:
+        case TEXTURE_FORMAT_RGB_8U_3BPP:
+        case TEXTURE_FORMAT_RGB_8_3BPP:
 
-        case TEXTURE_TYPE_RG_16F_4BPP:
-        case TEXTURE_TYPE_RG_16I_4BPP:
-        case TEXTURE_TYPE_RG_16U_4BPP:
+        case TEXTURE_FORMAT_RG_16F_4BPP:
+        case TEXTURE_FORMAT_RG_16I_4BPP:
+        case TEXTURE_FORMAT_RG_16U_4BPP:
 
-        case TEXTURE_TYPE_RG_32F_8BPP:
-        case TEXTURE_TYPE_RG_32I_8BPP:
-        case TEXTURE_TYPE_RG_32U_8BPP:
-        case TEXTURE_TYPE_RG_8I_2BPP:
-        case TEXTURE_TYPE_RG_8U_2BPP:
-        case TEXTURE_TYPE_RG_8_2BPP:
+        case TEXTURE_FORMAT_RG_32F_8BPP:
+        case TEXTURE_FORMAT_RG_32I_8BPP:
+        case TEXTURE_FORMAT_RG_32U_8BPP:
+        case TEXTURE_FORMAT_RG_8I_2BPP:
+        case TEXTURE_FORMAT_RG_8U_2BPP:
+        case TEXTURE_FORMAT_RG_8_2BPP:
 
-        case TEXTURE_TYPE_R_16F_2BPP:
-        case TEXTURE_TYPE_R_16I_2BPP:
-        case TEXTURE_TYPE_R_16U_2BPP:
+        case TEXTURE_FORMAT_R_16F_2BPP:
+        case TEXTURE_FORMAT_R_16I_2BPP:
+        case TEXTURE_FORMAT_R_16U_2BPP:
 
-        case TEXTURE_TYPE_R_32F_4BPP:
-        case TEXTURE_TYPE_R_32I_4BPP:
-        case TEXTURE_TYPE_R_32U_4BPP:
-        case TEXTURE_TYPE_R_8I_1BPP:
-        case TEXTURE_TYPE_R_8U_1BPP:
-        case TEXTURE_TYPE_R_8_1BPP:
+        case TEXTURE_FORMAT_R_32F_4BPP:
+        case TEXTURE_FORMAT_R_32I_4BPP:
+        case TEXTURE_FORMAT_R_32U_4BPP:
+        case TEXTURE_FORMAT_R_8I_1BPP:
+        case TEXTURE_FORMAT_R_8U_1BPP:
+        case TEXTURE_FORMAT_R_8_1BPP:
         {
           s.add(t);
           break;
         }
 
-        case TEXTURE_TYPE_RGBA_1010102_4BPP:
-        case TEXTURE_TYPE_RGBA_16_8BPP:
-        case TEXTURE_TYPE_RGB_16_6BPP:
-        case TEXTURE_TYPE_RG_16_4BPP:
-        case TEXTURE_TYPE_R_16_2BPP:
+        case TEXTURE_FORMAT_RGBA_1010102_4BPP:
+        case TEXTURE_FORMAT_RGBA_16_8BPP:
+        case TEXTURE_FORMAT_RGB_16_6BPP:
+        case TEXTURE_FORMAT_RG_16_4BPP:
+        case TEXTURE_FORMAT_R_16_2BPP:
         {
           break;
         }
@@ -262,7 +264,7 @@ public final class TextureFormatMeta
    *         OpenGL 2.1 contexts.
    */
 
-  public static EnumSet<TextureFormat> getTexturesCubeRequiredByGL21()
+  public static Set<TextureFormat> getTexturesCubeRequiredByGL21()
   {
     return TextureFormatMeta.getTextures2DRequiredByGL21();
   }
@@ -272,7 +274,7 @@ public final class TextureFormatMeta
    *         OpenGL 3.* contexts.
    */
 
-  public static EnumSet<TextureFormat> getTexturesCubeRequiredByGL3()
+  public static Set<TextureFormat> getTexturesCubeRequiredByGL3()
   {
     return TextureFormatMeta.getTextures2DRequiredByGL3();
   }
@@ -282,13 +284,13 @@ public final class TextureFormatMeta
    *         GL3 and ES3.
    */
 
-  public static EnumSet<TextureFormat> getTexturesCubeRequiredByGL3ES3()
+  public static Set<TextureFormat> getTexturesCubeRequiredByGL3ES3()
   {
-    final EnumSet<TextureFormat> gl3 =
+    final Set<TextureFormat> gl3 =
       TextureFormatMeta.getTexturesCubeRequiredByGL3();
-    final EnumSet<TextureFormat> es3 =
+    final Set<TextureFormat> es3 =
       TextureFormatMeta.getTexturesCubeRequiredByGLES3();
-    final EnumSet<TextureFormat> all = EnumSet.noneOf(TextureFormat.class);
+    final Set<TextureFormat> all = EnumSet.noneOf(TextureFormat.class);
 
     for (final TextureFormat t : TextureFormat.values()) {
       if (gl3.contains(t)) {
@@ -306,7 +308,7 @@ public final class TextureFormatMeta
    *         OpenGL ES 2 contexts.
    */
 
-  public static EnumSet<TextureFormat> getTexturesCubeRequiredByGLES2()
+  public static Set<TextureFormat> getTexturesCubeRequiredByGLES2()
   {
     return TextureFormatMeta.getTextures2DRequiredByGLES2();
   }
@@ -316,7 +318,7 @@ public final class TextureFormatMeta
    *         OpenGL ES 3 contexts.
    */
 
-  public static EnumSet<TextureFormat> getTexturesCubeRequiredByGLES3()
+  public static Set<TextureFormat> getTexturesCubeRequiredByGLES3()
   {
     return TextureFormatMeta.getTextures2DRequiredByGLES3();
   }
@@ -325,7 +327,7 @@ public final class TextureFormatMeta
    * @return All texture formats that have <code>i</code> components.
    */
 
-  public static EnumSet<TextureFormat> getTexturesWithComponents(
+  public static Set<TextureFormat> getTexturesWithComponents(
     final int i)
   {
     final EnumSet<TextureFormat> s = EnumSet.noneOf(TextureFormat.class);
@@ -376,57 +378,57 @@ public final class TextureFormatMeta
     final JCGLNamedExtensionsType extensions)
   {
     switch (format) {
-      case TEXTURE_TYPE_RGB_8_3BPP:
-      case TEXTURE_TYPE_RGBA_8_4BPP:
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
+      case TEXTURE_FORMAT_RGB_8_3BPP:
+      case TEXTURE_FORMAT_RGBA_8_4BPP:
+      case TEXTURE_FORMAT_RGB_565_2BPP:
+      case TEXTURE_FORMAT_RGBA_4444_2BPP:
+      case TEXTURE_FORMAT_RGBA_5551_2BPP:
       {
         return true;
       }
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_RGBA_32I_16BPP:
-      case TEXTURE_TYPE_RGBA_32U_16BPP:
-      case TEXTURE_TYPE_RGBA_16I_8BPP:
-      case TEXTURE_TYPE_RGBA_16U_8BPP:
-      case TEXTURE_TYPE_RGBA_8I_4BPP:
-      case TEXTURE_TYPE_RGBA_8U_4BPP:
-      case TEXTURE_TYPE_RGBA_1010102_4BPP:
-      case TEXTURE_TYPE_RGBA_16F_8BPP:
-      case TEXTURE_TYPE_RGBA_16_8BPP:
-      case TEXTURE_TYPE_RGBA_32F_16BPP:
-      case TEXTURE_TYPE_RGB_16F_6BPP:
-      case TEXTURE_TYPE_RGB_16I_6BPP:
-      case TEXTURE_TYPE_RGB_16U_6BPP:
-      case TEXTURE_TYPE_RGB_16_6BPP:
-      case TEXTURE_TYPE_RGB_32F_12BPP:
-      case TEXTURE_TYPE_RGB_32I_12BPP:
-      case TEXTURE_TYPE_RGB_32U_12BPP:
-      case TEXTURE_TYPE_RGB_8I_3BPP:
-      case TEXTURE_TYPE_RGB_8U_3BPP:
-      case TEXTURE_TYPE_RG_16F_4BPP:
-      case TEXTURE_TYPE_RG_16I_4BPP:
-      case TEXTURE_TYPE_RG_16U_4BPP:
-      case TEXTURE_TYPE_RG_16_4BPP:
-      case TEXTURE_TYPE_RG_32F_8BPP:
-      case TEXTURE_TYPE_RG_32I_8BPP:
-      case TEXTURE_TYPE_RG_32U_8BPP:
-      case TEXTURE_TYPE_RG_8I_2BPP:
-      case TEXTURE_TYPE_RG_8U_2BPP:
-      case TEXTURE_TYPE_RG_8_2BPP:
-      case TEXTURE_TYPE_R_16F_2BPP:
-      case TEXTURE_TYPE_R_16I_2BPP:
-      case TEXTURE_TYPE_R_16U_2BPP:
-      case TEXTURE_TYPE_R_16_2BPP:
-      case TEXTURE_TYPE_R_32F_4BPP:
-      case TEXTURE_TYPE_R_32I_4BPP:
-      case TEXTURE_TYPE_R_32U_4BPP:
-      case TEXTURE_TYPE_R_8I_1BPP:
-      case TEXTURE_TYPE_R_8U_1BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
+      case TEXTURE_FORMAT_DEPTH_16_2BPP:
+      case TEXTURE_FORMAT_DEPTH_24_4BPP:
+      case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
+      case TEXTURE_FORMAT_DEPTH_32F_4BPP:
+      case TEXTURE_FORMAT_RGBA_32I_16BPP:
+      case TEXTURE_FORMAT_RGBA_32U_16BPP:
+      case TEXTURE_FORMAT_RGBA_16I_8BPP:
+      case TEXTURE_FORMAT_RGBA_16U_8BPP:
+      case TEXTURE_FORMAT_RGBA_8I_4BPP:
+      case TEXTURE_FORMAT_RGBA_8U_4BPP:
+      case TEXTURE_FORMAT_RGBA_1010102_4BPP:
+      case TEXTURE_FORMAT_RGBA_16F_8BPP:
+      case TEXTURE_FORMAT_RGBA_16_8BPP:
+      case TEXTURE_FORMAT_RGBA_32F_16BPP:
+      case TEXTURE_FORMAT_RGB_16F_6BPP:
+      case TEXTURE_FORMAT_RGB_16I_6BPP:
+      case TEXTURE_FORMAT_RGB_16U_6BPP:
+      case TEXTURE_FORMAT_RGB_16_6BPP:
+      case TEXTURE_FORMAT_RGB_32F_12BPP:
+      case TEXTURE_FORMAT_RGB_32I_12BPP:
+      case TEXTURE_FORMAT_RGB_32U_12BPP:
+      case TEXTURE_FORMAT_RGB_8I_3BPP:
+      case TEXTURE_FORMAT_RGB_8U_3BPP:
+      case TEXTURE_FORMAT_RG_16F_4BPP:
+      case TEXTURE_FORMAT_RG_16I_4BPP:
+      case TEXTURE_FORMAT_RG_16U_4BPP:
+      case TEXTURE_FORMAT_RG_16_4BPP:
+      case TEXTURE_FORMAT_RG_32F_8BPP:
+      case TEXTURE_FORMAT_RG_32I_8BPP:
+      case TEXTURE_FORMAT_RG_32U_8BPP:
+      case TEXTURE_FORMAT_RG_8I_2BPP:
+      case TEXTURE_FORMAT_RG_8U_2BPP:
+      case TEXTURE_FORMAT_RG_8_2BPP:
+      case TEXTURE_FORMAT_R_16F_2BPP:
+      case TEXTURE_FORMAT_R_16I_2BPP:
+      case TEXTURE_FORMAT_R_16U_2BPP:
+      case TEXTURE_FORMAT_R_16_2BPP:
+      case TEXTURE_FORMAT_R_32F_4BPP:
+      case TEXTURE_FORMAT_R_32I_4BPP:
+      case TEXTURE_FORMAT_R_32U_4BPP:
+      case TEXTURE_FORMAT_R_8I_1BPP:
+      case TEXTURE_FORMAT_R_8U_1BPP:
+      case TEXTURE_FORMAT_R_8_1BPP:
       {
         return false;
       }
@@ -444,72 +446,72 @@ public final class TextureFormatMeta
     final JCGLNamedExtensionsType extensions)
   {
     switch (format) {
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_FORMAT_DEPTH_16_2BPP:
+      case TEXTURE_FORMAT_DEPTH_24_4BPP:
+      case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
+      case TEXTURE_FORMAT_DEPTH_32F_4BPP:
       {
         return false;
       }
-      case TEXTURE_TYPE_RGBA_32I_16BPP:
-      case TEXTURE_TYPE_RGBA_32U_16BPP:
-      case TEXTURE_TYPE_RGBA_16I_8BPP:
-      case TEXTURE_TYPE_RGBA_16U_8BPP:
-      case TEXTURE_TYPE_RGBA_8I_4BPP:
-      case TEXTURE_TYPE_RGBA_8U_4BPP:
-      case TEXTURE_TYPE_RGBA_8_4BPP:
-      case TEXTURE_TYPE_RGBA_1010102_4BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
+      case TEXTURE_FORMAT_RGBA_32I_16BPP:
+      case TEXTURE_FORMAT_RGBA_32U_16BPP:
+      case TEXTURE_FORMAT_RGBA_16I_8BPP:
+      case TEXTURE_FORMAT_RGBA_16U_8BPP:
+      case TEXTURE_FORMAT_RGBA_8I_4BPP:
+      case TEXTURE_FORMAT_RGBA_8U_4BPP:
+      case TEXTURE_FORMAT_RGBA_8_4BPP:
+      case TEXTURE_FORMAT_RGBA_1010102_4BPP:
+      case TEXTURE_FORMAT_RGBA_5551_2BPP:
+      case TEXTURE_FORMAT_RGBA_4444_2BPP:
 
-      case TEXTURE_TYPE_RGB_8_3BPP:
-      case TEXTURE_TYPE_RGB_565_2BPP:
+      case TEXTURE_FORMAT_RGB_8_3BPP:
+      case TEXTURE_FORMAT_RGB_565_2BPP:
 
-      case TEXTURE_TYPE_RG_32I_8BPP:
-      case TEXTURE_TYPE_RG_32U_8BPP:
-      case TEXTURE_TYPE_RG_16I_4BPP:
-      case TEXTURE_TYPE_RG_16U_4BPP:
-      case TEXTURE_TYPE_RG_8I_2BPP:
-      case TEXTURE_TYPE_RG_8U_2BPP:
-      case TEXTURE_TYPE_RG_8_2BPP:
+      case TEXTURE_FORMAT_RG_32I_8BPP:
+      case TEXTURE_FORMAT_RG_32U_8BPP:
+      case TEXTURE_FORMAT_RG_16I_4BPP:
+      case TEXTURE_FORMAT_RG_16U_4BPP:
+      case TEXTURE_FORMAT_RG_8I_2BPP:
+      case TEXTURE_FORMAT_RG_8U_2BPP:
+      case TEXTURE_FORMAT_RG_8_2BPP:
 
-      case TEXTURE_TYPE_R_32I_4BPP:
-      case TEXTURE_TYPE_R_32U_4BPP:
-      case TEXTURE_TYPE_R_16I_2BPP:
-      case TEXTURE_TYPE_R_16U_2BPP:
-      case TEXTURE_TYPE_R_8I_1BPP:
-      case TEXTURE_TYPE_R_8U_1BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
+      case TEXTURE_FORMAT_R_32I_4BPP:
+      case TEXTURE_FORMAT_R_32U_4BPP:
+      case TEXTURE_FORMAT_R_16I_2BPP:
+      case TEXTURE_FORMAT_R_16U_2BPP:
+      case TEXTURE_FORMAT_R_8I_1BPP:
+      case TEXTURE_FORMAT_R_8U_1BPP:
+      case TEXTURE_FORMAT_R_8_1BPP:
       {
         return true;
       }
 
-      case TEXTURE_TYPE_RGBA_16F_8BPP:
-      case TEXTURE_TYPE_RGBA_32F_16BPP:
-      case TEXTURE_TYPE_RG_16F_4BPP:
-      case TEXTURE_TYPE_RG_32F_8BPP:
-      case TEXTURE_TYPE_R_16F_2BPP:
-      case TEXTURE_TYPE_R_32F_4BPP:
+      case TEXTURE_FORMAT_RGBA_16F_8BPP:
+      case TEXTURE_FORMAT_RGBA_32F_16BPP:
+      case TEXTURE_FORMAT_RG_16F_4BPP:
+      case TEXTURE_FORMAT_RG_32F_8BPP:
+      case TEXTURE_FORMAT_R_16F_2BPP:
+      case TEXTURE_FORMAT_R_32F_4BPP:
       {
         return extensions
           .extensionIsVisible(JCGLExtensionNames.GL_EXT_COLOR_BUFFER_FLOAT);
       }
 
-      case TEXTURE_TYPE_RGBA_16_8BPP:
+      case TEXTURE_FORMAT_RGBA_16_8BPP:
 
-      case TEXTURE_TYPE_RGB_16F_6BPP:
-      case TEXTURE_TYPE_RGB_16_6BPP:
-      case TEXTURE_TYPE_RGB_16I_6BPP:
-      case TEXTURE_TYPE_RGB_16U_6BPP:
-      case TEXTURE_TYPE_RGB_32F_12BPP:
-      case TEXTURE_TYPE_RGB_32I_12BPP:
-      case TEXTURE_TYPE_RGB_32U_12BPP:
-      case TEXTURE_TYPE_RGB_8I_3BPP:
-      case TEXTURE_TYPE_RGB_8U_3BPP:
+      case TEXTURE_FORMAT_RGB_16F_6BPP:
+      case TEXTURE_FORMAT_RGB_16_6BPP:
+      case TEXTURE_FORMAT_RGB_16I_6BPP:
+      case TEXTURE_FORMAT_RGB_16U_6BPP:
+      case TEXTURE_FORMAT_RGB_32F_12BPP:
+      case TEXTURE_FORMAT_RGB_32I_12BPP:
+      case TEXTURE_FORMAT_RGB_32U_12BPP:
+      case TEXTURE_FORMAT_RGB_8I_3BPP:
+      case TEXTURE_FORMAT_RGB_8U_3BPP:
 
-      case TEXTURE_TYPE_RG_16_4BPP:
+      case TEXTURE_FORMAT_RG_16_4BPP:
 
-      case TEXTURE_TYPE_R_16_2BPP:
+      case TEXTURE_FORMAT_R_16_2BPP:
 
       {
         return false;
@@ -528,37 +530,37 @@ public final class TextureFormatMeta
     final JCGLNamedExtensionsType extensions)
   {
     switch (format) {
-      case TEXTURE_TYPE_RGBA_32I_16BPP:
-      case TEXTURE_TYPE_RGBA_32U_16BPP:
-      case TEXTURE_TYPE_RGBA_32F_16BPP:
-      case TEXTURE_TYPE_RGBA_16I_8BPP:
-      case TEXTURE_TYPE_RGBA_16U_8BPP:
-      case TEXTURE_TYPE_RGBA_16F_8BPP:
-      case TEXTURE_TYPE_RGBA_16_8BPP:
-      case TEXTURE_TYPE_RGBA_8I_4BPP:
-      case TEXTURE_TYPE_RGBA_8U_4BPP:
-      case TEXTURE_TYPE_RGBA_8_4BPP:
-      case TEXTURE_TYPE_RGBA_1010102_4BPP:
-      case TEXTURE_TYPE_RG_16F_4BPP:
-      case TEXTURE_TYPE_RG_16I_4BPP:
-      case TEXTURE_TYPE_RG_16U_4BPP:
-      case TEXTURE_TYPE_RG_16_4BPP:
-      case TEXTURE_TYPE_RG_32F_8BPP:
-      case TEXTURE_TYPE_RG_32I_8BPP:
-      case TEXTURE_TYPE_RG_32U_8BPP:
-      case TEXTURE_TYPE_RG_8I_2BPP:
-      case TEXTURE_TYPE_RG_8U_2BPP:
-      case TEXTURE_TYPE_RG_8_2BPP:
-      case TEXTURE_TYPE_R_16F_2BPP:
-      case TEXTURE_TYPE_R_16I_2BPP:
-      case TEXTURE_TYPE_R_16U_2BPP:
-      case TEXTURE_TYPE_R_16_2BPP:
-      case TEXTURE_TYPE_R_32F_4BPP:
-      case TEXTURE_TYPE_R_32I_4BPP:
-      case TEXTURE_TYPE_R_32U_4BPP:
-      case TEXTURE_TYPE_R_8I_1BPP:
-      case TEXTURE_TYPE_R_8U_1BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
+      case TEXTURE_FORMAT_RGBA_32I_16BPP:
+      case TEXTURE_FORMAT_RGBA_32U_16BPP:
+      case TEXTURE_FORMAT_RGBA_32F_16BPP:
+      case TEXTURE_FORMAT_RGBA_16I_8BPP:
+      case TEXTURE_FORMAT_RGBA_16U_8BPP:
+      case TEXTURE_FORMAT_RGBA_16F_8BPP:
+      case TEXTURE_FORMAT_RGBA_16_8BPP:
+      case TEXTURE_FORMAT_RGBA_8I_4BPP:
+      case TEXTURE_FORMAT_RGBA_8U_4BPP:
+      case TEXTURE_FORMAT_RGBA_8_4BPP:
+      case TEXTURE_FORMAT_RGBA_1010102_4BPP:
+      case TEXTURE_FORMAT_RG_16F_4BPP:
+      case TEXTURE_FORMAT_RG_16I_4BPP:
+      case TEXTURE_FORMAT_RG_16U_4BPP:
+      case TEXTURE_FORMAT_RG_16_4BPP:
+      case TEXTURE_FORMAT_RG_32F_8BPP:
+      case TEXTURE_FORMAT_RG_32I_8BPP:
+      case TEXTURE_FORMAT_RG_32U_8BPP:
+      case TEXTURE_FORMAT_RG_8I_2BPP:
+      case TEXTURE_FORMAT_RG_8U_2BPP:
+      case TEXTURE_FORMAT_RG_8_2BPP:
+      case TEXTURE_FORMAT_R_16F_2BPP:
+      case TEXTURE_FORMAT_R_16I_2BPP:
+      case TEXTURE_FORMAT_R_16U_2BPP:
+      case TEXTURE_FORMAT_R_16_2BPP:
+      case TEXTURE_FORMAT_R_32F_4BPP:
+      case TEXTURE_FORMAT_R_32I_4BPP:
+      case TEXTURE_FORMAT_R_32U_4BPP:
+      case TEXTURE_FORMAT_R_8I_1BPP:
+      case TEXTURE_FORMAT_R_8U_1BPP:
+      case TEXTURE_FORMAT_R_8_1BPP:
       {
         return true;
       }
@@ -568,27 +570,27 @@ public final class TextureFormatMeta
        * color-renderable everywhere.
        */
 
-      case TEXTURE_TYPE_RGB_8_3BPP:
+      case TEXTURE_FORMAT_RGB_8_3BPP:
       {
         return true;
       }
 
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGB_16F_6BPP:
-      case TEXTURE_TYPE_RGB_16I_6BPP:
-      case TEXTURE_TYPE_RGB_16U_6BPP:
-      case TEXTURE_TYPE_RGB_16_6BPP:
-      case TEXTURE_TYPE_RGB_32F_12BPP:
-      case TEXTURE_TYPE_RGB_32I_12BPP:
-      case TEXTURE_TYPE_RGB_32U_12BPP:
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_8I_3BPP:
-      case TEXTURE_TYPE_RGB_8U_3BPP:
+      case TEXTURE_FORMAT_DEPTH_16_2BPP:
+      case TEXTURE_FORMAT_DEPTH_24_4BPP:
+      case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
+      case TEXTURE_FORMAT_DEPTH_32F_4BPP:
+      case TEXTURE_FORMAT_RGBA_4444_2BPP:
+      case TEXTURE_FORMAT_RGBA_5551_2BPP:
+      case TEXTURE_FORMAT_RGB_16F_6BPP:
+      case TEXTURE_FORMAT_RGB_16I_6BPP:
+      case TEXTURE_FORMAT_RGB_16U_6BPP:
+      case TEXTURE_FORMAT_RGB_16_6BPP:
+      case TEXTURE_FORMAT_RGB_32F_12BPP:
+      case TEXTURE_FORMAT_RGB_32I_12BPP:
+      case TEXTURE_FORMAT_RGB_32U_12BPP:
+      case TEXTURE_FORMAT_RGB_565_2BPP:
+      case TEXTURE_FORMAT_RGB_8I_3BPP:
+      case TEXTURE_FORMAT_RGB_8U_3BPP:
       {
         return false;
       }
@@ -607,58 +609,58 @@ public final class TextureFormatMeta
     final JCGLNamedExtensionsType extensions)
   {
     switch (format) {
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
+      case TEXTURE_FORMAT_DEPTH_16_2BPP:
+      case TEXTURE_FORMAT_DEPTH_24_4BPP:
+      case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
+      case TEXTURE_FORMAT_DEPTH_32F_4BPP:
       {
         return true;
       }
 
-      case TEXTURE_TYPE_RGBA_32I_16BPP:
-      case TEXTURE_TYPE_RGBA_32U_16BPP:
-      case TEXTURE_TYPE_RGBA_16I_8BPP:
-      case TEXTURE_TYPE_RGBA_16U_8BPP:
-      case TEXTURE_TYPE_RGBA_8I_4BPP:
-      case TEXTURE_TYPE_RGBA_8U_4BPP:
-      case TEXTURE_TYPE_RGBA_8_4BPP:
-      case TEXTURE_TYPE_RGBA_1010102_4BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGB_8_3BPP:
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RG_32I_8BPP:
-      case TEXTURE_TYPE_RG_32U_8BPP:
-      case TEXTURE_TYPE_RG_16I_4BPP:
-      case TEXTURE_TYPE_RG_16U_4BPP:
-      case TEXTURE_TYPE_RG_8I_2BPP:
-      case TEXTURE_TYPE_RG_8U_2BPP:
-      case TEXTURE_TYPE_RG_8_2BPP:
-      case TEXTURE_TYPE_R_32I_4BPP:
-      case TEXTURE_TYPE_R_32U_4BPP:
-      case TEXTURE_TYPE_R_16I_2BPP:
-      case TEXTURE_TYPE_R_16U_2BPP:
-      case TEXTURE_TYPE_R_8I_1BPP:
-      case TEXTURE_TYPE_R_8U_1BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
-      case TEXTURE_TYPE_RGBA_16F_8BPP:
-      case TEXTURE_TYPE_RGBA_16_8BPP:
-      case TEXTURE_TYPE_RGBA_32F_16BPP:
-      case TEXTURE_TYPE_RGB_16F_6BPP:
-      case TEXTURE_TYPE_RGB_16_6BPP:
-      case TEXTURE_TYPE_RGB_16I_6BPP:
-      case TEXTURE_TYPE_RGB_16U_6BPP:
-      case TEXTURE_TYPE_RGB_32F_12BPP:
-      case TEXTURE_TYPE_RGB_32I_12BPP:
-      case TEXTURE_TYPE_RGB_32U_12BPP:
-      case TEXTURE_TYPE_RGB_8I_3BPP:
-      case TEXTURE_TYPE_RGB_8U_3BPP:
-      case TEXTURE_TYPE_RG_16F_4BPP:
-      case TEXTURE_TYPE_RG_16_4BPP:
-      case TEXTURE_TYPE_RG_32F_8BPP:
-      case TEXTURE_TYPE_R_16F_2BPP:
-      case TEXTURE_TYPE_R_16_2BPP:
-      case TEXTURE_TYPE_R_32F_4BPP:
+      case TEXTURE_FORMAT_RGBA_32I_16BPP:
+      case TEXTURE_FORMAT_RGBA_32U_16BPP:
+      case TEXTURE_FORMAT_RGBA_16I_8BPP:
+      case TEXTURE_FORMAT_RGBA_16U_8BPP:
+      case TEXTURE_FORMAT_RGBA_8I_4BPP:
+      case TEXTURE_FORMAT_RGBA_8U_4BPP:
+      case TEXTURE_FORMAT_RGBA_8_4BPP:
+      case TEXTURE_FORMAT_RGBA_1010102_4BPP:
+      case TEXTURE_FORMAT_RGBA_5551_2BPP:
+      case TEXTURE_FORMAT_RGBA_4444_2BPP:
+      case TEXTURE_FORMAT_RGB_8_3BPP:
+      case TEXTURE_FORMAT_RGB_565_2BPP:
+      case TEXTURE_FORMAT_RG_32I_8BPP:
+      case TEXTURE_FORMAT_RG_32U_8BPP:
+      case TEXTURE_FORMAT_RG_16I_4BPP:
+      case TEXTURE_FORMAT_RG_16U_4BPP:
+      case TEXTURE_FORMAT_RG_8I_2BPP:
+      case TEXTURE_FORMAT_RG_8U_2BPP:
+      case TEXTURE_FORMAT_RG_8_2BPP:
+      case TEXTURE_FORMAT_R_32I_4BPP:
+      case TEXTURE_FORMAT_R_32U_4BPP:
+      case TEXTURE_FORMAT_R_16I_2BPP:
+      case TEXTURE_FORMAT_R_16U_2BPP:
+      case TEXTURE_FORMAT_R_8I_1BPP:
+      case TEXTURE_FORMAT_R_8U_1BPP:
+      case TEXTURE_FORMAT_R_8_1BPP:
+      case TEXTURE_FORMAT_RGBA_16F_8BPP:
+      case TEXTURE_FORMAT_RGBA_16_8BPP:
+      case TEXTURE_FORMAT_RGBA_32F_16BPP:
+      case TEXTURE_FORMAT_RGB_16F_6BPP:
+      case TEXTURE_FORMAT_RGB_16_6BPP:
+      case TEXTURE_FORMAT_RGB_16I_6BPP:
+      case TEXTURE_FORMAT_RGB_16U_6BPP:
+      case TEXTURE_FORMAT_RGB_32F_12BPP:
+      case TEXTURE_FORMAT_RGB_32I_12BPP:
+      case TEXTURE_FORMAT_RGB_32U_12BPP:
+      case TEXTURE_FORMAT_RGB_8I_3BPP:
+      case TEXTURE_FORMAT_RGB_8U_3BPP:
+      case TEXTURE_FORMAT_RG_16F_4BPP:
+      case TEXTURE_FORMAT_RG_16_4BPP:
+      case TEXTURE_FORMAT_RG_32F_8BPP:
+      case TEXTURE_FORMAT_R_16F_2BPP:
+      case TEXTURE_FORMAT_R_16_2BPP:
+      case TEXTURE_FORMAT_R_32F_4BPP:
       {
         return false;
       }
@@ -671,57 +673,57 @@ public final class TextureFormatMeta
     final TextureFormat format)
   {
     switch (format) {
-      case TEXTURE_TYPE_DEPTH_32F_4BPP:
-      case TEXTURE_TYPE_RGBA_16F_8BPP:
-      case TEXTURE_TYPE_RGBA_32F_16BPP:
-      case TEXTURE_TYPE_RGB_16F_6BPP:
-      case TEXTURE_TYPE_RGB_32F_12BPP:
-      case TEXTURE_TYPE_RG_16F_4BPP:
-      case TEXTURE_TYPE_RG_32F_8BPP:
-      case TEXTURE_TYPE_R_16F_2BPP:
-      case TEXTURE_TYPE_R_32F_4BPP:
+      case TEXTURE_FORMAT_DEPTH_32F_4BPP:
+      case TEXTURE_FORMAT_RGBA_16F_8BPP:
+      case TEXTURE_FORMAT_RGBA_32F_16BPP:
+      case TEXTURE_FORMAT_RGB_16F_6BPP:
+      case TEXTURE_FORMAT_RGB_32F_12BPP:
+      case TEXTURE_FORMAT_RG_16F_4BPP:
+      case TEXTURE_FORMAT_RG_32F_8BPP:
+      case TEXTURE_FORMAT_R_16F_2BPP:
+      case TEXTURE_FORMAT_R_32F_4BPP:
       {
         return true;
       }
-      case TEXTURE_TYPE_DEPTH_16_2BPP:
-      case TEXTURE_TYPE_DEPTH_24_4BPP:
-      case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
-      case TEXTURE_TYPE_RGBA_1010102_4BPP:
-      case TEXTURE_TYPE_RGBA_16I_8BPP:
-      case TEXTURE_TYPE_RGBA_16U_8BPP:
-      case TEXTURE_TYPE_RGBA_16_8BPP:
-      case TEXTURE_TYPE_RGBA_32I_16BPP:
-      case TEXTURE_TYPE_RGBA_32U_16BPP:
-      case TEXTURE_TYPE_RGBA_4444_2BPP:
-      case TEXTURE_TYPE_RGBA_5551_2BPP:
-      case TEXTURE_TYPE_RGBA_8I_4BPP:
-      case TEXTURE_TYPE_RGBA_8U_4BPP:
-      case TEXTURE_TYPE_RGBA_8_4BPP:
-      case TEXTURE_TYPE_RGB_16I_6BPP:
-      case TEXTURE_TYPE_RGB_16U_6BPP:
-      case TEXTURE_TYPE_RGB_16_6BPP:
-      case TEXTURE_TYPE_RGB_32I_12BPP:
-      case TEXTURE_TYPE_RGB_32U_12BPP:
-      case TEXTURE_TYPE_RGB_565_2BPP:
-      case TEXTURE_TYPE_RGB_8I_3BPP:
-      case TEXTURE_TYPE_RGB_8U_3BPP:
-      case TEXTURE_TYPE_RGB_8_3BPP:
-      case TEXTURE_TYPE_RG_16I_4BPP:
-      case TEXTURE_TYPE_RG_16U_4BPP:
-      case TEXTURE_TYPE_RG_16_4BPP:
-      case TEXTURE_TYPE_RG_32I_8BPP:
-      case TEXTURE_TYPE_RG_32U_8BPP:
-      case TEXTURE_TYPE_RG_8I_2BPP:
-      case TEXTURE_TYPE_RG_8U_2BPP:
-      case TEXTURE_TYPE_RG_8_2BPP:
-      case TEXTURE_TYPE_R_16I_2BPP:
-      case TEXTURE_TYPE_R_16U_2BPP:
-      case TEXTURE_TYPE_R_16_2BPP:
-      case TEXTURE_TYPE_R_32I_4BPP:
-      case TEXTURE_TYPE_R_32U_4BPP:
-      case TEXTURE_TYPE_R_8I_1BPP:
-      case TEXTURE_TYPE_R_8U_1BPP:
-      case TEXTURE_TYPE_R_8_1BPP:
+      case TEXTURE_FORMAT_DEPTH_16_2BPP:
+      case TEXTURE_FORMAT_DEPTH_24_4BPP:
+      case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
+      case TEXTURE_FORMAT_RGBA_1010102_4BPP:
+      case TEXTURE_FORMAT_RGBA_16I_8BPP:
+      case TEXTURE_FORMAT_RGBA_16U_8BPP:
+      case TEXTURE_FORMAT_RGBA_16_8BPP:
+      case TEXTURE_FORMAT_RGBA_32I_16BPP:
+      case TEXTURE_FORMAT_RGBA_32U_16BPP:
+      case TEXTURE_FORMAT_RGBA_4444_2BPP:
+      case TEXTURE_FORMAT_RGBA_5551_2BPP:
+      case TEXTURE_FORMAT_RGBA_8I_4BPP:
+      case TEXTURE_FORMAT_RGBA_8U_4BPP:
+      case TEXTURE_FORMAT_RGBA_8_4BPP:
+      case TEXTURE_FORMAT_RGB_16I_6BPP:
+      case TEXTURE_FORMAT_RGB_16U_6BPP:
+      case TEXTURE_FORMAT_RGB_16_6BPP:
+      case TEXTURE_FORMAT_RGB_32I_12BPP:
+      case TEXTURE_FORMAT_RGB_32U_12BPP:
+      case TEXTURE_FORMAT_RGB_565_2BPP:
+      case TEXTURE_FORMAT_RGB_8I_3BPP:
+      case TEXTURE_FORMAT_RGB_8U_3BPP:
+      case TEXTURE_FORMAT_RGB_8_3BPP:
+      case TEXTURE_FORMAT_RG_16I_4BPP:
+      case TEXTURE_FORMAT_RG_16U_4BPP:
+      case TEXTURE_FORMAT_RG_16_4BPP:
+      case TEXTURE_FORMAT_RG_32I_8BPP:
+      case TEXTURE_FORMAT_RG_32U_8BPP:
+      case TEXTURE_FORMAT_RG_8I_2BPP:
+      case TEXTURE_FORMAT_RG_8U_2BPP:
+      case TEXTURE_FORMAT_RG_8_2BPP:
+      case TEXTURE_FORMAT_R_16I_2BPP:
+      case TEXTURE_FORMAT_R_16U_2BPP:
+      case TEXTURE_FORMAT_R_16_2BPP:
+      case TEXTURE_FORMAT_R_32I_4BPP:
+      case TEXTURE_FORMAT_R_32U_4BPP:
+      case TEXTURE_FORMAT_R_8I_1BPP:
+      case TEXTURE_FORMAT_R_8U_1BPP:
+      case TEXTURE_FORMAT_R_8_1BPP:
       {
         return false;
       }

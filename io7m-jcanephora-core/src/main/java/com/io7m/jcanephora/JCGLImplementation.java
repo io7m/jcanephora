@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,10 +16,6 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
-
 /**
  * The interface exposed by the current OpenGL implementation.
  */
@@ -33,7 +29,7 @@ public interface JCGLImplementation
    * </p>
    */
 
-  public  JCGLInterfaceCommon getGLCommon();
+  public JCGLInterfaceCommon getGLCommon();
 
   /**
    * A function that accepts implementation visitors. Returns the value of
@@ -49,7 +45,7 @@ public interface JCGLImplementation
    */
 
   public <A, E extends Throwable> A implementationAccept(
-    final  JCGLImplementationVisitor<A, E> v)
+    final JCGLImplementationVisitor<A, E> v)
     throws JCGLException,
       ConstraintError,
       E;

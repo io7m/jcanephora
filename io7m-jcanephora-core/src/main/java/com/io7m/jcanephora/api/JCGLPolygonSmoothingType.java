@@ -14,59 +14,44 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.api;
+
+import com.io7m.jcanephora.JCGLRuntimeException;
 
 /**
- * Functions returning information about the OpenGL implementation.
+ * Control over polygon smoothing.
  */
 
-public interface JCGLMetaType
+public interface JCGLPolygonSmoothingType
 {
   /**
-   * Return and reset the current OpenGL error state.
+   * Disable smooth rasterization of polygons.
    * 
-   * @return The current OpenGL error code.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
-  int metaGetError()
+  void polygonSmoothingDisable()
     throws JCGLRuntimeException;
 
   /**
-   * @return The name of the OpenGL renderer.
+   * Enable smooth rasterization of polygons.
+   * 
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
-  String metaGetRenderer()
+  void polygonSmoothingEnable()
     throws JCGLRuntimeException;
 
   /**
-   * @return The version string for the OpenGL shading language
-   *         implementation.
+   * @return <code>true</code> iff smooth rasterization of polygons is
+   *         enabled.
+   * 
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
-  JCGLSLVersion metaGetSLVersion()
-    throws JCGLRuntimeException;
-
-  /**
-   * @return The name of the OpenGL vendor.
-   * @throws JCGLRuntimeException
-   *           Iff an OpenGL error occurs.
-   */
-
-  String metaGetVendor()
-    throws JCGLRuntimeException;
-
-  /**
-   * @return The version string for the OpenGL implementation.
-   * @throws JCGLRuntimeException
-   *           Iff an OpenGL error occurs.
-   */
-
-  JCGLVersion metaGetVersion()
+  boolean polygonSmoothingIsEnabled()
     throws JCGLRuntimeException;
 }

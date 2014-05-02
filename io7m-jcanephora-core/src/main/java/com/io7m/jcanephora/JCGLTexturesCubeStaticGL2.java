@@ -35,7 +35,7 @@ public interface JCGLTexturesCubeStaticGL2 extends
    * Allocate a depth texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureFormat#TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP} for the
+   * See {@link TextureFormat#TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP} for the
    * precise format of the texture.
    * </p>
    * <p>

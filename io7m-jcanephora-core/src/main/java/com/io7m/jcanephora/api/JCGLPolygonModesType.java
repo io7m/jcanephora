@@ -14,26 +14,38 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.api;
+
+import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.PolygonMode;
 
 /**
- * Readable cursor addressing areas consisting of two-component elements. The
- * first component of the element is an unsigned fixed point value, and the
- * second component is an integer. An example of a texture type that conforms
- * to this assumption is the
- * {@link TextureFormat#TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP} type.
+ * Simplified interface to polygon modes.
  */
 
-public interface SpatialCursorReadable2pfiType extends SpatialCursorType
+public interface JCGLPolygonModesType
 {
   /**
-   * Get the value at the current cursor location and seek the cursor to the
-   * next element iff there is one.
+   * @return The <code>PolygonMode</code> used for polygons.
    * 
-   * @param v
-   *          The vector that will contain the resulting value.
+   * @throws JCGLRuntimeException
+   *           Iff an OpenGL error occurs.
    */
 
-  void get2pfi(
-    final PackedM2FI v);
+  PolygonMode polygonGetMode()
+    throws JCGLRuntimeException;
+
+  /**
+   * Set the polygon rasterization mode for the polygons to <code>mode</code>.
+   * The OpenGL default is <code>POLYGON_FILL</code>.
+   * 
+   * @param mode
+   *          The rasterization mode.
+   * @throws JCGLRuntimeException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void polygonSetMode(
+    final PolygonMode mode)
+    throws JCGLRuntimeException;
 }

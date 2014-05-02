@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,38 +14,34 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.api;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
+import com.io7m.jcanephora.IndexBufferUsableType;
+import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.Primitives;
 
 /**
- * Type-safe interface to the GPU's texture units.
+ * Commands to render primitives from array data.
  */
 
-public interface JCGLTextureUnits
+public interface JCGLDrawType
 {
   /**
-   * Return the maximum texture size supported by the current implementation.
-   * 'Size' refers to the length of a side, so if the implementation returns
-   * <code>8192</code>, the largest texture that can be created is
-   * <code>8192 * 8192</code>.
+   * Draw a set of polygons using the currently bound array buffers and the
+   * current shading program. Elements are picked from the currently bound
+   * array buffer using indices from the element buffer <code>indices</code>.
+   * Polygons are drawn using mode <code>mode</code>.
    * 
+   * @param mode
+   *          The drawing mode.
+   * @param indices
+   *          The vertex indices.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
-  public int textureGetMaximumSize()
-    throws JCGLRuntimeException;
-
-  /**
-   * Retrieve all available texture units for the current implementation.
-   * 
-   * @throws JCGLRuntimeException
-   *           Iff an OpenGL error occurs.
-   */
-
-  public  List<TextureUnit> textureGetUnits()
+  void drawElements(
+    final Primitives mode,
+    final IndexBufferUsableType indices)
     throws JCGLRuntimeException;
 }

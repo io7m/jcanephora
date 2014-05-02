@@ -73,6 +73,6 @@ public final class IndexBufferReadableMap
     return new ByteBufferCursorReadableIndex(
       this.map,
       this.buffer.bufferGetRange(),
-      this.buffer.getType());
+      this.buffer.textureGetFormat());
   }
 }

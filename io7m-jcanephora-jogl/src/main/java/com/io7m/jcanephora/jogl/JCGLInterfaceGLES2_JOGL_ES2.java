@@ -55,10 +55,8 @@ import com.io7m.jcanephora.JCGLExtensionDepthCubeTexture;
 import com.io7m.jcanephora.JCGLExtensionESDepthTexture;
 import com.io7m.jcanephora.JCGLExtensionPackedDepthStencil;
 import com.io7m.jcanephora.JCGLInterfaceGLES2;
-import com.io7m.jcanephora.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLSLVersion;
-import com.io7m.jcanephora.JCGLSoftRestrictionsType;
 import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.JCGLUnsignedType;
 import com.io7m.jcanephora.JCGLVersion;
@@ -69,7 +67,7 @@ import com.io7m.jcanephora.RenderbufferFormat;
 import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
 import com.io7m.jcanephora.Texture2DStatic;
-import com.io7m.jcanephora.Texture2DStaticUsable;
+import com.io7m.jcanephora.Texture2DStaticUsableType;
 import com.io7m.jcanephora.Texture2DWritableData;
 import com.io7m.jcanephora.TextureCubeStatic;
 import com.io7m.jcanephora.TextureCubeStaticUsable;
@@ -83,6 +81,8 @@ import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.UsageHint;
+import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
+import com.io7m.jcanephora.api.JCGLSoftRestrictionsType;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
 import com.io7m.jtensors.MatrixReadable4x4F;
@@ -660,7 +660,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public void framebufferDrawAttachColorTexture2D(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticUsable texture)
+    final @Nonnull Texture2DStaticUsableType texture)
     throws JCGLRuntimeException,
       ConstraintError
   {
@@ -708,7 +708,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public void framebufferDrawAttachDepthTexture2D(
     final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticUsable texture)
+    final @Nonnull Texture2DStaticUsableType texture)
     throws JCGLRuntimeException,
       ConstraintError
   {
@@ -1357,7 +1357,7 @@ import com.io7m.jtensors.VectorReadable4I;
       pass);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGB565(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB565(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -1375,14 +1375,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGB_565_2BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_565_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA4444(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA4444(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -1400,14 +1400,14 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGBA_4444_2BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_4444_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull Texture2DStatic texture2DStaticAllocateRGBA5551(
+  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA5551(
     final @Nonnull String name,
     final int width,
     final int height,
@@ -1425,7 +1425,7 @@ import com.io7m.jtensors.VectorReadable4I;
       name,
       width,
       height,
-      TextureFormat.TEXTURE_TYPE_RGBA_5551_2BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_5551_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
@@ -1434,7 +1434,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public void texture2DStaticBind(
     final @Nonnull TextureUnitType unit,
-    final @Nonnull Texture2DStaticUsable texture)
+    final @Nonnull Texture2DStaticUsableType texture)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -1445,7 +1445,7 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void texture2DStaticDelete(
-    final @Nonnull Texture2DStatic texture)
+    final @Nonnull JOGLTexture2DStatic texture)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -1458,7 +1458,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
   @Override public boolean texture2DStaticIsBound(
     final @Nonnull TextureUnitType unit,
-    final @Nonnull Texture2DStaticUsable texture)
+    final @Nonnull Texture2DStaticUsableType texture)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -1504,7 +1504,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGB_565_2BPP,
+      TextureFormat.TEXTURE_FORMAT_RGB_565_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -1531,7 +1531,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGBA_4444_2BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_4444_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -1558,7 +1558,7 @@ import com.io7m.jtensors.VectorReadable4I;
       this.log,
       name,
       size,
-      TextureFormat.TEXTURE_TYPE_RGBA_5551_2BPP,
+      TextureFormat.TEXTURE_FORMAT_RGBA_5551_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,

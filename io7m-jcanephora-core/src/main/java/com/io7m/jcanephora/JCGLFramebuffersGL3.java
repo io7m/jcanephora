@@ -94,7 +94,7 @@ public interface JCGLFramebuffersGL3 extends
   void framebufferDrawAttachColorTexture2DAt(
     final  FramebufferReference framebuffer,
     final  FramebufferColorAttachmentPoint point,
-    final  Texture2DStaticUsable texture)
+    final  Texture2DStaticUsableType texture)
     throws JCGLRuntimeException,
       ConstraintError;
 

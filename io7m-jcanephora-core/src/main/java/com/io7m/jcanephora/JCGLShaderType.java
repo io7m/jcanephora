@@ -17,24 +17,21 @@
 package com.io7m.jcanephora;
 
 /**
- * Functions controlling the OpenGL viewport.
+ * An enumerated type with the values representing the various shader types of
+ * the OpenGL API.
  */
 
-public interface JCGLViewportType
+public enum JCGLShaderType
 {
   /**
-   * Set the OpenGL viewport to the given inclusive area. The dimensions and
-   * position are specified in pixels and <code>(0, 0)</code> refers to the
-   * bottom left corner of the viewport.
-   * 
-   * @param area
-   *          The inclusive area.
-   * @throws JCGLRuntimeException
-   *           Iff an OpenGL error occurred.
+   * A fragment shader.
    */
 
-  void viewportSet(
-    final  AreaInclusive area)
-    throws
-      JCGLRuntimeException;
+  JCGL_FRAGMENT_SHADER,
+
+  /**
+   * A vertex shader.
+   */
+
+  JCGL_VERTEX_SHADER
 }

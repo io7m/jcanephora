@@ -14,13 +14,33 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.api;
 
 /**
- * A common type for all extensions.
+ * Extension queries.
  */
 
-public interface JCGLExtension
+public interface JCGLNamedExtensionsType
 {
-  // Nothing.
+  /**
+   * @return <code>true</code> if the extension <code>name</code> is supported
+   *         by the implementation.
+   * 
+   * @param name
+   *          The extension name.
+   */
+
+  boolean extensionIsSupported(
+    final String name);
+
+  /**
+   * @return <code>true</code> if the extension <code>name</code> is both
+   *         supported by the implementation and visible according to any
+   *         restrictions imposed by {@link JCGLSoftRestrictionsType}.
+   * @param name
+   *          The extension name.
+   */
+
+  boolean extensionIsVisible(
+    final String name);
 }

@@ -33,7 +33,7 @@ import com.io7m.jcanephora.jogl.Renderbuffer;
  * </p>
  */
 
-public interface JCGLExtensionPackedDepthStencil extends JCGLExtension
+public interface JCGLExtensionPackedDepthStencil extends JCGLExtensionType
 {
   /**
    * Attach the given depth/stencil renderbuffer <code>renderbuffer</code> to
