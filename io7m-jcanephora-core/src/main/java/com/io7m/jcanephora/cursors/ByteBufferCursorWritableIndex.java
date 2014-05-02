@@ -20,6 +20,7 @@ import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.CursorWritableIndexType;
 import com.io7m.jcanephora.JCGLUnsignedType;
+import com.io7m.jnull.NullCheck;
 import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.RangeInclusiveL;
 import com.io7m.junreachable.UnreachableCodeException;
@@ -29,20 +30,41 @@ import com.io7m.junreachable.UnreachableCodeException;
  * type.
  */
 
-final class ByteBufferCursorWritableIndex extends BufferCursor implements
+public final class ByteBufferCursorWritableIndex extends BufferCursor implements
   CursorWritableIndexType
 {
   private final ByteBuffer       target_data;
   private final JCGLUnsignedType type;
 
-  ByteBufferCursorWritableIndex(
+  /**
+   * Construct a new cursor capable of writing to indices of the given type
+   * within the specified range of the given data.
+   * 
+   * @param data
+   *          The data.
+   * @param range
+   *          The range within the data.
+   * @param type
+   *          The type of indices.
+   * @return A new writable cursor.
+   */
+
+  public static CursorWritableIndexType newCursor(
+    final ByteBuffer data,
+    final RangeInclusiveL range,
+    final JCGLUnsignedType type)
+  {
+    return new ByteBufferCursorWritableIndex(data, range, type);
+  }
+
+  private ByteBufferCursorWritableIndex(
     final ByteBuffer in_target_data,
     final RangeInclusiveL range,
-    final JCGLUnsignedType type1)
+    final JCGLUnsignedType in_type)
   {
-    super(range, 0, type1.getSizeBytes());
-    this.target_data = in_target_data;
-    this.type = type1;
+    super(range, 0, in_type.getSizeBytes());
+    this.target_data = NullCheck.notNull(in_target_data, "Target data");
+    this.type = NullCheck.notNull(in_type, "Type");
   }
 
   @Override public void putIndex(

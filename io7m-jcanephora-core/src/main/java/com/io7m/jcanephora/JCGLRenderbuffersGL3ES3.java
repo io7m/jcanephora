@@ -19,6 +19,7 @@ package com.io7m.jcanephora;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.jogl.Renderbuffer;
 
 /**
  * Type-safe interface to the renderbuffer API exposed by both OpenGL 3.* and
@@ -30,7 +31,7 @@ public interface JCGLRenderbuffersGL3ES3 extends JCGLRenderbuffersCommon
   /**
    * Allocate a depth renderbuffer.
    * 
-   * See {@link RenderbufferType#RENDERBUFFER_DEPTH_16} for the precise
+   * See {@link RenderbufferFormat#RENDERBUFFER_DEPTH_16} for the precise
    * format.
    * 
    * @return A freshly allocated renderbuffer.
@@ -53,7 +54,7 @@ public interface JCGLRenderbuffersGL3ES3 extends JCGLRenderbuffersCommon
   /**
    * Allocate a depth renderbuffer.
    * 
-   * See {@link RenderbufferType#RENDERBUFFER_DEPTH_24} for the precise
+   * See {@link RenderbufferFormat#RENDERBUFFER_DEPTH_24} for the precise
    * format.
    * 
    * @return A freshly allocated renderbuffer.
@@ -76,7 +77,7 @@ public interface JCGLRenderbuffersGL3ES3 extends JCGLRenderbuffersCommon
   /**
    * Allocate a packed depth/stencil renderbuffer.
    * 
-   * See {@link RenderbufferType#RENDERBUFFER_DEPTH_24_STENCIL_8} for the
+   * See {@link RenderbufferFormat#RENDERBUFFER_DEPTH_24_STENCIL_8} for the
    * precise format.
    * 
    * @return A freshly allocated renderbuffer.
@@ -103,7 +104,7 @@ public interface JCGLRenderbuffersGL3ES3 extends JCGLRenderbuffersCommon
   /**
    * Allocate a color renderbuffer.
    * 
-   * See {@link RenderbufferType#RENDERBUFFER_COLOR_RGB_888} for the precise
+   * See {@link RenderbufferFormat#RENDERBUFFER_COLOR_RGB_888} for the precise
    * format.
    * 
    * @return A freshly allocated renderbuffer.
@@ -127,7 +128,7 @@ public interface JCGLRenderbuffersGL3ES3 extends JCGLRenderbuffersCommon
   /**
    * Allocate a color renderbuffer.
    * 
-   * See {@link RenderbufferType#RENDERBUFFER_COLOR_RGBA_8888} for the precise
+   * See {@link RenderbufferFormat#RENDERBUFFER_COLOR_RGBA_8888} for the precise
    * format.
    * 
    * @return A freshly allocated renderbuffer.

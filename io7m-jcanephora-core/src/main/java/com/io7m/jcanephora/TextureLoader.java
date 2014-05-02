@@ -37,7 +37,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_DEPTH_16_2BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_DEPTH_16_2BPP}.
    * </p>
    * 
    * @param gl
@@ -84,7 +84,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_DEPTH_24_4BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_DEPTH_24_4BPP}.
    * </p>
    * 
    * @param gl
@@ -131,7 +131,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_DEPTH_32F_4BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_DEPTH_32F_4BPP}.
    * </p>
    * 
    * @param gl
@@ -223,7 +223,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_R_16_2BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_R_16_2BPP}.
    * </p>
    * 
    * @param gl
@@ -270,7 +270,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_R_16F_2BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_R_16F_2BPP}.
    * </p>
    * 
    * @param gl
@@ -317,7 +317,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_R_16I_2BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_R_16I_2BPP}.
    * </p>
    * 
    * @param gl
@@ -364,7 +364,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_R_16U_2BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_R_16U_2BPP}.
    * </p>
    * 
    * @param gl
@@ -411,7 +411,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_R_32F_4BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_R_32F_4BPP}.
    * </p>
    * 
    * @param gl
@@ -458,7 +458,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_R_32I_4BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_R_32I_4BPP}.
    * </p>
    * 
    * @param gl
@@ -505,7 +505,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_R_32U_4BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_R_32U_4BPP}.
    * </p>
    * 
    * @param gl
@@ -552,7 +552,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_R_8_1BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_R_8_1BPP}.
    * </p>
    * 
    * @param gl
@@ -599,7 +599,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_R_8I_1BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_R_8I_1BPP}.
    * </p>
    * 
    * @param gl
@@ -646,7 +646,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_R_8U_1BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_R_8U_1BPP}.
    * </p>
    * 
    * @param gl
@@ -693,7 +693,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RG_16_4BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RG_16_4BPP}.
    * </p>
    * 
    * @param gl
@@ -740,7 +740,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RG_16F_4BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RG_16F_4BPP}.
    * </p>
    * 
    * @param gl
@@ -787,7 +787,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RG_16I_4BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RG_16I_4BPP}.
    * </p>
    * 
    * @param gl
@@ -834,7 +834,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RG_16U_4BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RG_16U_4BPP}.
    * </p>
    * 
    * @param gl
@@ -881,7 +881,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RG_32F_8BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RG_32F_8BPP}.
    * </p>
    * 
    * @param gl
@@ -928,7 +928,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RG_32I_8BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RG_32I_8BPP}.
    * </p>
    * 
    * @param gl
@@ -975,7 +975,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RG_32U_8BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RG_32U_8BPP}.
    * </p>
    * 
    * @param gl
@@ -1022,7 +1022,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RG_8_2BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RG_8_2BPP}.
    * </p>
    * 
    * @param gl
@@ -1069,7 +1069,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RG_8I_2BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RG_8I_2BPP}.
    * </p>
    * 
    * @param gl
@@ -1116,7 +1116,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RG_8U_2BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RG_8U_2BPP}.
    * </p>
    * 
    * @param gl
@@ -1163,7 +1163,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGB_16_6BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGB_16_6BPP}.
    * </p>
    * 
    * @param gl
@@ -1210,7 +1210,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGB_16F_6BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGB_16F_6BPP}.
    * </p>
    * 
    * @param gl
@@ -1257,7 +1257,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGB_16I_6BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGB_16I_6BPP}.
    * </p>
    * 
    * @param gl
@@ -1304,7 +1304,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGB_16U_6BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGB_16U_6BPP}.
    * </p>
    * 
    * @param gl
@@ -1351,7 +1351,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGB_32F_12BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGB_32F_12BPP}.
    * </p>
    * 
    * @param gl
@@ -1398,7 +1398,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGB_32I_12BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGB_32I_12BPP}.
    * </p>
    * 
    * @param gl
@@ -1445,7 +1445,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGB_32U_12BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGB_32U_12BPP}.
    * </p>
    * 
    * @param gl
@@ -1492,7 +1492,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGB_565_2BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGB_565_2BPP}.
    * </p>
    * 
    * @param gl
@@ -1539,7 +1539,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGB_8_3BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGB_8_3BPP}.
    * </p>
    * 
    * @param gl
@@ -1586,7 +1586,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGB_8I_3BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGB_8I_3BPP}.
    * </p>
    * 
    * @param gl
@@ -1633,7 +1633,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGB_8U_3BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGB_8U_3BPP}.
    * </p>
    * 
    * @param gl
@@ -1680,7 +1680,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGBA_1010102_4BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGBA_1010102_4BPP}.
    * </p>
    * 
    * @param gl
@@ -1727,7 +1727,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGBA_16_8BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGBA_16_8BPP}.
    * </p>
    * 
    * @param gl
@@ -1774,7 +1774,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGBA_16F_8BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGBA_16F_8BPP}.
    * </p>
    * 
    * @param gl
@@ -1821,7 +1821,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGBA_16I_8BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGBA_16I_8BPP}.
    * </p>
    * 
    * @param gl
@@ -1868,7 +1868,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGBA_16U_8BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGBA_16U_8BPP}.
    * </p>
    * 
    * @param gl
@@ -1915,7 +1915,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGBA_32F_16BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGBA_32F_16BPP}.
    * </p>
    * 
    * @param gl
@@ -1962,7 +1962,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGBA_32I_16BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGBA_32I_16BPP}.
    * </p>
    * 
    * @param gl
@@ -2009,7 +2009,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGBA_32U_16BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGBA_32U_16BPP}.
    * </p>
    * 
    * @param gl
@@ -2056,7 +2056,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGBA_4444_2BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGBA_4444_2BPP}.
    * </p>
    * 
    * @param gl
@@ -2103,7 +2103,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGBA_5551_2BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGBA_5551_2BPP}.
    * </p>
    * 
    * @param gl
@@ -2150,7 +2150,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGBA_8_4BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGBA_8_4BPP}.
    * </p>
    * 
    * @param gl
@@ -2197,7 +2197,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGBA_8I_4BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGBA_8I_4BPP}.
    * </p>
    * 
    * @param gl
@@ -2244,7 +2244,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGBA_8U_4BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGBA_8U_4BPP}.
    * </p>
    * 
    * @param gl
@@ -2349,7 +2349,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGB_8_3BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGB_8_3BPP}.
    * </p>
    * <p>
    * The given texture images will be mapped to the faces corresponding to
@@ -2405,7 +2405,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGBA_8_4BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGBA_8_4BPP}.
    * </p>
    * <p>
    * The given texture images will be mapped to the faces corresponding to
@@ -2518,7 +2518,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGB_8_3BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGB_8_3BPP}.
    * </p>
    * <p>
    * The given texture images will be mapped to the faces corresponding to
@@ -2574,7 +2574,7 @@ public interface TextureLoader
    * </p>
    * <p>
    * The resulting texture will be of type
-   * {@link TextureType#TEXTURE_TYPE_RGBA_8_4BPP}.
+   * {@link TextureFormat#TEXTURE_TYPE_RGBA_8_4BPP}.
    * </p>
    * <p>
    * The given texture images will be mapped to the faces corresponding to

@@ -14,47 +14,52 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.jogl;
 
 import java.util.Collections;
 import java.util.Map;
 
-import com.io7m.jcanephora.jogl.JCGLResourceDeletable;
+import javax.media.opengl.GLContext;
+
+import com.io7m.jcanephora.ProgramAttributeType;
+import com.io7m.jcanephora.ProgramType;
+import com.io7m.jcanephora.ProgramUniformType;
+import com.io7m.jequality.annotations.EqualityStructural;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
-import com.io7m.jranges.RangeCheck;
 
 /**
  * An immutable reference to an OpenGL shading program.
  */
 
-public final class ProgramReference extends JCGLResourceDeletable implements
-  ProgramReferenceUsableType
+@EqualityStructural final class JOGLProgram extends JOGLObjectShared implements
+  ProgramType
 {
-  private final Map<String, ProgramAttribute> attributes;
-  private final int                           id;
-  private final String                        name;
-  private final Map<String, ProgramUniform>   uniforms;
+  private final Map<String, ProgramAttributeType> attributes;
+  private final String                            name;
+  private final Map<String, ProgramUniformType>   uniforms;
 
-  ProgramReference(
+  JOGLProgram(
+    final GLContext in_context,
     final int in_id,
     final String in_name,
-    final Map<String, ProgramUniform> in_uniforms,
-    final Map<String, ProgramAttribute> in_attributes)
+    final Map<String, ProgramUniformType> in_uniforms,
+    final Map<String, ProgramAttributeType> in_attributes)
   {
-    this.id =
-      (int) RangeCheck.checkIncludedIn(
-        in_id,
-        "Program ID",
-        RangeCheck.POSITIVE_INTEGER,
-        "Valid program names");
+    super(in_context, in_id);
     this.name = NullCheck.notNull(in_name, "Program name");
-    this.uniforms =
+
+    final Map<String, ProgramUniformType> u =
       Collections.unmodifiableMap(NullCheck.notNull(in_uniforms, "Uniforms"));
-    this.attributes =
+    assert u != null;
+    this.uniforms = u;
+
+    final Map<String, ProgramAttributeType> a =
       Collections.unmodifiableMap(NullCheck.notNull(
         in_attributes,
         "Attributes"));
+    assert a != null;
+    this.attributes = a;
   }
 
   @Override public boolean equals(
@@ -69,33 +74,21 @@ public final class ProgramReference extends JCGLResourceDeletable implements
     if (this.getClass() != obj.getClass()) {
       return false;
     }
-    final ProgramReference other = (ProgramReference) obj;
-    if (this.id != other.id) {
-      return false;
-    }
-    return true;
+    final JOGLProgram other = (JOGLProgram) obj;
+    return super.getGLName() == other.getGLName();
   }
 
-  @Override public Map<String, ProgramAttribute> getAttributes()
+  @Override public Map<String, ProgramAttributeType> programGetAttributes()
   {
     return this.attributes;
   }
 
-  @Override public int getGLName()
-  {
-    return this.id;
-  }
-
-  /**
-   * @return The name of the program.
-   */
-
-  public String getName()
+  @Override public String programGetName()
   {
     return this.name;
   }
 
-  @Override public Map<String, ProgramUniform> getUniforms()
+  @Override public Map<String, ProgramUniformType> programGetUniforms()
   {
     return this.uniforms;
   }
@@ -104,7 +97,7 @@ public final class ProgramReference extends JCGLResourceDeletable implements
   {
     final int prime = 31;
     int result = 1;
-    result = (prime * result) + this.id;
+    result = (prime * result) + super.getGLName();
     result = (prime * result) + this.name.hashCode();
     return result;
   }
@@ -112,8 +105,8 @@ public final class ProgramReference extends JCGLResourceDeletable implements
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("[ProgramReference ");
-    builder.append(this.id);
+    builder.append("[JOGLProgramReference ");
+    builder.append(super.getGLName());
     builder.append(" \"");
     builder.append(this.name);
     builder.append("\"]");

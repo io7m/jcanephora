@@ -35,7 +35,7 @@ public interface JCGLTexturesCubeStaticGL3 extends
    * Allocate an R texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureType#TEXTURE_TYPE_R_16_2BPP} for the precise format of
+   * See {@link TextureFormat#TEXTURE_TYPE_R_16_2BPP} for the precise format of
    * the texture.
    * </p>
    * <p>
@@ -113,7 +113,7 @@ public interface JCGLTexturesCubeStaticGL3 extends
    * Allocate an RG texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureType#TEXTURE_TYPE_RG_16_4BPP} for the precise format of
+   * See {@link TextureFormat#TEXTURE_TYPE_RG_16_4BPP} for the precise format of
    * the texture.
    * </p>
    * <p>
@@ -191,7 +191,7 @@ public interface JCGLTexturesCubeStaticGL3 extends
    * Allocate an RGB texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureType#TEXTURE_TYPE_RGB_16_6BPP} for the precise format
+   * See {@link TextureFormat#TEXTURE_TYPE_RGB_16_6BPP} for the precise format
    * of the texture.
    * </p>
    * <p>
@@ -269,7 +269,7 @@ public interface JCGLTexturesCubeStaticGL3 extends
    * Allocate an RGBA texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureType#TEXTURE_TYPE_RGBA_1010102_4BPP} for the precise
+   * See {@link TextureFormat#TEXTURE_TYPE_RGBA_1010102_4BPP} for the precise
    * format of the texture.
    * </p>
    * <p>
@@ -347,7 +347,7 @@ public interface JCGLTexturesCubeStaticGL3 extends
    * Allocate an RGBA texture of width/height <code>size</code>.
    * </p>
    * <p>
-   * See {@link TextureType#TEXTURE_TYPE_RGBA_16_8BPP} for the precise format
+   * See {@link TextureFormat#TEXTURE_TYPE_RGBA_16_8BPP} for the precise format
    * of the texture.
    * </p>
    * <p>

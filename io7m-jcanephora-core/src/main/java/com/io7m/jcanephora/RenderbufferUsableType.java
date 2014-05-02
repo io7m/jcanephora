@@ -28,29 +28,24 @@ package com.io7m.jcanephora;
 
 public interface RenderbufferUsableType<K extends RenderbufferKind> extends
   JCGLNameType,
-  JCGLResourceUsableType
+  JCGLResourceUsableType,
+  JCGLResourceSizedType
 {
   /**
    * @return The height of the buffer.
    */
 
-  int getHeight();
+  int renderbufferGetHeight();
 
   /**
    * @return The type of the renderbuffer.
    */
 
-  RenderbufferType getType();
+  RenderbufferFormat renderbufferGetFormat();
 
   /**
    * @return The width of the buffer.
    */
 
-  int getWidth();
-
-  /**
-   * @return The size in bytes of the texture data.
-   */
-
-  long resourceGetSizeBytes();
+  int renderbufferGetWidth();
 }

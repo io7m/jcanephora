@@ -26,56 +26,37 @@ import com.io7m.jranges.RangeInclusiveL;
  * Abstraction over mapped index buffers.
  */
 
-public final class IndexBufferWritableMap
+public final class IndexBufferUpdateMapped implements
+  IndexBufferUpdateMappedType
 {
   private final IndexBufferUsableType buffer;
   private final ByteBuffer            map;
   private final RangeInclusiveL       target_range;
 
-  IndexBufferWritableMap(
+  private IndexBufferUpdateMapped(
     final IndexBufferUsableType id,
-    final ByteBuffer map1)
+    final ByteBuffer in_map)
   {
-    this.map = NullCheck.notNull(map1, "Index buffer map");
+    this.map = NullCheck.notNull(in_map, "Index buffer map");
     this.buffer = NullCheck.notNull(id, "Index buffer");
     this.target_range =
       new RangeInclusiveL(0, this.buffer.bufferGetRange().getInterval() - 1);
   }
 
-  /**
-   * @return <p>
-   *         The raw ByteBuffer that backs the array buffer. The memory
-   *         backing the buffer is mapped into the application address space
-   *         from the GPU. The function is provided for use by developers that
-   *         have needs not addressed by the cursor API.
-   *         </p>
-   *         <p>
-   *         Use of this buffer is discouraged for safety reasons.
-   *         </p>
-   */
-
-  public ByteBuffer getByteBuffer()
+  @Override public ByteBuffer getByteBuffer()
   {
     return this.map;
   }
 
-  /**
-   * @return A writable cursor that addresses elements of the index buffer.
-   */
-
-  public CursorWritableIndexType getCursor()
+  @Override public CursorWritableIndexType getCursor()
   {
-    return new ByteBufferCursorWritableIndex(
+    return ByteBufferCursorWritableIndex.newCursor(
       this.map,
       this.target_range,
-      this.buffer.getType());
+      this.buffer.indexGetType());
   }
 
-  /**
-   * @return The mapped IndexBuffer.
-   */
-
-  public IndexBufferUsableType getIndexBuffer()
+  @Override public IndexBufferUsableType getIndexBuffer()
   {
     return this.buffer;
   }

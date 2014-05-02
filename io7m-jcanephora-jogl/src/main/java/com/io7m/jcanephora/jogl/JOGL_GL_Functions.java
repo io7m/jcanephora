@@ -43,12 +43,11 @@ import com.io7m.jcanephora.FaceSelection;
 import com.io7m.jcanephora.FaceWindingOrder;
 import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
 import com.io7m.jcanephora.FramebufferDrawBuffer;
-import com.io7m.jcanephora.FramebufferReference;
 import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.IndexBuffer;
 import com.io7m.jcanephora.IndexBufferReadableMap;
-import com.io7m.jcanephora.IndexBufferWritableData;
-import com.io7m.jcanephora.IndexBufferWritableMap;
+import com.io7m.jcanephora.IndexBufferUpdateUnmapped;
+import com.io7m.jcanephora.IndexBufferUpdateMapped;
 import com.io7m.jcanephora.JCGLApi;
 import com.io7m.jcanephora.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.JCGLRuntimeException;
@@ -60,14 +59,14 @@ import com.io7m.jcanephora.JCGLUnsignedType;
 import com.io7m.jcanephora.JCGLVersion;
 import com.io7m.jcanephora.JCGLVersionNumber;
 import com.io7m.jcanephora.Primitives;
-import com.io7m.jcanephora.Renderbuffer;
-import com.io7m.jcanephora.RenderbufferType;
+import com.io7m.jcanephora.RenderbufferFormat;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.Texture2DStaticUsable;
 import com.io7m.jcanephora.TextureCubeStatic;
 import com.io7m.jcanephora.TextureCubeStaticUsable;
 import com.io7m.jcanephora.TextureTypeMeta;
 import com.io7m.jcanephora.TextureUnit;
+import com.io7m.jcanephora.TextureUnitType;
 import com.io7m.jcanephora.UsageHint;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
@@ -929,7 +928,7 @@ final class JOGL_GL_Functions
     final int index_count = (int) indices.bufferGetRange().getInterval();
     final int mode_gl = JOGL_GLTypeConversions.primitiveToGL(mode);
     final int type =
-      JOGL_GLTypeConversions.unsignedTypeToGL(indices.arrayGetType());
+      JOGL_GLTypeConversions.unsignedTypeToGL(indices.arrayGetDescriptor());
 
     gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, index_id);
     try {
@@ -1020,7 +1019,7 @@ final class JOGL_GL_Functions
       renderbuffer.resourceIsDeleted() == false,
       "Renderbuffer not deleted");
     Constraints.constrainArbitrary(
-      renderbuffer.arrayGetType().isColorRenderable(),
+      renderbuffer.arrayGetDescriptor().isColorRenderable(),
       "Renderbuffer is color renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -1066,7 +1065,7 @@ final class JOGL_GL_Functions
       renderbuffer.resourceIsDeleted() == false,
       "Renderbuffer not deleted");
     Constraints.constrainArbitrary(
-      renderbuffer.arrayGetType().isColorRenderable(),
+      renderbuffer.arrayGetDescriptor().isColorRenderable(),
       "Renderbuffer is color renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -1316,10 +1315,10 @@ final class JOGL_GL_Functions
       renderbuffer.resourceIsDeleted() == false,
       "Renderbuffer not deleted");
     Constraints.constrainArbitrary(
-      renderbuffer.arrayGetType().isDepthRenderable(),
+      renderbuffer.arrayGetDescriptor().isDepthRenderable(),
       "Renderbuffer is depth renderable");
     Constraints.constrainArbitrary(
-      renderbuffer.arrayGetType().isStencilRenderable() == false,
+      renderbuffer.arrayGetDescriptor().isStencilRenderable() == false,
       "Renderbuffer is not also stencil renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -1367,7 +1366,7 @@ final class JOGL_GL_Functions
       renderbuffer.resourceIsDeleted() == false,
       "Renderbuffer not deleted");
 
-    final RenderbufferType type = renderbuffer.arrayGetType();
+    final RenderbufferFormat type = renderbuffer.arrayGetDescriptor();
     Constraints.constrainArbitrary(
       type.isDepthRenderable(),
       "Renderbuffer is depth renderable");
@@ -1466,10 +1465,10 @@ final class JOGL_GL_Functions
       renderbuffer.resourceIsDeleted() == false,
       "Renderbuffer not deleted");
     Constraints.constrainArbitrary(renderbuffer
-      .arrayGetType()
+      .arrayGetDescriptor()
       .isStencilRenderable(), "Renderbuffer is stencil renderable");
     Constraints.constrainArbitrary(
-      renderbuffer.arrayGetType().isDepthRenderable() == false,
+      renderbuffer.arrayGetDescriptor().isDepthRenderable() == false,
       "Renderbuffer is not also depth renderable");
 
     if (log.enabled(Level.LOG_DEBUG)) {
@@ -1786,7 +1785,7 @@ final class JOGL_GL_Functions
     return new IndexBufferReadableMap(id, b);
   }
 
-  static IndexBufferWritableMap indexBufferMapWrite(
+  static IndexBufferUpdateMapped indexBufferMapWrite(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
@@ -1834,7 +1833,7 @@ final class JOGL_GL_Functions
       gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
-    return new IndexBufferWritableMap(id, b);
+    return new IndexBufferUpdateMapped(id, b);
   }
 
   static void indexBufferUnmap(
@@ -1868,7 +1867,7 @@ final class JOGL_GL_Functions
 
   static void indexBufferUpdate(
     final @Nonnull GL gl,
-    final @Nonnull IndexBufferWritableData data)
+    final @Nonnull IndexBufferUpdateUnmapped data)
     throws JCGLRuntimeException,
       ConstraintError
   {
@@ -1959,11 +1958,11 @@ final class JOGL_GL_Functions
       text);
   }
 
-  static Renderbuffer<?> renderbufferAllocate(
+  static JOGLRenderbuffer<?> renderbufferAllocate(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull RenderbufferType type,
+    final @Nonnull RenderbufferFormat type,
     final int width,
     final int height)
     throws ConstraintError,
@@ -2003,8 +2002,8 @@ final class JOGL_GL_Functions
      * discarded. The caller will cast to the correct type.
      */
 
-    final Renderbuffer<?> r =
-      new Renderbuffer<RenderableColor>(type, id, width, height);
+    final JOGLRenderbuffer<?> r =
+      new JOGLRenderbuffer<RenderableColor>(type, id, width, height);
     if (log.enabled(Level.LOG_DEBUG)) {
       state.log_text.setLength(0);
       state.log_text.append("renderbuffer: allocated ");
@@ -2019,7 +2018,7 @@ final class JOGL_GL_Functions
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
     final @Nonnull Log log,
-    final @Nonnull Renderbuffer<?> buffer)
+    final @Nonnull JOGLRenderbuffer<?> buffer)
     throws ConstraintError,
       JCGLRuntimeException
   {
@@ -2184,7 +2183,7 @@ final class JOGL_GL_Functions
 
   static void texture2DStaticBind(
     final @Nonnull GL gl,
-    final @Nonnull TextureUnit unit,
+    final @Nonnull TextureUnitType unit,
     final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
       JCGLRuntimeException
@@ -2195,7 +2194,7 @@ final class JOGL_GL_Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
 
-    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
+    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.unitGetIndex());
     gl.glBindTexture(GL.GL_TEXTURE_2D, texture.getGLName());
     JOGL_GL_Functions.checkError(gl);
   }
@@ -2231,7 +2230,7 @@ final class JOGL_GL_Functions
   static boolean texture2DStaticIsBound(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull TextureUnit unit,
+    final @Nonnull TextureUnitType unit,
     final @Nonnull Texture2DStaticUsable texture)
     throws ConstraintError,
       JCGLRuntimeException
@@ -2242,7 +2241,7 @@ final class JOGL_GL_Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
 
-    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
+    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.unitGetIndex());
 
     final IntBuffer cache = state.getIntegerCache();
     gl.glGetIntegerv(GL.GL_TEXTURE_BINDING_2D, cache);
@@ -2254,20 +2253,20 @@ final class JOGL_GL_Functions
 
   static void texture2DStaticUnbind(
     final @Nonnull GL gl,
-    final @Nonnull TextureUnit unit)
+    final @Nonnull TextureUnitType unit)
     throws ConstraintError,
       JCGLRuntimeException
   {
     Constraints.constrainNotNull(unit, "Texture unit");
 
-    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
+    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.unitGetIndex());
     gl.glBindTexture(GL.GL_TEXTURE_2D, 0);
     JOGL_GL_Functions.checkError(gl);
   }
 
   static void textureCubeStaticBind(
     final @Nonnull GL gl,
-    final @Nonnull TextureUnit unit,
+    final @Nonnull TextureUnitType unit,
     final @Nonnull TextureCubeStaticUsable texture)
     throws JCGLRuntimeException,
       ConstraintError
@@ -2278,7 +2277,7 @@ final class JOGL_GL_Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
 
-    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
+    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.unitGetIndex());
     gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, texture.getGLName());
     JOGL_GL_Functions.checkError(gl);
   }
@@ -2314,7 +2313,7 @@ final class JOGL_GL_Functions
   static boolean textureCubeStaticIsBound(
     final @Nonnull GL gl,
     final @Nonnull JCGLStateCache state,
-    final @Nonnull TextureUnit unit,
+    final @Nonnull TextureUnitType unit,
     final @Nonnull TextureCubeStaticUsable texture)
     throws ConstraintError,
       JCGLRuntimeException
@@ -2325,7 +2324,7 @@ final class JOGL_GL_Functions
       texture.resourceIsDeleted() == false,
       "Texture not deleted");
 
-    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
+    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.unitGetIndex());
 
     final IntBuffer cache = state.getIntegerCache();
     gl.glGetIntegerv(GL.GL_TEXTURE_BINDING_CUBE_MAP, cache);
@@ -2337,13 +2336,13 @@ final class JOGL_GL_Functions
 
   static void textureCubeStaticUnbind(
     final @Nonnull GL gl,
-    final @Nonnull TextureUnit unit)
+    final @Nonnull TextureUnitType unit)
     throws ConstraintError,
       JCGLRuntimeException
   {
     Constraints.constrainNotNull(unit, "Texture unit");
 
-    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.getIndex());
+    gl.glActiveTexture(GL.GL_TEXTURE0 + unit.unitGetIndex());
     gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
     JOGL_GL_Functions.checkError(gl);
   }

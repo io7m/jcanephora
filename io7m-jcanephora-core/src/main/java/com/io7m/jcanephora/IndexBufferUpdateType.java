@@ -16,30 +16,29 @@
 
 package com.io7m.jcanephora;
 
-import java.util.Map;
-
 /**
  * <p>
- * A read-only interface to the {@link ProgramReference} type that allows use
- * of the type but not mutation and/or deletion of the contents.
+ * The type of index buffer updates.
+ * </p>
+ * <p>
+ * An index buffer update is essentially a mutable region of memory that will
+ * be used to replace part of (or the entirety of) an index buffer.
  * </p>
  */
 
-public interface ProgramReferenceUsableType extends
-  JCGLNameType,
-  JCGLResourceUsableType
+public interface IndexBufferUpdateType
 {
   /**
-   * @return A read-only view of the set of available attribute inputs for the
-   *         current program.
+   * @return A cursor that points to elements of the index buffer. The cursor
+   *         interface allows constant time access to any element and also
+   *         minimizes the number of checks performed for each access.
    */
 
-  Map<String, ProgramAttribute> getAttributes();
+  CursorWritableIndexType getCursor();
 
   /**
-   * @return A read-only view of the set of available uniform inputs for the
-   *         current program.
+   * @return The index buffer to which this update will be applied.
    */
 
-  Map<String, ProgramUniform> getUniforms();
+  IndexBufferUsableType getIndexBuffer();
 }

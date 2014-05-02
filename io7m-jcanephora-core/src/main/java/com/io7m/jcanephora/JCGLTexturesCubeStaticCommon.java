@@ -50,7 +50,7 @@ public interface JCGLTexturesCubeStaticCommon
    */
 
   void textureCubeStaticBind(
-    final  TextureUnit unit,
+    final  TextureUnitType unit,
     final  TextureCubeStaticUsable texture)
     throws ConstraintError,
       JCGLRuntimeException;
@@ -95,7 +95,7 @@ public interface JCGLTexturesCubeStaticCommon
    */
 
   boolean textureCubeStaticIsBound(
-    final  TextureUnit unit,
+    final  TextureUnitType unit,
     final  TextureCubeStaticUsable texture)
     throws ConstraintError,
       JCGLRuntimeException;
@@ -116,7 +116,7 @@ public interface JCGLTexturesCubeStaticCommon
    */
 
   void textureCubeStaticUnbind(
-    final  TextureUnit unit)
+    final  TextureUnitType unit)
     throws ConstraintError,
       JCGLRuntimeException;
 

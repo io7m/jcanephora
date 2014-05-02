@@ -21,34 +21,34 @@ import java.util.EnumSet;
 import com.io7m.junreachable.UnreachableCodeException;
 
 /**
- * Information about texture types.
+ * Information about texture formats.
  */
 
-public final class TextureTypeMeta
+public final class TextureFormatMeta
 {
   /**
-   * @return The set of 2D texture types guaranteed to be available on OpenGL
-   *         2.1 contexts.
+   * @return The set of 2D texture formats guaranteed to be available on
+   *         OpenGL 2.1 contexts.
    */
 
-  public static EnumSet<TextureType> getTextures2DRequiredByGL21()
+  public static EnumSet<TextureFormat> getTextures2DRequiredByGL21()
   {
-    final EnumSet<TextureType> s = EnumSet.noneOf(TextureType.class);
-    s.add(TextureType.TEXTURE_TYPE_RGBA_8_4BPP);
-    s.add(TextureType.TEXTURE_TYPE_RGB_8_3BPP);
+    final EnumSet<TextureFormat> s = EnumSet.noneOf(TextureFormat.class);
+    s.add(TextureFormat.TEXTURE_TYPE_RGBA_8_4BPP);
+    s.add(TextureFormat.TEXTURE_TYPE_RGB_8_3BPP);
     return s;
   }
 
   /**
-   * @return The set of 2D texture types guaranteed to be available on OpenGL
-   *         3.* contexts.
+   * @return The set of 2D texture formats guaranteed to be available on
+   *         OpenGL 3.* contexts.
    */
 
-  public static EnumSet<TextureType> getTextures2DRequiredByGL3()
+  public static EnumSet<TextureFormat> getTextures2DRequiredByGL3()
   {
-    final EnumSet<TextureType> s = EnumSet.noneOf(TextureType.class);
+    final EnumSet<TextureFormat> s = EnumSet.noneOf(TextureFormat.class);
 
-    for (final TextureType t : TextureType.values()) {
+    for (final TextureFormat t : TextureFormat.values()) {
       switch (t) {
 
       /**
@@ -126,19 +126,19 @@ public final class TextureTypeMeta
   }
 
   /**
-   * @return The set of 2D texture types required by the common subset of GL3
-   *         and ES3.
+   * @return The set of 2D texture formats required by the common subset of
+   *         GL3 and ES3.
    */
 
-  public static EnumSet<TextureType> getTextures2DRequiredByGL3ES3()
+  public static EnumSet<TextureFormat> getTextures2DRequiredByGL3ES3()
   {
-    final EnumSet<TextureType> gl3 =
-      TextureTypeMeta.getTextures2DRequiredByGL3();
-    final EnumSet<TextureType> es3 =
-      TextureTypeMeta.getTextures2DRequiredByGLES3();
-    final EnumSet<TextureType> all = EnumSet.noneOf(TextureType.class);
+    final EnumSet<TextureFormat> gl3 =
+      TextureFormatMeta.getTextures2DRequiredByGL3();
+    final EnumSet<TextureFormat> es3 =
+      TextureFormatMeta.getTextures2DRequiredByGLES3();
+    final EnumSet<TextureFormat> all = EnumSet.noneOf(TextureFormat.class);
 
-    for (final TextureType t : TextureType.values()) {
+    for (final TextureFormat t : TextureFormat.values()) {
       if (gl3.contains(t)) {
         if (es3.contains(t)) {
           all.add(t);
@@ -150,35 +150,35 @@ public final class TextureTypeMeta
   }
 
   /**
-   * @return The set of 2D texture types guaranteed to be available on OpenGL
-   *         ES2 contexts.
+   * @return The set of 2D texture formats guaranteed to be available on
+   *         OpenGL ES2 contexts.
    */
 
-  public static EnumSet<TextureType> getTextures2DRequiredByGLES2()
+  public static EnumSet<TextureFormat> getTextures2DRequiredByGLES2()
   {
-    final EnumSet<TextureType> s = EnumSet.noneOf(TextureType.class);
+    final EnumSet<TextureFormat> s = EnumSet.noneOf(TextureFormat.class);
 
     /**
      * Color-renderable formats implicitly required by section 4.4.5 of the
      * ES2 standard.
      */
 
-    s.add(TextureType.TEXTURE_TYPE_RGBA_4444_2BPP);
-    s.add(TextureType.TEXTURE_TYPE_RGBA_5551_2BPP);
-    s.add(TextureType.TEXTURE_TYPE_RGB_565_2BPP);
+    s.add(TextureFormat.TEXTURE_TYPE_RGBA_4444_2BPP);
+    s.add(TextureFormat.TEXTURE_TYPE_RGBA_5551_2BPP);
+    s.add(TextureFormat.TEXTURE_TYPE_RGB_565_2BPP);
     return s;
   }
 
   /**
-   * @return The set of 2D texture types guaranteed to be available on OpenGL
-   *         ES 3 contexts.
+   * @return The set of 2D texture formats guaranteed to be available on
+   *         OpenGL ES 3 contexts.
    */
 
-  public static EnumSet<TextureType> getTextures2DRequiredByGLES3()
+  public static EnumSet<TextureFormat> getTextures2DRequiredByGLES3()
   {
-    final EnumSet<TextureType> s = EnumSet.noneOf(TextureType.class);
+    final EnumSet<TextureFormat> s = EnumSet.noneOf(TextureFormat.class);
 
-    for (final TextureType t : TextureType.values()) {
+    for (final TextureFormat t : TextureFormat.values()) {
       switch (t) {
 
       /**
@@ -258,39 +258,39 @@ public final class TextureTypeMeta
   }
 
   /**
-   * @return The set of cube texture types guaranteed to be available on
+   * @return The set of cube texture formats guaranteed to be available on
    *         OpenGL 2.1 contexts.
    */
 
-  public static EnumSet<TextureType> getTexturesCubeRequiredByGL21()
+  public static EnumSet<TextureFormat> getTexturesCubeRequiredByGL21()
   {
-    return TextureTypeMeta.getTextures2DRequiredByGL21();
+    return TextureFormatMeta.getTextures2DRequiredByGL21();
   }
 
   /**
-   * @return The set of cube texture types guaranteed to be available on
+   * @return The set of cube texture formats guaranteed to be available on
    *         OpenGL 3.* contexts.
    */
 
-  public static EnumSet<TextureType> getTexturesCubeRequiredByGL3()
+  public static EnumSet<TextureFormat> getTexturesCubeRequiredByGL3()
   {
-    return TextureTypeMeta.getTextures2DRequiredByGL3();
+    return TextureFormatMeta.getTextures2DRequiredByGL3();
   }
 
   /**
-   * @return The set of cube texture types required by the common subset of
+   * @return The set of cube texture formats required by the common subset of
    *         GL3 and ES3.
    */
 
-  public static EnumSet<TextureType> getTexturesCubeRequiredByGL3ES3()
+  public static EnumSet<TextureFormat> getTexturesCubeRequiredByGL3ES3()
   {
-    final EnumSet<TextureType> gl3 =
-      TextureTypeMeta.getTexturesCubeRequiredByGL3();
-    final EnumSet<TextureType> es3 =
-      TextureTypeMeta.getTexturesCubeRequiredByGLES3();
-    final EnumSet<TextureType> all = EnumSet.noneOf(TextureType.class);
+    final EnumSet<TextureFormat> gl3 =
+      TextureFormatMeta.getTexturesCubeRequiredByGL3();
+    final EnumSet<TextureFormat> es3 =
+      TextureFormatMeta.getTexturesCubeRequiredByGLES3();
+    final EnumSet<TextureFormat> all = EnumSet.noneOf(TextureFormat.class);
 
-    for (final TextureType t : TextureType.values()) {
+    for (final TextureFormat t : TextureFormat.values()) {
       if (gl3.contains(t)) {
         if (es3.contains(t)) {
           all.add(t);
@@ -302,35 +302,35 @@ public final class TextureTypeMeta
   }
 
   /**
-   * @return The set of cube texture types guaranteed to be available on
+   * @return The set of cube texture formats guaranteed to be available on
    *         OpenGL ES 2 contexts.
    */
 
-  public static EnumSet<TextureType> getTexturesCubeRequiredByGLES2()
+  public static EnumSet<TextureFormat> getTexturesCubeRequiredByGLES2()
   {
-    return TextureTypeMeta.getTextures2DRequiredByGLES2();
+    return TextureFormatMeta.getTextures2DRequiredByGLES2();
   }
 
   /**
-   * @return The set of cube texture types guaranteed to be available on
+   * @return The set of cube texture formats guaranteed to be available on
    *         OpenGL ES 3 contexts.
    */
 
-  public static EnumSet<TextureType> getTexturesCubeRequiredByGLES3()
+  public static EnumSet<TextureFormat> getTexturesCubeRequiredByGLES3()
   {
-    return TextureTypeMeta.getTextures2DRequiredByGLES3();
+    return TextureFormatMeta.getTextures2DRequiredByGLES3();
   }
 
   /**
-   * @return All texture types that have <code>i</code> components.
+   * @return All texture formats that have <code>i</code> components.
    */
 
-  public static EnumSet<TextureType> getTexturesWithComponents(
+  public static EnumSet<TextureFormat> getTexturesWithComponents(
     final int i)
   {
-    final EnumSet<TextureType> s = EnumSet.noneOf(TextureType.class);
+    final EnumSet<TextureFormat> s = EnumSet.noneOf(TextureFormat.class);
 
-    for (final TextureType t : TextureType.values()) {
+    for (final TextureFormat t : TextureFormat.values()) {
       if (t.getComponentCount() == i) {
         s.add(t);
       }
@@ -340,12 +340,12 @@ public final class TextureTypeMeta
   }
 
   /**
-   * @return <code>true</code> iff the given 2D texture type is
+   * @return <code>true</code> iff the given 2D texture format is
    *         color-renderable on the given version of OpenGL assuming
    *         <code>extensions</code>.
    * 
-   * @param type
-   *          The texture type.
+   * @param format
+   *          The texture format.
    * @param version
    *          The OpenGL version.
    * @param extensions
@@ -353,28 +353,29 @@ public final class TextureTypeMeta
    */
 
   public static boolean isColorRenderable2D(
-    final TextureType type,
+    final TextureFormat format,
     final JCGLVersion version,
     final JCGLNamedExtensionsType extensions)
   {
     switch (version.getAPI()) {
       case JCGL_ES:
         if (version.getVersionMajor() >= 3) {
-          return TextureTypeMeta.isColorRenderable2D_ES3(type, extensions);
+          return TextureFormatMeta
+            .isColorRenderable2D_ES3(format, extensions);
         }
-        return TextureTypeMeta.isColorRenderable2D_ES2(type, extensions);
+        return TextureFormatMeta.isColorRenderable2D_ES2(format, extensions);
       case JCGL_FULL:
-        return TextureTypeMeta.isColorRenderable2D_GL3(type, extensions);
+        return TextureFormatMeta.isColorRenderable2D_GL3(format, extensions);
     }
 
     throw new UnreachableCodeException();
   }
 
   private static boolean isColorRenderable2D_ES2(
-    final TextureType type,
+    final TextureFormat format,
     final JCGLNamedExtensionsType extensions)
   {
-    switch (type) {
+    switch (format) {
       case TEXTURE_TYPE_RGB_8_3BPP:
       case TEXTURE_TYPE_RGBA_8_4BPP:
       case TEXTURE_TYPE_RGB_565_2BPP:
@@ -439,10 +440,10 @@ public final class TextureTypeMeta
    */
 
   private static boolean isColorRenderable2D_ES3(
-    final TextureType type,
+    final TextureFormat format,
     final JCGLNamedExtensionsType extensions)
   {
-    switch (type) {
+    switch (format) {
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
@@ -523,10 +524,10 @@ public final class TextureTypeMeta
    */
 
   private static boolean isColorRenderable2D_GL3(
-    final TextureType type,
+    final TextureFormat format,
     final JCGLNamedExtensionsType extensions)
   {
-    switch (type) {
+    switch (format) {
       case TEXTURE_TYPE_RGBA_32I_16BPP:
       case TEXTURE_TYPE_RGBA_32U_16BPP:
       case TEXTURE_TYPE_RGBA_32F_16BPP:
@@ -597,15 +598,15 @@ public final class TextureTypeMeta
   }
 
   /**
-   * Return <code>true</code> iff the given 2D texture type is
+   * Return <code>true</code> iff the given 2D texture format is
    * depth-renderable.
    */
 
   public static boolean isDepthRenderable2D(
-    final TextureType type,
+    final TextureFormat format,
     final JCGLNamedExtensionsType extensions)
   {
-    switch (type) {
+    switch (format) {
       case TEXTURE_TYPE_DEPTH_16_2BPP:
       case TEXTURE_TYPE_DEPTH_24_4BPP:
       case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
@@ -667,9 +668,9 @@ public final class TextureTypeMeta
   }
 
   public static boolean isFloatingPoint(
-    final TextureType type)
+    final TextureFormat format)
   {
-    switch (type) {
+    switch (format) {
       case TEXTURE_TYPE_DEPTH_32F_4BPP:
       case TEXTURE_TYPE_RGBA_16F_8BPP:
       case TEXTURE_TYPE_RGBA_32F_16BPP:
@@ -729,7 +730,7 @@ public final class TextureTypeMeta
     throw new UnreachableCodeException();
   }
 
-  private TextureTypeMeta()
+  private TextureFormatMeta()
   {
     throw new UnreachableCodeException();
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,15 +16,11 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
-
 /**
  * Simplified interface to index/element buffers.
  */
 
-public interface JCGLIndexBuffers
+public interface JCGLIndexBuffersType
 {
   /**
    * Allocate a buffer of <code>indices</code> indices. The function allocates
@@ -40,19 +36,12 @@ public interface JCGLIndexBuffers
    * @return A reference to the allocated buffer.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>buffer == null</code>.</li>
-   *           <li><code>0 < indices <= Integer.MAX_VALUE == false</code>.</li>
-   *           </ul>
    */
 
-   IndexBuffer indexBufferAllocate(
-    final  ArrayBufferUsableType buffer,
+  IndexBufferType indexBufferAllocate(
+    final ArrayBufferUsableType buffer,
     final int indices)
-    throws JCGLRuntimeException,
-      ConstraintError;
+    throws JCGLRuntimeException;
 
   /**
    * Allocate a buffer of <code>indices</code> indices of type
@@ -65,40 +54,25 @@ public interface JCGLIndexBuffers
    * @return A reference to the allocated buffer.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>type == null</code>.</li>
-   *           <li><code>0 < indices <= Integer.MAX_VALUE == false</code>.</li>
-   *           </ul>
    */
 
-   IndexBuffer indexBufferAllocateType(
-    final  JCGLUnsignedType type,
+  IndexBufferType indexBufferAllocateType(
+    final JCGLUnsignedType type,
     final int indices)
-    throws JCGLRuntimeException,
-      ConstraintError;
+    throws JCGLRuntimeException;
 
   /**
    * Deletes the index buffer referenced by <code>id</code>.
    * 
    * @param id
    *          The index buffer.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>id == null</code>.</li>
-   *           <li><code>id</code> does not refer to a valid buffer (possible
-   *           if the buffer has already been deleted).</li>
-   *           </ul>
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
   void indexBufferDelete(
-    final  IndexBuffer id)
-    throws ConstraintError,
-      JCGLRuntimeException;
+    final IndexBufferType id)
+    throws JCGLRuntimeException;
 
   /**
    * Replace the contents (or part of the contents) of the index buffer
@@ -107,17 +81,11 @@ public interface JCGLIndexBuffers
    * @param data
    *          The data to upload.
    * 
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>data == null</code></li>
-   *           </ul>
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
-  public void indexBufferUpdate(
-    final  IndexBufferWritableData data)
-    throws JCGLRuntimeException,
-      ConstraintError;
+  void indexBufferUpdate(
+    final IndexBufferUpdateUnmapped data)
+    throws JCGLRuntimeException;
 }

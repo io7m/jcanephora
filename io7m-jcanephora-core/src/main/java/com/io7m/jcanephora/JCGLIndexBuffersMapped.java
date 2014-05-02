@@ -16,11 +16,6 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
-
 /**
  * Simplified interface to memory-mapped index buffers.
  */
@@ -32,8 +27,9 @@ public interface JCGLIndexBuffersMapped
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped read-only. The buffer should be unmapped
    * after use with
-   * {@link JCGLInterfaceGL3#indexBufferUnmap(IndexBufferUsableType)}. Note that
-   * the type of indices in the buffer is given by <code>id.getType()</code>.
+   * {@link JCGLInterfaceGL3#indexBufferUnmap(IndexBufferUsableType)}. Note
+   * that the type of indices in the buffer is given by
+   * <code>id.getType()</code>.
    * </p>
    * 
    * @param id
@@ -50,8 +46,8 @@ public interface JCGLIndexBuffersMapped
    *           </ul>
    */
 
-  public  IndexBufferReadableMap indexBufferMapRead(
-    final  IndexBufferUsableType id)
+  public IndexBufferReadableMap indexBufferMapRead(
+    final IndexBufferUsableType id)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -61,8 +57,9 @@ public interface JCGLIndexBuffersMapped
    * space. The buffer is mapped read-only. Only elements in the range
    * described by <code>range</code> will be mapped. The buffer should be
    * unmapped after use with
-   * {@link JCGLInterfaceGL3#indexBufferUnmap(IndexBufferUsableType)}. Note that
-   * the type of indices in the buffer is given by <code>id.getType()</code>.
+   * {@link JCGLInterfaceGL3#indexBufferUnmap(IndexBufferUsableType)}. Note
+   * that the type of indices in the buffer is given by
+   * <code>id.getType()</code>.
    * </p>
    * 
    * @param id
@@ -84,9 +81,9 @@ public interface JCGLIndexBuffersMapped
    * @see RangeInclusive#isIncludedIn(RangeInclusive)
    */
 
-  public  IndexBufferReadableMap indexBufferMapReadRange(
-    final  IndexBufferUsableType id,
-    final  RangeInclusive range)
+  public IndexBufferReadableMap indexBufferMapReadRange(
+    final IndexBufferUsableType id,
+    final RangeInclusive range)
     throws JCGLRuntimeException,
       ConstraintError;
 
@@ -95,10 +92,10 @@ public interface JCGLIndexBuffersMapped
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped write-only. The buffer should be unmapped
    * after use with
-   * {@link JCGLInterfaceGL3#indexBufferUnmap(IndexBufferUsableType)}. Note that
-   * the type of indices in the buffer is given by <code>id.getType()</code>.
-   * The previous contents of the buffer are discarded to prevent pipeline
-   * stalls.
+   * {@link JCGLInterfaceGL3#indexBufferUnmap(IndexBufferUsableType)}. Note
+   * that the type of indices in the buffer is given by
+   * <code>id.getType()</code>. The previous contents of the buffer are
+   * discarded to prevent pipeline stalls.
    * </p>
    * 
    * @param id
@@ -106,19 +103,11 @@ public interface JCGLIndexBuffersMapped
    * @return A readable byte buffer.
    * @throws JCGLRuntimeException
    *           Iff an OpenGL exception occurs.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>id == null</code> .</li>
-   *           <li><code>id</code> does not refer to a valid buffer (possible
-   *           if the buffer has already been deleted).</li>
-   *           </ul>
    */
 
-  public  IndexBufferWritableMap indexBufferMapWrite(
-    final  IndexBuffer id)
-    throws JCGLRuntimeException,
-      ConstraintError;
+  IndexBufferUpdateMappedType indexBufferMapWrite(
+    final IndexBufferType id)
+    throws JCGLRuntimeException;
 
   /**
    * <p>
@@ -127,19 +116,11 @@ public interface JCGLIndexBuffersMapped
    * 
    * @param id
    *          The index buffer.
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>id == null</code>.</li>
-   *           <li><code>id</code> does not refer to a valid buffer (possible
-   *           if the buffer has already been deleted).</li>
-   *           </ul>
    * @throws JCGLRuntimeException
    *           Iff an OpenGL error occurs.
    */
 
-  public void indexBufferUnmap(
-    final  IndexBufferUsableType id)
-    throws ConstraintError,
-      JCGLRuntimeException;
+  void indexBufferUnmap(
+    final IndexBufferUsableType id)
+    throws JCGLRuntimeException;
 }

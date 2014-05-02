@@ -21,6 +21,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.jogl.FramebufferReference;
 
 /**
  * Simplified interface to the framebuffer functionality available on OpenGL
@@ -41,7 +42,7 @@ public interface JCGLFramebuffersGL3 extends
    * The function will replace any existing color attachment.
    * </p>
    * 
-   * @see RenderbufferType#isColorRenderable()
+   * @see RenderbufferFormat#isColorRenderable()
    * 
    * @throws ConstraintError
    *           Iff any of the following hold:
@@ -141,8 +142,8 @@ public interface JCGLFramebuffersGL3 extends
    * The function will replace any existing depth/stencil attachment.
    * </p>
    * 
-   * @see RenderbufferType#isDepthRenderable()
-   * @see RenderbufferType#isStencilRenderable()
+   * @see RenderbufferFormat#isDepthRenderable()
+   * @see RenderbufferFormat#isStencilRenderable()
    * 
    * @throws ConstraintError
    *           Iff any of the following hold:

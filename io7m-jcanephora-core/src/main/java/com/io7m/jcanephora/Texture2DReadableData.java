@@ -88,10 +88,10 @@ public final class Texture2DReadableData
 {
   private final  AreaInclusive area;
   private final  ByteBuffer    data;
-  private final  TextureType   type;
+  private final  TextureFormat   type;
 
   Texture2DReadableData(
-    final  TextureType type1,
+    final  TextureFormat type1,
     final  AreaInclusive area1)
     throws ConstraintError
   {

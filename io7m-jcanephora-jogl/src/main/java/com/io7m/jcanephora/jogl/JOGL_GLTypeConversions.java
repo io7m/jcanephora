@@ -39,10 +39,10 @@ import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.JCGLType;
 import com.io7m.jcanephora.JCGLUnsignedType;
 import com.io7m.jcanephora.LogicOperation;
-import com.io7m.jcanephora.PixelType;
+import com.io7m.jcanephora.PixelFormat;
 import com.io7m.jcanephora.PolygonMode;
 import com.io7m.jcanephora.Primitives;
-import com.io7m.jcanephora.RenderbufferType;
+import com.io7m.jcanephora.RenderbufferFormat;
 import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
 import com.io7m.jcanephora.TextureFilterMagnification;
@@ -564,41 +564,41 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final @Nonnull PixelType pixelTypeFromGL(
+  static final @Nonnull PixelFormat pixelTypeFromGL(
     final int e)
   {
     switch (e) {
       case GL.GL_UNSIGNED_SHORT_5_6_5:
-        return PixelType.PIXEL_PACKED_UNSIGNED_SHORT_565;
+        return PixelFormat.PIXEL_PACKED_UNSIGNED_SHORT_565;
       case GL.GL_UNSIGNED_SHORT_5_5_5_1:
-        return PixelType.PIXEL_PACKED_UNSIGNED_SHORT_5551;
+        return PixelFormat.PIXEL_PACKED_UNSIGNED_SHORT_5551;
       case GL.GL_UNSIGNED_SHORT_4_4_4_4:
-        return PixelType.PIXEL_PACKED_UNSIGNED_SHORT_4444;
+        return PixelFormat.PIXEL_PACKED_UNSIGNED_SHORT_4444;
       case GL2ES2.GL_UNSIGNED_INT_10_10_10_2:
-        return PixelType.PIXEL_PACKED_UNSIGNED_INT_1010102;
+        return PixelFormat.PIXEL_PACKED_UNSIGNED_INT_1010102;
       case GL.GL_UNSIGNED_SHORT:
-        return PixelType.PIXEL_COMPONENT_UNSIGNED_SHORT;
+        return PixelFormat.PIXEL_COMPONENT_UNSIGNED_SHORT;
       case GL.GL_UNSIGNED_INT:
-        return PixelType.PIXEL_COMPONENT_UNSIGNED_INT;
+        return PixelFormat.PIXEL_COMPONENT_UNSIGNED_INT;
       case GL.GL_UNSIGNED_BYTE:
-        return PixelType.PIXEL_COMPONENT_UNSIGNED_BYTE;
+        return PixelFormat.PIXEL_COMPONENT_UNSIGNED_BYTE;
       case GL.GL_SHORT:
-        return PixelType.PIXEL_COMPONENT_SHORT;
+        return PixelFormat.PIXEL_COMPONENT_SHORT;
       case GL2ES2.GL_INT:
-        return PixelType.PIXEL_COMPONENT_INT;
+        return PixelFormat.PIXEL_COMPONENT_INT;
       case GL.GL_FLOAT:
-        return PixelType.PIXEL_COMPONENT_FLOAT;
+        return PixelFormat.PIXEL_COMPONENT_FLOAT;
       case GL.GL_BYTE:
-        return PixelType.PIXEL_COMPONENT_BYTE;
+        return PixelFormat.PIXEL_COMPONENT_BYTE;
       case GL.GL_HALF_FLOAT:
-        return PixelType.PIXEL_COMPONENT_HALF_FLOAT;
+        return PixelFormat.PIXEL_COMPONENT_HALF_FLOAT;
     }
 
     throw new UnreachableCodeException();
   }
 
   static final int pixelTypeToGL(
-    final @Nonnull PixelType p)
+    final @Nonnull PixelFormat p)
   {
     switch (p) {
       case PIXEL_COMPONENT_BYTE:
@@ -701,7 +701,7 @@ final class JOGL_GLTypeConversions
   }
 
   static int renderbufferTypeToGL(
-    final RenderbufferType type)
+    final RenderbufferFormat type)
   {
     switch (type) {
       case RENDERBUFFER_COLOR_RGBA_4444:

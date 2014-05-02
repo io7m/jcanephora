@@ -16,47 +16,35 @@
 
 package com.io7m.jcanephora.jogl;
 
+import javax.media.opengl.GLContext;
+
 import com.io7m.jcanephora.ArrayBufferType;
 import com.io7m.jcanephora.ArrayDescriptor;
+import com.io7m.jequality.annotations.EqualityStructural;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jranges.RangeCheck;
+import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeInclusiveL;
 
-final class JOGLArrayBuffer extends JOGLResourceDeletable implements
+@EqualityStructural final class JOGLArrayBuffer extends JOGLObjectShared implements
   ArrayBufferType
 {
   private final RangeInclusiveL range;
   private final ArrayDescriptor type;
-  private final int             gl_name;
 
   JOGLArrayBuffer(
+    final GLContext in_context,
+    final int in_name,
     final RangeInclusiveL in_range,
-    final ArrayDescriptor in_type,
-    final int in_gl_name)
+    final ArrayDescriptor in_type)
   {
+    super(in_context, in_name);
     this.range = NullCheck.notNull(in_range, "Range");
     this.type = NullCheck.notNull(in_type, "Type");
-    this.gl_name =
-      (int) RangeCheck.checkIncludedIn(
-        in_gl_name,
-        "Buffer ID",
-        RangeCheck.POSITIVE_INTEGER,
-        "Valid buffer IDs");
   }
 
-  @Override public RangeInclusiveL bufferGetRange()
+  @Override public ArrayDescriptor arrayGetDescriptor()
   {
-    return this.range;
-  }
-
-  @Override public long resourceGetSizeBytes()
-  {
-    return this.range.getInterval() * this.type.getElementSizeBytes();
-  }
-
-  @Override public int getGLName()
-  {
-    return this.gl_name;
+    return this.type;
   }
 
   @Override public long bufferGetElementSizeBytes()
@@ -64,8 +52,61 @@ final class JOGLArrayBuffer extends JOGLResourceDeletable implements
     return this.type.getElementSizeBytes();
   }
 
-  @Override public ArrayDescriptor arrayGetType()
+  @Override public RangeInclusiveL bufferGetRange()
   {
-    return this.type;
+    return this.range;
+  }
+
+  @Override public boolean equals(
+    final @Nullable Object obj)
+  {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (this.getClass() != obj.getClass()) {
+      return false;
+    }
+    final JOGLArrayBuffer other = (JOGLArrayBuffer) obj;
+    if (super.getGLName() != other.getGLName()) {
+      return false;
+    }
+    if (!this.range.equals(other.range)) {
+      return false;
+    }
+    if (!this.type.equals(other.type)) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + this.getGLName();
+    result = (prime * result) + this.range.hashCode();
+    result = (prime * result) + this.type.hashCode();
+    return result;
+  }
+
+  @Override public long resourceGetSizeBytes()
+  {
+    return this.range.getInterval() * this.type.getElementSizeBytes();
+  }
+
+  @Override public String toString()
+  {
+    final StringBuilder builder = new StringBuilder();
+    builder.append("[JOGLArrayBuffer ");
+    builder.append(this.range);
+    builder.append(" ");
+    builder.append(this.type);
+    builder.append("]");
+    final String r = builder.toString();
+    assert r != null;
+    return r;
   }
 }

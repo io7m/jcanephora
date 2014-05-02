@@ -16,37 +16,18 @@
 
 package com.io7m.jcanephora;
 
-import com.io7m.jranges.RangeInclusiveL;
-
 /**
  * A read-only interface to the {@link IndexBuffer} type that allows use of
  * the type but not mutation and/or deletion of the contents.
  */
 
-public interface IndexBufferUsableType extends JCGLResourceUsableType, JCGLNameType
+public interface IndexBufferUsableType extends
+  JCGLResourceUsableType,
+  BufferUsableType
 {
-  /**
-   * @return The size in bytes of each element.
-   */
-
-  long bufferGetElementSizeBytes();
-
-  /**
-   * @return The valid range of elements.
-   */
-
-  RangeInclusiveL bufferGetRange();
-
   /**
    * @return The type of the elements in the buffer.
    */
 
-  JCGLUnsignedType getType();
-
-  /**
-   * @return The total size in bytes of the allocated buffer.
-   */
-
-  long resourceGetSizeBytes();
-
+  JCGLUnsignedType indexGetType();
 }

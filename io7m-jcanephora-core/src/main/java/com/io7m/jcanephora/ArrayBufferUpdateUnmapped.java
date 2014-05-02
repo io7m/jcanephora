@@ -111,7 +111,7 @@ public final class ArrayBufferUpdateUnmapped implements
     throws JCGLMissingAttributeException,
       JCGLTypingException
   {
-    final ArrayDescriptor d = this.buffer.arrayGetType();
+    final ArrayDescriptor d = this.buffer.arrayGetDescriptor();
     final Map<String, ArrayAttributeDescriptor> attrs = d.getAttributes();
 
     if (attrs.containsKey(attribute_name) == false) {

@@ -29,7 +29,7 @@ import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.TextureCubeStatic;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
-import com.io7m.jcanephora.TextureType;
+import com.io7m.jcanephora.TextureFormat;
 import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
@@ -96,7 +96,7 @@ class ExtDepthCubeTexture<G extends GL> implements
       this.log,
       name,
       size,
-      TextureType.TEXTURE_TYPE_DEPTH_16_2BPP,
+      TextureFormat.TEXTURE_TYPE_DEPTH_16_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,

@@ -35,7 +35,7 @@ import com.io7m.jcanephora.TextureCubeStatic;
 import com.io7m.jcanephora.TextureCubeWritableData;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
-import com.io7m.jcanephora.TextureType;
+import com.io7m.jcanephora.TextureFormat;
 import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
@@ -56,7 +56,7 @@ final class JOGL_GLES3_Functions
     final @Nonnull String name,
     final int width,
     final int height,
-    final @Nonnull TextureType type,
+    final @Nonnull TextureFormat type,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
     final @Nonnull TextureFilterMinification min_filter,
@@ -167,7 +167,7 @@ final class JOGL_GLES3_Functions
     final AreaInclusive area = data.targetArea();
     final Texture2DStatic texture = data.getTexture();
 
-    final TextureType type = texture.getType();
+    final TextureFormat type = texture.attributeGetType();
     final int x_offset = (int) area.getRangeX().getLower();
     final int y_offset = (int) area.getRangeY().getLower();
     final int width = (int) area.getRangeX().getInterval();
@@ -196,7 +196,7 @@ final class JOGL_GLES3_Functions
     final @Nonnull Log log,
     final @Nonnull String name,
     final int size,
-    final @Nonnull TextureType type,
+    final @Nonnull TextureFormat type,
     final @Nonnull TextureWrapR wrap_r,
     final @Nonnull TextureWrapS wrap_s,
     final @Nonnull TextureWrapT wrap_t,
@@ -320,7 +320,7 @@ final class JOGL_GLES3_Functions
     final AreaInclusive area = data.targetArea();
     final TextureCubeStatic texture = data.getTexture();
 
-    final TextureType type = texture.getType();
+    final TextureFormat type = texture.attributeGetType();
     final int x_offset = (int) area.getRangeX().getLower();
     final int y_offset = (int) area.getRangeY().getLower();
     final int width = (int) area.getRangeX().getInterval();

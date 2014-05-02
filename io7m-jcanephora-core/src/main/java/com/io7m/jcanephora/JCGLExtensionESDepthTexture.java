@@ -35,7 +35,7 @@ public interface JCGLExtensionESDepthTexture extends JCGLExtension
   /**
    * <p>
    * Allocate a depth texture of width <code>width</code> and height
-   * <code>height</code>. See {@link TextureType#TEXTURE_TYPE_DEPTH_16_2BPP}
+   * <code>height</code>. See {@link TextureFormat#TEXTURE_TYPE_DEPTH_16_2BPP}
    * for the precise format of the texture.
    * </p>
    * <p>

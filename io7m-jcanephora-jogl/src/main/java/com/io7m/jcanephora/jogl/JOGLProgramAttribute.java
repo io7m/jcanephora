@@ -14,9 +14,14 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.jogl;
 
+import com.io7m.jcanephora.JCGLType;
+import com.io7m.jcanephora.ProgramAttributeType;
+import com.io7m.jcanephora.ProgramUsableType;
+import com.io7m.jequality.annotations.EqualityStructural;
 import com.io7m.jnull.NullCheck;
+import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
 
 /**
@@ -25,16 +30,17 @@ import com.io7m.jranges.RangeCheck;
  * </p>
  */
 
-public final class ProgramAttribute
+@EqualityStructural final class JOGLProgramAttribute implements
+  ProgramAttributeType
 {
-  private final int                    index;
-  private final int                    location;
-  private final String                 name;
-  private final ProgramReferenceUsableType program;
-  private final JCGLType               type;
+  private final int               index;
+  private final int               location;
+  private final String            name;
+  private final ProgramUsableType program;
+  private final JCGLType          type;
 
-  ProgramAttribute(
-    final ProgramReferenceUsableType in_program,
+  JOGLProgramAttribute(
+    final ProgramUsableType in_program,
     final int in_index,
     final int in_location,
     final String in_name,
@@ -57,54 +63,69 @@ public final class ProgramAttribute
     this.name = NullCheck.notNull(in_name, "Attribute name");
   }
 
-  /**
-   * @return The raw OpenGL 'location' of the attribute.
-   */
-
-  public int getLocation()
+  @Override public int attributeGetLocation()
   {
     return this.location;
   }
 
-  /**
-   * @return The name of the attribute. This is the name of the attribute as
-   *         declared in the respective shading program.
-   */
-
-  public String getName()
+  @Override public String attributeGetName()
   {
     return this.name;
   }
 
-  /**
-   * @return A reference to the program that owns the attribute.
-   */
-
-  public ProgramReferenceUsableType getProgram()
+  @Override public ProgramUsableType attributeGetProgram()
   {
     return this.program;
   }
 
-  /**
-   * @return The OpenGL type of the attribute.
-   */
-
-  public JCGLType getType()
+  @Override public JCGLType attributeGetType()
   {
     return this.type;
+  }
+
+  @Override public boolean equals(
+    @Nullable final Object obj)
+  {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (this.getClass() != obj.getClass()) {
+      return false;
+    }
+    final JOGLProgramAttribute other = (JOGLProgramAttribute) obj;
+    return (this.index == other.index)
+      && (this.location == other.location)
+      && (this.name.equals(other.name))
+      && (this.program.equals(other.program))
+      && (this.type == other.type);
+  }
+
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + this.index;
+    result = (prime * result) + this.location;
+    result = (prime * result) + this.name.hashCode();
+    result = (prime * result) + this.program.hashCode();
+    result = (prime * result) + this.type.hashCode();
+    return result;
   }
 
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
     builder.append("[AttributeID ");
-    builder.append(this.getLocation());
+    builder.append(this.attributeGetLocation());
     builder.append(" ");
     builder.append(this.index);
     builder.append(" ");
-    builder.append(this.getType());
+    builder.append(this.attributeGetType());
     builder.append(" \"");
-    builder.append(this.getName());
+    builder.append(this.attributeGetName());
     builder.append("\"");
     builder.append("]");
     final String r = builder.toString();

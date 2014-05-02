@@ -37,14 +37,14 @@ public final class TextureCubeStatic extends JCGLResourceDeletable implements
   private final  String                     name;
   private final  RangeInclusive             range_x;
   private final  RangeInclusive             range_y;
-  private final  TextureType                type;
+  private final  TextureFormat                type;
   private final  TextureWrapR               wrap_r;
   private final  TextureWrapS               wrap_s;
   private final  TextureWrapT               wrap_t;
 
   TextureCubeStatic(
     final  String name1,
-    final  TextureType type1,
+    final  TextureFormat type1,
     final int id1,
     final int size,
     final  TextureWrapR wrap_r1,
@@ -101,7 +101,7 @@ public final class TextureCubeStatic extends JCGLResourceDeletable implements
     return this.id;
   }
 
-  @Override public int getHeight()
+  @Override public int renderbufferGetHeight()
   {
     return (int) this.range_y.getInterval();
   }
@@ -118,7 +118,7 @@ public final class TextureCubeStatic extends JCGLResourceDeletable implements
     return this.min_filter;
   }
 
-  @Override public  String getName()
+  @Override public  String uniformGetName()
   {
     return this.name;
   }
@@ -133,12 +133,12 @@ public final class TextureCubeStatic extends JCGLResourceDeletable implements
     return this.range_y;
   }
 
-  @Override public  TextureType getType()
+  @Override public  TextureFormat uniformGetType()
   {
     return this.type;
   }
 
-  @Override public int getWidth()
+  @Override public int renderbufferGetWidth()
   {
     return (int) this.range_x.getInterval();
   }

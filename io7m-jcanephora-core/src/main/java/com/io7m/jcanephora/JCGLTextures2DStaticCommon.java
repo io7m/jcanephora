@@ -50,7 +50,7 @@ public interface JCGLTextures2DStaticCommon
    */
 
   void texture2DStaticBind(
-    final  TextureUnit unit,
+    final  TextureUnitType unit,
     final  Texture2DStaticUsable texture)
     throws ConstraintError,
       JCGLRuntimeException;
@@ -95,7 +95,7 @@ public interface JCGLTextures2DStaticCommon
    */
 
   boolean texture2DStaticIsBound(
-    final  TextureUnit unit,
+    final  TextureUnitType unit,
     final  Texture2DStaticUsable texture)
     throws ConstraintError,
       JCGLRuntimeException;
@@ -116,7 +116,7 @@ public interface JCGLTextures2DStaticCommon
    */
 
   void texture2DStaticUnbind(
-    final  TextureUnit unit)
+    final  TextureUnitType unit)
     throws ConstraintError,
       JCGLRuntimeException;
 

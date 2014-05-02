@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,24 +14,26 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.jogl;
 
-/**
- * An OpenGL texture unit.
- */
+import javax.media.opengl.GLContext;
 
-public final class TextureUnit
+import com.io7m.jcanephora.FramebufferType;
+import com.io7m.jequality.annotations.EqualityStructural;
+import com.io7m.jnull.Nullable;
+
+@EqualityStructural final class JOGLFramebuffer extends JOGLObjectUnshared implements
+  FramebufferType
 {
-  private final int index;
-
-  TextureUnit(
-    final int in_index)
+  protected JOGLFramebuffer(
+    final GLContext in_context,
+    final int in_id)
   {
-    this.index = in_index;
+    super(in_context, in_id);
   }
 
   @Override public boolean equals(
-    final Object obj)
+    final @Nullable Object obj)
   {
     if (this == obj) {
       return true;
@@ -42,38 +44,29 @@ public final class TextureUnit
     if (this.getClass() != obj.getClass()) {
       return false;
     }
-    final TextureUnit other = (TextureUnit) obj;
-    if (this.index != other.index) {
+    final JOGLArrayBuffer other = (JOGLArrayBuffer) obj;
+    if (super.getGLName() != other.getGLName()) {
       return false;
     }
     return true;
-  }
-
-  /**
-   * Retrieve the index of the texture unit. This value will be between 0 and
-   * some implementation-defined exclusive upper limit (usually 16 or 32 in
-   * current implementations).
-   */
-
-  public int getIndex()
-  {
-    return this.index;
   }
 
   @Override public int hashCode()
   {
     final int prime = 31;
     int result = 1;
-    result = (prime * result) + this.index;
+    result = (prime * result) + this.getGLName();
     return result;
   }
 
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("[TextureUnit ");
-    builder.append(this.index);
+    builder.append("[JOGLFramebuffer ");
+    builder.append(this.getGLName());
     builder.append("]");
-    return builder.toString();
+    final String r = builder.toString();
+    assert r != null;
+    return r;
   }
 }

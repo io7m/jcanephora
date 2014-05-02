@@ -88,10 +88,10 @@ public final class TextureCubeReadableData implements TextureReadableDataType
 {
   private final  AreaInclusive area;
   private final  ByteBuffer    data;
-  private final  TextureType   type;
+  private final  TextureFormat   type;
 
   TextureCubeReadableData(
-    final  TextureType type1,
+    final  TextureFormat type1,
     final  AreaInclusive area1)
     throws ConstraintError
   {
@@ -406,7 +406,7 @@ public final class TextureCubeReadableData implements TextureReadableDataType
       this.type.getComponentCount() == 2,
       "Number of components in the texture is 2");
     Constraints.constrainArbitrary(
-      this.type != TextureType.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
+      this.type != TextureFormat.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
       "Type is not packed depth/stencil");
 
     switch (this.type) {
@@ -542,7 +542,7 @@ public final class TextureCubeReadableData implements TextureReadableDataType
       TextureTypeMeta.isFloatingPoint(this.type) == false,
       "Texture is not floating point");
     Constraints.constrainArbitrary(
-      this.type != TextureType.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
+      this.type != TextureFormat.TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP,
       "Type is not packed depth/stencil");
 
     switch (this.type) {

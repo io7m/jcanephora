@@ -17,22 +17,29 @@
 package com.io7m.jcanephora.cursors;
 
 import com.io7m.jcanephora.CursorType;
+import com.io7m.jnull.NullCheck;
+import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.RangeInclusiveL;
 
 /**
+ * <p>
  * Basic cursor implementation for seeking through a buffer.
- * 
+ * </p>
+ * <p>
  * The buffer is assumed to be comprised of elements of size
  * <code>element_size</code> bytes.
- * 
+ * </p>
+ * <p>
  * The cursor is assumed to be pointing to attributes that are
  * <code>attribute_offset</code> bytes from the start of each element.
- * 
+ * </p>
+ * <p>
  * The cursor can address elements from the given inclusive range and will
  * reject attempts to write outside of this range.
+ * </p>
  */
 
-class BufferCursor implements CursorType
+abstract class BufferCursor implements CursorType
 {
   private final long            attribute_offset;
   private long                  byte_current;
@@ -46,24 +53,32 @@ class BufferCursor implements CursorType
     final long in_attribute_offset,
     final long in_element_size)
   {
+    NullCheck.notNull(in_range, "Range");
+
     /**
-     * This class is not visible outside of the jcanephora package: it is the
-     * responsibility of subtypes to respect these preconditions.
+     * It is the responsibility of subtypes to respect these preconditions.
      */
 
-    if (0 > in_range.getLower()) {
-      throw new IllegalArgumentException("lower bound is negative");
-    }
-    if (0 > in_element_size) {
-      throw new IllegalArgumentException("element_size is negative");
-    }
-
-    if (in_attribute_offset < 0) {
-      throw new IllegalArgumentException("attribute_offset is negative");
-    }
-    if (in_attribute_offset >= in_element_size) {
-      throw new IllegalArgumentException("attribute_offset >= element_size");
-    }
+    RangeCheck.checkGreater(
+      in_range.getLower(),
+      "Lower bound",
+      0L,
+      "Minimum lower bound");
+    RangeCheck.checkGreater(
+      in_element_size,
+      "Element size",
+      0L,
+      "Minimum element size");
+    RangeCheck.checkGreater(
+      in_attribute_offset,
+      "Attribute offset",
+      0L,
+      "Minimum attribute offset");
+    RangeCheck.checkLess(
+      in_attribute_offset,
+      "Attribute offset",
+      in_element_size,
+      "Element size");
 
     this.attribute_offset = in_attribute_offset;
     this.range = in_range;
@@ -108,18 +123,10 @@ class BufferCursor implements CursorType
     return this.can_write;
   }
 
-  /**
-   * Point the cursor at the next available element of the cursor's attribute.
-   */
-
   @Override public final void next()
   {
     this.uncheckedSeek(this.element_current + 1);
   }
-
-  /**
-   * Seek to the given element.
-   */
 
   @Override public final void seekTo(
     final long element)

@@ -21,14 +21,53 @@ import java.nio.ByteOrder;
 
 import com.io7m.jcanephora.cursors.ByteBufferCursorWritableIndex;
 import com.io7m.jnull.NullCheck;
+import com.io7m.jranges.RangeCheckException;
 import com.io7m.jranges.RangeInclusiveL;
 
 /**
  * An allocated region of data, to replace or update an index buffer.
  */
 
-public final class IndexBufferWritableData
+public final class IndexBufferUpdateUnmapped implements
+  IndexBufferUpdateUnmappedType
 {
+  /**
+   * Construct a buffer of data that will be used to replace the entirety of
+   * the data in <code>b</code> on the GPU.
+   * 
+   * @return An index buffer update.
+   * @param b
+   *          The index buffer.
+   */
+
+  public static IndexBufferUpdateUnmappedType newReplacing(
+    final IndexBufferType b)
+  {
+    NullCheck.notNull(b, "Buffer");
+    return new IndexBufferUpdateUnmapped(b, b.bufferGetRange());
+  }
+
+  /**
+   * Construct a buffer of data that will be used to replace the range of
+   * elements given by <code>r</code> in <code>b</code> on the GPU.
+   * 
+   * @return An index buffer update.
+   * @param b
+   *          The index buffer.
+   * @param r
+   *          The range of elements to replace.
+   * @throws RangeCheckException
+   *           If the given range is not included in the buffer's range.
+   */
+
+  public static IndexBufferUpdateUnmappedType newUpdating(
+    final IndexBufferType b,
+    final RangeInclusiveL r)
+    throws RangeCheckException
+  {
+    return new IndexBufferUpdateUnmapped(b, r);
+  }
+
   private final IndexBufferUsableType buffer;
   private final RangeInclusiveL       range;
   private final ByteBuffer            target_data;
@@ -36,42 +75,16 @@ public final class IndexBufferWritableData
   private final long                  target_data_size;
   private final RangeInclusiveL       target_range;
 
-  /**
-   * Construct a buffer of data that will be used to replace the entirety of
-   * the data in <code>buffer</code> on the GPU.
-   * 
-   * @param in_buffer
-   *          The array buffer.
-   */
-
-  public IndexBufferWritableData(
-    final IndexBuffer in_buffer)
-  {
-    this(in_buffer, in_buffer.bufferGetRange());
-  }
-
-  /**
-   * Construct a buffer of data that will be used to replace the range of
-   * elements given by <code>range</code> in <code>buffer</code> on the GPU.
-   * 
-   * @param in_buffer
-   *          The index buffer.
-   * @param in_range
-   *          The range of elements to replace.
-   * @throws IllegalArgumentException
-   *           If the given range is not included in the buffer's range.
-   */
-
-  public IndexBufferWritableData(
-    final IndexBuffer in_buffer,
+  private IndexBufferUpdateUnmapped(
+    final IndexBufferType in_buffer,
     final RangeInclusiveL in_range)
-    throws IllegalArgumentException
+    throws RangeCheckException
   {
     this.buffer = NullCheck.notNull(in_buffer, "Array buffer");
     this.range = NullCheck.notNull(in_range, "Range");
 
     if (in_range.isIncludedIn(in_buffer.bufferGetRange())) {
-      throw new IllegalArgumentException(
+      throw new RangeCheckException(
         "Given range is not included in the buffer's range");
     }
 
@@ -88,53 +101,30 @@ public final class IndexBufferWritableData
     this.target_data = b;
   }
 
-  /**
-   * @return A cursor that points to elements of the index buffer. The cursor
-   *         interface allows constant time access to any element and also
-   *         minimizes the number of checks performed for each access.
-   */
-
-  public CursorWritableIndexType getCursor()
+  @Override public CursorWritableIndexType getCursor()
   {
-    return new ByteBufferCursorWritableIndex(
+    return ByteBufferCursorWritableIndex.newCursor(
       this.target_data,
       this.target_range,
-      this.buffer.getType());
+      this.buffer.indexGetType());
   }
 
-  /**
-   * @return The index buffer to which this data belongs.
-   */
-
-  public IndexBufferUsableType getIndexBuffer()
+  @Override public IndexBufferUsableType getIndexBuffer()
   {
     return this.buffer;
   }
 
-  /**
-   * @return The data that will be used to update the array buffer.
-   */
-
-  ByteBuffer getTargetData()
+  @Override public ByteBuffer getTargetData()
   {
     return this.target_data;
   }
 
-  /**
-   * @return The offset in bytes of the area of the array buffer to be
-   *         updated.
-   */
-
-  long getTargetDataOffset()
+  @Override public long getTargetDataOffset()
   {
     return this.target_data_offset;
   }
 
-  /**
-   * @return The size in bytes of the area of the array buffer to be updated.
-   */
-
-  long getTargetDataSize()
+  @Override public long getTargetDataSize()
   {
     return this.target_data_size;
   }

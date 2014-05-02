@@ -32,7 +32,7 @@ public interface JCGLInterfaceCommon extends
   JCGLDraw,
   JCGLErrorCodes,
   JCGLFramebuffersCommon,
-  JCGLIndexBuffers,
+  JCGLIndexBuffersType,
   JCGLMetaType,
   JCGLRenderbuffersCommon,
   JCGLScissorType,
