@@ -30,12 +30,9 @@ import com.io7m.junreachable.UnreachableCodeException;
  * type.
  */
 
-public final class ByteBufferCursorWritableIndex extends BufferCursor implements
+public final class ByteBufferCursorWritableIndex extends ByteBufferCursor implements
   CursorWritableIndexType
 {
-  private final ByteBuffer       target_data;
-  private final JCGLUnsignedType type;
-
   /**
    * Construct a new cursor capable of writing to indices of the given type
    * within the specified range of the given data.
@@ -57,13 +54,14 @@ public final class ByteBufferCursorWritableIndex extends BufferCursor implements
     return new ByteBufferCursorWritableIndex(data, range, type);
   }
 
+  private final JCGLUnsignedType type;
+
   private ByteBufferCursorWritableIndex(
     final ByteBuffer in_target_data,
     final RangeInclusiveL range,
     final JCGLUnsignedType in_type)
   {
-    super(range, 0, in_type.getSizeBytes());
-    this.target_data = NullCheck.notNull(in_target_data, "Target data");
+    super(in_target_data, range, 0, in_type.getSizeBytes());
     this.type = NullCheck.notNull(in_type, "Type");
   }
 
@@ -71,6 +69,8 @@ public final class ByteBufferCursorWritableIndex extends BufferCursor implements
     final int value)
   {
     this.checkValid();
+
+    final ByteBuffer b = this.getBuffer();
     final int offset = (int) this.getByteOffset();
 
     switch (this.type) {
@@ -79,13 +79,13 @@ public final class ByteBufferCursorWritableIndex extends BufferCursor implements
         RangeCheck.checkGreaterEqual(value, "Value", 0, "Lower bound");
         RangeCheck.checkLessEqual(value, "Value", 0xff, "Upper bound");
 
-        this.target_data.put(offset, (byte) value);
+        b.put(offset, (byte) value);
         this.next();
         return;
       }
       case TYPE_UNSIGNED_INT:
       {
-        this.target_data.putInt(offset, value);
+        b.putInt(offset, value);
         this.next();
         return;
       }
@@ -94,7 +94,7 @@ public final class ByteBufferCursorWritableIndex extends BufferCursor implements
         RangeCheck.checkGreaterEqual(value, "Value", 0, "Lower bound");
         RangeCheck.checkLessEqual(value, "Value", 0xffff, "Upper bound");
 
-        this.target_data.putShort(offset, (short) value);
+        b.putShort(offset, (short) value);
         this.next();
         return;
       }

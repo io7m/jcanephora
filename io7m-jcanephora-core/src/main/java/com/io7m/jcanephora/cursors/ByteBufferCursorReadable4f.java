@@ -27,19 +27,43 @@ import com.io7m.jtensors.VectorWritable4FType;
  * Generic byte buffer cursor pointing to elements containing four floats.
  */
 
-final class ByteBufferCursorReadable4f extends BufferCursor implements
+public final class ByteBufferCursorReadable4f extends ByteBufferCursor implements
   CursorReadable4fType
 {
-  private final ByteBuffer target_data;
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_data
+   *          The data.
+   * @param range
+   *          The range to be read.
+   * @param attribute_offset
+   *          The attribute offset.
+   * @param element_size
+   *          The element size.
+   * @return A new cursor.
+   */
 
-  ByteBufferCursorReadable4f(
+  public static CursorReadable4fType newCursor(
+    final ByteBuffer in_data,
+    final RangeInclusiveL range,
+    final long attribute_offset,
+    final long element_size)
+  {
+    return new ByteBufferCursorReadable4f(
+      in_data,
+      range,
+      attribute_offset,
+      element_size);
+  }
+
+  private ByteBufferCursorReadable4f(
     final ByteBuffer in_target_data,
     final RangeInclusiveL range,
     final long attribute_offset,
     final long element_size)
   {
-    super(range, attribute_offset, element_size);
-    this.target_data = in_target_data;
+    super(in_target_data, range, attribute_offset, element_size);
   }
 
   @Override public void get4f(
@@ -48,12 +72,13 @@ final class ByteBufferCursorReadable4f extends BufferCursor implements
     NullCheck.notNull(v, "Vector");
     this.checkValid();
 
+    final ByteBuffer b = this.getBuffer();
     final int byte_current = (int) this.getByteOffset();
     v.set4F(
-      this.target_data.getFloat(byte_current + 0),
-      this.target_data.getFloat(byte_current + 4),
-      this.target_data.getFloat(byte_current + 8),
-      this.target_data.getFloat(byte_current + 12));
+      b.getFloat(byte_current + 0),
+      b.getFloat(byte_current + 4),
+      b.getFloat(byte_current + 8),
+      b.getFloat(byte_current + 12));
     this.next();
   }
 }

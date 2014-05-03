@@ -20,30 +20,52 @@ import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.FixedPoint;
-import com.io7m.jcanephora.SpatialCursorWritable3dType;
-import com.io7m.jcanephora.SpatialCursorWritable3fType;
-import com.io7m.jcanephora.SpatialCursorWritable3iType;
+import com.io7m.jcanephora.SpatialCursorWritable3Type;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.VectorM3I;
 import com.io7m.jtensors.VectorReadable3DType;
 import com.io7m.jtensors.VectorReadable3FType;
 import com.io7m.jtensors.VectorReadable3IType;
+import com.io7m.jtensors.VectorReadable3LType;
 
-final class ByteBufferTextureCursorWritable_3_8_U extends AreaCursor implements
-  SpatialCursorWritable3fType,
-  SpatialCursorWritable3dType,
-  SpatialCursorWritable3iType
+/**
+ * A texture cursor for <code>3_8_U</code> components.
+ */
+
+public final class ByteBufferTextureCursorWritable_3_8_U extends
+  ByteBufferAreaCursor implements SpatialCursorWritable3Type
 {
-  private final ByteBuffer target_data;
-  private final VectorM3I  vector = new VectorM3I();
+  private final VectorM3I vector = new VectorM3I();
 
-  protected ByteBufferTextureCursorWritable_3_8_U(
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be updated.
+   * @return A new cursor.
+   */
+
+  public static SpatialCursorWritable3Type newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
   {
-    super(target_area, update_area, 3 * 1);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorWritable_3_8_U(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorWritable_3_8_U(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 3 * 1);
   }
 
   @Override public void put3d(
@@ -72,10 +94,23 @@ final class ByteBufferTextureCursorWritable_3_8_U extends AreaCursor implements
     final VectorReadable3IType v)
   {
     NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
     final int i = (int) this.getByteOffset();
-    this.target_data.put(i + 0, (byte) v.getXI());
-    this.target_data.put(i + 1, (byte) v.getYI());
-    this.target_data.put(i + 2, (byte) v.getZI());
+    b.put(i + 0, (byte) v.getXI());
+    b.put(i + 1, (byte) v.getYI());
+    b.put(i + 2, (byte) v.getZI());
+    this.next();
+  }
+
+  @Override public void put3l(
+    final VectorReadable3LType v)
+  {
+    NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
+    final int i = (int) this.getByteOffset();
+    b.put(i + 0, (byte) v.getXL());
+    b.put(i + 1, (byte) v.getYL());
+    b.put(i + 2, (byte) v.getZL());
     this.next();
   }
 }

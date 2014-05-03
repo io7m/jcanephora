@@ -20,32 +20,51 @@ import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.FixedPoint;
-import com.io7m.jcanephora.SpatialCursorReadable3dType;
-import com.io7m.jcanephora.SpatialCursorReadable3fType;
-import com.io7m.jcanephora.SpatialCursorReadable3iType;
-import com.io7m.jcanephora.SpatialCursorReadable3lType;
+import com.io7m.jcanephora.SpatialCursorReadable3Type;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.VectorM3D;
 import com.io7m.jtensors.VectorM3F;
 import com.io7m.jtensors.VectorM3I;
 import com.io7m.jtensors.VectorM3L;
 
-final class ByteBufferTextureCursorReadable_3_32_I extends AreaCursor implements
-  SpatialCursorReadable3fType,
-  SpatialCursorReadable3dType,
-  SpatialCursorReadable3iType,
-  SpatialCursorReadable3lType
-{
-  private final ByteBuffer target_data;
-  private final VectorM3L  vector = new VectorM3L();
+/**
+ * A texture cursor for <code>3_32_I</code> components.
+ */
 
-  protected ByteBufferTextureCursorReadable_3_32_I(
+public final class ByteBufferTextureCursorReadable_3_32_I extends
+  ByteBufferAreaCursor implements SpatialCursorReadable3Type
+{
+  private final VectorM3L vector = new VectorM3L();
+
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be read.
+   * @return A new cursor.
+   */
+
+  public static SpatialCursorReadable3Type newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
   {
-    super(target_area, update_area, 3 * 4);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorReadable_3_32_I(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorReadable_3_32_I(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 3 * 4);
   }
 
   @Override public void get3d(
@@ -72,11 +91,9 @@ final class ByteBufferTextureCursorReadable_3_32_I extends AreaCursor implements
     final VectorM3I v)
   {
     NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
     final int i = (int) this.getByteOffset();
-    v.set3I(
-      this.target_data.getInt(i + 0),
-      this.target_data.getInt(i + 4),
-      this.target_data.getInt(i + 8));
+    v.set3I(b.getInt(i + 0), b.getInt(i + 4), b.getInt(i + 8));
     this.next();
   }
 
@@ -84,11 +101,9 @@ final class ByteBufferTextureCursorReadable_3_32_I extends AreaCursor implements
     final VectorM3L v)
   {
     NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
     final int i = (int) this.getByteOffset();
-    v.set3L(
-      this.target_data.getInt(i + 0),
-      this.target_data.getInt(i + 4),
-      this.target_data.getInt(i + 8));
+    v.set3L(b.getInt(i + 0), b.getInt(i + 4), b.getInt(i + 8));
     this.next();
   }
 }

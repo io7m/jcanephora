@@ -13,7 +13,8 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-package com.io7m.jcanephora;
+
+package com.io7m.jcanephora.tests.cursor;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -21,15 +22,16 @@ import java.nio.ByteOrder;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
+import com.io7m.jcanephora.CursorReadableIndexType;
+import com.io7m.jcanephora.CursorWritableIndexType;
+import com.io7m.jcanephora.JCGLUnsignedType;
+import com.io7m.jcanephora.cursors.ByteBufferCursorReadableIndex;
+import com.io7m.jcanephora.cursors.ByteBufferCursorWritableIndex;
+import com.io7m.jranges.RangeInclusiveL;
 
-public class ByteBufferCursorReadableIndexTest
+@SuppressWarnings("static-method") public class ByteBufferCursorReadableIndexTest
 {
-  @SuppressWarnings("static-method") @Test public
-    void
-    testReadWriteByteIdentity()
-      throws ConstraintError
+  @Test public void testReadWriteByteIdentity()
   {
     final int element_count = 4;
     final JCGLUnsignedType type = JCGLUnsignedType.TYPE_UNSIGNED_BYTE;
@@ -38,16 +40,13 @@ public class ByteBufferCursorReadableIndexTest
     final ByteBuffer data =
       ByteBuffer.allocate(element_count * element_size).order(
         ByteOrder.nativeOrder());
+    assert data != null;
 
-    final ByteBufferCursorWritableIndex cw =
-      new ByteBufferCursorWritableIndex(data, new RangeInclusive(
-        0,
-        element_count - 1), type);
-
-    final ByteBufferCursorReadableIndex cr =
-      new ByteBufferCursorReadableIndex(data, new RangeInclusive(
-        0,
-        element_count - 1), type);
+    final RangeInclusiveL range = new RangeInclusiveL(0, element_count - 1);
+    final CursorWritableIndexType cw =
+      ByteBufferCursorWritableIndex.newCursor(data, range, type);
+    final CursorReadableIndexType cr =
+      ByteBufferCursorReadableIndex.newCursor(data, range, type);
 
     cw.putIndex(5);
     cw.putIndex(7);
@@ -60,10 +59,7 @@ public class ByteBufferCursorReadableIndexTest
     Assert.assertTrue(11 == cr.getIndex());
   }
 
-  @SuppressWarnings("static-method") @Test public
-    void
-    testReadWriteIntIdentity()
-      throws ConstraintError
+  @Test public void testReadWriteIntIdentity()
   {
     final int element_count = 4;
     final JCGLUnsignedType type = JCGLUnsignedType.TYPE_UNSIGNED_INT;
@@ -72,16 +68,13 @@ public class ByteBufferCursorReadableIndexTest
     final ByteBuffer data =
       ByteBuffer.allocate(element_count * element_size).order(
         ByteOrder.nativeOrder());
+    assert data != null;
 
-    final ByteBufferCursorWritableIndex cw =
-      new ByteBufferCursorWritableIndex(data, new RangeInclusive(
-        0,
-        element_count - 1), type);
-
-    final ByteBufferCursorReadableIndex cr =
-      new ByteBufferCursorReadableIndex(data, new RangeInclusive(
-        0,
-        element_count - 1), type);
+    final RangeInclusiveL range = new RangeInclusiveL(0, element_count - 1);
+    final CursorWritableIndexType cw =
+      ByteBufferCursorWritableIndex.newCursor(data, range, type);
+    final CursorReadableIndexType cr =
+      ByteBufferCursorReadableIndex.newCursor(data, range, type);
 
     cw.putIndex(5);
     cw.putIndex(7);
@@ -94,10 +87,7 @@ public class ByteBufferCursorReadableIndexTest
     Assert.assertTrue(11 == cr.getIndex());
   }
 
-  @SuppressWarnings("static-method") @Test public
-    void
-    testReadWriteShortIdentity()
-      throws ConstraintError
+  @Test public void testReadWriteShortIdentity()
   {
     final int element_count = 4;
     final JCGLUnsignedType type = JCGLUnsignedType.TYPE_UNSIGNED_SHORT;
@@ -106,16 +96,13 @@ public class ByteBufferCursorReadableIndexTest
     final ByteBuffer data =
       ByteBuffer.allocate(element_count * element_size).order(
         ByteOrder.nativeOrder());
+    assert data != null;
 
-    final ByteBufferCursorWritableIndex cw =
-      new ByteBufferCursorWritableIndex(data, new RangeInclusive(
-        0,
-        element_count - 1), type);
-
-    final ByteBufferCursorReadableIndex cr =
-      new ByteBufferCursorReadableIndex(data, new RangeInclusive(
-        0,
-        element_count - 1), type);
+    final RangeInclusiveL range = new RangeInclusiveL(0, element_count - 1);
+    final CursorWritableIndexType cw =
+      ByteBufferCursorWritableIndex.newCursor(data, range, type);
+    final CursorReadableIndexType cr =
+      ByteBufferCursorReadableIndex.newCursor(data, range, type);
 
     cw.putIndex(5);
     cw.putIndex(7);

@@ -19,22 +19,44 @@ package com.io7m.jcanephora.cursors;
 import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.SpatialCursorWritable1dType;
-import com.io7m.jcanephora.SpatialCursorWritable1fType;
+import com.io7m.jcanephora.SpatialCursorWritable1FloatType;
 
-final class ByteBufferTextureCursorWritable_1_32f extends AreaCursor implements
-  SpatialCursorWritable1fType,
-  SpatialCursorWritable1dType
+/**
+ * A texture cursor for <code>1_32f</code> components.
+ */
+
+public final class ByteBufferTextureCursorWritable_1_32f extends
+  ByteBufferAreaCursor implements SpatialCursorWritable1FloatType
 {
-  private final ByteBuffer target_data;
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be updated.
+   * @return A new cursor.
+   */
 
-  protected ByteBufferTextureCursorWritable_1_32f(
+  public static SpatialCursorWritable1FloatType newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
   {
-    super(target_area, update_area, 4);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorWritable_1_32f(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorWritable_1_32f(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 4);
   }
 
   @Override public void put1d(
@@ -47,7 +69,7 @@ final class ByteBufferTextureCursorWritable_1_32f extends AreaCursor implements
     final float x)
   {
     final int byte_current = (int) this.getByteOffset();
-    this.target_data.putFloat(byte_current, x);
+    this.getBuffer().putFloat(byte_current, x);
     this.next();
   }
 }

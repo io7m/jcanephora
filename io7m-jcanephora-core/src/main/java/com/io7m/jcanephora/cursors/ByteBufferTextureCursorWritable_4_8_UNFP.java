@@ -20,30 +20,52 @@ import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.FixedPoint;
-import com.io7m.jcanephora.SpatialCursorWritable4dType;
-import com.io7m.jcanephora.SpatialCursorWritable4fType;
-import com.io7m.jcanephora.SpatialCursorWritable4iType;
+import com.io7m.jcanephora.SpatialCursorWritable4Type;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.VectorM4I;
 import com.io7m.jtensors.VectorReadable4DType;
 import com.io7m.jtensors.VectorReadable4FType;
 import com.io7m.jtensors.VectorReadable4IType;
+import com.io7m.jtensors.VectorReadable4LType;
 
-final class ByteBufferTextureCursorWritable_4_8_UNFP extends AreaCursor implements
-  SpatialCursorWritable4fType,
-  SpatialCursorWritable4dType,
-  SpatialCursorWritable4iType
+/**
+ * A texture cursor for <code>4_8_UNFP</code> components.
+ */
+
+public final class ByteBufferTextureCursorWritable_4_8_UNFP extends
+  ByteBufferAreaCursor implements SpatialCursorWritable4Type
 {
-  private final ByteBuffer target_data;
-  private final VectorM4I  vector = new VectorM4I();
+  private final VectorM4I vector = new VectorM4I();
 
-  protected ByteBufferTextureCursorWritable_4_8_UNFP(
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be updated.
+   * @return A new cursor.
+   */
+
+  public static SpatialCursorWritable4Type newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
   {
-    super(target_area, update_area, 4 * 1);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorWritable_4_8_UNFP(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorWritable_4_8_UNFP(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 4 * 1);
   }
 
   @Override public void put4d(
@@ -74,11 +96,25 @@ final class ByteBufferTextureCursorWritable_4_8_UNFP extends AreaCursor implemen
     final VectorReadable4IType v)
   {
     NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
     final int i = (int) this.getByteOffset();
-    this.target_data.put(i + 0, (byte) v.getXI());
-    this.target_data.put(i + 1, (byte) v.getYI());
-    this.target_data.put(i + 2, (byte) v.getZI());
-    this.target_data.put(i + 3, (byte) v.getWI());
+    b.put(i + 0, (byte) v.getXI());
+    b.put(i + 1, (byte) v.getYI());
+    b.put(i + 2, (byte) v.getZI());
+    b.put(i + 3, (byte) v.getWI());
+    this.next();
+  }
+
+  @Override public void put4l(
+    final VectorReadable4LType v)
+  {
+    NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
+    final int i = (int) this.getByteOffset();
+    b.put(i + 0, (byte) v.getXL());
+    b.put(i + 1, (byte) v.getYL());
+    b.put(i + 2, (byte) v.getZL());
+    b.put(i + 3, (byte) v.getWL());
     this.next();
   }
 }

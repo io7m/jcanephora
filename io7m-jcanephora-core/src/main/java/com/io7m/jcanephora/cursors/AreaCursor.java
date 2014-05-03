@@ -21,6 +21,7 @@ import com.io7m.jcanephora.SpatialCursorType;
 import com.io7m.jequality.annotations.EqualityStructural;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
+import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.RangeCheckException;
 import com.io7m.jranges.RangeInclusiveL;
 
@@ -40,7 +41,8 @@ import com.io7m.jranges.RangeInclusiveL;
  * </p>
  */
 
-@EqualityStructural class AreaCursor implements SpatialCursorType
+@EqualityStructural public abstract class AreaCursor implements
+  SpatialCursorType
 {
   private final AreaInclusive area_inner;
   private final AreaInclusive area_outer;
@@ -63,15 +65,35 @@ import com.io7m.jranges.RangeInclusiveL;
      * It is the responsibility of subtypes to respect these preconditions.
      */
 
+    /**
+     * The inner area must be included in the outer area.
+     */
+
     if (in_area_inner.isIncludedIn(in_area_outer) == false) {
       throw new RangeCheckException("Inner area is included in outer area");
     }
-    if (0 > in_area_outer.getRangeX().getLower()) {
-      throw new RangeCheckException("Outer X lower bound is negative");
-    }
-    if (0 > in_area_outer.getRangeY().getLower()) {
-      throw new RangeCheckException("Outer Y lower bound is negative");
-    }
+
+    /**
+     * The lower bound of the outer area must be greater than or equal to
+     * zero.
+     */
+
+    RangeCheck.checkGreaterEqual(
+      in_area_outer.getRangeX().getLower(),
+      "Outer X lower bound",
+      0,
+      "Minimum X lower bound");
+
+    /**
+     * The lower bound of the outer area must be greater than or equal to
+     * zero.
+     */
+
+    RangeCheck.checkGreaterEqual(
+      in_area_outer.getRangeY().getLower(),
+      "Outer Y lower bound",
+      0,
+      "Minimum Y lower bound");
 
     /**
      * If the outer lower bound is not negative, and the inner bound is
@@ -79,9 +101,15 @@ import com.io7m.jranges.RangeInclusiveL;
      * negative.
      */
 
-    if (0 > in_element_bytes) {
-      throw new RangeCheckException("element_bytes is negative");
-    }
+    /**
+     * The Element size must be non-zero.
+     */
+
+    RangeCheck.checkGreater(
+      in_element_bytes,
+      "Element size",
+      0,
+      "Minimum element size");
 
     this.area_outer = in_area_outer;
     this.area_inner = in_area_inner;
@@ -101,7 +129,7 @@ import com.io7m.jranges.RangeInclusiveL;
     }
   }
 
-  @Override public boolean equals(
+  @Override public final boolean equals(
     final @Nullable Object obj)
   {
     if (this == obj) {
@@ -129,17 +157,21 @@ import com.io7m.jranges.RangeInclusiveL;
     return true;
   }
 
-  protected final long getByteOffset()
+  /**
+   * @return The current byte offset.
+   */
+
+  public final long getByteOffset()
   {
     this.checkValid();
     return this.byte_offset;
   }
 
   /**
-   * Retrieve the number of bytes used by each element.
+   * @return The number of bytes used by each element.
    */
 
-  public long getElementBytes()
+  public final long getElementBytes()
   {
     return this.element_bytes;
   }
@@ -156,7 +188,7 @@ import com.io7m.jranges.RangeInclusiveL;
     return this.element_y;
   }
 
-  @Override public int hashCode()
+  @Override public final int hashCode()
   {
     final int p = 31;
     int r = 1;
@@ -197,7 +229,7 @@ import com.io7m.jranges.RangeInclusiveL;
     this.uncheckedSeek(x, y);
   }
 
-  @Override public String toString()
+  @Override public final String toString()
   {
     final StringBuilder builder = new StringBuilder();
     builder.append("[AreaCursor ");
@@ -222,7 +254,7 @@ import com.io7m.jranges.RangeInclusiveL;
     return r;
   }
 
-  final void uncheckedSeek(
+  protected final void uncheckedSeek(
     final long x,
     final long y)
   {

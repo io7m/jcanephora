@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -13,20 +13,32 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-package com.io7m.jcanephora;
+
+package com.io7m.jcanephora.tests.cursor;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
+import com.io7m.jcanephora.cursors.BufferCursor;
+import com.io7m.jranges.RangeCheckException;
+import com.io7m.jranges.RangeInclusiveL;
 
-public class BufferCursorTest
+@SuppressWarnings({ "static-method", "unused" }) public class BufferCursorTest
 {
-  @SuppressWarnings("static-method") @Test public void testCanWrite()
-    throws ConstraintError
+  private static final class TestCursor extends BufferCursor
   {
-    final BufferCursor c = new BufferCursor(new RangeInclusive(0, 3), 0, 4);
+    protected TestCursor(
+      final RangeInclusiveL in_range,
+      final long in_attribute_offset,
+      final long in_element_size)
+    {
+      super(in_range, in_attribute_offset, in_element_size);
+    }
+  }
+
+  @Test public void testCanWrite()
+  {
+    final BufferCursor c = new TestCursor(new RangeInclusiveL(0, 3), 0, 4);
 
     Assert.assertEquals(0, c.getByteOffset());
     Assert.assertTrue(c.isValid());
@@ -45,10 +57,9 @@ public class BufferCursorTest
     Assert.assertFalse(c.hasNext());
   }
 
-  @SuppressWarnings("static-method") @Test public void testCanWritePre()
-    throws ConstraintError
+  @Test public void testCanWritePre()
   {
-    final BufferCursor c = new BufferCursor(new RangeInclusive(2, 3), 0, 4);
+    final BufferCursor c = new TestCursor(new RangeInclusiveL(2, 3), 0, 4);
 
     Assert.assertEquals(8, c.getByteOffset());
     Assert.assertTrue(c.isValid());
@@ -75,17 +86,15 @@ public class BufferCursorTest
     Assert.assertTrue(c.isValid());
   }
 
-  @SuppressWarnings("static-method") @Test public void testHasNextBeyond()
-    throws ConstraintError
+  @Test public void testHasNextBeyond()
   {
-    final BufferCursor c = new BufferCursor(new RangeInclusive(0, 0), 0, 4);
+    final BufferCursor c = new TestCursor(new RangeInclusiveL(0, 0), 0, 4);
     Assert.assertFalse(c.hasNext());
   }
 
-  @SuppressWarnings("static-method") @Test public void testInit0()
-    throws ConstraintError
+  @Test public void testInit0()
   {
-    final BufferCursor c = new BufferCursor(new RangeInclusive(0, 7), 0, 4);
+    final BufferCursor c = new TestCursor(new RangeInclusiveL(0, 7), 0, 4);
 
     Assert.assertEquals(0, c.getByteOffset());
     Assert.assertEquals(0, c.getElement());
@@ -93,10 +102,9 @@ public class BufferCursorTest
     Assert.assertTrue(c.isValid());
   }
 
-  @SuppressWarnings("static-method") @Test public void testInit1()
-    throws ConstraintError
+  @Test public void testInit1()
   {
-    final BufferCursor c = new BufferCursor(new RangeInclusive(1, 7), 0, 4);
+    final BufferCursor c = new TestCursor(new RangeInclusiveL(1, 7), 0, 4);
 
     Assert.assertEquals(4, c.getByteOffset());
     Assert.assertEquals(1, c.getElement());
@@ -104,10 +112,9 @@ public class BufferCursorTest
     Assert.assertTrue(c.isValid());
   }
 
-  @SuppressWarnings("static-method") @Test public void testNext()
-    throws ConstraintError
+  @Test public void testNext()
   {
-    final BufferCursor c = new BufferCursor(new RangeInclusive(0, 7), 0, 4);
+    final BufferCursor c = new TestCursor(new RangeInclusiveL(0, 7), 0, 4);
 
     for (int index = 0; index < 7; ++index) {
       Assert.assertTrue(c.hasNext());
@@ -115,10 +122,9 @@ public class BufferCursorTest
     }
   }
 
-  @SuppressWarnings("static-method") @Test public void testNextOffsets()
-    throws ConstraintError
+  @Test public void testNextOffsets()
   {
-    final BufferCursor c = new BufferCursor(new RangeInclusive(0, 3), 0, 4);
+    final BufferCursor c = new TestCursor(new RangeInclusiveL(0, 3), 0, 4);
 
     Assert.assertEquals(0, c.getByteOffset());
     c.next();
@@ -131,19 +137,29 @@ public class BufferCursorTest
     Assert.assertFalse(c.hasNext());
   }
 
-  @SuppressWarnings({ "static-method", "unused" }) @Test(
-    expected = IllegalArgumentException.class) public
-    void
-    testPrecondition0()
-      throws ConstraintError
+  @Test(expected = RangeCheckException.class) public void testPrecondition0()
   {
-    new BufferCursor(new RangeInclusive(-1, 0), 0, 4);
+    new TestCursor(new RangeInclusiveL(-1, 0), 0, 4);
   }
 
-  @SuppressWarnings("static-method") @Test public void testSeekOffsets()
-    throws ConstraintError
+  @Test(expected = RangeCheckException.class) public void testPrecondition1()
   {
-    final BufferCursor c = new BufferCursor(new RangeInclusive(0, 3), 0, 4);
+    new TestCursor(new RangeInclusiveL(0, 0), 0, 0);
+  }
+
+  @Test(expected = RangeCheckException.class) public void testPrecondition2()
+  {
+    new TestCursor(new RangeInclusiveL(0, 0), -1, 1);
+  }
+
+  @Test(expected = RangeCheckException.class) public void testPrecondition3()
+  {
+    new TestCursor(new RangeInclusiveL(0, 0), 2, 2);
+  }
+
+  @Test public void testSeekOffsets()
+  {
+    final BufferCursor c = new TestCursor(new RangeInclusiveL(0, 3), 0, 4);
 
     c.seekTo(3);
     Assert.assertEquals(12, c.getByteOffset());

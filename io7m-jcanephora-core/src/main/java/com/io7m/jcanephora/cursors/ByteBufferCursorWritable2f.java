@@ -25,19 +25,43 @@ import com.io7m.jranges.RangeInclusiveL;
  * Generic byte buffer cursor pointing to elements containing two floats.
  */
 
-final class ByteBufferCursorWritable2f extends BufferCursor implements
+public final class ByteBufferCursorWritable2f extends ByteBufferCursor implements
   CursorWritable2fType
 {
-  private final ByteBuffer target_data;
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The data.
+   * @param range
+   *          The range to be modified.
+   * @param attribute_offset
+   *          The attribute offset.
+   * @param element_size
+   *          The element size.
+   * @return A new cursor.
+   */
 
-  ByteBufferCursorWritable2f(
+  public static CursorWritable2fType newCursor(
     final ByteBuffer in_target_data,
     final RangeInclusiveL range,
     final long attribute_offset,
     final long element_size)
   {
-    super(range, attribute_offset, element_size);
-    this.target_data = in_target_data;
+    return new ByteBufferCursorWritable2f(
+      in_target_data,
+      range,
+      attribute_offset,
+      element_size);
+  }
+
+  private ByteBufferCursorWritable2f(
+    final ByteBuffer in_target_data,
+    final RangeInclusiveL range,
+    final long attribute_offset,
+    final long element_size)
+  {
+    super(in_target_data, range, attribute_offset, element_size);
   }
 
   @Override public void put2f(
@@ -45,9 +69,10 @@ final class ByteBufferCursorWritable2f extends BufferCursor implements
     final float y)
   {
     this.checkValid();
+    final ByteBuffer b = this.getBuffer();
     final int byte_current = (int) this.getByteOffset();
-    this.target_data.putFloat(byte_current + 0, x);
-    this.target_data.putFloat(byte_current + 4, y);
+    b.putFloat(byte_current + 0, x);
+    b.putFloat(byte_current + 4, y);
     this.next();
   }
 }

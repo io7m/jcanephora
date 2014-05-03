@@ -19,22 +19,44 @@ package com.io7m.jcanephora.cursors;
 import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.SpatialCursorReadable1dType;
-import com.io7m.jcanephora.SpatialCursorReadable1fType;
+import com.io7m.jcanephora.SpatialCursorReadable1FloatType;
 
-final class ByteBufferTextureCursorReadable_1_32f extends AreaCursor implements
-  SpatialCursorReadable1fType,
-  SpatialCursorReadable1dType
+/**
+ * A texture cursor for <code>1_32f</code> components.
+ */
+
+public final class ByteBufferTextureCursorReadable_1_32f extends
+  ByteBufferAreaCursor implements SpatialCursorReadable1FloatType
 {
-  private final ByteBuffer target_data;
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be read.
+   * @return A new cursor.
+   */
 
-  protected ByteBufferTextureCursorReadable_1_32f(
+  public static SpatialCursorReadable1FloatType newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
   {
-    super(target_area, update_area, 4);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorReadable_1_32f(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorReadable_1_32f(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 4);
   }
 
   @Override public double get1d()
@@ -45,7 +67,7 @@ final class ByteBufferTextureCursorReadable_1_32f extends AreaCursor implements
   @Override public float get1f()
   {
     final int byte_current = (int) this.getByteOffset();
-    final float x = this.target_data.getFloat(byte_current);
+    final float x = this.getBuffer().getFloat(byte_current);
     this.next();
     return x;
   }

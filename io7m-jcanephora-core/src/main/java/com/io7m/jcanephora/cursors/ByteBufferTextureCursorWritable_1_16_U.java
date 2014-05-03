@@ -20,25 +20,45 @@ import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.FixedPoint;
-import com.io7m.jcanephora.SpatialCursorWritable1dType;
-import com.io7m.jcanephora.SpatialCursorWritable1fType;
-import com.io7m.jcanephora.SpatialCursorWritable1iType;
-import com.io7m.jintegers.Integer16;
+import com.io7m.jcanephora.SpatialCursorWritable1Type;
+import com.io7m.jintegers.Unsigned16;
 
-final class ByteBufferTextureCursorWritable_1_16_U extends AreaCursor implements
-  SpatialCursorWritable1fType,
-  SpatialCursorWritable1dType,
-  SpatialCursorWritable1iType
+/**
+ * A texture cursor for <code>1_16_U</code> components.
+ */
+
+public final class ByteBufferTextureCursorWritable_1_16_U extends
+  ByteBufferAreaCursor implements SpatialCursorWritable1Type
 {
-  private final ByteBuffer target_data;
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be updated.
+   * @return A new cursor.
+   */
 
-  protected ByteBufferTextureCursorWritable_1_16_U(
+  public static SpatialCursorWritable1Type newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
   {
-    super(target_area, update_area, 2);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorWritable_1_16_U(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorWritable_1_16_U(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 2);
   }
 
   @Override public void put1d(
@@ -57,7 +77,13 @@ final class ByteBufferTextureCursorWritable_1_16_U extends AreaCursor implements
     final int x)
   {
     final int i = (int) this.getByteOffset();
-    Integer16.packToBuffer(x, this.target_data, i);
+    Unsigned16.packToBuffer(x, this.getBuffer(), i);
     this.next();
+  }
+
+  @Override public void put1l(
+    final long x)
+  {
+    this.put1i((int) x);
   }
 }

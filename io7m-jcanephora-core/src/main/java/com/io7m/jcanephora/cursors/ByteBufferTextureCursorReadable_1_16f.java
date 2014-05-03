@@ -20,40 +20,59 @@ import java.nio.ByteBuffer;
 
 import com.io7m.ieee754b16.Binary16;
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.SpatialCursorReadable1dType;
-import com.io7m.jcanephora.SpatialCursorReadable1fType;
-import com.io7m.jintegers.Integer16;
+import com.io7m.jcanephora.SpatialCursorReadable1FloatType;
 
-final class ByteBufferTextureCursorReadable_1_16f extends AreaCursor implements
-  SpatialCursorReadable1fType,
-  SpatialCursorReadable1dType
+/**
+ * A texture cursor for <code>1_16f</code> components.
+ */
+
+public final class ByteBufferTextureCursorReadable_1_16f extends
+  ByteBufferAreaCursor implements SpatialCursorReadable1FloatType
 {
-  private final ByteBuffer target_data;
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be read.
+   * @return A new cursor.
+   */
 
-  protected ByteBufferTextureCursorReadable_1_16f(
+  public static SpatialCursorReadable1FloatType newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
-
   {
-    super(target_area, update_area, 1 * 2);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorReadable_1_16f(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorReadable_1_16f(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 1 * 2);
   }
 
   @Override public double get1d()
   {
     final int i = (int) this.getByteOffset();
-    final int x = Integer16.unpackFromBuffer(this.target_data, i);
+    final char x = this.getBuffer().getChar(i);
     this.next();
-    return Binary16.unpackDouble((char) x);
+    return Binary16.unpackDouble(x);
   }
 
   @Override public float get1f()
   {
     final int i = (int) this.getByteOffset();
-    final int x = Integer16.unpackFromBuffer(this.target_data, i);
-
+    final char x = this.getBuffer().getChar(i);
     this.next();
-    return Binary16.unpackFloat((char) x);
+    return Binary16.unpackFloat(x);
   }
 }

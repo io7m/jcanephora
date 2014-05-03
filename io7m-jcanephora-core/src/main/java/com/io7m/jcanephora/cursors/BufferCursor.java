@@ -17,6 +17,7 @@
 package com.io7m.jcanephora.cursors;
 
 import com.io7m.jcanephora.CursorType;
+import com.io7m.jequality.annotations.EqualityStructural;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.RangeInclusiveL;
@@ -39,7 +40,7 @@ import com.io7m.jranges.RangeInclusiveL;
  * </p>
  */
 
-abstract class BufferCursor implements CursorType
+@EqualityStructural public abstract class BufferCursor implements CursorType
 {
   private final long            attribute_offset;
   private long                  byte_current;
@@ -59,21 +60,40 @@ abstract class BufferCursor implements CursorType
      * It is the responsibility of subtypes to respect these preconditions.
      */
 
-    RangeCheck.checkGreater(
+    /**
+     * Lower bound must not be negative.
+     */
+
+    RangeCheck.checkGreaterEqual(
       in_range.getLower(),
       "Lower bound",
       0L,
       "Minimum lower bound");
+
+    /**
+     * Element size must be greater than zero.
+     */
+
     RangeCheck.checkGreater(
       in_element_size,
       "Element size",
       0L,
       "Minimum element size");
-    RangeCheck.checkGreater(
+
+    /**
+     * Attribute offset must be greater than zero.
+     */
+
+    RangeCheck.checkGreaterEqual(
       in_attribute_offset,
       "Attribute offset",
       0L,
       "Minimum attribute offset");
+
+    /**
+     * Attribute offset must be less than the element size.
+     */
+
     RangeCheck.checkLess(
       in_attribute_offset,
       "Attribute offset",
@@ -97,7 +117,7 @@ abstract class BufferCursor implements CursorType
    * @return The current byte offset of the cursor.
    */
 
-  protected final long getByteOffset()
+  public final long getByteOffset()
   {
     this.checkValid();
     return this.byte_current;
@@ -107,7 +127,7 @@ abstract class BufferCursor implements CursorType
    * @return The current element of the cursor.
    */
 
-  protected final long getElement()
+  public final long getElement()
   {
     this.checkValid();
     return this.element_current;

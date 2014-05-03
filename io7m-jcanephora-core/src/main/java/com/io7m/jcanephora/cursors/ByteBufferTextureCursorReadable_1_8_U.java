@@ -20,25 +20,45 @@ import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.FixedPoint;
-import com.io7m.jcanephora.SpatialCursorReadable1dType;
-import com.io7m.jcanephora.SpatialCursorReadable1fType;
-import com.io7m.jcanephora.SpatialCursorReadable1iType;
+import com.io7m.jcanephora.SpatialCursorReadable1Type;
 import com.io7m.jintegers.Unsigned8;
 
-final class ByteBufferTextureCursorReadable_1_8_U extends AreaCursor implements
-  SpatialCursorReadable1fType,
-  SpatialCursorReadable1dType,
-  SpatialCursorReadable1iType
-{
-  private final ByteBuffer target_data;
+/**
+ * A texture cursor for <code>1_8_U</code> components.
+ */
 
-  protected ByteBufferTextureCursorReadable_1_8_U(
+public final class ByteBufferTextureCursorReadable_1_8_U extends
+  ByteBufferAreaCursor implements SpatialCursorReadable1Type
+{
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be read.
+   * @return A new cursor.
+   */
+
+  public static SpatialCursorReadable1Type newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
   {
-    super(target_area, update_area, 1);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorReadable_1_8_U(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorReadable_1_8_U(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 1);
   }
 
   @Override public double get1d()
@@ -55,8 +75,13 @@ final class ByteBufferTextureCursorReadable_1_8_U extends AreaCursor implements
   @Override public int get1i()
   {
     final int i = (int) this.getByteOffset();
-    final int x = Unsigned8.unpackFromBuffer(this.target_data, i);
+    final int x = Unsigned8.unpackFromBuffer(this.getBuffer(), i);
     this.next();
     return x;
+  }
+
+  @Override public long get1l()
+  {
+    return this.get1i();
   }
 }

@@ -19,36 +19,59 @@ package com.io7m.jcanephora.cursors;
 import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.SpatialCursorReadable3dType;
-import com.io7m.jcanephora.SpatialCursorReadable3fType;
+import com.io7m.jcanephora.SpatialCursorReadable3FloatType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.VectorM3D;
 import com.io7m.jtensors.VectorM3F;
 
-final class ByteBufferTextureCursorReadable_3_32f extends AreaCursor implements
-  SpatialCursorReadable3fType,
-  SpatialCursorReadable3dType
-{
-  private final ByteBuffer target_data;
+/**
+ * A texture cursor for <code>3_32f</code> components.
+ */
 
-  protected ByteBufferTextureCursorReadable_3_32f(
+public final class ByteBufferTextureCursorReadable_3_32f extends
+  ByteBufferAreaCursor implements SpatialCursorReadable3FloatType
+{
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be read.
+   * @return A new cursor.
+   */
+
+  public static SpatialCursorReadable3FloatType newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
   {
-    super(target_area, update_area, 3 * 4);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorReadable_3_32f(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorReadable_3_32f(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 3 * 4);
   }
 
   @Override public void get3d(
     final VectorM3D v)
   {
     NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
     final int byte_current = (int) this.getByteOffset();
     v.set3D(
-      this.target_data.getFloat(byte_current + 0),
-      this.target_data.getFloat(byte_current + 4),
-      this.target_data.getFloat(byte_current + 8));
+      b.getFloat(byte_current + 0),
+      b.getFloat(byte_current + 4),
+      b.getFloat(byte_current + 8));
     this.next();
   }
 
@@ -56,11 +79,12 @@ final class ByteBufferTextureCursorReadable_3_32f extends AreaCursor implements
     final VectorM3F v)
   {
     NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
     final int byte_current = (int) this.getByteOffset();
     v.set3F(
-      this.target_data.getFloat(byte_current + 0),
-      this.target_data.getFloat(byte_current + 4),
-      this.target_data.getFloat(byte_current + 8));
+      b.getFloat(byte_current + 0),
+      b.getFloat(byte_current + 4),
+      b.getFloat(byte_current + 8));
     this.next();
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -13,7 +13,8 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-package com.io7m.jcanephora;
+
+package com.io7m.jcanephora.tests.cursor;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -22,13 +23,13 @@ import java.nio.FloatBuffer;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
+import com.io7m.jcanephora.CursorWritable4fType;
+import com.io7m.jcanephora.cursors.ByteBufferCursorWritable4f;
+import com.io7m.jranges.RangeInclusiveL;
 
-public class ByteBufferCursorWritable4fTest
+@SuppressWarnings({ "static-method", "null" }) public class ByteBufferCursorWritable4fTest
 {
-  @SuppressWarnings("static-method") @Test public void testWrite()
-    throws ConstraintError
+  @Test public void testWrite()
   {
     final int element_size = 8 * 4;
     final int element_count = 4;
@@ -37,10 +38,13 @@ public class ByteBufferCursorWritable4fTest
     final ByteBuffer data =
       ByteBuffer.allocate(element_count * element_size).order(
         ByteOrder.nativeOrder());
-    final ByteBufferCursorWritable4f c =
-      new ByteBufferCursorWritable4f(data, new RangeInclusive(
-        0,
-        element_count - 1), attribute_offset, element_size);
+    final RangeInclusiveL range = new RangeInclusiveL(0, element_count - 1);
+    final CursorWritable4fType c =
+      ByteBufferCursorWritable4f.newCursor(
+        data,
+        range,
+        attribute_offset,
+        element_size);
 
     c.put4f(1.0f, 2.0f, 3.0f, 4.0f);
     c.put4f(5.0f, 6.0f, 7.0f, 8.0f);
@@ -89,8 +93,7 @@ public class ByteBufferCursorWritable4fTest
     Assert.assertTrue(16.0f == fb.get(31));
   }
 
-  @SuppressWarnings("static-method") @Test public void testWriteDouble()
-    throws ConstraintError
+  @Test public void testWriteDouble()
   {
     final int element_size = 8 * 4;
     final int element_count = 4;
@@ -99,14 +102,15 @@ public class ByteBufferCursorWritable4fTest
     final ByteBuffer data =
       ByteBuffer.allocate(element_count * element_size).order(
         ByteOrder.nativeOrder());
-    final ByteBufferCursorWritable4f c0 =
-      new ByteBufferCursorWritable4f(data, new RangeInclusive(
-        0,
-        element_count - 1), attribute_offset, element_size);
-    final ByteBufferCursorWritable4f c1 =
-      new ByteBufferCursorWritable4f(data, new RangeInclusive(
-        0,
-        element_count - 1), 0, element_size);
+    final RangeInclusiveL range = new RangeInclusiveL(0, element_count - 1);
+    final CursorWritable4fType c0 =
+      ByteBufferCursorWritable4f.newCursor(
+        data,
+        range,
+        attribute_offset,
+        element_size);
+    final CursorWritable4fType c1 =
+      ByteBufferCursorWritable4f.newCursor(data, range, 0, element_size);
 
     c0.put4f(1.0f, 2.0f, 3.0f, 4.0f);
     c0.put4f(5.0f, 6.0f, 7.0f, 8.0f);

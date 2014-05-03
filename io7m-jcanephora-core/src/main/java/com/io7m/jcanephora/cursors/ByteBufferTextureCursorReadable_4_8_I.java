@@ -20,30 +20,51 @@ import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.FixedPoint;
-import com.io7m.jcanephora.SpatialCursorReadable4dType;
-import com.io7m.jcanephora.SpatialCursorReadable4fType;
-import com.io7m.jcanephora.SpatialCursorReadable4iType;
+import com.io7m.jcanephora.SpatialCursorReadable4Type;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.VectorM4D;
 import com.io7m.jtensors.VectorM4F;
 import com.io7m.jtensors.VectorM4I;
+import com.io7m.jtensors.VectorM4L;
 
-final class ByteBufferTextureCursorReadable_4_8_I extends AreaCursor implements
-  SpatialCursorReadable4fType,
-  SpatialCursorReadable4dType,
-  SpatialCursorReadable4iType
+/**
+ * A texture cursor for <code>4_8_I</code> components.
+ */
+
+public final class ByteBufferTextureCursorReadable_4_8_I extends
+  ByteBufferAreaCursor implements SpatialCursorReadable4Type
 {
-  private final ByteBuffer target_data;
-  private final VectorM4I  vector = new VectorM4I();
+  private final VectorM4I vector = new VectorM4I();
 
-  protected ByteBufferTextureCursorReadable_4_8_I(
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be read.
+   * @return A new cursor.
+   */
+
+  public static SpatialCursorReadable4Type newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
-
   {
-    super(target_area, update_area, 4 * 1);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorReadable_4_8_I(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorReadable_4_8_I(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 4 * 1);
   }
 
   @Override public void get4d(
@@ -72,12 +93,19 @@ final class ByteBufferTextureCursorReadable_4_8_I extends AreaCursor implements
     final VectorM4I v)
   {
     NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
     final int i = (int) this.getByteOffset();
-    v.set4I(
-      this.target_data.get(i + 0),
-      this.target_data.get(i + 1),
-      this.target_data.get(i + 2),
-      this.target_data.get(i + 3));
+    v.set4I(b.get(i + 0), b.get(i + 1), b.get(i + 2), b.get(i + 3));
+    this.next();
+  }
+
+  @Override public void get4l(
+    final VectorM4L v)
+  {
+    NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
+    final int i = (int) this.getByteOffset();
+    v.set4L(b.get(i + 0), b.get(i + 1), b.get(i + 2), b.get(i + 3));
     this.next();
   }
 }

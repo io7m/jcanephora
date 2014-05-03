@@ -19,35 +19,56 @@ package com.io7m.jcanephora.cursors;
 import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.SpatialCursorReadable2dType;
-import com.io7m.jcanephora.SpatialCursorReadable2fType;
+import com.io7m.jcanephora.SpatialCursorReadable2FloatType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.VectorM2D;
 import com.io7m.jtensors.VectorM2F;
 
-final class ByteBufferTextureCursorReadable_2_32f extends AreaCursor implements
-  SpatialCursorReadable2fType,
-  SpatialCursorReadable2dType
-{
-  private final ByteBuffer target_data;
+/**
+ * A texture cursor for <code>2_32f</code> components.
+ */
 
-  protected ByteBufferTextureCursorReadable_2_32f(
+public final class ByteBufferTextureCursorReadable_2_32f extends
+  ByteBufferAreaCursor implements SpatialCursorReadable2FloatType
+{
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be read.
+   * @return A new cursor.
+   */
+
+  public static SpatialCursorReadable2FloatType newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
   {
-    super(target_area, update_area, 2 * 4);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorReadable_2_32f(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorReadable_2_32f(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 2 * 4);
   }
 
   @Override public void get2d(
     final VectorM2D v)
   {
     NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
     final int byte_current = (int) this.getByteOffset();
-    v.set2D(
-      this.target_data.getFloat(byte_current + 0),
-      this.target_data.getFloat(byte_current + 4));
+    v.set2D(b.getFloat(byte_current + 0), b.getFloat(byte_current + 4));
     this.next();
   }
 
@@ -55,10 +76,9 @@ final class ByteBufferTextureCursorReadable_2_32f extends AreaCursor implements
     final VectorM2F v)
   {
     NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
     final int byte_current = (int) this.getByteOffset();
-    v.set2F(
-      this.target_data.getFloat(byte_current + 0),
-      this.target_data.getFloat(byte_current + 4));
+    v.set2F(b.getFloat(byte_current + 0), b.getFloat(byte_current + 4));
     this.next();
   }
 }
