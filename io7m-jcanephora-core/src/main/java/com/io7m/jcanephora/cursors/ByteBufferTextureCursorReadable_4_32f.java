@@ -19,37 +19,60 @@ package com.io7m.jcanephora.cursors;
 import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.SpatialCursorReadable4dType;
-import com.io7m.jcanephora.SpatialCursorReadable4fType;
+import com.io7m.jcanephora.SpatialCursorReadable4FloatType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.VectorM4D;
 import com.io7m.jtensors.VectorM4F;
 
-final class ByteBufferTextureCursorReadable_4_32f extends AreaCursor implements
-  SpatialCursorReadable4fType,
-  SpatialCursorReadable4dType
-{
-  private final ByteBuffer target_data;
+/**
+ * A texture cursor for <code>4_32f</code> components.
+ */
 
-  protected ByteBufferTextureCursorReadable_4_32f(
+public final class ByteBufferTextureCursorReadable_4_32f extends
+  ByteBufferAreaCursor implements SpatialCursorReadable4FloatType
+{
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be read.
+   * @return A new cursor.
+   */
+
+  public static SpatialCursorReadable4FloatType newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
   {
-    super(target_area, update_area, 4 * 4);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorReadable_4_32f(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorReadable_4_32f(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 4 * 4);
   }
 
   @Override public void get4d(
     final VectorM4D v)
   {
     NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
     final int byte_current = (int) this.getByteOffset();
     v.set4D(
-      this.target_data.getFloat(byte_current + 0),
-      this.target_data.getFloat(byte_current + 4),
-      this.target_data.getFloat(byte_current + 8),
-      this.target_data.getFloat(byte_current + 12));
+      b.getFloat(byte_current + 0),
+      b.getFloat(byte_current + 4),
+      b.getFloat(byte_current + 8),
+      b.getFloat(byte_current + 12));
     this.next();
   }
 
@@ -57,12 +80,13 @@ final class ByteBufferTextureCursorReadable_4_32f extends AreaCursor implements
     final VectorM4F v)
   {
     NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
     final int byte_current = (int) this.getByteOffset();
     v.set4F(
-      this.target_data.getFloat(byte_current + 0),
-      this.target_data.getFloat(byte_current + 4),
-      this.target_data.getFloat(byte_current + 8),
-      this.target_data.getFloat(byte_current + 12));
+      b.getFloat(byte_current + 0),
+      b.getFloat(byte_current + 4),
+      b.getFloat(byte_current + 8),
+      b.getFloat(byte_current + 12));
     this.next();
   }
 }

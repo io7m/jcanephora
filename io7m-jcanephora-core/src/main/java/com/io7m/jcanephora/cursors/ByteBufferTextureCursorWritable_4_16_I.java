@@ -20,32 +20,53 @@ import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.FixedPoint;
-import com.io7m.jcanephora.SpatialCursorWritable4dType;
-import com.io7m.jcanephora.SpatialCursorWritable4fType;
-import com.io7m.jcanephora.SpatialCursorWritable4iType;
-import com.io7m.jintegers.Integer16;
+import com.io7m.jcanephora.SpatialCursorWritable4Type;
+import com.io7m.jintegers.Signed16;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.VectorM4I;
 import com.io7m.jtensors.VectorReadable4DType;
 import com.io7m.jtensors.VectorReadable4FType;
 import com.io7m.jtensors.VectorReadable4IType;
+import com.io7m.jtensors.VectorReadable4LType;
 
-final class ByteBufferTextureCursorWritable_4_16_I extends AreaCursor implements
-  SpatialCursorWritable4fType,
-  SpatialCursorWritable4dType,
-  SpatialCursorWritable4iType
+/**
+ * A texture cursor for <code>4_16_I</code> components.
+ */
+
+public final class ByteBufferTextureCursorWritable_4_16_I extends
+  ByteBufferAreaCursor implements SpatialCursorWritable4Type
 {
-  private final ByteBuffer target_data;
-  private final VectorM4I  vector = new VectorM4I();
+  private final VectorM4I vector = new VectorM4I();
 
-  protected ByteBufferTextureCursorWritable_4_16_I(
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be updated.
+   * @return A new cursor.
+   */
+
+  public static SpatialCursorWritable4Type newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
-
   {
-    super(target_area, update_area, 4 * 2);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorWritable_4_16_I(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorWritable_4_16_I(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 4 * 2);
   }
 
   @Override public void put4d(
@@ -76,11 +97,25 @@ final class ByteBufferTextureCursorWritable_4_16_I extends AreaCursor implements
     final VectorReadable4IType v)
   {
     NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
     final int i = (int) this.getByteOffset();
-    Integer16.packToBuffer(v.getXI(), this.target_data, i + 0);
-    Integer16.packToBuffer(v.getYI(), this.target_data, i + 2);
-    Integer16.packToBuffer(v.getZI(), this.target_data, i + 4);
-    Integer16.packToBuffer(v.getWI(), this.target_data, i + 6);
+    Signed16.packToBuffer(v.getXI(), b, i + 0);
+    Signed16.packToBuffer(v.getYI(), b, i + 2);
+    Signed16.packToBuffer(v.getZI(), b, i + 4);
+    Signed16.packToBuffer(v.getWI(), b, i + 6);
+    this.next();
+  }
+
+  @Override public void put4l(
+    final VectorReadable4LType v)
+  {
+    NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
+    final int i = (int) this.getByteOffset();
+    Signed16.packToBuffer((int) v.getXL(), b, i + 0);
+    Signed16.packToBuffer((int) v.getYL(), b, i + 2);
+    Signed16.packToBuffer((int) v.getZL(), b, i + 4);
+    Signed16.packToBuffer((int) v.getWL(), b, i + 6);
     this.next();
   }
 }

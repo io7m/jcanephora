@@ -19,35 +19,58 @@ package com.io7m.jcanephora.cursors;
 import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.SpatialCursorWritable3dType;
-import com.io7m.jcanephora.SpatialCursorWritable3fType;
+import com.io7m.jcanephora.SpatialCursorWritable3FloatType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.VectorReadable3DType;
 import com.io7m.jtensors.VectorReadable3FType;
 
-final class ByteBufferTextureCursorWritable_3_32f extends AreaCursor implements
-  SpatialCursorWritable3fType,
-  SpatialCursorWritable3dType
-{
-  private final ByteBuffer target_data;
+/**
+ * A texture cursor for <code>3_32f</code> components.
+ */
 
-  protected ByteBufferTextureCursorWritable_3_32f(
+public final class ByteBufferTextureCursorWritable_3_32f extends
+  ByteBufferAreaCursor implements SpatialCursorWritable3FloatType
+{
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be updated.
+   * @return A new cursor.
+   */
+
+  public static SpatialCursorWritable3FloatType newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
   {
-    super(target_area, update_area, 3 * 4);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorWritable_3_32f(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorWritable_3_32f(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 3 * 4);
   }
 
   @Override public void put3d(
     final VectorReadable3DType v)
   {
     NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
     final int byte_current = (int) this.getByteOffset();
-    this.target_data.putFloat(byte_current + 0, (float) v.getXD());
-    this.target_data.putFloat(byte_current + 4, (float) v.getYD());
-    this.target_data.putFloat(byte_current + 8, (float) v.getZD());
+    b.putFloat(byte_current + 0, (float) v.getXD());
+    b.putFloat(byte_current + 4, (float) v.getYD());
+    b.putFloat(byte_current + 8, (float) v.getZD());
     this.next();
   }
 
@@ -55,10 +78,11 @@ final class ByteBufferTextureCursorWritable_3_32f extends AreaCursor implements
     final VectorReadable3FType v)
   {
     NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
     final int byte_current = (int) this.getByteOffset();
-    this.target_data.putFloat(byte_current + 0, v.getXF());
-    this.target_data.putFloat(byte_current + 4, v.getYF());
-    this.target_data.putFloat(byte_current + 8, v.getZF());
+    b.putFloat(byte_current + 0, v.getXF());
+    b.putFloat(byte_current + 4, v.getYF());
+    b.putFloat(byte_current + 8, v.getZF());
     this.next();
   }
 }

@@ -20,26 +20,44 @@ import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.FixedPoint;
-import com.io7m.jcanephora.SpatialCursorWritable1dType;
-import com.io7m.jcanephora.SpatialCursorWritable1fType;
-import com.io7m.jcanephora.SpatialCursorWritable1iType;
-import com.io7m.jcanephora.SpatialCursorWritable1lType;
+import com.io7m.jcanephora.SpatialCursorWritable1Type;
 
-final class ByteBufferTextureCursorWritable_1_32_UNFP extends AreaCursor implements
-  SpatialCursorWritable1fType,
-  SpatialCursorWritable1dType,
-  SpatialCursorWritable1lType,
-  SpatialCursorWritable1iType
+/**
+ * A texture cursor for <code>1_32_UNFP</code> components.
+ */
+
+public final class ByteBufferTextureCursorWritable_1_32_UNFP extends
+  ByteBufferAreaCursor implements SpatialCursorWritable1Type
 {
-  private final ByteBuffer target_data;
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be updated.
+   * @return A new cursor.
+   */
 
-  protected ByteBufferTextureCursorWritable_1_32_UNFP(
+  public static SpatialCursorWritable1Type newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
   {
-    super(target_area, update_area, 4);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorWritable_1_32_UNFP(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorWritable_1_32_UNFP(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 4);
   }
 
   @Override public void put1d(
@@ -58,7 +76,7 @@ final class ByteBufferTextureCursorWritable_1_32_UNFP extends AreaCursor impleme
     final int x)
   {
     final int i = (int) this.getByteOffset();
-    this.target_data.putInt(i, x);
+    this.getBuffer().putInt(i, x);
     this.next();
   }
 
@@ -66,7 +84,7 @@ final class ByteBufferTextureCursorWritable_1_32_UNFP extends AreaCursor impleme
     final long x)
   {
     final int byte_current = (int) this.getByteOffset();
-    this.target_data.putInt(byte_current, (int) x);
+    this.getBuffer().putInt(byte_current, (int) x);
     this.next();
   }
 }

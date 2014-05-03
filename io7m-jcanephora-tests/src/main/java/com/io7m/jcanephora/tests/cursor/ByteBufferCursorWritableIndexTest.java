@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -13,7 +13,8 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-package com.io7m.jcanephora;
+
+package com.io7m.jcanephora.tests.cursor;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -23,13 +24,14 @@ import java.nio.ShortBuffer;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
+import com.io7m.jcanephora.CursorWritableIndexType;
+import com.io7m.jcanephora.JCGLUnsignedType;
+import com.io7m.jcanephora.cursors.ByteBufferCursorWritableIndex;
+import com.io7m.jranges.RangeInclusiveL;
 
-public class ByteBufferCursorWritableIndexTest
+@SuppressWarnings({ "static-method", "null" }) public class ByteBufferCursorWritableIndexTest
 {
-  @SuppressWarnings("static-method") @Test public void testWriteByte()
-    throws ConstraintError
+  @Test public void testWriteByte()
   {
     final int element_count = 4;
     final JCGLUnsignedType type = JCGLUnsignedType.TYPE_UNSIGNED_BYTE;
@@ -39,10 +41,9 @@ public class ByteBufferCursorWritableIndexTest
       ByteBuffer.allocate(element_count * element_size).order(
         ByteOrder.nativeOrder());
 
-    final ByteBufferCursorWritableIndex c =
-      new ByteBufferCursorWritableIndex(data, new RangeInclusive(
-        0,
-        element_count - 1), type);
+    final RangeInclusiveL range = new RangeInclusiveL(0, element_count - 1);
+    final CursorWritableIndexType c =
+      ByteBufferCursorWritableIndex.newCursor(data, range, type);
 
     c.putIndex(5);
     c.putIndex(7);
@@ -55,8 +56,7 @@ public class ByteBufferCursorWritableIndexTest
     Assert.assertTrue(11 == data.get(3));
   }
 
-  @SuppressWarnings("static-method") @Test public void testWriteInt()
-    throws ConstraintError
+  @Test public void testWriteInt()
   {
     final int element_count = 4;
     final JCGLUnsignedType type = JCGLUnsignedType.TYPE_UNSIGNED_INT;
@@ -66,10 +66,9 @@ public class ByteBufferCursorWritableIndexTest
       ByteBuffer.allocate(element_count * element_size).order(
         ByteOrder.nativeOrder());
 
-    final ByteBufferCursorWritableIndex c =
-      new ByteBufferCursorWritableIndex(data, new RangeInclusive(
-        0,
-        element_count - 1), type);
+    final RangeInclusiveL range = new RangeInclusiveL(0, element_count - 1);
+    final CursorWritableIndexType c =
+      ByteBufferCursorWritableIndex.newCursor(data, range, type);
 
     c.putIndex(5);
     c.putIndex(7);
@@ -83,8 +82,7 @@ public class ByteBufferCursorWritableIndexTest
     Assert.assertTrue(11 == ib.get(3));
   }
 
-  @SuppressWarnings("static-method") @Test public void testWriteShort()
-    throws ConstraintError
+  @Test public void testWriteShort()
   {
     final int element_count = 4;
     final JCGLUnsignedType type = JCGLUnsignedType.TYPE_UNSIGNED_SHORT;
@@ -94,10 +92,9 @@ public class ByteBufferCursorWritableIndexTest
       ByteBuffer.allocate(element_count * element_size).order(
         ByteOrder.nativeOrder());
 
-    final ByteBufferCursorWritableIndex c =
-      new ByteBufferCursorWritableIndex(data, new RangeInclusive(
-        0,
-        element_count - 1), type);
+    final RangeInclusiveL range = new RangeInclusiveL(0, element_count - 1);
+    final CursorWritableIndexType c =
+      ByteBufferCursorWritableIndex.newCursor(data, range, type);
 
     c.putIndex(5);
     c.putIndex(7);

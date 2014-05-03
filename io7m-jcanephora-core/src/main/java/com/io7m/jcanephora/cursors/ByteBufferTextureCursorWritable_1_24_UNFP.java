@@ -20,25 +20,45 @@ import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.FixedPoint;
-import com.io7m.jcanephora.SpatialCursorWritable1dType;
-import com.io7m.jcanephora.SpatialCursorWritable1fType;
-import com.io7m.jcanephora.SpatialCursorWritable1iType;
+import com.io7m.jcanephora.SpatialCursorWritable1Type;
 
-final class ByteBufferTextureCursorWritable_1_24_UNFP extends AreaCursor implements
-  SpatialCursorWritable1fType,
-  SpatialCursorWritable1dType,
-  SpatialCursorWritable1iType
+/**
+ * A texture cursor for <code>1_24_UNFP</code> components.
+ */
+
+public final class ByteBufferTextureCursorWritable_1_24_UNFP extends
+  ByteBufferAreaCursor implements SpatialCursorWritable1Type
 {
-  private final ByteBuffer target_data;
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be read.
+   * @return A new cursor.
+   */
 
-  protected ByteBufferTextureCursorWritable_1_24_UNFP(
+  public static SpatialCursorWritable1Type newCursor(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    return new ByteBufferTextureCursorWritable_1_24_UNFP(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorWritable_1_24_UNFP(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
   {
     // Note 4-byte alignment
-    super(target_area, update_area, 4);
-    this.target_data = in_target_data;
+    super(in_target_data, target_area, update_area, 4);
   }
 
   @Override public void put1d(
@@ -57,7 +77,13 @@ final class ByteBufferTextureCursorWritable_1_24_UNFP extends AreaCursor impleme
     final int x)
   {
     final int byte_current = (int) this.getByteOffset();
-    this.target_data.putInt(byte_current, x);
+    this.getBuffer().putInt(byte_current, x);
     this.next();
+  }
+
+  @Override public void put1l(
+    final long x)
+  {
+    this.put1i((int) x);
   }
 }

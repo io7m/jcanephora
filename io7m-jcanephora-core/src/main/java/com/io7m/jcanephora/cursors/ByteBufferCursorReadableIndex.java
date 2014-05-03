@@ -28,19 +28,37 @@ import com.io7m.junreachable.UnreachableCodeException;
  * type.
  */
 
-final class ByteBufferCursorReadableIndex extends BufferCursor implements
+public final class ByteBufferCursorReadableIndex extends ByteBufferCursor implements
   CursorReadableIndexType
 {
-  private final ByteBuffer       target_data;
-  private final JCGLUnsignedType type;
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_data
+   *          The data.
+   * @param range
+   *          The range to be read.
+   * @param in_type
+   *          The type of elements.
+   * @return A new cursor.
+   */
 
-  ByteBufferCursorReadableIndex(
+  public static CursorReadableIndexType newCursor(
     final ByteBuffer in_data,
     final RangeInclusiveL range,
     final JCGLUnsignedType in_type)
   {
-    super(range, 0, in_type.getSizeBytes());
-    this.target_data = in_data;
+    return new ByteBufferCursorReadableIndex(in_data, range, in_type);
+  }
+
+  private final JCGLUnsignedType type;
+
+  private ByteBufferCursorReadableIndex(
+    final ByteBuffer in_data,
+    final RangeInclusiveL range,
+    final JCGLUnsignedType in_type)
+  {
+    super(in_data, range, 0, in_type.getSizeBytes());
     this.type = in_type;
   }
 
@@ -48,24 +66,25 @@ final class ByteBufferCursorReadableIndex extends BufferCursor implements
   {
     this.checkValid();
 
+    final ByteBuffer b = this.getBuffer();
     final int offset = (int) this.getByteOffset();
 
     switch (this.type) {
       case TYPE_UNSIGNED_BYTE:
       {
-        final int value = this.target_data.get(offset);
+        final int value = b.get(offset);
         this.next();
         return value & 0xff;
       }
       case TYPE_UNSIGNED_INT:
       {
-        final int value = this.target_data.getInt(offset);
+        final int value = b.getInt(offset);
         this.next();
         return value;
       }
       case TYPE_UNSIGNED_SHORT:
       {
-        final int value = this.target_data.getShort(offset);
+        final int value = b.getShort(offset);
         this.next();
         return value & 0xffff;
       }

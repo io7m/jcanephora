@@ -20,10 +20,7 @@ import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.FixedPoint;
-import com.io7m.jcanephora.SpatialCursorWritable3dType;
-import com.io7m.jcanephora.SpatialCursorWritable3fType;
-import com.io7m.jcanephora.SpatialCursorWritable3iType;
-import com.io7m.jcanephora.SpatialCursorWritable3lType;
+import com.io7m.jcanephora.SpatialCursorWritable3Type;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.VectorM3L;
 import com.io7m.jtensors.VectorReadable3DType;
@@ -31,22 +28,44 @@ import com.io7m.jtensors.VectorReadable3FType;
 import com.io7m.jtensors.VectorReadable3IType;
 import com.io7m.jtensors.VectorReadable3LType;
 
-final class ByteBufferTextureCursorWritable_3_32_U extends AreaCursor implements
-  SpatialCursorWritable3fType,
-  SpatialCursorWritable3dType,
-  SpatialCursorWritable3lType,
-  SpatialCursorWritable3iType
-{
-  private final ByteBuffer target_data;
-  private final VectorM3L  vector = new VectorM3L();
+/**
+ * A texture cursor for <code>3_32_U</code> components.
+ */
 
-  protected ByteBufferTextureCursorWritable_3_32_U(
+public final class ByteBufferTextureCursorWritable_3_32_U extends
+  ByteBufferAreaCursor implements SpatialCursorWritable3Type
+{
+  private final VectorM3L vector = new VectorM3L();
+
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be updated.
+   * @return A new cursor.
+   */
+
+  public static SpatialCursorWritable3Type newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
   {
-    super(target_area, update_area, 3 * 4);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorWritable_3_32_U(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorWritable_3_32_U(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 3 * 4);
   }
 
   @Override public void put3d(
@@ -54,9 +73,9 @@ final class ByteBufferTextureCursorWritable_3_32_U extends AreaCursor implements
   {
     NullCheck.notNull(v, "Vector");
     this.vector.set3L(
-      FixedPoint.doubleToUnsignedNormalized(v.getXD(), 32),
-      FixedPoint.doubleToUnsignedNormalized(v.getYD(), 32),
-      FixedPoint.doubleToUnsignedNormalized(v.getZD(), 32));
+      FixedPoint.doubleToUnsignedNormalizedLong(v.getXD(), 32),
+      FixedPoint.doubleToUnsignedNormalizedLong(v.getYD(), 32),
+      FixedPoint.doubleToUnsignedNormalizedLong(v.getZD(), 32));
     this.put3l(this.vector);
   }
 
@@ -65,9 +84,9 @@ final class ByteBufferTextureCursorWritable_3_32_U extends AreaCursor implements
   {
     NullCheck.notNull(v, "Vector");
     this.vector.set3L(
-      FixedPoint.floatToUnsignedNormalized(v.getXF(), 32),
-      FixedPoint.floatToUnsignedNormalized(v.getYF(), 32),
-      FixedPoint.floatToUnsignedNormalized(v.getZF(), 32));
+      FixedPoint.floatToUnsignedNormalizedLong(v.getXF(), 32),
+      FixedPoint.floatToUnsignedNormalizedLong(v.getYF(), 32),
+      FixedPoint.floatToUnsignedNormalizedLong(v.getZF(), 32));
     this.put3l(this.vector);
   }
 
@@ -76,9 +95,10 @@ final class ByteBufferTextureCursorWritable_3_32_U extends AreaCursor implements
   {
     NullCheck.notNull(v, "Vector");
     final int i = (int) this.getByteOffset();
-    this.target_data.putInt(i + 0, v.getXI());
-    this.target_data.putInt(i + 4, v.getYI());
-    this.target_data.putInt(i + 8, v.getZI());
+    final ByteBuffer b = this.getBuffer();
+    b.putInt(i + 0, v.getXI());
+    b.putInt(i + 4, v.getYI());
+    b.putInt(i + 8, v.getZI());
     this.next();
   }
 
@@ -87,9 +107,10 @@ final class ByteBufferTextureCursorWritable_3_32_U extends AreaCursor implements
   {
     NullCheck.notNull(v, "Vector");
     final int i = (int) this.getByteOffset();
-    this.target_data.putInt(i + 0, (int) v.getXL());
-    this.target_data.putInt(i + 4, (int) v.getYL());
-    this.target_data.putInt(i + 8, (int) v.getZL());
+    final ByteBuffer b = this.getBuffer();
+    b.putInt(i + 0, (int) v.getXL());
+    b.putInt(i + 4, (int) v.getYL());
+    b.putInt(i + 8, (int) v.getZL());
     this.next();
   }
 }

@@ -20,30 +20,51 @@ import java.nio.ByteBuffer;
 
 import com.io7m.ieee754b16.Binary16;
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.SpatialCursorWritable1dType;
-import com.io7m.jcanephora.SpatialCursorWritable1fType;
-import com.io7m.jintegers.Integer16;
+import com.io7m.jcanephora.SpatialCursorWritable1FloatType;
 
-final class ByteBufferTextureCursorWritable_1_16f extends AreaCursor implements
-  SpatialCursorWritable1fType,
-  SpatialCursorWritable1dType
+/**
+ * A texture cursor for <code>1_16f</code> components.
+ */
+
+public final class ByteBufferTextureCursorWritable_1_16f extends
+  ByteBufferAreaCursor implements SpatialCursorWritable1FloatType
 {
-  private final ByteBuffer target_data;
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be read.
+   * @return A new cursor.
+   */
 
-  protected ByteBufferTextureCursorWritable_1_16f(
+  public static SpatialCursorWritable1FloatType newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
   {
-    super(target_area, update_area, 1 * 2);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorWritable_1_16f(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorWritable_1_16f(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 1 * 2);
   }
 
   @Override public void put1d(
     final double x)
   {
     final int i = (int) this.getByteOffset();
-    Integer16.packToBuffer(Binary16.packDouble(x), this.target_data, i);
+    this.getBuffer().putChar(i, Binary16.packDouble(x));
     this.next();
   }
 
@@ -51,7 +72,7 @@ final class ByteBufferTextureCursorWritable_1_16f extends AreaCursor implements
     final float x)
   {
     final int i = (int) this.getByteOffset();
-    Integer16.packToBuffer(Binary16.packFloat(x), this.target_data, i);
+    this.getBuffer().putChar(i, Binary16.packFloat(x));
     this.next();
   }
 }

@@ -20,26 +20,47 @@ import java.nio.ByteBuffer;
 
 import com.io7m.ieee754b16.Binary16;
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.SpatialCursorWritable2dType;
-import com.io7m.jcanephora.SpatialCursorWritable2fType;
-import com.io7m.jintegers.Integer16;
+import com.io7m.jcanephora.SpatialCursorWritable2FloatType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.VectorReadable2DType;
 import com.io7m.jtensors.VectorReadable2FType;
 
-final class ByteBufferTextureCursorWritable_2_16f extends AreaCursor implements
-  SpatialCursorWritable2fType,
-  SpatialCursorWritable2dType
-{
-  private final ByteBuffer target_data;
+/**
+ * A texture cursor for <code>2_16f</code> components.
+ */
 
-  protected ByteBufferTextureCursorWritable_2_16f(
+public final class ByteBufferTextureCursorWritable_2_16f extends
+  ByteBufferAreaCursor implements SpatialCursorWritable2FloatType
+{
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be updated.
+   * @return A new cursor.
+   */
+
+  public static SpatialCursorWritable2FloatType newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
   {
-    super(target_area, update_area, 2 * 2);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorWritable_2_16f(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorWritable_2_16f(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 2 * 2);
   }
 
   @Override public void put2d(
@@ -47,9 +68,9 @@ final class ByteBufferTextureCursorWritable_2_16f extends AreaCursor implements
   {
     NullCheck.notNull(v, "Vector");
     final int i = (int) this.getByteOffset();
-    final ByteBuffer b = this.target_data;
-    Integer16.packToBuffer(Binary16.packDouble(v.getXD()), b, i + 0);
-    Integer16.packToBuffer(Binary16.packDouble(v.getYD()), b, i + 2);
+    final ByteBuffer b = this.getBuffer();
+    b.putChar(i + 0, Binary16.packDouble(v.getXD()));
+    b.putChar(i + 2, Binary16.packDouble(v.getYD()));
     this.next();
   }
 
@@ -58,9 +79,9 @@ final class ByteBufferTextureCursorWritable_2_16f extends AreaCursor implements
   {
     NullCheck.notNull(v, "Vector");
     final int i = (int) this.getByteOffset();
-    final ByteBuffer b = this.target_data;
-    Integer16.packToBuffer(Binary16.packFloat(v.getXF()), b, i + 0);
-    Integer16.packToBuffer(Binary16.packFloat(v.getYF()), b, i + 2);
+    final ByteBuffer b = this.getBuffer();
+    b.putChar(i + 0, Binary16.packFloat(v.getXF()));
+    b.putChar(i + 2, Binary16.packFloat(v.getYF()));
     this.next();
   }
 }

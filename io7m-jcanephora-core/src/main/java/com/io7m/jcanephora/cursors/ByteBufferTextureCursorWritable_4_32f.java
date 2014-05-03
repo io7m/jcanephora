@@ -19,36 +19,59 @@ package com.io7m.jcanephora.cursors;
 import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.SpatialCursorWritable4dType;
-import com.io7m.jcanephora.SpatialCursorWritable4fType;
+import com.io7m.jcanephora.SpatialCursorWritable4FloatType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.VectorReadable4DType;
 import com.io7m.jtensors.VectorReadable4FType;
 
-final class ByteBufferTextureCursorWritable_4_32f extends AreaCursor implements
-  SpatialCursorWritable4fType,
-  SpatialCursorWritable4dType
-{
-  private final ByteBuffer target_data;
+/**
+ * A texture cursor for <code>4_32f</code> components.
+ */
 
-  protected ByteBufferTextureCursorWritable_4_32f(
+public final class ByteBufferTextureCursorWritable_4_32f extends
+  ByteBufferAreaCursor implements SpatialCursorWritable4FloatType
+{
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be updated.
+   * @return A new cursor.
+   */
+
+  public static SpatialCursorWritable4FloatType newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
   {
-    super(target_area, update_area, 4 * 4);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorWritable_4_32f(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorWritable_4_32f(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 4 * 4);
   }
 
   @Override public void put4d(
     final VectorReadable4DType v)
   {
     NullCheck.notNull(v, "Vector");
-    final int byte_current = (int) this.getByteOffset();
-    this.target_data.putFloat(byte_current + 0, (float) v.getXD());
-    this.target_data.putFloat(byte_current + 4, (float) v.getYD());
-    this.target_data.putFloat(byte_current + 8, (float) v.getZD());
-    this.target_data.putFloat(byte_current + 12, (float) v.getWD());
+    final ByteBuffer b = this.getBuffer();
+    final int i = (int) this.getByteOffset();
+    b.putFloat(i + 0, (float) v.getXD());
+    b.putFloat(i + 4, (float) v.getYD());
+    b.putFloat(i + 8, (float) v.getZD());
+    b.putFloat(i + 12, (float) v.getWD());
     this.next();
   }
 
@@ -56,11 +79,12 @@ final class ByteBufferTextureCursorWritable_4_32f extends AreaCursor implements
     final VectorReadable4FType v)
   {
     NullCheck.notNull(v, "Vector");
-    final int byte_current = (int) this.getByteOffset();
-    this.target_data.putFloat(byte_current + 0, v.getXF());
-    this.target_data.putFloat(byte_current + 4, v.getYF());
-    this.target_data.putFloat(byte_current + 8, v.getZF());
-    this.target_data.putFloat(byte_current + 12, v.getWF());
+    final ByteBuffer b = this.getBuffer();
+    final int i = (int) this.getByteOffset();
+    b.putFloat(i + 0, v.getXF());
+    b.putFloat(i + 4, v.getYF());
+    b.putFloat(i + 8, v.getZF());
+    b.putFloat(i + 12, v.getWF());
     this.next();
   }
 }

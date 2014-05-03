@@ -27,19 +27,43 @@ import com.io7m.jtensors.VectorWritable2FType;
  * Generic byte buffer cursor pointing to elements containing two floats.
  */
 
-final class ByteBufferCursorReadable2f extends BufferCursor implements
+public final class ByteBufferCursorReadable2f extends ByteBufferCursor implements
   CursorReadable2fType
 {
-  private final ByteBuffer target_data;
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_data
+   *          The data.
+   * @param range
+   *          The range to be read.
+   * @param attribute_offset
+   *          The attribute offset.
+   * @param element_size
+   *          The element size.
+   * @return A new cursor.
+   */
 
-  ByteBufferCursorReadable2f(
+  public static CursorReadable2fType newCursor(
     final ByteBuffer in_data,
     final RangeInclusiveL range,
     final long attribute_offset,
     final long element_size)
   {
-    super(range, attribute_offset, element_size);
-    this.target_data = NullCheck.notNull(in_data, "Buffer");
+    return new ByteBufferCursorReadable2f(
+      in_data,
+      range,
+      attribute_offset,
+      element_size);
+  }
+
+  private ByteBufferCursorReadable2f(
+    final ByteBuffer in_data,
+    final RangeInclusiveL range,
+    final long attribute_offset,
+    final long element_size)
+  {
+    super(in_data, range, attribute_offset, element_size);
   }
 
   @Override public void get2f(
@@ -48,10 +72,9 @@ final class ByteBufferCursorReadable2f extends BufferCursor implements
     NullCheck.notNull(v, "Vector");
     this.checkValid();
 
+    final ByteBuffer b = this.getBuffer();
     final int byte_current = (int) this.getByteOffset();
-    v.set2F(
-      this.target_data.getFloat(byte_current + 0),
-      this.target_data.getFloat(byte_current + 4));
+    v.set2F(b.getFloat(byte_current + 0), b.getFloat(byte_current + 4));
     this.next();
   }
 }

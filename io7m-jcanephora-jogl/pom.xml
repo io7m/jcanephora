@@ -85,7 +85,7 @@
     <dependency>
       <groupId>com.io7m.jintegers</groupId>
       <artifactId>io7m-jintegers-core</artifactId>
-      <version>[0.3.1, 0.4.0)</version>
+      <version>[0.5.0, 0.6.0)</version>
     </dependency>
     <dependency>
       <groupId>com.io7m.jnull</groupId>

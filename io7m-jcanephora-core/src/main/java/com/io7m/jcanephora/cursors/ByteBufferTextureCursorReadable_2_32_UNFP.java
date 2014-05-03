@@ -20,10 +20,7 @@ import java.nio.ByteBuffer;
 
 import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.FixedPoint;
-import com.io7m.jcanephora.SpatialCursorReadable2dType;
-import com.io7m.jcanephora.SpatialCursorReadable2fType;
-import com.io7m.jcanephora.SpatialCursorReadable2iType;
-import com.io7m.jcanephora.SpatialCursorReadable2lType;
+import com.io7m.jcanephora.SpatialCursorReadable2Type;
 import com.io7m.jintegers.Unsigned32;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.VectorM2D;
@@ -31,22 +28,44 @@ import com.io7m.jtensors.VectorM2F;
 import com.io7m.jtensors.VectorM2I;
 import com.io7m.jtensors.VectorM2L;
 
-final class ByteBufferTextureCursorReadable_2_32_UNFP extends AreaCursor implements
-  SpatialCursorReadable2fType,
-  SpatialCursorReadable2dType,
-  SpatialCursorReadable2iType,
-  SpatialCursorReadable2lType
-{
-  private final ByteBuffer target_data;
-  private final VectorM2L  vector = new VectorM2L();
+/**
+ * A texture cursor for <code>2_32_UNFP</code> components.
+ */
 
-  protected ByteBufferTextureCursorReadable_2_32_UNFP(
+public final class ByteBufferTextureCursorReadable_2_32_UNFP extends
+  ByteBufferAreaCursor implements SpatialCursorReadable2Type
+{
+  private final VectorM2L vector = new VectorM2L();
+
+  /**
+   * Construct a new cursor.
+   * 
+   * @param in_target_data
+   *          The byte buffer.
+   * @param target_area
+   *          The outer area of the buffer.
+   * @param update_area
+   *          The area of the buffer that will be read.
+   * @return A new cursor.
+   */
+
+  public static SpatialCursorReadable2Type newCursor(
     final ByteBuffer in_target_data,
     final AreaInclusive target_area,
     final AreaInclusive update_area)
   {
-    super(target_area, update_area, 4 * 2);
-    this.target_data = in_target_data;
+    return new ByteBufferTextureCursorReadable_2_32_UNFP(
+      in_target_data,
+      target_area,
+      update_area);
+  }
+
+  private ByteBufferTextureCursorReadable_2_32_UNFP(
+    final ByteBuffer in_target_data,
+    final AreaInclusive target_area,
+    final AreaInclusive update_area)
+  {
+    super(in_target_data, target_area, update_area, 4 * 2);
   }
 
   @Override public void get2d(
@@ -76,8 +95,9 @@ final class ByteBufferTextureCursorReadable_2_32_UNFP extends AreaCursor impleme
     final VectorM2I v)
   {
     NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
     final int i = (int) this.getByteOffset();
-    v.set2I(this.target_data.getInt(i + 0), this.target_data.getInt(i + 4));
+    v.set2I(b.getInt(i + 0), b.getInt(i + 4));
     this.next();
   }
 
@@ -85,10 +105,11 @@ final class ByteBufferTextureCursorReadable_2_32_UNFP extends AreaCursor impleme
     final VectorM2L v)
   {
     NullCheck.notNull(v, "Vector");
+    final ByteBuffer b = this.getBuffer();
     final int i = (int) this.getByteOffset();
     v.set2L(
-      Unsigned32.unpackFromBuffer(this.target_data, i + 0),
-      Unsigned32.unpackFromBuffer(this.target_data, i + 4));
+      Unsigned32.unpackFromBuffer(b, i + 0),
+      Unsigned32.unpackFromBuffer(b, i + 4));
     this.next();
   }
 }
