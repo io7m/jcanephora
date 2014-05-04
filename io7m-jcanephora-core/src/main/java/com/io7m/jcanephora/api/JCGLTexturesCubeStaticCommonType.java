@@ -21,7 +21,7 @@ import com.io7m.jcanephora.CubeMapFaceRH;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.TextureCubeStaticType;
 import com.io7m.jcanephora.TextureCubeStaticUsableType;
-import com.io7m.jcanephora.TextureCubeWritableData;
+import com.io7m.jcanephora.TextureReadableDataType;
 import com.io7m.jcanephora.TextureUnitType;
 
 /**
@@ -114,7 +114,7 @@ public interface JCGLTexturesCubeStaticCommonType
 
   void textureCubeStaticUpdateLH(
     final CubeMapFaceLH face,
-    final TextureCubeWritableData data)
+    final TextureReadableDataType data)
     throws JCGLExceptionRuntime;
 
   /**
@@ -134,6 +134,6 @@ public interface JCGLTexturesCubeStaticCommonType
 
   void textureCubeStaticUpdateRH(
     final CubeMapFaceRH face,
-    final TextureCubeWritableData data)
+    final TextureReadableDataType data)
     throws JCGLExceptionRuntime;
 }

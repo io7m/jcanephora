@@ -23,14 +23,13 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jcanephora.JCGLExtensionNames;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureFormat;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
-import com.io7m.jcanephora.api.JCGLExtensionESDepthTexture;
+import com.io7m.jcanephora.api.JCGLExtensionESDepthTextureType;
 import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
 import com.io7m.jlog.Log;
 
@@ -38,11 +37,11 @@ import com.io7m.jlog.Log;
  * The depth texture extension (OpenGL ES variant).
  */
 
-class ExtESDepthTexture<G extends GL> implements JCGLExtensionESDepthTexture
+class ExtESDepthTexture<G extends GL> implements JCGLExtensionESDepthTextureType
 {
   public static @Nonnull
     <G extends GL>
-    Option<JCGLExtensionESDepthTexture>
+    Option<JCGLExtensionESDepthTextureType>
     create(
       final @Nonnull G g,
       final @Nonnull JCGLStateCache state,
@@ -54,12 +53,12 @@ class ExtESDepthTexture<G extends GL> implements JCGLExtensionESDepthTexture
 
     for (final String name : names) {
       if (extensions.extensionIsVisible(name)) {
-        return new Option.Some<JCGLExtensionESDepthTexture>(
+        return new Option.Some<JCGLExtensionESDepthTextureType>(
           new ExtESDepthTexture<G>(g, state, log));
       }
     }
 
-    return new Option.None<JCGLExtensionESDepthTexture>();
+    return new Option.None<JCGLExtensionESDepthTextureType>();
   }
 
   private final @Nonnull JCGLStateCache cache;

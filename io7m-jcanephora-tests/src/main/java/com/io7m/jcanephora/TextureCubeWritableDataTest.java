@@ -22,6 +22,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jcanephora.jogl.TextureCubeWritableData;
 import com.io7m.jtensors.VectorI2D;
 import com.io7m.jtensors.VectorI2F;
 import com.io7m.jtensors.VectorI2I;

@@ -29,7 +29,6 @@ import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
 import com.io7m.jcanephora.CursorReadableIndex;
 import com.io7m.jcanephora.CursorWritableIndex;
 import com.io7m.jcanephora.IndexBuffer;
-import com.io7m.jcanephora.IndexBufferReadableMap;
 import com.io7m.jcanephora.IndexBufferWritableMap;
 import com.io7m.jcanephora.JCGLArrayBuffers;
 import com.io7m.jcanephora.JCGLArrayBuffersMapped;
@@ -42,6 +41,7 @@ import com.io7m.jcanephora.JCGLUnsignedType;
 import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.UsageHint;
+import com.io7m.jcanephora.jogl.IndexBufferReadableMap;
 
 public abstract class IndexBufferMapContract implements TestContract
 {

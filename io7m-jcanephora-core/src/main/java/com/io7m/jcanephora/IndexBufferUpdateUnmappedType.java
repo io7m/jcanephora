@@ -20,7 +20,7 @@ import java.nio.ByteBuffer;
 
 /**
  * <p>
- * The type of index buffer updates that do not use mapped memory.
+ * The type of index buffer <i>updates</i> that do not use mapped memory.
  * </p>
  */
 

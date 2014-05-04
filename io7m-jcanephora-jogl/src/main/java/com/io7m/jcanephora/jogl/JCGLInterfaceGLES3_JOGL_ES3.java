@@ -38,7 +38,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.ArrayBufferUpdateMapped;
 import com.io7m.jcanephora.ArrayBufferUpdateUnmappedType;
 import com.io7m.jcanephora.BlendEquationGL3;
 import com.io7m.jcanephora.BlendEquationGLES2;
@@ -54,14 +53,12 @@ import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
 import com.io7m.jcanephora.FramebufferDrawBuffer;
 import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.IndexBuffer;
-import com.io7m.jcanephora.IndexBufferReadableMap;
 import com.io7m.jcanephora.IndexBufferUpdateUnmapped;
 import com.io7m.jcanephora.IndexBufferUpdateMapped;
 import com.io7m.jcanephora.JCGLExceptionCompileError;
 import com.io7m.jcanephora.JCGLExtensionNames;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLSLVersion;
-import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.JCGLUnsignedType;
 import com.io7m.jcanephora.JCGLVersion;
 import com.io7m.jcanephora.Primitives;
@@ -74,7 +71,6 @@ import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.Texture2DStaticUsableType;
 import com.io7m.jcanephora.Texture2DStaticUpdate;
 import com.io7m.jcanephora.TextureCubeStaticUsableType;
-import com.io7m.jcanephora.TextureCubeWritableData;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureFormat;
@@ -84,7 +80,7 @@ import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.UsageHint;
-import com.io7m.jcanephora.api.JCGLInterfaceGLES3;
+import com.io7m.jcanephora.api.JCGLInterfaceGLES3Type;
 import com.io7m.jcanephora.api.JCGLSoftRestrictionsType;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
@@ -98,7 +94,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
 /**
  * <p>
- * A class implementing {@link JCGLInterfaceGLES3} that uses only the features
+ * A class implementing {@link JCGLInterfaceGLES3Type} that uses only the features
  * of OpenGL ES3, using JOGL as the backend.
  * </p>
  * <p>
@@ -119,7 +115,7 @@ import com.io7m.jtensors.VectorReadable4I;
  */
 
 @NotThreadSafe final class JCGLInterfaceGLES3_JOGL_ES3 implements
-  JCGLInterfaceGLES3
+  JCGLInterfaceGLES3Type
 {
   private @Nonnull GLES3                      cached_gl;
   private final @Nonnull Extensions           extensions;

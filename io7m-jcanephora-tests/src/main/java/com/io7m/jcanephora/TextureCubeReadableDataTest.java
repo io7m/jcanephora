@@ -23,6 +23,7 @@ import org.junit.Test;
 
 import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jcanephora.jogl.TextureCubeReadableData;
 import com.io7m.jtensors.VectorM2D;
 import com.io7m.jtensors.VectorM2F;
 import com.io7m.jtensors.VectorM2I;

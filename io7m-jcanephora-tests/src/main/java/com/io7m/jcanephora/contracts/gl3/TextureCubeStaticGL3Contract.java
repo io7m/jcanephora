@@ -29,9 +29,7 @@ import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.SpatialCursorReadable4i;
 import com.io7m.jcanephora.SpatialCursorWritable4i;
 import com.io7m.jcanephora.TestContext;
-import com.io7m.jcanephora.TextureCubeReadableData;
 import com.io7m.jcanephora.TextureCubeStatic;
-import com.io7m.jcanephora.TextureCubeWritableData;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureType;
@@ -40,6 +38,8 @@ import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.contracts.TextureCubeStaticContract;
+import com.io7m.jcanephora.jogl.TextureCubeReadableData;
+import com.io7m.jcanephora.jogl.TextureCubeWritableData;
 import com.io7m.jtensors.VectorM4I;
 
 public abstract class TextureCubeStaticGL3Contract extends

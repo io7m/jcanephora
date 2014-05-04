@@ -27,7 +27,6 @@ import com.io7m.jcanephora.JCGLUnsupportedException;
 import com.io7m.jcanephora.SpatialCursorReadable4i;
 import com.io7m.jcanephora.SpatialCursorWritable4i;
 import com.io7m.jcanephora.TestContext;
-import com.io7m.jcanephora.Texture2DReadableData;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.Texture2DWritableData;
 import com.io7m.jcanephora.TextureFilterMagnification;
@@ -37,6 +36,7 @@ import com.io7m.jcanephora.TextureTypeMeta;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.contracts.Texture2DStaticContract;
+import com.io7m.jcanephora.jogl.Texture2DReadableData;
 import com.io7m.jtensors.VectorM4I;
 
 public abstract class Texture2DStaticGL3Contract extends

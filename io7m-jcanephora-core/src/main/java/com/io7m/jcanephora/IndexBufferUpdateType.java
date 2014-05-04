@@ -18,11 +18,11 @@ package com.io7m.jcanephora;
 
 /**
  * <p>
- * The type of index buffer updates.
+ * The type of index buffer <i>updates</i>.
  * </p>
  * <p>
- * An index buffer update is essentially a mutable region of memory that will
- * be used to replace part of (or the entirety of) an index buffer.
+ * An index buffer <i>update</i> is essentially a mutable region of memory
+ * that will be used to replace part of (or the entirety of) an index buffer.
  * </p>
  */
 

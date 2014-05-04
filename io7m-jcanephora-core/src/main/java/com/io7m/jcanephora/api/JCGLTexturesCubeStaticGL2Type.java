@@ -19,11 +19,11 @@ package com.io7m.jcanephora.api;
 import com.io7m.jcanephora.CubeMapFaceLH;
 import com.io7m.jcanephora.CubeMapFaceRH;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.TextureCubeReadableData;
 import com.io7m.jcanephora.TextureCubeStaticType;
 import com.io7m.jcanephora.TextureCubeStaticUsableType;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
+import com.io7m.jcanephora.TextureReadableDataType;
 import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
@@ -118,7 +118,7 @@ public interface JCGLTexturesCubeStaticGL2Type extends
    *           Iff an OpenGL error occurs.
    */
 
-  TextureCubeReadableData textureCubeStaticGetImageLH(
+  TextureReadableDataType textureCubeStaticGetImageLH(
     final TextureCubeStaticUsableType texture,
     final CubeMapFaceLH face)
     throws JCGLExceptionRuntime;
@@ -135,7 +135,7 @@ public interface JCGLTexturesCubeStaticGL2Type extends
    *           Iff an OpenGL error occurs.
    */
 
-  TextureCubeReadableData textureCubeStaticGetImageRH(
+  TextureReadableDataType textureCubeStaticGetImageRH(
     final TextureCubeStaticUsableType texture,
     final CubeMapFaceRH face)
     throws JCGLExceptionRuntime;

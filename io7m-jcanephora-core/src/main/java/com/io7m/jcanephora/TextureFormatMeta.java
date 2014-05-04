@@ -124,6 +124,7 @@ public final class TextureFormatMeta
       }
     }
 
+    assert s != null;
     return s;
   }
 
@@ -148,6 +149,7 @@ public final class TextureFormatMeta
       }
     }
 
+    assert all != null;
     return all;
   }
 
@@ -256,6 +258,7 @@ public final class TextureFormatMeta
       }
     }
 
+    assert s != null;
     return s;
   }
 
@@ -300,6 +303,7 @@ public final class TextureFormatMeta
       }
     }
 
+    assert all != null;
     return all;
   }
 
@@ -325,6 +329,9 @@ public final class TextureFormatMeta
 
   /**
    * @return All texture formats that have <code>i</code> components.
+   * 
+   * @param i
+   *          The number of components.
    */
 
   public static Set<TextureFormat> getTexturesWithComponents(
@@ -338,6 +345,7 @@ public final class TextureFormatMeta
       }
     }
 
+    assert s != null;
     return s;
   }
 
@@ -362,18 +370,22 @@ public final class TextureFormatMeta
     switch (version.getAPI()) {
       case JCGL_ES:
         if (version.getVersionMajor() >= 3) {
-          return TextureFormatMeta
-            .isColorRenderable2D_ES3(format, extensions);
+          return TextureFormatMeta.isColorRenderable2DES3(format, extensions);
         }
-        return TextureFormatMeta.isColorRenderable2D_ES2(format, extensions);
+        return TextureFormatMeta.isColorRenderable2DES2(format, extensions);
       case JCGL_FULL:
-        return TextureFormatMeta.isColorRenderable2D_GL3(format, extensions);
+        return TextureFormatMeta.isColorRenderable2DGL3(format, extensions);
     }
 
     throw new UnreachableCodeException();
   }
 
-  private static boolean isColorRenderable2D_ES2(
+  /**
+   * @param extensions
+   *          Unused currently.
+   */
+
+  private static boolean isColorRenderable2DES2(
     final TextureFormat format,
     final JCGLNamedExtensionsType extensions)
   {
@@ -441,7 +453,7 @@ public final class TextureFormatMeta
    * See OpenGL ES 3.0 specification, page 126 "Required texture formats".
    */
 
-  private static boolean isColorRenderable2D_ES3(
+  private static boolean isColorRenderable2DES3(
     final TextureFormat format,
     final JCGLNamedExtensionsType extensions)
   {
@@ -523,9 +535,12 @@ public final class TextureFormatMeta
 
   /**
    * See the OpenGL 3.1 standard, page 119 "Required texture formats".
+   * 
+   * @param extensions
+   *          Unused currently.
    */
 
-  private static boolean isColorRenderable2D_GL3(
+  private static boolean isColorRenderable2DGL3(
     final TextureFormat format,
     final JCGLNamedExtensionsType extensions)
   {
@@ -600,8 +615,12 @@ public final class TextureFormatMeta
   }
 
   /**
-   * Return <code>true</code> iff the given 2D texture format is
-   * depth-renderable.
+   * @return <code>true</code> iff the given 2D texture format is
+   *         depth-renderable.
+   * @param format
+   *          The texture format.
+   * @param extensions
+   *          The current extensions.
    */
 
   public static boolean isDepthRenderable2D(
@@ -668,6 +687,12 @@ public final class TextureFormatMeta
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * @param format
+   *          The texture format.
+   * @return <code>true</code> if the given texture format is floating point.
+   */
 
   public static boolean isFloatingPoint(
     final TextureFormat format)

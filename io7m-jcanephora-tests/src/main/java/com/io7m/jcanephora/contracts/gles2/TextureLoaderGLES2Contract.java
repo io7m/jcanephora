@@ -45,7 +45,7 @@ import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureCubeStatic;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
-import com.io7m.jcanephora.TextureLoader;
+import com.io7m.jcanephora.TextureLoaderType;
 import com.io7m.jcanephora.TextureType;
 import com.io7m.jcanephora.TextureTypeMeta;
 import com.io7m.jcanephora.TextureWrapR;
@@ -56,7 +56,7 @@ import com.io7m.jvvfs.FSCapabilityRead;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
 
-public abstract class TextureLoaderGLES2Contract<T extends TextureLoader> extends
+public abstract class TextureLoaderGLES2Contract<T extends TextureLoaderType> extends
   TextureLoaderContract<JCGLTextures2DStaticGLES2, JCGLTexturesCubeStaticGLES2, T>
 {
   @Before public final void checkSupport()

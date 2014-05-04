@@ -7,10 +7,9 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jcanephora.JCGLExtensionNames;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.JCGLVersion;
 import com.io7m.jcanephora.RenderbufferFormat;
-import com.io7m.jcanephora.api.JCGLExtensionPackedDepthStencil;
+import com.io7m.jcanephora.api.JCGLExtensionPackedDepthStencilType;
 import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
 import com.io7m.jlog.Log;
 
@@ -19,11 +18,11 @@ import com.io7m.jlog.Log;
  */
 
 class ExtPackedDepthStencil<G extends GL> implements
-  JCGLExtensionPackedDepthStencil
+  JCGLExtensionPackedDepthStencilType
 {
   public static
     <G extends GL>
-    Option<JCGLExtensionPackedDepthStencil>
+    Option<JCGLExtensionPackedDepthStencilType>
     create(
       final @Nonnull G g,
       final @Nonnull JCGLStateCache state,
@@ -39,12 +38,12 @@ class ExtPackedDepthStencil<G extends GL> implements
 
     for (final String name : names) {
       if (extensions.extensionIsVisible(name)) {
-        return new Option.Some<JCGLExtensionPackedDepthStencil>(
+        return new Option.Some<JCGLExtensionPackedDepthStencilType>(
           new ExtPackedDepthStencil<G>(g, state, version, log));
       }
     }
 
-    return new Option.None<JCGLExtensionPackedDepthStencil>();
+    return new Option.None<JCGLExtensionPackedDepthStencilType>();
   }
 
   private final @Nonnull JCGLStateCache cache;

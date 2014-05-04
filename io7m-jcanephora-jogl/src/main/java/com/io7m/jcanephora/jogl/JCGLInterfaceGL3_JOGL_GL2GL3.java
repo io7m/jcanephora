@@ -42,7 +42,6 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.RangeInclusive;
 import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.ArrayBufferUpdateMapped;
 import com.io7m.jcanephora.ArrayBufferUpdateUnmappedType;
 import com.io7m.jcanephora.BlendEquationGL3;
 import com.io7m.jcanephora.BlendEquationGLES2;
@@ -58,14 +57,12 @@ import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
 import com.io7m.jcanephora.FramebufferDrawBuffer;
 import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.IndexBuffer;
-import com.io7m.jcanephora.IndexBufferReadableMap;
 import com.io7m.jcanephora.IndexBufferUpdateUnmapped;
 import com.io7m.jcanephora.IndexBufferUpdateMapped;
 import com.io7m.jcanephora.JCGLExceptionCompileError;
 import com.io7m.jcanephora.JCGLError;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLSLVersion;
-import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.JCGLUnsignedType;
 import com.io7m.jcanephora.JCGLVersion;
 import com.io7m.jcanephora.LogicOperation;
@@ -76,13 +73,10 @@ import com.io7m.jcanephora.ProgramUniformType;
 import com.io7m.jcanephora.RenderbufferFormat;
 import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
-import com.io7m.jcanephora.Texture2DReadableData;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.Texture2DStaticUsableType;
 import com.io7m.jcanephora.Texture2DStaticUpdate;
-import com.io7m.jcanephora.TextureCubeReadableData;
 import com.io7m.jcanephora.TextureCubeStaticUsableType;
-import com.io7m.jcanephora.TextureCubeWritableData;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureFormat;
@@ -92,7 +86,7 @@ import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.UsageHint;
-import com.io7m.jcanephora.api.JCGLInterfaceGL3;
+import com.io7m.jcanephora.api.JCGLInterfaceGL3Type;
 import com.io7m.jcanephora.api.JCGLSoftRestrictionsType;
 import com.io7m.jlog.Log;
 import com.io7m.jtensors.MatrixReadable3x3F;
@@ -106,7 +100,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
 /**
  * <p>
- * A class implementing {@link JCGLInterfaceGL3} that uses only non-deprecated
+ * A class implementing {@link JCGLInterfaceGL3Type} that uses only non-deprecated
  * features of OpenGL 3.*, using JOGL as the backend.
  * </p>
  * <p>
@@ -127,7 +121,7 @@ import com.io7m.jtensors.VectorReadable4I;
  */
 
 @NotThreadSafe final class JCGLInterfaceGL3_JOGL_GL2GL3 implements
-  JCGLInterfaceGL3
+  JCGLInterfaceGL3Type
 {
   private final @Nonnull GL2GL3               cached_gl2gl3;
   private final @Nonnull Extensions           extensions;
