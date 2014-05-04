@@ -34,7 +34,6 @@ import com.io7m.jcanephora.FramebufferBlitFilter;
 import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
 import com.io7m.jcanephora.FramebufferDrawBuffer;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jlog.Level;
 import com.io7m.jlog.Log;
 import com.jogamp.common.nio.Buffers;

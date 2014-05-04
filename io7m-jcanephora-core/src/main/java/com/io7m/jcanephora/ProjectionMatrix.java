@@ -17,6 +17,7 @@
 package com.io7m.jcanephora;
 
 import com.io7m.jnull.NullCheck;
+import com.io7m.jranges.RangeCheck;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.junreachable.UnreachableCodeException;
 
@@ -26,11 +27,6 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class ProjectionMatrix
 {
-  private ProjectionMatrix()
-  {
-    throw new UnreachableCodeException();
-  }
-
   /**
    * <p>
    * Calculate a matrix that produces a perspective projection. The
@@ -48,12 +44,20 @@ public final class ProjectionMatrix
    * <p>
    * 
    * @link http://http.developer.nvidia.com/GPUGems/gpugems_ch09.html
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>m == null</code></li> <li><code>0 &lt=; z_near &lt;
-   *           z_far == false</code></li>
-   *           </ul>
+   * @param x_min
+   *          The minimum X clip plane.
+   * @param x_max
+   *          The maximum X clip plane.
+   * @param y_min
+   *          The minimum Y clip plane.
+   * @param y_max
+   *          The maximum Y clip plane.
+   * @param z_near
+   *          The near Z clip plane.
+   * @param z_far
+   *          The far Z clip plane.
+   * @param matrix
+   *          The matrix to which values will be written.
    */
 
   public static void makeFrustumProjection(
@@ -66,8 +70,12 @@ public final class ProjectionMatrix
     final double z_far)
   {
     NullCheck.notNull(matrix, "Matrix");
-    Constraints.constrainRange(z_near, 0.0, Double.MAX_VALUE);
-    Constraints.constrainLessThan(z_near, z_far);
+    RangeCheck.checkGreaterEqualDouble(
+      z_near,
+      "Near Z",
+      0.0,
+      "Minimum Z distance");
+    RangeCheck.checkLessDouble(z_near, "Near Z", z_far, "Far Z");
 
     final double r0c0 = (2 * z_near) / (x_max - x_min);
     final double r0c2 = (x_max + x_min) / (x_max - x_min);
@@ -122,12 +130,8 @@ public final class ProjectionMatrix
    *          The near clipping plane coordinate.
    * @param z_far
    *          The far clipping plane coordinate.
-   * 
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>m == null</code></li>
-   *           </ul>
+   * @param matrix
+   *          The matrix to which values will be written.
    */
 
   public static void makeOrthographicProjection(
@@ -203,6 +207,8 @@ public final class ProjectionMatrix
    *          twice as wide as it is high.
    * @param horizontal_fov
    *          The horizontal field of view in radians.
+   * @param matrix
+   *          The matrix to which values will be written.
    */
 
   public static void makePerspectiveProjection(
@@ -227,5 +233,10 @@ public final class ProjectionMatrix
       y_max,
       z_near,
       z_far);
+  }
+
+  private ProjectionMatrix()
+  {
+    throw new UnreachableCodeException();
   }
 }

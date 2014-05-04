@@ -23,14 +23,13 @@ import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jaux.functional.Option;
 import com.io7m.jcanephora.JCGLExtensionNames;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureFormat;
 import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
-import com.io7m.jcanephora.api.JCGLExtensionDepthCubeTexture;
+import com.io7m.jcanephora.api.JCGLExtensionDepthCubeTextureType;
 import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
 import com.io7m.jlog.Log;
 
@@ -39,11 +38,11 @@ import com.io7m.jlog.Log;
  */
 
 class ExtDepthCubeTexture<G extends GL> implements
-  JCGLExtensionDepthCubeTexture
+  JCGLExtensionDepthCubeTextureType
 {
   public static @Nonnull
     <G extends GL>
-    Option<JCGLExtensionDepthCubeTexture>
+    Option<JCGLExtensionDepthCubeTextureType>
     create(
       final @Nonnull G g,
       final @Nonnull JCGLStateCache state,
@@ -56,12 +55,12 @@ class ExtDepthCubeTexture<G extends GL> implements
 
     for (final String name : names) {
       if (extensions.extensionIsVisible(name)) {
-        return new Option.Some<JCGLExtensionDepthCubeTexture>(
+        return new Option.Some<JCGLExtensionDepthCubeTextureType>(
           new ExtDepthCubeTexture<G>(g, state, log));
       }
     }
 
-    return new Option.None<JCGLExtensionDepthCubeTexture>();
+    return new Option.None<JCGLExtensionDepthCubeTextureType>();
   }
 
   private final @Nonnull JCGLStateCache cache;

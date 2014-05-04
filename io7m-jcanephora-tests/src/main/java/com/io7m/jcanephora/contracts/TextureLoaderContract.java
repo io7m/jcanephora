@@ -21,9 +21,9 @@ import javax.annotation.Nonnull;
 import com.io7m.jcanephora.JCGLTextures2DStaticCommon;
 import com.io7m.jcanephora.JCGLTexturesCubeStaticCommon;
 import com.io7m.jcanephora.TestContext;
-import com.io7m.jcanephora.TextureLoader;
+import com.io7m.jcanephora.TextureLoaderType;
 
-public abstract class TextureLoaderContract<G2D extends JCGLTextures2DStaticCommon, GC extends JCGLTexturesCubeStaticCommon, T extends TextureLoader> implements
+public abstract class TextureLoaderContract<G2D extends JCGLTextures2DStaticCommon, GC extends JCGLTexturesCubeStaticCommon, T extends TextureLoaderType> implements
   TestContract
 {
   public abstract @Nonnull G2D getGLTextures2D(

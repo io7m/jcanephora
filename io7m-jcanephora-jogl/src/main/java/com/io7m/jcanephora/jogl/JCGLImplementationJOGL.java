@@ -29,13 +29,13 @@ import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExtensionNames;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLExceptionUnsupported;
-import com.io7m.jcanephora.api.JCGLImplementation;
-import com.io7m.jcanephora.api.JCGLImplementationVisitor;
-import com.io7m.jcanephora.api.JCGLInterfaceCommon;
-import com.io7m.jcanephora.api.JCGLInterfaceGL2;
-import com.io7m.jcanephora.api.JCGLInterfaceGL3;
-import com.io7m.jcanephora.api.JCGLInterfaceGLES2;
-import com.io7m.jcanephora.api.JCGLInterfaceGLES3;
+import com.io7m.jcanephora.api.JCGLImplementationType;
+import com.io7m.jcanephora.api.JCGLImplementationVisitorType;
+import com.io7m.jcanephora.api.JCGLInterfaceCommonType;
+import com.io7m.jcanephora.api.JCGLInterfaceGL2Type;
+import com.io7m.jcanephora.api.JCGLInterfaceGL3Type;
+import com.io7m.jcanephora.api.JCGLInterfaceGLES2Type;
+import com.io7m.jcanephora.api.JCGLInterfaceGLES3Type;
 import com.io7m.jcanephora.api.JCGLSoftRestrictionsType;
 import com.io7m.jlog.Log;
 
@@ -43,7 +43,7 @@ import com.io7m.jlog.Log;
  * A JOGL-based implementation of the <code>jcanephora</code> API.
  */
 
-public final class JCGLImplementationJOGL implements JCGLImplementation
+public final class JCGLImplementationJOGL implements JCGLImplementationType
 {
   private final static class DefaultRestrictions implements
     JCGLSoftRestrictionsType
@@ -327,10 +327,10 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
   }
 
   private final @Nonnull GLContext          context;
-  private final @Nonnull JCGLInterfaceGL2   gl_2;
-  private final @Nonnull JCGLInterfaceGL3   gl_3;
-  private final @Nonnull JCGLInterfaceGLES2 gl_es2;
-  private final @Nonnull JCGLInterfaceGLES3 gl_es3;
+  private final @Nonnull JCGLInterfaceGL2Type   gl_2;
+  private final @Nonnull JCGLInterfaceGL3Type   gl_3;
+  private final @Nonnull JCGLInterfaceGLES2Type gl_es2;
+  private final @Nonnull JCGLInterfaceGLES3Type gl_es3;
   private final @Nonnull Log                log;
 
   private JCGLImplementationJOGL(
@@ -448,7 +448,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
       "At least OpenGL 2.1 or OpenGL ES2 is required");
   }
 
-  @Override public @Nonnull JCGLInterfaceCommon getGLCommon()
+  @Override public @Nonnull JCGLInterfaceCommonType getGLCommon()
   {
     if (this.gl_es3 != null) {
       return this.gl_es3;
@@ -467,7 +467,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementation
   }
 
   @Override public <A, E extends Throwable> A implementationAccept(
-    final @Nonnull JCGLImplementationVisitor<A, E> v)
+    final @Nonnull JCGLImplementationVisitorType<A, E> v)
     throws JCGLException,
       ConstraintError,
       E

@@ -31,7 +31,6 @@ import com.io7m.jcanephora.FaceSelection;
 import com.io7m.jcanephora.JCGLExceptionCompileError;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLScalarType;
-import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.JCGLType;
 import com.io7m.jcanephora.ProgramAttributeType;
 import com.io7m.jcanephora.ProgramUniformType;

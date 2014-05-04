@@ -20,6 +20,7 @@ import com.io7m.jnull.NullCheck;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorI3F;
 import com.io7m.jtensors.VectorM3F;
+import com.io7m.jtensors.VectorReadable3FType;
 import com.io7m.junreachable.UnreachableCodeException;
 
 /**
@@ -49,12 +50,16 @@ public final class ViewMatrix
 
   public static final class Context
   {
-    protected final VectorM3F   camera_inv;
-    protected final VectorM3F   forward;
-    protected final VectorM3F   new_up;
-    protected final MatrixM4x4F rotation;
-    protected final VectorM3F   side;
-    protected final MatrixM4x4F translation;
+    private final VectorM3F   camera_inv;
+    private final VectorM3F   forward;
+    private final VectorM3F   new_up;
+    private final MatrixM4x4F rotation;
+    private final VectorM3F   side;
+    private final MatrixM4x4F translation;
+
+    /**
+     * Construct a new context.
+     */
 
     public Context()
     {
@@ -62,9 +67,38 @@ public final class ViewMatrix
       this.side = new VectorM3F();
       this.new_up = new VectorM3F();
       this.camera_inv = new VectorM3F();
-
       this.rotation = new MatrixM4x4F();
       this.translation = new MatrixM4x4F();
+    }
+
+    VectorM3F getCameraInverse()
+    {
+      return this.camera_inv;
+    }
+
+    VectorM3F getForward()
+    {
+      return this.forward;
+    }
+
+    VectorM3F getNewUp()
+    {
+      return this.new_up;
+    }
+
+    MatrixM4x4F getRotation()
+    {
+      return this.rotation;
+    }
+
+    VectorM3F getSide()
+    {
+      return this.side;
+    }
+
+    MatrixM4x4F getTranslation()
+    {
+      return this.translation;
     }
 
     protected void reset()
@@ -101,22 +135,13 @@ public final class ViewMatrix
    *          The target being viewed.
    * @param up
    *          The up vector.
-   * @throws ConstraintError
-   *           Iff:
-   *           <ul>
-   *           <li><code>matrix == null</code></li>
-   *           <li><code>camera == null</code></li>
-   *           <li><code>target == null</code></li>
-   *           <li><code>up == null</code></li>
-   *           </ul>
    */
 
   public static void lookAt(
     final MatrixM4x4F out,
-    final VectorReadable3F camera,
-    final VectorReadable3F target,
-    final VectorReadable3F up)
-    throws ConstraintError
+    final VectorReadable3FType camera,
+    final VectorReadable3FType target,
+    final VectorReadable3FType up)
   {
     final Context context = new Context();
     ViewMatrix.lookAtWithContext(context, out, camera, target, up);
@@ -145,23 +170,14 @@ public final class ViewMatrix
    *          The target being viewed.
    * @param up
    *          The up vector.
-   * @throws ConstraintError
-   *           Iff:
-   *           <ul>
-   *           <li><code>matrix == null</code></li>
-   *           <li><code>camera == null</code></li>
-   *           <li><code>target == null</code></li>
-   *           <li><code>up == null</code></li>
-   *           </ul>
    */
 
   public static void lookAtWithContext(
     final Context context,
     final MatrixM4x4F out,
-    final VectorReadable3F camera,
-    final VectorReadable3F target,
-    final VectorReadable3F up)
-    throws ConstraintError
+    final VectorReadable3FType camera,
+    final VectorReadable3FType target,
+    final VectorReadable3FType up)
   {
     NullCheck.notNull(context, "Context");
     NullCheck.notNull(out, "Output matrix");
@@ -171,59 +187,64 @@ public final class ViewMatrix
 
     context.reset();
 
+    final VectorM3F forward = context.getForward();
+    final VectorM3F side = context.getSide();
+    final VectorM3F new_up = context.getNewUp();
+    final MatrixM4x4F rotation = context.getRotation();
+    final VectorM3F camera_inv = context.getCameraInverse();
+    final MatrixM4x4F translation = context.getTranslation();
+
     /**
      * Calculate "forward" vector.
      */
 
-    context.forward.x = target.getXF() - camera.getXF();
-    context.forward.y = target.getYF() - camera.getYF();
-    context.forward.z = target.getZF() - camera.getZF();
-    VectorM3F.normalizeInPlace(context.forward);
+    {
+      final float dx = target.getXF() - camera.getXF();
+      final float dy = target.getYF() - camera.getYF();
+      final float dz = target.getZF() - camera.getZF();
+      forward.set3F(dx, dy, dz);
+      VectorM3F.normalizeInPlace(forward);
+    }
 
     /**
      * Calculate "side" vector.
      */
 
-    VectorM3F.crossProduct(context.forward, up, context.side);
-    VectorM3F.normalizeInPlace(context.side);
+    VectorM3F.crossProduct(forward, up, side);
+    VectorM3F.normalizeInPlace(side);
 
     /**
      * Calculate new "up" vector.
      */
 
-    VectorM3F.crossProduct(context.side, context.forward, context.new_up);
+    VectorM3F.crossProduct(side, forward, new_up);
 
     /**
      * Calculate rotation matrix.
      */
 
-    context.rotation.set(0, 0, context.side.x);
-    context.rotation.set(0, 1, context.side.y);
-    context.rotation.set(0, 2, context.side.z);
-    context.rotation.set(1, 0, context.new_up.x);
-    context.rotation.set(1, 1, context.new_up.y);
-    context.rotation.set(1, 2, context.new_up.z);
-    context.rotation.set(2, 0, -context.forward.x);
-    context.rotation.set(2, 1, -context.forward.y);
-    context.rotation.set(2, 2, -context.forward.z);
+    rotation.set(0, 0, side.getXF());
+    rotation.set(0, 1, side.getYF());
+    rotation.set(0, 2, side.getZF());
+    rotation.set(1, 0, new_up.getXF());
+    rotation.set(1, 1, new_up.getYF());
+    rotation.set(1, 2, new_up.getZF());
+    rotation.set(2, 0, -forward.getXF());
+    rotation.set(2, 1, -forward.getYF());
+    rotation.set(2, 2, -forward.getZF());
 
     /**
      * Calculate camera translation vector.
      */
 
-    context.camera_inv.x = -camera.getXF();
-    context.camera_inv.y = -camera.getYF();
-    context.camera_inv.z = -camera.getZF();
+    camera_inv.set3F(-camera.getXF(), -camera.getYF(), -camera.getZF());
 
     /**
      * Calculate translation matrix.
      */
 
-    MatrixM4x4F.translateByVector3FInPlace(
-      context.translation,
-      context.camera_inv);
-
-    MatrixM4x4F.multiply(context.rotation, context.translation, out);
+    MatrixM4x4F.translateByVector3FInPlace(translation, camera_inv);
+    MatrixM4x4F.multiply(rotation, translation, out);
   }
 
   private ViewMatrix()

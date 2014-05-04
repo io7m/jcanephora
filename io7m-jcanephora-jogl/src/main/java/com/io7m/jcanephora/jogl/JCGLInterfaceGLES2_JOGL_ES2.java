@@ -53,7 +53,6 @@ import com.io7m.jcanephora.JCGLExceptionCompileError;
 import com.io7m.jcanephora.JCGLError;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLSLVersion;
-import com.io7m.jcanephora.JCGLStateCache;
 import com.io7m.jcanephora.JCGLUnsignedType;
 import com.io7m.jcanephora.JCGLVersion;
 import com.io7m.jcanephora.Primitives;
@@ -66,7 +65,6 @@ import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.Texture2DStaticUsableType;
 import com.io7m.jcanephora.Texture2DStaticUpdate;
 import com.io7m.jcanephora.TextureCubeStaticUsableType;
-import com.io7m.jcanephora.TextureCubeWritableData;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureFormat;
@@ -76,10 +74,10 @@ import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.UsageHint;
-import com.io7m.jcanephora.api.JCGLExtensionDepthCubeTexture;
-import com.io7m.jcanephora.api.JCGLExtensionESDepthTexture;
-import com.io7m.jcanephora.api.JCGLExtensionPackedDepthStencil;
-import com.io7m.jcanephora.api.JCGLInterfaceGLES2;
+import com.io7m.jcanephora.api.JCGLExtensionDepthCubeTextureType;
+import com.io7m.jcanephora.api.JCGLExtensionESDepthTextureType;
+import com.io7m.jcanephora.api.JCGLExtensionPackedDepthStencilType;
+import com.io7m.jcanephora.api.JCGLInterfaceGLES2Type;
 import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.api.JCGLSoftRestrictionsType;
 import com.io7m.jlog.Log;
@@ -94,7 +92,7 @@ import com.io7m.jtensors.VectorReadable4I;
 
 /**
  * <p>
- * A class implementing {@link JCGLInterfaceGLES2} that exposes only the
+ * A class implementing {@link JCGLInterfaceGLES2Type} that exposes only the
  * features of OpenGL ES2, using an OpenGL ES 2.0 context on JOGL.
  * </p>
  * <p>
@@ -115,12 +113,12 @@ import com.io7m.jtensors.VectorReadable4I;
  */
 
 @NotThreadSafe final class JCGLInterfaceGLES2_JOGL_ES2 implements
-  JCGLInterfaceGLES2
+  JCGLInterfaceGLES2Type
 {
   private @Nonnull GLES2                                         cached_gl;
-  private final @Nonnull Option<JCGLExtensionDepthCubeTexture>   ext_depth_cube_texture;
-  private final @Nonnull Option<JCGLExtensionESDepthTexture>     ext_depth_texture;
-  private final @Nonnull Option<JCGLExtensionPackedDepthStencil> ext_packed_depth_stencil;
+  private final @Nonnull Option<JCGLExtensionDepthCubeTextureType>   ext_depth_cube_texture;
+  private final @Nonnull Option<JCGLExtensionESDepthTextureType>     ext_depth_texture;
+  private final @Nonnull Option<JCGLExtensionPackedDepthStencilType> ext_packed_depth_stencil;
   private final @Nonnull GLContext                               gl_context;
   private final @Nonnull Log                                     log;
   private final @Nonnull JCGLSLVersion                           sl_version;
@@ -567,21 +565,21 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public
-    Option<JCGLExtensionDepthCubeTexture>
+    Option<JCGLExtensionDepthCubeTextureType>
     extensionDepthCubeTexture()
   {
     return this.ext_depth_cube_texture;
   }
 
   @Override public
-    Option<JCGLExtensionESDepthTexture>
+    Option<JCGLExtensionESDepthTextureType>
     extensionDepthTexture()
   {
     return this.ext_depth_texture;
   }
 
   @Override public
-    Option<JCGLExtensionPackedDepthStencil>
+    Option<JCGLExtensionPackedDepthStencilType>
     extensionPackedDepthStencil()
   {
     return this.ext_packed_depth_stencil;

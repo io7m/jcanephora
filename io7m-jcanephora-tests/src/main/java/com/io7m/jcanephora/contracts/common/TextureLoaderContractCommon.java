@@ -34,7 +34,7 @@ import com.io7m.jcanephora.TestContext;
 import com.io7m.jcanephora.Texture2DStatic;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
-import com.io7m.jcanephora.TextureLoader;
+import com.io7m.jcanephora.TextureLoaderType;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.contracts.TextureLoaderContract;
@@ -42,7 +42,7 @@ import com.io7m.jvvfs.FSCapabilityRead;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
 
-public abstract class TextureLoaderContractCommon<T extends TextureLoader> extends
+public abstract class TextureLoaderContractCommon<T extends TextureLoaderType> extends
   TextureLoaderContract<JCGLTextures2DStaticCommon, JCGLTexturesCubeStaticCommon, T>
 {
   @Before public final void checkSupport()
