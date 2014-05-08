@@ -18,6 +18,7 @@ package com.io7m.jcanephora.api;
 
 import com.io7m.jcanephora.BlendEquationGL3;
 import com.io7m.jcanephora.BlendFunction;
+import com.io7m.jcanephora.JCGLExceptionBlendingMisconfigured;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 
 /**
@@ -47,12 +48,15 @@ public interface JCGLBlendingGL3Type extends JCGLBlendingCommonType
    *          The destination factor.
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
+   * @throws JCGLExceptionBlendingMisconfigured
+   *           Iff the combination of blending parameters is invalid.
    */
 
   @Override void blendingEnable(
     final BlendFunction source_factor,
     final BlendFunction destination_factor)
-    throws JCGLExceptionRuntime;
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured;
 
   /**
    * Enable blending with the given blending functions. The function is
@@ -80,6 +84,8 @@ public interface JCGLBlendingGL3Type extends JCGLBlendingCommonType
    *          (destination) color values.
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
+   * @throws JCGLExceptionBlendingMisconfigured
+   *           Iff the combination of blending parameters is invalid.
    */
 
   @Override void blendingEnableSeparate(
@@ -87,7 +93,8 @@ public interface JCGLBlendingGL3Type extends JCGLBlendingCommonType
     final BlendFunction source_alpha_factor,
     final BlendFunction destination_rgb_factor,
     final BlendFunction destination_alpha_factor)
-    throws JCGLExceptionRuntime;
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured;
 
   /**
    * <p>
@@ -132,6 +139,8 @@ public interface JCGLBlendingGL3Type extends JCGLBlendingCommonType
    * 
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
+   * @throws JCGLExceptionBlendingMisconfigured
+   *           Iff the combination of blending parameters is invalid.
    */
 
   void blendingEnableSeparateWithEquationSeparate(
@@ -141,7 +150,8 @@ public interface JCGLBlendingGL3Type extends JCGLBlendingCommonType
     final BlendFunction destination_alpha_factor,
     final BlendEquationGL3 equation_rgb,
     final BlendEquationGL3 equation_alpha)
-    throws JCGLExceptionRuntime;
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured;
 
   /**
    * Enable blending with the given blending functions and equation. The
@@ -163,13 +173,16 @@ public interface JCGLBlendingGL3Type extends JCGLBlendingCommonType
    *          The blend equation.
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
+   * @throws JCGLExceptionBlendingMisconfigured
+   *           Iff the combination of blending parameters is invalid.
    */
 
   void blendingEnableWithEquation(
     final BlendFunction source_factor,
     final BlendFunction destination_factor,
     final BlendEquationGL3 equation)
-    throws JCGLExceptionRuntime;
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured;
 
   /**
    * Enable blending with the given blending functions and equation. The
@@ -193,6 +206,8 @@ public interface JCGLBlendingGL3Type extends JCGLBlendingCommonType
    *          The blend equation for the alpha components.
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
+   * @throws JCGLExceptionBlendingMisconfigured
+   *           Iff the combination of blending parameters is invalid.
    */
 
   void blendingEnableWithEquationSeparate(
@@ -200,7 +215,8 @@ public interface JCGLBlendingGL3Type extends JCGLBlendingCommonType
     final BlendFunction destination_factor,
     final BlendEquationGL3 equation_rgb,
     final BlendEquationGL3 equation_alpha)
-    throws JCGLExceptionRuntime;
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured;
 
   /**
    * @return <code>true</code> iff blending is enabled.

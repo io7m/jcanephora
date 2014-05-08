@@ -186,7 +186,19 @@ public final class JCGLSLVersion
         "4.40");
   }
 
-  static JCGLSLVersion make(
+  /**
+   * Construct a new GLSL version number.
+   * 
+   * @param number
+   *          The number.
+   * @param api
+   *          The API.
+   * @param text
+   *          The text.
+   * @return A new GLSL version number.
+   */
+
+  public static JCGLSLVersion make(
     final JCGLSLVersionNumber number,
     final JCGLApi api,
     final String text)

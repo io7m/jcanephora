@@ -16,27 +16,25 @@
 
 package com.io7m.jcanephora.jogl;
 
-import javax.annotation.Nonnull;
 import javax.media.opengl.GLContext;
 
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.api.JCGLSoftRestrictionsType;
-import com.io7m.jlog.Level;
-import com.io7m.jlog.Log;
+import com.io7m.jlog.LogLevel;
+import com.io7m.jlog.LogUsableType;
+import com.io7m.jnull.NullCheck;
 
 final class Extensions implements JCGLNamedExtensionsType
 {
-  private final @Nonnull StringBuilder        message;
-  private final @Nonnull GLContext            context;
-  private final @Nonnull Log                  log;
-  private final @Nonnull JCGLSoftRestrictionsType restrictions;
+  private final GLContext                context;
+  private final LogUsableType            log;
+  private final StringBuilder            message;
+  private final JCGLSoftRestrictionsType restrictions;
 
   Extensions(
-    final @Nonnull GLContext context1,
-    final @Nonnull JCGLSoftRestrictionsType restrictions1,
-    final @Nonnull Log log1)
+    final GLContext context1,
+    final JCGLSoftRestrictionsType restrictions1,
+    final LogUsableType log1)
   {
     this.message = new StringBuilder();
     this.context = context1;
@@ -45,21 +43,19 @@ final class Extensions implements JCGLNamedExtensionsType
   }
 
   @Override public boolean extensionIsSupported(
-    final @Nonnull String name)
-    throws ConstraintError
+    final String name)
   {
-    Constraints.constrainNotNull(name, "Name");
+    NullCheck.notNull(name, "Name");
     return this.context.isExtensionAvailable(name);
   }
 
   @Override public boolean extensionIsVisible(
-    final @Nonnull String name)
-    throws ConstraintError
+    final String name)
   {
     final boolean supported = this.extensionIsSupported(name);
 
     if (supported) {
-      if (this.log.enabled(Level.LOG_DEBUG)) {
+      if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
         this.message.setLength(0);
         this.message.append("Extension ");
         this.message.append(name);
@@ -71,7 +67,7 @@ final class Extensions implements JCGLNamedExtensionsType
         this.restrictions.restrictExtensionVisibility(name);
 
       if (!visible) {
-        if (this.log.enabled(Level.LOG_DEBUG)) {
+        if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
           this.message.setLength(0);
           this.message.append("Extension ");
           this.message.append(name);
@@ -83,7 +79,7 @@ final class Extensions implements JCGLNamedExtensionsType
       return visible;
     }
 
-    if (this.log.enabled(Level.LOG_DEBUG)) {
+    if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
       this.message.setLength(0);
       this.message.append("Extension ");
       this.message.append(name);

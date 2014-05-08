@@ -18,6 +18,7 @@ package com.io7m.jcanephora.api;
 
 import com.io7m.jcanephora.BlendEquationGLES2;
 import com.io7m.jcanephora.BlendFunction;
+import com.io7m.jcanephora.JCGLExceptionBlendingMisconfigured;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 
 /**
@@ -55,12 +56,15 @@ public interface JCGLBlendingCommonType
    *          The destination factor.
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
+   * @throws JCGLExceptionBlendingMisconfigured
+   *           Iff the combination of blending parameters is invalid.
    */
 
   void blendingEnable(
     final BlendFunction source_factor,
     final BlendFunction destination_factor)
-    throws JCGLExceptionRuntime;
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured;
 
   /**
    * Enable blending with the given blending functions. The function is
@@ -88,6 +92,8 @@ public interface JCGLBlendingCommonType
    *          (destination) color values.
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
+   * @throws JCGLExceptionBlendingMisconfigured
+   *           Iff the combination of blending parameters is invalid.
    */
 
   void blendingEnableSeparate(
@@ -95,7 +101,8 @@ public interface JCGLBlendingCommonType
     final BlendFunction source_alpha_factor,
     final BlendFunction destination_rgb_factor,
     final BlendFunction destination_alpha_factor)
-    throws JCGLExceptionRuntime;
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured;
 
   /**
    * <p>
@@ -140,6 +147,8 @@ public interface JCGLBlendingCommonType
    * 
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
+   * @throws JCGLExceptionBlendingMisconfigured
+   *           Iff the combination of blending parameters is invalid.
    */
 
   void blendingEnableSeparateWithEquationSeparateES2(
@@ -149,7 +158,8 @@ public interface JCGLBlendingCommonType
     final BlendFunction destination_alpha_factor,
     final BlendEquationGLES2 equation_rgb,
     final BlendEquationGLES2 equation_alpha)
-    throws JCGLExceptionRuntime;
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured;
 
   /**
    * Enable blending with the given blending functions and equation. The
@@ -171,13 +181,16 @@ public interface JCGLBlendingCommonType
    *          The blend equation.
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
+   * @throws JCGLExceptionBlendingMisconfigured
+   *           Iff the combination of blending parameters is invalid.
    */
 
   void blendingEnableWithEquationES2(
     final BlendFunction source_factor,
     final BlendFunction destination_factor,
     final BlendEquationGLES2 equation)
-    throws JCGLExceptionRuntime;
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured;
 
   /**
    * Enable blending with the given blending functions and equation. The
@@ -201,6 +214,8 @@ public interface JCGLBlendingCommonType
    *          The blend equation for the alpha components.
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
+   * @throws JCGLExceptionBlendingMisconfigured
+   *           Iff the combination of blending parameters is invalid.
    */
 
   void blendingEnableWithEquationSeparateES2(
@@ -208,7 +223,8 @@ public interface JCGLBlendingCommonType
     final BlendFunction destination_factor,
     final BlendEquationGLES2 equation_rgb,
     final BlendEquationGLES2 equation_alpha)
-    throws JCGLExceptionRuntime;
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured;
 
   /**
    * @return <code>true</code> iff blending is enabled.

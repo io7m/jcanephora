@@ -32,16 +32,16 @@ public interface RenderbufferUsableType<K extends RenderbufferKind> extends
   JCGLResourceSizedType
 {
   /**
-   * @return The height of the buffer.
-   */
-
-  int renderbufferGetHeight();
-
-  /**
    * @return The type of the renderbuffer.
    */
 
   RenderbufferFormat renderbufferGetFormat();
+
+  /**
+   * @return The height of the buffer.
+   */
+
+  int renderbufferGetHeight();
 
   /**
    * @return The width of the buffer.

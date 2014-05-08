@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora;
 
+import com.io7m.jnull.NullCheck;
 import com.io7m.junreachable.UnreachableCodeException;
 
 /**
@@ -74,6 +75,8 @@ public enum CubeMapFaceLH
   public static CubeMapFaceLH fromRH(
     final CubeMapFaceRH face)
   {
+    NullCheck.notNull(face, "Face");
+
     switch (face) {
       case CUBE_MAP_RH_NEGATIVE_X:
         return CUBE_MAP_LH_NEGATIVE_X;

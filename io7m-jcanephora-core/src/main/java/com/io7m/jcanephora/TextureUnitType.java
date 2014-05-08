@@ -22,7 +22,8 @@ import com.io7m.jequality.annotations.EqualityStructural;
  * The type of texture units.
  */
 
-@EqualityStructural public interface TextureUnitType
+@EqualityStructural public interface TextureUnitType extends
+  Comparable<TextureUnitType>
 {
   /**
    * @return The index of the texture unit. This value will be between 0 and

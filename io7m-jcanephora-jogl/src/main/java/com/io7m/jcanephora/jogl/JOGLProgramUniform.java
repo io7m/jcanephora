@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora.jogl;
 
+import javax.media.opengl.GLContext;
+
 import com.io7m.jcanephora.JCGLType;
 import com.io7m.jcanephora.ProgramUniformType;
 import com.io7m.jcanephora.ProgramUsableType;
@@ -33,8 +35,8 @@ import com.io7m.jranges.RangeCheck;
  * </p>
  */
 
-@EqualityStructural final class JOGLProgramUniform implements
-  ProgramUniformType
+@EqualityStructural final class JOGLProgramUniform extends
+  JOGLObjectPseudoShared implements ProgramUniformType
 {
   private final int               index;
   private final int               location;
@@ -43,12 +45,15 @@ import com.io7m.jranges.RangeCheck;
   private final JCGLType          type;
 
   JOGLProgramUniform(
+    final GLContext in_context,
     final ProgramUsableType in_program,
     final int in_index,
     final int in_location,
     final String in_name,
     final JCGLType in_type)
   {
+    super(in_context);
+
     this.program = NullCheck.notNull(in_program, "Program");
     this.index =
       (int) RangeCheck.checkIncludedIn(

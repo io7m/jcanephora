@@ -32,11 +32,6 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class ShaderUtilities
 {
-  private ShaderUtilities()
-  {
-    throw new UnreachableCodeException();
-  }
-
   /**
    * @return <code>true</code> iff any of the following hold:
    *         <ul>
@@ -95,5 +90,10 @@ public final class ShaderUtilities
     }
     reader.close();
     return lines;
+  }
+
+  private ShaderUtilities()
+  {
+    throw new UnreachableCodeException();
   }
 }

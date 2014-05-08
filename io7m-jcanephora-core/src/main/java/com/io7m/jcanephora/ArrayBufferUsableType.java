@@ -28,8 +28,26 @@ import com.io7m.jequality.annotations.EqualityStructural;
   BufferUsableType
 {
   /**
+   * @param name
+   *          The name of the attribute.
+   * @return The named attribute.
+   * @throws JCGLExceptionAttributeMissing
+   *           If no attribute exists with the given name.
+   */
+
+  ArrayAttributeType arrayGetAttribute(
+    final String name)
+    throws JCGLExceptionAttributeMissing;
+
+  /**
    * @return The descriptor for the type of elements in the array.
    */
 
   ArrayDescriptor arrayGetDescriptor();
+
+  /**
+   * @return The usage hint specified for the array.
+   */
+
+  UsageHint arrayGetUsageHint();
 }

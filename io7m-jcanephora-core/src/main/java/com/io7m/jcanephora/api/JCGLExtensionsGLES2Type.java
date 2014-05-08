@@ -46,5 +46,6 @@ public interface JCGLExtensionsGLES2Type
    * @return A reference to the extension, if available.
    */
 
-  OptionType<JCGLExtensionPackedDepthStencilType> extensionPackedDepthStencil();
+    OptionType<JCGLExtensionPackedDepthStencilType>
+    extensionPackedDepthStencil();
 }

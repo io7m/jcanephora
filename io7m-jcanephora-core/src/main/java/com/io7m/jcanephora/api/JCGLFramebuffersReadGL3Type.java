@@ -22,7 +22,7 @@ import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.FramebufferBlitBuffer;
 import com.io7m.jcanephora.FramebufferBlitFilter;
 import com.io7m.jcanephora.FramebufferUsableType;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.JCGLException;
 
 /**
  * Simplified interface to the (read) framebuffer functionality available on
@@ -44,7 +44,7 @@ public interface JCGLFramebuffersReadGL3Type
    * @param filter
    *          The filter used when stretching (if
    *          <code>source != target</code>).
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
@@ -53,18 +53,18 @@ public interface JCGLFramebuffersReadGL3Type
     final AreaInclusive target,
     final Set<FramebufferBlitBuffer> buffers,
     final FramebufferBlitFilter filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * @return <code>true</code> iff any application-created read framebuffer is
    *         currently bound.
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   boolean framebufferReadAnyIsBound()
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -73,13 +73,13 @@ public interface JCGLFramebuffersReadGL3Type
    * 
    * @param framebuffer
    *          The framebuffer.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferReadBind(
     final FramebufferUsableType framebuffer)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * @return <code>true</code> iff <code>framebuffer</code> is currently bound
@@ -87,23 +87,23 @@ public interface JCGLFramebuffersReadGL3Type
    * 
    * @param framebuffer
    *          The framebuffer.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   boolean framebufferReadIsBound(
     final FramebufferUsableType framebuffer)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
    * Unbind the current framebuffer from the read target.
    * </p>
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferReadUnbind()
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 }

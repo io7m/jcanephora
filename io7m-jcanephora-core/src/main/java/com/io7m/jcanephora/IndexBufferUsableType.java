@@ -30,4 +30,10 @@ public interface IndexBufferUsableType extends
    */
 
   JCGLUnsignedType indexGetType();
+
+  /**
+   * @return The usage hint specified for the array.
+   */
+
+  UsageHint indexGetUsageHint();
 }

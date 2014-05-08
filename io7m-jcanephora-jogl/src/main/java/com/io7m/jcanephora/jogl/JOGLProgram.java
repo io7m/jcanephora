@@ -78,6 +78,15 @@ import com.io7m.jnull.Nullable;
     return super.getGLName() == other.getGLName();
   }
 
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + super.getGLName();
+    result = (prime * result) + this.name.hashCode();
+    return result;
+  }
+
   @Override public Map<String, ProgramAttributeType> programGetAttributes()
   {
     return this.attributes;
@@ -91,15 +100,6 @@ import com.io7m.jnull.Nullable;
   @Override public Map<String, ProgramUniformType> programGetUniforms()
   {
     return this.uniforms;
-  }
-
-  @Override public int hashCode()
-  {
-    final int prime = 31;
-    int result = 1;
-    result = (prime * result) + super.getGLName();
-    result = (prime * result) + this.name.hashCode();
-    return result;
   }
 
   @Override public String toString()

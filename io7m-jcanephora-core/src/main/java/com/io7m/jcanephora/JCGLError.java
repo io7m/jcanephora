@@ -25,11 +25,6 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class JCGLError
 {
-  private JCGLError()
-  {
-    throw new UnreachableCodeException();
-  }
-
   /**
    * Raise <code>GLException</code> iff the current OpenGL error state is not
    * <code>GL_NO_ERROR</code>.
@@ -50,5 +45,10 @@ public final class JCGLError
     if (code != 0) {
       throw new JCGLExceptionRuntime(code, "OpenGL error: code " + code);
     }
+  }
+
+  private JCGLError()
+  {
+    throw new UnreachableCodeException();
   }
 }

@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora.api;
 
-import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.TextureCubeStaticType;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
@@ -87,7 +87,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -99,7 +99,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -154,7 +154,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -166,7 +166,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -221,7 +221,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -233,7 +233,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -288,7 +288,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -300,7 +300,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -354,7 +354,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -366,7 +366,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -420,7 +420,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -432,7 +432,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -486,7 +486,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -498,7 +498,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -552,7 +552,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -564,7 +564,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -618,7 +618,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -630,7 +630,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -684,7 +684,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -696,7 +696,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -750,7 +750,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -762,7 +762,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -816,7 +816,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -828,7 +828,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -882,7 +882,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -894,7 +894,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -948,7 +948,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -960,7 +960,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -1014,7 +1014,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1026,7 +1026,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -1080,7 +1080,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1092,7 +1092,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -1146,7 +1146,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1158,7 +1158,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -1212,7 +1212,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1224,7 +1224,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -1278,7 +1278,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1290,7 +1290,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -1344,7 +1344,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1356,7 +1356,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -1410,7 +1410,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1422,7 +1422,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -1476,7 +1476,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1488,7 +1488,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -1542,7 +1542,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1554,7 +1554,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -1608,7 +1608,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1620,7 +1620,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -1674,7 +1674,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1686,7 +1686,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -1741,7 +1741,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1753,7 +1753,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -1808,7 +1808,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1820,7 +1820,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -1875,7 +1875,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1887,7 +1887,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -1939,7 +1939,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -1951,7 +1951,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -2005,7 +2005,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2017,7 +2017,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -2071,7 +2071,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2083,7 +2083,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -2138,7 +2138,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2150,7 +2150,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -2205,7 +2205,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2217,7 +2217,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -2272,7 +2272,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2284,7 +2284,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -2339,7 +2339,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2351,7 +2351,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -2406,7 +2406,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2418,7 +2418,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -2473,7 +2473,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2485,7 +2485,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -2537,7 +2537,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2549,7 +2549,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -2603,7 +2603,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2615,7 +2615,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -2669,7 +2669,7 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -2681,6 +2681,6 @@ public interface JCGLTexturesCubeStaticGL3ES3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
 }

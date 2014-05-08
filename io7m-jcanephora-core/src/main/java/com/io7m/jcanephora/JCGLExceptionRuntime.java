@@ -23,11 +23,11 @@ package com.io7m.jcanephora;
 public final class JCGLExceptionRuntime extends JCGLException
 {
   private static final long serialVersionUID;
-  private final int         code;
-
   static {
     serialVersionUID = -6495367643829747178L;
   }
+
+  private final int         code;
 
   /**
    * Construct an error with the given error code and message.

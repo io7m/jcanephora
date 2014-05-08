@@ -18,10 +18,10 @@ package com.io7m.jcanephora.api;
 
 import com.io7m.jcanephora.CubeMapFaceLH;
 import com.io7m.jcanephora.CubeMapFaceRH;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.TextureCubeStaticType;
+import com.io7m.jcanephora.TextureCubeStaticUpdateType;
 import com.io7m.jcanephora.TextureCubeStaticUsableType;
-import com.io7m.jcanephora.TextureReadableDataType;
 import com.io7m.jcanephora.TextureUnitType;
 
 /**
@@ -42,14 +42,14 @@ public interface JCGLTexturesCubeStaticCommonType
    * @param texture
    *          The texture.
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void textureCubeStaticBind(
     final TextureUnitType unit,
     final TextureCubeStaticUsableType texture)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Deletes the texture referenced by <code>texture</code>.
@@ -57,13 +57,13 @@ public interface JCGLTexturesCubeStaticCommonType
    * @param texture
    *          The texture.
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void textureCubeStaticDelete(
     final TextureCubeStaticType texture)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * @return <code>true</code> iff the texture <code>texture</code> is bound
@@ -73,14 +73,14 @@ public interface JCGLTexturesCubeStaticCommonType
    *          The texture unit.
    * @param texture
    *          The texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   boolean textureCubeStaticIsBound(
     final TextureUnitType unit,
     final TextureCubeStaticUsableType texture)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Unbind whatever cube map texture is bound to the texture unit
@@ -89,13 +89,13 @@ public interface JCGLTexturesCubeStaticCommonType
    * @param unit
    *          The texture unit.
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void textureCubeStaticUnbind(
     final TextureUnitType unit)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Replace the contents (or part of the contents) of the face
@@ -108,14 +108,14 @@ public interface JCGLTexturesCubeStaticCommonType
    * @param data
    *          The data to upload.
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void textureCubeStaticUpdateLH(
     final CubeMapFaceLH face,
-    final TextureReadableDataType data)
-    throws JCGLExceptionRuntime;
+    final TextureCubeStaticUpdateType data)
+    throws JCGLException;
 
   /**
    * Replace the contents (or part of the contents) of the face
@@ -128,12 +128,12 @@ public interface JCGLTexturesCubeStaticCommonType
    * @param data
    *          The data to upload.
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void textureCubeStaticUpdateRH(
     final CubeMapFaceRH face,
-    final TextureReadableDataType data)
-    throws JCGLExceptionRuntime;
+    final TextureCubeStaticUpdateType data)
+    throws JCGLException;
 }

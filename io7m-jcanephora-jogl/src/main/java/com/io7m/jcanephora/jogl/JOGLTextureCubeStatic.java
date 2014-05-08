@@ -19,7 +19,7 @@ package com.io7m.jcanephora.jogl;
 import javax.media.opengl.GLContext;
 
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.TextureCubeStaticUsableType;
+import com.io7m.jcanephora.TextureCubeStaticType;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureFormat;
@@ -35,7 +35,7 @@ import com.io7m.jranges.RangeInclusiveL;
  */
 
 @EqualityStructural final class JOGLTextureCubeStatic extends
-  JOGLObjectShared implements TextureCubeStaticUsableType
+  JOGLObjectShared implements TextureCubeStaticType
 {
   private final AreaInclusive              area;
   private final TextureFilterMagnification mag_filter;
@@ -93,9 +93,30 @@ import com.io7m.jranges.RangeInclusiveL;
     return true;
   }
 
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + super.getGLName();
+    return result;
+  }
+
+  @Override public long resourceGetSizeBytes()
+  {
+    return this.textureGetWidth()
+      * this.type.getBytesPerPixel()
+      * this.textureGetHeight()
+      * 6L;
+  }
+
   @Override public AreaInclusive textureGetArea()
   {
     return this.area;
+  }
+
+  @Override public TextureFormat textureGetFormat()
+  {
+    return this.type;
   }
 
   @Override public int textureGetHeight()
@@ -128,11 +149,6 @@ import com.io7m.jranges.RangeInclusiveL;
     return this.range_y;
   }
 
-  @Override public TextureFormat textureGetFormat()
-  {
-    return this.type;
-  }
-
   @Override public int textureGetWidth()
   {
     return (int) this.range_x.getInterval();
@@ -151,22 +167,6 @@ import com.io7m.jranges.RangeInclusiveL;
   @Override public TextureWrapT textureGetWrapT()
   {
     return this.wrap_t;
-  }
-
-  @Override public int hashCode()
-  {
-    final int prime = 31;
-    int result = 1;
-    result = (prime * result) + super.getGLName();
-    return result;
-  }
-
-  @Override public long resourceGetSizeBytes()
-  {
-    return this.textureGetWidth()
-      * this.type.getBytesPerPixel()
-      * this.textureGetHeight()
-      * 6L;
   }
 
   @Override public String toString()

@@ -19,9 +19,10 @@ package com.io7m.jcanephora.jogl;
 import javax.media.opengl.GLContext;
 
 import com.io7m.jcanephora.TextureUnitType;
+import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeCheck;
 
-final class JOGLTextureUnit extends JOGLObjectPseudo implements
+final class JOGLTextureUnit extends JOGLObjectPseudoUnshared implements
   TextureUnitType
 {
   private final int index;
@@ -35,8 +36,54 @@ final class JOGLTextureUnit extends JOGLObjectPseudo implements
       (int) RangeCheck.checkIncludedIn(
         in_index,
         "Index",
-        RangeCheck.POSITIVE_INTEGER,
+        RangeCheck.NATURAL_INTEGER,
         "Valid indices");
+  }
+
+  @Override public int compareTo(
+    final TextureUnitType other)
+  {
+    final Integer ix = Integer.valueOf(this.index);
+    final Integer iy = Integer.valueOf(other.unitGetIndex());
+    return ix.compareTo(iy);
+  }
+
+  @Override public boolean equals(
+    final @Nullable Object obj)
+  {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (this.getClass() != obj.getClass()) {
+      return false;
+    }
+    final JOGLTextureUnit other = (JOGLTextureUnit) obj;
+    if (this.index != other.index) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + this.index;
+    return result;
+  }
+
+  @Override public String toString()
+  {
+    final StringBuilder builder = new StringBuilder();
+    builder.append("[JOGLTextureUnit ");
+    builder.append(this.index);
+    builder.append("]");
+    final String r = builder.toString();
+    assert r != null;
+    return r;
   }
 
   @Override public int unitGetIndex()

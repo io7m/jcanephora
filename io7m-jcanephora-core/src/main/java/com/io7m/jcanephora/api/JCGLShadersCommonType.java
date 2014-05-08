@@ -20,8 +20,8 @@ import java.util.List;
 
 import com.io7m.jcanephora.ArrayAttributeType;
 import com.io7m.jcanephora.FragmentShaderType;
-import com.io7m.jcanephora.JCGLExceptionCompileError;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLExceptionProgramCompileError;
 import com.io7m.jcanephora.ProgramAttributeType;
 import com.io7m.jcanephora.ProgramType;
 import com.io7m.jcanephora.ProgramUniformType;
@@ -57,17 +57,17 @@ public interface JCGLShadersCommonType
    *          A list of lines of GLSL source code.
    * @return A reference to the compiled fragment shader.
    * 
-   * @throws JCGLExceptionCompileError
+   * @throws JCGLExceptionProgramCompileError
    *           Iff a compilation error occurs.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   FragmentShaderType fragmentShaderCompile(
     final String name,
     final List<String> lines)
-    throws JCGLExceptionCompileError,
-      JCGLExceptionRuntime;
+    throws JCGLExceptionProgramCompileError,
+      JCGLException;
 
   /**
    * Deletes the fragment shader referenced by <code>id</code>.
@@ -75,13 +75,13 @@ public interface JCGLShadersCommonType
    * @param id
    *          The fragment shader.
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void fragmentShaderDelete(
     final FragmentShaderType id)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Make the program referenced by <code>program</code> active.
@@ -89,13 +89,13 @@ public interface JCGLShadersCommonType
    * @param program
    *          The program.
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programActivate(
     final ProgramUsableType program)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Associate the array attribute <code>array_attribute</code> with the
@@ -105,14 +105,14 @@ public interface JCGLShadersCommonType
    *          The array buffer attribute for the given array buffer.
    * @param program_attribute
    *          The program attribute.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programAttributeArrayAssociate(
     final ProgramAttributeType program_attribute,
     final ArrayAttributeType array_attribute)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Disassociate the program attribute <code>program_attribute</code> with
@@ -120,13 +120,13 @@ public interface JCGLShadersCommonType
    * 
    * @param program_attribute
    *          The program attribute.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programAttributeArrayDisassociate(
     final ProgramAttributeType program_attribute)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -148,14 +148,14 @@ public interface JCGLShadersCommonType
    *          The program attribute.
    * @param x
    *          The value.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programAttributePutFloat(
     final ProgramAttributeType program_attribute,
     float x)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -177,14 +177,14 @@ public interface JCGLShadersCommonType
    *          The program attribute.
    * @param x
    *          The value.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programAttributePutVector2f(
     final ProgramAttributeType program_attribute,
     final VectorReadable2FType x)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -206,14 +206,14 @@ public interface JCGLShadersCommonType
    *          The program attribute.
    * @param x
    *          The value.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programAttributePutVector3f(
     final ProgramAttributeType program_attribute,
     final VectorReadable3FType x)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -235,14 +235,14 @@ public interface JCGLShadersCommonType
    *          The program attribute.
    * @param x
    *          The value.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programAttributePutVector4f(
     final ProgramAttributeType program_attribute,
     final VectorReadable4FType x)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -256,8 +256,8 @@ public interface JCGLShadersCommonType
    * mapped to draw buffer 0.
    * </p>
    * 
-   * @see JCGLShadersGL3Type#programCreateWithOutputs(String, VertexShaderType,
-   *      FragmentShaderType, java.util.Map)
+   * @see JCGLShadersGL3Type#programCreateWithOutputs(String,
+   *      VertexShaderType, FragmentShaderType, java.util.Map)
    * 
    * @param name
    *          The name of the program.
@@ -267,9 +267,9 @@ public interface JCGLShadersCommonType
    *          A compiled fragment shader.
    * 
    * @return A reference to the created program.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
-   * @throws JCGLExceptionCompileError
+   * @throws JCGLExceptionProgramCompileError
    *           Iff the program fails to link.
    */
 
@@ -277,55 +277,55 @@ public interface JCGLShadersCommonType
     final String name,
     final VertexShaderType v,
     final FragmentShaderType f)
-    throws JCGLExceptionRuntime,
-      JCGLExceptionCompileError;
+    throws JCGLException,
+      JCGLExceptionProgramCompileError;
 
   /**
    * Disable the current shading program.
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programDeactivate()
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Deletes the shading program referenced by <code>program</code>.
    * 
    * @param program
    *          The referenced program.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programDelete(
     final ProgramType program)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * @return The implementation-specific maximum for the number of active
    *         attributes.
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   int programGetMaximumActiveAttributes()
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * @return <code>true</code> iff the program referenced by
    *         <code>program</code> is currently active.
    * @param program
    *          The program.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   boolean programIsActive(
     final ProgramUsableType program)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Upload the value <code>value</code> to the uniform <code>uniform</code>.
@@ -334,14 +334,14 @@ public interface JCGLShadersCommonType
    *          The uniform variable.
    * @param value
    *          The value.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutFloat(
     final ProgramUniformType uniform,
     final float value)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Upload the value <code>value</code> to the uniform <code>uniform</code>.
@@ -350,14 +350,14 @@ public interface JCGLShadersCommonType
    *          The uniform variable.
    * @param value
    *          The value.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutInteger(
     final ProgramUniformType uniform,
     final int value)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Upload the matrix <code>matrix</code> to the uniform <code>uniform</code>
@@ -367,14 +367,14 @@ public interface JCGLShadersCommonType
    *          The uniform variable.
    * @param matrix
    *          The matrix.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutMatrix3x3f(
     final ProgramUniformType uniform,
     final MatrixReadable3x3FType matrix)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Upload the matrix <code>matrix</code> to the uniform <code>uniform</code>
@@ -384,14 +384,14 @@ public interface JCGLShadersCommonType
    *          The uniform variable.
    * @param matrix
    *          The matrix.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutMatrix4x4f(
     final ProgramUniformType uniform,
     final MatrixReadable4x4FType matrix)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Upload the texture unit index <code>unit</code> to the uniform
@@ -401,14 +401,14 @@ public interface JCGLShadersCommonType
    *          The uniform variable.
    * @param unit
    *          The texture unit.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutTextureUnit(
     final ProgramUniformType uniform,
     final TextureUnitType unit)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Upload the vector <code>vector</code> to the uniform <code>uniform</code>
@@ -418,14 +418,14 @@ public interface JCGLShadersCommonType
    *          The uniform variable.
    * @param vector
    *          The vector.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutVector2f(
     final ProgramUniformType uniform,
     final VectorReadable2FType vector)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Upload the vector <code>vector</code> to the uniform <code>uniform</code>
@@ -435,14 +435,14 @@ public interface JCGLShadersCommonType
    *          The uniform variable.
    * @param vector
    *          The vector.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutVector2i(
     final ProgramUniformType uniform,
     final VectorReadable2IType vector)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Upload the vector <code>vector</code> to the uniform <code>uniform</code>
@@ -452,14 +452,14 @@ public interface JCGLShadersCommonType
    *          The uniform variable.
    * @param vector
    *          The vector.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutVector3f(
     final ProgramUniformType uniform,
     final VectorReadable3FType vector)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Upload the vector <code>vector</code> to the uniform <code>uniform</code>
@@ -469,14 +469,14 @@ public interface JCGLShadersCommonType
    *          The uniform variable.
    * @param vector
    *          The vector.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutVector3i(
     final ProgramUniformType uniform,
     final VectorReadable3IType vector)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Upload the vector <code>vector</code> to the uniform <code>uniform</code>
@@ -486,14 +486,14 @@ public interface JCGLShadersCommonType
    *          The uniform variable.
    * @param vector
    *          The vector.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutVector4f(
     final ProgramUniformType uniform,
     final VectorReadable4FType vector)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Upload the vector <code>vector</code> to the uniform <code>uniform</code>
@@ -503,14 +503,14 @@ public interface JCGLShadersCommonType
    *          The uniform variable.
    * @param vector
    *          The vector.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void programUniformPutVector4i(
     final ProgramUniformType uniform,
     final VectorReadable4IType vector)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Read a GLSL vertex shader from the lines of GLSL source code given in
@@ -524,28 +524,28 @@ public interface JCGLShadersCommonType
    * @param lines
    *          A list of lines of GLSL source code.
    * @return A reference to the compiled vertex shader.
-   * @throws JCGLExceptionCompileError
+   * @throws JCGLExceptionProgramCompileError
    *           Iff a compilation error occurs.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   VertexShaderType vertexShaderCompile(
     final String name,
     final List<String> lines)
-    throws JCGLExceptionCompileError,
-      JCGLExceptionRuntime;
+    throws JCGLExceptionProgramCompileError,
+      JCGLException;
 
   /**
    * Deletes the vertex shader referenced by <code>id</code>.
    * 
    * @param id
    *          The vertex shader.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void vertexShaderDelete(
     final VertexShaderType id)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 }

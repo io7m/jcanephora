@@ -78,6 +78,11 @@
     </dependency>
 
     <dependency>
+      <groupId>com.io7m.jlog</groupId>
+      <artifactId>io7m-jlog-core</artifactId>
+      <version>[3.0.0, 4.0.0)</version>
+    </dependency>
+    <dependency>
       <groupId>com.io7m.jequality</groupId>
       <artifactId>io7m-jequality-core</artifactId>
       <version>[0.3.0, 0.4.0)</version>
@@ -95,7 +100,7 @@
     <dependency>
       <groupId>com.io7m.jranges</groupId>
       <artifactId>io7m-jranges-core</artifactId>
-      <version>[0.3.3, 0.4.0)</version>
+      <version>[0.3.4, 0.4.0)</version>
     </dependency>
     <dependency>
       <groupId>com.io7m.jtensors</groupId>

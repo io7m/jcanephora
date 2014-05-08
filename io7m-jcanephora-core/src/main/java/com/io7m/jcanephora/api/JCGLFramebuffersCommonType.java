@@ -19,12 +19,12 @@ package com.io7m.jcanephora.api;
 import java.util.List;
 
 import com.io7m.jcanephora.CubeMapFaceLH;
-import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
-import com.io7m.jcanephora.FramebufferDrawBuffer;
+import com.io7m.jcanephora.FramebufferColorAttachmentPointType;
+import com.io7m.jcanephora.FramebufferDrawBufferType;
 import com.io7m.jcanephora.FramebufferStatus;
 import com.io7m.jcanephora.FramebufferType;
 import com.io7m.jcanephora.FramebufferUsableType;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.RenderableColorKind;
 import com.io7m.jcanephora.RenderableDepthKind;
 import com.io7m.jcanephora.RenderableStencilKind;
@@ -44,13 +44,13 @@ public interface JCGLFramebuffersCommonType
    * Allocate a new framebuffer.
    * </p>
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    * @return A freshly allocated framebuffer.
    */
 
   FramebufferType framebufferAllocate()
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -59,24 +59,24 @@ public interface JCGLFramebuffersCommonType
    * 
    * @param framebuffer
    *          The framebuffer.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDelete(
     final FramebufferType framebuffer)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * @return <code>true</code> iff any application-created draw framebuffer is
    *         currently bound.
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   boolean framebufferDrawAnyIsBound()
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -95,14 +95,14 @@ public interface JCGLFramebuffersCommonType
    * @param renderbuffer
    *          The renderbuffer.
    * @see com.io7m.jcanephora.RenderbufferFormat#isColorRenderable()
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawAttachColorRenderbuffer(
     final FramebufferType framebuffer,
     final RenderbufferUsableType<RenderableColorKind> renderbuffer)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -122,14 +122,14 @@ public interface JCGLFramebuffersCommonType
    *          The texture.
    * @see TextureTypeMeta#isColorRenderable2D(com.io7m.jcanephora.TextureType,
    *      com.io7m.jcanephora.JCGLVersion, JCGLNamedExtensions)
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawAttachColorTexture2D(
     final FramebufferType framebuffer,
     final Texture2DStaticUsableType texture)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -151,7 +151,7 @@ public interface JCGLFramebuffersCommonType
    *          The face of the cube, assuming a left-handed coordinate system.
    * @see com.io7m.jcanephora.TextureTypeMeta#isColorRenderable2D(com.io7m.jcanephora.TextureType,
    *      com.io7m.jcanephora.JCGLVersion, JCGLNamedExtensions)
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
@@ -159,7 +159,7 @@ public interface JCGLFramebuffersCommonType
     final FramebufferType framebuffer,
     final TextureCubeStaticUsableType texture,
     final CubeMapFaceLH face)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -175,14 +175,14 @@ public interface JCGLFramebuffersCommonType
    * @param renderbuffer
    *          The renderbuffer.
    * @see com.io7m.jcanephora.RenderbufferFormat#isDepthRenderable()
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawAttachDepthRenderbuffer(
     final FramebufferType framebuffer,
     final RenderbufferUsableType<RenderableDepthKind> renderbuffer)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -199,14 +199,14 @@ public interface JCGLFramebuffersCommonType
    *          The texture.
    * @see com.io7m.jcanephora.TextureTypeMeta#isDepthRenderable2D(com.io7m.jcanephora.TextureType,
    *      JCGLNamedExtensions)
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawAttachDepthTexture2D(
     final FramebufferType framebuffer,
     final Texture2DStaticUsableType texture)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -222,14 +222,14 @@ public interface JCGLFramebuffersCommonType
    * @param renderbuffer
    *          The renderbuffer.
    * @see com.io7m.jcanephora.RenderbufferFormat#isStencilRenderable()
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawAttachStencilRenderbuffer(
     final FramebufferType framebuffer,
     final RenderbufferUsableType<RenderableStencilKind> renderbuffer)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -238,13 +238,13 @@ public interface JCGLFramebuffersCommonType
    * 
    * @param framebuffer
    *          The framebuffer.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawBind(
     final FramebufferUsableType framebuffer)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * @return <code>true</code> iff <code>framebuffer</code> is currently bound
@@ -252,25 +252,25 @@ public interface JCGLFramebuffersCommonType
    * 
    * @param framebuffer
    *          The framebuffer.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   boolean framebufferDrawIsBound(
     final FramebufferUsableType framebuffer)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
    * Unbind the current framebuffer from the draw target.
    * </p>
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawUnbind()
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -280,13 +280,13 @@ public interface JCGLFramebuffersCommonType
    * @return The status of the framebuffer.
    * @param framebuffer
    *          The framebuffer.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   FramebufferStatus framebufferDrawValidate(
     final FramebufferUsableType framebuffer)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * 
@@ -295,13 +295,14 @@ public interface JCGLFramebuffersCommonType
    * only allows single color attachments for framebuffers).
    * </p>
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    * @return The available set of color attachment points for framebuffers.
    */
 
-  List<FramebufferColorAttachmentPoint> framebufferGetColorAttachmentPoints()
-    throws JCGLExceptionRuntime;
+    List<FramebufferColorAttachmentPointType>
+    framebufferGetColorAttachmentPoints()
+      throws JCGLException;
 
   /**
    * <p>
@@ -312,10 +313,10 @@ public interface JCGLFramebuffersCommonType
    * @return The available set of draw buffers framebuffers.
    * 
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
-  List<FramebufferDrawBuffer> framebufferGetDrawBuffers()
-    throws JCGLExceptionRuntime;
+  List<FramebufferDrawBufferType> framebufferGetDrawBuffers()
+    throws JCGLException;
 }

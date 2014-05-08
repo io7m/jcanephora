@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -17,26 +17,20 @@
 package com.io7m.jcanephora.jogl;
 
 import java.io.PrintStream;
-import java.nio.IntBuffer;
-import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.NotThreadSafe;
 import javax.media.opengl.DebugGLES2;
 import javax.media.opengl.GL;
-import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GLContext;
 import javax.media.opengl.GLES2;
 import javax.media.opengl.TraceGLES2;
 
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jaux.functional.Option;
 import com.io7m.jcanephora.AreaInclusive;
+import com.io7m.jcanephora.ArrayAttributeType;
+import com.io7m.jcanephora.ArrayBufferType;
 import com.io7m.jcanephora.ArrayBufferUpdateUnmappedType;
+import com.io7m.jcanephora.ArrayBufferUsableType;
+import com.io7m.jcanephora.ArrayDescriptor;
 import com.io7m.jcanephora.BlendEquationGLES2;
 import com.io7m.jcanephora.BlendFunction;
 import com.io7m.jcanephora.CubeMapFaceLH;
@@ -44,51 +38,71 @@ import com.io7m.jcanephora.CubeMapFaceRH;
 import com.io7m.jcanephora.DepthFunction;
 import com.io7m.jcanephora.FaceSelection;
 import com.io7m.jcanephora.FaceWindingOrder;
-import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
-import com.io7m.jcanephora.FramebufferDrawBuffer;
+import com.io7m.jcanephora.FragmentShaderType;
+import com.io7m.jcanephora.FramebufferColorAttachmentPointType;
+import com.io7m.jcanephora.FramebufferDrawBufferType;
 import com.io7m.jcanephora.FramebufferStatus;
-import com.io7m.jcanephora.IndexBuffer;
-import com.io7m.jcanephora.IndexBufferUpdateUnmapped;
-import com.io7m.jcanephora.JCGLExceptionCompileError;
-import com.io7m.jcanephora.JCGLError;
+import com.io7m.jcanephora.FramebufferType;
+import com.io7m.jcanephora.FramebufferUsableType;
+import com.io7m.jcanephora.IndexBufferType;
+import com.io7m.jcanephora.IndexBufferUpdateUnmappedType;
+import com.io7m.jcanephora.IndexBufferUsableType;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLExceptionBlendingMisconfigured;
+import com.io7m.jcanephora.JCGLExceptionDeleted;
+import com.io7m.jcanephora.JCGLExceptionNoDepthBuffer;
+import com.io7m.jcanephora.JCGLExceptionNoStencilBuffer;
+import com.io7m.jcanephora.JCGLExceptionProgramCompileError;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.JCGLExceptionWrongContext;
 import com.io7m.jcanephora.JCGLSLVersion;
 import com.io7m.jcanephora.JCGLUnsignedType;
 import com.io7m.jcanephora.JCGLVersion;
 import com.io7m.jcanephora.Primitives;
 import com.io7m.jcanephora.ProgramAttributeType;
+import com.io7m.jcanephora.ProgramType;
 import com.io7m.jcanephora.ProgramUniformType;
-import com.io7m.jcanephora.RenderbufferFormat;
+import com.io7m.jcanephora.ProgramUsableType;
+import com.io7m.jcanephora.RenderableColorKind;
+import com.io7m.jcanephora.RenderableDepthKind;
+import com.io7m.jcanephora.RenderableStencilKind;
+import com.io7m.jcanephora.RenderbufferType;
+import com.io7m.jcanephora.RenderbufferUsableType;
 import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
-import com.io7m.jcanephora.Texture2DStatic;
+import com.io7m.jcanephora.Texture2DStaticType;
+import com.io7m.jcanephora.Texture2DStaticUpdateType;
 import com.io7m.jcanephora.Texture2DStaticUsableType;
-import com.io7m.jcanephora.Texture2DStaticUpdate;
+import com.io7m.jcanephora.TextureCubeStaticType;
+import com.io7m.jcanephora.TextureCubeStaticUpdateType;
 import com.io7m.jcanephora.TextureCubeStaticUsableType;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
-import com.io7m.jcanephora.TextureFormat;
-import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureUnitType;
 import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.UsageHint;
+import com.io7m.jcanephora.VertexShaderType;
 import com.io7m.jcanephora.api.JCGLExtensionDepthCubeTextureType;
 import com.io7m.jcanephora.api.JCGLExtensionESDepthTextureType;
 import com.io7m.jcanephora.api.JCGLExtensionPackedDepthStencilType;
 import com.io7m.jcanephora.api.JCGLInterfaceGLES2Type;
 import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.api.JCGLSoftRestrictionsType;
-import com.io7m.jlog.Log;
-import com.io7m.jtensors.MatrixReadable3x3F;
-import com.io7m.jtensors.MatrixReadable4x4F;
-import com.io7m.jtensors.VectorReadable2F;
-import com.io7m.jtensors.VectorReadable2I;
-import com.io7m.jtensors.VectorReadable3F;
-import com.io7m.jtensors.VectorReadable3I;
-import com.io7m.jtensors.VectorReadable4F;
-import com.io7m.jtensors.VectorReadable4I;
+import com.io7m.jfunctional.OptionType;
+import com.io7m.jlog.LogUsableType;
+import com.io7m.jnull.NullCheck;
+import com.io7m.jnull.Nullable;
+import com.io7m.jtensors.MatrixReadable3x3FType;
+import com.io7m.jtensors.MatrixReadable4x4FType;
+import com.io7m.jtensors.VectorReadable2FType;
+import com.io7m.jtensors.VectorReadable2IType;
+import com.io7m.jtensors.VectorReadable3FType;
+import com.io7m.jtensors.VectorReadable3IType;
+import com.io7m.jtensors.VectorReadable4FType;
+import com.io7m.jtensors.VectorReadable4IType;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * <p>
@@ -112,66 +126,169 @@ import com.io7m.jtensors.VectorReadable4I;
  * </p>
  */
 
-@NotThreadSafe final class JCGLInterfaceGLES2_JOGL_ES2 implements
-  JCGLInterfaceGLES2Type
+final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
 {
-  private @Nonnull GLES2                                         cached_gl;
-  private final @Nonnull Option<JCGLExtensionDepthCubeTextureType>   ext_depth_cube_texture;
-  private final @Nonnull Option<JCGLExtensionESDepthTextureType>     ext_depth_texture;
-  private final @Nonnull Option<JCGLExtensionPackedDepthStencilType> ext_packed_depth_stencil;
-  private final @Nonnull GLContext                               gl_context;
-  private final @Nonnull Log                                     log;
-  private final @Nonnull JCGLSLVersion                           sl_version;
-  private final @Nonnull JCGLStateCache                          state;
-  private final @Nonnull JCGLVersion                             version;
-  private final @Nonnull JCGLNamedExtensionsType                     extensions;
-  private final @Nonnull JCGLSoftRestrictionsType                    restrictions;
+  protected static GLES2 makeCachedGLES2(
+    final GL gl,
+    final JCGLDebugging debug,
+    final @Nullable PrintStream trace_out)
+  {
+    final GLES2 g = gl.getGLES2();
+    switch (debug) {
+      case JCGL_DEBUGGING:
+        return new DebugGLES2(g);
+      case JCGL_NONE:
+        return g;
+      case JCGL_TRACING:
+        NullCheck.notNull(trace_out, "Trace output");
+        return new TraceGLES2(g, trace_out);
+      case JCGL_TRACING_AND_DEBUGGING:
+        NullCheck.notNull(trace_out, "Trace output");
+        return new DebugGLES2(new TraceGLES2(g, trace_out));
+    }
+    throw new UnreachableCodeException();
+  }
+
+  private final JOGLArrays                                      arrays;
+
+  private final JOGLBlending                                    blending;
+  private final GLES2                                           cached_gl;
+  private final JOGLColorBuffer                                 color_buffer;
+  private final JOGLColorAttachmentPoints                       color_points;
+  private final GLContext                                       context;
+  private final JOGLCulling                                     cull;
+  private final JOGLDepthBufferGL2GL3                           depth;
+  private final JOGLDraw                                        draw;
+  private final JOGLDrawBuffers                                 draw_buffers;
+  private final JOGLErrors                                      errors;
+  private final OptionType<JCGLExtensionDepthCubeTextureType>   ext_depth_cube_texture;
+  private final OptionType<JCGLExtensionESDepthTextureType>     ext_depth_texture;
+  private final OptionType<JCGLExtensionPackedDepthStencilType> ext_packed_depth_stencil;
+  private final JCGLNamedExtensionsType                         extensions;
+  private final JOGLFramebuffersGLES2                           framebuffers;
+  private final JOGLIntegerCacheType                            icache;
+  private final JOGLIndexBuffers                                index;
+  private final LogUsableType                                   log;
+  private final JOGLLogic                                       logic;
+  private final JOGLMeta                                        meta;
+  private final JOGLPolygonMode                                 polygon_modes;
+  private final JOGLPolygonSmoothing                            polygon_smooth;
+  private final JOGLShadersGLES2                                program;
+  private final JOGLRenderbuffersGLES2                          renderbuffers;
+  private final JOGLScissor                                     scissor;
+  private final JOGLStencilGL2GL3                               stencil;
+  private final JOGLLogMessageCacheType                         tcache;
+  private final JOGLTextureUnits                                texture_units;
+  private final JOGLTexturesCubeStaticGLES2                     textures_cube;
+  private final JOGLTextures2DStaticGLES2                       textures2d;
+  private final JOGLViewport                                    viewport;
 
   JCGLInterfaceGLES2_JOGL_ES2(
-    final @Nonnull GLContext context,
-    final @Nonnull Log log1,
-    final @Nonnull JCGLDebugging debug,
-    final @CheckForNull PrintStream trace_out,
-    final @Nonnull JCGLSoftRestrictionsType restrictions1)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final GLContext in_context,
+    final LogUsableType in_log,
+    final JCGLDebugging in_debug,
+    final @Nullable PrintStream in_trace_out,
+    final JCGLSoftRestrictionsType in_restrictions)
+    throws JCGLExceptionRuntime
   {
-    this.log =
-      new Log(Constraints.constrainNotNull(log1, "log output"), "jogl-es2");
-    this.gl_context = Constraints.constrainNotNull(context, "GL context");
-    this.restrictions =
-      Constraints.constrainNotNull(restrictions1, "Restrictions");
-    Constraints.constrainNotNull(debug, "Debug");
+    this.log = NullCheck.notNull(in_log, "Log").with("es2-jogl_es2");
 
-    this.state = new JCGLStateCache();
+    this.context = NullCheck.notNull(in_context, "GL context");
+    NullCheck.notNull(in_restrictions, "Restrictions");
+    NullCheck.notNull(in_debug, "Debug");
 
-    {
-      final GLES2 g = this.gl_context.getGL().getGLES2();
-      switch (debug) {
-        case JCGL_DEBUGGING:
-          this.cached_gl = new DebugGLES2(g);
-          break;
-        case JCGL_NONE:
-          this.cached_gl = g;
-          break;
-        case JCGL_TRACING:
-          Constraints.constrainNotNull(trace_out, "Trace output");
-          this.cached_gl = new TraceGLES2(g, trace_out);
-          break;
-        case JCGL_TRACING_AND_DEBUGGING:
-          Constraints.constrainNotNull(trace_out, "Trace output");
-          this.cached_gl = new DebugGLES2(new TraceGLES2(g, trace_out));
-          break;
-        default:
-          throw new UnreachableCodeException();
-      }
-    }
-    assert this.cached_gl != null;
-    final GL2ES2 g = this.contextGetGLES2();
+    this.cached_gl =
+      JCGLInterfaceGLES2_JOGL_ES2.makeCachedGLES2(
+        this.context.getGL(),
+        in_debug,
+        in_trace_out);
 
-    this.extensions = new Extensions(context, restrictions1, log1);
-    this.version = JOGL_GL_Functions.metaGetVersion(g);
-    this.sl_version = JOGL_GL_Functions.metaGetSLVersion(log1, g);
+    this.extensions = new Extensions(this.context, in_restrictions, this.log);
+
+    /**
+     * Initialize subsystems.
+     */
+
+    this.icache = JOGLIntegerCache.newCache();
+    this.tcache = JOGLLogMessageCache.newCache();
+
+    this.arrays =
+      new JOGLArrays(this.cached_gl, this.log, this.icache, this.tcache);
+    this.blending = new JOGLBlending(this.cached_gl, this.log, this.icache);
+    this.color_buffer = new JOGLColorBuffer(this.cached_gl, this.log);
+    this.color_points =
+      new JOGLColorAttachmentPoints(
+        this.cached_gl,
+        this.log,
+        this.icache,
+        this.tcache);
+    this.cull = new JOGLCulling(this.cached_gl, this.log);
+    this.draw = new JOGLDraw(this.cached_gl, this.log);
+    this.draw_buffers =
+      new JOGLDrawBuffers(this.cached_gl, this.log, this.icache, this.tcache);
+    this.errors = new JOGLErrors(this.cached_gl, this.log);
+    this.meta = new JOGLMeta(this.cached_gl, this.tcache, this.log);
+    this.framebuffers =
+      new JOGLFramebuffersGLES2(
+        this.cached_gl,
+        this.log,
+        this.icache,
+        this.tcache,
+        this.draw_buffers,
+        this.color_points,
+        this.meta,
+        this.extensions);
+    this.depth =
+      new JOGLDepthBufferGL2GL3(
+        this.cached_gl,
+        this.framebuffers,
+        this.icache,
+        this.log);
+    this.index =
+      new JOGLIndexBuffers(this.cached_gl, this.log, this.icache, this.tcache);
+    this.logic = new JOGLLogic(this.cached_gl, this.log);
+    this.polygon_modes = new JOGLPolygonMode(this.cached_gl, this.log);
+    this.polygon_smooth = new JOGLPolygonSmoothing(this.cached_gl, this.log);
+    this.program =
+      new JOGLShadersGLES2(
+        this.cached_gl,
+        this.log,
+        this.icache,
+        this.tcache,
+        this.arrays);
+    this.renderbuffers =
+      new JOGLRenderbuffersGLES2(
+        this.cached_gl,
+        this.log,
+        this.icache,
+        this.tcache);
+    this.scissor = new JOGLScissor(this.cached_gl, this.log);
+    this.stencil =
+      new JOGLStencilGL2GL3(
+        this.cached_gl,
+        this.icache,
+        this.framebuffers,
+        this.log);
+    this.textures2d =
+      new JOGLTextures2DStaticGLES2(
+        this.cached_gl,
+        this.log,
+        this.icache,
+        this.tcache);
+    this.textures_cube =
+      new JOGLTexturesCubeStaticGLES2(
+        this.cached_gl,
+        this.log,
+        this.icache,
+        this.tcache);
+    this.texture_units =
+      new JOGLTextureUnits(
+        this.cached_gl,
+        this.log,
+        this.icache,
+        this.tcache,
+        in_restrictions);
+    this.viewport = new JOGLViewport(this.cached_gl, this.log);
 
     /**
      * Initialize extensions.
@@ -179,137 +296,96 @@ import com.io7m.jtensors.VectorReadable4I;
 
     this.ext_packed_depth_stencil =
       ExtPackedDepthStencil.create(
-        g,
-        this.state,
-        this.extensions,
-        this.version,
-        log1);
-    this.ext_depth_texture =
-      ExtESDepthTexture.create(g, this.state, this.extensions, log1);
-    this.ext_depth_cube_texture =
-      ExtDepthCubeTexture.create(g, this.state, this.extensions, log1);
-
-    /**
-     * Initialize texture unit cache.
-     */
-
-    this.state.texture_units =
-      JOGL_GL_Functions.textureGetUnitsActual(
-        g,
-        this.state,
+        this.cached_gl,
         this.log,
-        restrictions1);
-
-    /**
-     * Initialize color attachment point cache.
-     */
-
-    this.state.color_attachments =
-      JOGL_GL_Functions.framebufferGetAttachmentPointsActual(
-        g,
-        this.state,
-        this.log);
-
-    /**
-     * Initialize various constants.
-     */
-
-    {
-      final IntBuffer cache = this.state.getIntegerCache();
-      g.glGetIntegerv(GL.GL_ALIASED_POINT_SIZE_RANGE, cache);
-      this.state.point_min_width = cache.get();
-      this.state.point_max_width = cache.get();
-      JCGLError.check(this);
-    }
+        this.meta,
+        this.extensions,
+        this.icache,
+        this.tcache);
+    this.ext_depth_texture =
+      ExtESDepthTexture.create(
+        this.cached_gl,
+        this.log,
+        this.extensions,
+        this.icache,
+        this.tcache);
+    this.ext_depth_cube_texture =
+      ExtDepthCubeTexture.create(
+        this.cached_gl,
+        this.log,
+        this.extensions,
+        this.icache,
+        this.tcache);
   }
 
-  @Override public JOGLArrayBuffer arrayBufferAllocate(
+  @Override public ArrayBufferType arrayBufferAllocate(
     final long elements,
-    final @Nonnull ArrayBufferTypeDescriptor descriptor,
-    final @Nonnull UsageHint usage)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final ArrayDescriptor descriptor,
+    final UsageHint usage)
+    throws JCGLException
   {
-    return JOGL_GL_Functions.arrayBufferAllocate(
-      this.contextGetGLES2(),
-      this.log,
-      this.state,
-      elements,
-      descriptor,
-      usage);
+    return this.arrays.arrayBufferAllocate(elements, descriptor, usage);
   }
 
   @Override public void arrayBufferBind(
-    final @Nonnull ArrayBufferUsable buffer)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final ArrayBufferUsableType buffer)
+    throws JCGLException
   {
-    JOGL_GL_Functions.arrayBufferBind(this.contextGetGLES2(), buffer);
+    this.arrays.arrayBufferBind(buffer);
   }
 
   @Override public void arrayBufferDelete(
-    final @Nonnull JOGLArrayBuffer id)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ArrayBufferType id)
+    throws JCGLException,
+      JCGLExceptionDeleted
   {
-    JOGL_GL_Functions.arrayBufferDelete(
-      this.contextGetGLES2(),
-      this.log,
-      this.state,
-      id);
+    this.arrays.arrayBufferDelete(id);
   }
 
   @Override public boolean arrayBufferIsBound(
-    final @Nonnull ArrayBufferUsable id)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ArrayBufferUsableType id)
+    throws JCGLException
   {
-    return JOGL_GL_Functions.arrayBufferIsBound(this.contextGetGLES2(), id);
+    return this.arrays.arrayBufferIsBound(id);
   }
 
   @Override public void arrayBufferUnbind()
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    throws JCGLException
   {
-    JOGL_GL_Functions.arrayBufferUnbind(this.contextGetGLES2());
+    this.arrays.arrayBufferUnbind();
   }
 
   @Override public void arrayBufferUpdate(
-    final @Nonnull ArrayBufferUpdateUnmappedType data)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final ArrayBufferUpdateUnmappedType data)
+    throws JCGLException
   {
-    JOGL_GL_Functions.arrayBufferUpdate(this.contextGetGLES2(), data);
+    this.arrays.arrayBufferUpdate(data);
   }
 
   @Override public void blendingDisable()
     throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.blendingDisable(this.contextGetGLES2());
+    this.blending.blendingDisable();
   }
 
   @Override public void blendingEnable(
-    final @Nonnull BlendFunction source_factor,
-    final @Nonnull BlendFunction destination_factor)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final BlendFunction source_factor,
+    final BlendFunction destination_factor)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured
   {
-    JOGL_GL_Functions.blendingEnable(
-      this.contextGetGLES2(),
-      source_factor,
-      destination_factor);
+    this.blending.blendingEnable(source_factor, destination_factor);
   }
 
   @Override public void blendingEnableSeparate(
-    final @Nonnull BlendFunction source_rgb_factor,
-    final @Nonnull BlendFunction source_alpha_factor,
-    final @Nonnull BlendFunction destination_rgb_factor,
-    final @Nonnull BlendFunction destination_alpha_factor)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final BlendFunction source_rgb_factor,
+    final BlendFunction source_alpha_factor,
+    final BlendFunction destination_rgb_factor,
+    final BlendFunction destination_alpha_factor)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured
   {
-    JOGL_GL_Functions.blendingEnableSeparate(
-      this.contextGetGLES2(),
+    this.blending.blendingEnableSeparate(
       source_rgb_factor,
       source_alpha_factor,
       destination_rgb_factor,
@@ -317,17 +393,16 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void blendingEnableSeparateWithEquationSeparateES2(
-    final @Nonnull BlendFunction source_rgb_factor,
-    final @Nonnull BlendFunction source_alpha_factor,
-    final @Nonnull BlendFunction destination_rgb_factor,
-    final @Nonnull BlendFunction destination_alpha_factor,
-    final @Nonnull BlendEquationGLES2 equation_rgb,
-    final @Nonnull BlendEquationGLES2 equation_alpha)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final BlendFunction source_rgb_factor,
+    final BlendFunction source_alpha_factor,
+    final BlendFunction destination_rgb_factor,
+    final BlendFunction destination_alpha_factor,
+    final BlendEquationGLES2 equation_rgb,
+    final BlendEquationGLES2 equation_alpha)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured
   {
-    JOGL_GL_Functions.blendingEnableSeparateWithEquationSeparateES2(
-      this.contextGetGLES2(),
+    this.blending.blendingEnableSeparateWithEquationSeparateES2(
       source_rgb_factor,
       source_alpha_factor,
       destination_rgb_factor,
@@ -337,29 +412,27 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void blendingEnableWithEquationES2(
-    final @Nonnull BlendFunction source_factor,
-    final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquationGLES2 equation)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final BlendFunction source_factor,
+    final BlendFunction destination_factor,
+    final BlendEquationGLES2 equation)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured
   {
-    JOGL_GL_Functions.blendingEnableWithEquationES2(
-      this.contextGetGLES2(),
+    this.blending.blendingEnableWithEquationES2(
       source_factor,
       destination_factor,
       equation);
   }
 
   @Override public void blendingEnableWithEquationSeparateES2(
-    final @Nonnull BlendFunction source_factor,
-    final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquationGLES2 equation_rgb,
-    final @Nonnull BlendEquationGLES2 equation_alpha)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final BlendFunction source_factor,
+    final BlendFunction destination_factor,
+    final BlendEquationGLES2 equation_rgb,
+    final BlendEquationGLES2 equation_alpha)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured
   {
-    JOGL_GL_Functions.blendingEnableWithEquationSeparateES2(
-      this.contextGetGLES2(),
+    this.blending.blendingEnableWithEquationSeparateES2(
       source_factor,
       destination_factor,
       equation_rgb,
@@ -367,22 +440,18 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public boolean blendingIsEnabled()
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.blendingIsEnabled(
-      this.contextGetGLES2(),
-      this.state);
+    return this.blending.blendingIsEnabled();
   }
 
   @Override public void colorBufferClear3f(
     final float r,
     final float g,
     final float b)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.colorBufferClear3f(this.contextGetGLES2(), r, g, b);
+    this.color_buffer.colorBufferClear3f(r, g, b);
   }
 
   @Override public void colorBufferClear4f(
@@ -390,26 +459,23 @@ import com.io7m.jtensors.VectorReadable4I;
     final float g,
     final float b,
     final float a)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.colorBufferClear4f(this.contextGetGLES2(), r, g, b, a);
+    this.color_buffer.colorBufferClear4f(r, g, b, a);
   }
 
   @Override public void colorBufferClearV3f(
-    final @Nonnull VectorReadable3F color)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final VectorReadable3FType color)
+    throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.colorBufferClearV3f(this.contextGetGLES2(), color);
+    this.color_buffer.colorBufferClearV3f(color);
   }
 
   @Override public void colorBufferClearV4f(
-    final @Nonnull VectorReadable4F color)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final VectorReadable4FType color)
+    throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.colorBufferClearV4f(this.contextGetGLES2(), color);
+    this.color_buffer.colorBufferClearV4f(color);
   }
 
   @Override public void colorBufferMask(
@@ -417,1012 +483,723 @@ import com.io7m.jtensors.VectorReadable4I;
     final boolean g,
     final boolean b,
     final boolean a)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.colorBufferMask(this.contextGetGLES2(), r, g, b, a);
+    this.color_buffer.colorBufferMask(r, g, b, a);
   }
 
   @Override public boolean colorBufferMaskStatusAlpha()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.colorBufferMaskStatusAlpha(
-      this.contextGetGLES2(),
-      this.state);
+    return this.colorBufferMaskStatusAlpha();
   }
 
   @Override public boolean colorBufferMaskStatusBlue()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.colorBufferMaskStatusBlue(
-      this.contextGetGLES2(),
-      this.state);
+    return this.colorBufferMaskStatusBlue();
   }
 
   @Override public boolean colorBufferMaskStatusGreen()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.colorBufferMaskStatusGreen(
-      this.contextGetGLES2(),
-      this.state);
+    return this.colorBufferMaskStatusGreen();
   }
 
   @Override public boolean colorBufferMaskStatusRed()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.colorBufferMaskStatusRed(
-      this.contextGetGLES2(),
-      this.state);
-  }
-
-  private @Nonnull GL2ES2 contextGetGLES2()
-  {
-    return this.cached_gl;
+    return this.colorBufferMaskStatusRed();
   }
 
   @Override public void cullingDisable()
     throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.cullingDisable(this.contextGetGLES2());
+    this.cull.cullingDisable();
   }
 
   @Override public void cullingEnable(
-    final @Nonnull FaceSelection faces,
-    final @Nonnull FaceWindingOrder order)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final FaceSelection faces,
+    final FaceWindingOrder order)
+    throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.cullingEnable(this.contextGetGLES2(), faces, order);
+    this.cull.cullingEnable(faces, order);
   }
 
   @Override public boolean cullingIsEnabled()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.cullingIsEnabled(this.contextGetGLES2());
+    return this.cull.cullingIsEnabled();
   }
 
   @Override public void depthBufferClear(
-    final float depth)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final float in_depth)
+    throws JCGLException,
+      JCGLExceptionNoDepthBuffer
   {
-    JOGL_GLES2_Functions.depthBufferClear(
-      this.contextGetGLES2(),
-      this.state,
-      depth);
+    this.depth.depthBufferClear(in_depth);
   }
 
   @Override public int depthBufferGetBits()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    return JOGL_GLES2_Functions.depthBufferGetBits(
-      this.contextGetGLES2(),
-      this.state);
+    return this.depth.depthBufferGetBits();
   }
 
   @Override public void depthBufferTestDisable()
-    throws JCGLExceptionRuntime
+    throws JCGLException,
+      JCGLExceptionNoDepthBuffer
   {
-    JOGL_GLES2_Functions.depthBufferDisable(this.contextGetGLES2());
+    this.depth.depthBufferTestDisable();
   }
 
   @Override public void depthBufferTestEnable(
-    final @Nonnull DepthFunction function)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final DepthFunction function)
+    throws JCGLException,
+      JCGLExceptionNoDepthBuffer
   {
-    JOGL_GLES2_Functions.depthBufferEnable(
-      this.contextGetGLES2(),
-      this.state,
-      function);
+    this.depth.depthBufferTestEnable(function);
   }
 
   @Override public boolean depthBufferTestIsEnabled()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    return JOGL_GLES2_Functions.depthBufferIsEnabled(this.contextGetGLES2());
+    return this.depth.depthBufferTestIsEnabled();
   }
 
   @Override public void depthBufferWriteDisable()
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLException
   {
-    JOGL_GLES2_Functions.depthBufferWriteDisable(
-      this.contextGetGLES2(),
-      this.state);
+    this.depth.depthBufferWriteDisable();
   }
 
   @Override public void depthBufferWriteEnable()
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLException
   {
-    JOGL_GLES2_Functions.depthBufferWriteEnable(
-      this.contextGetGLES2(),
-      this.state);
+    this.depth.depthBufferWriteEnable();
   }
 
   @Override public boolean depthBufferWriteIsEnabled()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    return JOGL_GLES2_Functions.depthBufferWriteIsEnabled(
-      this.contextGetGLES2(),
-      this.state);
+    return this.depth.depthBufferWriteIsEnabled();
   }
 
   @Override public void drawElements(
-    final @Nonnull Primitives mode,
-    final @Nonnull IndexBufferUsable indices)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final Primitives mode,
+    final IndexBufferUsableType indices)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionWrongContext,
+      JCGLExceptionDeleted
   {
-    JOGL_GL_Functions.drawElements(this.contextGetGLES2(), mode, indices);
+    this.draw.drawElements(mode, indices);
   }
 
   @Override public boolean errorCodeIsInvalidOperation(
     final int code)
   {
-    return code == GL.GL_INVALID_OPERATION;
+    return this.errors.errorCodeIsInvalidOperation(code);
   }
 
   @Override public
-    Option<JCGLExtensionDepthCubeTextureType>
+    OptionType<JCGLExtensionDepthCubeTextureType>
     extensionDepthCubeTexture()
   {
     return this.ext_depth_cube_texture;
   }
 
   @Override public
-    Option<JCGLExtensionESDepthTextureType>
+    OptionType<JCGLExtensionESDepthTextureType>
     extensionDepthTexture()
   {
     return this.ext_depth_texture;
   }
 
   @Override public
-    Option<JCGLExtensionPackedDepthStencilType>
+    OptionType<JCGLExtensionPackedDepthStencilType>
     extensionPackedDepthStencil()
   {
     return this.ext_packed_depth_stencil;
   }
 
-  @Override public FragmentShader fragmentShaderCompile(
-    final @Nonnull String name,
-    final @Nonnull List<String> lines)
-    throws ConstraintError,
-      JCGLExceptionCompileError,
-      JCGLExceptionRuntime
+  @Override public FragmentShaderType fragmentShaderCompile(
+    final String name,
+    final List<String> lines)
+    throws JCGLExceptionProgramCompileError,
+      JCGLException
   {
-    return JOGL_GL2ES2_Functions.fragmentShaderCompile(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      name,
-      lines);
+    return this.program.fragmentShaderCompile(name, lines);
   }
 
   @Override public void fragmentShaderDelete(
-    final @Nonnull FragmentShader id)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final FragmentShaderType id)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.fragmentShaderDelete(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      id);
+    this.program.fragmentShaderDelete(id);
   }
 
-  @Override public @Nonnull FramebufferReference framebufferAllocate()
-    throws JCGLExceptionRuntime,
-      ConstraintError
+  @Override public FramebufferType framebufferAllocate()
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.framebufferAllocate(
-      this.contextGetGLES2(),
-      this.state,
-      this.log);
+    return this.framebuffers.framebufferAllocate();
   }
 
   @Override public void framebufferDelete(
-    final @Nonnull FramebufferReference framebuffer)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferType framebuffer)
+    throws JCGLException
   {
-    JOGL_GL_Functions.framebufferDelete(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      framebuffer);
+    this.framebuffers.framebufferDelete(framebuffer);
   }
 
   @Override public boolean framebufferDrawAnyIsBound()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    return JOGL_GLES2_Functions.framebufferDrawAnyIsBound(this
-      .contextGetGLES2());
+    return this.framebuffers.framebufferDrawAnyIsBound();
   }
 
   @Override public void framebufferDrawAttachColorRenderbuffer(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferType framebuffer,
+    final RenderbufferUsableType<RenderableColorKind> renderbuffer)
+    throws JCGLException
   {
-    JOGL_GLES2_Functions.framebufferDrawAttachColorRenderbuffer(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
+    this.framebuffers.framebufferDrawAttachColorRenderbuffer(
       framebuffer,
       renderbuffer);
   }
 
   @Override public void framebufferDrawAttachColorTexture2D(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticUsableType texture)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferType framebuffer,
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
   {
-    JOGL_GLES2_Functions.framebufferDrawAttachColorTexture2D(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      this.version,
+    this.framebuffers.framebufferDrawAttachColorTexture2D(
       framebuffer,
-      texture,
-      this.extensions);
+      texture);
   }
 
   @Override public void framebufferDrawAttachColorTextureCube(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull TextureCubeStaticUsableType texture,
-    final @Nonnull CubeMapFaceLH face)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferType framebuffer,
+    final TextureCubeStaticUsableType texture,
+    final CubeMapFaceLH face)
+    throws JCGLException
   {
-    JOGL_GLES2_Functions.framebufferDrawAttachColorTextureCube(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      this.version,
+    this.framebuffers.framebufferDrawAttachColorTextureCube(
       framebuffer,
       texture,
-      face,
-      this.extensions);
+      face);
   }
 
   @Override public void framebufferDrawAttachDepthRenderbuffer(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable<RenderableDepth> renderbuffer)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferType framebuffer,
+    final RenderbufferUsableType<RenderableDepthKind> renderbuffer)
+    throws JCGLException
   {
-    JOGL_GLES2_Functions.framebufferDrawAttachDepthRenderbuffer(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
+    this.framebuffers.framebufferDrawAttachDepthRenderbuffer(
       framebuffer,
       renderbuffer);
   }
 
   @Override public void framebufferDrawAttachDepthTexture2D(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticUsableType texture)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferType framebuffer,
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
   {
-    JOGL_GLES2_Functions.framebufferDrawAttachDepthTexture2D(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
+    this.framebuffers.framebufferDrawAttachDepthTexture2D(
       framebuffer,
-      texture,
-      this.extensions);
+      texture);
   }
 
   @Override public void framebufferDrawAttachStencilRenderbuffer(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable<RenderableStencil> renderbuffer)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferType framebuffer,
+    final RenderbufferUsableType<RenderableStencilKind> renderbuffer)
+    throws JCGLException
   {
-    JOGL_GLES2_Functions.framebufferDrawAttachStencilRenderbuffer(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
+    this.framebuffers.framebufferDrawAttachStencilRenderbuffer(
       framebuffer,
       renderbuffer);
   }
 
   @Override public void framebufferDrawBind(
-    final @Nonnull FramebufferReferenceUsable framebuffer)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferUsableType framebuffer)
+    throws JCGLException
   {
-    JOGL_GLES2_Functions.framebufferDrawBind(
-      this.contextGetGLES2(),
-      framebuffer);
+    this.framebuffers.framebufferDrawBind(framebuffer);
   }
 
   @Override public boolean framebufferDrawIsBound(
-    final @Nonnull FramebufferReferenceUsable framebuffer)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferUsableType framebuffer)
+    throws JCGLException
   {
-    return JOGL_GLES2_Functions.framebufferDrawIsBound(
-      this.contextGetGLES2(),
-      framebuffer);
+    return this.framebuffers.framebufferDrawIsBound(framebuffer);
   }
 
   @Override public void framebufferDrawUnbind()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    JOGL_GLES2_Functions.framebufferDrawUnbind(this.contextGetGLES2());
+    this.framebuffers.framebufferDrawUnbind();
   }
 
-  @Override public @Nonnull FramebufferStatus framebufferDrawValidate(
-    final @Nonnull FramebufferReferenceUsable framebuffer)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+  @Override public FramebufferStatus framebufferDrawValidate(
+    final FramebufferUsableType framebuffer)
+    throws JCGLException
   {
-    return JOGL_GLES2_Functions.framebufferDrawValidate(
-      this.contextGetGLES2(),
-      framebuffer);
+    return this.framebuffers.framebufferDrawValidate(framebuffer);
   }
 
-  @Override public @Nonnull
-    List<FramebufferColorAttachmentPoint>
+  @Override public
+    List<FramebufferColorAttachmentPointType>
     framebufferGetColorAttachmentPoints()
-      throws JCGLExceptionRuntime,
-        ConstraintError
+      throws JCGLException
   {
-    return Collections.unmodifiableList(this.state.color_attachments);
+    return this.framebuffers.framebufferGetColorAttachmentPoints();
   }
 
-  @Override public @Nonnull
-    List<FramebufferDrawBuffer>
+  @Override public
+    List<FramebufferDrawBufferType>
     framebufferGetDrawBuffers()
-      throws JCGLExceptionRuntime,
-        ConstraintError
+      throws JCGLException
   {
-    return Collections.unmodifiableList(this.state.draw_buffers);
+    return this.framebuffers.framebufferGetDrawBuffers();
   }
 
-  @Override public IndexBuffer indexBufferAllocate(
-    final @Nonnull ArrayBufferUsable buffer,
-    final int indices)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+  @Override public IndexBufferType indexBufferAllocate(
+    final ArrayBufferUsableType buffer,
+    final int indices,
+    final UsageHint usage)
+    throws JCGLException
   {
-    return JOGL_GL_Functions.indexBufferAllocate(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      buffer,
-      indices);
+    return this.index.indexBufferAllocate(buffer, indices, usage);
   }
 
-  @Override public @Nonnull IndexBuffer indexBufferAllocateType(
-    final @Nonnull JCGLUnsignedType type,
-    final int indices)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+  @Override public IndexBufferType indexBufferAllocateType(
+    final JCGLUnsignedType type,
+    final int indices,
+    final UsageHint usage)
+    throws JCGLException
   {
-    return JOGL_GL_Functions.indexBufferAllocateType(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      type,
-      indices);
+    return this.index.indexBufferAllocateType(type, indices, usage);
   }
 
   @Override public void indexBufferDelete(
-    final @Nonnull IndexBuffer id)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final IndexBufferType id)
+    throws JCGLException
   {
-    JOGL_GL_Functions.indexBufferDelete(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      id);
+    this.index.indexBufferDelete(id);
   }
 
   @Override public void indexBufferUpdate(
-    final @Nonnull IndexBufferUpdateUnmapped data)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final IndexBufferUpdateUnmappedType data)
+    throws JCGLException
   {
-    JOGL_GL_Functions.indexBufferUpdate(this.contextGetGLES2(), data);
+    this.index.indexBufferUpdate(data);
   }
 
   @Override public int metaGetError()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.metaGetError(this.contextGetGLES2());
+    return this.meta.metaGetError();
   }
 
   @Override public String metaGetRenderer()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.metaGetRenderer(this.contextGetGLES2());
+    return this.meta.metaGetRenderer();
   }
 
-  @Override public @Nonnull JCGLSLVersion metaGetSLVersion()
+  @Override public JCGLSLVersion metaGetSLVersion()
     throws JCGLExceptionRuntime
   {
-    return this.sl_version;
+    return this.meta.metaGetSLVersion();
   }
 
   @Override public String metaGetVendor()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.metaGetVendor(this.contextGetGLES2());
+    return this.meta.metaGetVendor();
   }
 
-  @Override public @Nonnull JCGLVersion metaGetVersion()
+  @Override public JCGLVersion metaGetVersion()
     throws JCGLExceptionRuntime
   {
-    return this.version;
+    return this.meta.metaGetVersion();
   }
 
   @Override public void programActivate(
-    final @Nonnull ProgramReferenceUsable program)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUsableType p)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programActivate(this.contextGetGLES2(), program);
+    this.program.programActivate(p);
   }
 
   @Override public void programAttributeArrayAssociate(
-    final @Nonnull ProgramAttributeType program_attribute,
-    final @Nonnull ArrayBufferAttribute array_attribute)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final ProgramAttributeType program_attribute,
+    final ArrayAttributeType array_attribute)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programAttributeArrayBind(
-      this.contextGetGLES2(),
-      this.state,
+    this.program.programAttributeArrayAssociate(
       program_attribute,
       array_attribute);
   }
 
   @Override public void programAttributeArrayDisassociate(
-    final @Nonnull ProgramAttributeType program_attribute)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final ProgramAttributeType program_attribute)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programAttributeArrayDisassociate(
-      this.contextGetGLES2(),
-      this.state,
-      program_attribute);
+    this.program.programAttributeArrayDisassociate(program_attribute);
   }
 
   @Override public void programAttributePutFloat(
-    final @Nonnull ProgramAttributeType program_attribute,
+    final ProgramAttributeType program_attribute,
     final float x)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programAttributePutFloat(
-      this.contextGetGLES2(),
-      this.state,
-      program_attribute,
-      x);
+    this.program.programAttributePutFloat(program_attribute, x);
   }
 
   @Override public void programAttributePutVector2f(
-    final @Nonnull ProgramAttributeType program_attribute,
-    final @Nonnull VectorReadable2F x)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final ProgramAttributeType program_attribute,
+    final VectorReadable2FType x)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programAttributePutVector2f(
-      this.contextGetGLES2(),
-      this.state,
-      program_attribute,
-      x);
+    this.program.programAttributePutVector2f(program_attribute, x);
   }
 
   @Override public void programAttributePutVector3f(
-    final @Nonnull ProgramAttributeType program_attribute,
-    final @Nonnull VectorReadable3F x)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final ProgramAttributeType program_attribute,
+    final VectorReadable3FType x)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programAttributePutVector3f(
-      this.contextGetGLES2(),
-      this.state,
-      program_attribute,
-      x);
+    this.program.programAttributePutVector3f(program_attribute, x);
   }
 
   @Override public void programAttributePutVector4f(
-    final @Nonnull ProgramAttributeType program_attribute,
-    final @Nonnull VectorReadable4F x)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final ProgramAttributeType program_attribute,
+    final VectorReadable4FType x)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programAttributePutVector4f(
-      this.contextGetGLES2(),
-      this.state,
-      program_attribute,
-      x);
+    this.program.programAttributePutVector4f(program_attribute, x);
   }
 
-  @Override public JOGLProgram programCreateCommon(
-    final @Nonnull String name,
-    final @Nonnull VertexShader v,
-    final @Nonnull FragmentShader f)
-    throws ConstraintError,
-      JCGLExceptionRuntime,
-      JCGLExceptionCompileError
+  @Override public ProgramType programCreateCommon(
+    final String name,
+    final VertexShaderType v,
+    final FragmentShaderType f)
+    throws JCGLException,
+      JCGLExceptionProgramCompileError
   {
-    return JOGL_GL2ES2_Functions.programCreateCommon(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      name,
-      v,
-      f);
+    return this.program.programCreateCommon(name, v, f);
   }
 
   @Override public void programDeactivate()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programDeactivate(this.contextGetGLES2());
+    this.program.programDeactivate();
   }
 
   @Override public void programDelete(
-    final @Nonnull JOGLProgram program)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramType p)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programDelete(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      program);
+    this.program.programDelete(p);
   }
 
   @Override public int programGetMaximumActiveAttributes()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    return JOGL_GL2ES2_Functions.programGetMaximumActiveAttributes(
-      this.contextGetGLES2(),
-      this.state,
-      this.log);
+    return this.program.programGetMaximumActiveAttributes();
   }
 
   @Override public boolean programIsActive(
-    final @Nonnull ProgramReferenceUsable program)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUsableType p)
+    throws JCGLException
   {
-    return JOGL_GL2ES2_Functions.programIsActive(
-      this.contextGetGLES2(),
-      this.state,
-      program);
+    return this.program.programIsActive(p);
   }
 
   @Override public void programUniformPutFloat(
-    final @Nonnull ProgramUniformType uniform,
+    final ProgramUniformType uniform,
     final float value)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformFloat(
-      this.contextGetGLES2(),
-      this.state,
-      uniform,
-      value);
+    this.program.programUniformPutFloat(uniform, value);
   }
 
   @Override public void programUniformPutInteger(
-    final @Nonnull ProgramUniformType uniform,
+    final ProgramUniformType uniform,
     final int value)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformInteger(
-      this.contextGetGLES2(),
-      this.state,
-      uniform,
-      value);
+    this.program.programUniformPutInteger(uniform, value);
   }
 
   @Override public void programUniformPutMatrix3x3f(
-    final @Nonnull ProgramUniformType uniform,
-    final @Nonnull MatrixReadable3x3F matrix)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUniformType uniform,
+    final MatrixReadable3x3FType matrix)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformMatrix3x3f(
-      this.contextGetGLES2(),
-      this.state,
-      uniform,
-      matrix);
+    this.program.programUniformPutMatrix3x3f(uniform, matrix);
   }
 
   @Override public void programUniformPutMatrix4x4f(
-    final @Nonnull ProgramUniformType uniform,
-    final @Nonnull MatrixReadable4x4F matrix)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUniformType uniform,
+    final MatrixReadable4x4FType matrix)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformMatrix4x4f(
-      this.contextGetGLES2(),
-      this.state,
-      uniform,
-      matrix);
+    this.program.programUniformPutMatrix4x4f(uniform, matrix);
   }
 
   @Override public void programUniformPutTextureUnit(
-    final @Nonnull ProgramUniformType uniform,
-    final @Nonnull TextureUnitType unit)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUniformType uniform,
+    final TextureUnitType unit)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformTextureUnit(
-      this.contextGetGLES2(),
-      this.state,
-      uniform,
-      unit);
+    this.program.programUniformPutTextureUnit(uniform, unit);
   }
 
   @Override public void programUniformPutVector2f(
-    final @Nonnull ProgramUniformType uniform,
-    final @Nonnull VectorReadable2F vector)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUniformType uniform,
+    final VectorReadable2FType vector)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformVector2f(
-      this.contextGetGLES2(),
-      this.state,
-      uniform,
-      vector);
+    this.program.programUniformPutVector2f(uniform, vector);
   }
 
   @Override public void programUniformPutVector2i(
-    final @Nonnull ProgramUniformType uniform,
-    final @Nonnull VectorReadable2I vector)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUniformType uniform,
+    final VectorReadable2IType vector)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformVector2i(
-      this.contextGetGLES2(),
-      this.state,
-      uniform,
-      vector);
+    this.program.programUniformPutVector2i(uniform, vector);
   }
 
   @Override public void programUniformPutVector3f(
-    final @Nonnull ProgramUniformType uniform,
-    final @Nonnull VectorReadable3F vector)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUniformType uniform,
+    final VectorReadable3FType vector)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformVector3f(
-      this.contextGetGLES2(),
-      this.state,
-      uniform,
-      vector);
+    this.program.programUniformPutVector3f(uniform, vector);
   }
 
   @Override public void programUniformPutVector3i(
-    final @Nonnull ProgramUniformType uniform,
-    final @Nonnull VectorReadable3I vector)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUniformType uniform,
+    final VectorReadable3IType vector)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformVector3i(
-      this.contextGetGLES2(),
-      this.state,
-      uniform,
-      vector);
+    this.program.programUniformPutVector3i(uniform, vector);
   }
 
   @Override public void programUniformPutVector4f(
-    final @Nonnull ProgramUniformType uniform,
-    final @Nonnull VectorReadable4F vector)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUniformType uniform,
+    final VectorReadable4FType vector)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformVector4f(
-      this.contextGetGLES2(),
-      this.state,
-      uniform,
-      vector);
+    this.program.programUniformPutVector4f(uniform, vector);
   }
 
   @Override public void programUniformPutVector4i(
-    final @Nonnull ProgramUniformType uniform,
-    final @Nonnull VectorReadable4I vector)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUniformType uniform,
+    final VectorReadable4IType vector)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformVector4i(
-      this.contextGetGLES2(),
-      this.state,
-      uniform,
-      vector);
+    this.program.programUniformPutVector4i(uniform, vector);
   }
 
-  @Override public @Nonnull
-    JOGLRenderbuffer<RenderableDepth>
+  @Override public
+    RenderbufferType<RenderableDepthKind>
     renderbufferAllocateDepth16(
       final int width,
       final int height)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+      throws JCGLExceptionRuntime
   {
-    return JOGLRenderbuffer.unsafeBrandDepth(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.contextGetGLES2(),
-        this.state,
-        this.log,
-        RenderbufferFormat.RENDERBUFFER_DEPTH_16,
-        width,
-        height));
+    return this.renderbuffers.renderbufferAllocateDepth16(width, height);
   }
 
-  @Override public @Nonnull
-    JOGLRenderbuffer<RenderableColor>
+  @Override public
+    RenderbufferType<RenderableColorKind>
     renderbufferAllocateRGB565(
       final int width,
       final int height)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+      throws JCGLExceptionRuntime
   {
-    return JOGLRenderbuffer.unsafeBrandColor(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.contextGetGLES2(),
-        this.state,
-        this.log,
-        RenderbufferFormat.RENDERBUFFER_COLOR_RGB_565,
-        width,
-        height));
+    return this.renderbuffers.renderbufferAllocateRGB565(width, height);
   }
 
-  @Override public @Nonnull
-    JOGLRenderbuffer<RenderableColor>
+  @Override public
+    RenderbufferType<RenderableColorKind>
     renderbufferAllocateRGBA4444(
       final int width,
       final int height)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+      throws JCGLExceptionRuntime
   {
-    return JOGLRenderbuffer.unsafeBrandColor(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.contextGetGLES2(),
-        this.state,
-        this.log,
-        RenderbufferFormat.RENDERBUFFER_COLOR_RGBA_4444,
-        width,
-        height));
+    return this.renderbuffers.renderbufferAllocateRGBA4444(width, height);
   }
 
-  @Override public @Nonnull
-    JOGLRenderbuffer<RenderableColor>
+  @Override public
+    RenderbufferType<RenderableColorKind>
     renderbufferAllocateRGBA5551(
       final int width,
       final int height)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+      throws JCGLExceptionRuntime
   {
-    return JOGLRenderbuffer.unsafeBrandColor(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.contextGetGLES2(),
-        this.state,
-        this.log,
-        RenderbufferFormat.RENDERBUFFER_COLOR_RGBA_5551,
-        width,
-        height));
+    return this.renderbuffers.renderbufferAllocateRGBA5551(width, height);
   }
 
-  @Override public @Nonnull
-    JOGLRenderbuffer<RenderableStencil>
+  @Override public
+    RenderbufferType<RenderableStencilKind>
     renderbufferAllocateStencil8(
       final int width,
       final int height)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+      throws JCGLExceptionRuntime
   {
-    return JOGLRenderbuffer.unsafeBrandStencil(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.contextGetGLES2(),
-        this.state,
-        this.log,
-        RenderbufferFormat.RENDERBUFFER_STENCIL_8,
-        width,
-        height));
+    return this.renderbuffers.renderbufferAllocateStencil8(width, height);
   }
 
   @Override public void renderbufferDelete(
-    final @Nonnull JOGLRenderbuffer<?> buffer)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final RenderbufferType<?> buffer)
+    throws JCGLException
   {
-    JOGL_GL_Functions.renderbufferDelete(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      buffer);
+    this.renderbuffers.renderbufferDelete(buffer);
   }
 
   @Override public void scissorDisable()
     throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.scissorDisable(this.contextGetGLES2());
+    this.scissor.scissorDisable();
   }
 
   @Override public void scissorEnable(
-    final @Nonnull AreaInclusive area)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final AreaInclusive area)
+    throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.scissorEnable(this.contextGetGLES2(), area);
+    this.scissor.scissorEnable(area);
   }
 
   @Override public boolean scissorIsEnabled()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.scissorIsEnabled(this.contextGetGLES2());
+    return this.scissor.scissorIsEnabled();
   }
 
   @Override public void stencilBufferClear(
-    final int stencil)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final int s)
+    throws JCGLException,
+      JCGLExceptionNoStencilBuffer
   {
-    JOGL_GLES2_Functions.stencilBufferClear(
-      this.contextGetGLES2(),
-      this.state,
-      stencil);
+    this.stencil.stencilBufferClear(s);
   }
 
   @Override public void stencilBufferDisable()
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLException,
+      JCGLExceptionNoStencilBuffer
   {
-    JOGL_GLES2_Functions.stencilBufferDisable(this.contextGetGLES2());
+    this.stencil.stencilBufferDisable();
   }
 
   @Override public void stencilBufferEnable()
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLException,
+      JCGLExceptionNoStencilBuffer
   {
-    JOGL_GLES2_Functions.stencilBufferEnable(
-      this.contextGetGLES2(),
-      this.state);
+    this.stencil.stencilBufferEnable();
   }
 
   @Override public void stencilBufferFunction(
-    final @Nonnull FaceSelection faces,
-    final @Nonnull StencilFunction function,
+    final FaceSelection faces,
+    final StencilFunction function,
     final int reference,
     final int mask)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLException,
+      JCGLExceptionNoStencilBuffer
   {
-    JOGL_GL2ES2_Functions.stencilBufferFunction(
-      this.contextGetGLES2(),
-      faces,
-      function,
-      reference,
-      mask);
+    this.stencil.stencilBufferFunction(faces, function, reference, mask);
   }
 
   @Override public int stencilBufferGetBits()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    return JOGL_GLES2_Functions.stencilBufferGetBits(
-      this.contextGetGLES2(),
-      this.state);
+    return this.stencil.stencilBufferGetBits();
   }
 
   @Override public boolean stencilBufferIsEnabled()
-    throws JCGLExceptionRuntime
+    throws JCGLException,
+      JCGLExceptionNoStencilBuffer
   {
-    return JOGL_GLES2_Functions
-      .stencilBufferIsEnabled(this.contextGetGLES2());
+    return this.stencil.stencilBufferIsEnabled();
   }
 
   @Override public void stencilBufferMask(
-    final @Nonnull FaceSelection faces,
+    final FaceSelection faces,
     final int mask)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLException,
+      JCGLExceptionNoStencilBuffer
   {
-    JOGL_GL2ES2_Functions.stencilBufferMask(
-      this.contextGetGLES2(),
-      faces,
-      mask);
+    this.stencil.stencilBufferMask(faces, mask);
   }
 
   @Override public void stencilBufferOperation(
-    final @Nonnull FaceSelection faces,
-    final @Nonnull StencilOperation stencil_fail,
-    final @Nonnull StencilOperation depth_fail,
-    final @Nonnull StencilOperation pass)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final FaceSelection faces,
+    final StencilOperation stencil_fail,
+    final StencilOperation depth_fail,
+    final StencilOperation pass)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.stencilBufferOperation(
-      this.contextGetGLES2(),
-      faces,
-      stencil_fail,
-      depth_fail,
-      pass);
+    this.stencil
+      .stencilBufferOperation(faces, stencil_fail, depth_fail, pass);
   }
 
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB565(
-    final @Nonnull String name,
+  @Override public Texture2DStaticType texture2DStaticAllocateRGB565(
+    final String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES2_Functions.texture2DStaticAllocate(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
+    return this.textures2d.texture2DStaticAllocateRGB565(
       name,
       width,
       height,
-      TextureFormat.TEXTURE_FORMAT_RGB_565_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA4444(
-    final @Nonnull String name,
+  @Override public Texture2DStaticType texture2DStaticAllocateRGBA4444(
+    final String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES2_Functions.texture2DStaticAllocate(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
+    return this.textures2d.texture2DStaticAllocateRGBA4444(
       name,
       width,
       height,
-      TextureFormat.TEXTURE_FORMAT_RGBA_4444_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA5551(
-    final @Nonnull String name,
+  @Override public Texture2DStaticType texture2DStaticAllocateRGBA5551(
+    final String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES2_Functions.texture2DStaticAllocate(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
+    return this.textures2d.texture2DStaticAllocateRGBA5551(
       name,
       width,
       height,
-      TextureFormat.TEXTURE_FORMAT_RGBA_5551_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
@@ -1430,78 +1207,55 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void texture2DStaticBind(
-    final @Nonnull TextureUnitType unit,
-    final @Nonnull Texture2DStaticUsableType texture)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureUnitType unit,
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
   {
-    JOGL_GL_Functions.texture2DStaticBind(
-      this.contextGetGLES2(),
-      unit,
-      texture);
+    this.textures2d.texture2DStaticBind(unit, texture);
   }
 
   @Override public void texture2DStaticDelete(
-    final @Nonnull JOGLTexture2DStatic texture)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final Texture2DStaticType texture)
+    throws JCGLException
   {
-    JOGL_GL_Functions.texture2DStaticDelete(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      texture);
+    this.textures2d.texture2DStaticDelete(texture);
   }
 
   @Override public boolean texture2DStaticIsBound(
-    final @Nonnull TextureUnitType unit,
-    final @Nonnull Texture2DStaticUsableType texture)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureUnitType unit,
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
   {
-    return JOGL_GL_Functions.texture2DStaticIsBound(
-      this.contextGetGLES2(),
-      this.state,
-      unit,
-      texture);
+    return this.textures2d.texture2DStaticIsBound(unit, texture);
   }
 
   @Override public void texture2DStaticUnbind(
-    final @Nonnull TextureUnitType unit)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureUnitType unit)
+    throws JCGLException
   {
-    JOGL_GL_Functions.texture2DStaticUnbind(this.contextGetGLES2(), unit);
+    this.textures2d.texture2DStaticUnbind(unit);
   }
 
   @Override public void texture2DStaticUpdate(
-    final @Nonnull Texture2DStaticUpdate data)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final Texture2DStaticUpdateType data)
+    throws JCGLException
   {
-    JOGL_GLES2_Functions.texture2DStaticUpdate(this.contextGetGLES2(), data);
+    this.textures2d.texture2DStaticUpdate(data);
   }
 
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGB565(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGB565(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES2_Functions.textureCubeStaticAllocate(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateRGB565(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_RGB_565_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -1509,26 +1263,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGBA4444(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGBA4444(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES2_Functions.textureCubeStaticAllocate(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateRGBA4444(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_RGBA_4444_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -1536,26 +1283,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGBA5551(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGBA5551(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES2_Functions.textureCubeStaticAllocate(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateRGBA5551(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_RGBA_5551_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -1564,118 +1304,90 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void textureCubeStaticBind(
-    final @Nonnull TextureUnitType unit,
-    final @Nonnull TextureCubeStaticUsableType texture)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureUnitType unit,
+    final TextureCubeStaticUsableType texture)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionWrongContext,
+      JCGLExceptionDeleted
   {
-    JOGL_GL_Functions.textureCubeStaticBind(
-      this.contextGetGLES2(),
-      unit,
-      texture);
+    this.textures_cube.textureCubeStaticBind(unit, texture);
   }
 
   @Override public void textureCubeStaticDelete(
-    final @Nonnull JOGLTextureCubeStatic texture)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureCubeStaticType texture)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionWrongContext,
+      JCGLExceptionDeleted
   {
-    JOGL_GL_Functions.textureCubeStaticDelete(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      texture);
+    this.textures_cube.textureCubeStaticDelete(texture);
   }
 
   @Override public boolean textureCubeStaticIsBound(
-    final @Nonnull TextureUnitType unit,
-    final @Nonnull TextureCubeStaticUsableType texture)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureUnitType unit,
+    final TextureCubeStaticUsableType texture)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionWrongContext,
+      JCGLExceptionDeleted
   {
-    return JOGL_GL_Functions.textureCubeStaticIsBound(
-      this.contextGetGLES2(),
-      this.state,
-      unit,
-      texture);
+    return this.textures_cube.textureCubeStaticIsBound(unit, texture);
   }
 
   @Override public void textureCubeStaticUnbind(
-    final @Nonnull TextureUnitType unit)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureUnitType unit)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionWrongContext
   {
-    JOGL_GL_Functions.textureCubeStaticUnbind(this.contextGetGLES2(), unit);
+    this.textures_cube.textureCubeStaticUnbind(unit);
   }
 
   @Override public void textureCubeStaticUpdateLH(
-    final @Nonnull CubeMapFaceLH face,
-    final @Nonnull TextureCubeWritableData data)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final CubeMapFaceLH face,
+    final TextureCubeStaticUpdateType data)
+    throws JCGLException
   {
-    JOGL_GLES2_Functions.textureCubeStaticUpdate(
-      this.contextGetGLES2(),
-      face,
-      data);
+    this.textures_cube.textureCubeStaticUpdateLH(face, data);
   }
 
   @Override public void textureCubeStaticUpdateRH(
-    final @Nonnull CubeMapFaceRH face,
-    final @Nonnull TextureCubeWritableData data)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final CubeMapFaceRH face,
+    final TextureCubeStaticUpdateType data)
+    throws JCGLException
   {
-    Constraints.constrainNotNull(face, "Face");
-    this.textureCubeStaticUpdateLH(CubeMapFaceLH.fromRH(face), data);
+    this.textures_cube.textureCubeStaticUpdateRH(face, data);
   }
 
   @Override public int textureGetMaximumSize()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.textureGetMaximumSize(
-      this.contextGetGLES2(),
-      this.state);
+    return this.texture_units.textureGetMaximumSize();
   }
 
-  @Override public List<TextureUnit> textureGetUnits()
+  @Override public List<TextureUnitType> textureGetUnits()
     throws JCGLExceptionRuntime
   {
-    return Collections.unmodifiableList(this.state.texture_units);
+    return this.texture_units.textureGetUnits();
   }
 
-  @Override public VertexShader vertexShaderCompile(
-    final @Nonnull String name,
-    final @Nonnull List<String> lines)
-    throws ConstraintError,
-      JCGLExceptionCompileError,
-      JCGLExceptionRuntime
+  @Override public VertexShaderType vertexShaderCompile(
+    final String name,
+    final List<String> lines)
+    throws JCGLExceptionProgramCompileError,
+      JCGLException
   {
-    return JOGL_GL2ES2_Functions.vertexShaderCompile(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      name,
-      lines);
+    return this.program.vertexShaderCompile(name, lines);
   }
 
   @Override public void vertexShaderDelete(
-    final @Nonnull VertexShader id)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final VertexShaderType id)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.vertexShaderDelete(
-      this.contextGetGLES2(),
-      this.state,
-      this.log,
-      id);
+    this.program.vertexShaderDelete(id);
   }
 
   @Override public void viewportSet(
-    final @Nonnull AreaInclusive area)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final AreaInclusive area)
+    throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.viewportSet(this.contextGetGLES2(), area);
+    this.viewport.viewportSet(area);
   }
 }

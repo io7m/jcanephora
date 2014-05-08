@@ -44,7 +44,7 @@ public interface ArrayBufferUpdateType
    * 
    * @param attribute_name
    *          The name of the attribute.
-   * @throws JCGLExceptionMissingAttribute
+   * @throws JCGLExceptionAttributeMissing
    *           If the given attribute does not exist.
    * @throws JCGLExceptionTypeError
    *           If the attribute does not have the correct type for the cursor.
@@ -52,7 +52,7 @@ public interface ArrayBufferUpdateType
 
   CursorWritable2fType getCursor2f(
     String attribute_name)
-    throws JCGLExceptionMissingAttribute,
+    throws JCGLExceptionAttributeMissing,
       JCGLExceptionTypeError;
 
   /**
@@ -65,7 +65,7 @@ public interface ArrayBufferUpdateType
    * 
    * @param attribute_name
    *          The name of the attribute.
-   * @throws JCGLExceptionMissingAttribute
+   * @throws JCGLExceptionAttributeMissing
    *           If the given attribute does not exist.
    * @throws JCGLExceptionTypeError
    *           If the attribute does not have the correct type for the cursor.
@@ -73,7 +73,7 @@ public interface ArrayBufferUpdateType
 
   CursorWritable3fType getCursor3f(
     String attribute_name)
-    throws JCGLExceptionMissingAttribute,
+    throws JCGLExceptionAttributeMissing,
       JCGLExceptionTypeError;
 
   /**
@@ -86,7 +86,7 @@ public interface ArrayBufferUpdateType
    * 
    * @param attribute_name
    *          The name of the attribute.
-   * @throws JCGLExceptionMissingAttribute
+   * @throws JCGLExceptionAttributeMissing
    *           If the given attribute does not exist.
    * @throws JCGLExceptionTypeError
    *           If the attribute does not have the correct type for the cursor.
@@ -94,6 +94,6 @@ public interface ArrayBufferUpdateType
 
   CursorWritable4fType getCursor4f(
     String attribute_name)
-    throws JCGLExceptionMissingAttribute,
+    throws JCGLExceptionAttributeMissing,
       JCGLExceptionTypeError;
 }

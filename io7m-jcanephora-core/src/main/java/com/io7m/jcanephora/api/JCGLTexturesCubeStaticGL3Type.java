@@ -18,12 +18,12 @@ package com.io7m.jcanephora.api;
 
 import com.io7m.jcanephora.CubeMapFaceLH;
 import com.io7m.jcanephora.CubeMapFaceRH;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.TextureCubeStaticReadableType;
 import com.io7m.jcanephora.TextureCubeStaticType;
 import com.io7m.jcanephora.TextureCubeStaticUsableType;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
-import com.io7m.jcanephora.TextureReadableDataType;
 import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
@@ -90,7 +90,7 @@ public interface JCGLTexturesCubeStaticGL3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -102,7 +102,7 @@ public interface JCGLTexturesCubeStaticGL3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -156,7 +156,7 @@ public interface JCGLTexturesCubeStaticGL3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -168,7 +168,7 @@ public interface JCGLTexturesCubeStaticGL3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -222,7 +222,7 @@ public interface JCGLTexturesCubeStaticGL3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -234,7 +234,7 @@ public interface JCGLTexturesCubeStaticGL3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -289,7 +289,7 @@ public interface JCGLTexturesCubeStaticGL3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -301,7 +301,7 @@ public interface JCGLTexturesCubeStaticGL3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -355,7 +355,7 @@ public interface JCGLTexturesCubeStaticGL3Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -367,7 +367,7 @@ public interface JCGLTexturesCubeStaticGL3Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * @return The texture image data associated with the face <code>face</code>
@@ -377,14 +377,14 @@ public interface JCGLTexturesCubeStaticGL3Type extends
    *          The texture.
    * @param face
    *          The cube map face, assuming a left-handed coordinate system.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
-  TextureReadableDataType textureCubeStaticGetImageLH(
+  TextureCubeStaticReadableType textureCubeStaticGetImageLH(
     final TextureCubeStaticUsableType texture,
     final CubeMapFaceLH face)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * @return the texture image data associated with the face <code>face</code>
@@ -394,12 +394,12 @@ public interface JCGLTexturesCubeStaticGL3Type extends
    *          The texture.
    * @param face
    *          The cube map face, assuming a right-handed coordinate system.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
-  TextureReadableDataType textureCubeStaticGetImageRH(
+  TextureCubeStaticReadableType textureCubeStaticGetImageRH(
     final TextureCubeStaticUsableType texture,
     final CubeMapFaceRH face)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 }

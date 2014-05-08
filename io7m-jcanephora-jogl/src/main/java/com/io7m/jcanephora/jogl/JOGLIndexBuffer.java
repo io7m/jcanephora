@@ -20,6 +20,7 @@ import javax.media.opengl.GLContext;
 
 import com.io7m.jcanephora.IndexBufferType;
 import com.io7m.jcanephora.JCGLUnsignedType;
+import com.io7m.jcanephora.UsageHint;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jranges.RangeInclusiveL;
 
@@ -28,16 +29,19 @@ final class JOGLIndexBuffer extends JOGLObjectShared implements
 {
   private final RangeInclusiveL  range;
   private final JCGLUnsignedType type;
+  private final UsageHint        usage;
 
   JOGLIndexBuffer(
     final GLContext in_context,
     final int in_name,
     final RangeInclusiveL in_range,
-    final JCGLUnsignedType in_type)
+    final JCGLUnsignedType in_type,
+    final UsageHint in_usage)
   {
     super(in_context, in_name);
     this.range = NullCheck.notNull(in_range, "Range");
     this.type = NullCheck.notNull(in_type, "GL type");
+    this.usage = NullCheck.notNull(in_usage, "Usage hint");
   }
 
   @Override public long bufferGetElementSizeBytes()
@@ -55,6 +59,11 @@ final class JOGLIndexBuffer extends JOGLObjectShared implements
     return this.type;
   }
 
+  @Override public UsageHint indexGetUsageHint()
+  {
+    return this.usage;
+  }
+
   @Override public long resourceGetSizeBytes()
   {
     return this.bufferGetElementSizeBytes() * this.range.getInterval();
@@ -65,10 +74,6 @@ final class JOGLIndexBuffer extends JOGLObjectShared implements
     final StringBuilder builder = new StringBuilder();
     builder.append("[JOGLIndexBuffer ");
     builder.append(super.getGLName());
-    builder.append(" ");
-    builder.append(this.range);
-    builder.append(" ");
-    builder.append(this.bufferGetElementSizeBytes());
     builder.append("]");
 
     final String r = builder.toString();

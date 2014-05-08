@@ -17,7 +17,8 @@
 package com.io7m.jcanephora.api;
 
 import com.io7m.jcanephora.FaceSelection;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLExceptionNoStencilBuffer;
 import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
 
@@ -32,33 +33,42 @@ public interface JCGLStencilBufferType
    * 
    * @param stencil
    *          The stencil value.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
+   * @throws JCGLExceptionNoStencilBuffer
+   *           If no stencil buffer is available.
    */
 
   void stencilBufferClear(
     final int stencil)
-    throws JCGLExceptionRuntime;
+    throws JCGLException,
+      JCGLExceptionNoStencilBuffer;
 
   /**
    * Disable the stencil test.
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
+   * @throws JCGLExceptionNoStencilBuffer
+   *           If no stencil buffer is available.
    */
 
   void stencilBufferDisable()
-    throws JCGLExceptionRuntime;
+    throws JCGLException,
+      JCGLExceptionNoStencilBuffer;
 
   /**
    * Enable the stencil test.
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
+   * @throws JCGLExceptionNoStencilBuffer
+   *           If no stencil buffer is available.
    */
 
   void stencilBufferEnable()
-    throws JCGLExceptionRuntime;
+    throws JCGLException,
+      JCGLExceptionNoStencilBuffer;
 
   /**
    * Set the stencil function and reference value for the faces given by
@@ -75,8 +85,10 @@ public interface JCGLStencilBufferType
    * @param mask
    *          The value to AND with the reference and stored stencil values.
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
+   * @throws JCGLExceptionNoStencilBuffer
+   *           If no stencil buffer is available.
    */
 
   void stencilBufferFunction(
@@ -84,27 +96,31 @@ public interface JCGLStencilBufferType
     final StencilFunction function,
     final int reference,
     final int mask)
-    throws JCGLExceptionRuntime;
+    throws JCGLException,
+      JCGLExceptionNoStencilBuffer;
 
   /**
    * @return The number of bits available in the stencil buffer for the
    *         current framebuffer configuration.
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   int stencilBufferGetBits()
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * @return <code>true</code> iff stencil testing is enabled.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
+   * @throws JCGLExceptionNoStencilBuffer
+   *           If no stencil buffer is available.
    */
 
   boolean stencilBufferIsEnabled()
-    throws JCGLExceptionRuntime;
+    throws JCGLException,
+      JCGLExceptionNoStencilBuffer;
 
   /**
    * Control the writing of bits in the stencil buffer for the faces given by
@@ -119,14 +135,17 @@ public interface JCGLStencilBufferType
    * @param faces
    *          The face selection.
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
+   * @throws JCGLExceptionNoStencilBuffer
+   *           If no stencil buffer is available.
    */
 
   void stencilBufferMask(
     final FaceSelection faces,
     final int mask)
-    throws JCGLExceptionRuntime;
+    throws JCGLException,
+      JCGLExceptionNoStencilBuffer;
 
   /**
    * Configure the operations to be performed on the stencil buffer for the
@@ -143,7 +162,7 @@ public interface JCGLStencilBufferType
    *          The operation to perform when the stencil and depth test (if
    *          any) passes.
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an internal OpenGL error occurs.
    */
 
@@ -152,5 +171,5 @@ public interface JCGLStencilBufferType
     final StencilOperation stencil_fail,
     final StencilOperation depth_fail,
     final StencilOperation pass)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 }
