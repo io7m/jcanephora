@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora;
 
+import java.nio.ByteBuffer;
+
 /**
  * The interface supported by static 2D textures that have writable data that
  * can be modified with cursors.
@@ -23,5 +25,21 @@ package com.io7m.jcanephora;
 
 public interface Texture2DStaticUpdateType extends TextureUpdateType
 {
-  // No extra functions.
+  /**
+   * @return The area of the texture that will be updated.
+   */
+
+  AreaInclusive getTargetArea();
+
+  /**
+   * @return The replacement texture data.
+   */
+
+  ByteBuffer getTargetData();
+
+  /**
+   * @return The texture that will be updated.
+   */
+
+  Texture2DStaticType getTexture();
 }

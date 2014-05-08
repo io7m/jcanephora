@@ -31,8 +31,8 @@ import com.io7m.jnull.Nullable;
 final class JOGLRenderbuffer<K extends RenderbufferKind> extends
   JOGLObjectShared implements RenderbufferType<K>
 {
-  private final int                height;
   private final RenderbufferFormat format;
+  private final int                height;
   private final int                width;
 
   JOGLRenderbuffer(
@@ -64,9 +64,12 @@ final class JOGLRenderbuffer<K extends RenderbufferKind> extends
     return super.getGLName() == other.getGLName();
   }
 
-  @Override public int renderbufferGetHeight()
+  @Override public int hashCode()
   {
-    return this.height;
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + super.getGLName();
+    return result;
   }
 
   @Override public RenderbufferFormat renderbufferGetFormat()
@@ -74,17 +77,14 @@ final class JOGLRenderbuffer<K extends RenderbufferKind> extends
     return this.format;
   }
 
+  @Override public int renderbufferGetHeight()
+  {
+    return this.height;
+  }
+
   @Override public int renderbufferGetWidth()
   {
     return this.width;
-  }
-
-  @Override public int hashCode()
-  {
-    final int prime = 31;
-    int result = 1;
-    result = (prime * result) + super.getGLName();
-    return result;
   }
 
   @Override public long resourceGetSizeBytes()

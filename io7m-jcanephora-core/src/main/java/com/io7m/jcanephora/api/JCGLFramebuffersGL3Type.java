@@ -19,10 +19,10 @@ package com.io7m.jcanephora.api;
 import java.util.Map;
 
 import com.io7m.jcanephora.CubeMapFaceLH;
-import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
-import com.io7m.jcanephora.FramebufferDrawBuffer;
+import com.io7m.jcanephora.FramebufferColorAttachmentPointType;
+import com.io7m.jcanephora.FramebufferDrawBufferType;
 import com.io7m.jcanephora.FramebufferType;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.RenderableColorKind;
 import com.io7m.jcanephora.RenderableDepthStencilKind;
 import com.io7m.jcanephora.RenderbufferUsableType;
@@ -56,15 +56,15 @@ public interface JCGLFramebuffersGL3Type extends
    *          The renderbuffer.
    * @see com.io7m.jcanephora.RenderbufferFormat#isColorRenderable()
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawAttachColorRenderbufferAt(
     final FramebufferType framebuffer,
-    final FramebufferColorAttachmentPoint point,
+    final FramebufferColorAttachmentPointType point,
     final RenderbufferUsableType<RenderableColorKind> renderbuffer)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -85,15 +85,15 @@ public interface JCGLFramebuffersGL3Type extends
    * @see com.io7m.jcanephora.TextureTypeMeta#isColorRenderable2D(com.io7m.jcanephora.TextureType,
    *      com.io7m.jcanephora.JCGLVersion, JCGLNamedExtensions)
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawAttachColorTexture2DAt(
     final FramebufferType framebuffer,
-    final FramebufferColorAttachmentPoint point,
+    final FramebufferColorAttachmentPointType point,
     final Texture2DStaticUsableType texture)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -117,16 +117,16 @@ public interface JCGLFramebuffersGL3Type extends
    * @see com.io7m.jcanephora.TextureTypeMeta#isColorRenderable2D(com.io7m.jcanephora.TextureType,
    *      com.io7m.jcanephora.JCGLVersion, JCGLNamedExtensions)
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawAttachColorTextureCubeAt(
     final FramebufferType framebuffer,
-    final FramebufferColorAttachmentPoint point,
+    final FramebufferColorAttachmentPointType point,
     final TextureCubeStaticUsableType texture,
     final CubeMapFaceLH face)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -145,14 +145,14 @@ public interface JCGLFramebuffersGL3Type extends
    * @see com.io7m.jcanephora.RenderbufferFormat#isStencilRenderable()
    * 
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawAttachDepthStencilRenderbuffer(
     final FramebufferType framebuffer,
     final RenderbufferUsableType<RenderableDepthStencilKind> renderbuffer)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * <p>
@@ -165,13 +165,13 @@ public interface JCGLFramebuffersGL3Type extends
    *          The framebuffer.
    * @param mappings
    *          The attachment point mappings.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
     void
     framebufferDrawSetBuffers(
       final FramebufferType framebuffer,
-      final Map<FramebufferDrawBuffer, FramebufferColorAttachmentPoint> mappings)
-      throws JCGLExceptionRuntime;
+      final Map<FramebufferDrawBufferType, FramebufferColorAttachmentPointType> mappings)
+      throws JCGLException;
 }

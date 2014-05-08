@@ -37,15 +37,15 @@ public interface ProgramUsableType extends
   Map<String, ProgramAttributeType> programGetAttributes();
 
   /**
+   * @return The name of the program.
+   */
+
+  String programGetName();
+
+  /**
    * @return A read-only view of the set of available uniform inputs for the
    *         current program.
    */
 
   Map<String, ProgramUniformType> programGetUniforms();
-
-  /**
-   * @return The name of the program.
-   */
-
-  String programGetName();
 }

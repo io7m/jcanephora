@@ -16,7 +16,6 @@
 
 package com.io7m.jcanephora;
 
-
 /**
  * Typed, writable cursor addressing elements of type Vector2F.
  */
@@ -27,8 +26,10 @@ public interface CursorWritable2fType extends CursorType
    * Put the values <code>x, y</code> at the current cursor location and seek
    * the cursor to the next element iff there is one.
    * 
-   * @param x The <code>x</code> value
-   * @param y The <code>y</code> value
+   * @param x
+   *          The <code>x</code> value
+   * @param y
+   *          The <code>y</code> value
    */
 
   void put2f(

@@ -53,13 +53,17 @@ import com.io7m.jranges.RangeCheck;
 
     @Override public void addAttribute(
       final ArrayAttributeDescriptor a)
+      throws JCGLExceptionAttributeDuplicate
     {
       NullCheck.notNull(a, "Attribute");
 
       if (this.descriptors.containsKey(a.getName())) {
-        throw new IllegalStateException(String.format(
-          "An attribute already exists with name %s",
-          a.getName()));
+        final String s =
+          String.format(
+            "An attribute already exists with name %s",
+            a.getName());
+        assert s != null;
+        throw new JCGLExceptionAttributeDuplicate(s);
       }
 
       this.descriptors.put(a.getName(), a);
@@ -113,6 +117,7 @@ import com.io7m.jranges.RangeCheck;
 
       final String name = a.getName();
       assert this.indices.containsKey(name) == false;
+      this.indices.put(name, Integer.valueOf(index));
 
       this.offsets[index] = bytes;
       final int size = a.getType().getSizeBytes();

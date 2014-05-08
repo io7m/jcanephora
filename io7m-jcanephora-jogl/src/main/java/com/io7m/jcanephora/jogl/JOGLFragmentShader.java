@@ -18,6 +18,7 @@ package com.io7m.jcanephora.jogl;
 
 import javax.media.opengl.GLContext;
 
+import com.io7m.jcanephora.FragmentShaderType;
 import com.io7m.jequality.annotations.EqualityStructural;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
@@ -26,7 +27,8 @@ import com.io7m.jnull.Nullable;
  * An immutable reference to a fragment shader.
  */
 
-@EqualityStructural final class JOGLFragmentShader extends JOGLObjectShared
+@EqualityStructural final class JOGLFragmentShader extends JOGLObjectShared implements
+  FragmentShaderType
 {
   private final String name;
 
@@ -37,24 +39,6 @@ import com.io7m.jnull.Nullable;
   {
     super(in_context, in_id);
     this.name = NullCheck.notNull(in_name, "shader file");
-  }
-
-  /**
-   * @return The name associated with the shader.
-   */
-
-  public String getName()
-  {
-    return this.name;
-  }
-
-  @Override public int hashCode()
-  {
-    final int prime = 31;
-    int result = 1;
-    result = (prime * result) + this.getGLName();
-    result = (prime * result) + this.name.hashCode();
-    return result;
   }
 
   @Override public boolean equals(
@@ -77,6 +61,24 @@ import com.io7m.jnull.Nullable;
       return false;
     }
     return true;
+  }
+
+  /**
+   * @return The name associated with the shader.
+   */
+
+  public String getName()
+  {
+    return this.name;
+  }
+
+  @Override public int hashCode()
+  {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + this.getGLName();
+    result = (prime * result) + this.name.hashCode();
+    return result;
   }
 
   @Override public String toString()

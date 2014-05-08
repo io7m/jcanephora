@@ -26,7 +26,10 @@ public enum TextureFormat
    * 16 bit, depth component, unsigned short components.
    */
 
-  TEXTURE_FORMAT_DEPTH_16_2BPP(PixelFormat.PIXEL_COMPONENT_UNSIGNED_SHORT, 1, 2),
+  TEXTURE_FORMAT_DEPTH_16_2BPP(
+    PixelFormat.PIXEL_COMPONENT_UNSIGNED_SHORT,
+    1,
+    2),
 
   /**
    * 24 bit, depth component, unsigned integer components.
@@ -193,7 +196,10 @@ public enum TextureFormat
    * 16 bit, red/green/blue channels, unsigned integer components.
    */
 
-  TEXTURE_FORMAT_RGB_16U_6BPP(PixelFormat.PIXEL_COMPONENT_UNSIGNED_SHORT, 3, 6),
+  TEXTURE_FORMAT_RGB_16U_6BPP(
+    PixelFormat.PIXEL_COMPONENT_UNSIGNED_SHORT,
+    3,
+    6),
 
   /**
    * 32 bit, red/green/blue channels, floating point components.
@@ -211,13 +217,19 @@ public enum TextureFormat
    * 32 bit, red/green/blue channels, unsigned integer components.
    */
 
-  TEXTURE_FORMAT_RGB_32U_12BPP(PixelFormat.PIXEL_COMPONENT_UNSIGNED_INT, 3, 12),
+  TEXTURE_FORMAT_RGB_32U_12BPP(
+    PixelFormat.PIXEL_COMPONENT_UNSIGNED_INT,
+    3,
+    12),
 
   /**
    * 16 bit, red5/green6/blue5 channels, packed components.
    */
 
-  TEXTURE_FORMAT_RGB_565_2BPP(PixelFormat.PIXEL_PACKED_UNSIGNED_SHORT_565, 3, 2),
+  TEXTURE_FORMAT_RGB_565_2BPP(
+    PixelFormat.PIXEL_PACKED_UNSIGNED_SHORT_565,
+    3,
+    2),
 
   /**
    * 8 bit, red/green/blue channels, unsigned normalized fixed-point
@@ -252,7 +264,10 @@ public enum TextureFormat
    * components.
    */
 
-  TEXTURE_FORMAT_RGBA_16_8BPP(PixelFormat.PIXEL_COMPONENT_UNSIGNED_SHORT, 4, 8),
+  TEXTURE_FORMAT_RGBA_16_8BPP(
+    PixelFormat.PIXEL_COMPONENT_UNSIGNED_SHORT,
+    4,
+    8),
 
   /**
    * 16 bit, red/green/blue/alpha channels, half-precision floating point
@@ -271,7 +286,10 @@ public enum TextureFormat
    * 16 bit, red/green/blue/alpha channels, unsigned integer components.
    */
 
-  TEXTURE_FORMAT_RGBA_16U_8BPP(PixelFormat.PIXEL_COMPONENT_UNSIGNED_SHORT, 4, 8),
+  TEXTURE_FORMAT_RGBA_16U_8BPP(
+    PixelFormat.PIXEL_COMPONENT_UNSIGNED_SHORT,
+    4,
+    8),
 
   /**
    * 32 bit, red/green/blue/alpha channels, floating point components.
@@ -289,7 +307,10 @@ public enum TextureFormat
    * 32 bit, red/green/blue/alpha channels, unsigned integer components.
    */
 
-  TEXTURE_FORMAT_RGBA_32U_16BPP(PixelFormat.PIXEL_COMPONENT_UNSIGNED_INT, 4, 16),
+  TEXTURE_FORMAT_RGBA_32U_16BPP(
+    PixelFormat.PIXEL_COMPONENT_UNSIGNED_INT,
+    4,
+    16),
 
   /**
    * 16 bit, red4/green4/blue4/alpha4 channels, packed components.

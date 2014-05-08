@@ -18,8 +18,10 @@ package com.io7m.jcanephora.api;
 
 import com.io7m.jcanephora.ArrayBufferUsableType;
 import com.io7m.jcanephora.IndexBufferType;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.IndexBufferUpdateUnmappedType;
+import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLUnsignedType;
+import com.io7m.jcanephora.UsageHint;
 
 /**
  * Simplified interface to index/element buffers.
@@ -38,15 +40,18 @@ public interface JCGLIndexBuffersType
    *          array buffer.
    * @param indices
    *          The number of indices.
+   * @param usage
+   *          The hint as to how the buffer will be used.
    * @return A reference to the allocated buffer.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   IndexBufferType indexBufferAllocate(
     final ArrayBufferUsableType buffer,
-    final int indices)
-    throws JCGLExceptionRuntime;
+    final int indices,
+    final UsageHint usage)
+    throws JCGLException;
 
   /**
    * Allocate a buffer of <code>indices</code> indices of type
@@ -56,26 +61,44 @@ public interface JCGLIndexBuffersType
    *          The number of indices.
    * @param type
    *          The type of indices.
+   * @param usage
+   *          The hint as to how the buffer will be used.
    * @return A reference to the allocated buffer.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   IndexBufferType indexBufferAllocateType(
     final JCGLUnsignedType type,
-    final int indices)
-    throws JCGLExceptionRuntime;
+    final int indices,
+    final UsageHint usage)
+    throws JCGLException;
 
   /**
    * Deletes the index buffer referenced by <code>id</code>.
    * 
    * @param id
    *          The index buffer.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void indexBufferDelete(
     final IndexBufferType id)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
+
+  /**
+   * Replace the contents (or part of the contents) of the index buffer
+   * associated with <code>data</code>.
+   * 
+   * @param data
+   *          The data to upload.
+   * 
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  void indexBufferUpdate(
+    final IndexBufferUpdateUnmappedType data)
+    throws JCGLException;
 }

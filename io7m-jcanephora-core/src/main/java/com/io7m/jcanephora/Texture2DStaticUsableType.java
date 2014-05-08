@@ -35,6 +35,12 @@ public interface Texture2DStaticUsableType extends
   AreaInclusive textureGetArea();
 
   /**
+   * @return The format of the texture.
+   */
+
+  TextureFormat textureGetFormat();
+
+  /**
    * @return The height in pixels of the texture.
    */
 
@@ -69,12 +75,6 @@ public interface Texture2DStaticUsableType extends
    */
 
   RangeInclusiveL textureGetRangeY();
-
-  /**
-   * @return The format of the texture.
-   */
-
-  TextureFormat textureGetFormat();
 
   /**
    * @return The width in pixels of the texture.

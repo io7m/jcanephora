@@ -21,6 +21,7 @@ import java.nio.ByteOrder;
 
 import com.io7m.jcanephora.cursors.ByteBufferCursorWritableIndex;
 import com.io7m.jnull.NullCheck;
+import com.io7m.jranges.RangeCheck;
 import com.io7m.jranges.RangeCheckException;
 import com.io7m.jranges.RangeInclusiveL;
 
@@ -83,10 +84,11 @@ public final class IndexBufferUpdateUnmapped implements
     this.buffer = NullCheck.notNull(in_buffer, "Array buffer");
     this.range = NullCheck.notNull(in_range, "Range");
 
-    if (in_range.isIncludedIn(in_buffer.bufferGetRange())) {
-      throw new RangeCheckException(
-        "Given range is not included in the buffer's range");
-    }
+    RangeCheck.checkRangeIncludedIn(
+      in_range,
+      "Target range",
+      in_buffer.bufferGetRange(),
+      "Buffer range");
 
     this.target_range = new RangeInclusiveL(0, in_range.getInterval() - 1);
     this.target_data_size =

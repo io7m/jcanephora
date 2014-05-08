@@ -37,7 +37,6 @@ public interface JCGLViewportType
    */
 
   void viewportSet(
-    final  AreaInclusive area)
-    throws
-      JCGLExceptionRuntime;
+    final AreaInclusive area)
+    throws JCGLExceptionRuntime;
 }

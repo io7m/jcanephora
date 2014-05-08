@@ -16,10 +16,17 @@
 
 package com.io7m.jcanephora.jogl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.media.opengl.GLContext;
 
+import com.io7m.jcanephora.ArrayAttributeDescriptor;
+import com.io7m.jcanephora.ArrayAttributeType;
 import com.io7m.jcanephora.ArrayBufferType;
 import com.io7m.jcanephora.ArrayDescriptor;
+import com.io7m.jcanephora.JCGLExceptionAttributeMissing;
+import com.io7m.jcanephora.UsageHint;
 import com.io7m.jequality.annotations.EqualityStructural;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
@@ -28,23 +35,56 @@ import com.io7m.jranges.RangeInclusiveL;
 @EqualityStructural final class JOGLArrayBuffer extends JOGLObjectShared implements
   ArrayBufferType
 {
-  private final RangeInclusiveL range;
-  private final ArrayDescriptor type;
+  private final Map<String, JOGLArrayAttribute> attributes;
+  private final RangeInclusiveL                 range;
+  private final ArrayDescriptor                 type;
+  private final UsageHint                       usage;
 
   JOGLArrayBuffer(
     final GLContext in_context,
     final int in_name,
     final RangeInclusiveL in_range,
-    final ArrayDescriptor in_type)
+    final ArrayDescriptor in_type,
+    final UsageHint in_usage)
   {
     super(in_context, in_name);
     this.range = NullCheck.notNull(in_range, "Range");
     this.type = NullCheck.notNull(in_type, "Type");
+    this.usage = NullCheck.notNull(in_usage, "Usage");
+
+    this.attributes = new HashMap<String, JOGLArrayAttribute>();
+    final Map<String, ArrayAttributeDescriptor> ads =
+      this.type.getAttributes();
+    for (final String name : ads.keySet()) {
+      final ArrayAttributeDescriptor ad = ads.get(name);
+      assert ad != null;
+      this.attributes.put(name, new JOGLArrayAttribute(in_context, this, ad));
+    }
+  }
+
+  @Override public ArrayAttributeType arrayGetAttribute(
+    final String name)
+    throws JCGLExceptionAttributeMissing
+  {
+    NullCheck.notNull(name, "Name");
+
+    if (this.attributes.containsKey(name)) {
+      final JOGLArrayAttribute r = this.attributes.get(name);
+      assert r != null;
+      return r;
+    }
+
+    throw JCGLExceptionAttributeMissing.noSuchAttribute(name);
   }
 
   @Override public ArrayDescriptor arrayGetDescriptor()
   {
     return this.type;
+  }
+
+  @Override public UsageHint arrayGetUsageHint()
+  {
+    return this.usage;
   }
 
   @Override public long bufferGetElementSizeBytes()
@@ -101,9 +141,7 @@ import com.io7m.jranges.RangeInclusiveL;
   {
     final StringBuilder builder = new StringBuilder();
     builder.append("[JOGLArrayBuffer ");
-    builder.append(this.range);
-    builder.append(" ");
-    builder.append(this.type);
+    builder.append(this.getGLName());
     builder.append("]");
     final String r = builder.toString();
     assert r != null;

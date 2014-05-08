@@ -34,10 +34,13 @@ public interface ArrayDescriptorBuilderType
    * 
    * @param a
    *          The attribute
+   * @throws JCGLExceptionAttributeDuplicate
+   *           If an attribute already exists with the given name.
    */
 
   void addAttribute(
-    final ArrayAttributeDescriptor a);
+    final ArrayAttributeDescriptor a)
+    throws JCGLExceptionAttributeDuplicate;
 
   /**
    * @return An array descriptor with the attributes given so far.

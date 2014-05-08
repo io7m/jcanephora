@@ -79,24 +79,48 @@ import com.io7m.junreachable.UnreachableCodeException;
  * </p>
  */
 
-public final class Texture2DStaticUpdate implements TextureUpdateType
+public final class Texture2DStaticUpdate implements Texture2DStaticUpdateType
 {
-  private final AreaInclusive       source_area;
-  private final AreaInclusive       target_area;
-  private final ByteBuffer          target_data;
-  private final Texture2DStaticType texture;
-  private final TextureFormat       type;
+  /**
+   * Construct a buffer of data that will be used to replace the entirety of
+   * the data in <code>texture</code> on the GPU.
+   * 
+   * @return A texture update.
+   * @param in_texture
+   *          The texture.
+   */
+
+  public static Texture2DStaticUpdateType newReplacingAll(
+    final Texture2DStaticType in_texture)
+  {
+    NullCheck.notNull(in_texture, "Texture");
+    return new Texture2DStaticUpdate(in_texture, in_texture.textureGetArea());
+  }
 
   /**
    * Construct a buffer of data that will be used to replace elements in the
    * area <code>area</code> of the data in <code>texture</code> on the GPU.
    * 
+   * @return A texture update.
    * @param in_texture
    *          The texture.
    * @param area
    *          The inclusive area defining the area of the texture that will be
    *          modified.
    */
+
+  public static Texture2DStaticUpdateType newReplacingAll(
+    final Texture2DStaticType in_texture,
+    final AreaInclusive area)
+  {
+    return new Texture2DStaticUpdate(in_texture, area);
+  }
+
+  private final AreaInclusive       source_area;
+  private final AreaInclusive       target_area;
+  private final ByteBuffer          target_data;
+  private final Texture2DStaticType texture;
+  private final TextureFormat       type;
 
   private Texture2DStaticUpdate(
     final Texture2DStaticType in_texture,
@@ -105,7 +129,7 @@ public final class Texture2DStaticUpdate implements TextureUpdateType
     NullCheck.notNull(in_texture, "Texture");
     NullCheck.notNull(area, "Area");
 
-    if (area.isIncludedIn(in_texture.textureGetArea())) {
+    if (area.isIncludedIn(in_texture.textureGetArea()) == false) {
       final String s =
         String.format(
           "Target area %s is not included within the texture's area %s",
@@ -133,6 +157,51 @@ public final class Texture2DStaticUpdate implements TextureUpdateType
       ByteBuffer.allocateDirect((int) (height * width * bpp));
     b.order(ByteOrder.nativeOrder());
     this.target_data = b;
+  }
+
+  private void checkComponents(
+    final int c)
+    throws JCGLExceptionTypeError
+  {
+    if (this.type.getComponentCount() != c) {
+      final StringBuilder m = new StringBuilder();
+      m
+        .append("The required number of texture components for this cursor type is ");
+      m.append(c);
+      m.append(", but this texture has ");
+      m.append(this.type.getComponentCount());
+      final String r = m.toString();
+      assert r != null;
+      throw new JCGLExceptionTypeError(r);
+    }
+  }
+
+  private void checkNotFloatingPoint()
+    throws JCGLExceptionTypeError
+  {
+    if (TextureFormatMeta.isFloatingPoint(this.type) == true) {
+      final StringBuilder m = new StringBuilder();
+      m
+        .append("Integer cursors cannot be used to address textures with components of type ");
+      m.append(this.type);
+      final String r = m.toString();
+      assert r != null;
+      throw new JCGLExceptionTypeError(r);
+    }
+  }
+
+  private void checkNotPackedDepthStencil()
+    throws JCGLExceptionTypeError
+  {
+    if (this.type == TextureFormat.TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP) {
+      final StringBuilder m = new StringBuilder();
+      m
+        .append("Cursors of this type cannot be used to address textures of type ");
+      m.append(this.type);
+      final String r = m.toString();
+      assert r != null;
+      throw new JCGLExceptionTypeError(r);
+    }
   }
 
   @Override public SpatialCursorWritable1dType getCursor1d()
@@ -269,23 +338,6 @@ public final class Texture2DStaticUpdate implements TextureUpdateType
     throw new UnreachableCodeException();
   }
 
-  private void checkComponents(
-    final int c)
-    throws JCGLExceptionTypeError
-  {
-    if (this.type.getComponentCount() != c) {
-      final StringBuilder m = new StringBuilder();
-      m
-        .append("The required number of texture components for this cursor type is ");
-      m.append(c);
-      m.append(", but this texture has ");
-      m.append(this.type.getComponentCount());
-      final String r = m.toString();
-      assert r != null;
-      throw new JCGLExceptionTypeError(r);
-    }
-  }
-
   @Override public SpatialCursorWritable1iType getCursor1i()
     throws JCGLExceptionTypeError
   {
@@ -401,20 +453,6 @@ public final class Texture2DStaticUpdate implements TextureUpdateType
     }
 
     throw new UnreachableCodeException();
-  }
-
-  private void checkNotFloatingPoint()
-    throws JCGLExceptionTypeError
-  {
-    if (TextureFormatMeta.isFloatingPoint(this.type) == true) {
-      final StringBuilder m = new StringBuilder();
-      m
-        .append("Integer cursors cannot be used to address textures with components of type ");
-      m.append(this.type);
-      final String r = m.toString();
-      assert r != null;
-      throw new JCGLExceptionTypeError(r);
-    }
   }
 
   @Override public SpatialCursorWritable2dType getCursor2d()
@@ -544,20 +582,6 @@ public final class Texture2DStaticUpdate implements TextureUpdateType
     }
 
     throw new UnreachableCodeException();
-  }
-
-  private void checkNotPackedDepthStencil()
-    throws JCGLExceptionTypeError
-  {
-    if (this.type == TextureFormat.TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP) {
-      final StringBuilder m = new StringBuilder();
-      m
-        .append("Cursors of this type cannot be used to address textures of type ");
-      m.append(this.type);
-      final String r = m.toString();
-      assert r != null;
-      throw new JCGLExceptionTypeError(r);
-    }
   }
 
   @Override public SpatialCursorWritable2iType getCursor2i()
@@ -1198,11 +1222,17 @@ public final class Texture2DStaticUpdate implements TextureUpdateType
     throw new UnreachableCodeException();
   }
 
-  /**
-   * @return The texture that will be affected by this update.
-   */
+  @Override public AreaInclusive getTargetArea()
+  {
+    return this.target_area;
+  }
 
-  Texture2DStaticUsableType getTexture()
+  @Override public ByteBuffer getTargetData()
+  {
+    return this.target_data;
+  }
+
+  @Override public Texture2DStaticType getTexture()
   {
     return this.texture;
   }
@@ -1210,15 +1240,5 @@ public final class Texture2DStaticUpdate implements TextureUpdateType
   @Override public TextureFormat getType()
   {
     return this.type;
-  }
-
-  AreaInclusive targetArea()
-  {
-    return this.target_area;
-  }
-
-  ByteBuffer targetData()
-  {
-    return this.target_data;
   }
 }

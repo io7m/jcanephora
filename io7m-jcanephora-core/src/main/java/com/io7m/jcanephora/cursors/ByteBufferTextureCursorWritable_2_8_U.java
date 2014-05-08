@@ -35,8 +35,6 @@ import com.io7m.jtensors.VectorReadable2LType;
 public final class ByteBufferTextureCursorWritable_2_8_U extends
   ByteBufferAreaCursor implements SpatialCursorWritable2Type
 {
-  private final VectorM2I vector = new VectorM2I();
-
   /**
    * Construct a new cursor.
    * 
@@ -59,6 +57,8 @@ public final class ByteBufferTextureCursorWritable_2_8_U extends
       target_area,
       update_area);
   }
+
+  private final VectorM2I vector = new VectorM2I();
 
   private ByteBufferTextureCursorWritable_2_8_U(
     final ByteBuffer in_target_data,

@@ -30,7 +30,7 @@ public interface CursorType
 
   /**
    * @return <code>true</code> iff the cursor is pointing within the valid
-   * range of elements.
+   *         range of elements.
    */
 
   boolean isValid();

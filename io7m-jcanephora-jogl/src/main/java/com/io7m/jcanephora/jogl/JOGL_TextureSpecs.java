@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,31 +16,29 @@
 
 package com.io7m.jcanephora.jogl;
 
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GL2ES3;
 import javax.media.opengl.GL2GL3;
 
-import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.PixelFormat;
 import com.io7m.jcanephora.TextureFormat;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * Getting the correct combinations of "format", "type", and "internalformat"
  * across different versions of OpenGL is complex. This file describes the
- * mappings between {@link TextureFormat} values and OpenGL's insane texture API
- * formats.
+ * mappings between {@link TextureFormat} values and OpenGL's insane texture
+ * API formats.
  */
 
 final class JOGL_TextureSpecs
 {
-  @Immutable static class TextureSpec
+  static final class TextureSpec
   {
-    final int format;
-    final int internal_format;
-    final int type;
+    private final int format;
+    private final int internal_format;
+    private final int type;
 
     TextureSpec(
       final int format1,
@@ -51,10 +49,25 @@ final class JOGL_TextureSpecs
       this.type = type1;
       this.internal_format = internal_format1;
     }
+
+    public int getFormat()
+    {
+      return this.format;
+    }
+
+    public int getInternalFormat()
+    {
+      return this.internal_format;
+    }
+
+    public int getType()
+    {
+      return this.type;
+    }
   }
 
-  static @Nonnull TextureSpec getGL3TextureSpec(
-    final @Nonnull TextureFormat type)
+  static TextureSpec getGL3TextureSpec(
+    final TextureFormat type)
   {
     PixelFormat ct = type.getComponentType();
     switch (ct) {
@@ -375,8 +388,8 @@ final class JOGL_TextureSpecs
     return new TextureSpec(gl_format, gl_type, gl_internalformat);
   }
 
-  static @Nonnull TextureSpec getGLES2TextureSpec(
-    final @Nonnull TextureFormat type)
+  static TextureSpec getGLES2TextureSpec(
+    final TextureFormat type)
   {
     final int gl_type =
       JOGL_GLTypeConversions.pixelTypeToGL(type.getComponentType());
@@ -480,8 +493,8 @@ final class JOGL_TextureSpecs
     return new TextureSpec(gl_format, gl_type, gl_internalformat);
   }
 
-  static @Nonnull TextureSpec getGLES3TextureSpec(
-    final @Nonnull TextureFormat type)
+  static TextureSpec getGLES3TextureSpec(
+    final TextureFormat type)
   {
     final int gl_type =
       JOGL_GLTypeConversions.pixelTypeToGL(type.getComponentType());
@@ -788,5 +801,10 @@ final class JOGL_TextureSpecs
     assert gl_type != -1;
     assert gl_internalformat != -1;
     return new TextureSpec(gl_format, gl_type, gl_internalformat);
+  }
+
+  private JOGL_TextureSpecs()
+  {
+    throw new UnreachableCodeException();
   }
 }

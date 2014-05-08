@@ -21,7 +21,9 @@ import java.nio.ByteBuffer;
 import com.io7m.jcanephora.ArrayBufferType;
 import com.io7m.jcanephora.ArrayBufferUpdateMappedType;
 import com.io7m.jcanephora.ArrayBufferUsableType;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLExceptionBufferMappedMultiple;
+import com.io7m.jcanephora.JCGLExceptionBufferMappedNot;
 import com.io7m.jranges.RangeInclusiveL;
 
 /**
@@ -30,6 +32,20 @@ import com.io7m.jranges.RangeInclusiveL;
 
 public interface JCGLArrayBuffersMappedType
 {
+  /**
+   * @return <code>true</code> if the given array is mapped.
+   * 
+   * @param id
+   *          The array buffer.
+   * 
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  boolean arrayBufferIsMapped(
+    final ArrayBufferUsableType id)
+    throws JCGLException;
+
   /**
    * <p>
    * Map the buffer referenced by <code>id</code> into the program's address
@@ -44,14 +60,17 @@ public interface JCGLArrayBuffersMappedType
    * 
    * @param id
    *          The buffer.
+   * @throws JCGLExceptionBufferMappedMultiple
+   *           If the array is already mapped.
    * @return A readable byte buffer.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   ByteBuffer arrayBufferMapReadUntyped(
     final ArrayBufferUsableType id)
-    throws JCGLExceptionRuntime;
+    throws JCGLException,
+      JCGLExceptionBufferMappedMultiple;
 
   /**
    * <p>
@@ -70,8 +89,11 @@ public interface JCGLArrayBuffersMappedType
    *          The buffer.
    * @param range
    *          The range (in elements) of elements to map.
+   * 
    * @return A readable byte buffer.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLExceptionBufferMappedMultiple
+   *           If the array is already mapped.
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    * 
    * @see RangeInclusive#isIncludedIn(RangeInclusive)
@@ -80,7 +102,8 @@ public interface JCGLArrayBuffersMappedType
   ByteBuffer arrayBufferMapReadUntypedRange(
     final ArrayBufferUsableType id,
     final RangeInclusiveL range)
-    throws JCGLExceptionRuntime;
+    throws JCGLException,
+      JCGLExceptionBufferMappedMultiple;
 
   /**
    * <p>
@@ -95,13 +118,16 @@ public interface JCGLArrayBuffersMappedType
    * @param id
    *          The buffer.
    * @return A readable byte buffer.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLExceptionBufferMappedMultiple
+   *           If the array is already mapped.
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   ArrayBufferUpdateMappedType arrayBufferMapWrite(
     final ArrayBufferType id)
-    throws JCGLExceptionRuntime;
+    throws JCGLException,
+      JCGLExceptionBufferMappedMultiple;
 
   /**
    * <p>
@@ -111,11 +137,14 @@ public interface JCGLArrayBuffersMappedType
    * @param id
    *          The array buffer.
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLExceptionBufferMappedNot
+   *           If the array is not mapped.
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void arrayBufferUnmap(
     final ArrayBufferUsableType id)
-    throws JCGLExceptionRuntime;
+    throws JCGLException,
+      JCGLExceptionBufferMappedNot;
 }

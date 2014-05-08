@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -18,13 +18,11 @@ package com.io7m.jcanephora.jogl;
 
 import java.util.Set;
 
-import javax.annotation.Nonnull;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GL2ES3;
 import javax.media.opengl.GL2GL3;
 
-import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.BlendEquationGL3;
 import com.io7m.jcanephora.BlendEquationGLES2;
 import com.io7m.jcanephora.BlendFunction;
@@ -51,10 +49,15 @@ import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.UsageHint;
+import com.io7m.junreachable.UnreachableCodeException;
 
-final class JOGL_GLTypeConversions
+/**
+ * Conversions between enumerations and OpenGL contstants.
+ */
+
+public final class JOGL_GLTypeConversions
 {
-  static final @Nonnull BlendEquationGLES2 blendEquationES2FromGL(
+  public static BlendEquationGLES2 blendEquationES2FromGL(
     final int e)
   {
     switch (e) {
@@ -69,8 +72,8 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int blendEquationES2ToGL(
-    final @Nonnull BlendEquationGLES2 e)
+  public static int blendEquationES2ToGL(
+    final BlendEquationGLES2 e)
   {
     switch (e) {
       case BLEND_EQUATION_ADD:
@@ -84,7 +87,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final @Nonnull BlendEquationGL3 blendEquationFromGL(
+  public static BlendEquationGL3 blendEquationFromGL(
     final int e)
   {
     switch (e) {
@@ -103,8 +106,8 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int blendEquationToGL(
-    final @Nonnull BlendEquationGL3 e)
+  public static int blendEquationToGL(
+    final BlendEquationGL3 e)
   {
     switch (e) {
       case BLEND_EQUATION_ADD:
@@ -122,7 +125,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final @Nonnull BlendFunction blendFunctionFromGL(
+  public static BlendFunction blendFunctionFromGL(
     final int type)
   {
     switch (type) {
@@ -161,8 +164,8 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int blendFunctionToGL(
-    final @Nonnull BlendFunction function)
+  public static int blendFunctionToGL(
+    final BlendFunction function)
   {
     switch (function) {
       case BLEND_CONSTANT_ALPHA:
@@ -200,7 +203,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static @Nonnull CubeMapFaceLH cubeFaceFromGL(
+  public static CubeMapFaceLH cubeFaceFromGL(
     final int face)
   {
     switch (face) {
@@ -223,8 +226,8 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static int cubeFaceToGL(
-    final @Nonnull CubeMapFaceLH face)
+  public static int cubeFaceToGL(
+    final CubeMapFaceLH face)
   {
     switch (face) {
       case CUBE_MAP_LH_POSITIVE_X:
@@ -246,7 +249,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final DepthFunction depthFunctionFromGL(
+  public static DepthFunction depthFunctionFromGL(
     final int d)
   {
     switch (d) {
@@ -271,7 +274,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int depthFunctionToGL(
+  public static int depthFunctionToGL(
     final DepthFunction d)
   {
     switch (d) {
@@ -296,7 +299,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final @Nonnull FaceSelection faceSelectionFromGL(
+  public static FaceSelection faceSelectionFromGL(
     final int faces)
   {
     switch (faces) {
@@ -311,8 +314,8 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int faceSelectionToGL(
-    final @Nonnull FaceSelection faces)
+  public static int faceSelectionToGL(
+    final FaceSelection faces)
   {
     switch (faces) {
       case FACE_BACK:
@@ -326,7 +329,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final FaceWindingOrder faceWindingOrderFromGL(
+  public static FaceWindingOrder faceWindingOrderFromGL(
     final int f)
   {
     switch (f) {
@@ -339,7 +342,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int faceWindingOrderToGL(
+  public static int faceWindingOrderToGL(
     final FaceWindingOrder f)
   {
     switch (f) {
@@ -352,7 +355,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static @Nonnull FramebufferBlitBuffer framebufferBlitBufferFromGL(
+  public static FramebufferBlitBuffer framebufferBlitBufferFromGL(
     final int buffer)
   {
     switch (buffer) {
@@ -373,18 +376,19 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static int framebufferBlitBufferSetToMask(
-    final @Nonnull Set<FramebufferBlitBuffer> buffers)
+  public static int framebufferBlitBufferSetToMask(
+    final Set<FramebufferBlitBuffer> buffers)
   {
     int mask = 0;
     for (final FramebufferBlitBuffer b : buffers) {
+      assert b != null;
       mask |= JOGL_GLTypeConversions.framebufferBlitBufferToGL(b);
     }
     return mask;
   }
 
-  static int framebufferBlitBufferToGL(
-    final @Nonnull FramebufferBlitBuffer buffer)
+  public static int framebufferBlitBufferToGL(
+    final FramebufferBlitBuffer buffer)
   {
     switch (buffer) {
       case FRAMEBUFFER_BLIT_BUFFER_COLOR:
@@ -404,7 +408,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static @Nonnull FramebufferBlitFilter framebufferBlitFilterFromGL(
+  public static FramebufferBlitFilter framebufferBlitFilterFromGL(
     final int filter)
   {
     switch (filter) {
@@ -421,8 +425,8 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static int framebufferBlitFilterToGL(
-    final @Nonnull FramebufferBlitFilter filter)
+  public static int framebufferBlitFilterToGL(
+    final FramebufferBlitFilter filter)
   {
     switch (filter) {
       case FRAMEBUFFER_BLIT_FILTER_LINEAR:
@@ -438,7 +442,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static @Nonnull FramebufferStatus framebufferStatusFromGL(
+  public static FramebufferStatus framebufferStatusFromGL(
     final int status)
   {
     switch (status) {
@@ -459,8 +463,8 @@ final class JOGL_GLTypeConversions
     return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_UNKNOWN;
   }
 
-  static int framebufferStatusToGL(
-    final @Nonnull FramebufferStatus status)
+  public static int framebufferStatusToGL(
+    final FramebufferStatus status)
   {
     switch (status) {
       case FRAMEBUFFER_STATUS_COMPLETE:
@@ -482,7 +486,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final LogicOperation logicOpFromGL(
+  public static LogicOperation logicOpFromGL(
     final int op)
   {
     switch (op) {
@@ -523,8 +527,8 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int logicOpToGL(
-    final @Nonnull LogicOperation op)
+  public static int logicOpToGL(
+    final LogicOperation op)
   {
     switch (op) {
       case LOGIC_AND:
@@ -564,7 +568,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final @Nonnull PixelFormat pixelTypeFromGL(
+  public static PixelFormat pixelTypeFromGL(
     final int e)
   {
     switch (e) {
@@ -597,8 +601,8 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int pixelTypeToGL(
-    final @Nonnull PixelFormat p)
+  public static int pixelTypeToGL(
+    final PixelFormat p)
   {
     switch (p) {
       case PIXEL_COMPONENT_BYTE:
@@ -632,7 +636,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final PolygonMode polygonModeFromGL(
+  public static PolygonMode polygonModeFromGL(
     final int g)
   {
     switch (g) {
@@ -647,7 +651,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int polygonModeToGL(
+  public static int polygonModeToGL(
     final PolygonMode g)
   {
     switch (g) {
@@ -662,7 +666,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final @Nonnull Primitives primitiveFromGL(
+  public static Primitives primitiveFromGL(
     final int code)
   {
     switch (code) {
@@ -681,7 +685,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int primitiveToGL(
+  public static int primitiveToGL(
     final Primitives p)
   {
     switch (p) {
@@ -700,7 +704,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static int renderbufferTypeToGL(
+  public static int renderbufferTypeToGL(
     final RenderbufferFormat type)
   {
     switch (type) {
@@ -727,7 +731,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final @Nonnull JCGLScalarType scalarTypeFromGL(
+  public static JCGLScalarType scalarTypeFromGL(
     final int type)
   {
     switch (type) {
@@ -750,8 +754,8 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int scalarTypeToGL(
-    final @Nonnull JCGLScalarType type)
+  public static int scalarTypeToGL(
+    final JCGLScalarType type)
   {
     switch (type) {
       case TYPE_BYTE:
@@ -773,8 +777,8 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static int stencilFunctionToGL(
-    final @Nonnull StencilFunction function)
+  public static int stencilFunctionToGL(
+    final StencilFunction function)
   {
     switch (function) {
       case STENCIL_ALWAYS:
@@ -798,8 +802,8 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static int stencilOperationToGL(
-    final @Nonnull StencilOperation op)
+  public static int stencilOperationToGL(
+    final StencilOperation op)
   {
     switch (op) {
       case STENCIL_OP_DECREMENT:
@@ -823,7 +827,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final @Nonnull TextureFilterMagnification textureFilterMagFromGL(
+  public static TextureFilterMagnification textureFilterMagFromGL(
     final int mag_filter)
   {
     switch (mag_filter) {
@@ -836,8 +840,8 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int textureFilterMagToGL(
-    final @Nonnull TextureFilterMagnification mag_filter)
+  public static int textureFilterMagToGL(
+    final TextureFilterMagnification mag_filter)
   {
     switch (mag_filter) {
       case TEXTURE_FILTER_LINEAR:
@@ -849,7 +853,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final @Nonnull TextureFilterMinification textureFilterMinFromGL(
+  public static TextureFilterMinification textureFilterMinFromGL(
     final int mag_filter)
   {
     switch (mag_filter) {
@@ -862,8 +866,8 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int textureFilterMinToGL(
-    final @Nonnull TextureFilterMinification min_filter)
+  public static int textureFilterMinToGL(
+    final TextureFilterMinification min_filter)
   {
     switch (min_filter) {
       case TEXTURE_FILTER_LINEAR:
@@ -875,7 +879,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final @Nonnull TextureWrapR textureWrapRFromGL(
+  public static TextureWrapR textureWrapRFromGL(
     final int wrap)
   {
     switch (wrap) {
@@ -890,8 +894,8 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int textureWrapRToGL(
-    final @Nonnull TextureWrapR wrap)
+  public static int textureWrapRToGL(
+    final TextureWrapR wrap)
   {
     switch (wrap) {
       case TEXTURE_WRAP_CLAMP_TO_EDGE:
@@ -905,7 +909,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final @Nonnull TextureWrapS textureWrapSFromGL(
+  public static TextureWrapS textureWrapSFromGL(
     final int wrap)
   {
     switch (wrap) {
@@ -920,8 +924,8 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int textureWrapSToGL(
-    final @Nonnull TextureWrapS wrap)
+  public static int textureWrapSToGL(
+    final TextureWrapS wrap)
   {
     switch (wrap) {
       case TEXTURE_WRAP_CLAMP_TO_EDGE:
@@ -935,7 +939,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final @Nonnull TextureWrapT textureWrapTFromGL(
+  public static TextureWrapT textureWrapTFromGL(
     final int wrap)
   {
     switch (wrap) {
@@ -950,8 +954,8 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int textureWrapTToGL(
-    final @Nonnull TextureWrapT wrap)
+  public static int textureWrapTToGL(
+    final TextureWrapT wrap)
   {
     switch (wrap) {
       case TEXTURE_WRAP_CLAMP_TO_EDGE:
@@ -965,7 +969,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final @Nonnull JCGLType typeFromGL(
+  public static JCGLType typeFromGL(
     final int type)
   {
     switch (type) {
@@ -1012,8 +1016,8 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int typeToGL(
-    final @Nonnull JCGLType type)
+  public static int typeToGL(
+    final JCGLType type)
   {
     switch (type) {
       case TYPE_BOOLEAN:
@@ -1059,7 +1063,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final @Nonnull JCGLUnsignedType unsignedTypeFromGL(
+  public static JCGLUnsignedType unsignedTypeFromGL(
     final int type)
   {
     switch (type) {
@@ -1074,8 +1078,8 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int unsignedTypeToGL(
-    final @Nonnull JCGLUnsignedType type)
+  public static int unsignedTypeToGL(
+    final JCGLUnsignedType type)
   {
     switch (type) {
       case TYPE_UNSIGNED_BYTE:
@@ -1089,7 +1093,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int usageHintES2ToGL(
+  public static int usageHintES2ToGL(
     final UsageHint hint)
   {
     switch (hint) {
@@ -1110,7 +1114,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final UsageHint usageHintFromGL(
+  public static UsageHint usageHintFromGL(
     final int hint)
   {
     switch (hint) {
@@ -1137,7 +1141,7 @@ final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  static final int usageHintToGL(
+  public static int usageHintToGL(
     final UsageHint hint)
   {
     switch (hint) {
@@ -1161,6 +1165,11 @@ final class JOGL_GLTypeConversions
         return GL2ES3.GL_STREAM_READ;
     }
 
+    throw new UnreachableCodeException();
+  }
+
+  private JOGL_GLTypeConversions()
+  {
     throw new UnreachableCodeException();
   }
 }

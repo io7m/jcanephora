@@ -16,12 +16,13 @@
 
 package com.io7m.jcanephora.api;
 
+import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.Texture2DStaticReadableType;
 import com.io7m.jcanephora.Texture2DStaticType;
 import com.io7m.jcanephora.Texture2DStaticUsableType;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
-import com.io7m.jcanephora.TextureReadableDataType;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 
@@ -280,11 +281,11 @@ public interface JCGLTextures2DStaticGL3Type extends
    * 
    * @param texture
    *          The texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
-  TextureReadableDataType texture2DStaticGetImage(
+  Texture2DStaticReadableType texture2DStaticGetImage(
     final Texture2DStaticUsableType texture)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 }

@@ -17,7 +17,7 @@
 package com.io7m.jcanephora.api;
 
 import com.io7m.jcanephora.FramebufferType;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.RenderableDepthStencilKind;
 import com.io7m.jcanephora.RenderbufferType;
 import com.io7m.jcanephora.RenderbufferUsableType;
@@ -49,14 +49,14 @@ public interface JCGLExtensionPackedDepthStencilType extends
    * @see com.io7m.jcanephora.RenderbufferFormat#isDepthRenderable()
    * @see com.io7m.jcanephora.RenderbufferFormat#isStencilRenderable()
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
   void framebufferDrawAttachDepthStencilRenderbuffer(
     final FramebufferType framebuffer,
     final RenderbufferUsableType<RenderableDepthStencilKind> renderbuffer)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * Allocate a packed depth/stencil renderbuffer.
@@ -71,7 +71,7 @@ public interface JCGLExtensionPackedDepthStencilType extends
    *          The height.
    * @return A freshly allocated renderbuffer.
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    */
 
@@ -79,5 +79,5 @@ public interface JCGLExtensionPackedDepthStencilType extends
     renderbufferAllocateDepth24Stencil8(
       final int width,
       final int height)
-      throws JCGLExceptionRuntime;
+      throws JCGLException;
 }

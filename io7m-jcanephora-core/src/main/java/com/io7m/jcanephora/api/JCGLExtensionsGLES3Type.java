@@ -25,7 +25,8 @@ public interface JCGLExtensionsGLES3Type
   /**
    * @return <code>true</code> if the implementation supports rendering to
    *         floating point textures, provided by
-   *         {@link JCGLExtensionNames#GL_EXT_COLOR_BUFFER_FLOAT}.
+   *         {@link com.io7m.jcanephora.JCGLExtensionNames#GL_EXT_COLOR_BUFFER_FLOAT}
+   *         .
    */
 
   boolean hasColorBufferFloat();
@@ -33,7 +34,8 @@ public interface JCGLExtensionsGLES3Type
   /**
    * @return <code>true</code> if the implementation supports rendering to
    *         half-precision floating point textures, provided by
-   *         {@link JCGLExtensionNames#GL_EXT_COLOR_BUFFER_FLOAT}.
+   *         {@link com.io7m.jcanephora.JCGLExtensionNames#GL_EXT_COLOR_BUFFER_FLOAT}
+   *         .
    */
 
   boolean hasColorBufferHalfFloat();

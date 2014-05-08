@@ -16,7 +16,6 @@
 
 package com.io7m.jcanephora;
 
-
 /**
  * Writable cursor addressing areas consisting of single-component elements.
  * Values are written exactly as given (but may be truncated if the

@@ -31,7 +31,7 @@ abstract class JOGLObjectDeletable implements JCGLResourceUsableType
     return this.deleted;
   }
 
-  final void resourceSetDeleted()
+  protected final void resourceSetDeleted()
   {
     this.deleted = true;
   }

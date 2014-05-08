@@ -35,8 +35,6 @@ import com.io7m.jtensors.VectorM2L;
 public final class ByteBufferTextureCursorReadable_2_32_UNFP extends
   ByteBufferAreaCursor implements SpatialCursorReadable2Type
 {
-  private final VectorM2L vector = new VectorM2L();
-
   /**
    * Construct a new cursor.
    * 
@@ -59,6 +57,8 @@ public final class ByteBufferTextureCursorReadable_2_32_UNFP extends
       target_area,
       update_area);
   }
+
+  private final VectorM2L vector = new VectorM2L();
 
   private ByteBufferTextureCursorReadable_2_32_UNFP(
     final ByteBuffer in_target_data,

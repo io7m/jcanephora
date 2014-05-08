@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -18,27 +18,22 @@ package com.io7m.jcanephora.jogl;
 
 import java.io.PrintStream;
 import java.nio.ByteBuffer;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.NotThreadSafe;
 import javax.media.opengl.DebugGLES3;
-import javax.media.opengl.GL;
-import javax.media.opengl.GL3ES3;
 import javax.media.opengl.GLContext;
 import javax.media.opengl.GLES3;
 import javax.media.opengl.TraceGLES3;
 
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
-import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.AreaInclusive;
+import com.io7m.jcanephora.ArrayAttributeType;
+import com.io7m.jcanephora.ArrayBufferType;
+import com.io7m.jcanephora.ArrayBufferUpdateMappedType;
 import com.io7m.jcanephora.ArrayBufferUpdateUnmappedType;
+import com.io7m.jcanephora.ArrayBufferUsableType;
+import com.io7m.jcanephora.ArrayDescriptor;
 import com.io7m.jcanephora.BlendEquationGL3;
 import com.io7m.jcanephora.BlendEquationGLES2;
 import com.io7m.jcanephora.BlendFunction;
@@ -47,63 +42,89 @@ import com.io7m.jcanephora.CubeMapFaceRH;
 import com.io7m.jcanephora.DepthFunction;
 import com.io7m.jcanephora.FaceSelection;
 import com.io7m.jcanephora.FaceWindingOrder;
+import com.io7m.jcanephora.FragmentShaderType;
 import com.io7m.jcanephora.FramebufferBlitBuffer;
 import com.io7m.jcanephora.FramebufferBlitFilter;
-import com.io7m.jcanephora.FramebufferColorAttachmentPoint;
-import com.io7m.jcanephora.FramebufferDrawBuffer;
+import com.io7m.jcanephora.FramebufferColorAttachmentPointType;
+import com.io7m.jcanephora.FramebufferDrawBufferType;
 import com.io7m.jcanephora.FramebufferStatus;
-import com.io7m.jcanephora.IndexBuffer;
-import com.io7m.jcanephora.IndexBufferUpdateUnmapped;
-import com.io7m.jcanephora.IndexBufferUpdateMapped;
-import com.io7m.jcanephora.JCGLExceptionCompileError;
-import com.io7m.jcanephora.JCGLExtensionNames;
+import com.io7m.jcanephora.FramebufferType;
+import com.io7m.jcanephora.FramebufferUsableType;
+import com.io7m.jcanephora.IndexBufferReadMappedType;
+import com.io7m.jcanephora.IndexBufferType;
+import com.io7m.jcanephora.IndexBufferUpdateMappedType;
+import com.io7m.jcanephora.IndexBufferUpdateUnmappedType;
+import com.io7m.jcanephora.IndexBufferUsableType;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLExceptionBlendingMisconfigured;
+import com.io7m.jcanephora.JCGLExceptionBufferMappedMultiple;
+import com.io7m.jcanephora.JCGLExceptionBufferMappedNot;
+import com.io7m.jcanephora.JCGLExceptionDeleted;
+import com.io7m.jcanephora.JCGLExceptionNoDepthBuffer;
+import com.io7m.jcanephora.JCGLExceptionNoStencilBuffer;
+import com.io7m.jcanephora.JCGLExceptionProgramCompileError;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.JCGLExceptionWrongContext;
 import com.io7m.jcanephora.JCGLSLVersion;
 import com.io7m.jcanephora.JCGLUnsignedType;
 import com.io7m.jcanephora.JCGLVersion;
 import com.io7m.jcanephora.Primitives;
 import com.io7m.jcanephora.ProgramAttributeType;
+import com.io7m.jcanephora.ProgramType;
 import com.io7m.jcanephora.ProgramUniformType;
-import com.io7m.jcanephora.RenderbufferFormat;
+import com.io7m.jcanephora.ProgramUsableType;
+import com.io7m.jcanephora.RenderableColorKind;
+import com.io7m.jcanephora.RenderableDepthKind;
+import com.io7m.jcanephora.RenderableDepthStencilKind;
+import com.io7m.jcanephora.RenderableStencilKind;
+import com.io7m.jcanephora.RenderbufferType;
+import com.io7m.jcanephora.RenderbufferUsableType;
 import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
-import com.io7m.jcanephora.Texture2DStatic;
+import com.io7m.jcanephora.Texture2DStaticType;
+import com.io7m.jcanephora.Texture2DStaticUpdateType;
 import com.io7m.jcanephora.Texture2DStaticUsableType;
-import com.io7m.jcanephora.Texture2DStaticUpdate;
+import com.io7m.jcanephora.TextureCubeStaticType;
+import com.io7m.jcanephora.TextureCubeStaticUpdateType;
 import com.io7m.jcanephora.TextureCubeStaticUsableType;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
-import com.io7m.jcanephora.TextureFormat;
-import com.io7m.jcanephora.TextureUnit;
 import com.io7m.jcanephora.TextureUnitType;
 import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.UsageHint;
+import com.io7m.jcanephora.VertexShaderType;
 import com.io7m.jcanephora.api.JCGLInterfaceGLES3Type;
+import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.api.JCGLSoftRestrictionsType;
-import com.io7m.jlog.Log;
-import com.io7m.jtensors.MatrixReadable3x3F;
-import com.io7m.jtensors.MatrixReadable4x4F;
-import com.io7m.jtensors.VectorReadable2F;
-import com.io7m.jtensors.VectorReadable2I;
-import com.io7m.jtensors.VectorReadable3F;
-import com.io7m.jtensors.VectorReadable3I;
-import com.io7m.jtensors.VectorReadable4F;
-import com.io7m.jtensors.VectorReadable4I;
+import com.io7m.jlog.LogUsableType;
+import com.io7m.jnull.NullCheck;
+import com.io7m.jnull.Nullable;
+import com.io7m.jranges.RangeInclusiveL;
+import com.io7m.jtensors.MatrixReadable3x3FType;
+import com.io7m.jtensors.MatrixReadable4x4FType;
+import com.io7m.jtensors.VectorReadable2FType;
+import com.io7m.jtensors.VectorReadable2IType;
+import com.io7m.jtensors.VectorReadable3FType;
+import com.io7m.jtensors.VectorReadable3IType;
+import com.io7m.jtensors.VectorReadable4FType;
+import com.io7m.jtensors.VectorReadable4IType;
+import com.io7m.junreachable.UnimplementedCodeException;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * <p>
- * A class implementing {@link JCGLInterfaceGLES3Type} that uses only the features
- * of OpenGL ES3, using JOGL as the backend.
+ * A class implementing {@link JCGLInterfaceGLES3Type} that uses only the
+ * features of OpenGL ES3, using JOGL as the backend.
  * </p>
  * <p>
  * A {@link javax.media.opengl.GLContext} is used to construct the interface,
- * and therefore the <code>GLInterfaceGL3_JOGL_GLES3</code> interface has the
+ * and therefore the {@link JCGLInterfaceGLES3_JOGL_ES3} interface has the
  * same thread safe/unsafe behaviour.
  * </p>
  * <p>
- * The <code>GLInterfaceGL3_JOGL_GLES3</code> implementation does not call
+ * The {@link JCGLInterfaceGLES3_JOGL_ES3} implementation does not call
  * {@link javax.media.opengl.GLContext#makeCurrent()} or
  * {@link javax.media.opengl.GLContext#release()}, so these calls must be made
  * by the programmer when necessary (typically, programs call
@@ -114,238 +135,268 @@ import com.io7m.jtensors.VectorReadable4I;
  * </p>
  */
 
-@NotThreadSafe final class JCGLInterfaceGLES3_JOGL_ES3 implements
-  JCGLInterfaceGLES3Type
+final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
 {
-  private @Nonnull GLES3                      cached_gl;
-  private final @Nonnull Extensions           extensions;
-  private final @Nonnull GLContext            gl_context;
-  private final @Nonnull Log                  log;
-  private final @Nonnull JCGLSoftRestrictionsType restrictions;
-  private final @Nonnull JCGLSLVersion        sl_version;
-  private final @Nonnull JCGLStateCache       state;
-  private final @Nonnull JCGLVersion          version;
-
-  JCGLInterfaceGLES3_JOGL_ES3(
-    final @Nonnull GLContext context,
-    final @Nonnull Log log1,
-    final @Nonnull JCGLDebugging debug,
-    final @CheckForNull PrintStream trace_out,
-    final @Nonnull JCGLSoftRestrictionsType restrictions1)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+  private static GLES3 makeCachedGLES3(
+    final JCGLDebugging in_debug,
+    final @Nullable PrintStream trace_out,
+    final GLES3 g)
   {
-    this.log =
-      new Log(Constraints.constrainNotNull(log1, "log output"), "jogl30");
-    this.gl_context = Constraints.constrainNotNull(context, "GL context");
-    this.restrictions =
-      Constraints.constrainNotNull(restrictions1, "Restrictions");
-    Constraints.constrainNotNull(debug, "Debug");
-
-    this.state = new JCGLStateCache();
-
-    {
-      final GLES3 g = this.gl_context.getGL().getGLES3();
-      switch (debug) {
-        case JCGL_DEBUGGING:
-          this.cached_gl = new DebugGLES3(g);
-          break;
-        case JCGL_NONE:
-          this.cached_gl = g;
-          break;
-        case JCGL_TRACING:
-          Constraints.constrainNotNull(trace_out, "Trace output");
-          this.cached_gl = new TraceGLES3(g, trace_out);
-          break;
-        case JCGL_TRACING_AND_DEBUGGING:
-          Constraints.constrainNotNull(trace_out, "Trace output");
-          this.cached_gl = new DebugGLES3(new TraceGLES3(g, trace_out));
-          break;
-        default:
-          throw new UnreachableCodeException();
-      }
+    switch (in_debug) {
+      case JCGL_DEBUGGING:
+        return new DebugGLES3(g);
+      case JCGL_NONE:
+        return g;
+      case JCGL_TRACING:
+        NullCheck.notNull(trace_out, "Trace output");
+        return new TraceGLES3(g, trace_out);
+      case JCGL_TRACING_AND_DEBUGGING:
+        NullCheck.notNull(trace_out, "Trace output");
+        return new DebugGLES3(new TraceGLES3(g, trace_out));
     }
-    assert this.cached_gl != null;
-    final GL3ES3 g = this.contextGetGL();
 
-    Constraints.constrainArbitrary(
-      this.framebufferDrawAnyIsBound() == false,
-      "NOT BOUND!");
-
-    this.extensions = new Extensions(context, restrictions1, log1);
-
-    /**
-     * Initialize texture unit cache.
-     */
-
-    this.state.texture_units =
-      JOGL_GL_Functions.textureGetUnitsActual(
-        g,
-        this.state,
-        this.log,
-        restrictions1);
-
-    /**
-     * Initialize color attachment point cache.
-     */
-
-    this.state.color_attachments =
-      JOGL_GL_Functions.framebufferGetAttachmentPointsActual(
-        g,
-        this.state,
-        this.log);
-
-    /**
-     * Get maximum draw buffers.
-     */
-
-    this.state.draw_buffers =
-      JOGL_GL_Functions.framebufferGetDrawBuffersActual(
-        g,
-        this.state,
-        this.log);
-
-    this.version = JOGL_GL_Functions.metaGetVersion(g);
-    this.sl_version = JOGL_GL_Functions.metaGetSLVersion(log1, g);
+    throw new UnreachableCodeException();
   }
 
-  @Override public JOGLArrayBuffer arrayBufferAllocate(
-    final long elements,
-    final @Nonnull ArrayBufferTypeDescriptor descriptor,
-    final @Nonnull UsageHint usage)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+  private final JOGLArrays                  arrays;
+
+  private final JOGLBlending                blending;
+  private final GLES3                       cached_gl;
+  private final JOGLColorBuffer             color_buffer;
+  private final JOGLColorAttachmentPoints   color_points;
+  private final JOGLCulling                 cull;
+  private final JOGLDepthBufferGL2GL3       depth;
+  private final JOGLDraw                    draw;
+  private final JOGLDrawBuffers             draw_buffers;
+  private final JOGLErrors                  errors;
+  private final JCGLNamedExtensionsType     extensions;
+  private final JOGLFramebuffersGL2GL3      framebuffers;
+  private final JOGLIntegerCacheType        icache;
+  private final JOGLIndexBuffers            index;
+  private final LogUsableType               log;
+  private final JOGLMeta                    meta;
+  private final JOGLShadersGLES3            program;
+  private final JOGLRenderbuffersGLES3      renderbuffers;
+  private final JOGLScissor                 scissor;
+  private final JOGLStencilGL2GL3           stencil;
+  private final JOGLLogMessageCacheType     tcache;
+  private final JOGLTextureUnits            texture_units;
+  private final JOGLTexturesCubeStaticGLES3 textures_cube;
+  private final JOGLTextures2DStaticGLES3   textures2d;
+  private final JOGLViewport                viewport;
+
+  JCGLInterfaceGLES3_JOGL_ES3(
+    final GLContext in_context,
+    final LogUsableType in_log,
+    final JCGLDebugging in_debug,
+    final @Nullable PrintStream trace_out,
+    final JCGLSoftRestrictionsType in_restrictions)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.arrayBufferAllocate(
-      this.contextGetGL3(),
-      this.log,
-      this.state,
-      elements,
-      descriptor,
-      usage);
+    this.log = NullCheck.notNull(in_log, "Log").with("es3-jogl_es3");
+
+    NullCheck.notNull(in_context, "Context");
+    NullCheck.notNull(in_restrictions, "Soft restrictions");
+    NullCheck.notNull(in_debug, "Debug");
+
+    this.cached_gl =
+      JCGLInterfaceGLES3_JOGL_ES3.makeCachedGLES3(
+        in_debug,
+        trace_out,
+        in_context.getGL().getGLES3());
+    this.extensions = new Extensions(in_context, in_restrictions, in_log);
+
+    /**
+     * Initialize subsystems.
+     */
+
+    this.icache = JOGLIntegerCache.newCache();
+    this.tcache = JOGLLogMessageCache.newCache();
+
+    this.arrays =
+      new JOGLArrays(this.cached_gl, this.log, this.icache, this.tcache);
+    this.blending = new JOGLBlending(this.cached_gl, this.log, this.icache);
+    this.color_buffer = new JOGLColorBuffer(this.cached_gl, this.log);
+    this.color_points =
+      new JOGLColorAttachmentPoints(
+        this.cached_gl,
+        this.log,
+        this.icache,
+        this.tcache);
+    this.cull = new JOGLCulling(this.cached_gl, this.log);
+    this.draw = new JOGLDraw(this.cached_gl, this.log);
+    this.draw_buffers =
+      new JOGLDrawBuffers(this.cached_gl, this.log, this.icache, this.tcache);
+    this.errors = new JOGLErrors(this.cached_gl, this.log);
+    this.meta = new JOGLMeta(this.cached_gl, this.tcache, this.log);
+    this.framebuffers =
+      new JOGLFramebuffersGL2GL3(
+        this.cached_gl,
+        this.log,
+        this.icache,
+        this.tcache,
+        this.draw_buffers,
+        this.color_points,
+        this.meta,
+        this.extensions);
+    this.depth =
+      new JOGLDepthBufferGL2GL3(
+        this.cached_gl,
+        this.framebuffers,
+        this.icache,
+        this.log);
+    this.index =
+      new JOGLIndexBuffers(this.cached_gl, this.log, this.icache, this.tcache);
+    this.program =
+      new JOGLShadersGLES3(
+        this.cached_gl,
+        this.log,
+        this.icache,
+        this.tcache,
+        this.arrays);
+    this.renderbuffers =
+      new JOGLRenderbuffersGLES3(
+        this.cached_gl,
+        this.log,
+        this.icache,
+        this.tcache);
+    this.scissor = new JOGLScissor(this.cached_gl, this.log);
+    this.stencil =
+      new JOGLStencilGL2GL3(
+        this.cached_gl,
+        this.icache,
+        this.framebuffers,
+        this.log);
+    this.textures2d =
+      new JOGLTextures2DStaticGLES3(
+        this.cached_gl,
+        this.log,
+        this.icache,
+        this.tcache);
+    this.textures_cube =
+      new JOGLTexturesCubeStaticGLES3(
+        this.cached_gl,
+        this.log,
+        this.icache,
+        this.tcache);
+    this.texture_units =
+      new JOGLTextureUnits(
+        this.cached_gl,
+        this.log,
+        this.icache,
+        this.tcache,
+        in_restrictions);
+    this.viewport = new JOGLViewport(this.cached_gl, this.log);
+  }
+
+  @Override public ArrayBufferType arrayBufferAllocate(
+    final long elements,
+    final ArrayDescriptor descriptor,
+    final UsageHint usage)
+    throws JCGLException
+  {
+    return this.arrays.arrayBufferAllocate(elements, descriptor, usage);
   }
 
   @Override public void arrayBufferBind(
-    final @Nonnull ArrayBufferUsable buffer)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final ArrayBufferUsableType buffer)
+    throws JCGLException
   {
-    JOGL_GL_Functions.arrayBufferBind(this.contextGetGL3(), buffer);
+    this.arrays.arrayBufferBind(buffer);
   }
 
   @Override public void arrayBufferDelete(
-    final @Nonnull JOGLArrayBuffer id)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ArrayBufferType id)
+    throws JCGLException,
+      JCGLExceptionDeleted
   {
-    JOGL_GL_Functions.arrayBufferDelete(
-      this.contextGetGL3(),
-      this.log,
-      this.state,
-      id);
+    this.arrays.arrayBufferDelete(id);
   }
 
   @Override public boolean arrayBufferIsBound(
-    final @Nonnull ArrayBufferUsable id)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ArrayBufferUsableType id)
+    throws JCGLException
   {
-    return JOGL_GL_Functions.arrayBufferIsBound(this.contextGetGL3(), id);
+    return this.arrays.arrayBufferIsBound(id);
+  }
+
+  @Override public boolean arrayBufferIsMapped(
+    final ArrayBufferUsableType id)
+    throws JCGLException
+  {
+    return this.arrays.arrayBufferIsMapped(id);
   }
 
   @Override public ByteBuffer arrayBufferMapReadUntyped(
-    final @Nonnull ArrayBufferUsable id)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final ArrayBufferUsableType id)
+    throws JCGLException,
+      JCGLExceptionBufferMappedMultiple
   {
-    return JOGL_GL_Functions.arrayBufferMapRead(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      id);
+    return this.arrays.arrayBufferMapReadUntyped(id);
   }
 
-  @Override public @Nonnull ByteBuffer arrayBufferMapReadUntypedRange(
-    final @Nonnull ArrayBufferUsable id,
-    final @Nonnull RangeInclusive range)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+  @Override public ByteBuffer arrayBufferMapReadUntypedRange(
+    final ArrayBufferUsableType id,
+    final RangeInclusiveL range)
+    throws JCGLException,
+      JCGLExceptionBufferMappedMultiple
   {
-    return JOGL_GL_Functions.arrayBufferMapReadRange(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      id,
-      range);
+    return this.arrays.arrayBufferMapReadUntypedRange(id, range);
   }
 
-  @Override public ArrayBufferUpdateMapped arrayBufferMapWrite(
-    final @Nonnull JOGLArrayBuffer id)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+  @Override public ArrayBufferUpdateMappedType arrayBufferMapWrite(
+    final ArrayBufferType id)
+    throws JCGLException,
+      JCGLExceptionBufferMappedMultiple
   {
-    return JOGL_GL_Functions.arrayBufferMapWrite(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      id);
+    return this.arrays.arrayBufferMapWrite(id);
   }
 
   @Override public void arrayBufferUnbind()
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    throws JCGLException
   {
-    JOGL_GL_Functions.arrayBufferUnbind(this.contextGetGL3());
+    this.arrays.arrayBufferUnbind();
   }
 
   @Override public void arrayBufferUnmap(
-    final @Nonnull ArrayBufferUsable id)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ArrayBufferUsableType id)
+    throws JCGLException,
+      JCGLExceptionBufferMappedNot
   {
-    JOGL_GL_Functions.arrayBufferUnmap(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      id);
+    this.arrays.arrayBufferUnmap(id);
   }
 
   @Override public void arrayBufferUpdate(
-    final @Nonnull ArrayBufferUpdateUnmappedType data)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final ArrayBufferUpdateUnmappedType data)
+    throws JCGLException
   {
-    JOGL_GL_Functions.arrayBufferUpdate(this.contextGetGL3(), data);
+    this.arrays.arrayBufferUpdate(data);
   }
 
   @Override public void blendingDisable()
     throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.blendingDisable(this.contextGetGL3());
+    this.blending.blendingDisable();
   }
 
   @Override public void blendingEnable(
-    final @Nonnull BlendFunction source_factor,
-    final @Nonnull BlendFunction destination_factor)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final BlendFunction source_factor,
+    final BlendFunction destination_factor)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured
   {
-    JOGL_GL_Functions.blendingEnable(
-      this.contextGetGL3(),
-      source_factor,
-      destination_factor);
+    this.blending.blendingEnable(source_factor, destination_factor);
   }
 
   @Override public void blendingEnableSeparate(
-    final @Nonnull BlendFunction source_rgb_factor,
-    final @Nonnull BlendFunction source_alpha_factor,
-    final @Nonnull BlendFunction destination_rgb_factor,
-    final @Nonnull BlendFunction destination_alpha_factor)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final BlendFunction source_rgb_factor,
+    final BlendFunction source_alpha_factor,
+    final BlendFunction destination_rgb_factor,
+    final BlendFunction destination_alpha_factor)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured
   {
-    JOGL_GL_Functions.blendingEnableSeparate(
-      this.contextGetGL3(),
+    this.blending.blendingEnableSeparate(
       source_rgb_factor,
       source_alpha_factor,
       destination_rgb_factor,
@@ -353,17 +404,16 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void blendingEnableSeparateWithEquationSeparate(
-    final @Nonnull BlendFunction source_rgb_factor,
-    final @Nonnull BlendFunction source_alpha_factor,
-    final @Nonnull BlendFunction destination_rgb_factor,
-    final @Nonnull BlendFunction destination_alpha_factor,
-    final @Nonnull BlendEquationGL3 equation_rgb,
-    final @Nonnull BlendEquationGL3 equation_alpha)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final BlendFunction source_rgb_factor,
+    final BlendFunction source_alpha_factor,
+    final BlendFunction destination_rgb_factor,
+    final BlendFunction destination_alpha_factor,
+    final BlendEquationGL3 equation_rgb,
+    final BlendEquationGL3 equation_alpha)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured
   {
-    JOGL_GL_Functions.blendingEnableSeparateWithEquationSeparate(
-      this.contextGetGL3(),
+    this.blending.blendingEnableSeparateWithEquationSeparate(
       source_rgb_factor,
       source_alpha_factor,
       destination_rgb_factor,
@@ -373,17 +423,16 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void blendingEnableSeparateWithEquationSeparateES2(
-    final @Nonnull BlendFunction source_rgb_factor,
-    final @Nonnull BlendFunction source_alpha_factor,
-    final @Nonnull BlendFunction destination_rgb_factor,
-    final @Nonnull BlendFunction destination_alpha_factor,
-    final @Nonnull BlendEquationGLES2 equation_rgb,
-    final @Nonnull BlendEquationGLES2 equation_alpha)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final BlendFunction source_rgb_factor,
+    final BlendFunction source_alpha_factor,
+    final BlendFunction destination_rgb_factor,
+    final BlendFunction destination_alpha_factor,
+    final BlendEquationGLES2 equation_rgb,
+    final BlendEquationGLES2 equation_alpha)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured
   {
-    JOGL_GL_Functions.blendingEnableSeparateWithEquationSeparateES2(
-      this.contextGetGL3(),
+    this.blending.blendingEnableSeparateWithEquationSeparateES2(
       source_rgb_factor,
       source_alpha_factor,
       destination_rgb_factor,
@@ -393,43 +442,40 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void blendingEnableWithEquation(
-    final @Nonnull BlendFunction source_factor,
-    final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquationGL3 equation)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final BlendFunction source_factor,
+    final BlendFunction destination_factor,
+    final BlendEquationGL3 equation)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured
   {
-    JOGL_GL_Functions.blendingEnableWithEquation(
-      this.contextGetGL3(),
+    this.blending.blendingEnableWithEquation(
       source_factor,
       destination_factor,
       equation);
   }
 
   @Override public void blendingEnableWithEquationES2(
-    final @Nonnull BlendFunction source_factor,
-    final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquationGLES2 equation)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final BlendFunction source_factor,
+    final BlendFunction destination_factor,
+    final BlendEquationGLES2 equation)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured
   {
-    JOGL_GL_Functions.blendingEnableWithEquationES2(
-      this.contextGetGL3(),
+    this.blending.blendingEnableWithEquationES2(
       source_factor,
       destination_factor,
       equation);
   }
 
   @Override public void blendingEnableWithEquationSeparate(
-    final @Nonnull BlendFunction source_factor,
-    final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquationGL3 equation_rgb,
-    final @Nonnull BlendEquationGL3 equation_alpha)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final BlendFunction source_factor,
+    final BlendFunction destination_factor,
+    final BlendEquationGL3 equation_rgb,
+    final BlendEquationGL3 equation_alpha)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured
   {
-    JOGL_GL_Functions.blendingEnableWithEquationSeparate(
-      this.contextGetGL3(),
+    this.blending.blendingEnableWithEquationSeparate(
       source_factor,
       destination_factor,
       equation_rgb,
@@ -437,15 +483,14 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void blendingEnableWithEquationSeparateES2(
-    final @Nonnull BlendFunction source_factor,
-    final @Nonnull BlendFunction destination_factor,
-    final @Nonnull BlendEquationGLES2 equation_rgb,
-    final @Nonnull BlendEquationGLES2 equation_alpha)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final BlendFunction source_factor,
+    final BlendFunction destination_factor,
+    final BlendEquationGLES2 equation_rgb,
+    final BlendEquationGLES2 equation_alpha)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionBlendingMisconfigured
   {
-    JOGL_GL_Functions.blendingEnableWithEquationSeparateES2(
-      this.contextGetGL3(),
+    this.blending.blendingEnableWithEquationSeparateES2(
       source_factor,
       destination_factor,
       equation_rgb,
@@ -453,22 +498,18 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public boolean blendingIsEnabled()
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.blendingIsEnabled(
-      this.contextGetGL3(),
-      this.state);
+    return this.blending.blendingIsEnabled();
   }
 
   @Override public void colorBufferClear3f(
     final float r,
     final float g,
     final float b)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.colorBufferClear3f(this.contextGetGL3(), r, g, b);
+    this.color_buffer.colorBufferClear3f(r, g, b);
   }
 
   @Override public void colorBufferClear4f(
@@ -476,26 +517,23 @@ import com.io7m.jtensors.VectorReadable4I;
     final float g,
     final float b,
     final float a)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.colorBufferClear4f(this.contextGetGL3(), r, g, b, a);
+    this.color_buffer.colorBufferClear4f(r, g, b, a);
   }
 
   @Override public void colorBufferClearV3f(
-    final @Nonnull VectorReadable3F color)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final VectorReadable3FType color)
+    throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.colorBufferClearV3f(this.contextGetGL3(), color);
+    this.color_buffer.colorBufferClearV3f(color);
   }
 
   @Override public void colorBufferClearV4f(
-    final @Nonnull VectorReadable4F color)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final VectorReadable4FType color)
+    throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.colorBufferClearV4f(this.contextGetGL3(), color);
+    this.color_buffer.colorBufferClearV4f(color);
   }
 
   @Override public void colorBufferMask(
@@ -503,2289 +541,1707 @@ import com.io7m.jtensors.VectorReadable4I;
     final boolean g,
     final boolean b,
     final boolean a)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.colorBufferMask(this.contextGetGL3(), r, g, b, a);
+    this.color_buffer.colorBufferMask(r, g, b, a);
   }
 
   @Override public boolean colorBufferMaskStatusAlpha()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.colorBufferMaskStatusAlpha(
-      this.contextGetGL3(),
-      this.state);
+    return this.colorBufferMaskStatusAlpha();
   }
 
   @Override public boolean colorBufferMaskStatusBlue()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.colorBufferMaskStatusBlue(
-      this.contextGetGL3(),
-      this.state);
+    return this.colorBufferMaskStatusBlue();
   }
 
   @Override public boolean colorBufferMaskStatusGreen()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.colorBufferMaskStatusGreen(
-      this.contextGetGL3(),
-      this.state);
+    return this.colorBufferMaskStatusGreen();
   }
 
   @Override public boolean colorBufferMaskStatusRed()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.colorBufferMaskStatusRed(
-      this.contextGetGL3(),
-      this.state);
-  }
-
-  private @Nonnull GL3ES3 contextGetGL()
-  {
-    return this.cached_gl;
-  }
-
-  private GL3ES3 contextGetGL3()
-  {
-    return this.contextGetGL().getGL3ES3();
+    return this.colorBufferMaskStatusRed();
   }
 
   @Override public void cullingDisable()
     throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.cullingDisable(this.contextGetGL3());
+    this.cull.cullingDisable();
   }
 
   @Override public void cullingEnable(
-    final @Nonnull FaceSelection faces,
-    final @Nonnull FaceWindingOrder order)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final FaceSelection faces,
+    final FaceWindingOrder order)
+    throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.cullingEnable(this.contextGetGL3(), faces, order);
+    this.cull.cullingEnable(faces, order);
   }
 
   @Override public boolean cullingIsEnabled()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.cullingIsEnabled(this.contextGetGL3());
+    return this.cull.cullingIsEnabled();
   }
 
   @Override public void depthBufferClear(
-    final float depth)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final float in_depth)
+    throws JCGLException,
+      JCGLExceptionNoDepthBuffer
   {
-    JOGL_GL_Functions.depthBufferClear(
-      this.contextGetGL3(),
-      this.state,
-      depth);
+    this.depth.depthBufferClear(in_depth);
   }
 
   @Override public int depthBufferGetBits()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    return JOGL_GL_Functions.depthBufferGetBits(
-      this.contextGetGL3(),
-      this.state);
+    return this.depth.depthBufferGetBits();
   }
 
   @Override public void depthBufferTestDisable()
-    throws JCGLExceptionRuntime
+    throws JCGLException,
+      JCGLExceptionNoDepthBuffer
   {
-    JOGL_GL_Functions.depthBufferDisable(this.contextGetGL3());
+    this.depth.depthBufferTestDisable();
   }
 
   @Override public void depthBufferTestEnable(
-    final @Nonnull DepthFunction function)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final DepthFunction function)
+    throws JCGLException,
+      JCGLExceptionNoDepthBuffer
   {
-    JOGL_GL_Functions.depthBufferEnable(
-      this.contextGetGL3(),
-      this.state,
-      function);
+    this.depth.depthBufferTestEnable(function);
   }
 
   @Override public boolean depthBufferTestIsEnabled()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    return JOGL_GL_Functions.depthBufferIsEnabled(this.contextGetGL3());
+    return this.depth.depthBufferTestIsEnabled();
   }
 
   @Override public void depthBufferWriteDisable()
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLException
   {
-    JOGL_GL_Functions.depthBufferWriteDisable(
-      this.contextGetGL3(),
-      this.state);
+    this.depth.depthBufferWriteDisable();
   }
 
   @Override public void depthBufferWriteEnable()
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLException
   {
-    JOGL_GL_Functions
-      .depthBufferWriteEnable(this.contextGetGL3(), this.state);
+    this.depth.depthBufferWriteEnable();
   }
 
   @Override public boolean depthBufferWriteIsEnabled()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    return JOGL_GL_Functions.depthBufferWriteIsEnabled(
-      this.contextGetGL3(),
-      this.state);
+    return this.depth.depthBufferWriteIsEnabled();
   }
 
   @Override public void drawElements(
-    final @Nonnull Primitives mode,
-    final @Nonnull IndexBufferUsable indices)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final Primitives mode,
+    final IndexBufferUsableType indices)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionWrongContext,
+      JCGLExceptionDeleted
   {
-    JOGL_GL_Functions.drawElements(this.contextGetGL3(), mode, indices);
+    this.draw.drawElements(mode, indices);
   }
 
   @Override public boolean errorCodeIsInvalidOperation(
     final int code)
   {
-    return code == GL.GL_INVALID_OPERATION;
+    return this.errors.errorCodeIsInvalidOperation(code);
   }
 
-  @Override public FragmentShader fragmentShaderCompile(
-    final @Nonnull String name,
-    final @Nonnull List<String> lines)
-    throws ConstraintError,
-      JCGLExceptionCompileError,
-      JCGLExceptionRuntime
+  @Override public FragmentShaderType fragmentShaderCompile(
+    final String name,
+    final List<String> lines)
+    throws JCGLExceptionProgramCompileError,
+      JCGLException
   {
-    return JOGL_GL2ES2_Functions.fragmentShaderCompile(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      name,
-      lines);
+    return this.program.fragmentShaderCompile(name, lines);
   }
 
   @Override public void fragmentShaderDelete(
-    final @Nonnull FragmentShader id)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final FragmentShaderType id)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.fragmentShaderDelete(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      id);
+    this.program.fragmentShaderDelete(id);
   }
 
-  @Override public @Nonnull FramebufferReference framebufferAllocate()
-    throws JCGLExceptionRuntime,
-      ConstraintError
+  @Override public FramebufferType framebufferAllocate()
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.framebufferAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log);
+    return this.framebuffers.framebufferAllocate();
   }
 
   @Override public void framebufferBlit(
-    final @Nonnull AreaInclusive source,
-    final @Nonnull AreaInclusive target,
-    final @Nonnull Set<FramebufferBlitBuffer> buffers,
-    final @Nonnull FramebufferBlitFilter filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final AreaInclusive source,
+    final AreaInclusive target,
+    final Set<FramebufferBlitBuffer> buffers,
+    final FramebufferBlitFilter filter)
+    throws JCGLException
   {
-    JOGL_GL2ES3_Functions.framebufferBlit(
-      this.contextGetGL3(),
-      source,
-      target,
-      buffers,
-      filter);
+    this.framebuffers.framebufferBlit(source, target, buffers, filter);
   }
 
   @Override public void framebufferDelete(
-    final @Nonnull FramebufferReference framebuffer)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferType framebuffer)
+    throws JCGLException
   {
-    JOGL_GL_Functions.framebufferDelete(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      framebuffer);
+    this.framebuffers.framebufferDelete(framebuffer);
   }
 
   @Override public boolean framebufferDrawAnyIsBound()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    return JOGL_GL_Functions.framebufferDrawAnyIsBound(this.contextGetGL3());
+    return this.framebuffers.framebufferDrawAnyIsBound();
   }
 
   @Override public void framebufferDrawAttachColorRenderbuffer(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferType framebuffer,
+    final RenderbufferUsableType<RenderableColorKind> renderbuffer)
+    throws JCGLException
   {
-    JOGL_GL_Functions.framebufferDrawAttachColorRenderbuffer(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
+    this.framebuffers.framebufferDrawAttachColorRenderbuffer(
       framebuffer,
       renderbuffer);
   }
 
   @Override public void framebufferDrawAttachColorRenderbufferAt(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull RenderbufferUsable<RenderableColor> renderbuffer)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferType framebuffer,
+    final FramebufferColorAttachmentPointType point,
+    final RenderbufferUsableType<RenderableColorKind> renderbuffer)
+    throws JCGLException
   {
-    JOGL_GL_Functions.framebufferDrawAttachColorRenderbufferAt(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
+    this.framebuffers.framebufferDrawAttachColorRenderbufferAt(
       framebuffer,
       point,
       renderbuffer);
   }
 
   @Override public void framebufferDrawAttachColorTexture2D(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticUsableType texture)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferType framebuffer,
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
   {
-    JOGL_GL_Functions.framebufferDrawAttachColorTexture2D(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      this.version,
+    this.framebuffers.framebufferDrawAttachColorTexture2D(
       framebuffer,
-      texture,
-      this.extensions);
+      texture);
   }
 
   @Override public void framebufferDrawAttachColorTexture2DAt(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull Texture2DStaticUsableType texture)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferType framebuffer,
+    final FramebufferColorAttachmentPointType point,
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
   {
-    JOGL_GL_Functions.framebufferDrawAttachColorTexture2DAt(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      this.version,
+    this.framebuffers.framebufferDrawAttachColorTexture2DAt(
       framebuffer,
       point,
-      texture,
-      this.extensions);
+      texture);
   }
 
   @Override public void framebufferDrawAttachColorTextureCube(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull TextureCubeStaticUsableType texture,
-    final @Nonnull CubeMapFaceLH face)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferType framebuffer,
+    final TextureCubeStaticUsableType texture,
+    final CubeMapFaceLH face)
+    throws JCGLException
   {
-    JOGL_GL_Functions.framebufferDrawAttachColorTextureCube(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      this.version,
+    this.framebuffers.framebufferDrawAttachColorTextureCube(
       framebuffer,
       texture,
-      face,
-      this.extensions);
+      face);
   }
 
   @Override public void framebufferDrawAttachColorTextureCubeAt(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull FramebufferColorAttachmentPoint point,
-    final @Nonnull TextureCubeStaticUsableType texture,
-    final @Nonnull CubeMapFaceLH face)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferType framebuffer,
+    final FramebufferColorAttachmentPointType point,
+    final TextureCubeStaticUsableType texture,
+    final CubeMapFaceLH face)
+    throws JCGLException
   {
-    JOGL_GL_Functions.framebufferDrawAttachColorTextureCubeAt(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      this.version,
+    this.framebuffers.framebufferDrawAttachColorTextureCubeAt(
       framebuffer,
       point,
       texture,
-      face,
-      this.extensions);
+      face);
   }
 
   @Override public void framebufferDrawAttachDepthRenderbuffer(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable<RenderableDepth> renderbuffer)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferType framebuffer,
+    final RenderbufferUsableType<RenderableDepthKind> renderbuffer)
+    throws JCGLException
   {
-    JOGL_GL_Functions.framebufferDrawAttachDepthRenderbuffer(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
+    this.framebuffers.framebufferDrawAttachDepthRenderbuffer(
       framebuffer,
       renderbuffer);
   }
 
   @Override public void framebufferDrawAttachDepthStencilRenderbuffer(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable<RenderableDepthStencil> renderbuffer)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferType framebuffer,
+    final RenderbufferUsableType<RenderableDepthStencilKind> renderbuffer)
+    throws JCGLException
   {
-    JOGL_GL_Functions.framebufferDrawAttachDepthStencilRenderbuffer(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
+    this.framebuffers.framebufferDrawAttachDepthStencilRenderbuffer(
       framebuffer,
       renderbuffer);
   }
 
   @Override public void framebufferDrawAttachDepthTexture2D(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull Texture2DStaticUsableType texture)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferType framebuffer,
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
   {
-    JOGL_GL_Functions.framebufferDrawAttachDepthTexture2D(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
+    this.framebuffers.framebufferDrawAttachDepthTexture2D(
       framebuffer,
-      texture,
-      this.extensions);
+      texture);
   }
 
   @Override public void framebufferDrawAttachStencilRenderbuffer(
-    final @Nonnull FramebufferReference framebuffer,
-    final @Nonnull RenderbufferUsable<RenderableStencil> renderbuffer)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferType framebuffer,
+    final RenderbufferUsableType<RenderableStencilKind> renderbuffer)
+    throws JCGLException
   {
-    JOGL_GL_Functions.framebufferDrawAttachStencilRenderbuffer(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
+    this.framebuffers.framebufferDrawAttachStencilRenderbuffer(
       framebuffer,
       renderbuffer);
   }
 
   @Override public void framebufferDrawBind(
-    final @Nonnull FramebufferReferenceUsable framebuffer)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferUsableType framebuffer)
+    throws JCGLException
   {
-    JOGL_GL_Functions.framebufferDrawBind(this.contextGetGL3(), framebuffer);
+    this.framebuffers.framebufferDrawBind(framebuffer);
   }
 
   @Override public boolean framebufferDrawIsBound(
-    final @Nonnull FramebufferReferenceUsable framebuffer)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferUsableType framebuffer)
+    throws JCGLException
   {
-    return JOGL_GL_Functions.framebufferDrawIsBound(
-      this.contextGetGL3(),
-      framebuffer);
+    return this.framebuffers.framebufferDrawIsBound(framebuffer);
   }
 
   @Override public
     void
     framebufferDrawSetBuffers(
-      final @Nonnull FramebufferReference framebuffer,
-      final @Nonnull Map<FramebufferDrawBuffer, FramebufferColorAttachmentPoint> mappings)
-      throws JCGLExceptionRuntime,
-        ConstraintError
+      final FramebufferType framebuffer,
+      final Map<FramebufferDrawBufferType, FramebufferColorAttachmentPointType> mappings)
+      throws JCGLException
   {
-    JOGL_GL2ES3_Functions.framebufferDrawSetBuffers(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      framebuffer,
-      mappings);
+    this.framebuffers.framebufferDrawSetBuffers(framebuffer, mappings);
   }
 
   @Override public void framebufferDrawUnbind()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    JOGL_GL_Functions.framebufferDrawUnbind(this.contextGetGL3());
+    this.framebuffers.framebufferDrawUnbind();
   }
 
-  @Override public @Nonnull FramebufferStatus framebufferDrawValidate(
-    final @Nonnull FramebufferReferenceUsable framebuffer)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+  @Override public FramebufferStatus framebufferDrawValidate(
+    final FramebufferUsableType framebuffer)
+    throws JCGLException
   {
-    return JOGL_GL_Functions.framebufferDrawValidate(
-      this.contextGetGL3(),
-      framebuffer);
+    return this.framebuffers.framebufferDrawValidate(framebuffer);
   }
 
-  @Override public @Nonnull
-    List<FramebufferColorAttachmentPoint>
+  @Override public
+    List<FramebufferColorAttachmentPointType>
     framebufferGetColorAttachmentPoints()
-      throws JCGLExceptionRuntime,
-        ConstraintError
+      throws JCGLException
   {
-    return Collections.unmodifiableList(this.state.color_attachments);
+    return this.framebuffers.framebufferGetColorAttachmentPoints();
   }
 
-  @Override public @Nonnull
-    List<FramebufferDrawBuffer>
+  @Override public
+    List<FramebufferDrawBufferType>
     framebufferGetDrawBuffers()
-      throws JCGLExceptionRuntime,
-        ConstraintError
+      throws JCGLException
   {
-    return Collections.unmodifiableList(this.state.draw_buffers);
+    return this.framebuffers.framebufferGetDrawBuffers();
   }
 
   @Override public boolean framebufferReadAnyIsBound()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL2ES3_Functions.framebufferReadAnyIsBound(this
-      .contextGetGL3());
+    return this.framebuffers.framebufferReadAnyIsBound();
   }
 
   @Override public void framebufferReadBind(
-    final @Nonnull FramebufferReferenceUsable framebuffer)
+    final FramebufferUsableType framebuffer)
     throws JCGLExceptionRuntime,
-      ConstraintError
+      JCGLExceptionWrongContext,
+      JCGLExceptionDeleted
   {
-    JOGL_GL2ES3_Functions.framebufferReadBind(
-      this.contextGetGL3(),
-      framebuffer);
+    this.framebuffers.framebufferReadBind(framebuffer);
   }
 
   @Override public boolean framebufferReadIsBound(
-    final @Nonnull FramebufferReferenceUsable framebuffer)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final FramebufferUsableType framebuffer)
+    throws JCGLException
   {
-    return JOGL_GL2ES3_Functions.framebufferReadIsBound(
-      this.contextGetGL3(),
-      framebuffer);
+    return this.framebuffers.framebufferReadIsBound(framebuffer);
   }
 
   @Override public void framebufferReadUnbind()
     throws JCGLExceptionRuntime
   {
-    JOGL_GL2ES3_Functions.framebufferReadUnbind(this.contextGetGL3());
+    this.framebuffers.framebufferReadUnbind();
   }
 
   @Override public boolean hasColorBufferFloat()
   {
-    try {
-      return this.extensions
-        .extensionIsVisible(JCGLExtensionNames.GL_EXT_COLOR_BUFFER_FLOAT);
-    } catch (final ConstraintError e) {
-      throw new UnreachableCodeException(e);
-    }
+    // TODO Auto-generated method stub
+    throw new UnimplementedCodeException();
   }
 
   @Override public boolean hasColorBufferHalfFloat()
   {
-    try {
-      return this.extensions
-        .extensionIsVisible(JCGLExtensionNames.GL_EXT_COLOR_BUFFER_HALF_FLOAT);
-    } catch (final ConstraintError e) {
-      throw new UnreachableCodeException(e);
-    }
+    // TODO Auto-generated method stub
+    throw new UnimplementedCodeException();
   }
 
-  @Override public IndexBuffer indexBufferAllocate(
-    final @Nonnull ArrayBufferUsable buffer,
-    final int indices)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+  @Override public IndexBufferType indexBufferAllocate(
+    final ArrayBufferUsableType buffer,
+    final int indices,
+    final UsageHint usage)
+    throws JCGLException
   {
-    return JOGL_GL_Functions.indexBufferAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      buffer,
-      indices);
+    return this.index.indexBufferAllocate(buffer, indices, usage);
   }
 
-  @Override public @Nonnull IndexBuffer indexBufferAllocateType(
-    final @Nonnull JCGLUnsignedType type,
-    final int indices)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+  @Override public IndexBufferType indexBufferAllocateType(
+    final JCGLUnsignedType type,
+    final int indices,
+    final UsageHint usage)
+    throws JCGLException
   {
-    return JOGL_GL_Functions.indexBufferAllocateType(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      type,
-      indices);
+    return this.index.indexBufferAllocateType(type, indices, usage);
   }
 
   @Override public void indexBufferDelete(
-    final @Nonnull IndexBuffer id)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final IndexBufferType id)
+    throws JCGLException
   {
-    JOGL_GL_Functions.indexBufferDelete(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      id);
+    this.index.indexBufferDelete(id);
   }
 
-  @Override public IndexBufferReadableMap indexBufferMapRead(
-    final @Nonnull IndexBufferUsable id)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+  @Override public IndexBufferReadMappedType indexBufferMapRead(
+    final IndexBufferUsableType id)
+    throws JCGLException,
+      JCGLExceptionBufferMappedMultiple
   {
-    return JOGL_GL_Functions.indexBufferMapRead(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      id);
+    return this.index.indexBufferMapRead(id);
   }
 
-  @Override public @Nonnull IndexBufferReadableMap indexBufferMapReadRange(
-    final @Nonnull IndexBufferUsable id,
-    final @Nonnull RangeInclusive range)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+  @Override public IndexBufferReadMappedType indexBufferMapReadRange(
+    final IndexBufferUsableType id,
+    final RangeInclusiveL range)
+    throws JCGLException,
+      JCGLExceptionBufferMappedMultiple
   {
-    return JOGL_GL_Functions.indexBufferMapReadRange(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      id,
-      range);
+    return this.index.indexBufferMapReadRange(id, range);
   }
 
-  @Override public IndexBufferUpdateMapped indexBufferMapWrite(
-    final @Nonnull IndexBuffer id)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+  @Override public IndexBufferUpdateMappedType indexBufferMapWrite(
+    final IndexBufferType id)
+    throws JCGLException,
+      JCGLExceptionBufferMappedMultiple
   {
-    return JOGL_GL_Functions.indexBufferMapWrite(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      id);
+    return this.index.indexBufferMapWrite(id);
   }
 
   @Override public void indexBufferUnmap(
-    final @Nonnull IndexBufferUsable id)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final IndexBufferUsableType id)
+    throws JCGLException,
+      JCGLExceptionBufferMappedNot
   {
-    JOGL_GL_Functions.indexBufferUnmap(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      id);
+    this.index.indexBufferUnmap(id);
   }
 
   @Override public void indexBufferUpdate(
-    final @Nonnull IndexBufferUpdateUnmapped data)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final IndexBufferUpdateUnmappedType data)
+    throws JCGLException
   {
-    JOGL_GL_Functions.indexBufferUpdate(this.contextGetGL3(), data);
+    this.index.indexBufferUpdate(data);
   }
 
   @Override public int metaGetError()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.metaGetError(this.contextGetGL3());
+    return this.meta.metaGetError();
   }
 
   @Override public String metaGetRenderer()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.metaGetRenderer(this.contextGetGL3());
+    return this.meta.metaGetRenderer();
   }
 
-  @Override public @Nonnull JCGLSLVersion metaGetSLVersion()
+  @Override public JCGLSLVersion metaGetSLVersion()
     throws JCGLExceptionRuntime
   {
-    return this.sl_version;
+    return this.meta.metaGetSLVersion();
   }
 
   @Override public String metaGetVendor()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.metaGetVendor(this.contextGetGL3());
+    return this.meta.metaGetVendor();
   }
 
-  @Override public @Nonnull JCGLVersion metaGetVersion()
+  @Override public JCGLVersion metaGetVersion()
     throws JCGLExceptionRuntime
   {
-    return this.version;
+    return this.meta.metaGetVersion();
   }
 
   @Override public void programActivate(
-    final @Nonnull ProgramReferenceUsable program)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUsableType p)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programActivate(this.contextGetGL3(), program);
+    this.program.programActivate(p);
   }
 
   @Override public void programAttributeArrayAssociate(
-    final @Nonnull ProgramAttributeType program_attribute,
-    final @Nonnull ArrayBufferAttribute array_attribute)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final ProgramAttributeType program_attribute,
+    final ArrayAttributeType array_attribute)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programAttributeArrayBind(
-      this.contextGetGL3(),
-      this.state,
+    this.program.programAttributeArrayAssociate(
       program_attribute,
       array_attribute);
   }
 
   @Override public void programAttributeArrayDisassociate(
-    final @Nonnull ProgramAttributeType program_attribute)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final ProgramAttributeType program_attribute)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programAttributeArrayDisassociate(
-      this.contextGetGL3(),
-      this.state,
-      program_attribute);
+    this.program.programAttributeArrayDisassociate(program_attribute);
   }
 
   @Override public void programAttributePutFloat(
-    final @Nonnull ProgramAttributeType program_attribute,
+    final ProgramAttributeType program_attribute,
     final float x)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programAttributePutFloat(
-      this.contextGetGL3(),
-      this.state,
-      program_attribute,
-      x);
+    this.program.programAttributePutFloat(program_attribute, x);
   }
 
   @Override public void programAttributePutVector2f(
-    final @Nonnull ProgramAttributeType program_attribute,
-    final @Nonnull VectorReadable2F x)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final ProgramAttributeType program_attribute,
+    final VectorReadable2FType x)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programAttributePutVector2f(
-      this.contextGetGL3(),
-      this.state,
-      program_attribute,
-      x);
+    this.program.programAttributePutVector2f(program_attribute, x);
   }
 
   @Override public void programAttributePutVector3f(
-    final @Nonnull ProgramAttributeType program_attribute,
-    final @Nonnull VectorReadable3F x)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final ProgramAttributeType program_attribute,
+    final VectorReadable3FType x)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programAttributePutVector3f(
-      this.contextGetGL3(),
-      this.state,
-      program_attribute,
-      x);
+    this.program.programAttributePutVector3f(program_attribute, x);
   }
 
   @Override public void programAttributePutVector4f(
-    final @Nonnull ProgramAttributeType program_attribute,
-    final @Nonnull VectorReadable4F x)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final ProgramAttributeType program_attribute,
+    final VectorReadable4FType x)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programAttributePutVector4f(
-      this.contextGetGL3(),
-      this.state,
-      program_attribute,
-      x);
+    this.program.programAttributePutVector4f(program_attribute, x);
   }
 
-  @Override public JOGLProgram programCreateCommon(
-    final @Nonnull String name,
-    final @Nonnull VertexShader v,
-    final @Nonnull FragmentShader f)
-    throws ConstraintError,
-      JCGLExceptionRuntime,
-      JCGLExceptionCompileError
+  @Override public ProgramType programCreateCommon(
+    final String name,
+    final VertexShaderType v,
+    final FragmentShaderType f)
+    throws JCGLException,
+      JCGLExceptionProgramCompileError
   {
-    return JOGL_GL2ES2_Functions.programCreateCommon(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      name,
-      v,
-      f);
+    return this.program.programCreateCommon(name, v, f);
   }
 
   @Override public void programDeactivate()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programDeactivate(this.contextGetGL3());
+    this.program.programDeactivate();
   }
 
   @Override public void programDelete(
-    final @Nonnull JOGLProgram program)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramType p)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programDelete(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      program);
+    this.program.programDelete(p);
   }
 
   @Override public int programGetMaximumActiveAttributes()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    return JOGL_GL2ES2_Functions.programGetMaximumActiveAttributes(
-      this.contextGetGL3(),
-      this.state,
-      this.log);
+    return this.program.programGetMaximumActiveAttributes();
   }
 
   @Override public boolean programIsActive(
-    final @Nonnull ProgramReferenceUsable program)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUsableType p)
+    throws JCGLException
   {
-    return JOGL_GL2ES2_Functions.programIsActive(
-      this.contextGetGL3(),
-      this.state,
-      program);
+    return this.program.programIsActive(p);
   }
 
   @Override public void programUniformPutFloat(
-    final @Nonnull ProgramUniformType uniform,
+    final ProgramUniformType uniform,
     final float value)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformFloat(
-      this.contextGetGL3(),
-      this.state,
-      uniform,
-      value);
+    this.program.programUniformPutFloat(uniform, value);
   }
 
   @Override public void programUniformPutInteger(
-    final @Nonnull ProgramUniformType uniform,
+    final ProgramUniformType uniform,
     final int value)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformInteger(
-      this.contextGetGL3(),
-      this.state,
-      uniform,
-      value);
+    this.program.programUniformPutInteger(uniform, value);
   }
 
   @Override public void programUniformPutMatrix3x3f(
-    final @Nonnull ProgramUniformType uniform,
-    final @Nonnull MatrixReadable3x3F matrix)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUniformType uniform,
+    final MatrixReadable3x3FType matrix)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformMatrix3x3f(
-      this.contextGetGL3(),
-      this.state,
-      uniform,
-      matrix);
+    this.program.programUniformPutMatrix3x3f(uniform, matrix);
   }
 
   @Override public void programUniformPutMatrix4x4f(
-    final @Nonnull ProgramUniformType uniform,
-    final @Nonnull MatrixReadable4x4F matrix)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUniformType uniform,
+    final MatrixReadable4x4FType matrix)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformMatrix4x4f(
-      this.contextGetGL3(),
-      this.state,
-      uniform,
-      matrix);
+    this.program.programUniformPutMatrix4x4f(uniform, matrix);
   }
 
   @Override public void programUniformPutTextureUnit(
-    final @Nonnull ProgramUniformType uniform,
-    final @Nonnull TextureUnitType unit)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUniformType uniform,
+    final TextureUnitType unit)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformTextureUnit(
-      this.contextGetGL3(),
-      this.state,
-      uniform,
-      unit);
+    this.program.programUniformPutTextureUnit(uniform, unit);
   }
 
   @Override public void programUniformPutVector2f(
-    final @Nonnull ProgramUniformType uniform,
-    final @Nonnull VectorReadable2F vector)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUniformType uniform,
+    final VectorReadable2FType vector)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformVector2f(
-      this.contextGetGL3(),
-      this.state,
-      uniform,
-      vector);
+    this.program.programUniformPutVector2f(uniform, vector);
   }
 
   @Override public void programUniformPutVector2i(
-    final @Nonnull ProgramUniformType uniform,
-    final @Nonnull VectorReadable2I vector)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUniformType uniform,
+    final VectorReadable2IType vector)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformVector2i(
-      this.contextGetGL3(),
-      this.state,
-      uniform,
-      vector);
+    this.program.programUniformPutVector2i(uniform, vector);
   }
 
   @Override public void programUniformPutVector3f(
-    final @Nonnull ProgramUniformType uniform,
-    final @Nonnull VectorReadable3F vector)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUniformType uniform,
+    final VectorReadable3FType vector)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformVector3f(
-      this.contextGetGL3(),
-      this.state,
-      uniform,
-      vector);
+    this.program.programUniformPutVector3f(uniform, vector);
   }
 
   @Override public void programUniformPutVector3i(
-    final @Nonnull ProgramUniformType uniform,
-    final @Nonnull VectorReadable3I vector)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUniformType uniform,
+    final VectorReadable3IType vector)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformVector3i(
-      this.contextGetGL3(),
-      this.state,
-      uniform,
-      vector);
+    this.program.programUniformPutVector3i(uniform, vector);
   }
 
   @Override public void programUniformPutVector4f(
-    final @Nonnull ProgramUniformType uniform,
-    final @Nonnull VectorReadable4F vector)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUniformType uniform,
+    final VectorReadable4FType vector)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformVector4f(
-      this.contextGetGL3(),
-      this.state,
-      uniform,
-      vector);
+    this.program.programUniformPutVector4f(uniform, vector);
   }
 
   @Override public void programUniformPutVector4i(
-    final @Nonnull ProgramUniformType uniform,
-    final @Nonnull VectorReadable4I vector)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final ProgramUniformType uniform,
+    final VectorReadable4IType vector)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.programPutUniformVector4i(
-      this.contextGetGL3(),
-      this.state,
-      uniform,
-      vector);
+    this.program.programUniformPutVector4i(uniform, vector);
   }
 
-  @Override public @Nonnull
-    JOGLRenderbuffer<RenderableDepth>
+  @Override public
+    RenderbufferType<RenderableDepthKind>
     renderbufferAllocateDepth16(
       final int width,
       final int height)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+      throws JCGLExceptionRuntime
   {
-    return JOGLRenderbuffer.unsafeBrandDepth(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.contextGetGL(),
-        this.state,
-        this.log,
-        RenderbufferFormat.RENDERBUFFER_DEPTH_16,
-        width,
-        height));
+    return this.renderbuffers.renderbufferAllocateDepth16(width, height);
   }
 
-  @Override public @Nonnull
-    JOGLRenderbuffer<RenderableDepth>
+  @Override public
+    RenderbufferType<RenderableDepthKind>
     renderbufferAllocateDepth24(
       final int width,
       final int height)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+      throws JCGLExceptionRuntime
   {
-    return JOGLRenderbuffer.unsafeBrandDepth(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.contextGetGL(),
-        this.state,
-        this.log,
-        RenderbufferFormat.RENDERBUFFER_DEPTH_24,
-        width,
-        height));
+    return this.renderbuffers.renderbufferAllocateDepth24(width, height);
   }
 
-  @Override public @Nonnull
-    JOGLRenderbuffer<RenderableDepthStencil>
+  @Override public
+    RenderbufferType<RenderableDepthStencilKind>
     renderbufferAllocateDepth24Stencil8(
       final int width,
       final int height)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+      throws JCGLExceptionRuntime
   {
-    return JOGLRenderbuffer.unsafeBrandDepthStencil(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.contextGetGL3(),
-        this.state,
-        this.log,
-        RenderbufferFormat.RENDERBUFFER_DEPTH_24_STENCIL_8,
-        width,
-        height));
+    return this.renderbuffers.renderbufferAllocateDepth24Stencil8(
+      width,
+      height);
   }
 
-  @Override public @Nonnull
-    JOGLRenderbuffer<RenderableColor>
+  @Override public
+    RenderbufferType<RenderableColorKind>
     renderbufferAllocateRGB565(
       final int width,
       final int height)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+      throws JCGLExceptionRuntime
   {
-    return JOGLRenderbuffer.unsafeBrandColor(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.contextGetGL(),
-        this.state,
-        this.log,
-        RenderbufferFormat.RENDERBUFFER_COLOR_RGB_565,
-        width,
-        height));
+    return this.renderbuffers.renderbufferAllocateRGB565(width, height);
   }
 
-  @Override public @Nonnull
-    JOGLRenderbuffer<RenderableColor>
+  @Override public
+    RenderbufferType<RenderableColorKind>
     renderbufferAllocateRGB888(
       final int width,
       final int height)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+      throws JCGLExceptionRuntime
   {
-    return JOGLRenderbuffer.unsafeBrandColor(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.contextGetGL3(),
-        this.state,
-        this.log,
-        RenderbufferFormat.RENDERBUFFER_COLOR_RGB_888,
-        width,
-        height));
+    return this.renderbuffers.renderbufferAllocateRGB888(width, height);
   }
 
-  @Override public @Nonnull
-    JOGLRenderbuffer<RenderableColor>
+  @Override public
+    RenderbufferType<RenderableColorKind>
     renderbufferAllocateRGBA4444(
       final int width,
       final int height)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+      throws JCGLExceptionRuntime
   {
-    return JOGLRenderbuffer.unsafeBrandColor(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.contextGetGL(),
-        this.state,
-        this.log,
-        RenderbufferFormat.RENDERBUFFER_COLOR_RGBA_4444,
-        width,
-        height));
+    return this.renderbuffers.renderbufferAllocateRGBA4444(width, height);
   }
 
-  @Override public @Nonnull
-    JOGLRenderbuffer<RenderableColor>
+  @Override public
+    RenderbufferType<RenderableColorKind>
     renderbufferAllocateRGBA5551(
       final int width,
       final int height)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+      throws JCGLExceptionRuntime
   {
-    return JOGLRenderbuffer.unsafeBrandColor(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.contextGetGL(),
-        this.state,
-        this.log,
-        RenderbufferFormat.RENDERBUFFER_COLOR_RGBA_5551,
-        width,
-        height));
+    return this.renderbuffers.renderbufferAllocateRGBA5551(width, height);
   }
 
-  @Override public @Nonnull
-    JOGLRenderbuffer<RenderableColor>
+  @Override public
+    RenderbufferType<RenderableColorKind>
     renderbufferAllocateRGBA8888(
       final int width,
       final int height)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+      throws JCGLExceptionRuntime
   {
-    return JOGLRenderbuffer.unsafeBrandColor(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.contextGetGL3(),
-        this.state,
-        this.log,
-        RenderbufferFormat.RENDERBUFFER_COLOR_RGBA_8888,
-        width,
-        height));
+    return this.renderbuffers.renderbufferAllocateRGBA8888(width, height);
   }
 
-  @Override public @Nonnull
-    JOGLRenderbuffer<RenderableStencil>
+  @Override public
+    RenderbufferType<RenderableStencilKind>
     renderbufferAllocateStencil8(
       final int width,
       final int height)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+      throws JCGLExceptionRuntime
   {
-    return JOGLRenderbuffer.unsafeBrandStencil(JOGL_GL_Functions
-      .renderbufferAllocate(
-        this.contextGetGL(),
-        this.state,
-        this.log,
-        RenderbufferFormat.RENDERBUFFER_STENCIL_8,
-        width,
-        height));
+    return this.renderbuffers.renderbufferAllocateStencil8(width, height);
   }
 
   @Override public void renderbufferDelete(
-    final @Nonnull JOGLRenderbuffer<?> buffer)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final RenderbufferType<?> buffer)
+    throws JCGLException
   {
-    JOGL_GL_Functions.renderbufferDelete(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      buffer);
+    this.renderbuffers.renderbufferDelete(buffer);
   }
 
   @Override public void scissorDisable()
     throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.scissorDisable(this.contextGetGL3());
+    this.scissor.scissorDisable();
   }
 
   @Override public void scissorEnable(
-    final @Nonnull AreaInclusive area)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final AreaInclusive area)
+    throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.scissorEnable(this.contextGetGL3(), area);
+    this.scissor.scissorEnable(area);
   }
 
   @Override public boolean scissorIsEnabled()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.scissorIsEnabled(this.contextGetGL3());
+    return this.scissor.scissorIsEnabled();
   }
 
   @Override public void stencilBufferClear(
-    final int stencil)
-    throws JCGLExceptionRuntime,
-      ConstraintError
+    final int s)
+    throws JCGLException,
+      JCGLExceptionNoStencilBuffer
   {
-    JOGL_GL_Functions.stencilBufferClear(
-      this.contextGetGL3(),
-      this.state,
-      stencil);
+    this.stencil.stencilBufferClear(s);
   }
 
   @Override public void stencilBufferDisable()
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLException,
+      JCGLExceptionNoStencilBuffer
   {
-    JOGL_GL_Functions.stencilBufferDisable(this.contextGetGL3());
+    this.stencil.stencilBufferDisable();
   }
 
   @Override public void stencilBufferEnable()
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLException,
+      JCGLExceptionNoStencilBuffer
   {
-    JOGL_GL_Functions.stencilBufferEnable(this.contextGetGL3(), this.state);
+    this.stencil.stencilBufferEnable();
   }
 
   @Override public void stencilBufferFunction(
-    final @Nonnull FaceSelection faces,
-    final @Nonnull StencilFunction function,
+    final FaceSelection faces,
+    final StencilFunction function,
     final int reference,
     final int mask)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLException,
+      JCGLExceptionNoStencilBuffer
   {
-    JOGL_GL2ES2_Functions.stencilBufferFunction(
-      this.contextGetGL3(),
-      faces,
-      function,
-      reference,
-      mask);
+    this.stencil.stencilBufferFunction(faces, function, reference, mask);
   }
 
   @Override public int stencilBufferGetBits()
-    throws JCGLExceptionRuntime
+    throws JCGLException
   {
-    return JOGL_GL_Functions.stencilBufferGetBits(
-      this.contextGetGL3(),
-      this.state);
+    return this.stencil.stencilBufferGetBits();
   }
 
   @Override public boolean stencilBufferIsEnabled()
-    throws JCGLExceptionRuntime
+    throws JCGLException,
+      JCGLExceptionNoStencilBuffer
   {
-    return JOGL_GL_Functions.stencilBufferIsEnabled(this.contextGetGL3());
+    return this.stencil.stencilBufferIsEnabled();
   }
 
   @Override public void stencilBufferMask(
-    final @Nonnull FaceSelection faces,
+    final FaceSelection faces,
     final int mask)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    throws JCGLException,
+      JCGLExceptionNoStencilBuffer
   {
-    JOGL_GL2ES2_Functions
-      .stencilBufferMask(this.contextGetGL3(), faces, mask);
+    this.stencil.stencilBufferMask(faces, mask);
   }
 
   @Override public void stencilBufferOperation(
-    final @Nonnull FaceSelection faces,
-    final @Nonnull StencilOperation stencil_fail,
-    final @Nonnull StencilOperation depth_fail,
-    final @Nonnull StencilOperation pass)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final FaceSelection faces,
+    final StencilOperation stencil_fail,
+    final StencilOperation depth_fail,
+    final StencilOperation pass)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.stencilBufferOperation(
-      this.contextGetGL3(),
-      faces,
-      stencil_fail,
-      depth_fail,
-      pass);
+    this.stencil
+      .stencilBufferOperation(faces, stencil_fail, depth_fail, pass);
   }
 
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateDepth16(
-    final @Nonnull String name,
+  @Override public Texture2DStaticType texture2DStaticAllocateDepth16(
+    final String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
+    return this.textures2d.texture2DStaticAllocateDepth16(
       name,
       width,
       height,
-      TextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateDepth24(
-    final @Nonnull String name,
+  @Override public Texture2DStaticType texture2DStaticAllocateDepth24(
+    final String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
+    return this.textures2d.texture2DStaticAllocateDepth24(
       name,
       width,
       height,
-      TextureFormat.TEXTURE_FORMAT_DEPTH_24_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public JOGLTexture2DStatic texture2DStaticAllocateDepth24Stencil8(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateDepth32f(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_DEPTH_32F_4BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateR16f(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_R_16F_2BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateR16I(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_R_16I_2BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateR16U(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_R_16U_2BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateR32f(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_R_32F_4BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateR32I(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_R_32I_4BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateR32U(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_R_32U_4BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateR8(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_R_8_1BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateR8I(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_R_8I_1BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateR8U(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_R_8U_1BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRG16f(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_RG_16F_4BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRG16I(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_RG_16I_4BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRG16U(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_RG_16U_4BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRG32f(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_RG_32F_8BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRG32I(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_RG_32I_8BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRG32U(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_RG_32U_8BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRG8(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_RG_8_2BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRG8I(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_RG_8I_2BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRG8U(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_RG_8U_2BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB16f(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_RGB_16F_6BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB16I(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_RGB_16I_6BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB16U(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_RGB_16U_6BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB32f(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_RGB_32F_12BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB32I(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_RGB_32I_12BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB32U(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_RGB_32U_12BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB565(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_RGB_565_2BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB8(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_RGB_8_3BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB8I(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_RGB_8I_3BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGB8U(
-    final @Nonnull String name,
-    final int width,
-    final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      width,
-      height,
-      TextureFormat.TEXTURE_FORMAT_RGB_8U_3BPP,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    JOGLTexture2DStatic
-    texture2DStaticAllocateRGBA1010102(
-      final @Nonnull String name,
+  @Override public
+    Texture2DStaticType
+    texture2DStaticAllocateDepth24Stencil8(
+      final String name,
       final int width,
       final int height,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+      final TextureWrapS wrap_s,
+      final TextureWrapT wrap_t,
+      final TextureFilterMinification min_filter,
+      final TextureFilterMagnification mag_filter)
+      throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures2d.texture2DStaticAllocateDepth24Stencil8(
       name,
       width,
       height,
-      TextureFormat.TEXTURE_FORMAT_RGBA_1010102_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA16f(
-    final @Nonnull String name,
+  @Override public Texture2DStaticType texture2DStaticAllocateDepth32f(
+    final String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures2d.texture2DStaticAllocateDepth32f(
       name,
       width,
       height,
-      TextureFormat.TEXTURE_FORMAT_RGBA_16F_8BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA16I(
-    final @Nonnull String name,
+  @Override public Texture2DStaticType texture2DStaticAllocateR16f(
+    final String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures2d.texture2DStaticAllocateR16f(
       name,
       width,
       height,
-      TextureFormat.TEXTURE_FORMAT_RGBA_16I_8BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA16U(
-    final @Nonnull String name,
+  @Override public Texture2DStaticType texture2DStaticAllocateR16I(
+    final String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures2d.texture2DStaticAllocateR16I(
       name,
       width,
       height,
-      TextureFormat.TEXTURE_FORMAT_RGBA_16U_8BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA32f(
-    final @Nonnull String name,
+  @Override public Texture2DStaticType texture2DStaticAllocateR16U(
+    final String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
+    return this.textures2d.texture2DStaticAllocateR16U(
       name,
       width,
       height,
-      TextureFormat.TEXTURE_FORMAT_RGBA_32F_16BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA32I(
-    final @Nonnull String name,
+  @Override public Texture2DStaticType texture2DStaticAllocateR32f(
+    final String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures2d.texture2DStaticAllocateR32f(
       name,
       width,
       height,
-      TextureFormat.TEXTURE_FORMAT_RGBA_32I_16BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA32U(
-    final @Nonnull String name,
+  @Override public Texture2DStaticType texture2DStaticAllocateR32I(
+    final String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures2d.texture2DStaticAllocateR32I(
       name,
       width,
       height,
-      TextureFormat.TEXTURE_FORMAT_RGBA_32U_16BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA4444(
-    final @Nonnull String name,
+  @Override public Texture2DStaticType texture2DStaticAllocateR32U(
+    final String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
+    return this.textures2d.texture2DStaticAllocateR32U(
       name,
       width,
       height,
-      TextureFormat.TEXTURE_FORMAT_RGBA_4444_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA5551(
-    final @Nonnull String name,
+  @Override public Texture2DStaticType texture2DStaticAllocateR8(
+    final String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
+    return this.textures2d.texture2DStaticAllocateR8(
       name,
       width,
       height,
-      TextureFormat.TEXTURE_FORMAT_RGBA_5551_2BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA8(
-    final @Nonnull String name,
+  @Override public Texture2DStaticType texture2DStaticAllocateR8I(
+    final String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures2d.texture2DStaticAllocateR8I(
       name,
       width,
       height,
-      TextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA8I(
-    final @Nonnull String name,
+  @Override public Texture2DStaticType texture2DStaticAllocateR8U(
+    final String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures2d.texture2DStaticAllocateR8U(
       name,
       width,
       height,
-      TextureFormat.TEXTURE_FORMAT_RGBA_8I_4BPP,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTexture2DStatic texture2DStaticAllocateRGBA8U(
-    final @Nonnull String name,
+  @Override public Texture2DStaticType texture2DStaticAllocateRG16f(
+    final String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.texture2DStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures2d.texture2DStaticAllocateRG16f(
       name,
       width,
       height,
-      TextureFormat.TEXTURE_FORMAT_RGBA_8U_4BPP,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRG16I(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRG16I(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRG16U(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRG16U(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRG32f(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRG32f(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRG32I(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRG32I(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRG32U(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRG32U(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRG8(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRG8(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRG8I(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRG8I(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRG8U(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRG8U(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGB16f(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGB16f(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGB16I(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGB16I(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGB16U(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGB16U(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGB32f(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGB32f(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGB32I(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGB32I(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGB32U(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGB32U(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGB565(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGB565(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGB8(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGB8(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGB8I(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGB8I(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGB8U(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGB8U(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGBA1010102(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGBA1010102(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGBA16f(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGBA16f(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGBA16I(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGBA16I(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGBA16U(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGBA16U(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGBA32f(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGBA32f(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGBA32I(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGBA32I(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGBA32U(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGBA32U(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGBA4444(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGBA4444(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGBA5551(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGBA5551(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGBA8(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.texture2DStaticAllocateRGBA8(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGBA8I(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGBA8I(
+      name,
+      width,
+      height,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public Texture2DStaticType texture2DStaticAllocateRGBA8U(
+    final String name,
+    final int width,
+    final int height,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures2d.texture2DStaticAllocateRGBA8U(
+      name,
+      width,
+      height,
       wrap_s,
       wrap_t,
       min_filter,
@@ -2793,76 +2249,55 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void texture2DStaticBind(
-    final @Nonnull TextureUnitType unit,
-    final @Nonnull Texture2DStaticUsableType texture)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureUnitType unit,
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
   {
-    JOGL_GL_Functions
-      .texture2DStaticBind(this.contextGetGL3(), unit, texture);
+    this.textures2d.texture2DStaticBind(unit, texture);
   }
 
   @Override public void texture2DStaticDelete(
-    final @Nonnull JOGLTexture2DStatic texture)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final Texture2DStaticType texture)
+    throws JCGLException
   {
-    JOGL_GL_Functions.texture2DStaticDelete(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      texture);
+    this.textures2d.texture2DStaticDelete(texture);
   }
 
   @Override public boolean texture2DStaticIsBound(
-    final @Nonnull TextureUnitType unit,
-    final @Nonnull Texture2DStaticUsableType texture)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureUnitType unit,
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
   {
-    return JOGL_GL_Functions.texture2DStaticIsBound(
-      this.contextGetGL3(),
-      this.state,
-      unit,
-      texture);
+    return this.textures2d.texture2DStaticIsBound(unit, texture);
   }
 
   @Override public void texture2DStaticUnbind(
-    final @Nonnull TextureUnitType unit)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureUnitType unit)
+    throws JCGLException
   {
-    JOGL_GL_Functions.texture2DStaticUnbind(this.contextGetGL3(), unit);
+    this.textures2d.texture2DStaticUnbind(unit);
   }
 
   @Override public void texture2DStaticUpdate(
-    final @Nonnull Texture2DStaticUpdate data)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final Texture2DStaticUpdateType data)
+    throws JCGLException
   {
-    JOGL_GLES3_Functions.texture2DStaticUpdate(this.contextGetGL3(), data);
+    this.textures2d.texture2DStaticUpdate(data);
   }
 
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateDepth16(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+  @Override public TextureCubeStaticType textureCubeStaticAllocateDepth16(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateDepth16(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -2870,26 +2305,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateDepth24(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+  @Override public TextureCubeStaticType textureCubeStaticAllocateDepth24(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateDepth24(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_DEPTH_24_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -2897,26 +2325,21 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
+  @Override public
+    TextureCubeStaticType
     textureCubeStaticAllocateDepth24Stencil8(
-      final @Nonnull String name,
+      final String name,
       final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+      final TextureWrapR wrap_r,
+      final TextureWrapS wrap_s,
+      final TextureWrapT wrap_t,
+      final TextureFilterMinification min_filter,
+      final TextureFilterMagnification mag_filter)
+      throws JCGLExceptionRuntime
   {
-    return JOGL_GL2GL3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateDepth24Stencil8(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -2924,51 +2347,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateDepth32f(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureFormat.TEXTURE_FORMAT_DEPTH_32F_4BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateR16f(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateDepth32f(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateDepth32f(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_R_16F_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -2976,24 +2367,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateR16I(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateR16f(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateR16f(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_R_16I_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3001,24 +2387,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateR16U(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateR16I(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateR16I(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_R_16U_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3026,24 +2407,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateR32f(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateR16U(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateR16U(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_R_32F_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3051,24 +2427,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateR32I(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateR32f(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateR32f(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_R_32I_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3076,24 +2447,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateR32U(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateR32I(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateR32I(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_R_32U_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3101,24 +2467,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateR8(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateR32U(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateR32U(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_R_8_1BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3126,24 +2487,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateR8I(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateR8(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateR8(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_R_8I_1BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3151,24 +2507,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateR8U(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateR8I(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateR8I(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_R_8U_1BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3176,24 +2527,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRG16f(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateR8U(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateR8U(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_RG_16F_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3201,24 +2547,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRG16I(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRG16f(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateR16f(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_RG_16I_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3226,24 +2567,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRG16U(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRG16I(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateR16I(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_RG_16U_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3251,24 +2587,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRG32f(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRG16U(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateR16U(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_RG_32F_8BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3276,24 +2607,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRG32I(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRG32f(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateRG32f(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_RG_32I_8BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3301,24 +2627,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRG32U(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRG32I(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateRG32I(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_RG_32U_8BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3326,24 +2647,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRG8(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRG32U(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateRG32U(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_RG_8_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3351,24 +2667,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRG8I(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRG8(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateRG8(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_RG_8I_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3376,24 +2687,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRG8U(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRG8I(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateRG8I(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_RG_8U_2BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3401,213 +2707,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGB16f(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureFormat.TEXTURE_FORMAT_RGB_16F_6BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGB16I(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureFormat.TEXTURE_FORMAT_RGB_16I_6BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGB16U(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureFormat.TEXTURE_FORMAT_RGB_16U_6BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGB32f(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureFormat.TEXTURE_FORMAT_RGB_32F_12BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGB32I(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureFormat.TEXTURE_FORMAT_RGB_32I_12BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGB32U(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureFormat.TEXTURE_FORMAT_RGB_32U_12BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGB565(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureFormat.TEXTURE_FORMAT_RGB_565_2BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRGB8(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRG8U(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateRG8U(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_RGB_8_3BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3615,24 +2727,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRGB8I(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGB16f(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateRGB16f(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_RGB_8I_3BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3640,24 +2747,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRGB8U(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGB16I(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateRGB16I(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_RGB_8U_3BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3665,240 +2767,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGBA16f(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureFormat.TEXTURE_FORMAT_RGBA_16F_8BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGBA16I(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureFormat.TEXTURE_FORMAT_RGBA_16I_8BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGBA16U(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureFormat.TEXTURE_FORMAT_RGBA_16U_8BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGBA32f(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureFormat.TEXTURE_FORMAT_RGBA_32F_16BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGBA32I(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureFormat.TEXTURE_FORMAT_RGBA_32I_16BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGBA32U(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureFormat.TEXTURE_FORMAT_RGBA_32U_16BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGBA4444(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureFormat.TEXTURE_FORMAT_RGBA_4444_2BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGBA5551(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
-  {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      name,
-      size,
-      TextureFormat.TEXTURE_FORMAT_RGBA_5551_2BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public @Nonnull JOGLTextureCubeStatic textureCubeStaticAllocateRGBA8(
-    final @Nonnull String name,
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGB16U(
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateRGB16U(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_RGBA_8_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3906,26 +2787,19 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGBA8I(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGB32f(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateRGB32f(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_RGBA_8I_4BPP,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3933,26 +2807,339 @@ import com.io7m.jtensors.VectorReadable4I;
       mag_filter);
   }
 
-  @Override public @Nonnull
-    JOGLTextureCubeStatic
-    textureCubeStaticAllocateRGBA8U(
-      final @Nonnull String name,
-      final int size,
-      final @Nonnull TextureWrapR wrap_r,
-      final @Nonnull TextureWrapS wrap_s,
-      final @Nonnull TextureWrapT wrap_t,
-      final @Nonnull TextureFilterMinification min_filter,
-      final @Nonnull TextureFilterMagnification mag_filter)
-      throws ConstraintError,
-        JCGLExceptionRuntime
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGB32I(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES3_Functions.textureCubeStaticAllocate(
-      this.contextGetGL(),
-      this.state,
-      this.log,
+    return this.textures_cube.textureCubeStaticAllocateRGB32I(
       name,
       size,
-      TextureFormat.TEXTURE_FORMAT_RGBA_8U_4BPP,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGB32U(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures_cube.textureCubeStaticAllocateRGB32U(
+      name,
+      size,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGB565(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures_cube.textureCubeStaticAllocateRGB565(
+      name,
+      size,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGB8(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures_cube.textureCubeStaticAllocateRGB8(
+      name,
+      size,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGB8I(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures_cube.textureCubeStaticAllocateRGB8I(
+      name,
+      size,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGB8U(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures_cube.textureCubeStaticAllocateRGB8U(
+      name,
+      size,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGBA16f(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures_cube.textureCubeStaticAllocateRGBA16f(
+      name,
+      size,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGBA16I(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures_cube.textureCubeStaticAllocateRGBA16I(
+      name,
+      size,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGBA16U(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures_cube.textureCubeStaticAllocateRGBA16U(
+      name,
+      size,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGBA32f(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures_cube.textureCubeStaticAllocateRGBA32f(
+      name,
+      size,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGBA32I(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures_cube.textureCubeStaticAllocateRGBA32I(
+      name,
+      size,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGBA32U(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures_cube.textureCubeStaticAllocateRGBA32U(
+      name,
+      size,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGBA4444(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures_cube.textureCubeStaticAllocateRGBA4444(
+      name,
+      size,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGBA5551(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures_cube.textureCubeStaticAllocateRGBA5551(
+      name,
+      size,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGBA8(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures_cube.textureCubeStaticAllocateRGBA8(
+      name,
+      size,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGBA8I(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures_cube.textureCubeStaticAllocateRGBA8I(
+      name,
+      size,
+      wrap_r,
+      wrap_s,
+      wrap_t,
+      min_filter,
+      mag_filter);
+  }
+
+  @Override public TextureCubeStaticType textureCubeStaticAllocateRGBA8U(
+    final String name,
+    final int size,
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
+  {
+    return this.textures_cube.textureCubeStaticAllocateRGBA8U(
+      name,
+      size,
       wrap_r,
       wrap_s,
       wrap_t,
@@ -3961,118 +3148,90 @@ import com.io7m.jtensors.VectorReadable4I;
   }
 
   @Override public void textureCubeStaticBind(
-    final @Nonnull TextureUnitType unit,
-    final @Nonnull TextureCubeStaticUsableType texture)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureUnitType unit,
+    final TextureCubeStaticUsableType texture)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionWrongContext,
+      JCGLExceptionDeleted
   {
-    JOGL_GL_Functions.textureCubeStaticBind(
-      this.contextGetGL3(),
-      unit,
-      texture);
+    this.textures_cube.textureCubeStaticBind(unit, texture);
   }
 
   @Override public void textureCubeStaticDelete(
-    final @Nonnull JOGLTextureCubeStatic texture)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureCubeStaticType texture)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionWrongContext,
+      JCGLExceptionDeleted
   {
-    JOGL_GL_Functions.textureCubeStaticDelete(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      texture);
+    this.textures_cube.textureCubeStaticDelete(texture);
   }
 
   @Override public boolean textureCubeStaticIsBound(
-    final @Nonnull TextureUnitType unit,
-    final @Nonnull TextureCubeStaticUsableType texture)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureUnitType unit,
+    final TextureCubeStaticUsableType texture)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionWrongContext,
+      JCGLExceptionDeleted
   {
-    return JOGL_GL_Functions.textureCubeStaticIsBound(
-      this.contextGetGL3(),
-      this.state,
-      unit,
-      texture);
+    return this.textures_cube.textureCubeStaticIsBound(unit, texture);
   }
 
   @Override public void textureCubeStaticUnbind(
-    final @Nonnull TextureUnitType unit)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureUnitType unit)
+    throws JCGLExceptionRuntime,
+      JCGLExceptionWrongContext
   {
-    JOGL_GL_Functions.textureCubeStaticUnbind(this.contextGetGL3(), unit);
+    this.textures_cube.textureCubeStaticUnbind(unit);
   }
 
   @Override public void textureCubeStaticUpdateLH(
-    final @Nonnull CubeMapFaceLH face,
-    final @Nonnull TextureCubeWritableData data)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final CubeMapFaceLH face,
+    final TextureCubeStaticUpdateType data)
+    throws JCGLException
   {
-    JOGL_GLES3_Functions.textureCubeStaticUpdate(
-      this.contextGetGL3(),
-      face,
-      data);
+    this.textures_cube.textureCubeStaticUpdateLH(face, data);
   }
 
   @Override public void textureCubeStaticUpdateRH(
-    final @Nonnull CubeMapFaceRH face,
-    final @Nonnull TextureCubeWritableData data)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final CubeMapFaceRH face,
+    final TextureCubeStaticUpdateType data)
+    throws JCGLException
   {
-    Constraints.constrainNotNull(face, "Face");
-    this.textureCubeStaticUpdateLH(CubeMapFaceLH.fromRH(face), data);
+    this.textures_cube.textureCubeStaticUpdateRH(face, data);
   }
 
   @Override public int textureGetMaximumSize()
     throws JCGLExceptionRuntime
   {
-    return JOGL_GL_Functions.textureGetMaximumSize(
-      this.contextGetGL3(),
-      this.state);
+    return this.texture_units.textureGetMaximumSize();
   }
 
-  @Override public List<TextureUnit> textureGetUnits()
+  @Override public List<TextureUnitType> textureGetUnits()
     throws JCGLExceptionRuntime
   {
-    return Collections.unmodifiableList(this.state.texture_units);
+    return this.texture_units.textureGetUnits();
   }
 
-  @Override public VertexShader vertexShaderCompile(
-    final @Nonnull String name,
-    final @Nonnull List<String> lines)
-    throws ConstraintError,
-      JCGLExceptionCompileError,
-      JCGLExceptionRuntime
+  @Override public VertexShaderType vertexShaderCompile(
+    final String name,
+    final List<String> lines)
+    throws JCGLExceptionProgramCompileError,
+      JCGLException
   {
-    return JOGL_GL2ES2_Functions.vertexShaderCompile(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      name,
-      lines);
+    return this.program.vertexShaderCompile(name, lines);
   }
 
   @Override public void vertexShaderDelete(
-    final @Nonnull VertexShader id)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final VertexShaderType id)
+    throws JCGLException
   {
-    JOGL_GL2ES2_Functions.vertexShaderDelete(
-      this.contextGetGL3(),
-      this.state,
-      this.log,
-      id);
+    this.program.vertexShaderDelete(id);
   }
 
   @Override public void viewportSet(
-    final @Nonnull AreaInclusive area)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final AreaInclusive area)
+    throws JCGLExceptionRuntime
   {
-    JOGL_GL_Functions.viewportSet(this.contextGetGL3(), area);
+    this.viewport.viewportSet(area);
   }
 }

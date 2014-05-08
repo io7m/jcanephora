@@ -16,7 +16,6 @@
 
 package com.io7m.jcanephora;
 
-
 /**
  * Typed, writable cursor addressing elements of type Vector4B.
  */

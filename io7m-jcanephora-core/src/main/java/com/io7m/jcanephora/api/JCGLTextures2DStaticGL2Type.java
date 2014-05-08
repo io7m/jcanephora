@@ -16,12 +16,12 @@
 
 package com.io7m.jcanephora.api;
 
-import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.Texture2DStaticReadableType;
 import com.io7m.jcanephora.Texture2DStaticType;
 import com.io7m.jcanephora.Texture2DStaticUsableType;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
-import com.io7m.jcanephora.TextureReadableDataType;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 
@@ -85,7 +85,7 @@ public interface JCGLTextures2DStaticGL2Type extends
    * @param mag_filter
    *          The magnification filter.
    * @return An allocated texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
@@ -97,18 +97,18 @@ public interface JCGLTextures2DStaticGL2Type extends
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 
   /**
    * @return The texture image data associated with <code>texture</code>.
    * 
    * @param texture
    *          The texture.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
-  TextureReadableDataType texture2DStaticGetImage(
+  Texture2DStaticReadableType texture2DStaticGetImage(
     final Texture2DStaticUsableType texture)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 }

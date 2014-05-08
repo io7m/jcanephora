@@ -36,8 +36,6 @@ import com.io7m.jtensors.VectorReadable4LType;
 public final class ByteBufferTextureCursorWritable_4_4444 extends
   ByteBufferAreaCursor implements SpatialCursorWritable4Type
 {
-  private final VectorM4I vector = new VectorM4I();
-
   /**
    * Construct a new cursor.
    * 
@@ -60,6 +58,8 @@ public final class ByteBufferTextureCursorWritable_4_4444 extends
       target_area,
       update_area);
   }
+
+  private final VectorM4I vector = new VectorM4I();
 
   private ByteBufferTextureCursorWritable_4_4444(
     final ByteBuffer in_target_data,

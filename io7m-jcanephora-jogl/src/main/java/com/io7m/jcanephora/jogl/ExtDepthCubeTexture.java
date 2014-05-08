@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,13 +16,15 @@
 
 package com.io7m.jcanephora.jogl;
 
-import javax.annotation.Nonnull;
-import javax.media.opengl.GL;
+import java.nio.IntBuffer;
 
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.functional.Option;
-import com.io7m.jcanephora.JCGLExtensionNames;
+import javax.media.opengl.GL;
+import javax.media.opengl.GL2ES2;
+import javax.media.opengl.GLContext;
+
+import com.io7m.jcanephora.CubeMapFaceLH;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.JCGLExtensionNames;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureFormat;
@@ -31,74 +33,184 @@ import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.api.JCGLExtensionDepthCubeTextureType;
 import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
-import com.io7m.jlog.Log;
+import com.io7m.jcanephora.jogl.JOGL_TextureSpecs.TextureSpec;
+import com.io7m.jfunctional.Option;
+import com.io7m.jfunctional.OptionType;
+import com.io7m.jlog.LogLevel;
+import com.io7m.jlog.LogUsableType;
+import com.io7m.jnull.NullCheck;
+import com.io7m.jranges.RangeCheck;
 
 /**
  * The depth texture extension.
  */
 
-class ExtDepthCubeTexture<G extends GL> implements
+final class ExtDepthCubeTexture<G extends GL> implements
   JCGLExtensionDepthCubeTextureType
 {
-  public static @Nonnull
+  public static
     <G extends GL>
-    Option<JCGLExtensionDepthCubeTextureType>
+    OptionType<JCGLExtensionDepthCubeTextureType>
     create(
-      final @Nonnull G g,
-      final @Nonnull JCGLStateCache state,
-      final @Nonnull JCGLNamedExtensionsType extensions,
-      final @Nonnull Log log)
-      throws ConstraintError
+      final GL in_gl,
+      final LogUsableType in_log,
+      final JCGLNamedExtensionsType in_extensions,
+      final JOGLIntegerCacheType in_icache,
+      final JOGLLogMessageCacheType in_tcache)
   {
-    final String names[] =
-      { JCGLExtensionNames.GL_OES_DEPTH_TEXTURE_CUBE_MAP };
+    final String[] names = new String[1];
+    names[0] = JCGLExtensionNames.GL_OES_DEPTH_TEXTURE_CUBE_MAP;
 
     for (final String name : names) {
-      if (extensions.extensionIsVisible(name)) {
-        return new Option.Some<JCGLExtensionDepthCubeTextureType>(
-          new ExtDepthCubeTexture<G>(g, state, log));
+      assert name != null;
+      if (in_extensions.extensionIsVisible(name)) {
+        final JCGLExtensionDepthCubeTextureType e =
+          new ExtDepthCubeTexture<GL>(in_gl, in_log, in_icache, in_tcache);
+        return Option.some(e);
       }
     }
 
-    return new Option.None<JCGLExtensionDepthCubeTextureType>();
+    return Option.none();
   }
 
-  private final @Nonnull JCGLStateCache cache;
-  private final @Nonnull G              gl;
-  private final @Nonnull Log            log;
+  private final GLContext               context;
+  private final GL                      gl;
+  private final JOGLIntegerCacheType    icache;
+  private final LogUsableType           log;
+  private final JOGLLogMessageCacheType tcache;
 
-  ExtDepthCubeTexture(
-    final @Nonnull G gl1,
-    final @Nonnull JCGLStateCache cache1,
-    final @Nonnull Log log1)
+  private ExtDepthCubeTexture(
+    final GL in_gl,
+    final LogUsableType in_log,
+    final JOGLIntegerCacheType in_icache,
+    final JOGLLogMessageCacheType in_tcache)
   {
-    this.gl = gl1;
-    this.cache = cache1;
-    this.log = log1;
+    this.gl = NullCheck.notNull(in_gl, "GL");
+    this.icache = NullCheck.notNull(in_icache, "Integer cache");
+    this.tcache = NullCheck.notNull(in_tcache, "Log message cache");
+    this.log =
+      NullCheck.notNull(in_log, "Log").with("ext-depth-cube-texture");
+    this.context = NullCheck.notNull(this.gl.getContext());
   }
 
   @Override public JOGLTextureCubeStatic textureCubeStaticAllocateDepth16(
-    final @Nonnull String name,
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification min_filter,
-    final @Nonnull TextureFilterMagnification mag_filter)
-    throws ConstraintError,
-      JCGLExceptionRuntime
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification min_filter,
+    final TextureFilterMagnification mag_filter)
+    throws JCGLExceptionRuntime
   {
-    return JOGL_GLES2_Functions.textureCubeStaticAllocate(
-      this.gl,
-      this.cache,
-      this.log,
-      name,
-      size,
-      TextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
+    NullCheck.notNull(name, "Name");
+    NullCheck.notNull(wrap_s, "Wrap S mode");
+    NullCheck.notNull(wrap_t, "Wrap T mode");
+    NullCheck.notNull(wrap_r, "Wrap R mode");
+    NullCheck.notNull(min_filter, "Minification filter");
+    NullCheck.notNull(mag_filter, "Magnification filter");
+    RangeCheck.checkGreaterEqual(size, "Size", 2, "Valid sizes");
+
+    final TextureFormat type = TextureFormat.TEXTURE_FORMAT_DEPTH_16_2BPP;
+    final StringBuilder text = this.tcache.getTextCache();
+
+    if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
+      final int bytes = size * (type.getBytesPerPixel() * size) * 6;
+      text.setLength(0);
+      text.append("allocate \"");
+      text.append(name);
+      text.append("\" ");
+      text.append(type);
+      text.append(" ");
+      text.append(size);
+      text.append("x");
+      text.append(size);
+      text.append(" ");
+      text.append(bytes);
+      text.append(" bytes");
+      final String r = text.toString();
+      assert r != null;
+      this.log.debug(r);
+    }
+
+    final IntBuffer cache = this.icache.getIntegerCache();
+    this.gl.glGenTextures(1, cache);
+    JOGLErrors.check(this.gl);
+    final int texture_id = cache.get(0);
+
+    this.gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, texture_id);
+    JOGLErrors.check(this.gl);
+    this.gl.glTexParameteri(
+      GL.GL_TEXTURE_CUBE_MAP,
+      GL.GL_TEXTURE_WRAP_S,
+      JOGL_GLTypeConversions.textureWrapSToGL(wrap_s));
+    JOGLErrors.check(this.gl);
+    this.gl.glTexParameteri(
+      GL.GL_TEXTURE_CUBE_MAP,
+      GL.GL_TEXTURE_WRAP_T,
+      JOGL_GLTypeConversions.textureWrapTToGL(wrap_t));
+    JOGLErrors.check(this.gl);
+    this.gl.glTexParameteri(
+      GL.GL_TEXTURE_CUBE_MAP,
+      GL2ES2.GL_TEXTURE_WRAP_R,
+      JOGL_GLTypeConversions.textureWrapRToGL(wrap_r));
+    JOGLErrors.check(this.gl);
+    this.gl.glTexParameteri(
+      GL.GL_TEXTURE_CUBE_MAP,
+      GL.GL_TEXTURE_MIN_FILTER,
+      JOGL_GLTypeConversions.textureFilterMinToGL(min_filter));
+    JOGLErrors.check(this.gl);
+    this.gl.glTexParameteri(
+      GL.GL_TEXTURE_CUBE_MAP,
+      GL.GL_TEXTURE_MAG_FILTER,
+      JOGL_GLTypeConversions.textureFilterMagToGL(mag_filter));
+    JOGLErrors.check(this.gl);
+
+    final TextureSpec spec = JOGL_TextureSpecs.getGLES2TextureSpec(type);
+    JOGLTextures2DStaticAbstract.setPackUnpackAlignment1(this.gl);
+
+    for (final CubeMapFaceLH face : CubeMapFaceLH.values()) {
+      assert face != null;
+      final int gface = JOGL_GLTypeConversions.cubeFaceToGL(face);
+
+      this.gl.glTexImage2D(
+        gface,
+        0,
+        spec.getInternalFormat(),
+        size,
+        size,
+        0,
+        spec.getFormat(),
+        spec.getType(),
+        null);
+      JOGLErrors.check(this.gl);
+    }
+
+    this.gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
+    JOGLErrors.check(this.gl);
+
+    final JOGLTextureCubeStatic t =
+      new JOGLTextureCubeStatic(
+        this.context,
+        texture_id,
+        name,
+        type,
+        size,
+        wrap_r,
+        wrap_s,
+        wrap_t,
+        min_filter,
+        mag_filter);
+
+    if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
+      text.setLength(0);
+      text.append("allocated ");
+      text.append(t);
+      final String r = text.toString();
+      assert r != null;
+      this.log.debug(r);
+    }
+
+    return t;
   }
 }

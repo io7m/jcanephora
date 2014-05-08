@@ -19,9 +19,9 @@ package com.io7m.jcanephora.api;
 import java.util.Map;
 
 import com.io7m.jcanephora.FragmentShaderType;
-import com.io7m.jcanephora.FramebufferDrawBuffer;
-import com.io7m.jcanephora.JCGLExceptionCompileError;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.FramebufferDrawBufferType;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLExceptionProgramCompileError;
 import com.io7m.jcanephora.ProgramType;
 import com.io7m.jcanephora.VertexShaderType;
 
@@ -58,9 +58,9 @@ public interface JCGLShadersGL3Type extends JCGLShadersCommonType
    * @return A reference to the created program.
    * @see JCGLFramebuffersCommonType#framebufferGetDrawBuffers()
    * 
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
-   * @throws JCGLExceptionCompileError
+   * @throws JCGLExceptionProgramCompileError
    *           Iff the program fails to link.
    */
 
@@ -68,7 +68,7 @@ public interface JCGLShadersGL3Type extends JCGLShadersCommonType
     final String name,
     final VertexShaderType v,
     final FragmentShaderType f,
-    final Map<String, FramebufferDrawBuffer> outputs)
-    throws JCGLExceptionRuntime,
-      JCGLExceptionCompileError;
+    final Map<String, FramebufferDrawBufferType> outputs)
+    throws JCGLException,
+      JCGLExceptionProgramCompileError;
 }

@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora.api;
 
-import com.io7m.jcanephora.JCGLExceptionRuntime;
+import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.RenderbufferType;
 
 /**
@@ -31,11 +31,11 @@ public interface JCGLRenderbuffersCommonType
    * 
    * @param buffer
    *          The buffer.
-   * @throws JCGLExceptionRuntime
+   * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
 
   void renderbufferDelete(
     final RenderbufferType<?> buffer)
-    throws JCGLExceptionRuntime;
+    throws JCGLException;
 }

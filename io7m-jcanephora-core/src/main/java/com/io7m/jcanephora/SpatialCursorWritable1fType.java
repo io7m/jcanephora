@@ -16,7 +16,6 @@
 
 package com.io7m.jcanephora;
 
-
 /**
  * Writable cursor addressing areas consisting of single-component elements.
  * Values are converted from single-precision floating point values to the

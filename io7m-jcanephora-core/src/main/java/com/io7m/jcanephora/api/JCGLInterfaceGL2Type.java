@@ -16,7 +16,6 @@
 
 package com.io7m.jcanephora.api;
 
-
 /**
  * <p>
  * The interface exposed by OpenGL 2.1 implementations.

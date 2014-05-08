@@ -34,10 +34,6 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 @EqualityStructural public final class ArrayAttributeDescriptor
 {
-  private final int            components;
-  private final String         name;
-  private final JCGLScalarType type;
-
   /**
    * Construct a new attribute descriptor.
    * 
@@ -58,6 +54,11 @@ import com.io7m.junreachable.UnreachableCodeException;
     return new ArrayAttributeDescriptor(in_name, in_type, in_components);
   }
 
+  private final int            components;
+  private final String         name;
+
+  private final JCGLScalarType type;
+
   private ArrayAttributeDescriptor(
     final String in_name,
     final JCGLScalarType in_type,
@@ -71,6 +72,42 @@ import com.io7m.junreachable.UnreachableCodeException;
         "Components",
         RangeCheck.POSITIVE_INTEGER,
         "Components");
+  }
+
+  /**
+   * Assert that the current attribute has exactly the given type and number
+   * of components, throwing {@link JCGLExceptionTypeError} if it does not.
+   * 
+   * @param required_components
+   *          The required number of components.
+   * @param required_type
+   *          The required type.
+   * @throws JCGLExceptionTypeError
+   *           If type checking fails.
+   */
+
+  @SuppressWarnings({ "boxing", "null" }) public void checkTypes(
+    final int required_components,
+    final JCGLScalarType required_type)
+    throws JCGLExceptionTypeError
+  {
+    if (this.components != required_components) {
+      throw new JCGLExceptionTypeError(String.format(
+        "Attribute '%s' has %d components, but %d are required",
+        this.name,
+        this.components,
+        required_components));
+    }
+
+    if (this.type != required_type) {
+      throw new JCGLExceptionTypeError(
+        String
+          .format(
+            "Attribute '%s' has components of type %s, but components of type %s are required",
+            this.name,
+            this.type,
+            required_type));
+    }
   }
 
   @Override public boolean equals(
@@ -194,41 +231,5 @@ import com.io7m.junreachable.UnreachableCodeException;
     final String r = builder.toString();
     assert r != null;
     return r;
-  }
-
-  /**
-   * Assert that the current attribute has exactly the given type and number
-   * of components, throwing {@link JCGLExceptionTypeError} if it does not.
-   * 
-   * @param required_components
-   *          The required number of components.
-   * @param required_type
-   *          The required type.
-   * @throws JCGLExceptionTypeError
-   *           If type checking fails.
-   */
-
-  @SuppressWarnings({ "boxing", "null" }) public void checkTypes(
-    final int required_components,
-    final JCGLScalarType required_type)
-    throws JCGLExceptionTypeError
-  {
-    if (this.components != required_components) {
-      throw new JCGLExceptionTypeError(String.format(
-        "Attribute '%s' has %d components, but %d are required",
-        this.name,
-        this.components,
-        required_components));
-    }
-
-    if (this.type != required_type) {
-      throw new JCGLExceptionTypeError(
-        String
-          .format(
-            "Attribute '%s' has components of type %s, but components of type %s are required",
-            this.name,
-            this.type,
-            required_type));
-    }
   }
 }

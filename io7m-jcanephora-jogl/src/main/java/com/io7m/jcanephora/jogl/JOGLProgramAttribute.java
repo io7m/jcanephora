@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora.jogl;
 
+import javax.media.opengl.GLContext;
+
 import com.io7m.jcanephora.JCGLType;
 import com.io7m.jcanephora.ProgramAttributeType;
 import com.io7m.jcanephora.ProgramUsableType;
@@ -30,8 +32,8 @@ import com.io7m.jranges.RangeCheck;
  * </p>
  */
 
-@EqualityStructural final class JOGLProgramAttribute implements
-  ProgramAttributeType
+@EqualityStructural final class JOGLProgramAttribute extends
+  JOGLObjectPseudoShared implements ProgramAttributeType
 {
   private final int               index;
   private final int               location;
@@ -40,12 +42,15 @@ import com.io7m.jranges.RangeCheck;
   private final JCGLType          type;
 
   JOGLProgramAttribute(
+    final GLContext in_context,
     final ProgramUsableType in_program,
     final int in_index,
     final int in_location,
     final String in_name,
     final JCGLType in_type)
   {
+    super(in_context);
+
     this.program = NullCheck.notNull(in_program, "Program");
     this.index =
       (int) RangeCheck.checkIncludedIn(
@@ -118,7 +123,7 @@ import com.io7m.jranges.RangeCheck;
   @Override public String toString()
   {
     final StringBuilder builder = new StringBuilder();
-    builder.append("[AttributeID ");
+    builder.append("[JOGLProgramAttribute ");
     builder.append(this.attributeGetLocation());
     builder.append(" ");
     builder.append(this.index);
