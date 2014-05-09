@@ -16,12 +16,9 @@
 
 package com.io7m.jcanephora.tests.contracts.gl3es3;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.RenderbufferFormat;
@@ -29,12 +26,13 @@ import com.io7m.jcanephora.RenderbufferType;
 import com.io7m.jcanephora.api.JCGLRenderbuffersGL3ES3Type;
 import com.io7m.jcanephora.tests.TestContext;
 import com.io7m.jcanephora.tests.contracts.RenderbufferContract;
+import com.io7m.junreachable.UnreachableCodeException;
 
 public abstract class RenderbufferGL3ES3Contract extends
   RenderbufferContract<JCGLRenderbuffersGL3ES3Type>
 {
   @Override public final RenderbufferType<?> allocateAnything(
-    final @Nonnull JCGLRenderbuffersGL3ES3Type r)
+    final JCGLRenderbuffersGL3ES3Type r)
   {
     try {
       return r.renderbufferAllocateRGB888(128, 128);

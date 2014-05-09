@@ -18,8 +18,6 @@ package com.io7m.jcanephora.tests.contracts;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -54,22 +52,22 @@ import com.io7m.jtensors.VectorI4I;
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  public abstract @Nonnull TextureCubeStaticType allocateTextureRGBA(
-    final @Nonnull T t,
-    final @Nonnull String name,
+  public abstract TextureCubeStaticType allocateTextureRGBA(
+    final T t,
+    final String name,
     final int size,
-    final @Nonnull TextureWrapR wrap_r,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification filter_min,
-    final @Nonnull TextureFilterMagnification filter_mag)
+    final TextureWrapR wrap_r,
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification filter_min,
+    final TextureFilterMagnification filter_mag)
     throws JCGLException;
 
   public abstract T getGLTextureCubeStatic(
-    final @Nonnull TestContext tc);
+    final TestContext tc);
 
   public abstract JCGLTextureUnitsType getGLTextureUnits(
-    final @Nonnull TestContext tc);
+    final TestContext tc);
 
   /**
    * OpenGL implementations support a minimum of two texture units.

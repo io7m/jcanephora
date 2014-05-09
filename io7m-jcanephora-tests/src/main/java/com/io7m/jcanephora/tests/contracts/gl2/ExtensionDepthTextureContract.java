@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.contracts.gl2;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -41,7 +39,7 @@ public abstract class ExtensionDepthTextureContract implements TestContract
   public abstract
     OptionType<JCGLExtensionDepthTextureType>
     getExtensionDepthTexture(
-      final @Nonnull TestContext tc);
+      final TestContext tc);
 
   @Before public final void checkSupport()
   {

@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.jogl.contracts.jogl30;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 
 import com.io7m.jcanephora.FramebufferStatus;
@@ -54,7 +52,7 @@ public final class JOGL30StencilBuffersTest extends StencilBuffersContract
     return JOGLTestContext.isOpenGL30Supported();
   }
 
-  @Override public @Nonnull FramebufferType makeFramebufferWithoutStencil(
+  @Override public  FramebufferType makeFramebufferWithoutStencil(
     final TestContext tc,
     final JCGLImplementationType gi)
   {
@@ -80,7 +78,7 @@ public final class JOGL30StencilBuffersTest extends StencilBuffersContract
     }
   }
 
-  @Override public @Nonnull FramebufferType makeFramebufferWithStencil(
+  @Override public  FramebufferType makeFramebufferWithStencil(
     final TestContext tc,
     final JCGLImplementationType gi)
   {
@@ -109,7 +107,7 @@ public final class JOGL30StencilBuffersTest extends StencilBuffersContract
     }
   }
 
-  @Override public @Nonnull TestContext newTestContext()
+  @Override public  TestContext newTestContext()
   {
     return JOGLTestContext.makeContextWithOpenGL3_0();
   }

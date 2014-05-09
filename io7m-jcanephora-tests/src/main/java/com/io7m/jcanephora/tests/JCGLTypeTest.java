@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -19,8 +19,8 @@ package com.io7m.jcanephora.tests;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.JCGLType;
+import com.io7m.jnull.NullCheckException;
 
 @SuppressWarnings("static-method") public final class JCGLTypeTest
 {
@@ -31,12 +31,14 @@ import com.io7m.jcanephora.JCGLType;
     }
   }
 
-  @Test(expected = ConstraintError.class) public void testFromNameNull()
+  @Test(expected = NullCheckException.class) public void testFromNameNull()
   {
     JCGLType.fromName((String) TestUtilities.actuallyNull());
   }
 
-  @Test(expected = ConstraintError.class) public void testFromNameUnknown()
+  @Test(expected = NullCheckException.class) public
+    void
+    testFromNameUnknown()
   {
     JCGLType.fromName("unknown");
   }

@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.jogl;
 
-import javax.annotation.Nonnull;
-
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.api.JCGLImplementationVisitorType;
 import com.io7m.jcanephora.api.JCGLInterfaceGL2Type;
@@ -29,8 +27,8 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class JOGLTestContextUtilities
 {
-  public static @Nonnull JCGLInterfaceGL2Type getGL2(
-    final @Nonnull TestContext context)
+  public static  JCGLInterfaceGL2Type getGL2(
+    final  TestContext context)
   {
     try {
       return context
@@ -74,8 +72,8 @@ public final class JOGLTestContextUtilities
     }
   }
 
-  public static @Nonnull JCGLInterfaceGL3Type getGL3(
-    final @Nonnull TestContext context)
+  public static  JCGLInterfaceGL3Type getGL3(
+    final  TestContext context)
   {
     try {
       return context
@@ -119,8 +117,8 @@ public final class JOGLTestContextUtilities
     }
   }
 
-  public static @Nonnull JCGLInterfaceGLES2Type getGLES2(
-    final @Nonnull TestContext context)
+  public static  JCGLInterfaceGLES2Type getGLES2(
+    final  TestContext context)
   {
     try {
       return context
@@ -164,8 +162,8 @@ public final class JOGLTestContextUtilities
     }
   }
 
-  public static @Nonnull JCGLInterfaceGLES3Type getGLES3(
-    final @Nonnull TestContext context)
+  public static  JCGLInterfaceGLES3Type getGLES3(
+    final  TestContext context)
   {
     try {
       return context

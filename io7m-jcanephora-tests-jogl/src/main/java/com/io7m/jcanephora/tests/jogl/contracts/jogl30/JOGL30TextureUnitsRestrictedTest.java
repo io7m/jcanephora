@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.jogl.contracts.jogl30;
 
-import javax.annotation.Nonnull;
-
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.api.JCGLSoftRestrictionsType;
 import com.io7m.jcanephora.tests.TestContext;
@@ -32,8 +30,8 @@ public final class JOGL30TextureUnitsRestrictedTest extends
     return JOGLTestContext.isOpenGL30Supported();
   }
 
-  @Override public @Nonnull TestContext newTestContext(
-    final @Nonnull JCGLSoftRestrictionsType r)
+  @Override public  TestContext newTestContext(
+    final  JCGLSoftRestrictionsType r)
     throws JCGLException
   {
     return JOGLTestContext.makeContextWithOpenGL3_0_WithRestrictions(r);

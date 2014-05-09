@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -53,11 +51,11 @@ public abstract class ArrayBufferContract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  public abstract @Nonnull JCGLArrayBuffersType getGLArrayBuffers(
-    final @Nonnull TestContext context);
+  public abstract JCGLArrayBuffersType getGLArrayBuffers(
+    final TestContext context);
 
-  public abstract @Nonnull JCGLShadersCommonType getGLPrograms(
-    final @Nonnull TestContext context);
+  public abstract JCGLShadersCommonType getGLPrograms(
+    final TestContext context);
 
   @Test public final void testArrayBufferAllocate()
     throws JCGLException

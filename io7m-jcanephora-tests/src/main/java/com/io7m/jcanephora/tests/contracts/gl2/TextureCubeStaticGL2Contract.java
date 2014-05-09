@@ -19,7 +19,6 @@ package com.io7m.jcanephora.tests.contracts.gl2;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.CubeMapFaceLH;
 import com.io7m.jcanephora.CubeMapFaceRH;
 import com.io7m.jcanephora.JCGLException;
@@ -40,6 +39,7 @@ import com.io7m.jcanephora.api.JCGLTexturesCubeStaticGL2Type;
 import com.io7m.jcanephora.tests.TestContext;
 import com.io7m.jcanephora.tests.contracts.TextureCubeStaticContract;
 import com.io7m.jtensors.VectorM4I;
+import com.io7m.junreachable.UnreachableCodeException;
 
 @SuppressWarnings("null") public abstract class TextureCubeStaticGL2Contract extends
   TextureCubeStaticContract<JCGLTexturesCubeStaticGL2Type>

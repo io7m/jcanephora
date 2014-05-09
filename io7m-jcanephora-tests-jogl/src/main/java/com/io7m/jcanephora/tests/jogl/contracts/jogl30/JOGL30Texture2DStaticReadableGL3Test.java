@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.jogl.contracts.jogl30;
 
-import javax.annotation.Nonnull;
-
 import com.io7m.jcanephora.api.JCGLTextures2DStaticGL3Type;
 import com.io7m.jcanephora.tests.TestContext;
 import com.io7m.jcanephora.tests.contracts.gl3.Texture2DStaticReadableGL3Contract;
@@ -27,18 +25,18 @@ import com.io7m.jcanephora.tests.jogl.JOGLTestContextUtilities;
 public final class JOGL30Texture2DStaticReadableGL3Test extends
   Texture2DStaticReadableGL3Contract
 {
+  @Override public JCGLTextures2DStaticGL3Type getTextures()
+  {
+    return JOGLTestContextUtilities.getGL3(this.newTestContext());
+  }
+
   @Override public boolean isGLSupported()
   {
     return JOGLTestContext.isOpenGL30Supported();
   }
 
-  @Override public @Nonnull TestContext newTestContext()
+  @Override public  TestContext newTestContext()
   {
     return JOGLTestContext.makeContextWithOpenGL3_0();
-  }
-
-  @Override public JCGLTextures2DStaticGL3Type getTextures()
-  {
-    return JOGLTestContextUtilities.getGL3(this.newTestContext());
   }
 }

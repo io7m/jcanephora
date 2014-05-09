@@ -20,7 +20,6 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.Texture2DStaticType;
 import com.io7m.jcanephora.Texture2DStaticUpdate;
@@ -33,6 +32,7 @@ import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.api.JCGLTextures2DStaticGL3Type;
 import com.io7m.jcanephora.tests.contracts.Texture2DStaticUpdateContract;
+import com.io7m.junreachable.UnreachableCodeException;
 
 @SuppressWarnings("null") public abstract class Texture2DStaticUpdateGL3Contract extends
   Texture2DStaticUpdateContract<JCGLTextures2DStaticGL3Type>

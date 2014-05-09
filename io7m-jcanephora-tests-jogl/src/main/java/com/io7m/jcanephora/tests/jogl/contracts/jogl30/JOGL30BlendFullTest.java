@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.jogl.contracts.jogl30;
 
-import javax.annotation.Nonnull;
-
 import com.io7m.jcanephora.api.JCGLBlendingGL3Type;
 import com.io7m.jcanephora.tests.TestContext;
 import com.io7m.jcanephora.tests.contracts.gl3.BlendingGL3Contract;
@@ -37,7 +35,7 @@ public final class JOGL30BlendFullTest extends BlendingGL3Contract
     return JOGLTestContext.isOpenGL30Supported();
   }
 
-  @Override public @Nonnull TestContext newTestContext()
+  @Override public  TestContext newTestContext()
   {
     return JOGLTestContext.makeContextWithOpenGL3_0();
   }

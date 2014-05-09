@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -40,7 +38,7 @@ import com.io7m.jnull.NullCheckException;
   }
 
   public abstract JCGLCullType getGLCull(
-    final @Nonnull TestContext context);
+    final TestContext context);
 
   /**
    * Enabling culling works.

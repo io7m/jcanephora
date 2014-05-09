@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.jogl.contracts.jogl30;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 
 import com.io7m.jcanephora.FramebufferStatus;
@@ -37,14 +35,14 @@ import com.io7m.jcanephora.tests.jogl.JOGLTestContextUtilities;
 
 public final class JOGL30DepthBuffersTest extends DepthBuffersContract
 {
-  @Override public @Nonnull JCGLDepthBufferType getGLDepthBuffer(
-    final @Nonnull TestContext tc)
+  @Override public  JCGLDepthBufferType getGLDepthBuffer(
+    final  TestContext tc)
   {
     return JOGLTestContextUtilities.getGL3(tc);
   }
 
-  @Override public @Nonnull JCGLFramebuffersCommonType getGLFramebuffers(
-    final @Nonnull TestContext tc)
+  @Override public  JCGLFramebuffersCommonType getGLFramebuffers(
+    final  TestContext tc)
   {
     return JOGLTestContextUtilities.getGL3(tc);
   }
@@ -54,9 +52,9 @@ public final class JOGL30DepthBuffersTest extends DepthBuffersContract
     return JOGLTestContext.isOpenGL30Supported();
   }
 
-  @Override public @Nonnull FramebufferType makeFramebufferWithDepth(
-    final @Nonnull TestContext tc,
-    final @Nonnull JCGLImplementationType gi)
+  @Override public  FramebufferType makeFramebufferWithDepth(
+    final  TestContext tc,
+    final  JCGLImplementationType gi)
     throws JCGLException
   {
     final JCGLInterfaceGL3Type g = JOGLTestContextUtilities.getGL3(tc);
@@ -95,9 +93,9 @@ public final class JOGL30DepthBuffersTest extends DepthBuffersContract
     return fb;
   }
 
-  @Override public @Nonnull FramebufferType makeFramebufferWithoutDepth(
-    final @Nonnull TestContext tc,
-    final @Nonnull JCGLImplementationType gi)
+  @Override public  FramebufferType makeFramebufferWithoutDepth(
+    final  TestContext tc,
+    final  JCGLImplementationType gi)
     throws JCGLException
   {
     final JCGLInterfaceGL3Type g = JOGLTestContextUtilities.getGL3(tc);
@@ -130,7 +128,7 @@ public final class JOGL30DepthBuffersTest extends DepthBuffersContract
     return fb;
   }
 
-  @Override public @Nonnull TestContext newTestContext()
+  @Override public  TestContext newTestContext()
   {
     return JOGLTestContext.makeContextWithOpenGL3_0();
   }

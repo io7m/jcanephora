@@ -4,13 +4,17 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.io7m.jcanephora.texload-imageio</groupId>
+  <parent>
+    <groupId>com.io7m.jcanephora</groupId>
+    <artifactId>io7m-jcanephora</artifactId>
+    <version>0.29.0</version>
+  </parent>
   <artifactId>io7m-jcanephora-texload-imageio</artifactId>
-  <name>io7m-jcanephora-texload-imageio</name>
-  <description>Implementation of the TextureLoading interface using Java ImageIO</description>
-  <version>0.28.0</version>
-  <url>http://mvn.io7m.com/jcanephora-texload-imageio</url>
+
   <packaging>jar</packaging>
+  <description>OpenGL plus static safety (ImageIO based texture loader)</description>
+  <url>http://mvn.io7m.com/${project.artifactId}/</url>
+  <name>${project.artifactId}</name>
 
   <licenses>
     <license>
@@ -25,6 +29,15 @@
     <developerConnection>scm:http://fossil.io7m.com/repo.cgi/io7m-jcanephora</developerConnection>
   </scm>
 
+  <developers>
+    <developer>
+      <id>io7m</id>
+      <name>io7m</name>
+      <email>code@io7m.com</email>
+      <url>http://io7m.com</url>
+    </developer>
+  </developers>
+
   <issueManagement>
     <url>http://fossil.io7m.com/repo.cgi/io7m-jcanephora</url>
     <system>Fossil</system>
@@ -34,7 +47,7 @@
     <site>
       <id>io7m</id>
       <name>io7m.com</name>
-      <url>http://mvn.io7m.com/jcanephora-texload-imageio</url>
+      <url>${project.url}</url>
     </site>
   </distributionManagement>
 
@@ -52,36 +65,22 @@
     <maven>2.2.1</maven>
   </prerequisites>
 
-  <developers>
-    <developer>
-      <id>io7m</id>
-      <name>io7m</name>
-      <email>code@io7m.com</email>
-      <url>http://io7m.com</url>
-    </developer>
-  </developers>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
 
   <dependencies>
     <dependency>
-      <groupId>com.io7m.jlog</groupId>
-      <artifactId>io7m-jlog</artifactId>
-      <version>[2.4.0, 3.0.0)</version>
-    </dependency>
-    <dependency>
-      <groupId>com.io7m.jcanephora.core</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>io7m-jcanephora-core</artifactId>
       <version>${project.version}</version>
     </dependency>
+
     <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
-      <version>2.0.2</version>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-      <version>4.11</version>
+      <groupId>com.io7m.jlog</groupId>
+      <artifactId>io7m-jlog-core</artifactId>
+      <version>[3.0.0, 4.0.0)</version>
     </dependency>
   </dependencies>
 
@@ -107,11 +106,6 @@
       </plugin>
     </plugins>
   </reporting>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-  </properties>
 
   <build>
     <!-- Allow deployment over ssh -->

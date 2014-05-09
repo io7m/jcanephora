@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,92 +16,99 @@
 
 package com.io7m.jcanephora.tests.contracts.batchexec;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.annotation.Nonnull;
 
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.UnreachableCodeException;
-import com.io7m.jaux.functional.Pair;
+import com.io7m.jcanephora.ArrayAttributeDescriptor;
+import com.io7m.jcanephora.ArrayAttributeType;
+import com.io7m.jcanephora.ArrayBufferType;
+import com.io7m.jcanephora.ArrayDescriptor;
+import com.io7m.jcanephora.ArrayDescriptorBuilderType;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jcanephora.JCGLExceptionAttributeMissing;
+import com.io7m.jcanephora.JCGLExceptionDeleted;
+import com.io7m.jcanephora.JCGLExceptionProgramUniformMissing;
+import com.io7m.jcanephora.JCGLExceptionProgramValidationError;
+import com.io7m.jcanephora.JCGLExceptionTypeError;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.JCGLType;
+import com.io7m.jcanephora.ProgramType;
+import com.io7m.jcanephora.TextureUnitType;
 import com.io7m.jcanephora.UsageHint;
-import com.io7m.jcanephora.tests.ArrayBuffer;
-import com.io7m.jcanephora.tests.ArrayBufferAttributeDescriptor;
-import com.io7m.jcanephora.tests.ArrayBufferTypeDescriptor;
-import com.io7m.jcanephora.tests.JCBExecutionAPI;
-import com.io7m.jcanephora.tests.JCBExecutionException;
-import com.io7m.jcanephora.tests.JCBExecutor;
-import com.io7m.jcanephora.tests.JCBExecutorProcedure;
-import com.io7m.jcanephora.tests.JCBProgram;
-import com.io7m.jcanephora.tests.JCBProgramProcedure;
-import com.io7m.jcanephora.tests.JCGLInterfaceCommon;
-import com.io7m.jcanephora.tests.JCGLRuntimeException;
-import com.io7m.jcanephora.tests.JCGLUnsupportedException;
+import com.io7m.jcanephora.api.JCGLInterfaceCommonType;
+import com.io7m.jcanephora.api.JCGLShadersCommonType;
+import com.io7m.jcanephora.batchexec.JCBExecutor;
+import com.io7m.jcanephora.batchexec.JCBExecutorProcedureType;
+import com.io7m.jcanephora.batchexec.JCBExecutorType;
+import com.io7m.jcanephora.batchexec.JCBProgramProcedureType;
+import com.io7m.jcanephora.batchexec.JCBProgramType;
+import com.io7m.jcanephora.batchexec.JCGLExceptionExecution;
 import com.io7m.jcanephora.tests.TestContext;
 import com.io7m.jcanephora.tests.TestUtilities;
-import com.io7m.jcanephora.tests.TextureUnit;
-import com.io7m.jcanephora.tests.TestUtilities.LoadedShader;
 import com.io7m.jcanephora.tests.contracts.TestContract;
+import com.io7m.jcanephora.tests.types.LoadedShader;
+import com.io7m.jfunctional.Pair;
+import com.io7m.jlog.LogUsableType;
+import com.io7m.jnull.NullCheckException;
 import com.io7m.jparasol.xml.FragmentParameter;
 import com.io7m.jparasol.xml.VertexInput;
 import com.io7m.jparasol.xml.VertexParameter;
 import com.io7m.jtensors.MatrixM3x3F;
 import com.io7m.jtensors.MatrixM4x4F;
+import com.io7m.jtensors.MatrixReadable3x3FType;
+import com.io7m.jtensors.MatrixReadable4x4FType;
 import com.io7m.jtensors.VectorI4F;
 import com.io7m.jtensors.VectorI4I;
-import com.io7m.jvvfs.FSCapabilityAll;
+import com.io7m.jtensors.VectorReadable2FType;
+import com.io7m.jtensors.VectorReadable2IType;
+import com.io7m.jtensors.VectorReadable3FType;
+import com.io7m.jtensors.VectorReadable3IType;
+import com.io7m.jtensors.VectorReadable4FType;
+import com.io7m.jtensors.VectorReadable4IType;
+import com.io7m.junreachable.UnreachableCodeException;
+import com.io7m.jvvfs.FilesystemType;
 
-public abstract class JCBExecutionContract implements TestContract
+@SuppressWarnings({ "null", "unchecked" }) public abstract class JCBExecutionContract implements
+  TestContract
 {
-  private static @Nonnull ArrayBuffer makeArrayBuffer(
-    final @Nonnull JCGLInterfaceCommon gl)
+  private static ArrayBufferType makeArrayBuffer(
+    final JCGLInterfaceCommonType gl)
   {
     try {
-      final ArrayList<ArrayBufferAttributeDescriptor> abs =
-        new ArrayList<ArrayBufferAttributeDescriptor>();
-      abs.add(new ArrayBufferAttributeDescriptor(
+      final ArrayDescriptorBuilderType b = ArrayDescriptor.newBuilder();
+      b.addAttribute(ArrayAttributeDescriptor.newAttribute(
         "a_vf2",
         JCGLScalarType.TYPE_FLOAT,
         2));
-      abs.add(new ArrayBufferAttributeDescriptor(
+      b.addAttribute(ArrayAttributeDescriptor.newAttribute(
         "a_vf3",
         JCGLScalarType.TYPE_FLOAT,
         3));
-      abs.add(new ArrayBufferAttributeDescriptor(
+      b.addAttribute(ArrayAttributeDescriptor.newAttribute(
         "a_vf4",
         JCGLScalarType.TYPE_FLOAT,
         4));
-      abs.add(new ArrayBufferAttributeDescriptor(
+      b.addAttribute(ArrayAttributeDescriptor.newAttribute(
         "a_f",
         JCGLScalarType.TYPE_FLOAT,
         1));
 
-      final ArrayBufferTypeDescriptor descriptor =
-        new ArrayBufferTypeDescriptor(abs);
-      return gl.arrayBufferAllocate(
-        3,
-        descriptor,
-        UsageHint.USAGE_STATIC_DRAW);
-    } catch (final ConstraintError e) {
-      throw new AssertionError(e);
-    } catch (final JCGLRuntimeException e) {
+      final ArrayDescriptor d = b.build();
+      return gl.arrayBufferAllocate(3, d, UsageHint.USAGE_STATIC_DRAW);
+    } catch (final JCGLException e) {
       throw new AssertionError(e);
     }
   }
 
-  private static @Nonnull Map<String, JCGLType> makeAttributes(
-    final @Nonnull LoadedShader ls)
-    throws ConstraintError
+  private static Map<String, JCGLType> makeAttributes(
+    final LoadedShader ls)
   {
     final HashMap<String, JCGLType> m = new HashMap<String, JCGLType>();
 
@@ -112,9 +119,8 @@ public abstract class JCBExecutionContract implements TestContract
     return m;
   }
 
-  private static @Nonnull Map<String, JCGLType> makeUniforms(
-    final @Nonnull LoadedShader ls)
-    throws ConstraintError
+  private static Map<String, JCGLType> makeUniforms(
+    final LoadedShader ls)
   {
     final HashMap<String, JCGLType> m = new HashMap<String, JCGLType>();
 
@@ -128,16 +134,17 @@ public abstract class JCBExecutionContract implements TestContract
     return m;
   }
 
-  private static @Nonnull Pair<JCBExecutionAPI, LoadedShader> newProgram(
-    final @Nonnull TestContext tc,
-    final @Nonnull String name)
+  private static Pair<JCBExecutorType, LoadedShader> newProgram(
+    final TestContext tc,
+    final String name)
   {
     LoadedShader ls;
-    JCBExecutionAPI e;
+    JCBExecutorType e;
     try {
-      final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-      final FSCapabilityAll fs = tc.getFilesystem();
-      ls = TestUtilities.loadShader(gl, fs, name, tc.getLog());
+      final JCGLInterfaceCommonType gl =
+        tc.getGLImplementation().getGLCommon();
+      final FilesystemType fs = tc.getFilesystem();
+      ls = LoadedShader.loadFrom(gl, fs, name, tc.getLog());
       e =
         JCBExecutor.newExecutorWithDeclarations(
           gl,
@@ -149,7 +156,7 @@ public abstract class JCBExecutionContract implements TestContract
       x.printStackTrace(System.err);
       throw new UnreachableCodeException(x);
     }
-    return new Pair<JCBExecutionAPI, LoadedShader>(e, ls);
+    return Pair.pair(e, ls);
   }
 
   @Before public final void checkSupport()
@@ -157,73 +164,71 @@ public abstract class JCBExecutionContract implements TestContract
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  @Test(expected = ConstraintError.class) public void testNullAttributes()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException
+  @Test(expected = NullCheckException.class) public void testNullAttributes()
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final FSCapabilityAll fs = tc.getFilesystem();
+    final JCGLInterfaceCommonType gl = tc.getGLImplementation().getGLCommon();
+    final FilesystemType fs = tc.getFilesystem();
     final LoadedShader ls =
-      TestUtilities.loadShader(gl, fs, "simple", tc.getLog());
+      LoadedShader.loadFrom(gl, fs, "simple", tc.getLog());
     JCBExecutor.newExecutorWithDeclarations(
       gl,
       ls.program,
-      null,
+      (Map<String, JCGLType>) TestUtilities.actuallyNull(),
       new HashMap<String, JCGLType>(),
       tc.getLog());
   }
 
-  @Test(expected = ConstraintError.class) public void testNullGL()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException
+  @Test(expected = NullCheckException.class) public void testNullGL()
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final FSCapabilityAll fs = tc.getFilesystem();
+    final JCGLInterfaceCommonType gl = tc.getGLImplementation().getGLCommon();
+    final FilesystemType fs = tc.getFilesystem();
     final LoadedShader ls =
-      TestUtilities.loadShader(gl, fs, "simple", tc.getLog());
-    JCBExecutor.newExecutorWithoutDeclarations(null, ls.program, tc.getLog());
+      LoadedShader.loadFrom(gl, fs, "simple", tc.getLog());
+    JCBExecutor.newExecutorWithoutDeclarations(
+      (JCGLShadersCommonType) TestUtilities.actuallyNull(),
+      ls.program,
+      tc.getLog());
   }
 
-  @Test(expected = ConstraintError.class) public void testNullLog()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException
+  @Test(expected = NullCheckException.class) public void testNullLog()
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final FSCapabilityAll fs = tc.getFilesystem();
+    final JCGLInterfaceCommonType gl = tc.getGLImplementation().getGLCommon();
+    final FilesystemType fs = tc.getFilesystem();
     final LoadedShader ls =
-      TestUtilities.loadShader(gl, fs, "simple", tc.getLog());
-    JCBExecutor.newExecutorWithoutDeclarations(gl, ls.program, null);
+      LoadedShader.loadFrom(gl, fs, "simple", tc.getLog());
+    JCBExecutor.newExecutorWithoutDeclarations(
+      gl,
+      ls.program,
+      (LogUsableType) TestUtilities.actuallyNull());
   }
 
-  @Test(expected = ConstraintError.class) public void testNullProgram()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException
+  @Test(expected = NullCheckException.class) public void testNullProgram()
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    JCBExecutor.newExecutorWithoutDeclarations(gl, null, tc.getLog());
+    final JCGLInterfaceCommonType gl = tc.getGLImplementation().getGLCommon();
+    JCBExecutor.newExecutorWithoutDeclarations(
+      gl,
+      (ProgramType) TestUtilities.actuallyNull(),
+      tc.getLog());
   }
 
-  @Test(expected = ConstraintError.class) public void testNullRunnable()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+  @Test(expected = NullCheckException.class) public void testNullRunnable()
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final FSCapabilityAll fs = tc.getFilesystem();
+    final JCGLInterfaceCommonType gl = tc.getGLImplementation().getGLCommon();
+    final FilesystemType fs = tc.getFilesystem();
     final LoadedShader ls =
-      TestUtilities.loadShader(gl, fs, "simple", tc.getLog());
+      LoadedShader.loadFrom(gl, fs, "simple", tc.getLog());
 
-    JCBExecutionAPI e;
+    JCBExecutorType e;
     try {
       e =
         JCBExecutor.newExecutorWithoutDeclarations(
@@ -233,47 +238,42 @@ public abstract class JCBExecutionContract implements TestContract
     } catch (final Throwable x) {
       throw new UnreachableCodeException(x);
     }
-    e.execRun(null);
+    e.execRun((JCBExecutorProcedureType<Exception>) TestUtilities
+      .actuallyNull());
   }
 
-  @Test(expected = ConstraintError.class) public void testNullUniforms()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException
+  @Test(expected = NullCheckException.class) public void testNullUniforms()
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final FSCapabilityAll fs = tc.getFilesystem();
+    final JCGLInterfaceCommonType gl = tc.getGLImplementation().getGLCommon();
+    final FilesystemType fs = tc.getFilesystem();
     final LoadedShader ls =
-      TestUtilities.loadShader(gl, fs, "simple", tc.getLog());
+      LoadedShader.loadFrom(gl, fs, "simple", tc.getLog());
     JCBExecutor.newExecutorWithDeclarations(
       gl,
       ls.program,
       new HashMap<String, JCGLType>(),
-      null,
+      (Map<String, JCGLType>) TestUtilities.actuallyNull(),
       tc.getLog());
   }
 
   @Test public void testProcedureCalled()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "simple");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
-        Assert.assertEquals(pair.second.program, program.programGet());
+        Assert.assertEquals(pair.getRight().program, program.programGet());
         called.set(true);
       }
     });
@@ -282,22 +282,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramAttributePutFloat()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -309,22 +305,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramAttributePutFloatOptimizedOut()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -335,62 +327,51 @@ public abstract class JCBExecutionContract implements TestContract
     Assert.assertTrue(called.get());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionAttributeMissing.class) public
     void
     testProgramAttributePutFloatNonexistent()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "simple");
 
-    try {
-      pair.first.execRun(new JCBExecutorProcedure() {
-        @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
-            Exception
-        {
-          program.programAttributePutFloat("nonexistent", 23.0f);
-        }
-      });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
-      throw x;
-    }
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        program.programAttributePutFloat("nonexistent", 23.0f);
+      }
+    });
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramAttributePutFloatNull()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "simple");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programAttributePutFloat(null, 23.0f);
+          program.programAttributePutFloat(
+            (String) TestUtilities.actuallyNull(),
+            23.0f);
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
@@ -398,22 +379,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramAttributePutVector2f()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -425,22 +402,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramAttributePutVector2fOptimizedOut()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -451,93 +424,80 @@ public abstract class JCBExecutionContract implements TestContract
     Assert.assertTrue(called.get());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionAttributeMissing.class) public
     void
     testProgramAttributePutVector2fNonexistent()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "simple");
 
-    try {
-      pair.first.execRun(new JCBExecutorProcedure() {
-        @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
-            Exception
-        {
-          program.programAttributePutVector2F("nonexistent", new VectorI4F());
-        }
-      });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
-      throw x;
-    }
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        program.programAttributePutVector2F("nonexistent", new VectorI4F());
+      }
+    });
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramAttributePutVector2fNull()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programAttributePutVector2F(null, new VectorI4F());
+          program.programAttributePutVector2F(
+            (String) TestUtilities.actuallyNull(),
+            new VectorI4F());
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramAttributePutVector2fNullValue()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programAttributePutVector2F("a_vf2", null);
+          program.programAttributePutVector2F(
+            "a_vf2",
+            (VectorReadable2FType) TestUtilities.actuallyNull());
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
@@ -545,22 +505,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramAttributePutVector3f()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -572,22 +528,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramAttributePutVector3fOptimizedOut()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -598,93 +550,80 @@ public abstract class JCBExecutionContract implements TestContract
     Assert.assertTrue(called.get());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionAttributeMissing.class) public
     void
     testProgramAttributePutVector3fNonexistent()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "simple");
 
-    try {
-      pair.first.execRun(new JCBExecutorProcedure() {
-        @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
-            Exception
-        {
-          program.programAttributePutVector3F("nonexistent", new VectorI4F());
-        }
-      });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
-      throw x;
-    }
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        program.programAttributePutVector3F("nonexistent", new VectorI4F());
+      }
+    });
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramAttributePutVector3fNull()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programAttributePutVector3F(null, new VectorI4F());
+          program.programAttributePutVector3F(
+            (String) TestUtilities.actuallyNull(),
+            new VectorI4F());
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramAttributePutVector3fNullValue()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programAttributePutVector3F("a_vf3", null);
+          program.programAttributePutVector3F(
+            "a_vf3",
+            (VectorReadable3FType) TestUtilities.actuallyNull());
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
@@ -692,22 +631,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramAttributePutVector4f()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -719,22 +654,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramAttributePutVector4fOptimizedOut()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -745,161 +676,142 @@ public abstract class JCBExecutionContract implements TestContract
     Assert.assertTrue(called.get());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionAttributeMissing.class) public
     void
     testProgramAttributePutVector4fNonexistent()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "simple");
 
-    try {
-      pair.first.execRun(new JCBExecutorProcedure() {
-        @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
-            Exception
-        {
-          program.programAttributePutVector4F("nonexistent", new VectorI4F());
-        }
-      });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
-      throw x;
-    }
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        program.programAttributePutVector4F("nonexistent", new VectorI4F());
+      }
+    });
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramAttributePutVector4fNull()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programAttributePutVector4F(null, new VectorI4F());
+          program.programAttributePutVector4F(
+            (String) TestUtilities.actuallyNull(),
+            new VectorI4F());
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramAttributePutVector4fNullValue()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programAttributePutVector4F("a_vf4", null);
+          program.programAttributePutVector4F(
+            "a_vf4",
+            (VectorReadable4FType) TestUtilities.actuallyNull());
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionTypeError.class) public
     void
     testProgramContainsIllTypedAttribute()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    final JCGLInterfaceCommonType gl = tc.getGLImplementation().getGLCommon();
 
-    final Pair<JCBExecutionAPI, LoadedShader> p =
+    final Pair<JCBExecutorType, LoadedShader> p =
       JCBExecutionContract.newProgram(tc, "everything");
 
     final Map<String, JCGLType> a =
-      JCBExecutionContract.makeAttributes(p.second);
+      JCBExecutionContract.makeAttributes(p.getRight());
     a.put("a_f", JCGLType.TYPE_BOOLEAN);
 
     JCBExecutor.newExecutorWithDeclarations(
       gl,
-      p.second.program,
-      JCBExecutionContract.makeUniforms(p.second),
+      p.getRight().program,
+      JCBExecutionContract.makeUniforms(p.getRight()),
       a,
       tc.getLog());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionTypeError.class) public
     void
     testProgramContainsIllTypedUniform()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
+    final JCGLInterfaceCommonType gl = tc.getGLImplementation().getGLCommon();
 
-    final Pair<JCBExecutionAPI, LoadedShader> p =
+    final Pair<JCBExecutorType, LoadedShader> p =
       JCBExecutionContract.newProgram(tc, "everything");
 
     final Map<String, JCGLType> u =
-      JCBExecutionContract.makeUniforms(p.second);
+      JCBExecutionContract.makeUniforms(p.getRight());
     u.put("u_float", JCGLType.TYPE_INTEGER);
 
     JCBExecutor.newExecutorWithDeclarations(
       gl,
-      p.second.program,
+      p.getRight().program,
       u,
-      JCBExecutionContract.makeAttributes(p.second),
+      JCBExecutionContract.makeAttributes(p.getRight()),
       tc.getLog());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionAttributeMissing.class) public
     void
     testProgramContainsUndeclaredAttribute()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final FSCapabilityAll fs = tc.getFilesystem();
+    final JCGLInterfaceCommonType gl = tc.getGLImplementation().getGLCommon();
+    final FilesystemType fs = tc.getFilesystem();
     final LoadedShader ls =
-      TestUtilities.loadShader(gl, fs, "everything", tc.getLog());
+      LoadedShader.loadFrom(gl, fs, "everything", tc.getLog());
 
     final Map<String, JCGLType> a = JCBExecutionContract.makeAttributes(ls);
     a.remove("a_f");
@@ -912,18 +824,16 @@ public abstract class JCBExecutionContract implements TestContract
       tc.getLog());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionProgramUniformMissing.class) public
     void
     testProgramContainsUndeclaredUniform()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final FSCapabilityAll fs = tc.getFilesystem();
+    final JCGLInterfaceCommonType gl = tc.getGLImplementation().getGLCommon();
+    final FilesystemType fs = tc.getFilesystem();
     final LoadedShader ls =
-      TestUtilities.loadShader(gl, fs, "everything", tc.getLog());
+      LoadedShader.loadFrom(gl, fs, "everything", tc.getLog());
     final HashMap<String, JCGLType> u = new HashMap<String, JCGLType>();
     u.put("nonexistent", JCGLType.TYPE_BOOLEAN);
 
@@ -931,40 +841,36 @@ public abstract class JCBExecutionContract implements TestContract
       .newExecutorWithDeclarations(gl, ls.program, u, u, tc.getLog());
   }
 
-  @Test(expected = ConstraintError.class) public void testProgramDeleted()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException
+  @Test(expected = JCGLExceptionDeleted.class) public
+    void
+    testProgramDeleted()
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final JCGLInterfaceCommon gl = tc.getGLImplementation().getGLCommon();
-    final FSCapabilityAll fs = tc.getFilesystem();
+    final JCGLInterfaceCommonType gl = tc.getGLImplementation().getGLCommon();
+    final FilesystemType fs = tc.getFilesystem();
     final LoadedShader ls =
-      TestUtilities.loadShader(gl, fs, "simple", tc.getLog());
+      LoadedShader.loadFrom(gl, fs, "simple", tc.getLog());
     gl.programDelete(ls.program);
 
     JCBExecutor.newExecutorWithoutDeclarations(gl, ls.program, tc.getLog());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionTypeError.class) public
     void
     testProgramUniformPutFloatWrongType()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -976,22 +882,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutFloat()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -1003,22 +905,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutFloatOptimizedOut()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -1029,87 +927,72 @@ public abstract class JCBExecutionContract implements TestContract
     Assert.assertTrue(called.get());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionProgramUniformMissing.class) public
     void
     testProgramUniformPutFloatNonexistent()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "simple");
 
-    try {
-      pair.first.execRun(new JCBExecutorProcedure() {
-        @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
-            Exception
-        {
-          program.programUniformPutFloat("nonexistent", 23.0f);
-        }
-      });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
-      throw x;
-    }
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        program.programUniformPutFloat("nonexistent", 23.0f);
+      }
+    });
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramUniformPutFloatNull()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "simple");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programUniformPutFloat(null, 23.0f);
+          program.programUniformPutFloat(
+            (String) TestUtilities.actuallyNull(),
+            23.0f);
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionTypeError.class) public
     void
     testProgramUniformPutIntegerWrongType()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -1121,22 +1004,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutInteger()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -1148,22 +1027,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutIntegerOptimizedOut()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -1174,62 +1049,51 @@ public abstract class JCBExecutionContract implements TestContract
     Assert.assertTrue(called.get());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionProgramUniformMissing.class) public
     void
     testProgramUniformPutIntegerNonexistent()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "simple");
 
-    try {
-      pair.first.execRun(new JCBExecutorProcedure() {
-        @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
-            Exception
-        {
-          program.programUniformPutInteger("nonexistent", 23);
-        }
-      });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
-      throw x;
-    }
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        program.programUniformPutInteger("nonexistent", 23);
+      }
+    });
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramUniformPutIntegerNull()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "simple");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programUniformPutInteger(null, 23);
+          program.programUniformPutInteger(
+            (String) TestUtilities.actuallyNull(),
+            23);
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
@@ -1237,22 +1101,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutMatrix3x3f()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -1264,22 +1124,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutMatrix3x3fOptimizedOut()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -1290,25 +1146,21 @@ public abstract class JCBExecutionContract implements TestContract
     Assert.assertTrue(called.get());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionTypeError.class) public
     void
     testProgramUniformPutMatrix3x3fWrongType()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -1319,25 +1171,21 @@ public abstract class JCBExecutionContract implements TestContract
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionTypeError.class) public
     void
     testProgramUniformPutMatrix4x4fWrongType()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -1348,25 +1196,21 @@ public abstract class JCBExecutionContract implements TestContract
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionTypeError.class) public
     void
     testProgramUniformPutVector2fWrongType()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -1377,25 +1221,21 @@ public abstract class JCBExecutionContract implements TestContract
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionTypeError.class) public
     void
     testProgramUniformPutVector3fWrongType()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -1406,25 +1246,21 @@ public abstract class JCBExecutionContract implements TestContract
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionTypeError.class) public
     void
     testProgramUniformPutVector4fWrongType()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -1435,95 +1271,80 @@ public abstract class JCBExecutionContract implements TestContract
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionProgramUniformMissing.class) public
     void
     testProgramUniformPutMatrix3x3fNonexistent()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything");
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        program.programUniformPutMatrix3x3f("nonexistent", new MatrixM3x3F());
+      }
+    });
+
+    throw new UnreachableCodeException();
+  }
+
+  @Test(expected = NullCheckException.class) public
+    void
+    testProgramUniformPutMatrix3x3fNullName()
+      throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
           program.programUniformPutMatrix3x3f(
-            "nonexistent",
+            (String) TestUtilities.actuallyNull(),
             new MatrixM3x3F());
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
-    void
-    testProgramUniformPutMatrix3x3fNullName()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
-  {
-    final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything");
-
-    try {
-      pair.first.execRun(new JCBExecutorProcedure() {
-        @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
-            Exception
-        {
-          program.programUniformPutMatrix3x3f(null, new MatrixM3x3F());
-        }
-      });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
-      throw x;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramUniformPutMatrix3x3fNullValue()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programUniformPutMatrix3x3f("u_m3", null);
+          program.programUniformPutMatrix3x3f(
+            "u_m3",
+            (MatrixReadable3x3FType) TestUtilities.actuallyNull());
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
@@ -1531,22 +1352,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutMatrix4x4f()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -1558,22 +1375,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutMatrix4x4fOptimizedOut()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -1584,95 +1397,80 @@ public abstract class JCBExecutionContract implements TestContract
     Assert.assertTrue(called.get());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionProgramUniformMissing.class) public
     void
     testProgramUniformPutMatrix4x4fNonexistent()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything");
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        program.programUniformPutMatrix4x4f("nonexistent", new MatrixM4x4F());
+      }
+    });
+
+    throw new UnreachableCodeException();
+  }
+
+  @Test(expected = NullCheckException.class) public
+    void
+    testProgramUniformPutMatrix4x4fNullName()
+      throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
           program.programUniformPutMatrix4x4f(
-            "nonexistent",
+            (String) TestUtilities.actuallyNull(),
             new MatrixM4x4F());
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
-    void
-    testProgramUniformPutMatrix4x4fNullName()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
-  {
-    final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything");
-
-    try {
-      pair.first.execRun(new JCBExecutorProcedure() {
-        @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
-            Exception
-        {
-          program.programUniformPutMatrix4x4f(null, new MatrixM4x4F());
-        }
-      });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
-      throw x;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramUniformPutMatrix4x4fNullValue()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programUniformPutMatrix4x4f("u_m4", null);
+          program.programUniformPutMatrix4x4f(
+            "u_m4",
+            (MatrixReadable4x4FType) TestUtilities.actuallyNull());
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
@@ -1680,28 +1478,24 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutTextureUnit()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    final TextureUnit unit =
+    final TextureUnitType unit =
       tc.getGLImplementation().getGLCommon().textureGetUnits().get(0);
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
-        program.programUniformPutTextureUnit("u_texture", unit);
+        program.programUniformPutTextureUnit("u_sampler2d", unit);
       }
     });
 
@@ -1709,94 +1503,80 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutTextureUnitOptimizedOut()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    final TextureUnit unit =
+    final TextureUnitType unit =
       tc.getGLImplementation().getGLCommon().textureGetUnits().get(0);
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
-        program.programUniformPutTextureUnit("u_texture_opt", unit);
+        program.programUniformPutTextureUnit("u_sampler2d_opt", unit);
       }
     });
 
     Assert.assertTrue(called.get());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionProgramUniformMissing.class) public
     void
     testProgramUniformPutTextureUnitNonexistent()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "simple");
 
-    try {
-      final TextureUnit unit =
-        tc.getGLImplementation().getGLCommon().textureGetUnits().get(0);
-      pair.first.execRun(new JCBExecutorProcedure() {
-        @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
-            Exception
-        {
-          program.programUniformPutTextureUnit("nonexistent", unit);
-        }
-      });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
-      throw x;
-    }
+    final TextureUnitType unit =
+      tc.getGLImplementation().getGLCommon().textureGetUnits().get(0);
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        program.programUniformPutTextureUnit("nonexistent", unit);
+      }
+    });
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramUniformPutTextureUnitNull()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "simple");
 
+    final TextureUnitType unit =
+      tc.getGLImplementation().getGLCommon().textureGetUnits().get(0);
+
     try {
-      final TextureUnit unit =
-        tc.getGLImplementation().getGLCommon().textureGetUnits().get(0);
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programUniformPutTextureUnit(null, unit);
+          program.programUniformPutTextureUnit(
+            (String) TestUtilities.actuallyNull(),
+            unit);
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
@@ -1804,22 +1584,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutVector2f()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -1835,22 +1611,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutVector2fOptimizedOut()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -1865,101 +1637,84 @@ public abstract class JCBExecutionContract implements TestContract
     Assert.assertTrue(called.get());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionProgramUniformMissing.class) public
     void
     testProgramUniformPutVector2fNonexistent()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
-    try {
-      pair.first.execRun(new JCBExecutorProcedure() {
-        @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
-            Exception
-        {
-          program.programUniformPutVector2f("nonexistent", new VectorI4F(
-            0.0f,
-            1.0f,
-            2.0f,
-            3.0f));
-        }
-      });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
-      throw x;
-    }
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        program.programUniformPutVector2f("nonexistent", new VectorI4F(
+          0.0f,
+          1.0f,
+          2.0f,
+          3.0f));
+      }
+    });
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramUniformPutVector2fNullName()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programUniformPutVector2f(null, new VectorI4F(
-            0.0f,
-            1.0f,
-            2.0f,
-            3.0f));
+          program.programUniformPutVector2f(
+            (String) TestUtilities.actuallyNull(),
+            new VectorI4F(0.0f, 1.0f, 2.0f, 3.0f));
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramUniformPutVector2fNullValue()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programUniformPutVector2f("u_vf2", null);
+          program.programUniformPutVector2f(
+            "u_vf2",
+            (VectorReadable2FType) TestUtilities.actuallyNull());
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
@@ -1967,22 +1722,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutVector2i()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -1994,22 +1745,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutVector2iOptimizedOut()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -2024,97 +1771,84 @@ public abstract class JCBExecutionContract implements TestContract
     Assert.assertTrue(called.get());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionProgramUniformMissing.class) public
     void
     testProgramUniformPutVector2iNonexistent()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
-    try {
-      pair.first.execRun(new JCBExecutorProcedure() {
-        @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
-            Exception
-        {
-          program.programUniformPutVector2i("nonexistent", new VectorI4I(
-            0,
-            1,
-            2,
-            3));
-        }
-      });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
-      throw x;
-    }
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        program.programUniformPutVector2i("nonexistent", new VectorI4I(
+          0,
+          1,
+          2,
+          3));
+      }
+    });
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramUniformPutVector2iNullName()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programUniformPutVector2i(null, new VectorI4I(0, 1, 2, 3));
+          program.programUniformPutVector2i(
+            (String) TestUtilities.actuallyNull(),
+            new VectorI4I(0, 1, 2, 3));
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramUniformPutVector2iNullValue()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programUniformPutVector2i("u_vi2", null);
+          program.programUniformPutVector2i(
+            "u_vi2",
+            (VectorReadable2IType) TestUtilities.actuallyNull());
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
@@ -2122,22 +1856,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutVector3f()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -2153,22 +1883,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutVector3fOptimizedOut()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -2183,101 +1909,84 @@ public abstract class JCBExecutionContract implements TestContract
     Assert.assertTrue(called.get());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionProgramUniformMissing.class) public
     void
     testProgramUniformPutVector3fNonexistent()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
-    try {
-      pair.first.execRun(new JCBExecutorProcedure() {
-        @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
-            Exception
-        {
-          program.programUniformPutVector3f("nonexistent", new VectorI4F(
-            0.0f,
-            1.0f,
-            2.0f,
-            3.0f));
-        }
-      });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
-      throw x;
-    }
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        program.programUniformPutVector3f("nonexistent", new VectorI4F(
+          0.0f,
+          1.0f,
+          2.0f,
+          3.0f));
+      }
+    });
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramUniformPutVector3fNullName()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programUniformPutVector3f(null, new VectorI4F(
-            0.0f,
-            1.0f,
-            2.0f,
-            3.0f));
+          program.programUniformPutVector3f(
+            (String) TestUtilities.actuallyNull(),
+            new VectorI4F(0.0f, 1.0f, 2.0f, 3.0f));
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramUniformPutVector3fNullValue()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programUniformPutVector3f("u_vf3", null);
+          program.programUniformPutVector3f(
+            "u_vf3",
+            (VectorReadable3FType) TestUtilities.actuallyNull());
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
@@ -2285,22 +1994,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutVector3i()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -2312,22 +2017,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutVector3iOptimizedOut()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -2342,97 +2043,84 @@ public abstract class JCBExecutionContract implements TestContract
     Assert.assertTrue(called.get());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionProgramUniformMissing.class) public
     void
     testProgramUniformPutVector3iNonexistent()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
-    try {
-      pair.first.execRun(new JCBExecutorProcedure() {
-        @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
-            Exception
-        {
-          program.programUniformPutVector3i("nonexistent", new VectorI4I(
-            0,
-            1,
-            2,
-            3));
-        }
-      });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
-      throw x;
-    }
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        program.programUniformPutVector3i("nonexistent", new VectorI4I(
+          0,
+          1,
+          2,
+          3));
+      }
+    });
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramUniformPutVector3iNullName()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programUniformPutVector3i(null, new VectorI4I(0, 1, 2, 3));
+          program.programUniformPutVector3i(
+            (String) TestUtilities.actuallyNull(),
+            new VectorI4I(0, 1, 2, 3));
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramUniformPutVector3iNullValue()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programUniformPutVector3i("u_vi3", null);
+          program.programUniformPutVector3i(
+            "u_vi3",
+            (VectorReadable3IType) TestUtilities.actuallyNull());
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
@@ -2440,22 +2128,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutVector4f()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -2471,22 +2155,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutVector4fOptimizedOut()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -2501,101 +2181,84 @@ public abstract class JCBExecutionContract implements TestContract
     Assert.assertTrue(called.get());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionProgramUniformMissing.class) public
     void
     testProgramUniformPutVector4fNonexistent()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
-    try {
-      pair.first.execRun(new JCBExecutorProcedure() {
-        @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
-            Exception
-        {
-          program.programUniformPutVector4f("nonexistent", new VectorI4F(
-            0.0f,
-            1.0f,
-            2.0f,
-            3.0f));
-        }
-      });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
-      throw x;
-    }
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        program.programUniformPutVector4f("nonexistent", new VectorI4F(
+          0.0f,
+          1.0f,
+          2.0f,
+          3.0f));
+      }
+    });
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramUniformPutVector4fNullName()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programUniformPutVector4f(null, new VectorI4F(
-            0.0f,
-            1.0f,
-            2.0f,
-            3.0f));
+          program.programUniformPutVector4f(
+            (String) TestUtilities.actuallyNull(),
+            new VectorI4F(0.0f, 1.0f, 2.0f, 3.0f));
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramUniformPutVector4fNullValue()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programUniformPutVector4f("u_vf4", null);
+          program.programUniformPutVector4f(
+            "u_vf4",
+            (VectorReadable4FType) TestUtilities.actuallyNull());
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
@@ -2603,22 +2266,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutVector4i()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -2630,22 +2289,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformPutVector4iOptimizedOut()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -2660,97 +2315,84 @@ public abstract class JCBExecutionContract implements TestContract
     Assert.assertTrue(called.get());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionProgramUniformMissing.class) public
     void
     testProgramUniformPutVector4iNonexistent()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
-    try {
-      pair.first.execRun(new JCBExecutorProcedure() {
-        @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
-            Exception
-        {
-          program.programUniformPutVector4i("nonexistent", new VectorI4I(
-            0,
-            1,
-            2,
-            3));
-        }
-      });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
-      throw x;
-    }
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        program.programUniformPutVector4i("nonexistent", new VectorI4I(
+          0,
+          1,
+          2,
+          3));
+      }
+    });
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramUniformPutVector4iNullName()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programUniformPutVector4i(null, new VectorI4I(0, 1, 2, 3));
+          program.programUniformPutVector4i(
+            (String) TestUtilities.actuallyNull(),
+            new VectorI4I(0, 1, 2, 3));
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramUniformPutVector4iNullValue()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programUniformPutVector4i("u_vi4", null);
+          program.programUniformPutVector4i(
+            "u_vi4",
+            (VectorReadable4IType) TestUtilities.actuallyNull());
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
@@ -2758,22 +2400,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformReuseAssigned()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -2785,25 +2423,21 @@ public abstract class JCBExecutionContract implements TestContract
     Assert.assertTrue(called.get());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionProgramValidationError.class) public
     void
     testProgramUniformReuseUnassigned()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -2813,22 +2447,18 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramUniformsOptimizedOut()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -2839,25 +2469,21 @@ public abstract class JCBExecutionContract implements TestContract
     Assert.assertTrue(called.get());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionProgramValidationError.class) public
     void
     testProgramUniformUnassigned()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
@@ -2869,33 +2495,29 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramAttributeBind()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    final JCGLInterfaceCommon gc = tc.getGLImplementation().getGLCommon();
-    final ArrayBuffer a = JCBExecutionContract.makeArrayBuffer(gc);
+    final JCGLInterfaceCommonType gc = tc.getGLImplementation().getGLCommon();
+    final ArrayBufferType a = JCBExecutionContract.makeArrayBuffer(gc);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
         gc.arrayBufferBind(a);
-        program.programAttributeBind("a_f", a.getAttribute("a_f"));
-        program.programAttributeBind("a_vf2", a.getAttribute("a_vf2"));
-        program.programAttributeBind("a_vf3", a.getAttribute("a_vf3"));
-        program.programAttributeBind("a_vf4", a.getAttribute("a_vf4"));
+        program.programAttributeBind("a_f", a.arrayGetAttribute("a_f"));
+        program.programAttributeBind("a_vf2", a.arrayGetAttribute("a_vf2"));
+        program.programAttributeBind("a_vf3", a.arrayGetAttribute("a_vf3"));
+        program.programAttributeBind("a_vf4", a.arrayGetAttribute("a_vf4"));
       }
     });
 
@@ -2903,172 +2525,154 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramAttributeBindOptimizedOut()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything_opt");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    final JCGLInterfaceCommon gc = tc.getGLImplementation().getGLCommon();
-    final ArrayBuffer a = JCBExecutionContract.makeArrayBuffer(gc);
+    final JCGLInterfaceCommonType gc = tc.getGLImplementation().getGLCommon();
+    final ArrayBufferType a = JCBExecutionContract.makeArrayBuffer(gc);
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
         gc.arrayBufferBind(a);
-        program.programAttributeBind("a_f_opt", a.getAttribute("a_f"));
-        program.programAttributeBind("a_vf2_opt", a.getAttribute("a_vf2"));
-        program.programAttributeBind("a_vf3_opt", a.getAttribute("a_vf3"));
-        program.programAttributeBind("a_vf4_opt", a.getAttribute("a_vf4"));
+        program.programAttributeBind("a_f_opt", a.arrayGetAttribute("a_f"));
+        program.programAttributeBind(
+          "a_vf2_opt",
+          a.arrayGetAttribute("a_vf2"));
+        program.programAttributeBind(
+          "a_vf3_opt",
+          a.arrayGetAttribute("a_vf3"));
+        program.programAttributeBind(
+          "a_vf4_opt",
+          a.arrayGetAttribute("a_vf4"));
       }
     });
 
     Assert.assertTrue(called.get());
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionAttributeMissing.class) public
     void
     testProgramAttributeBindNonexistent()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "simple");
 
-    try {
-      final ArrayBuffer a =
-        JCBExecutionContract.makeArrayBuffer(tc
-          .getGLImplementation()
-          .getGLCommon());
+    final ArrayBufferType a =
+      JCBExecutionContract.makeArrayBuffer(tc
+        .getGLImplementation()
+        .getGLCommon());
 
-      pair.first.execRun(new JCBExecutorProcedure() {
-        @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
-            Exception
-        {
-          program.programAttributeBind("nonexistent", a.getAttribute("a_f"));
-        }
-      });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
-      throw x;
-    }
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        program.programAttributeBind(
+          "nonexistent",
+          a.arrayGetAttribute("a_f"));
+      }
+    });
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = JCGLExceptionTypeError.class) public
     void
     testProgramAttributeBindWrongType()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
-    try {
-      final ArrayBuffer a =
-        JCBExecutionContract.makeArrayBuffer(tc
-          .getGLImplementation()
-          .getGLCommon());
+    final ArrayBufferType a =
+      JCBExecutionContract.makeArrayBuffer(tc
+        .getGLImplementation()
+        .getGLCommon());
 
-      pair.first.execRun(new JCBExecutorProcedure() {
-        @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
-            Exception
-        {
-          program.programAttributeBind("a_vf4", a.getAttribute("a_f"));
-        }
-      });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
-      throw x;
-    }
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        program.programAttributeBind("a_vf4", a.arrayGetAttribute("a_f"));
+      }
+    });
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramAttributeBindNull()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
-    try {
-      final ArrayBuffer a =
-        JCBExecutionContract.makeArrayBuffer(tc
-          .getGLImplementation()
-          .getGLCommon());
+    final ArrayBufferType a =
+      JCBExecutionContract.makeArrayBuffer(tc
+        .getGLImplementation()
+        .getGLCommon());
 
-      pair.first.execRun(new JCBExecutorProcedure() {
+    try {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programAttributeBind(null, a.getAttribute("a_f"));
+          program.programAttributeBind(
+            (String) TestUtilities.actuallyNull(),
+            a.arrayGetAttribute("a_f"));
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
     throw new UnreachableCodeException();
   }
 
-  @Test(expected = ConstraintError.class) public
+  @Test(expected = NullCheckException.class) public
     void
     testProgramAttributeBindNullValue()
-      throws ConstraintError,
-        JCGLRuntimeException,
-        JCGLUnsupportedException,
-        JCBExecutionException
+      throws JCGLException
   {
     final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
-          program.programAttributeBind("a_vf4", null);
+          program.programAttributeBind(
+            "a_vf4",
+            (ArrayAttributeType) TestUtilities.actuallyNull());
         }
       });
-    } catch (final ConstraintError x) {
-      System.err.println(x);
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
       throw x;
     }
 
@@ -3076,36 +2680,32 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramAllAssigned()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
 
-    final JCGLInterfaceCommon gc = tc.getGLImplementation().getGLCommon();
-    final ArrayBuffer a = JCBExecutionContract.makeArrayBuffer(gc);
-    final List<TextureUnit> units = gc.textureGetUnits();
+    final JCGLInterfaceCommonType gc = tc.getGLImplementation().getGLCommon();
+    final ArrayBufferType a = JCBExecutionContract.makeArrayBuffer(gc);
+    final List<TextureUnitType> units = gc.textureGetUnits();
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
 
         gc.arrayBufferBind(a);
 
-        program.programAttributeBind("a_f", a.getAttribute("a_f"));
-        program.programAttributeBind("a_vf2", a.getAttribute("a_vf2"));
-        program.programAttributeBind("a_vf3", a.getAttribute("a_vf3"));
-        program.programAttributeBind("a_vf4", a.getAttribute("a_vf4"));
+        program.programAttributeBind("a_f", a.arrayGetAttribute("a_f"));
+        program.programAttributeBind("a_vf2", a.arrayGetAttribute("a_vf2"));
+        program.programAttributeBind("a_vf3", a.arrayGetAttribute("a_vf3"));
+        program.programAttributeBind("a_vf4", a.arrayGetAttribute("a_vf4"));
 
         program.programUniformPutFloat("u_float", 23.0f);
         program.programUniformPutVector2f("u_vf2", new VectorI4F());
@@ -3119,7 +2719,8 @@ public abstract class JCBExecutionContract implements TestContract
 
         program.programUniformPutMatrix3x3f("u_m3", new MatrixM3x3F());
         program.programUniformPutMatrix4x4f("u_m4", new MatrixM4x4F());
-        program.programUniformPutTextureUnit("u_texture", units.get(0));
+        program.programUniformPutTextureUnit("u_sampler2d", units.get(0));
+        program.programUniformPutTextureUnit("u_sampler_cube", units.get(0));
 
         program.programValidate();
       }
@@ -3129,32 +2730,31 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramExecException()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "simple");
     final AtomicBoolean caught = new AtomicBoolean(false);
 
-    final JCGLInterfaceCommon gc = tc.getGLImplementation().getGLCommon();
-    final ArrayBuffer a = JCBExecutionContract.makeArrayBuffer(gc);
+    final JCGLInterfaceCommonType gc = tc.getGLImplementation().getGLCommon();
+    final ArrayBufferType a = JCBExecutionContract.makeArrayBuffer(gc);
 
     final IllegalArgumentException z =
       new IllegalArgumentException("Caught!");
 
     try {
-      pair.first.execRun(new JCBExecutorProcedure() {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
         @Override public void call(
-          final @Nonnull JCBProgram program)
-          throws ConstraintError,
-            JCGLRuntimeException,
+          final JCBProgramType program)
+          throws JCGLException,
             Exception
         {
           gc.arrayBufferBind(a);
-          program.programAttributeBind("v_position", a.getAttribute("a_vf3"));
+          program.programAttributeBind(
+            "v_position",
+            a.arrayGetAttribute("a_vf3"));
           program.programUniformPutVector4f("f_ccolour", new VectorI4F());
           program.programUniformPutMatrix4x4f(
             "m_projection",
@@ -3162,10 +2762,9 @@ public abstract class JCBExecutionContract implements TestContract
           program.programUniformPutMatrix4x4f(
             "m_modelview",
             new MatrixM4x4F());
-          program.programExecute(new JCBProgramProcedure() {
+          program.programExecute(new JCBProgramProcedureType<Exception>() {
             @Override public void call()
-              throws ConstraintError,
-                JCGLRuntimeException,
+              throws JCGLException,
                 Exception
             {
               throw z;
@@ -3173,8 +2772,8 @@ public abstract class JCBExecutionContract implements TestContract
           });
         }
       });
-    } catch (final JCBExecutionException x) {
-      final Throwable k = x.getCause().getCause();
+    } catch (final JCGLExceptionExecution x) {
+      final Throwable k = x.getCause();
       Assert.assertSame(z, k);
       caught.set(true);
     }
@@ -3183,37 +2782,33 @@ public abstract class JCBExecutionContract implements TestContract
   }
 
   @Test public void testProgramAllAssignedExec()
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLUnsupportedException,
-      JCBExecutionException
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
-    final Pair<JCBExecutionAPI, LoadedShader> pair =
+    final Pair<JCBExecutorType, LoadedShader> pair =
       JCBExecutionContract.newProgram(tc, "everything");
     final AtomicBoolean called = new AtomicBoolean(false);
     final AtomicBoolean called_inner = new AtomicBoolean(false);
 
-    final JCGLInterfaceCommon gc = tc.getGLImplementation().getGLCommon();
-    final ArrayBuffer a = JCBExecutionContract.makeArrayBuffer(gc);
-    final List<TextureUnit> units = gc.textureGetUnits();
+    final JCGLInterfaceCommonType gc = tc.getGLImplementation().getGLCommon();
+    final ArrayBufferType a = JCBExecutionContract.makeArrayBuffer(gc);
+    final List<TextureUnitType> units = gc.textureGetUnits();
 
-    pair.first.execRun(new JCBExecutorProcedure() {
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
       @Override public void call(
-        final @Nonnull JCBProgram program)
-        throws ConstraintError,
-          JCGLRuntimeException,
+        final JCBProgramType program)
+        throws JCGLException,
           Exception
       {
         called.set(true);
 
         gc.arrayBufferBind(a);
 
-        program.programAttributeBind("a_f", a.getAttribute("a_f"));
-        program.programAttributeBind("a_vf2", a.getAttribute("a_vf2"));
-        program.programAttributeBind("a_vf3", a.getAttribute("a_vf3"));
-        program.programAttributeBind("a_vf4", a.getAttribute("a_vf4"));
+        program.programAttributeBind("a_f", a.arrayGetAttribute("a_f"));
+        program.programAttributeBind("a_vf2", a.arrayGetAttribute("a_vf2"));
+        program.programAttributeBind("a_vf3", a.arrayGetAttribute("a_vf3"));
+        program.programAttributeBind("a_vf4", a.arrayGetAttribute("a_vf4"));
 
         program.programUniformPutFloat("u_float", 23.0f);
         program.programUniformPutVector2f("u_vf2", new VectorI4F());
@@ -3227,12 +2822,12 @@ public abstract class JCBExecutionContract implements TestContract
 
         program.programUniformPutMatrix3x3f("u_m3", new MatrixM3x3F());
         program.programUniformPutMatrix4x4f("u_m4", new MatrixM4x4F());
-        program.programUniformPutTextureUnit("u_texture", units.get(0));
+        program.programUniformPutTextureUnit("u_sampler2d", units.get(0));
+        program.programUniformPutTextureUnit("u_sampler_cube", units.get(0));
 
-        program.programExecute(new JCBProgramProcedure() {
+        program.programExecute(new JCBProgramProcedureType<Exception>() {
           @Override public void call()
-            throws ConstraintError,
-              JCGLRuntimeException,
+            throws JCGLException,
               Exception
           {
             called_inner.set(true);

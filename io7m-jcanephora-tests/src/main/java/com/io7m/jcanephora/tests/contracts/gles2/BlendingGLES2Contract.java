@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.contracts.gles2;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -36,7 +34,7 @@ import com.io7m.jcanephora.tests.contracts.TestContract;
   TestContract
 {
   static JCGLBlendingCommonType getGLBlending(
-    final @Nonnull TestContext context)
+    final TestContext context)
   {
     final JCGLImplementationType gi = context.getGLImplementation();
     return gi.getGLCommon();

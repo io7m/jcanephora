@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
-import javax.annotation.Nonnull;
-
 import com.io7m.jcanephora.tests.TestContext;
 
 public interface TestContract
@@ -36,5 +34,5 @@ public interface TestContract
    * context.
    */
 
-  public @Nonnull TestContext newTestContext();
+  public TestContext newTestContext();
 }

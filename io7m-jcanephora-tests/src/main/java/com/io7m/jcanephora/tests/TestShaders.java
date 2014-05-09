@@ -18,7 +18,11 @@ package com.io7m.jcanephora.tests;
 
 import java.io.IOException;
 
-import javax.annotation.Nonnull;
+import javax.xml.parsers.ParserConfigurationException;
+
+import nu.xom.ParsingException;
+
+import org.xml.sax.SAXException;
 
 import com.io7m.jcanephora.FragmentShaderType;
 import com.io7m.jcanephora.JCGLException;
@@ -30,6 +34,8 @@ import com.io7m.jcanephora.VertexShaderType;
 import com.io7m.jcanephora.api.JCGLMetaType;
 import com.io7m.jcanephora.api.JCGLShadersCommonType;
 import com.io7m.jcanephora.utilities.ShaderUtilities;
+import com.io7m.jlog.LogUsableType;
+import com.io7m.jparasol.xml.PGLSLMetaXML;
 import com.io7m.junreachable.UnreachableCodeException;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.FilesystemType;
@@ -41,8 +47,8 @@ import com.io7m.jvvfs.PathVirtual;
     <G extends JCGLShadersCommonType & JCGLMetaType>
     ProgramType
     getEverythingProgram(
-      final @Nonnull G gl,
-      final @Nonnull FilesystemType fs)
+      final G gl,
+      final FilesystemType fs)
       throws JCGLExceptionProgramCompileError
   {
     return TestShaders.getProgram(gl, fs, "everything");
@@ -52,9 +58,9 @@ import com.io7m.jvvfs.PathVirtual;
     <G extends JCGLShadersCommonType & JCGLMetaType>
     FragmentShaderType
     getFragmentShader(
-      final @Nonnull G gl,
-      final @Nonnull FilesystemType fs,
-      final @Nonnull String name)
+      final G gl,
+      final FilesystemType fs,
+      final String name)
   {
     try {
       return TestShaders.getFragmentShaderMayFail(gl, fs, name);
@@ -115,8 +121,8 @@ import com.io7m.jvvfs.PathVirtual;
     <G extends JCGLShadersCommonType & JCGLMetaType>
     ProgramType
     getPositionProgram(
-      final @Nonnull G gl,
-      final @Nonnull FilesystemType fs)
+      final G gl,
+      final FilesystemType fs)
       throws JCGLExceptionProgramCompileError
   {
     return TestShaders.getProgram(gl, fs, "simple");
@@ -126,9 +132,9 @@ import com.io7m.jvvfs.PathVirtual;
     <G extends JCGLShadersCommonType & JCGLMetaType>
     ProgramType
     getProgram(
-      final @Nonnull G gl,
-      final @Nonnull FilesystemType fs,
-      final @Nonnull String name)
+      final G gl,
+      final FilesystemType fs,
+      final String name)
       throws JCGLExceptionProgramCompileError
   {
     try {
@@ -149,14 +155,41 @@ import com.io7m.jvvfs.PathVirtual;
     <G extends JCGLShadersCommonType & JCGLMetaType>
     VertexShaderType
     getVertexShader(
-      final @Nonnull G gl,
-      final @Nonnull FilesystemType fs,
-      final @Nonnull String name)
+      final G gl,
+      final FilesystemType fs,
+      final String name)
   {
     try {
       return TestShaders.getVertexShaderMayFail(gl, fs, name);
     } catch (final Throwable x) {
       throw new UnreachableCodeException(x);
+    }
+  }
+
+  public static
+    <G extends JCGLShadersCommonType & JCGLMetaType>
+    PGLSLMetaXML
+    getMeta(
+      final FilesystemType fs,
+      final String name,
+      final LogUsableType log)
+  {
+    try {
+      final PathVirtual base =
+        PathVirtual.ofString("/com/io7m/jcanephora/tests/shaders/glsl");
+      final PathVirtual dir = base.appendName(name);
+      final PathVirtual vn = dir.appendName("meta.xml");
+      return PGLSLMetaXML.fromStream(fs.openFile(vn), log);
+    } catch (final FilesystemError e) {
+      throw new UnreachableCodeException(e);
+    } catch (final ParsingException e) {
+      throw new UnreachableCodeException(e);
+    } catch (final IOException e) {
+      throw new UnreachableCodeException(e);
+    } catch (final SAXException e) {
+      throw new UnreachableCodeException(e);
+    } catch (final ParserConfigurationException e) {
+      throw new UnreachableCodeException(e);
     }
   }
 

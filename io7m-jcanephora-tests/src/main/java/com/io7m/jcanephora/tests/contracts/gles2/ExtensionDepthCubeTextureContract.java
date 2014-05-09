@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.contracts.gles2;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -42,7 +40,7 @@ public abstract class ExtensionDepthCubeTextureContract implements
   public abstract
     OptionType<JCGLExtensionDepthCubeTextureType>
     getExtensionDepthCubeTexture(
-      final @Nonnull TestContext tc);
+      final TestContext tc);
 
   @Before public final void checkSupport()
   {

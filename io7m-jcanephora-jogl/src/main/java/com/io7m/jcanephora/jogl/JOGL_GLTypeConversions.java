@@ -57,6 +57,14 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class JOGL_GLTypeConversions
 {
+  /**
+   * Convert blend equations from GL constants.
+   * 
+   * @param e
+   *          The GL constant.
+   * @return The value.
+   */
+
   public static BlendEquationGLES2 blendEquationES2FromGL(
     final int e)
   {
@@ -72,6 +80,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert blend equations to GL constants.
+   * 
+   * @param e
+   *          The equation.
+   * @return The resulting GL constant.
+   */
+
   public static int blendEquationES2ToGL(
     final BlendEquationGLES2 e)
   {
@@ -86,6 +102,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert blend equations from GL constants.
+   * 
+   * @param e
+   *          The GL constant.
+   * @return The value.
+   */
 
   public static BlendEquationGL3 blendEquationFromGL(
     final int e)
@@ -106,6 +130,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert blend equations to GL constants.
+   * 
+   * @param e
+   *          The equation.
+   * @return The resulting GL constant.
+   */
+
   public static int blendEquationToGL(
     final BlendEquationGL3 e)
   {
@@ -124,6 +156,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert blend functions from GL constants.
+   * 
+   * @param type
+   *          The GL constant.
+   * @return The value.
+   */
 
   public static BlendFunction blendFunctionFromGL(
     final int type)
@@ -164,6 +204,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert blend functions to GL constants.
+   * 
+   * @param function
+   *          The function.
+   * @return The resulting GL constant.
+   */
+
   public static int blendFunctionToGL(
     final BlendFunction function)
   {
@@ -203,6 +251,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert faces from GL constants.
+   * 
+   * @param face
+   *          The GL constant.
+   * @return The value.
+   */
+
   public static CubeMapFaceLH cubeFaceFromGL(
     final int face)
   {
@@ -226,6 +282,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert cube map faces to GL constants.
+   * 
+   * @param face
+   *          The face.
+   * @return The resulting GL constant.
+   */
+
   public static int cubeFaceToGL(
     final CubeMapFaceLH face)
   {
@@ -248,6 +312,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert depth functions from GL constants.
+   * 
+   * @param d
+   *          The GL constant.
+   * @return The value.
+   */
 
   public static DepthFunction depthFunctionFromGL(
     final int d)
@@ -274,6 +346,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert depth functions to GL constants.
+   * 
+   * @param d
+   *          The function.
+   * @return The resulting GL constant.
+   */
+
   public static int depthFunctionToGL(
     final DepthFunction d)
   {
@@ -299,6 +379,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert face selections from GL constants.
+   * 
+   * @param faces
+   *          The GL constant.
+   * @return The value.
+   */
+
   public static FaceSelection faceSelectionFromGL(
     final int faces)
   {
@@ -313,6 +401,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert faces to GL constants.
+   * 
+   * @param faces
+   *          The faces.
+   * @return The resulting GL constant.
+   */
 
   public static int faceSelectionToGL(
     final FaceSelection faces)
@@ -329,6 +425,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert winding orders to GL constants.
+   * 
+   * @param f
+   *          The order.
+   * @return The resulting GL constant.
+   */
+
   public static FaceWindingOrder faceWindingOrderFromGL(
     final int f)
   {
@@ -342,6 +446,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert face winding orders to GL constants.
+   * 
+   * @param f
+   *          The face winding order.
+   * @return The resulting GL constant.
+   */
+
   public static int faceWindingOrderToGL(
     final FaceWindingOrder f)
   {
@@ -354,6 +466,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert framebuffer blit buffers from GL constants.
+   * 
+   * @param buffer
+   *          The GL constant.
+   * @return The value.
+   */
 
   public static FramebufferBlitBuffer framebufferBlitBufferFromGL(
     final int buffer)
@@ -376,6 +496,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert framebuffer blit buffers to GL constants.
+   * 
+   * @param buffers
+   *          The buffers.
+   * @return The resulting GL constant.
+   */
+
   public static int framebufferBlitBufferSetToMask(
     final Set<FramebufferBlitBuffer> buffers)
   {
@@ -386,6 +514,14 @@ public final class JOGL_GLTypeConversions
     }
     return mask;
   }
+
+  /**
+   * Convert framebuffer blit buffers to GL constants.
+   * 
+   * @param buffer
+   *          The buffer.
+   * @return The GL constant.
+   */
 
   public static int framebufferBlitBufferToGL(
     final FramebufferBlitBuffer buffer)
@@ -408,6 +544,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert framebuffer blit filter from GL constants.
+   * 
+   * @param filter
+   *          The GL constant.
+   * @return The value.
+   */
+
   public static FramebufferBlitFilter framebufferBlitFilterFromGL(
     final int filter)
   {
@@ -425,6 +569,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert framebuffer blit filters to GL constants.
+   * 
+   * @param filter
+   *          The filters.
+   * @return The resulting GL constant.
+   */
+
   public static int framebufferBlitFilterToGL(
     final FramebufferBlitFilter filter)
   {
@@ -441,6 +593,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert framebuffer status from GL constants.
+   * 
+   * @param status
+   *          The GL constant.
+   * @return The value.
+   */
 
   public static FramebufferStatus framebufferStatusFromGL(
     final int status)
@@ -462,6 +622,14 @@ public final class JOGL_GLTypeConversions
 
     return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_UNKNOWN;
   }
+
+  /**
+   * Convert framebuffer status to GL constants.
+   * 
+   * @param status
+   *          The status.
+   * @return The resulting GL constant.
+   */
 
   public static int framebufferStatusToGL(
     final FramebufferStatus status)
@@ -485,6 +653,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert logic ops from GL constants.
+   * 
+   * @param op
+   *          The GL constant.
+   * @return The value.
+   */
 
   public static LogicOperation logicOpFromGL(
     final int op)
@@ -527,6 +703,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert logic ops to GL constants.
+   * 
+   * @param op
+   *          The op.
+   * @return The resulting GL constant.
+   */
+
   public static int logicOpToGL(
     final LogicOperation op)
   {
@@ -568,6 +752,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert pixel types from GL constants.
+   * 
+   * @param e
+   *          The GL constant.
+   * @return The value.
+   */
+
   public static PixelFormat pixelTypeFromGL(
     final int e)
   {
@@ -600,6 +792,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert pixel types to GL constants.
+   * 
+   * @param p
+   *          The pixel type.
+   * @return The resulting GL constant.
+   */
 
   public static int pixelTypeToGL(
     final PixelFormat p)
@@ -636,6 +836,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert polygon modes from GL constants.
+   * 
+   * @param g
+   *          The GL constant.
+   * @return The value.
+   */
+
   public static PolygonMode polygonModeFromGL(
     final int g)
   {
@@ -651,6 +859,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert polygon modes to GL constants.
+   * 
+   * @param g
+   *          The mode.
+   * @return The resulting GL constant.
+   */
+
   public static int polygonModeToGL(
     final PolygonMode g)
   {
@@ -665,6 +881,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert primitives from GL constants.
+   * 
+   * @param code
+   *          The GL constant.
+   * @return The value.
+   */
 
   public static Primitives primitiveFromGL(
     final int code)
@@ -685,6 +909,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert primitives to GL constants.
+   * 
+   * @param p
+   *          The primitives.
+   * @return The resulting GL constant.
+   */
+
   public static int primitiveToGL(
     final Primitives p)
   {
@@ -703,6 +935,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert renderbuffer formats to GL constants.
+   * 
+   * @param type
+   *          The format.
+   * @return The resulting GL constant.
+   */
 
   public static int renderbufferTypeToGL(
     final RenderbufferFormat type)
@@ -731,6 +971,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert types from GL constants.
+   * 
+   * @param type
+   *          The GL constant.
+   * @return The value.
+   */
+
   public static JCGLScalarType scalarTypeFromGL(
     final int type)
   {
@@ -754,6 +1002,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert types to GL constants.
+   * 
+   * @param type
+   *          The type.
+   * @return The resulting GL constant.
+   */
+
   public static int scalarTypeToGL(
     final JCGLScalarType type)
   {
@@ -776,6 +1032,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert stencil functions to GL constants.
+   * 
+   * @param function
+   *          The function.
+   * @return The resulting GL constant.
+   */
 
   public static int stencilFunctionToGL(
     final StencilFunction function)
@@ -802,6 +1066,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert stencil ops to GL constants.
+   * 
+   * @param op
+   *          The op.
+   * @return The resulting GL constant.
+   */
+
   public static int stencilOperationToGL(
     final StencilOperation op)
   {
@@ -827,6 +1099,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert filters from GL constants.
+   * 
+   * @param mag_filter
+   *          The GL constant.
+   * @return The value.
+   */
+
   public static TextureFilterMagnification textureFilterMagFromGL(
     final int mag_filter)
   {
@@ -839,6 +1119,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert filters to GL constants.
+   * 
+   * @param mag_filter
+   *          The filter.
+   * @return The resulting GL constant.
+   */
 
   public static int textureFilterMagToGL(
     final TextureFilterMagnification mag_filter)
@@ -853,10 +1141,18 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert filters from GL constants.
+   * 
+   * @param min_filter
+   *          The GL constant.
+   * @return The value.
+   */
+
   public static TextureFilterMinification textureFilterMinFromGL(
-    final int mag_filter)
+    final int min_filter)
   {
-    switch (mag_filter) {
+    switch (min_filter) {
       case GL.GL_LINEAR:
         return TextureFilterMinification.TEXTURE_FILTER_LINEAR;
       case GL.GL_NEAREST:
@@ -865,6 +1161,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert filters to GL constants.
+   * 
+   * @param min_filter
+   *          The filter.
+   * @return The resulting GL constant.
+   */
 
   public static int textureFilterMinToGL(
     final TextureFilterMinification min_filter)
@@ -878,6 +1182,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert wrapping modes from GL constants.
+   * 
+   * @param wrap
+   *          The GL constant.
+   * @return The value.
+   */
 
   public static TextureWrapR textureWrapRFromGL(
     final int wrap)
@@ -894,6 +1206,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert wrapping mode to GL constants.
+   * 
+   * @param wrap
+   *          The mode.
+   * @return The resulting GL constant.
+   */
+
   public static int textureWrapRToGL(
     final TextureWrapR wrap)
   {
@@ -908,6 +1228,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert wrapping modes from GL constants.
+   * 
+   * @param wrap
+   *          The GL constant.
+   * @return The value.
+   */
 
   public static TextureWrapS textureWrapSFromGL(
     final int wrap)
@@ -924,6 +1252,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert wrapping mode to GL constants.
+   * 
+   * @param wrap
+   *          The mode.
+   * @return The resulting GL constant.
+   */
+
   public static int textureWrapSToGL(
     final TextureWrapS wrap)
   {
@@ -938,6 +1274,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert wrapping modes from GL constants.
+   * 
+   * @param wrap
+   *          The GL constant.
+   * @return The value.
+   */
 
   public static TextureWrapT textureWrapTFromGL(
     final int wrap)
@@ -954,6 +1298,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert wrapping mode to GL constants.
+   * 
+   * @param wrap
+   *          The mode.
+   * @return The resulting GL constant.
+   */
+
   public static int textureWrapTToGL(
     final TextureWrapT wrap)
   {
@@ -968,6 +1320,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert types from GL constants.
+   * 
+   * @param type
+   *          The GL constant.
+   * @return The value.
+   */
 
   public static JCGLType typeFromGL(
     final int type)
@@ -1016,6 +1376,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert types to GL constants.
+   * 
+   * @param type
+   *          The type.
+   * @return The resulting GL constant.
+   */
+
   public static int typeToGL(
     final JCGLType type)
   {
@@ -1063,6 +1431,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert types from GL constants.
+   * 
+   * @param type
+   *          The GL constant.
+   * @return The value.
+   */
+
   public static JCGLUnsignedType unsignedTypeFromGL(
     final int type)
   {
@@ -1078,6 +1454,14 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
+  /**
+   * Convert types to GL constants.
+   * 
+   * @param type
+   *          The type.
+   * @return The resulting GL constant.
+   */
+
   public static int unsignedTypeToGL(
     final JCGLUnsignedType type)
   {
@@ -1092,6 +1476,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert hints to GL constants.
+   * 
+   * @param hint
+   *          The hint.
+   * @return The resulting GL constant.
+   */
 
   public static int usageHintES2ToGL(
     final UsageHint hint)
@@ -1113,6 +1505,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert hints from GL constants.
+   * 
+   * @param hint
+   *          The GL constant.
+   * @return The value.
+   */
 
   public static UsageHint usageHintFromGL(
     final int hint)
@@ -1140,6 +1540,14 @@ public final class JOGL_GLTypeConversions
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * Convert hints to GL constants.
+   * 
+   * @param hint
+   *          The hint.
+   * @return The resulting GL constant.
+   */
 
   public static int usageHintToGL(
     final UsageHint hint)

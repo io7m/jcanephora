@@ -19,8 +19,6 @@ package com.io7m.jcanephora.tests.contracts.gl3;
 import java.util.EnumSet;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -50,7 +48,7 @@ import com.io7m.jranges.RangeInclusiveL;
 @SuppressWarnings("null") public abstract class FramebufferReadGL3Contract implements
   TestContract
 {
-  private final @Nonnull static FramebufferType makeFramebuffer(
+  private final static FramebufferType makeFramebuffer(
     final JCGLFramebuffersGL3Type g,
     final JCGLRenderbuffersGL3ES3Type r)
     throws JCGLException
@@ -75,11 +73,11 @@ import com.io7m.jranges.RangeInclusiveL;
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  public abstract @Nonnull JCGLFramebuffersGL3Type getFramebuffersGL3(
-    final @Nonnull TestContext tc);
+  public abstract JCGLFramebuffersGL3Type getFramebuffersGL3(
+    final TestContext tc);
 
-  public abstract @Nonnull JCGLRenderbuffersGL3ES3Type getRenderbuffersGL3(
-    final @Nonnull TestContext tc);
+  public abstract JCGLRenderbuffersGL3ES3Type getRenderbuffersGL3(
+    final TestContext tc);
 
   @Test(expected = JCGLExceptionFramebufferNotBound.class) public final
     void

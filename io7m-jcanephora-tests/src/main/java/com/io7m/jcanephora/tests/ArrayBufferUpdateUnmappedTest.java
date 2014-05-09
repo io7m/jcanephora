@@ -18,8 +18,6 @@ package com.io7m.jcanephora.tests;
 
 import java.nio.ByteBuffer;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -46,7 +44,7 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 @SuppressWarnings({ "null", "static-method" }) public final class ArrayBufferUpdateUnmappedTest
 {
-  private @Nonnull PseudoArray makePseudoArray()
+  private PseudoArray makePseudoArray()
   {
     try {
       final ArrayDescriptorBuilderType ab = ArrayDescriptor.newBuilder();

@@ -19,9 +19,9 @@ package com.io7m.jcanephora.tests.jogl;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.junreachable.UnreachableCodeException;
 import com.io7m.jcanephora.BlendEquationGL3;
 import com.io7m.jcanephora.jogl.JOGL_GLTypeConversions;
+import com.io7m.junreachable.UnreachableCodeException;
 
 @SuppressWarnings({ "null", "static-method" }) public final class JOGLBlendEquationTest
 {

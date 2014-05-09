@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.contracts.gles3;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -34,7 +32,7 @@ public abstract class RenderbufferGLES3Contract extends
   RenderbufferContract<JCGLRenderbuffersGLES3Type>
 {
   @Override public final RenderbufferType<?> allocateAnything(
-    final @Nonnull JCGLRenderbuffersGLES3Type r)
+    final JCGLRenderbuffersGLES3Type r)
   {
     try {
       return r.renderbufferAllocateRGB888(128, 128);

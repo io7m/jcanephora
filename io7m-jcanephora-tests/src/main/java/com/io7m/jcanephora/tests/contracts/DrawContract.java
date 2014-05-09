@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,10 +41,10 @@ import com.io7m.jnull.NullCheckException;
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  public abstract @Nonnull JCGLDrawType getGLDraw(
+  public abstract JCGLDrawType getGLDraw(
     TestContext context);
 
-  public abstract @Nonnull JCGLIndexBuffersType getGLIndexBuffers(
+  public abstract JCGLIndexBuffersType getGLIndexBuffers(
     TestContext context);
 
   /**

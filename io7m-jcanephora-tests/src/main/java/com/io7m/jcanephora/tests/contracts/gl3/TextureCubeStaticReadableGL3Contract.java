@@ -20,7 +20,6 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.CubeMapFaceLH;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
@@ -35,6 +34,7 @@ import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.api.JCGLTexturesCubeStaticGL3Type;
 import com.io7m.jcanephora.tests.contracts.TextureCubeStaticReadableContract;
+import com.io7m.junreachable.UnreachableCodeException;
 
 @SuppressWarnings("null") public abstract class TextureCubeStaticReadableGL3Contract extends
   TextureCubeStaticReadableContract<JCGLTexturesCubeStaticGL3Type>

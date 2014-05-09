@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -58,7 +56,7 @@ import com.io7m.junreachable.UnreachableCodeException;
 @SuppressWarnings({ "null" }) public abstract class IndexBufferMapContract implements
   TestContract
 {
-  private static @Nonnull ArrayDescriptor makeDescriptor()
+  private static ArrayDescriptor makeDescriptor()
   {
     try {
       final ArrayDescriptorBuilderType b = ArrayDescriptor.newBuilder();

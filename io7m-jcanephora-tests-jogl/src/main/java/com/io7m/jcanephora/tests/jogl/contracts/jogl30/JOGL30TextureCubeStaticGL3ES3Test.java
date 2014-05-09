@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.jogl.contracts.jogl30;
 
-import javax.annotation.Nonnull;
-
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.TextureCubeStaticType;
 import com.io7m.jcanephora.TextureFilterMagnification;
@@ -77,7 +75,7 @@ import com.io7m.junreachable.UnreachableCodeException;
     return JOGLTestContext.isOpenGL30Supported();
   }
 
-  @Override public @Nonnull TestContext newTestContext()
+  @Override public  TestContext newTestContext()
   {
     return JOGLTestContext.makeContextWithOpenGL3_0();
   }
