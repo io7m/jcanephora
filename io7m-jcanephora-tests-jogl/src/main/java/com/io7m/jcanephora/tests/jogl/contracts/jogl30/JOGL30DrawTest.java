@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.jogl.contracts.jogl30;
 
-import javax.annotation.Nonnull;
-
 import com.io7m.jcanephora.api.JCGLDrawType;
 import com.io7m.jcanephora.api.JCGLIndexBuffersType;
 import com.io7m.jcanephora.tests.TestContext;
@@ -27,13 +25,13 @@ import com.io7m.jcanephora.tests.jogl.JOGLTestContextUtilities;
 
 public final class JOGL30DrawTest extends DrawContract
 {
-  @Override public @Nonnull JCGLDrawType getGLDraw(
+  @Override public  JCGLDrawType getGLDraw(
     final TestContext context)
   {
     return JOGLTestContextUtilities.getGL3(context);
   }
 
-  @Override public @Nonnull JCGLIndexBuffersType getGLIndexBuffers(
+  @Override public  JCGLIndexBuffersType getGLIndexBuffers(
     final TestContext context)
   {
     return JOGLTestContextUtilities.getGL3(context);
@@ -44,7 +42,7 @@ public final class JOGL30DrawTest extends DrawContract
     return JOGLTestContext.isOpenGL30Supported();
   }
 
-  @Override public @Nonnull TestContext newTestContext()
+  @Override public  TestContext newTestContext()
   {
     return JOGLTestContext.makeContextWithOpenGL3_0();
   }

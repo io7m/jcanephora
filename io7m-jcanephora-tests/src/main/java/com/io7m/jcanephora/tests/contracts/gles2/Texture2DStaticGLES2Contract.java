@@ -19,7 +19,6 @@ package com.io7m.jcanephora.tests.contracts.gles2;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.Texture2DStaticType;
 import com.io7m.jcanephora.TextureFilterMagnification;
@@ -31,6 +30,7 @@ import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.api.JCGLTextures2DStaticGLES2Type;
 import com.io7m.jcanephora.tests.TestContext;
 import com.io7m.jcanephora.tests.contracts.Texture2DStaticContract;
+import com.io7m.junreachable.UnreachableCodeException;
 
 @SuppressWarnings("null") public abstract class Texture2DStaticGLES2Contract extends
   Texture2DStaticContract<JCGLTextures2DStaticGLES2Type>

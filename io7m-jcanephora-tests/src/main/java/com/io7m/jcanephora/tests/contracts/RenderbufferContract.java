@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -33,7 +31,7 @@ public abstract class RenderbufferContract<R extends JCGLRenderbuffersCommonType
   TestContract
 {
   public abstract RenderbufferType<?> allocateAnything(
-    final @Nonnull R gl);
+    final R gl);
 
   @Before public final void checkSupport()
   {

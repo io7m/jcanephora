@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.jogl.contracts.jogl30;
 
-import javax.annotation.Nonnull;
-
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.TextureCubeStaticType;
 import com.io7m.jcanephora.TextureFilterMagnification;
@@ -32,7 +30,7 @@ import com.io7m.jcanephora.tests.contracts.gl3.TextureCubeStaticGL3Contract;
 import com.io7m.jcanephora.tests.jogl.JOGLTestContext;
 import com.io7m.jcanephora.tests.jogl.JOGLTestContextUtilities;
 
-public final class JOGL30TextureCubeStaticGL3Test extends
+@SuppressWarnings("null") public final class JOGL30TextureCubeStaticGL3Test extends
   TextureCubeStaticGL3Contract
 {
   @Override public TextureCubeStaticType allocateTextureRGBA(
@@ -73,7 +71,7 @@ public final class JOGL30TextureCubeStaticGL3Test extends
     return JOGLTestContext.isOpenGL30Supported();
   }
 
-  @Override public @Nonnull TestContext newTestContext()
+  @Override public TestContext newTestContext()
   {
     return JOGLTestContext.makeContextWithOpenGL3_0();
   }

@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.contracts.gl3;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -34,7 +32,7 @@ public abstract class RenderbufferGL3Contract extends
   RenderbufferContract<JCGLRenderbuffersGL3Type>
 {
   @Override public RenderbufferType<?> allocateAnything(
-    final @Nonnull JCGLRenderbuffersGL3Type gl)
+    final JCGLRenderbuffersGL3Type gl)
   {
     try {
       return gl.renderbufferAllocateRGB888(128, 128);

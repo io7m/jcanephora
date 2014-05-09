@@ -16,7 +16,6 @@
 
 package com.io7m.jcanephora.tests.jogl;
 
-import javax.annotation.CheckForNull;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLContext;
 import javax.media.opengl.GLDrawableFactory;
@@ -34,6 +33,7 @@ import com.io7m.jlog.LogLevel;
 import com.io7m.jlog.LogPolicyAllOn;
 import com.io7m.jlog.LogType;
 import com.io7m.jlog.LogUsableType;
+import com.io7m.jnull.Nullable;
 import com.io7m.junreachable.UnreachableCodeException;
 import com.io7m.jvvfs.Filesystem;
 import com.io7m.jvvfs.FilesystemError;
@@ -203,7 +203,20 @@ public final class JOGLTestContext
 
   public static boolean isOpenGLES2Supported()
   {
+    /**
+     * Checking for GLES3 is required because JOGL considers GLES3 and GLES2
+     * to be interchangeable (they aren't). If GLES3 is available, then JOGL
+     * will return a GLES3 context when asked for GLES2 (it may not actually
+     * have any choice in the matter on broken contexts like Mesa).
+     */
+
     if (GLProfile.isAvailable(GLProfile.GLES2)) {
+      if (GLProfile.isAvailable(GLProfile.GLES3)) {
+        System.err
+          .println("isOpenGLES2Supported: unavailable: GLES2 profile is available, but GLES3 is also available, so GLES2 is being suppressed");
+        return false;
+      }
+
       System.err
         .println("isOpenGLES2Supported: available: GLES2 profile available");
       return true;
@@ -237,7 +250,7 @@ public final class JOGLTestContext
   }
 
   private static TestContext makeContextWithOpenGL_ES2_Actual(
-    final @CheckForNull JCGLSoftRestrictionsType r)
+    final @Nullable JCGLSoftRestrictionsType r)
   {
     try {
       final LogType log =
@@ -267,7 +280,7 @@ public final class JOGLTestContext
   }
 
   private static TestContext makeContextWithOpenGL_ES3_Actual(
-    final @CheckForNull JCGLSoftRestrictionsType r)
+    final @Nullable JCGLSoftRestrictionsType r)
   {
     try {
       final LogType log =
@@ -304,7 +317,7 @@ public final class JOGLTestContext
   }
 
   private static TestContext makeContextWithOpenGL2_1_Actual(
-    final @CheckForNull JCGLSoftRestrictionsType r)
+    final @Nullable JCGLSoftRestrictionsType r)
   {
     try {
       final LogType log =
@@ -334,7 +347,7 @@ public final class JOGLTestContext
   }
 
   private static TestContext makeContextWithOpenGL3_0_Actual(
-    final @CheckForNull JCGLSoftRestrictionsType r)
+    final @Nullable JCGLSoftRestrictionsType r)
   {
     try {
       final LogType log =
@@ -369,7 +382,7 @@ public final class JOGLTestContext
   }
 
   private static TestContext makeContextWithOpenGL3_p_Actual(
-    final @CheckForNull JCGLSoftRestrictionsType r)
+    final @Nullable JCGLSoftRestrictionsType r)
   {
     try {
       final LogType log =

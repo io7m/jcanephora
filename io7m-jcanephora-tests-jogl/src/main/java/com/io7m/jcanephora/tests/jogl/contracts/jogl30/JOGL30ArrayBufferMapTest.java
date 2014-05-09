@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.jogl.contracts.jogl30;
 
-import javax.annotation.Nonnull;
-
 import com.io7m.jcanephora.JCGLErrorCodesType;
 import com.io7m.jcanephora.api.JCGLArrayBuffersMappedType;
 import com.io7m.jcanephora.api.JCGLArrayBuffersType;
@@ -51,7 +49,7 @@ public final class JOGL30ArrayBufferMapTest extends ArrayBufferMapContract
     return JOGLTestContext.isOpenGL30Supported();
   }
 
-  @Override public @Nonnull TestContext newTestContext()
+  @Override public  TestContext newTestContext()
   {
     return JOGLTestContext.makeContextWithOpenGL3_0();
   }

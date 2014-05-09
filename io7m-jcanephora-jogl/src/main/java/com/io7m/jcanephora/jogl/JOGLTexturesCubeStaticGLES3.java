@@ -46,7 +46,7 @@ final class JOGLTexturesCubeStaticGLES3 extends
   @Override protected TextureSpec getTextureSpec(
     final TextureFormat type)
   {
-    return JOGL_TextureSpecs.getGLES2TextureSpec(type);
+    return JOGL_TextureSpecs.getGLES3TextureSpec(type);
   }
 
   @Override public TextureCubeStaticType textureCubeStaticAllocateRGB565(

@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.jogl.contracts.jogl30;
 
-import javax.annotation.Nonnull;
-
 import com.io7m.jcanephora.api.JCGLInterfaceGL3Type;
 import com.io7m.jcanephora.tests.TestContext;
 import com.io7m.jcanephora.tests.contracts.gl3.ShadersContractGL3;
@@ -27,7 +25,7 @@ import com.io7m.jcanephora.tests.jogl.JOGLTestContextUtilities;
 public final class JOGL30ShadersGL3Test extends ShadersContractGL3
 {
   @Override public JCGLInterfaceGL3Type getShaders(
-    final @Nonnull TestContext context)
+    final  TestContext context)
   {
     return JOGLTestContextUtilities.getGL3(context);
   }
@@ -37,7 +35,7 @@ public final class JOGL30ShadersGL3Test extends ShadersContractGL3
     return JOGLTestContext.isOpenGL30Supported();
   }
 
-  @Override public @Nonnull TestContext newTestContext()
+  @Override public  TestContext newTestContext()
   {
     return JOGLTestContext.makeContextWithOpenGL3_0();
   }

@@ -19,7 +19,6 @@ package com.io7m.jcanephora.tests.contracts.gl3;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.SpatialCursorReadable4iType;
@@ -38,6 +37,7 @@ import com.io7m.jcanephora.api.JCGLTextures2DStaticGL3Type;
 import com.io7m.jcanephora.tests.TestContext;
 import com.io7m.jcanephora.tests.contracts.Texture2DStaticContract;
 import com.io7m.jtensors.VectorM4I;
+import com.io7m.junreachable.UnreachableCodeException;
 
 @SuppressWarnings("null") public abstract class Texture2DStaticGL3Contract extends
   Texture2DStaticContract<JCGLTextures2DStaticGL3Type>

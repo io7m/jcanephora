@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -75,9 +73,9 @@ import com.io7m.jvvfs.PathVirtual;
 @SuppressWarnings({ "null", "unchecked" }) public abstract class ShadersContract implements
   TestContract
 {
-  private static @Nonnull ProgramUniformType getUniform(
-    final @Nonnull ProgramType p,
-    final @Nonnull String name)
+  private static ProgramUniformType getUniform(
+    final ProgramType p,
+    final String name)
     throws AssertionError
   {
     try {
@@ -91,10 +89,10 @@ import com.io7m.jvvfs.PathVirtual;
     }
   }
 
-  private static @Nonnull ProgramType makeComplexProgram(
-    final @Nonnull JCGLInterfaceCommonType gl,
-    final @Nonnull FilesystemType fs,
-    final @Nonnull PathVirtual sp)
+  private static ProgramType makeComplexProgram(
+    final JCGLInterfaceCommonType gl,
+    final FilesystemType fs,
+    final PathVirtual sp)
 
   {
     FragmentShaderType f = null;
@@ -118,10 +116,10 @@ import com.io7m.jvvfs.PathVirtual;
     }
   }
 
-  private static @Nonnull ProgramType makeComplexProgramWithAttributes(
-    final @Nonnull JCGLInterfaceCommonType gl,
-    final @Nonnull FilesystemType fs,
-    final @Nonnull PathVirtual sp)
+  private static ProgramType makeComplexProgramWithAttributes(
+    final JCGLInterfaceCommonType gl,
+    final FilesystemType fs,
+    final PathVirtual sp)
 
   {
     FragmentShaderType f = null;

@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.jogl.contracts.jogl30;
 
-import javax.annotation.Nonnull;
-
 import com.io7m.jcanephora.api.JCGLPolygonModesType;
 import com.io7m.jcanephora.api.JCGLPolygonSmoothingType;
 import com.io7m.jcanephora.tests.TestContext;
@@ -44,7 +42,7 @@ public final class JOGL30RasterizationTest extends RasterizationContract
     return JOGLTestContext.isOpenGL30Supported();
   }
 
-  @Override public @Nonnull TestContext newTestContext()
+  @Override public  TestContext newTestContext()
   {
     return JOGLTestContext.makeContextWithOpenGL3_0();
   }

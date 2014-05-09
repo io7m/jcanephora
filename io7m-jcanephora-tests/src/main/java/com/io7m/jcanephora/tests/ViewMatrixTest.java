@@ -19,10 +19,10 @@ package com.io7m.jcanephora.tests;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jaux.AlmostEqualFloat;
-import com.io7m.jaux.AlmostEqualFloat.ContextRelative;
 import com.io7m.jcanephora.ViewMatrix;
 import com.io7m.jcanephora.ViewMatrix.Context;
+import com.io7m.jequality.AlmostEqualFloat;
+import com.io7m.jequality.AlmostEqualFloat.ContextRelative;
 import com.io7m.jnull.NullCheckException;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorM3F;

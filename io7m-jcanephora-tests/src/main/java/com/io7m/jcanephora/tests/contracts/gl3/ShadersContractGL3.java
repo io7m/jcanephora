@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Test;
 
 import com.io7m.jcanephora.FragmentShaderType;
@@ -42,7 +40,7 @@ import com.io7m.jvvfs.FilesystemType;
   ShadersContract
 {
   public abstract JCGLInterfaceGL3Type getShaders(
-    final @Nonnull TestContext context);
+    final TestContext context);
 
   /**
    * Passing a deleted fragment shader fails.

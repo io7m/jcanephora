@@ -19,9 +19,9 @@ package com.io7m.jcanephora.tests;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jaux.AlmostEqualFloat;
-import com.io7m.jaux.AlmostEqualFloat.ContextRelative;
 import com.io7m.jcanephora.ProjectionMatrix;
+import com.io7m.jequality.AlmostEqualFloat;
+import com.io7m.jequality.AlmostEqualFloat.ContextRelative;
 import com.io7m.jnull.NullCheckException;
 import com.io7m.jranges.RangeCheckException;
 import com.io7m.jtensors.MatrixM4x4F;

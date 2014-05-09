@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
-import javax.annotation.Nonnull;
-
 import com.io7m.jcanephora.TextureLoaderType;
 import com.io7m.jcanephora.api.JCGLTextures2DStaticCommonType;
 import com.io7m.jcanephora.api.JCGLTexturesCubeStaticCommonType;
@@ -26,13 +24,13 @@ import com.io7m.jcanephora.tests.TestContext;
 public abstract class TextureLoaderContract<G2D extends JCGLTextures2DStaticCommonType, GC extends JCGLTexturesCubeStaticCommonType, T extends TextureLoaderType> implements
   TestContract
 {
-  public abstract @Nonnull G2D getGLTextures2D(
-    final @Nonnull TestContext tc);
+  public abstract G2D getGLTextures2D(
+    final TestContext tc);
 
-  public abstract @Nonnull GC getGLTexturesCube(
-    final @Nonnull TestContext tc);
+  public abstract GC getGLTexturesCube(
+    final TestContext tc);
 
-  public abstract @Nonnull T makeTextureLoader(
-    final @Nonnull TestContext tc,
-    final @Nonnull G2D gl);
+  public abstract T makeTextureLoader(
+    final TestContext tc,
+    final G2D gl);
 }

@@ -16,12 +16,9 @@
 
 package com.io7m.jcanephora.tests.contracts.gles2;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.RenderbufferFormat;
@@ -29,12 +26,13 @@ import com.io7m.jcanephora.RenderbufferType;
 import com.io7m.jcanephora.api.JCGLRenderbuffersGLES2Type;
 import com.io7m.jcanephora.tests.TestContext;
 import com.io7m.jcanephora.tests.contracts.RenderbufferContract;
+import com.io7m.junreachable.UnreachableCodeException;
 
 public abstract class RenderbufferGLES2Contract extends
   RenderbufferContract<JCGLRenderbuffersGLES2Type>
 {
   @Override public final RenderbufferType<?> allocateAnything(
-    final @Nonnull JCGLRenderbuffersGLES2Type r)
+    final JCGLRenderbuffersGLES2Type r)
   {
     try {
       return r.renderbufferAllocateRGB565(128, 128);

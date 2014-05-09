@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -50,13 +48,13 @@ import com.io7m.jnull.NullCheckException;
   public abstract JCGLStencilBufferType getGLStencilBuffer(
     TestContext tc);
 
-  public abstract @Nonnull FramebufferType makeFramebufferWithoutStencil(
-    final @Nonnull TestContext tc,
-    final @Nonnull JCGLImplementationType gi);
+  public abstract FramebufferType makeFramebufferWithoutStencil(
+    final TestContext tc,
+    final JCGLImplementationType gi);
 
-  public abstract @Nonnull FramebufferType makeFramebufferWithStencil(
-    final @Nonnull TestContext tc,
-    final @Nonnull JCGLImplementationType gi);
+  public abstract FramebufferType makeFramebufferWithStencil(
+    final TestContext tc,
+    final JCGLImplementationType gi);
 
   @Test public void testStencilBufferClear()
     throws JCGLException

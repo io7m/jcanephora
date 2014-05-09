@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -41,7 +39,7 @@ public abstract class ColorBufferContract implements TestContract
   }
 
   public abstract JCGLColorBufferType getGLColorBuffer(
-    final @Nonnull TestContext context);
+    final TestContext context);
 
   @Test public final void testColorBufferClear()
     throws JCGLExceptionRuntime

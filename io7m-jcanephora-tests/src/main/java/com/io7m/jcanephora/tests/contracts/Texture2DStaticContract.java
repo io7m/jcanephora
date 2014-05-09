@@ -18,8 +18,6 @@ package com.io7m.jcanephora.tests.contracts;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -47,15 +45,15 @@ import com.io7m.jtensors.VectorI4I;
 @SuppressWarnings("null") public abstract class Texture2DStaticContract<T extends JCGLTextures2DStaticCommonType> implements
   TestContract
 {
-  public abstract @Nonnull Texture2DStaticType allocateTextureRGBA(
-    final @Nonnull T t,
-    final @Nonnull String name,
+  public abstract Texture2DStaticType allocateTextureRGBA(
+    final T t,
+    final String name,
     final int width,
     final int height,
-    final @Nonnull TextureWrapS wrap_s,
-    final @Nonnull TextureWrapT wrap_t,
-    final @Nonnull TextureFilterMinification filter_min,
-    final @Nonnull TextureFilterMagnification filter_mag)
+    final TextureWrapS wrap_s,
+    final TextureWrapT wrap_t,
+    final TextureFilterMinification filter_min,
+    final TextureFilterMagnification filter_mag)
     throws JCGLException;
 
   @Before public final void checkSupport()

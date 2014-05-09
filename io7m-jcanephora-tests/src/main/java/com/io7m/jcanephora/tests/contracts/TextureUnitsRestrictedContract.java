@@ -18,8 +18,6 @@ package com.io7m.jcanephora.tests.contracts;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -36,7 +34,7 @@ public abstract class TextureUnitsRestrictedContract
   public abstract boolean isGLSupported();
 
   public abstract TestContext newTestContext(
-    final @Nonnull JCGLSoftRestrictionsType r)
+    final JCGLSoftRestrictionsType r)
     throws JCGLException;
 
   @Before public final void checkSupport()

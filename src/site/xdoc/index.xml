@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document
+  xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>io7m-jcanephora</title>
+  </properties>
+
+  <body>
+    <subsection name="jcanephora">
+      <p>The <var>jcanephora</var> package implements a set of abstractions over
+      <a href="http://opengl.org">OpenGL</a> with the intention of providing an
+      API that enforces program correctness statically.
+    </subsection>
+  </body>
+
+</document>

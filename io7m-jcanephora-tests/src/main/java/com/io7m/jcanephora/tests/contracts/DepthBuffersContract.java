@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.contracts;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -40,20 +38,20 @@ import com.io7m.jcanephora.tests.TestContext;
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  public abstract @Nonnull JCGLDepthBufferType getGLDepthBuffer(
-    final @Nonnull TestContext tc);
+  public abstract JCGLDepthBufferType getGLDepthBuffer(
+    final TestContext tc);
 
-  public abstract @Nonnull JCGLFramebuffersCommonType getGLFramebuffers(
-    final @Nonnull TestContext tc);
+  public abstract JCGLFramebuffersCommonType getGLFramebuffers(
+    final TestContext tc);
 
-  public abstract @Nonnull FramebufferType makeFramebufferWithDepth(
-    final @Nonnull TestContext tc,
-    final @Nonnull JCGLImplementationType gi)
+  public abstract FramebufferType makeFramebufferWithDepth(
+    final TestContext tc,
+    final JCGLImplementationType gi)
     throws JCGLException;
 
-  public abstract @Nonnull FramebufferType makeFramebufferWithoutDepth(
-    final @Nonnull TestContext tc,
-    final @Nonnull JCGLImplementationType gi)
+  public abstract FramebufferType makeFramebufferWithoutDepth(
+    final TestContext tc,
+    final JCGLImplementationType gi)
     throws JCGLException;
 
   @Test public void testDepthBufferClearWorks()

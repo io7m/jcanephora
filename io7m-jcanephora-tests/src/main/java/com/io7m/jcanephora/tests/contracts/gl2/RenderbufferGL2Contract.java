@@ -16,12 +16,9 @@
 
 package com.io7m.jcanephora.tests.contracts.gl2;
 
-import javax.annotation.Nonnull;
-
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jaux.Constraints.ConstraintError;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.RenderbufferFormat;
@@ -35,7 +32,7 @@ public abstract class RenderbufferGL2Contract extends
   RenderbufferContract<JCGLRenderbuffersGL2Type>
 {
   @Override public RenderbufferType<?> allocateAnything(
-    final @Nonnull JCGLRenderbuffersGL2Type gl)
+    final JCGLRenderbuffersGL2Type gl)
   {
     try {
       return gl.renderbufferAllocateRGB888(128, 128);

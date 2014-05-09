@@ -19,10 +19,10 @@ package com.io7m.jcanephora.tests.jogl;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.junreachable.UnreachableCodeException;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.jogl.JOGL_GLTypeConversions;
+import com.io7m.junreachable.UnreachableCodeException;
 
 @SuppressWarnings({ "null", "static-method" }) public class JOGLTextureFilterTest
 {

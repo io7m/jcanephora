@@ -549,25 +549,25 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
   @Override public boolean colorBufferMaskStatusAlpha()
     throws JCGLExceptionRuntime
   {
-    return this.colorBufferMaskStatusAlpha();
+    return this.color_buffer.colorBufferMaskStatusAlpha();
   }
 
   @Override public boolean colorBufferMaskStatusBlue()
     throws JCGLExceptionRuntime
   {
-    return this.colorBufferMaskStatusBlue();
+    return this.color_buffer.colorBufferMaskStatusBlue();
   }
 
   @Override public boolean colorBufferMaskStatusGreen()
     throws JCGLExceptionRuntime
   {
-    return this.colorBufferMaskStatusGreen();
+    return this.color_buffer.colorBufferMaskStatusGreen();
   }
 
   @Override public boolean colorBufferMaskStatusRed()
     throws JCGLExceptionRuntime
   {
-    return this.colorBufferMaskStatusRed();
+    return this.color_buffer.colorBufferMaskStatusRed();
   }
 
   @Override public void cullingDisable()
@@ -2198,7 +2198,7 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
     final TextureFilterMagnification mag_filter)
     throws JCGLExceptionRuntime
   {
-    return this.texture2DStaticAllocateRGBA8(
+    return this.textures2d.texture2DStaticAllocateRGBA8(
       name,
       width,
       height,
@@ -2557,7 +2557,7 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
     final TextureFilterMagnification mag_filter)
     throws JCGLExceptionRuntime
   {
-    return this.textures_cube.textureCubeStaticAllocateR16f(
+    return this.textures_cube.textureCubeStaticAllocateRG16f(
       name,
       size,
       wrap_r,
@@ -2577,7 +2577,7 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
     final TextureFilterMagnification mag_filter)
     throws JCGLExceptionRuntime
   {
-    return this.textures_cube.textureCubeStaticAllocateR16I(
+    return this.textures_cube.textureCubeStaticAllocateRG16I(
       name,
       size,
       wrap_r,
@@ -2597,7 +2597,7 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
     final TextureFilterMagnification mag_filter)
     throws JCGLExceptionRuntime
   {
-    return this.textures_cube.textureCubeStaticAllocateR16U(
+    return this.textures_cube.textureCubeStaticAllocateRG16U(
       name,
       size,
       wrap_r,

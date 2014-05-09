@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora.tests.jogl.contracts.jogl30;
 
-import javax.annotation.Nonnull;
-
 import com.io7m.jcanephora.api.JCGLFramebuffersGL3Type;
 import com.io7m.jcanephora.api.JCGLRenderbuffersGL3ES3Type;
 import com.io7m.jcanephora.tests.TestContext;
@@ -28,18 +26,8 @@ import com.io7m.jcanephora.tests.jogl.JOGLTestContextUtilities;
 public final class JOGL30FramebuffersReadGL3Test extends
   FramebufferReadGL3Contract
 {
-  @Override public boolean isGLSupported()
-  {
-    return JOGLTestContext.isOpenGL30Supported();
-  }
-
-  @Override public TestContext newTestContext()
-  {
-    return JOGLTestContext.makeContextWithOpenGL3_0();
-  }
-
   @Override public JCGLFramebuffersGL3Type getFramebuffersGL3(
-    final @Nonnull TestContext tc)
+    final  TestContext tc)
   {
     return JOGLTestContextUtilities.getGL3(tc);
   }
@@ -48,5 +36,15 @@ public final class JOGL30FramebuffersReadGL3Test extends
     final TestContext tc)
   {
     return JOGLTestContextUtilities.getGL3(tc);
+  }
+
+  @Override public boolean isGLSupported()
+  {
+    return JOGLTestContext.isOpenGL30Supported();
+  }
+
+  @Override public TestContext newTestContext()
+  {
+    return JOGLTestContext.makeContextWithOpenGL3_0();
   }
 }

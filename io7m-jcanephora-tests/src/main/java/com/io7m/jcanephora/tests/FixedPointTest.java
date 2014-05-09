@@ -19,10 +19,10 @@ package com.io7m.jcanephora.tests;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.io7m.jaux.AlmostEqualDouble;
-import com.io7m.jaux.AlmostEqualDouble.ContextRelative;
-import com.io7m.jaux.AlmostEqualFloat;
 import com.io7m.jcanephora.FixedPoint;
+import com.io7m.jequality.AlmostEqualDouble;
+import com.io7m.jequality.AlmostEqualDouble.ContextRelative;
+import com.io7m.jequality.AlmostEqualFloat;
 
 @SuppressWarnings("static-method") public class FixedPointTest
 {
