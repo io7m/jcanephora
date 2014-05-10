@@ -17,8 +17,8 @@
 package com.io7m.jcanephora;
 
 /**
- * A read-only interface to the {@link IndexBuffer} type that allows use of
- * the type but not mutation and/or deletion of the contents.
+ * A read-only interface to the {@link IndexBufferType} type that allows use
+ * of the type but not mutation and/or deletion of the contents.
  */
 
 public interface IndexBufferUsableType extends

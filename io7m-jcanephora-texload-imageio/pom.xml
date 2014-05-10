@@ -80,7 +80,22 @@
     <dependency>
       <groupId>com.io7m.jlog</groupId>
       <artifactId>io7m-jlog-core</artifactId>
-      <version>[3.0.0, 4.0.0)</version>
+      <version>${com.io7m.jlog.versionRange}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.jnull</groupId>
+      <artifactId>io7m-jnull-core</artifactId>
+      <version>${com.io7m.jnull.versionRange}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.jtensors</groupId>
+      <artifactId>io7m-jtensors-core</artifactId>
+      <version>${com.io7m.jtensors.versionRange}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.junreachable</groupId>
+      <artifactId>io7m-junreachable-core</artifactId>
+      <version>${com.io7m.junreachable.versionRange}</version>
     </dependency>
   </dependencies>
 
@@ -203,8 +218,22 @@
           <execution>
             <phase>package</phase>
             <goals>
-               <goal>jar</goal>
+              <goal>jar</goal>
             </goals>
+            <configuration>
+              <archive>
+                <manifestEntries>
+                  <Specification-Title>${project.name}</Specification-Title>
+                  <Specification-Version>${project.version}</Specification-Version>
+                  <Specification-Vendor>io7m.com</Specification-Vendor>
+                  <Implementation-Title>${project.name}</Implementation-Title>
+                  <Implementation-Version>${project.version}</Implementation-Version>
+                  <Implementation-Vendor>io7m.com</Implementation-Vendor>
+                  <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
+                  <Built-By>io7m</Built-By>
+                </manifestEntries>
+              </archive>
+            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -219,9 +248,24 @@
             <id>attach-javadocs</id>
             <phase>package</phase>
             <goals>
-               <goal>jar</goal>
+              <goal>jar</goal>
             </goals>
-         </execution>
+            <configuration>
+              <bottom><![CDATA[Copyright &#169; {currentYear} &lt;code@io7m.com&gt; http://io7m.com]]></bottom>
+              <archive>
+                <manifestEntries>
+                  <Specification-Title>${project.name}</Specification-Title>
+                  <Specification-Version>${project.version}</Specification-Version>
+                  <Specification-Vendor>io7m.com</Specification-Vendor>
+                  <Implementation-Title>${project.name}</Implementation-Title>
+                  <Implementation-Version>${project.version}</Implementation-Version>
+                  <Implementation-Vendor>io7m.com</Implementation-Vendor>
+                  <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
+                  <Built-By>io7m</Built-By>
+                </manifestEntries>
+              </archive>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
 

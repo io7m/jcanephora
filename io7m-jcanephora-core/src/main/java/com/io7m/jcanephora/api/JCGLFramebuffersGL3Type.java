@@ -82,8 +82,8 @@ public interface JCGLFramebuffersGL3Type extends
    *          The attachment point.
    * @param texture
    *          The texture.
-   * @see com.io7m.jcanephora.TextureTypeMeta#isColorRenderable2D(com.io7m.jcanephora.TextureType,
-   *      com.io7m.jcanephora.JCGLVersion, JCGLNamedExtensions)
+   * @see com.io7m.jcanephora.TextureFormatMeta#isColorRenderable2D(com.io7m.jcanephora.TextureFormat,
+   *      com.io7m.jcanephora.JCGLVersion, JCGLNamedExtensionsType)
    * 
    * @throws JCGLException
    *           Iff an OpenGL exception occurs.
@@ -114,8 +114,8 @@ public interface JCGLFramebuffersGL3Type extends
    *          The texture.
    * @param face
    *          The cube face, assuming a left-hannded coordinate system.
-   * @see com.io7m.jcanephora.TextureTypeMeta#isColorRenderable2D(com.io7m.jcanephora.TextureType,
-   *      com.io7m.jcanephora.JCGLVersion, JCGLNamedExtensions)
+   * @see com.io7m.jcanephora.TextureFormatMeta#isColorRenderable2D(com.io7m.jcanephora.TextureFormat,
+   *      com.io7m.jcanephora.JCGLVersion, JCGLNamedExtensionsType)
    * 
    * @throws JCGLException
    *           Iff an OpenGL exception occurs.
@@ -143,7 +143,6 @@ public interface JCGLFramebuffersGL3Type extends
    *          The renderbuffer.
    * @see com.io7m.jcanephora.RenderbufferFormat#isDepthRenderable()
    * @see com.io7m.jcanephora.RenderbufferFormat#isStencilRenderable()
-   * 
    * 
    * @throws JCGLException
    *           Iff an OpenGL exception occurs.

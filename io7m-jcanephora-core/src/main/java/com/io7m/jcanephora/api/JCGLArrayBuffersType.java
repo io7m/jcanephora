@@ -32,8 +32,8 @@ public interface JCGLArrayBuffersType
 {
   /**
    * Allocate a buffer of <code>elements</code> elements of size
-   * {@link ArrayDescriptor#getElementSize()}, informing the implementation
-   * that the buffer will be used in the manner specified by
+   * {@link ArrayDescriptor#getElementSizeBytes()}, informing the
+   * implementation that the buffer will be used in the manner specified by
    * <code>usage</code>.
    * 
    * @param elements
@@ -55,7 +55,7 @@ public interface JCGLArrayBuffersType
 
   /**
    * Bind the array buffer <code>buffer</code> for subsequent calls to
-   * {@link JCGLShadersCommonType#programAttributeArrayAssociate(ProgramAttribute, ArrayBufferAttribute)}
+   * {@link JCGLShadersCommonType#programAttributeArrayAssociate(com.io7m.jcanephora.ProgramAttributeType, com.io7m.jcanephora.ArrayAttributeType)}
    * .
    * 
    * @param buffer

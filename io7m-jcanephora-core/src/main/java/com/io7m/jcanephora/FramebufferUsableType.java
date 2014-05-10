@@ -18,8 +18,8 @@ package com.io7m.jcanephora;
 
 /**
  * <p>
- * A read-only interface to the {@link FramebufferReference} type that allows
- * use of the type but not mutation and/or deletion of the contents.
+ * A read-only interface to the {@link FramebufferType} type that allows use
+ * of the type but not mutation and/or deletion of the contents.
  * </p>
  */
 

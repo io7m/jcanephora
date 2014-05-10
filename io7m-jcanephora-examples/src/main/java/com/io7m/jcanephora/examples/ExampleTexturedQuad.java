@@ -17,56 +17,54 @@
 package com.io7m.jcanephora.examples;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.ArrayBuffer;
-import com.io7m.jcanephora.ArrayBufferAttribute;
-import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
-import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
-import com.io7m.jcanephora.ArrayBufferWritableData;
-import com.io7m.jcanephora.CursorWritable2f;
-import com.io7m.jcanephora.CursorWritable4f;
-import com.io7m.jcanephora.CursorWritableIndex;
-import com.io7m.jcanephora.FragmentShader;
-import com.io7m.jcanephora.IndexBuffer;
-import com.io7m.jcanephora.IndexBufferWritableData;
-import com.io7m.jcanephora.JCGLCompileException;
+import com.io7m.jcanephora.ArrayAttributeDescriptor;
+import com.io7m.jcanephora.ArrayAttributeType;
+import com.io7m.jcanephora.ArrayBufferType;
+import com.io7m.jcanephora.ArrayBufferUpdateUnmapped;
+import com.io7m.jcanephora.ArrayBufferUpdateUnmappedType;
+import com.io7m.jcanephora.ArrayDescriptor;
+import com.io7m.jcanephora.ArrayDescriptorBuilderType;
+import com.io7m.jcanephora.CursorWritable2fType;
+import com.io7m.jcanephora.CursorWritable4fType;
+import com.io7m.jcanephora.CursorWritableIndexType;
+import com.io7m.jcanephora.FragmentShaderType;
+import com.io7m.jcanephora.IndexBufferType;
+import com.io7m.jcanephora.IndexBufferUpdateUnmapped;
+import com.io7m.jcanephora.IndexBufferUpdateUnmappedType;
 import com.io7m.jcanephora.JCGLException;
-import com.io7m.jcanephora.JCGLImplementation;
-import com.io7m.jcanephora.JCGLImplementationVisitor;
-import com.io7m.jcanephora.JCGLInterfaceCommon;
-import com.io7m.jcanephora.JCGLInterfaceGL2;
-import com.io7m.jcanephora.JCGLInterfaceGL3;
-import com.io7m.jcanephora.JCGLInterfaceGLES2;
-import com.io7m.jcanephora.JCGLInterfaceGLES3;
-import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.Primitives;
-import com.io7m.jcanephora.ProgramAttribute;
-import com.io7m.jcanephora.ProgramReference;
-import com.io7m.jcanephora.ProgramUniform;
+import com.io7m.jcanephora.ProgramAttributeType;
+import com.io7m.jcanephora.ProgramType;
+import com.io7m.jcanephora.ProgramUniformType;
 import com.io7m.jcanephora.ProjectionMatrix;
-import com.io7m.jcanephora.ShaderUtilities;
-import com.io7m.jcanephora.SpatialCursorWritable3f;
-import com.io7m.jcanephora.Texture2DStatic;
-import com.io7m.jcanephora.Texture2DWritableData;
+import com.io7m.jcanephora.SpatialCursorWritable3fType;
+import com.io7m.jcanephora.Texture2DStaticType;
+import com.io7m.jcanephora.Texture2DStaticUpdate;
+import com.io7m.jcanephora.Texture2DStaticUpdateType;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
-import com.io7m.jcanephora.TextureUnit;
+import com.io7m.jcanephora.TextureUnitType;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.UsageHint;
-import com.io7m.jcanephora.VertexShader;
+import com.io7m.jcanephora.VertexShaderType;
+import com.io7m.jcanephora.api.JCGLImplementationType;
+import com.io7m.jcanephora.api.JCGLImplementationVisitorType;
+import com.io7m.jcanephora.api.JCGLInterfaceCommonType;
+import com.io7m.jcanephora.api.JCGLInterfaceGL2Type;
+import com.io7m.jcanephora.api.JCGLInterfaceGL3Type;
+import com.io7m.jcanephora.api.JCGLInterfaceGLES2Type;
+import com.io7m.jcanephora.api.JCGLInterfaceGLES3Type;
+import com.io7m.jcanephora.utilities.ShaderUtilities;
+import com.io7m.jranges.RangeInclusiveL;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorI2F;
 import com.io7m.jtensors.VectorM3F;
-import com.io7m.jtensors.VectorReadable2I;
+import com.io7m.jtensors.VectorReadable2IType;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
 
@@ -75,28 +73,28 @@ import com.io7m.jvvfs.PathVirtual;
  * orthographic projection.
  */
 
-public final class ExampleTexturedQuad implements Example
+@SuppressWarnings("null") public final class ExampleTexturedQuad implements
+  Example
 {
-  private final ArrayBuffer               array;
-  private final ArrayBufferWritableData   array_data;
-  private final ArrayBufferTypeDescriptor array_type;
-  private final ExampleConfig             config;
-  private final JCGLInterfaceCommon       glc;
-  private boolean                         has_shut_down;
-  private final IndexBuffer               indices;
-  private final IndexBufferWritableData   indices_data;
-  private final MatrixM4x4F               matrix_modelview;
-  private final MatrixM4x4F               matrix_projection;
-  private final ProgramReference          program;
-  private final Texture2DStatic           texture;
-  private final List<TextureUnit>         texture_units;
-  private final Texture2DWritableData     texture_update;
-  private final JCGLImplementation        gl;
+  private final ArrayBufferType               array;
+  private final ArrayBufferUpdateUnmappedType array_data;
+  private final ArrayDescriptor               array_type;
+  private final ExampleConfig                 config;
+  private final JCGLInterfaceCommonType       glc;
+  private boolean                             has_shut_down;
+  private final IndexBufferType               indices;
+  private final IndexBufferUpdateUnmappedType indices_data;
+  private final MatrixM4x4F                   matrix_modelview;
+  private final MatrixM4x4F                   matrix_projection;
+  private final ProgramType                   program;
+  private final Texture2DStaticType           texture;
+  private final List<TextureUnitType>         texture_units;
+  private final Texture2DStaticUpdateType     texture_update;
+  private final JCGLImplementationType        gl;
 
   public ExampleTexturedQuad(
-    final @Nonnull ExampleConfig config1)
-    throws ConstraintError,
-      JCGLException,
+    final ExampleConfig config1)
+    throws JCGLException,
       IOException,
       FilesystemError
   {
@@ -111,12 +109,12 @@ public final class ExampleTexturedQuad implements Example
      */
 
     {
-      final VertexShader v =
+      final VertexShaderType v =
         this.glc.vertexShaderCompile(
           "v",
           ShaderUtilities.readLines(config1.getFilesystem().openFile(
             PathVirtual.ofString("/com/io7m/jcanephora/examples/uv.v"))));
-      final FragmentShader f =
+      final FragmentShaderType f =
         this.glc.fragmentShaderCompile(
           "f",
           ShaderUtilities.readLines(config1.getFilesystem().openFile(
@@ -136,12 +134,10 @@ public final class ExampleTexturedQuad implements Example
 
     this.texture =
       this.gl
-        .implementationAccept(new JCGLImplementationVisitor<Texture2DStatic, JCGLException>() {
-          @Override public Texture2DStatic implementationIsGLES2(
-            final JCGLInterfaceGLES2 gles2)
-            throws JCGLException,
-              ConstraintError,
-              JCGLException
+        .implementationAccept(new JCGLImplementationVisitorType<Texture2DStaticType, JCGLException>() {
+          @Override public Texture2DStaticType implementationIsGLES2(
+            final JCGLInterfaceGLES2Type gles2)
+            throws JCGLException
           {
             return gles2.texture2DStaticAllocateRGB565(
               "gradient",
@@ -153,11 +149,9 @@ public final class ExampleTexturedQuad implements Example
               TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           }
 
-          @Override public Texture2DStatic implementationIsGLES3(
-            final JCGLInterfaceGLES3 gles3)
-            throws JCGLException,
-              ConstraintError,
-              JCGLException
+          @Override public Texture2DStaticType implementationIsGLES3(
+            final JCGLInterfaceGLES3Type gles3)
+            throws JCGLException
           {
             return gles3.texture2DStaticAllocateRGB8(
               "gradient",
@@ -169,11 +163,9 @@ public final class ExampleTexturedQuad implements Example
               TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           }
 
-          @Override public Texture2DStatic implementationIsGL2(
-            final JCGLInterfaceGL2 gl2)
-            throws JCGLException,
-              ConstraintError,
-              JCGLException
+          @Override public Texture2DStaticType implementationIsGL2(
+            final JCGLInterfaceGL2Type gl2)
+            throws JCGLException
           {
             return gl2.texture2DStaticAllocateRGB8(
               "gradient",
@@ -185,11 +177,9 @@ public final class ExampleTexturedQuad implements Example
               TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
           }
 
-          @Override public Texture2DStatic implementationIsGL3(
-            final JCGLInterfaceGL3 gl3)
-            throws JCGLException,
-              ConstraintError,
-              JCGLException
+          @Override public Texture2DStaticType implementationIsGL3(
+            final JCGLInterfaceGL3Type gl3)
+            throws JCGLException
           {
             return gl3.texture2DStaticAllocateRGB8(
               "gradient",
@@ -206,19 +196,22 @@ public final class ExampleTexturedQuad implements Example
      * Allocate texture data and populate it using the cursor interface.
      */
 
-    this.texture_update = new Texture2DWritableData(this.texture);
+    this.texture_update = Texture2DStaticUpdate.newReplacingAll(this.texture);
 
     {
-      final SpatialCursorWritable3f tx_cursor =
+      final SpatialCursorWritable3fType tx_cursor =
         this.texture_update.getCursor3f();
 
       final VectorM3F colour = new VectorM3F();
       while (tx_cursor.isValid()) {
         final float x = tx_cursor.getElementX();
         final float y = tx_cursor.getElementY();
-        colour.x = x / 64.0f;
-        colour.y = (float) (Math.random() * 0.5f);
-        colour.z = y / 64.0f;
+
+        final float cx = x / 64.0f;
+        final float cy = (float) (Math.random() * 0.5f);
+        final float cz = y / 64.0f;
+
+        colour.set3F(cx, cy, cz);
         tx_cursor.put3f(colour);
       }
 
@@ -236,18 +229,17 @@ public final class ExampleTexturedQuad implements Example
      * Then, use this descriptor to allocate an array.
      */
 
-    final ArrayList<ArrayBufferAttributeDescriptor> abs =
-      new ArrayList<ArrayBufferAttributeDescriptor>();
-    abs.add(new ArrayBufferAttributeDescriptor(
+    final ArrayDescriptorBuilderType b = ArrayDescriptor.newBuilder();
+    b.addAttribute(ArrayAttributeDescriptor.newAttribute(
       "position",
       JCGLScalarType.TYPE_FLOAT,
       4));
-    abs.add(new ArrayBufferAttributeDescriptor(
+    b.addAttribute(ArrayAttributeDescriptor.newAttribute(
       "uv",
       JCGLScalarType.TYPE_FLOAT,
       2));
+    this.array_type = b.build();
 
-    this.array_type = new ArrayBufferTypeDescriptor(abs);
     this.array =
       this.glc.arrayBufferAllocate(
         4,
@@ -258,7 +250,8 @@ public final class ExampleTexturedQuad implements Example
      * Then, allocate a buffer of data that will be populated and uploaded.
      */
 
-    this.array_data = new ArrayBufferWritableData(this.array);
+    this.array_data =
+      ArrayBufferUpdateUnmapped.newUpdateReplacingAll(this.array);
 
     {
       /**
@@ -267,9 +260,10 @@ public final class ExampleTexturedQuad implements Example
        * only point to the parts of the array relevant to their attribute.
        */
 
-      final CursorWritable4f pos_cursor =
+      final CursorWritable4fType pos_cursor =
         this.array_data.getCursor4f("position");
-      final CursorWritable2f uv_cursor = this.array_data.getCursor2f("uv");
+      final CursorWritable2fType uv_cursor =
+        this.array_data.getCursor2f("uv");
 
       pos_cursor.put4f(-100.0f, 100.0f, -1.0f, 1.0f);
       pos_cursor.put4f(-100.0f, -100.0f, -1.0f, 1.0f);
@@ -293,11 +287,14 @@ public final class ExampleTexturedQuad implements Example
      * Allocate and initialize an index buffer sufficient for two triangles.
      */
 
-    this.indices = this.glc.indexBufferAllocate(this.array, 6);
-    this.indices_data = new IndexBufferWritableData(this.indices);
+    this.indices =
+      this.glc
+        .indexBufferAllocate(this.array, 6, UsageHint.USAGE_STATIC_DRAW);
+    this.indices_data = IndexBufferUpdateUnmapped.newReplacing(this.indices);
 
     {
-      final CursorWritableIndex ind_cursor = this.indices_data.getCursor();
+      final CursorWritableIndexType ind_cursor =
+        this.indices_data.getCursor();
       ind_cursor.putIndex(0);
       ind_cursor.putIndex(1);
       ind_cursor.putIndex(2);
@@ -311,9 +308,7 @@ public final class ExampleTexturedQuad implements Example
   }
 
   @Override public void display()
-    throws JCGLRuntimeException,
-      JCGLCompileException,
-      ConstraintError
+    throws JCGLException
   {
     this.glc.colorBufferClear3f(0.2f, 0.15f, 0.15f);
 
@@ -353,12 +348,16 @@ public final class ExampleTexturedQuad implements Example
        * Get references to the program's uniform variable inputs.
        */
 
-      final ProgramUniform u_proj =
-        this.program.getUniforms().get("matrix_projection");
-      final ProgramUniform u_model =
-        this.program.getUniforms().get("matrix_modelview");
-      final ProgramUniform u_texture =
-        this.program.getUniforms().get("texture");
+      final ProgramUniformType u_proj =
+        this.program.programGetUniforms().get("matrix_projection");
+      final ProgramUniformType u_model =
+        this.program.programGetUniforms().get("matrix_modelview");
+      final ProgramUniformType u_texture =
+        this.program.programGetUniforms().get("texture");
+
+      assert u_proj != null;
+      assert u_model != null;
+      assert u_texture != null;
 
       /**
        * Upload the matrices to the uniform variable inputs.
@@ -381,17 +380,22 @@ public final class ExampleTexturedQuad implements Example
        * Get references to the program's vertex attribute inputs.
        */
 
-      final ProgramAttribute p_pos =
-        this.program.getAttributes().get("vertex_position");
-      final ProgramAttribute p_uv =
-        this.program.getAttributes().get("vertex_uv");
+      final ProgramAttributeType p_pos =
+        this.program.programGetAttributes().get("vertex_position");
+      final ProgramAttributeType p_uv =
+        this.program.programGetAttributes().get("vertex_uv");
+      assert p_pos != null;
+      assert p_uv != null;
 
       /**
        * Get references to the array buffer's vertex attributes.
        */
 
-      final ArrayBufferAttribute b_pos = this.array.getAttribute("position");
-      final ArrayBufferAttribute b_uv = this.array.getAttribute("uv");
+      final ArrayAttributeType b_pos =
+        this.array.arrayGetAttribute("position");
+      final ArrayAttributeType b_uv = this.array.arrayGetAttribute("uv");
+      assert b_pos != null;
+      assert b_uv != null;
 
       /**
        * Bind the array buffer, and associate program vertex attribute inputs
@@ -420,11 +424,9 @@ public final class ExampleTexturedQuad implements Example
   }
 
   @Override public void reshape(
-    final @Nonnull VectorReadable2I position,
-    final @Nonnull VectorReadable2I size)
-    throws JCGLRuntimeException,
-      ConstraintError,
-      JCGLCompileException
+    final VectorReadable2IType position,
+    final VectorReadable2IType size)
+    throws JCGLException
   {
     ProjectionMatrix.makeOrthographicProjection(
       this.matrix_projection,
@@ -435,20 +437,18 @@ public final class ExampleTexturedQuad implements Example
       1,
       100);
 
-    final RangeInclusive range_x =
-      new RangeInclusive(position.getXI(), position.getXI()
+    final RangeInclusiveL range_x =
+      new RangeInclusiveL(position.getXI(), position.getXI()
         + (size.getXI() - 1));
-    final RangeInclusive range_y =
-      new RangeInclusive(position.getYI(), position.getYI()
+    final RangeInclusiveL range_y =
+      new RangeInclusiveL(position.getYI(), position.getYI()
         + (size.getYI() - 1));
 
     this.glc.viewportSet(new AreaInclusive(range_x, range_y));
   }
 
   @Override public void shutdown()
-    throws JCGLRuntimeException,
-      ConstraintError,
-      JCGLCompileException
+    throws JCGLException
   {
     this.has_shut_down = true;
     this.glc.arrayBufferDelete(this.array);

@@ -14,23 +14,5 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.contracts;
+@com.io7m.jnull.NonNullByDefault package com.io7m.jcanephora.examples;
 
-import com.io7m.jcanephora.TextureLoaderType;
-import com.io7m.jcanephora.api.JCGLTextures2DStaticCommonType;
-import com.io7m.jcanephora.api.JCGLTexturesCubeStaticCommonType;
-import com.io7m.jcanephora.tests.TestContext;
-
-public abstract class TextureLoaderContract<G2D extends JCGLTextures2DStaticCommonType, GC extends JCGLTexturesCubeStaticCommonType, T extends TextureLoaderType> implements
-  TestContract
-{
-  public abstract G2D getGLTextures2D(
-    final TestContext tc);
-
-  public abstract GC getGLTexturesCube(
-    final TestContext tc);
-
-  public abstract TextureLoaderType makeTextureLoader(
-    final TestContext tc,
-    final G2D gl);
-}

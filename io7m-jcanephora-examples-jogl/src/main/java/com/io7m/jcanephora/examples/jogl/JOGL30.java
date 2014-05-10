@@ -14,7 +14,7 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.examples;
+package com.io7m.jcanephora.examples.jogl;
 
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLContext;

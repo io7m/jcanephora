@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.tests.jogl.contracts.jogl21;
 
+import com.io7m.jcanephora.TextureLoaderType;
 import com.io7m.jcanephora.api.JCGLTextures2DStaticCommonType;
 import com.io7m.jcanephora.api.JCGLTexturesCubeStaticCommonType;
 import com.io7m.jcanephora.tests.TestContext;
@@ -43,7 +44,7 @@ public final class JOGL21TextureLoaderImageIOCommonTest extends
     return JOGLTestContext.isOpenGL21WithExtensionsSupported();
   }
 
-  @Override public TextureLoaderImageIO makeTextureLoader(
+  @Override public TextureLoaderType makeTextureLoader(
     final TestContext tc,
     final JCGLTextures2DStaticCommonType gl)
   {

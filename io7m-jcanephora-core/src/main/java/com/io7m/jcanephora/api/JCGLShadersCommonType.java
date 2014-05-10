@@ -140,9 +140,9 @@ public interface JCGLShadersCommonType
    * attribute with which it may be associated.
    * </p>
    * 
-   * @see #programAttributeArrayAssociate(ProgramAttribute,
-   *      ArrayBufferAttribute)
-   * @see #programAttributeArrayDisassociate(ProgramAttribute)
+   * @see com.io7m.jcanephora.api.JCGLShadersCommonType#programAttributeArrayAssociate(ProgramAttributeType,
+   *      ArrayAttributeType)
+   * @see com.io7m.jcanephora.api.JCGLShadersCommonType#programAttributeArrayDisassociate(ProgramAttributeType)
    * 
    * @param program_attribute
    *          The program attribute.
@@ -169,9 +169,9 @@ public interface JCGLShadersCommonType
    * attribute with which it may be associated.
    * </p>
    * 
-   * @see #programAttributeArrayAssociate(ProgramAttribute,
-   *      ArrayBufferAttribute)
-   * @see #programAttributeArrayDisassociate(ProgramAttribute)
+   * @see com.io7m.jcanephora.api.JCGLShadersCommonType#programAttributeArrayAssociate(ProgramAttributeType,
+   *      ArrayAttributeType)
+   * @see com.io7m.jcanephora.api.JCGLShadersCommonType#programAttributeArrayDisassociate(ProgramAttributeType)
    * 
    * @param program_attribute
    *          The program attribute.
@@ -198,9 +198,9 @@ public interface JCGLShadersCommonType
    * attribute with which it may be associated.
    * </p>
    * 
-   * @see #programAttributeArrayAssociate(ProgramAttribute,
-   *      ArrayBufferAttribute)
-   * @see #programAttributeArrayDisassociate(ProgramAttribute)
+   * @see com.io7m.jcanephora.api.JCGLShadersCommonType#programAttributeArrayAssociate(ProgramAttributeType,
+   *      ArrayAttributeType)
+   * @see com.io7m.jcanephora.api.JCGLShadersCommonType#programAttributeArrayDisassociate(ProgramAttributeType)
    * 
    * @param program_attribute
    *          The program attribute.
@@ -227,9 +227,9 @@ public interface JCGLShadersCommonType
    * attribute with which it may be associated.
    * </p>
    * 
-   * @see #programAttributeArrayAssociate(ProgramAttribute,
-   *      ArrayBufferAttribute)
-   * @see #programAttributeArrayDisassociate(ProgramAttribute)
+   * @see com.io7m.jcanephora.api.JCGLShadersCommonType#programAttributeArrayAssociate(ProgramAttributeType,
+   *      ArrayAttributeType)
+   * @see com.io7m.jcanephora.api.JCGLShadersCommonType#programAttributeArrayDisassociate(ProgramAttributeType)
    * 
    * @param program_attribute
    *          The program attribute.
@@ -256,7 +256,7 @@ public interface JCGLShadersCommonType
    * mapped to draw buffer 0.
    * </p>
    * 
-   * @see JCGLShadersGL3Type#programCreateWithOutputs(String,
+   * @see com.io7m.jcanephora.api.JCGLShadersGL3Type#programCreateWithOutputs(String,
    *      VertexShaderType, FragmentShaderType, java.util.Map)
    * 
    * @param name

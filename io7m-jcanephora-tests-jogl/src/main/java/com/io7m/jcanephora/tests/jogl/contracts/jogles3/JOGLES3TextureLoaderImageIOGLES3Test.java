@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.tests.jogl.contracts.jogles3;
 
+import com.io7m.jcanephora.TextureLoaderType;
 import com.io7m.jcanephora.api.JCGLTextures2DStaticGLES3Type;
 import com.io7m.jcanephora.api.JCGLTexturesCubeStaticGLES3Type;
 import com.io7m.jcanephora.tests.TestContext;
@@ -44,7 +45,7 @@ public final class JOGLES3TextureLoaderImageIOGLES3Test extends
     return JOGLTestContext.isOpenGLES3Supported();
   }
 
-  @Override public TextureLoaderImageIO makeTextureLoader(
+  @Override public TextureLoaderType makeTextureLoader(
     final TestContext tc,
     final JCGLTextures2DStaticGLES3Type gl)
   {

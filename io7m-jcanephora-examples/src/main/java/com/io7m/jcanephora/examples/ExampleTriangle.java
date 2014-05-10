@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -13,42 +13,42 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.jcanephora.examples;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.ArrayBuffer;
-import com.io7m.jcanephora.ArrayBufferAttribute;
-import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
-import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
-import com.io7m.jcanephora.ArrayBufferWritableData;
-import com.io7m.jcanephora.CursorWritable4f;
-import com.io7m.jcanephora.CursorWritableIndex;
-import com.io7m.jcanephora.FragmentShader;
-import com.io7m.jcanephora.IndexBuffer;
-import com.io7m.jcanephora.IndexBufferWritableData;
-import com.io7m.jcanephora.JCGLCompileException;
-import com.io7m.jcanephora.JCGLInterfaceCommon;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.ArrayAttributeDescriptor;
+import com.io7m.jcanephora.ArrayAttributeType;
+import com.io7m.jcanephora.ArrayBufferType;
+import com.io7m.jcanephora.ArrayBufferUpdateUnmapped;
+import com.io7m.jcanephora.ArrayBufferUpdateUnmappedType;
+import com.io7m.jcanephora.ArrayDescriptor;
+import com.io7m.jcanephora.ArrayDescriptorBuilderType;
+import com.io7m.jcanephora.CursorWritable4fType;
+import com.io7m.jcanephora.CursorWritableIndexType;
+import com.io7m.jcanephora.FragmentShaderType;
+import com.io7m.jcanephora.IndexBufferType;
+import com.io7m.jcanephora.IndexBufferUpdateUnmapped;
+import com.io7m.jcanephora.IndexBufferUpdateUnmappedType;
+import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.Primitives;
-import com.io7m.jcanephora.ProgramAttribute;
-import com.io7m.jcanephora.ProgramReference;
-import com.io7m.jcanephora.ProgramUniform;
+import com.io7m.jcanephora.ProgramAttributeType;
+import com.io7m.jcanephora.ProgramType;
+import com.io7m.jcanephora.ProgramUniformType;
 import com.io7m.jcanephora.ProjectionMatrix;
-import com.io7m.jcanephora.ShaderUtilities;
 import com.io7m.jcanephora.UsageHint;
-import com.io7m.jcanephora.VertexShader;
+import com.io7m.jcanephora.VertexShaderType;
+import com.io7m.jcanephora.api.JCGLInterfaceCommonType;
+import com.io7m.jcanephora.utilities.ShaderUtilities;
+import com.io7m.jranges.RangeInclusiveL;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorI2F;
-import com.io7m.jtensors.VectorReadable2I;
+import com.io7m.jtensors.VectorReadable2IType;
 import com.io7m.jvvfs.FilesystemError;
+import com.io7m.jvvfs.FilesystemType;
 import com.io7m.jvvfs.PathVirtual;
 
 /**
@@ -58,23 +58,21 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleTriangle implements Example
 {
-  private final ArrayBuffer               array;
-  private final ArrayBufferWritableData   array_data;
-  private final ArrayBufferTypeDescriptor array_type;
-  private final ExampleConfig             config;
-  private final JCGLInterfaceCommon       gl;
-  private boolean                         has_shut_down;
-  private final IndexBuffer               indices;
-  private final IndexBufferWritableData   indices_data;
-  private final MatrixM4x4F               matrix_modelview;
-  private final MatrixM4x4F               matrix_projection;
-  private final ProgramReference          program;
+  private final ArrayBufferType               array;
+  private final ArrayBufferUpdateUnmappedType array_data;
+  private final ArrayDescriptor               array_type;
+  private final ExampleConfig                 config;
+  private final JCGLInterfaceCommonType       gl;
+  private boolean                             has_shut_down;
+  private final IndexBufferType               indices;
+  private final IndexBufferUpdateUnmappedType indices_data;
+  private final MatrixM4x4F                   matrix_modelview;
+  private final MatrixM4x4F                   matrix_projection;
+  private final ProgramType                   program;
 
   public ExampleTriangle(
-    final @Nonnull ExampleConfig config1)
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLCompileException,
+    final ExampleConfig config1)
+    throws JCGLException,
       IOException,
       FilesystemError
   {
@@ -88,42 +86,43 @@ public final class ExampleTriangle implements Example
      */
 
     {
-      final VertexShader v =
-        this.gl.vertexShaderCompile(
-          "v",
-          ShaderUtilities.readLines(config1.getFilesystem().openFile(
-            PathVirtual.ofString("/com/io7m/jcanephora/examples/color.v"))));
-      final FragmentShader f =
-        this.gl.fragmentShaderCompile(
-          "f",
-          ShaderUtilities.readLines(config1.getFilesystem().openFile(
-            PathVirtual.ofString("/com/io7m/jcanephora/examples/color.f"))));
+      final FilesystemType fs = config1.getFilesystem();
+      final VertexShaderType v =
+        this.gl.vertexShaderCompile("v", ShaderUtilities.readLines(fs
+          .openFile(PathVirtual
+            .ofString("/com/io7m/jcanephora/examples/color.v"))));
+      final FragmentShaderType f =
+        this.gl.fragmentShaderCompile("f", ShaderUtilities.readLines(fs
+          .openFile(PathVirtual
+            .ofString("/com/io7m/jcanephora/examples/color.f"))));
       this.program = this.gl.programCreateCommon("color", v, f);
     }
 
     /**
-     * Allocate an array buffer.
+     * First, it's necessary to allocate an array buffer to hold vertex data.
      * 
      * Set up a type descriptor that describes the types of elements within
      * the array. In this case, each element of the array is a series of four
      * floats representing the position of a vertex, followed by a series of
-     * four floats representing the color of a vertex.
-     * 
-     * Then, use this descriptor to allocate an array on the GPU.
+     * four floats representing the color of a vertex. Type descriptors are
+     * immutable and have mutable builders.
      */
 
-    final ArrayList<ArrayBufferAttributeDescriptor> abs =
-      new ArrayList<ArrayBufferAttributeDescriptor>();
-    abs.add(new ArrayBufferAttributeDescriptor(
+    final ArrayDescriptorBuilderType b = ArrayDescriptor.newBuilder();
+    b.addAttribute(ArrayAttributeDescriptor.newAttribute(
       "position",
       JCGLScalarType.TYPE_FLOAT,
       4));
-    abs.add(new ArrayBufferAttributeDescriptor(
+    b.addAttribute(ArrayAttributeDescriptor.newAttribute(
       "color",
       JCGLScalarType.TYPE_FLOAT,
       4));
+    this.array_type = b.build();
 
-    this.array_type = new ArrayBufferTypeDescriptor(abs);
+    /**
+     * Then, use this descriptor to allocate an array on the GPU.
+     */
+
     this.array =
       this.gl.arrayBufferAllocate(
         3,
@@ -134,7 +133,8 @@ public final class ExampleTriangle implements Example
      * Then, allocate a buffer of data that will be populated and uploaded.
      */
 
-    this.array_data = new ArrayBufferWritableData(this.array);
+    this.array_data =
+      ArrayBufferUpdateUnmapped.newUpdateReplacingAll(this.array);
 
     {
       /**
@@ -143,9 +143,9 @@ public final class ExampleTriangle implements Example
        * only point to the parts of the array relevant to their attribute.
        */
 
-      final CursorWritable4f pos_cursor =
+      final CursorWritable4fType pos_cursor =
         this.array_data.getCursor4f("position");
-      final CursorWritable4f col_cursor =
+      final CursorWritable4fType col_cursor =
         this.array_data.getCursor4f("color");
 
       pos_cursor.put4f(-100.0f, 100.0f, -1.0f, 1.0f);
@@ -169,11 +169,13 @@ public final class ExampleTriangle implements Example
      * Allocate and initialize an index buffer.
      */
 
-    this.indices = this.gl.indexBufferAllocate(this.array, 3);
-    this.indices_data = new IndexBufferWritableData(this.indices);
+    this.indices =
+      this.gl.indexBufferAllocate(this.array, 3, UsageHint.USAGE_STATIC_DRAW);
+    this.indices_data = IndexBufferUpdateUnmapped.newReplacing(this.indices);
 
     {
-      final CursorWritableIndex ind_cursor = this.indices_data.getCursor();
+      final CursorWritableIndexType ind_cursor =
+        this.indices_data.getCursor();
       ind_cursor.putIndex(0);
       ind_cursor.putIndex(1);
       ind_cursor.putIndex(2);
@@ -183,9 +185,7 @@ public final class ExampleTriangle implements Example
   }
 
   @Override public void display()
-    throws JCGLRuntimeException,
-      JCGLCompileException,
-      ConstraintError
+    throws JCGLException
   {
     this.gl.colorBufferClear3f(0.15f, 0.2f, 0.15f);
 
@@ -224,10 +224,13 @@ public final class ExampleTriangle implements Example
        * Get references to the program's uniform variable inputs.
        */
 
-      final ProgramUniform u_proj =
-        this.program.getUniforms().get("matrix_projection");
-      final ProgramUniform u_model =
-        this.program.getUniforms().get("matrix_modelview");
+      final ProgramUniformType u_proj =
+        this.program.programGetUniforms().get("matrix_projection");
+      final ProgramUniformType u_model =
+        this.program.programGetUniforms().get("matrix_modelview");
+
+      assert u_proj != null;
+      assert u_model != null;
 
       /**
        * Upload the matrices to the uniform variable inputs.
@@ -240,17 +243,21 @@ public final class ExampleTriangle implements Example
        * Get references to the program's vertex attribute inputs.
        */
 
-      final ProgramAttribute p_pos =
-        this.program.getAttributes().get("vertex_position");
-      final ProgramAttribute p_col =
-        this.program.getAttributes().get("vertex_color");
+      final ProgramAttributeType p_pos =
+        this.program.programGetAttributes().get("vertex_position");
+      final ProgramAttributeType p_col =
+        this.program.programGetAttributes().get("vertex_color");
+
+      assert p_pos != null;
+      assert p_col != null;
 
       /**
        * Get references to the array buffer's vertex attributes.
        */
 
-      final ArrayBufferAttribute b_pos = this.array.getAttribute("position");
-      final ArrayBufferAttribute b_col = this.array.getAttribute("color");
+      final ArrayAttributeType b_pos =
+        this.array.arrayGetAttribute("position");
+      final ArrayAttributeType b_col = this.array.arrayGetAttribute("color");
 
       /**
        * Bind the array buffer, and associate program vertex attribute inputs
@@ -279,11 +286,9 @@ public final class ExampleTriangle implements Example
   }
 
   @Override public void reshape(
-    final @Nonnull VectorReadable2I position,
-    final @Nonnull VectorReadable2I size)
-    throws JCGLRuntimeException,
-      ConstraintError,
-      JCGLCompileException
+    final VectorReadable2IType position,
+    final VectorReadable2IType size)
+    throws JCGLException
   {
     ProjectionMatrix.makeOrthographicProjection(
       this.matrix_projection,
@@ -294,20 +299,18 @@ public final class ExampleTriangle implements Example
       1,
       100);
 
-    final RangeInclusive range_x =
-      new RangeInclusive(position.getXI(), position.getXI()
+    final RangeInclusiveL range_x =
+      new RangeInclusiveL(position.getXI(), position.getXI()
         + (size.getXI() - 1));
-    final RangeInclusive range_y =
-      new RangeInclusive(position.getYI(), position.getYI()
+    final RangeInclusiveL range_y =
+      new RangeInclusiveL(position.getYI(), position.getYI()
         + (size.getYI() - 1));
 
     this.gl.viewportSet(new AreaInclusive(range_x, range_y));
   }
 
   @Override public void shutdown()
-    throws JCGLRuntimeException,
-      ConstraintError,
-      JCGLCompileException
+    throws JCGLException
   {
     this.has_shut_down = true;
     this.gl.arrayBufferDelete(this.array);

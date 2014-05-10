@@ -12,7 +12,7 @@
     <subsection name="jcanephora">
       <p>The <var>jcanephora</var> package implements a set of abstractions over
       <a href="http://opengl.org">OpenGL</a> with the intention of providing an
-      API that enforces program correctness statically.
+      API that enforces program correctness statically.</p>
     </subsection>
   </body>
 

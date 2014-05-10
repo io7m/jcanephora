@@ -58,7 +58,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoaderType> e
     final FilesystemType fs = tc.getFilesystem();
     final JCGLImplementationType gi = tc.getGLImplementation();
     final JCGLInterfaceCommonType gl = gi.getGLCommon();
-    final T tl = this.makeTextureLoader(tc, gl);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gl);
     final String path = "/com/io7m/jcanephora/images/305x448.png";
 
     final InputStream stream = fs.openFile(PathVirtual.ofString(path));
@@ -86,7 +86,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoaderType> e
     final FilesystemType fs = tc.getFilesystem();
     final JCGLImplementationType gi = tc.getGLImplementation();
     final JCGLInterfaceCommonType gl = gi.getGLCommon();
-    final T tl = this.makeTextureLoader(tc, gl);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -132,7 +132,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoaderType> e
     final FilesystemType fs = tc.getFilesystem();
     final JCGLImplementationType gi = tc.getGLImplementation();
     final JCGLInterfaceCommonType gl = gi.getGLCommon();
-    final T tl = this.makeTextureLoader(tc, gl);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -178,7 +178,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoaderType> e
     final FilesystemType fs = tc.getFilesystem();
     final JCGLImplementationType gi = tc.getGLImplementation();
     final JCGLInterfaceCommonType gl = gi.getGLCommon();
-    final T tl = this.makeTextureLoader(tc, gl);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -226,7 +226,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoaderType> e
     final FilesystemType fs = tc.getFilesystem();
     final JCGLImplementationType gi = tc.getGLImplementation();
     final JCGLInterfaceCommonType gl = gi.getGLCommon();
-    final T tl = this.makeTextureLoader(tc, gl);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -253,7 +253,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoaderType> e
     final FilesystemType fs = tc.getFilesystem();
     final JCGLImplementationType gi = tc.getGLImplementation();
     final JCGLInterfaceCommonType gl = gi.getGLCommon();
-    final T tl = this.makeTextureLoader(tc, gl);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -299,7 +299,7 @@ public abstract class TextureLoaderContractCommon<T extends TextureLoaderType> e
     final FilesystemType fs = tc.getFilesystem();
     final JCGLImplementationType gi = tc.getGLImplementation();
     final JCGLInterfaceCommonType gl = gi.getGLCommon();
-    final T tl = this.makeTextureLoader(tc, gl);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual

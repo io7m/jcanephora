@@ -42,12 +42,20 @@ public final class RenderbufferTypeTest
   @SuppressWarnings("static-method") @Test public void testDepthRenderable()
   {
     for (final RenderbufferFormat t : RenderbufferFormat.values()) {
-      if ((t == RenderbufferFormat.RENDERBUFFER_DEPTH_24_STENCIL_8)
-        || (t == RenderbufferFormat.RENDERBUFFER_DEPTH_16)) {
+      if (t == RenderbufferFormat.RENDERBUFFER_DEPTH_24_STENCIL_8) {
         Assert.assertTrue(t.isDepthRenderable());
-      } else {
-        Assert.assertFalse(t.isDepthRenderable());
+        continue;
       }
+      if (t == RenderbufferFormat.RENDERBUFFER_DEPTH_16) {
+        Assert.assertTrue(t.isDepthRenderable());
+        continue;
+      }
+      if (t == RenderbufferFormat.RENDERBUFFER_DEPTH_24) {
+        Assert.assertTrue(t.isDepthRenderable());
+        continue;
+      }
+
+      Assert.assertFalse(t.isDepthRenderable());
     }
   }
 

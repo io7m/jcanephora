@@ -1431,7 +1431,7 @@ import com.io7m.junreachable.UnreachableCodeException;
    * Create a new texture loader.
    */
 
-  public static TextureLoaderImageIO newTextureLoader(
+  public static TextureLoaderType newTextureLoader(
     final LogUsableType log)
   {
     return new TextureLoaderImageIO(log, false);
@@ -1442,10 +1442,8 @@ import com.io7m.junreachable.UnreachableCodeException;
    * alpha-premultiplied form upon loading.
    */
 
-  public static
-    TextureLoaderImageIO
-    newTextureLoaderWithAlphaPremultiplication(
-      final LogUsableType log)
+  public static TextureLoaderType newTextureLoaderWithAlphaPremultiplication(
+    final LogUsableType log)
   {
     return new TextureLoaderImageIO(log, true);
   }
