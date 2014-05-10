@@ -162,7 +162,6 @@ public final class ExampleTriangle implements Example
      * Upload the array data.
      */
 
-    this.gl.arrayBufferBind(this.array);
     this.gl.arrayBufferUpdate(this.array_data);
 
     /**

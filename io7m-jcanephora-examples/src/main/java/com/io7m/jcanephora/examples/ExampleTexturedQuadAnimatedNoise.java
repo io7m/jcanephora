@@ -262,7 +262,6 @@ import com.io7m.jvvfs.PathVirtual;
      * Upload the array data.
      */
 
-    this.glc.arrayBufferBind(this.array);
     this.glc.arrayBufferUpdate(this.array_data);
 
     /**
