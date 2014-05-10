@@ -59,10 +59,10 @@ import com.io7m.jvvfs.PathVirtual;
     Assume.assumeTrue(this.isGLSupported());
   }
 
-  private void loadSpecific(
+  private static void loadSpecific(
     final FilesystemType fs,
     final JCGLTextures2DStaticGLES2Type gl,
-    final T tl,
+    final TextureLoaderType tl,
     final String path)
     throws FilesystemError,
       JCGLException,
@@ -215,7 +215,7 @@ import com.io7m.jvvfs.PathVirtual;
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gt = this.getGLTextures2D(tc);
     final JCGLTexturesCubeStaticGLES2Type gc = this.getGLTexturesCube(tc);
-    final T tl = this.makeTextureLoader(tc, gt);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gt);
 
     final String file = "/com/io7m/jcanephora/images/reference_8_grey.png";
     final CubeMapFaceInputStream<CMFPositiveZKind> pos_z =
@@ -292,7 +292,7 @@ import com.io7m.jvvfs.PathVirtual;
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gt = this.getGLTextures2D(tc);
     final JCGLTexturesCubeStaticGLES2Type gc = this.getGLTexturesCube(tc);
-    final T tl = this.makeTextureLoader(tc, gt);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gt);
 
     final String file = "/com/io7m/jcanephora/images/reference_8_index.png";
     final CubeMapFaceInputStream<CMFPositiveZKind> pos_z =
@@ -369,7 +369,7 @@ import com.io7m.jvvfs.PathVirtual;
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gt = this.getGLTextures2D(tc);
     final JCGLTexturesCubeStaticGLES2Type gc = this.getGLTexturesCube(tc);
-    final T tl = this.makeTextureLoader(tc, gt);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gt);
 
     final String file = "/com/io7m/jcanephora/images/reference_mono.png";
     final CubeMapFaceInputStream<CMFPositiveZKind> pos_z =
@@ -446,7 +446,7 @@ import com.io7m.jvvfs.PathVirtual;
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gt = this.getGLTextures2D(tc);
     final JCGLTexturesCubeStaticGLES2Type gc = this.getGLTexturesCube(tc);
-    final T tl = this.makeTextureLoader(tc, gt);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gt);
 
     final String file = "/com/io7m/jcanephora/images/reference_888_3.png";
     final CubeMapFaceInputStream<CMFPositiveZKind> pos_z =
@@ -523,7 +523,7 @@ import com.io7m.jvvfs.PathVirtual;
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gt = this.getGLTextures2D(tc);
     final JCGLTexturesCubeStaticGLES2Type gc = this.getGLTexturesCube(tc);
-    final T tl = this.makeTextureLoader(tc, gt);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gt);
 
     final String file = "/com/io7m/jcanephora/images/reference_8_grey.png";
     final CubeMapFaceInputStream<CMFPositiveZKind> pos_z =
@@ -600,7 +600,7 @@ import com.io7m.jvvfs.PathVirtual;
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gt = this.getGLTextures2D(tc);
     final JCGLTexturesCubeStaticGLES2Type gc = this.getGLTexturesCube(tc);
-    final T tl = this.makeTextureLoader(tc, gt);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gt);
 
     final String file = "/com/io7m/jcanephora/images/reference_8_index.png";
     final CubeMapFaceInputStream<CMFPositiveZKind> pos_z =
@@ -677,7 +677,7 @@ import com.io7m.jvvfs.PathVirtual;
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gt = this.getGLTextures2D(tc);
     final JCGLTexturesCubeStaticGLES2Type gc = this.getGLTexturesCube(tc);
-    final T tl = this.makeTextureLoader(tc, gt);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gt);
 
     final String file = "/com/io7m/jcanephora/images/reference_mono.png";
     final CubeMapFaceInputStream<CMFPositiveZKind> pos_z =
@@ -754,7 +754,7 @@ import com.io7m.jvvfs.PathVirtual;
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gt = this.getGLTextures2D(tc);
     final JCGLTexturesCubeStaticGLES2Type gc = this.getGLTexturesCube(tc);
-    final T tl = this.makeTextureLoader(tc, gt);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gt);
 
     final String file = "/com/io7m/jcanephora/images/reference_888_3.png";
     final CubeMapFaceInputStream<CMFPositiveZKind> pos_z =
@@ -830,9 +830,9 @@ import com.io7m.jvvfs.PathVirtual;
     final TestContext tc = this.newTestContext();
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gl = this.getGLTextures2D(tc);
-    final T tl = this.makeTextureLoader(tc, gl);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gl);
     final String path = "/com/io7m/jcanephora/images/reference_8_grey.png";
-    this.loadSpecific(fs, gl, tl, path);
+    TextureLoaderGLES2Contract.loadSpecific(fs, gl, tl, path);
   }
 
   @Test public final void testTextureTypesIndexedToSpecific()
@@ -843,9 +843,9 @@ import com.io7m.jvvfs.PathVirtual;
     final TestContext tc = this.newTestContext();
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gl = this.getGLTextures2D(tc);
-    final T tl = this.makeTextureLoader(tc, gl);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gl);
     final String path = "/com/io7m/jcanephora/images/reference_8_index.png";
-    this.loadSpecific(fs, gl, tl, path);
+    TextureLoaderGLES2Contract.loadSpecific(fs, gl, tl, path);
   }
 
   @Test public final void testTextureTypesInferredGreyscale()
@@ -856,7 +856,7 @@ import com.io7m.jvvfs.PathVirtual;
     final TestContext tc = this.newTestContext();
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gl = this.getGLTextures2D(tc);
-    final T tl = this.makeTextureLoader(tc, gl);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -901,7 +901,7 @@ import com.io7m.jvvfs.PathVirtual;
     final TestContext tc = this.newTestContext();
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gl = this.getGLTextures2D(tc);
-    final T tl = this.makeTextureLoader(tc, gl);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -946,7 +946,7 @@ import com.io7m.jvvfs.PathVirtual;
     final TestContext tc = this.newTestContext();
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gl = this.getGLTextures2D(tc);
-    final T tl = this.makeTextureLoader(tc, gl);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -993,7 +993,7 @@ import com.io7m.jvvfs.PathVirtual;
     final TestContext tc = this.newTestContext();
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gl = this.getGLTextures2D(tc);
-    final T tl = this.makeTextureLoader(tc, gl);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -1019,7 +1019,7 @@ import com.io7m.jvvfs.PathVirtual;
     final TestContext tc = this.newTestContext();
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gl = this.getGLTextures2D(tc);
-    final T tl = this.makeTextureLoader(tc, gl);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -1064,7 +1064,7 @@ import com.io7m.jvvfs.PathVirtual;
     final TestContext tc = this.newTestContext();
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gl = this.getGLTextures2D(tc);
-    final T tl = this.makeTextureLoader(tc, gl);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gl);
 
     final InputStream stream =
       fs.openFile(PathVirtual
@@ -1108,7 +1108,7 @@ import com.io7m.jvvfs.PathVirtual;
     final TestContext tc = this.newTestContext();
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gl = this.getGLTextures2D(tc);
-    final T tl = this.makeTextureLoader(tc, gl);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gl);
     final String path = "/com/io7m/jcanephora/images/not-an-image.txt";
     int io_exception_count = 0;
 
@@ -1244,9 +1244,9 @@ import com.io7m.jvvfs.PathVirtual;
     final TestContext tc = this.newTestContext();
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gl = this.getGLTextures2D(tc);
-    final T tl = this.makeTextureLoader(tc, gl);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gl);
     final String path = "/com/io7m/jcanephora/images/reference_mono.png";
-    this.loadSpecific(fs, gl, tl, path);
+    TextureLoaderGLES2Contract.loadSpecific(fs, gl, tl, path);
   }
 
   @Test public final void testTextureTypesRGBAToSpecific()
@@ -1257,9 +1257,9 @@ import com.io7m.jvvfs.PathVirtual;
     final TestContext tc = this.newTestContext();
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gl = this.getGLTextures2D(tc);
-    final T tl = this.makeTextureLoader(tc, gl);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gl);
     final String path = "/com/io7m/jcanephora/images/reference_8888_4.png";
-    this.loadSpecific(fs, gl, tl, path);
+    TextureLoaderGLES2Contract.loadSpecific(fs, gl, tl, path);
   }
 
   @Test public final void testTextureTypesRGBToSpecific()
@@ -1270,9 +1270,9 @@ import com.io7m.jvvfs.PathVirtual;
     final TestContext tc = this.newTestContext();
     final FilesystemType fs = tc.getFilesystem();
     final JCGLTextures2DStaticGLES2Type gl = this.getGLTextures2D(tc);
-    final T tl = this.makeTextureLoader(tc, gl);
+    final TextureLoaderType tl = this.makeTextureLoader(tc, gl);
     final String path = "/com/io7m/jcanephora/images/reference_888_3.png";
-    this.loadSpecific(fs, gl, tl, path);
+    TextureLoaderGLES2Contract.loadSpecific(fs, gl, tl, path);
   }
 
 }

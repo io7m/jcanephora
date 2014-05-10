@@ -124,8 +124,8 @@ public final class ViewMatrix
    * cases, <code>out</code> should be set to the 4x4 identity matrix before
    * calling the function.
    * 
-   * @see ViewMatrix#lookAtWithContext(Context, MatrixM4x4F, VectorReadable3F,
-   *      VectorReadable3F, VectorReadable3F)
+   * @see ViewMatrix#lookAtWithContext(Context, MatrixM4x4F,
+   *      VectorReadable3FType, VectorReadable3FType, VectorReadable3FType)
    * 
    * @param out
    *          The input/output matrix.

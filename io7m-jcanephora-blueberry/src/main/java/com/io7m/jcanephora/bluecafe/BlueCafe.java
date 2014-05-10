@@ -14,7 +14,7 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.bluecafe;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -37,12 +37,12 @@ public final class BlueCafe
     xml_config.setOutputEnvironment(true);
     xml_config.setOutputSystemProperties(true);
 
-    final GUIProjectVersion version = new GUIProjectVersion(0, 16, 6, null);
+    final GUIProjectVersion version = new GUIProjectVersion(0, 29, 0, null);
     final GUIProjectInfo info = new GUIProjectInfo("bluecafe", version);
     info.addPackagePrefix("com.io7m");
     info.setProjectURI(new URI("http://io7m.com/software/jcanephora"));
     info.setProjectIcon(BlueCafe.class.getResource(
-      "/com/io7m/jcanephora/bluecafe.png").toURI());
+      "/com/io7m/jcanephora/bluecafe/bluecafe.png").toURI());
 
     SwingUtilities.invokeLater(new Runnable() {
       @Override public void run()

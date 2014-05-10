@@ -50,8 +50,7 @@ public interface JCGLArrayBuffersMappedType
    * <p>
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped read-only. The buffer should be unmapped
-   * after use with
-   * {@link JCGLInterfaceGL3Type#arrayBufferUnmap(ArrayBufferUsableType)}.
+   * after use with {@link #arrayBufferUnmap(ArrayBufferUsableType)}.
    * </p>
    * <p>
    * The "untyped" in the name refers to the fact that the mapped buffer is
@@ -77,8 +76,7 @@ public interface JCGLArrayBuffersMappedType
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped read-only. Only elements in the range
    * described by <code>range</code> will be mapped. The buffer should be
-   * unmapped after use with
-   * {@link JCGLInterfaceGL3Type#arrayBufferUnmap(ArrayBufferUsableType)}.
+   * unmapped after use with {@link #arrayBufferUnmap(ArrayBufferUsableType)}.
    * </p>
    * <p>
    * The "untyped" in the name refers to the fact that the mapped buffer is
@@ -96,7 +94,7 @@ public interface JCGLArrayBuffersMappedType
    * @throws JCGLException
    *           Iff an OpenGL exception occurs.
    * 
-   * @see RangeInclusive#isIncludedIn(RangeInclusive)
+   * @see RangeInclusiveL#isIncludedIn(RangeInclusiveL)
    */
 
   ByteBuffer arrayBufferMapReadUntypedRange(
@@ -109,8 +107,7 @@ public interface JCGLArrayBuffersMappedType
    * <p>
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped write-only. The buffer should be unmapped
-   * after use with
-   * {@link JCGLInterfaceGL3Type#arrayBufferUnmap(ArrayBufferUsableType)}. The
+   * after use with {@link #arrayBufferUnmap(ArrayBufferUsableType)}. The
    * previous contents of the buffer are discarded before mapping, to prevent
    * pipeline stalls.
    * </p>

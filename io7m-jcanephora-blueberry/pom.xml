@@ -4,13 +4,17 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.io7m.jcanephora.blueberry</groupId>
+  <parent>
+    <groupId>com.io7m.jcanephora</groupId>
+    <artifactId>io7m-jcanephora</artifactId>
+    <version>0.29.0</version>
+  </parent>
   <artifactId>io7m-jcanephora-blueberry</artifactId>
-  <name>io7m-jcanephora-blueberry</name>
-  <description>End-user unit testing</description>
-  <version>0.28.0</version>
-  <url>http://mvn.io7m.com/jcanephora-blueberry</url>
+
   <packaging>jar</packaging>
+  <description>OpenGL plus static safety (End-user unit testing with Blueberry)</description>
+  <url>http://mvn.io7m.com/${project.artifactId}/</url>
+  <name>${project.artifactId}</name>
 
   <licenses>
     <license>
@@ -25,6 +29,15 @@
     <developerConnection>scm:http://fossil.io7m.com/repo.cgi/io7m-jcanephora</developerConnection>
   </scm>
 
+  <developers>
+    <developer>
+      <id>io7m</id>
+      <name>io7m</name>
+      <email>code@io7m.com</email>
+      <url>http://io7m.com</url>
+    </developer>
+  </developers>
+
   <issueManagement>
     <url>http://fossil.io7m.com/repo.cgi/io7m-jcanephora</url>
     <system>Fossil</system>
@@ -34,7 +47,7 @@
     <site>
       <id>io7m</id>
       <name>io7m.com</name>
-      <url>http://mvn.io7m.com/jcanephora-blueberry</url>
+      <url>${project.url}</url>
     </site>
   </distributionManagement>
 
@@ -52,50 +65,48 @@
     <maven>2.2.1</maven>
   </prerequisites>
 
-  <developers>
-    <developer>
-      <id>io7m</id>
-      <name>io7m</name>
-      <email>code@io7m.com</email>
-      <url>http://io7m.com</url>
-    </developer>
-  </developers>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
 
   <dependencies>
     <dependency>
-      <groupId>com.io7m.jcanephora.core</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>io7m-jcanephora-core</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.io7m.jcanephora.jogl</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>io7m-jcanephora-jogl</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.io7m.jcanephora.tests</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>io7m-jcanephora-tests</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.io7m.jcanephora.tests-jogl</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>io7m-jcanephora-tests-jogl</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
-      <version>2.0.2</version>
-    </dependency>
+
     <dependency>
       <groupId>com.io7m.blueberry</groupId>
       <artifactId>io7m-blueberry-gui</artifactId>
       <version>0.2.1</version>
     </dependency>
+
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <groupId>org.jogamp.gluegen</groupId>
+      <artifactId>gluegen-rt-main</artifactId>
+      <version>${com.io7m.jcanephora.joglVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jogamp.jogl</groupId>
+      <artifactId>jogl-all-main</artifactId>
+      <version>${com.io7m.jcanephora.joglVersion}</version>
     </dependency>
   </dependencies>
 
@@ -121,11 +132,6 @@
       </plugin>
     </plugins>
   </reporting>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-  </properties>
 
   <build>
     <!-- Allow deployment over ssh -->
@@ -196,7 +202,7 @@
             <configuration>
               <archive>
                 <manifest>
-                  <mainClass>com.io7m.jcanephora.BlueCafe</mainClass>
+                  <mainClass>com.io7m.jcanephora.bluecafe.BlueCafe</mainClass>
                 </manifest>
                 <manifestEntries>
                   <Specification-Title>${project.name}</Specification-Title>
@@ -206,6 +212,7 @@
                   <Implementation-Version>${project.version}</Implementation-Version>
                   <Implementation-Vendor>io7m.com</Implementation-Vendor>
                   <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
+                  <Sealed>true</Sealed>
                   <Built-By>io7m</Built-By>
                 </manifestEntries>
               </archive>
@@ -226,8 +233,22 @@
           <execution>
             <phase>package</phase>
             <goals>
-               <goal>jar</goal>
+              <goal>jar</goal>
             </goals>
+            <configuration>
+              <archive>
+                <manifestEntries>
+                  <Specification-Title>${project.name}</Specification-Title>
+                  <Specification-Version>${project.version}</Specification-Version>
+                  <Specification-Vendor>io7m.com</Specification-Vendor>
+                  <Implementation-Title>${project.name}</Implementation-Title>
+                  <Implementation-Version>${project.version}</Implementation-Version>
+                  <Implementation-Vendor>io7m.com</Implementation-Vendor>
+                  <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
+                  <Built-By>io7m</Built-By>
+                </manifestEntries>
+              </archive>
+            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -242,9 +263,24 @@
             <id>attach-javadocs</id>
             <phase>package</phase>
             <goals>
-               <goal>jar</goal>
+              <goal>jar</goal>
             </goals>
-         </execution>
+            <configuration>
+              <bottom><![CDATA[Copyright &#169; {currentYear} &lt;code@io7m.com&gt; http://io7m.com]]></bottom>
+              <archive>
+                <manifestEntries>
+                  <Specification-Title>${project.name}</Specification-Title>
+                  <Specification-Version>${project.version}</Specification-Version>
+                  <Specification-Vendor>io7m.com</Specification-Vendor>
+                  <Implementation-Title>${project.name}</Implementation-Title>
+                  <Implementation-Version>${project.version}</Implementation-Version>
+                  <Implementation-Vendor>io7m.com</Implementation-Vendor>
+                  <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
+                  <Built-By>io7m</Built-By>
+                </manifestEntries>
+              </archive>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
 
@@ -280,10 +316,10 @@
               <outfile>target/bluecafe.exe</outfile>
               <dontWrapJar>true</dontWrapJar>
               <jar>lib/${project.name}-${project.version}.jar</jar>
-              <icon>src/main/resources/com/io7m/jcanephora/bluecafe.ico</icon>
+              <icon>src/main/resources/com/io7m/jcanephora/bluecafe/bluecafe.ico</icon>
               <errTitle>bluecafe</errTitle>
               <classPath>
-                <mainClass>com.io7m.jcanephora.BlueCafe</mainClass>
+                <mainClass>com.io7m.jcanephora.bluecafe.BlueCafe</mainClass>
                 <jarLocation>lib/</jarLocation>
               </classPath>
               <jre>

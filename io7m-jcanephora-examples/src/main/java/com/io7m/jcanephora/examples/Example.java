@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,31 +16,21 @@
 
 package com.io7m.jcanephora.examples;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jcanephora.JCGLCompileException;
-import com.io7m.jcanephora.JCGLRuntimeException;
-import com.io7m.jtensors.VectorReadable2I;
+import com.io7m.jcanephora.JCGLException;
+import com.io7m.jtensors.VectorReadable2IType;
 
 public interface Example
 {
   void display()
-    throws JCGLRuntimeException,
-      ConstraintError,
-      JCGLCompileException;
+    throws JCGLException;
 
   boolean hasShutDown();
 
   void reshape(
-    final @Nonnull VectorReadable2I position,
-    final @Nonnull VectorReadable2I size)
-    throws JCGLRuntimeException,
-      ConstraintError,
-      JCGLCompileException;
+    final VectorReadable2IType position,
+    final VectorReadable2IType size)
+    throws JCGLException;
 
   void shutdown()
-    throws JCGLRuntimeException,
-      ConstraintError,
-      JCGLCompileException;
+    throws JCGLException;
 }

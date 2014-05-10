@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.tests.jogl.contracts.jogl30;
 
+import com.io7m.jcanephora.TextureLoaderType;
 import com.io7m.jcanephora.api.JCGLTextures2DStaticCommonType;
 import com.io7m.jcanephora.api.JCGLTexturesCubeStaticCommonType;
 import com.io7m.jcanephora.tests.TestContext;
@@ -43,7 +44,7 @@ import com.io7m.jcanephora.texload.imageio.TextureLoaderImageIO;
     return JOGLTestContext.isOpenGL30Supported();
   }
 
-  @Override public TextureLoaderImageIO makeTextureLoader(
+  @Override public TextureLoaderType makeTextureLoader(
     final TestContext tc,
     final JCGLTextures2DStaticCommonType gl)
   {

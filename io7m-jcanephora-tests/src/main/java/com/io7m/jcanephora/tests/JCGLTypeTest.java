@@ -16,6 +16,8 @@
 
 package com.io7m.jcanephora.tests;
 
+import java.util.NoSuchElementException;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -36,7 +38,7 @@ import com.io7m.jnull.NullCheckException;
     JCGLType.fromName((String) TestUtilities.actuallyNull());
   }
 
-  @Test(expected = NullCheckException.class) public
+  @Test(expected = NoSuchElementException.class) public
     void
     testFromNameUnknown()
   {

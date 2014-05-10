@@ -23,7 +23,7 @@ import com.io7m.jranges.RangeInclusiveL;
 
 /**
  * A description of a two dimensional area, given in terms of a pair of
- * {@link RangeInclusive}.
+ * {@link RangeInclusiveL}.
  */
 
 @EqualityStructural public final class AreaInclusive

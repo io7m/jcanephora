@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.tests.jogl.contracts.jogl3p;
 
+import com.io7m.jcanephora.TextureLoaderType;
 import com.io7m.jcanephora.api.JCGLTextures2DStaticGL3ES3Type;
 import com.io7m.jcanephora.api.JCGLTexturesCubeStaticGL3ES3Type;
 import com.io7m.jcanephora.tests.TestContext;
@@ -44,7 +45,7 @@ import com.io7m.jcanephora.texload.imageio.TextureLoaderImageIO;
     return JOGLTestContext.isOpenGL3pSupported();
   }
 
-  @Override public TextureLoaderImageIO makeTextureLoader(
+  @Override public TextureLoaderType makeTextureLoader(
     final TestContext tc,
     final JCGLTextures2DStaticGL3ES3Type gl)
   {

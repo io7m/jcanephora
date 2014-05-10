@@ -80,7 +80,17 @@
     <dependency>
       <groupId>com.io7m.jlog</groupId>
       <artifactId>io7m-jlog-core</artifactId>
-      <version>[3.0.0, 4.0.0)</version>
+      <version>${com.io7m.jlog.versionRange}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.jnull</groupId>
+      <artifactId>io7m-jnull-core</artifactId>
+      <version>${com.io7m.jnull.versionRange}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.jtensors</groupId>
+      <artifactId>io7m-jtensors-core</artifactId>
+      <version>${com.io7m.jtensors.versionRange}</version>
     </dependency>
   </dependencies>
 

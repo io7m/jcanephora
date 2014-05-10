@@ -31,6 +31,18 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <siteReposDirectory>/com/io7m/jcanephora</siteReposDirectory>
     <siteDocumentationDirectory>/com/io7m/jcanephora/io7m-jcanephora-documentation</siteDocumentationDirectory>
+
+    <com.io7m.ieee754b16.versionRange>[0.2.0, 0.3.0]</com.io7m.ieee754b16.versionRange>
+    <com.io7m.jcanephora.joglVersion>2.1.5-01</com.io7m.jcanephora.joglVersion>
+    <com.io7m.jequality.versionRange>[0.3.0, 0.4.0)</com.io7m.jequality.versionRange>
+    <com.io7m.jfunctional.versionRange>[0.3.1, 0.4.0)</com.io7m.jfunctional.versionRange>
+    <com.io7m.jintegers.versionRange>[0.5.0, 0.6.0)</com.io7m.jintegers.versionRange>
+    <com.io7m.jlog.versionRange>[3.0.0, 4.0.0)</com.io7m.jlog.versionRange>
+    <com.io7m.jnull.versionRange>[0.3.1, 0.4.0)</com.io7m.jnull.versionRange>
+    <com.io7m.jranges.versionRange>[0.3.5, 0.4.0)</com.io7m.jranges.versionRange>
+    <com.io7m.jtensors.versionRange>[6.0.0, 7.0.0)</com.io7m.jtensors.versionRange>
+    <com.io7m.junreachable.versionRange>[0.3.0, 0.4.0)</com.io7m.junreachable.versionRange>
+    <com.io7m.jvvfs.versionRange>[4.0.0, 5.0.0)</com.io7m.jvvfs.versionRange>
   </properties>
 
   <licenses>

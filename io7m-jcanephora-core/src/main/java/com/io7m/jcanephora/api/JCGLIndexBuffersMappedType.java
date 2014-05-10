@@ -35,9 +35,8 @@ public interface JCGLIndexBuffersMappedType
    * <p>
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped read-only. The buffer should be unmapped
-   * after use with
-   * {@link JCGLInterfaceGL3Type#indexBufferUnmap(IndexBufferUsableType)}.
-   * Note that the type of indices in the buffer is given by
+   * after use with {@link #indexBufferUnmap(IndexBufferUsableType)}. Note
+   * that the type of indices in the buffer is given by
    * <code>id.getType()</code>.
    * </p>
    * 
@@ -60,8 +59,7 @@ public interface JCGLIndexBuffersMappedType
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped read-only. Only elements in the range
    * described by <code>range</code> will be mapped. The buffer should be
-   * unmapped after use with
-   * {@link JCGLInterfaceGL3Type#indexBufferUnmap(IndexBufferUsableType)}.
+   * unmapped after use with {@link #indexBufferUnmap(IndexBufferUsableType)}.
    * Note that the type of indices in the buffer is given by
    * <code>id.getType()</code>.
    * </p>
@@ -75,7 +73,7 @@ public interface JCGLIndexBuffersMappedType
    *           Iff an OpenGL exception occurs.
    * @throws JCGLExceptionBufferMappedMultiple
    *           If the index buffer is already mapped.
-   * @see RangeInclusive#isIncludedIn(RangeInclusive)
+   * @see RangeInclusiveL#isIncludedIn(RangeInclusiveL)
    */
 
   IndexBufferReadMappedType indexBufferMapReadRange(
@@ -88,9 +86,8 @@ public interface JCGLIndexBuffersMappedType
    * <p>
    * Map the buffer referenced by <code>id</code> into the program's address
    * space. The buffer is mapped write-only. The buffer should be unmapped
-   * after use with
-   * {@link JCGLInterfaceGL3Type#indexBufferUnmap(IndexBufferUsableType)}.
-   * Note that the type of indices in the buffer is given by
+   * after use with {@link #indexBufferUnmap(IndexBufferUsableType)}. Note
+   * that the type of indices in the buffer is given by
    * <code>id.getType()</code>. The previous contents of the buffer are
    * discarded to prevent pipeline stalls.
    * </p>

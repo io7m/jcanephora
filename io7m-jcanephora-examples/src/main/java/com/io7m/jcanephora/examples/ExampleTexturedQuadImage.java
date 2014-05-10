@@ -18,63 +18,61 @@ package com.io7m.jcanephora.examples;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
-import com.io7m.jaux.UnimplementedCodeException;
-import com.io7m.jaux.UnreachableCodeException;
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.ArrayBuffer;
-import com.io7m.jcanephora.ArrayBufferAttribute;
-import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
-import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
-import com.io7m.jcanephora.ArrayBufferWritableData;
+import com.io7m.jcanephora.ArrayAttributeDescriptor;
+import com.io7m.jcanephora.ArrayAttributeType;
+import com.io7m.jcanephora.ArrayBufferType;
+import com.io7m.jcanephora.ArrayBufferUpdateUnmapped;
+import com.io7m.jcanephora.ArrayBufferUpdateUnmappedType;
+import com.io7m.jcanephora.ArrayDescriptor;
+import com.io7m.jcanephora.ArrayDescriptorBuilderType;
 import com.io7m.jcanephora.BlendFunction;
-import com.io7m.jcanephora.CursorWritable2f;
-import com.io7m.jcanephora.CursorWritable4f;
-import com.io7m.jcanephora.CursorWritableIndex;
-import com.io7m.jcanephora.FragmentShader;
-import com.io7m.jcanephora.IndexBuffer;
-import com.io7m.jcanephora.IndexBufferWritableData;
-import com.io7m.jcanephora.JCGLCompileException;
+import com.io7m.jcanephora.CursorWritable2fType;
+import com.io7m.jcanephora.CursorWritable4fType;
+import com.io7m.jcanephora.CursorWritableIndexType;
+import com.io7m.jcanephora.FragmentShaderType;
+import com.io7m.jcanephora.IndexBufferType;
+import com.io7m.jcanephora.IndexBufferUpdateUnmapped;
+import com.io7m.jcanephora.IndexBufferUpdateUnmappedType;
 import com.io7m.jcanephora.JCGLException;
-import com.io7m.jcanephora.JCGLImplementation;
-import com.io7m.jcanephora.JCGLImplementationVisitor;
-import com.io7m.jcanephora.JCGLInterfaceCommon;
-import com.io7m.jcanephora.JCGLInterfaceGL2;
-import com.io7m.jcanephora.JCGLInterfaceGL3;
-import com.io7m.jcanephora.JCGLInterfaceGLES2;
-import com.io7m.jcanephora.JCGLInterfaceGLES3;
-import com.io7m.jcanephora.JCGLRuntimeException;
 import com.io7m.jcanephora.JCGLScalarType;
-import com.io7m.jcanephora.JCGLTextures2DStaticGL3ES3;
 import com.io7m.jcanephora.Primitives;
-import com.io7m.jcanephora.ProgramAttribute;
-import com.io7m.jcanephora.ProgramReference;
-import com.io7m.jcanephora.ProgramUniform;
+import com.io7m.jcanephora.ProgramAttributeType;
+import com.io7m.jcanephora.ProgramType;
+import com.io7m.jcanephora.ProgramUniformType;
 import com.io7m.jcanephora.ProjectionMatrix;
-import com.io7m.jcanephora.ShaderUtilities;
-import com.io7m.jcanephora.Texture2DStatic;
+import com.io7m.jcanephora.Texture2DStaticType;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
-import com.io7m.jcanephora.TextureLoader;
-import com.io7m.jcanephora.TextureType;
-import com.io7m.jcanephora.TextureTypeMeta;
-import com.io7m.jcanephora.TextureUnit;
+import com.io7m.jcanephora.TextureFormat;
+import com.io7m.jcanephora.TextureFormatMeta;
+import com.io7m.jcanephora.TextureLoaderType;
+import com.io7m.jcanephora.TextureUnitType;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
 import com.io7m.jcanephora.UsageHint;
-import com.io7m.jcanephora.VertexShader;
+import com.io7m.jcanephora.VertexShaderType;
+import com.io7m.jcanephora.api.JCGLImplementationType;
+import com.io7m.jcanephora.api.JCGLImplementationVisitorType;
+import com.io7m.jcanephora.api.JCGLInterfaceCommonType;
+import com.io7m.jcanephora.api.JCGLInterfaceGL2Type;
+import com.io7m.jcanephora.api.JCGLInterfaceGL3Type;
+import com.io7m.jcanephora.api.JCGLInterfaceGLES2Type;
+import com.io7m.jcanephora.api.JCGLInterfaceGLES3Type;
+import com.io7m.jcanephora.api.JCGLTextures2DStaticGL3ES3Type;
+import com.io7m.jcanephora.utilities.ShaderUtilities;
+import com.io7m.jranges.RangeInclusiveL;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorI2F;
-import com.io7m.jtensors.VectorReadable2I;
-import com.io7m.jvvfs.FSCapabilityAll;
+import com.io7m.jtensors.VectorReadable2IType;
+import com.io7m.junreachable.UnimplementedCodeException;
+import com.io7m.junreachable.UnreachableCodeException;
 import com.io7m.jvvfs.FilesystemError;
+import com.io7m.jvvfs.FilesystemType;
 import com.io7m.jvvfs.PathVirtual;
 
 /**
@@ -83,29 +81,29 @@ import com.io7m.jvvfs.PathVirtual;
  * reloaded as all of the separate texture types.
  */
 
-public final class ExampleTexturedQuadImage implements Example
+@SuppressWarnings("null") public final class ExampleTexturedQuadImage implements
+  Example
 {
-  private final ArrayBuffer               array;
-  private final ArrayBufferWritableData   array_data;
-  private final ArrayBufferTypeDescriptor array_type;
-  private final ExampleConfig             config;
-  private int                             frame         = 0;
-  private final JCGLInterfaceCommon       gl;
-  private boolean                         has_shut_down;
-  private final IndexBuffer               indices;
-  private final IndexBufferWritableData   indices_data;
-  private final MatrixM4x4F               matrix_modelview;
-  private final MatrixM4x4F               matrix_projection;
-  private final ProgramReference          program;
-  private int                             texture_index = 0;
-  private final List<TextureUnit>         texture_units;
-  private final Texture2DStatic           textures[];
-  private final JCGLImplementation        gi;
+  private final ArrayBufferType               array;
+  private final ArrayBufferUpdateUnmappedType array_data;
+  private final ArrayDescriptor               array_type;
+  private final ExampleConfig                 config;
+  private int                                 frame         = 0;
+  private final JCGLInterfaceCommonType       gl;
+  private boolean                             has_shut_down;
+  private final IndexBufferType               indices;
+  private final IndexBufferUpdateUnmappedType indices_data;
+  private final MatrixM4x4F                   matrix_modelview;
+  private final MatrixM4x4F                   matrix_projection;
+  private final ProgramType                   program;
+  private int                                 texture_index = 0;
+  private final List<TextureUnitType>         texture_units;
+  private final Texture2DStaticType           textures[];
+  private final JCGLImplementationType        gi;
 
   public ExampleTexturedQuadImage(
-    final @Nonnull ExampleConfig config1)
-    throws ConstraintError,
-      IOException,
+    final ExampleConfig config1)
+    throws IOException,
       FilesystemError,
       JCGLException
   {
@@ -120,12 +118,12 @@ public final class ExampleTexturedQuadImage implements Example
      */
 
     {
-      final VertexShader v =
+      final VertexShaderType v =
         this.gl.vertexShaderCompile(
           "v",
           ShaderUtilities.readLines(config1.getFilesystem().openFile(
             PathVirtual.ofString("/com/io7m/jcanephora/examples/uv.v"))));
-      final FragmentShader f =
+      final FragmentShaderType f =
         this.gl.fragmentShaderCompile(
           "f",
           ShaderUtilities.readLines(config1.getFilesystem().openFile(
@@ -147,8 +145,8 @@ public final class ExampleTexturedQuadImage implements Example
      * attempts to load every single type.
      */
 
-    final TextureLoader loader = config1.getTextureLoader();
-    final FSCapabilityAll filesystem = config1.getFilesystem();
+    final TextureLoaderType loader = config1.getTextureLoader();
+    final FilesystemType filesystem = config1.getFilesystem();
 
     final TextureWrapS wrap_s = TextureWrapS.TEXTURE_WRAP_CLAMP_TO_EDGE;
     final TextureWrapT wrap_t = TextureWrapT.TEXTURE_WRAP_CLAMP_TO_EDGE;
@@ -159,26 +157,25 @@ public final class ExampleTexturedQuadImage implements Example
 
     this.textures =
       this.gi
-        .implementationAccept(new JCGLImplementationVisitor<Texture2DStatic[], IOException>() {
+        .implementationAccept(new JCGLImplementationVisitorType<Texture2DStaticType[], IOException>() {
 
           /**
            * The texture types supported by GL2.
            */
 
-          @Override public @Nonnull Texture2DStatic[] implementationIsGL2(
-            final @Nonnull JCGLInterfaceGL2 gl2)
+          @Override public Texture2DStaticType[] implementationIsGL2(
+            final JCGLInterfaceGL2Type gl2)
             throws JCGLException,
-              ConstraintError,
-              JCGLException,
               IOException
           {
             try {
-              final EnumSet<TextureType> ttypes =
-                TextureTypeMeta.getTextures2DRequiredByGL21();
-              final Texture2DStatic[] t = new Texture2DStatic[ttypes.size()];
+              final EnumSet<TextureFormat> ttypes =
+                TextureFormatMeta.getTextures2DRequiredByGL21();
+              final Texture2DStaticType[] t =
+                new Texture2DStaticType[ttypes.size()];
 
               int index = 0;
-              for (final TextureType type : ttypes) {
+              for (final TextureFormat type : ttypes) {
                 System.out.println("Loading texture as " + type);
 
                 final InputStream stream =
@@ -186,7 +183,7 @@ public final class ExampleTexturedQuadImage implements Example
                     .ofString("/com/io7m/jcanephora/examples/reference_8888_4.png"));
 
                 switch (type) {
-                  case TEXTURE_TYPE_RGBA_8_4BPP:
+                  case TEXTURE_FORMAT_RGBA_8_4BPP:
                     t[index] =
                       loader.load2DStaticRGBA8(
                         gl2,
@@ -197,7 +194,7 @@ public final class ExampleTexturedQuadImage implements Example
                         stream,
                         type.toString());
                     break;
-                  case TEXTURE_TYPE_RGB_8_3BPP:
+                  case TEXTURE_FORMAT_RGB_8_3BPP:
                     t[index] =
                       loader.load2DStaticRGB8(
                         gl2,
@@ -221,7 +218,7 @@ public final class ExampleTexturedQuadImage implements Example
               }
 
               index = 0;
-              for (final TextureType type : ttypes) {
+              for (final TextureFormat type : ttypes) {
                 assert (t[index] != null) : type.toString();
                 ++index;
               }
@@ -236,11 +233,9 @@ public final class ExampleTexturedQuadImage implements Example
            * The texture types supported by GL3.
            */
 
-          @Override public @Nonnull Texture2DStatic[] implementationIsGL3(
-            final @Nonnull JCGLInterfaceGL3 gl3)
+          @Override public Texture2DStaticType[] implementationIsGL3(
+            final JCGLInterfaceGL3Type gl3)
             throws JCGLException,
-              ConstraintError,
-              JCGLException,
               IOException
           {
             try {
@@ -250,21 +245,18 @@ public final class ExampleTexturedQuadImage implements Example
             }
           }
 
-          @Override public @Nonnull Texture2DStatic[] implementationIsGLES2(
-            final @Nonnull JCGLInterfaceGLES2 gles2)
+          @Override public Texture2DStaticType[] implementationIsGLES2(
+            final JCGLInterfaceGLES2Type gles2)
             throws JCGLException,
-              ConstraintError,
-              JCGLException
+              IOException
           {
             // TODO Auto-generated method stub
             throw new UnimplementedCodeException();
           }
 
-          @Override public @Nonnull Texture2DStatic[] implementationIsGLES3(
-            final @Nonnull JCGLInterfaceGLES3 gles3)
+          @Override public Texture2DStaticType[] implementationIsGLES3(
+            final JCGLInterfaceGLES3Type gles3)
             throws JCGLException,
-              ConstraintError,
-              JCGLException,
               IOException
           {
             try {
@@ -274,19 +266,19 @@ public final class ExampleTexturedQuadImage implements Example
             }
           }
 
-          private @Nonnull Texture2DStatic[] texturesGL3ES3(
-            final @Nonnull JCGLTextures2DStaticGL3ES3 gl3es3)
+          private Texture2DStaticType[] texturesGL3ES3(
+            final JCGLTextures2DStaticGL3ES3Type gl3es3)
             throws FilesystemError,
-              ConstraintError,
-              JCGLRuntimeException,
+              JCGLException,
               IOException
           {
-            final EnumSet<TextureType> ttypes =
-              TextureTypeMeta.getTextures2DRequiredByGL3ES3();
-            final Texture2DStatic[] t = new Texture2DStatic[ttypes.size()];
+            final Set<TextureFormat> ttypes =
+              TextureFormatMeta.getTextures2DRequiredByGL3ES3();
+            final Texture2DStaticType[] t =
+              new Texture2DStaticType[ttypes.size()];
 
             int index = 0;
-            for (final TextureType type : ttypes) {
+            for (final TextureFormat type : ttypes) {
               System.out.println("Loading texture as " + type);
 
               final InputStream stream =
@@ -294,7 +286,7 @@ public final class ExampleTexturedQuadImage implements Example
                   .ofString("/com/io7m/jcanephora/examples/reference_8888_4.png"));
 
               switch (type) {
-                case TEXTURE_TYPE_RGBA_1010102_4BPP:
+                case TEXTURE_FORMAT_RGBA_1010102_4BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGBA1010102(
@@ -308,7 +300,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGBA_16F_8BPP:
+                case TEXTURE_FORMAT_RGBA_16F_8BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGBA16f(
@@ -322,7 +314,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGBA_16I_8BPP:
+                case TEXTURE_FORMAT_RGBA_16I_8BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGBA16I(
@@ -336,7 +328,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGBA_16U_8BPP:
+                case TEXTURE_FORMAT_RGBA_16U_8BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGBA16U(
@@ -350,7 +342,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGBA_16_8BPP:
+                case TEXTURE_FORMAT_RGBA_16_8BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGBA16(
@@ -364,7 +356,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGBA_32I_16BPP:
+                case TEXTURE_FORMAT_RGBA_32I_16BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGBA32I(
@@ -378,7 +370,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGBA_32U_16BPP:
+                case TEXTURE_FORMAT_RGBA_32U_16BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGBA32U(
@@ -392,7 +384,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGBA_8I_4BPP:
+                case TEXTURE_FORMAT_RGBA_8I_4BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGBA8I(
@@ -406,7 +398,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGBA_8U_4BPP:
+                case TEXTURE_FORMAT_RGBA_8U_4BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGBA8U(
@@ -420,7 +412,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGB_16F_6BPP:
+                case TEXTURE_FORMAT_RGB_16F_6BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGB16f(
@@ -434,7 +426,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGB_16I_6BPP:
+                case TEXTURE_FORMAT_RGB_16I_6BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGB16I(
@@ -448,7 +440,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGB_16U_6BPP:
+                case TEXTURE_FORMAT_RGB_16U_6BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGB16U(
@@ -462,7 +454,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGB_16_6BPP:
+                case TEXTURE_FORMAT_RGB_16_6BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGB16(
@@ -476,7 +468,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGB_32F_12BPP:
+                case TEXTURE_FORMAT_RGB_32F_12BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGB32f(
@@ -490,7 +482,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGB_32I_12BPP:
+                case TEXTURE_FORMAT_RGB_32I_12BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGB32I(
@@ -504,7 +496,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGB_32U_12BPP:
+                case TEXTURE_FORMAT_RGB_32U_12BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGB32U(
@@ -518,7 +510,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGB_8I_3BPP:
+                case TEXTURE_FORMAT_RGB_8I_3BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGB8I(
@@ -532,7 +524,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGB_8U_3BPP:
+                case TEXTURE_FORMAT_RGB_8U_3BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGB8U(
@@ -546,7 +538,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RG_16F_4BPP:
+                case TEXTURE_FORMAT_RG_16F_4BPP:
                 {
                   t[index] =
                     loader.load2DStaticRG16f(
@@ -560,7 +552,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RG_16I_4BPP:
+                case TEXTURE_FORMAT_RG_16I_4BPP:
                 {
                   t[index] =
                     loader.load2DStaticRG16I(
@@ -574,7 +566,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RG_16U_4BPP:
+                case TEXTURE_FORMAT_RG_16U_4BPP:
                 {
                   t[index] =
                     loader.load2DStaticRG16U(
@@ -588,7 +580,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RG_16_4BPP:
+                case TEXTURE_FORMAT_RG_16_4BPP:
                 {
                   t[index] =
                     loader.load2DStaticRG16(
@@ -602,7 +594,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RG_32F_8BPP:
+                case TEXTURE_FORMAT_RG_32F_8BPP:
                 {
                   t[index] =
                     loader.load2DStaticRG32f(
@@ -616,7 +608,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RG_32I_8BPP:
+                case TEXTURE_FORMAT_RG_32I_8BPP:
                 {
                   t[index] =
                     loader.load2DStaticRG32I(
@@ -630,7 +622,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RG_32U_8BPP:
+                case TEXTURE_FORMAT_RG_32U_8BPP:
                 {
                   t[index] =
                     loader.load2DStaticRG32U(
@@ -644,7 +636,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RG_8I_2BPP:
+                case TEXTURE_FORMAT_RG_8I_2BPP:
                 {
                   t[index] =
                     loader.load2DStaticRG8I(
@@ -658,7 +650,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RG_8U_2BPP:
+                case TEXTURE_FORMAT_RG_8U_2BPP:
                 {
                   t[index] =
                     loader.load2DStaticRG8U(
@@ -672,7 +664,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_R_32F_4BPP:
+                case TEXTURE_FORMAT_R_32F_4BPP:
                 {
                   t[index] =
                     loader.load2DStaticR32f(
@@ -686,7 +678,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_R_32I_4BPP:
+                case TEXTURE_FORMAT_R_32I_4BPP:
                 {
                   t[index] =
                     loader.load2DStaticR32I(
@@ -700,7 +692,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_R_32U_4BPP:
+                case TEXTURE_FORMAT_R_32U_4BPP:
                 {
                   t[index] =
                     loader.load2DStaticR32U(
@@ -714,7 +706,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_R_8I_1BPP:
+                case TEXTURE_FORMAT_R_8I_1BPP:
                 {
                   t[index] =
                     loader.load2DStaticR8I(
@@ -728,7 +720,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_R_8U_1BPP:
+                case TEXTURE_FORMAT_R_8U_1BPP:
                 {
                   t[index] =
                     loader.load2DStaticR8U(
@@ -742,7 +734,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RG_8_2BPP:
+                case TEXTURE_FORMAT_RG_8_2BPP:
                 {
                   t[index] =
                     loader.load2DStaticRG8(
@@ -756,7 +748,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_R_8_1BPP:
+                case TEXTURE_FORMAT_R_8_1BPP:
                 {
                   t[index] =
                     loader.load2DStaticR8(
@@ -770,7 +762,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGBA_32F_16BPP:
+                case TEXTURE_FORMAT_RGBA_32F_16BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGBA32f(
@@ -784,16 +776,16 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGBA_4444_2BPP:
-                case TEXTURE_TYPE_RGBA_5551_2BPP:
-                case TEXTURE_TYPE_RGB_565_2BPP:
+                case TEXTURE_FORMAT_RGBA_4444_2BPP:
+                case TEXTURE_FORMAT_RGBA_5551_2BPP:
+                case TEXTURE_FORMAT_RGB_565_2BPP:
                 {
                   stream.close();
                   throw new UnreachableCodeException();
                 }
 
-                case TEXTURE_TYPE_DEPTH_32F_4BPP:
-                case TEXTURE_TYPE_DEPTH_24_STENCIL_8_4BPP:
+                case TEXTURE_FORMAT_DEPTH_32F_4BPP:
+                case TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP:
                 {
                   System.out.print("Ignoring type " + type);
                   t[index] =
@@ -808,7 +800,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_R_16_2BPP:
+                case TEXTURE_FORMAT_R_16_2BPP:
                 {
                   t[index] =
                     loader.load2DStaticR16(
@@ -822,7 +814,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_R_16U_2BPP:
+                case TEXTURE_FORMAT_R_16U_2BPP:
                 {
                   t[index] =
                     loader.load2DStaticR16U(
@@ -836,7 +828,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_R_16I_2BPP:
+                case TEXTURE_FORMAT_R_16I_2BPP:
                 {
                   t[index] =
                     loader.load2DStaticR16I(
@@ -850,7 +842,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_R_16F_2BPP:
+                case TEXTURE_FORMAT_R_16F_2BPP:
                 {
                   t[index] =
                     loader.load2DStaticR16f(
@@ -864,7 +856,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_DEPTH_24_4BPP:
+                case TEXTURE_FORMAT_DEPTH_24_4BPP:
                 {
                   t[index] =
                     loader.load2DStaticDepth24(
@@ -877,7 +869,7 @@ public final class ExampleTexturedQuadImage implements Example
                       type.toString());
                   break;
                 }
-                case TEXTURE_TYPE_DEPTH_16_2BPP:
+                case TEXTURE_FORMAT_DEPTH_16_2BPP:
                 {
                   t[index] =
                     loader.load2DStaticDepth16(
@@ -891,7 +883,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGBA_8_4BPP:
+                case TEXTURE_FORMAT_RGBA_8_4BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGBA8(
@@ -905,7 +897,7 @@ public final class ExampleTexturedQuadImage implements Example
                   break;
                 }
 
-                case TEXTURE_TYPE_RGB_8_3BPP:
+                case TEXTURE_FORMAT_RGB_8_3BPP:
                 {
                   t[index] =
                     loader.load2DStaticRGB8(
@@ -927,7 +919,7 @@ public final class ExampleTexturedQuadImage implements Example
             }
 
             index = 0;
-            for (final TextureType type : ttypes) {
+            for (final TextureFormat type : ttypes) {
               assert (t[index] != null) : type.toString();
               ++index;
             }
@@ -947,18 +939,17 @@ public final class ExampleTexturedQuadImage implements Example
      * Then, use this descriptor to allocate an array.
      */
 
-    final ArrayList<ArrayBufferAttributeDescriptor> abs =
-      new ArrayList<ArrayBufferAttributeDescriptor>();
-    abs.add(new ArrayBufferAttributeDescriptor(
+    final ArrayDescriptorBuilderType b = ArrayDescriptor.newBuilder();
+    b.addAttribute(ArrayAttributeDescriptor.newAttribute(
       "position",
       JCGLScalarType.TYPE_FLOAT,
       4));
-    abs.add(new ArrayBufferAttributeDescriptor(
+    b.addAttribute(ArrayAttributeDescriptor.newAttribute(
       "uv",
       JCGLScalarType.TYPE_FLOAT,
       2));
+    this.array_type = b.build();
 
-    this.array_type = new ArrayBufferTypeDescriptor(abs);
     this.array =
       this.gl.arrayBufferAllocate(
         4,
@@ -969,7 +960,8 @@ public final class ExampleTexturedQuadImage implements Example
      * Then, allocate a buffer of data that will be populated and uploaded.
      */
 
-    this.array_data = new ArrayBufferWritableData(this.array);
+    this.array_data =
+      ArrayBufferUpdateUnmapped.newUpdateReplacingAll(this.array);
 
     {
       /**
@@ -978,9 +970,10 @@ public final class ExampleTexturedQuadImage implements Example
        * only point to the parts of the array relevant to their attribute.
        */
 
-      final CursorWritable4f pos_cursor =
+      final CursorWritable4fType pos_cursor =
         this.array_data.getCursor4f("position");
-      final CursorWritable2f uv_cursor = this.array_data.getCursor2f("uv");
+      final CursorWritable2fType uv_cursor =
+        this.array_data.getCursor2f("uv");
 
       pos_cursor.put4f(-100.0f, 100.0f, -1.0f, 1.0f);
       pos_cursor.put4f(-100.0f, -100.0f, -1.0f, 1.0f);
@@ -1004,11 +997,13 @@ public final class ExampleTexturedQuadImage implements Example
      * Allocate and initialize an index buffer sufficient for two triangles.
      */
 
-    this.indices = this.gl.indexBufferAllocate(this.array, 6);
-    this.indices_data = new IndexBufferWritableData(this.indices);
+    this.indices =
+      this.gl.indexBufferAllocate(this.array, 6, UsageHint.USAGE_STATIC_DRAW);
+    this.indices_data = IndexBufferUpdateUnmapped.newReplacing(this.indices);
 
     {
-      final CursorWritableIndex ind_cursor = this.indices_data.getCursor();
+      final CursorWritableIndexType ind_cursor =
+        this.indices_data.getCursor();
       ind_cursor.putIndex(0);
       ind_cursor.putIndex(1);
       ind_cursor.putIndex(2);
@@ -1022,9 +1017,7 @@ public final class ExampleTexturedQuadImage implements Example
   }
 
   @Override public void display()
-    throws JCGLRuntimeException,
-      JCGLCompileException,
-      ConstraintError
+    throws JCGLException
   {
     ++this.frame;
 
@@ -1076,12 +1069,12 @@ public final class ExampleTexturedQuadImage implements Example
        * Get references to the program's uniform variable inputs.
        */
 
-      final ProgramUniform u_proj =
-        this.program.getUniforms().get("matrix_projection");
-      final ProgramUniform u_model =
-        this.program.getUniforms().get("matrix_modelview");
-      final ProgramUniform u_texture =
-        this.program.getUniforms().get("texture");
+      final ProgramUniformType u_proj =
+        this.program.programGetUniforms().get("matrix_projection");
+      final ProgramUniformType u_model =
+        this.program.programGetUniforms().get("matrix_modelview");
+      final ProgramUniformType u_texture =
+        this.program.programGetUniforms().get("texture");
 
       /**
        * Upload the matrices to the uniform variable inputs.
@@ -1106,17 +1099,18 @@ public final class ExampleTexturedQuadImage implements Example
        * Get references to the program's vertex attribute inputs.
        */
 
-      final ProgramAttribute p_pos =
-        this.program.getAttributes().get("vertex_position");
-      final ProgramAttribute p_uv =
-        this.program.getAttributes().get("vertex_uv");
+      final ProgramAttributeType p_pos =
+        this.program.programGetAttributes().get("vertex_position");
+      final ProgramAttributeType p_uv =
+        this.program.programGetAttributes().get("vertex_uv");
 
       /**
        * Get references to the array buffer's vertex attributes.
        */
 
-      final ArrayBufferAttribute b_pos = this.array.getAttribute("position");
-      final ArrayBufferAttribute b_uv = this.array.getAttribute("uv");
+      final ArrayAttributeType b_pos =
+        this.array.arrayGetAttribute("position");
+      final ArrayAttributeType b_uv = this.array.arrayGetAttribute("uv");
 
       /**
        * Bind the array buffer, and associate program vertex attribute inputs
@@ -1147,11 +1141,9 @@ public final class ExampleTexturedQuadImage implements Example
   }
 
   @Override public void reshape(
-    final @Nonnull VectorReadable2I position,
-    final @Nonnull VectorReadable2I size)
-    throws JCGLRuntimeException,
-      ConstraintError,
-      JCGLCompileException
+    final VectorReadable2IType position,
+    final VectorReadable2IType size)
+    throws JCGLException
   {
     ProjectionMatrix.makeOrthographicProjection(
       this.matrix_projection,
@@ -1162,26 +1154,24 @@ public final class ExampleTexturedQuadImage implements Example
       1,
       100);
 
-    final RangeInclusive range_x =
-      new RangeInclusive(position.getXI(), position.getXI()
+    final RangeInclusiveL range_x =
+      new RangeInclusiveL(position.getXI(), position.getXI()
         + (size.getXI() - 1));
-    final RangeInclusive range_y =
-      new RangeInclusive(position.getYI(), position.getYI()
+    final RangeInclusiveL range_y =
+      new RangeInclusiveL(position.getYI(), position.getYI()
         + (size.getYI() - 1));
 
     this.gl.viewportSet(new AreaInclusive(range_x, range_y));
   }
 
   @Override public void shutdown()
-    throws JCGLRuntimeException,
-      ConstraintError,
-      JCGLCompileException
+    throws JCGLException
   {
     this.has_shut_down = true;
     this.gl.arrayBufferDelete(this.array);
     this.gl.indexBufferDelete(this.indices);
 
-    for (final Texture2DStatic t : this.textures) {
+    for (final Texture2DStaticType t : this.textures) {
       this.gl.texture2DStaticDelete(t);
     }
 
