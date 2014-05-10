@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,9 +16,8 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jnull.NullCheck;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * The six faces of a cube map with a left-handed coordinate system (the
@@ -27,22 +26,57 @@ import com.io7m.jaux.UnreachableCodeException;
 
 public enum CubeMapFaceLH
 {
+  /**
+   * The negative X face of a left-handed cube map.
+   */
+
   CUBE_MAP_LH_NEGATIVE_X,
+
+  /**
+   * The negative Y face of a left-handed cube map.
+   */
+
   CUBE_MAP_LH_NEGATIVE_Y,
+
+  /**
+   * The negative Z face of a left-handed cube map.
+   */
+
   CUBE_MAP_LH_NEGATIVE_Z,
+
+  /**
+   * The positive X face of a left-handed cube map.
+   */
+
   CUBE_MAP_LH_POSITIVE_X,
+
+  /**
+   * The positive Y face of a left-handed cube map.
+   */
+
   CUBE_MAP_LH_POSITIVE_Y,
+
+  /**
+   * The positive Z face of a left-handed cube map.
+   */
+
   CUBE_MAP_LH_POSITIVE_Z;
 
   /**
    * For the cube map face <code>face</code> in a coordinate system consistent
    * with OpenGL's "world" coordinates, return the corresponding face in
    * OpenGL's left handed cube map coordinate system.
+   * 
+   * @return The corresponding left-handed face.
+   * @param face
+   *          The right-handed face.
    */
 
-  public static @Nonnull CubeMapFaceLH fromRH(
-    final @Nonnull CubeMapFaceRH face)
+  public static CubeMapFaceLH fromRH(
+    final CubeMapFaceRH face)
   {
+    NullCheck.notNull(face, "Face");
+
     switch (face) {
       case CUBE_MAP_RH_NEGATIVE_X:
         return CUBE_MAP_LH_NEGATIVE_X;
@@ -62,6 +96,10 @@ public enum CubeMapFaceLH
 
     throw new UnreachableCodeException();
   }
+
+  /**
+   * @return The ordering relation of faces.
+   */
 
   public int order()
   {

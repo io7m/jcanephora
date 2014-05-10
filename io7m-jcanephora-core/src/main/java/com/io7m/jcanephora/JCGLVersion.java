@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,38 +16,46 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jnull.NullCheck;
+import com.io7m.jnull.Nullable;
 
 /**
  * A structure representing the version of the current OpenGL implementation.
  */
 
-@Immutable public final class JCGLVersion
+public final class JCGLVersion
 {
-  public static @Nonnull JCGLVersion make(
-    final @Nonnull JCGLVersionNumber number,
-    final @Nonnull JCGLApi api,
-    final @Nonnull String text)
-    throws ConstraintError
+  /**
+   * Construct a new version.
+   * 
+   * @param number
+   *          The number.
+   * @param api
+   *          The API.
+   * @param text
+   *          The version text from which the original number was produced.
+   * @return A new version.
+   */
+
+  public static JCGLVersion make(
+    final JCGLVersionNumber number,
+    final JCGLApi api,
+    final String text)
   {
-    Constraints.constrainNotNull(number, "Number");
-    Constraints.constrainNotNull(text, "Text");
-    Constraints.constrainNotNull(api, "API");
+    NullCheck.notNull(number, "Number");
+    NullCheck.notNull(text, "Text");
+    NullCheck.notNull(api, "API");
     return new JCGLVersion(number, api, text);
   }
 
-  private final @Nonnull JCGLApi           api;
-  private final @Nonnull JCGLVersionNumber number;
-  private final @Nonnull String            text;
+  private final JCGLApi           api;
+  private final JCGLVersionNumber number;
+  private final String            text;
 
   private JCGLVersion(
-    final @Nonnull JCGLVersionNumber number1,
-    final @Nonnull JCGLApi api1,
-    final @Nonnull String text1)
+    final JCGLVersionNumber number1,
+    final JCGLApi api1,
+    final String text1)
   {
     this.number = number1;
     this.text = text1;
@@ -55,7 +63,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
   }
 
   @Override public boolean equals(
-    final Object obj)
+    final @Nullable Object obj)
   {
     if (this == obj) {
       return true;
@@ -80,43 +88,35 @@ import com.io7m.jaux.Constraints.ConstraintError;
   }
 
   /**
-   * <p>
-   * Retrieve the API of the current implementation.
-   * </p>
+   * @return The API of the current implementation.
    */
 
-  public @Nonnull JCGLApi getAPI()
+  public JCGLApi getAPI()
   {
     return this.api;
   }
 
   /**
-   * <p>
-   * Retrieve the version number as a {@link JCGLVersionNumber} structure.
-   * </p>
+   * @return The version number as a {@link JCGLVersionNumber} structure.
    */
 
-  public @Nonnull JCGLVersionNumber getNumber()
+  public JCGLVersionNumber getNumber()
   {
     return this.number;
   }
 
   /**
-   * <p>
-   * Retrieve the original version string that was parsed to produce this
-   * version structure.
-   * </p>
+   * @return The original version string that was parsed to produce this
+   *         version structure.
    */
 
-  public @Nonnull String getText()
+  public String getText()
   {
     return this.text;
   }
 
   /**
-   * <p>
-   * Retrieve the major version of the implementation.
-   * </p>
+   * @return The major version of the implementation.
    */
 
   public int getVersionMajor()
@@ -125,9 +125,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
   }
 
   /**
-   * <p>
-   * Retrieve the micro version of the implementation (typically zero).
-   * </p>
+   * @return The micro version of the implementation (typically zero).
    */
 
   public int getVersionMicro()
@@ -136,9 +134,7 @@ import com.io7m.jaux.Constraints.ConstraintError;
   }
 
   /**
-   * <p>
-   * Retrieve the minor version of the implementation.
-   * </p>
+   * @return The minor version of the implementation.
    */
 
   public int getVersionMinor()
@@ -170,6 +166,8 @@ import com.io7m.jaux.Constraints.ConstraintError;
     builder.append(" [");
     builder.append(this.text);
     builder.append("]]");
-    return builder.toString();
+    final String r = builder.toString();
+    assert r != null;
+    return r;
   }
 }

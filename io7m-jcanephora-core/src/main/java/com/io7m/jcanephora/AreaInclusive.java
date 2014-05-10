@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,34 +16,40 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
+import com.io7m.jequality.annotations.EqualityStructural;
+import com.io7m.jnull.NullCheck;
+import com.io7m.jnull.Nullable;
+import com.io7m.jranges.RangeInclusiveL;
 
 /**
  * A description of a two dimensional area, given in terms of a pair of
- * {@link RangeInclusive}.
+ * {@link RangeInclusiveL}.
  */
 
-@Immutable public final class AreaInclusive
+@EqualityStructural public final class AreaInclusive
 {
-  private final @Nonnull RangeInclusive range_x;
-  private final @Nonnull RangeInclusive range_y;
+  private final RangeInclusiveL range_x;
+  private final RangeInclusiveL range_y;
+
+  /**
+   * Construct an inclusive area.
+   * 
+   * @param in_range_x
+   *          The range on the X axis
+   * @param in_range_y
+   *          The range on the Y axis
+   */
 
   public AreaInclusive(
-    final @Nonnull RangeInclusive range_x1,
-    final @Nonnull RangeInclusive range_y1)
-    throws ConstraintError
+    final RangeInclusiveL in_range_x,
+    final RangeInclusiveL in_range_y)
   {
-    this.range_x = Constraints.constrainNotNull(range_x1, "Range X");
-    this.range_y = Constraints.constrainNotNull(range_y1, "Range Y");
+    this.range_x = NullCheck.notNull(in_range_x, "Range X");
+    this.range_y = NullCheck.notNull(in_range_y, "Range Y");
   }
 
   @Override public boolean equals(
-    final Object obj)
+    final @Nullable Object obj)
   {
     if (this == obj) {
       return true;
@@ -65,19 +71,19 @@ import com.io7m.jaux.RangeInclusive;
   }
 
   /**
-   * Retrieve the range of valid indices on the X axis for this area.
+   * @return The range of valid indices on the X axis for this area.
    */
 
-  public @Nonnull RangeInclusive getRangeX()
+  public RangeInclusiveL getRangeX()
   {
     return this.range_x;
   }
 
   /**
-   * Retrieve the range of valid indices on the Y axis for this area.
+   * @return The range of valid indices on the Y axis for this area.
    */
 
-  public @Nonnull RangeInclusive getRangeY()
+  public RangeInclusiveL getRangeY()
   {
     return this.range_y;
   }
@@ -92,13 +98,15 @@ import com.io7m.jaux.RangeInclusive;
   }
 
   /**
-   * Return <code>true</code> if this area is included within the given area.
+   * @param other
+   *          The including area
+   * @return <code>true</code> if this area is included within the given area.
    */
 
   public boolean isIncludedIn(
-    final @Nonnull AreaInclusive other)
-    throws ConstraintError
+    final AreaInclusive other)
   {
+    NullCheck.notNull(other, "Other");
     return this.range_x.isIncludedIn(other.range_x)
       && this.range_y.isIncludedIn(other.range_y);
   }
@@ -111,6 +119,8 @@ import com.io7m.jaux.RangeInclusive;
     builder.append(" ");
     builder.append(this.range_y);
     builder.append("]");
-    return builder.toString();
+    final String r = builder.toString();
+    assert r != null;
+    return r;
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -22,7 +22,21 @@ package com.io7m.jcanephora;
 
 public enum TextureWrapT
 {
+  /**
+   * Clamp texture coordinates to the edge of the image.
+   */
+
   TEXTURE_WRAP_CLAMP_TO_EDGE,
+
+  /**
+   * Wrap texture coordinates around.
+   */
+
   TEXTURE_WRAP_REPEAT,
+
+  /**
+   * Mirror texture coordinates.
+   */
+
   TEXTURE_WRAP_REPEAT_MIRRORED
 }

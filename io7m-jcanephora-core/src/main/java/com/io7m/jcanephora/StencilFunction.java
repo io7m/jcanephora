@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -17,17 +17,60 @@
 package com.io7m.jcanephora;
 
 /**
+ * <p>
  * Stencil function specification.
+ * </p>
+ * <p>
+ * </p>
  */
 
 public enum StencilFunction
 {
+  /**
+   * Stencil test always passes.
+   */
+
   STENCIL_ALWAYS,
+
+  /**
+   * Passes if <code>(ref & mask) == (stencil & mask)</code>.
+   */
+
   STENCIL_EQUAL,
+
+  /**
+   * Passes if <code>(ref & mask) > (stencil & mask)</code>.
+   */
+
   STENCIL_GREATER_THAN,
+
+  /**
+   * Passes if <code>(ref & mask) >= (stencil & mask)</code>.
+   */
+
   STENCIL_GREATER_THAN_OR_EQUAL,
+
+  /**
+   * Passes if <code>(ref & mask) < (stencil & mask)</code>.
+   */
+
   STENCIL_LESS_THAN,
+
+  /**
+   * Passes if <code>(ref & mask) <= (stencil & mask)</code>.
+   */
+
   STENCIL_LESS_THAN_OR_EQUAL,
+
+  /**
+   * Never passes.
+   */
+
   STENCIL_NEVER,
+
+  /**
+   * Passes if <code>(ref & mask) != (stencil & mask)</code>.
+   */
+
   STENCIL_NOT_EQUAL
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,7 +16,7 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
+import com.io7m.jnull.Nullable;
 
 /**
  * A single mutable packed value consisting of a floating point component, and
@@ -25,7 +25,17 @@ import javax.annotation.Nonnull;
 
 public final class PackedM2FI
 {
-  public static @Nonnull PackedM2FI newPacked2FI(
+  /**
+   * Construct a new packed value.
+   * 
+   * @param x
+   *          The first (floating-point) component.
+   * @param y
+   *          The second (integer) component.
+   * @return A new packed value.
+   */
+
+  public static PackedM2FI newPacked2FI(
     final float x,
     final int y)
   {
@@ -44,7 +54,7 @@ public final class PackedM2FI
   }
 
   @Override public boolean equals(
-    final Object obj)
+    final @Nullable Object obj)
   {
     if (this == obj) {
       return true;
@@ -65,10 +75,18 @@ public final class PackedM2FI
     return true;
   }
 
+  /**
+   * @return The first (floating-point) component.
+   */
+
   public float getFirst()
   {
     return this.f;
   }
+
+  /**
+   * @return The second (integer) component.
+   */
 
   public int getSecond()
   {
@@ -84,16 +102,30 @@ public final class PackedM2FI
     return result;
   }
 
+  /**
+   * Set the first (floating-point) component.
+   * 
+   * @param x
+   *          The new value
+   */
+
   public void setFirst(
-    final float f1)
+    final float x)
   {
-    this.f = f1;
+    this.f = x;
   }
 
+  /**
+   * Set the second (integer) component.
+   * 
+   * @param x
+   *          The new value
+   */
+
   public void setSecond(
-    final int i1)
+    final int x)
   {
-    this.i = i1;
+    this.i = x;
   }
 
   @Override public String toString()
@@ -104,6 +136,8 @@ public final class PackedM2FI
     builder.append(" ");
     builder.append(this.i);
     builder.append("]");
-    return builder.toString();
+    final String r = builder.toString();
+    assert r != null;
+    return r;
   }
 }

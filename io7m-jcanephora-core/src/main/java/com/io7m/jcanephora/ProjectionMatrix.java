@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,11 +16,10 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints;
-import com.io7m.jaux.Constraints.ConstraintError;
+import com.io7m.jnull.NullCheck;
+import com.io7m.jranges.RangeCheck;
 import com.io7m.jtensors.MatrixM4x4F;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * Functions for producing projection matrices.
@@ -45,27 +44,38 @@ public final class ProjectionMatrix
    * <p>
    * 
    * @link http://http.developer.nvidia.com/GPUGems/gpugems_ch09.html
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>m == null</code></li> <li><code>0 &lt=; z_near &lt;
-   *           z_far == false</code></li>
-   *           </ul>
+   * @param x_min
+   *          The minimum X clip plane.
+   * @param x_max
+   *          The maximum X clip plane.
+   * @param y_min
+   *          The minimum Y clip plane.
+   * @param y_max
+   *          The maximum Y clip plane.
+   * @param z_near
+   *          The near Z clip plane.
+   * @param z_far
+   *          The far Z clip plane.
+   * @param matrix
+   *          The matrix to which values will be written.
    */
 
   public static void makeFrustumProjection(
-    final @Nonnull MatrixM4x4F matrix,
+    final MatrixM4x4F matrix,
     final double x_min,
     final double x_max,
     final double y_min,
     final double y_max,
     final double z_near,
     final double z_far)
-    throws ConstraintError
   {
-    Constraints.constrainNotNull(matrix, "Matrix");
-    Constraints.constrainRange(z_near, 0.0, Double.MAX_VALUE);
-    Constraints.constrainLessThan(z_near, z_far);
+    NullCheck.notNull(matrix, "Matrix");
+    RangeCheck.checkGreaterEqualDouble(
+      z_near,
+      "Near Z",
+      0.0,
+      "Minimum Z distance");
+    RangeCheck.checkLessDouble(z_near, "Near Z", z_far, "Far Z");
 
     final double r0c0 = (2 * z_near) / (x_max - x_min);
     final double r0c2 = (x_max + x_min) / (x_max - x_min);
@@ -120,25 +130,20 @@ public final class ProjectionMatrix
    *          The near clipping plane coordinate.
    * @param z_far
    *          The far clipping plane coordinate.
-   * 
-   * @throws ConstraintError
-   *           Iff any of the following hold:
-   *           <ul>
-   *           <li><code>m == null</code></li>
-   *           </ul>
+   * @param matrix
+   *          The matrix to which values will be written.
    */
 
   public static void makeOrthographicProjection(
-    final @Nonnull MatrixM4x4F matrix,
+    final MatrixM4x4F matrix,
     final double x_min,
     final double x_max,
     final double y_min,
     final double y_max,
     final double z_near,
     final double z_far)
-    throws ConstraintError
   {
-    Constraints.constrainNotNull(matrix, "Matrix");
+    NullCheck.notNull(matrix, "Matrix");
 
     final double rml = x_max - x_min;
     final double rpl = x_max + x_min;
@@ -202,17 +207,18 @@ public final class ProjectionMatrix
    *          twice as wide as it is high.
    * @param horizontal_fov
    *          The horizontal field of view in radians.
+   * @param matrix
+   *          The matrix to which values will be written.
    */
 
   public static void makePerspectiveProjection(
-    final @Nonnull MatrixM4x4F matrix,
+    final MatrixM4x4F matrix,
     final double z_near,
     final double z_far,
     final double aspect,
     final double horizontal_fov)
-    throws ConstraintError
   {
-    Constraints.constrainNotNull(matrix, "matrix");
+    NullCheck.notNull(matrix, "matrix");
 
     final double x_max = z_near * Math.tan(horizontal_fov / 2.0);
     final double x_min = -x_max;
@@ -227,5 +233,10 @@ public final class ProjectionMatrix
       y_max,
       z_near,
       z_far);
+  }
+
+  private ProjectionMatrix()
+  {
+    throw new UnreachableCodeException();
   }
 }
