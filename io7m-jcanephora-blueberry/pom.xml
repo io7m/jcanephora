@@ -95,7 +95,7 @@
     <dependency>
       <groupId>com.io7m.blueberry</groupId>
       <artifactId>io7m-blueberry-gui</artifactId>
-      <version>0.2.1</version>
+      <version>[0.3.0, 0.4.0)</version>
     </dependency>
 
     <dependency>
