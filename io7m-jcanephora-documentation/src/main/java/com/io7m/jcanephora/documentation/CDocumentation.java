@@ -31,7 +31,7 @@ public final class CDocumentation
     try {
       final URL url =
         CDocumentation.class
-          .getResource("/com/io7m/jnull/documentation/documentation.xml");
+          .getResource("/com/io7m/jcanephora/documentation/documentation.xml");
       assert url != null;
       final URI uri = url.toURI();
       assert uri != null;
