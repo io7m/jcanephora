@@ -16,8 +16,6 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
 /**
  * The root exception type of all exceptions raised by <tt>jcanephora</tt>.
  */
@@ -30,21 +28,44 @@ public abstract class JCGLException extends Exception
     serialVersionUID = 6883871792853804671L;
   }
 
+  /**
+   * Construct an error with the given message.
+   * 
+   * @param message
+   *          The message.
+   */
+
   public JCGLException(
-    final @Nonnull String message)
+    final String message)
   {
     super(message);
   }
 
+  /**
+   * Construct an error with the given message and cause.
+   * 
+   * @param message
+   *          The message.
+   * @param e
+   *          The cause.
+   */
+
   public JCGLException(
-    final @Nonnull String message,
-    final @Nonnull Throwable e)
+    final String message,
+    final Throwable e)
   {
     super(message, e);
   }
 
+  /**
+   * Construct an error with the given cause.
+   * 
+   * @param e
+   *          The cause.
+   */
+
   public JCGLException(
-    final @Nonnull Throwable e)
+    final Throwable e)
   {
     super(e);
   }

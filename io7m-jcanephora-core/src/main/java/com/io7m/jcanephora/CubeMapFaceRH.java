@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,9 +16,7 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * The six faces of a cube map with a right-handed coordinate system (see the
@@ -27,21 +25,54 @@ import com.io7m.jaux.UnreachableCodeException;
 
 public enum CubeMapFaceRH
 {
+  /**
+   * The negative X face of a right-handed cube map.
+   */
+
   CUBE_MAP_RH_NEGATIVE_X,
+
+  /**
+   * The negative Y face of a right-handed cube map.
+   */
+
   CUBE_MAP_RH_NEGATIVE_Y,
+
+  /**
+   * The negative Z face of a right-handed cube map.
+   */
+
   CUBE_MAP_RH_NEGATIVE_Z,
+
+  /**
+   * The positive X face of a right-handed cube map.
+   */
+
   CUBE_MAP_RH_POSITIVE_X,
+
+  /**
+   * The positive Y face of a right-handed cube map.
+   */
+
   CUBE_MAP_RH_POSITIVE_Y,
+
+  /**
+   * The positive Z face of a right-handed cube map.
+   */
+
   CUBE_MAP_RH_POSITIVE_Z;
 
   /**
    * For the cube map face <code>face</code> in OpenGL's left handed cube map
    * coordinate system, return the corresponding face in a right-handed
    * coordinate system consistent with that of OpenGL's "world" coordinates.
+   * 
+   * @return The corresponding right-handed face.
+   * @param face
+   *          The left-handed face.
    */
 
-  public static @Nonnull CubeMapFaceRH fromLH(
-    final @Nonnull CubeMapFaceLH face)
+  public static CubeMapFaceRH fromLH(
+    final CubeMapFaceLH face)
   {
     switch (face) {
       case CUBE_MAP_LH_NEGATIVE_X:

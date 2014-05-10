@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -17,41 +17,39 @@
 package com.io7m.jcanephora.examples;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.Constraints.ConstraintError;
-import com.io7m.jaux.RangeInclusive;
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.ArrayBuffer;
-import com.io7m.jcanephora.ArrayBufferAttribute;
-import com.io7m.jcanephora.ArrayBufferAttributeDescriptor;
-import com.io7m.jcanephora.ArrayBufferTypeDescriptor;
-import com.io7m.jcanephora.ArrayBufferWritableData;
-import com.io7m.jcanephora.CursorWritable4f;
-import com.io7m.jcanephora.CursorWritableIndex;
+import com.io7m.jcanephora.ArrayAttributeDescriptor;
+import com.io7m.jcanephora.ArrayAttributeType;
+import com.io7m.jcanephora.ArrayBufferType;
+import com.io7m.jcanephora.ArrayBufferUpdateUnmapped;
+import com.io7m.jcanephora.ArrayBufferUpdateUnmappedType;
+import com.io7m.jcanephora.ArrayDescriptor;
+import com.io7m.jcanephora.ArrayDescriptorBuilderType;
+import com.io7m.jcanephora.CursorWritable4fType;
+import com.io7m.jcanephora.CursorWritableIndexType;
 import com.io7m.jcanephora.FaceSelection;
-import com.io7m.jcanephora.FragmentShader;
-import com.io7m.jcanephora.IndexBuffer;
-import com.io7m.jcanephora.IndexBufferWritableData;
-import com.io7m.jcanephora.JCGLCompileException;
-import com.io7m.jcanephora.JCGLInterfaceCommon;
-import com.io7m.jcanephora.JCGLRuntimeException;
+import com.io7m.jcanephora.FragmentShaderType;
+import com.io7m.jcanephora.IndexBufferType;
+import com.io7m.jcanephora.IndexBufferUpdateUnmapped;
+import com.io7m.jcanephora.IndexBufferUpdateUnmappedType;
+import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLScalarType;
 import com.io7m.jcanephora.Primitives;
-import com.io7m.jcanephora.ProgramAttribute;
-import com.io7m.jcanephora.ProgramReference;
-import com.io7m.jcanephora.ProgramUniform;
+import com.io7m.jcanephora.ProgramAttributeType;
+import com.io7m.jcanephora.ProgramType;
+import com.io7m.jcanephora.ProgramUniformType;
 import com.io7m.jcanephora.ProjectionMatrix;
-import com.io7m.jcanephora.ShaderUtilities;
 import com.io7m.jcanephora.StencilFunction;
 import com.io7m.jcanephora.StencilOperation;
 import com.io7m.jcanephora.UsageHint;
-import com.io7m.jcanephora.VertexShader;
+import com.io7m.jcanephora.VertexShaderType;
+import com.io7m.jcanephora.api.JCGLInterfaceCommonType;
+import com.io7m.jcanephora.utilities.ShaderUtilities;
+import com.io7m.jranges.RangeInclusiveL;
 import com.io7m.jtensors.MatrixM4x4F;
 import com.io7m.jtensors.VectorM2F;
-import com.io7m.jtensors.VectorReadable2I;
+import com.io7m.jtensors.VectorReadable2IType;
 import com.io7m.jvvfs.FilesystemError;
 import com.io7m.jvvfs.PathVirtual;
 
@@ -62,28 +60,26 @@ import com.io7m.jvvfs.PathVirtual;
 
 public final class ExampleStencil implements Example
 {
-  private static final int                STENCIL_MASK = 0xFF;
-  private final ArrayBuffer               array;
-  private final ArrayBufferWritableData   array_data;
-  private final ArrayBufferTypeDescriptor array_type;
-  private final ExampleConfig             config;
-  private final JCGLInterfaceCommon       gl;
-  private boolean                         has_shut_down;
-  private final MatrixM4x4F               matrix_modelview;
-  private final MatrixM4x4F               matrix_projection;
-  private final ProgramReference          program;
-  private final IndexBuffer               quad_indices;
-  private final IndexBufferWritableData   quad_indices_data;
-  private int                             time         = 0;
-  private final VectorM2F                 translation  = new VectorM2F();
-  private final IndexBuffer               triangle_indices;
-  private final IndexBufferWritableData   triangle_indices_data;
+  private static final int                    STENCIL_MASK = 0xFF;
+  private final ArrayBufferType               array;
+  private final ArrayBufferUpdateUnmappedType array_data;
+  private final ArrayDescriptor               array_type;
+  private final ExampleConfig                 config;
+  private final JCGLInterfaceCommonType       gl;
+  private boolean                             has_shut_down;
+  private final MatrixM4x4F                   matrix_modelview;
+  private final MatrixM4x4F                   matrix_projection;
+  private final ProgramType                   program;
+  private final IndexBufferType               quad_indices;
+  private final IndexBufferUpdateUnmappedType quad_indices_data;
+  private int                                 time         = 0;
+  private final VectorM2F                     translation  = new VectorM2F();
+  private final IndexBufferType               triangle_indices;
+  private final IndexBufferUpdateUnmappedType triangle_indices_data;
 
   public ExampleStencil(
-    final @Nonnull ExampleConfig config1)
-    throws ConstraintError,
-      JCGLRuntimeException,
-      JCGLCompileException,
+    final ExampleConfig config1)
+    throws JCGLException,
       IOException,
       FilesystemError
   {
@@ -93,12 +89,12 @@ public final class ExampleStencil implements Example
     this.gl = this.config.getGL().getGLCommon();
 
     {
-      final VertexShader v =
+      final VertexShaderType v =
         this.gl.vertexShaderCompile(
           "v",
           ShaderUtilities.readLines(config1.getFilesystem().openFile(
             PathVirtual.ofString("/com/io7m/jcanephora/examples/color.v"))));
-      final FragmentShader f =
+      final FragmentShaderType f =
         this.gl.fragmentShaderCompile(
           "f",
           ShaderUtilities.readLines(config1.getFilesystem().openFile(
@@ -106,29 +102,29 @@ public final class ExampleStencil implements Example
       this.program = this.gl.programCreateCommon("color", v, f);
     }
 
-    final ArrayList<ArrayBufferAttributeDescriptor> abs =
-      new ArrayList<ArrayBufferAttributeDescriptor>();
-    abs.add(new ArrayBufferAttributeDescriptor(
+    final ArrayDescriptorBuilderType b = ArrayDescriptor.newBuilder();
+    b.addAttribute(ArrayAttributeDescriptor.newAttribute(
       "position",
       JCGLScalarType.TYPE_FLOAT,
       4));
-    abs.add(new ArrayBufferAttributeDescriptor(
+    b.addAttribute(ArrayAttributeDescriptor.newAttribute(
       "color",
       JCGLScalarType.TYPE_FLOAT,
       4));
 
-    this.array_type = new ArrayBufferTypeDescriptor(abs);
+    this.array_type = b.build();
     this.array =
       this.gl.arrayBufferAllocate(
         3,
         this.array_type,
         UsageHint.USAGE_STATIC_DRAW);
-    this.array_data = new ArrayBufferWritableData(this.array);
+    this.array_data =
+      ArrayBufferUpdateUnmapped.newUpdateReplacingAll(this.array);
 
     {
-      final CursorWritable4f pos_cursor =
+      final CursorWritable4fType pos_cursor =
         this.array_data.getCursor4f("position");
-      final CursorWritable4f col_cursor =
+      final CursorWritable4fType col_cursor =
         this.array_data.getCursor4f("color");
 
       pos_cursor.put4f(-20.0f, 20.0f, -1.0f, 1.0f);
@@ -140,15 +136,15 @@ public final class ExampleStencil implements Example
       col_cursor.put4f(0.0f, 0.0f, 1.0f, 1.0f);
     }
 
-    this.gl.arrayBufferBind(this.array);
     this.gl.arrayBufferUpdate(this.array_data);
 
-    this.triangle_indices = this.gl.indexBufferAllocate(this.array, 3);
+    this.triangle_indices =
+      this.gl.indexBufferAllocate(this.array, 3, UsageHint.USAGE_STATIC_DRAW);
     this.triangle_indices_data =
-      new IndexBufferWritableData(this.triangle_indices);
+      IndexBufferUpdateUnmapped.newReplacing(this.triangle_indices);
 
     {
-      final CursorWritableIndex ind_cursor =
+      final CursorWritableIndexType ind_cursor =
         this.triangle_indices_data.getCursor();
       ind_cursor.putIndex(0);
       ind_cursor.putIndex(1);
@@ -157,11 +153,13 @@ public final class ExampleStencil implements Example
 
     this.gl.indexBufferUpdate(this.triangle_indices_data);
 
-    this.quad_indices = this.gl.indexBufferAllocate(this.array, 6);
-    this.quad_indices_data = new IndexBufferWritableData(this.quad_indices);
+    this.quad_indices =
+      this.gl.indexBufferAllocate(this.array, 6, UsageHint.USAGE_STATIC_DRAW);
+    this.quad_indices_data =
+      IndexBufferUpdateUnmapped.newReplacing(this.quad_indices);
 
     {
-      final CursorWritableIndex ind_cursor =
+      final CursorWritableIndexType ind_cursor =
         this.quad_indices_data.getCursor();
       ind_cursor.putIndex(0);
       ind_cursor.putIndex(1);
@@ -176,9 +174,7 @@ public final class ExampleStencil implements Example
   }
 
   @Override public void display()
-    throws JCGLRuntimeException,
-      JCGLCompileException,
-      ConstraintError
+    throws JCGLException
   {
     /**
      * Initialize the projection matrix to an orthographic projection.
@@ -201,17 +197,26 @@ public final class ExampleStencil implements Example
 
     this.gl.programActivate(this.program);
     {
-      final ProgramUniform u_proj =
-        this.program.getUniforms().get("matrix_projection");
-      final ProgramUniform u_model =
-        this.program.getUniforms().get("matrix_modelview");
-      final ProgramAttribute p_pos =
-        this.program.getAttributes().get("vertex_position");
-      final ProgramAttribute p_col =
-        this.program.getAttributes().get("vertex_color");
+      final ProgramUniformType u_proj =
+        this.program.programGetUniforms().get("matrix_projection");
+      final ProgramUniformType u_model =
+        this.program.programGetUniforms().get("matrix_modelview");
+      final ProgramAttributeType p_pos =
+        this.program.programGetAttributes().get("vertex_position");
+      final ProgramAttributeType p_col =
+        this.program.programGetAttributes().get("vertex_color");
 
-      final ArrayBufferAttribute b_pos = this.array.getAttribute("position");
-      final ArrayBufferAttribute b_col = this.array.getAttribute("color");
+      assert u_proj != null;
+      assert u_model != null;
+      assert p_pos != null;
+      assert p_col != null;
+
+      final ArrayAttributeType b_pos =
+        this.array.arrayGetAttribute("position");
+      assert b_pos != null;
+
+      final ArrayAttributeType b_col = this.array.arrayGetAttribute("color");
+      assert b_col != null;
 
       this.gl.programUniformPutMatrix4x4f(u_proj, this.matrix_projection);
 
@@ -236,11 +241,10 @@ public final class ExampleStencil implements Example
   }
 
   private void drawIntoStencil(
-    final ProgramUniform u_model,
+    final ProgramUniformType u_model,
     final int width,
     final int height)
-    throws ConstraintError,
-      JCGLRuntimeException
+    throws JCGLException
   {
     /**
      * Write a set of triangles to the stencil buffer.
@@ -269,8 +273,7 @@ public final class ExampleStencil implements Example
 
     for (int y = 0; y < height; y += 50) {
       for (int x = 0; x < width; x += 50) {
-        this.translation.x = x;
-        this.translation.y = y;
+        this.translation.set2F(x, y);
 
         MatrixM4x4F.setIdentity(this.matrix_modelview);
         MatrixM4x4F.translateByVector2FInPlace(
@@ -286,11 +289,10 @@ public final class ExampleStencil implements Example
   }
 
   private void drawTrianglesActual(
-    final ProgramUniform u_model,
+    final ProgramUniformType u_model,
     final int width,
     final int height)
-    throws ConstraintError,
-      JCGLRuntimeException
+    throws JCGLException
   {
     /**
      * Now draw a large rotating triangle, but only write to bits that were
@@ -311,8 +313,7 @@ public final class ExampleStencil implements Example
 
     for (int y = -100; y < (height + 100); y += 50) {
       for (int x = -100; x < (width + 100); x += 50) {
-        this.translation.x = x + this.time;
-        this.translation.y = y + this.time;
+        this.translation.set2F(x + this.time, y + this.time);
 
         MatrixM4x4F.setIdentity(this.matrix_modelview);
         MatrixM4x4F.translateByVector2FInPlace(
@@ -333,11 +334,9 @@ public final class ExampleStencil implements Example
   }
 
   @Override public void reshape(
-    final @Nonnull VectorReadable2I position,
-    final @Nonnull VectorReadable2I size)
-    throws JCGLRuntimeException,
-      ConstraintError,
-      JCGLCompileException
+    final VectorReadable2IType position,
+    final VectorReadable2IType size)
+    throws JCGLException
   {
     ProjectionMatrix.makeOrthographicProjection(
       this.matrix_projection,
@@ -348,20 +347,18 @@ public final class ExampleStencil implements Example
       1,
       100);
 
-    final RangeInclusive range_x =
-      new RangeInclusive(position.getXI(), position.getXI()
+    final RangeInclusiveL range_x =
+      new RangeInclusiveL(position.getXI(), position.getXI()
         + (size.getXI() - 1));
-    final RangeInclusive range_y =
-      new RangeInclusive(position.getYI(), position.getYI()
+    final RangeInclusiveL range_y =
+      new RangeInclusiveL(position.getYI(), position.getYI()
         + (size.getYI() - 1));
 
     this.gl.viewportSet(new AreaInclusive(range_x, range_y));
   }
 
   @Override public void shutdown()
-    throws JCGLRuntimeException,
-      ConstraintError,
-      JCGLCompileException
+    throws JCGLException
   {
     this.has_shut_down = true;
     this.gl.arrayBufferDelete(this.array);

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,10 +16,8 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
-
-import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.jnull.Nullable;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * <p>
@@ -28,22 +26,31 @@ import com.io7m.jaux.UnreachableCodeException;
  * </p>
  */
 
-@Immutable public final class JCGLSLVersionNumber implements
+public final class JCGLSLVersionNumber implements
   Comparable<JCGLSLVersionNumber>
 {
   private final int version_major;
   private final int version_minor;
 
+  /**
+   * Construct a version number.
+   * 
+   * @param major
+   *          The major number.
+   * @param minor
+   *          The minor number.
+   */
+
   public JCGLSLVersionNumber(
-    final int version_major1,
-    final int version_minor1)
+    final int major,
+    final int minor)
   {
-    this.version_major = version_major1;
-    this.version_minor = version_minor1;
+    this.version_major = major;
+    this.version_minor = minor;
   }
 
   @Override public int compareTo(
-    final @Nonnull JCGLSLVersionNumber other)
+    final JCGLSLVersionNumber other)
   {
     if (this.equals(other)) {
       return 0;
@@ -66,7 +73,7 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   @Override public boolean equals(
-    final Object obj)
+    final @Nullable Object obj)
   {
     if (this == obj) {
       return true;
@@ -88,7 +95,7 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   /**
-   * Retrieve the major version of the implementation.
+   * @return The major version of the implementation.
    */
 
   public int getVersionMajor()
@@ -97,7 +104,7 @@ import com.io7m.jaux.UnreachableCodeException;
   }
 
   /**
-   * Retrieve the minor version of the implementation.
+   * @return The minor version of the implementation.
    */
 
   public int getVersionMinor()
@@ -122,6 +129,8 @@ import com.io7m.jaux.UnreachableCodeException;
     builder.append(" ");
     builder.append(this.version_minor);
     builder.append("]");
-    return builder.toString();
+    final String r = builder.toString();
+    assert r != null;
+    return r;
   }
 }

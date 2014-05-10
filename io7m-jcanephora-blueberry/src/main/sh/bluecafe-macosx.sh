@@ -12,4 +12,4 @@ do
   fi
 done
 
-exec java -cp "${JAR_PATH}" "com.io7m.jcanephora.BlueCafe" $@
+exec java -cp "${JAR_PATH}" "com.io7m.jcanephora.bluecafe.BlueCafe" $@

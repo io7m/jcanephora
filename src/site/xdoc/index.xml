@@ -5,14 +5,14 @@
   xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
-    <title>io7m-jcanephora-batchexec</title>
+    <title>io7m-jcanephora</title>
   </properties>
 
   <body>
-    <subsection name="jcanephora-batchexec">
-      The <var>jcanephora-batchexec</var> package implements an abstraction over
-      the shading program API to ensure correct usage of programs over multiple
-      executions.
+    <subsection name="jcanephora">
+      <p>The <var>jcanephora</var> package implements a set of abstractions over
+      <a href="http://opengl.org">OpenGL</a> with the intention of providing an
+      API that enforces program correctness statically.</p>
     </subsection>
   </body>
 

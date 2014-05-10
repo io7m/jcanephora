@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 <code@io7m.com> http://io7m.com
+ * Copyright © 2014 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,9 +16,7 @@
 
 package com.io7m.jcanephora;
 
-import javax.annotation.Nonnull;
-
-import com.io7m.jaux.UnreachableCodeException;
+import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * Type-safe interface to scalar types.
@@ -26,16 +24,117 @@ import com.io7m.jaux.UnreachableCodeException;
 
 public enum JCGLScalarType
 {
+  /**
+   * A signed 8-bit integer.
+   */
+
   TYPE_BYTE,
-  TYPE_FLOAT,
-  TYPE_INT,
-  TYPE_SHORT,
-  TYPE_UNSIGNED_BYTE,
-  TYPE_UNSIGNED_INT,
-  TYPE_UNSIGNED_SHORT;
 
   /**
-   * Return the size in bytes of this type.
+   * A 32-bit floating-point value.
+   */
+
+  TYPE_FLOAT,
+
+  /**
+   * A signed 32-bit integer.
+   */
+
+  TYPE_INT,
+
+  /**
+   * A signed 16-bit integer.
+   */
+
+  TYPE_SHORT,
+
+  /**
+   * An unsigned 8-bit integer.
+   */
+
+  TYPE_UNSIGNED_BYTE,
+
+  /**
+   * An unsigned 32-bit integer.
+   */
+
+  TYPE_UNSIGNED_INT,
+
+  /**
+   * An unsigned 16-bit integer.
+   */
+
+  TYPE_UNSIGNED_SHORT;
+
+  private static boolean shaderTypeConvertibleFloat(
+    final int elements,
+    final JCGLType type)
+  {
+    switch (type) {
+      case TYPE_FLOAT:
+        return elements == 1;
+      case TYPE_FLOAT_VECTOR_2:
+        return elements == 2;
+      case TYPE_FLOAT_VECTOR_3:
+        return elements == 3;
+      case TYPE_FLOAT_VECTOR_4:
+        return elements == 4;
+      case TYPE_BOOLEAN:
+      case TYPE_BOOLEAN_VECTOR_2:
+      case TYPE_BOOLEAN_VECTOR_3:
+      case TYPE_BOOLEAN_VECTOR_4:
+      case TYPE_FLOAT_MATRIX_2:
+      case TYPE_FLOAT_MATRIX_3:
+      case TYPE_FLOAT_MATRIX_4:
+      case TYPE_INTEGER:
+      case TYPE_INTEGER_VECTOR_2:
+      case TYPE_INTEGER_VECTOR_3:
+      case TYPE_INTEGER_VECTOR_4:
+      case TYPE_SAMPLER_2D:
+      case TYPE_SAMPLER_2D_SHADOW:
+      case TYPE_SAMPLER_3D:
+      case TYPE_SAMPLER_CUBE:
+        return false;
+    }
+    throw new UnreachableCodeException();
+  }
+
+  private static boolean shaderTypeConvertibleInt(
+    final int elements,
+    final JCGLType type)
+  {
+    switch (type) {
+      case TYPE_INTEGER:
+        return elements == 1;
+      case TYPE_INTEGER_VECTOR_2:
+        return elements == 2;
+      case TYPE_INTEGER_VECTOR_3:
+        return elements == 3;
+      case TYPE_INTEGER_VECTOR_4:
+        return elements == 4;
+      case TYPE_BOOLEAN:
+      case TYPE_BOOLEAN_VECTOR_2:
+      case TYPE_BOOLEAN_VECTOR_3:
+      case TYPE_BOOLEAN_VECTOR_4:
+      case TYPE_FLOAT_MATRIX_2:
+      case TYPE_FLOAT_MATRIX_3:
+      case TYPE_FLOAT_MATRIX_4:
+      case TYPE_FLOAT:
+      case TYPE_FLOAT_VECTOR_2:
+      case TYPE_FLOAT_VECTOR_3:
+      case TYPE_FLOAT_VECTOR_4:
+      case TYPE_SAMPLER_2D:
+      case TYPE_SAMPLER_2D_SHADOW:
+      case TYPE_SAMPLER_3D:
+      case TYPE_SAMPLER_CUBE:
+        return false;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  /**
+   * @return The size in bytes of values of this type.
    */
 
   public int getSizeBytes()
@@ -61,12 +160,12 @@ public enum JCGLScalarType
   }
 
   /**
-   * Return <code>true</code> iff the type described by <code>elements</code>
-   * elements of this type are convertible to the GLSL type <code>type</code>.
-   * As an example, <code>4</code> elements of type <code>float</code> are
-   * convertible to the GLSL type <code>vec4</code>, or
-   * <code>TYPE_FLOAT_VECTOR_4</code>. Most combinations are not convertible
-   * to any GLSL type.
+   * @return <code>true</code> iff the type described by <code>elements</code>
+   *         elements of this type are convertible to the GLSL type
+   *         <code>type</code>. As an example, <code>4</code> elements of type
+   *         <code>float</code> are convertible to the GLSL type
+   *         <code>vec4</code>, or <code>TYPE_FLOAT_VECTOR_4</code>. Most
+   *         combinations are not convertible to any GLSL type.
    * 
    * @param elements
    *          The number of elements.
@@ -76,69 +175,16 @@ public enum JCGLScalarType
 
   public boolean shaderTypeConvertible(
     final int elements,
-    final @Nonnull JCGLType type)
+    final JCGLType type)
   {
     switch (this) {
       case TYPE_FLOAT:
       {
-        switch (type) {
-          case TYPE_FLOAT:
-            return elements == 1;
-          case TYPE_FLOAT_VECTOR_2:
-            return elements == 2;
-          case TYPE_FLOAT_VECTOR_3:
-            return elements == 3;
-          case TYPE_FLOAT_VECTOR_4:
-            return elements == 4;
-          case TYPE_BOOLEAN:
-          case TYPE_BOOLEAN_VECTOR_2:
-          case TYPE_BOOLEAN_VECTOR_3:
-          case TYPE_BOOLEAN_VECTOR_4:
-          case TYPE_FLOAT_MATRIX_2:
-          case TYPE_FLOAT_MATRIX_3:
-          case TYPE_FLOAT_MATRIX_4:
-          case TYPE_INTEGER:
-          case TYPE_INTEGER_VECTOR_2:
-          case TYPE_INTEGER_VECTOR_3:
-          case TYPE_INTEGER_VECTOR_4:
-          case TYPE_SAMPLER_2D:
-          case TYPE_SAMPLER_2D_SHADOW:
-          case TYPE_SAMPLER_3D:
-          case TYPE_SAMPLER_CUBE:
-            return false;
-        }
-        throw new UnreachableCodeException();
+        return JCGLScalarType.shaderTypeConvertibleFloat(elements, type);
       }
       case TYPE_INT:
       {
-        switch (type) {
-          case TYPE_INTEGER:
-            return elements == 1;
-          case TYPE_INTEGER_VECTOR_2:
-            return elements == 2;
-          case TYPE_INTEGER_VECTOR_3:
-            return elements == 3;
-          case TYPE_INTEGER_VECTOR_4:
-            return elements == 4;
-          case TYPE_BOOLEAN:
-          case TYPE_BOOLEAN_VECTOR_2:
-          case TYPE_BOOLEAN_VECTOR_3:
-          case TYPE_BOOLEAN_VECTOR_4:
-          case TYPE_FLOAT_MATRIX_2:
-          case TYPE_FLOAT_MATRIX_3:
-          case TYPE_FLOAT_MATRIX_4:
-          case TYPE_FLOAT:
-          case TYPE_FLOAT_VECTOR_2:
-          case TYPE_FLOAT_VECTOR_3:
-          case TYPE_FLOAT_VECTOR_4:
-          case TYPE_SAMPLER_2D:
-          case TYPE_SAMPLER_2D_SHADOW:
-          case TYPE_SAMPLER_3D:
-          case TYPE_SAMPLER_CUBE:
-            return false;
-        }
-
-        throw new UnreachableCodeException();
+        return JCGLScalarType.shaderTypeConvertibleInt(elements, type);
       }
       case TYPE_BYTE:
       case TYPE_SHORT:
