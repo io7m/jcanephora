@@ -1,3 +1,19 @@
+.brand
+{
+  font-size: 75%;
+  font-family: monospace;
+}
+
+.brand_left
+{
+  float: left;
+}
+
+.brand_right
+{
+  text-align: right;
+}
+
 .package
 {
   font-family: monospace;

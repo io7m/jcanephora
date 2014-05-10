@@ -136,7 +136,6 @@ public final class ExampleStencil implements Example
       col_cursor.put4f(0.0f, 0.0f, 1.0f, 1.0f);
     }
 
-    this.gl.arrayBufferBind(this.array);
     this.gl.arrayBufferUpdate(this.array_data);
 
     this.triangle_indices =

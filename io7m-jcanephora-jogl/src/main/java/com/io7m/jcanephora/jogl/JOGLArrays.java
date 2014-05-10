@@ -400,12 +400,16 @@ final class JOGLArrays implements
     JOGLArrays.checkArray(this.gl, array);
 
     this.arrayBufferBind(data.getArrayBuffer());
-    this.gl.glBufferSubData(
-      GL.GL_ARRAY_BUFFER,
-      data.getTargetDataOffset(),
-      data.getTargetDataSize(),
-      data.getTargetData());
-    JOGLErrors.check(this.gl);
+    try {
+      this.gl.glBufferSubData(
+        GL.GL_ARRAY_BUFFER,
+        data.getTargetDataOffset(),
+        data.getTargetDataSize(),
+        data.getTargetData());
+      JOGLErrors.check(this.gl);
+    } finally {
+      this.arrayBufferUnbind();
+    }
   }
 
   private void mappingAdd(
