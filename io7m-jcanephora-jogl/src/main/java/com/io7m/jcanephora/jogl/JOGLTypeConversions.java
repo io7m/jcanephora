@@ -52,10 +52,16 @@ import com.io7m.jcanephora.UsageHint;
 import com.io7m.junreachable.UnreachableCodeException;
 
 /**
+ * <p>
  * Conversions between enumerations and OpenGL contstants.
+ * </p>
+ * <p>
+ * Note: This file is not part of the public API, but is exposed in order to
+ * facilitate easier unit testing.
+ * </p>
  */
 
-public final class JOGL_GLTypeConversions
+public final class JOGLTypeConversions
 {
   /**
    * Convert blend equations from GL constants.
@@ -510,7 +516,7 @@ public final class JOGL_GLTypeConversions
     int mask = 0;
     for (final FramebufferBlitBuffer b : buffers) {
       assert b != null;
-      mask |= JOGL_GLTypeConversions.framebufferBlitBufferToGL(b);
+      mask |= JOGLTypeConversions.framebufferBlitBufferToGL(b);
     }
     return mask;
   }
@@ -1576,7 +1582,7 @@ public final class JOGL_GLTypeConversions
     throw new UnreachableCodeException();
   }
 
-  private JOGL_GLTypeConversions()
+  private JOGLTypeConversions()
   {
     throw new UnreachableCodeException();
   }

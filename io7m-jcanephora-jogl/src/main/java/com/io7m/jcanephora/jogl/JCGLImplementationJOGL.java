@@ -174,7 +174,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
    */
 
   public static
-    JCGLImplementationJOGL
+    JCGLImplementationType
     newImplementationWithDebuggingAndRestrictions(
       final GLContext context,
       final LogUsableType log,
@@ -206,7 +206,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
    */
 
   public static
-    JCGLImplementationJOGL
+    JCGLImplementationType
     newImplementationWithDebuggingAndTracing(
       final GLContext context,
       final LogUsableType log,
@@ -240,7 +240,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
    */
 
   public static
-    JCGLImplementationJOGL
+    JCGLImplementationType
     newImplementationWithDebuggingAndTracingAndRestrictions(
       final GLContext context,
       final LogUsableType log,
@@ -333,7 +333,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
    */
 
   public static
-    JCGLImplementationJOGL
+    JCGLImplementationType
     newImplementationWithTracingAndRestrictions(
       final GLContext context,
       final LogUsableType log,

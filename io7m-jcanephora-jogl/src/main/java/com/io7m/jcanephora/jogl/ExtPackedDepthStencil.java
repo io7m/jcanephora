@@ -330,7 +330,7 @@ final class ExtPackedDepthStencil<G extends GL> implements
     JOGLErrors.check(this.gl);
     final int id = cache.get(0);
 
-    final int gtype = JOGL_GLTypeConversions.renderbufferTypeToGL(type);
+    final int gtype = JOGLTypeConversions.renderbufferTypeToGL(type);
     this.gl.glBindRenderbuffer(GL.GL_RENDERBUFFER, id);
     JOGLErrors.check(this.gl);
     this.gl.glRenderbufferStorage(GL.GL_RENDERBUFFER, gtype, width, height);

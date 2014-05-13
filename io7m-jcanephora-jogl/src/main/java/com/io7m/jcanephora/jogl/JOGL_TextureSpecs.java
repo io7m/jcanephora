@@ -94,7 +94,7 @@ final class JOGL_TextureSpecs
         break;
     }
 
-    final int gl_type = JOGL_GLTypeConversions.pixelTypeToGL(ct);
+    final int gl_type = JOGLTypeConversions.pixelTypeToGL(ct);
     int gl_format = -1;
     int gl_internalformat = -1;
 
@@ -392,7 +392,7 @@ final class JOGL_TextureSpecs
     final TextureFormat type)
   {
     final int gl_type =
-      JOGL_GLTypeConversions.pixelTypeToGL(type.getComponentType());
+      JOGLTypeConversions.pixelTypeToGL(type.getComponentType());
     int gl_format = -1;
     int gl_internalformat = -1;
 
@@ -497,7 +497,7 @@ final class JOGL_TextureSpecs
     final TextureFormat type)
   {
     final int gl_type =
-      JOGL_GLTypeConversions.pixelTypeToGL(type.getComponentType());
+      JOGLTypeConversions.pixelTypeToGL(type.getComponentType());
 
     int gl_format = -1;
     int gl_internalformat = -1;
