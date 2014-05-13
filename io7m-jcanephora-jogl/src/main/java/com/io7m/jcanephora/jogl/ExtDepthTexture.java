@@ -139,22 +139,22 @@ final class ExtDepthTexture<G extends GL> implements
     this.gl.glTexParameteri(
       GL.GL_TEXTURE_2D,
       GL.GL_TEXTURE_WRAP_S,
-      JOGL_GLTypeConversions.textureWrapSToGL(wrap_s));
+      JOGLTypeConversions.textureWrapSToGL(wrap_s));
     JOGLErrors.check(this.gl);
     this.gl.glTexParameteri(
       GL.GL_TEXTURE_2D,
       GL.GL_TEXTURE_WRAP_T,
-      JOGL_GLTypeConversions.textureWrapTToGL(wrap_t));
+      JOGLTypeConversions.textureWrapTToGL(wrap_t));
     JOGLErrors.check(this.gl);
     this.gl.glTexParameteri(
       GL.GL_TEXTURE_2D,
       GL.GL_TEXTURE_MIN_FILTER,
-      JOGL_GLTypeConversions.textureFilterMinToGL(min_filter));
+      JOGLTypeConversions.textureFilterMinToGL(min_filter));
     JOGLErrors.check(this.gl);
     this.gl.glTexParameteri(
       GL.GL_TEXTURE_2D,
       GL.GL_TEXTURE_MAG_FILTER,
-      JOGL_GLTypeConversions.textureFilterMagToGL(mag_filter));
+      JOGLTypeConversions.textureFilterMagToGL(mag_filter));
     JOGLErrors.check(this.gl);
 
     final TextureSpec spec = JOGL_TextureSpecs.getGL3TextureSpec(type);

@@ -143,27 +143,27 @@ final class ExtDepthCubeTexture<G extends GL> implements
     this.gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL.GL_TEXTURE_WRAP_S,
-      JOGL_GLTypeConversions.textureWrapSToGL(wrap_s));
+      JOGLTypeConversions.textureWrapSToGL(wrap_s));
     JOGLErrors.check(this.gl);
     this.gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL.GL_TEXTURE_WRAP_T,
-      JOGL_GLTypeConversions.textureWrapTToGL(wrap_t));
+      JOGLTypeConversions.textureWrapTToGL(wrap_t));
     JOGLErrors.check(this.gl);
     this.gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL2ES2.GL_TEXTURE_WRAP_R,
-      JOGL_GLTypeConversions.textureWrapRToGL(wrap_r));
+      JOGLTypeConversions.textureWrapRToGL(wrap_r));
     JOGLErrors.check(this.gl);
     this.gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL.GL_TEXTURE_MIN_FILTER,
-      JOGL_GLTypeConversions.textureFilterMinToGL(min_filter));
+      JOGLTypeConversions.textureFilterMinToGL(min_filter));
     JOGLErrors.check(this.gl);
     this.gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL.GL_TEXTURE_MAG_FILTER,
-      JOGL_GLTypeConversions.textureFilterMagToGL(mag_filter));
+      JOGLTypeConversions.textureFilterMagToGL(mag_filter));
     JOGLErrors.check(this.gl);
 
     final TextureSpec spec = JOGL_TextureSpecs.getGLES2TextureSpec(type);
@@ -171,7 +171,7 @@ final class ExtDepthCubeTexture<G extends GL> implements
 
     for (final CubeMapFaceLH face : CubeMapFaceLH.values()) {
       assert face != null;
-      final int gface = JOGL_GLTypeConversions.cubeFaceToGL(face);
+      final int gface = JOGLTypeConversions.cubeFaceToGL(face);
 
       this.gl.glTexImage2D(
         gface,
