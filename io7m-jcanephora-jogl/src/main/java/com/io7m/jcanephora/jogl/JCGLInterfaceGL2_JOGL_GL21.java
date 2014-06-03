@@ -784,6 +784,16 @@ final class JCGLInterfaceGL2_JOGL_GL21 implements JCGLInterfaceGL2Type
       renderbuffer);
   }
 
+  @Override public void framebufferDrawAttachDepthStencilTexture2D(
+    final FramebufferType framebuffer,
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
+  {
+    this.framebuffers.framebufferDrawAttachDepthStencilTexture2D(
+      framebuffer,
+      texture);
+  }
+
   @Override public void framebufferDrawAttachDepthTexture2D(
     final FramebufferType framebuffer,
     final Texture2DStaticUsableType texture)
