@@ -47,11 +47,6 @@ import com.io7m.jtensors.VectorI4I;
 @SuppressWarnings("null") public abstract class TextureCubeStaticContract<T extends JCGLTexturesCubeStaticCommonType> implements
   TestContract
 {
-  @Before public final void checkSupport()
-  {
-    Assume.assumeTrue(this.isGLSupported());
-  }
-
   public abstract TextureCubeStaticType allocateTextureRGBA(
     final T t,
     final String name,
@@ -62,6 +57,11 @@ import com.io7m.jtensors.VectorI4I;
     final TextureFilterMinification filter_min,
     final TextureFilterMagnification filter_mag)
     throws JCGLException;
+
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
+  }
 
   public abstract T getGLTextureCubeStatic(
     final TestContext tc);

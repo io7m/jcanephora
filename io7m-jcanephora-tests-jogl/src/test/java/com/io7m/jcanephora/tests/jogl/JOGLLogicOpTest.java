@@ -32,8 +32,9 @@ import com.io7m.junreachable.UnreachableCodeException;
   @Test public void testLogicBijection()
   {
     for (final LogicOperation o : LogicOperation.values()) {
-      Assert.assertEquals(JOGLTypeConversions
-        .logicOpFromGL(JOGLTypeConversions.logicOpToGL(o)), o);
+      Assert
+        .assertEquals(JOGLTypeConversions.logicOpFromGL(JOGLTypeConversions
+          .logicOpToGL(o)), o);
     }
   }
 

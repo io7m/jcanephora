@@ -37,9 +37,10 @@ import com.io7m.junreachable.UnreachableCodeException;
   @Test public void testOrderBijection()
   {
     for (final FaceWindingOrder f : FaceWindingOrder.values()) {
-      Assert.assertEquals(JOGLTypeConversions
-        .faceWindingOrderFromGL(JOGLTypeConversions
-          .faceWindingOrderToGL(f)), f);
+      Assert.assertEquals(
+        JOGLTypeConversions.faceWindingOrderFromGL(JOGLTypeConversions
+          .faceWindingOrderToGL(f)),
+        f);
     }
   }
 }

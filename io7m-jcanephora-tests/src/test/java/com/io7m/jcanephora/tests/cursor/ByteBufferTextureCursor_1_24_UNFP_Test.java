@@ -31,58 +31,12 @@ import com.io7m.jranges.RangeInclusiveL;
 
 @SuppressWarnings({ "static-method", "boxing", "null" }) public final class ByteBufferTextureCursor_1_24_UNFP_Test
 {
-  @Test public void testReadWriteFL()
-  {
-    final ByteBuffer b = this.getNewAreaBuffer();
-    final AreaInclusive a = this.getArea();
-    final SpatialCursorReadable1Type r = this.getReadableCursor(b, a);
-    final SpatialCursorWritable1Type w = this.getWritableCursor(b, a);
-
-    for (int y = 0; y <= a.getRangeY().getUpper(); ++y) {
-      for (int x = 0; x <= a.getRangeX().getUpper(); ++x) {
-        Assert.assertTrue(w.isValid());
-        Assert.assertTrue(r.isValid());
-        Assert.assertEquals(x, r.getElementX());
-        Assert.assertEquals(y, r.getElementY());
-        Assert.assertEquals(x, w.getElementX());
-        Assert.assertEquals(y, w.getElementY());
-
-        w.seekTo(x, y);
-        w.put1l(0xffffff);
-
-        r.seekTo(x, y);
-        Assert.assertEquals(1.0, r.get1d(), this.EPSILON);
-
-        r.seekTo(x, y);
-        Assert.assertEquals(0xffffff, r.get1l());
-      }
-    }
-
-    Assert.assertFalse(w.isValid());
-    Assert.assertFalse(r.isValid());
-  }
-
   private final int    ELEMENT_COMPONENT_BYTES = 4;
+
   private final int    ELEMENT_COUNT           = 1;
   private final double EPSILON                 = 0.000000001;
   private final int    HEIGHT                  = 4;
   private final int    WIDTH                   = 4;
-
-  @Test(expected = RangeCheckException.class) public void testTooSmallW_0()
-  {
-    final ByteBuffer b = ByteBuffer.allocate(2);
-    final AreaInclusive area =
-      new AreaInclusive(new RangeInclusiveL(0, 0), new RangeInclusiveL(0, 0));
-    this.getWritableCursor(b, area);
-  }
-
-  @Test(expected = RangeCheckException.class) public void testTooSmallR_0()
-  {
-    final ByteBuffer b = ByteBuffer.allocate(2);
-    final AreaInclusive area =
-      new AreaInclusive(new RangeInclusiveL(0, 0), new RangeInclusiveL(0, 0));
-    this.getReadableCursor(b, area);
-  }
 
   private void dumpBuffer(
     final ByteBuffer b)
@@ -265,6 +219,37 @@ import com.io7m.jranges.RangeInclusiveL;
     Assert.assertFalse(r.isValid());
   }
 
+  @Test public void testReadWriteFL()
+  {
+    final ByteBuffer b = this.getNewAreaBuffer();
+    final AreaInclusive a = this.getArea();
+    final SpatialCursorReadable1Type r = this.getReadableCursor(b, a);
+    final SpatialCursorWritable1Type w = this.getWritableCursor(b, a);
+
+    for (int y = 0; y <= a.getRangeY().getUpper(); ++y) {
+      for (int x = 0; x <= a.getRangeX().getUpper(); ++x) {
+        Assert.assertTrue(w.isValid());
+        Assert.assertTrue(r.isValid());
+        Assert.assertEquals(x, r.getElementX());
+        Assert.assertEquals(y, r.getElementY());
+        Assert.assertEquals(x, w.getElementX());
+        Assert.assertEquals(y, w.getElementY());
+
+        w.seekTo(x, y);
+        w.put1l(0xffffff);
+
+        r.seekTo(x, y);
+        Assert.assertEquals(1.0, r.get1d(), this.EPSILON);
+
+        r.seekTo(x, y);
+        Assert.assertEquals(0xffffff, r.get1l());
+      }
+    }
+
+    Assert.assertFalse(w.isValid());
+    Assert.assertFalse(r.isValid());
+  }
+
   @Test public void testReadWriteFSub()
   {
     final ByteBuffer b = this.getNewAreaBuffer();
@@ -348,5 +333,21 @@ import com.io7m.jranges.RangeInclusiveL;
 
     Assert.assertFalse(w.isValid());
     Assert.assertFalse(r.isValid());
+  }
+
+  @Test(expected = RangeCheckException.class) public void testTooSmallR_0()
+  {
+    final ByteBuffer b = ByteBuffer.allocate(2);
+    final AreaInclusive area =
+      new AreaInclusive(new RangeInclusiveL(0, 0), new RangeInclusiveL(0, 0));
+    this.getReadableCursor(b, area);
+  }
+
+  @Test(expected = RangeCheckException.class) public void testTooSmallW_0()
+  {
+    final ByteBuffer b = ByteBuffer.allocate(2);
+    final AreaInclusive area =
+      new AreaInclusive(new RangeInclusiveL(0, 0), new RangeInclusiveL(0, 0));
+    this.getWritableCursor(b, area);
   }
 }

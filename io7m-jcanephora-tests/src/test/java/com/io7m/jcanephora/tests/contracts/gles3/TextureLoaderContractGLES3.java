@@ -53,11 +53,6 @@ import com.io7m.jvvfs.PathVirtual;
 @SuppressWarnings({ "null" }) public abstract class TextureLoaderContractGLES3<T extends TextureLoaderType> extends
   TextureLoaderContract<JCGLTextures2DStaticGLES3Type, JCGLTexturesCubeStaticGLES3Type, T>
 {
-  @Before public final void checkSupport()
-  {
-    Assume.assumeTrue(this.isGLSupported());
-  }
-
   private static void loadCubeLH(
     final FilesystemType fs,
     final TextureLoaderType tl,
@@ -396,40 +391,6 @@ import com.io7m.jvvfs.PathVirtual;
       stream_px.close();
       stream_nx.close();
     }
-  }
-
-  @Test public final void testCubeRH()
-    throws JCGLException,
-      IOException,
-      FilesystemError
-  {
-    final TestContext tc = this.newTestContext();
-    final FilesystemType fs = tc.getFilesystem();
-    final TextureLoaderType tl =
-      this.makeTextureLoader(tc, this.getGLTextures2D(tc));
-    final String path = "/com/io7m/jcanephora/images/reference_888_3.png";
-    TextureLoaderContractGLES3.loadCubeRH(
-      fs,
-      tl,
-      this.getGLTexturesCube(tc),
-      path);
-  }
-
-  @Test public final void testCubeLH()
-    throws JCGLException,
-      IOException,
-      FilesystemError
-  {
-    final TestContext tc = this.newTestContext();
-    final FilesystemType fs = tc.getFilesystem();
-    final TextureLoaderType tl =
-      this.makeTextureLoader(tc, this.getGLTextures2D(tc));
-    final String path = "/com/io7m/jcanephora/images/reference_888_3.png";
-    TextureLoaderContractGLES3.loadCubeLH(
-      fs,
-      tl,
-      this.getGLTexturesCube(tc),
-      path);
   }
 
   private static void loadSpecific(
@@ -1315,6 +1276,45 @@ import com.io7m.jvvfs.PathVirtual;
 
       stream.close();
     }
+  }
+
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
+  }
+
+  @Test public final void testCubeLH()
+    throws JCGLException,
+      IOException,
+      FilesystemError
+  {
+    final TestContext tc = this.newTestContext();
+    final FilesystemType fs = tc.getFilesystem();
+    final TextureLoaderType tl =
+      this.makeTextureLoader(tc, this.getGLTextures2D(tc));
+    final String path = "/com/io7m/jcanephora/images/reference_888_3.png";
+    TextureLoaderContractGLES3.loadCubeLH(
+      fs,
+      tl,
+      this.getGLTexturesCube(tc),
+      path);
+  }
+
+  @Test public final void testCubeRH()
+    throws JCGLException,
+      IOException,
+      FilesystemError
+  {
+    final TestContext tc = this.newTestContext();
+    final FilesystemType fs = tc.getFilesystem();
+    final TextureLoaderType tl =
+      this.makeTextureLoader(tc, this.getGLTextures2D(tc));
+    final String path = "/com/io7m/jcanephora/images/reference_888_3.png";
+    TextureLoaderContractGLES3.loadCubeRH(
+      fs,
+      tl,
+      this.getGLTexturesCube(tc),
+      path);
   }
 
   @Test public final void testTextureTypesGreyscaleToSpecific()

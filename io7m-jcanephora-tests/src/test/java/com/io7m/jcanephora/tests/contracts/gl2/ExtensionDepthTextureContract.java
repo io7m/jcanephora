@@ -36,15 +36,15 @@ import com.io7m.jfunctional.Some;
 
 public abstract class ExtensionDepthTextureContract implements TestContract
 {
-  public abstract
-    OptionType<JCGLExtensionDepthTextureType>
-    getExtensionDepthTexture(
-      final TestContext tc);
-
   @Before public final void checkSupport()
   {
     Assume.assumeTrue(this.isGLSupported());
   }
+
+  public abstract
+    OptionType<JCGLExtensionDepthTextureType>
+    getExtensionDepthTexture(
+      final TestContext tc);
 
   @Test public void testAllocation16()
     throws JCGLException

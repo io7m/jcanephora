@@ -54,11 +54,6 @@ import com.io7m.jvvfs.PathVirtual;
 @SuppressWarnings({ "null" }) public abstract class TextureLoaderGLES2Contract<T extends TextureLoaderType> extends
   TextureLoaderContract<JCGLTextures2DStaticGLES2Type, JCGLTexturesCubeStaticGLES2Type, T>
 {
-  @Before public final void checkSupport()
-  {
-    Assume.assumeTrue(this.isGLSupported());
-  }
-
   private static void loadSpecific(
     final FilesystemType fs,
     final JCGLTextures2DStaticGLES2Type gl,
@@ -204,6 +199,11 @@ import com.io7m.jvvfs.PathVirtual;
 
       stream.close();
     }
+  }
+
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
   }
 
   @Test public final void testTextureTypesCubeLHInferredGreyscale()

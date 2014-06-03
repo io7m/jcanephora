@@ -79,54 +79,6 @@ import com.io7m.jranges.RangeInclusiveL;
   public abstract JCGLRenderbuffersGL3ES3Type getRenderbuffersGL3(
     final TestContext tc);
 
-  @Test(expected = JCGLExceptionFramebufferNotBound.class) public final
-    void
-    testBlitNotBound_R()
-      throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLFramebuffersGL3Type g = this.getFramebuffersGL3(tc);
-    final RangeInclusiveL range = new RangeInclusiveL(0L, 100L);
-    final AreaInclusive area0 = new AreaInclusive(range, range);
-
-    final FramebufferType fbw =
-      FramebufferReadGL3Contract.makeFramebuffer(
-        g,
-        this.getRenderbuffersGL3(tc));
-
-    g.framebufferDrawBind(fbw);
-    g.framebufferReadUnbind();
-    g.framebufferBlit(
-      area0,
-      area0,
-      EnumSet.noneOf(FramebufferBlitBuffer.class),
-      FramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_NEAREST);
-  }
-
-  @Test(expected = JCGLExceptionFramebufferNotBound.class) public final
-    void
-    testBlitNotBound_W()
-      throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLFramebuffersGL3Type g = this.getFramebuffersGL3(tc);
-    final RangeInclusiveL range = new RangeInclusiveL(0L, 100L);
-    final AreaInclusive area0 = new AreaInclusive(range, range);
-
-    final FramebufferType fb =
-      FramebufferReadGL3Contract.makeFramebuffer(
-        g,
-        this.getRenderbuffersGL3(tc));
-
-    g.framebufferReadBind(fb);
-    g.framebufferDrawUnbind();
-    g.framebufferBlit(
-      area0,
-      area0,
-      EnumSet.noneOf(FramebufferBlitBuffer.class),
-      FramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_NEAREST);
-  }
-
   @Test(expected = JCGLExceptionParameterError.class) public final
     void
     testBlitBadFilter_0()
@@ -173,6 +125,54 @@ import com.io7m.jranges.RangeInclusiveL;
       area0,
       EnumSet.of(FramebufferBlitBuffer.FRAMEBUFFER_BLIT_BUFFER_STENCIL),
       FramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_LINEAR);
+  }
+
+  @Test(expected = JCGLExceptionFramebufferNotBound.class) public final
+    void
+    testBlitNotBound_R()
+      throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLFramebuffersGL3Type g = this.getFramebuffersGL3(tc);
+    final RangeInclusiveL range = new RangeInclusiveL(0L, 100L);
+    final AreaInclusive area0 = new AreaInclusive(range, range);
+
+    final FramebufferType fbw =
+      FramebufferReadGL3Contract.makeFramebuffer(
+        g,
+        this.getRenderbuffersGL3(tc));
+
+    g.framebufferDrawBind(fbw);
+    g.framebufferReadUnbind();
+    g.framebufferBlit(
+      area0,
+      area0,
+      EnumSet.noneOf(FramebufferBlitBuffer.class),
+      FramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_NEAREST);
+  }
+
+  @Test(expected = JCGLExceptionFramebufferNotBound.class) public final
+    void
+    testBlitNotBound_W()
+      throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLFramebuffersGL3Type g = this.getFramebuffersGL3(tc);
+    final RangeInclusiveL range = new RangeInclusiveL(0L, 100L);
+    final AreaInclusive area0 = new AreaInclusive(range, range);
+
+    final FramebufferType fb =
+      FramebufferReadGL3Contract.makeFramebuffer(
+        g,
+        this.getRenderbuffersGL3(tc));
+
+    g.framebufferReadBind(fb);
+    g.framebufferDrawUnbind();
+    g.framebufferBlit(
+      area0,
+      area0,
+      EnumSet.noneOf(FramebufferBlitBuffer.class),
+      FramebufferBlitFilter.FRAMEBUFFER_BLIT_FILTER_NEAREST);
   }
 
   @SuppressWarnings("unchecked") @Test(expected = NullCheckException.class) public final

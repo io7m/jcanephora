@@ -58,9 +58,9 @@ final class JOGLTextureUnits implements JCGLTextureUnitsType
   private final GL                       gl;
   private final JOGLIntegerCacheType     icache;
   private final LogUsableType            log;
+  private final int                      max_size;
   private final JCGLSoftRestrictionsType restrictions;
   private final JOGLLogMessageCacheType  tcache;
-  private final int                      max_size;
 
   public JOGLTextureUnits(
     final GL in_gl,

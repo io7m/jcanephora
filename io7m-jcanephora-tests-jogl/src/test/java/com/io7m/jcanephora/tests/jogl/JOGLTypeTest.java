@@ -32,9 +32,9 @@ import com.io7m.junreachable.UnreachableCodeException;
   @Test public void testTypeBijection()
   {
     for (final JCGLType u : JCGLType.values()) {
-      Assert
-        .assertEquals(JOGLTypeConversions
-          .typeFromGL(JOGLTypeConversions.typeToGL(u)), u);
+      Assert.assertEquals(
+        JOGLTypeConversions.typeFromGL(JOGLTypeConversions.typeToGL(u)),
+        u);
     }
   }
 

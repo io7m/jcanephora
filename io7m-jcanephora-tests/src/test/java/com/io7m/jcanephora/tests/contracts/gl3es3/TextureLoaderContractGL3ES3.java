@@ -54,11 +54,6 @@ import com.io7m.jvvfs.PathVirtual;
 @SuppressWarnings({ "null" }) public abstract class TextureLoaderContractGL3ES3<T extends TextureLoaderType> extends
   TextureLoaderContract<JCGLTextures2DStaticGL3ES3Type, JCGLTexturesCubeStaticGL3ES3Type, T>
 {
-  @Before public final void checkSupport()
-  {
-    Assume.assumeTrue(this.isGLSupported());
-  }
-
   private static void loadCubeLH(
     final FilesystemType fs,
     final TextureLoaderType tl,
@@ -1243,6 +1238,11 @@ import com.io7m.jvvfs.PathVirtual;
 
       stream.close();
     }
+  }
+
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
   }
 
   @Test public final void testCubeLH()

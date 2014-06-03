@@ -31,16 +31,16 @@ import com.io7m.jcanephora.tests.TestContext;
 
 public abstract class TextureUnitsRestrictedContract
 {
+  @Before public final void checkSupport()
+  {
+    Assume.assumeTrue(this.isGLSupported());
+  }
+
   public abstract boolean isGLSupported();
 
   public abstract TestContext newTestContext(
     final JCGLSoftRestrictionsType r)
     throws JCGLException;
-
-  @Before public final void checkSupport()
-  {
-    Assume.assumeTrue(this.isGLSupported());
-  }
 
   /**
    * Restricting the number of texture units works.
@@ -51,16 +51,16 @@ public abstract class TextureUnitsRestrictedContract
   {
     final TestContext tc =
       this.newTestContext(new JCGLSoftRestrictionsType() {
-        @Override public int restrictTextureUnitCount(
-          final int count)
-        {
-          return 1;
-        }
-
         @Override public boolean restrictExtensionVisibility(
           final String name)
         {
           return true;
+        }
+
+        @Override public int restrictTextureUnitCount(
+          final int count)
+        {
+          return 1;
         }
       });
 

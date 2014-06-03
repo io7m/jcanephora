@@ -89,6 +89,7 @@ import com.io7m.jvvfs.PathVirtual;
   private final ArrayDescriptor               array_type;
   private final ExampleConfig                 config;
   private int                                 frame         = 0;
+  private final JCGLImplementationType        gi;
   private final JCGLInterfaceCommonType       gl;
   private boolean                             has_shut_down;
   private final IndexBufferType               indices;
@@ -99,7 +100,6 @@ import com.io7m.jvvfs.PathVirtual;
   private int                                 texture_index = 0;
   private final List<TextureUnitType>         texture_units;
   private final Texture2DStaticType           textures[];
-  private final JCGLImplementationType        gi;
 
   public ExampleTexturedQuadImage(
     final ExampleConfig config1)

@@ -56,22 +56,6 @@ import com.io7m.jranges.RangeInclusiveL;
     }
   }
 
-  @Test(expected = RangeCheckException.class) public void testTooSmallW_0()
-  {
-    final ByteBuffer b = ByteBuffer.allocate(1);
-    final AreaInclusive area =
-      new AreaInclusive(new RangeInclusiveL(0, 0), new RangeInclusiveL(0, 0));
-    this.getWritableCursor(b, area);
-  }
-
-  @Test(expected = RangeCheckException.class) public void testTooSmallR_0()
-  {
-    final ByteBuffer b = ByteBuffer.allocate(1);
-    final AreaInclusive area =
-      new AreaInclusive(new RangeInclusiveL(0, 0), new RangeInclusiveL(0, 0));
-    this.getReadableCursor(b, area);
-  }
-
   private AreaInclusive getArea()
   {
     return new AreaInclusive(
@@ -254,5 +238,21 @@ import com.io7m.jranges.RangeInclusiveL;
 
     Assert.assertFalse(w.isValid());
     Assert.assertFalse(r.isValid());
+  }
+
+  @Test(expected = RangeCheckException.class) public void testTooSmallR_0()
+  {
+    final ByteBuffer b = ByteBuffer.allocate(1);
+    final AreaInclusive area =
+      new AreaInclusive(new RangeInclusiveL(0, 0), new RangeInclusiveL(0, 0));
+    this.getReadableCursor(b, area);
+  }
+
+  @Test(expected = RangeCheckException.class) public void testTooSmallW_0()
+  {
+    final ByteBuffer b = ByteBuffer.allocate(1);
+    final AreaInclusive area =
+      new AreaInclusive(new RangeInclusiveL(0, 0), new RangeInclusiveL(0, 0));
+    this.getWritableCursor(b, area);
   }
 }

@@ -281,6 +281,300 @@ import com.io7m.jvvfs.FilesystemType;
     Assert.assertTrue(called.get());
   }
 
+  @Test public void testProgramAllAssigned()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    final JCGLInterfaceCommonType gc = tc.getGLImplementation().getGLCommon();
+    final ArrayBufferType a = JCBExecutionContract.makeArrayBuffer(gc);
+    final List<TextureUnitType> units = gc.textureGetUnits();
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+
+        gc.arrayBufferBind(a);
+
+        program.programAttributeBind("a_f", a.arrayGetAttribute("a_f"));
+        program.programAttributeBind("a_vf2", a.arrayGetAttribute("a_vf2"));
+        program.programAttributeBind("a_vf3", a.arrayGetAttribute("a_vf3"));
+        program.programAttributeBind("a_vf4", a.arrayGetAttribute("a_vf4"));
+
+        program.programUniformPutFloat("u_float", 23.0f);
+        program.programUniformPutVector2f("u_vf2", new VectorI4F());
+        program.programUniformPutVector3f("u_vf3", new VectorI4F());
+        program.programUniformPutVector4f("u_vf4", new VectorI4F());
+
+        program.programUniformPutInteger("u_int", 23);
+        program.programUniformPutVector2i("u_vi2", new VectorI4I());
+        program.programUniformPutVector3i("u_vi3", new VectorI4I());
+        program.programUniformPutVector4i("u_vi4", new VectorI4I());
+
+        program.programUniformPutMatrix3x3f("u_m3", new MatrixM3x3F());
+        program.programUniformPutMatrix4x4f("u_m4", new MatrixM4x4F());
+        program.programUniformPutTextureUnit("u_sampler2d", units.get(0));
+        program.programUniformPutTextureUnit("u_sampler_cube", units.get(0));
+
+        program.programValidate();
+      }
+    });
+
+    Assert.assertTrue(called.get());
+  }
+
+  @Test public void testProgramAllAssignedExec()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything");
+    final AtomicBoolean called = new AtomicBoolean(false);
+    final AtomicBoolean called_inner = new AtomicBoolean(false);
+
+    final JCGLInterfaceCommonType gc = tc.getGLImplementation().getGLCommon();
+    final ArrayBufferType a = JCBExecutionContract.makeArrayBuffer(gc);
+    final List<TextureUnitType> units = gc.textureGetUnits();
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+
+        gc.arrayBufferBind(a);
+
+        program.programAttributeBind("a_f", a.arrayGetAttribute("a_f"));
+        program.programAttributeBind("a_vf2", a.arrayGetAttribute("a_vf2"));
+        program.programAttributeBind("a_vf3", a.arrayGetAttribute("a_vf3"));
+        program.programAttributeBind("a_vf4", a.arrayGetAttribute("a_vf4"));
+
+        program.programUniformPutFloat("u_float", 23.0f);
+        program.programUniformPutVector2f("u_vf2", new VectorI4F());
+        program.programUniformPutVector3f("u_vf3", new VectorI4F());
+        program.programUniformPutVector4f("u_vf4", new VectorI4F());
+
+        program.programUniformPutInteger("u_int", 23);
+        program.programUniformPutVector2i("u_vi2", new VectorI4I());
+        program.programUniformPutVector3i("u_vi3", new VectorI4I());
+        program.programUniformPutVector4i("u_vi4", new VectorI4I());
+
+        program.programUniformPutMatrix3x3f("u_m3", new MatrixM3x3F());
+        program.programUniformPutMatrix4x4f("u_m4", new MatrixM4x4F());
+        program.programUniformPutTextureUnit("u_sampler2d", units.get(0));
+        program.programUniformPutTextureUnit("u_sampler_cube", units.get(0));
+
+        program.programExecute(new JCBProgramProcedureType<Exception>() {
+          @Override public void call()
+            throws JCGLException,
+              Exception
+          {
+            called_inner.set(true);
+          }
+        });
+      }
+    });
+
+    Assert.assertTrue(called.get());
+    Assert.assertTrue(called_inner.get());
+  }
+
+  @Test public void testProgramAttributeBind()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    final JCGLInterfaceCommonType gc = tc.getGLImplementation().getGLCommon();
+    final ArrayBufferType a = JCBExecutionContract.makeArrayBuffer(gc);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        gc.arrayBufferBind(a);
+        program.programAttributeBind("a_f", a.arrayGetAttribute("a_f"));
+        program.programAttributeBind("a_vf2", a.arrayGetAttribute("a_vf2"));
+        program.programAttributeBind("a_vf3", a.arrayGetAttribute("a_vf3"));
+        program.programAttributeBind("a_vf4", a.arrayGetAttribute("a_vf4"));
+      }
+    });
+
+    Assert.assertTrue(called.get());
+  }
+
+  @Test(expected = JCGLExceptionAttributeMissing.class) public
+    void
+    testProgramAttributeBindNonexistent()
+      throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "simple");
+
+    final ArrayBufferType a =
+      JCBExecutionContract.makeArrayBuffer(tc
+        .getGLImplementation()
+        .getGLCommon());
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        program.programAttributeBind(
+          "nonexistent",
+          a.arrayGetAttribute("a_f"));
+      }
+    });
+
+    throw new UnreachableCodeException();
+  }
+
+  @Test(expected = NullCheckException.class) public
+    void
+    testProgramAttributeBindNull()
+      throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything");
+
+    final ArrayBufferType a =
+      JCBExecutionContract.makeArrayBuffer(tc
+        .getGLImplementation()
+        .getGLCommon());
+
+    try {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+        @Override public void call(
+          final JCBProgramType program)
+          throws JCGLException,
+            Exception
+        {
+          program.programAttributeBind(
+            (String) TestUtilities.actuallyNull(),
+            a.arrayGetAttribute("a_f"));
+        }
+      });
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
+      throw x;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  @Test(expected = NullCheckException.class) public
+    void
+    testProgramAttributeBindNullValue()
+      throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything");
+
+    try {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+        @Override public void call(
+          final JCBProgramType program)
+          throws JCGLException,
+            Exception
+        {
+          program.programAttributeBind(
+            "a_vf4",
+            (ArrayAttributeType) TestUtilities.actuallyNull());
+        }
+      });
+    } catch (final JCGLExceptionExecution e) {
+      final NullCheckException x = (NullCheckException) e.getCause();
+      throw x;
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  @Test public void testProgramAttributeBindOptimizedOut()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything_opt");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    final JCGLInterfaceCommonType gc = tc.getGLImplementation().getGLCommon();
+    final ArrayBufferType a = JCBExecutionContract.makeArrayBuffer(gc);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        gc.arrayBufferBind(a);
+        program.programAttributeBind("a_f_opt", a.arrayGetAttribute("a_f"));
+        program.programAttributeBind(
+          "a_vf2_opt",
+          a.arrayGetAttribute("a_vf2"));
+        program.programAttributeBind(
+          "a_vf3_opt",
+          a.arrayGetAttribute("a_vf3"));
+        program.programAttributeBind(
+          "a_vf4_opt",
+          a.arrayGetAttribute("a_vf4"));
+      }
+    });
+
+    Assert.assertTrue(called.get());
+  }
+
+  @Test(expected = JCGLExceptionTypeError.class) public
+    void
+    testProgramAttributeBindWrongType()
+      throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything");
+
+    final ArrayBufferType a =
+      JCBExecutionContract.makeArrayBuffer(tc
+        .getGLImplementation()
+        .getGLCommon());
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        program.programAttributeBind("a_vf4", a.arrayGetAttribute("a_f"));
+      }
+    });
+
+    throw new UnreachableCodeException();
+  }
+
   @Test public void testProgramAttributePutFloat()
     throws JCGLException
   {
@@ -298,29 +592,6 @@ import com.io7m.jvvfs.FilesystemType;
       {
         called.set(true);
         program.programAttributePutFloat("a_f", 23.0f);
-      }
-    });
-
-    Assert.assertTrue(called.get());
-  }
-
-  @Test public void testProgramAttributePutFloatOptimizedOut()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything_opt");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programAttributePutFloat("a_f_opt", 23.0f);
       }
     });
 
@@ -378,6 +649,29 @@ import com.io7m.jvvfs.FilesystemType;
     throw new UnreachableCodeException();
   }
 
+  @Test public void testProgramAttributePutFloatOptimizedOut()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything_opt");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programAttributePutFloat("a_f_opt", 23.0f);
+      }
+    });
+
+    Assert.assertTrue(called.get());
+  }
+
   @Test public void testProgramAttributePutVector2f()
     throws JCGLException
   {
@@ -395,29 +689,6 @@ import com.io7m.jvvfs.FilesystemType;
       {
         called.set(true);
         program.programAttributePutVector2F("a_vf2", new VectorI4F());
-      }
-    });
-
-    Assert.assertTrue(called.get());
-  }
-
-  @Test public void testProgramAttributePutVector2fOptimizedOut()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything_opt");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programAttributePutVector2F("a_vf2_opt", new VectorI4F());
       }
     });
 
@@ -504,6 +775,29 @@ import com.io7m.jvvfs.FilesystemType;
     throw new UnreachableCodeException();
   }
 
+  @Test public void testProgramAttributePutVector2fOptimizedOut()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything_opt");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programAttributePutVector2F("a_vf2_opt", new VectorI4F());
+      }
+    });
+
+    Assert.assertTrue(called.get());
+  }
+
   @Test public void testProgramAttributePutVector3f()
     throws JCGLException
   {
@@ -521,29 +815,6 @@ import com.io7m.jvvfs.FilesystemType;
       {
         called.set(true);
         program.programAttributePutVector3F("a_vf3", new VectorI4F());
-      }
-    });
-
-    Assert.assertTrue(called.get());
-  }
-
-  @Test public void testProgramAttributePutVector3fOptimizedOut()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything_opt");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programAttributePutVector3F("a_vf3_opt", new VectorI4F());
       }
     });
 
@@ -630,6 +901,29 @@ import com.io7m.jvvfs.FilesystemType;
     throw new UnreachableCodeException();
   }
 
+  @Test public void testProgramAttributePutVector3fOptimizedOut()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything_opt");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programAttributePutVector3F("a_vf3_opt", new VectorI4F());
+      }
+    });
+
+    Assert.assertTrue(called.get());
+  }
+
   @Test public void testProgramAttributePutVector4f()
     throws JCGLException
   {
@@ -647,29 +941,6 @@ import com.io7m.jvvfs.FilesystemType;
       {
         called.set(true);
         program.programAttributePutVector4F("a_vf4", new VectorI4F());
-      }
-    });
-
-    Assert.assertTrue(called.get());
-  }
-
-  @Test public void testProgramAttributePutVector4fOptimizedOut()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything_opt");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programAttributePutVector4F("a_vf4_opt", new VectorI4F());
       }
     });
 
@@ -754,6 +1025,29 @@ import com.io7m.jvvfs.FilesystemType;
     }
 
     throw new UnreachableCodeException();
+  }
+
+  @Test public void testProgramAttributePutVector4fOptimizedOut()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything_opt");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programAttributePutVector4F("a_vf4_opt", new VectorI4F());
+      }
+    });
+
+    Assert.assertTrue(called.get());
   }
 
   @Test(expected = JCGLExceptionTypeError.class) public
@@ -856,29 +1150,56 @@ import com.io7m.jvvfs.FilesystemType;
     JCBExecutor.newExecutorWithoutDeclarations(gl, ls.program, tc.getLog());
   }
 
-  @Test(expected = JCGLExceptionTypeError.class) public
-    void
-    testProgramUniformPutFloatWrongType()
-      throws JCGLException
+  @Test public void testProgramExecException()
+    throws JCGLException
   {
     final TestContext tc = this.newTestContext();
 
     final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything");
-    final AtomicBoolean called = new AtomicBoolean(false);
+      JCBExecutionContract.newProgram(tc, "simple");
+    final AtomicBoolean caught = new AtomicBoolean(false);
 
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programUniformPutFloat("u_vf2", 23.0f);
-      }
-    });
+    final JCGLInterfaceCommonType gc = tc.getGLImplementation().getGLCommon();
+    final ArrayBufferType a = JCBExecutionContract.makeArrayBuffer(gc);
 
-    throw new UnreachableCodeException();
+    final IllegalArgumentException z =
+      new IllegalArgumentException("Caught!");
+
+    try {
+      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+        @Override public void call(
+          final JCBProgramType program)
+          throws JCGLException,
+            Exception
+        {
+          gc.arrayBufferBind(a);
+          program.programAttributeBind(
+            "v_position",
+            a.arrayGetAttribute("a_vf3"));
+          program.programUniformPutVector4f("f_ccolour", new VectorI4F());
+          program.programUniformPutMatrix4x4f(
+            "m_projection",
+            new MatrixM4x4F());
+          program.programUniformPutMatrix4x4f(
+            "m_modelview",
+            new MatrixM4x4F());
+          program.programExecute(new JCBProgramProcedureType<Exception>() {
+            @Override public void call()
+              throws JCGLException,
+                Exception
+            {
+              throw z;
+            }
+          });
+        }
+      });
+    } catch (final JCGLExceptionExecution x) {
+      final Throwable k = x.getCause();
+      Assert.assertSame(z, k);
+      caught.set(true);
+    }
+
+    Assert.assertTrue(caught.get());
   }
 
   @Test public void testProgramUniformPutFloat()
@@ -898,29 +1219,6 @@ import com.io7m.jvvfs.FilesystemType;
       {
         called.set(true);
         program.programUniformPutFloat("u_float", 23.0f);
-      }
-    });
-
-    Assert.assertTrue(called.get());
-  }
-
-  @Test public void testProgramUniformPutFloatOptimizedOut()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything_opt");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programUniformPutFloat("u_float_opt", 23.0f);
       }
     });
 
@@ -978,9 +1276,32 @@ import com.io7m.jvvfs.FilesystemType;
     throw new UnreachableCodeException();
   }
 
+  @Test public void testProgramUniformPutFloatOptimizedOut()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything_opt");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programUniformPutFloat("u_float_opt", 23.0f);
+      }
+    });
+
+    Assert.assertTrue(called.get());
+  }
+
   @Test(expected = JCGLExceptionTypeError.class) public
     void
-    testProgramUniformPutIntegerWrongType()
+    testProgramUniformPutFloatWrongType()
       throws JCGLException
   {
     final TestContext tc = this.newTestContext();
@@ -996,7 +1317,7 @@ import com.io7m.jvvfs.FilesystemType;
           Exception
       {
         called.set(true);
-        program.programUniformPutInteger("u_vf2", 23);
+        program.programUniformPutFloat("u_vf2", 23.0f);
       }
     });
 
@@ -1020,29 +1341,6 @@ import com.io7m.jvvfs.FilesystemType;
       {
         called.set(true);
         program.programUniformPutInteger("u_int", 23);
-      }
-    });
-
-    Assert.assertTrue(called.get());
-  }
-
-  @Test public void testProgramUniformPutIntegerOptimizedOut()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything_opt");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programUniformPutInteger("u_int_opt", 23);
       }
     });
 
@@ -1100,6 +1398,54 @@ import com.io7m.jvvfs.FilesystemType;
     throw new UnreachableCodeException();
   }
 
+  @Test public void testProgramUniformPutIntegerOptimizedOut()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything_opt");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programUniformPutInteger("u_int_opt", 23);
+      }
+    });
+
+    Assert.assertTrue(called.get());
+  }
+
+  @Test(expected = JCGLExceptionTypeError.class) public
+    void
+    testProgramUniformPutIntegerWrongType()
+      throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programUniformPutInteger("u_vf2", 23);
+      }
+    });
+
+    throw new UnreachableCodeException();
+  }
+
   @Test public void testProgramUniformPutMatrix3x3f()
     throws JCGLException
   {
@@ -1121,154 +1467,6 @@ import com.io7m.jvvfs.FilesystemType;
     });
 
     Assert.assertTrue(called.get());
-  }
-
-  @Test public void testProgramUniformPutMatrix3x3fOptimizedOut()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything_opt");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programUniformPutMatrix3x3f("u_m3_opt", new MatrixM3x3F());
-      }
-    });
-
-    Assert.assertTrue(called.get());
-  }
-
-  @Test(expected = JCGLExceptionTypeError.class) public
-    void
-    testProgramUniformPutMatrix3x3fWrongType()
-      throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programUniformPutMatrix3x3f("u_vf2", new MatrixM3x3F());
-      }
-    });
-
-    throw new UnreachableCodeException();
-  }
-
-  @Test(expected = JCGLExceptionTypeError.class) public
-    void
-    testProgramUniformPutMatrix4x4fWrongType()
-      throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programUniformPutMatrix4x4f("u_vf2", new MatrixM4x4F());
-      }
-    });
-
-    throw new UnreachableCodeException();
-  }
-
-  @Test(expected = JCGLExceptionTypeError.class) public
-    void
-    testProgramUniformPutVector2fWrongType()
-      throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programUniformPutVector2f("u_vf3", new VectorI4F());
-      }
-    });
-
-    throw new UnreachableCodeException();
-  }
-
-  @Test(expected = JCGLExceptionTypeError.class) public
-    void
-    testProgramUniformPutVector3fWrongType()
-      throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programUniformPutVector3f("u_vf2", new VectorI4F());
-      }
-    });
-
-    throw new UnreachableCodeException();
-  }
-
-  @Test(expected = JCGLExceptionTypeError.class) public
-    void
-    testProgramUniformPutVector4fWrongType()
-      throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programUniformPutVector4f("u_vf3", new VectorI4F());
-      }
-    });
-
-    throw new UnreachableCodeException();
   }
 
   @Test(expected = JCGLExceptionProgramUniformMissing.class) public
@@ -1351,6 +1549,54 @@ import com.io7m.jvvfs.FilesystemType;
     throw new UnreachableCodeException();
   }
 
+  @Test public void testProgramUniformPutMatrix3x3fOptimizedOut()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything_opt");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programUniformPutMatrix3x3f("u_m3_opt", new MatrixM3x3F());
+      }
+    });
+
+    Assert.assertTrue(called.get());
+  }
+
+  @Test(expected = JCGLExceptionTypeError.class) public
+    void
+    testProgramUniformPutMatrix3x3fWrongType()
+      throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programUniformPutMatrix3x3f("u_vf2", new MatrixM3x3F());
+      }
+    });
+
+    throw new UnreachableCodeException();
+  }
+
   @Test public void testProgramUniformPutMatrix4x4f()
     throws JCGLException
   {
@@ -1368,29 +1614,6 @@ import com.io7m.jvvfs.FilesystemType;
       {
         called.set(true);
         program.programUniformPutMatrix4x4f("u_m4", new MatrixM4x4F());
-      }
-    });
-
-    Assert.assertTrue(called.get());
-  }
-
-  @Test public void testProgramUniformPutMatrix4x4fOptimizedOut()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything_opt");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programUniformPutMatrix4x4f("u_m4_opt", new MatrixM4x4F());
       }
     });
 
@@ -1477,6 +1700,54 @@ import com.io7m.jvvfs.FilesystemType;
     throw new UnreachableCodeException();
   }
 
+  @Test public void testProgramUniformPutMatrix4x4fOptimizedOut()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything_opt");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programUniformPutMatrix4x4f("u_m4_opt", new MatrixM4x4F());
+      }
+    });
+
+    Assert.assertTrue(called.get());
+  }
+
+  @Test(expected = JCGLExceptionTypeError.class) public
+    void
+    testProgramUniformPutMatrix4x4fWrongType()
+      throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programUniformPutMatrix4x4f("u_vf2", new MatrixM4x4F());
+      }
+    });
+
+    throw new UnreachableCodeException();
+  }
+
   @Test public void testProgramUniformPutTextureUnit()
     throws JCGLException
   {
@@ -1496,31 +1767,6 @@ import com.io7m.jvvfs.FilesystemType;
       {
         called.set(true);
         program.programUniformPutTextureUnit("u_sampler2d", unit);
-      }
-    });
-
-    Assert.assertTrue(called.get());
-  }
-
-  @Test public void testProgramUniformPutTextureUnitOptimizedOut()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything_opt");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    final TextureUnitType unit =
-      tc.getGLImplementation().getGLCommon().textureGetUnits().get(0);
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programUniformPutTextureUnit("u_sampler2d_opt", unit);
       }
     });
 
@@ -1583,6 +1829,31 @@ import com.io7m.jvvfs.FilesystemType;
     throw new UnreachableCodeException();
   }
 
+  @Test public void testProgramUniformPutTextureUnitOptimizedOut()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything_opt");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    final TextureUnitType unit =
+      tc.getGLImplementation().getGLCommon().textureGetUnits().get(0);
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programUniformPutTextureUnit("u_sampler2d_opt", unit);
+      }
+    });
+
+    Assert.assertTrue(called.get());
+  }
+
   @Test public void testProgramUniformPutVector2f()
     throws JCGLException
   {
@@ -1600,33 +1871,6 @@ import com.io7m.jvvfs.FilesystemType;
       {
         called.set(true);
         program.programUniformPutVector2f("u_vf2", new VectorI4F(
-          0.0f,
-          1.0f,
-          2.0f,
-          3.0f));
-      }
-    });
-
-    Assert.assertTrue(called.get());
-  }
-
-  @Test public void testProgramUniformPutVector2fOptimizedOut()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything_opt");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programUniformPutVector2f("u_vf2_opt", new VectorI4F(
           0.0f,
           1.0f,
           2.0f,
@@ -1721,6 +1965,58 @@ import com.io7m.jvvfs.FilesystemType;
     throw new UnreachableCodeException();
   }
 
+  @Test public void testProgramUniformPutVector2fOptimizedOut()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything_opt");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programUniformPutVector2f("u_vf2_opt", new VectorI4F(
+          0.0f,
+          1.0f,
+          2.0f,
+          3.0f));
+      }
+    });
+
+    Assert.assertTrue(called.get());
+  }
+
+  @Test(expected = JCGLExceptionTypeError.class) public
+    void
+    testProgramUniformPutVector2fWrongType()
+      throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programUniformPutVector2f("u_vf3", new VectorI4F());
+      }
+    });
+
+    throw new UnreachableCodeException();
+  }
+
   @Test public void testProgramUniformPutVector2i()
     throws JCGLException
   {
@@ -1738,33 +2034,6 @@ import com.io7m.jvvfs.FilesystemType;
       {
         called.set(true);
         program.programUniformPutVector2i("u_vi2", new VectorI4I(0, 1, 2, 3));
-      }
-    });
-
-    Assert.assertTrue(called.get());
-  }
-
-  @Test public void testProgramUniformPutVector2iOptimizedOut()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything_opt");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programUniformPutVector2i("u_vi2_opt", new VectorI4I(
-          0,
-          1,
-          2,
-          3));
       }
     });
 
@@ -1855,6 +2124,33 @@ import com.io7m.jvvfs.FilesystemType;
     throw new UnreachableCodeException();
   }
 
+  @Test public void testProgramUniformPutVector2iOptimizedOut()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything_opt");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programUniformPutVector2i("u_vi2_opt", new VectorI4I(
+          0,
+          1,
+          2,
+          3));
+      }
+    });
+
+    Assert.assertTrue(called.get());
+  }
+
   @Test public void testProgramUniformPutVector3f()
     throws JCGLException
   {
@@ -1872,33 +2168,6 @@ import com.io7m.jvvfs.FilesystemType;
       {
         called.set(true);
         program.programUniformPutVector3f("u_vf3", new VectorI4F(
-          0.0f,
-          1.0f,
-          2.0f,
-          3.0f));
-      }
-    });
-
-    Assert.assertTrue(called.get());
-  }
-
-  @Test public void testProgramUniformPutVector3fOptimizedOut()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything_opt");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programUniformPutVector3f("u_vf3_opt", new VectorI4F(
           0.0f,
           1.0f,
           2.0f,
@@ -1993,6 +2262,58 @@ import com.io7m.jvvfs.FilesystemType;
     throw new UnreachableCodeException();
   }
 
+  @Test public void testProgramUniformPutVector3fOptimizedOut()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything_opt");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programUniformPutVector3f("u_vf3_opt", new VectorI4F(
+          0.0f,
+          1.0f,
+          2.0f,
+          3.0f));
+      }
+    });
+
+    Assert.assertTrue(called.get());
+  }
+
+  @Test(expected = JCGLExceptionTypeError.class) public
+    void
+    testProgramUniformPutVector3fWrongType()
+      throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programUniformPutVector3f("u_vf2", new VectorI4F());
+      }
+    });
+
+    throw new UnreachableCodeException();
+  }
+
   @Test public void testProgramUniformPutVector3i()
     throws JCGLException
   {
@@ -2010,33 +2331,6 @@ import com.io7m.jvvfs.FilesystemType;
       {
         called.set(true);
         program.programUniformPutVector3i("u_vi3", new VectorI4I(0, 1, 2, 3));
-      }
-    });
-
-    Assert.assertTrue(called.get());
-  }
-
-  @Test public void testProgramUniformPutVector3iOptimizedOut()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything_opt");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programUniformPutVector3i("u_vi3_opt", new VectorI4I(
-          0,
-          1,
-          2,
-          3));
       }
     });
 
@@ -2127,6 +2421,33 @@ import com.io7m.jvvfs.FilesystemType;
     throw new UnreachableCodeException();
   }
 
+  @Test public void testProgramUniformPutVector3iOptimizedOut()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything_opt");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programUniformPutVector3i("u_vi3_opt", new VectorI4I(
+          0,
+          1,
+          2,
+          3));
+      }
+    });
+
+    Assert.assertTrue(called.get());
+  }
+
   @Test public void testProgramUniformPutVector4f()
     throws JCGLException
   {
@@ -2144,33 +2465,6 @@ import com.io7m.jvvfs.FilesystemType;
       {
         called.set(true);
         program.programUniformPutVector4f("u_vf4", new VectorI4F(
-          0.0f,
-          1.0f,
-          2.0f,
-          3.0f));
-      }
-    });
-
-    Assert.assertTrue(called.get());
-  }
-
-  @Test public void testProgramUniformPutVector4fOptimizedOut()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything_opt");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programUniformPutVector4f("u_vf4_opt", new VectorI4F(
           0.0f,
           1.0f,
           2.0f,
@@ -2265,6 +2559,58 @@ import com.io7m.jvvfs.FilesystemType;
     throw new UnreachableCodeException();
   }
 
+  @Test public void testProgramUniformPutVector4fOptimizedOut()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything_opt");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programUniformPutVector4f("u_vf4_opt", new VectorI4F(
+          0.0f,
+          1.0f,
+          2.0f,
+          3.0f));
+      }
+    });
+
+    Assert.assertTrue(called.get());
+  }
+
+  @Test(expected = JCGLExceptionTypeError.class) public
+    void
+    testProgramUniformPutVector4fWrongType()
+      throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programUniformPutVector4f("u_vf3", new VectorI4F());
+      }
+    });
+
+    throw new UnreachableCodeException();
+  }
+
   @Test public void testProgramUniformPutVector4i()
     throws JCGLException
   {
@@ -2282,33 +2628,6 @@ import com.io7m.jvvfs.FilesystemType;
       {
         called.set(true);
         program.programUniformPutVector4i("u_vi4", new VectorI4I(0, 1, 2, 3));
-      }
-    });
-
-    Assert.assertTrue(called.get());
-  }
-
-  @Test public void testProgramUniformPutVector4iOptimizedOut()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything_opt");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        program.programUniformPutVector4i("u_vi4_opt", new VectorI4I(
-          0,
-          1,
-          2,
-          3));
       }
     });
 
@@ -2397,6 +2716,33 @@ import com.io7m.jvvfs.FilesystemType;
     }
 
     throw new UnreachableCodeException();
+  }
+
+  @Test public void testProgramUniformPutVector4iOptimizedOut()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything_opt");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+        program.programUniformPutVector4i("u_vi4_opt", new VectorI4I(
+          0,
+          1,
+          2,
+          3));
+      }
+    });
+
+    Assert.assertTrue(called.get());
   }
 
   @Test public void testProgramUniformReuseAssigned()
@@ -2492,351 +2838,5 @@ import com.io7m.jvvfs.FilesystemType;
     });
 
     Assert.assertTrue(called.get());
-  }
-
-  @Test public void testProgramAttributeBind()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    final JCGLInterfaceCommonType gc = tc.getGLImplementation().getGLCommon();
-    final ArrayBufferType a = JCBExecutionContract.makeArrayBuffer(gc);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        gc.arrayBufferBind(a);
-        program.programAttributeBind("a_f", a.arrayGetAttribute("a_f"));
-        program.programAttributeBind("a_vf2", a.arrayGetAttribute("a_vf2"));
-        program.programAttributeBind("a_vf3", a.arrayGetAttribute("a_vf3"));
-        program.programAttributeBind("a_vf4", a.arrayGetAttribute("a_vf4"));
-      }
-    });
-
-    Assert.assertTrue(called.get());
-  }
-
-  @Test public void testProgramAttributeBindOptimizedOut()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything_opt");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    final JCGLInterfaceCommonType gc = tc.getGLImplementation().getGLCommon();
-    final ArrayBufferType a = JCBExecutionContract.makeArrayBuffer(gc);
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-        gc.arrayBufferBind(a);
-        program.programAttributeBind("a_f_opt", a.arrayGetAttribute("a_f"));
-        program.programAttributeBind(
-          "a_vf2_opt",
-          a.arrayGetAttribute("a_vf2"));
-        program.programAttributeBind(
-          "a_vf3_opt",
-          a.arrayGetAttribute("a_vf3"));
-        program.programAttributeBind(
-          "a_vf4_opt",
-          a.arrayGetAttribute("a_vf4"));
-      }
-    });
-
-    Assert.assertTrue(called.get());
-  }
-
-  @Test(expected = JCGLExceptionAttributeMissing.class) public
-    void
-    testProgramAttributeBindNonexistent()
-      throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "simple");
-
-    final ArrayBufferType a =
-      JCBExecutionContract.makeArrayBuffer(tc
-        .getGLImplementation()
-        .getGLCommon());
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        program.programAttributeBind(
-          "nonexistent",
-          a.arrayGetAttribute("a_f"));
-      }
-    });
-
-    throw new UnreachableCodeException();
-  }
-
-  @Test(expected = JCGLExceptionTypeError.class) public
-    void
-    testProgramAttributeBindWrongType()
-      throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything");
-
-    final ArrayBufferType a =
-      JCBExecutionContract.makeArrayBuffer(tc
-        .getGLImplementation()
-        .getGLCommon());
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        program.programAttributeBind("a_vf4", a.arrayGetAttribute("a_f"));
-      }
-    });
-
-    throw new UnreachableCodeException();
-  }
-
-  @Test(expected = NullCheckException.class) public
-    void
-    testProgramAttributeBindNull()
-      throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything");
-
-    final ArrayBufferType a =
-      JCBExecutionContract.makeArrayBuffer(tc
-        .getGLImplementation()
-        .getGLCommon());
-
-    try {
-      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-        @Override public void call(
-          final JCBProgramType program)
-          throws JCGLException,
-            Exception
-        {
-          program.programAttributeBind(
-            (String) TestUtilities.actuallyNull(),
-            a.arrayGetAttribute("a_f"));
-        }
-      });
-    } catch (final JCGLExceptionExecution e) {
-      final NullCheckException x = (NullCheckException) e.getCause();
-      throw x;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  @Test(expected = NullCheckException.class) public
-    void
-    testProgramAttributeBindNullValue()
-      throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything");
-
-    try {
-      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-        @Override public void call(
-          final JCBProgramType program)
-          throws JCGLException,
-            Exception
-        {
-          program.programAttributeBind(
-            "a_vf4",
-            (ArrayAttributeType) TestUtilities.actuallyNull());
-        }
-      });
-    } catch (final JCGLExceptionExecution e) {
-      final NullCheckException x = (NullCheckException) e.getCause();
-      throw x;
-    }
-
-    throw new UnreachableCodeException();
-  }
-
-  @Test public void testProgramAllAssigned()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything");
-    final AtomicBoolean called = new AtomicBoolean(false);
-
-    final JCGLInterfaceCommonType gc = tc.getGLImplementation().getGLCommon();
-    final ArrayBufferType a = JCBExecutionContract.makeArrayBuffer(gc);
-    final List<TextureUnitType> units = gc.textureGetUnits();
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-
-        gc.arrayBufferBind(a);
-
-        program.programAttributeBind("a_f", a.arrayGetAttribute("a_f"));
-        program.programAttributeBind("a_vf2", a.arrayGetAttribute("a_vf2"));
-        program.programAttributeBind("a_vf3", a.arrayGetAttribute("a_vf3"));
-        program.programAttributeBind("a_vf4", a.arrayGetAttribute("a_vf4"));
-
-        program.programUniformPutFloat("u_float", 23.0f);
-        program.programUniformPutVector2f("u_vf2", new VectorI4F());
-        program.programUniformPutVector3f("u_vf3", new VectorI4F());
-        program.programUniformPutVector4f("u_vf4", new VectorI4F());
-
-        program.programUniformPutInteger("u_int", 23);
-        program.programUniformPutVector2i("u_vi2", new VectorI4I());
-        program.programUniformPutVector3i("u_vi3", new VectorI4I());
-        program.programUniformPutVector4i("u_vi4", new VectorI4I());
-
-        program.programUniformPutMatrix3x3f("u_m3", new MatrixM3x3F());
-        program.programUniformPutMatrix4x4f("u_m4", new MatrixM4x4F());
-        program.programUniformPutTextureUnit("u_sampler2d", units.get(0));
-        program.programUniformPutTextureUnit("u_sampler_cube", units.get(0));
-
-        program.programValidate();
-      }
-    });
-
-    Assert.assertTrue(called.get());
-  }
-
-  @Test public void testProgramExecException()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "simple");
-    final AtomicBoolean caught = new AtomicBoolean(false);
-
-    final JCGLInterfaceCommonType gc = tc.getGLImplementation().getGLCommon();
-    final ArrayBufferType a = JCBExecutionContract.makeArrayBuffer(gc);
-
-    final IllegalArgumentException z =
-      new IllegalArgumentException("Caught!");
-
-    try {
-      pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-        @Override public void call(
-          final JCBProgramType program)
-          throws JCGLException,
-            Exception
-        {
-          gc.arrayBufferBind(a);
-          program.programAttributeBind(
-            "v_position",
-            a.arrayGetAttribute("a_vf3"));
-          program.programUniformPutVector4f("f_ccolour", new VectorI4F());
-          program.programUniformPutMatrix4x4f(
-            "m_projection",
-            new MatrixM4x4F());
-          program.programUniformPutMatrix4x4f(
-            "m_modelview",
-            new MatrixM4x4F());
-          program.programExecute(new JCBProgramProcedureType<Exception>() {
-            @Override public void call()
-              throws JCGLException,
-                Exception
-            {
-              throw z;
-            }
-          });
-        }
-      });
-    } catch (final JCGLExceptionExecution x) {
-      final Throwable k = x.getCause();
-      Assert.assertSame(z, k);
-      caught.set(true);
-    }
-
-    Assert.assertTrue(caught.get());
-  }
-
-  @Test public void testProgramAllAssignedExec()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-
-    final Pair<JCBExecutorType, LoadedShader> pair =
-      JCBExecutionContract.newProgram(tc, "everything");
-    final AtomicBoolean called = new AtomicBoolean(false);
-    final AtomicBoolean called_inner = new AtomicBoolean(false);
-
-    final JCGLInterfaceCommonType gc = tc.getGLImplementation().getGLCommon();
-    final ArrayBufferType a = JCBExecutionContract.makeArrayBuffer(gc);
-    final List<TextureUnitType> units = gc.textureGetUnits();
-
-    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
-      @Override public void call(
-        final JCBProgramType program)
-        throws JCGLException,
-          Exception
-      {
-        called.set(true);
-
-        gc.arrayBufferBind(a);
-
-        program.programAttributeBind("a_f", a.arrayGetAttribute("a_f"));
-        program.programAttributeBind("a_vf2", a.arrayGetAttribute("a_vf2"));
-        program.programAttributeBind("a_vf3", a.arrayGetAttribute("a_vf3"));
-        program.programAttributeBind("a_vf4", a.arrayGetAttribute("a_vf4"));
-
-        program.programUniformPutFloat("u_float", 23.0f);
-        program.programUniformPutVector2f("u_vf2", new VectorI4F());
-        program.programUniformPutVector3f("u_vf3", new VectorI4F());
-        program.programUniformPutVector4f("u_vf4", new VectorI4F());
-
-        program.programUniformPutInteger("u_int", 23);
-        program.programUniformPutVector2i("u_vi2", new VectorI4I());
-        program.programUniformPutVector3i("u_vi3", new VectorI4I());
-        program.programUniformPutVector4i("u_vi4", new VectorI4I());
-
-        program.programUniformPutMatrix3x3f("u_m3", new MatrixM3x3F());
-        program.programUniformPutMatrix4x4f("u_m4", new MatrixM4x4F());
-        program.programUniformPutTextureUnit("u_sampler2d", units.get(0));
-        program.programUniformPutTextureUnit("u_sampler_cube", units.get(0));
-
-        program.programExecute(new JCBProgramProcedureType<Exception>() {
-          @Override public void call()
-            throws JCGLException,
-              Exception
-          {
-            called_inner.set(true);
-          }
-        });
-      }
-    });
-
-    Assert.assertTrue(called.get());
-    Assert.assertTrue(called_inner.get());
   }
 }

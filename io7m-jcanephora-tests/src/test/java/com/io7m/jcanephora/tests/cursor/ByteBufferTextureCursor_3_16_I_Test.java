@@ -39,66 +39,12 @@ import com.io7m.jtensors.VectorM3L;
 
 @SuppressWarnings({ "static-method", "boxing", "null" }) public final class ByteBufferTextureCursor_3_16_I_Test
 {
-  @Test public void testReadWriteFL()
-  {
-    final ByteBuffer b = this.getNewAreaBuffer();
-    final AreaInclusive a = this.getArea();
-    final VectorM3D read_d = new VectorM3D();
-    final VectorM3L read_l = new VectorM3L();
-    final SpatialCursorReadable3Type r = this.getReadableCursor(b, a);
-    final SpatialCursorWritable3Type w = this.getWritableCursor(b, a);
-
-    for (int y = 0; y <= a.getRangeY().getUpper(); ++y) {
-      for (int x = 0; x <= a.getRangeX().getUpper(); ++x) {
-        Assert.assertTrue(w.isValid());
-        Assert.assertTrue(r.isValid());
-        Assert.assertEquals(x, r.getElementX());
-        Assert.assertEquals(y, r.getElementY());
-        Assert.assertEquals(x, w.getElementX());
-        Assert.assertEquals(y, w.getElementY());
-
-        w.seekTo(x, y);
-        w.put3l(new VectorI3L(0x7fff, -0x7fff, 0x7fff));
-
-        r.seekTo(x, y);
-        r.get3d(read_d);
-        Assert.assertEquals(1.0, read_d.getXD(), this.EPSILON);
-        Assert.assertEquals(-1.0, read_d.getYD(), this.EPSILON);
-        Assert.assertEquals(1.0, read_d.getZD(), this.EPSILON);
-
-        r.seekTo(x, y);
-        r.get3l(read_l);
-        Assert.assertEquals(0x7fff, read_l.getXL());
-        Assert.assertEquals(-0x7fff, read_l.getYL());
-        Assert.assertEquals(0x7fff, read_l.getZL());
-      }
-    }
-
-    Assert.assertFalse(w.isValid());
-    Assert.assertFalse(r.isValid());
-  }
-
   private final int    ELEMENT_COMPONENT_BYTES = 2;
+
   private final int    ELEMENT_COUNT           = 3;
   private final double EPSILON                 = 0.0001f;
   private final int    HEIGHT                  = 4;
   private final int    WIDTH                   = 4;
-
-  @Test(expected = RangeCheckException.class) public void testTooSmallW_0()
-  {
-    final ByteBuffer b = ByteBuffer.allocate(1);
-    final AreaInclusive area =
-      new AreaInclusive(new RangeInclusiveL(0, 0), new RangeInclusiveL(0, 0));
-    this.getWritableCursor(b, area);
-  }
-
-  @Test(expected = RangeCheckException.class) public void testTooSmallR_0()
-  {
-    final ByteBuffer b = ByteBuffer.allocate(1);
-    final AreaInclusive area =
-      new AreaInclusive(new RangeInclusiveL(0, 0), new RangeInclusiveL(0, 0));
-    this.getReadableCursor(b, area);
-  }
 
   private void dumpBuffer(
     final ByteBuffer b)
@@ -299,6 +245,45 @@ import com.io7m.jtensors.VectorM3L;
     Assert.assertFalse(r.isValid());
   }
 
+  @Test public void testReadWriteFL()
+  {
+    final ByteBuffer b = this.getNewAreaBuffer();
+    final AreaInclusive a = this.getArea();
+    final VectorM3D read_d = new VectorM3D();
+    final VectorM3L read_l = new VectorM3L();
+    final SpatialCursorReadable3Type r = this.getReadableCursor(b, a);
+    final SpatialCursorWritable3Type w = this.getWritableCursor(b, a);
+
+    for (int y = 0; y <= a.getRangeY().getUpper(); ++y) {
+      for (int x = 0; x <= a.getRangeX().getUpper(); ++x) {
+        Assert.assertTrue(w.isValid());
+        Assert.assertTrue(r.isValid());
+        Assert.assertEquals(x, r.getElementX());
+        Assert.assertEquals(y, r.getElementY());
+        Assert.assertEquals(x, w.getElementX());
+        Assert.assertEquals(y, w.getElementY());
+
+        w.seekTo(x, y);
+        w.put3l(new VectorI3L(0x7fff, -0x7fff, 0x7fff));
+
+        r.seekTo(x, y);
+        r.get3d(read_d);
+        Assert.assertEquals(1.0, read_d.getXD(), this.EPSILON);
+        Assert.assertEquals(-1.0, read_d.getYD(), this.EPSILON);
+        Assert.assertEquals(1.0, read_d.getZD(), this.EPSILON);
+
+        r.seekTo(x, y);
+        r.get3l(read_l);
+        Assert.assertEquals(0x7fff, read_l.getXL());
+        Assert.assertEquals(-0x7fff, read_l.getYL());
+        Assert.assertEquals(0x7fff, read_l.getZL());
+      }
+    }
+
+    Assert.assertFalse(w.isValid());
+    Assert.assertFalse(r.isValid());
+  }
+
   @Test public void testReadWriteFSub()
 
   {
@@ -352,5 +337,21 @@ import com.io7m.jtensors.VectorM3L;
 
     Assert.assertFalse(w.isValid());
     Assert.assertFalse(r.isValid());
+  }
+
+  @Test(expected = RangeCheckException.class) public void testTooSmallR_0()
+  {
+    final ByteBuffer b = ByteBuffer.allocate(1);
+    final AreaInclusive area =
+      new AreaInclusive(new RangeInclusiveL(0, 0), new RangeInclusiveL(0, 0));
+    this.getReadableCursor(b, area);
+  }
+
+  @Test(expected = RangeCheckException.class) public void testTooSmallW_0()
+  {
+    final ByteBuffer b = ByteBuffer.allocate(1);
+    final AreaInclusive area =
+      new AreaInclusive(new RangeInclusiveL(0, 0), new RangeInclusiveL(0, 0));
+    this.getWritableCursor(b, area);
   }
 }
