@@ -48,6 +48,7 @@ import com.io7m.jcanephora.RenderableStencilKind;
 import com.io7m.jcanephora.RenderbufferUsableType;
 import com.io7m.jcanephora.Texture2DStaticUsableType;
 import com.io7m.jcanephora.TextureCubeStaticUsableType;
+import com.io7m.jcanephora.TextureFormat;
 import com.io7m.jcanephora.TextureFormatMeta;
 import com.io7m.jcanephora.api.JCGLFramebuffersGL3Type;
 import com.io7m.jcanephora.api.JCGLMetaType;
@@ -143,8 +144,7 @@ final class JOGLFramebuffersGL2GL3 extends JOGLFramebuffersAbstract implements
 
     final int mask =
       JOGLTypeConversions.framebufferBlitBufferSetToMask(buffers);
-    final int filteri =
-      JOGLTypeConversions.framebufferBlitFilterToGL(filter);
+    final int filteri = JOGLTypeConversions.framebufferBlitFilterToGL(filter);
 
     this.g.glBlitFramebuffer(
       src_x0,
@@ -529,6 +529,52 @@ final class JOGLFramebuffersGL2GL3 extends JOGLFramebuffersAbstract implements
       GL.GL_STENCIL_ATTACHMENT,
       GL.GL_RENDERBUFFER,
       renderbuffer.getGLName());
+    JOGLErrors.check(this.g);
+  }
+
+  @Override public void framebufferDrawAttachDepthStencilTexture2D(
+    final FramebufferType framebuffer,
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
+  {
+    this.checkFramebufferAndDrawIsBound(framebuffer);
+    JOGLTextures2DStaticAbstract.checkTexture(this.ctx, texture);
+
+    if (texture.textureGetFormat() != TextureFormat.TEXTURE_FORMAT_DEPTH_24_STENCIL_8_4BPP) {
+      final String s =
+        String.format(
+          "Texture %s is not of a depth+stencil renderable format",
+          texture);
+      assert s != null;
+      throw new JCGLExceptionFormatError(s);
+    }
+
+    final LogType logx = this.getLog();
+    final StringBuilder text = this.getTcache().getTextCache();
+    if (logx.wouldLog(LogLevel.LOG_DEBUG)) {
+      text.setLength(0);
+      text.append("attach ");
+      text.append(framebuffer);
+      text.append(" ");
+      text.append(texture);
+      text.append(" at depth+stencil attachment");
+      final String r = text.toString();
+      assert r != null;
+      logx.debug(r);
+    }
+
+    this.g.glFramebufferTexture2D(
+      GL2ES3.GL_DRAW_FRAMEBUFFER,
+      GL.GL_DEPTH_ATTACHMENT,
+      GL.GL_TEXTURE_2D,
+      texture.getGLName(),
+      0);
+    this.g.glFramebufferTexture2D(
+      GL2ES3.GL_DRAW_FRAMEBUFFER,
+      GL.GL_STENCIL_ATTACHMENT,
+      GL.GL_TEXTURE_2D,
+      texture.getGLName(),
+      0);
     JOGLErrors.check(this.g);
   }
 

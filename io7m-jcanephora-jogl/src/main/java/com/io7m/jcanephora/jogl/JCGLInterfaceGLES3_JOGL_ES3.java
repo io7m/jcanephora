@@ -794,6 +794,16 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
       renderbuffer);
   }
 
+  @Override public void framebufferDrawAttachDepthStencilTexture2D(
+    final FramebufferType framebuffer,
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
+  {
+    this.framebuffers.framebufferDrawAttachDepthStencilTexture2D(
+      framebuffer,
+      texture);
+  }
+
   @Override public void framebufferDrawAttachDepthTexture2D(
     final FramebufferType framebuffer,
     final Texture2DStaticUsableType texture)

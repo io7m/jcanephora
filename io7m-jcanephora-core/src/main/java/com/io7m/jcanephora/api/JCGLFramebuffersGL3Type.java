@@ -38,6 +38,29 @@ public interface JCGLFramebuffersGL3Type extends
   JCGLFramebuffersGLES2Type,
   JCGLFramebuffersReadGL3Type
 {
+
+  /**
+   * <p>
+   * Attach the given depth+stencil texture <code>texture</code> to the
+   * framebuffer <code>framebuffer</code>.
+   * </p>
+   * <p>
+   * The function will replace any existing depth+stencil attachment.
+   * </p>
+   * 
+   * @param framebuffer
+   *          The framebuffer.
+   * @param texture
+   *          The texture.
+   * @throws JCGLException
+   *           Iff an OpenGL exception occurs.
+   */
+
+  void framebufferDrawAttachDepthStencilTexture2D(
+    final FramebufferType framebuffer,
+    final Texture2DStaticUsableType texture)
+    throws JCGLException;
+
   /**
    * <p>
    * Attach the given color renderbuffer <code>renderbuffer</code> to the
