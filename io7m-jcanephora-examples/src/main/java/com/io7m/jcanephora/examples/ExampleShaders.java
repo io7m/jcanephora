@@ -184,20 +184,6 @@ public final class ExampleShaders implements Example
     this.gl.indexBufferUpdate(this.indices_data);
   }
 
-  private List<String> readFileLines(
-    final PathVirtual p)
-    throws FilesystemError,
-      IOException
-  {
-    final FilesystemType fs = this.config.getFilesystem();
-    final InputStream s = fs.openFile(p);
-    try {
-      return ShaderUtilities.readLines(s);
-    } finally {
-      s.close();
-    }
-  }
-
   @Override public void display()
     throws JCGLException
   {
@@ -298,6 +284,20 @@ public final class ExampleShaders implements Example
   @Override public boolean hasShutDown()
   {
     return this.has_shut_down;
+  }
+
+  private List<String> readFileLines(
+    final PathVirtual p)
+    throws FilesystemError,
+      IOException
+  {
+    final FilesystemType fs = this.config.getFilesystem();
+    final InputStream s = fs.openFile(p);
+    try {
+      return ShaderUtilities.readLines(s);
+    } finally {
+      s.close();
+    }
   }
 
   @Override public void reshape(

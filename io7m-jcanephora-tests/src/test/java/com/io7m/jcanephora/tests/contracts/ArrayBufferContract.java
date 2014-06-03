@@ -135,26 +135,51 @@ public abstract class ArrayBufferContract implements TestContract
     gl.arrayBufferAllocate(0, d, UsageHint.USAGE_STATIC_DRAW);
   }
 
-  @Test public final void testArrayBufferBindOK()
+  @Test public final void testArrayBufferAttributes()
     throws JCGLException
   {
     final TestContext tc = this.newTestContext();
     final JCGLArrayBuffersType gl = this.getGLArrayBuffers(tc);
 
-    final ArrayDescriptorBuilderType b = ArrayDescriptor.newBuilder();
-    b.addAttribute(ArrayAttributeDescriptor.newAttribute(
+    final ArrayDescriptorBuilderType ab = ArrayDescriptor.newBuilder();
+    ab.addAttribute(ArrayAttributeDescriptor.newAttribute(
       "position",
-      JCGLScalarType.TYPE_FLOAT,
+      JCGLScalarType.TYPE_SHORT,
       3));
-    final ArrayDescriptor d = b.build();
+    ab.addAttribute(ArrayAttributeDescriptor.newAttribute(
+      "normal",
+      JCGLScalarType.TYPE_SHORT,
+      3));
+    ab.addAttribute(ArrayAttributeDescriptor.newAttribute(
+      "color",
+      JCGLScalarType.TYPE_SHORT,
+      3));
+    final ArrayDescriptor ad = ab.build();
+    Assert.assertEquals(0, ad.getAttributeOffset("position"));
+    Assert.assertEquals(6, ad.getAttributeOffset("normal"));
+    Assert.assertEquals(12, ad.getAttributeOffset("color"));
+    Assert.assertEquals(18, ad.getElementSizeBytes());
 
     final ArrayBufferType a =
-      gl.arrayBufferAllocate(1, d, UsageHint.USAGE_STATIC_DRAW);
+      gl.arrayBufferAllocate(3, ad, UsageHint.USAGE_STATIC_DRAW);
 
-    gl.arrayBufferBind(a);
-    Assert.assertTrue(gl.arrayBufferIsBound(a));
-    gl.arrayBufferUnbind();
-    Assert.assertFalse(gl.arrayBufferIsBound(a));
+    {
+      final ArrayAttributeType aa = a.arrayGetAttribute("position");
+      Assert.assertEquals(a, aa.getArray());
+      Assert.assertEquals("position", aa.getDescriptor().getName());
+    }
+
+    {
+      final ArrayAttributeType aa = a.arrayGetAttribute("normal");
+      Assert.assertEquals(a, aa.getArray());
+      Assert.assertEquals("normal", aa.getDescriptor().getName());
+    }
+
+    {
+      final ArrayAttributeType aa = a.arrayGetAttribute("color");
+      Assert.assertEquals(a, aa.getArray());
+      Assert.assertEquals("color", aa.getDescriptor().getName());
+    }
   }
 
   @Test(expected = JCGLExceptionDeleted.class) public final
@@ -193,6 +218,28 @@ public abstract class ArrayBufferContract implements TestContract
     final JCGLArrayBuffersType gl = this.getGLArrayBuffers(tc);
 
     gl.arrayBufferBind((ArrayBufferUsableType) TestUtilities.actuallyNull());
+  }
+
+  @Test public final void testArrayBufferBindOK()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLArrayBuffersType gl = this.getGLArrayBuffers(tc);
+
+    final ArrayDescriptorBuilderType b = ArrayDescriptor.newBuilder();
+    b.addAttribute(ArrayAttributeDescriptor.newAttribute(
+      "position",
+      JCGLScalarType.TYPE_FLOAT,
+      3));
+    final ArrayDescriptor d = b.build();
+
+    final ArrayBufferType a =
+      gl.arrayBufferAllocate(1, d, UsageHint.USAGE_STATIC_DRAW);
+
+    gl.arrayBufferBind(a);
+    Assert.assertTrue(gl.arrayBufferIsBound(a));
+    gl.arrayBufferUnbind();
+    Assert.assertFalse(gl.arrayBufferIsBound(a));
   }
 
   @Test(expected = JCGLExceptionWrongContext.class) public final
@@ -307,93 +354,6 @@ public abstract class ArrayBufferContract implements TestContract
     gl.arrayBufferIsBound(a);
   }
 
-  @Test public final void testArrayBufferAttributes()
-    throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLArrayBuffersType gl = this.getGLArrayBuffers(tc);
-
-    final ArrayDescriptorBuilderType ab = ArrayDescriptor.newBuilder();
-    ab.addAttribute(ArrayAttributeDescriptor.newAttribute(
-      "position",
-      JCGLScalarType.TYPE_SHORT,
-      3));
-    ab.addAttribute(ArrayAttributeDescriptor.newAttribute(
-      "normal",
-      JCGLScalarType.TYPE_SHORT,
-      3));
-    ab.addAttribute(ArrayAttributeDescriptor.newAttribute(
-      "color",
-      JCGLScalarType.TYPE_SHORT,
-      3));
-    final ArrayDescriptor ad = ab.build();
-    Assert.assertEquals(0, ad.getAttributeOffset("position"));
-    Assert.assertEquals(6, ad.getAttributeOffset("normal"));
-    Assert.assertEquals(12, ad.getAttributeOffset("color"));
-    Assert.assertEquals(18, ad.getElementSizeBytes());
-
-    final ArrayBufferType a =
-      gl.arrayBufferAllocate(3, ad, UsageHint.USAGE_STATIC_DRAW);
-
-    {
-      final ArrayAttributeType aa = a.arrayGetAttribute("position");
-      Assert.assertEquals(a, aa.getArray());
-      Assert.assertEquals("position", aa.getDescriptor().getName());
-    }
-
-    {
-      final ArrayAttributeType aa = a.arrayGetAttribute("normal");
-      Assert.assertEquals(a, aa.getArray());
-      Assert.assertEquals("normal", aa.getDescriptor().getName());
-    }
-
-    {
-      final ArrayAttributeType aa = a.arrayGetAttribute("color");
-      Assert.assertEquals(a, aa.getArray());
-      Assert.assertEquals("color", aa.getDescriptor().getName());
-    }
-  }
-
-  @Test(expected = NullCheckException.class) public final
-    void
-    testArrayBufferUpdateNull_0()
-      throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLArrayBuffersType gl = this.getGLArrayBuffers(tc);
-
-    gl.arrayBufferUpdate((ArrayBufferUpdateUnmappedType) TestUtilities
-      .actuallyNull());
-  }
-
-  @Test(expected = NullCheckException.class) public final
-    void
-    testArrayBufferUpdateNull_1()
-      throws JCGLException
-  {
-    final TestContext tc = this.newTestContext();
-    final JCGLArrayBuffersType gl = this.getGLArrayBuffers(tc);
-
-    ArrayBufferType a = null;
-
-    try {
-      final ArrayDescriptorBuilderType b = ArrayDescriptor.newBuilder();
-      b.addAttribute(ArrayAttributeDescriptor.newAttribute(
-        "position",
-        JCGLScalarType.TYPE_FLOAT,
-        3));
-      final ArrayDescriptor d = b.build();
-
-      a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
-    } catch (final Throwable x) {
-      throw new UnreachableCodeException(x);
-    }
-
-    ArrayBufferUpdateUnmapped.newUpdateReplacingRange(
-      a,
-      (RangeInclusiveL) TestUtilities.actuallyNull());
-  }
-
   @Test(expected = JCGLExceptionDeleted.class) public final
     void
     testArrayBufferUpdateDeleted_0()
@@ -449,6 +409,46 @@ public abstract class ArrayBufferContract implements TestContract
     }
 
     ArrayBufferUpdateUnmapped.newUpdateReplacingAll(a);
+  }
+
+  @Test(expected = NullCheckException.class) public final
+    void
+    testArrayBufferUpdateNull_0()
+      throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLArrayBuffersType gl = this.getGLArrayBuffers(tc);
+
+    gl.arrayBufferUpdate((ArrayBufferUpdateUnmappedType) TestUtilities
+      .actuallyNull());
+  }
+
+  @Test(expected = NullCheckException.class) public final
+    void
+    testArrayBufferUpdateNull_1()
+      throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+    final JCGLArrayBuffersType gl = this.getGLArrayBuffers(tc);
+
+    ArrayBufferType a = null;
+
+    try {
+      final ArrayDescriptorBuilderType b = ArrayDescriptor.newBuilder();
+      b.addAttribute(ArrayAttributeDescriptor.newAttribute(
+        "position",
+        JCGLScalarType.TYPE_FLOAT,
+        3));
+      final ArrayDescriptor d = b.build();
+
+      a = gl.arrayBufferAllocate(10, d, UsageHint.USAGE_STATIC_DRAW);
+    } catch (final Throwable x) {
+      throw new UnreachableCodeException(x);
+    }
+
+    ArrayBufferUpdateUnmapped.newUpdateReplacingRange(
+      a,
+      (RangeInclusiveL) TestUtilities.actuallyNull());
   }
 
   @Test public final void testArrayBufferUpdateOK_0()

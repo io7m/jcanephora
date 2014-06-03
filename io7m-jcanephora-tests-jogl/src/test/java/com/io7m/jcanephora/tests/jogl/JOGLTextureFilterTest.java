@@ -35,8 +35,7 @@ import com.io7m.junreachable.UnreachableCodeException;
     for (final TextureFilterMagnification f : TextureFilterMagnification
       .values()) {
       Assert.assertEquals(f, JOGLTypeConversions
-        .textureFilterMagFromGL(JOGLTypeConversions
-          .textureFilterMagToGL(f)));
+        .textureFilterMagFromGL(JOGLTypeConversions.textureFilterMagToGL(f)));
     }
   }
 
@@ -49,8 +48,7 @@ import com.io7m.junreachable.UnreachableCodeException;
     for (final TextureFilterMinification f : TextureFilterMinification
       .values()) {
       Assert.assertEquals(f, JOGLTypeConversions
-        .textureFilterMinFromGL(JOGLTypeConversions
-          .textureFilterMinToGL(f)));
+        .textureFilterMinFromGL(JOGLTypeConversions.textureFilterMinToGL(f)));
     }
   }
 

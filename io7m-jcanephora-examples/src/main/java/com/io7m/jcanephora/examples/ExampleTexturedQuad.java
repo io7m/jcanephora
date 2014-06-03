@@ -80,6 +80,7 @@ import com.io7m.jvvfs.PathVirtual;
   private final ArrayBufferUpdateUnmappedType array_data;
   private final ArrayDescriptor               array_type;
   private final ExampleConfig                 config;
+  private final JCGLImplementationType        gl;
   private final JCGLInterfaceCommonType       glc;
   private boolean                             has_shut_down;
   private final IndexBufferType               indices;
@@ -90,7 +91,6 @@ import com.io7m.jvvfs.PathVirtual;
   private final Texture2DStaticType           texture;
   private final List<TextureUnitType>         texture_units;
   private final Texture2DStaticUpdateType     texture_update;
-  private final JCGLImplementationType        gl;
 
   public ExampleTexturedQuad(
     final ExampleConfig config1)
@@ -135,34 +135,6 @@ import com.io7m.jvvfs.PathVirtual;
     this.texture =
       this.gl
         .implementationAccept(new JCGLImplementationVisitorType<Texture2DStaticType, JCGLException>() {
-          @Override public Texture2DStaticType implementationIsGLES2(
-            final JCGLInterfaceGLES2Type gles2)
-            throws JCGLException
-          {
-            return gles2.texture2DStaticAllocateRGB565(
-              "gradient",
-              64,
-              64,
-              TextureWrapS.TEXTURE_WRAP_REPEAT,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-          }
-
-          @Override public Texture2DStaticType implementationIsGLES3(
-            final JCGLInterfaceGLES3Type gles3)
-            throws JCGLException
-          {
-            return gles3.texture2DStaticAllocateRGB8(
-              "gradient",
-              64,
-              64,
-              TextureWrapS.TEXTURE_WRAP_REPEAT,
-              TextureWrapT.TEXTURE_WRAP_REPEAT,
-              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
-              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
-          }
-
           @Override public Texture2DStaticType implementationIsGL2(
             final JCGLInterfaceGL2Type gl2)
             throws JCGLException
@@ -182,6 +154,34 @@ import com.io7m.jvvfs.PathVirtual;
             throws JCGLException
           {
             return gl3.texture2DStaticAllocateRGB8(
+              "gradient",
+              64,
+              64,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          }
+
+          @Override public Texture2DStaticType implementationIsGLES2(
+            final JCGLInterfaceGLES2Type gles2)
+            throws JCGLException
+          {
+            return gles2.texture2DStaticAllocateRGB565(
+              "gradient",
+              64,
+              64,
+              TextureWrapS.TEXTURE_WRAP_REPEAT,
+              TextureWrapT.TEXTURE_WRAP_REPEAT,
+              TextureFilterMinification.TEXTURE_FILTER_NEAREST,
+              TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
+          }
+
+          @Override public Texture2DStaticType implementationIsGLES3(
+            final JCGLInterfaceGLES3Type gles3)
+            throws JCGLException
+          {
+            return gles3.texture2DStaticAllocateRGB8(
               "gradient",
               64,
               64,

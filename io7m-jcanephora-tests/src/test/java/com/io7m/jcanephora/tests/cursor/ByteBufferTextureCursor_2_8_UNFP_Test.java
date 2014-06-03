@@ -44,59 +44,6 @@ import com.io7m.jtensors.VectorM2L;
   private final int    HEIGHT                  = 4;
   private final int    WIDTH                   = 4;
 
-  @Test public void testReadWriteFL()
-  {
-    final ByteBuffer b = this.getNewAreaBuffer();
-    final AreaInclusive a = this.getArea();
-    final VectorM2D read_d = new VectorM2D();
-    final VectorM2L read_l = new VectorM2L();
-    final SpatialCursorReadable2Type r = this.getReadableCursor(b, a);
-    final SpatialCursorWritable2Type w = this.getWritableCursor(b, a);
-
-    for (int y = 0; y <= a.getRangeY().getUpper(); ++y) {
-      for (int x = 0; x <= a.getRangeX().getUpper(); ++x) {
-        Assert.assertTrue(w.isValid());
-        Assert.assertTrue(r.isValid());
-        Assert.assertEquals(x, r.getElementX());
-        Assert.assertEquals(y, r.getElementY());
-        Assert.assertEquals(x, w.getElementX());
-        Assert.assertEquals(y, w.getElementY());
-
-        w.seekTo(x, y);
-        w.put2l(new VectorI3L(0xff, 0xff, 0xff));
-
-        r.seekTo(x, y);
-        r.get2d(read_d);
-        Assert.assertEquals(1.0, read_d.getXD(), this.EPSILON);
-        Assert.assertEquals(1.0, read_d.getYD(), this.EPSILON);
-
-        r.seekTo(x, y);
-        r.get2l(read_l);
-        Assert.assertEquals(0xff, read_l.getXL());
-        Assert.assertEquals(0xff, read_l.getYL());
-      }
-    }
-
-    Assert.assertFalse(w.isValid());
-    Assert.assertFalse(r.isValid());
-  }
-
-  @Test(expected = RangeCheckException.class) public void testTooSmallW_0()
-  {
-    final ByteBuffer b = ByteBuffer.allocate(0);
-    final AreaInclusive area =
-      new AreaInclusive(new RangeInclusiveL(0, 0), new RangeInclusiveL(0, 0));
-    this.getWritableCursor(b, area);
-  }
-
-  @Test(expected = RangeCheckException.class) public void testTooSmallR_0()
-  {
-    final ByteBuffer b = ByteBuffer.allocate(0);
-    final AreaInclusive area =
-      new AreaInclusive(new RangeInclusiveL(0, 0), new RangeInclusiveL(0, 0));
-    this.getReadableCursor(b, area);
-  }
-
   private void dumpBuffer(
     final ByteBuffer b)
   {
@@ -269,6 +216,43 @@ import com.io7m.jtensors.VectorM2L;
     Assert.assertFalse(r.isValid());
   }
 
+  @Test public void testReadWriteFL()
+  {
+    final ByteBuffer b = this.getNewAreaBuffer();
+    final AreaInclusive a = this.getArea();
+    final VectorM2D read_d = new VectorM2D();
+    final VectorM2L read_l = new VectorM2L();
+    final SpatialCursorReadable2Type r = this.getReadableCursor(b, a);
+    final SpatialCursorWritable2Type w = this.getWritableCursor(b, a);
+
+    for (int y = 0; y <= a.getRangeY().getUpper(); ++y) {
+      for (int x = 0; x <= a.getRangeX().getUpper(); ++x) {
+        Assert.assertTrue(w.isValid());
+        Assert.assertTrue(r.isValid());
+        Assert.assertEquals(x, r.getElementX());
+        Assert.assertEquals(y, r.getElementY());
+        Assert.assertEquals(x, w.getElementX());
+        Assert.assertEquals(y, w.getElementY());
+
+        w.seekTo(x, y);
+        w.put2l(new VectorI3L(0xff, 0xff, 0xff));
+
+        r.seekTo(x, y);
+        r.get2d(read_d);
+        Assert.assertEquals(1.0, read_d.getXD(), this.EPSILON);
+        Assert.assertEquals(1.0, read_d.getYD(), this.EPSILON);
+
+        r.seekTo(x, y);
+        r.get2l(read_l);
+        Assert.assertEquals(0xff, read_l.getXL());
+        Assert.assertEquals(0xff, read_l.getYL());
+      }
+    }
+
+    Assert.assertFalse(w.isValid());
+    Assert.assertFalse(r.isValid());
+  }
+
   @Test public void testReadWriteFSub()
 
   {
@@ -320,5 +304,21 @@ import com.io7m.jtensors.VectorM2L;
 
     Assert.assertFalse(w.isValid());
     Assert.assertFalse(r.isValid());
+  }
+
+  @Test(expected = RangeCheckException.class) public void testTooSmallR_0()
+  {
+    final ByteBuffer b = ByteBuffer.allocate(0);
+    final AreaInclusive area =
+      new AreaInclusive(new RangeInclusiveL(0, 0), new RangeInclusiveL(0, 0));
+    this.getReadableCursor(b, area);
+  }
+
+  @Test(expected = RangeCheckException.class) public void testTooSmallW_0()
+  {
+    final ByteBuffer b = ByteBuffer.allocate(0);
+    final AreaInclusive area =
+      new AreaInclusive(new RangeInclusiveL(0, 0), new RangeInclusiveL(0, 0));
+    this.getWritableCursor(b, area);
   }
 }

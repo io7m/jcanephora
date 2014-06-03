@@ -32,9 +32,10 @@ import com.io7m.junreachable.UnreachableCodeException;
   @Test public void testBijection()
   {
     for (final BlendEquationGLES2 f : BlendEquationGLES2.values()) {
-      Assert.assertEquals(JOGLTypeConversions
-        .blendEquationES2FromGL(JOGLTypeConversions
-          .blendEquationES2ToGL(f)), f);
+      Assert.assertEquals(
+        JOGLTypeConversions.blendEquationES2FromGL(JOGLTypeConversions
+          .blendEquationES2ToGL(f)),
+        f);
     }
   }
 

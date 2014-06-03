@@ -63,15 +63,15 @@ public final class JCBExecutor implements JCBExecutorType
     private final String                         string;
     private final JCGLType                       type;
 
-    boolean isAssigned()
+    AttributeState(
+      final String in_name,
+      final JCGLType in_type,
+      final @Nullable ProgramAttributeType in_attribute)
     {
-      return this.assigned;
-    }
-
-    void setAssigned(
-      final boolean b)
-    {
-      this.assigned = b;
+      this.name = in_name;
+      this.type = in_type;
+      this.actual = in_attribute;
+      this.string = this.memoToString();
     }
 
     @Nullable ProgramAttributeType getActual()
@@ -89,15 +89,9 @@ public final class JCBExecutor implements JCBExecutorType
       return this.type;
     }
 
-    AttributeState(
-      final String in_name,
-      final JCGLType in_type,
-      final @Nullable ProgramAttributeType in_attribute)
+    boolean isAssigned()
     {
-      this.name = in_name;
-      this.type = in_type;
-      this.actual = in_attribute;
-      this.string = this.memoToString();
+      return this.assigned;
     }
 
     private String memoToString()
@@ -114,6 +108,12 @@ public final class JCBExecutor implements JCBExecutorType
       final String r = m.toString();
       assert r != null;
       return r;
+    }
+
+    void setAssigned(
+      final boolean b)
+    {
+      this.assigned = b;
     }
 
     @Override public String toString()
@@ -932,27 +932,15 @@ public final class JCBExecutor implements JCBExecutorType
     private final String                       string;
     private final JCGLType                     type;
 
-    boolean isAssigned()
+    UniformState(
+      final String in_name,
+      final JCGLType in_type,
+      final @Nullable ProgramUniformType in_actual)
     {
-      return this.assigned;
-    }
-
-    void setAssignedEver(
-      final boolean b)
-    {
-      this.assigned_ever = b;
-    }
-
-    void setAssigned(
-      final boolean e)
-    {
-      this.assigned = e;
-      this.assigned_ever = this.assigned_ever || e;
-    }
-
-    boolean isAssignedEver()
-    {
-      return this.assigned_ever;
+      this.name = in_name;
+      this.type = in_type;
+      this.actual = in_actual;
+      this.string = this.memoToString();
     }
 
     @Nullable ProgramUniformType getActual()
@@ -970,15 +958,14 @@ public final class JCBExecutor implements JCBExecutorType
       return this.type;
     }
 
-    UniformState(
-      final String in_name,
-      final JCGLType in_type,
-      final @Nullable ProgramUniformType in_actual)
+    boolean isAssigned()
     {
-      this.name = in_name;
-      this.type = in_type;
-      this.actual = in_actual;
-      this.string = this.memoToString();
+      return this.assigned;
+    }
+
+    boolean isAssignedEver()
+    {
+      return this.assigned_ever;
     }
 
     private String memoToString()
@@ -995,6 +982,19 @@ public final class JCBExecutor implements JCBExecutorType
       final String r = m.toString();
       assert r != null;
       return r;
+    }
+
+    void setAssigned(
+      final boolean e)
+    {
+      this.assigned = e;
+      this.assigned_ever = this.assigned_ever || e;
+    }
+
+    void setAssignedEver(
+      final boolean b)
+    {
+      this.assigned_ever = b;
     }
 
     @Override public String toString()

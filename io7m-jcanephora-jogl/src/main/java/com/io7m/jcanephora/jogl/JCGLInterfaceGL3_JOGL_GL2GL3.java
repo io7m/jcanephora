@@ -863,6 +863,16 @@ final class JCGLInterfaceGL3_JOGL_GL2GL3 implements JCGLInterfaceGL3Type
       renderbuffer);
   }
 
+  @Override public void framebufferDrawAttachDepthStencilTexture2D(
+    final FramebufferType framebuffer,
+    final Texture2DStaticUsableType texture)
+    throws JCGLException
+  {
+    this.framebuffers.framebufferDrawAttachDepthStencilTexture2D(
+      framebuffer,
+      texture);
+  }
+
   @Override public void framebufferDrawAttachDepthTexture2D(
     final FramebufferType framebuffer,
     final Texture2DStaticUsableType texture)
@@ -3425,15 +3435,5 @@ final class JCGLInterfaceGL3_JOGL_GL2GL3 implements JCGLInterfaceGL3Type
     throws JCGLExceptionRuntime
   {
     this.viewport.viewportSet(area);
-  }
-
-  @Override public void framebufferDrawAttachDepthStencilTexture2D(
-    final FramebufferType framebuffer,
-    final Texture2DStaticUsableType texture)
-    throws JCGLException
-  {
-    this.framebuffers.framebufferDrawAttachDepthStencilTexture2D(
-      framebuffer,
-      texture);
   }
 }

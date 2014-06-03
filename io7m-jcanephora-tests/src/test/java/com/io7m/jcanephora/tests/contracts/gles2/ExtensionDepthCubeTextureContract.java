@@ -37,15 +37,15 @@ import com.io7m.jfunctional.Some;
 public abstract class ExtensionDepthCubeTextureContract implements
   TestContract
 {
-  public abstract
-    OptionType<JCGLExtensionDepthCubeTextureType>
-    getExtensionDepthCubeTexture(
-      final TestContext tc);
-
   @Before public final void checkSupport()
   {
     Assume.assumeTrue(this.isGLSupported());
   }
+
+  public abstract
+    OptionType<JCGLExtensionDepthCubeTextureType>
+    getExtensionDepthCubeTexture(
+      final TestContext tc);
 
   @Test public void testAllocation()
     throws JCGLException

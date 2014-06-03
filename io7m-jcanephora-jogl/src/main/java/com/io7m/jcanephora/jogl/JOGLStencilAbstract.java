@@ -152,8 +152,7 @@ abstract class JOGLStencilAbstract implements JCGLStencilBufferType
     NullCheck.notNull(pass, "Pass operation");
 
     final GL2ES2 g2 = this.gl.getGL2ES2();
-    final int sfail =
-      JOGLTypeConversions.stencilOperationToGL(stencil_fail);
+    final int sfail = JOGLTypeConversions.stencilOperationToGL(stencil_fail);
     final int dfail = JOGLTypeConversions.stencilOperationToGL(depth_fail);
     final int dpass = JOGLTypeConversions.stencilOperationToGL(pass);
     g2.glStencilOpSeparate(

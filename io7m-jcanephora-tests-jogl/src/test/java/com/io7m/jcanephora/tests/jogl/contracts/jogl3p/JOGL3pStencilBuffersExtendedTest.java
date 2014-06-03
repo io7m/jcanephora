@@ -26,16 +26,6 @@ import com.io7m.jcanephora.tests.jogl.JOGLTestContextUtilities;
 public final class JOGL3pStencilBuffersExtendedTest extends
   StencilBuffersExtendedGL3ES3Contract
 {
-  @Override public boolean isGLSupported()
-  {
-    return JOGLTestContext.isOpenGL3pSupported();
-  }
-
-  @Override public TestContext newTestContext()
-  {
-    return JOGLTestContext.makeContextWithOpenGL3_p();
-  }
-
   @Override protected JCGLFramebuffersGL3Type getFramebuffersGL3(
     final TestContext tc)
   {
@@ -46,5 +36,15 @@ public final class JOGL3pStencilBuffersExtendedTest extends
     final TestContext tc)
   {
     return JOGLTestContextUtilities.getGL3(tc);
+  }
+
+  @Override public boolean isGLSupported()
+  {
+    return JOGLTestContext.isOpenGL3pSupported();
+  }
+
+  @Override public TestContext newTestContext()
+  {
+    return JOGLTestContext.makeContextWithOpenGL3_p();
   }
 }

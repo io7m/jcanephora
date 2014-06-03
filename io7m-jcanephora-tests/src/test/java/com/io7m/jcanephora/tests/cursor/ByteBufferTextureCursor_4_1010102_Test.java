@@ -38,48 +38,8 @@ import com.io7m.jtensors.VectorM4L;
 
 @SuppressWarnings({ "static-method", "boxing", "null" }) public final class ByteBufferTextureCursor_4_1010102_Test
 {
-  @Test public void testReadWriteFL()
-  {
-    final ByteBuffer b = this.getNewAreaBuffer();
-    final AreaInclusive a = this.getArea();
-    final VectorM4D read_d = new VectorM4D();
-    final VectorM4L read_l = new VectorM4L();
-    final SpatialCursorReadable4Type r = this.getReadableCursor(b, a);
-    final SpatialCursorWritable4Type w = this.getWritableCursor(b, a);
-
-    for (int y = 0; y <= a.getRangeY().getUpper(); ++y) {
-      for (int x = 0; x <= a.getRangeX().getUpper(); ++x) {
-        Assert.assertTrue(w.isValid());
-        Assert.assertTrue(r.isValid());
-        Assert.assertEquals(x, r.getElementX());
-        Assert.assertEquals(y, r.getElementY());
-        Assert.assertEquals(x, w.getElementX());
-        Assert.assertEquals(y, w.getElementY());
-
-        w.seekTo(x, y);
-        w.put4l(new VectorI4L(0x3ff, 0x3ff, 0x3ff, 0x3));
-
-        r.seekTo(x, y);
-        r.get4d(read_d);
-        Assert.assertEquals(1.0, read_d.getXD(), this.EPSILON);
-        Assert.assertEquals(1.0, read_d.getYD(), this.EPSILON);
-        Assert.assertEquals(1.0, read_d.getZD(), this.EPSILON);
-        Assert.assertEquals(1.0, read_d.getWD(), this.EPSILON);
-
-        r.seekTo(x, y);
-        r.get4l(read_l);
-        Assert.assertEquals(0x3ff, read_l.getXL());
-        Assert.assertEquals(0x3ff, read_l.getYL());
-        Assert.assertEquals(0x3ff, read_l.getZL());
-        Assert.assertEquals(0x3, read_l.getWL());
-      }
-    }
-
-    Assert.assertFalse(w.isValid());
-    Assert.assertFalse(r.isValid());
-  }
-
   private final int    ELEMENT_COMPONENT_BYTES = 4;
+
   private final int    ELEMENT_COUNT           = 1;
   private final double EPSILON                 = 0.001;
   private final int    HEIGHT                  = 4;
@@ -265,6 +225,47 @@ import com.io7m.jtensors.VectorM4L;
         Assert.assertEquals(0x0, read_i.getYI());
         Assert.assertEquals(511, read_i.getZI());
         Assert.assertEquals(0x3, read_i.getWI());
+      }
+    }
+
+    Assert.assertFalse(w.isValid());
+    Assert.assertFalse(r.isValid());
+  }
+
+  @Test public void testReadWriteFL()
+  {
+    final ByteBuffer b = this.getNewAreaBuffer();
+    final AreaInclusive a = this.getArea();
+    final VectorM4D read_d = new VectorM4D();
+    final VectorM4L read_l = new VectorM4L();
+    final SpatialCursorReadable4Type r = this.getReadableCursor(b, a);
+    final SpatialCursorWritable4Type w = this.getWritableCursor(b, a);
+
+    for (int y = 0; y <= a.getRangeY().getUpper(); ++y) {
+      for (int x = 0; x <= a.getRangeX().getUpper(); ++x) {
+        Assert.assertTrue(w.isValid());
+        Assert.assertTrue(r.isValid());
+        Assert.assertEquals(x, r.getElementX());
+        Assert.assertEquals(y, r.getElementY());
+        Assert.assertEquals(x, w.getElementX());
+        Assert.assertEquals(y, w.getElementY());
+
+        w.seekTo(x, y);
+        w.put4l(new VectorI4L(0x3ff, 0x3ff, 0x3ff, 0x3));
+
+        r.seekTo(x, y);
+        r.get4d(read_d);
+        Assert.assertEquals(1.0, read_d.getXD(), this.EPSILON);
+        Assert.assertEquals(1.0, read_d.getYD(), this.EPSILON);
+        Assert.assertEquals(1.0, read_d.getZD(), this.EPSILON);
+        Assert.assertEquals(1.0, read_d.getWD(), this.EPSILON);
+
+        r.seekTo(x, y);
+        r.get4l(read_l);
+        Assert.assertEquals(0x3ff, read_l.getXL());
+        Assert.assertEquals(0x3ff, read_l.getYL());
+        Assert.assertEquals(0x3ff, read_l.getZL());
+        Assert.assertEquals(0x3, read_l.getWL());
       }
     }
 
