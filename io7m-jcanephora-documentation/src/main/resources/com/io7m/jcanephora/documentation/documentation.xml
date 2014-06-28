@@ -1321,7 +1321,7 @@ g.arrayBufferUnmap(a);
         <s:subsection-title>Usage examples</s:subsection-title>
         <s:paragraph>
           To enable blending, using the fairly typical
-          <s:term s:type="expression">color = (destination * source_alpha) + (source + (1.0 - source_alpha))</s:term>
+          <s:term s:type="expression">color = (destination * source_alpha) + (source * (1.0 - source_alpha))</s:term>
           blending equation:
         </s:paragraph>
         <s:formal-item s:kind="examples">
