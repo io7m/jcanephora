@@ -1085,7 +1085,8 @@ ArrayDescriptor d = b.build();]]></s:verbatim>
           and will be placed at
           <s:term s:type="expression">16 + 12 = 28</s:term> bytes past
           the start of each element, because it will be placed directly
-          after the "position" and "normal" fields. The size of each
+          after the <s:term s:type="constant">"position"</s:term>
+          and <s:term s:type="constant">"normal"</s:term> fields. The size of each
           element in the array is therefore
           <s:term s:type="expression">16 + 12 + 8 = 36</s:term> bytes. The
           <s:term s:type="type">ArrayBufferTypeDescriptor</s:term> value
