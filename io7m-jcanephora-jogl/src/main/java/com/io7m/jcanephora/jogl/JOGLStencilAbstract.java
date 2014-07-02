@@ -68,6 +68,7 @@ abstract class JOGLStencilAbstract implements JCGLStencilBufferType
   {
     this.checkStencilBuffer();
     this.gl.glClearStencil(stencil);
+    this.gl.glClear(GL.GL_STENCIL_BUFFER_BIT);
     JOGLErrors.check(this.gl);
   }
 
