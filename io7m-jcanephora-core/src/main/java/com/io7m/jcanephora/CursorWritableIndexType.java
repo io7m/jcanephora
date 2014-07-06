@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -29,13 +29,14 @@ public interface CursorWritableIndexType extends CursorType
    * </p>
    * <p>
    * The value <code>index</code> is silently truncated to fit the size of the
-   * elements in the index buffer.
+   * elements in the index buffer. At most, the lowest 32 bits of the given
+   * value will be used (indices are always treated as unsigned).
    * </p>
-   * 
+   *
    * @param index
    *          The index
    */
 
   void putIndex(
-    final int index);
+    final long index);
 }

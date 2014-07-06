@@ -36,7 +36,7 @@ public final class ByteBufferCursorWritableIndex extends ByteBufferCursor implem
   /**
    * Construct a new cursor capable of writing to indices of the given type
    * within the specified range of the given data.
-   * 
+   *
    * @param data
    *          The data.
    * @param range
@@ -66,7 +66,7 @@ public final class ByteBufferCursorWritableIndex extends ByteBufferCursor implem
   }
 
   @Override public void putIndex(
-    final int value)
+    final long value)
   {
     this.checkValid();
 
@@ -85,7 +85,7 @@ public final class ByteBufferCursorWritableIndex extends ByteBufferCursor implem
       }
       case TYPE_UNSIGNED_INT:
       {
-        b.putInt(offset, value);
+        b.putInt(offset, (int) value);
         this.next();
         return;
       }
