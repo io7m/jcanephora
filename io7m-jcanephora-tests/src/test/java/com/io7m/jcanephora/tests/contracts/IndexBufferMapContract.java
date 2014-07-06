@@ -260,7 +260,7 @@ import com.io7m.junreachable.UnreachableCodeException;
       final IndexBufferReadMappedType map = gm.indexBufferMapRead(ib);
       final CursorReadableIndexType cursor = map.getCursor();
       for (int index = 0; index < ib.bufferGetRange().getInterval(); ++index) {
-        final int value = cursor.getIndex();
+        final long value = cursor.getIndex();
         Assert.assertTrue(value == index);
       }
     }
@@ -304,7 +304,7 @@ import com.io7m.junreachable.UnreachableCodeException;
       final IndexBufferReadMappedType map = gm.indexBufferMapRead(ib);
       final CursorReadableIndexType cursor = map.getCursor();
       for (int index = 0; index < ib.bufferGetRange().getInterval(); ++index) {
-        final int value = cursor.getIndex();
+        final long value = cursor.getIndex();
         Assert.assertTrue(value == index);
       }
     }
@@ -347,7 +347,7 @@ import com.io7m.junreachable.UnreachableCodeException;
       final IndexBufferReadType map = gm.indexBufferMapRead(ib);
       final CursorReadableIndexType cursor = map.getCursor();
       for (int index = 0; index < ib.bufferGetRange().getInterval(); ++index) {
-        final int value = cursor.getIndex();
+        final long value = cursor.getIndex();
         Assert.assertTrue(value == index);
       }
     }

@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -73,13 +73,13 @@ import com.io7m.jranges.RangeInclusiveL;
     c.putIndex(5);
     c.putIndex(7);
     c.putIndex(9);
-    c.putIndex(11);
+    c.putIndex(0xffffffffL);
 
     final IntBuffer ib = data.asIntBuffer();
     Assert.assertTrue(5 == ib.get(0));
     Assert.assertTrue(7 == ib.get(1));
     Assert.assertTrue(9 == ib.get(2));
-    Assert.assertTrue(11 == ib.get(3));
+    Assert.assertEquals(0xffffffffL, (ib.get(3)) & 0xffffffffL);
   }
 
   @Test public void testWriteShort()

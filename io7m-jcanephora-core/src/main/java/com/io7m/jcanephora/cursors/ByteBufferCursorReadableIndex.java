@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -33,7 +33,7 @@ public final class ByteBufferCursorReadableIndex extends ByteBufferCursor implem
 {
   /**
    * Construct a new cursor.
-   * 
+   *
    * @param in_data
    *          The data.
    * @param range
@@ -62,7 +62,7 @@ public final class ByteBufferCursorReadableIndex extends ByteBufferCursor implem
     this.type = in_type;
   }
 
-  @Override public int getIndex()
+  @Override public long getIndex()
   {
     this.checkValid();
 
@@ -80,7 +80,7 @@ public final class ByteBufferCursorReadableIndex extends ByteBufferCursor implem
       {
         final int value = b.getInt(offset);
         this.next();
-        return value;
+        return value & 0xffffffffL;
       }
       case TYPE_UNSIGNED_SHORT:
       {
