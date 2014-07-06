@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora;
 
+import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
 import com.io7m.junreachable.UnreachableCodeException;
 
@@ -34,7 +35,7 @@ public final class JCGLVersionNumber implements Comparable<JCGLVersionNumber>
 
   /**
    * Construct a new version number.
-   * 
+   *
    * @param in_version_major
    *          The major version.
    * @param in_version_minor
@@ -54,28 +55,30 @@ public final class JCGLVersionNumber implements Comparable<JCGLVersionNumber>
   }
 
   @Override public int compareTo(
-    final JCGLVersionNumber other)
+    final @Nullable JCGLVersionNumber other)
   {
+    final JCGLVersionNumber o = NullCheck.notNull(other, "Other");
+
     if (this.equals(other)) {
       return 0;
     }
 
-    if (this.version_major < other.version_major) {
+    if (this.version_major < o.version_major) {
       return -1;
     }
-    if (this.version_major > other.version_major) {
+    if (this.version_major > o.version_major) {
       return 1;
     }
-    if (this.version_minor < other.version_minor) {
+    if (this.version_minor < o.version_minor) {
       return -1;
     }
-    if (this.version_minor > other.version_minor) {
+    if (this.version_minor > o.version_minor) {
       return 1;
     }
-    if (this.version_micro < other.version_micro) {
+    if (this.version_micro < o.version_micro) {
       return -1;
     }
-    if (this.version_micro > other.version_micro) {
+    if (this.version_micro > o.version_micro) {
       return 1;
     }
 

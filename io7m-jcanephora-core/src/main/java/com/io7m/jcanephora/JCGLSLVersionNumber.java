@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora;
 
+import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
 import com.io7m.junreachable.UnreachableCodeException;
 
@@ -34,7 +35,7 @@ public final class JCGLSLVersionNumber implements
 
   /**
    * Construct a version number.
-   * 
+   *
    * @param major
    *          The major number.
    * @param minor
@@ -50,22 +51,24 @@ public final class JCGLSLVersionNumber implements
   }
 
   @Override public int compareTo(
-    final JCGLSLVersionNumber other)
+    final @Nullable JCGLSLVersionNumber other)
   {
+    final JCGLSLVersionNumber o = NullCheck.notNull(other, "Other");
+
     if (this.equals(other)) {
       return 0;
     }
 
-    if (this.version_major < other.version_major) {
+    if (this.version_major < o.version_major) {
       return -1;
     }
-    if (this.version_major > other.version_major) {
+    if (this.version_major > o.version_major) {
       return 1;
     }
-    if (this.version_minor < other.version_minor) {
+    if (this.version_minor < o.version_minor) {
       return -1;
     }
-    if (this.version_minor > other.version_minor) {
+    if (this.version_minor > o.version_minor) {
       return 1;
     }
 
