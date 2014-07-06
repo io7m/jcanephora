@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -33,7 +33,7 @@ public interface JCGLIndexBuffersType
    * Allocate a buffer of <code>indices</code> indices. The function allocates
    * a buffer using indices of 1, 2, or 4 bytes depending on the number of
    * elements in <code>buffer</code>.
-   * 
+   *
    * @param buffer
    *          The array buffer for which the index buffer is intended. Note
    *          that the index buffer is NOT restricted for use with the given
@@ -49,14 +49,14 @@ public interface JCGLIndexBuffersType
 
   IndexBufferType indexBufferAllocate(
     final ArrayBufferUsableType buffer,
-    final int indices,
+    final long indices,
     final UsageHint usage)
     throws JCGLException;
 
   /**
    * Allocate a buffer of <code>indices</code> indices of type
    * <code>type</code>.
-   * 
+   *
    * @param indices
    *          The number of indices.
    * @param type
@@ -70,13 +70,13 @@ public interface JCGLIndexBuffersType
 
   IndexBufferType indexBufferAllocateType(
     final JCGLUnsignedType type,
-    final int indices,
+    final long indices,
     final UsageHint usage)
     throws JCGLException;
 
   /**
    * Deletes the index buffer referenced by <code>id</code>.
-   * 
+   *
    * @param id
    *          The index buffer.
    * @throws JCGLException
@@ -90,10 +90,10 @@ public interface JCGLIndexBuffersType
   /**
    * Replace the contents (or part of the contents) of the index buffer
    * associated with <code>data</code>.
-   * 
+   *
    * @param data
    *          The data to upload.
-   * 
+   *
    * @throws JCGLException
    *           Iff an OpenGL error occurs.
    */
