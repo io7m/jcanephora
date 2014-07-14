@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -36,9 +36,37 @@ public final class ArrayBufferUpdateUnmapped implements
   ArrayBufferUpdateUnmappedType
 {
   /**
+   * @return An {@link ArrayBufferUpdateUnmappedConstructorType} that uses the
+   *         functions defined in this class.
+   */
+
+  public static ArrayBufferUpdateUnmappedConstructorType newConstructor()
+  {
+    return new ArrayBufferUpdateUnmappedConstructorType() {
+      @Override public ArrayBufferUpdateUnmappedType newUpdateReplacingAll(
+        final ArrayBufferType in_array)
+        throws JCGLExceptionDeleted
+      {
+        return ArrayBufferUpdateUnmapped.newUpdateReplacingAll(in_array);
+      }
+
+      @Override public ArrayBufferUpdateUnmappedType newUpdateReplacingRange(
+        final ArrayBufferType in_array,
+        final RangeInclusiveL in_range)
+        throws RangeCheckException,
+          JCGLExceptionDeleted
+      {
+        return ArrayBufferUpdateUnmapped.newUpdateReplacingRange(
+          in_array,
+          in_range);
+      }
+    };
+  }
+
+  /**
    * Construct a buffer of data that will be used to replace the entirety of
    * the data in <code>buffer</code> on the GPU.
-   * 
+   *
    * @param array
    *          The array buffer.
    * @return An array update.
@@ -57,7 +85,7 @@ public final class ArrayBufferUpdateUnmapped implements
   /**
    * Construct a buffer of data that will be used to replace elements in the
    * range <code>range</code> of the data in <code>buffer</code> on the GPU.
-   * 
+   *
    * @return An array update.
    * @param array
    *          The array buffer.

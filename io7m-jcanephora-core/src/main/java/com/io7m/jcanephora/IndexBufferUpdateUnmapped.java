@@ -33,9 +33,33 @@ public final class IndexBufferUpdateUnmapped implements
   IndexBufferUpdateUnmappedType
 {
   /**
+   * @return An {@link IndexBufferUpdateUnmappedConstructorType} that uses the
+   *         functions defined in this class.
+   */
+
+  public static IndexBufferUpdateUnmappedConstructorType newConstructor()
+  {
+    return new IndexBufferUpdateUnmappedConstructorType() {
+      @Override public IndexBufferUpdateUnmappedType newReplacing(
+        final IndexBufferType b)
+      {
+        return IndexBufferUpdateUnmapped.newReplacing(b);
+      }
+
+      @Override public IndexBufferUpdateUnmappedType newUpdating(
+        final IndexBufferType b,
+        final RangeInclusiveL r)
+        throws RangeCheckException
+      {
+        return IndexBufferUpdateUnmapped.newUpdating(b, r);
+      }
+    };
+  }
+
+  /**
    * Construct a buffer of data that will be used to replace the entirety of
    * the data in <code>b</code> on the GPU.
-   * 
+   *
    * @return An index buffer update.
    * @param b
    *          The index buffer.
@@ -51,7 +75,7 @@ public final class IndexBufferUpdateUnmapped implements
   /**
    * Construct a buffer of data that will be used to replace the range of
    * elements given by <code>r</code> in <code>b</code> on the GPU.
-   * 
+   *
    * @return An index buffer update.
    * @param b
    *          The index buffer.
