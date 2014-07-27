@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document
+  xmlns="http://maven.apache.org/XDOC/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>io7m-jcanephora-fake</title>
+  </properties>
+
+  <body>
+    <subsection name="jcanephora-fake">
+      The <var>jcanephora-fake</var> package contains a
+      fake implementation of the API that does not talk to
+      a real OpenGL context. It is provided for introspective
+      unit testing.
+    </subsection>
+  </body>
+
+</document>
