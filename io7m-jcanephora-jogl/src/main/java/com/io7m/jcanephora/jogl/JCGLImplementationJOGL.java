@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -20,6 +20,7 @@ import java.io.PrintStream;
 
 import javax.media.opengl.GLContext;
 
+import com.io7m.jcanephora.JCGLDebugging;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionUnsupported;
 import com.io7m.jcanephora.JCGLExtensionNames;
@@ -108,7 +109,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
   /**
    * Construct an implementation using the initialized <code>context</code>
    * and <code>log</code>.
-   * 
+   *
    * @param context
    *          The context.
    * @param log
@@ -134,7 +135,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
   /**
    * Construct an implementation using the initialized <code>context</code>
    * and <code>log</code>, with debugging enabled.
-   * 
+   *
    * @param context
    *          The context.
    * @param log
@@ -161,7 +162,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
    * Construct an implementation using the initialized <code>context</code>
    * and <code>log</code>, with debugging enabled and restrictions
    * <code>r</code>.
-   * 
+   *
    * @param r
    *          A set of restrictions.
    * @param context
@@ -193,7 +194,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
    * Construct an implementation using the initialized <code>context</code>
    * and <code>log</code>, with debugging enabled, and tracing enabled on
    * <code>stream</code>.
-   * 
+   *
    * @param context
    *          The context.
    * @param log
@@ -225,7 +226,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
    * Construct an implementation using the initialized <code>context</code>
    * and <code>log</code>, with debugging enabled, and tracing enabled on
    * <code>stream</code>, and restrictions <code>r</code>.
-   * 
+   *
    * @param context
    *          The context.
    * @param log
@@ -259,7 +260,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
   /**
    * Construct an implementation using the initialized <code>context</code>
    * and <code>log</code>, with restrictions <code>r</code>.
-   * 
+   *
    * @param context
    *          The context.
    * @param log
@@ -288,7 +289,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
   /**
    * Construct an implementation using the initialized <code>context</code>
    * and <code>log</code>, with tracing enabled on <code>stream</code>.
-   * 
+   *
    * @param context
    *          The context.
    * @param log
@@ -318,7 +319,7 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
    * Construct an implementation using the initialized <code>context</code>
    * and <code>log</code>, with tracing enabled to stream <code>trace</code>
    * and restrictions <code>r</code>.
-   * 
+   *
    * @param context
    *          The context.
    * @param log
@@ -354,7 +355,6 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
   private final @Nullable JCGLInterfaceGL3Type   gl_3;
   private final @Nullable JCGLInterfaceGLES2Type gl_es2;
   private final @Nullable JCGLInterfaceGLES3Type gl_es3;
-
   private final LogUsableType                    log;
 
   private JCGLImplementationJOGL(

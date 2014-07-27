@@ -14,12 +14,22 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.jogl;
+package com.io7m.jcanephora.tests.fake.contracts.gles2;
 
-enum JCGLDebugging
+import com.io7m.jcanephora.tests.TestContext;
+import com.io7m.jcanephora.tests.contracts.batchexec.JCBExecutionContract;
+import com.io7m.jcanephora.tests.fake.FakeShaderControl;
+import com.io7m.jcanephora.tests.fake.FakeTestContext;
+
+public final class FakeES2JCBExecutionTest extends JCBExecutionContract
 {
-  JCGL_DEBUGGING,
-  JCGL_NONE,
-  JCGL_TRACING,
-  JCGL_TRACING_AND_DEBUGGING
+  @Override public boolean isGLSupported()
+  {
+    return true;
+  }
+
+  @Override public TestContext newTestContext()
+  {
+    return FakeTestContext.makeContextWithOpenGL_ES2(new FakeShaderControl());
+  }
 }
