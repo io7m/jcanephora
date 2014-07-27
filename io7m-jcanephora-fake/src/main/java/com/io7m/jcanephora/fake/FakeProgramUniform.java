@@ -36,12 +36,6 @@ import com.io7m.jranges.RangeCheck;
 @EqualityStructural public final class FakeProgramUniform extends
   FakeObjectPseudoShared implements ProgramUniformType
 {
-  private final int               index;
-  private final int               location;
-  private final String            name;
-  private final ProgramUsableType program;
-  private final JCGLType          type;
-
   /**
    * Construct a new program uniform.
    *
@@ -76,6 +70,12 @@ import com.io7m.jranges.RangeCheck;
       in_name,
       in_type);
   }
+  private final int               index;
+  private final int               location;
+  private final String            name;
+  private final ProgramUsableType program;
+
+  private final JCGLType          type;
 
   private FakeProgramUniform(
     final FakeContext in_context,

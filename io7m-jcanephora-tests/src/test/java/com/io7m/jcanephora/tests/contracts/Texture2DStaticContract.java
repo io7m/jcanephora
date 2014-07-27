@@ -69,7 +69,7 @@ import com.io7m.jtensors.VectorI4I;
 
   /**
    * OpenGL implementations support a minimum of two texture units.
-   * 
+   *
    * Note: this number is picked based on older OpenGL ES limits.
    */
 
@@ -85,7 +85,7 @@ import com.io7m.jtensors.VectorI4I;
 
   /**
    * The list of texture units is not modifiable.
-   * 
+   *
    * Note: this number is picked based on older OpenGL ES limits.
    */
 
@@ -129,10 +129,14 @@ import com.io7m.jtensors.VectorI4I;
         TextureFilterMinification.TEXTURE_FILTER_NEAREST,
         TextureFilterMagnification.TEXTURE_FILTER_NEAREST);
 
+    Assert.assertFalse(gl.texture2DStaticIsBound(units.get(0), t));
+    Assert.assertFalse(gu.textureUnitIsBound(units.get(0)));
     gl.texture2DStaticBind(units.get(0), t);
     Assert.assertTrue(gl.texture2DStaticIsBound(units.get(0), t));
+    Assert.assertTrue(gu.textureUnitIsBound(units.get(0)));
     gl.texture2DStaticUnbind(units.get(0));
     Assert.assertFalse(gl.texture2DStaticIsBound(units.get(0), t));
+    Assert.assertFalse(gu.textureUnitIsBound(units.get(0)));
     gl.texture2DStaticDelete(t);
   }
 

@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -16,6 +16,7 @@
 
 package com.io7m.jcanephora.jogl;
 
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +25,7 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GLContext;
 
+import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLExceptionWrongContext;
 import com.io7m.jcanephora.TextureUnitType;
@@ -37,7 +39,7 @@ final class JOGLTextureUnits implements JCGLTextureUnitsType
 {
   /**
    * Check that the given texture unit:
-   * 
+   *
    * <ul>
    * <li>Is not null</li>
    * <li>Was created on this context (texture units are not shared)</li>
@@ -131,5 +133,20 @@ final class JOGLTextureUnits implements JCGLTextureUnitsType
     throws JCGLExceptionRuntime
   {
     return this.cached_units;
+  }
+
+  @Override public boolean textureUnitIsBound(
+    final TextureUnitType unit)
+    throws JCGLException
+  {
+    JOGLTextureUnits.checkTextureUnit(this.context, unit);
+
+    final GL g = this.context.getGL();
+    g.glActiveTexture(GL.GL_TEXTURE0 + unit.unitGetIndex());
+    final IntBuffer cache = this.icache.getIntegerCache();
+    g.glGetIntegerv(GL.GL_TEXTURE_BINDING_2D, cache);
+    final int e = cache.get(0);
+    JOGLErrors.check(g);
+    return e != 0;
   }
 }

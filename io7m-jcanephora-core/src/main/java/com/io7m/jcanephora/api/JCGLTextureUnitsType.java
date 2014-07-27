@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -18,6 +18,7 @@ package com.io7m.jcanephora.api;
 
 import java.util.List;
 
+import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.TextureUnitType;
 
@@ -32,7 +33,7 @@ public interface JCGLTextureUnitsType
    *         'Size' refers to the length of a side, so if the implementation
    *         returns <code>8192</code>, the largest texture that can be
    *         created is <code>8192 * 8192</code>.
-   * 
+   *
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
@@ -42,11 +43,24 @@ public interface JCGLTextureUnitsType
 
   /**
    * @return All available texture units for the current implementation.
-   * 
+   *
    * @throws JCGLExceptionRuntime
    *           Iff an OpenGL error occurs.
    */
 
   List<TextureUnitType> textureGetUnits()
     throws JCGLExceptionRuntime;
+
+  /**
+   * @return <code>true</code> iff the the texture unit <code>unit</code> has
+   *         any texture bound to it.
+   * @param unit
+   *          The texture unit.
+   * @throws JCGLException
+   *           Iff an OpenGL error occurs.
+   */
+
+  boolean textureUnitIsBound(
+    final TextureUnitType unit)
+    throws JCGLException;
 }
