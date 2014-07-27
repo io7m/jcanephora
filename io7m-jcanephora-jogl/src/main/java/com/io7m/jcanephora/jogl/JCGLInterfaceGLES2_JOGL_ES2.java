@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -153,6 +153,7 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
   private final JOGLArrays                                      arrays;
 
   private final JOGLBlending                                    blending;
+
   private final GLES2                                           cached_gl;
   private final JOGLColorBuffer                                 color_buffer;
   private final JOGLColorAttachmentPoints                       color_points;
@@ -183,7 +184,6 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
   private final JOGLTexturesCubeStaticGLES2                     textures_cube;
   private final JOGLTextures2DStaticGLES2                       textures2d;
   private final JOGLViewport                                    viewport;
-
   JCGLInterfaceGLES2_JOGL_ES2(
     final GLContext in_context,
     final LogUsableType in_log,
@@ -1367,6 +1367,13 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
     throws JCGLExceptionRuntime
   {
     return this.texture_units.textureGetUnits();
+  }
+
+  @Override public boolean textureUnitIsBound(
+    final TextureUnitType unit)
+    throws JCGLException
+  {
+    return this.texture_units.textureUnitIsBound(unit);
   }
 
   @Override public VertexShaderType vertexShaderCompile(

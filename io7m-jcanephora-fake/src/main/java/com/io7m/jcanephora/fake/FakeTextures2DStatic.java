@@ -68,10 +68,144 @@ final class FakeTextures2DStatic implements
     ResourceCheck.notDeleted(texture);
   }
 
+  static void copyData(
+    final int bpp,
+    final ByteBuffer source_data,
+    final AreaInclusive source_area,
+    final ByteBuffer target_data,
+    final AreaInclusive target_area)
+  {
+    final int row_bytes = (int) (target_area.getRangeX().getInterval() * bpp);
+    final int x_first = (int) source_area.getRangeX().getLower();
+    final int x_last = (int) source_area.getRangeX().getUpper();
+    final int y_first = (int) source_area.getRangeY().getLower();
+    final int y_last = (int) source_area.getRangeY().getUpper();
+
+    int target_offset = 0;
+    int source_offset = 0;
+    for (int y = y_first; y <= y_last; ++y) {
+      for (int x = x_first; x <= x_last; ++x) {
+        target_offset = (y * row_bytes) + (x * bpp);
+
+        switch (bpp) {
+          case 1:
+          {
+            target_data.put(
+              target_offset + 0,
+              source_data.get(source_offset + 0));
+            break;
+          }
+          case 2:
+          {
+            target_data.put(
+              target_offset + 0,
+              source_data.get(source_offset + 0));
+            target_data.put(
+              target_offset + 1,
+              source_data.get(source_offset + 1));
+            break;
+          }
+          case 3:
+          {
+            target_data.put(
+              target_offset + 0,
+              source_data.get(source_offset + 0));
+            target_data.put(
+              target_offset + 1,
+              source_data.get(source_offset + 1));
+            target_data.put(
+              target_offset + 2,
+              source_data.get(source_offset + 2));
+            break;
+          }
+          case 4:
+          {
+            target_data.put(
+              target_offset + 0,
+              source_data.get(source_offset + 0));
+            target_data.put(
+              target_offset + 1,
+              source_data.get(source_offset + 1));
+            target_data.put(
+              target_offset + 2,
+              source_data.get(source_offset + 2));
+            target_data.put(
+              target_offset + 3,
+              source_data.get(source_offset + 3));
+            break;
+          }
+        }
+
+        source_offset += bpp;
+      }
+    }
+
+    // FakeTextures2DStatic.dumpBuffer(target_area, bpp, target_data);
+  }
+  static void dumpBuffer(
+    final AreaInclusive area,
+    final int bpp,
+    final ByteBuffer b)
+  {
+    final RangeInclusiveL range_x = area.getRangeX();
+    final RangeInclusiveL range_y = area.getRangeY();
+    final long y_first = range_y.getLower();
+    final long y_last = range_y.getUpper();
+    final long x_first = range_x.getLower();
+    final long x_last = range_x.getUpper();
+    final long row_bytes = (x_last - x_first) * bpp;
+
+    System.out.printf("Dumping buffer %s %s %dbpp:\n", b, area, bpp);
+
+    for (long y = y_first; y <= y_last; ++y) {
+      for (long x = x_first; x <= x_last; ++x) {
+        final long byte_offset = (y * row_bytes) + (x * bpp);
+
+        switch (bpp) {
+          case 1:
+          {
+            System.out.printf("%02x ", b.get((int) byte_offset));
+            break;
+          }
+          case 2:
+          {
+            System.out.printf(
+              "%02x|%02x ",
+              b.get((int) (byte_offset + 0)),
+              b.get((int) (byte_offset + 1)));
+            break;
+          }
+          case 3:
+          {
+            System.out.printf(
+              "%02x|%02x|%02x ",
+              b.get((int) (byte_offset + 0)),
+              b.get((int) (byte_offset + 1)),
+              b.get((int) (byte_offset + 2)));
+            break;
+          }
+          case 4:
+          {
+            System.out.printf(
+              "%02x|%02x|%02x|%02x ",
+              b.get((int) (byte_offset + 0)),
+              b.get((int) (byte_offset + 1)),
+              b.get((int) (byte_offset + 2)),
+              b.get((int) (byte_offset + 3)));
+            break;
+          }
+        }
+      }
+
+      System.out.println();
+    }
+  }
   private final FakeContext             context;
   private final LogUsableType           log;
   private int                           pool;
+
   private final FakeLogMessageCacheType tcache;
+
   private final FakeTextureUnits        units;
 
   public FakeTextures2DStatic(
@@ -1290,139 +1424,5 @@ final class FakeTextures2DStatic implements
       source_area,
       target_data,
       fake_t.textureGetArea());
-  }
-
-  static void copyData(
-    final int bpp,
-    final ByteBuffer source_data,
-    final AreaInclusive source_area,
-    final ByteBuffer target_data,
-    final AreaInclusive target_area)
-  {
-    final int row_bytes = (int) (target_area.getRangeX().getInterval() * bpp);
-    final int x_first = (int) source_area.getRangeX().getLower();
-    final int x_last = (int) source_area.getRangeX().getUpper();
-    final int y_first = (int) source_area.getRangeY().getLower();
-    final int y_last = (int) source_area.getRangeY().getUpper();
-
-    int target_offset = 0;
-    int source_offset = 0;
-    for (int y = y_first; y <= y_last; ++y) {
-      for (int x = x_first; x <= x_last; ++x) {
-        target_offset = (y * row_bytes) + (x * bpp);
-
-        switch (bpp) {
-          case 1:
-          {
-            target_data.put(
-              target_offset + 0,
-              source_data.get(source_offset + 0));
-            break;
-          }
-          case 2:
-          {
-            target_data.put(
-              target_offset + 0,
-              source_data.get(source_offset + 0));
-            target_data.put(
-              target_offset + 1,
-              source_data.get(source_offset + 1));
-            break;
-          }
-          case 3:
-          {
-            target_data.put(
-              target_offset + 0,
-              source_data.get(source_offset + 0));
-            target_data.put(
-              target_offset + 1,
-              source_data.get(source_offset + 1));
-            target_data.put(
-              target_offset + 2,
-              source_data.get(source_offset + 2));
-            break;
-          }
-          case 4:
-          {
-            target_data.put(
-              target_offset + 0,
-              source_data.get(source_offset + 0));
-            target_data.put(
-              target_offset + 1,
-              source_data.get(source_offset + 1));
-            target_data.put(
-              target_offset + 2,
-              source_data.get(source_offset + 2));
-            target_data.put(
-              target_offset + 3,
-              source_data.get(source_offset + 3));
-            break;
-          }
-        }
-
-        source_offset += bpp;
-      }
-    }
-
-    // FakeTextures2DStatic.dumpBuffer(target_area, bpp, target_data);
-  }
-
-  static void dumpBuffer(
-    final AreaInclusive area,
-    final int bpp,
-    final ByteBuffer b)
-  {
-    final RangeInclusiveL range_x = area.getRangeX();
-    final RangeInclusiveL range_y = area.getRangeY();
-    final long y_first = range_y.getLower();
-    final long y_last = range_y.getUpper();
-    final long x_first = range_x.getLower();
-    final long x_last = range_x.getUpper();
-    final long row_bytes = (x_last - x_first) * bpp;
-
-    System.out.printf("Dumping buffer %s %s %dbpp:\n", b, area, bpp);
-
-    for (long y = y_first; y <= y_last; ++y) {
-      for (long x = x_first; x <= x_last; ++x) {
-        final long byte_offset = (y * row_bytes) + (x * bpp);
-
-        switch (bpp) {
-          case 1:
-          {
-            System.out.printf("%02x ", b.get((int) byte_offset));
-            break;
-          }
-          case 2:
-          {
-            System.out.printf(
-              "%02x|%02x ",
-              b.get((int) (byte_offset + 0)),
-              b.get((int) (byte_offset + 1)));
-            break;
-          }
-          case 3:
-          {
-            System.out.printf(
-              "%02x|%02x|%02x ",
-              b.get((int) (byte_offset + 0)),
-              b.get((int) (byte_offset + 1)),
-              b.get((int) (byte_offset + 2)));
-            break;
-          }
-          case 4:
-          {
-            System.out.printf(
-              "%02x|%02x|%02x|%02x ",
-              b.get((int) (byte_offset + 0)),
-              b.get((int) (byte_offset + 1)),
-              b.get((int) (byte_offset + 2)),
-              b.get((int) (byte_offset + 3)));
-            break;
-          }
-        }
-      }
-
-      System.out.println();
-    }
   }
 }

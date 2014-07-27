@@ -3160,6 +3160,13 @@ final class JCGLInterfaceGLES3_Fake implements JCGLInterfaceGLES3Type
     return this.texture_units.textureGetUnits();
   }
 
+  @Override public boolean textureUnitIsBound(
+    final TextureUnitType unit)
+    throws JCGLException
+  {
+    return this.texture_units.textureUnitIsBound(unit);
+  }
+
   @Override public VertexShaderType vertexShaderCompile(
     final String name,
     final List<String> lines)

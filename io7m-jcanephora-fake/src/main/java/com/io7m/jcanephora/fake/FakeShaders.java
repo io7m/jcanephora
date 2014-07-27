@@ -261,8 +261,8 @@ final class FakeShaders implements
   private final FakeDrawBuffers         draw_buffers;
   private final LogType                 log;
   private int                           pool;
-  private final FakeLogMessageCacheType tcache;
   private final FakeShaderControlType   shader_control;
+  private final FakeLogMessageCacheType tcache;
 
   FakeShaders(
     final FakeContext in_context,

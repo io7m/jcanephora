@@ -33,12 +33,6 @@ import com.io7m.jranges.RangeCheck;
 @EqualityStructural public final class FakeProgramAttribute extends
   FakeObjectPseudoShared implements ProgramAttributeType
 {
-  private final int               index;
-  private final int               location;
-  private final String            name;
-  private final ProgramUsableType program;
-  private final JCGLType          type;
-
   /**
    * Construct a new program attribute.
    *
@@ -73,6 +67,12 @@ import com.io7m.jranges.RangeCheck;
       in_name,
       in_type);
   }
+  private final int               index;
+  private final int               location;
+  private final String            name;
+  private final ProgramUsableType program;
+
+  private final JCGLType          type;
 
   private FakeProgramAttribute(
     final FakeContext in_context,

@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLExceptionWrongContext;
 import com.io7m.jcanephora.TextureUnitType;
@@ -140,6 +141,14 @@ final class FakeTextureUnits implements JCGLTextureUnitsType
     throws JCGLExceptionRuntime
   {
     return this.cached_units;
+  }
+
+  @Override public boolean textureUnitIsBound(
+    final TextureUnitType unit)
+    throws JCGLException
+  {
+    FakeTextureUnits.checkTextureUnit(this.context, unit);
+    return this.bindings.get(unit.unitGetIndex()) != null;
   }
 
   void unbind(
