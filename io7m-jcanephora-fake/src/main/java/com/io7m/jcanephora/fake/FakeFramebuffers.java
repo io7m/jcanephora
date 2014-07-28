@@ -629,8 +629,50 @@ public final class FakeFramebuffers implements JCGLFramebuffersGL3Type
       final Map<FramebufferDrawBufferType, FramebufferColorAttachmentPointType> mappings)
       throws JCGLException
   {
-    // TODO Auto-generated method stub
-    throw new UnimplementedCodeException();
+    this.checkFramebufferAndDrawIsBound(framebuffer);
+    NullCheck.notNull(mappings, "Draw buffer mappings");
+
+    for (final FramebufferDrawBufferType db : mappings.keySet()) {
+      FakeDrawBuffers.checkDrawBuffer(this.context, db);
+      final FramebufferColorAttachmentPointType point = mappings.get(db);
+      FakeColorAttachmentPoints
+        .checkColorAttachmentPoint(this.context, point);
+    }
+
+    final List<FramebufferDrawBufferType> buffers =
+      this.draw_buffers.getDrawBuffers();
+    final StringBuilder text = this.tcache.getTextCache();
+
+    for (int index = 0; index < buffers.size(); ++index) {
+      final FramebufferDrawBufferType buffer = buffers.get(index);
+      assert buffer != null;
+
+      if (mappings.containsKey(buffer)) {
+        final FramebufferColorAttachmentPointType attach =
+          mappings.get(buffer);
+
+        if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
+          text.setLength(0);
+          text.append("map ");
+          text.append(buffer);
+          text.append(" to ");
+          text.append(attach);
+          final String r = text.toString();
+          assert r != null;
+          this.log.debug(r);
+        }
+      } else {
+        if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
+          text.setLength(0);
+          text.append("map ");
+          text.append(buffer);
+          text.append(" to none");
+          final String r = text.toString();
+          assert r != null;
+          this.log.debug(r);
+        }
+      }
+    }
   }
 
   @Override public void framebufferDrawUnbind()
@@ -646,22 +688,6 @@ public final class FakeFramebuffers implements JCGLFramebuffersGL3Type
     FakeFramebuffers.checkFramebuffer(this.context, framebuffer);
 
     final FakeFramebuffer fb = (FakeFramebuffer) framebuffer;
-
-    /**
-     * At least one color attachment is required.
-     */
-
-    int count = 0;
-    final List<FakeFramebufferAttachableType> ca = fb.getColorAttachments();
-    for (int index = 0; index < ca.size(); ++index) {
-      if (ca.get(index) != null) {
-        ++count;
-      }
-    }
-
-    if (count == 0) {
-      return FramebufferStatus.FRAMEBUFFER_STATUS_ERROR_MISSING_IMAGE_ATTACHMENT;
-    }
 
     /**
      * If both depth and stencil attachments are specified, they must be the
