@@ -80,22 +80,24 @@ public final class FakeFramebuffers implements JCGLFramebuffersGL3Type
     ResourceCheck.notDeleted(framebuffer);
   }
 
-  private final FakeContext             context;
-  private @Nullable FakeFramebuffer     draw_bind;
-  private final FakeDrawBuffers         draw_buffers;
-  private final JCGLNamedExtensionsType extensions;
-  private final LogType                 log;
-  private final FakeMeta                meta;
-  private int                           pool;
-  private @Nullable FakeFramebuffer     read_bind;
-  private final FakeRenderbuffers       renderbuffers;
-  private final FakeLogMessageCacheType tcache;
-  private final FakeTextures2DStatic    textures_2d;
+  private final FakeColorAttachmentPointsType color_points;
+  private final FakeContext                   context;
+  private @Nullable FakeFramebuffer           draw_bind;
+  private final FakeDrawBuffers               draw_buffers;
+  private final JCGLNamedExtensionsType       extensions;
+  private final LogType                       log;
+  private final FakeMeta                      meta;
+  private int                                 pool;
+  private @Nullable FakeFramebuffer           read_bind;
+  private final FakeRenderbuffers             renderbuffers;
+  private final FakeLogMessageCacheType       tcache;
+  private final FakeTextures2DStatic          textures_2d;
 
   FakeFramebuffers(
     final FakeContext in_context,
     final LogUsableType in_log,
     final FakeLogMessageCacheType in_tcache,
+    final FakeColorAttachmentPointsType in_color_points,
     final FakeDrawBuffers in_draw_buffers,
     final FakeMeta in_meta,
     final FakeRenderbuffers in_renderbuffers,
@@ -111,6 +113,8 @@ public final class FakeFramebuffers implements JCGLFramebuffersGL3Type
     this.meta = NullCheck.notNull(in_meta, "Meta");
     this.extensions = NullCheck.notNull(in_extensions, "Extensions");
     this.textures_2d = NullCheck.notNull(textures2d, "Textures 2D");
+    this.color_points =
+      NullCheck.notNull(in_color_points, "Color attachment points");
   }
 
   /**
@@ -711,8 +715,7 @@ public final class FakeFramebuffers implements JCGLFramebuffersGL3Type
     framebufferGetColorAttachmentPoints()
       throws JCGLException
   {
-    // TODO Auto-generated method stub
-    throw new UnimplementedCodeException();
+    return this.color_points.getColorAttachmentPoints();
   }
 
   @Override public
