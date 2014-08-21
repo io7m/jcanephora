@@ -3099,8 +3099,8 @@ e.execRun(new JCBExecutorProcedureType<Exception>() {
             Presumably whilst burning the OpenGL committee in efigy.
           </s:footnote>, or use a higher level shading language such
           as Parasol <s:footnote>
-            <s:link-external s:target="http://io7m.com/software/parasol">http://io7m.com/software/parasol</s:link-external>
-          </s:footnote>, which can provide the required lists of 
+            <s:link-external s:target="http://mvn.io7m.com/io7m-jparasol">http://mvn.io7m.com/io7m-jparasol</s:link-external>
+          </s:footnote>, which can provide the required lists of
           declared parameters at runtime.
         </s:paragraph>
         <s:paragraph>
