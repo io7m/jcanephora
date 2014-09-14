@@ -708,8 +708,7 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
           order consistently throughout.
         </s:paragraph>
         <s:paragraph>
-          The errors that the function may raise are also clearly marked as
-          checked exceptions.
+          The errors that the function may raise are also clearly marked.
         </s:paragraph>
         <s:paragraph>
           Some information is still missing, of course, such as the format
@@ -743,8 +742,8 @@ glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
         </s:paragraph>
         <s:paragraph>
           The extremely descriptive type given for the function, and the
-          presence of checked exceptions are direct contributions towards
-          the goals of
+          presence of declared (but unchecked) exceptions are direct contributions 
+          towards the goals of
           <s:link s:target="rationale.goals.type_safety">type safety</s:link>
           and
           <s:link s:target="rationale.goals.conspicuity">conspicuity of errors</s:link>.
