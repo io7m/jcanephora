@@ -246,7 +246,6 @@ public final class JCBExecutor implements JCBExecutorType
       throws JCGLExceptionProgramUniformMissing,
         JCGLExceptionTypeError
     {
-
       final Map<String, ProgramUniformType> program_uniforms =
         in_program.programGetUniforms();
 
@@ -472,7 +471,7 @@ public final class JCBExecutor implements JCBExecutorType
     {
       for (int index = 0; index < this.attributes.size(); ++index) {
         final AttributeState a = this.attributes.get(index);
-        if ((a.isAssigned() == false) && (a.getActual() != null)) {
+        if (a.isAssigned() == false) {
           this.missed_attributes.add(a);
         }
       }
@@ -482,7 +481,7 @@ public final class JCBExecutor implements JCBExecutorType
     {
       for (int index = 0; index < this.uniforms.size(); ++index) {
         final UniformState u = this.uniforms.get(index);
-        if ((u.isAssigned() == false) && (u.getActual() != null)) {
+        if (u.isAssigned() == false) {
           this.missed_uniforms.add(u);
         }
       }
@@ -1007,7 +1006,7 @@ public final class JCBExecutor implements JCBExecutorType
    * Construct a new executor for the given program. The program is assumed to
    * have the given uniform and attribute declarations (and these will be
    * checked against the program).
-   * 
+   *
    * @param gc
    *          A shader interface.
    * @param program
@@ -1053,7 +1052,7 @@ public final class JCBExecutor implements JCBExecutorType
 
   /**
    * Construct a new executor for the given program.
-   * 
+   *
    * @param gc
    *          A shader interface.
    * @param program
