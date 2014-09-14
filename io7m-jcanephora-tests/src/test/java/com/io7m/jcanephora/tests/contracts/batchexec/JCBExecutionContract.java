@@ -331,6 +331,84 @@ import com.io7m.jvvfs.FilesystemType;
     Assert.assertTrue(called.get());
   }
 
+  @Test public void testProgramAllAssignedOptimizedOut()
+    throws JCGLException
+  {
+    final TestContext tc = this.newTestContext();
+
+    final Pair<JCBExecutorType, LoadedShader> pair =
+      JCBExecutionContract.newProgram(tc, "everything_opt");
+    final AtomicBoolean called = new AtomicBoolean(false);
+
+    final JCGLInterfaceCommonType gc = tc.getGLImplementation().getGLCommon();
+    final ArrayBufferType a = JCBExecutionContract.makeArrayBuffer(gc);
+    final List<TextureUnitType> units = gc.textureGetUnits();
+
+    pair.getLeft().execRun(new JCBExecutorProcedureType<Exception>() {
+      @Override public void call(
+        final JCBProgramType program)
+        throws JCGLException,
+          Exception
+      {
+        called.set(true);
+
+        gc.arrayBufferBind(a);
+
+        program.programAttributeBind("a_f", a.arrayGetAttribute("a_f"));
+        program.programAttributeBind("a_vf2", a.arrayGetAttribute("a_vf2"));
+        program.programAttributeBind("a_vf3", a.arrayGetAttribute("a_vf3"));
+        program.programAttributeBind("a_vf4", a.arrayGetAttribute("a_vf4"));
+
+        program.programUniformPutFloat("u_float", 23.0f);
+        program.programUniformPutVector2f("u_vf2", new VectorI4F());
+        program.programUniformPutVector3f("u_vf3", new VectorI4F());
+        program.programUniformPutVector4f("u_vf4", new VectorI4F());
+
+        program.programUniformPutInteger("u_int", 23);
+        program.programUniformPutVector2i("u_vi2", new VectorI4I());
+        program.programUniformPutVector3i("u_vi3", new VectorI4I());
+        program.programUniformPutVector4i("u_vi4", new VectorI4I());
+
+        program.programUniformPutMatrix3x3f("u_m3", new MatrixM3x3F());
+        program.programUniformPutMatrix4x4f("u_m4", new MatrixM4x4F());
+        program.programUniformPutTextureUnit("u_sampler2d", units.get(0));
+
+        /**
+         * Declared, but not actually present...
+         */
+
+        program.programAttributeBind("a_f_opt", a.arrayGetAttribute("a_f"));
+        program.programAttributeBind(
+          "a_vf2_opt",
+          a.arrayGetAttribute("a_vf2"));
+        program.programAttributeBind(
+          "a_vf3_opt",
+          a.arrayGetAttribute("a_vf3"));
+        program.programAttributeBind(
+          "a_vf4_opt",
+          a.arrayGetAttribute("a_vf4"));
+
+        program.programUniformPutFloat("u_float_opt", 23.0f);
+        program.programUniformPutVector2f("u_vf2_opt", new VectorI4F());
+        program.programUniformPutVector3f("u_vf3_opt", new VectorI4F());
+        program.programUniformPutVector4f("u_vf4_opt", new VectorI4F());
+
+        program.programUniformPutInteger("u_int_opt", 23);
+        program.programUniformPutVector2i("u_vi2_opt", new VectorI4I());
+        program.programUniformPutVector3i("u_vi3_opt", new VectorI4I());
+        program.programUniformPutVector4i("u_vi4_opt", new VectorI4I());
+
+        program.programUniformPutMatrix3x3f("u_m3_opt", new MatrixM3x3F());
+        program.programUniformPutMatrix4x4f("u_m4_opt", new MatrixM4x4F());
+        program.programUniformPutTextureUnit("u_sampler2d_opt", units.get(0));
+
+        program.programValidate();
+      }
+    });
+
+    Assert.assertTrue(called.get());
+  }
+
   @Test public void testProgramAllAssignedExec()
     throws JCGLException
   {
