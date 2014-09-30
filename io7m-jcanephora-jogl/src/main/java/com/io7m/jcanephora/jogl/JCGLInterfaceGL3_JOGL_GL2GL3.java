@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -146,7 +146,6 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 final class JCGLInterfaceGL3_JOGL_GL2GL3 implements JCGLInterfaceGL3Type
 {
-
   private static GL2GL3 makeCachedGL2GL3(
     final boolean in_debugging,
     final OptionType<PrintStream> in_tracing,
@@ -159,6 +158,44 @@ final class JCGLInterfaceGL3_JOGL_GL2GL3 implements JCGLInterfaceGL3Type
       return JCGLInterfaceGL3_JOGL_GL2GL3.makeCachedGL2GL3WithDebugging(
         in_tracing,
         g);
+    }
+
+    return JCGLInterfaceGL3_JOGL_GL2GL3.makeCachedGL2GL3WithoutDebugging(
+      in_tracing,
+      g);
+  }
+
+  @SuppressWarnings({ "resource", "null" }) private static
+    GL2GL3
+    makeCachedGL2GL3WithoutDebugging(
+      final OptionType<PrintStream> in_tracing,
+      final GL g)
+  {
+    if (in_tracing.isSome()) {
+      final Some<PrintStream> s = (Some<PrintStream>) in_tracing;
+      final PrintStream ss = s.get();
+
+      if (g.isGL4()) {
+        return new TraceGL4(g.getGL4(), ss);
+      }
+      if (g.isGL3()) {
+        return new TraceGL3(g.getGL3(), ss);
+      }
+      if (g.isGL2()) {
+        return new TraceGL2(g.getGL2(), ss);
+      }
+
+      throw new UnreachableCodeException();
+    }
+
+    if (g.isGL4()) {
+      return g.getGL4();
+    }
+    if (g.isGL3()) {
+      return g.getGL3();
+    }
+    if (g.isGL2()) {
+      return g.getGL2();
     }
 
     throw new UnreachableCodeException();
