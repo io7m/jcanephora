@@ -51,7 +51,6 @@ import com.io7m.jcanephora.FramebufferUsableType;
 import com.io7m.jcanephora.IndexBufferType;
 import com.io7m.jcanephora.IndexBufferUpdateUnmappedType;
 import com.io7m.jcanephora.IndexBufferUsableType;
-import com.io7m.jcanephora.JCGLDebugging;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionBlendingMisconfigured;
 import com.io7m.jcanephora.JCGLExceptionDeleted;
@@ -99,9 +98,9 @@ import com.io7m.jcanephora.api.JCGLInterfaceGL2Type;
 import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.api.JCGLSoftRestrictionsType;
 import com.io7m.jfunctional.OptionType;
+import com.io7m.jfunctional.Some;
 import com.io7m.jlog.LogUsableType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jnull.Nullable;
 import com.io7m.jtensors.MatrixReadable3x3FType;
 import com.io7m.jtensors.MatrixReadable4x4FType;
 import com.io7m.jtensors.VectorReadable2FType;
@@ -110,7 +109,6 @@ import com.io7m.jtensors.VectorReadable3FType;
 import com.io7m.jtensors.VectorReadable3IType;
 import com.io7m.jtensors.VectorReadable4FType;
 import com.io7m.jtensors.VectorReadable4IType;
-import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * <p>
@@ -137,25 +135,26 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 final class JCGLInterfaceGL2_JOGL_GL21 implements JCGLInterfaceGL2Type
 {
+
   private static GL2 makeCachedGL2(
-    final JCGLDebugging in_debug,
-    final @Nullable PrintStream in_trace_out,
-    final GL2 g2)
+    final boolean in_debugging,
+    final OptionType<PrintStream> in_tracing,
+    final GL2 g)
   {
-    switch (in_debug) {
-      case JCGL_DEBUGGING:
-        return new DebugGL2(g2);
-      case JCGL_NONE:
-        return g2;
-      case JCGL_TRACING:
-        NullCheck.notNull(in_trace_out, "Trace output");
-        return new TraceGL2(g2, in_trace_out);
-      case JCGL_TRACING_AND_DEBUGGING:
-        NullCheck.notNull(in_trace_out, "Trace output");
-        return new DebugGL2(new TraceGL2(g2, in_trace_out));
+    if (in_debugging) {
+      if (in_tracing.isSome()) {
+        final Some<PrintStream> s = (Some<PrintStream>) in_tracing;
+        return new DebugGL2(new TraceGL2(g, s.get()));
+      }
+      return new DebugGL2(g);
     }
 
-    throw new UnreachableCodeException();
+    if (in_tracing.isSome()) {
+      final Some<PrintStream> s = (Some<PrintStream>) in_tracing;
+      return new TraceGL2(g, s.get());
+    }
+
+    return g;
   }
 
   private final JOGLArrays                                arrays;
@@ -171,7 +170,6 @@ final class JCGLInterfaceGL2_JOGL_GL21 implements JCGLInterfaceGL2Type
   private final OptionType<JCGLExtensionDepthTextureType> ext_depth_texture;
   private final JCGLNamedExtensionsType                   extensions;
   private final JOGLFramebuffersGL2GL3                    framebuffers;
-  private final GLContext                                 gl_context;
   private final JOGLIntegerCacheType                      icache;
   private final JOGLIndexBuffers                          index;
   private final LogUsableType                             log;
@@ -192,22 +190,23 @@ final class JCGLInterfaceGL2_JOGL_GL21 implements JCGLInterfaceGL2Type
   JCGLInterfaceGL2_JOGL_GL21(
     final GLContext in_context,
     final LogUsableType in_log,
-    final JCGLDebugging in_debug,
-    final @Nullable PrintStream in_trace_out,
+    final boolean in_debugging,
+    final OptionType<PrintStream> in_tracing,
+    final boolean in_caching,
     final JCGLSoftRestrictionsType in_restrictions)
     throws JCGLException
   {
     this.log = NullCheck.notNull(in_log, "Log").with("gl2-jogl_21");
-    this.gl_context = NullCheck.notNull(in_context, "GL context");
-    NullCheck.notNull(in_restrictions, "Restrictions");
-    NullCheck.notNull(in_debug, "Debug");
 
-    final GL2 g2 = this.gl_context.getGL().getGL2();
-    assert g2 != null;
+    NullCheck.notNull(in_context, "Context");
+    NullCheck.notNull(in_restrictions, "Soft restrictions");
+    NullCheck.notNull(in_tracing, "Tracing");
 
     this.cached_gl2 =
-      JCGLInterfaceGL2_JOGL_GL21.makeCachedGL2(in_debug, in_trace_out, g2);
-
+      JCGLInterfaceGL2_JOGL_GL21.makeCachedGL2(
+        in_debugging,
+        in_tracing,
+        in_context.getGL().getGL2());
     this.extensions = new Extensions(in_context, in_restrictions, in_log);
 
     /**

@@ -1,10 +1,10 @@
 /*
  * Copyright © 2013 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -39,6 +39,7 @@ import com.io7m.jcanephora.examples.ExampleTexturedQuadAnimatedNoise;
 import com.io7m.jcanephora.examples.ExampleTexturedQuadImage;
 import com.io7m.jcanephora.examples.ExampleTriangle;
 import com.io7m.jcanephora.jogl.JCGLImplementationJOGL;
+import com.io7m.jcanephora.jogl.JCGLImplementationJOGLBuilderType;
 import com.io7m.jcanephora.texload.imageio.TextureLoaderImageIO;
 import com.io7m.jfunctional.PartialFunctionType;
 import com.io7m.jlog.Log;
@@ -361,10 +362,12 @@ final class JOGL30ExampleRunner implements GLEventListener, KeyListener
   {
     try {
       this.texture_loader = TextureLoaderImageIO.newTextureLoader(this.log);
-      this.gl_implementation =
-        JCGLImplementationJOGL.newImplementationWithDebugging(
-          drawable.getContext(),
-          this.log);
+
+      final JCGLImplementationJOGLBuilderType b =
+        JCGLImplementationJOGL.newBuilder();
+      b.setDebugging(true);
+
+      this.gl_implementation = b.build(drawable.getContext(), this.log);
 
       this.config =
         new ExampleConfig(

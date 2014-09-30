@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -20,7 +20,6 @@ import java.io.PrintStream;
 import java.util.List;
 
 import javax.media.opengl.DebugGLES2;
-import javax.media.opengl.GL;
 import javax.media.opengl.GLContext;
 import javax.media.opengl.GLES2;
 import javax.media.opengl.TraceGLES2;
@@ -47,7 +46,6 @@ import com.io7m.jcanephora.FramebufferUsableType;
 import com.io7m.jcanephora.IndexBufferType;
 import com.io7m.jcanephora.IndexBufferUpdateUnmappedType;
 import com.io7m.jcanephora.IndexBufferUsableType;
-import com.io7m.jcanephora.JCGLDebugging;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionBlendingMisconfigured;
 import com.io7m.jcanephora.JCGLExceptionDeleted;
@@ -92,9 +90,9 @@ import com.io7m.jcanephora.api.JCGLInterfaceGLES2Type;
 import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.api.JCGLSoftRestrictionsType;
 import com.io7m.jfunctional.OptionType;
+import com.io7m.jfunctional.Some;
 import com.io7m.jlog.LogUsableType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jnull.Nullable;
 import com.io7m.jtensors.MatrixReadable3x3FType;
 import com.io7m.jtensors.MatrixReadable4x4FType;
 import com.io7m.jtensors.VectorReadable2FType;
@@ -103,7 +101,6 @@ import com.io7m.jtensors.VectorReadable3FType;
 import com.io7m.jtensors.VectorReadable3IType;
 import com.io7m.jtensors.VectorReadable4FType;
 import com.io7m.jtensors.VectorReadable4IType;
-import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * <p>
@@ -129,35 +126,32 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
 {
-  protected static GLES2 makeCachedGLES2(
-    final GL gl,
-    final JCGLDebugging debug,
-    final @Nullable PrintStream trace_out)
+  private static GLES2 makeCachedGLES2(
+    final boolean in_debugging,
+    final OptionType<PrintStream> in_tracing,
+    final GLES2 g)
   {
-    final GLES2 g = gl.getGLES2();
-    switch (debug) {
-      case JCGL_DEBUGGING:
-        return new DebugGLES2(g);
-      case JCGL_NONE:
-        return g;
-      case JCGL_TRACING:
-        NullCheck.notNull(trace_out, "Trace output");
-        return new TraceGLES2(g, trace_out);
-      case JCGL_TRACING_AND_DEBUGGING:
-        NullCheck.notNull(trace_out, "Trace output");
-        return new DebugGLES2(new TraceGLES2(g, trace_out));
+    if (in_debugging) {
+      if (in_tracing.isSome()) {
+        final Some<PrintStream> s = (Some<PrintStream>) in_tracing;
+        return new DebugGLES2(new TraceGLES2(g, s.get()));
+      }
+      return new DebugGLES2(g);
     }
-    throw new UnreachableCodeException();
+
+    if (in_tracing.isSome()) {
+      final Some<PrintStream> s = (Some<PrintStream>) in_tracing;
+      return new TraceGLES2(g, s.get());
+    }
+
+    return g;
   }
 
   private final JOGLArrays                                      arrays;
-
   private final JOGLBlending                                    blending;
-
   private final GLES2                                           cached_gl;
   private final JOGLColorBuffer                                 color_buffer;
   private final JOGLColorAttachmentPoints                       color_points;
-  private final GLContext                                       context;
   private final JOGLCulling                                     cull;
   private final JOGLDepthBufferGL2GL3                           depth;
   private final JOGLDraw                                        draw;
@@ -171,10 +165,7 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
   private final JOGLIntegerCacheType                            icache;
   private final JOGLIndexBuffers                                index;
   private final LogUsableType                                   log;
-  private final JOGLLogic                                       logic;
   private final JOGLMeta                                        meta;
-  private final JOGLPolygonMode                                 polygon_modes;
-  private final JOGLPolygonSmoothing                            polygon_smooth;
   private final JOGLShadersGLES2                                program;
   private final JOGLRenderbuffersGLES2                          renderbuffers;
   private final JOGLScissor                                     scissor;
@@ -184,27 +175,28 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
   private final JOGLTexturesCubeStaticGLES2                     textures_cube;
   private final JOGLTextures2DStaticGLES2                       textures2d;
   private final JOGLViewport                                    viewport;
+
   JCGLInterfaceGLES2_JOGL_ES2(
     final GLContext in_context,
     final LogUsableType in_log,
-    final JCGLDebugging in_debug,
-    final @Nullable PrintStream in_trace_out,
+    final boolean in_debugging,
+    final OptionType<PrintStream> in_tracing,
+    final boolean in_caching,
     final JCGLSoftRestrictionsType in_restrictions)
     throws JCGLExceptionRuntime
   {
     this.log = NullCheck.notNull(in_log, "Log").with("es2-jogl_es2");
 
-    this.context = NullCheck.notNull(in_context, "GL context");
-    NullCheck.notNull(in_restrictions, "Restrictions");
-    NullCheck.notNull(in_debug, "Debug");
+    NullCheck.notNull(in_context, "Context");
+    NullCheck.notNull(in_restrictions, "Soft restrictions");
+    NullCheck.notNull(in_tracing, "Tracing");
 
     this.cached_gl =
       JCGLInterfaceGLES2_JOGL_ES2.makeCachedGLES2(
-        this.context.getGL(),
-        in_debug,
-        in_trace_out);
-
-    this.extensions = new Extensions(this.context, in_restrictions, this.log);
+        in_debugging,
+        in_tracing,
+        in_context.getGL().getGLES2());
+    this.extensions = new Extensions(in_context, in_restrictions, in_log);
 
     /**
      * Initialize subsystems.
@@ -247,9 +239,6 @@ final class JCGLInterfaceGLES2_JOGL_ES2 implements JCGLInterfaceGLES2Type
         this.log);
     this.index =
       new JOGLIndexBuffers(this.cached_gl, this.log, this.icache, this.tcache);
-    this.logic = new JOGLLogic(this.cached_gl, this.log);
-    this.polygon_modes = new JOGLPolygonMode(this.cached_gl, this.log);
-    this.polygon_smooth = new JOGLPolygonSmoothing(this.cached_gl, this.log);
     this.program =
       new JOGLShadersGLES2(
         this.cached_gl,

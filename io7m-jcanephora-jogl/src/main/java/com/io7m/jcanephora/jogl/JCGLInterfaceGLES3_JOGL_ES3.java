@@ -55,7 +55,6 @@ import com.io7m.jcanephora.IndexBufferType;
 import com.io7m.jcanephora.IndexBufferUpdateMappedType;
 import com.io7m.jcanephora.IndexBufferUpdateUnmappedType;
 import com.io7m.jcanephora.IndexBufferUsableType;
-import com.io7m.jcanephora.JCGLDebugging;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionBlendingMisconfigured;
 import com.io7m.jcanephora.JCGLExceptionBufferMappedMultiple;
@@ -99,9 +98,10 @@ import com.io7m.jcanephora.VertexShaderType;
 import com.io7m.jcanephora.api.JCGLInterfaceGLES3Type;
 import com.io7m.jcanephora.api.JCGLNamedExtensionsType;
 import com.io7m.jcanephora.api.JCGLSoftRestrictionsType;
+import com.io7m.jfunctional.OptionType;
+import com.io7m.jfunctional.Some;
 import com.io7m.jlog.LogUsableType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeInclusiveL;
 import com.io7m.jtensors.MatrixReadable3x3FType;
 import com.io7m.jtensors.MatrixReadable4x4FType;
@@ -112,7 +112,6 @@ import com.io7m.jtensors.VectorReadable3IType;
 import com.io7m.jtensors.VectorReadable4FType;
 import com.io7m.jtensors.VectorReadable4IType;
 import com.io7m.junreachable.UnimplementedCodeException;
-import com.io7m.junreachable.UnreachableCodeException;
 
 /**
  * <p>
@@ -139,30 +138,28 @@ import com.io7m.junreachable.UnreachableCodeException;
 final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
 {
   private static GLES3 makeCachedGLES3(
-    final JCGLDebugging in_debug,
-    final @Nullable PrintStream trace_out,
+    final boolean in_debugging,
+    final OptionType<PrintStream> in_tracing,
     final GLES3 g)
   {
-    switch (in_debug) {
-      case JCGL_DEBUGGING:
-        return new DebugGLES3(g);
-      case JCGL_NONE:
-        return g;
-      case JCGL_TRACING:
-        NullCheck.notNull(trace_out, "Trace output");
-        return new TraceGLES3(g, trace_out);
-      case JCGL_TRACING_AND_DEBUGGING:
-        NullCheck.notNull(trace_out, "Trace output");
-        return new DebugGLES3(new TraceGLES3(g, trace_out));
+    if (in_debugging) {
+      if (in_tracing.isSome()) {
+        final Some<PrintStream> s = (Some<PrintStream>) in_tracing;
+        return new DebugGLES3(new TraceGLES3(g, s.get()));
+      }
+      return new DebugGLES3(g);
     }
 
-    throw new UnreachableCodeException();
+    if (in_tracing.isSome()) {
+      final Some<PrintStream> s = (Some<PrintStream>) in_tracing;
+      return new TraceGLES3(g, s.get());
+    }
+
+    return g;
   }
 
   private final JOGLArrays                  arrays;
-
   private final JOGLBlending                blending;
-
   private final GLES3                       cached_gl;
   private final JOGLColorBuffer             color_buffer;
   private final JOGLColorAttachmentPoints   color_points;
@@ -186,24 +183,25 @@ final class JCGLInterfaceGLES3_JOGL_ES3 implements JCGLInterfaceGLES3Type
   private final JOGLTexturesCubeStaticGLES3 textures_cube;
   private final JOGLTextures2DStaticGLES3   textures2d;
   private final JOGLViewport                viewport;
+
   JCGLInterfaceGLES3_JOGL_ES3(
     final GLContext in_context,
     final LogUsableType in_log,
-    final JCGLDebugging in_debug,
-    final @Nullable PrintStream trace_out,
+    final boolean in_debugging,
+    final OptionType<PrintStream> in_tracing,
+    final boolean in_caching,
     final JCGLSoftRestrictionsType in_restrictions)
-    throws JCGLExceptionRuntime
   {
     this.log = NullCheck.notNull(in_log, "Log").with("es3-jogl_es3");
 
     NullCheck.notNull(in_context, "Context");
     NullCheck.notNull(in_restrictions, "Soft restrictions");
-    NullCheck.notNull(in_debug, "Debug");
+    NullCheck.notNull(in_tracing, "Tracing");
 
     this.cached_gl =
       JCGLInterfaceGLES3_JOGL_ES3.makeCachedGLES3(
-        in_debug,
-        trace_out,
+        in_debugging,
+        in_tracing,
         in_context.getGL().getGLES3());
     this.extensions = new Extensions(in_context, in_restrictions, in_log);
 

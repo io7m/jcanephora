@@ -16,7 +16,6 @@
 
 package com.io7m.jcanephora.fake;
 
-import java.io.PrintStream;
 import java.util.List;
 
 import com.io7m.jcanephora.AreaInclusive;
@@ -41,7 +40,6 @@ import com.io7m.jcanephora.FramebufferUsableType;
 import com.io7m.jcanephora.IndexBufferType;
 import com.io7m.jcanephora.IndexBufferUpdateUnmappedType;
 import com.io7m.jcanephora.IndexBufferUsableType;
-import com.io7m.jcanephora.JCGLDebugging;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionBlendingMisconfigured;
 import com.io7m.jcanephora.JCGLExceptionBufferNotBound;
@@ -91,7 +89,6 @@ import com.io7m.jfunctional.Option;
 import com.io7m.jfunctional.OptionType;
 import com.io7m.jlog.LogUsableType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jnull.Nullable;
 import com.io7m.jtensors.MatrixReadable3x3FType;
 import com.io7m.jtensors.MatrixReadable4x4FType;
 import com.io7m.jtensors.VectorReadable2FType;
@@ -104,7 +101,6 @@ import com.io7m.jtensors.VectorReadable4IType;
 final class JCGLInterfaceGLES2_Fake implements JCGLInterfaceGLES2Type
 {
   private final FakeArrays                                arrays;
-
   private final FakeBlending                              blending;
   private final FakeColorBuffer                           color_buffer;
   private final FakeColorAttachmentPoints                 color_points;
@@ -117,10 +113,7 @@ final class JCGLInterfaceGLES2_Fake implements JCGLInterfaceGLES2Type
   private final FakeFramebuffers                          framebuffers;
   private final FakeIndexBuffers                          index;
   private final LogUsableType                             log;
-  private final FakeLogic                                 logic;
   private final FakeMeta                                  meta;
-  private final FakePolygonMode                           polygon_modes;
-  private final FakePolygonSmoothing                      polygon_smooth;
   private final FakeShaders                               program;
   private final FakeRenderbuffers                         renderbuffers;
   private final FakeScissor                               scissor;
@@ -135,8 +128,6 @@ final class JCGLInterfaceGLES2_Fake implements JCGLInterfaceGLES2Type
     final FakeContext in_context,
     final FakeShaderControlType in_shader_control,
     final LogUsableType in_log,
-    final JCGLDebugging in_debug,
-    final @Nullable PrintStream in_trace,
     final JCGLSoftRestrictionsType in_restrictions)
   {
     this.tcache = new FakeLogMessageCacheType() {
@@ -179,9 +170,6 @@ final class JCGLInterfaceGLES2_Fake implements JCGLInterfaceGLES2Type
     this.errors = new FakeErrors(in_context, this.log);
     this.meta = new FakeMeta(in_context, this.log);
     this.index = new FakeIndexBuffers(in_context, this.log, this.tcache);
-    this.logic = new FakeLogic(in_context, this.log);
-    this.polygon_modes = new FakePolygonMode(in_context, this.log);
-    this.polygon_smooth = new FakePolygonSmoothing(in_context, this.log);
     this.program =
       new FakeShaders(
         in_context,

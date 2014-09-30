@@ -14,35 +14,33 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora;
+package com.io7m.jcanephora.fake;
+
+import com.io7m.jcanephora.api.JCGLImplementationBuilderType;
+import com.io7m.jcanephora.api.JCGLImplementationType;
+import com.io7m.jlog.LogUsableType;
 
 /**
- * The state of debugging.
+ * The type of mutable builders for constructing fake JCGL implementations.
  */
 
-public enum JCGLDebugging
+public interface JCGLImplementationFakeBuilderType extends
+  JCGLImplementationBuilderType
 {
   /**
-   * Debugging is enabled.
+   * Construct an implementation using the given context.
+   *
+   * @param in_context
+   *          A context
+   * @param in_shader_control
+   *          A shader control interface
+   * @param log
+   *          A log interface
+   * @return A new implementation
    */
 
-  JCGL_DEBUGGING,
-
-  /**
-   * Debugging and tracing are disabled.
-   */
-
-  JCGL_NONE,
-
-  /**
-   * Tracing is enabled.
-   */
-
-  JCGL_TRACING,
-
-  /**
-   * Debugging and tracing are enabled.
-   */
-
-  JCGL_TRACING_AND_DEBUGGING
+  JCGLImplementationType build(
+    final FakeContext in_context,
+    final FakeShaderControlType in_shader_control,
+    final LogUsableType log);
 }

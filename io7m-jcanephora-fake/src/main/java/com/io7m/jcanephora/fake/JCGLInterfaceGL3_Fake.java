@@ -16,7 +16,6 @@
 
 package com.io7m.jcanephora.fake;
 
-import java.io.PrintStream;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +49,6 @@ import com.io7m.jcanephora.IndexBufferType;
 import com.io7m.jcanephora.IndexBufferUpdateMappedType;
 import com.io7m.jcanephora.IndexBufferUpdateUnmappedType;
 import com.io7m.jcanephora.IndexBufferUsableType;
-import com.io7m.jcanephora.JCGLDebugging;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionBlendingMisconfigured;
 import com.io7m.jcanephora.JCGLExceptionBufferMappedMultiple;
@@ -104,7 +102,6 @@ import com.io7m.jfunctional.Option;
 import com.io7m.jfunctional.OptionType;
 import com.io7m.jlog.LogUsableType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeInclusiveL;
 import com.io7m.jtensors.MatrixReadable3x3FType;
 import com.io7m.jtensors.MatrixReadable4x4FType;
@@ -117,9 +114,7 @@ import com.io7m.jtensors.VectorReadable4IType;
 
 final class JCGLInterfaceGL3_Fake implements JCGLInterfaceGL3Type
 {
-
   private final FakeArrays                                arrays;
-
   private final FakeBlending                              blending;
   private final FakeColorBuffer                           color_buffer;
   private final FakeColorAttachmentPoints                 color_points;
@@ -150,8 +145,6 @@ final class JCGLInterfaceGL3_Fake implements JCGLInterfaceGL3Type
     final FakeContext in_context,
     final FakeShaderControlType in_shader_control,
     final LogUsableType in_log,
-    final JCGLDebugging in_debug,
-    final @Nullable PrintStream in_trace,
     final JCGLSoftRestrictionsType in_restrictions)
   {
     this.tcache = new FakeLogMessageCacheType() {
