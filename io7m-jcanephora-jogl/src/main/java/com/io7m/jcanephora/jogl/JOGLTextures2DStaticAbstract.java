@@ -23,27 +23,25 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GLContext;
 
 import com.io7m.jcanephora.AreaInclusive;
-import com.io7m.jcanephora.CubeMapFaceLH;
-import com.io7m.jcanephora.CubeMapFaceRH;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionDeleted;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLExceptionWrongContext;
 import com.io7m.jcanephora.ResourceCheck;
-import com.io7m.jcanephora.TextureCubeStaticType;
-import com.io7m.jcanephora.TextureCubeStaticUpdateType;
-import com.io7m.jcanephora.TextureCubeStaticUsableType;
+import com.io7m.jcanephora.Texture2DStaticType;
+import com.io7m.jcanephora.Texture2DStaticUpdateType;
+import com.io7m.jcanephora.Texture2DStaticUsableType;
 import com.io7m.jcanephora.TextureFormat;
 import com.io7m.jcanephora.TextureUnitType;
-import com.io7m.jcanephora.api.JCGLTexturesCubeStaticCommonType;
+import com.io7m.jcanephora.api.JCGLTextures2DStaticCommonType;
 import com.io7m.jcanephora.jogl.JOGL_TextureSpecs.TextureSpec;
 import com.io7m.jlog.LogLevel;
 import com.io7m.jlog.LogUsableType;
 import com.io7m.jnull.NullCheck;
 
-abstract class JOGLTexturesCubeStaticAbstract extends
-  JOGLTexturesCubeStaticAllocateAbstract implements
-  JCGLTexturesCubeStaticCommonType
+abstract class JOGLTextures2DStaticAbstract extends
+  JOGLTextures2DStaticAllocateAbstract implements
+  JCGLTextures2DStaticCommonType
 {
   /**
    * Check that the given texture:
@@ -55,18 +53,26 @@ abstract class JOGLTexturesCubeStaticAbstract extends
    * </ul>
    */
 
-  public static void checkTexture(
+  public static final void checkTexture(
     final GLContext ctx,
-    final TextureCubeStaticUsableType texture)
+    final Texture2DStaticUsableType texture)
     throws JCGLExceptionWrongContext,
       JCGLExceptionDeleted
   {
     NullCheck.notNull(texture, "Texture");
-    JOGLCompatibilityChecks.checkTextureCube(ctx, texture);
+    JOGLCompatibilityChecks.checkTexture(ctx, texture);
     ResourceCheck.notDeleted(texture);
   }
 
-  public JOGLTexturesCubeStaticAbstract(
+  public static final void setPackUnpackAlignment1(
+    final GL gl)
+    throws JCGLExceptionRuntime
+  {
+    gl.glPixelStorei(GL.GL_PACK_ALIGNMENT, 1);
+    gl.glPixelStorei(GL.GL_UNPACK_ALIGNMENT, 1);
+  }
+
+  public JOGLTextures2DStaticAbstract(
     final GL in_gl,
     final LogUsableType in_log,
     final JOGLIntegerCacheType in_icache,
@@ -75,28 +81,29 @@ abstract class JOGLTexturesCubeStaticAbstract extends
     super(in_gl, in_log, in_icache, in_tcache);
   }
 
-  @Override public final void textureCubeStaticBind(
+  @Override public final void texture2DStaticBind(
     final TextureUnitType unit,
-    final TextureCubeStaticUsableType texture)
+    final Texture2DStaticUsableType texture)
     throws JCGLExceptionRuntime,
       JCGLExceptionWrongContext,
       JCGLExceptionDeleted
   {
-    JOGLTexturesCubeStaticAbstract.checkTexture(this.getContext(), texture);
+    JOGLTextures2DStaticAbstract.checkTexture(this.getContext(), texture);
+
     final GL g = this.getGL();
     g.glActiveTexture(GL.GL_TEXTURE0 + unit.unitGetIndex());
-    g.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, texture.getGLName());
+    g.glBindTexture(GL.GL_TEXTURE_2D, texture.getGLName());
   }
 
-  @Override public final void textureCubeStaticDelete(
-    final TextureCubeStaticType texture)
-    throws JCGLExceptionRuntime,
-      JCGLExceptionWrongContext,
-      JCGLExceptionDeleted
+  @Override public final void texture2DStaticDelete(
+    final Texture2DStaticType texture)
+    throws JCGLException
   {
-    JOGLTexturesCubeStaticAbstract.checkTexture(this.getContext(), texture);
+    JOGLTextures2DStaticAbstract.checkTexture(this.getContext(), texture);
 
+    final GL g = this.getGL();
     final LogUsableType log = this.getLog();
+
     final StringBuilder text = this.getTcache().getTextCache();
     if (log.wouldLog(LogLevel.LOG_DEBUG)) {
       text.setLength(0);
@@ -107,7 +114,6 @@ abstract class JOGLTexturesCubeStaticAbstract extends
       log.debug(s);
     }
 
-    final GL g = this.getGL();
     final IntBuffer cache = this.getIcache().getIntegerCache();
     cache.put(0, texture.getGLName());
     g.glDeleteTextures(1, cache);
@@ -115,46 +121,48 @@ abstract class JOGLTexturesCubeStaticAbstract extends
     ((JOGLObjectDeletable) texture).resourceSetDeleted();
   }
 
-  @Override public final boolean textureCubeStaticIsBound(
+  @Override public final boolean texture2DStaticIsBound(
     final TextureUnitType unit,
-    final TextureCubeStaticUsableType texture)
+    final Texture2DStaticUsableType texture)
     throws JCGLExceptionRuntime,
       JCGLExceptionWrongContext,
       JCGLExceptionDeleted
   {
-    JOGLTexturesCubeStaticAbstract.checkTexture(this.getContext(), texture);
+    JOGLTextures2DStaticAbstract.checkTexture(this.getContext(), texture);
     JOGLTextureUnits.checkTextureUnit(this.getContext(), unit);
+
     final GL g = this.getGL();
     g.glActiveTexture(GL.GL_TEXTURE0 + unit.unitGetIndex());
     final IntBuffer cache = this.getIcache().getIntegerCache();
-    g.glGetIntegerv(GL.GL_TEXTURE_BINDING_CUBE_MAP, cache);
+    g.glGetIntegerv(GL.GL_TEXTURE_BINDING_2D, cache);
     final int e = cache.get(0);
     return e == texture.getGLName();
   }
 
-  @Override public final void textureCubeStaticUnbind(
+  @Override public final void texture2DStaticUnbind(
     final TextureUnitType unit)
     throws JCGLExceptionRuntime,
       JCGLExceptionWrongContext
   {
     JOGLTextureUnits.checkTextureUnit(this.getContext(), unit);
+
     final GL g = this.getGL();
     g.glActiveTexture(GL.GL_TEXTURE0 + unit.unitGetIndex());
-    g.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
+    g.glBindTexture(GL.GL_TEXTURE_2D, 0);
   }
 
-  @Override public final void textureCubeStaticUpdateLH(
-    final CubeMapFaceLH face,
-    final TextureCubeStaticUpdateType data)
+  @Override public final void texture2DStaticUpdate(
+    final Texture2DStaticUpdateType data)
     throws JCGLException
   {
-    NullCheck.notNull(face, "Face");
-    NullCheck.notNull(data, "Data");
+    NullCheck.notNull(data, "Texture data");
+    final Texture2DStaticType texture = data.getTexture();
+    final GLContext context = this.getContext();
+    JOGLTextures2DStaticAbstract.checkTexture(context, texture);
+
+    final GL g = this.getGL();
 
     final AreaInclusive area = data.getTargetArea();
-    final TextureCubeStaticType texture = data.getTexture();
-    JOGLTexturesCubeStaticAbstract.checkTexture(this.getContext(), texture);
-
     final TextureFormat type = texture.textureGetFormat();
     final int x_offset = (int) area.getRangeX().getLower();
     final int y_offset = (int) area.getRangeY().getLower();
@@ -162,12 +170,10 @@ abstract class JOGLTexturesCubeStaticAbstract extends
     final int height = (int) area.getRangeY().getInterval();
     final TextureSpec spec = this.getTextureSpec(type);
     final ByteBuffer buffer = data.getTargetData();
-    final int gface = JOGLTypeConversions.cubeFaceToGL(face);
 
-    final GL g = this.getGL();
-    g.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, texture.getGLName());
+    g.glBindTexture(GL.GL_TEXTURE_2D, texture.getGLName());
     g.glTexSubImage2D(
-      gface,
+      GL.GL_TEXTURE_2D,
       0,
       x_offset,
       y_offset,
@@ -176,14 +182,6 @@ abstract class JOGLTexturesCubeStaticAbstract extends
       spec.getFormat(),
       spec.getType(),
       buffer);
-    g.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
-  }
-
-  @Override public final void textureCubeStaticUpdateRH(
-    final CubeMapFaceRH face,
-    final TextureCubeStaticUpdateType data)
-    throws JCGLException
-  {
-    this.textureCubeStaticUpdateLH(CubeMapFaceLH.fromRH(face), data);
+    g.glBindTexture(GL.GL_TEXTURE_2D, 0);
   }
 }

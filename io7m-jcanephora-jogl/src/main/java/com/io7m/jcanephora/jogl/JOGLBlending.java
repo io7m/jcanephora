@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -50,7 +50,6 @@ final class JOGLBlending implements JCGLBlendingGL3Type
     throws JCGLExceptionRuntime
   {
     this.gl.glDisable(GL.GL_BLEND);
-    JOGLErrors.check(this.gl);
   }
 
   @Override public void blendingEnable(
@@ -118,7 +117,6 @@ final class JOGLBlending implements JCGLBlendingGL3Type
       JOGLTypeConversions.blendFunctionToGL(destination_rgb_factor),
       JOGLTypeConversions.blendFunctionToGL(source_alpha_factor),
       JOGLTypeConversions.blendFunctionToGL(destination_alpha_factor));
-    JOGLErrors.check(this.gl);
   }
 
   @Override public void blendingEnableSeparateWithEquationSeparateES2(
@@ -156,7 +154,6 @@ final class JOGLBlending implements JCGLBlendingGL3Type
       JOGLTypeConversions.blendFunctionToGL(destination_rgb_factor),
       JOGLTypeConversions.blendFunctionToGL(source_alpha_factor),
       JOGLTypeConversions.blendFunctionToGL(destination_alpha_factor));
-    JOGLErrors.check(this.gl);
   }
 
   @Override public void blendingEnableWithEquation(
@@ -230,7 +227,6 @@ final class JOGLBlending implements JCGLBlendingGL3Type
   {
     final IntBuffer icache = this.cache.getIntegerCache();
     this.gl.glGetIntegerv(GL.GL_BLEND, icache);
-    JOGLErrors.check(this.gl);
     return icache.get(0) == GL.GL_TRUE;
   }
 }

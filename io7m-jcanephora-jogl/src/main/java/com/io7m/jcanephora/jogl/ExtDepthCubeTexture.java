@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -135,36 +135,30 @@ final class ExtDepthCubeTexture<G extends GL> implements
 
     final IntBuffer cache = this.icache.getIntegerCache();
     this.gl.glGenTextures(1, cache);
-    JOGLErrors.check(this.gl);
+
     final int texture_id = cache.get(0);
 
     this.gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, texture_id);
-    JOGLErrors.check(this.gl);
     this.gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL.GL_TEXTURE_WRAP_S,
       JOGLTypeConversions.textureWrapSToGL(wrap_s));
-    JOGLErrors.check(this.gl);
     this.gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL.GL_TEXTURE_WRAP_T,
       JOGLTypeConversions.textureWrapTToGL(wrap_t));
-    JOGLErrors.check(this.gl);
     this.gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL2ES2.GL_TEXTURE_WRAP_R,
       JOGLTypeConversions.textureWrapRToGL(wrap_r));
-    JOGLErrors.check(this.gl);
     this.gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL.GL_TEXTURE_MIN_FILTER,
       JOGLTypeConversions.textureFilterMinToGL(min_filter));
-    JOGLErrors.check(this.gl);
     this.gl.glTexParameteri(
       GL.GL_TEXTURE_CUBE_MAP,
       GL.GL_TEXTURE_MAG_FILTER,
       JOGLTypeConversions.textureFilterMagToGL(mag_filter));
-    JOGLErrors.check(this.gl);
 
     final TextureSpec spec = JOGL_TextureSpecs.getGLES2TextureSpec(type);
     JOGLTextures2DStaticAbstract.setPackUnpackAlignment1(this.gl);
@@ -183,11 +177,10 @@ final class ExtDepthCubeTexture<G extends GL> implements
         spec.getFormat(),
         spec.getType(),
         null);
-      JOGLErrors.check(this.gl);
+
     }
 
     this.gl.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
-    JOGLErrors.check(this.gl);
 
     final JOGLTextureCubeStatic t =
       new JOGLTextureCubeStatic(

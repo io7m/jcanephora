@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -149,7 +149,6 @@ final class JOGLArrays implements
         this.log.debug(r);
       }
 
-      JOGLErrors.check(this.gl);
     } finally {
       this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
     }
@@ -171,7 +170,7 @@ final class JOGLArrays implements
     JOGLArrays.checkArray(this.gl, array);
 
     this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, array.getGLName());
-    JOGLErrors.check(this.gl);
+
   }
 
   @Override public void arrayBufferDelete(
@@ -198,7 +197,7 @@ final class JOGLArrays implements
 
     this.gl.glDeleteBuffers(1, ix);
     ((JOGLArrayBuffer) array).resourceSetDeleted();
-    JOGLErrors.check(this.gl);
+
   }
 
   @Override public boolean arrayBufferIsBound(
@@ -210,7 +209,7 @@ final class JOGLArrays implements
     JOGLArrays.checkArray(this.gl, array);
 
     final int b = this.gl.getBoundBuffer(GL.GL_ARRAY_BUFFER);
-    JOGLErrors.check(this.gl);
+
     return b == array.getGLName();
   }
 
@@ -261,7 +260,6 @@ final class JOGLArrays implements
     this.mappingAdd(array);
 
     this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, array.getGLName());
-    JOGLErrors.check(this.gl);
 
     ByteBuffer b;
     try {
@@ -276,12 +274,10 @@ final class JOGLArrays implements
           offset,
           length,
           GL.GL_MAP_READ_BIT);
-      JOGLErrors.check(this.gl);
 
     } finally {
       this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
     }
-    JOGLErrors.check(this.gl);
 
     assert b != null;
     return b;
@@ -312,7 +308,6 @@ final class JOGLArrays implements
     this.mappingAdd(array);
 
     this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, array.getGLName());
-    JOGLErrors.check(this.gl);
 
     final ByteBuffer b;
     try {
@@ -322,7 +317,6 @@ final class JOGLArrays implements
         array.resourceGetSizeBytes(),
         null,
         JOGLTypeConversions.usageHintToGL(hint));
-      JOGLErrors.check(this.gl);
 
       final RangeInclusiveL range = array.bufferGetRange();
       final long offset =
@@ -336,12 +330,10 @@ final class JOGLArrays implements
           offset,
           length,
           GL.GL_MAP_WRITE_BIT);
-      JOGLErrors.check(this.gl);
 
     } finally {
       this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
     }
-    JOGLErrors.check(this.gl);
 
     assert b != null;
     return new JOGLArrayBufferUpdateMapped(array, b);
@@ -351,7 +343,7 @@ final class JOGLArrays implements
     throws JCGLExceptionRuntime
   {
     this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
-    JOGLErrors.check(this.gl);
+
   }
 
   @Override public void arrayBufferUnmap(
@@ -386,7 +378,7 @@ final class JOGLArrays implements
     } finally {
       this.gl.glBindBuffer(GL.GL_ARRAY_BUFFER, 0);
     }
-    JOGLErrors.check(this.gl);
+
   }
 
   @Override public void arrayBufferUpdate(
@@ -406,7 +398,7 @@ final class JOGLArrays implements
         data.getTargetDataOffset(),
         data.getTargetDataSize(),
         data.getTargetData());
-      JOGLErrors.check(this.gl);
+
     } finally {
       this.arrayBufferUnbind();
     }

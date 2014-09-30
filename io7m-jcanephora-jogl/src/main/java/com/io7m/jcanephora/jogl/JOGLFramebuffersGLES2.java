@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -123,7 +123,6 @@ final class JOGLFramebuffersGLES2 extends JOGLFramebuffersAbstract implements
       GL.GL_COLOR_ATTACHMENT0,
       GL.GL_RENDERBUFFER,
       renderbuffer.getGLName());
-    JOGLErrors.check(this.g);
   }
 
   @Override public void framebufferDrawAttachColorTexture2D(
@@ -166,7 +165,6 @@ final class JOGLFramebuffersGLES2 extends JOGLFramebuffersAbstract implements
       GL.GL_TEXTURE_2D,
       texture.getGLName(),
       0);
-    JOGLErrors.check(this.g);
   }
 
   @Override public void framebufferDrawAttachColorTextureCube(
@@ -212,7 +210,6 @@ final class JOGLFramebuffersGLES2 extends JOGLFramebuffersAbstract implements
       gface,
       texture.getGLName(),
       0);
-    JOGLErrors.check(this.g);
   }
 
   @Override public void framebufferDrawAttachDepthRenderbuffer(
@@ -261,7 +258,6 @@ final class JOGLFramebuffersGLES2 extends JOGLFramebuffersAbstract implements
       GL.GL_DEPTH_ATTACHMENT,
       GL.GL_RENDERBUFFER,
       renderbuffer.getGLName());
-    JOGLErrors.check(this.g);
   }
 
   @Override public void framebufferDrawAttachDepthTexture2D(
@@ -303,7 +299,6 @@ final class JOGLFramebuffersGLES2 extends JOGLFramebuffersAbstract implements
       GL.GL_TEXTURE_2D,
       texture.getGLName(),
       0);
-    JOGLErrors.check(this.g);
   }
 
   @Override public void framebufferDrawAttachStencilRenderbuffer(
@@ -356,7 +351,6 @@ final class JOGLFramebuffersGLES2 extends JOGLFramebuffersAbstract implements
       GL.GL_STENCIL_ATTACHMENT,
       GL.GL_RENDERBUFFER,
       renderbuffer.getGLName());
-    JOGLErrors.check(this.g);
   }
 
   @Override public void framebufferDrawBind(
@@ -365,7 +359,6 @@ final class JOGLFramebuffersGLES2 extends JOGLFramebuffersAbstract implements
   {
     JOGLFramebuffersAbstract.checkFramebuffer(this.ctx, framebuffer);
     this.g.glBindFramebuffer(GL.GL_FRAMEBUFFER, framebuffer.getGLName());
-    JOGLErrors.check(this.g);
   }
 
   @Override public boolean framebufferDrawIsBound(
@@ -381,7 +374,6 @@ final class JOGLFramebuffersGLES2 extends JOGLFramebuffersAbstract implements
     throws JCGLException
   {
     this.g.glBindFramebuffer(GL.GL_FRAMEBUFFER, 0);
-    JOGLErrors.check(this.g);
   }
 
   @Override public FramebufferStatus framebufferDrawValidate(
@@ -390,7 +382,6 @@ final class JOGLFramebuffersGLES2 extends JOGLFramebuffersAbstract implements
   {
     this.checkFramebufferAndDrawIsBound(framebuffer);
     final int status = this.g.glCheckFramebufferStatus(GL.GL_FRAMEBUFFER);
-    JOGLErrors.check(this.g);
     return JOGLTypeConversions.framebufferStatusFromGL(status);
   }
 

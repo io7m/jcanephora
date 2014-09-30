@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -146,7 +146,6 @@ final class JOGLTextureUnits implements JCGLTextureUnitsType
     final IntBuffer cache = this.icache.getIntegerCache();
     g.glGetIntegerv(GL.GL_TEXTURE_BINDING_2D, cache);
     final int e = cache.get(0);
-    JOGLErrors.check(g);
     return e != 0;
   }
 }

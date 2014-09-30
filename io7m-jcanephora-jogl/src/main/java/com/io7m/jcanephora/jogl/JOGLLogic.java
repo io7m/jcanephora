@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -43,7 +43,6 @@ final class JOGLLogic implements JCGLLogicType
     throws JCGLExceptionRuntime
   {
     this.gl.glDisable(GL.GL_COLOR_LOGIC_OP);
-    JOGLErrors.check(this.gl);
   }
 
   @Override public void logicOperationsEnable(
@@ -55,14 +54,12 @@ final class JOGLLogic implements JCGLLogicType
     final GL2GL3 g3 = this.gl.getGL2GL3();
     g3.glEnable(GL.GL_COLOR_LOGIC_OP);
     g3.glLogicOp(JOGLTypeConversions.logicOpToGL(operation));
-    JOGLErrors.check(this.gl);
   }
 
   @Override public boolean logicOperationsEnabled()
     throws JCGLExceptionRuntime
   {
     final boolean e = this.gl.glIsEnabled(GL.GL_COLOR_LOGIC_OP);
-    JOGLErrors.check(this.gl);
     return e;
   }
 }

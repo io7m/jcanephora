@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -354,7 +354,6 @@ abstract class JOGLShadersAbstract implements
     }
 
     final int id = this.gl.glCreateShader(GL2ES2.GL_FRAGMENT_SHADER);
-    JOGLErrors.check(this.gl);
 
     final String[] line_array = new String[lines.size()];
     final IntBuffer line_lengths = Buffers.newDirectIntBuffer(lines.size());
@@ -365,18 +364,14 @@ abstract class JOGLShadersAbstract implements
     }
 
     this.gl.glShaderSource(id, line_array.length, line_array, line_lengths);
-    JOGLErrors.check(this.gl);
     this.gl.glCompileShader(id);
-    JOGLErrors.check(this.gl);
     final int status =
       this.icache.getShaderInteger(this.gl, id, GL2ES2.GL_COMPILE_STATUS);
-    JOGLErrors.check(this.gl);
 
     if (status == 0) {
       final ByteBuffer log_buffer = Buffers.newDirectByteBuffer(8192);
       final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
       this.gl.glGetShaderInfoLog(id, 8192, buffer_length, log_buffer);
-      JOGLErrors.check(this.gl);
 
       final byte[] raw = new byte[log_buffer.remaining()];
       log_buffer.get(raw);
@@ -407,7 +402,6 @@ abstract class JOGLShadersAbstract implements
 
     this.gl.glDeleteShader(id.getGLName());
     ((JOGLObjectDeletable) id).resourceSetDeleted();
-    JOGLErrors.check(this.gl);
   }
 
   protected final JOGLIntegerCacheType getIcache()
@@ -433,7 +427,6 @@ abstract class JOGLShadersAbstract implements
   {
     JOGLShadersAbstract.checkProgram(this.gl, program);
     this.gl.glUseProgram(program.getGLName());
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void programAttributeArrayAssociate(
@@ -480,7 +473,6 @@ abstract class JOGLShadersAbstract implements
       array.arrayGetDescriptor().getAttributeOffset(ad.getName());
 
     this.gl.glEnableVertexAttribArray(pa_id);
-    JOGLErrors.check(this.gl);
     this.gl.glVertexAttribPointer(
       pa_id,
       ad.getComponents(),
@@ -488,7 +480,6 @@ abstract class JOGLShadersAbstract implements
       normalized,
       stride,
       offset);
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void programAttributeArrayDisassociate(
@@ -497,7 +488,6 @@ abstract class JOGLShadersAbstract implements
   {
     this.checkAttribute(pa);
     this.gl.glDisableVertexAttribArray(pa.attributeGetLocation());
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void programAttributePutFloat(
@@ -509,7 +499,6 @@ abstract class JOGLShadersAbstract implements
     final int pal = pa.attributeGetLocation();
     this.gl.glDisableVertexAttribArray(pal);
     this.gl.glVertexAttrib1f(pal, x);
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void programAttributePutVector2f(
@@ -523,7 +512,6 @@ abstract class JOGLShadersAbstract implements
     final int pal = pa.attributeGetLocation();
     this.gl.glDisableVertexAttribArray(pal);
     this.gl.glVertexAttrib2f(pal, x.getXF(), x.getYF());
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void programAttributePutVector3f(
@@ -537,7 +525,6 @@ abstract class JOGLShadersAbstract implements
     final int pal = pa.attributeGetLocation();
     this.gl.glDisableVertexAttribArray(pal);
     this.gl.glVertexAttrib3f(pal, x.getXF(), x.getYF(), x.getZF());
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void programAttributePutVector4f(
@@ -551,7 +538,6 @@ abstract class JOGLShadersAbstract implements
     final int pal = pa.attributeGetLocation();
     this.gl.glDisableVertexAttribArray(pal);
     this.gl.glVertexAttrib4f(pal, x.getXF(), x.getYF(), x.getZF(), x.getWF());
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final ProgramType programCreateCommon(
@@ -583,14 +569,10 @@ abstract class JOGLShadersAbstract implements
     if (id == 0) {
       throw new JCGLExceptionRuntime(0, "glCreateProgram failed");
     }
-    JOGLErrors.check(this.gl);
 
     this.gl.glAttachShader(id, v.getGLName());
-    JOGLErrors.check(this.gl);
     this.gl.glAttachShader(id, f.getGLName());
-    JOGLErrors.check(this.gl);
     this.gl.glLinkProgram(id);
-    JOGLErrors.check(this.gl);
 
     final int status =
       this.icache.getProgramInteger(this.gl, id, GL2ES2.GL_LINK_STATUS);
@@ -599,15 +581,12 @@ abstract class JOGLShadersAbstract implements
       final ByteBuffer buffer = Buffers.newDirectByteBuffer(8192);
       final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
       this.gl.glGetProgramInfoLog(id, 8192, buffer_length, buffer);
-      JOGLErrors.check(this.gl);
 
       final byte[] raw = new byte[buffer.remaining()];
       buffer.get(raw);
       final String tt = new String(raw);
       throw new JCGLExceptionProgramCompileError(name, tt);
     }
-
-    JOGLErrors.check(this.gl);
 
     if (this.log.wouldLog(LogLevel.LOG_DEBUG)) {
       text.setLength(0);
@@ -637,7 +616,6 @@ abstract class JOGLShadersAbstract implements
     throws JCGLException
   {
     this.gl.glUseProgram(0);
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void programDelete(
@@ -660,7 +638,6 @@ abstract class JOGLShadersAbstract implements
 
     this.gl.glDeleteProgram(program.getGLName());
     ((JOGLObjectDeletable) program).resourceSetDeleted();
-    JOGLErrors.check(this.gl);
   }
 
   protected final void programGetAttributes(
@@ -705,7 +682,6 @@ abstract class JOGLShadersAbstract implements
         buffer_size,
         buffer_type,
         buffer_name);
-      JOGLErrors.check(this.gl);
 
       final int type_raw = buffer_type.get(0);
       final JCGLType type = JOGLTypeConversions.typeFromGL(type_raw);
@@ -716,7 +692,6 @@ abstract class JOGLShadersAbstract implements
       final String name = new String(temp_buffer);
 
       final int location = this.gl.glGetAttribLocation(id, name);
-      JOGLErrors.check(this.gl);
 
       final StringBuilder text = this.tcache.getTextCache();
       if (location == -1) {
@@ -778,7 +753,6 @@ abstract class JOGLShadersAbstract implements
         this.gl,
         id,
         GL2ES2.GL_ACTIVE_UNIFORM_MAX_LENGTH);
-    JOGLErrors.check(this.gl);
 
     final ByteBuffer buffer_name = Buffers.newDirectByteBuffer(length);
     final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
@@ -799,7 +773,6 @@ abstract class JOGLShadersAbstract implements
         buffer_size,
         buffer_type,
         buffer_name);
-      JOGLErrors.check(this.gl);
 
       final int type_raw = buffer_type.get(0);
       final JCGLType type = JOGLTypeConversions.typeFromGL(type_raw);
@@ -810,7 +783,6 @@ abstract class JOGLShadersAbstract implements
       final String name = new String(temp_buffer);
 
       final int location = this.gl.glGetUniformLocation(id, name);
-      JOGLErrors.check(this.gl);
 
       final StringBuilder text = this.tcache.getTextCache();
       if (location == -1) {
@@ -847,7 +819,6 @@ abstract class JOGLShadersAbstract implements
 
     final int active =
       this.icache.getInteger(this.gl, GL2ES2.GL_CURRENT_PROGRAM);
-    JOGLErrors.check(this.gl);
     return active == program.getGLName();
   }
 
@@ -859,7 +830,6 @@ abstract class JOGLShadersAbstract implements
     this.checkUniformAndType(pu, JCGLType.TYPE_FLOAT);
     final int pul = pu.uniformGetLocation();
     this.gl.glUniform1f(pul, x);
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void programUniformPutInteger(
@@ -870,7 +840,6 @@ abstract class JOGLShadersAbstract implements
     this.checkUniformAndType(pu, JCGLType.TYPE_INTEGER);
     final int pul = pu.uniformGetLocation();
     this.gl.glUniform1i(pul, x);
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void programUniformPutMatrix3x3f(
@@ -883,7 +852,6 @@ abstract class JOGLShadersAbstract implements
 
     final int pul = pu.uniformGetLocation();
     this.gl.glUniformMatrix3fv(pul, 1, false, matrix.getFloatBuffer());
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void programUniformPutMatrix4x4f(
@@ -896,7 +864,6 @@ abstract class JOGLShadersAbstract implements
 
     final int pul = pu.uniformGetLocation();
     this.gl.glUniformMatrix4fv(pul, 1, false, matrix.getFloatBuffer());
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void programUniformPutTextureUnit(
@@ -909,7 +876,6 @@ abstract class JOGLShadersAbstract implements
 
     final int pul = pu.uniformGetLocation();
     this.gl.glUniform1i(pul, unit.unitGetIndex());
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void programUniformPutVector2f(
@@ -922,7 +888,6 @@ abstract class JOGLShadersAbstract implements
 
     final int pul = pu.uniformGetLocation();
     this.gl.glUniform2f(pul, v.getXF(), v.getYF());
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void programUniformPutVector2i(
@@ -935,7 +900,6 @@ abstract class JOGLShadersAbstract implements
 
     final int pul = pu.uniformGetLocation();
     this.gl.glUniform2i(pul, v.getXI(), v.getYI());
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void programUniformPutVector3f(
@@ -948,7 +912,6 @@ abstract class JOGLShadersAbstract implements
 
     final int pul = pu.uniformGetLocation();
     this.gl.glUniform3f(pul, v.getXF(), v.getYF(), v.getZF());
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void programUniformPutVector3i(
@@ -961,7 +924,6 @@ abstract class JOGLShadersAbstract implements
 
     final int pul = pu.uniformGetLocation();
     this.gl.glUniform3i(pul, v.getXI(), v.getYI(), v.getZI());
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void programUniformPutVector4f(
@@ -974,7 +936,6 @@ abstract class JOGLShadersAbstract implements
 
     final int pul = pu.uniformGetLocation();
     this.gl.glUniform4f(pul, v.getXF(), v.getYF(), v.getZF(), v.getWF());
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void programUniformPutVector4i(
@@ -987,7 +948,6 @@ abstract class JOGLShadersAbstract implements
 
     final int pul = pu.uniformGetLocation();
     this.gl.glUniform4i(pul, v.getXI(), v.getYI(), v.getZI(), v.getWI());
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final VertexShaderType vertexShaderCompile(
@@ -1015,7 +975,6 @@ abstract class JOGLShadersAbstract implements
     }
 
     final int id = this.gl.glCreateShader(GL2ES2.GL_VERTEX_SHADER);
-    JOGLErrors.check(this.gl);
 
     final String[] line_array = new String[lines.size()];
     final IntBuffer line_lengths = Buffers.newDirectIntBuffer(lines.size());
@@ -1026,18 +985,14 @@ abstract class JOGLShadersAbstract implements
     }
 
     this.gl.glShaderSource(id, line_array.length, line_array, line_lengths);
-    JOGLErrors.check(this.gl);
     this.gl.glCompileShader(id);
-    JOGLErrors.check(this.gl);
     final int status =
       this.icache.getShaderInteger(this.gl, id, GL2ES2.GL_COMPILE_STATUS);
-    JOGLErrors.check(this.gl);
 
     if (status == 0) {
       final ByteBuffer log_buffer = Buffers.newDirectByteBuffer(8192);
       final IntBuffer buffer_length = Buffers.newDirectIntBuffer(1);
       this.gl.glGetShaderInfoLog(id, 8192, buffer_length, log_buffer);
-      JOGLErrors.check(this.gl);
 
       final byte[] raw = new byte[log_buffer.remaining()];
       log_buffer.get(raw);
@@ -1068,6 +1023,5 @@ abstract class JOGLShadersAbstract implements
 
     this.gl.glDeleteShader(id.getGLName());
     ((JOGLObjectDeletable) id).resourceSetDeleted();
-    JOGLErrors.check(this.gl);
   }
 }
