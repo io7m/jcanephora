@@ -26,10 +26,7 @@ import javax.media.opengl.DebugGL2;
 import javax.media.opengl.DebugGL3;
 import javax.media.opengl.DebugGL4;
 import javax.media.opengl.GL;
-import javax.media.opengl.GL2;
 import javax.media.opengl.GL2GL3;
-import javax.media.opengl.GL3;
-import javax.media.opengl.GL4;
 import javax.media.opengl.GLContext;
 import javax.media.opengl.TraceGL2;
 import javax.media.opengl.TraceGL3;
@@ -63,7 +60,6 @@ import com.io7m.jcanephora.IndexBufferType;
 import com.io7m.jcanephora.IndexBufferUpdateMappedType;
 import com.io7m.jcanephora.IndexBufferUpdateUnmappedType;
 import com.io7m.jcanephora.IndexBufferUsableType;
-import com.io7m.jcanephora.JCGLDebugging;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionBlendingMisconfigured;
 import com.io7m.jcanephora.JCGLExceptionBufferMappedMultiple;
@@ -110,9 +106,10 @@ import com.io7m.jcanephora.UsageHint;
 import com.io7m.jcanephora.VertexShaderType;
 import com.io7m.jcanephora.api.JCGLInterfaceGL3Type;
 import com.io7m.jcanephora.api.JCGLSoftRestrictionsType;
+import com.io7m.jfunctional.OptionType;
+import com.io7m.jfunctional.Some;
 import com.io7m.jlog.LogUsableType;
 import com.io7m.jnull.NullCheck;
-import com.io7m.jnull.Nullable;
 import com.io7m.jranges.RangeInclusiveL;
 import com.io7m.jtensors.MatrixReadable3x3FType;
 import com.io7m.jtensors.MatrixReadable4x4FType;
@@ -148,76 +145,62 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 final class JCGLInterfaceGL3_JOGL_GL2GL3 implements JCGLInterfaceGL3Type
 {
-  private static GL2GL3 makeCachedGL2GL3Debug(
-    final GL g)
+
+  private static GL2GL3 makeCachedGL2GL3(
+    final boolean in_debugging,
+    final OptionType<PrintStream> in_tracing,
+    final GLContext in_context)
   {
+    final GL g = in_context.getGL();
+    assert g != null;
+
+    if (in_debugging) {
+      return JCGLInterfaceGL3_JOGL_GL2GL3.makeCachedGL2GL3WithDebugging(
+        in_tracing,
+        g);
+    }
+
+    throw new UnreachableCodeException();
+  }
+
+  @SuppressWarnings("resource") private static
+    GL2GL3
+    makeCachedGL2GL3WithDebugging(
+      final OptionType<PrintStream> in_tracing,
+      final GL g)
+  {
+    if (in_tracing.isSome()) {
+      final Some<PrintStream> s = (Some<PrintStream>) in_tracing;
+      final PrintStream ss = s.get();
+
+      if (g.isGL4()) {
+        return new DebugGL4(new TraceGL4(g.getGL4(), ss));
+      }
+      if (g.isGL3()) {
+        return new DebugGL3(new TraceGL3(g.getGL3(), ss));
+      }
+      if (g.isGL2()) {
+        return new DebugGL2(new TraceGL2(g.getGL2(), ss));
+      }
+
+      throw new UnreachableCodeException();
+    }
+
     if (g.isGL4()) {
       return new DebugGL4(g.getGL4());
-    } else if (g.isGL3()) {
+    }
+    if (g.isGL3()) {
       return new DebugGL3(g.getGL3());
-    } else if (g.isGL2()) {
+    }
+    if (g.isGL2()) {
       return new DebugGL2(g.getGL2());
-    } else {
-      throw new UnreachableCodeException();
     }
-  }
 
-  private static GL2GL3 makeCachedGL2GL3None(
-    final GL g)
-  {
-    if (g.isGL4()) {
-      final GL4 gx = g.getGL4();
-      assert gx != null;
-      return gx;
-    } else if (g.isGL3()) {
-      final GL3 gx = g.getGL3();
-      assert gx != null;
-      return gx;
-    } else if (g.isGL2()) {
-      final GL2 gx = g.getGL2();
-      assert gx != null;
-      return gx;
-    } else {
-      throw new UnreachableCodeException();
-    }
-  }
-
-  private static GL2GL3 makeCachedGL2GL3Tracing(
-    final @Nullable PrintStream in_trace_out,
-    final GL g)
-  {
-    NullCheck.notNull(in_trace_out, "Trace output");
-    if (g.isGL4()) {
-      return new TraceGL4(g.getGL4(), in_trace_out);
-    } else if (g.isGL3()) {
-      return new TraceGL3(g.getGL3(), in_trace_out);
-    } else if (g.isGL2()) {
-      return new TraceGL2(g.getGL2(), in_trace_out);
-    } else {
-      throw new UnreachableCodeException();
-    }
-  }
-
-  private static GL2GL3 makeCachedGL2GL3TracingDebug(
-    final @Nullable PrintStream in_trace_out,
-    final GL g)
-  {
-    NullCheck.notNull(in_trace_out, "Trace output");
-    if (g.isGL4()) {
-      return new DebugGL4(new TraceGL4(g.getGL4(), in_trace_out));
-    } else if (g.isGL3()) {
-      return new DebugGL3(new TraceGL3(g.getGL3(), in_trace_out));
-    } else if (g.isGL2()) {
-      return new DebugGL2(new TraceGL2(g.getGL2(), in_trace_out));
-    } else {
-      throw new UnreachableCodeException();
-    }
+    throw new UnreachableCodeException();
   }
 
   private final JOGLArrays                arrays;
-
   private final JOGLBlending              blending;
-
   private final GL2GL3                    cached_gl2gl3;
   private final JOGLColorBuffer           color_buffer;
   private final JOGLColorAttachmentPoints color_points;
@@ -228,7 +211,6 @@ final class JCGLInterfaceGL3_JOGL_GL2GL3 implements JCGLInterfaceGL3Type
   private final JOGLErrors                errors;
   private final Extensions                extensions;
   private final JOGLFramebuffersGL2GL3    framebuffers;
-  private final GLContext                 gl_context;
   private final JOGLIntegerCacheType      icache;
   private final JOGLIndexBuffers          index;
   private final LogUsableType             log;
@@ -245,21 +227,27 @@ final class JCGLInterfaceGL3_JOGL_GL2GL3 implements JCGLInterfaceGL3Type
   private final JOGLTexturesCubeStaticGL3 textures_cube;
   private final JOGLTextures2DStaticGL3   textures2d;
   private final JOGLViewport              viewport;
+
   JCGLInterfaceGL3_JOGL_GL2GL3(
     final GLContext in_context,
     final LogUsableType in_log,
-    final JCGLDebugging in_debug,
-    final @Nullable PrintStream in_trace_out,
+    final boolean in_debugging,
+    final OptionType<PrintStream> in_tracing,
+    final boolean in_caching,
     final JCGLSoftRestrictionsType in_restrictions)
     throws JCGLExceptionRuntime
   {
-    this.log =
-      NullCheck.notNull(in_log, "log output").with("gl3-jogl_gl2gl3");
-    this.gl_context = NullCheck.notNull(in_context, "GL context");
-    NullCheck.notNull(in_restrictions, "Restrictions");
-    NullCheck.notNull(in_debug, "Debug");
+    this.log = NullCheck.notNull(in_log, "Log").with("gl3-jogl_gl2gl3");
 
-    this.cached_gl2gl3 = this.makeCachedGL2GL3(in_debug, in_trace_out);
+    NullCheck.notNull(in_context, "Context");
+    NullCheck.notNull(in_restrictions, "Soft restrictions");
+    NullCheck.notNull(in_tracing, "Tracing");
+
+    this.cached_gl2gl3 =
+      JCGLInterfaceGL3_JOGL_GL2GL3.makeCachedGL2GL3(
+        in_debugging,
+        in_tracing,
+        in_context);
     this.extensions = new Extensions(in_context, in_restrictions, in_log);
 
     /**
@@ -1057,31 +1045,6 @@ final class JCGLInterfaceGL3_JOGL_GL2GL3 implements JCGLInterfaceGL3Type
     throws JCGLExceptionRuntime
   {
     return this.logic.logicOperationsEnabled();
-  }
-
-  private GL2GL3 makeCachedGL2GL3(
-    final JCGLDebugging in_debug,
-    final @Nullable PrintStream in_trace_out)
-  {
-    final GL g = this.gl_context.getGL();
-    assert g != null;
-
-    switch (in_debug) {
-      case JCGL_DEBUGGING:
-        return JCGLInterfaceGL3_JOGL_GL2GL3.makeCachedGL2GL3Debug(g);
-      case JCGL_NONE:
-        return JCGLInterfaceGL3_JOGL_GL2GL3.makeCachedGL2GL3None(g);
-      case JCGL_TRACING:
-        return JCGLInterfaceGL3_JOGL_GL2GL3.makeCachedGL2GL3Tracing(
-          in_trace_out,
-          g);
-      case JCGL_TRACING_AND_DEBUGGING:
-        return JCGLInterfaceGL3_JOGL_GL2GL3.makeCachedGL2GL3TracingDebug(
-          in_trace_out,
-          g);
-    }
-
-    throw new UnreachableCodeException();
   }
 
   @Override public int metaGetError()

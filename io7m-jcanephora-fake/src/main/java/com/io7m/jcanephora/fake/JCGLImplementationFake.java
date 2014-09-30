@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -18,7 +18,6 @@ package com.io7m.jcanephora.fake;
 
 import java.io.PrintStream;
 
-import com.io7m.jcanephora.JCGLDebugging;
 import com.io7m.jcanephora.JCGLException;
 import com.io7m.jcanephora.JCGLExceptionUnsupported;
 import com.io7m.jcanephora.JCGLVersion;
@@ -30,6 +29,10 @@ import com.io7m.jcanephora.api.JCGLInterfaceGL3Type;
 import com.io7m.jcanephora.api.JCGLInterfaceGLES2Type;
 import com.io7m.jcanephora.api.JCGLInterfaceGLES3Type;
 import com.io7m.jcanephora.api.JCGLSoftRestrictionsType;
+import com.io7m.jfunctional.Option;
+import com.io7m.jfunctional.OptionType;
+import com.io7m.jfunctional.Some;
+import com.io7m.jlog.LogType;
 import com.io7m.jlog.LogUsableType;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jnull.Nullable;
@@ -41,6 +44,162 @@ import com.io7m.junreachable.UnreachableCodeException;
 
 public final class JCGLImplementationFake implements JCGLImplementationType
 {
+
+  @SuppressWarnings("synthetic-access") private static final class Builder implements
+    JCGLImplementationFakeBuilderType
+  {
+    private boolean                  caching;
+    private boolean                  debugging;
+    private JCGLSoftRestrictionsType restrictions;
+    private OptionType<PrintStream>  tracing;
+
+    public Builder()
+    {
+      this.restrictions = JCGLImplementationFake.DEFAULT_RESTRICTIONS;
+      this.debugging = false;
+      this.caching = false;
+      this.tracing = Option.none();
+    }
+
+    @Override public JCGLImplementationType build(
+      final FakeContext in_context,
+      final FakeShaderControlType in_shader_control,
+      final LogUsableType in_log)
+    {
+      final LogType log = NullCheck.notNull(in_log, "Log").with("fake");
+      NullCheck.notNull(in_context, "GL context");
+      NullCheck.notNull(in_shader_control, "Shader control");
+
+      final JCGLVersion version = in_context.getVersion();
+      log.debug("Context is " + version);
+
+      JCGLInterfaceGLES3_Fake in_gl_es3;
+      JCGLInterfaceGLES2_Fake in_gl_es2;
+      JCGLInterfaceGL3_Fake in_gl_3;
+      JCGLInterfaceGL2_Fake in_gl_2;
+      switch (version.getAPI()) {
+        case JCGL_ES:
+        {
+          switch (version.getVersionMajor()) {
+            case 3:
+            {
+              log.debug("Creating GLES3 interface");
+              in_gl_es3 =
+                new JCGLInterfaceGLES3_Fake(
+                  in_context,
+                  in_shader_control,
+                  log,
+                  this.restrictions);
+              in_gl_es2 = null;
+              in_gl_2 = null;
+              in_gl_3 = null;
+              return new JCGLImplementationFake(
+                in_gl_2,
+                in_gl_3,
+                in_gl_es2,
+                in_gl_es3);
+            }
+            case 2:
+            {
+              log.debug("Creating GLES2 interface");
+              in_gl_es2 =
+                new JCGLInterfaceGLES2_Fake(
+                  in_context,
+                  in_shader_control,
+                  log,
+                  this.restrictions);
+              in_gl_es3 = null;
+              in_gl_2 = null;
+              in_gl_3 = null;
+              return new JCGLImplementationFake(
+                in_gl_2,
+                in_gl_3,
+                in_gl_es2,
+                in_gl_es3);
+            }
+          }
+
+          throw new UnreachableCodeException();
+        }
+        case JCGL_FULL:
+        {
+          if (version.getVersionMajor() >= 3) {
+            log.debug("Creating OpenGL >= 3.0 interface");
+            in_gl_3 =
+              new JCGLInterfaceGL3_Fake(
+                in_context,
+                in_shader_control,
+                log,
+                this.restrictions);
+            in_gl_2 = null;
+            in_gl_es2 = null;
+            in_gl_es3 = null;
+            return new JCGLImplementationFake(
+              in_gl_2,
+              in_gl_3,
+              in_gl_es2,
+              in_gl_es3);
+          }
+
+          if (version.getVersionMajor() >= 2) {
+            log.debug("Creating OpenGL 2.1 interface");
+            in_gl_2 =
+              new JCGLInterfaceGL2_Fake(
+                in_context,
+                in_shader_control,
+                log,
+                this.restrictions);
+            in_gl_3 = null;
+            in_gl_es2 = null;
+            in_gl_es3 = null;
+            return new JCGLImplementationFake(
+              in_gl_2,
+              in_gl_3,
+              in_gl_es2,
+              in_gl_es3);
+          }
+
+          break;
+        }
+      }
+
+      throw new JCGLExceptionUnsupported(String.format(
+        "At least OpenGL 2.1 or OpenGL ES2 is required (got %s)",
+        version));
+    }
+
+    @Override public void setDebugging(
+      final boolean enabled)
+    {
+      this.debugging = enabled;
+    }
+
+    @Override public void setRestrictions(
+      final OptionType<JCGLSoftRestrictionsType> r)
+    {
+      NullCheck.notNull(r, "Restrictions");
+      if (r.isNone()) {
+        this.restrictions = JCGLImplementationFake.DEFAULT_RESTRICTIONS;
+      } else {
+        final Some<JCGLSoftRestrictionsType> s =
+          (Some<JCGLSoftRestrictionsType>) r;
+        this.restrictions = s.get();
+      }
+    }
+
+    @Override public void setStateCaching(
+      final boolean enabled)
+    {
+      this.caching = enabled;
+    }
+
+    @Override public void setTracing(
+      final OptionType<PrintStream> stream)
+    {
+      this.tracing = NullCheck.notNull(stream, "Tracing");
+    }
+  }
+
   private final static class DefaultRestrictions implements
     JCGLSoftRestrictionsType
   {
@@ -62,394 +221,41 @@ public final class JCGLImplementationFake implements JCGLImplementationType
     }
   }
 
-  private static final JCGLSoftRestrictionsType DEFAULT_RESTRICTIONS;
+  private static final JCGLSoftRestrictionsType  DEFAULT_RESTRICTIONS;
 
   static {
     DEFAULT_RESTRICTIONS = new DefaultRestrictions();
   }
 
   /**
-   * Construct an implementation using the initialized <code>context</code>
-   * and <code>log</code>.
-   *
-   * @param context
-   *          The context.
-   * @param in_shader_control
-   *          A shader control interface.
-   * @param log
-   *          A log interface.
-   * @return An initialized implementation.
-   * @throws JCGLException
-   *           If an error occurs.
+   * @return A new fake implementation builder
    */
 
-  public static JCGLImplementationType newImplementation(
-    final FakeContext context,
-    final FakeShaderControlType in_shader_control,
-    final LogUsableType log)
-    throws JCGLException
+  public static JCGLImplementationFakeBuilderType newBuilder()
   {
-    return new JCGLImplementationFake(
-      context,
-      in_shader_control,
-      log,
-      JCGLDebugging.JCGL_NONE,
-      null,
-      JCGLImplementationFake.DEFAULT_RESTRICTIONS);
+    return new Builder();
   }
-
-  /**
-   * Construct an implementation using the initialized <code>context</code>
-   * and <code>log</code>, with debugging enabled.
-   *
-   * @param context
-   *          The context.
-   * @param in_shader_control
-   *          A shader control interface.
-   * @param log
-   *          A log interface.
-   * @return An initialized implementation.
-   * @throws JCGLException
-   *           If an error occurs.
-   */
-
-  public static JCGLImplementationType newImplementationWithDebugging(
-    final FakeContext context,
-    final FakeShaderControlType in_shader_control,
-    final LogUsableType log)
-    throws JCGLException
-  {
-    return new JCGLImplementationFake(
-      context,
-      in_shader_control,
-      log,
-      JCGLDebugging.JCGL_DEBUGGING,
-      null,
-      JCGLImplementationFake.DEFAULT_RESTRICTIONS);
-  }
-
-  /**
-   * Construct an implementation using the initialized <code>context</code>
-   * and <code>log</code>, with debugging enabled and restrictions
-   * <code>r</code>.
-   *
-   * @param r
-   *          A set of restrictions.
-   * @param context
-   *          The context.
-   * @param in_shader_control
-   *          A shader control interface.
-   * @param log
-   *          A log interface.
-   * @return An initialized implementation.
-   * @throws JCGLException
-   *           If an error occurs.
-   */
-
-  public static
-    JCGLImplementationType
-    newImplementationWithDebuggingAndRestrictions(
-      final FakeContext context,
-      final FakeShaderControlType in_shader_control,
-      final LogUsableType log,
-      final JCGLSoftRestrictionsType r)
-      throws JCGLException
-  {
-    return new JCGLImplementationFake(
-      context,
-      in_shader_control,
-      log,
-      JCGLDebugging.JCGL_DEBUGGING,
-      null,
-      r);
-  }
-
-  /**
-   * Construct an implementation using the initialized <code>context</code>
-   * and <code>log</code>, with debugging enabled, and tracing enabled on
-   * <code>stream</code>.
-   *
-   * @param context
-   *          The context.
-   * @param in_shader_control
-   *          A shader control interface.
-   * @param log
-   *          A log interface.
-   * @param trace
-   *          The output stream for debugging.
-   * @return An initialized implementation.
-   * @throws JCGLException
-   *           If an error occurs.
-   */
-
-  public static
-    JCGLImplementationType
-    newImplementationWithDebuggingAndTracing(
-      final FakeContext context,
-      final FakeShaderControlType in_shader_control,
-      final LogUsableType log,
-      final PrintStream trace)
-      throws JCGLException
-  {
-    return new JCGLImplementationFake(
-      context,
-      in_shader_control,
-      log,
-      JCGLDebugging.JCGL_TRACING_AND_DEBUGGING,
-      trace,
-      JCGLImplementationFake.DEFAULT_RESTRICTIONS);
-  }
-
-  /**
-   * Construct an implementation using the initialized <code>context</code>
-   * and <code>log</code>, with debugging enabled, and tracing enabled on
-   * <code>stream</code>, and restrictions <code>r</code>.
-   *
-   * @param context
-   *          The context.
-   * @param in_shader_control
-   *          A shader control interface.
-   * @param log
-   *          A log interface.
-   * @param trace
-   *          The output stream for debugging.
-   * @param r
-   *          A set of restrictions.
-   * @return An initialized implementation.
-   * @throws JCGLException
-   *           If an error occurs.
-   */
-
-  public static
-    JCGLImplementationType
-    newImplementationWithDebuggingAndTracingAndRestrictions(
-      final FakeContext context,
-      final FakeShaderControlType in_shader_control,
-      final LogUsableType log,
-      final PrintStream trace,
-      final JCGLSoftRestrictionsType r)
-      throws JCGLException
-  {
-    return new JCGLImplementationFake(
-      context,
-      in_shader_control,
-      log,
-      JCGLDebugging.JCGL_TRACING_AND_DEBUGGING,
-      trace,
-      r);
-  }
-
-  /**
-   * Construct an implementation using the initialized <code>context</code>
-   * and <code>log</code>, with restrictions <code>r</code>.
-   *
-   * @param context
-   *          The context.
-   * @param in_shader_control
-   *          A shader control interface.
-   * @param log
-   *          A log interface.
-   * @param r
-   *          A set of restrictions.
-   * @return An initialized implementation.
-   * @throws JCGLException
-   *           If an error occurs.
-   */
-
-  public static JCGLImplementationType newImplementationWithRestrictions(
-    final FakeContext context,
-    final FakeShaderControlType in_shader_control,
-    final LogUsableType log,
-    final JCGLSoftRestrictionsType r)
-    throws JCGLException
-  {
-    return new JCGLImplementationFake(
-      context,
-      in_shader_control,
-      log,
-      JCGLDebugging.JCGL_NONE,
-      null,
-      r);
-  }
-
-  /**
-   * Construct an implementation using the initialized <code>context</code>
-   * and <code>log</code>, with tracing enabled on <code>stream</code>.
-   *
-   * @param context
-   *          The context.
-   * @param in_shader_control
-   *          A shader control interface.
-   * @param log
-   *          A log interface.
-   * @param trace
-   *          The output stream for debugging.
-   * @return An initialized implementation.
-   * @throws JCGLException
-   *           If an error occurs.
-   */
-
-  public static JCGLImplementationType newImplementationWithTracing(
-    final FakeContext context,
-    final FakeShaderControlType in_shader_control,
-    final LogUsableType log,
-    final PrintStream trace)
-    throws JCGLException
-  {
-    return new JCGLImplementationFake(
-      context,
-      in_shader_control,
-      log,
-      JCGLDebugging.JCGL_TRACING,
-      trace,
-      JCGLImplementationFake.DEFAULT_RESTRICTIONS);
-  }
-
-  /**
-   * Construct an implementation using the initialized <code>context</code>
-   * and <code>log</code>, with tracing enabled to stream <code>trace</code>
-   * and restrictions <code>r</code>.
-   *
-   * @param context
-   *          The context.
-   * @param in_shader_control
-   *          A shader control interface.
-   * @param log
-   *          A log interface.
-   * @param trace
-   *          The output stream for debugging.
-   * @param r
-   *          A set of restrictions.
-   * @return An initialized implementation.
-   * @throws JCGLException
-   *           If an error occurs.
-   */
-
-  public static
-    JCGLImplementationType
-    newImplementationWithTracingAndRestrictions(
-      final FakeContext context,
-      final FakeShaderControlType in_shader_control,
-      final LogUsableType log,
-      final PrintStream trace,
-      final JCGLSoftRestrictionsType r)
-      throws JCGLException
-  {
-    return new JCGLImplementationFake(
-      context,
-      in_shader_control,
-      log,
-      JCGLDebugging.JCGL_TRACING,
-      trace,
-      r);
-  }
-
-  private final FakeContext                      context;
   private final @Nullable JCGLInterfaceGL2Type   gl_2;
   private final @Nullable JCGLInterfaceGL3Type   gl_3;
   private final @Nullable JCGLInterfaceGLES2Type gl_es2;
+
   private final @Nullable JCGLInterfaceGLES3Type gl_es3;
-  private final LogUsableType                    log;
-  private final FakeShaderControlType            shader_control;
 
   private JCGLImplementationFake(
-    final FakeContext in_context,
-    final FakeShaderControlType in_shader_control,
-    final LogUsableType in_log,
-    final JCGLDebugging in_debug,
-    final @Nullable PrintStream in_trace,
-    final JCGLSoftRestrictionsType in_restrictions)
-    throws JCGLException
+    final @Nullable JCGLInterfaceGL2Type in_gl_2,
+    final @Nullable JCGLInterfaceGL3Type in_gl_3,
+    final @Nullable JCGLInterfaceGLES2Type in_gl_es2,
+    final @Nullable JCGLInterfaceGLES3Type in_gl_es3)
   {
-    this.log = NullCheck.notNull(in_log, "Log").with("fake");
-    this.context = NullCheck.notNull(in_context, "GL context");
-    this.shader_control =
-      NullCheck.notNull(in_shader_control, "Shader control");
+    this.gl_2 = in_gl_2;
+    this.gl_3 = in_gl_3;
+    this.gl_es2 = in_gl_es2;
+    this.gl_es3 = in_gl_es3;
 
-    final JCGLVersion version = this.context.getVersion();
-    in_log.debug("Context is " + version);
-
-    switch (version.getAPI()) {
-      case JCGL_ES:
-      {
-        switch (version.getVersionMajor()) {
-          case 3:
-          {
-            in_log.debug("Creating GLES3 interface");
-            this.gl_es3 =
-              new JCGLInterfaceGLES3_Fake(
-                in_context,
-                in_shader_control,
-                in_log,
-                in_debug,
-                in_trace,
-                in_restrictions);
-            this.gl_es2 = null;
-            this.gl_2 = null;
-            this.gl_3 = null;
-            return;
-          }
-          case 2:
-          {
-            in_log.debug("Creating GLES2 interface");
-            this.gl_es2 =
-              new JCGLInterfaceGLES2_Fake(
-                in_context,
-                in_shader_control,
-                in_log,
-                in_debug,
-                in_trace,
-                in_restrictions);
-            this.gl_es3 = null;
-            this.gl_2 = null;
-            this.gl_3 = null;
-            return;
-          }
-        }
-
-        throw new UnreachableCodeException();
-      }
-      case JCGL_FULL:
-      {
-        if (version.getVersionMajor() >= 3) {
-          in_log.debug("Creating OpenGL >= 3.0 interface");
-          this.gl_3 =
-            new JCGLInterfaceGL3_Fake(
-              in_context,
-              in_shader_control,
-              in_log,
-              in_debug,
-              in_trace,
-              in_restrictions);
-          this.gl_2 = null;
-          this.gl_es2 = null;
-          this.gl_es3 = null;
-          return;
-        }
-
-        if (version.getVersionMajor() >= 2) {
-          in_log.debug("Creating OpenGL 2.1 interface");
-          this.gl_2 =
-            new JCGLInterfaceGL2_Fake(
-              in_context,
-              in_shader_control,
-              in_log,
-              in_debug,
-              in_trace,
-              in_restrictions);
-          this.gl_3 = null;
-          this.gl_es2 = null;
-          this.gl_es3 = null;
-          return;
-        }
-
-        break;
-      }
-    }
-
-    throw new JCGLExceptionUnsupported(String.format(
-      "At least OpenGL 2.1 or OpenGL ES2 is required (got %s)",
-      version));
+    assert (this.gl_2 != null)
+      || (this.gl_3 != null)
+      || (this.gl_es2 != null)
+      || (this.gl_es3 != null);
   }
 
   @Override public JCGLInterfaceCommonType getGLCommon()

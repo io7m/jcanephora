@@ -27,7 +27,9 @@ import com.io7m.jcanephora.fake.FakeContext;
 import com.io7m.jcanephora.fake.FakeDefaultFramebuffer;
 import com.io7m.jcanephora.fake.FakeShaderControlType;
 import com.io7m.jcanephora.fake.JCGLImplementationFake;
+import com.io7m.jcanephora.fake.JCGLImplementationFakeBuilderType;
 import com.io7m.jcanephora.tests.TestContext;
+import com.io7m.jfunctional.Option;
 import com.io7m.jlog.Log;
 import com.io7m.jlog.LogLevel;
 import com.io7m.jlog.LogPolicyAllOn;
@@ -282,18 +284,10 @@ public final class FakeTestContext
     final FakeContext ctx)
     throws JCGLException
   {
-    final JCGLImplementationType gi;
-    if (r != null) {
-      gi =
-        JCGLImplementationFake.newImplementationWithRestrictions(
-          ctx,
-          shader_control,
-          log,
-          r);
-    } else {
-      gi = JCGLImplementationFake.newImplementation(ctx, shader_control, log);
-    }
-    return gi;
+    final JCGLImplementationFakeBuilderType b =
+      JCGLImplementationFake.newBuilder();
+    b.setRestrictions(Option.of(r));
+    return b.build(ctx, shader_control, log);
   }
 
   private FakeTestContext()
