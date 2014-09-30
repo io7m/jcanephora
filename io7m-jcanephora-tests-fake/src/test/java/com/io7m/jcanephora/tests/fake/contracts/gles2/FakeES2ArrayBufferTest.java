@@ -17,7 +17,7 @@
 package com.io7m.jcanephora.tests.fake.contracts.gles2;
 
 import com.io7m.jcanephora.api.JCGLArrayBuffersType;
-import com.io7m.jcanephora.api.JCGLShadersCommonType;
+import com.io7m.jcanephora.api.JCGLShadersParametersType;
 import com.io7m.jcanephora.tests.TestContext;
 import com.io7m.jcanephora.tests.contracts.ArrayBufferContract;
 import com.io7m.jcanephora.tests.fake.FakeShaderControl;
@@ -32,7 +32,7 @@ public final class FakeES2ArrayBufferTest extends ArrayBufferContract
     return FakeTestContextUtilities.getGLES2(context);
   }
 
-  @Override public JCGLShadersCommonType getGLPrograms(
+  @Override public JCGLShadersParametersType getGLPrograms(
     final TestContext context)
   {
     return FakeTestContextUtilities.getGLES2(context);

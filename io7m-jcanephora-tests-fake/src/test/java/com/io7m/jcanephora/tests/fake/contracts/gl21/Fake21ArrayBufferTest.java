@@ -17,7 +17,7 @@
 package com.io7m.jcanephora.tests.fake.contracts.gl21;
 
 import com.io7m.jcanephora.api.JCGLArrayBuffersType;
-import com.io7m.jcanephora.api.JCGLShadersCommonType;
+import com.io7m.jcanephora.api.JCGLShadersParametersType;
 import com.io7m.jcanephora.tests.TestContext;
 import com.io7m.jcanephora.tests.contracts.ArrayBufferContract;
 import com.io7m.jcanephora.tests.fake.FakeShaderControl;
@@ -32,7 +32,7 @@ public final class Fake21ArrayBufferTest extends ArrayBufferContract
     return FakeTestContextUtilities.getGL2(context);
   }
 
-  @Override public JCGLShadersCommonType getGLPrograms(
+  @Override public JCGLShadersParametersType getGLPrograms(
     final TestContext context)
   {
     return FakeTestContextUtilities.getGL2(context);

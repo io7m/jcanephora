@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 <code@io7m.com> http://io7m.com
+ * Copyright © 2013 <code@io7m.com> http://io7m.com
  * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,37 +14,36 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.jcanephora.tests.fake.contracts.gles3;
+package com.io7m.jcanephora.tests.jogl.contracts.jogles2;
 
 import com.io7m.jcanephora.api.JCGLArrayBuffersType;
 import com.io7m.jcanephora.api.JCGLShadersParametersType;
 import com.io7m.jcanephora.tests.TestContext;
 import com.io7m.jcanephora.tests.contracts.ArrayBufferContract;
-import com.io7m.jcanephora.tests.fake.FakeShaderControl;
-import com.io7m.jcanephora.tests.fake.FakeTestContext;
-import com.io7m.jcanephora.tests.fake.FakeTestContextUtilities;
+import com.io7m.jcanephora.tests.jogl.JOGLTestContext;
+import com.io7m.jcanephora.tests.jogl.JOGLTestContextUtilities;
 
-public final class FakeES3ArrayBufferTest extends ArrayBufferContract
+public final class JOGLES2ArrayBufferTest extends ArrayBufferContract
 {
   @Override public JCGLArrayBuffersType getGLArrayBuffers(
     final TestContext context)
   {
-    return FakeTestContextUtilities.getGLES3(context);
+    return JOGLTestContextUtilities.getGLES2(context);
   }
 
   @Override public JCGLShadersParametersType getGLPrograms(
     final TestContext context)
   {
-    return FakeTestContextUtilities.getGLES3(context);
+    return JOGLTestContextUtilities.getGLES2(context);
   }
 
   @Override public boolean isGLSupported()
   {
-    return true;
+    return JOGLTestContext.isOpenGLES2Supported();
   }
 
   @Override public TestContext newTestContext()
   {
-    return FakeTestContext.makeContextWithOpenGL_ES3(new FakeShaderControl());
+    return JOGLTestContext.makeContextWithOpenGL_ES2();
   }
 }
