@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -69,7 +69,6 @@ abstract class JOGLStencilAbstract implements JCGLStencilBufferType
     this.checkStencilBuffer();
     this.gl.glClearStencil(stencil);
     this.gl.glClear(GL.GL_STENCIL_BUFFER_BIT);
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void stencilBufferDisable()
@@ -78,7 +77,6 @@ abstract class JOGLStencilAbstract implements JCGLStencilBufferType
   {
     this.checkStencilBuffer();
     this.gl.glDisable(GL.GL_STENCIL_TEST);
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void stencilBufferEnable()
@@ -87,7 +85,6 @@ abstract class JOGLStencilAbstract implements JCGLStencilBufferType
   {
     this.checkStencilBuffer();
     this.gl.glEnable(GL.GL_STENCIL_TEST);
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void stencilBufferFunction(
@@ -110,7 +107,6 @@ abstract class JOGLStencilAbstract implements JCGLStencilBufferType
       func,
       reference,
       mask);
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final boolean stencilBufferIsEnabled()
@@ -119,7 +115,6 @@ abstract class JOGLStencilAbstract implements JCGLStencilBufferType
   {
     this.checkStencilBuffer();
     final boolean e = this.gl.glIsEnabled(GL.GL_STENCIL_TEST);
-    JOGLErrors.check(this.gl);
     return e;
   }
 
@@ -137,7 +132,6 @@ abstract class JOGLStencilAbstract implements JCGLStencilBufferType
     g2.glStencilMaskSeparate(
       JOGLTypeConversions.faceSelectionToGL(faces),
       mask);
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void stencilBufferOperation(
@@ -161,6 +155,5 @@ abstract class JOGLStencilAbstract implements JCGLStencilBufferType
       sfail,
       dfail,
       dpass);
-    JOGLErrors.check(this.gl);
   }
 }

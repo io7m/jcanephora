@@ -17,54 +17,42 @@
 package com.io7m.jcanephora.jogl;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2GL3;
 
-import com.io7m.jcanephora.FaceSelection;
-import com.io7m.jcanephora.FaceWindingOrder;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.api.JCGLCullType;
+import com.io7m.jcanephora.api.JCGLPolygonSmoothingType;
 import com.io7m.jlog.LogType;
 import com.io7m.jlog.LogUsableType;
 import com.io7m.jnull.NullCheck;
 
-final class JOGLCulling implements JCGLCullType
+final class JOGLPolygonSmoothing implements JCGLPolygonSmoothingType
 {
   private final GL      gl;
   private final LogType log;
 
-  JOGLCulling(
+  JOGLPolygonSmoothing(
     final GL in_gl,
     final LogUsableType in_log)
   {
     this.gl = NullCheck.notNull(in_gl, "GL");
-    this.log = NullCheck.notNull(in_log, "Log").with("culling");
+    this.log = NullCheck.notNull(in_log, "Log").with("polygon-smoothing");
   }
 
-  @Override public void cullingDisable()
+  @Override public void polygonSmoothingDisable()
     throws JCGLExceptionRuntime
   {
-    this.gl.glDisable(GL.GL_CULL_FACE);
+    this.gl.glDisable(GL2GL3.GL_POLYGON_SMOOTH);
   }
 
-  @Override public void cullingEnable(
-    final FaceSelection faces,
-    final FaceWindingOrder order)
+  @Override public void polygonSmoothingEnable()
     throws JCGLExceptionRuntime
   {
-    NullCheck.notNull(faces, "Face selection");
-    NullCheck.notNull(order, "Face winding order");
-
-    final int fi = JOGLTypeConversions.faceSelectionToGL(faces);
-    final int oi = JOGLTypeConversions.faceWindingOrderToGL(order);
-
-    this.gl.glEnable(GL.GL_CULL_FACE);
-    this.gl.glCullFace(fi);
-    this.gl.glFrontFace(oi);
+    this.gl.glEnable(GL2GL3.GL_POLYGON_SMOOTH);
   }
 
-  @Override public boolean cullingIsEnabled()
+  @Override public boolean polygonSmoothingIsEnabled()
     throws JCGLExceptionRuntime
   {
-    final boolean e = this.gl.glIsEnabled(GL.GL_CULL_FACE);
-    return e;
+    return this.gl.glIsEnabled(GL2GL3.GL_POLYGON_SMOOTH);
   }
 }

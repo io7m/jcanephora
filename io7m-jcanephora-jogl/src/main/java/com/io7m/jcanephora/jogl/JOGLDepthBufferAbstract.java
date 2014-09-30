@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -64,7 +64,6 @@ abstract class JOGLDepthBufferAbstract implements JCGLDepthBufferType
     this.checkDepthBuffer();
     this.gl.glClearDepth(depth);
     this.gl.glClear(GL.GL_DEPTH_BUFFER_BIT);
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void depthBufferTestDisable()
@@ -72,7 +71,6 @@ abstract class JOGLDepthBufferAbstract implements JCGLDepthBufferType
   {
     this.checkDepthBuffer();
     this.gl.glDisable(GL.GL_DEPTH_TEST);
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void depthBufferTestEnable(
@@ -85,7 +83,6 @@ abstract class JOGLDepthBufferAbstract implements JCGLDepthBufferType
     final int d = JOGLTypeConversions.depthFunctionToGL(function);
     this.gl.glEnable(GL.GL_DEPTH_TEST);
     this.gl.glDepthFunc(d);
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final boolean depthBufferTestIsEnabled()
@@ -93,7 +90,6 @@ abstract class JOGLDepthBufferAbstract implements JCGLDepthBufferType
   {
     this.checkDepthBuffer();
     final boolean e = this.gl.glIsEnabled(GL.GL_DEPTH_TEST);
-    JOGLErrors.check(this.gl);
     return e;
   }
 
@@ -102,7 +98,6 @@ abstract class JOGLDepthBufferAbstract implements JCGLDepthBufferType
   {
     this.checkDepthBuffer();
     this.gl.glDepthMask(false);
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final void depthBufferWriteEnable()
@@ -110,7 +105,6 @@ abstract class JOGLDepthBufferAbstract implements JCGLDepthBufferType
   {
     this.checkDepthBuffer();
     this.gl.glDepthMask(true);
-    JOGLErrors.check(this.gl);
   }
 
   @Override public final boolean depthBufferWriteIsEnabled()
@@ -119,7 +113,6 @@ abstract class JOGLDepthBufferAbstract implements JCGLDepthBufferType
     this.checkDepthBuffer();
     this.gl
       .glGetBooleanv(GL.GL_DEPTH_WRITEMASK, this.depth_buffer_mask_cache);
-    JOGLErrors.check(this.gl);
 
     final IntBuffer bi = this.depth_buffer_mask_cache.asIntBuffer();
     return bi.get(0) == 1;

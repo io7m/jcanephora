@@ -16,46 +16,33 @@
 
 package com.io7m.jcanephora.jogl;
 
+import java.nio.IntBuffer;
+
 import javax.media.opengl.GL;
-import javax.media.opengl.GL2GL3;
 
 import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.PolygonMode;
-import com.io7m.jcanephora.api.JCGLPolygonModesType;
-import com.io7m.jlog.LogType;
 import com.io7m.jlog.LogUsableType;
 import com.io7m.jnull.NullCheck;
 
-final class JOGLPolygonMode implements JCGLPolygonModesType
+final class JOGLStencilGLES2 extends JOGLStencilAbstract
 {
-  private final GL      gl;
-  private final LogType log;
-  private PolygonMode   polygon_mode;
+  private final JOGLIntegerCacheType icache;
 
-  JOGLPolygonMode(
+  JOGLStencilGLES2(
     final GL in_gl,
-    final LogUsableType in_log)
+    final LogUsableType in_log,
+    final JOGLIntegerCacheType in_icache)
   {
-    this.gl = NullCheck.notNull(in_gl, "GL");
-    this.log = NullCheck.notNull(in_log, "Log").with("polygon-modes");
-    this.polygon_mode = PolygonMode.POLYGON_FILL;
+    super(in_gl, in_log);
+    this.icache = NullCheck.notNull(in_icache, "Integer cache");
   }
 
-  @Override public PolygonMode polygonGetMode()
+  @Override public int stencilBufferGetBits()
     throws JCGLExceptionRuntime
   {
-    return this.polygon_mode;
-  }
-
-  @Override public void polygonSetMode(
-    final PolygonMode mode)
-    throws JCGLExceptionRuntime
-  {
-    NullCheck.notNull(mode, "Polygon mode");
-
-    final GL2GL3 g3 = this.gl.getGL2GL3();
-    final int im = JOGLTypeConversions.polygonModeToGL(mode);
-    g3.glPolygonMode(GL.GL_FRONT_AND_BACK, im);
-    this.polygon_mode = mode;
+    final GL g = this.getGL();
+    final IntBuffer ix = this.icache.getIntegerCache();
+    g.glGetIntegerv(GL.GL_STENCIL_BITS, ix);
+    return ix.get(0);
   }
 }

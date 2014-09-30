@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -41,7 +41,7 @@ abstract class JOGLRenderbuffersAbstract implements
 {
   /**
    * Check that the given renderbuffer:
-   * 
+   *
    * <ul>
    * <li>Is not null</li>
    * <li>Was created on this context (or a shared context)</li>
@@ -139,16 +139,12 @@ abstract class JOGLRenderbuffersAbstract implements
 
     final IntBuffer cache = this.getIcache().getIntegerCache();
     this.gl.glGenRenderbuffers(1, cache);
-    JOGLErrors.check(this.gl);
     final int id = cache.get(0);
 
     final int gtype = JOGLTypeConversions.renderbufferTypeToGL(type);
     this.gl.glBindRenderbuffer(GL.GL_RENDERBUFFER, id);
-    JOGLErrors.check(this.gl);
     this.gl.glRenderbufferStorage(GL.GL_RENDERBUFFER, gtype, width, height);
-    JOGLErrors.check(this.gl);
     this.gl.glBindRenderbuffer(GL.GL_RENDERBUFFER, 0);
-    JOGLErrors.check(this.gl);
 
     /**
      * The phantom type is set to {@link RenderableColorKind} here and then
@@ -196,6 +192,5 @@ abstract class JOGLRenderbuffersAbstract implements
     ix.put(0, buffer.getGLName());
     this.gl.glDeleteRenderbuffers(1, ix);
     ((JOGLObjectDeletable) buffer).resourceSetDeleted();
-    JOGLErrors.check(this.gl);
   }
 }

@@ -18,30 +18,27 @@ package com.io7m.jcanephora.jogl;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2GL3;
+import javax.media.opengl.GLContext;
 
-import com.io7m.jcanephora.CubeMapFaceLH;
-import com.io7m.jcanephora.CubeMapFaceRH;
 import com.io7m.jcanephora.JCGLExceptionDeleted;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
 import com.io7m.jcanephora.JCGLExceptionWrongContext;
-import com.io7m.jcanephora.TextureCubeStaticReadableType;
-import com.io7m.jcanephora.TextureCubeStaticType;
-import com.io7m.jcanephora.TextureCubeStaticUsableType;
+import com.io7m.jcanephora.Texture2DStaticReadableType;
+import com.io7m.jcanephora.Texture2DStaticType;
+import com.io7m.jcanephora.Texture2DStaticUsableType;
 import com.io7m.jcanephora.TextureFilterMagnification;
 import com.io7m.jcanephora.TextureFilterMinification;
 import com.io7m.jcanephora.TextureFormat;
-import com.io7m.jcanephora.TextureWrapR;
 import com.io7m.jcanephora.TextureWrapS;
 import com.io7m.jcanephora.TextureWrapT;
-import com.io7m.jcanephora.api.JCGLTexturesCubeStaticGL3Type;
+import com.io7m.jcanephora.api.JCGLTextures2DStaticGL3Type;
 import com.io7m.jcanephora.jogl.JOGL_TextureSpecs.TextureSpec;
 import com.io7m.jlog.LogUsableType;
 
-final class JOGLTexturesCubeStaticGL3 extends
-  JOGLTexturesCubeStaticAbstractGL3ES3 implements
-  JCGLTexturesCubeStaticGL3Type
+final class JOGLTextures2DStaticGL3 extends
+  JOGLTextures2DStaticAbstractGL3ES3 implements JCGLTextures2DStaticGL3Type
 {
-  public JOGLTexturesCubeStaticGL3(
+  JOGLTextures2DStaticGL3(
     final GL in_gl,
     final LogUsableType in_log,
     final JOGLIntegerCacheType in_icache,
@@ -56,153 +53,117 @@ final class JOGLTexturesCubeStaticGL3 extends
     return JOGL_TextureSpecs.getGL3TextureSpec(type);
   }
 
-  @Override public TextureCubeStaticType textureCubeStaticAllocateR16(
+  @Override public Texture2DStaticType texture2DStaticAllocateR16(
     final String name,
-    final int size,
-    final TextureWrapR wrap_r,
+    final int width,
+    final int height,
     final TextureWrapS wrap_s,
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
     throws JCGLExceptionRuntime
   {
-    return this.textureCubeStaticAllocate(
+    return this.texture2DStaticAllocate(
       name,
-      size,
+      width,
+      height,
       TextureFormat.TEXTURE_FORMAT_R_16_2BPP,
-      wrap_r,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public TextureCubeStaticType textureCubeStaticAllocateRG16(
+  @Override public Texture2DStaticType texture2DStaticAllocateRG16(
     final String name,
-    final int size,
-    final TextureWrapR wrap_r,
+    final int width,
+    final int height,
     final TextureWrapS wrap_s,
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
     throws JCGLExceptionRuntime
   {
-    return this.textureCubeStaticAllocate(
+    return this.texture2DStaticAllocate(
       name,
-      size,
+      width,
+      height,
       TextureFormat.TEXTURE_FORMAT_RG_16_4BPP,
-      wrap_r,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public TextureCubeStaticType textureCubeStaticAllocateRGB16(
+  @Override public Texture2DStaticType texture2DStaticAllocateRGB16(
     final String name,
-    final int size,
-    final TextureWrapR wrap_r,
+    final int width,
+    final int height,
     final TextureWrapS wrap_s,
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
     throws JCGLExceptionRuntime
   {
-    return this.textureCubeStaticAllocate(
+    return this.texture2DStaticAllocate(
       name,
-      size,
+      width,
+      height,
       TextureFormat.TEXTURE_FORMAT_RGB_16_6BPP,
-      wrap_r,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public
-    TextureCubeStaticType
-    textureCubeStaticAllocateRGBA1010102(
-      final String name,
-      final int size,
-      final TextureWrapR wrap_r,
-      final TextureWrapS wrap_s,
-      final TextureWrapT wrap_t,
-      final TextureFilterMinification min_filter,
-      final TextureFilterMagnification mag_filter)
-      throws JCGLExceptionRuntime
-  {
-    return this.textureCubeStaticAllocate(
-      name,
-      size,
-      TextureFormat.TEXTURE_FORMAT_RGBA_1010102_4BPP,
-      wrap_r,
-      wrap_s,
-      wrap_t,
-      min_filter,
-      mag_filter);
-  }
-
-  @Override public TextureCubeStaticType textureCubeStaticAllocateRGBA16(
+  @Override public Texture2DStaticType texture2DStaticAllocateRGBA16(
     final String name,
-    final int size,
-    final TextureWrapR wrap_r,
+    final int width,
+    final int height,
     final TextureWrapS wrap_s,
     final TextureWrapT wrap_t,
     final TextureFilterMinification min_filter,
     final TextureFilterMagnification mag_filter)
     throws JCGLExceptionRuntime
   {
-    return this.textureCubeStaticAllocate(
+    return this.texture2DStaticAllocate(
       name,
-      size,
+      width,
+      height,
       TextureFormat.TEXTURE_FORMAT_RGBA_16_8BPP,
-      wrap_r,
       wrap_s,
       wrap_t,
       min_filter,
       mag_filter);
   }
 
-  @Override public TextureCubeStaticReadableType textureCubeStaticGetImageLH(
-    final TextureCubeStaticUsableType texture,
-    final CubeMapFaceLH face)
+  @Override public Texture2DStaticReadableType texture2DStaticGetImage(
+    final Texture2DStaticUsableType texture)
     throws JCGLExceptionRuntime,
       JCGLExceptionWrongContext,
       JCGLExceptionDeleted
   {
-    JOGLTexturesCubeStaticAbstract.checkTexture(this.getContext(), texture);
+    final GLContext context = this.getContext();
+    JOGLTextures2DStaticAbstract.checkTexture(context, texture);
 
     final GL2GL3 g = this.getGL().getGL2GL3();
 
     final TextureSpec spec =
       JOGL_TextureSpecs.getGL3TextureSpec(texture.textureGetFormat());
-    final JOGLTextureCubeReadableData td =
-      new JOGLTextureCubeReadableData(
+    final JOGLTexture2DReadableData td =
+      new JOGLTexture2DReadableData(
         texture.textureGetFormat(),
         texture.textureGetArea());
 
-    final int face_i = JOGLTypeConversions.cubeFaceToGL(face);
-
-    g.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, texture.getGLName());
+    g.glBindTexture(GL.GL_TEXTURE_2D, texture.getGLName());
     g.glGetTexImage(
-      face_i,
+      GL.GL_TEXTURE_2D,
       0,
       spec.getFormat(),
       spec.getType(),
-      td.targetData());
-    g.glBindTexture(GL.GL_TEXTURE_CUBE_MAP, 0);
-    return td;
-  }
+      td.getData());
+    g.glBindTexture(GL.GL_TEXTURE_2D, 0);
 
-  @Override public TextureCubeStaticReadableType textureCubeStaticGetImageRH(
-    final TextureCubeStaticUsableType texture,
-    final CubeMapFaceRH face)
-    throws JCGLExceptionRuntime,
-      JCGLExceptionWrongContext,
-      JCGLExceptionDeleted
-  {
-    return this.textureCubeStaticGetImageLH(
-      texture,
-      CubeMapFaceLH.fromRH(face));
+    return td;
   }
 }

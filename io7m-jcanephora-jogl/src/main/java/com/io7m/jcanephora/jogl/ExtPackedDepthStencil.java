@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -161,7 +161,6 @@ final class ExtPackedDepthStencil<G extends GL> implements
       GL.GL_STENCIL_ATTACHMENT,
       GL.GL_RENDERBUFFER,
       renderbuffer.getGLName());
-    JOGLErrors.check(this.gl);
   }
 
   private void attachGLOther(
@@ -214,7 +213,6 @@ final class ExtPackedDepthStencil<G extends GL> implements
       GL.GL_STENCIL_ATTACHMENT,
       GL.GL_RENDERBUFFER,
       renderbuffer.getGLName());
-    JOGLErrors.check(this.gl);
   }
 
   /**
@@ -327,16 +325,12 @@ final class ExtPackedDepthStencil<G extends GL> implements
 
     final IntBuffer cache = this.icache.getIntegerCache();
     this.gl.glGenRenderbuffers(1, cache);
-    JOGLErrors.check(this.gl);
     final int id = cache.get(0);
 
     final int gtype = JOGLTypeConversions.renderbufferTypeToGL(type);
     this.gl.glBindRenderbuffer(GL.GL_RENDERBUFFER, id);
-    JOGLErrors.check(this.gl);
     this.gl.glRenderbufferStorage(GL.GL_RENDERBUFFER, gtype, width, height);
-    JOGLErrors.check(this.gl);
     this.gl.glBindRenderbuffer(GL.GL_RENDERBUFFER, 0);
-    JOGLErrors.check(this.gl);
 
     final JOGLRenderbuffer<?> r =
       new JOGLRenderbuffer<RenderableColorKind>(

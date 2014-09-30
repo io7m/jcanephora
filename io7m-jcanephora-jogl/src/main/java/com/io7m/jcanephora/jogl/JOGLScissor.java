@@ -18,53 +18,53 @@ package com.io7m.jcanephora.jogl;
 
 import javax.media.opengl.GL;
 
-import com.io7m.jcanephora.FaceSelection;
-import com.io7m.jcanephora.FaceWindingOrder;
+import com.io7m.jcanephora.AreaInclusive;
 import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.api.JCGLCullType;
+import com.io7m.jcanephora.api.JCGLScissorType;
 import com.io7m.jlog.LogType;
 import com.io7m.jlog.LogUsableType;
 import com.io7m.jnull.NullCheck;
+import com.io7m.jranges.RangeInclusiveL;
 
-final class JOGLCulling implements JCGLCullType
+final class JOGLScissor implements JCGLScissorType
 {
   private final GL      gl;
   private final LogType log;
 
-  JOGLCulling(
+  JOGLScissor(
     final GL in_gl,
     final LogUsableType in_log)
   {
     this.gl = NullCheck.notNull(in_gl, "GL");
-    this.log = NullCheck.notNull(in_log, "Log").with("culling");
+    this.log = NullCheck.notNull(in_log, "Log").with("scissor");
   }
 
-  @Override public void cullingDisable()
+  @Override public void scissorDisable()
     throws JCGLExceptionRuntime
   {
-    this.gl.glDisable(GL.GL_CULL_FACE);
+    this.gl.glDisable(GL.GL_SCISSOR_TEST);
   }
 
-  @Override public void cullingEnable(
-    final FaceSelection faces,
-    final FaceWindingOrder order)
+  @Override public void scissorEnable(
+    final AreaInclusive area)
     throws JCGLExceptionRuntime
   {
-    NullCheck.notNull(faces, "Face selection");
-    NullCheck.notNull(order, "Face winding order");
+    NullCheck.notNull(area, "Scissor area");
 
-    final int fi = JOGLTypeConversions.faceSelectionToGL(faces);
-    final int oi = JOGLTypeConversions.faceWindingOrderToGL(order);
+    final RangeInclusiveL range_x = area.getRangeX();
+    final RangeInclusiveL range_y = area.getRangeY();
 
-    this.gl.glEnable(GL.GL_CULL_FACE);
-    this.gl.glCullFace(fi);
-    this.gl.glFrontFace(oi);
+    this.gl.glEnable(GL.GL_SCISSOR_TEST);
+    this.gl.glScissor(
+      (int) range_x.getLower(),
+      (int) range_y.getLower(),
+      (int) range_x.getInterval(),
+      (int) range_y.getInterval());
   }
 
-  @Override public boolean cullingIsEnabled()
+  @Override public boolean scissorIsEnabled()
     throws JCGLExceptionRuntime
   {
-    final boolean e = this.gl.glIsEnabled(GL.GL_CULL_FACE);
-    return e;
+    return this.gl.glIsEnabled(GL.GL_SCISSOR_TEST);
   }
 }

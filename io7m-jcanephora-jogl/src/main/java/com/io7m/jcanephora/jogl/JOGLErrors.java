@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -18,53 +18,28 @@ package com.io7m.jcanephora.jogl;
 
 import javax.media.opengl.GL;
 
-import com.io7m.jcanephora.FaceSelection;
-import com.io7m.jcanephora.FaceWindingOrder;
-import com.io7m.jcanephora.JCGLExceptionRuntime;
-import com.io7m.jcanephora.api.JCGLCullType;
+import com.io7m.jcanephora.JCGLErrorCodesType;
 import com.io7m.jlog.LogType;
 import com.io7m.jlog.LogUsableType;
 import com.io7m.jnull.NullCheck;
 
-final class JOGLCulling implements JCGLCullType
+final class JOGLErrors implements JCGLErrorCodesType
 {
   private final GL      gl;
   private final LogType log;
 
-  JOGLCulling(
+  JOGLErrors(
     final GL in_gl,
     final LogUsableType in_log)
   {
     this.gl = NullCheck.notNull(in_gl, "GL");
-    this.log = NullCheck.notNull(in_log, "Log").with("culling");
+    this.log = NullCheck.notNull(in_log, "Log").with("draw");
   }
 
-  @Override public void cullingDisable()
-    throws JCGLExceptionRuntime
+  @Override public boolean errorCodeIsInvalidOperation(
+    final int code)
   {
-    this.gl.glDisable(GL.GL_CULL_FACE);
+    return code == GL.GL_INVALID_OPERATION;
   }
 
-  @Override public void cullingEnable(
-    final FaceSelection faces,
-    final FaceWindingOrder order)
-    throws JCGLExceptionRuntime
-  {
-    NullCheck.notNull(faces, "Face selection");
-    NullCheck.notNull(order, "Face winding order");
-
-    final int fi = JOGLTypeConversions.faceSelectionToGL(faces);
-    final int oi = JOGLTypeConversions.faceWindingOrderToGL(order);
-
-    this.gl.glEnable(GL.GL_CULL_FACE);
-    this.gl.glCullFace(fi);
-    this.gl.glFrontFace(oi);
-  }
-
-  @Override public boolean cullingIsEnabled()
-    throws JCGLExceptionRuntime
-  {
-    final boolean e = this.gl.glIsEnabled(GL.GL_CULL_FACE);
-    return e;
-  }
 }

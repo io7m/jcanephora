@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- *
+ * 
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -158,18 +158,15 @@ final class JOGLIndexBuffers implements
 
     final IntBuffer ix = this.icache.getIntegerCache();
     this.gl.glGenBuffers(1, ix);
-    JOGLErrors.check(this.gl);
 
     final int id = ix.get(0);
     this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id);
-    JOGLErrors.check(this.gl);
     try {
       this.gl.glBufferData(
         GL.GL_ELEMENT_ARRAY_BUFFER,
         bytes_total,
         null,
         GL2ES2.GL_STREAM_DRAW);
-      JOGLErrors.check(this.gl);
     } finally {
       this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
     }
@@ -213,7 +210,6 @@ final class JOGLIndexBuffers implements
     this.gl.glDeleteBuffers(1, ix);
 
     ((JOGLIndexBuffer) id).resourceSetDeleted();
-    JOGLErrors.check(this.gl);
   }
 
   @Override public IndexBufferReadMappedType indexBufferMapRead(
@@ -252,7 +248,6 @@ final class JOGLIndexBuffers implements
     this.mappingAdd(id);
 
     this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
-    JOGLErrors.check(this.gl);
 
     final ByteBuffer b;
     try {
@@ -266,7 +261,6 @@ final class JOGLIndexBuffers implements
           offset,
           length,
           GL.GL_MAP_READ_BIT);
-      JOGLErrors.check(this.gl);
 
     } finally {
       this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -299,7 +293,6 @@ final class JOGLIndexBuffers implements
     this.mappingAdd(id);
 
     this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, id.getGLName());
-    JOGLErrors.check(this.gl);
 
     ByteBuffer b;
     try {
@@ -308,7 +301,6 @@ final class JOGLIndexBuffers implements
         id.resourceGetSizeBytes(),
         null,
         GL2ES2.GL_STREAM_DRAW);
-      JOGLErrors.check(this.gl);
 
       final RangeInclusiveL range = id.bufferGetRange();
       final long offset = range.getLower() * id.bufferGetElementSizeBytes();
@@ -321,7 +313,6 @@ final class JOGLIndexBuffers implements
           offset,
           length,
           GL.GL_MAP_WRITE_BIT);
-      JOGLErrors.check(this.gl);
 
     } finally {
       this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -359,7 +350,6 @@ final class JOGLIndexBuffers implements
     } finally {
       this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
     }
-    JOGLErrors.check(this.gl);
   }
 
   @Override public void indexBufferUpdate(
@@ -380,7 +370,6 @@ final class JOGLIndexBuffers implements
     } finally {
       this.gl.glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, 0);
     }
-    JOGLErrors.check(this.gl);
   }
 
   private void mappingAdd(
