@@ -1,10 +1,10 @@
 /*
  * Copyright © 2014 <code@io7m.com> http://io7m.com
- * 
+ *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
  * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
@@ -313,10 +313,10 @@ public final class JCGLImplementationJOGL implements JCGLImplementationType
     final @Nullable JCGLInterfaceGLES2Type in_gl_es2,
     final @Nullable JCGLInterfaceGLES3Type in_gl_es3)
   {
-    this.gl_2 = NullCheck.notNull(in_gl_2, "GL2");
-    this.gl_3 = NullCheck.notNull(in_gl_3, "GL3");
-    this.gl_es2 = NullCheck.notNull(in_gl_es2, "GLES2");
-    this.gl_es3 = NullCheck.notNull(in_gl_es3, "GLES3");
+    this.gl_2 = in_gl_2;
+    this.gl_3 = in_gl_3;
+    this.gl_es2 = in_gl_es2;
+    this.gl_es3 = in_gl_es3;
 
     assert (this.gl_2 != null)
       || (this.gl_3 != null)
